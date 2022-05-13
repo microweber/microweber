@@ -11,6 +11,7 @@ description: Masonry skin for Twitter Feed
 */
 
 ?>
+<?php $uid = uniqid('twitter-feed-'); ?>
 <script>
     mw.require("<?php print modules_url(); ?>pictures/js/masonry.pkgd.min.js");
 </script>
@@ -34,29 +35,43 @@ description: Masonry skin for Twitter Feed
             return t;
         }(document, "script", "twitter-wjs"));
 
-        // twttr.widgets.load()
+        if(twttr.widgets && twttr.widgets.load) {
+            twttr.widgets.load()
+        }
 
+        var msnConfig = {
+            itemSelector : '.grid-item-masonry-twitter',
+            columnWidth : '.grid-item-masonry-twitter-sizer',
+            fitWidth: false
+        }
+        var el = $('#<?php print $uid; ?>').masonry(msnConfig);
+
+        mw.spinner({
+            element: el.get(0),
+            decorate: true,
+            size: 50
+        }).show()
 
         // When widget is ready, run masonry
         twttr.ready(function (twttr) {
             twttr.events.bind('loaded', function (event) {
-                $('.grid-twitter-masonry').masonry({
-                    itemSelector : '.grid-item-masonry-twitter',
-                    columnWidth : '.grid-item-masonry-twitter-sizer',
-                    gutter: 20,
-                    fitWidth: true
-                });
+
+
+
+                setTimeout(function (){
+                    el.masonry(msnConfig);
+                    mw.spinner({
+                        element: el.get(0),
+                        decorate: true
+                    }).remove()
+                    el.addClass('ready')
+                }, 700)
                 var time = null;
                 window.addEventListener('resize', function () {
                     clearTimeout(time);
                     time = setTimeout(function (){
-                        $('.grid-twitter-masonry').masonry({
-                            itemSelector : '.grid-item-masonry-twitter',
-                            columnWidth : '.grid-item-masonry-twitter-sizer',
-                            gutter: 20,
-                            fitWidth: true
-                        });
-                    }, 700)
+                        el.masonry(msnConfig)
+                    }, 400)
                 })
             });
         });
@@ -71,17 +86,31 @@ description: Masonry skin for Twitter Feed
     .grid-twitter-masonry iframe{
         width: 100% !important;
     }
+    .grid-twitter-masonry .d-none{
+        display: block !important;
+    }
     .grid-twitter-masonry {
         width:100%;
         /*max-width: 940px;*/
-        margin: 50px auto;
+        margin: 30px auto;
         max-width: 100%;
+
+
 
     }
 
+    .grid-item-masonry-twitter .twitter-tweet,
+    .grid-item-masonry-twitter .twitter-tweet iframe{
+        display: block !important;
+    }
     .grid-item-masonry-twitter,
     .grid-item-masonry-twitter-sizer{
         width: 30%;
+        margin: 1%;
+        opacity: 0;
+    }
+    .ready .grid-item-masonry-twitter{
+        opacity: 1;
     }
 
     @media (max-width: 1400px) {
@@ -97,9 +126,7 @@ description: Masonry skin for Twitter Feed
         }
     }
 
-    .twitter-tweet.twitter-tweet-rendered {
-        margin-right: 0px!important;
-    }
+
 
 </style>
 
@@ -111,7 +138,7 @@ description: Masonry skin for Twitter Feed
 
 
 <?php if ($items): ?>
-<div class="grid-twitter-masonry">
+<div class="grid-twitter-masonry" id="<?php print $uid; ?>">
     <div class="grid-item-masonry-twitter-sizer"></div>
     <?php foreach ($items as $tweet): ?>
         <div class="grid-item-masonry-twitter">
@@ -123,11 +150,11 @@ description: Masonry skin for Twitter Feed
                 data-width="<?php print $twitter_feed_width ?>"
                 data-theme="<?php print $twitter_feed_theme ?>"
                 class="twitter-tweet">
-                    <p lang="en" dir="ltr">
+
                         <a href="<?php print $tweet['url']; ?>">
-                            <span class="d-none"><?php print $tweet['text']; ?></span>
+
                         </a>
-                    </p>
+
             </blockquote>
         </div>
     <?php endforeach; ?>
