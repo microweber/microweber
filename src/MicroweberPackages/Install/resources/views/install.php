@@ -438,6 +438,11 @@
                                 $server_check_errors['pdo'] = 'The PDO MYSQL PHP extension must be loaded';
                             }
 
+                            if (!class_exists('\ZipArchive')  ) {
+                                $check_pass = false;
+                                $server_check_errors['zip'] = 'The Zip PHP extension must be loaded';
+                            }
+
                             if (extension_loaded('gd') && function_exists('gd_info')) {
                             } else {
                                 $check_pass = false;
