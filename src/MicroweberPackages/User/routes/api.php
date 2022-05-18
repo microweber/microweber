@@ -71,7 +71,9 @@ Route::post('api/save_user', function (Request $request) {
     if(!is_logged()){
         App::abort(403, 'Unauthorized action.');
     }
+
     $input = Input::all();
+
     return save_user($input);
 })->middleware(['api']);
 
