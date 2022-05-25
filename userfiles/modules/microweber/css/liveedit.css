@@ -5081,3 +5081,9 @@ body.dragStart picture img{
     color: #0084d8;
 }
 
+[data-mwplaceholder]:empty:after {
+    content: attr(data-mwplaceholder);
+    color: inherit;
+    opacity: .57;
+}
+
