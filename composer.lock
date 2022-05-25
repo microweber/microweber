@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0053b8f0781954157e0a78d7b5add72c",
+    "content-hash": "d5307bd82e5f597471e82a6051ee97b7",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5592,16 +5592,16 @@
         },
         {
             "name": "microweber-packages/composer-client",
-            "version": "1.6",
+            "version": "1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/composer-client.git",
-                "reference": "bcd8dee3065d4a8d8c7106d12d5c236d54446ae8"
+                "reference": "fb6182ffe0fa9e0ee25f12586bbd6dee09a19661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/bcd8dee3065d4a8d8c7106d12d5c236d54446ae8",
-                "reference": "bcd8dee3065d4a8d8c7106d12d5c236d54446ae8",
+                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/fb6182ffe0fa9e0ee25f12586bbd6dee09a19661",
+                "reference": "fb6182ffe0fa9e0ee25f12586bbd6dee09a19661",
                 "shasum": ""
             },
             "require": {
@@ -5636,9 +5636,9 @@
             "support": {
                 "email": "support@microweber.com",
                 "issues": "https://github.com/microweber-packages/composer-client/issues",
-                "source": "https://github.com/microweber-packages/composer-client/tree/1.6"
+                "source": "https://github.com/microweber-packages/composer-client/tree/1.7"
             },
-            "time": "2022-03-18T09:24:39+00:00"
+            "time": "2022-05-25T13:45:03+00:00"
         },
         {
             "name": "microweber-packages/microweber-class-alias",

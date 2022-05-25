@@ -83,7 +83,7 @@
         "enshrined/svg-sanitize": "0.15.0",
         "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
-        "microweber-packages/composer-client": "1.6",
+        "microweber-packages/composer-client": "1.7",
         "microweber-modules/standalone-updater": "3.4"
     },
     "require-dev": {
