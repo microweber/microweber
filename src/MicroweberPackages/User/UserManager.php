@@ -738,18 +738,14 @@ class UserManager
             }
         }
         if ($force == false) {
-
             if (!is_cli()) {
                 $validate_token = mw()->user_manager->csrf_validate($params);
-
                 if ($validate_token == false) {
-
                     return array(
                         'error' => _e('Confirm edit of profile', true),
                         'form_data_required' => 'token',
                         'form_data_module' => 'users/profile/confirm_edit'
                     );
-
                 }
             }
 
@@ -832,8 +828,13 @@ class UserManager
         $data_to_save = $this->app->format->clean_xss($data_to_save);
 
 
+        if (isset($data_to_save['password2'])) {
+            $data_to_save['verify_password'] = $data_to_save['password2'];
+        }
+
         $checkValidator = $user->validateAndFill($data_to_save);
         $getValidatorMessages = $user->getValidatorMessages();
+
 
         if ($checkValidator) {
 
