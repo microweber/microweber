@@ -126,7 +126,10 @@ class MicroweberComposerClient extends Client
             $isConfirmed = cache_get($params['confirm_key'], 'composer');
             if ($isConfirmed) {
                 $package['unzipped_files_location'] = $isConfirmed['unzipped_files_location'];
-                return $this->install($package);
+                $install = $this->install($package);
+
+
+                return $install;
             }
         }
 
@@ -207,6 +210,7 @@ class MicroweberComposerClient extends Client
         return false;
     }
 
+
     public function recursiveScan($dir)
     {
 
@@ -220,7 +224,7 @@ class MicroweberComposerClient extends Client
         return $files;
     }
 
-    public function install($package)
+    public function  install($package)
     {
         $type = 'microweber-module';
         if (isset($package['type'])) {
@@ -253,6 +257,12 @@ class MicroweberComposerClient extends Client
         $response['success'] = 'Success. You have installed: ' . $moduleName . ' <br /> <a href="'.$moduleLink.'">Visit the module</a>';
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
         $response['log'] = 'Done!';
+
+        if (filter_var($package['notification-url'], FILTER_VALIDATE_URL)) {
+            $this->notifyPackageInstall($package);
+        }
+
+
 
         if (mw_is_installed()) { // This can make installation without database
 
