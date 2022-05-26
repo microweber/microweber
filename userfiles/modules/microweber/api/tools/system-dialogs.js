@@ -91,7 +91,7 @@ mw.tools.confirm = function (question, callback, onCancel) {
                 width: 400,
                 height: 'auto',
                 autoHeight: true,
-                overlay: false,
+                overlay: true,
                 name: "mw_confirm_modal",
                 footer: [cancel, ok],
                 title: mw.lang('Confirm')
