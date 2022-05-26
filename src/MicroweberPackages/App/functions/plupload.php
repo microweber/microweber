@@ -531,13 +531,22 @@ if (!$chunks || $chunk == $chunks - 1) {
 
                 $imgCreatedFromPng = @imagecreatefrompng($filePath);
                 if ($imgCreatedFromPng) {
+
+                    // keep bg color transparent
+                    imagealphablending($imgCreatedFromPng, false);
+                    imagesavealpha($imgCreatedFromPng, true);
+
                     imagepng($imgCreatedFromPng, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
 
+
+
             } else if ($ext === 'gif') {
 
+
                 $imgCreatedFromGif = @imagecreatefromgif($filePath);
+
                 if ($imgCreatedFromGif) {
 
                     $filePathOld = stream_get_meta_data(tmpfile())['uri'];
