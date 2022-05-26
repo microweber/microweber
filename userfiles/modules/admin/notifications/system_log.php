@@ -55,16 +55,18 @@ $data = mw()->log_manager->get($log_params);
 
 <script>mw.lib.require('mwui_init'); </script>
 
+<style>
+    #admin_system_log {
+        table-layout: fixed;
+        width: 100%;
+    }
+</style>
+
 <?php if (is_array($data)): ?>
     <br/>
     <p>Show system logs for the last 30 days</p>
     <div class="mw-admin-system_log-holder" id="admin_system_log">
         <table cellspacing="0" cellpadding="0" class="table table-bordered">
-            <colgroup>
-                <col width="150">
-                <col width="auto">
-                <col width="40">
-            </colgroup>
             <thead>
             <tr valign="middle" class="bg-secondary">
                 <th valign="middle" colspan="3">
@@ -75,16 +77,27 @@ $data = mw()->log_manager->get($log_params);
             </thead>
             <tbody>
             <?php foreach ($data as $item): ?>
-                <tr class="mw-ui-admin-log-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
+                <tr class="mw-ui-admin-log-item-<?php print $item['id'] ?> <?php if (isset($item['is_read']) and trim($item['is_read']) == 'n'): ?>mw-success<?php endif; ?>" >
                     <?php
                     $mod_info = false;
                     if (isset($item['module']) and $item['module'] != '') {
                         $mod_info = module_info($item['module']);
                     }
+
+
                     ?>
                     <td>
-                        <?php print mw('format')->date($item['created_at']); ?>
+                        Created at: <?php print  ($item['created_at']); ?>
                         <br/>
+
+
+                        <?php if(isset($item['created_by']) and $item['created_by']): ?>
+                        Created by: <?php print  user_name($item['created_by']); ?>
+                        <br/>
+                        User ID: <?php print  ($item['created_by']); ?>
+                            <br/>
+                        <?php endif; ?>
+
 
                         <?php if ($mod_info != false and isset($mod_info['name'])): ?>
                             <img src=" <?php print thumbnail($mod_info['icon'], 16, 16) ?>" width="26px" height="26px"/>
@@ -102,7 +115,7 @@ $data = mw()->log_manager->get($log_params);
                         <?php endif; ?>
 
                     </td>
-                    <td style="max-width: 60%;"><?php if ($mod_info != false and isset($mod_info['name'])): ?>
+                    <td style="max-width: 30%;"><?php if ($mod_info != false and isset($mod_info['name'])): ?>
                             <a class="btn btn-link btn-sm p-0" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>"
                                title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
                         <?php else : ?>
@@ -132,7 +145,7 @@ $data = mw()->log_manager->get($log_params);
 
                     </td>
 
-                    <td style="vertical-align: middle;">
+                    <td style="vertical-align: middle; width: 20px;" width="20">
                         <a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-close md-24px text-dark"></i></a>
                     </td>
                 </tr>
@@ -143,4 +156,3 @@ $data = mw()->log_manager->get($log_params);
 <?php else: ?>
     <?php print notif(_e("Your system log is empty", true)) ?>
 <?php endif; ?>
- 
