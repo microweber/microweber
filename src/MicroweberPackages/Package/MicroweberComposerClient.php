@@ -258,11 +258,11 @@ class MicroweberComposerClient extends Client
         $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
         $response['log'] = 'Done!';
 
-        if (filter_var($package['notification-url'], FILTER_VALIDATE_URL)) {
-            $this->notifyPackageInstall($package);
+        if (isset($package['notification-url'])) {
+            if (filter_var($package['notification-url'], FILTER_VALIDATE_URL)) {
+                $this->notifyPackageInstall($package);
+            }
         }
-
-
 
         if (mw_is_installed()) { // This can make installation without database
 
