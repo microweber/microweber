@@ -121,11 +121,17 @@ body.state-element .mw-row .element {
 
 .element, .edit .module {
     clear: both;
-    -moz-transition: none !important;
-    -webkit-transition: none !important;
-    -o-transition: color 0 ease-in !important;
-    transition: none !important;
+
 }
+body.dragStart {
+    .element, .edit .module {
+        -moz-transition: none !important;
+        -webkit-transition: none !important;
+        transition: none !important;
+    }
+}
+
+
 
 .mw-live-edit .module {
     min-height: 20px;
