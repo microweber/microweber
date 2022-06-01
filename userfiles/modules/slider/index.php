@@ -93,8 +93,20 @@ if (is_file($template_file)) {
 <?php endif; ?>
 
 <?php if ($engine == 'bxslider'): ?>
+
     <script>mw.lib.require('bxslider');</script>
 
+    <style>
+
+        #<?php print $params['id'] ?> .bx-wrapper {
+            direction: ltr;
+        }
+        <?php if (_lang_is_rtl()): ?>
+        #<?php print $params['id'] ?> .bx-wrapper .slide{
+              direction: rtl;
+          }
+        <?php  endif; ?>
+    </style>
     <script>
         $(document).ready(function () {
             var bxPager = '<?php print $pager ? $pager : 'undefined'; ?>';

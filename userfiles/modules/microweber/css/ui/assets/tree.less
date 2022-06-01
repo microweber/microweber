@@ -1,6 +1,7 @@
 .mw-tree {
   .mw-tree-nav-skin-default {
-    padding: 10px 0 20px 20px;
+       padding-inline: 0 20px;
+      padding-block: 10px 20px;
   }
   * {
     vertical-align: middle;
@@ -19,14 +20,11 @@
 }
 
 .form-group > .mw-tree-nav-skin-default {
-    padding-left: 15px;
+     padding-block-start: 15px;
 }
 .mw-tree-nav-skin-default {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   ul {
     display: none;
@@ -35,7 +33,8 @@
     cursor: pointer;
   }
   .mw-tree-item-title {
-    padding: 0 4px 0 0;
+    padding-inline: 4px 0;
+    padding-block: 0;
     display: inline-block;
     border: 1px solid transparent;
     transition: all .3s;
@@ -43,10 +42,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    padding-left: 5px;
+       padding-block-start: 5px;
     padding-inline-end: 42px;
-      /*padding-inline-end:42px;
-    padding-inline-start:5px;*/
+
       font-size: 12px;
       color: #7e7e7e;
   }
@@ -84,7 +82,8 @@
     }
     list-style: none;
     li {
-      padding-left: 23px;margin-inline-start: 5px;
+      padding-inline-start: 23px;
+      margin-inline-start: 5px;
     }
     ul,
     li {
@@ -133,19 +132,22 @@
     line-height: 31px;
     font-size: 9px;
     font-family: "Material Design Icons";
-/*      margin: 0 -7px 0 -17px;
-      margin: 0 -3px 0 -23px;*/
+    float: left;
+
   }
 
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
-            margin: 0 -7px 0 -17px;
-            margin: 0 -3px 0 -23px;
+
+             margin-inline: -15px -23px;
+            margin-block: 2px 0;
         }
     }
     & > li li .mw-tree-item-content-root {
         .mw-tree-toggler{
-            margin: 3px 14px 0px -39px;
+
+            margin-inline: -40px -39px;
+            margin-block: 2px 0;
         }
     }
   .mw-tree-toggler:after {
@@ -264,11 +266,44 @@
 }
 
 html[dir="rtl"]{
-    .mw-tree-nav-skin-default{
+    /*.mw-tree-nav-skin-default{
         direction: ltr;
     }
     .mw-tree-item-title{
         direction: rtl;
+    }*/
+
+      .mw-tree-nav-skin-default .mw-tree-toggler{
+        float: right;
+    }
+     .mw-tree-nav-skin-default li ul li:before{
+        left: auto;
+        right: 8px;
+    }
+      .mw-tree-nav-skin-default li ul li:after{
+        right:8px;
+        left: auto;
+    }
+
+
+    .mw-tree-nav-skin-default .mw-tree-context-menu {
+
+        left: 0;
+        right: auto;
+    }
+
+    .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler{
+        margin-inline-start: -14px;
+        margin-top: 2px;
+    }
+
+    .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler{
+        margin-inline-start: -40px;
+        margin-top: 2px;
+    }
+
+    .mw-tree-nav-skin-default .mw-tree-toggler:after{
+        transform: rotate(270deg);
     }
 
 }

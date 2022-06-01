@@ -36,7 +36,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             <script>mw.require(\'icon_selector.js\')</script>
             <script>mw.require(\'wysiwyg.css\')</script>
             <div class="bs-component">
-            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
+            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" dir="ltr">
             ';
 
         foreach($supportedLanguages as $language) {
@@ -65,7 +65,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
                         if (isset($multilanguageFields['option_value'])) {
-                            $inputValue = $multilanguageFields['option_value']; // its harcoded only for module options
+                            $inputValue = $multilanguageFields['option_value']; // its hardcoded only for module options
                         }
                     }
                 }

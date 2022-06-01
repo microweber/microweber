@@ -122,15 +122,15 @@
   line-height: 31px;
   font-size: 9px;
   font-family: "Material Design Icons";
-  /*      margin: 0 -7px 0 -17px;
-      margin: 0 -3px 0 -23px;*/
+
 }
 .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
-  margin: 0 -7px 0 -17px;
-  margin: 0 -3px 0 -23px;
+     margin-inline: 3px -23px;
+    margin-block: 0 0;
 }
 .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
-  margin: 3px 14px 0px -39px;
+     margin-inline: 14px -3px;
+    margin-block: 3px 0px;
 }
 .mw-tree-nav-skin-default .mw-tree-toggler:after {
   content: "\F0536";
@@ -233,3 +233,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
   display: none;
 }
+
+
+
+
