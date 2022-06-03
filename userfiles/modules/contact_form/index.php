@@ -166,17 +166,22 @@ if($module_template != false and $module_template != 'none'){
 $template_file_def = module_templates( $config['module'], 'default');
 
 
-$require_terms = get_option('require_terms', $params['module'] . '_default');
-$require_terms_when = '';
+$require_terms_default = get_option('require_terms', $params['module'] . '_default');
+$require_terms = get_option('require_terms', $params['id']);
 
-if($require_terms) {
+$require_terms_when = 'b';
+
+if($require_terms == 'y') {
     if(is_logged()){
     	if(mw()->user_manager->terms_check('terms_contact', user_id())) {
     	    $require_terms = 'n';
     	}
     }
-    if($require_terms) {
-		$require_terms_when = get_option('require_terms_when', $params['module'] . '_default');
+    if($require_terms == 'y') {
+
+        //$require_terms_when_default = get_option('require_terms_when', $params['module'] . '_default');
+		//$require_terms_when = get_option('require_terms_when', $params['id']);
+
 		if($require_terms_when == 'b') {
 			$terms_label = get_option('terms_label', 'users');
             $terms_url = get_option('terms_url', 'users');
@@ -187,6 +192,7 @@ if($require_terms) {
             $terms_label_cleared = str_replace('&nbsp;', '', $terms_label);
 			$terms_label_cleared = strip_tags($terms_label_cleared);
 			$terms_label_cleared = mb_trim($terms_label_cleared);
+
 			if ($terms_label_cleared == '') {
 				$terms_label = 'I agree with the <a href="' . $terms_url . '" target="_blank">Terms and Conditions</a>';
 			}
