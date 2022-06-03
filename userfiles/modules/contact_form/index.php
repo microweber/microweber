@@ -165,7 +165,7 @@ if($module_template != false and $module_template != 'none'){
 }
 $template_file_def = module_templates( $config['module'], 'default');
 
-/*
+
 $require_terms = get_option('require_terms', $params['module'] . '_default');
 $require_terms_when = '';
 
@@ -192,7 +192,7 @@ if($require_terms) {
 			}
 		}
 	}
-}*/
+}
 
 $show_newsletter_subscription = get_option('newsletter_subscription', $params['module'] . '_default');
 if($show_newsletter_subscription == 'y') {
