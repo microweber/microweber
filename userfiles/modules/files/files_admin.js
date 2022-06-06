@@ -76,6 +76,12 @@ if (self === parent) {
 
         pval = filterXSS(pval);
 
+        var checkUrlIsCorrect = pval.indexOf(MEDIA_UPLOADS_URL);
+        if (checkUrlIsCorrect !== 0) {
+            mw.notification.error('Wrong media file.');
+            return false;
+        }
+
         if (pval.valueOf()) {
             var type = pval.valueOf().split(".").pop();
             type = type.toLowerCase();
