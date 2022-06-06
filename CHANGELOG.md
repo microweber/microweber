@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.16] - 2022-05-11
+## [1.2.16] - 2022-06-06
  - Fixed more RTL issues 
  - Fixed translation issues on the slider module
  - Fixed PNG anf GIF image transparency issue
