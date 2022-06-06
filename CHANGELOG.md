@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.16] - 2022-05-11
+ - Fixed more RTL issues 
+ - Fixed translation issues on the slider module
+ - Fixed PNG anf GIF image transparency issue
+ - Fixed Twitter feed module
+ - Fixed contact form not accepting terms and conditions
+ - Translations update 
+ - Security fixes
+ - Other fixes
+ - [see all changes....](https://github.com/microweber/microweber/compare/1.2.15...1.2.16 "")
+
+
 ## [1.2.15] - 2022-04-29
 - Added new free template based on Bootstrap 5
 - Added support for inline svg in live edit
