@@ -1478,7 +1478,8 @@ class UserManager
         } else if (is_file($file)) {
             return site_url('logout');
         } else {
-            return route('api.user.logout');
+            //return route('api.user.logout');
+            return route('logout');
         }
 
     }

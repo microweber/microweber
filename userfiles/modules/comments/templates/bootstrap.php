@@ -150,7 +150,7 @@ description: Bootstrap comments template
                                 <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<?php print $cur_user_data['thumbnail'] ?>" height="24" width="24"/> </span>
                             <?php endif; ?>
                             <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span>
-                            <small><a href="<?php print api_link('logout') ?>">(<?php _e("Logout"); ?>)</a></small>
+                            <small><a href="<?php print logout_url() ?>">(<?php _e("Logout"); ?>)</a></small>
                         </div>
                     <?php endif; ?>
                     <div class="row">

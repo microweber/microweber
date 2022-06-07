@@ -559,7 +559,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                         <li><a href="javascript:;" onclick="mw.cookie.set('mw_basic_mode', '1'); window.location.reload();"><span><?php _e("Basic Mode"); ?></span></a></li>
                                     <?php endif; ?>
 
-                                    <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><i class="mw-icon-off"></i><span><?php _e("Logout"); ?></span></a></li>
+                                    <li><a href="<?php print mw()->url_manager->logout_url(); ?>"><i class="mw-icon-off"></i><span><?php _e("Logout"); ?></span></a></li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
                                 </ul>
                             </div>
