@@ -45,7 +45,7 @@ class TemplateApiController
 
             // Delete old content and import fresh content
             if ($importType == 'delete_and_fresh') {
-                $installTemplate->deleteOldContent(true);
+                $installTemplate->setToDeleteOldContent(true);
             }
 
             // Import all and dont delete old content
