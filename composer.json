@@ -67,8 +67,8 @@
         "finlet/flexmail": "dev-master",
         "league/csv": "^9.0@dev",
         "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-        "microweber-templates/new-world": "4.9",
-        "microweber-templates/shopmag": "3.5",
+        "microweber-templates/new-world": "5.0",
+        "microweber-templates/shopmag": "3.6",
         "microweber-templates/bootstrap5": "1.2",
         "lcobucci/jwt": "*",
         "laravel/passport": "*",
@@ -83,7 +83,7 @@
         "enshrined/svg-sanitize": "0.15.0",
         "laravel/dusk": "*",
         "tightenco/ziggy": "dev-main",
-        "microweber-packages/composer-client": "1.7",
+        "microweber-packages/composer-client": "1.8",
         "microweber-modules/standalone-updater": "3.4"
     },
     "require-dev": {
