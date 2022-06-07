@@ -43,16 +43,16 @@
         <h2 style="font-weight: bold">How do you like to apply this template?</h2>
         <br/>
 
-        <label class="mw-ui-check mw-backup-restore-option">
+        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-default">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="default" checked="checked" />
                 <span></span>
             </div>
             <h3>Use template with current content</h3>
-            <p>Change the website template without any content changes</p>
+            <p>Change only website template without any content changes</p>
         </label>
 
-        <label class="mw-ui-check mw-backup-restore-option active">
+        <label class="mw-ui-check mw-backup-restore-option active" id="js-template-import-type-full">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="full" />
                 <span></span>
@@ -62,13 +62,22 @@
         </label>
 
 
-        <label class="mw-ui-check mw-backup-restore-option">
+        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-only-media">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="only_media" />
                 <span></span>
             </div>
             <h3>Import only media and css</h3>
             <p>This option will import only the media and css files</p>
+        </label>
+
+        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-delete">
+            <div class="option-radio">
+                <input type="radio" name="import_type" value="delete_and_fresh" />
+                <span></span>
+            </div>
+            <h3>Delete all website data & import fresh content</h3>
+            <p>This option will delete all website data and will import fresh content.</p>
         </label>
 
     </div>

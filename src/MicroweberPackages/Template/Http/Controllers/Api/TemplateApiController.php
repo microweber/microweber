@@ -34,7 +34,7 @@ class TemplateApiController
 
             save_option('current_template', $template,'template');
 
-        } else if ($importType == 'only_media' || $importType == 'full') {
+        } else if ($importType == 'only_media' || $importType == 'full' || $importType == 'delete_and_fresh') {
 
             $sessionId = SessionStepper::generateSessionId(0);
 
@@ -42,6 +42,11 @@ class TemplateApiController
             $installTemplate->setSessionId($sessionId);
             $installTemplate->setFile($filePath);
             $installTemplate->setBatchImporting(false);
+
+            // Delete old content and import fresh content
+            if ($importType == 'delete_and_fresh') {
+                $installTemplate->deleteOldContent(true);
+            }
 
             // Import all and dont delete old content
             if ($importType == 'full') {
