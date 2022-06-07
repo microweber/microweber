@@ -73,7 +73,7 @@
 
         <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-delete">
             <div class="option-radio">
-                <input type="radio" name="import_type" value="delete_and_fresh" />
+                <input type="radio" name="import_type" value="delete" />
                 <span></span>
             </div>
             <h3>Delete all website data & import fresh content</h3>
