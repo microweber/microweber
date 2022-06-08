@@ -237,6 +237,8 @@ class TemplateCssParser
             $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname(dirname($params['path'])) . '/';
             $cssContent = str_replace('../', $template_url_css_assets, $cssContent);
 
+            $cssContent = str_replace(userfiles_url(), '../', $cssContent);
+
         }
         return $cssContent;
     }

@@ -76,7 +76,7 @@ if ($stylesheet_settings) {
 
 <script>
     $(document).ready(function () {
-        mw.options.form("#settings-holder", function () {
+        mw.options.form("#settings-holder-stylesheet-compiler", function () {
             mw.top().notification.success("<?php _ejs("Template settings are saved"); ?>.",3000);
             reloadTemplate();
         });
@@ -84,7 +84,7 @@ if ($stylesheet_settings) {
 
     function reloadTemplate() {
         $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
-            mw.top().notification.success("<?php _ejs("Reloading styles"); ?>.",5000);
+            mw.top().notification.success("<?php _ejs("Reloading styles"); ?>.",7000);
             mw.parent().$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
             mw.tools.refresh(parent.$("#theme-style"));
         });
@@ -101,7 +101,7 @@ if ($stylesheet_settings) {
 </script>
 
 
-<div id="settings-holder">
+<div id="settings-holder-stylesheet-compiler">
 
 
     <div class="bootstrap3ns">
