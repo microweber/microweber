@@ -100,6 +100,7 @@ class OptionRepository extends AbstractRepository
         $existingGroups = $this->getAllExistingOptionGroups();
 
         if ($existingGroups) {
+            $existingGroups = array_filter($existingGroups);
             $existingGroups = array_flip($existingGroups);
             if (isset($existingGroups[$optionGroup])) {
                 return true;
