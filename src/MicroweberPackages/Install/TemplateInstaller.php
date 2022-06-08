@@ -93,6 +93,7 @@ class TemplateInstaller
             $manager->setSessionId($sessionId);
             $manager->setFile($default_content_file);
             $manager->setBatchImporting(false);
+            $manager->setToDeleteOldContent(false);
             $manager->setOvewriteById(true);
             if ($this->logger) {
                 $manager->setLogger($this->logger);
