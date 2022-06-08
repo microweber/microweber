@@ -439,11 +439,13 @@ class UpdateManager
             return;
         }
 
-        $composerClient = new Client();
-        $consumeLicense = $composerClient->consumeLicense($params['local_key']);
-        if ($consumeLicense['valid']) {
+        $licenseLocalKey = trim($params['local_key']);
 
-            $findSystemLicense = SystemLicenses::where('local_key', $params['local_key'])->first();
+        $composerClient = new Client();
+        $consumeLicense = $composerClient->consumeLicense($licenseLocalKey);
+        if ($consumeLicense['valid']) { 
+
+            $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
             if ($findSystemLicense !== null) {
                 return array('is_invalid'=>true, 'warning' => _e('License key already exist', true));
             }
@@ -456,7 +458,7 @@ class UpdateManager
             $licenseDetails = $licenseServers['details'];
 
             $newSystemLicense = new SystemLicenses();
-            $newSystemLicense->local_key = $params['local_key'];
+            $newSystemLicense->local_key = $licenseLocalKey;
 
             if (isset($licenseDetails['md5hash'])) {
                 $newSystemLicense->local_key_hash = $licenseDetails['md5hash'];
