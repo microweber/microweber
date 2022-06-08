@@ -14,7 +14,6 @@
     }
 
     mw.edit_licence = function ($lic_id) {
-
          licensemodal = mw.dialog({
             content: '<div type="settings/group/license_edit"  lic_id="' + $lic_id + '" class="module" id="lic_' + $lic_id + '"></div>',
             onremove: function () {
@@ -24,16 +23,6 @@
         });
 
         mw.reload_module("#lic_" + $lic_id);
-    }
-
-
-    mw.validate_licenses = function () {
-        $.ajax({
-            url: "<?php print site_url('api') ?>/mw_validate_licenses"
-        }).done(function () {
-            mw.reload_module("#<?php print $params['id'] ?>");
-
-        });
     }
 
     $(document).ready(function () {
@@ -69,6 +58,7 @@
                     <th scope="col">Owner</th>
                     <th scope="col">Details</th>
                     <th style="col">Status</th>
+                    <th style="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -110,6 +100,9 @@
                             <img src="<?php echo userfiles_url(); ?>modules/microweber/img/img_check_loading.gif" />
                         </div>
                     </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" href="javascript:mw.delete_licence('<?php echo $item['id'] ?>');"><?php _e('Delete'); ?></a>
+                    </td>
                 </tr>
 
             <?php endforeach; ?>
@@ -118,17 +111,12 @@
             </table>
         </div>
 
-        <div class="col">
-            <?php if (is_array($lic) and !empty($lic)): ?>
 
-                <a class="btn btn-primary btn-sm" href="javascript:mw.validate_licenses();"><?php _e('Validate'); ?></a>
-            <?php endif; ?>
-        </div>
         <div class="col text-end text-right">
-            <a class="btn btn-danger btn-sm" href="javascript:mw.delete_licence('<?php echo $item['id'] ?>');"><?php _e('Delete'); ?></a>
-
-            <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
-    </div>
+            <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');">
+                <?php _e('Add License'); ?>
+            </a>
+      </div>
     </div>
 <?php else : ?>
 

@@ -466,9 +466,9 @@ class UpdateManager
                 $newSystemLicense->registered_name = $licenseDetails['registeredname'];
             }
 
-            if (isset($licenseDetails['registeredname'])) {
+         /*   if (isset($licenseDetails['registeredname'])) {
                 $newSystemLicense->company_name = $licenseDetails['registeredname'];
-            }
+            }*/
 
             if (isset($licenseDetails['validdomain'])) {
                 $newSystemLicense->domains = $licenseDetails['validdomain'];
@@ -503,7 +503,7 @@ class UpdateManager
                 $newSystemLicense->due_on = $licenseDetails['nextduedate'];
             }
 
-            $newSystemLicense->save(); 
+            $newSystemLicense->save();
 
             return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active'=>true);
         }
