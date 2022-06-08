@@ -63,7 +63,7 @@ if (!isset($params['prefix'])) {
                     }
 
                     if(typeof(result.is_active) !== "undefined" && result.is_active === true) {
-                        mw.notification.success(result.warning);
+                        mw.notification.success(result.success);
                     } else{
                         mw.notification.error(result.warning);
                     }
