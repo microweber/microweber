@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\Import;
 
+use Illuminate\Support\Facades\Log;
 use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
@@ -158,11 +159,12 @@ class Import
                 $log['data'] = $data;
             }
 
-
             return $log;
 
         } catch (\Exception $e) {
-            return array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
+            $errorMessage = array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
+            Log::error($errorMessage);
+            return $errorMessage;
         }
     }
 
