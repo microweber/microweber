@@ -387,6 +387,7 @@ class DatabaseWriter
 	private function _deleteOldContent()
     {
         // Delete old content
+        $this->deleteOldContent = false;
         if ($this->deleteOldContent) {
             if (!empty($this->content)) {
                 foreach ($this->content as $table => $items) {
