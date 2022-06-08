@@ -78,7 +78,7 @@ class AdminAddCategoryTest extends DuskTestCase
             $browser->pause(1000);
 
             $browser->click('@category-save');
-            $browser->pause(2000);
+            $browser->pause(4000);
 
             $findCategory = Category::where('title', $categoryTitle)->first();
 

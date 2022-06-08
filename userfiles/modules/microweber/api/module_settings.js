@@ -50,7 +50,24 @@ mw.moduleSettings = function(options){
         if(this.options.header){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
-            header.innerHTML = this.options.header.replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+            var render = this.options.header
+                .replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+
+            header.innerHTML = render;
+            var valReflect = header.querySelector('[data-reflect]');
+            if(valReflect) {
+                setTimeout(function (valReflect){
+                    var node = header.parentElement.querySelector('[name="'+valReflect.dataset.reflect+'"]');
+                    if(node) {
+                        valReflect.innerHTML = node.value;
+                        node.addEventListener('input', function (){
+                            valReflect.innerHTML = node.value;
+                        });
+                    }
+
+                }, 100, valReflect);
+
+            }
             mw.$(header).on('click', function(){
                 mw.$(this).next().slideToggle();
             });
