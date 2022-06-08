@@ -35,6 +35,19 @@
 
         });
     }
+
+    $(document).ready(function () {
+        $('.js-license-status').each(function (i,item) {
+            var licenseId = $(item).data('id');
+            $.ajax({
+                type: "POST",
+                data: {id:licenseId},
+                url: "<?php print site_url('api') ?>/mw_consume_license",
+            }).done(function (resp) {
+                $(item).html('Active');
+            });
+        });
+    });
 </script>
 
 <?php if (is_array($lic) and !empty($lic)): ?>
@@ -44,55 +57,63 @@
                 <small class="text-muted d-block"><?php _e('From this modal you can manipulate your licenses'); ?></small>
             </div>
         <div class="col-12 d-flex justify-content-center text-center p-3">
-            <?php foreach ($lic as $item): ?>
-              <div class="row">
-                  <div class="col-12 p-1">
-                      <label class="control-label my-2"> <?php _e('License'); ?> </label>
-                     <?php print $item['rel_type']; ?>
-                          <?php if (isset($item['status']) and $item['status'] == 'active'): ?>
-                              <small>
-                                  <label class="font-weight-bold">
-                                      <?php if (isset($item['rel_name']) and $item['rel_name'] != ''): ?>
-                                          <?php print $item['rel_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['registered_name']) and $item['registered_name'] != ''): ?>
-                                          <?php print $item['registered_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['company_name']) and $item['company_name'] != ''): ?>
-                                          <?php print $item['company_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['reg_on']) and $item['reg_on'] != ''): ?>
-                                  </label>
-                                  <br><label><?php _e("Registered on"); ?></label>
-                                  <?php print date('d M ,Y', strtotime($item['reg_on'])); ?><br>
-                                  <?php endif; ?>
-                                  <?php if (isset($item['due_on']) and $item['due_on'] != ''): ?>
-                                      <label><?php _e("Next payment on"); ?></label> <?php print date('d M ,Y', strtotime($item['due_on'])); ?>
-                                  <?php endif; ?>
-                                  </ul>
-                              </small>
-                      <?php endif; ?>
 
-                  </div>
-                  <div class="col-12  p-1">
-                      <label class="control-label my-2">
-                          <?php _e('Key'); ?>
-                      </label>
-                      <p>
-                          <?php print $item['local_key']; ?>
-                      </p>
-                  </div>
-                  <div class="col-12 border p-1">
-                      <label class="control-label my-2">
-                          <?php _e('Status'); ?>
-                      </label>
-                      <p>
-                          <?php print ucwords($item['status']); ?>
-                      </p>
-                  </div>
-              </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Key</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Details</th>
+                    <th style="col">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+
+            <?php foreach ($lic as $item): ?>
+
+                <tr>
+                    <th scope="row">  <?php print $item['local_key']; ?></th>
+                    <td>
+
+                        <?php if (isset($item['rel_name']) and $item['rel_name'] != ''): ?>
+                            <?php print $item['rel_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['registered_name']) and $item['registered_name'] != ''): ?>
+                            <?php print $item['registered_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['company_name']) and $item['company_name'] != ''): ?>
+                            <?php print $item['company_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['reg_on']) and $item['reg_on'] != ''): ?>
+
+                    </td>
+                    <td>
+                        <?php print $item['rel_type']; ?>
+                        <?php if (isset($item['status']) and $item['status'] == 'active'): ?>
+                            <small>
+                                <label><?php _e("Registered on"); ?></label>
+                                <?php print date('d M ,Y', strtotime($item['reg_on'])); ?><br>
+                                <?php endif; ?>
+                                <?php if (isset($item['due_on']) and $item['due_on'] != ''): ?>
+                                    <label><?php _e("Next payment on"); ?></label> <?php print date('d M ,Y', strtotime($item['due_on'])); ?>
+                                <?php endif; ?>
+                                </ul>
+                            </small>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="js-license-status" data-id="<?php echo $item['id']; ?>">
+                            <img src="<?php echo userfiles_url(); ?>modules/microweber/img/img_check_loading.gif" />
+                        </div>
+                    </td>
+                </tr>
+
             <?php endforeach; ?>
+
+                </tbody>
+            </table>
         </div>
+
         <div class="col">
             <?php if (is_array($lic) and !empty($lic)): ?>
 

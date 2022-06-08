@@ -498,6 +498,14 @@ function mw_validate_licenses($params)
     return $update_api->validate_license($params);
 }
 
+api_expose_admin('mw_consume_license');
+function mw_consume_license($params)
+{
+    $update_api = mw('update');
+
+    return $update_api->consume_license($params);
+}
+
 function mw_updates_count()
 {
     $count = 0;
