@@ -3,6 +3,7 @@ $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 }
+$current_template = false;
 ?>
 
 <?php if (isset($params['backend'])): ?>
@@ -148,6 +149,47 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
         }
         ?>
+
+
+        <?php  if($current_template and isset($current_template['name'])):  ?>
+
+
+            <script type="text/javascript">
+
+                    $(document).ready(function () {
+                        template_select_set_modal_title('<?php _ejs($current_template['name']) ?>')
+                    });
+
+            </script>
+
+
+        <?php endif; ?>
+
+
+        <script type="text/javascript">
+            function template_select_set_modal_title(title) {
+                if (typeof (thismodal) != 'undefined') {
+                    if (typeof (window.mw_module_settings_info) != 'undefined') {
+
+                        var modal_title_str = '';
+                        if (typeof (mw_module_settings_info.name) == "undefined") {
+                            modal_title_str = "<?php _ejs("Settings"); ?>"
+                        } else {
+                            modal_title_str = mw_module_settings_info.name;
+                        }
+
+                        if (mw_module_settings_info.icon) {
+                            modal_title_str = ('<img class="mw-module-dialog-icon" src="' + mw_module_settings_info.icon + '">' + modal_title_str + ' - ' + title)
+                         }
+
+                        if (modal_title_str) {
+                            thismodal.title(modal_title_str);
+                        }
+                    }
+                }
+            }
+        </script>
+
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -326,11 +368,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     $('.module-layouts-viewer .js-apply-template').on('click', function () {
                                         var option = $(this).data('file');
+                                        var title = $(this).find('div.title').first().html();
                                         $('.module-layouts-viewer .js-apply-template .screenshot').removeClass('active');
                                         $(this).find('.screenshot').addClass('active');
                                         $('select[name="data-template"] option:selected').removeAttr('selected');
                                         $('select[name="data-template"] option[value="' + option + '"]').attr('selected', 'selected');
                                         $('select[name="data-template"] option[value="' + option + '"]').prop('selected', true).trigger('change');
+
+                                        template_select_set_modal_title(title)
+
 
                                     });
                                 });

@@ -242,7 +242,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   </span></a> </li>
                 <?php endif; ?>
 
-                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><span
+                <li><a href="<?php print logout_url(); ?>"><span
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>

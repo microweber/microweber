@@ -342,7 +342,10 @@
 
     </style>
 
-    <script>mw.require("<?php print $config['url_to_module']; ?>/files_admin.js"); </script>
+    <script>
+        MEDIA_UPLOADS_URL = '<?php echo media_uploads_url(); ?>';
+        mw.require("<?php print $config['url_to_module']; ?>/files_admin.js");
+    </script>
 
     <script type="text/javascript">
         gchecked = function () {

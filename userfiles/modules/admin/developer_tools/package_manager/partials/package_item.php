@@ -231,7 +231,7 @@ if(!isset($item['type'] )){
                             <?php
                             if(isset($item['extra']['preview_url'])):
                                 ?>
-                                <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn-block btn btn-link btn-sm p-0">
+                                <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="js-package-demo-link btn-block btn btn-link btn-sm p-0">
                                     <?php _e('Demo'); ?>
                                 </a>
                             <?php

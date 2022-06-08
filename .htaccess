@@ -9,10 +9,7 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
   SecFilterScanPOST Off
   SecFilterCheckURLEncoding Off
 </IfModule>
-<IfModule mod_headers.c>
-  # Prevent click jacking
-  Header set X-Frame-Options SAMEORIGIN
-</IfModule>
+ 
 <IfModule mod_expires.c>
   ExpiresActive On
 

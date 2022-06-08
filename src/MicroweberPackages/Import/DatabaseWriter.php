@@ -244,6 +244,9 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
+        $this->logger->clearLog();
+        $this->_deleteOldContent();
+
         if (isset($this->content->__table_structures)) {
             $this->logger->setLogInfo('Building database tables');
 
