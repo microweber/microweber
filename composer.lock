@@ -3240,12 +3240,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "f8ae7cb4c654e9d6f31c10271321ea99f7ca8ae9"
+                "reference": "e15c49c89300cc279ebe9696a634a9c08f7eab2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f8ae7cb4c654e9d6f31c10271321ea99f7ca8ae9",
-                "reference": "f8ae7cb4c654e9d6f31c10271321ea99f7ca8ae9",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e15c49c89300cc279ebe9696a634a9c08f7eab2e",
+                "reference": "e15c49c89300cc279ebe9696a634a9c08f7eab2e",
                 "shasum": ""
             },
             "require": {
@@ -3270,7 +3270,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -3348,7 +3348,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-02T17:34:52+00:00"
+            "time": "2022-06-08T20:01:53+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -5743,7 +5743,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.1-9c1ac4.zip",
                 "reference": "0a80665ab797c6a06efa3000cada47bc983b2ccc",
-                "shasum": "5702153511e2a65d298e1bcca900e232172e63e0"
+                "shasum": "fae580ab2b8039dcc0e27c92bc553503987e5467"
             },
             "type": "microweber-template",
             "extra": {
@@ -5969,12 +5969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0"
+                "reference": "9c1566a971d42ff1acb4756708e8d9a5568bb194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/247918972acd74356b0a91dfaa5adcaec069b6c0",
-                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/9c1566a971d42ff1acb4756708e8d9a5568bb194",
+                "reference": "9c1566a971d42ff1acb4756708e8d9a5568bb194",
                 "shasum": ""
             },
             "require": {
@@ -6053,7 +6053,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.6.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.x"
             },
             "funding": [
                 {
@@ -6065,7 +6065,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T09:36:00+00:00"
+            "time": "2022-06-08T19:51:47+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
