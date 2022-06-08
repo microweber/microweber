@@ -38,7 +38,7 @@ mw.admin.admin_package_manager.show_licenses_modal = function () {
           overlay: true,
         //  iframe: true,
         height: 'auto',
-        width: 750,
+        width: 960,
         title: 'Licenses',
         skin: 'simple'
     });
