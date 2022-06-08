@@ -73,13 +73,14 @@ mw.propEditor = {
 
             el.className = 'form-control prop-ui-field';
             el.value = val;
+
             return el;
         },
         fieldPack:function(label, type){
             var field = mw.propEditor.helpers.field('', type);
             var holder = mw.propEditor.helpers.wrapper();
             label = mw.propEditor.helpers.label(label);
-            holder.appendChild(label)
+            holder.appendChild(label);
             holder.appendChild(field);
             return{
                 label:label,
@@ -106,8 +107,15 @@ mw.propEditor = {
                 if(typeof this._valSchema[item.id] === 'undefined' && this._cache.indexOf(item) === -1){
                     this._cache.push(item)
                     var curr = new mw.propEditor.interfaces[item.interface](this, item);
+
                     this._rend.push(curr);
                     if(item.id){
+                        curr.name = item.id;
+                        var field =  curr.node.querySelector('input,select,textarea');
+                        if(field) {
+                            field.name = curr.name;
+                        }
+
                         this._valSchema[item.id] = this._valSchema[item.id] || '';
                     }
                 }
