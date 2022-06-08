@@ -95,7 +95,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
                         element: \'#settings-box'.$mwModuleSettingsId.'\',
-                        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
+                        header: \'<i class="mw-icon-drag"></i> Content #{count} <b data-reflect="primaryText"></b> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
                         key: \'settings\',
                         group: \'id\',

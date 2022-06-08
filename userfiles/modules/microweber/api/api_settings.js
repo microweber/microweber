@@ -160,9 +160,9 @@
         ],
         slick: [
             function () {
-                mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
-                mw.moduleCSS(mw.settings.libs_url + 'slick' + '/slick-theme.css');
-                mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
+                mw.require(mw.settings.libs_url + 'slick/slick.css', true);
+                mw.moduleCSS(mw.settings.libs_url + 'slick/slick-theme.css');
+                mw.require(mw.settings.libs_url + 'slick/slick.min.js', true);
             }
         ],
         ion_range_slider: [
