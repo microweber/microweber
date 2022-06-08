@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7161398fc2327a6f4f307b9960b5e0d7",
+    "content-hash": "8d860b894136a2abf1b721241f30feb4",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -272,12 +272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "e7c3f56e54258d5e2939e68d453ce9db0c086406"
+                "reference": "814b36a08a60f4159cdcbb1c466a6a0027440b6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/e7c3f56e54258d5e2939e68d453ce9db0c086406",
-                "reference": "e7c3f56e54258d5e2939e68d453ce9db0c086406",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/814b36a08a60f4159cdcbb1c466a6a0027440b6c",
+                "reference": "814b36a08a60f4159cdcbb1c466a6a0027440b6c",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-04T11:45:10+00:00"
+            "time": "2022-06-08T15:03:05+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -4087,12 +4087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "44dff9fb7868fb0d2ff5de37cc9c5df4e2b66c75"
+                "reference": "23ff3d2f724cfd9e628382d3905e650b9d22f516"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/44dff9fb7868fb0d2ff5de37cc9c5df4e2b66c75",
-                "reference": "44dff9fb7868fb0d2ff5de37cc9c5df4e2b66c75",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/23ff3d2f724cfd9e628382d3905e650b9d22f516",
+                "reference": "23ff3d2f724cfd9e628382d3905e650b9d22f516",
                 "shasum": ""
             },
             "require": {
@@ -4139,7 +4139,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2022-05-17T15:46:52+00:00"
+            "time": "2022-06-08T09:44:12+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -5584,16 +5584,16 @@
         },
         {
             "name": "microweber-packages/composer-client",
-            "version": "1.8",
+            "version": "1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-packages/composer-client.git",
-                "reference": "4d09f5039daa99e58802b5b0780c3b9a78f0319f"
+                "reference": "f7a3d4343c501e33ffc8e47e65d8155e218e7bbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/4d09f5039daa99e58802b5b0780c3b9a78f0319f",
-                "reference": "4d09f5039daa99e58802b5b0780c3b9a78f0319f",
+                "url": "https://api.github.com/repos/microweber-packages/composer-client/zipball/f7a3d4343c501e33ffc8e47e65d8155e218e7bbf",
+                "reference": "f7a3d4343c501e33ffc8e47e65d8155e218e7bbf",
                 "shasum": ""
             },
             "require": {
@@ -5628,9 +5628,9 @@
             "support": {
                 "email": "support@microweber.com",
                 "issues": "https://github.com/microweber-packages/composer-client/issues",
-                "source": "https://github.com/microweber-packages/composer-client/tree/1.8"
+                "source": "https://github.com/microweber-packages/composer-client/tree/1.9"
             },
-            "time": "2022-05-30T14:46:00+00:00"
+            "time": "2022-06-08T15:26:57+00:00"
         },
         {
             "name": "microweber-packages/microweber-class-alias",
@@ -5732,25 +5732,25 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "5.0",
+            "version": "5.1",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world",
-                "reference": "7eb4815de79e87113ebd4c79712da25000b362e3"
+                "reference": "0a80665ab797c6a06efa3000cada47bc983b2ccc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.0-925569.zip",
-                "reference": "7eb4815de79e87113ebd4c79712da25000b362e3",
-                "shasum": "27c78f4803b615947be28dee066ffe7371195523"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.1-9c1ac4.zip",
+                "reference": "0a80665ab797c6a06efa3000cada47bc983b2ccc",
+                "shasum": "5702153511e2a65d298e1bcca900e232172e63e0"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/50/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/50/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/51/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/51/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -5774,7 +5774,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-06-07T12:32:58+00:00"
+            "time": "2022-06-08T15:49:51+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
@@ -8028,12 +8028,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "e5221fa13bbef61e2b15f845777e819448cbfa29"
+                "reference": "99c253733dee9447d26257dc669d33d5ac84713d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/e5221fa13bbef61e2b15f845777e819448cbfa29",
-                "reference": "e5221fa13bbef61e2b15f845777e819448cbfa29",
+                "url": "https://api.github.com/repos/predis/predis/zipball/99c253733dee9447d26257dc669d33d5ac84713d",
+                "reference": "99c253733dee9447d26257dc669d33d5ac84713d",
                 "shasum": ""
             },
             "require": {
@@ -8084,7 +8084,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/main"
+                "source": "https://github.com/predis/predis/tree/v2.0.0"
             },
             "funding": [
                 {
@@ -8092,7 +8092,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-28T15:18:01+00:00"
+            "time": "2022-06-08T13:14:56+00:00"
         },
         {
             "name": "psr/cache",
@@ -9624,6 +9624,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": "symfony/error-handler",
             "time": "2022-04-12T15:19:55+00:00"
         },
         {
