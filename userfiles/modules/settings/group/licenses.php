@@ -44,7 +44,11 @@
                 data: {id:licenseId},
                 url: "<?php print site_url('api') ?>/mw_consume_license",
             }).done(function (resp) {
-                $(item).html('Active');
+                if (resp.valid) {
+                    $(item).html("<div class='text-success'>"+resp.status+"</div>");
+                } else {
+                    $(item).html("<div class='text-danger'>"+resp.status+"</div>");
+                }
             });
         });
     });

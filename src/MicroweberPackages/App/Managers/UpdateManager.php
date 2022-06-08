@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -334,8 +335,10 @@ class UpdateManager
             return ['status'=>'License not found', 'active'=> false];
         }
 
-       // dd($findLicense);
+        $composerClient = new Client();
+        $consumeLincese = $composerClient->consumeLicense($findLicense->local_key);
 
+        return $consumeLincese;
     }
 
     public function validate_license($params = false)
