@@ -70,7 +70,8 @@ Route::name('api.template.')
 
 api_expose('template/compile_css', function ($params) {
     $compiled =  mw()->template->compile_css($params);
-    $compiled = str_replace( '../',userfiles_url(), $compiled);
+     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
+
     $response = \Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
