@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
+use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -315,6 +316,26 @@ class UpdateManager
         }
 
         return $new;
+    }
+
+    public function consume_license($params = false)
+    {
+        $adm = $this->app->user_manager->is_admin();
+        if ($adm == false) {
+            return ['status'=>'Not allowed action.', 'active'=> false];
+        }
+        $table = $this->app->module_manager->tables['system_licenses'];
+        if ($table == false) {
+            return ['status'=>'Not allowed action.', 'active'=> false];
+        }
+
+        $findLicense = SystemLicenses::where('id', $params['id'])->first();
+        if ($findLicense == null) {
+            return ['status'=>'License not found', 'active'=> false];
+        }
+
+       // dd($findLicense);
+
     }
 
     public function validate_license($params = false)
