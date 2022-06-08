@@ -336,9 +336,9 @@ class UpdateManager
         }
 
         $composerClient = new Client();
-        $consumeLincese = $composerClient->consumeLicense($findLicense->local_key);
+        $consumeLicense = $composerClient->consumeLicense($findLicense->local_key);
 
-        return $consumeLincese;
+        return $consumeLicense;
     }
 
     public function validate_license($params = false)
@@ -435,65 +435,37 @@ class UpdateManager
             return;
         }
 
-        if (!isset($params['rel_type']) and isset($params['rel'])) {
-            $params['rel_type'] = $params['rel'];
-        }
-        if (!isset($params['rel_type']) and isset($params['local_key'])) {
-            $prefix = explode('--', $params['local_key']);
-            if (!isset($prefix[1])) {
-                $prefix = explode('::', $params['local_key']);
-            }
-            if (isset($prefix[1])) {
-                $params['rel_type'] = $prefix[0];
-            }
-        }
+        $composerClient = new Client();
+        $consumeLicense = $composerClient->consumeLicense($params['local_key']);
+        if ($consumeLicense['valid']) {
 
-        if (/*!isset($params['id']) and*/
-        isset($params['rel_type'])
-        ) {
-            $update = array();
-            $update['rel_type'] = $params['rel_type'];
-            $update['one'] = true;
-            $update['table'] = $table;
-            $update = $this->app->database_manager->get($update);
-            if (isset($update['id'])) {
-                $params['id'] = $update['id'];
+            $findSystemLicense = SystemLicenses::where('local_key', $params['local_key'])->first();
+            if ($findSystemLicense !== null) {
+                return array('is_invalid'=>true, 'warning' => _e('License key already exist', true));
             }
-        } elseif (/*!isset($params['id']) and */
-        isset($params['local_key'])
-        ) {
-            $update = array();
-            $update['local_key'] = $params['local_key'];
-            $update['one'] = true;
-            $update['table'] = $table;
-            $update = $this->app->database_manager->get($update);
-            if (isset($update['id'])) {
-                $params['id'] = $update['id'];
-            }
+
+            $licenseServers = end($consumeLicense['servers']);
+            $licenseDetails = $licenseServers['details'];
+
+            $newSystemLicense = new SystemLicenses();
+            $newSystemLicense->local_key = $params['local_key'];
+            $newSystemLicense->local_key_hash = $licenseDetails['md5hash'];
+            $newSystemLicense->registered_name = $licenseDetails['registeredname'];
+            $newSystemLicense->company_name = $licenseDetails['registeredname'];
+            $newSystemLicense->domains = $licenseDetails['validdomain'];
+            //$newSystemLicense->ips = $licenseDetails['validip'];
+            $newSystemLicense->status = $licenseDetails['status'];
+            $newSystemLicense->product_id = $licenseDetails['productid'];
+            $newSystemLicense->service_id = $licenseDetails['serviceid'];
+            $newSystemLicense->billing_cycle = $licenseDetails['billingcycle'];
+            $newSystemLicense->reg_on = $licenseDetails['regdate'];
+            $newSystemLicense->due_on = $licenseDetails['nextduedate'];
+            $newSystemLicense->save();
+
+            return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active'=>true);
         }
 
-        $r = $this->app->database_manager->save($table, $params);
-
-
-        if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
-            $validation = $this->validate_license('id=' . $r);
-            $validation_result = $this->get_licenses('single=true&id=' . $r);
-
-            $is_valid = false;
-            if(isset($validation_result['status']) and $validation_result['status'] == 'active'){
-                    $is_valid = true;
-            }
-
-            if (!$is_valid) {
-                return array('id' => $r,'is_invalid'=>true, 'warning' => _e('License key saved is not valid', true));
-
-            } else {
-                return array('id' => $r, 'success' => 'License key saved','is_active'=>true,);
-
-            }
-        }
-
-        return array('id' => $r, 'success' => 'License key saved');
+        return array('is_invalid'=>true, 'warning' => _e('License key is not valid', true));
     }
 
     private function install_from_remote($url)

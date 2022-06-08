@@ -58,19 +58,14 @@ if (!isset($params['prefix'])) {
                 async:false,
                 success: function(result) {
 
-
-                    if(typeof licensemodal !== 'undefined'){
+                    if (typeof licensemodal !== 'undefined'){
                         licensemodal.remove();
                     }
 
-                    if(typeof(result.is_active) !== "undefined" && result.is_active === true){
-                        mw.notification.success('<?php _e("License activated"); ?>');
-                        window.location.reload();
-                        mw.notification.success('<?php _e("Reloading page"); ?>');
-
-                    }
-                    else{
-                        mw.notification.error('<?php _e("License not activated"); ?>');
+                    if(typeof(result.is_active) !== "undefined" && result.is_active === true) {
+                        mw.notification.success(result.warning);
+                    } else{
+                        mw.notification.error(result.warning);
                     }
 
                     //   mw.dialog.get('[parent-module="settings/group/license_edit"]').remove()
@@ -99,7 +94,7 @@ if(isset($params['require_name'])) {
         if(isset($item['buy_link'])){
             $url = $item['buy_link'];
         }
-        
+
     }
 }
 ?>
