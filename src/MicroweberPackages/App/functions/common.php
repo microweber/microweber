@@ -186,6 +186,12 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
 
 function api_url($str = '')
 {
+
+    if (\Illuminate\Support\Facades\Route::has($str)) {
+        return route($str);
+    }
+
+
     $str = ltrim($str, '/');
 
     return site_url('api/' . $str);
