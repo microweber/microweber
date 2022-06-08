@@ -435,6 +435,10 @@ class UpdateManager
             return;
         }
 
+        if (!isset($params['local_key'])) {
+            return;
+        }
+
         $composerClient = new Client();
         $consumeLicense = $composerClient->consumeLicense($params['local_key']);
         if ($consumeLicense['valid']) {
@@ -444,23 +448,62 @@ class UpdateManager
                 return array('is_invalid'=>true, 'warning' => _e('License key already exist', true));
             }
 
+            if (!isset($consumeLicense['servers']) || empty($consumeLicense['servers'])) {
+                return array('is_invalid'=>true, 'warning' => _e('License key is invalid', true));
+            }
+
             $licenseServers = end($consumeLicense['servers']);
             $licenseDetails = $licenseServers['details'];
 
             $newSystemLicense = new SystemLicenses();
             $newSystemLicense->local_key = $params['local_key'];
-            $newSystemLicense->local_key_hash = $licenseDetails['md5hash'];
-            $newSystemLicense->registered_name = $licenseDetails['registeredname'];
-            $newSystemLicense->company_name = $licenseDetails['registeredname'];
-            $newSystemLicense->domains = $licenseDetails['validdomain'];
-            //$newSystemLicense->ips = $licenseDetails['validip'];
-            $newSystemLicense->status = $licenseDetails['status'];
-            $newSystemLicense->product_id = $licenseDetails['productid'];
-            $newSystemLicense->service_id = $licenseDetails['serviceid'];
-            $newSystemLicense->billing_cycle = $licenseDetails['billingcycle'];
-            $newSystemLicense->reg_on = $licenseDetails['regdate'];
-            $newSystemLicense->due_on = $licenseDetails['nextduedate'];
-            $newSystemLicense->save();
+
+            if (isset($licenseDetails['md5hash'])) {
+                $newSystemLicense->local_key_hash = $licenseDetails['md5hash'];
+            }
+
+            if (isset($licenseDetails['registeredname'])) {
+                $newSystemLicense->registered_name = $licenseDetails['registeredname'];
+            }
+
+            if (isset($licenseDetails['registeredname'])) {
+                $newSystemLicense->company_name = $licenseDetails['registeredname'];
+            }
+
+            if (isset($licenseDetails['validdomain'])) {
+                $newSystemLicense->domains = $licenseDetails['validdomain'];
+            }
+
+            /*
+            if (isset($licenseDetails['validip'])) {
+                $newSystemLicense->ips = $licenseDetails['validip'];
+            }*/
+
+            if (isset($licenseDetails['status'])) {
+                $newSystemLicense->status = $licenseDetails['status'];
+            }
+
+            if (!isset($licenseDetails['productid'])) {
+                $newSystemLicense->product_id = $licenseDetails['productid'];
+            }
+
+            if (isset($licenseDetails['serviceid'])) {
+                $newSystemLicense->service_id = $licenseDetails['serviceid'];
+            }
+
+            if (isset($licenseDetails['billingcycle'])) {
+                $newSystemLicense->billing_cycle = $licenseDetails['billingcycle'];
+            }
+
+            if (isset($licenseDetails['regdate'])) {
+                $newSystemLicense->reg_on = $licenseDetails['regdate'];
+            }
+
+            if (isset($licenseDetails['nextduedate'])) {
+                $newSystemLicense->due_on = $licenseDetails['nextduedate'];
+            }
+
+            $newSystemLicense->save(); 
 
             return array('id' => $newSystemLicense->id, 'success' => 'License key saved', 'is_active'=>true);
         }
