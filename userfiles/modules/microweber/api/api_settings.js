@@ -496,5 +496,7 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
     print implode("\n", $inline_scripts);
 }
 
+
+
 ?>
 
