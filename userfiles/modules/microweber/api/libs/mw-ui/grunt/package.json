@@ -16,7 +16,7 @@
         "grunt-contrib-qunit": "*",
         "grunt-contrib-uglify": "*",
         "ion-rangeslider": "2.3.1",
-        "jquery": "^3.3.1",
+        "jquery": ">=3.5.0",
         "jquery.photoswipe": "^1.1.1",
         "lightbox2": "2.11.1",
         "lightcase": "2.5.0",
