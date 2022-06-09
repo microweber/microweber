@@ -69,8 +69,13 @@ Route::name('api.template.')
 
 
 api_expose('template/compile_css', function ($params) {
-    return mw()->template->compile_css($params);
-});
+    $compiled =  mw()->template->compile_css($params);
+     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
+
+    $response = \Response::make($compiled);
+    $response->header('Content-Type', 'text/css');
+    return $response;
+ });
 
 api_expose_admin('template/delete_compiled_css', function ($params) {
     return mw()->template->delete_compiled_css($params);

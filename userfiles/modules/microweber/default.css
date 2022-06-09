@@ -339,6 +339,15 @@ ul.mw-default-layout-blockquote li:before {
     right: 20px;
 }
 
+html[dir="rtl"] .mw-gallery-next{
+    right: auto;
+    left: 20px;
+}
+html[dir="rtl"] .mw-gallery-prev{
+    left: auto;
+    right: 20px;
+}
+
 .mw-gallery-controls > *{
     padding: 2px 10px;
     cursor: pointer;

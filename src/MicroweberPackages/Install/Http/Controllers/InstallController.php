@@ -579,6 +579,13 @@ class InstallController extends Controller
 
     }
 
+    public function clearLog() {
+        $log_file = userfiles_path() . 'install_log.txt';
+        if (is_file($log_file)) {
+            @unlink($log_file);
+        }
+    }
+
     public function log($text)
     {
         $log_file = userfiles_path() . 'install_log.txt';

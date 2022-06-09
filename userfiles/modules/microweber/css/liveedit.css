@@ -3292,7 +3292,7 @@ body.touchscreen-device .module-item-module {
 .mw-liveedit-sidebar-search-wrapper input {
     padding-inline-start: 43px;
     height: 36px;
-    padding: 10px 15px 10px 35px;
+    padding: 10px 15px 40px 35px;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -4739,7 +4739,8 @@ html.padding-control-start .mw-handle-item {
 
 .mw-module-dialog-icon {
     width: 20px;
-    margin: 0 10px 0 0;
+    margin-block: 0 ;
+    margin-inline: 0 10px;
     filter: brightness(0) invert(1);
 
 }
@@ -5079,5 +5080,11 @@ body.dragStart picture img{
 #select_edit_field  > li li:hover, #select_edit_field  > li li.selected {
     border-color: #0084d8;
     color: #0084d8;
+}
+
+[data-mwplaceholder]:empty:after {
+    content: attr(data-mwplaceholder);
+    color: inherit;
+    opacity: .57;
 }
 

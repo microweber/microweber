@@ -360,24 +360,24 @@ class FormsManager
 
         $more = $this->app->fields_manager->get($get_fields);
 
-        $fieldRulesSettings = [];
+        $fieldsValidation = [];
 
         $cfToSave = array();
         if (!empty($more)) {
             foreach ($more as $item) {
 
-                $appendToRequired = false;
+                $fieldsValidation[$item['name_key']][] = 'max:500';
 
+                $appendToRequired = false;
                 if ($item['required'] == 1) {
                     $appendToRequired = true;
                 }
                 if (isset($item['type']) && $item['type'] == 'upload') {
                     $appendToRequired = false;
                 }
+
                 if ($appendToRequired) {
-                    $requiredFields[$item['name_key']] = [
-                        'required'
-                    ];
+                    $fieldsValidation[$item['name_key']][] = 'required';
                 }
 
                 if (isset($item['name'])) {
@@ -453,9 +453,9 @@ class FormsManager
         }
 
         $validationErrorsReturn = [];
-        if (!empty($requiredFields)) {
+        if (!empty($fieldsValidation)) {
 
-            $validator = Validator::make($params, $requiredFields);
+            $validator = Validator::make($params, $fieldsValidation);
             if ($validator->fails()) {
                 $validatorMessages = false;
                 foreach ($validator->messages()->toArray() as $inputFieldErros) {

@@ -14,7 +14,6 @@
     }
 
     mw.edit_licence = function ($lic_id) {
-
          licensemodal = mw.dialog({
             content: '<div type="settings/group/license_edit"  lic_id="' + $lic_id + '" class="module" id="lic_' + $lic_id + '"></div>',
             onremove: function () {
@@ -26,15 +25,22 @@
         mw.reload_module("#lic_" + $lic_id);
     }
 
-
-    mw.validate_licenses = function () {
-        $.ajax({
-            url: "<?php print site_url('api') ?>/mw_validate_licenses"
-        }).done(function () {
-            mw.reload_module("#<?php print $params['id'] ?>");
-
+    $(document).ready(function () {
+        $('.js-license-status').each(function (i,item) {
+            var licenseId = $(item).data('id');
+            $.ajax({
+                type: "POST",
+                data: {id:licenseId},
+                url: "<?php print site_url('api') ?>/mw_consume_license",
+            }).done(function (resp) {
+                if (resp.valid) {
+                    $(item).html("<div class='text-success'>"+resp.status+"</div>");
+                } else {
+                    $(item).html("<div class='text-danger'>"+resp.status+"</div>");
+                }
+            });
         });
-    }
+    });
 </script>
 
 <?php if (is_array($lic) and !empty($lic)): ?>
@@ -44,66 +50,73 @@
                 <small class="text-muted d-block"><?php _e('From this modal you can manipulate your licenses'); ?></small>
             </div>
         <div class="col-12 d-flex justify-content-center text-center p-3">
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Key</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Details</th>
+                    <th style="col">Status</th>
+                    <th style="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
             <?php foreach ($lic as $item): ?>
-              <div class="row">
-                  <div class="col-12 p-1">
-                      <label class="control-label my-2"> <?php _e('License'); ?> </label>
-                     <?php print $item['rel_type']; ?>
-                          <?php if (isset($item['status']) and $item['status'] == 'active'): ?>
-                              <small>
-                                  <label class="font-weight-bold">
-                                      <?php if (isset($item['rel_name']) and $item['rel_name'] != ''): ?>
-                                          <?php print $item['rel_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['registered_name']) and $item['registered_name'] != ''): ?>
-                                          <?php print $item['registered_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['company_name']) and $item['company_name'] != ''): ?>
-                                          <?php print $item['company_name']; ?>
-                                      <?php endif; ?>
-                                      <?php if (isset($item['reg_on']) and $item['reg_on'] != ''): ?>
-                                  </label>
-                                  <br><label><?php _e("Registered on"); ?></label>
-                                  <?php print date('d M ,Y', strtotime($item['reg_on'])); ?><br>
-                                  <?php endif; ?>
-                                  <?php if (isset($item['due_on']) and $item['due_on'] != ''): ?>
-                                      <label><?php _e("Next payment on"); ?></label> <?php print date('d M ,Y', strtotime($item['due_on'])); ?>
-                                  <?php endif; ?>
-                                  </ul>
-                              </small>
-                      <?php endif; ?>
 
-                  </div>
-                  <div class="col-12  p-1">
-                      <label class="control-label my-2">
-                          <?php _e('Key'); ?>
-                      </label>
-                      <p>
-                          <?php print $item['local_key']; ?>
-                      </p>
-                  </div>
-                  <div class="col-12 border p-1">
-                      <label class="control-label my-2">
-                          <?php _e('Status'); ?>
-                      </label>
-                      <p>
-                          <?php print ucwords($item['status']); ?>
-                      </p>
-                  </div>
-              </div>
+                <tr>
+                    <th scope="row">  <?php print $item['local_key']; ?></th>
+                    <td>
+
+                        <?php if (isset($item['rel_name']) and $item['rel_name'] != ''): ?>
+                            <?php print $item['rel_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['registered_name']) and $item['registered_name'] != ''): ?>
+                            <?php print $item['registered_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['company_name']) and $item['company_name'] != ''): ?>
+                            <?php print $item['company_name']; ?>
+                        <?php endif; ?>
+                        <?php if (isset($item['reg_on']) and $item['reg_on'] != ''): ?>
+
+                    </td>
+                    <td>
+                        <?php print $item['rel_type']; ?>
+                        <?php if (isset($item['status']) and $item['status'] == 'active'): ?>
+                            <small>
+                                <label><?php _e("Registered on"); ?></label>
+                                <?php print date('d M ,Y', strtotime($item['reg_on'])); ?><br>
+                                <?php endif; ?>
+                                <?php if (isset($item['due_on']) and $item['due_on'] != ''): ?>
+                                    <label><?php _e("Next payment on"); ?></label> <?php print date('d M ,Y', strtotime($item['due_on'])); ?>
+                                <?php endif; ?>
+                                </ul>
+                            </small>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="js-license-status" data-id="<?php echo $item['id']; ?>">
+                            <img src="<?php echo userfiles_url(); ?>modules/microweber/img/img_check_loading.gif" />
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" href="javascript:mw.delete_licence('<?php echo $item['id'] ?>');"><?php _e('Delete'); ?></a>
+                    </td>
+                </tr>
+
             <?php endforeach; ?>
-        </div>
-        <div class="col">
-            <?php if (is_array($lic) and !empty($lic)): ?>
 
-                <a class="btn btn-primary btn-sm" href="javascript:mw.validate_licenses();"><?php _e('Validate'); ?></a>
-            <?php endif; ?>
+                </tbody>
+            </table>
         </div>
+
+
         <div class="col text-end text-right">
-            <a class="btn btn-danger btn-sm" href="javascript:mw.delete_licence('<?php echo $item['id'] ?>');"><?php _e('Delete'); ?></a>
-
-            <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
-    </div>
+            <a class="btn btn-success btn-sm" href="javascript:mw.edit_licence('0');">
+                <?php _e('Add License'); ?>
+            </a>
+      </div>
     </div>
 <?php else : ?>
 

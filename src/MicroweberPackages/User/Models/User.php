@@ -169,8 +169,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function validateAndFill($data)
     {
         if (!empty($data['password']) && !empty($data['verify_password'])) {
-            $this->rules['password'] = 'required|min:1';
-            $this->rules['verify_password'] = 'required|same:password';
+            $this->rules['password'] = 'required|min:1|max:50';
+            $this->rules['verify_password'] = 'required|same:password|min:1|max:50';
         }
 
         $requireUsername = false;
@@ -182,6 +182,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->rules['username'] = [
                 'required',
                 'min:1',
+                'max:50',
                 Rule::unique('users', 'username')->ignore($data['id'], 'id')
             ];
         }

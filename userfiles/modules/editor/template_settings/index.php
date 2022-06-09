@@ -11,7 +11,14 @@
 
     }
 
-
+    $(document).ready(function () {
+        mw.options.form("#settings-holder-stylesheet-compiler", function () {
+            mw.top().notification.success("<?php _ejs("Template settings are saved"); ?>.",3000);
+            if(typeof reloadTemplate != "undefined"){
+                reloadTemplate();
+            }
+        });
+    });
 
 </script>
 
@@ -45,7 +52,7 @@
     }
 </style>
 
-<div id="settings-holder" >
+<div id="settings-holder-template-settings" >
 
     <div data-mw-component="accordion" data-options="openFirst: false" class="mw-ui-box mw-accordion">
 

@@ -25,8 +25,7 @@ if (!$data) {
 //            });
         });
     </script>
-
-<?php foreach ($data as $item): ?>
+ <?php foreach ($data as $item): ?>
     <?php
     $os = strtolower($item['browser_os']);
     if ($os == 'ios' OR $os == 'os x') {
@@ -99,7 +98,7 @@ if (!$data) {
         <div class="mw-ui-row">
             <div class="mw-ui-col" style="width:30px;">
                 <div class="referral">
-                    <img src="https://static.gosquared.com/images/livestats/dashboard/icon_ref_direct_16x16.png" class="referral_icon" title="Referred by <?php print $item['referrer_id']; ?>">
+                    <img src="<?php print modules_url() ?>site_stats/icon_ref_direct_16x16.png" class="referral_icon" title="Referred by <?php print $item['referrer_id']; ?>">
                 </div>
             </div>
 

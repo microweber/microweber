@@ -1,6 +1,6 @@
+ 
 mw.require('tree.js');
 mw.require('link-editor.js');
-mw.require('tags.js');
 mw.require('tags.js');
 mw.require(mw.settings.modules_url + '/categories/categories.js');
 

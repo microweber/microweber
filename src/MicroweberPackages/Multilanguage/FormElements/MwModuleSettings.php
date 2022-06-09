@@ -36,7 +36,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             <script>mw.require(\'icon_selector.js\')</script>
             <script>mw.require(\'wysiwyg.css\')</script>
             <div class="bs-component">
-            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
+            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" dir="ltr">
             ';
 
         foreach($supportedLanguages as $language) {
@@ -65,7 +65,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
                         if (isset($multilanguageFields['option_value'])) {
-                            $inputValue = $multilanguageFields['option_value']; // its harcoded only for module options
+                            $inputValue = $multilanguageFields['option_value']; // its hardcoded only for module options
                         }
                     }
                 }
@@ -95,7 +95,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
                         element: \'#settings-box'.$mwModuleSettingsId.'\',
-                        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
+                        header: \'<i class="mw-icon-drag"></i> Content #{count} <b data-reflect="primaryText"></b> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
                         key: \'settings\',
                         group: \'id\',

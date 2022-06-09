@@ -244,6 +244,9 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
+        $this->logger->clearLog();
+        $this->_deleteOldContent();
+
         if (isset($this->content->__table_structures)) {
             $this->logger->setLogInfo('Building database tables');
 
@@ -384,17 +387,19 @@ class DatabaseWriter
 	private function _deleteOldContent()
     {
         // Delete old content
-        if (!empty($this->content) && $this->deleteOldContent) {
-            foreach ($this->content as $table=>$items) {
-                if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
-                    continue;
-                }
-                if (\Schema::hasTable($table)) {
-                    $this->logger->setLogInfo('Truncate table: ' . $table);
-                    try {
-                        \DB::table($table)->truncate();
-                    } catch (\Exception $e) {
-                        $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
+        if ($this->deleteOldContent) {
+            if (!empty($this->content)) {
+                foreach ($this->content as $table => $items) {
+                    if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
+                        continue;
+                    }
+                    if (\Schema::hasTable($table)) {
+                        $this->logger->setLogInfo('Truncate table: ' . $table);
+                        try {
+                            \DB::table($table)->truncate();
+                        } catch (\Exception $e) {
+                            $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
+                        }
                     }
                 }
             }

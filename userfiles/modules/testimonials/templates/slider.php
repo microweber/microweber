@@ -24,7 +24,7 @@ description: Testimonials displayed in Slider
             dots: true,
             prevArrow: '<span class="slick-prev"><span class="mw-icon-prev-thick"></span></span>',
             nextArrow: '<span class="slick-next"><span class="mw-icon-next-thick"></span></span>',
-            rtl:getComputedStyle(el[0]).direction == 'rtl'
+            rtl: document.documentElement.dir === 'rtl',
         });
     })
 </script>

@@ -182,7 +182,7 @@ $.fn.collapseNav = function (config) {
         config = {
             responsive: 1, //Automatically count the possible buttons in the navigation
             number_of_buttons: 4, //Allowable number of buttons in the navigation. Works only if 'responsive' = 0
-            more_text: 'More', //The text on the Drop Down Button
+            more_text: mw.lang('More'), //The text on the Drop Down Button
             mobile_break: 992, //With this resolution and higher the script will be init
             li_class: 'dropdown',
             li_a_class: 'dropdown-toggle',

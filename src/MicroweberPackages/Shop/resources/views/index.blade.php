@@ -1,6 +1,6 @@
 {!! $products->scripts() !!}
 
-<div class="container-fluid">
+<section class="section container-fluid">
     <div class="row">
         <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
@@ -65,7 +65,7 @@
             {!! $products->pagination() !!}
         </div>
     </div>
-</div>
+</section>
 
 
 

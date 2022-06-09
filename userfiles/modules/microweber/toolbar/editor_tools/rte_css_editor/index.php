@@ -50,6 +50,10 @@
         float: left;
      }
 
+    .mw-field .mw-range + .mw-range{
+        display: none;
+    }
+
 </style>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
@@ -162,8 +166,18 @@
                     max: 100,
                     step: 1,
                     slide: function( event, ui ) {
-                        this.previousElementSibling.value = ui.value;
-                        output(this.parentNode.dataset.prop, ui.value + 'px')
+
+                        var dvalUnit = (/^\d+$/.test(this.previousElementSibling.value) ?  'px' : this.previousElementSibling.value.replace(/[0-9]/g, '')).trim().toLowerCase();
+                        var units = ['cm','mm','q','in','pc','pt','px','em','ex','ch','rem','lh','vw','vh','vmin','vmax',]
+                        var dval = ui.value;
+
+                        dval += (units.indexOf(dvalUnit) !== -1 ? dvalUnit : 'px');
+
+                        console.log(dval)
+                        console.log(dvalUnit)
+
+                        this.previousElementSibling.value = dval;
+                        output(this.parentNode.dataset.prop, dval)
 
                     }
                 })

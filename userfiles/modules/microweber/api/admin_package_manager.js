@@ -32,16 +32,16 @@ mw.admin.admin_package_manager.reload_packages_list = function () {
 }
 
 mw.admin.admin_package_manager.show_licenses_modal = function () {
+
     var data = {}
     licensesModal = mw.tools.open_module_modal('settings/group/licenses', data, {
-        //  overlay: true,
+          overlay: true,
         //  iframe: true,
-
+        height: 'auto',
+        width: 960,
         title: 'Licenses',
         skin: 'simple'
-    })
-
-
+    });
 }
 
 

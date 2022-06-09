@@ -148,7 +148,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                             <a href="<?php print admin_url() ?>view:settings#option_group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
                         <?php } ?>
                         <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block  my-xl-0 my-1 my-md-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
-                        <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.show_licenses_modal ();"><?php _e("Licenses"); ?></a>                    </li>
+                        <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></a>                    </li>
                 </ul>
             </div>
         </nav>

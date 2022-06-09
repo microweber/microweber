@@ -34,6 +34,7 @@ description: Product Gallery
             });
 
             $('.slick', '#<?php print $id ?>').slick({
+                rtl: document.documentElement.dir === 'rtl',
                 slidesToShow: 5,
                 slidesToScroll: 1,
                 vertical: false,

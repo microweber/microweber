@@ -184,7 +184,7 @@ mw.filePicker = function (options) {
                         });
                     };
                 }
-            })
+            });
 
             /*mw.load_module('pictures/media_library', $wrap);*/
             return $wrap[0];

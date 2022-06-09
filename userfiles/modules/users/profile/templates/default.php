@@ -5,7 +5,7 @@
     <a href="<?php print site_url() ?>">
         <?php _e("Go to"); ?>
         <?php print site_url() ?></a><br/>
-    <a href="<?php print api_link('logout') ?>">
+    <a href="<?php print logout_url() ?>">
         <?php _e("Log Out"); ?>
     </a>
     <?php if (is_admin()): ?>
