@@ -1,7 +1,6 @@
 name: Dusk Apache
 on:
-  schedule:
-    - cron: '0 * * * *'
+  push:
 jobs:
   dusk_apache:
     runs-on: ubuntu-latest

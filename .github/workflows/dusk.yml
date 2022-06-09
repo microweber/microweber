@@ -1,7 +1,6 @@
 name: Dusk
-on:
-  schedule:
-    - cron: '0 * * * *'
+on: [ push ]
+
 jobs:
   dusk:
     runs-on: ubuntu-latest
@@ -11,7 +10,6 @@ jobs:
       matrix:
         php-versions: [ '8.0' ]
     steps:
-      - uses: ./.github/actions/cache-github-sha
       - name: Checkout
         uses: actions/checkout@v2
         env:
