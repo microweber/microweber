@@ -15,14 +15,23 @@ module.exports = function (grunt) {
             distImages: '<%= folder.dist%>plugins/images/'
         },
 
+
+
         clean: {
-            folder: '<%= folder.dist%>'
-        },
+            release: {
+                src: ['<%= folder.dist%>'],
+                options: {
+                    'force': true
+                }
+
+            }
+
+         },
 
         copy: {
             main: {
                 files: [
-                    {expand: true, cwd: 'plugins/', src: ['jquery-3.4.1.min.js'], dest: '<%= folder.distJS %>'},
+                    {expand: true, cwd: 'plugins/', src: ['jquery-3.6.0.min.js'], dest: '<%= folder.distJS %>'},
                     //{expand: true, cwd: 'plugins/collapseNav/', src: ['collapseNav.js'], dest: '<%= folder.distJS %>'},
 
                     //CSS Workfiles
@@ -92,11 +101,11 @@ module.exports = function (grunt) {
                     //'node_modules/jquery/dist/jquery.js',
 
                     //Popper
-                    'plugins/popper/popper.min.js',
+                  //  'plugins/popper/popper.min.js',
+
 
                     //Bootstrap
-                    'node_modules/bootstrap/dist/js/bootstrap.js',
-
+                    'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
                     //Bootstrap Select
                     'node_modules/bootstrap-select/dist/js/bootstrap-select.js',
 
@@ -129,6 +138,7 @@ module.exports = function (grunt) {
 
     // Default task.
     grunt.registerTask('default', ['clean', 'uglify', 'cssmin', 'copy']);
+   // grunt.registerTask('default', ['clean']);
     grunt.registerTask('clean_dist', ['clean']);
     grunt.registerTask('test_copy', ['copy']);
 };
