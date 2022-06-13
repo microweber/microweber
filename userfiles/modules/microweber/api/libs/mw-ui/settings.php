@@ -163,7 +163,7 @@
                                             </div>
                                         </div>
 
-                                        <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true">Show more</a>
+                                        <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true">Show more</a>
 
                                         <div class="collapse" id="more-socials-settings">
                                             <div class="form-group">

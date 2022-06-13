@@ -13,7 +13,7 @@ $randomId = uniqid();
     <div class="card-body px-1 filter-max-scroll">
 
         <div class="mb-3">
-            <div data-toggle="filter-buttons">
+            <div data-bs-toggle="filter-buttons">
             @foreach($filter->options as $options)
                 @php
                     $randIdForCheck = uniqid();

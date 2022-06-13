@@ -12,7 +12,7 @@ $randomId = uniqid();
 <div class="collapse show" id="collapse_{{$randomId}}">
     <div class="card-body px-1 filter-max-scroll">
         <div class="mb-3">
-            <div data-toggle="filter-buttons">
+            <div data-bs-toggle="filter-buttons">
                 @foreach($filter->options as $option)
                     @php
                         $randIdForCheck = uniqid();

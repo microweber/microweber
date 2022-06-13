@@ -183,7 +183,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
@@ -198,7 +198,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <div class="col-md-12">
                         <div class="form-group ">
                             <label class="control-label"><?php _e("Meta title"); ?></label>
-                            <small data-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
+                            <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
                             <?php
@@ -217,7 +217,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <div class="col-md-12">
                         <div class="form-group ">
                         <label class="control-label"><?php _e("Meta description"); ?></label>
-                        <small data-toggle="tooltip" title="Short description for yor content."></small>
+                        <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                     <?php
                     echo $formBuilder->textArea('description')
@@ -235,7 +235,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <div class="col-md-12">
                         <div class="form-group ">
                         <label class="control-label"><?php _e("Meta keywords"); ?></label>
-                        <small data-toggle="tooltip" title="Short description for yor content."></small>
+                        <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
 
                     <?php
@@ -279,7 +279,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
@@ -481,7 +481,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-12">
 
 
-                            <button type="button" class="btn btn-sm btn-link" data-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+                            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
 
 
@@ -535,7 +535,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div class="mw-ui-field-holder"><br/>
                                 <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
 
-                                <button class="btn btn-outline-warning btn-sm" type="button" data-toggle="collapse" data-target="#content-type-settings"><?php print($data['content_type']) ?></button>
+                                <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-target="#content-type-settings"><?php print($data['content_type']) ?></button>
 
                                 <div class="collapse" id="content-type-settings">
                                     <div class="alert alert-dismissible alert-warning mt-3">
@@ -547,7 +547,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         <div class="col-md-6">
                                             <label>
                                                 <?php _e("Change content type"); ?>
-                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
+                                                <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
                                             <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
@@ -559,7 +559,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                         <div class="col-md-6">
                                             <label>
                                                 <?php _e("Change content sub type"); ?>
-                                                <small data-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
+                                                <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
                                             <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">

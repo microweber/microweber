@@ -272,7 +272,7 @@ $saveRoute = route('api.user.store');
                                 <div class="input-group input-group-password mb-3 append-transparent <?php if ($data['id'] != 0): ?>semi_hidden js-reset-password<?php endif; ?>">
                                     <input type="password" <?php if ($data['id'] != 0): ?>disabled="disabled"<?php endif; ?> name="password" class="form-control" id="reset_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-bs-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +282,7 @@ $saveRoute = route('api.user.store');
                                 <div class="input-group input-group-password mb-3 append-transparent">
                                     <input type="password" name="verify_password" class="form-control" id="verify_password"/>
                                     <div class="input-group-append">
-                                        <span class="input-group-text js-show-password bg-white" data-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
+                                        <span class="input-group-text js-show-password bg-white" data-bs-toggle="tooltip" data-title="<?php _e("Show/Hide Password"); ?>"><i class="mdi mdi-eye-outline text-muted mdi-20px"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -389,7 +389,7 @@ $saveRoute = route('api.user.store');
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <a href="javascript:;" class="btn btn-outline-primary" data-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
+                            <a href="javascript:;" class="btn btn-outline-primary" data-bs-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
 
                             <div class="collapse" id="advanced-settings">
                                 <div class="form-group">

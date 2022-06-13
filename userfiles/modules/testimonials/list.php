@@ -160,7 +160,7 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
                                 </div>
 
                                 <div class="col">
-                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-bs-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
                                     <h6 class="font-weight-bold"><?php echo $item->name ?> </h6>
 

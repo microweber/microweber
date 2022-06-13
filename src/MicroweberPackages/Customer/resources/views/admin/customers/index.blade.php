@@ -64,7 +64,7 @@
             @if(request()->get('filter') == 'true')
             <a href="{{route('admin.customers.index')}}" class="btn btn-outline-primary icon-left btn-md"><i class="mdi mdi-close"></i> Filter</a>
             @else
-            <button type="button" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e('Filter'); ?></button>
+            <button type="button" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e('Filter'); ?></button>
             @endif
 
             <a href="{{ route('admin.customers.create') }}" class="btn btn-primary icon-left">

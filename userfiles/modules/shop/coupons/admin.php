@@ -67,8 +67,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php else: ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list-coupons"><i class="mdi mdi-view-list mr-1"></i> <?php _e('List coupons'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#list-log-coupons"><i class="mdi mdi-cart-check mr-1"></i> <?php _e('Log coupons'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#list-coupons"><i class="mdi mdi-view-list mr-1"></i> <?php _e('List coupons'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#list-log-coupons"><i class="mdi mdi-cart-check mr-1"></i> <?php _e('Log coupons'); ?></a>
         </nav>
 
         <div class="tab-content py-3">

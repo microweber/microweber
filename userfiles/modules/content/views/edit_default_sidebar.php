@@ -329,7 +329,7 @@
                             <div id="show-categories-tree-wrapper" >
                                 <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
                                 <br/>
-                                <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
+                                <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-bs-toggle="collapse" data-target="#show-categories-tree"><?php _e('Add to'); ?></button>
                                 <br/>
 
                                 <div id="show-categories-tree" class="collapse">
@@ -391,7 +391,7 @@
                 <div class="row mb-3">
                     <div class="col-12">
                         <strong><?php _e("Tags"); ?></strong>
-                        <small data-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
+                        <small data-bs-toggle="tooltip" title="<?php _e('Tags/Labels for this content. Use comma (,) to add multiple tags'); ?>"></small>
                     </div>
                 </div>
 

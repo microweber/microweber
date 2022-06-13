@@ -1,5 +1,5 @@
 
-<div class="card mb-2 not-collapsed-border collapsed card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>" data-toggle="collapse" data-target="#notif-item-<?php print $id ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="card mb-2 not-collapsed-border collapsed card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>" data-bs-toggle="collapse" data-target="#notif-item-<?php print $id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <div class="row align-items-center mb-3">
             <div class="col text-start text-left">

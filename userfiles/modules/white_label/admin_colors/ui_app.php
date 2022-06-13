@@ -22,7 +22,7 @@ foreach ($files as $file) {
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -52,7 +52,7 @@ foreach ($files as $file) {
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -82,7 +82,7 @@ foreach ($files as $file) {
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -390,7 +390,7 @@ foreach ($files as $file) {
                             </p>
 
                             <div class="bs-component my-3">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-primary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -404,7 +404,7 @@ foreach ($files as $file) {
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -418,7 +418,7 @@ foreach ($files as $file) {
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -432,7 +432,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="bs-component my-3">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-primary active">
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
                                     </label>
@@ -446,7 +446,7 @@ foreach ($files as $file) {
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="radio" name="options" id="xoption1" autocomplete="off" checked> Active
                                     </label>
@@ -460,7 +460,7 @@ foreach ($files as $file) {
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="radio" name="options" id="yoption1" autocomplete="off" checked> Active
                                     </label>
@@ -1428,7 +1428,7 @@ foreach ($files as $file) {
                                         </div>
                                         <input type="text" class="form-control" value="0.00"/>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" data-toggle="tooltip" title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i
+                                            <span class="input-group-text" data-bs-toggle="tooltip" title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i
                                                     class="mdi mdi-help-circle"></i></span>
                                         </div>
                                     </div>
@@ -1630,20 +1630,20 @@ foreach ($files as $file) {
                         <div class="col-12">
                             <div class="bs-component">
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center active" data-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                                    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
 
                                 <div id="myTabContent" class="tab-content py-3">
@@ -2071,7 +2071,7 @@ foreach ($files as $file) {
                                 <h2>Modals</h2>
                                 <div class="bs-component">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-target="#exampleModal">
                                         Launch demo modal
                                     </button>
 
@@ -2099,31 +2099,31 @@ foreach ($files as $file) {
                             <div class="col-lg-6">
                                 <h2>Popovers</h2>
                                 <div class="bs-component" style="margin-bottom: 3em;">
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="left"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="left"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Left
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="top"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="top"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Top
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="bottom"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="bottom"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Bottom
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="right"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="right"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Right
                                     </button>
                                 </div>
                                 <h2>Tooltips</h2>
                                 <div class="bs-component" style="margin-bottom: 3em;">
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Left</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="left" title="Tooltip on left">Left</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Top</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="top" title="Tooltip on top">Top</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">Right</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="right" title="Tooltip on right">Right</button>
                                 </div>
                                 <h2>Toasts</h2>
                                 <div class="bs-component">
@@ -2204,7 +2204,7 @@ foreach ($files as $file) {
                         <td>$3,558.99</td>
                         <td>1</td>
                         <td>$3,558.99</td>
-                        <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                        <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                     </tr>
                     <tr>
                         <th scope="row">
@@ -2217,7 +2217,7 @@ foreach ($files as $file) {
                         <td>$3,558.99</td>
                         <td>1</td>
                         <td>$3,558.99</td>
-                        <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                        <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                     </tr>
                     <tr>
                         <th scope="row">
@@ -2230,7 +2230,7 @@ foreach ($files as $file) {
                         <td>$3,558.99</td>
                         <td>1</td>
                         <td>$3,558.99</td>
-                        <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                        <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                     </tr>
 
                     <tr>
@@ -2552,7 +2552,7 @@ foreach ($files as $file) {
 
                             <div class="col item-image">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <img src="https://cdn.vox-cdn.com/thumbor/uejBZCud-JlRsCn5w26ltmfdGFs=/0x0:675x450/1200x800/filters:focal(284x171:392x279)/cdn.vox-cdn.com/uploads/chorus_image/image/66466293/Untitled_3.0.jpg" />
@@ -2592,7 +2592,7 @@ foreach ($files as $file) {
 
                             <div class="col" style="min-width: 120px;">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <img src="https://cdn.vox-cdn.com/thumbor/uejBZCud-JlRsCn5w26ltmfdGFs=/0x0:675x450/1200x800/filters:focal(284x171:392x279)/cdn.vox-cdn.com/uploads/chorus_image/image/66466293/Untitled_3.0.jpg" />
@@ -2631,7 +2631,7 @@ foreach ($files as $file) {
 
                             <div class="col" style="min-width: 120px;">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <i class="mdi mdi-shopping mdi-64px text-muted"></i>

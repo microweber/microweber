@@ -163,7 +163,7 @@ endif;
             <div class="col-12">
                 <div class="form-group mb-0">
                     <label class="control-label mb-0"><?php _e('Language file'); ?>:
-                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-toggle="collapse" data-target="#language-edit-<?php echo $namespaceMd5;?>">
+                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-bs-toggle="collapse" data-target="#language-edit-<?php echo $namespaceMd5;?>">
                             <?php
                             if ($namespace == '*') {
                                 echo 'Global';

@@ -92,12 +92,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="javascript:;"><i class="mdi mdi-earth"></i> Website</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Pages <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New page"><i class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item active" href="#">Posts <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New post"><i
+                    <a class="dropdown-item" href="#">Pages <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New page"><i class="mdi mdi-plus"></i></span></a>
+                    <a class="dropdown-item active" href="#">Posts <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New post"><i
                                     class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item" href="products.php">Products <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New product"><i
+                    <a class="dropdown-item" href="products.php">Products <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New product"><i
                                     class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item" href="#">Categories <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New category"><i
+                    <a class="dropdown-item" href="#">Categories <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New category"><i
                                     class="mdi mdi-plus"></i></span></a>
                 </div>
             </li>

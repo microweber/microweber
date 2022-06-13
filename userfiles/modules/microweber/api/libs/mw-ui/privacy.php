@@ -127,7 +127,7 @@
 
                                         <div class="form-group mb-3">
                                             <label class="control-label">Want to view and edit the text and the page?</label>
-                                            <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#contact-form-settings">Edit the text and URL</button>
+                                            <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-target="#contact-form-settings">Edit the text and URL</button>
                                         </div>
 
                                         <div class="collapse" id="contact-form-settings">
@@ -196,7 +196,7 @@
 
                                         <div class="form-group mb-3">
                                             <label class="control-label">Want to view and edit the text and the page?</label>
-                                            <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#comments-form-settings">Edit the text and URL</button>
+                                            <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-target="#comments-form-settings">Edit the text and URL</button>
                                         </div>
 
                                         <div class="collapse" id="comments-form-settings">
@@ -264,7 +264,7 @@
 
                                         <div class="form-group mb-3">
                                             <label class="control-label">Want to view and edit the text and the page?</label>
-                                            <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#newsletter-settings">Edit the text and URL</button>
+                                            <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-target="#newsletter-settings">Edit the text and URL</button>
                                         </div>
 
                                         <div class="collapse" id="newsletter-settings">

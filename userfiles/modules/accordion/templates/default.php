@@ -90,9 +90,9 @@ if (isset($json) == false or count($json) == 0) {
             ?>
             <div class="card card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
                 <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
-                    <button class="btn p-5 w-100" data-toggle="collapse" data-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
+                    <button class="btn p-5 w-100" data-bs-toggle="collapse" data-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
                         <?php //module icon -
-                        //print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; 
+                        //print isset($slide['icon']) ? $slide['icon'] . ' ' : '';
                         ?>
                         <h4> <?php print isset($slide['title']) ? $slide['title'] : ''; ?> </h4>
                         <i class="mdi arrow border rounded-circle ml-auto mr-0 <?php if ($key == 0) : ?>mdi-chevron-up active<?php else : ?>mdi-chevron-down<?php endif; ?>"></i>

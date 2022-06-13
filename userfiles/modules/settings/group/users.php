@@ -299,7 +299,7 @@ if ($registration_approval_required == false) {
                                         <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
                                         <div class="custom-control custom-switch pl-0">
                                             <label class="d-inline-block mr-5" for="users-social-newtworks-login"><?php _e("No"); ?></label>
-                                            <input type="checkbox" class="mw_option_field custom-control-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-toggle="collapse" data-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
+                                            <input type="checkbox" class="mw_option_field custom-control-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-bs-toggle="collapse" data-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
                                             <label class="custom-control-label" for="users-social-newtworks-login"><?php _e("Yes"); ?></label>
                                         </div>
 
@@ -311,7 +311,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-toggle="collapse" data-target="#fb-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-target="#fb-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_fb_registration"><i class="mdi mdi-facebook mdi-30px lh-1_0 mr-2"></i> <?php _e('Enable login with Facebook?'); ?></label>
                                                 </div>
                                             </div>
@@ -336,7 +336,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-toggle="collapse" data-target="#twitter-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-bs-toggle="collapse" data-target="#twitter-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_twitter_registration"><i class="mdi mdi-twitter mdi-30px lh-1_0 mr-2"></i> <?php _e('Twitter login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -361,7 +361,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-toggle="collapse" data-target="#github-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-bs-toggle="collapse" data-target="#github-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_github_registration"><i class="mdi mdi-github mdi-30px lh-1_0 mr-2"></i> <?php _e('Github login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -386,7 +386,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-toggle="collapse" data-target="#linkedin-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-target="#linkedin-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_linkedin_registration"><i class="mdi mdi-linkedin mdi-30px lh-1_0 mr-2"></i> <?php _e('Linked In login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -411,7 +411,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-toggle="collapse" data-target="#google-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-target="#google-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_google_registration"><i class="mdi mdi-google mdi-30px lh-1_0 mr-2"></i> <?php _e('Google login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -435,7 +435,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-toggle="collapse" data-target="#mw-login-settings">
+                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-bs-toggle="collapse" data-target="#mw-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_microweber_registration"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> <?php _e('Microweber login enabled?'); ?></label>
                                                 </div>
                                             </div>

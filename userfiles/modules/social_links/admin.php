@@ -121,7 +121,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
 
-                    <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true"><?php _e("Show more"); ?></a>
+                    <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="collapse" data-target="#more-socials-settings" aria-expanded="true"><?php _e("Show more"); ?></a>
 
                     <div class="collapse" id="more-socials-settings">
 

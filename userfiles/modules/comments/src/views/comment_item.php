@@ -4,7 +4,7 @@
     id="comment-<?php print $comment['id'] ?>"
     aria-expanded="false"
     aria-controls="collapseExample">
-    <span class="mw-bs-card-collpase card-collapse"     data-toggle="collapse"
+    <span class="mw-bs-card-collpase card-collapse"     data-bs-toggle="collapse"
           data-target="#comments-<?php print $comment['id'] ?>"></span>
     <div class="card-body">
         <script>mw.lib.require('mwui_init');</script>
