@@ -46,7 +46,7 @@
                 </li>
 
                 <li class="mx-1 d-none d-md-block">
-                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-toggle="dropdown"><span class="d-none d-md-block">Add new</span> <i class="mdi mdi-plus"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-bs-toggle="dropdown"><span class="d-none d-md-block">Add new</span> <i class="mdi mdi-plus"></i></button>
                     <div class="dropdown-menu ">
                         <a class="dropdown-item" href="#">Post</a>
                         <a class="dropdown-item" href="#">Product</a>
@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="mx-1 language-selector">
-                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-gb"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-bs-toggle="dropdown"><i class="flag-icon flag-icon-gb"></i></button>
                     <div class="dropdown-menu ">
                         <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-us"></i> English</a>
                         <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-fr"></i> French</a>
