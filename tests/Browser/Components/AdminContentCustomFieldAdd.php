@@ -49,7 +49,8 @@ class AdminContentCustomFieldAdd extends BaseComponent
              $browser->script("document.querySelector('.js-show-custom-fields').scrollIntoView({block: 'center', inline: 'nearest',behavior :'auto'});");
 
 
-            $browser->script("$('.js-show-custom-fields').click()");
+            $browser->click('.js-show-custom-fields');
+
             $browser->pause(3000);
         }
 
