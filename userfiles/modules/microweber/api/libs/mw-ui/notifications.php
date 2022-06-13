@@ -56,7 +56,7 @@
                         <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-shopping"></i></button>
                     </div>
                     <div class="col">
-                        <div class="card mb-2 not-collapsed-border collapsed card-bubble card-order-holder bg-silver" data-bs-toggle="collapse" data-target="#collapse-1" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="card mb-2 not-collapsed-border collapsed card-bubble card-order-holder bg-silver" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapseExample">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
@@ -207,7 +207,7 @@
                         <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-email-check"></i></button>
                     </div>
                     <div class="col">
-                        <div class="card mb-2 not-collapsed-border collapsed card-message-holder card-bubble bg-silver" data-bs-toggle="collapse" data-target="#message-1" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="card mb-2 not-collapsed-border collapsed card-message-holder card-bubble bg-silver" data-bs-toggle="collapse" data-bs-target="#message-1" aria-expanded="false" aria-controls="collapseExample">
                             <div class="card-body">
                                 <div class="row align-items-center mb-3">
                                     <div class="col text-start text-left">
@@ -274,7 +274,7 @@
                         <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-comment-account"></i></button>
                     </div>
                     <div class="col">
-                        <div class="card mb-2 not-collapsed-border collapsed card-bubble bg-silver" data-bs-toggle="collapse" data-target="#comments-1" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="card mb-2 not-collapsed-border collapsed card-bubble bg-silver" data-bs-toggle="collapse" data-bs-target="#comments-1" aria-expanded="false" aria-controls="collapseExample">
                             <div class="card-body">
                                 <div class="row align-items-center mb-3">
                                     <div class="col text-start text-left">

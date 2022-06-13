@@ -186,7 +186,7 @@
                             <label class="control-label">Other settings</label>
                             <small class="text-muted d-block mb-2">Discover more advanced options</small>
 
-                            <button class="btn btn-outline-secondary btn-sm btn-rounded" data-bs-toggle="collapse" data-target="#show-more">Show more</button>
+                            <button class="btn btn-outline-secondary btn-sm btn-rounded" data-bs-toggle="collapse" data-bs-target="#show-more">Show more</button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">

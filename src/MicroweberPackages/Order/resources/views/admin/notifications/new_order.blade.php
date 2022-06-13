@@ -28,7 +28,7 @@ if(!$order){
 ?>
 
 <div class="card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
-     data-bs-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false"
+     data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">

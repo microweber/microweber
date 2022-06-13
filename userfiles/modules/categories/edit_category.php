@@ -638,7 +638,7 @@ if (isset($params['live_edit'])) {
                             <label class="control-label"><?php _e("Other settings"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                            <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
+                            <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">

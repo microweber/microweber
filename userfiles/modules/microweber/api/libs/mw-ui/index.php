@@ -59,7 +59,7 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -89,7 +89,7 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -119,7 +119,7 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
@@ -1897,7 +1897,7 @@
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-start text-left" type="button" data-bs-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <button class="btn btn-link btn-block text-start text-left" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Collapsible Group Item #1
                                             </button>
                                         </h2>
@@ -1913,7 +1913,7 @@
                                 <div class="card">
                                     <div class="card-header" id="headingTwo">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Collapsible Group Item #2
                                             </button>
                                         </h2>
@@ -1928,7 +1928,7 @@
                                 <div class="card">
                                     <div class="card-header" id="headingThree">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 Collapsible Group Item #3
                                             </button>
                                         </h2>
@@ -2373,7 +2373,7 @@
                                 <h2>Modals</h2>
                                 <div class="bs-component">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Launch demo modal
                                     </button>
 

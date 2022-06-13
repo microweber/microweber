@@ -12,7 +12,7 @@
         <div
             class="card mb-2 not-collapsed-border collapsed bg-silver"
             data-bs-toggle="collapse-mw"
-            data-target="#comments-<?php print $content['id'] ?>"
+            data-bs-target="#comments-<?php print $content['id'] ?>"
             id="comment-<?php print $content['id'] ?>"
             aria-expanded="false"
             aria-controls="collapseExample">

@@ -63,7 +63,7 @@ if (isset($item['created_by'])) {
     });
 </script>
 
-<div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-bs-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="js-form-entry-<?php print $item_id ?> card mb-2 not-collapsed-border collapsed card-message-holder <?php if (!isset($is_entry)): ?>card-bubble<?php endif; ?> <?php if (isset($item['is_read']) AND $item['is_read'] == 0): ?>active<?php endif; ?> bg-silver" data-bs-toggle="collapse" data-bs-target="#notif-entry-item-<?php print $item_id ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body">
         <?php if (isset($params['module']) and $params['module'] == 'admin/notifications'): ?>
             <div class="row align-items-center mb-3">
@@ -73,7 +73,7 @@ if (isset($item['created_by'])) {
             </div>
         <?php endif; ?>
 
-        <div class="row align-items-center" data-bs-toggle="collapse" data-target="#notif-entry-item-<?php print $item_id ?>" >
+        <div class="row align-items-center" data-bs-toggle="collapse" data-bs-target="#notif-entry-item-<?php print $item_id ?>" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>

@@ -47,9 +47,9 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 
 
 
-<div class="js-order-entry-<?php print $item_id ?> card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-bs-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="js-order-entry-<?php print $item_id ?> card mb-3 not-collapsed-border collapsed <?php if (!isset($is_order)): ?>card-bubble<?php endif; ?> card-order-holder <?php if ($is_new): ?>active card-success<?php else: ?>bg-silver<?php endif; ?>" data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
-        <div class="row" data-bs-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>">
+        <div class="row" data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php print $item_id; ?>">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">

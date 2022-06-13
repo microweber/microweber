@@ -389,7 +389,7 @@ $saveRoute = route('api.user.store');
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <a href="javascript:;" class="btn btn-outline-primary" data-bs-toggle="collapse" data-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
+                            <a href="javascript:;" class="btn btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><?php _e("Advanced settings"); ?></a>
 
                             <div class="collapse" id="advanced-settings">
                                 <div class="form-group">

@@ -350,7 +350,7 @@
                                         </div>
 
                                         <div class="col-md-6 d-flex align-items-center">
-                                            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-target="#advandec-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+                                            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advandec-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
                                         </div>
                                     </div>
 

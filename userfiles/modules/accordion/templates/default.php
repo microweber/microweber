@@ -90,7 +90,7 @@ if (isset($json) == false or count($json) == 0) {
             ?>
             <div class="card card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
                 <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
-                    <button class="btn p-5 w-100" data-bs-toggle="collapse" data-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
+                    <button class="btn p-5 w-100" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
                         <?php //module icon -
                         //print isset($slide['icon']) ? $slide['icon'] . ' ' : '';
                         ?>

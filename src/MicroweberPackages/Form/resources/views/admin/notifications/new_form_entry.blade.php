@@ -8,7 +8,7 @@
 </script>
 
 <div class="js-form-entry-{{ $id }} card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
-     data-bs-toggle="collapse" data-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
+     data-bs-toggle="collapse" data-bs-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body">
         @if(!empty($module_name) && $module_name == 'admin/notifications')
@@ -19,7 +19,7 @@
             </div>
         @endif
 
-            <div class="row align-items-center" data-bs-toggle="collapse" data-target="#notif-entry-item-{{$id}}" >
+            <div class="row align-items-center" data-bs-toggle="collapse" data-bs-target="#notif-entry-item-{{$id}}" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>

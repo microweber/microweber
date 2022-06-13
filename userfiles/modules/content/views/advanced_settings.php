@@ -139,11 +139,11 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                 el.on('show.bs.collapse', function (){
                     mw.storage.set(key, true);
-                    $('[data-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Hide'); ?>');
+                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Hide'); ?>');
                 })
                 el.on('hide.bs.collapse', function (){
                     mw.storage.set(key, false);
-                    $('[data-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Show'); ?>');
+                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Show'); ?>');
                 })
 
                 if( isStored ) {
@@ -183,7 +183,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
@@ -279,7 +279,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
@@ -481,7 +481,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="col-12">
 
 
-                            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
+                            <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
 
 
 
@@ -535,7 +535,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div class="mw-ui-field-holder"><br/>
                                 <span class="font-weight-bold"><?php _e("Content type"); ?>: &nbsp;</span>
 
-                                <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-target="#content-type-settings"><?php print($data['content_type']) ?></button>
+                                <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#content-type-settings"><?php print($data['content_type']) ?></button>
 
                                 <div class="collapse" id="content-type-settings">
                                     <div class="alert alert-dismissible alert-warning mt-3">
