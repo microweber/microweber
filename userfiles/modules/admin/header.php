@@ -197,6 +197,7 @@ $user = get_user_by_id($user_id);
     <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
+
                 <ul class="nav">
                     <li class="mx-1 mobile-toggle">
                         <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
@@ -213,16 +214,14 @@ $user = get_user_by_id($user_id);
                                     <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
                                 <?php endif; ?>
                             </h5>
-                            <script>mw.lib.require('mwui_init')</script>
-                           <!-- <script>SVGtoCode();</script>-->
-                        </a>
+                         </a>
                     </li>
 
                     <?php
                     if (user_can_access('module.content.edit')):
                         ?>
                         <li class="mx-1 d-none d-md-block">
-                            <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon" data-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon " data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                             </button>
                             <div class="dropdown-menu ">
