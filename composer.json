@@ -26,7 +26,7 @@
         "laravel/framework": "v8.83.3 ",
         "fideloper/proxy": "4.4.1",
         "fruitcake/laravel-cors": "*",
-        "guzzlehttp/guzzle": "7.4.3",
+        "guzzlehttp/guzzle": "7.4.4",
         "symfony/translation": "*",
         "doctrine/dbal": "3.4.x-dev",
         "composer/composer": "2.3.5",

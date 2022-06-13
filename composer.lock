@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d860b894136a2abf1b721241f30feb4",
+    "content-hash": "d94e7dfaaa683051ae022204b70eb146",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -1641,12 +1641,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "b909c4b0d81b15f94fb2ef750ef2f5f5816c86e7"
+                "reference": "7307ecce3902b4ba65fcd7970988049f2f3ca80b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/b909c4b0d81b15f94fb2ef750ef2f5f5816c86e7",
-                "reference": "b909c4b0d81b15f94fb2ef750ef2f5f5816c86e7",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/7307ecce3902b4ba65fcd7970988049f2f3ca80b",
+                "reference": "7307ecce3902b4ba65fcd7970988049f2f3ca80b",
                 "shasum": ""
             },
             "require": {
@@ -1744,7 +1744,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-06T21:31:58+00:00"
+            "time": "2022-06-10T13:30:19+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -2552,12 +2552,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/florianv/exchanger.git",
-                "reference": "b1a149a0c5775a802ecd29e290bd1aa21e9f1064"
+                "reference": "a9f4c50625a5d99dfba04cd00b6e202ff96e75f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/florianv/exchanger/zipball/b1a149a0c5775a802ecd29e290bd1aa21e9f1064",
-                "reference": "b1a149a0c5775a802ecd29e290bd1aa21e9f1064",
+                "url": "https://api.github.com/repos/florianv/exchanger/zipball/a9f4c50625a5d99dfba04cd00b6e202ff96e75f6",
+                "reference": "a9f4c50625a5d99dfba04cd00b6e202ff96e75f6",
                 "shasum": ""
             },
             "require": {
@@ -2567,7 +2567,7 @@
                 "php-http/discovery": "^1.6",
                 "php-http/httplug": "^1.0 || ^2.0",
                 "php-http/message-factory": "^1.0.2",
-                "psr/simple-cache": "^1.0"
+                "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.0",
@@ -2615,7 +2615,7 @@
                 "issues": "https://github.com/florianv/exchanger/issues",
                 "source": "https://github.com/florianv/exchanger/tree/master"
             },
-            "time": "2022-04-27T08:15:40+00:00"
+            "time": "2022-06-13T07:38:47+00:00"
         },
         {
             "name": "florianv/swap",
@@ -3027,16 +3027,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.3",
+            "version": "7.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "74a8602c6faec9ef74b7a9391ac82c5e65b1cdab"
+                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/74a8602c6faec9ef74b7a9391ac82c5e65b1cdab",
-                "reference": "74a8602c6faec9ef74b7a9391ac82c5e65b1cdab",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
+                "reference": "e3ff079b22820c2029d4c2a87796b6a0b8716ad8",
                 "shasum": ""
             },
             "require": {
@@ -3131,7 +3131,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.3"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.4"
             },
             "funding": [
                 {
@@ -3147,7 +3147,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-25T13:24:33+00:00"
+            "time": "2022-06-09T21:39:15+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -3240,12 +3240,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "e15c49c89300cc279ebe9696a634a9c08f7eab2e"
+                "reference": "83260bb50b8fc753c72d14dc1621a2dac31877ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/e15c49c89300cc279ebe9696a634a9c08f7eab2e",
-                "reference": "e15c49c89300cc279ebe9696a634a9c08f7eab2e",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/83260bb50b8fc753c72d14dc1621a2dac31877ee",
+                "reference": "83260bb50b8fc753c72d14dc1621a2dac31877ee",
                 "shasum": ""
             },
             "require": {
@@ -3332,7 +3332,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/master"
+                "source": "https://github.com/guzzle/psr7/tree/2.3.0"
             },
             "funding": [
                 {
@@ -3348,7 +3348,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-08T20:01:53+00:00"
+            "time": "2022-06-09T08:26:02+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -5969,12 +5969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "9c1566a971d42ff1acb4756708e8d9a5568bb194"
+                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/9c1566a971d42ff1acb4756708e8d9a5568bb194",
-                "reference": "9c1566a971d42ff1acb4756708e8d9a5568bb194",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5579edf28aee1190a798bfa5be8bc16c563bd524",
+                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524",
                 "shasum": ""
             },
             "require": {
@@ -6053,7 +6053,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.x"
+                "source": "https://github.com/Seldaek/monolog/tree/2.7.0"
             },
             "funding": [
                 {
@@ -6065,7 +6065,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-08T19:51:47+00:00"
+            "time": "2022-06-09T08:59:12+00:00"
         },
         {
             "name": "mtrajano/laravel-swagger",
@@ -6852,16 +6852,16 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v2.5.0",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8"
+                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/9229e15f2e6ba772f0c55dd6986c563b937170a8",
-                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/c1b1d82d109846ba58a4664dc5480c69ad2fc097",
+                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097",
                 "shasum": ""
             },
             "require": {
@@ -6915,7 +6915,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2022-01-17T05:32:27+00:00"
+            "time": "2022-06-13T05:29:16+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -8028,12 +8028,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "99c253733dee9447d26257dc669d33d5ac84713d"
+                "reference": "7d7b3416a805b824228a4e869186eb04af091698"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/99c253733dee9447d26257dc669d33d5ac84713d",
-                "reference": "99c253733dee9447d26257dc669d33d5ac84713d",
+                "url": "https://api.github.com/repos/predis/predis/zipball/7d7b3416a805b824228a4e869186eb04af091698",
+                "reference": "7d7b3416a805b824228a4e869186eb04af091698",
                 "shasum": ""
             },
             "require": {
@@ -8084,7 +8084,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v2.0.0"
+                "source": "https://github.com/predis/predis/tree/main"
             },
             "funding": [
                 {
@@ -8092,7 +8092,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-08T13:14:56+00:00"
+            "time": "2022-06-13T14:54:46+00:00"
         },
         {
             "name": "psr/cache",
@@ -10342,12 +10342,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "01ba9eac1d6a539f6e913c8d9782fbdb95c0c11a"
+                "reference": "02265e1e5111c3cd7480387af25e82378b7ab9cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/01ba9eac1d6a539f6e913c8d9782fbdb95c0c11a",
-                "reference": "01ba9eac1d6a539f6e913c8d9782fbdb95c0c11a",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/02265e1e5111c3cd7480387af25e82378b7ab9cc",
+                "reference": "02265e1e5111c3cd7480387af25e82378b7ab9cc",
                 "shasum": ""
             },
             "require": {
@@ -10417,7 +10417,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-06T19:10:58+00:00"
+            "time": "2022-06-09T12:22:40+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -12448,12 +12448,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "09760aa6892cfcb6c7af78c0a6316d506cebde6c"
+                "reference": "b6017005b3f6cfc476a976d7cfd57c038f183569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/09760aa6892cfcb6c7af78c0a6316d506cebde6c",
-                "reference": "09760aa6892cfcb6c7af78c0a6316d506cebde6c",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b6017005b3f6cfc476a976d7cfd57c038f183569",
+                "reference": "b6017005b3f6cfc476a976d7cfd57c038f183569",
                 "shasum": ""
             },
             "require": {
@@ -12517,7 +12517,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-02T18:36:43+00:00"
+            "time": "2022-06-10T08:33:05+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -14326,12 +14326,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "a25a485e2949671aa6563bec701d871066ffc155"
+                "reference": "117043c3dc8afcae8e2cb9aeaba09fb03ad8e13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a25a485e2949671aa6563bec701d871066ffc155",
-                "reference": "a25a485e2949671aa6563bec701d871066ffc155",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/117043c3dc8afcae8e2cb9aeaba09fb03ad8e13b",
+                "reference": "117043c3dc8afcae8e2cb9aeaba09fb03ad8e13b",
                 "shasum": ""
             },
             "require": {
@@ -14395,7 +14395,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-05T05:31:11+00:00"
+            "time": "2022-06-09T06:28:26+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
