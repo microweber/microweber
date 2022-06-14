@@ -15,6 +15,12 @@
         border-radius: 3px;
 
     }
+    .mw-ui-category-selector-abs li li .mw-tree-toggler{
+        margin-inline-start: -37px !important;
+    }
+    .mw-ui-category-selector-abs .mw-tree-toggler{
+        margin-inline-start: -22px !important;
+    }
 </style>
 
 <script>
