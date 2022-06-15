@@ -191,9 +191,7 @@ class TemplateCssParser
         if(!$variables){
             $cssOrigFileDistContent = $this->replaceAssetsRelativePaths($cssOrigFileDistContent,$params);
 
-            $response = \Response::make($cssOrigFileDistContent);
-            $response->header('Content-Type', 'text/css');
-            return $response;
+            return $cssOrigFileDistContent;
         }
 
         $compiler->setVariables($variables);
@@ -220,12 +218,8 @@ class TemplateCssParser
 
         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
+        return $cssContent;
 
-
-       $response = \Response::make($cssContent);
-       $response->header('Content-Type', 'text/css');
-
-       return $response;
 
     }
 
@@ -299,10 +293,8 @@ class TemplateCssParser
         // Save compiled file
          $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
-        $response = \Response::make($cssContent);
-        $response->header('Content-Type', 'text/css');
 
-        return $response;
+        return $cssContent;
     }
 
     private function _getOutputFileLocations($lessFilePath, $templateFolder)

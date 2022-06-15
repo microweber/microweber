@@ -2,7 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.2.16] - 2022-06-07
+## [1.2.17] - 2022-06-14
+ - Fixed Bootstrap 5 dropdowns and tabs 
+ - Fixed api_url function to use router if exists
+ - Other fixes
+ - [see all changes....](https://github.com/microweber/microweber/compare/1.2.16...1.2.17 "")
+
+
+## [1.2.16] - 2022-06-09
  - Fixed more RTL issues 
  - Fixed translation issues on the slider module
  - Fixed PNG anf GIF image transparency issue
@@ -58,8 +65,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added more tests
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.10...1.2.11 "")
- 
- 
+
+
 ## [1.2.10] - 2021-12-08
 - Fixes on live edit
 - Fixes on multi language
@@ -514,7 +521,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: Parser bugs
 - Changed: to MIT license 
 - [see all changes....](https://github.com/microweber/microweber/compare/1.0.8...1.0.10 "")
- 
+
 
 ## [1.0.8] - 2017-04-26
 

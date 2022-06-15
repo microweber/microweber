@@ -198,6 +198,7 @@
                                             <option value="smtp" <?php if ($email_transport == 'smtp'): ?> selected="selected" <?php endif; ?>><?php _e("SMTP server"); ?></option>
                                             <option value="cpanel" <?php if ($email_transport == 'cpanel'): ?> selected="selected" <?php endif; ?>><?php _e("cPanel"); ?></option>
                                             <option value="plesk" <?php if ($email_transport == 'plesk'): ?> selected="selected" <?php endif; ?>><?php _e("Plesk"); ?></option>
+                                            <option value="config" <?php if ($email_transport == 'config'): ?> selected="selected" <?php endif; ?>><?php _e("Use system configuration"); ?></option>
                                         </select>
                                     </div>
                                 </div>

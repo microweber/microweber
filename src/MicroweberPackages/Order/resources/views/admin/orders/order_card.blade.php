@@ -30,10 +30,10 @@ $item = $order->toArray();
 
 </script>
 
-<div class="js-order-card-<?php print $order['id'] ?> card <?php if($order['order_status']=='new'):?>card-success<?php endif;?> mb-3 not-collapsed-border collapsed card-order-holder" data-toggle="collapse" data-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
+<div class="js-order-card-<?php print $order['id'] ?> card <?php if($order['order_status']=='new'):?>card-success<?php endif;?> mb-3 not-collapsed-border collapsed card-order-holder" data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php echo $order['id'];?>" aria-expanded="false" aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
-            <div class="col-12 col-md-6" data-toggle="collapse" data-target="#notif-order-item-<?php print $order['id'] ?>">
+            <div class="col-12 col-md-6" data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php print $order['id'] ?>">
                 <div class="row align-items-center">
 
                     <div class="col item-image">
@@ -108,7 +108,7 @@ $item = $order->toArray();
                         <?php endif; ?>
                     </div>
 
-                    <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
+                    <div class="col-6 col-sm-4 col-md item-date" data-bs-toggle="tooltip"
                          title="<?php print mw('format')->ago($order['created_at']); ?>">
                         <?php print date('M d, Y', strtotime($order['created_at'])); ?><br/>
                         <small class="text-muted"><?php print date('H:s', strtotime($order['created_at'])); ?><span

@@ -62,10 +62,10 @@ if ($menu_name == false and isset($params['menu_name'])) {
     <!--    <a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn mw-ui-btn-medium pull-right">--><?php //_e("Create new page"); ?><!--</a>-->
 
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-        <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Menus'); ?></a>
-        <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
-        <a class="btn btn-outline-secondary justify-content-center d-none" data-toggle="tab" href="#add_new_menu" id="add_new_menu_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 1</a>
-        <a class="btn btn-outline-secondary justify-content-center d-none" data-toggle="tab" href="#add_new_page" id="add_new_content_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 2</a>
+        <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Menus'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center d-none" data-bs-toggle="tab" href="#add_new_menu" id="add_new_menu_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 1</a>
+        <a class="btn btn-outline-secondary justify-content-center d-none" data-bs-toggle="tab" href="#add_new_page" id="add_new_content_tab"><i class="mdi mdi-pencil-ruler mr-1"></i> 2</a>
     </nav>
 
     <div class="tab-content py-3">

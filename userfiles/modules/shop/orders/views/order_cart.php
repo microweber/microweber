@@ -181,7 +181,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                     <td class="mw-order-item-total-amount"
                         width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
                    <!-- <td class="mw-order-item-action" style="width: 10px">
-                        <a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i
+                        <a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i
                                     class="mdi mdi-trash-can-outline mdi-20px"></i></a>
                     </td>-->
                 </tr>

@@ -64,7 +64,8 @@ class AdminContentMultilanguage extends BaseComponent
 
         if ($mustActivateMultilanguage) {
             $browser->waitForText('Multilanguage is active');
-            $browser->script('$(".module-switch-active-form .custom-control-label").click();');
+           // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
+            $browser->click('.module-switch-active-form .custom-control-label');
             $browser->waitForReload();
         }
 
@@ -112,14 +113,20 @@ class AdminContentMultilanguage extends BaseComponent
      */
     public function fillContentMetaTitle(Browser $browser, $title, $locale)
     {
-        $browser->scrollTo('.js-card-search-engine');
+
+
+        $browser->pause(1000);
+        $browser->script("document.querySelector('.js-card-search-engine').scrollIntoView({block: 'end', inline: 'nearest',behavior :'auto'});");
+        $browser->pause(1000);
+
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
-            $browser->script('$(".js-card-search-engine a.btn").click();');
             $browser->pause(1000);
+            $browser->click('.btn[data-bs-target="#seo-settings"]');
         }
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
-            $browser->fillInput('content_meta_title', $title, $locale);
+            $browser->script("document.querySelector('[name=\"content_meta_title\"]').scrollIntoView({block: 'nearest', inline: 'nearest',behavior :'auto'});");
+             $browser->fillInput('content_meta_title', $title, $locale);
         });
     }
 
@@ -127,7 +134,9 @@ class AdminContentMultilanguage extends BaseComponent
     {
         $browser->scrollTo('.js-card-search-engine');
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
-            $browser->script('$(".js-card-search-engine a.btn").click();');
+          //  $browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->click('.js-card-search-engine a.btn"');
+
             $browser->pause(1000);
         }
 
@@ -140,7 +149,8 @@ class AdminContentMultilanguage extends BaseComponent
     {
         $browser->scrollTo('.js-card-search-engine');
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
-            $browser->script('$(".js-card-search-engine a.btn").click();');
+            //$browser->script('$(".js-card-search-engine a.btn").click();');
+            $browser->click('.js-card-search-engine a.btn"');
             $browser->pause(1000);
         }
 

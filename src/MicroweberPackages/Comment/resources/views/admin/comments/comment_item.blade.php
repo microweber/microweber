@@ -83,7 +83,7 @@
                     </form>
 
                     <?php if (isset($params['show-reply-form'])) { ?>
-                        <?php /*<a href="#reply-comment-id-<?php print $comment['id'] ?>" data-target="#reply-comment-id-<?php print $comment['id'] ?>" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> Reply</a>*/ ?>
+                        <?php /*<a href="#reply-comment-id-<?php print $comment['id'] ?>" data-bs-target="#reply-comment-id-<?php print $comment['id'] ?>" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> Reply</a>*/ ?>
 
                         <div class="collapse" id="reply-comment-id-<?php print $comment['id'] ?>">
                             <hr class="thin"/>

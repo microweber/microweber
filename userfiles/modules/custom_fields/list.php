@@ -74,7 +74,7 @@ if (isset($params['for_module_id'])): ?>
         $more = get_custom_fields($for, $params['for_module_id'], 1, false, false, $field_type = false);
 
     }
- 
+
 
     if ($suggest_from_rel == true) {
         $par = array();
@@ -237,7 +237,7 @@ if (isset($params['for_module_id'])): ?>
                             </td>
 
                             <td class="text-center">
-                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-toggle="tooltip" title="<?php _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
+                                <a class="text-danger" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');" data-bs-toggle="tooltip" title="<?php _e('Delete'); ?>"><i class="mdi mdi-close mdi-20px"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

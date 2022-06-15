@@ -46,13 +46,13 @@
 @include('order::admin.orders.partials.javascripts')
 
 <div class="main-toolbar">
-    <a href="{{route('admin.order.index')}}" class="btn btn-link text-silver px-0" data-toggle="tooltip" data-title="Back to list"><i class="mdi mdi-chevron-left"></i> <?php _e('Back to orders'); ?></a>
+    <a href="{{route('admin.order.index')}}" class="btn btn-link text-silver px-0" data-bs-toggle="tooltip" data-title="Back to list"><i class="mdi mdi-chevron-left"></i> <?php _e('Back to orders'); ?></a>
 </div>
 
 <div class="card bg-light style-1 mb-3">
     <div class="card-header">
         <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $order['id'] ?></strong></h5>
-       <div  data-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
+       <div  data-bs-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
         <?php print date('M d, Y', strtotime($order['created_at'])); ?>
        </div>
         {{--<div>
@@ -403,7 +403,7 @@
                 <?php if (isset($order['payment_amount']) and $order['payment_amount'] != ''): ?>
                 <div class="mb-3">
                     <?php _e("Payment amount"); ?>: <?php print $order['payment_amount']; ?>
-                    <i class="mdi mdi-help-circle" data-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
+                    <i class="mdi mdi-help-circle" data-bs-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
                 </div>
                 <?php endif; ?>
                 <?php if (isset($order['payment_currency']) and $order['payment_currency'] != ''): ?>

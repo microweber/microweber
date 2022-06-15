@@ -3285,16 +3285,21 @@ body.touchscreen-device .module-item-module {
     line-height: 31px;
 }
 
+html[dir="rtl"] .mw-liveedit-sidebar-search-wrapper label{
+    left:auto;
+    right: 10px;
+}
 .mw-liveedit-sidebar-search-wrapper label i {
     color: #999999;
 }
 
 .mw-liveedit-sidebar-search-wrapper input {
-    padding-inline-start: 43px;
+
     height: 36px;
-    padding: 10px 15px 40px 35px;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
+    padding-block: 0;
+    padding-inline-start: 35px;
+    padding-inline-end: 42px;
+
     border-radius: 0;
     color: #999999;
     font-size: 11px;
@@ -3303,9 +3308,8 @@ body.touchscreen-device .module-item-module {
     width: 100%;
     background: #fff;
     border: 1px solid #eaeaea;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
+    box-sizing: border-box;
 }
 
 .mw-liveedit-sidebar-search-wrapper .mw-sidebar-search-clear-x-btn {
@@ -3322,6 +3326,10 @@ body.touchscreen-device .module-item-module {
     transform: translateY(-50%);
     border-radius: 20px;
     cursor: pointer;
+}
+html[dir="rtl"] .mw-liveedit-sidebar-search-wrapper .mw-sidebar-search-clear-x-btn{
+    right: auto;
+    left: 12px;
 }
 
 .mw-toolbar-right-content .mw-ui-btn i {

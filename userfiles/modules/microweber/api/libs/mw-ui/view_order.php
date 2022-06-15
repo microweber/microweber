@@ -39,7 +39,7 @@
                             <td>$3,558.99</td>
                             <td>1</td>
                             <td>$3,558.99</td>
-                            <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                            <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">
@@ -52,7 +52,7 @@
                             <td>$3,558.99</td>
                             <td>1</td>
                             <td>$3,558.99</td>
-                            <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                            <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                         </tr>
                         <tr>
                             <th scope="row">
@@ -65,7 +65,7 @@
                             <td>$3,558.99</td>
                             <td>1</td>
                             <td>$3,558.99</td>
-                            <td><a href="#" class="text-muted" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                            <td><a href="#" class="text-muted" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
                         </tr>
 
                         <tr>

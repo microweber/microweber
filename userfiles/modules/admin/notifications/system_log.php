@@ -146,7 +146,7 @@ $data = mw()->log_manager->get($log_params);
                     </td>
 
                     <td style="vertical-align: middle; width: 20px;" width="20">
-                        <a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" data-toggle="tooltip" data-title="Remove"><i class="mdi mdi-close md-24px text-dark"></i></a>
+                        <a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" data-bs-toggle="tooltip" data-title="Remove"><i class="mdi mdi-close md-24px text-dark"></i></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

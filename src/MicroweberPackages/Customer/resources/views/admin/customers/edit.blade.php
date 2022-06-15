@@ -338,7 +338,7 @@
         <div class="card-body pt-3">
             @if (!empty($customer) && $customer->orders()->count() > 0)
                 @foreach ($customer->orders()->get() as $order)
-                    <div class="card style-1 mb-2 card-collapse" data-toggle="collapse" data-target="#order-item-{{ $order->id }}">
+                    <div class="card style-1 mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">
                         <div class="card-header no-border">
                             <h5><strong>Order #{{ $order->id }}</strong></h5>
                             <div>

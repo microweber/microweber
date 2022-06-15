@@ -43,7 +43,7 @@ description: Default
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle <?php print $status; ?>" data-toggle="collapse" data-parent="#faq-accordion"
+                                <a class="accordion-toggle <?php print $status; ?>" data-bs-toggle="collapse" data-parent="#faq-accordion"
                                    href="#collapse-<?php print $count; ?>"><?php print $slide['question']; ?></a>
                             </h4>
                         </div>

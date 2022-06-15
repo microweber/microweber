@@ -54,6 +54,10 @@ class NotificationServiceProvider extends ServiceProvider
 
         // Type transport
         $emailTransport = Option::getValue('email_transport', 'email');
+        if($emailTransport == 'config'){
+            // use values from config/mail.php
+            return;
+        }
 
         // From Name
         $emailFromName = Option::getValue('email_from_name', 'email');

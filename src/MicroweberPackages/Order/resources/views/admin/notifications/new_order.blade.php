@@ -28,7 +28,7 @@ if(!$order){
 ?>
 
 <div class="card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
-     data-toggle="collapse" data-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false"
+     data-bs-toggle="collapse" data-bs-target="#notif-order-item-<?php print $item_id; ?>" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body py-2">
         <div class="row">
@@ -74,7 +74,7 @@ if(!$order){
                         <?php endif; ?>
                     </div>
 
-                    <div class="col-6 col-sm-4 col-md item-date" data-toggle="tooltip"
+                    <div class="col-6 col-sm-4 col-md item-date" data-bs-toggle="tooltip"
                          title="<?php _e(mw('format')->ago($item['created_at'])); ?>">
                         <?php _e(date('M d, Y', strtotime($item['created_at']))); ?><br/>
                         <small class="text-muted"><?php _e(date('h:s', strtotime($item['created_at']))); ?>h
