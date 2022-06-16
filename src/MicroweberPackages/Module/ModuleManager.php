@@ -844,8 +844,6 @@ class ModuleManager
      */
     public function templates($module_name, $template_name = false, $get_settings_file = false)
     {
-
-
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
         $replace_paths = array();
