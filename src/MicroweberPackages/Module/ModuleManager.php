@@ -819,20 +819,24 @@ class ModuleManager
 
     public function license($module_name = false)
     {
-        $module_name = str_replace('\\', '/', $module_name);
+     //   $module_name = str_replace('\\', '/', $module_name);
         $licenses = $this->activeLicenses;
+]
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {
-                if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
+               /* if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
                     $lic = $license;
-                }
+                }*/
+                $lic[] = $license;
             }
         }
 
         if (!empty($lic)) {
             return true;
         }
+
+        return false;
     }
 
     /**
