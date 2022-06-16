@@ -57,6 +57,7 @@
 </style>
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
+<script>mw.lib.require('colorpicker')</script>
 <script type="text/javascript">
 
     // mw.parent().require("external_callbacks.js");
@@ -848,6 +849,25 @@ var init = function(){
     $("#background-reset").on("click", function () {
         output('backgroundImage', '');
     });
+
+    $("#background-select-gradient").on("click", function () {
+
+        var mTitle = "Pick gradient color";
+        var defaults = {
+            url: mw.external_tool('gradient_picker'),
+            width: 500,
+            height: 500,
+            autoHeight:true,
+            overlay:true,
+            title: 'Gradient Picker',
+            className: 'mw-dialog-module-settings',
+            closeButtonAction: 'remove'
+        };
+        var options = {};
+        var settings = Object.assign({}, defaults, options)
+        return mw.top().dialogIframe(settings);
+
+    });
     $("#background-select-item").on("click", function () {
         var dialog;
         var picker = new mw.filePicker({
@@ -1072,6 +1092,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <span
                     class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip mdi mdi-folder-image mdi-17px" data-tip="Select background image"
                     id="background-select-item"><span class="background-preview"></span></span>
+
+                <span
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip mdi mdi-folder-image mdi-17px" data-tip="Select gradient"
+                    id="background-select-gradient" style="display: none"><span class="background-gradient"></span></span>
+
+
                 <span id="background-remove" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
                 <span id="background-reset" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Reset background" data-tipposition="top-right"><span class="mdi mdi-history"></span></span>
             </div>
