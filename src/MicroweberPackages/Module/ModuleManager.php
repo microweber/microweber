@@ -14,6 +14,7 @@
 namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Database\Utils as DbUtils;
 
 class ModuleManager
@@ -46,7 +47,10 @@ class ModuleManager
         }
         $this->set_table_names();
         if (mw_is_installed()) {
-            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table=' . $this->tables['system_licenses']);
+            $getSystemLicense = SystemLicenses::get();
+            if ($getSystemLicense != null) {
+                $this->activeLicenses = $getSystemLicense->toArray();
+            }
         }
 
 
@@ -816,9 +820,7 @@ class ModuleManager
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        //   $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
         $licenses = $this->activeLicenses;
-        //$licenses = $this->app->update->get_licenses('nolimit=1&status=active');
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {
@@ -830,7 +832,6 @@ class ModuleManager
 
         if (!empty($lic)) {
             return true;
-        } else {
         }
     }
 
