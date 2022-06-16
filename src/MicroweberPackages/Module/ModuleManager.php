@@ -821,7 +821,6 @@ class ModuleManager
     {
      //   $module_name = str_replace('\\', '/', $module_name);
         $licenses = $this->activeLicenses;
-]
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {
