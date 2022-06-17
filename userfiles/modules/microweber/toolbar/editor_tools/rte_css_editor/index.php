@@ -395,7 +395,14 @@ var _prepare = {
 
 
 
+                var isbg = prev.prev().find('.mw-field-color-indicator-display');
+                if(isbg.length) {
+                    isbg.css('backgroundColor', val);
+                }
 
+
+
+                prev.val(val);
                 prev.find('input').val(val);
                 var n = parseFloat(val)
                 $('.mw-range.ui-slider', prev).slider('value', !isNaN(n) ? n : 0)
