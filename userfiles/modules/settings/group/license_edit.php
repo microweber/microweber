@@ -63,12 +63,13 @@ if (!isset($params['prefix'])) {
                     }
 
                     if(typeof(result.is_active) !== "undefined" && result.is_active === true) {
-                        mw.notification.success(result.success);
+                        mw.notification.success(result.success,5000);
+                        mw.dialog.get('[parent-module="settings/group/license_edit"]').remove()
+
                     } else{
-                        mw.notification.error(result.warning);
+                        mw.notification.error(result.warning,5000);
                     }
 
-                    //   mw.dialog.get('[parent-module="settings/group/license_edit"]').remove()
 
                     mw.reload_module('#<?php print $params['id']; ?>');
 
