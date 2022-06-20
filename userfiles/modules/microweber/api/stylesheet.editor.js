@@ -82,12 +82,15 @@ mw.liveeditCSSEditor = function (config) {
         this._temp.children[sel].attributes[prop] = val;
 
         if(val === '' || val === '!important') {
-            this._temp.children[sel].attributes[prop] = '';
+            var prop_val = '';
+            if(prop === 'color' || prop === 'background-color'){
+                var prop_val = 'none';
+            }
+            this._temp.children[sel].attributes[prop] = prop_val;
             // delete this._temp.children[sel].attributes[prop];
             removeSheetRuleProperty (sel, prop);
 
         }
-
 
         this._cssTemp(this._temp);
     };
