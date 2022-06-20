@@ -180,14 +180,14 @@ var CSSJSON = new function () {
      */
     base.toCSS = function (node, depth, breaks) {
         var cssString = '';
-        if (typeof depth == 'undefined') {
+        if (typeof depth === 'undefined') {
             depth = 0;
         }
-        if (typeof breaks == 'undefined') {
+        if (typeof breaks === 'undefined') {
             breaks = false;
         }
         if (node.attributes) {
-            for (i in node.attributes) {
+            for (var i in node.attributes) {
                 var att = node.attributes[i];
                 if (att instanceof Array) {
                     for (var j = 0; j < att.length; j++) {
@@ -200,7 +200,8 @@ var CSSJSON = new function () {
         }
         if (node.children) {
             var first = true;
-            for (i in node.children) {
+            for (var i in node.children) {
+                console.log(node.children[i])
                 if (breaks && !first) {
                     cssString += '\n';
                 } else {
