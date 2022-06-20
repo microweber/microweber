@@ -1,17 +1,26 @@
 <?php
 
+use MicroweberPackages\Option\Facades\Option;
+
 function get_email_from($group = 'email')
 {
-    $emailFrom = mw()->option_manager->get('email_from', $group);
+    if(get_email_transport() == 'config'){
+        return \Illuminate\Support\Facades\Config::get('mail.from.address');
+    }
 
-
-    return $emailFrom;
+   return mw()->option_manager->get('email_from', $group);
 }
 
 function get_email_from_name($group = 'email')
 {
-    $emailFromName = mw()->option_manager->get('email_from_name', $group);
+    if(get_email_transport() == 'config'){
+        return \Illuminate\Support\Facades\Config::get('mail.from.name');
+    }
 
+    return mw()->option_manager->get('email_from_name', $group);
+}
 
-    return $emailFromName;
+function get_email_transport()
+{
+    return Option::getValue('email_transport', 'email');
 }
