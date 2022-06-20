@@ -1,16 +1,18 @@
 <?php
-    $uid = uniqid();
+$uid = uniqid();
 
-    $type = '';
-    $params = array();
+$type = '';
+$params = array();
 
 
-    if (array_key_exists('type', $_GET)) {
-        $type = $_GET['type'];
-    }
-    if (array_key_exists('params', $_GET)) {
-        $params = explode(',', $_GET['params']);
-    }
+if (array_key_exists('type', $_GET)) {
+    $type = $_GET['type'];
+}
+if (array_key_exists('params', $_GET)) {
+    $params = explode(',', $_GET['params']);
+}
+$type = xss_clean($type);
+$params = xss_clean($params);
 ?>
 
 
