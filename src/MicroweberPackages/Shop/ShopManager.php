@@ -231,7 +231,7 @@ class ShopManager
     public function checkout_confirm_email_test($params)
     {
         if (!isset($params['to'])) {
-            $email_from = $this->app->option_manager->get('email_from', 'email');
+            $email_from = get_email_from();
             if ($email_from == false) {
                 return array('error' => 'You must set up your email');
             }

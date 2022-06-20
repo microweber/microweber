@@ -65,3 +65,4 @@ include_once $functions_dir.'api_callbacks.php';
 include_once $functions_dir.'lang.php';
 include_once $functions_dir.'common.php';
 include_once $functions_dir.'other.php';
+include_once $functions_dir.'mail.php';

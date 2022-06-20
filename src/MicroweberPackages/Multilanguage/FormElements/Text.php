@@ -11,7 +11,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
     {
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->randId = str_random();
+        $this->randId = 'ml_editor_element_'.md5(str_random());
         $fieldName = $this->getAttribute('name');
 
         $fieldValue = '';

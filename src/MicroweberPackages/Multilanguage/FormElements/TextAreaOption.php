@@ -13,7 +13,7 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
 
-        $this->randId = random_int(111,999).time();
+        $this->randId = 'ml_editor_element_'.md5(str_random());
 
         $supportedLanguages = get_supported_languages(true);
 

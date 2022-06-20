@@ -45,11 +45,11 @@ class MailSender
 
         View::addNamespace('mw_email_send', $views);
 
-        $email_from = mw()->option_manager->get('email_from_name', 'email');
-        if ($email_from == false or trim($email_from) == '') {
-            $email_from = getenv('USERNAME');
+        $email_from_name = get_email_from_name();
+        if ($email_from_name == false or trim($email_from_name) == '') {
+            $email_from_name = getenv('USERNAME');
         }
-        $this->email_from_name = $email_from;
+        $this->email_from_name = $email_from_name;
 
         $this->smtp_host = trim(mw()->option_manager->get('smtp_host', 'email'));
         $this->smtp_port = intval(mw()->option_manager->get('smtp_port', 'email'));
@@ -63,7 +63,7 @@ class MailSender
 
         $this->smtp_secure = intval($sec);
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+        $email_from = get_email_from();
 
         $hostname = mw()->url_manager->hostname();
 
@@ -251,7 +251,7 @@ class MailSender
 //            // return $cache_content;
 //        }
 
-        $email_from = $email_from ?: mw()->option_manager->get('email_from', 'email');
+        $email_from = $email_from ?: get_email_from();
 
         if ($email_from == false or $email_from == '') {
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
@@ -288,7 +288,8 @@ class MailSender
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+      $email_from = get_email_from();
+
         if ($email_from == false or $email_from == '') {
             return array('error' => 'Sender E-mail is not set');
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {

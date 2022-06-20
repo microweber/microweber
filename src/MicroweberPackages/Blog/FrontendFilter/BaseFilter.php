@@ -389,6 +389,7 @@ abstract class BaseFilter
         }
 
         $this->query->where('is_deleted', 0);
+        $this->query->where('is_active', 1);
 
         $limit = 10;
         $queryLimit = $this->queryParams['limit'];

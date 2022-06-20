@@ -42,6 +42,7 @@ mw.liveeditCSSEditor = function (config) {
 
 
     this._cssTemp = function (json) {
+
         var css = CSSJSON.toCSS(json);
         if(!mw.liveedit._cssTemp) {
             mw.liveedit._cssTemp = mw.tools.createStyle('#mw-liveedit-dynamic-temp-style', css, document.body);
@@ -51,9 +52,20 @@ mw.liveeditCSSEditor = function (config) {
         }
     };
 
+    var removeSheetRuleProperty = function (selector, property) {
+        var sheet = document.querySelector('link#mw-template-settings').sheet;
+        var i = 0, l = sheet.cssRules.length;
+        for ( ; i < l ; i++) {
+            if(sheet.cssRules[i].selectorText === selector) {
+                sheet.cssRules[i].style.removeProperty(property);
+            }
+        }
+    };
+
     this.changed = false;
     this._temp = {children: {}, attributes: {}};
     this.temp = function (node, prop, val) {
+        val = (val || '').trim();
         this.changed = true;
         if(node.length) {
             node = node[0];
@@ -65,7 +77,21 @@ mw.liveeditCSSEditor = function (config) {
         if (!this._temp.children[sel].attributes ) {
             this._temp.children[sel].attributes = {};
         }
+
+
         this._temp.children[sel].attributes[prop] = val;
+
+        if(val === '' || val === '!important') {
+            var prop_val = '';
+            if(prop === 'color' || prop === 'background-color'){
+                var prop_val = 'none';
+            }
+            this._temp.children[sel].attributes[prop] = prop_val;
+            // delete this._temp.children[sel].attributes[prop];
+            removeSheetRuleProperty (sel, prop);
+
+        }
+
         this._cssTemp(this._temp);
     };
 
