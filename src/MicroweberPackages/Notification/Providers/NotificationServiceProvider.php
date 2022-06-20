@@ -60,13 +60,13 @@ class NotificationServiceProvider extends ServiceProvider
         }
 
         // From Name
-        $emailFromName = Option::getValue('email_from_name', 'email');
+        $emailFromName = get_email_from_name();
         if (!$emailFromName) {
             $emailFromName = getenv('USERNAME');
         }
 
         // Email From
-        $emailFrom = Option::getValue('email_from', 'email');
+        $emailFrom = get_email_from();
         if (!$emailFrom) {
             $hostname = mw()->url_manager->hostname();
             if ($emailFromName != '') {
