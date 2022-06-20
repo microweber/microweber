@@ -288,7 +288,8 @@ class MailSender
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+      $email_from = get_email_from();
+
         if ($email_from == false or $email_from == '') {
             return array('error' => 'Sender E-mail is not set');
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
