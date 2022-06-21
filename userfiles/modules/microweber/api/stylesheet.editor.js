@@ -83,9 +83,6 @@ mw.liveeditCSSEditor = function (config) {
 
         if(val === '' || val === '!important') {
             var prop_val = '';
-            if(prop === 'color' || prop === 'background-color'){
-                var prop_val = 'none';
-            }
             this._temp.children[sel].attributes[prop] = prop_val;
             // delete this._temp.children[sel].attributes[prop];
             removeSheetRuleProperty (sel, prop);
@@ -97,8 +94,28 @@ mw.liveeditCSSEditor = function (config) {
 
     this.timeOut = null;
 
+    var _cleanCSSJSON = function(obj) {
+        for (var a in obj) {
+            var k = obj[a];
+            if (k === '' || k === '!important') {
+                delete obj[a];
+                return _cleanCSSJSON(obj);
+            }  else if (typeof k === 'object') {
+                if (Object.keys(k).length === 0) {
+                    delete obj[a];
+                    return _cleanCSSJSON(obj);
+                } else {
+                    obj[a] = _cleanCSSJSON(obj[a]);
+                }
+
+            }
+        }
+        return obj;
+    };
+
     this.save = function () {
-        this.json = $.extend(true, {}, this.json, this._temp);
+        this.json = _cleanCSSJSON($.extend(true, {}, this.json, this._temp));
+
         this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
     };
 
