@@ -95,8 +95,8 @@ class InstallCommand extends Command
         if (!$input['db_user']) {
             $input['db_user'] = getenv('DB_USER');
         }
-        if (!$input['db_pass']) {
-            $input['db_pass'] = getenv('DB_PASS');
+        if (!$input['db_password']) {
+            $input['db_password'] = getenv('DB_PASS');
         }
         if (!$input['db_name']) {
             $input['db_name'] = getenv('DB_NAME');
