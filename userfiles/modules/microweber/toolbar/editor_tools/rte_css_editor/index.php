@@ -1226,7 +1226,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             </div>
                         </div>
                     </div>
-                </div
+                </div>
 
 
 
