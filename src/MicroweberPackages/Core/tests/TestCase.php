@@ -167,10 +167,10 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--db_driver' => $db_driver,
                 '--db_host' => $db_host,
                 '--db_user' => $db_user,
-                '--db_pass' => $db_pass,
+                '--db_password' => $db_pass,
                 '--db_name' => $db_name,
-                '--prefix' => $db_prefix,
-                //  '--db_name' => ':memory:', 
+                '--db_prefix' => $db_prefix,
+                //  '--db_name' => ':memory:',
                 '--env' => $environment,
             );
 

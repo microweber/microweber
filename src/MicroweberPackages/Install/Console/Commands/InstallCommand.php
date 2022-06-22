@@ -23,9 +23,9 @@ class InstallCommand extends Command
                                     {--db_host=}
                                     {--db_name=}
                                     {--db_user=}
-                                    {--db_pass=}
+                                    {--db_password=}
                                     {--db_driver=}
-                                    {--prefix=}
+                                    {--db_prefix=}
                                     {--email=}
                                     {--username=}
                                     {--password=}
