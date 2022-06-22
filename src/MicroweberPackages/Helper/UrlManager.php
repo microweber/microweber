@@ -560,7 +560,7 @@ class UrlManager
 
     public function api_link($str = '')
     {
-     
+
         return api_url($str);
     }
 
