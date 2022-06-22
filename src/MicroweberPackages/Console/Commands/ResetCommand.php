@@ -13,17 +13,18 @@ class ResetCommand extends Command
 {
     protected $name = 'microweber:reset';
     protected $description = 'Reset Microweber';
-    protected $controller;
 
-    public function __construct(FrontendController $controller)
-    {
-    	$this->controller = $controller;
-    	parent::__construct();
-    }
+
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'microweber:reset {--only-content=}';
 
     public function handle()
     {
-    	if($this->argument('only-content')) {
+    	if($this->option('only-content')) {
     		$truncateTables = '
 				categories,
 				categories_items,
@@ -168,10 +169,4 @@ class ResetCommand extends Command
     	@rmdir($dir);
     }
 
-    protected function getArguments()
-    {
-    	return [
-    		['only-content', InputArgument::OPTIONAL, 'Reset only content.']
-    	];
-    }
 }
