@@ -497,6 +497,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
 
+        if (is_cli()) {
+            $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
+        }
+
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 
@@ -518,8 +522,8 @@ class AppServiceProvider extends ServiceProvider
             $this->setupAppLocale();
 
             if (is_cli()) {
+
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
-                $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
                 $this->commands('MicroweberPackages\Console\Commands\UpdateCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ReloadDatabaseCommand');
