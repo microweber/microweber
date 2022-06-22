@@ -3,7 +3,11 @@
     return;
 }*/
 
+
+$whitelabelSettings = [];
+if(function_exists('get_whitelabel_whmcs_settings')){
 $whitelabelSettings = get_whitelabel_whmcs_settings();
+}
 ?>
 
 <?php $load_module = url_param('load_module');

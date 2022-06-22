@@ -201,8 +201,7 @@ var CSSJSON = new function () {
         if (node.children) {
             var first = true;
             for (var i in node.children) {
-                console.log(node.children[i])
-                if (breaks && !first) {
+                 if (breaks && !first) {
                     cssString += '\n';
                 } else {
                     first = false;
