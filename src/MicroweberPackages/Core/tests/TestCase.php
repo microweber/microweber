@@ -161,16 +161,16 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
             // make fresh install
             $install_params = array(
-                'username' => 'test' . uniqid(),
-                'password' => 'test',
-                'email' => 'test' . uniqid() . '@example.com',
-                'db_driver' => $db_driver,
-                'db_host' => $db_host,
-                'db_user' => $db_user,
-                'db_pass' => $db_pass,
-                'db_name' => $db_name,
-                'prefix' => $db_prefix,
-                //  'db_name' => ':memory:',
+                '--username' => 'test' . uniqid(),
+                '--password' => 'test',
+                '--email' => 'test' . uniqid() . '@example.com',
+                '--db_driver' => $db_driver,
+                '--db_host' => $db_host,
+                '--db_user' => $db_user,
+                '--db_password' => $db_pass,
+                '--db_name' => $db_name,
+                '--db_prefix' => $db_prefix,
+                //  '--db_name' => ':memory:',
                 '--env' => $environment,
             );
 
