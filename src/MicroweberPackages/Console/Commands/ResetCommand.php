@@ -3,11 +3,6 @@
 namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Http\Controllers\FrontendController;
-use Symfony\Component\Console\Input\InputArgument;
-use MicroweberPackages\Install\DbInstaller;
-use MicroweberPackages\Install\ModulesInstaller;
-use MicroweberPackages\Install\DefaultOptionsInstaller;
 
 class ResetCommand extends Command
 {
