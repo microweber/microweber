@@ -8,7 +8,7 @@
             <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
             @livewireStyles
             @livewireScripts
-            @livewire('livewire-ui-modal')
+
 
     </body>
 </html>
