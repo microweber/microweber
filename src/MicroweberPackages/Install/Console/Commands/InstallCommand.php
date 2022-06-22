@@ -66,9 +66,9 @@ class InstallCommand extends Command
             'db_host' => $this->option('db_host'),
             'db_name' => $this->option('db_name'),
             'db_user' => $this->option('db_user'),
-            'db_pass' => $this->option('db_pass'),
+            'db_password' => $this->option('db_password'),
             'db_driver' => $this->option('db_driver'),
-            'table_prefix' => $this->option('prefix'),
+            'db_prefix' => $this->option('db_prefix'),
             'admin_email' => $this->option('email'),
             'admin_username' => $this->option('username'),
             'admin_password' => $this->option('password'),
@@ -109,11 +109,11 @@ class InstallCommand extends Command
             }
         }
 
-        if (!$input['table_prefix']) {
-            $input['table_prefix'] = (getenv('DB_PREFIX') ?: '');
+        if (!$input['db_prefix']) {
+            $input['db_prefix'] = (getenv('DB_PREFIX') ?: '');
         }
-        if (!$input['table_prefix']) {
-            $input['table_prefix'] = (getenv('TABKE_PREFIX') ?: '');
+        if (!$input['db_prefix']) {
+            $input['db_prefix'] = (getenv('TABKE_PREFIX') ?: '');
         }
 
         if ($lazy_install) {
