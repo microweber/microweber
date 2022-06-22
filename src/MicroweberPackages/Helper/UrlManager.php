@@ -560,9 +560,8 @@ class UrlManager
 
     public function api_link($str = '')
     {
-        $str = ltrim($str, '/');
-
-        return $this->site_url('api/' . $str);
+     
+        return api_url($str);
     }
 
 
