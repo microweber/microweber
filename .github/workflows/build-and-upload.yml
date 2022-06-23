@@ -9,8 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-php
-      with:
-        php_version: "8.1"
+        with:
+          php_version: "8.1"
 
       - name: Install Dependencies
         run: composer install
