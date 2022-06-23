@@ -70,7 +70,7 @@ class AdminContentMultilanguage extends BaseComponent
         }
 
         if ($mustAddNewLang) {
-            $browser->waitForText('Add new language');
+            $browser->waitForText('Add new language',20);
             $browser->select('.js-dropdown-text-language', $locale);
             $browser->pause(3000);
             $browser->click('.js-add-language');
