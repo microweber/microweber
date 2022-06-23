@@ -1,11 +1,11 @@
 version: '3'
 services:
-  composer_installation:
-    container_name: composer_installation
-    image: composer
-    volumes:
-      - ./:/app
-    command: composer install --ignore-platform-reqs
+#  composer_installation:
+#    container_name: composer_installation
+#    image: composer
+#    volumes:
+#      - ./:/app
+#    command: composer install
   php-apache:
     image: thecodingmachine/php:8.1-v4-apache
     ports:
@@ -18,7 +18,8 @@ services:
       APACHE_EXTENSION_DAV: 0
       PHP_INI_MEMORY_LIMIT: 1g
       PHP_INI_ERROR_REPORTING: E_ALL
-      PHP_EXTENSIONS: pgsql gettext imap sockets dom gd mbstring zip curl soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
+      PHP_EXTENSIONS: pgsql gettext imap sockets dom gd intl mbstring zip curl soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
+      STARTUP_COMMAND_1: composer install
   mariadb:
     image: mariadb:10.3
     volumes:
