@@ -5,7 +5,7 @@ on:
     inputs:
       php_version:
         description: 'PHP Version to install'
-        default: '8.0'
+        default: '8.1'
         required: true
         type: string
 

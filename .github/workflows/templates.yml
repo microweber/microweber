@@ -8,7 +8,7 @@ jobs:
       max-parallel: 16
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
         templates: [
           'microweber-templates/shopmag',
           'microweber-templates/new-world',
