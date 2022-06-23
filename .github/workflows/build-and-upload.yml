@@ -6,6 +6,11 @@ on:
 jobs:
   microweber-test-before-build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-versions: [ '8.1' ]
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/setup-php
