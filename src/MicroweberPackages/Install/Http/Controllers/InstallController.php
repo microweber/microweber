@@ -199,16 +199,16 @@ class InstallController extends Controller
                 } else {
                     $input['db_name'] = trim($input['db_name']);
                 }
-                if (!isset($input['db_user'])) {
-                    $errors[] = 'Parameter "db_user" is required';
+                if (!isset($input['db_username'])) {
+                    $errors[] = 'Parameter "db_username" is required';
                 } else {
-                    $input['db_user'] = trim($input['db_user']);
+                    $input['db_username'] = trim($input['db_username']);
                 }
             } else {
-                if (is_null($input['db_user'])) {
-                    $input['db_user'] = '';
+                if (is_null($input['db_username'])) {
+                    $input['db_username'] = '';
                 }
-                if (is_null($input['db_user'])) {
+                if (is_null($input['db_username'])) {
                     $input['db_host'] = '';
                 }
                 if (is_null($input['db_name'])) {
@@ -238,7 +238,7 @@ class InstallController extends Controller
             }
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
-            Config::set("database.connections.$dbDriver.username", $input['db_user']);
+            Config::set("database.connections.$dbDriver.username", $input['db_username']);
             Config::set("database.connections.$dbDriver.password", $input['db_password']);
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
