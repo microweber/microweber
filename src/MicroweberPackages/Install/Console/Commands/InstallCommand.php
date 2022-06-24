@@ -22,14 +22,14 @@ class InstallCommand extends Command
     protected $signature = 'microweber:install
                                     {--db_host=}
                                     {--db_name=}
-                                    {--db_user=}
+                                    {--db_username=}
                                     {--db_password=}
                                     {--db_driver=}
                                     {--db_prefix=}
                                     {--email=}
                                     {--username=}
                                     {--password=}
-                                    {--default-content=}
+                                    {--default_content=}
                                     {--template=}
                                     {--config_only=}
                                     {--language=}';
@@ -72,7 +72,7 @@ class InstallCommand extends Command
             'admin_email' => $this->option('email'),
             'admin_username' => $this->option('username'),
             'admin_password' => $this->option('password'),
-            'with_default_content' => $this->option('default-content'),
+            'with_default_content' => $this->option('default_content'),
             'default_template' => $this->option('template'),
             'config_only' => $this->option('config_only'),
             'site_lang' => $this->option('language'),
@@ -92,8 +92,8 @@ class InstallCommand extends Command
         if (!$input['db_host']) {
             $input['db_host'] = getenv('DB_HOST');
         }
-        if (!$input['db_user']) {
-            $input['db_user'] = getenv('DB_USER');
+        if (!$input['db_username']) {
+            $input['db_username'] = getenv('DB_USER');
         }
         if (!$input['db_password']) {
             $input['db_password'] = getenv('DB_PASS');
@@ -113,7 +113,7 @@ class InstallCommand extends Command
             $input['db_prefix'] = (getenv('DB_PREFIX') ?: '');
         }
         if (!$input['db_prefix']) {
-            $input['db_prefix'] = (getenv('TABKE_PREFIX') ?: '');
+            $input['db_prefix'] = (getenv('TABLE_PREFIX') ?: '');
         }
 
         if ($lazy_install) {
