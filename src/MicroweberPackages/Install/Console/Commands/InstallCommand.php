@@ -65,7 +65,7 @@ class InstallCommand extends Command
         $input = array(
             'db_host' => $this->option('db_host'),
             'db_name' => $this->option('db_name'),
-            'db_user' => $this->option('db_user'),
+            'db_username' => $this->option('db_username'),
             'db_password' => $this->option('db_password'),
             'db_driver' => $this->option('db_driver'),
             'db_prefix' => $this->option('db_prefix'),

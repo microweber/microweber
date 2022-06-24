@@ -166,7 +166,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--email' => 'test' . uniqid() . '@example.com',
                 '--db_driver' => $db_driver,
                 '--db_host' => $db_host,
-                '--db_user' => $db_user,
+                '--db_username' => $db_user,
                 '--db_password' => $db_pass,
                 '--db_name' => $db_name,
                 '--db_prefix' => $db_prefix,
