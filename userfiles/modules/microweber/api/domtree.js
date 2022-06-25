@@ -1,5 +1,47 @@
 mw.DomTree = function (options) {
     var scope = this;
+    this.getNodeIconAndTitle = function (node) {
+        var icon = false;
+        var title = false;
+        if (mw.tools.hasClass(node, 'row')) {
+            title = "Row";
+            icon = '<span class="mdi mdi-table-row mdi-18px"></span>';
+        }  else if (mw.tools.hasAnyOfClasses(node, mw.top().drag.external_grids_col_classes)) {
+            title = "Column";
+            icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
+        } else if (node.nodeName === 'H1') {
+            title = "Heading 1";
+            icon = '<span class="mdi mdi-format-header-1 mdi-18px"></span>';
+        } else if (node.nodeName === 'H2') {
+            title = "Heading 2";
+            icon = '<span class="mdi mdi-format-header-2 mdi-18px"></span>';
+        } else if (node.nodeName === 'H3') {
+            title = "Heading 3";
+            icon = '<span class="mdi mdi-format-header-3 mdi-18px"></span>';
+        } else if (node.nodeName === 'H4') {
+            title = "Heading 4";
+            icon = '<span class="mdi mdi-format-header-4 mdi-18px"></span>';
+        } else if (node.nodeName === 'H5') {
+            title = "Heading 5";
+            icon = '<span class="mdi mdi-format-header-5 mdi-18px"></span>';
+        } else if (node.nodeName === 'H6') {
+            title = "Heading 6";
+            icon = '<span class="mdi mdi-format-header-6 mdi-18px"></span>';
+        } else if (node.nodeName === 'P') {
+            title = "Paragraph";
+            icon = '<span class="mdi mdi-format-paragraph mdi-18px"></span>';
+        } else if (node.nodeName === 'SECTION') {
+            title = "Section";
+            icon = '<span class="mdi mdi-format-section mdi-18px"></span>';
+        }else if (node.nodeName === 'IMG') {
+            title = "Image";
+            icon = '<span class="mdi mdi-file-image-outline mdi-18px"></span>';
+        }
+        var data = {};
+        data.icon = icon;
+        data.title = title;
+        return data;
+    },
     this.prepare = function () {
         var defaults = {
             selector: '.edit',
@@ -23,16 +65,31 @@ mw.DomTree = function (options) {
                         return mw.tools.hasClass(node, 'module');
                     }
                 },
-                {
-                    label: 'Image',
-                    test: function (node) {
-                        return node.nodeName === 'IMG';
-                    }
-                },
+                // {
+                //     label: 'Image',
+                //     test: function (node) {
+                //         return node.nodeName === 'IMG';
+                //     }
+                // },
                 {
                     label:  function (node) {
                         var id = node.id ? '#' + node.id : '';
-                        return node.nodeName.toLowerCase() ;
+                        var iconAndTitle = this.getNodeIconAndTitle(node);
+                        var icon = '';
+                        var title =  node.nodeName.toLowerCase();
+                        if (iconAndTitle.icon) {
+                            icon = iconAndTitle.icon;
+                        }
+                        if (iconAndTitle.title) {
+                            title = iconAndTitle.title;
+                        }
+
+                        var display = title;
+                        if(icon){
+                            display = icon + ' ' + title;
+                        }
+
+                        return display ;
                     },
                     test: function (node) { return true; }
                 }
