@@ -164,21 +164,22 @@ $(document).ready(function (){
                 var shImg = document.createElement('div');
                 shImg.innerHTML = data;
                 shImg.part = 'mw-module-icon';
-                shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                if(shImg.querySelector('svg') !== null) {
+                    shImg.querySelector('svg').part = 'mw-module-icon-svg';
 
-                Array.from(shImg.querySelectorAll('style')).forEach(function (style){
-                    style.remove()
-                })
-                Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
-                    item.removeAttribute('class')
-                    item.removeAttribute('id')
-                })
+                    Array.from(shImg.querySelectorAll('style')).forEach(function (style) {
+                        style.remove()
+                    })
+                    Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item) {
+                        item.removeAttribute('class')
+                        item.removeAttribute('id')
+                    })
 
-                shadow.appendChild(shImg);
-                if(img.parentNode) {
-                    img.parentNode.replaceChild(el, img)
+                    shadow.appendChild(shImg);
+                    if (img.parentNode) {
+                        img.parentNode.replaceChild(el, img)
+                    }
                 }
-
             })
         } else {
             this.src = src;
