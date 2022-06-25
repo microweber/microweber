@@ -164,7 +164,7 @@
                 }
 
                 // reload in the window opener
-                if(typeof window.opener != 'undefined' && window.opener && window != window.opener){
+                if(typeof window.opener != 'undefined' && window.opener && window !== window.opener){
                     var el = window.opener.mw.top().$("#mw-custom-user-css")[0];
                     window.opener.mw.tools.refresh(el)
                     window.opener.mw.notification.success('Custom CSS is saved')
@@ -248,7 +248,7 @@ if ($file and is_file($file)) {
             }
 
             // reload in the window opener
-            if(typeof window.opener != 'undefined' && window.opener && window != window.opener){
+            if(typeof window.opener != 'undefined' && window.opener && window !== window.opener && window.opener.mw){
                 var css = window.opener.mw.top().$("#mw-template-settings")[0];
                 window.opener.mw.tools.refresh(css)
                 window.opener.mw.notification.success('CSS Saved')
@@ -263,6 +263,19 @@ if ($file and is_file($file)) {
 
     }
 
+
+    $(document).ready(function () {
+    if(typeof window.opener != 'undefined' && window.opener && window !== window.opener && window.opener.mw){
+
+        window.opener.mw.top().on('mw.liveeditCSSEditor.save', function () {
+          // when the live edit is saved from the window opener, we need to reload the css in this module
+            setTimeout(function(){
+                window.location.reload();
+             }, 200);
+
+        });
+    }
+    });
 
 </script>
 

@@ -117,6 +117,8 @@ mw.liveeditCSSEditor = function (config) {
         this.json = _cleanCSSJSON($.extend(true, {}, this.json, this._temp));
 
         this._css = CSSJSON.toCSS(this.json).replace(/\.\./g, '.').replace(/\.\./g, '.');
+
+        mw.top().trigger('mw.liveeditCSSEditor.save');
     };
 
     this.findBySelector = function (selector) {
