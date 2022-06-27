@@ -47,12 +47,16 @@ mw.image = {
                 stop: function () {
                     mw.image.isResizing = false;
                     mw.drag.fix_placeholders();
-                    mw.wysiwyg.change(mw.image.currentResizing[0])
+                    mw.image.currentResizing[0].style.height = 'auto';
+                    mw.wysiwyg.change(mw.image.currentResizing[0]);
+
+
                 },
                 resize: function () {
                     var offset = mw.image.currentResizing.offset();
                     mw.$(this).css(offset);
-                },
+                    mw.image.currentResizing[0].style.height = 'auto';
+                 },
                 aspectRatio: 16 / 9
             });
             mw.image_resizer.mwImageResizerComponent = true;
