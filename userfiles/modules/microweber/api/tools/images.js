@@ -39,7 +39,9 @@ mw.image = {
                 minHeight: 60,
                 start: function () {
                     mw.image.isResizing = true;
-                    mw.$(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+                    mw.$(mw.image_resizer)
+                        .resizable("option", "maxWidth", mw.image.currentResizing.parent().width())
+                        .height('auto');
                     mw.$(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit')).addClass("changed");
                 },
                 stop: function () {
