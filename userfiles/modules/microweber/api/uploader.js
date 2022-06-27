@@ -414,17 +414,16 @@
             if(typeof tokenFromCookie !== 'undefined') {
                 theToken = tokenFromCookie;
             }
+
             if(typeof tokenFromCookie === 'undefined') {
-                //
                var token=mw.top().$('meta[name="csrf-token"]').attr('content');
                if(token){
                      theToken = token;
                }
-
-                //xhrOptions.xhr.setRequestHeader('X-CSRF-TOKEN',token );
-                //   alert(mw.top().$('meta[name="csrf-token"]').attr('content'))
             }
+
             if (theToken) {
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': theToken

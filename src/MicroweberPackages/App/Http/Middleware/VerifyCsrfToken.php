@@ -12,20 +12,16 @@ use Symfony\Component\HttpFoundation\Cookie;
 class VerifyCsrfToken extends Middleware
 {
     /**
-     * Add the CSRF token to the response cookies.
+     * The URIs that should be excluded from CSRF verification.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @var array
      */
-    protected function addCookieToResponse($request, $response)
-    {
-        if(!is_object($response)){
-            return;
-        }
+    protected $except = [
+        //
+    ];
 
-        return parent::addCookieToResponse($request, $response);
-    }
+
+
 
     /**
      * Handle an incoming request.
@@ -39,78 +35,40 @@ class VerifyCsrfToken extends Middleware
     public function handle($request, \Closure $next)
     {
 
-
-        $token = $this->getTokenFromRequest($request);
-        dd($token);
-exit;
-
-        if (
-            $this->isReading($request) ||
-            $this->runningUnitTests() ||
-            $this->inExceptArray($request) ||
-            $this->tokensMatch($request)
-        ) {
-            return tap($next($request), function ($response) use ($request) {
-                if ($this->shouldAddXsrfTokenCookie()) {
-                    $this->addCookieToResponse($request, $response);
-                }
-            });
+        try {
+            return parent::handle($request, $next);
+        }  catch (TokenMismatchException $e) {
+             return abort(403, 'Unauthorized action. The CSRF token is invalid.');
+         } catch (DecryptException $e) {
+           return abort(403, 'Unauthorized action. The CSRF token payload is invalid or not encrypted.');
         }
 
-
-        throw new TokenMismatchException('CSRF token mismatch.');
-    }
+     }
 
 
 
     /**
-     * Determine if the session and input CSRF tokens match.
+     * Add the CSRF token to the response cookies.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
+     * @param \Illuminate\Http\Request $request
+     * @param \Symfony\Component\HttpFoundation\Response $response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function tokensMatch($request)
+    protected function addCookieToResponse($request, $response)
     {
-
-        $token = $this->getTokenFromRequest($request);
-
-
-        return is_string($request->session()->token()) &&
-            is_string($token) &&
-            hash_equals($request->session()->token(), $token);
-    }
-
-
-
-
-    /**
-     * Get the CSRF token from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
-     */
-    protected function getTokenFromRequest($request)
-    {
-        $token = $request->input('_token') ?: $request->header('X-CSRF-TOKEN');
-
-        if (! $token && $header = $request->header('X-XSRF-TOKEN')) {
-            try {
-                $token = CookieValuePrefix::remove($this->encrypter->decrypt($header, static::serialized()));
-            } catch (DecryptException $e) {
-                $token = '';
-            }
-        } else {
-            $token = CookieValuePrefix::remove($this->encrypter->decrypt( $request->header('X-CSRF-TOKEN'), static::serialized()));
+        if (!is_object($response)) {
+            return;
         }
 
-        return $token;
+        return parent::addCookieToResponse($request, $response);
     }
-    /**
-     * The URIs that should be excluded from CSRF verification.
-     *
-     * @var array
-     */
-    protected $except = [
-        //
-    ];
+
+
+    public function forceAddAddXsrfTokenCookie($request, $response)
+    {
+        return $this->addCookieToResponse($request, $response);
+    }
+
+
+
 }
