@@ -38,9 +38,11 @@ class VerifyCsrfToken extends Middleware
         try {
             return parent::handle($request, $next);
         }  catch (TokenMismatchException $e) {
-             return abort(403, 'Unauthorized action. The CSRF token is invalid.');
-         } catch (DecryptException $e) {
-           return abort(403, 'Unauthorized action. The CSRF token payload is invalid or not encrypted.');
+            $cookie = \Cookie::forget('XSRF-TOKEN');
+            return response()->json(['error' => 'Invalid CSRF token.'], 400)->withCookie($cookie);
+          } catch (DecryptException $e) {
+            $cookie = \Cookie::forget('XSRF-TOKEN');
+            return response()->json(['error' => 'Invalid CSRF token.'], 400)->withCookie($cookie);
         }
 
      }
