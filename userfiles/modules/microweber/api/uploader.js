@@ -409,27 +409,18 @@
                     return xhr;
                 }
             };
-            var theToken = null;
+
             var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
-            if(typeof tokenFromCookie !== 'undefined') {
-                theToken = tokenFromCookie;
-            }
-
-            if(typeof tokenFromCookie === 'undefined') {
-               var token=mw.top().$('meta[name="csrf-token"]').attr('content');
-               if(token){
-                     theToken = token;
-               }
-            }
-
-            if (theToken) {
-
+            if (typeof tokenFromCookie !== 'undefined') {
                 $.ajaxSetup({
                     headers: {
-                        'X-CSRF-TOKEN': theToken
+                        'X-CSRF-TOKEN': tokenFromCookie
                     }
                 });
             }
+
+
+
 
             return mw.jqxhr(xhrOptions);
         };
