@@ -14,19 +14,10 @@ $(document).ready(function () {
 
 
 
-    if (tokenFromCookie === null) {
-        var csrf_from_local_storage_data = mw.cookie.get("csrf-token-data");
-        if (csrf_from_local_storage_data) {
-            csrf_from_local_storage_data = JSON.parse(csrf_from_local_storage_data);
-
-            if (csrf_from_local_storage_data && csrf_from_local_storage_data.value && (new Date()).getTime() < csrf_from_local_storage_data.expiry) {
-                _csrf_from_local_storage = csrf_from_local_storage_data.value
-            }
-        }
-    } else {
+    if (tokenFromCookie) {
         _csrf_from_local_storage = tokenFromCookie;
-    }
 
+    }
 
     if (_csrf_from_local_storage) {
         $('meta[name="csrf-token"]').attr('content', _csrf_from_local_storage);
@@ -40,11 +31,8 @@ $(document).ready(function () {
 
         setTimeout(function () {
             $.post(route('csrf'), function (data) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                $('meta[name="csrf-token"]').attr('content', data.token);
+
             });
         }, 1337);
     }

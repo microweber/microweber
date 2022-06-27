@@ -26,6 +26,63 @@ class VerifyCsrfToken extends Middleware
 
         return parent::addCookieToResponse($request, $response);
     }
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     *
+     * @throws \Illuminate\Session\TokenMismatchException
+     */
+    public function handle($request, \Closure $next)
+    {
+
+
+        $token = $this->getTokenFromRequest($request);
+        dd($token);
+exit;
+
+        if (
+            $this->isReading($request) ||
+            $this->runningUnitTests() ||
+            $this->inExceptArray($request) ||
+            $this->tokensMatch($request)
+        ) {
+            return tap($next($request), function ($response) use ($request) {
+                if ($this->shouldAddXsrfTokenCookie()) {
+                    $this->addCookieToResponse($request, $response);
+                }
+            });
+        }
+
+
+        throw new TokenMismatchException('CSRF token mismatch.');
+    }
+
+
+
+    /**
+     * Determine if the session and input CSRF tokens match.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function tokensMatch($request)
+    {
+
+        $token = $this->getTokenFromRequest($request);
+
+
+        return is_string($request->session()->token()) &&
+            is_string($token) &&
+            hash_equals($request->session()->token(), $token);
+    }
+
+
+
+
     /**
      * Get the CSRF token from the request.
      *
@@ -45,6 +102,7 @@ class VerifyCsrfToken extends Middleware
         } else {
             $token = CookieValuePrefix::remove($this->encrypter->decrypt( $request->header('X-CSRF-TOKEN'), static::serialized()));
         }
+
         return $token;
     }
     /**

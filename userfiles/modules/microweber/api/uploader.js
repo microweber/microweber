@@ -360,6 +360,7 @@
                 }
             }
 
+
             var xhrOptions = {
                 url: this.getUrl(),
                 type: 'post',
@@ -390,6 +391,9 @@
                 dataType: 'json',
                 xhr: function () {
                     var xhr = new XMLHttpRequest();
+
+
+
                     xhr.upload.addEventListener('progress', function (event) {
                         if (event.lengthComputable) {
                             var percent = (event.loaded / event.total) * 100;
@@ -399,9 +403,34 @@
                             $(scope).trigger('progressNative', [percent, event]);
                         }
                     });
+
+
+
                     return xhr;
                 }
             };
+            var theToken = null;
+            var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+            if(typeof tokenFromCookie !== 'undefined') {
+                theToken = tokenFromCookie;
+            }
+            if(typeof tokenFromCookie === 'undefined') {
+                //
+               var token=mw.top().$('meta[name="csrf-token"]').attr('content');
+               if(token){
+                     theToken = token;
+               }
+
+                //xhrOptions.xhr.setRequestHeader('X-CSRF-TOKEN',token );
+                //   alert(mw.top().$('meta[name="csrf-token"]').attr('content'))
+            }
+            if (theToken) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': theToken
+                    }
+                });
+            }
 
             return mw.jqxhr(xhrOptions);
         };
