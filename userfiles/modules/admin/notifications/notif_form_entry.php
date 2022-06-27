@@ -58,7 +58,7 @@ if (isset($item['created_by'])) {
 <script>
     $( document ).ready(function() {
         $('.collapse', '.js-form-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
-            $('.js-form-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
+            $('.js-form-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-bs-toggle');
         });
     });
 </script>
