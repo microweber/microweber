@@ -650,6 +650,13 @@ var domHelp = {
         if (node.nodeName === 'BODY') {
             return 'body';
         }
+        if(mw.tools.hasClass(node, 'edit')){
+            var field = node.getAttribute('field');
+            var rel = node.getAttribute('rel');
+            if(field && rel){
+                return '.edit[field="'+field+'"][rel="'+rel+'"]';
+            }
+        }
         if(strict && !node.id) {
             if(!node.classList.contains('edit') && mw.tools.isEditable(node)) {
                 node.id = mw.id('mw-selector-');
@@ -658,13 +665,7 @@ var domHelp = {
         if (!!node.id /*&& node.id.indexOf('element_') === -1*/) {
             return '#' + node.id;
         }
-        if(mw.tools.hasClass(node, 'edit')){
-            var field = node.getAttribute('field');
-            var rel = node.getAttribute('rel');
-            if(field && rel){
-                return '.edit[field="'+field+'"][rel="'+rel+'"]';
-            }
-        }
+
         var filter = function(item) {
             return item !== 'changed'
                 && item !== 'module-over'
