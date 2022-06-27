@@ -1,9 +1,5 @@
-<?php $custom_css = get_option("custom_css", "template");
-
-
-?>
 <?php must_have_access(); ?>
-
+<?php $custom_css = get_option("custom_css", "template"); ?>
 <style>
 
     #code-editor-settings .CodeMirror{
@@ -166,6 +162,16 @@
                 mw.tools.refresh(el)
                 mw.notification.success('Custom CSS is saved')
                 }
+
+                // reload in the window opener
+                if(typeof window.opener != 'undefined' && window.opener && window !== window.opener){
+                    var el = window.opener.mw.top().$("#mw-custom-user-css")[0];
+                    window.opener.mw.tools.refresh(el)
+                    window.opener.mw.notification.success('Custom CSS is saved')
+                }
+
+
+
             });
         }
 
@@ -198,7 +204,7 @@ if ($file and is_file($file)) {
                if(typeof live_edit_css_code_area_editor != 'undefined'){
                    setTimeout(function(){
                        live_edit_css_code_area_editor.refresh();
-
+                       live_edit_css_code_area_editor.setSize("100%", "90%");
                    }, 200);
                }
             }
@@ -238,10 +244,17 @@ if ($file and is_file($file)) {
 
             if(css !== undefined && css !== null){
                 mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))
-
                 mw.notification.success('CSS Saved')
-
             }
+
+            // reload in the window opener
+            if(typeof window.opener != 'undefined' && window.opener && window !== window.opener && window.opener.mw){
+                var css = window.opener.mw.top().$("#mw-template-settings")[0];
+                window.opener.mw.tools.refresh(css)
+                window.opener.mw.notification.success('CSS Saved')
+                 mw.notification.success('CSS Saved')
+            }
+
 
 
 
@@ -249,6 +262,21 @@ if ($file and is_file($file)) {
 
 
     }
+
+
+    $(document).ready(function () {
+    if(typeof window.opener != 'undefined' && window.opener && window !== window.opener && window.opener.mw){
+
+        window.opener.mw.top().on('mw.liveeditCSSEditor.save', function () {
+          // when the live edit is saved from the window opener, we need to reload the css in this module
+            setTimeout(function(){
+                window.location.reload();
+             }, 200);
+
+        });
+    }
+    });
+
 </script>
 
 
@@ -258,7 +286,7 @@ if ($file and is_file($file)) {
     <a href="javascript:;" class="mw-ui-btn-tab"><?php _e("Visual Editor"); ?> CSS</a>
 </div>
 <div class="mw-ui-box" id="css-type-tabs">
-    <div class="mw-ui-box-content">
+    <div class="mw-ui-box-content" style="min-height: 300px">
 
 <textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>

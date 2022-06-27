@@ -41,8 +41,8 @@
                     <button type="submit" class="btn btn-outline-primary ml-2"><?php _e("Search"); ?></button>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse"
-                       data-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
+                    <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse"
+                       data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
 
                     <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>"
                        class="btn btn-primary" id="add-new-user-btn">

@@ -13,7 +13,7 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
 
-        $this->randId = random_int(111,999).time();
+        $this->randId = 'ml_editor_element_'.md5(str_random());
 
         $supportedLanguages = get_supported_languages(true);
 
@@ -39,7 +39,7 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
 
                     $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
                     $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
+                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-bs-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
                 }
 
                 $html .='</nav>

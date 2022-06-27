@@ -24,7 +24,7 @@
     @foreach($customFieldNames as $customFieldKey=>$customField)
         <tr class="js-filter-custom-field-holder vertical-align-middle show-on-hover-root" data-field-custom-field-key="{{$customFieldKey}}">
             <td>
-                <i data-title="<?php _e("Reorder filters"); ?>" data-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
+                <i data-title="<?php _e("Reorder filters"); ?>" data-bs-toggle="tooltip" class="js-filter-custom-field-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
             </td>
             <td>
                 <input type="text" class="form-control mw_option_field" value="{{$customField->controlName}}" name="filtering_by_custom_fields_control_name_{{$customFieldKey}}" />

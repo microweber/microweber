@@ -76,3 +76,6 @@ userfiles/modules/fullpage_cache/fullpage_cache.png
 userfiles/modules/fullpage_cache/config.php
 userfiles/modules/fullpage_cache/composer.json
 userfiles/modules/fullpage_cache/admin.php
+/config/app.php
+/config/database.php
+/config/microweber.php

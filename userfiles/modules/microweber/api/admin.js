@@ -1,4 +1,4 @@
-mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
+//mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
 //mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
 mw.require('tree.js');
 mw.require('link-editor.js');

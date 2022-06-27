@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
 
             <div class="collapse" id="advanced-weight-settings">
                 <hr class="thin no-padding"/>

@@ -44,7 +44,7 @@
 
                     var localeUppercase = locales[i].toUpperCase();
 
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center js-ml-btn-tab-'+name+'" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="#'+mwBtnTabContentLocaleId+'"><i class="flag-icon flag-icon-'+localeIcon+'"></i>'+localeUppercase+'</a>';
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center js-ml-btn-tab-'+name+'" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="javascript:;" x-href="#'+mwBtnTabContentLocaleId+'"><i class="flag-icon flag-icon-'+localeIcon+'"></i>'+localeUppercase+'</a>';
 
                     $('body').on('click','#' + mwBtnTabLocaleId, function (){
                         mw.trigger("mlChangedLanguage", $(this).attr('lang'));

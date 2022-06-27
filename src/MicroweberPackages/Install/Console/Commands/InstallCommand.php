@@ -14,6 +14,26 @@ class InstallCommand extends Command
     protected $description = 'Installs Microweber (duh)';
     protected $installer;
 
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'microweber:install
+                                    {--db_host=}
+                                    {--db_name=}
+                                    {--db_username=}
+                                    {--db_password=}
+                                    {--db_driver=}
+                                    {--db_prefix=}
+                                    {--email=}
+                                    {--username=}
+                                    {--password=}
+                                    {--default_content=}
+                                    {--template=}
+                                    {--config_only=}
+                                    {--language=}';
+
     public function __construct(InstallController $installer)
     {
         $this->installer = $installer;
@@ -43,23 +63,24 @@ class InstallCommand extends Command
         */
 
         $input = array(
-            'db_host' => $this->argument('db_host'),
-            'db_name' => $this->argument('db_name'),
-            'db_user' => $this->argument('db_user'),
-            'db_pass' => $this->argument('db_pass'),
-            'db_driver' => $this->argument('db_driver'),
-            'table_prefix' => $this->option('prefix'),
-            'admin_email' => $this->argument('email'),
-            'admin_username' => $this->argument('username'),
-            'admin_password' => $this->argument('password'),
-            'with_default_content' => $this->option('default-content'),
+            'db_host' => $this->option('db_host'),
+            'db_name' => $this->option('db_name'),
+            'db_username' => $this->option('db_username'),
+            'db_password' => $this->option('db_password'),
+            'db_driver' => $this->option('db_driver'),
+            'db_prefix' => $this->option('db_prefix'),
+            'admin_email' => $this->option('email'),
+            'admin_username' => $this->option('username'),
+            'admin_password' => $this->option('password'),
+            'with_default_content' => $this->option('default_content'),
             'default_template' => $this->option('template'),
             'config_only' => $this->option('config_only'),
             'site_lang' => $this->option('language'),
         );
+
         $vals = array_filter($input);
         if (!$vals) {
-            $this->info('No arguments provided... Performing lazy install');
+            $this->info('No options provided... Performing lazy install');
             $lazy_install = true;
         } else {
             $lazy_install = false;
@@ -71,11 +92,11 @@ class InstallCommand extends Command
         if (!$input['db_host']) {
             $input['db_host'] = getenv('DB_HOST');
         }
-        if (!$input['db_user']) {
-            $input['db_user'] = getenv('DB_USER');
+        if (!$input['db_username']) {
+            $input['db_username'] = getenv('DB_USER');
         }
-        if (!$input['db_pass']) {
-            $input['db_pass'] = getenv('DB_PASS');
+        if (!$input['db_password']) {
+            $input['db_password'] = getenv('DB_PASS');
         }
         if (!$input['db_name']) {
             $input['db_name'] = getenv('DB_NAME');
@@ -88,11 +109,11 @@ class InstallCommand extends Command
             }
         }
 
-        if (!$input['table_prefix']) {
-            $input['table_prefix'] = (getenv('DB_PREFIX') ?: '');
+        if (!$input['db_prefix']) {
+            $input['db_prefix'] = (getenv('DB_PREFIX') ?: '');
         }
-        if (!$input['table_prefix']) {
-            $input['table_prefix'] = (getenv('TABKE_PREFIX') ?: '');
+        if (!$input['db_prefix']) {
+            $input['db_prefix'] = (getenv('TABLE_PREFIX') ?: '');
         }
 
         if ($lazy_install) {
@@ -137,29 +158,4 @@ class InstallCommand extends Command
         $this->info($result);
     }
 
-    protected function getArguments()
-    {
-        return [
-            ['email', InputArgument::OPTIONAL, 'Admin account email'],
-            ['username', InputArgument::OPTIONAL, 'Admin account username'],
-            ['password', InputArgument::OPTIONAL, 'Admin account password'],
-            ['db_host', InputArgument::OPTIONAL, 'Database host address'],
-            ['db_name', InputArgument::OPTIONAL, 'Database schema name'],
-            ['db_user', InputArgument::OPTIONAL, 'Database username'],
-            ['db_pass', InputArgument::OPTIONAL, 'Database password'],
-            ['db_driver', InputArgument::OPTIONAL, 'Database driver'],
-            ['prefix', InputArgument::OPTIONAL, 'Table prefix'],
-        ];
-    }
-
-    protected function getOptions()
-    {
-        return [
-            ['prefix', 'p', InputOption::VALUE_OPTIONAL, 'Database tables prefix'],
-            ['template', 't', InputOption::VALUE_OPTIONAL, 'Set default template name'],
-            ['default-content', 'd', InputOption::VALUE_OPTIONAL, 'Install default content'],
-            ['config_only', 'c', InputOption::VALUE_OPTIONAL, 'Prepare the install'],
-            ['language', 'l', InputOption::VALUE_OPTIONAL, 'Prepare the language install'],
-        ];
-    }
 }

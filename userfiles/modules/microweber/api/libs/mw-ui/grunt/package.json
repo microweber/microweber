@@ -6,8 +6,8 @@
         "@fancyapps/fancybox": "3.5.7",
         "@fortawesome/fontawesome-free": "^5.7.2",
         "aos": "^2.3.4",
-        "bootstrap": ">=4.3.1",
-        "bootstrap-select": "1.13.12",
+        "bootstrap": ">=5.1.0",
+        "bootstrap-select": "1.14.0-beta3",
         "grunt": ">=1.3.0",
         "grunt-contrib-clean": "*",
         "grunt-contrib-copy": "*",
@@ -17,14 +17,14 @@
         "grunt-contrib-uglify": "*",
         "ion-rangeslider": "2.3.1",
         "jquery": ">=3.5.0",
-        "jquery.photoswipe": "^1.1.1",
+
         "lightbox2": "2.11.1",
         "lightcase": "2.5.0",
         "matchdep": "*",
         "minimist": ">=1.2.6",
         "notifyjs-browser": "0.4.2",
         "owl-carousel": "1.0.0",
-        "popper.js": "^1.14.7",
+        "popper.js": "*",
         "slick-carousel": "^1.8.1"
     },
     "dependencies": {

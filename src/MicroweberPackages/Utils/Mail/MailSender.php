@@ -45,11 +45,17 @@ class MailSender
 
         View::addNamespace('mw_email_send', $views);
 
-        $email_from = mw()->option_manager->get('email_from_name', 'email');
-        if ($email_from == false or trim($email_from) == '') {
-            $email_from = getenv('USERNAME');
+        $this->configMailDriver();
+
+
+    }
+    public function configMailDriver() {
+
+        $email_from_name = get_email_from_name();
+        if ($email_from_name == false or trim($email_from_name) == '') {
+            $email_from_name = getenv('USERNAME');
         }
-        $this->email_from_name = $email_from;
+        $this->email_from_name = $email_from_name;
 
         $this->smtp_host = trim(mw()->option_manager->get('smtp_host', 'email'));
         $this->smtp_port = intval(mw()->option_manager->get('smtp_port', 'email'));
@@ -63,7 +69,7 @@ class MailSender
 
         $this->smtp_secure = intval($sec);
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+        $email_from = get_email_from();
 
         $hostname = mw()->url_manager->hostname();
 
@@ -86,20 +92,20 @@ class MailSender
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
-       /* if ($this->transport == '' or $this->transport == 'php') {
-            Config::set('mail.driver', 'mail');
+        /* if ($this->transport == '' or $this->transport == 'php') {
+             Config::set('mail.driver', 'mail');
 
-            $disabled_functions = @ini_get('disable_functions');
-            // check if  escapeshellcmd() has been disabled
-            if (strstr($disabled_functions, 'escapeshellarg')) {
-                //if disabled, switch mail transporter
-                $transport = \MicroweberPackages\Utils\lib\mail\Swift_MailTransport::newInstance();
+             $disabled_functions = @ini_get('disable_functions');
+             // check if  escapeshellcmd() has been disabled
+             if (strstr($disabled_functions, 'escapeshellarg')) {
+                 //if disabled, switch mail transporter
+                 $transport = \MicroweberPackages\Utils\lib\mail\Swift_MailTransport::newInstance();
 
-                // set new swift mailer
-                \Mail::setSwiftMailer(new \Swift_Mailer($transport));
-            }
+                 // set new swift mailer
+                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));
+             }
 
-        }*/
+         }*/
 
 
         if ($this->transport == 'gmail') {
@@ -119,6 +125,7 @@ class MailSender
             Config::set('mail.port', $this->smtp_port);
             Config::set('mail.encryption', $this->smtp_auth);
         }
+
 
     }
 
@@ -251,7 +258,7 @@ class MailSender
 //            // return $cache_content;
 //        }
 
-        $email_from = $email_from ?: mw()->option_manager->get('email_from', 'email');
+        $email_from = $email_from ?: get_email_from();
 
         if ($email_from == false or $email_from == '') {
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
@@ -288,7 +295,8 @@ class MailSender
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $email_from = mw()->option_manager->get('email_from', 'email');
+      $email_from = get_email_from();
+
         if ($email_from == false or $email_from == '') {
             return array('error' => 'Sender E-mail is not set');
         } elseif (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {

@@ -269,12 +269,12 @@ description: Dictionary
                 <nav class="glossary__nav mb-4">
                     <ul class="list-inline">
                         <li class="glossary__nav__item">
-                            <a class="card card__content all" data-toggle="glossary" href="#">All</a>
+                            <a class="card card__content all" data-bs-toggle="glossary" href="#">All</a>
                         </li>
 
                         <?php foreach ($sorted as $key => $list): ?>
                             <li class="glossary__nav__item">
-                                <a class="card card__content" data-nav="<?php print $key; ?>" data-toggle="glossary" href="#"><?php print strtoupper($key); ?></a>
+                                <a class="card card__content" data-nav="<?php print $key; ?>" data-bs-toggle="glossary" href="#"><?php print strtoupper($key); ?></a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

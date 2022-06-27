@@ -71,7 +71,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 
                                 <div class="form-group mb-3">
                                     <label class="control-label d-block"><?php _e("Want to view and edit the text and the page?") ?></label>
-                                    <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#contact-form-settings"><?php _e("Edit the text and URL") ?></button>
+                                    <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-bs-target="#contact-form-settings"><?php _e("Edit the text and URL") ?></button>
                                 </div>
 
                                 <div class="collapse" id="contact-form-settings">

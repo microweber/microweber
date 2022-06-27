@@ -4,8 +4,8 @@
     id="comment-<?php print $comment['id'] ?>"
     aria-expanded="false"
     aria-controls="collapseExample">
-    <span class="mw-bs-card-collpase card-collapse"     data-toggle="collapse"
-          data-target="#comments-<?php print $comment['id'] ?>"></span>
+    <span class="mw-bs-card-collpase card-collapse"     data-bs-toggle="collapse"
+          data-bs-target="#comments-<?php print $comment['id'] ?>"></span>
     <div class="card-body">
         <script>mw.lib.require('mwui_init');</script>
 
@@ -168,7 +168,7 @@
                     </form>
 
                     <?php if (isset($params['show-reply-form'])) { ?>
-                        <?php /*<a href="#reply-comment-id-<?php print $comment['id'] ?>" data-target="#reply-comment-id-<?php print $comment['id'] ?>" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> Reply</a>*/ ?>
+                        <?php /*<a href="#reply-comment-id-<?php print $comment['id'] ?>" data-bs-target="#reply-comment-id-<?php print $comment['id'] ?>" class="btn btn-outline-secondary btn-sm icon-left js-show-more"><i class="mdi mdi-comment-account text-primary"></i> Reply</a>*/ ?>
 
                         <div class="collapse" id="reply-comment-id-<?php print $comment['id'] ?>">
                             <hr class="thin"/>

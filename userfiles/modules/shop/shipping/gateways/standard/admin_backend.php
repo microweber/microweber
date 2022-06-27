@@ -4,9 +4,9 @@ must_have_access();
 use MicroweberPackages\View\View;
 ?>
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Shipping Standard'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Unit settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#tab_shipping_fields_settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Fields settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Shipping Standard'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Unit settings'); ?></a>
+    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#tab_shipping_fields_settings"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Fields settings'); ?></a>
 </nav>
 
 <div class="tab-content py-3">

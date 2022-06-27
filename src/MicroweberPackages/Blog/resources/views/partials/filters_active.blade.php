@@ -2,7 +2,7 @@
 $randomId = uniqid();
 ?>
 <div class="card-header bg-white px-1">
-    <div data-bs-toggle="collapse" data-bs-target="#collapse_{{$randomId}}" data-target="" aria-expanded="true" class="d-flex">
+    <div data-bs-toggle="collapse" data-bs-target="#collapse_{{$randomId}}"  aria-expanded="true" class="d-flex">
         <h5 class="title"><?php _e('Active filters') ?></h5>
         <i class="mdi mdi-plus ms-auto align-self-center"></i>
     </div>

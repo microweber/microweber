@@ -98,7 +98,7 @@
                 <?php foreach ($data as $item): ?>
                     <tr class="shipping-country-holder vertical-align-middle show-on-hover-root" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 10px; padding-right: 0;">
-                            <i data-title="<?php _e("Reorder shipping countries"); ?>" data-toggle="tooltip" class="shipping-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
+                            <i data-title="<?php _e("Reorder shipping countries"); ?>" data-bs-toggle="tooltip" class="shipping-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
                         </td>
                         <td>
                             <?php if ($active_or_disabled == 'active'): ?>

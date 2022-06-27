@@ -120,8 +120,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -139,7 +139,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <input type="radio" id="type2" name="type" class="mw_option_field custom-control-input" value="on_click_host" data-refresh="popup" <?php if ($type == 'on_click_host'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type2">
                                 <?php _e("On host link click"); ?>
-                                <span data-toggle="tooltip" title="Use nearest preceding link"><i class="mdi mdi-help-circle"></i></span>
+                                <span data-bs-toggle="tooltip" title="Use nearest preceding link"><i class="mdi mdi-help-circle"></i></span>
                             </label>
                         </div>
 
@@ -147,7 +147,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <input type="radio" id="type3" name="type" class="mw_option_field custom-control-input" value="on_time" data-refresh="popup" <?php if ($type == 'on_time'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type3">
                                 <?php _e("On time"); ?>
-                                <span data-toggle="tooltip" title="Only first time (if accept) with cookies"><i class="mdi mdi-help-circle"></i></span>
+                                <span data-bs-toggle="tooltip" title="Only first time (if accept) with cookies"><i class="mdi mdi-help-circle"></i></span>
                             </label>
                         </div>
 

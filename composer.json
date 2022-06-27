@@ -17,16 +17,16 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
         "ext-zip": "*",
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "laravel/framework": "v8.83.3 ",
+        "laravel/framework": "v8.83.16",
         "fideloper/proxy": "4.4.1",
         "fruitcake/laravel-cors": "*",
-        "guzzlehttp/guzzle": "7.4.3",
+        "guzzlehttp/guzzle": "7.4.5",
         "symfony/translation": "*",
         "doctrine/dbal": "3.4.x-dev",
         "composer/composer": "2.3.5",
@@ -112,7 +112,7 @@
     "config": {
         "preferred-install": "dist",
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         },
         "github-protocols": [
             "https",

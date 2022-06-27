@@ -218,7 +218,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="control-label"><?php _e("Align"); ?></label>
                 <div class="form-group">
 
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons" dir="ltr">
+                    <div class="btn-group btn-group-toggle" data-bs-toggle="buttons" dir="ltr">
                         <label class="btn btn-outline-secondary <?php print $align === 'left' ? 'active' : ''; ?>">
                             <input class="mw_option_field" type="radio" value="left"  name="align"> <i class="mdi mdi-format-horizontal-align-left"></i>
                         </label>

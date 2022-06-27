@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.2.18] - 2022-06-22
+- Fixed unpublished products that were shown on frontend
+- Fixed empty CSS properties are removed when you reset the element from live edit
+- Fixed mail sending, when using laravel config
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.17...1.2.18 "")
+
+
+## [1.2.17] - 2022-06-14
+ - Fixed Bootstrap 5 dropdowns and tabs 
+ - Fixed api_url function to use router if exists
+ - Other fixes
+ - [see all changes....](https://github.com/microweber/microweber/compare/1.2.16...1.2.17 "")
+
+
 ## [1.2.16] - 2022-06-09
  - Fixed more RTL issues 
  - Fixed translation issues on the slider module

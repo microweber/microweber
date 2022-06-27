@@ -638,7 +638,7 @@ if (isset($params['live_edit'])) {
                             <label class="control-label"><?php _e("Other settings"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
-                            <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-toggle="collapse" data-target="#show-more"><?php _e("Show more"); ?></button>
+                            <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
 
                             <div class="collapse mt-3" id="show-more">
                                 <div class="row">
@@ -696,7 +696,7 @@ if (isset($params['live_edit'])) {
                                                 $data['users_can_create_content'] = 0;
                                             }
                                             ?>
-                                            <label class="control-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
+                                            <label class="control-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
@@ -729,7 +729,7 @@ if (isset($params['live_edit'])) {
                                             </script>
 
                                             <div class="form-group">
-                                                <label class="control-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
+                                                <label class="control-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
 
                                                 <div>
                                                     <select class="selectpicker edit-category-choose-subtype-dd" data-width="100%">

@@ -54,7 +54,7 @@ only_admin_access();
                         </td>
 
                         <td style="vertical-align: middle;">
-                            <div data-toggle="tooltip" title="<?php echo $language['language']; ?>">
+                            <div data-bs-toggle="tooltip" title="<?php echo $language['language']; ?>">
 
 
                                 <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i>
@@ -67,13 +67,13 @@ only_admin_access();
 
                         <td style="vertical-align: middle;">
                             <?php if ($language['display_icon']) : ?>
-                                <img src="<?php echo $language['display_icon']; ?>" style="max-width:22px;max-height: 22px;" data-toggle="tooltip" title="Display Icon"/>
+                                <img src="<?php echo $language['display_icon']; ?>" style="max-width:22px;max-height: 22px;" data-bs-toggle="tooltip" title="Display Icon"/>
                             <?php endif; ?>
                             <?php if ($language['display_locale']) : ?>
-                                <span data-toggle="tooltip" title="Display Locale">[<?php echo $language['display_locale']; ?>]</span>
+                                <span data-bs-toggle="tooltip" title="Display Locale">[<?php echo $language['display_locale']; ?>]</span>
                             <?php endif; ?>
                             <?php if ($language['display_name']): ?>
-                                <span data-toggle="tooltip" title="Display Icon" class="text-muted"><?php echo $language['display_name']; ?></span>
+                                <span data-bs-toggle="tooltip" title="Display Icon" class="text-muted"><?php echo $language['display_name']; ?></span>
                             <?php endif; ?>
 
                         </td>

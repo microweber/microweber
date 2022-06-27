@@ -3,7 +3,7 @@ $randomId = uniqid();
 ?>
 
 <div class="card-header bg-white pt-md-0 px-1">
-    <div data-bs-toggle="collapse" data-bs-target="#collapse_{{$randomId}}" data-target="" aria-expanded="true" class="d-flex">
+    <div data-bs-toggle="collapse" data-bs-target="#collapse_{{$randomId}}"  aria-expanded="true" class="d-flex">
         <h6><?php _e('Search') ?></h6>
         <i class="mdi mdi-plus ms-auto align-self-center" ></i>
     </div>
