@@ -12,7 +12,7 @@ $(document).ready(function () {
                 if (typeof tokenFromCookie !== 'undefined') {
                     $.ajaxSetup({
                         headers: {
-                            'X-CSRF-TOKEN': tokenFromCookie
+                            'X-XSRF-TOKEN': tokenFromCookie
                         }
                     });
                 }
@@ -21,7 +21,7 @@ $(document).ready(function () {
     } else {
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': tokenFromCookie
+                'X-XSRF-TOKEN': tokenFromCookie
             }
         });
     }

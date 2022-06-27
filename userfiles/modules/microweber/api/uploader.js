@@ -414,7 +414,7 @@
             if (typeof tokenFromCookie !== 'undefined') {
                 $.ajaxSetup({
                     headers: {
-                        'X-CSRF-TOKEN': tokenFromCookie
+                        'X-XSRF-TOKEN': tokenFromCookie
                     }
                 });
             }
