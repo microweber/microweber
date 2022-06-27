@@ -45,6 +45,12 @@ class MailSender
 
         View::addNamespace('mw_email_send', $views);
 
+        $this->configMailDriver();
+
+
+    }
+    public function configMailDriver() {
+
         $email_from_name = get_email_from_name();
         if ($email_from_name == false or trim($email_from_name) == '') {
             $email_from_name = getenv('USERNAME');
@@ -86,20 +92,20 @@ class MailSender
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
-       /* if ($this->transport == '' or $this->transport == 'php') {
-            Config::set('mail.driver', 'mail');
+        /* if ($this->transport == '' or $this->transport == 'php') {
+             Config::set('mail.driver', 'mail');
 
-            $disabled_functions = @ini_get('disable_functions');
-            // check if  escapeshellcmd() has been disabled
-            if (strstr($disabled_functions, 'escapeshellarg')) {
-                //if disabled, switch mail transporter
-                $transport = \MicroweberPackages\Utils\lib\mail\Swift_MailTransport::newInstance();
+             $disabled_functions = @ini_get('disable_functions');
+             // check if  escapeshellcmd() has been disabled
+             if (strstr($disabled_functions, 'escapeshellarg')) {
+                 //if disabled, switch mail transporter
+                 $transport = \MicroweberPackages\Utils\lib\mail\Swift_MailTransport::newInstance();
 
-                // set new swift mailer
-                \Mail::setSwiftMailer(new \Swift_Mailer($transport));
-            }
+                 // set new swift mailer
+                 \Mail::setSwiftMailer(new \Swift_Mailer($transport));
+             }
 
-        }*/
+         }*/
 
 
         if ($this->transport == 'gmail') {
@@ -119,6 +125,7 @@ class MailSender
             Config::set('mail.port', $this->smtp_port);
             Config::set('mail.encryption', $this->smtp_auth);
         }
+
 
     }
 

@@ -36,21 +36,38 @@ class UserForgotPasswordController extends Controller
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'captcha';
         }
-        $inputs = $request->only(['captcha','email']);
+        $inputs = $request->only(['captcha','email','username']);
         if (is_admin()) {
             unset($rules['captcha']);
         }
-        $user_id = false;
 
-        if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
-            $email_user = User::where('email',$inputs['email'])->first();
-            if($email_user){
-                $user_id = $email_user->id;
-            }
+        if(!isset($inputs['email']) and isset($inputs['username'])){
+
+            $rules['username'] = 'required:min:3|max:255';
+
+        } else {
+            $rules['email'] = 'required|email';
 
         }
 
-         $rules['email'] = 'required|email';
+        $user_id = false;
+
+        if(!$user_id and !isset($inputs['email']) and isset($inputs['username'])) {
+            $email_user = User::where('username', $inputs['username'])->first();
+            if ($email_user) {
+                $user_id = $email_user->id;
+            }
+        }
+
+        if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
+            $email_user = User::where('email', $inputs['email'])->first();
+            if ($email_user) {
+                $user_id = $email_user->id;
+            }
+        }
+
+
+
 
         $request->validate($rules);
 

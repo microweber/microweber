@@ -155,7 +155,7 @@
         }
 
         $(document).ready(function () {
-            $("input[name='table_prefix']").bind('keydown', function (e) {
+            $("input[name='db_prefix']").bind('keydown', function (e) {
                 if ((e.keycode || e.which) == 32) {
                     e.preventDefault();
                 }
@@ -533,13 +533,13 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Username'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_user" tabindex="2" value="<?php if (isset($config['username'])): ?><?php print $config['username']; ?><?php endif; ?>"/>
+                                                        <input type="text" class="form-control" name="db_username" tabindex="2" value="<?php if (isset($config['username'])): ?><?php print $config['username']; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Password'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
-                                                        <input type="password" class="form-control" name="db_pass" tabindex="2" value="<?php if (isset($config['password'])): ?><?php print $config['password']; ?><?php endif; ?>"/>
+                                                        <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if (isset($config['password'])): ?><?php print $config['password']; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
@@ -560,7 +560,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label"><?php _e('Table Prefix'); ?></label>
                                                     <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
-                                                    <input type="text" class="form-control" name="table_prefix" tabindex="3" value="<?php if (isset($config['prefix'])): ?><?php print $config['prefix']; ?><?php endif; ?>" onblur="prefix_add(this)"/>
+                                                    <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if (isset($config['prefix'])): ?><?php print $config['prefix']; ?><?php endif; ?>" onblur="prefix_add(this)"/>
                                                 </div>
                                             </div>
 

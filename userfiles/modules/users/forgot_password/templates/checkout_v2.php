@@ -1,4 +1,3 @@
-<?php $rand = uniqid(); ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css")</script>
 
 <?php if (is_logged() == false): ?>

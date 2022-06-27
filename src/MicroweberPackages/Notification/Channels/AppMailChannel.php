@@ -4,6 +4,7 @@ namespace MicroweberPackages\Notification\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Channels\MailChannel;
+use MicroweberPackages\Utils\Mail\MailSender;
 
 class AppMailChannel extends MailChannel
 {
@@ -17,7 +18,12 @@ class AppMailChannel extends MailChannel
     public function send($notifiable, Notification $notification)
     {
 
-         if (!\Config::get('mail.transport')) {
+
+         $mailSender = new MailSender();
+         $mailSender->configMailDriver();
+
+
+        if (!\Config::get('mail.driver')) {
             return;
         }
 

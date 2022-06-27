@@ -180,16 +180,18 @@ mw.drag.plus = {
                           var shImg = document.createElement('div');
                          shImg.innerHTML = data;
                          shImg.part = 'mw-module-icon';
-                         shImg.querySelector('svg').part = 'mw-module-icon-svg';
-                         Array.from(shImg.querySelectorAll('style')).forEach(function (style){
-                             style.remove()
-                         })
-                         Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
-                             item.removeAttribute('class')
-                             item.removeAttribute('id')
-                         })
-                         shadow.appendChild(shImg);
-                         img.parentNode.replaceChild(el, img);
+                         if(shImg.querySelector('svg') !== null) {
+                             shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                             Array.from(shImg.querySelectorAll('style')).forEach(function (style) {
+                                 style.remove()
+                             })
+                             Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item) {
+                                 item.removeAttribute('class')
+                                 item.removeAttribute('id')
+                             })
+                             shadow.appendChild(shImg);
+                             img.parentNode.replaceChild(el, img);
+                         }
                      })
                  } else {
                      this.src = src;
