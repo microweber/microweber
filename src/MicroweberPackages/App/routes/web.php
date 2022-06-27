@@ -150,14 +150,16 @@ Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\
 });
 
 
-Route::get('/csrf', function () {
+Route::post('/csrf', function () {
     if (is_ajax()) {
         event_trigger('mw.csrf.ajax_request');
     }
-
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
     return response()->json(['token' => csrf_token()], 200, $headers);
-})->name('csrf');
+})->middleware([
+    \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class
+])->name('csrf');
 
 
 Route::group([

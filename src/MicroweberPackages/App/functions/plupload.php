@@ -22,19 +22,21 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 //    }
 }
 
-if (!is_admin()) {
-    $validate_token = mw()->user_manager->csrf_validate($_GET);
-    if ($validate_token == false) {
-        header("HTTP/1.1 401 Unauthorized");
-        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
-    }
+//if (!is_admin()) {
+    //$validate_token = mw()->user_manager->csrf_validate($_GET);
+
+// validation is now on middleware
+//    if ($validate_token == false) {
+//        header("HTTP/1.1 401 Unauthorized");
+//        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+//    }
 
     $is_ajax = mw()->url_manager->is_ajax();
     if (!$is_ajax) {
         header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
-}
+//}
 
 $host = (parse_url(site_url()));
 
