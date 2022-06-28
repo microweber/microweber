@@ -16,6 +16,15 @@ description: Masonry skin for Twitter Feed
     mw.require("<?php print modules_url(); ?>pictures/js/masonry.pkgd.min.js");
 </script>
 <script>
+    $( document ).ready(function() {
+        mw.on('twttr.widgets.load', function (event, data) {
+            if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
+                twttr.widgets.load();
+            }
+        });
+
+    });
+
 
     $( document ).ready(function() {
         window.twttr = (function(d, s, id) {
@@ -35,9 +44,9 @@ description: Masonry skin for Twitter Feed
             return t;
         }(document, "script", "twitter-wjs"));
 
-        if(twttr.widgets && twttr.widgets.load) {
-            twttr.widgets.load()
-        }
+
+
+
 
         var msnConfig = {
             itemSelector : '.grid-item-masonry-twitter',
