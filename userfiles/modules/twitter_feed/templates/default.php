@@ -15,7 +15,7 @@ description: Default Twitter Feed
 
     $( document ).ready(function() {
         mw.on('twttr.widgets.load', function (event, data) {
-            if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
+            if(typeof twttr !== "undefined" && typeof twttr.widgets.load !== 'function'){
                 twttr.widgets.load();
             }
         });
