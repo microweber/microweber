@@ -42,7 +42,7 @@ mw.errorsHandle = function (obj) {
             }
         }
         if (html.length) {
-     
+
             mw.notification.warning(html.join('<br>'))
         }
     }
@@ -55,18 +55,29 @@ mw.notification = {
         timeout = timeout || 1000;
         alert = alert || false;
         if (data) {
-            if (data.success) {
+
+            if(data.status) {
+                if(data.responseJSON && data.responseJSON.message) {
+                    var conf = {};
+                    if(data.status === 200) {
+                        conf.success = data.responseJSON.message || data.statusText;
+                    } else {
+                        conf.warning = data.responseJSON.message || data.statusText;
+                    }
+                    mw.notification.msg(conf, timeout, alert);
+
+                }
+
+            } else if (data.success) {
                 if (alert) {
                     mw.notification.success(data.success, timeout);
                 }
                 else {
                     mw.alert(data.success);
                 }
-            }
-            if (data.error) {
+            } else if (data.error) {
                 mw.notification.error(data.error, timeout);
-            }
-            if (data.warning) {
+            } else if (data.warning) {
                 mw.notification.warning(data.warning, timeout);
             }
         }

@@ -165,19 +165,19 @@ class InstallController extends Controller
             if (isset($input['config_only']) and $input['config_only']) {
                 $config_only = true;
             }
-            if (!isset($input['db_pass'])) {
-                $input['db_pass'] = '';
+            if (!isset($input['db_password'])) {
+                $input['db_password'] = '';
             }
-            if (!isset($input['table_prefix'])) {
-                $input['table_prefix'] = '';
+            if (!isset($input['db_prefix'])) {
+                $input['db_prefix'] = '';
             }
 
-            if (is_numeric(substr($input['table_prefix'], 0, 1))
+            if (is_numeric(substr($input['db_prefix'], 0, 1))
             ) {
-                $input['table_prefix'] = 'p' . $input['table_prefix'];
+                $input['db_prefix'] = 'p' . $input['db_prefix'];
             }
 
-            $input['table_prefix'] = str_replace(':', '', $input['table_prefix']);
+            $input['db_prefix'] = str_replace(':', '', $input['db_prefix']);
 
 
             if (isset($input['db_driver'])) {
@@ -199,16 +199,16 @@ class InstallController extends Controller
                 } else {
                     $input['db_name'] = trim($input['db_name']);
                 }
-                if (!isset($input['db_user'])) {
-                    $errors[] = 'Parameter "db_user" is required';
+                if (!isset($input['db_username'])) {
+                    $errors[] = 'Parameter "db_username" is required';
                 } else {
-                    $input['db_user'] = trim($input['db_user']);
+                    $input['db_username'] = trim($input['db_username']);
                 }
             } else {
-                if (is_null($input['db_user'])) {
-                    $input['db_user'] = '';
+                if (is_null($input['db_username'])) {
+                    $input['db_username'] = '';
                 }
-                if (is_null($input['db_user'])) {
+                if (is_null($input['db_username'])) {
                     $input['db_host'] = '';
                 }
                 if (is_null($input['db_name'])) {
@@ -238,10 +238,10 @@ class InstallController extends Controller
             }
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
-            Config::set("database.connections.$dbDriver.username", $input['db_user']);
-            Config::set("database.connections.$dbDriver.password", $input['db_pass']);
+            Config::set("database.connections.$dbDriver.username", $input['db_username']);
+            Config::set("database.connections.$dbDriver.password", $input['db_password']);
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
-            Config::set("database.connections.$dbDriver.prefix", $input['table_prefix']);
+            Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
 
             if (defined('MW_VERSION')) {
                 Config::set('microweber.version', MW_VERSION);

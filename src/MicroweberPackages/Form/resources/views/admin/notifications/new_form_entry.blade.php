@@ -2,7 +2,7 @@
 <script>
     $(document).ready(function() {
         $('.collapse', '.js-form-entry-{{ $id }}').on('shown.bs.collapse', function () {
-            $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-toggle');
+            $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-bs-toggle');
         });
     });
 </script>

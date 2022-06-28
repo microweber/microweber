@@ -39,7 +39,7 @@ if(($order and isset($order['order_status']) and $order['order_status'] == 'new'
 <script>
     $( document ).ready(function() {
         $('.collapse', '.js-order-entry-<?php print $item_id ?>').on('shown.bs.collapse', function () {
-            $('.js-order-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-toggle');
+            $('.js-order-entry-<?php print $item_id ?>').prop('disabled',true).removeAttr('data-bs-toggle');
         });
     });
 

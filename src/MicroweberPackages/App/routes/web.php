@@ -125,6 +125,7 @@ Route::get('test-lang', function () {
 });
 */
 
+
 Route::group([
     //'middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
     'namespace' => '\MicroweberPackages\App\Http\Controllers'
@@ -150,14 +151,25 @@ Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\
 });
 
 
-Route::get('/csrf', function () {
+Route::post('/csrf', function () {
     if (is_ajax()) {
         event_trigger('mw.csrf.ajax_request');
     }
-
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
-    return response()->json(['token' => csrf_token()], 200, $headers);
-})->name('csrf');
+    $response =  response()->json(
+        ['time' =>time()], 200, $headers
+    );
+    $request = request();
+    $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+    return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+
+
+})->middleware([
+    \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+
+])->name('csrf');
 
 
 Route::group([

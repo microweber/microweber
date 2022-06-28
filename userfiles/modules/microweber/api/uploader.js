@@ -360,6 +360,7 @@
                 }
             }
 
+
             var xhrOptions = {
                 url: this.getUrl(),
                 type: 'post',
@@ -390,6 +391,9 @@
                 dataType: 'json',
                 xhr: function () {
                     var xhr = new XMLHttpRequest();
+
+
+
                     xhr.upload.addEventListener('progress', function (event) {
                         if (event.lengthComputable) {
                             var percent = (event.loaded / event.total) * 100;
@@ -399,9 +403,24 @@
                             $(scope).trigger('progressNative', [percent, event]);
                         }
                     });
+
+
+
                     return xhr;
                 }
             };
+
+            var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+            if (typeof tokenFromCookie !== 'undefined') {
+                $.ajaxSetup({
+                    headers: {
+                        'X-XSRF-TOKEN': tokenFromCookie
+                    }
+                });
+            }
+
+
+
 
             return mw.jqxhr(xhrOptions);
         };

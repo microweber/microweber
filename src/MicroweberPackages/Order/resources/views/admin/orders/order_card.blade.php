@@ -24,7 +24,7 @@ $item = $order->toArray();
 <script>
     $( document ).ready(function() {
         $('.collapse', '.js-order-card-<?php print $order['id'] ?>').on('shown.bs.collapse', function () {
-            $('.js-order-card-<?php print $order['id'] ?>').prop('disabled',true).removeAttr('data-toggle');
+            $('.js-order-card-<?php print $order['id'] ?>').prop('disabled',true).removeAttr('data-bs-toggle');
         });
     });
 
