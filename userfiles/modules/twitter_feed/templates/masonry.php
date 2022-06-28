@@ -35,9 +35,13 @@ description: Masonry skin for Twitter Feed
             return t;
         }(document, "script", "twitter-wjs"));
 
-        if(twttr.widgets && twttr.widgets.load) {
-            twttr.widgets.load()
-        }
+
+            setTimeout(function() {
+                if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
+                    twttr.widgets.load();
+                }
+            }, 1000);
+
 
         var msnConfig = {
             itemSelector : '.grid-item-masonry-twitter',

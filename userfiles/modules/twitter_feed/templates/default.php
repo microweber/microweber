@@ -12,9 +12,8 @@ description: Default Twitter Feed
 
 ?>
 <script>
-
-    $( document ).ready(function() {
-        window.twttr = (function(d, s, id) {
+    if (typeof window.twttr === "undefined") {
+        window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                 t = window.twttr || {};
             if (d.getElementById(id)) return t;
@@ -22,16 +21,22 @@ description: Default Twitter Feed
             js.id = id;
             js.src = "https://platform.twitter.com/widgets.js";
             fjs.parentNode.insertBefore(js, fjs);
-
             t._e = [];
-            t.ready = function(f) {
+            t.ready = function (f) {
                 t._e.push(f);
-            };
 
+            };
             return t;
         }(document, "script", "twitter-wjs"));
+    }
 
-        twttr.widgets.load()
+    $( document ).ready(function() {
+        setTimeout(function() {
+            if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
+                twttr.widgets.load();
+            }
+        }, 1000);
+
     });
 </script>
 
