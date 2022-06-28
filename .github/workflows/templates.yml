@@ -46,7 +46,7 @@ jobs:
           'microweber-templates/template-landing-shop',
           'microweber-templates/template-art',
           'microweber-templates/template-hostel',
-          'microweber-templates/big',
+       #   'microweber-templates/big',
           'microweber-templates/bootstrap5',
           'microweber-templates/liteness',
           'microweber-templates/template-accessories',
