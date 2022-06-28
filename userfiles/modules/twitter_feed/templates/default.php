@@ -12,7 +12,18 @@ description: Default Twitter Feed
 
 ?>
 <script>
-    if (typeof window.twttr === "undefined") {
+
+    $( document ).ready(function() {
+        mw.on('twttr.widgets.load', function (event, data) {
+            if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
+                twttr.widgets.load();
+            }
+        });
+
+    });
+
+    $( document ).ready(function() {
+
         window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                 t = window.twttr || {};
@@ -24,20 +35,17 @@ description: Default Twitter Feed
             t._e = [];
             t.ready = function (f) {
                 t._e.push(f);
-
+                mw.trigger("twttr.widgets.load");
             };
             return t;
         }(document, "script", "twitter-wjs"));
-    }
-
-    $( document ).ready(function() {
-        setTimeout(function() {
-            if(typeof twttr !== "undefined" typeof twttr.widgets.load !== 'function'){
-                twttr.widgets.load();
-            }
-        }, 1000);
 
     });
+
+
+
+
+
 </script>
 
 <?php $twitter_feed_theme = get_option('twitter_feed_theme', $params['id']); ?>
