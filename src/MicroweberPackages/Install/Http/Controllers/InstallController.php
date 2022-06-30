@@ -626,8 +626,11 @@ class InstallController extends Controller
         $runner = new Client();
         $results = $runner->search();
 
-        if ($results) {
+        if ($results and is_array($results)) {
             foreach ($results as $k => $result) {
+                if (!is_array($result)) {
+                    continue;
+                }
                 $latestVersion = end($result);
                 if (!isset($latestVersion['type'])) {
                     continue;
@@ -639,6 +642,7 @@ class InstallController extends Controller
                     $ready[] = MicroweberComposerPackage::format($latestVersion);
                 }*/
                 $ready[] = MicroweberComposerPackage::format($latestVersion);
+
             }
         }
 
