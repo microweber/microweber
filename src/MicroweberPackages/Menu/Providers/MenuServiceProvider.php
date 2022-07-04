@@ -38,6 +38,7 @@ class MenuServiceProvider extends ServiceProvider
         });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {

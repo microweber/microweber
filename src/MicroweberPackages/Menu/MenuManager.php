@@ -72,7 +72,11 @@ class MenuManager
         if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
             $data_to_save['is_active'] = 1;
         }
-      //  dump($data_to_save);
+
+        if (isset($data_to_save['title']) and !isset($data_to_save['menu_name'])) {
+            $data_to_save['menu_name'] = $data_to_save['title'];
+        }
+
         $save = $this->app->database_manager->save($table, $data_to_save);
         $this->app->cache_manager->delete('menus');
 
