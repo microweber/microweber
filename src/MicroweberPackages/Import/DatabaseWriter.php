@@ -255,8 +255,8 @@ class DatabaseWriter
 	public function runWriter()
 	{
         $this->logger->clearLog();
-        $this->_deleteOldContent();
         $this->_deleteOldCssFiles();
+        $this->_deleteOldContent();
 
         if (isset($this->content->__table_structures)) {
             $this->logger->setLogInfo('Building database tables');
@@ -399,9 +399,13 @@ class DatabaseWriter
     {
         // Delete old css files
         if ($this->deleteOldCssFiles) {
-            $currentTemplate = template_name();
-
-            dd($currentTemplate);
+            $currentTemplate = get_option('current_template','template');
+            if (!empty($currentTemplate)) {
+                $deleteFolder = userfiles_path() . 'css' . DS . $currentTemplate;
+                if (is_dir($deleteFolder)) {
+                    rmdir_recursive($deleteFolder, false);
+                }
+            }
         }
     }
 
