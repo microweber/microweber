@@ -67,10 +67,16 @@ include_once $functions_dir.'common.php';
 include_once $functions_dir.'other.php';
 include_once $functions_dir.'mail.php';
 
-$functions_dir2 = dirname(MW_PATH).DS.'Helper'.DS.'functions'.DS;
-include_once $functions_dir2.'array.php';
-include_once $functions_dir2.'filesystem.php';
-include_once $functions_dir2.'laravel.php';
-include_once $functions_dir2.'string.php';
-include_once $functions_dir2.'system.php';
-include_once $functions_dir2.'url.php';
+
+$functions_dir2 = dirname(MW_PATH).DS.'Media'.DS.'functions'.DS;
+include_once $functions_dir2.'media.php';
+include_once $functions_dir2.'media_paths.php';
+
+
+$functions_dir3 = dirname(MW_PATH).DS.'Helper'.DS.'functions'.DS;
+include_once $functions_dir3.'array.php';
+include_once $functions_dir3.'filesystem.php';
+include_once $functions_dir3.'laravel.php';
+include_once $functions_dir3.'string.php';
+include_once $functions_dir3.'system.php';
+include_once $functions_dir3.'url.php';
