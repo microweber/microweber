@@ -94,7 +94,7 @@ jobs:
     - name: Install template
       run: composer require ${{ matrix.templates }} --no-cache
     - name: Install Microweber with template ${{ matrix.templates }}
-      run: php artisan microweber:install --email=admin@site.com --username=1 --password=1 --db_host=/home/runner/work/microweber/microweber/storage/database1.sqlite --db_name=microweber --db_password=nopass --db_driver=sqlite --db_prefix=site_ --template=${{ matrix.templates }} --default_content=1
+      run: php artisan microweber:install --email=admin@site.com --username=1 --password=1 --db-host=/home/runner/work/microweber/microweber/storage/database1.sqlite --db-name=microweber --db-password=nopass --db-driver=sqlite --db-prefix=site_ --template=${{ matrix.templates }} --default-content=1
     - name: Run Laravel Server
       run:  php -d variables_order=EGPCS -S 127.0.0.1:8000 > /home/runner/work/microweber/microweber/storage/logs/serve.log 2>&1 &
     - name: Run Dusk Browse test
