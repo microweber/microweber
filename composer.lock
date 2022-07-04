@@ -5971,7 +5971,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.2-34e2a5.zip",
                 "reference": "d6c20b4fd101e785a441cded58f461af06886c36",
-                "shasum": "06c6266c1f4c139c3cc713f40505ddf026e93925"
+                "shasum": "8fa3e4dff73302c10de2d5500298901fa943337b"
             },
             "type": "microweber-template",
             "extra": {
@@ -6017,7 +6017,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-3.7-54d9ca.zip",
                 "reference": "528d29e01e3365186a68c636ee89d0878a57689a",
-                "shasum": "7ca9b3fc50083a3afc3f8d666ffaf3b90761434d"
+                "shasum": "3fb63e705ae8357e599f401c8b247c69173ca142"
             },
             "type": "microweber-template",
             "extra": {
