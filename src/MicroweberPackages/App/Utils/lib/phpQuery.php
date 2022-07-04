@@ -3790,8 +3790,8 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
                         break;
                     case 'insertBefore':
                     case 'before':
-                        if (!$toNode->parentNode) {
-                            throw new Exception("No parentNode, can't do {$type}()");
+                        if (!isset($toNode->parentNode) or !$toNode->parentNode) {
+                            throw new \Exception("No parentNode, can't do {$type}()");
                         } else {
                             $toNode->parentNode->insertBefore(
                                     $insert, $toNode
@@ -3800,8 +3800,8 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
                         break;
                     case 'insertAfter':
                     case 'after':
-                        if (!$toNode->parentNode) {
-                            throw new Exception("No parentNode, can't do {$type}()");
+                        if (!isset($toNode->parentNode) or !$toNode->parentNode) {
+                            throw new \Exception("No parentNode, can't do {$type}()");
                         } else {
                             $toNode->parentNode->insertBefore(
                                     $insert, $nextSibling
