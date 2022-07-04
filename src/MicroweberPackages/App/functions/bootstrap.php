@@ -68,7 +68,7 @@ include_once $functions_dir.'other.php';
 include_once $functions_dir.'mail.php';
 
 
-$functions_dir2 = dirname(MW_PATH).DS.'Media'.DS.'functions'.DS;
+$functions_dir2 = dirname(MW_PATH).DS.'Media'.DS.'helpers'.DS;
 include_once $functions_dir2.'media.php';
 include_once $functions_dir2.'media_paths.php';
 
