@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.19] - 2022-07-04
+- Fixed uploading, now requires a valid XSRF token.
+- Fixed artisan command names and arguments are now with dash instead of underscore
+- Fixed XSRF token is now obtained from the server by ajax request.
+- Fixed forgot password now works by username not only by email.
+- Fixed external URL redirect on logout, while providing username and password in the URL.
+- Fixed toggle of notifications accordion was broken due Bootstrap 5 migration
+- Fixed bug related to image resizing in live edit.
+- Fixed twitter feed was not loading when you reload the module by JS. 
+- Added ability for the code editor to pop-out in new window.
+- Added icons in the dom tree in live edit for easier identification of elements.
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.18...1.2.19 "")
+
+
 ## [1.2.18] - 2022-06-22
 - Fixed unpublished products that were shown on frontend
 - Fixed empty CSS properties are removed when you reset the element from live edit
