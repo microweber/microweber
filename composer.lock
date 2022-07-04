@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4628c75941eec0d7ceb9b47f55730cf0",
+    "content-hash": "3ab84542dd2e940bb7ee13244bc7c9f4",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5960,7 +5960,7 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "5.2",
+            "version": "5.4",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
@@ -5969,16 +5969,16 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.2-34e2a5.zip",
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.4-34e2a5.zip",
                 "reference": "d6c20b4fd101e785a441cded58f461af06886c36",
-                "shasum": "8fa3e4dff73302c10de2d5500298901fa943337b"
+                "shasum": "3429260507c43c2efceecf874b507851d65a8505"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/52/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/52/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/54/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/54/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6017,7 +6017,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-3.7-54d9ca.zip",
                 "reference": "528d29e01e3365186a68c636ee89d0878a57689a",
-                "shasum": "3fb63e705ae8357e599f401c8b247c69173ca142"
+                "shasum": "81bc63e8e6b445cd469f1d9d04dbe5f601fa7aca"
             },
             "type": "microweber-template",
             "extra": {
