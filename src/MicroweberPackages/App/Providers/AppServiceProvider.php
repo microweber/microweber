@@ -103,6 +103,7 @@ class AppServiceProvider extends ServiceProvider
     * Application Service Providers...
     */
     public $laravel_providers = [
+        \Illuminate\Translation\TranslationServiceProvider::class,
 
         \Illuminate\Session\SessionServiceProvider::class,
         //  \Illuminate\Filesystem\FilesystemServiceProvider::class,
@@ -123,7 +124,6 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Queue\QueueServiceProvider::class,
         \Illuminate\Redis\RedisServiceProvider::class,
         \Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        \Illuminate\Translation\TranslationServiceProvider::class,
         \Illuminate\Validation\ValidationServiceProvider::class,
         \Illuminate\View\ViewServiceProvider::class,
 

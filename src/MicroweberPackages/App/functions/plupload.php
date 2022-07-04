@@ -336,8 +336,11 @@ $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled
 if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
     $ext = strrpos($fileName, '.');
+
     $fileName_a = substr($fileName, 0, $ext);
     $fileName_b = substr($fileName, $ext);
+
+    $fileName_b = strtolower($fileName_b);
 
     $count = 1;
     while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b)) {
@@ -500,7 +503,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
         $ext = get_file_extension($filePath);
-
+        $ext = strtolower($ext);
         if (function_exists('finfo_open') and function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
             $mime = @finfo_file($finfo, $filePath);
