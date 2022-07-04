@@ -20,18 +20,18 @@ class InstallCommand extends Command
      * @var string
      */
     protected $signature = 'microweber:install
-                                    {--db_host=}
-                                    {--db_name=}
-                                    {--db_username=}
-                                    {--db_password=}
-                                    {--db_driver=}
-                                    {--db_prefix=}
+                                    {--db-host=}
+                                    {--db-name=}
+                                    {--db-username=}
+                                    {--db-password=}
+                                    {--db-driver=}
+                                    {--db-prefix=}
                                     {--email=}
                                     {--username=}
                                     {--password=}
-                                    {--default_content=}
+                                    {--default-content=}
                                     {--template=}
-                                    {--config_only=}
+                                    {--config-only=}
                                     {--language=}';
 
     public function __construct(InstallController $installer)
@@ -62,21 +62,25 @@ class InstallCommand extends Command
 
         */
 
+
+
         $input = array(
-            'db_host' => $this->option('db_host'),
-            'db_name' => $this->option('db_name'),
-            'db_username' => $this->option('db_username'),
-            'db_password' => $this->option('db_password'),
-            'db_driver' => $this->option('db_driver'),
-            'db_prefix' => $this->option('db_prefix'),
+            'db_host' => $this->option('db-host'),
+            'db_name' => $this->option('db-name'),
+            'db_username' => $this->option('db-username'),
+            'db_password' => $this->option('db-password'),
+            'db_driver' => $this->option('db-driver'),
+            'db_prefix' => $this->option('db-prefix'),
             'admin_email' => $this->option('email'),
             'admin_username' => $this->option('username'),
             'admin_password' => $this->option('password'),
-            'with_default_content' => $this->option('default_content'),
+            'with_default_content' => $this->option('default-content'),
             'default_template' => $this->option('template'),
-            'config_only' => $this->option('config_only'),
+            'config_only' => $this->option('config-only'),
             'site_lang' => $this->option('language'),
         );
+
+
 
         $vals = array_filter($input);
         if (!$vals) {
