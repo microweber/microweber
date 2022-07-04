@@ -285,7 +285,7 @@ class Import
 				break;
 
 			default:
-				throw new \Exception('Format not supported for importing.');
+				throw new \Exception('Format not supported for importing. Trying to import as ' . $this->type);
 				break;
 		}
 
