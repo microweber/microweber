@@ -38,6 +38,7 @@ class Import
     public $batchImporting = true;
     public $ovewriteById = false;
     public $deleteOldContent = false;
+    public $deleteOldCssFiles = false;
     public $sessionId;
     public $logger;
     public $writeOnDatabase = true;
@@ -98,6 +99,11 @@ class Import
         $this->deleteOldContent = $delete;
     }
 
+    public function setToDeleteOldCssFiles($delete)
+    {
+        $this->deleteOldCssFiles = $delete;
+    }
+
     /**
      * Set logger
      * @param class $logger
@@ -150,6 +156,7 @@ class Import
                 $writer->setContent($content['data']);
                 $writer->setOverwriteById($this->ovewriteById);
                 $writer->setDeleteOldContent($this->deleteOldContent);
+                $writer->setDeleteOldCssFiles($this->deleteOldCssFiles);
                 $writer->setLogger($this->logger);
 
                 if ($this->batchImporting) {
