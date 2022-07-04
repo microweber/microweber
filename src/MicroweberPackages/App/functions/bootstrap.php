@@ -68,9 +68,9 @@ include_once $functions_dir.'other.php';
 include_once $functions_dir.'mail.php';
 
 $functions_dir2 = dirname(MW_PATH).DS.'Helper'.DS.'functions'.DS;
-include_once $functions_dir.'array.php';
-include_once $functions_dir.'filesystem.php';
-include_once $functions_dir.'laravel.php';
-include_once $functions_dir.'string.php';
-include_once $functions_dir.'system.php';
-include_once $functions_dir.'url.php';
+include_once $functions_dir2.'array.php';
+include_once $functions_dir2.'filesystem.php';
+include_once $functions_dir2.'laravel.php';
+include_once $functions_dir2.'string.php';
+include_once $functions_dir2.'system.php';
+include_once $functions_dir2.'url.php';
