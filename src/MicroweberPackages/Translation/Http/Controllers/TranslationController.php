@@ -9,7 +9,7 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Backup\Readers\XlsxReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Export\Formats\JsonExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
