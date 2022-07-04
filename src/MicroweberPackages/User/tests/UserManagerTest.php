@@ -224,7 +224,7 @@ class UserManagerTest extends TestCase
 
         $from = 'Forgot Password Test' . uniqid();
         $from_addr = 'sometest.' . uniqid() . '@example.com';
-        Config::set('mail.driver', 'log');
+        Config::set('mail.driver', 'array');
         Config::set('mail.from.name', $from);
         Config::set('mail.from.address', $from_addr);
 
