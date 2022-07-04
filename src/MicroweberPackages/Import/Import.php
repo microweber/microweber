@@ -51,10 +51,13 @@ class Import
 	 *
 	 * @param string $file
 	 */
-	public function setType($type)
-	{
-		$this->type = $type;
-	}
+    public function setType($type)
+    {
+        if ($type == '' or $type == false) {
+            throw new \Exception('The import type should be set');
+        }
+        $this->type = $type;
+    }
 
     /**
      * Set import file path
@@ -66,7 +69,7 @@ class Import
             return array('error' => 'Backup Manager: You have not provided a existing backup to restore.');
         }
 
-        $this->setType(pathinfo($file, PATHINFO_EXTENSION));
+        $this->setType(get_file_extension($file));
         $this->file = $file;
     }
 
