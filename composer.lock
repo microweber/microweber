@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73160d3f9a02c5989d17cf787b19016f",
+    "content-hash": "4628c75941eec0d7ceb9b47f55730cf0",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -578,16 +578,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.3.5",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "50c47b1f907cfcdb8f072b88164d22b527557ae1"
+                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/50c47b1f907cfcdb8f072b88164d22b527557ae1",
-                "reference": "50c47b1f907cfcdb8f072b88164d22b527557ae1",
+                "url": "https://api.github.com/repos/composer/composer/zipball/f69e63262dadd02b3b6edade339c7badda2939c2",
+                "reference": "f69e63262dadd02b3b6edade339c7badda2939c2",
                 "shasum": ""
             },
             "require": {
@@ -603,7 +603,7 @@
                 "react/promise": "^2.8",
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.2",
-                "symfony/console": "^5.4.1 || ^6.0",
+                "symfony/console": "^5.4.7 || ^6.0.7",
                 "symfony/filesystem": "^5.4 || ^6.0",
                 "symfony/finder": "^5.4 || ^6.0",
                 "symfony/polyfill-php73": "^1.24",
@@ -630,6 +630,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-main": "2.3-dev"
+                },
+                "phpstan": {
+                    "includes": [
+                        "phpstan/rules.neon"
+                    ]
                 }
             },
             "autoload": {
@@ -663,7 +668,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.3.5"
+                "source": "https://github.com/composer/composer/tree/2.3.8"
             },
             "funding": [
                 {
@@ -679,7 +684,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-13T14:43:00+00:00"
+            "time": "2022-07-01T10:10:47+00:00"
         },
         {
             "name": "composer/installers",

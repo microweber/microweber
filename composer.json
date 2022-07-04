@@ -29,7 +29,7 @@
         "guzzlehttp/guzzle": "7.4.5",
         "symfony/translation": "*",
         "doctrine/dbal": "3.4.x-dev",
-        "composer/composer": "2.3.5",
+        "composer/composer": "2.3.8",
         "composer/installers": "*",
         "ezyang/htmlpurifier": "v4.14.0",
         "knplabs/knp-menu": "^3.2@dev",
@@ -110,6 +110,9 @@
         ]
     },
     "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": true
+        },
         "preferred-install": "dist",
         "platform": {
             "php": "7.4"
