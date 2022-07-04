@@ -5971,7 +5971,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.4-34e2a5.zip",
                 "reference": "d6c20b4fd101e785a441cded58f461af06886c36",
-                "shasum": "3429260507c43c2efceecf874b507851d65a8505"
+                "shasum": "7f8281e5b6a9b1701612f9f6c785f68688e7ab29"
             },
             "type": "microweber-template",
             "extra": {
