@@ -51,7 +51,7 @@
         "scssphp/scssphp": "1.10.0",
         "graham-campbell/security-core": "V3.2.5",
         "darkaonline/l5-swagger": "*",
-        "wikimedia/composer-merge-plugin": "dev-master",
+        "wikimedia/composer-merge-plugin": "2.0.1",
         "opis/closure": "^3.6@dev",
         "laravel/sanctum": "*",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
