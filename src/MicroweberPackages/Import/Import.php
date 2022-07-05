@@ -38,6 +38,7 @@ class Import
     public $batchImporting = true;
     public $ovewriteById = false;
     public $deleteOldContent = false;
+    public $deleteOldCssFiles = false;
     public $sessionId;
     public $logger;
     public $writeOnDatabase = true;
@@ -51,10 +52,13 @@ class Import
 	 *
 	 * @param string $file
 	 */
-	public function setType($type)
-	{
-		$this->type = $type;
-	}
+    public function setType($type)
+    {
+        if ($type == '' or $type == false) {
+            throw new \Exception('The import type should be set');
+        }
+        $this->type = $type;
+    }
 
     /**
      * Set import file path
@@ -66,7 +70,7 @@ class Import
             return array('error' => 'Backup Manager: You have not provided a existing backup to restore.');
         }
 
-        $this->setType(pathinfo($file, PATHINFO_EXTENSION));
+        $this->setType(get_file_extension($file));
         $this->file = $file;
     }
 
@@ -93,6 +97,11 @@ class Import
     public function setToDeleteOldContent($delete)
     {
         $this->deleteOldContent = $delete;
+    }
+
+    public function setToDeleteOldCssFiles($delete)
+    {
+        $this->deleteOldCssFiles = $delete;
     }
 
     /**
@@ -147,6 +156,7 @@ class Import
                 $writer->setContent($content['data']);
                 $writer->setOverwriteById($this->ovewriteById);
                 $writer->setDeleteOldContent($this->deleteOldContent);
+                $writer->setDeleteOldCssFiles($this->deleteOldCssFiles);
                 $writer->setLogger($this->logger);
 
                 if ($this->batchImporting) {
@@ -285,7 +295,7 @@ class Import
 				break;
 
 			default:
-				throw new \Exception('Format not supported for importing.');
+				throw new \Exception('Format not supported for importing. Trying to import as ' . $this->type);
 				break;
 		}
 

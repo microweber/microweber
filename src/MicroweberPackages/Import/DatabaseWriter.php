@@ -51,6 +51,12 @@ class DatabaseWriter
      */
 	public $deleteOldContent = false;
 
+
+    /**
+     * @var bool
+     */
+	public $deleteOldCssFiles = false;
+
 	/**
 	 * The content from backup file
 	 * @var string
@@ -70,6 +76,10 @@ class DatabaseWriter
 
 	public function setDeleteOldContent($delete) {
 	    $this->deleteOldContent = $delete;
+    }
+
+    public function setDeleteOldCssFiles($delete) {
+	    $this->deleteOldCssFiles = $delete;
     }
 
     public function setLogger($logger) {
@@ -245,6 +255,7 @@ class DatabaseWriter
 	public function runWriter()
 	{
         $this->logger->clearLog();
+        $this->_deleteOldCssFiles();
         $this->_deleteOldContent();
 
         if (isset($this->content->__table_structures)) {
@@ -383,6 +394,20 @@ class DatabaseWriter
 
         return $log;
 	}
+
+	private function _deleteOldCssFiles()
+    {
+        // Delete old css files
+        if ($this->deleteOldCssFiles) {
+            $currentTemplate = get_option('current_template','template');
+            if (!empty($currentTemplate)) {
+                $deleteFolder = userfiles_path() . 'css' . DS . $currentTemplate;
+                if (is_dir($deleteFolder)) {
+                    rmdir_recursive($deleteFolder, false);
+                }
+            }
+        }
+    }
 
 	private function _deleteOldContent()
     {

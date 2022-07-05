@@ -105,7 +105,15 @@ class UrlManager
 
         $redirectUrl = site_url();
         $parseUrl = parse_url($url);
+
         if (isset($parseUrl['host'])) {
+            if(isset($parseUrl['user']) and $parseUrl['user']){
+                return \Redirect::to(site_url());
+            }
+
+            if(isset($parseUrl['pass']) and $parseUrl['pass']){
+                return \Redirect::to(site_url());
+            }
             if ($parseUrl['host'] == site_hostname()) {
                 $redirectUrl = $url;
             }
