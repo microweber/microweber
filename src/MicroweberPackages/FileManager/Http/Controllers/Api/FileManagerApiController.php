@@ -22,10 +22,10 @@ class FileManagerApiController extends Controller {
 
         $order = $request->get('order', 'asc');
         $orderBy = $request->get('orderBy', 'modified');
+        $path = urldecode($path);
 
         $path = str_replace('./', '', $path);
         $path = str_replace('..', '', $path);
-        $path = urldecode($path);
         $path = str_replace($pathRestirct, '', $path);
 
         $thumbnailSize = 150;
@@ -72,12 +72,14 @@ class FileManagerApiController extends Controller {
                 if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp') {
                     $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, true);
                 }
+                $relative_path = str_ireplace(base_path(), '', $file);
+
 
                 $data[] = [
                     'type'=>'file',
                     'mimeType'=> mime_content_type($file),
                     'name'=> basename($file),
-                    'path'=> $file,
+                    'path'=> $relative_path,
                     'created'=> date('Y-m-d H:i:s',filectime($file)),
                     'modified'=> date('Y-m-d H:i:s',filemtime($file)),
                     'thumbnail'=> $thumbnail,
