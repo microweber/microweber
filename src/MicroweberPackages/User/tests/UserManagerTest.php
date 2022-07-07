@@ -3,7 +3,6 @@
 namespace MicroweberPackages\User\tests;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -214,39 +213,6 @@ class UserManagerTest extends TestCase
         $this->assertTrue($requestStatus['error']);
         $this->assertTrue(str_contains($requestStatus['message'],'user with that'));
 
-
-    }
-
-    public function testForgotPasswordWithAnotherDriver()
-    {
-
-        Option::setValue('email_transport', 'config', 'email');
-
-        $from = 'Forgot Password Test' . uniqid();
-        $from_addr = 'sometest.' . uniqid() . '@example.com';
-        Config::set('mail.driver', 'array');
-        Config::set('mail.from.name', $from);
-        Config::set('mail.from.address', $from_addr);
-
-        $mailSender = new MailSender();
-        $mailSender->configMailDriver();
-        $this->testForgotPassword();
-
-
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
-        $findEmail = false;
-        foreach ($emails as $email) {
-            $emailAsArray = [];
-            $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody();
-            $emailAsArray['to'] = key($email->getTo());
-            $emailAsArray['from'] = key($email->getFrom());
-            if ($emailAsArray['from'] == $from_addr) {
-                $findEmail = true;
-
-            }
-        }
-        $this->assertTrue($findEmail);
 
     }
 
@@ -519,11 +485,12 @@ class UserManagerTest extends TestCase
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
+
             $emailArray = $this->getEmailDataAsArrayFromObject($email);
             $body = $emailArray['body'];
 
-            if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
-                if (strpos($body, '?email=') !== false) {
+             if (str_contains($body, '--unit-testingRESET_passwordlink-') !== false) {
+                if (str_contains($body, '?email') !== false) {
                     $findResetPasswordLink = true;
                 }
             }
@@ -567,6 +534,7 @@ class UserManagerTest extends TestCase
         $findUsername = false;
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
+
 
             $emailArray = $this->getEmailDataAsArrayFromObject($email);
 
@@ -666,7 +634,5 @@ class UserManagerTest extends TestCase
 
     }
 
-
-
-
 }
+
