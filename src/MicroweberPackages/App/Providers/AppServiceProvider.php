@@ -27,6 +27,7 @@ use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\Debugbar\DebugbarServiceProvider;
 use MicroweberPackages\Import\Providers\ImportServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
+use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -232,6 +233,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(MediaManagerServiceProvider::class);
         $this->app->register(DebugbarServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
