@@ -2,13 +2,10 @@
 
 namespace MicroweberPackages\Utils\Mail;
 
- //api_expose_admin('Microweber/Utils/MailSender/test');
 
-use Config;
-use View;
-use Swift_Mailer;
-use Swift_Message;
-use Swift_TransportException;
+use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
+
 use Illuminate\Support\Facades\Mail;
 
 

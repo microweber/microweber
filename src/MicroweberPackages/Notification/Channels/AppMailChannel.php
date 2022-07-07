@@ -5,6 +5,7 @@ namespace MicroweberPackages\Notification\Channels;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Channels\MailChannel;
 use MicroweberPackages\Utils\Mail\MailSender;
+use Symfony\Component\Mailer\Exception\TransportException;
 
 class AppMailChannel extends MailChannel
 {
@@ -31,14 +32,16 @@ class AppMailChannel extends MailChannel
 
         try {
             return parent::send($notifiable, $notification);
-        } catch (\Swift_AddressEncoderException $e) {
-          //  \Log::error($e);
-        } catch (\Swift_DependencyException $e) {
-          //  \Log::error($e);
-        } catch (\Swift_RfcComplianceException $e) {
-           // \Log::error($e);
-        } catch (\Swift_TransportException $e) {
-           // \Log::error($e);
+//        } catch (Swift_AddressEncoderException $e) {
+//             \Log::error($e);
+//        } catch (Swift_DependencyException $e) {
+//            \Log::error($e);
+//        } catch (Swift_RfcComplianceException $e) {
+//             \Log::error($e);
+//        } catch (Swift_TransportException $e) {
+//             \Log::error($e);
+        }catch (TransportException $e) {
+             \Log::error($e);
         }
 
 //        catch (\Exception $e) {
