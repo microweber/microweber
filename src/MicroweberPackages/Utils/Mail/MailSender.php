@@ -4,7 +4,7 @@ namespace MicroweberPackages\Utils\Mail;
 
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
 
 use Illuminate\Support\Facades\Mail;
 
