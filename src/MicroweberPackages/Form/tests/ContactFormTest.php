@@ -129,20 +129,26 @@ class ContactFormTest extends TestCase
 
             $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
-            if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
+
+            if (str_contains($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
                 // Mail to user
                 $mailToUser[] = $emailAsArray;
             }
 
-            if (strpos($emailAsArray['subject'], $formName) !== false) {
+            if (str_contains($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
                 $mailToReceivers[] = $emailAsArray;
             }
         }
 
+
+
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
-        $this->assertTrue(str_contains($mailToUser[0]['body'],'This is the autorespond text - global'));
+
+        $body = utf8_encode(quoted_printable_decode($mailToUser[0]['body']));
+
+        $this->assertTrue(str_contains($body, 'This is the autorespond text - global'));
         $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
         $this->assertSame($mailToUser[0]['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
         $this->assertSame($mailToUser[0]['to'], 'unit.b.slaveykov@unittest-global.com');
