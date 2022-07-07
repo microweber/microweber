@@ -311,6 +311,9 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if ($body instanceof MixedPart) {
             $emailAsArray['body'] = $body->bodyToString();
         }
+        if (isset($emailAsArray['body'])) {
+            $emailAsArray['body'] = utf8_encode(quoted_printable_decode($emailAsArray['body']));
+        }
 
         $emailAsArray['subject'] = $emailOriginal->getSubject();
         $emailAsArray['to'] = $emailOriginal->getTo()[0]->getAddress();

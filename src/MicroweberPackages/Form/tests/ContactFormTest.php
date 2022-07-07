@@ -146,7 +146,7 @@ class ContactFormTest extends TestCase
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
 
-        $body = utf8_encode(quoted_printable_decode($mailToUser[0]['body']));
+        $body = $mailToUser[0]['body'];
 
         $this->assertTrue(str_contains($body, 'This is the autorespond text - global'));
         $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
