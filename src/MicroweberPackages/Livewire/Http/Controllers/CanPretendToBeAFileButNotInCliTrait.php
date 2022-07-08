@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Livewire\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
+
 trait CanPretendToBeAFileButNotInCliTrait
 {
     public function pretendResponseIsFile($file, $mimeType = 'application/javascript')
@@ -10,16 +12,16 @@ trait CanPretendToBeAFileButNotInCliTrait
         $expires = strtotime('+1 year');
         $lastModified = filemtime($file);
         $cacheControl = 'public, max-age=31536000';
-
-        if (!is_cli()) {
-            if ($this->matchesCache($lastModified)) {
-                return response()->make('', 304, [
-                    'Expires' => $this->httpDate($expires),
-                    'Cache-Control' => $cacheControl,
-                ]);
+        if (!App::runningUnitTests()) {
+            if (!is_cli()) {
+                if ($this->matchesCache($lastModified)) {
+                    return response()->make('', 304, [
+                        'Expires' => $this->httpDate($expires),
+                        'Cache-Control' => $cacheControl,
+                    ]);
+                }
             }
         }
-
         return response()->file($file, [
             'Content-Type' => "$mimeType; charset=utf-8",
             'Expires' => $this->httpDate($expires),
