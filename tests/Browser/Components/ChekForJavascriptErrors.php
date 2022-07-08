@@ -164,7 +164,7 @@ class ChekForJavascriptErrors extends BaseComponent
         if (!empty($findedErrors)) {
             $findedErrors[] = 'page url: ' . $browser->driver->getCurrentURL();
 
-            $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+            $html = $browser->script("return document.documentElement.outerHTML");
             file_put_contents(storage_path('logs/error.html'), $html);
 
             throw new \Exception(print_r($findedErrors, true));
