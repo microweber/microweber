@@ -36,13 +36,20 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         $this->app['config']->set($key, array_merge( $config,require $path,));
     }
 
+
+    protected function registerLivewireSingleton()
+    {
+        $this->app->singleton(LivewireManager::class);
+
+        $this->app->alias(LivewireManager::class, 'livewire');
+    }
+
+
     public function register()
     {
 
-
         parent::register();
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
-
 
     }
 
@@ -52,22 +59,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
         parent::boot();
 
-        $livewireCacheFolder = 'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/';
 
-        if(!is_dir($livewireCacheFolder)){
-            mkdir_recursive($livewireCacheFolder);
-        }
-        $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
-        $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
-        if (!is_file($livewireCachedFile)) {
-            $livewireOriginalFile = __DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js';
-            copy($livewireOriginalFile, $livewireCachedFile);
-
-            if (!is_file($livewireCachedFileManifest)) {
-                $livewireOriginalFileManifest = __DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json';
-                copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
-            }
-        }
 
 
 
