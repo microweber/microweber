@@ -563,17 +563,25 @@ if (!$chunks || $chunk == $chunks - 1) {
                 }
 
             } else if ($ext === 'svg') {
-
+                $valid = false;
                 if (is_file($filePath)) {
                     $sanitizer = new \enshrined\svgSanitize\Sanitizer();
                     // Load the dirty svg
                     $dirtySVG = file_get_contents($filePath);
                      // Pass it to the sanitizer and get it back clean
-                    $cleanSVG = $sanitizer->sanitize($dirtySVG);
-                    file_put_contents($filePath, $cleanSVG);
+                    try {
+                        $cleanSVG = $sanitizer->sanitize($dirtySVG);
+                        $valid = true;
+                    } catch (\Exception $e) {
+                        $valid = false;
+                    }
+
+                    if ($valid) {
+                        file_put_contents($filePath, $cleanSVG);
+                    }
 
                 }
-               $valid = true;
+
 
             } else {
                 $valid = false;
