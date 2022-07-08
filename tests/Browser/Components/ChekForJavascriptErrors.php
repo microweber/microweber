@@ -163,6 +163,10 @@ class ChekForJavascriptErrors extends BaseComponent
 
         if (!empty($findedErrors)) {
             $findedErrors[] = 'page url: ' . $browser->driver->getCurrentURL();
+
+            $html = $browser->script("if (typeof $ == 'function') { return $('body').html() }");
+            file_put_contents(storage_path('logs/error.html'), $html);
+
             throw new \Exception(print_r($findedErrors, true));
         }
 
@@ -171,7 +175,7 @@ class ChekForJavascriptErrors extends BaseComponent
         // Check for dump and prints
         $printStrings = [
             'array (',
-            'Array (', 
+            'Array (',
             'stdClass Object',
             'stdClass',
             'Sfdump',
