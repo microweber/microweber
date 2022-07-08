@@ -42,9 +42,8 @@ trait HasMultilanguageTrait
 
     public static function bootHasMultilanguageTrait()
     {
-        $defaultLocale = mw()->lang_helper->default_lang();
 
-        static::saving(function ($model) use ($defaultLocale) {
+        static::saving(function ($model)  {
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                 if(isset($model->attributes['lang'])){
                 unset($model->attributes['lang']);
@@ -54,6 +53,7 @@ trait HasMultilanguageTrait
                 }
              }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
                 // When receive a save_option
                 if (isset($model->attributes['lang']) && isset($model->attributes['module'])) {
                     $translatableModuleOptions = self::getTranslatableModuleOptions();
@@ -89,6 +89,8 @@ trait HasMultilanguageTrait
                      }
                     // Append to model if we want to save changes for original model
                     if (!empty($model->_addMultilanguage)) {
+                        $defaultLocale = mw()->lang_helper->default_lang();
+
                         foreach ($model->_addMultilanguage as $field => $multilanguage) {
                             if (isset($multilanguage[$defaultLocale])) {
                                 $model->$field = $multilanguage[$defaultLocale];
