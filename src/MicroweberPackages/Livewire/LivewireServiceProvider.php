@@ -40,7 +40,6 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     protected function registerLivewireSingleton()
     {
         $this->app->singleton(LivewireManager::class);
-
         $this->app->alias(LivewireManager::class, 'livewire');
     }
 
@@ -53,22 +52,6 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
     }
 
-    public function boot()
-    {
-
-
-        parent::boot();
-
-
-
-
-
-    }
-
-//    protected function registerConfig()
-//    {
-//        $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
-//    }
 
     protected function registerRoutes()
     {
@@ -76,6 +59,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
         RouteFacade::get('/livewire/livewire.js', [\MicroweberPackages\Livewire\Http\Controllers\LivewireJavaScriptAssets::class, 'source']);
         RouteFacade::get('/livewire/livewire.js.map', [\MicroweberPackages\Livewire\Http\Controllers\LivewireJavaScriptAssets::class, 'maps']);
+
     }
 
 }
