@@ -67,6 +67,15 @@
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
+
+
+    <!-- Alpine v3 -->
+    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+
+    <?php   print \Livewire\Livewire::styles();    ?>
+
+    <?php   print \Livewire\Livewire::scripts();    ?>
+
 </head>
 
 
