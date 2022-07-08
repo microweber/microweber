@@ -27,8 +27,8 @@ class AdminAATest extends DuskTestCase
                 $browser->within(new AdminMakeInstall(), function ($browser) {
                     $browser->makeInstallation();
                 });
-                $user = User::where('username', 1)->first();
-                Auth::login($user);
+//                $user = User::where('username', 1)->first();
+//                Auth::login($user);
 
             }
         });
