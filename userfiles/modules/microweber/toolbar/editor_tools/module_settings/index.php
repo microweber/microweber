@@ -87,13 +87,23 @@
     if (isset($_GET['autosize'])) {
         $autoSize = $_GET['autosize'];
     }
-    $autoSize = xss_clean($autoSize);
+    $autoSize = intval($autoSize);
 
     $type = '';
     if (isset($_GET['type'])) {
         $type = $_GET['type'];
     }
     $type = xss_clean($type);
+
+            $other = [
+                ';',
+                '\'',
+                '//',
+                '`',
+                '\\',
+
+            ];
+    $type = str_replace($other, '', $type);
 
     $mod_id = $mod_orig_id = false;
     $is_linked_mod = false;
@@ -108,6 +118,8 @@
     if ($mod_id != $mod_orig_id) {
         $is_linked_mod = true;
     }
+
+
     ?>
 
     <script type="text/javascript">
@@ -124,7 +136,7 @@
         addIcon();
 
         autoSize = <?php  print $autoSize; ?>;
-        settingsType = '<?php print $type; ?>';
+        settingsType = '<?php print htmlentities($type); ?>';
 
         window.onbeforeunload = function () {
             $(document.body).addClass("mw-external-loading")
