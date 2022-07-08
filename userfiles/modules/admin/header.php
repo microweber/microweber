@@ -70,10 +70,10 @@
 
 
     <!-- Alpine v3 -->
+    <?php   print \Livewire\Livewire::scripts();    ?>
 
     <?php   print \Livewire\Livewire::styles();    ?>
 
-    <?php   print \Livewire\Livewire::scripts();    ?>
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
 
 </head>

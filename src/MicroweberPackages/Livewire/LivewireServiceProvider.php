@@ -30,6 +30,12 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         return ['Livewire\Livewire'];
     }
 
+    protected function registerConfig()
+    {
+        parent::registerConfig();
+        $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
+    }
+
 
     protected function registerRoutes()
     {
