@@ -28,6 +28,8 @@ RUN docker-php-ext-install pdo_mysql zip dom curl mbstring intl
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY . /var/www/html
+RUN rm -Rf /var/www/html/.git
+RUN rm -Rf /var/www/html/.github
 
 WORKDIR /var/www/html
 
