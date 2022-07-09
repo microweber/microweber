@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [1.2.20] - 2022-07-09
+- Fixed security issue when uploading svg files with script tags
+- Fixed security issue when using special characters as url parameters
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.19...1.2.20 "")
+
+
 ## [1.2.19] - 2022-07-04
 - Fixed uploading, now requires a valid XSRF token.
 - Fixed artisan command names and arguments are now with dash instead of underscore
