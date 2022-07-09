@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ab84542dd2e940bb7ee13244bc7c9f4",
+    "content-hash": "2835b21a6222e08e97869afdb0e6d455",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -5960,25 +5960,25 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "5.4",
+            "version": "5.5",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world",
-                "reference": "d6c20b4fd101e785a441cded58f461af06886c36"
+                "reference": "6a51cb5b4798e4f0eb94c0d515d7b5a8a2ceb4c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.4-34e2a5.zip",
-                "reference": "d6c20b4fd101e785a441cded58f461af06886c36",
-                "shasum": "7f8281e5b6a9b1701612f9f6c785f68688e7ab29"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.5-5846f1.zip",
+                "reference": "6a51cb5b4798e4f0eb94c0d515d7b5a8a2ceb4c5",
+                "shasum": "bf81edd5e4ebaf6f51378740538cb95d919a2df0"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/54/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/54/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/55/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/55/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6002,7 +6002,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-06-28T14:22:08+00:00"
+            "time": "2022-07-08T14:05:27+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
