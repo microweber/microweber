@@ -76,9 +76,16 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 
 * HTTP server  
 * Database server
-* PHP >= 7.4
+* PHP >= 8.1
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
+  * `intl` PHP extension
+  * `curl` PHP extension
+  * `zip` PHP extension
+  * `openssl` PHP extension
+  * `fileinfo` PHP extension
+  * `pdo_sqlite` PHP extension
+  * `pdo_mysql` PHP extension
 
 ### HTTP Server
 

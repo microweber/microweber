@@ -14,6 +14,7 @@ namespace MicroweberPackages\Livewire;
 use Illuminate\Support\Facades\Route as RouteFacade;
 
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
+use LivewireUI\Modal\LivewireModalServiceProvider;
 
 class LivewireServiceProvider extends BaseLivewireServiceProvider
 {
@@ -49,6 +50,12 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
         parent::register();
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
+
+        app()->register(LivewireModalServiceProvider::class);
+
+        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
+
+
 
     }
 

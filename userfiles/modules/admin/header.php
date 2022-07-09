@@ -74,6 +74,8 @@
 
     <?php   print \Livewire\Livewire::styles();    ?>
 
+
+
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
 
 </head>
@@ -82,6 +84,10 @@
 
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
+
+@livewire('livewire-ui-modal')
+
+
 
 <?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
 

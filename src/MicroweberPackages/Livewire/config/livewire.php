@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'asset_url' => site_url().'/userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION,
+  //  'asset_url' => site_url().'/userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION,
 
     /*
     |--------------------------------------------------------------------------
