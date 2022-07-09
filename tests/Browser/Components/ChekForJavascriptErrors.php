@@ -130,6 +130,7 @@ class ChekForJavascriptErrors extends BaseComponent
         $skipErrorStrings = [
             'Blocked attempt to show',
             'userfiles/install_log.txt?',
+            'https://www.googletagmanager.com/a?id=UA-12345678',
         ];
         $findedErrors = [];
         if (!empty($consoleLog)) {
