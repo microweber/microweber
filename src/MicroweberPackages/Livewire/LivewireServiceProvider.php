@@ -49,7 +49,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     {
 
         parent::register();
-        $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
+       // $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
 
         app()->register(LivewireModalServiceProvider::class);
 
