@@ -83,6 +83,7 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
   * `curl` PHP extension
   * `zip` PHP extension
   * `openssl` PHP extension
+  * `bcmath` PHP extension
   * `fileinfo` PHP extension
   * `pdo_sqlite` PHP extension
   * `pdo_mysql` PHP extension
@@ -154,6 +155,11 @@ See the [online guides](http://microweber.com/docs/guides/README.md) for develop
 We are looking for people who want to help us improve Microweber.
 
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request, and be sure all tests are passing.
+
+## Discord server
+
+You can join our Discord server [here](https://microweber.org/go/discord).
+
 
 ## Build Status
 
