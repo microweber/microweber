@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09c6dfa51689d0b1ce22cb6dae2c30d7",
+    "content-hash": "99211756f31fa61ad39e9377b2729168",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -6041,23 +6041,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "3.6",
+            "version": "3.7",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "0c86efaba5ef5013fb62bea6a21e0442d5575689"
+                "reference": "481c20c868bad34926b4fb38bf3fc8cc087d3085"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.6-9d2664.zip",
-                "reference": "0c86efaba5ef5013fb62bea6a21e0442d5575689",
-                "shasum": "cd53945f8b67297e15b276b14faa951d548da67d"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.7-218824.zip",
+                "reference": "481c20c868bad34926b4fb38bf3fc8cc087d3085",
+                "shasum": "9f0b5920a5a695f8e16e85b7d5118772095b3a14"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/36/README.md"
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/37/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6078,7 +6078,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2022-07-11T14:16:50+00:00"
+            "time": "2022-07-11T16:13:14+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -13038,12 +13038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Tucker-Eric/EloquentFilter.git",
-                "reference": "b625272d374c2da5d800cd96d25e627746fea41d"
+                "reference": "3a8bd28169cc040ea4662628bd20812bd4377648"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Tucker-Eric/EloquentFilter/zipball/b625272d374c2da5d800cd96d25e627746fea41d",
-                "reference": "b625272d374c2da5d800cd96d25e627746fea41d",
+                "url": "https://api.github.com/repos/Tucker-Eric/EloquentFilter/zipball/3a8bd28169cc040ea4662628bd20812bd4377648",
+                "reference": "3a8bd28169cc040ea4662628bd20812bd4377648",
                 "shasum": ""
             },
             "require": {
@@ -13094,9 +13094,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Tucker-Eric/EloquentFilter/issues",
-                "source": "https://github.com/Tucker-Eric/EloquentFilter/tree/3.1.0"
+                "source": "https://github.com/Tucker-Eric/EloquentFilter/tree/master"
             },
-            "time": "2022-02-02T16:40:47+00:00"
+            "time": "2022-06-28T21:25:44+00:00"
         },
         {
             "name": "twig/twig",
