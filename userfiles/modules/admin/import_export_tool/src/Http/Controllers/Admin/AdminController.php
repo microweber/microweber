@@ -34,7 +34,6 @@ class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminCont
 
        DatabaseSave::savePost($array[0]);
 
-        dd($array[0]);
 
     }
 }

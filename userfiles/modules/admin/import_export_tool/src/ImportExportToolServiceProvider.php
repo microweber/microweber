@@ -24,6 +24,19 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ViewImport;
 class ImportExportToolServiceProvider extends ServiceProvider
 {
     /**
+     * Whether or not to defer the loading of this service
+     * provider until it's needed
+     *
+     * @var boolean
+     */
+    protected $defer = true;
+
+
+
+    public function provides() {
+        return ['MicroweberPackages\Modules\Admin\ImportExportTool'];
+    }
+    /**
      * Bootstrap the application services.
      *
      * @return void
