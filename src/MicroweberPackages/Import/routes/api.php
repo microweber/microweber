@@ -25,36 +25,4 @@ Route::name('admin.import.')
         Route::post('/language/export', 'LanguageController@export')->name('language.export');
         Route::post('/language/upload', 'LanguageController@upload')->name('language.upload');
 
-        Route::get('viz', function () {
-
-            $request = request();
-            $contentParentTags = $request->get('content_parent_tags');
-
-           //$googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
-          //$googleProductsXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
-          $googleProductsXml = file_get_contents('https://templates.microweber.com/import_test/wp.xml');
-        //  $googleProductsXml = file_get_contents('file:///Users/bobi/Downloads/all.atom');
-
-
-            $newReader = new XmlToArray();
-            $data = $newReader->readXml($googleProductsXml);
-
-            $dropdownMapping = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable();
-            $dropdownMapping->setContent($data);
-            $dropdownMapping->setContentParentTags($contentParentTags);
-
-            $data =  $dropdownMapping->render();
-
-            return view('import::mapping_table_xml', [
-                'map'=>$data,
-                'content_parent_tag'=>$contentParentTags,
-                'structure'=>[]
-            ]);
-
-            return;
-
-
-
-        });
-
     });
