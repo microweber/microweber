@@ -6052,7 +6052,7 @@
                 "type": "zip",
                 "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.7-218824.zip",
                 "reference": "481c20c868bad34926b4fb38bf3fc8cc087d3085",
-                "shasum": "9f0b5920a5a695f8e16e85b7d5118772095b3a14"
+                "shasum": "94dd48b8902f0f9192d4370afb0615f17f255f34"
             },
             "type": "microweber-module",
             "extra": {
