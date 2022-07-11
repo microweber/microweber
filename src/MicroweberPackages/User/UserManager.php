@@ -190,11 +190,13 @@ class UserManager
 
 
 
-        // third check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
+        // check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
         if (isset($_SERVER['REMOTE_ADDR'])) {
-            $check3 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]15 min ago&updated_at=[lt]15 min&rel_type=login_failed&user_ip=' . $_SERVER['REMOTE_ADDR']);
-            if ($check3 > 25) {
-                return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
+            if (user_ip() != $_SERVER['REMOTE_ADDR']) {
+                $check3 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]15 min ago&updated_at=[lt]15 min&rel_type=login_failed&user_ip=' . $_SERVER['REMOTE_ADDR']);
+                if ($check3 > 100) {
+                    return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
+                }
             }
         }
 
