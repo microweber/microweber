@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c95063bc81a44412cef2b22351fbbef5",
+    "content-hash": "1b446f1aa341c0f8d1edfd559df5988b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -16811,7 +16811,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-bcmath": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

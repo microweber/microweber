@@ -24,6 +24,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-zip": "*",
+        "ext-bcmath": "*",
         "arcanedev/seo-helper": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
