@@ -56,12 +56,6 @@
         "league/omnipay": "*",
         "livewire/livewire": "*",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
-        "microweber-modules/standalone-updater": "3.5",
-        "microweber-packages/composer-client": "1.9",
-        "microweber-packages/microweber-class-alias": "dev-master",
-        "microweber-templates/bootstrap5": "1.2",
-        "microweber-templates/new-world": "5.1",
-        "microweber-templates/shopmag": "3.6",
         "mtrajano/laravel-swagger": "0.6.4",
         "omnipay/authorizenet": "*",
         "omnipay/mollie": "*",
@@ -85,7 +79,13 @@
         "whitecube/lingua": "1.1.0",
         "wikimedia/composer-merge-plugin": "dev-master",
         "wikimedia/less.php": "3.1.0",
-        "wire-elements/modal": "dev-main"
+        "wire-elements/modal": "1.0.7",
+        "microweber-packages/microweber-class-alias": "dev-master",
+        "microweber-templates/new-world": "5.5",
+        "microweber-templates/shopmag": "3.7",
+        "microweber-templates/bootstrap5": "1.3",
+        "microweber-packages/composer-client": "1.9",
+        "microweber-modules/standalone-updater": "3.5"
     },
     "require-dev": {
         "laravel/sail": "*",

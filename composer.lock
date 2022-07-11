@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "147ddc351f602bc5746bec6531f293fd",
+    "content-hash": "c95063bc81a44412cef2b22351fbbef5",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -659,12 +659,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "8536a2ca80ff55dd2a882e164ac82a0bef13ca73"
+                "reference": "a73933e16715535f7fa8b8a4f3af24aac0203367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/8536a2ca80ff55dd2a882e164ac82a0bef13ca73",
-                "reference": "8536a2ca80ff55dd2a882e164ac82a0bef13ca73",
+                "url": "https://api.github.com/repos/composer/composer/zipball/a73933e16715535f7fa8b8a4f3af24aac0203367",
+                "reference": "a73933e16715535f7fa8b8a4f3af24aac0203367",
                 "shasum": ""
             },
             "require": {
@@ -763,7 +763,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-05T20:21:44+00:00"
+            "time": "2022-07-10T15:03:38+00:00"
         },
         {
             "name": "composer/installers",
@@ -6180,25 +6180,25 @@
         },
         {
             "name": "microweber-templates/bootstrap5",
-            "version": "1.2",
+            "version": "1.3",
             "target-dir": "bootstrap5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/bootstrap5",
-                "reference": "b0d59dd04540542f381e238a3ada27850d457503"
+                "reference": "5cc8ae2ceca44b901ce496205d18187090bab410"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.2-40a215.zip",
-                "reference": "b0d59dd04540542f381e238a3ada27850d457503",
-                "shasum": "d11faf221a266a0e8449c8b6b623ae318d00d82c"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.3-53febf.zip",
+                "reference": "5cc8ae2ceca44b901ce496205d18187090bab410",
+                "shasum": "bb6c548ec406b028cbbf5e2fac2a30dda624103e"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/bootstrap5/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/12/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/12/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/13/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/13/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6227,29 +6227,29 @@
                 "forum": "https://microweber.org/community",
                 "docs": "http://docs.microweber.org"
             },
-            "time": "2022-05-11T10:23:23+00:00"
+            "time": "2022-06-07T13:19:00+00:00"
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "5.1",
+            "version": "5.5",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world",
-                "reference": "0a80665ab797c6a06efa3000cada47bc983b2ccc"
+                "reference": "6a51cb5b4798e4f0eb94c0d515d7b5a8a2ceb4c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.1-9c1ac4.zip",
-                "reference": "0a80665ab797c6a06efa3000cada47bc983b2ccc",
-                "shasum": "7ae2d09215cb4550ddbe0b7cd231452d868d48fb"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.5-5846f1.zip",
+                "reference": "6a51cb5b4798e4f0eb94c0d515d7b5a8a2ceb4c5",
+                "shasum": "bf81edd5e4ebaf6f51378740538cb95d919a2df0"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/51/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/51/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/55/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/55/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6273,35 +6273,28 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-06-08T15:49:51+00:00"
+            "time": "2022-07-08T14:05:27+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "3.6",
+            "version": "3.7",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-templates/shopmag",
-                "reference": "cf2384fd868fb8adaf16f8fb9901f1646a1b1872"
+                "url": "https://github.com/microweber-templates/shopmag.git",
+                "reference": "528d29e01e3365186a68c636ee89d0878a57689a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-3.6-df7a1b.zip",
-                "reference": "cf2384fd868fb8adaf16f8fb9901f1646a1b1872",
-                "shasum": "ecdd2937876d78796dcbe4416e1ff692e9f462c6"
+                "url": "https://api.github.com/repos/microweber-templates/shopmag/zipball/528d29e01e3365186a68c636ee89d0878a57689a",
+                "reference": "528d29e01e3365186a68c636ee89d0878a57689a",
+                "shasum": ""
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://templates.microweber.com/shopmag/",
-                "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/36/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/36/screenshot.jpg"
-                },
-                "whmcs": {
-                    "whmcs_url": "https://members.microweber.com"
-                }
+                "preview_url": "https://templates.microweber.com/shopmag/"
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6318,7 +6311,11 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-06-07T12:33:16+00:00"
+            "support": {
+                "issues": "https://github.com/microweber-templates/shopmag/issues",
+                "source": "https://github.com/microweber-templates/shopmag/tree/3.7"
+            },
+            "time": "2022-06-28T14:20:37+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -6858,12 +6855,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "fb7403eecc701e1932d6e9b213342c5957cf4e3f"
+                "reference": "648cabf9bbb34d438d9807163ae85ccb1c92fc13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/fb7403eecc701e1932d6e9b213342c5957cf4e3f",
-                "reference": "fb7403eecc701e1932d6e9b213342c5957cf4e3f",
+                "url": "https://api.github.com/repos/nette/utils/zipball/648cabf9bbb34d438d9807163ae85ccb1c92fc13",
+                "reference": "648cabf9bbb34d438d9807163ae85ccb1c92fc13",
                 "shasum": ""
             },
             "require": {
@@ -6936,7 +6933,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/master"
             },
-            "time": "2022-06-02T11:43:37+00:00"
+            "time": "2022-07-10T15:11:56+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -10085,12 +10082,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "0fe9621d61b6596dddfd4a9b2e87e1df096e7177"
+                "reference": "6f62324a7a688870b91e07fe07c7c14eea658834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/0fe9621d61b6596dddfd4a9b2e87e1df096e7177",
-                "reference": "0fe9621d61b6596dddfd4a9b2e87e1df096e7177",
+                "url": "https://api.github.com/repos/symfony/console/zipball/6f62324a7a688870b91e07fe07c7c14eea658834",
+                "reference": "6f62324a7a688870b91e07fe07c7c14eea658834",
                 "shasum": ""
             },
             "require": {
@@ -10173,7 +10170,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-08T05:33:55+00:00"
+            "time": "2022-07-11T06:46:48+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -10817,12 +10814,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "7b67334f1022f383322332f8b2123ae7cdcc22d6"
+                "reference": "3e116f63b2f4879c78a5591154403546f11d41fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/7b67334f1022f383322332f8b2123ae7cdcc22d6",
-                "reference": "7b67334f1022f383322332f8b2123ae7cdcc22d6",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3e116f63b2f4879c78a5591154403546f11d41fe",
+                "reference": "3e116f63b2f4879c78a5591154403546f11d41fe",
                 "shasum": ""
             },
             "require": {
@@ -10919,7 +10916,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-07T09:50:37+00:00"
+            "time": "2022-07-11T06:49:20+00:00"
         },
         {
             "name": "symfony/intl",
@@ -11007,12 +11004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "34c95d2d5ee7fc0fbb0f31a68bbb336fd626e7fd"
+                "reference": "bcbfb016422f09debc0dbb1826708dc21030c1df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/34c95d2d5ee7fc0fbb0f31a68bbb336fd626e7fd",
-                "reference": "34c95d2d5ee7fc0fbb0f31a68bbb336fd626e7fd",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/bcbfb016422f09debc0dbb1826708dc21030c1df",
+                "reference": "bcbfb016422f09debc0dbb1826708dc21030c1df",
                 "shasum": ""
             },
             "require": {
@@ -11073,7 +11070,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-30T15:32:53+00:00"
+            "time": "2022-07-11T06:49:17+00:00"
         },
         {
             "name": "symfony/mime",
@@ -13845,7 +13842,7 @@
         },
         {
             "name": "wire-elements/modal",
-            "version": "dev-main",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wire-elements/modal.git",
@@ -13866,7 +13863,6 @@
                 "orchestra/testbench": "^6.15",
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -16800,12 +16796,11 @@
         "jenssegers/agent": 20,
         "knplabs/knp-menu": 20,
         "league/csv": 20,
-        "microweber-packages/microweber-class-alias": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
         "predis/predis": 20,
         "wikimedia/composer-merge-plugin": 20,
-        "wire-elements/modal": 20
+        "microweber-packages/microweber-class-alias": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
