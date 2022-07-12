@@ -460,11 +460,19 @@ class UserManager
      *
      * @uses $this->get_by_id()
      */
+
+    public $nice_name_cache = array();
+
     public function nice_name($id = false, $mode = 'full')
     {
 
+
         if (!$id) {
             $id = $this->id();
+        }
+
+        if(isset($this->nice_name_cache[$mode.$id])){
+            return $this->nice_name_cache[$mode.$id];
         }
 
         $user = $this->get_by_id($id);
@@ -542,7 +550,7 @@ class UserManager
                 $name = $name_from_email[0];
             }
         }
-
+        $this->nice_name_cache[$mode.$id] = $name;
         return $name;
     }
 
