@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99211756f31fa61ad39e9377b2729168",
+    "content-hash": "5c220f5698bf0981fc6eacb6f153c138",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -213,7 +213,7 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "dev-master",
+            "version": "v3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
@@ -239,7 +239,6 @@
                 "phpunit/phpunit": "^8.5|^9.0",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -282,7 +281,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/master"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.7.0"
             },
             "funding": [
                 {
@@ -658,12 +657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "a73933e16715535f7fa8b8a4f3af24aac0203367"
+                "reference": "12e15b7f605d4a8ae80d75b6749c5935dbda2357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/a73933e16715535f7fa8b8a4f3af24aac0203367",
-                "reference": "a73933e16715535f7fa8b8a4f3af24aac0203367",
+                "url": "https://api.github.com/repos/composer/composer/zipball/12e15b7f605d4a8ae80d75b6749c5935dbda2357",
+                "reference": "12e15b7f605d4a8ae80d75b6749c5935dbda2357",
                 "shasum": ""
             },
             "require": {
@@ -762,7 +761,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-10T15:03:38+00:00"
+            "time": "2022-07-12T11:25:12+00:00"
         },
         {
             "name": "composer/installers",
@@ -6041,23 +6040,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "3.7",
+            "version": "3.8",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "481c20c868bad34926b4fb38bf3fc8cc087d3085"
+                "reference": "b95ee517d9209cc84903f2ee5c1b326073f6c2c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.7-218824.zip",
-                "reference": "481c20c868bad34926b4fb38bf3fc8cc087d3085",
-                "shasum": "94dd48b8902f0f9192d4370afb0615f17f255f34"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.8-8275a0.zip",
+                "reference": "b95ee517d9209cc84903f2ee5c1b326073f6c2c8",
+                "shasum": "6a65f3e5a45f1a98eb8c6a9163f895017df2371e"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/37/README.md"
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/38/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6078,7 +6077,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2022-07-11T16:13:14+00:00"
+            "time": "2022-07-12T12:56:48+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -10671,12 +10670,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "cb3a0513773363afa0a05e34855a16ff7bdd461f"
+                "reference": "1d1e5042a919260f56e10571e1b875f432c6fdeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/cb3a0513773363afa0a05e34855a16ff7bdd461f",
-                "reference": "cb3a0513773363afa0a05e34855a16ff7bdd461f",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/1d1e5042a919260f56e10571e1b875f432c6fdeb",
+                "reference": "1d1e5042a919260f56e10571e1b875f432c6fdeb",
                 "shasum": ""
             },
             "require": {
@@ -10735,7 +10734,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-07T07:37:45+00:00"
+            "time": "2022-07-11T16:07:59+00:00"
         },
         {
             "name": "symfony/http-kernel",
@@ -10743,12 +10742,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "3e116f63b2f4879c78a5591154403546f11d41fe"
+                "reference": "2e29dca195367663a8ff59678557ce244edc5026"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3e116f63b2f4879c78a5591154403546f11d41fe",
-                "reference": "3e116f63b2f4879c78a5591154403546f11d41fe",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/2e29dca195367663a8ff59678557ce244edc5026",
+                "reference": "2e29dca195367663a8ff59678557ce244edc5026",
                 "shasum": ""
             },
             "require": {
@@ -10845,7 +10844,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-11T06:49:20+00:00"
+            "time": "2022-07-12T07:22:41+00:00"
         },
         {
             "name": "symfony/intl",
@@ -11007,12 +11006,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "1d4abcd161ea0456b65e2a12d166771c108b95b0"
+                "reference": "a2d5684806855c2c5c5203ec846aab7fa69ea936"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/1d4abcd161ea0456b65e2a12d166771c108b95b0",
-                "reference": "1d4abcd161ea0456b65e2a12d166771c108b95b0",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/a2d5684806855c2c5c5203ec846aab7fa69ea936",
+                "reference": "a2d5684806855c2c5c5203ec846aab7fa69ea936",
                 "shasum": ""
             },
             "require": {
@@ -11080,7 +11079,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-07T07:37:40+00:00"
+            "time": "2022-07-11T21:01:32+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -14913,12 +14912,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "c97956ef711aa3c129ae363a6e04b8026430ace4"
+                "reference": "417a284d5b37e363f2455a26f66acdca73fd0d85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c97956ef711aa3c129ae363a6e04b8026430ace4",
-                "reference": "c97956ef711aa3c129ae363a6e04b8026430ace4",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/417a284d5b37e363f2455a26f66acdca73fd0d85",
+                "reference": "417a284d5b37e363f2455a26f66acdca73fd0d85",
                 "shasum": ""
             },
             "require": {
@@ -14982,7 +14981,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-11T12:51:04+00:00"
+            "time": "2022-07-12T06:59:59+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
