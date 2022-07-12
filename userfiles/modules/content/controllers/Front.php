@@ -229,6 +229,15 @@ class Front
         }
 
 
+        $strict_categories_mode = false;
+
+        if (isset($params['strict_categories']) and $params['strict_categories'] == true) {
+            $strict_categories_mode = true;
+        }
+        if (isset($params['strict-categories']) and $params['strict-categories'] == true) {
+            $strict_categories_mode = true;
+        }
+
         if ($related_category_ids == false and isset($post_params['related-category-id']) and $post_params['related-category-id']) {
             $related_category_ids = explode(',', $post_params['related-category-id']);
             unset($post_params['related-category-id']);
@@ -433,24 +442,29 @@ class Front
 //                    ->select('id')->where('data_type', 'category')
 //                    ->whereIn('parent_id', $related_category_ids)->get();
 
-                $get_subcats = app()->category_repository->getSubCategories($related_category_ids);
 
 
-                if ($get_subcats) {
-                    $related_cats = array();
-                    $get_subcats = collection_to_array($get_subcats);
+                if (!$strict_categories_mode) {
+                    $get_subcats = app()->category_repository->getSubCategories($related_category_ids);
                     if ($get_subcats) {
-                        foreach ($get_subcats as $get_subcat) {
-                            $get_subcat = (array)$get_subcat;
-                            if (isset($get_subcat['id'])) {
-                                $related_cats[] = $get_subcat['id'];
+                        $related_cats = array();
+                        $get_subcats = collection_to_array($get_subcats);
+                        if ($get_subcats) {
+                            foreach ($get_subcats as $get_subcat) {
+                                $get_subcat = (array)$get_subcat;
+                                if (isset($get_subcat['id'])) {
+                                    $related_cats[] = $get_subcat['id'];
+                                }
                             }
                         }
+                        if ($related_cats) {
+                            $post_params['category'] = $related_cats;
+                        }
                     }
-                    if ($related_cats) {
-                        $post_params['category'] = $related_cats;
-                    }
+                } else {
+                    $post_params['category'] = $related_category_ids;
                 }
+
 
             }
         }
