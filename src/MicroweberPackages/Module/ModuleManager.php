@@ -503,6 +503,13 @@ class ModuleManager
                 }
             }
 
+
+            if ($modules_remove_old or isset($options['cleanup_db']) == true) {
+                // Run post update to reload modules migrations
+                mw_post_update();
+            }
+
+
             $c2 = array_merge($cfg_ordered, $cfg);
 
             $this->app->cache_manager->save($c2, $cache_id, $cache_group);

@@ -428,7 +428,7 @@ function mw_reload_modules()
     rmdir_recursive($bootstrap_cached_folder);
 
     mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
-
+    mw_post_update();
     if (isset($_GET['redirect_to'])) {
         return app()->url_manager->redirect($_GET['redirect_to']);
     }
