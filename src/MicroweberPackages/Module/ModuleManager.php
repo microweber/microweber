@@ -372,7 +372,8 @@ class ModuleManager
                         } else {
                             $try_icon = $t1 . '.jpg';
                         }
-                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
+                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.svg';
+                        $main_try_icon2 = modules_path() . $config['module'] . DS . 'icon.png';
                     } else {
                         if (is_file($mod_name . '.svg')) {
                             $try_icon = $mod_name . '.svg';
@@ -381,15 +382,19 @@ class ModuleManager
                         } else {
                             $try_icon = $mod_name . '.jpg';
                         }
+                        $main_try_icon = modules_path() . $mod_name . DS . 'icon.svg';
+                        $main_try_icon2 = modules_path() . $mod_name . DS . 'icon.png';
+
                     }
 
                     $try_icon = normalize_path($try_icon, false);
 
                     if ($main_try_icon and is_file($main_try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
-                    } elseif (is_file($try_icon)) {
-//                        d($config);
-//                        d($try_icon);
+                    } else if ($main_try_icon2 and is_file($main_try_icon2)) {
+                        $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon2);
+                    }elseif (is_file($try_icon)) {
+
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
