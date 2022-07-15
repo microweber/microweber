@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.0",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-json": "*",
@@ -117,7 +117,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.1"
+            "php": "8.0"
         },
         "preferred-install": "dist",
         "github-protocols": [
