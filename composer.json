@@ -116,9 +116,6 @@
         ]
     },
     "config": {
-        "platform": {
-            "php": "8.0"
-        },
         "preferred-install": "dist",
         "github-protocols": [
             "https",
