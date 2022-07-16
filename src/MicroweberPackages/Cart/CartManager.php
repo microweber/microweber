@@ -972,7 +972,7 @@ class CartManager extends Crud
 
             $this->coupon_data = false;
         } else {
-            if (function_exists('coupon_get_by_code')) {
+            if ($coupon_code and function_exists('coupon_get_by_code')) {
                 $this->coupon_data = coupon_get_by_code($coupon_code);
             } else {
                 $this->coupon_data = false;
