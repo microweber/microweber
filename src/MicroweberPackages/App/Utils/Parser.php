@@ -328,7 +328,7 @@ class Parser
         return $html_to_save;
     }
 
-    public function get_by_id($html_element_id = false, $layout)
+    public function get_by_id($html_element_id = false, $layout = false)
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
