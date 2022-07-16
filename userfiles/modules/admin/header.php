@@ -89,7 +89,13 @@
 
 
 
-<?php $new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates'); ?>
+<?php
+
+// must be moved to ajax and to the notification class because its too slow to load
+//$new_version_notifications = mw()->notifications_manager->get('rel_type=update_check&rel_id=updates');
+
+$new_version_notifications = 0;
+?>
 
 <?php
 $past_page = site_url();
@@ -183,27 +189,27 @@ $new_orders_count = false;
 
 
 
-$shop_disabled = get_option('shop_disabled', 'website') == 'y';
-
-if (!$shop_disabled) {
-    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
-
-    if ($new_orders_count) {
-        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
-    }
-}
+//$shop_disabled = get_option('shop_disabled', 'website') == 'y';
+//
+//if (!$shop_disabled) {
+//    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+//
+//    if ($new_orders_count) {
+//        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+//    }
+//}
 
 $comments_notif_html = false;
-$new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count();
-if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
-}
+//$new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count();
+//if ($new_comments_count) {
+//    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+//}
 
 $notif_html = '';
-$notif_count = Auth::user()->unreadNotifications()->count();
-if ($notif_count > 0) {
-    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
-}
+//$notif_count = Auth::user()->unreadNotifications()->count();
+//if ($notif_count > 0) {
+//    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
+//}
 ?>
 
 <?php
@@ -271,77 +277,8 @@ $user = get_user_by_id($user_id);
 
                 </ul>
 
+                <div class="mw-lazy-load-module module" id="admin-header-notification" type="admin/header_notifications"></div>
 
-                <ul class="nav">
-<!--                    <li class="mx-1 logo d-block d-xs-none">-->
-<!--                        <a class="mw-admin-logo" href="--><?php //print admin_url('view:dashboard'); ?><!--">-->
-<!--                            <h5 class="text-white mr-md-3">-->
-<!--                                --><?php //if (mw()->ui->logo_live_edit != false): ?>
-<!--                                    <img src="--><?php //print mw()->ui->logo_live_edit; ?><!--" style="height: 40px;"/>-->
-<!--                                --><?php //elseif (mw()->ui->admin_logo_login() != false): ?>
-<!--                                    <img src="--><?php //print mw()->ui->admin_logo_login(); ?><!--" style="height: 40px;"/>-->
-<!--                                --><?php //else: ?>
-<!--                                    <img src="--><?php //print modules_url(); ?><!--microweber/api/libs/mw-ui/assets/img/logo-mobile.svg" style="height: 40px;"/>-->
-<!--                                --><?php //endif; ?>
-<!--                            </h5>-->
-<!--                        </a>-->
-<!--                    </li>-->
-
-                    <?php if ($new_orders_count > 0): ?>
-                        <li class="mx-2">
-                            <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
-                                <?php print $order_notif_html; ?>
-                                <i class="mdi mdi-shopping text-muted m-0"></i>
-                                <span class="d-none d-xl-block mw-colorscheme-text-white">
-                                    <?php if ($new_orders_count == 1): ?>
-                                        <?php _e("New order"); ?>
-                                    <?php elseif ($new_orders_count > 1): ?>
-                                        <?php _e("New orders"); ?>
-                                    <?php endif; ?>
-                                </span>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-
-                    <?php if ($new_comments_count > 0): ?>
-                    <li class="mx-2">
-                        <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
-                            <?php print $comments_notif_html; ?>&nbsp;
-                            <i class="mdi mdi-comment-account text-muted m-0"></i>
-                            <span class="d-none d-xl-block mw-colorscheme-text-white">
-                                <?php if ($new_comments_count == 1): ?>
-                                    <?php _e("New comment"); ?>
-                                <?php elseif ($new_comments_count > 1): ?>
-                                    <?php _e("New comments"); ?>
-                                <?php else: ?>
-                                    <?php _e("Comments"); ?>
-                                <?php endif; ?>
-                            </span>
-                        </a>
-                    </li>
-                    <?php endif; ?>
-
-                    <?php if ($notif_count > 0): ?>
-                    <li class="mx-2 ">
-                        <a href="<?php echo route('admin.notification.index'); ?>" class="btn btn-link btn-rounded icon-left text-dark px-0">
-                            <?php print $notif_html; ?>
-                            <i class="mdi mdi-newspaper-variant-multiple text-muted m-0"></i>
-
-
-                            <span class="notif-label d-none d-xl-block">
-                                <?php if ($notif_count == 1): ?>
-                                    <?php _e("New notification"); ?>
-                                <?php elseif ($notif_count > 1): ?>
-                                    <?php _e("New notifications"); ?>
-                                <?php else: ?>
-                                    <?php _e("Notifications"); ?>
-                                <?php endif; ?>
-                            </span>
-                        </a>
-                    </li>
-                    <?php endif; ?>
-
-                </ul>
 
                 <?php event_trigger('mw.admin.header.toolbar'); ?>
 

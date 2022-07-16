@@ -358,7 +358,7 @@ class NotificationsManager
         $readyNotifications = [];
 
         $admin = Auth::user();
-
+dd(debug_backtrace(1));
         if (isset($admin->unreadNotifications) and !empty($admin->unreadNotifications)) {
             foreach ($admin->unreadNotifications as $notification) {
 

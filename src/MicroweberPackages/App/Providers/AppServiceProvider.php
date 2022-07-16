@@ -24,8 +24,6 @@ use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
-use MicroweberPackages\Debugbar\DebugbarServiceProvider;
-use MicroweberPackages\Import\Providers\ImportServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Media\Models\Media;
@@ -231,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
-        $this->app->register(DebugbarServiceProvider::class);
+        //$this->app->register(DebugbarServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
 
@@ -309,6 +307,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(MultilanguageServiceProvider::class);
 
 
+        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        if (config('debugbar.enabled')) {
+            \Barryvdh\Debugbar\Facades\Debugbar::enable();
+        } else {
+            \Barryvdh\Debugbar\Facades\Debugbar::disable();
+        }
 
         if (is_cli()) {
             $this->app->register(DuskServiceProvider::class);

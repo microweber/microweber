@@ -443,7 +443,7 @@ class UpdateManager
 
         $composerClient = new Client();
         $consumeLicense = $composerClient->consumeLicense($licenseLocalKey);
-        if ($consumeLicense['valid']) { 
+        if ($consumeLicense['valid']) {
 
             $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
             if ($findSystemLicense !== null) {
