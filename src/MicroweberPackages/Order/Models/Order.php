@@ -40,7 +40,13 @@ class Order extends Model
         'address',
         'phone',
         'user_ip',
+        'is_completed',
         'payment_gw'
+    ];
+
+    protected $searchable = [
+        'is_completed',
+
     ];
 
     public function modelFilter()

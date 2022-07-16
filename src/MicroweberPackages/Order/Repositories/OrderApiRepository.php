@@ -7,10 +7,11 @@ use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderIsUpdating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasDeleted;
+use MicroweberPackages\Order\Events\OrderWasDestoyed;
 use MicroweberPackages\Order\Events\OrderWasUpdated;
 use MicroweberPackages\Order\Models\Order;
 
-class OrderRepository extends BaseRepository
+class OrderApiRepository extends BaseRepository
 {
 
     public function __construct(Order $Order)
@@ -55,7 +56,7 @@ class OrderRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new OrderWasDestroy($ids));
+        event(new OrderWasDestoyed($ids));
 
         return $this->model->destroy($ids);
     }

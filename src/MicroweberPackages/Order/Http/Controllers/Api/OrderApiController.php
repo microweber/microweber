@@ -14,13 +14,13 @@ use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Order\Http\Requests\OrderRequest;
 use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
 use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;
-use MicroweberPackages\Order\Repositories\OrderRepository;
+use MicroweberPackages\Order\Repositories\OrderApiRepository;
 
 class OrderApiController extends AdminDefaultController
 {
     public $order;
 
-    public function __construct(OrderRepository $order)
+    public function __construct(OrderApiRepository $order)
     {
         $this->order = $order;
     }

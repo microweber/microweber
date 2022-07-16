@@ -88,7 +88,10 @@ class OrderManager
     }
     public function get_count_of_new_orders()
     {
-        return $this->get('count=1&order_status=new&is_completed=y');
+
+        $count  = Order::where('order_status', 'new')->where('order_completed',1)->count('id');
+
+        return $count;
 
     }
 
