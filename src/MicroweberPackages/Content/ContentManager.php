@@ -783,7 +783,7 @@ class ContentManager
         }
     }
 
-    public function paging_links($base_url = false, $pages_count, $paging_param = 'current_page', $keyword_param = 'keyword')
+    public function paging_links($base_url = false, $pages_count = false, $paging_param = 'current_page', $keyword_param = 'keyword')
     {
         if ($base_url == false) {
             if ($this->app->url_manager->is_ajax() == false) {

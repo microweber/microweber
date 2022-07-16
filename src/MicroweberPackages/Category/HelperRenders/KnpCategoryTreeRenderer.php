@@ -280,7 +280,7 @@ class KnpCategoryTreeRenderer
     private $level = 0;
     private $start_level = 0;
 
-    private function __process_nodes($menu = false, $tree_data, $options, $params)
+    private function __process_nodes($menu = false, $tree_data = [], $options = [], $params = [])
     {
         /** @var $menu \Knp\Menu\MenuItem */
 
