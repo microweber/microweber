@@ -95,7 +95,7 @@ class AdminController extends Controller
         event_trigger('mw_backend');
         $view = modules_path() . 'admin/';
 
-        $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
+        $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count('id');
 
         if (!$hasNoAdmin) {
             $this->hasNoAdmin();
