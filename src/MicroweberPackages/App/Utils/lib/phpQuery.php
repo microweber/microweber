@@ -208,7 +208,9 @@ class DOMDocumentWrapper
     public function load($markup, $contentType = null, $newDocumentID = null)
     {
         //		phpQuery::$documents[$id] = $this;
-        $this->contentType = strtolower($contentType);
+        if($contentType) {
+            $this->contentType = strtolower($contentType);
+        }
         if ($markup instanceof DOMDOCUMENT) {
             $this->document = $markup;
             $this->root = $this->document;
@@ -326,6 +328,10 @@ class DOMDocumentWrapper
         if (!$documentCharset) {
             $documentCharset = 'ISO-8859-1';
             $addDocumentCharset = true;
+        }
+
+        if($requestedCharset === null){
+            $requestedCharset = '';
         }
         // Should be careful here, still need 'magic encoding detection' since lots of pages have other 'default encoding'
         // Worse, some pages can have mixed encodings... we'll try not to worry about that
@@ -765,6 +771,12 @@ class DOMDocumentWrapper
         } else {
             $markup2 = phpQuery::$defaultDoctype.'<html><head><meta http-equiv="Content-Type" content="text/html;charset='
                     .$charset.'"></head>';
+
+            $noBody = false;
+            if($markup == false){
+                $markup = '';
+            }
+
             $noBody = strpos($markup, '<body') === false;
             if ($noBody) {
                 $markup2 .= '<body>';
@@ -3205,12 +3217,12 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
      *
      * @deprecated Use length as attribute
      */
-    public function length()
+    public function length():int
     {
         return $this->size();
     }
 
-    public function count()
+    public function count() :int
     {
         return $this->size();
     }
@@ -4716,7 +4728,7 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
     // ITERATOR INTERFACE
     /**
      */
-    public function rewind()
+    public function rewind() :void
     {
         $this->debug('iterating foreach');
         //		phpQuery::selectDocument($this->getDocumentID());
@@ -4731,14 +4743,14 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
 
     /**
      */
-    public function current()
+    public function current() :mixed
     {
         return $this->elementsInterator[$this->current];
     }
 
     /**
      */
-    public function key()
+    public function key() :mixed
     {
         return $this->current;
     }
@@ -4755,6 +4767,7 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
      *
      * @return phpQueryObject|QueryTemplatesSource|QueryTemplatesParse|QueryTemplatesSourceQuery
      */
+    #[ReturnTypeWillChange]
     public function next($cssSelector = null)
     {
         //		if ($cssSelector || $this->valid)
@@ -4771,7 +4784,7 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
 
     /**
      */
-    public function valid()
+    public function valid() :bool
     {
         return $this->valid;
     }
@@ -4780,21 +4793,21 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
     // ARRAYACCESS INTERFACE
     /**
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset) :bool
     {
         return $this->find($offset)->size() > 0;
     }
 
     /**
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset) :mixed
     {
         return $this->find($offset);
     }
 
     /**
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value) :void
     {
         //		$this->find($offset)->replaceWith($value);
         $this->find($offset)->html($value);
@@ -4802,7 +4815,7 @@ class phpQueryObject implements \Iterator, \Countable, \ArrayAccess
 
     /**
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset):void
     {
         // empty
         throw new Exception("Can't do unset, use array interface only for calling queries and replacing HTML.");

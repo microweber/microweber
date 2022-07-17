@@ -1224,6 +1224,12 @@ class ContentManagerCrud extends Crud
     private function set_table_names($tables = false)
     {
         $prefix = '';
+
+        if($tables == false){
+            $tables = array();
+        }
+
+
         if (!isset($tables['content'])) {
             $tables['content'] = 'content';
         }

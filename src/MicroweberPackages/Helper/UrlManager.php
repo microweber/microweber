@@ -28,7 +28,7 @@ class UrlManager
         if ($u1 == false) {
             $valid_domain = parse_url($this->site_url());
             if (isset($valid_domain['host'])) {
-                $host = str_ireplace('www.', null, $valid_domain['host']);
+                $host = str_ireplace('www.', '', $valid_domain['host']);
                 $u1 = $host;
             }
         }

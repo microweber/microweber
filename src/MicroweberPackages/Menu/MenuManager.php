@@ -44,7 +44,7 @@ class MenuManager
      *
      * @param array|bool $tables
      */
-    public function set_table_names($tables = false)
+    public function set_table_names($tables = [])
     {
         if (!isset($tables['menus'])) {
             $tables['menus'] = 'menus';
@@ -683,7 +683,9 @@ class MenuManager
                 }
 
                 foreach ($item as $key => $value) {
-                    $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
+                    if ($value) {
+                        $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
+                    }
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $menu_link = str_replace('{a_class}', $a_class, $menu_link);
