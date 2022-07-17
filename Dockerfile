@@ -10,6 +10,7 @@ RUN apt update && apt install -y --no-install-recommends \
         unzip \
         libonig-dev \
         graphviz \
+        libsodium-dev \
         libxml2-dev \
         libcurl4-openssl-dev \
         libfreetype6-dev \
