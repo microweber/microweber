@@ -9,7 +9,10 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
-    private $_addMultilanguage = [];
+    private array $_addMultilanguage = [];
+
+    /** @var array $fillable */
+
 
     public function initializeHasMultilanguageTrait()
     {
@@ -189,9 +192,12 @@ trait HasMultilanguageTrait
     public static function getTranslatableModuleOptions()
     {
         $translatableModuleOptions = [];
-        foreach (get_modules_from_db() as $module) {
-            if (isset($module['settings']['translatable_options'])) {
-                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+        $modules = mw()->module_manager->get_modules('ui=any&installed=1');
+        if ($modules) {
+            foreach ($modules as $module) {
+                if (isset($module['settings']['translatable_options'])) {
+                    $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+                }
             }
         }
         return $translatableModuleOptions;
