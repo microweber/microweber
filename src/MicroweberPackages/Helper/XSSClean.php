@@ -34,8 +34,7 @@ class XSSClean
         if(is_array($html)){
             return $this->cleanArray($html);
         }
-
-        // from https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#ontransitionend
+         // from https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#ontransitionend
         $cleanStrings = [
             'ontransitionstart',
             'onwebkitanimationend',

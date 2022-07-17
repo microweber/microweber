@@ -25,6 +25,7 @@
         "ext-openssl": "*",
         "ext-zip": "*",
         "ext-bcmath": "*",
+        "ext-sodium": "*",
         "arcanedev/seo-helper": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
@@ -89,14 +90,24 @@
         "microweber-modules/standalone-updater": "3.8"
     },
     "require-dev": {
-        "laravel/sail": "*",
         "fzaninotto/faker": "*",
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
         "phpunit/phpunit": "9.5.19",
-        "laravel/tinker": "*",
         "orchestra/testbench": "*",
         "spatie/laravel-ignition": "*"
+    },
+    "replace": {
+        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-intl": "*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
     },
     "autoload": {
         "psr-4": {

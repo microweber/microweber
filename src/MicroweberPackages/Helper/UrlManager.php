@@ -282,9 +282,10 @@ class UrlManager
         $u1 = implode('/', $this->segment(-1, $url));
 
 
-        // clear request params
-        $cleanParam = new HTMLClean();
-        $u1 = $cleanParam->clean($u1);
+        // clear request params must not be here because of performance issues,
+        // please use middleware to clear request params
+       // $cleanParam = new HTMLClean();
+       // $u1 = $cleanParam->clean($u1);
 
 
         return $u1;
