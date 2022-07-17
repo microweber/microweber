@@ -18,11 +18,15 @@ class EncodingFix
 	 */
 	public static function decode($content)
 	{
+        $canDecode = function_exists('utf8_decode');
+
 		if (!empty($content)) {
-			array_walk_recursive($content, function (&$item) {
+			array_walk_recursive($content, function (&$item) use ($canDecode) {
 				if (is_string($item)) {
-					$item = utf8_decode($item);
-				}
+                    if($canDecode){
+                        $item = utf8_decode($item);
+                    }
+ 				}
 			});
 		}
 
@@ -36,14 +40,18 @@ class EncodingFix
 	 */
 	public static function encode($content)
 	{
-		if (!empty($content)) {
-			array_walk_recursive($content, function (&$item) {
+        $canEncode = function_exists('utf8_encode');
+
+        if (!empty($content)) {
+			array_walk_recursive($content, function (&$item) use ($canEncode) {
 				if (is_string($item)) {
-					$item = utf8_encode($item);
+                    if($canEncode) {
+                        $item = utf8_encode($item);
+                    }
 				}
 			});
 		}
-		
+
 		return $content;
 	}
 }
