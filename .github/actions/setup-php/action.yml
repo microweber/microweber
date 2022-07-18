@@ -18,7 +18,7 @@ runs:
         APP_ENV: "testing"
       with:
         php-version: ${{ inputs.php_version }}
-        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
+        extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, bcmath, intl, sodium
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
     - name: zstd act workaround
       run: sudo apt install zstd
