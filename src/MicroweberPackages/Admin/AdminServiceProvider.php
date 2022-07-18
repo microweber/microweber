@@ -16,7 +16,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
 
