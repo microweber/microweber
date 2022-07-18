@@ -10,6 +10,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [1.2.21] - 2022-07-18
+- Fixed security related to module attributes
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.20...1.2.21 "")
+
+
 ## [1.2.20] - 2022-07-09
 - Fixed security issue when uploading svg files with script tags
 - Fixed security issue when using special characters as url parameters
