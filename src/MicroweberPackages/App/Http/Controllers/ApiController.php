@@ -67,7 +67,7 @@ class ApiController  extends FrontendController
 
 
         if (defined('TEMPLATE_DIR')) {
-             app()->template_manager->boot_template();
+            app()->template_manager->boot_template();
         }
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
@@ -916,7 +916,7 @@ class ApiController  extends FrontendController
             $mod_iframe = true;
         }
 
-        //$data = $request_data;
+        $data = $request_data;
 
         if (($_POST)) {
             $data = $_POST;
@@ -987,7 +987,7 @@ class ApiController  extends FrontendController
 
             unset($data['ondrop']);
         }
-        // d($data);
+
 
 
         $opts = array();
@@ -1035,7 +1035,10 @@ class ApiController  extends FrontendController
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
+            $data = xss_clean($data);
             foreach ($data as $k => $v) {
+                $k = $this->app->module_manager->format_attr($k);
+
                 if ($k != 'ondrop') {
                     if ($k == 'id') {
                         $has_id = true;
@@ -1045,9 +1048,7 @@ class ApiController  extends FrontendController
                         $v1 = $this->app->format->array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
-                        $v = $this->app->format->clean_html($v);
-
-                        //$v = app()->database_manager->escape_string($v);
+                        $v = $this->app->module_manager->format_attr($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -1193,7 +1194,7 @@ class ApiController  extends FrontendController
                 }
 
                 $this->return_data = 1;
-                 $page = $this->frontend();
+                $page = $this->frontend();
             } else {
                 $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
             }
