@@ -10,7 +10,7 @@ namespace MicroweberPackages\Order\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Order\Http\Requests\OrderRequest;
 use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
 use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;

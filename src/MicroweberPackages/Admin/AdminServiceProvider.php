@@ -20,7 +20,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
 
-//        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
 //        $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
 }

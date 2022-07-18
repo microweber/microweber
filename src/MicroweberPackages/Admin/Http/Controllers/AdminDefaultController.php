@@ -6,7 +6,7 @@
  * Time: 2:20 PM
  */
 
-namespace MicroweberPackages\App\Http\Controllers;
+namespace MicroweberPackages\Admin\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 
