@@ -266,9 +266,9 @@ class MicroweberComposerClient extends Client
 
         if (mw_is_installed()) { // This can make installation without database
 
-            // app()->update->post_update();
-            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
-            scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
+            app()->update->post_update();
+//            scan_for_modules('skip_cache=1&cleanup_db=1&reload_modules=1');
+//            scan_for_elements('skip_cache=1&cleanup_db=1&reload_modules=1');
 
 
             mw()->cache_manager->delete('db');

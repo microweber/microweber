@@ -33,6 +33,11 @@ function mw_reload_all_modules(){
         mw.tools.loading('#modules_admin_<?php print $rand; ?>', false);
         mw.notification.success('Elements are reloaded');
 
+        $.post(mw.settings.api_url + 'mw_post_update');
+        mw.notification.success("The DB was reloaded");
+
+
+
     });
 }
 

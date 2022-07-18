@@ -66,6 +66,11 @@
             mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
             $(".reload-module-btn").removeClass('reloading');
             mw.tools.loading(false);
+
+            $.post(mw.settings.api_url + 'mw_post_update');
+            mw.notification.success("The DB was reloaded");
+
+
         });
     }
 
