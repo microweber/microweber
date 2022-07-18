@@ -809,6 +809,23 @@ class ModuleManager
 
     }
 
+    public function format_attr($attr_value)
+    {
+        $attr_value = str_replace('"', '&quot;', $attr_value);
+        $attr_value = str_replace("'", '&#39;', $attr_value);
+        $attr_value = str_replace('<', '&lt;', $attr_value);
+        $attr_value = str_replace('>', '&gt;', $attr_value);
+        $attr_value = str_replace('&', '&amp;', $attr_value);
+        $attr_value = str_replace(']', '&#93;', $attr_value);
+        $attr_value = str_replace('[', '&#91;', $attr_value);
+        $attr_value = str_replace('{', '&#123;', $attr_value);
+        $attr_value = str_replace('}',  '&#125;', $attr_value);
+        $attr_value = str_replace('`',   '&#96;', $attr_value);
+        $attr_value = str_replace(';',    '&#59;', $attr_value);
+        return $attr_value;
+    }
+
+
     public function css_class($module_name)
     {
         global $mw_defined_module_classes;
