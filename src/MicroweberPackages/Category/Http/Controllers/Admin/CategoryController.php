@@ -8,6 +8,7 @@
 namespace MicroweberPackages\Category\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 

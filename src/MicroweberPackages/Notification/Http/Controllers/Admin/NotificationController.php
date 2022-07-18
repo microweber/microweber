@@ -11,6 +11,7 @@ namespace MicroweberPackages\Notification\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\User\Models\User;

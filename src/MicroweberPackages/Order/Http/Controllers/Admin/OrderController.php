@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Export\Formats\XlsxExport;
