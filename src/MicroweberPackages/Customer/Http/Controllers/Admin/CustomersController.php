@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Country\Models\Country;

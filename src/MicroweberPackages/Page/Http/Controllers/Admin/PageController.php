@@ -8,7 +8,7 @@
 namespace MicroweberPackages\Page\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Page\Repositories\PageRepository;
 
 class PageController extends AdminController

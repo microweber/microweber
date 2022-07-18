@@ -298,7 +298,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
-        $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
 
@@ -545,6 +544,7 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists(\App\Providers\AppServiceProvider::class)) {
             app()->register(\App\Providers\AppServiceProvider::class);
         }
+        $this->app->register(AdminServiceProvider::class);
 
          $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 

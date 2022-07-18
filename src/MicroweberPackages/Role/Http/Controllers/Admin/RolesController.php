@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Role\Http\Controllers\Admin;
 
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Role\Repositories\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;

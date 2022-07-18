@@ -23,7 +23,7 @@ Route::name('api.comment.admin.')
     });
 
 
-Route::name('admin.')
+Route::name('admin.comment.')
     ->prefix(ADMIN_PREFIX)
     ->middleware([\MicroweberPackages\Comment\Http\Middleware\PostCommentMiddleware::class,'admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')

@@ -6,7 +6,7 @@ use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class AdminController extends \MicroweberPackages\App\Http\Controllers\AdminController
+class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminDefaultController
 {
     public function index(Request $request)
     {
