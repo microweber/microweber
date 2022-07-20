@@ -4,7 +4,6 @@ namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MicroweberPackages\App\Http\Middleware\Admin;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\User\Models\User;
