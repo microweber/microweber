@@ -43,7 +43,7 @@
         "geoip2/geoip2": "~2.0",
         "graham-campbell/markdown": "*",
         "graham-campbell/security-core": "*",
-        "guzzlehttp/guzzle": "*",
+        "guzzlehttp/guzzle": "7.4.5",
         "jenssegers/agent": "^3.0@dev",
         "jeremeamia/superclosure": "*",
         "knplabs/knp-menu": "^3.2@dev",
