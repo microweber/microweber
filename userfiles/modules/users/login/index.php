@@ -86,9 +86,20 @@
             }
         });
     </script>
+
+
     <?php
 
-    $input = mw()->format->clean_xss(\Request::all());
+
+    $form_btn_title = get_option('form_btn_title', $params['id']);
+    if ($form_btn_title == false) {
+        $form_btn_title = 'Login';
+    }
+
+    $input = [];
+    if(!empty($_POST) or !empty($_GET)){
+        $input = mw()->format->clean_xss(\Request::all());
+    }
     $login_captcha_enabled = get_option('login_captcha_enabled', 'users') == 'y';
 
     # Login Providers
