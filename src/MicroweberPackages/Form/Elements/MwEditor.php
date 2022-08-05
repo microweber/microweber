@@ -9,6 +9,7 @@ class MwEditor extends TextArea
         $mwEditorId = rand(1111,9999) . time();
 
         $html = "<script>
+
                     mw.require('editor.js');
                     $(mwd).ready(function () {
                         mweditor$mwEditorId = mw.Editor({
@@ -16,6 +17,7 @@ class MwEditor extends TextArea
                         mode: 'div',
                         smallEditor: false,
                         minHeight: 250,
+                        inputLanguage: '" . current_lang() .   "',
                         maxHeight: '70vh',
                         controls: [
                                 [

@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <label><?php _e("Post title"); ?></label>
                                 <input type="text" class="form-control" placeholder="e.g. Share your last story">
-                                <span><i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i> <small><span class="text-silver">http://localhost/microweber/</span><span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php _e("shop"); ?></span></small></span>
+                                <span><i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i> <small><span class="text-silver">http://localhost/microweber/</span><span class="contenteditable" data-bs-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php _e("shop"); ?></span></small></span>
                             </div>
 
                             <div class="form-group">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="card style-1 mb-3">               
+            <div class="card style-1 mb-3">
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-12">

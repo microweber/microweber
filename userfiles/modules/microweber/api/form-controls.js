@@ -1110,7 +1110,7 @@ mw.emitter = {
                 link: {
                     label: mw.lang('Website URL'),
                     description: mw.lang('Type the website URL to link it'),
-                    placeholder: "http://",
+                    placeholder: "http://example.com",
                 },
                 target: {
                     label: mw.lang('Open the link in a new window')

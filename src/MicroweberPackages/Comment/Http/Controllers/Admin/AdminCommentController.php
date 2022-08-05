@@ -14,7 +14,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Notification;
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Comment\Models\Comment;
 use MicroweberPackages\Comment\Events\NewComment;
 use MicroweberPackages\Comment\Notifications\NewCommentNotification;
@@ -146,7 +147,7 @@ class AdminCommentController extends AdminController
         $comment_body = $data['comment_body'];
 
         if (!empty($comment_body) and !empty($data['format']) and $data['format'] == 'markdown') {
-            $comment_body = Markdown::convertToHtml($comment_body);
+            $comment_body = Markdown::convertToHtml($comment_body)->getContent();
         }
 
         $cleanHtml = new HTMLClean();

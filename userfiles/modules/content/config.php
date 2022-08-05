@@ -2,7 +2,7 @@
 
 $config = array();
 $config['name'] = "Content";
-$config['description'] = _e("Shows dynamic content", TRUE);
+$config['description'] ="Shows dynamic content";
 $config['author'] = "Microweber";
 $config['categories'] = "content";
 $config['version'] = 0.1;

@@ -143,7 +143,7 @@ mw.form = {
                         if(typeof this.files[0] !== 'undefined') {
                             form_data.set(this.name, this.files[0]);
                         }
-                    })
+                    });
 
                     req.data = form_data;
                     req.processData = false;

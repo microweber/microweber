@@ -1,6 +1,6 @@
 {!! $posts->scripts() !!}
 
-<div class="container-fluid">
+<section class="section container-fluid">
     <div class="row pt-5">
         <div class="col-lg-3">
             <div class="card border-0 text-dark bg-white">
@@ -9,9 +9,9 @@
 
                 {!! $posts->search() !!}
 
-                {!! $posts->tags() !!}
-
                 {!! $posts->categories() !!}
+
+                {!! $posts->tags() !!}
 
                 {!! $posts->filters() !!}
 
@@ -24,14 +24,14 @@
                     <p> <?php _e("Displaying"); ?> {{$posts->count()}} <?php _e("of"); ?> {{ $posts->total() }}  <?php _e("result(s)"); ?>.</p>
                 </div>
                 <div class="col-xl-6 col-lg-7 col-lg-5 d-block d-sm-flex justify-content-end ms-auto">
-                    <div class="col-12 col-sm px-1 ms-auto">{!! $posts->limit(); !!}</div>
-                    <div class="col-12 col-sm px-1 ms-auto">{!! $posts->sort(); !!}</div>
+                    <div class="col-md-6 col-12 col-sm px-1 ms-auto">{!! $posts->limit(); !!}</div>
+                    <div class="col-md-6 col-12 col-sm px-1 ms-auto">{!! $posts->sort(); !!}</div>
                 </div>
             </div>
             <div class="row">
             @foreach($posts->results() as $post)
                 <div class="col-md-6 mb-5">
-                    <a href="{{content_link($post->id)}}"> 
+                    <a href="{{content_link($post->id)}}">
 
                         <?php
                         /*<img src="{{$post->thumbnail(800,500, true)}}" alt="">*/
@@ -55,7 +55,7 @@
             {!! $posts->pagination() !!}
         </div>
     </div>
-</div>
+</section>
 
 
 

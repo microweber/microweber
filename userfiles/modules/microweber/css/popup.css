@@ -16,19 +16,6 @@ body {
     overflow-y: scroll;
 }
 
-body::-webkit-scrollbar {
-    width: 5px;
-}
-
-
-body::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-
-body::-webkit-scrollbar-thumb:hover {
-    background: #4592ff;
-}
 
 .mw-popup-footer {
 

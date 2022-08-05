@@ -40,23 +40,12 @@
                     </div>
                 </div>
                 <div class="col-2 d-flex item-action justify-content-end">
-                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
+                    <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger">delete_forever</i></a>
                 </div>
 
             </div>
         <?php endforeach; ?>
     </div>
-<?php endif; ?>
-
-<?php if (is_ajax()) : ?>
-
-    <script>
-        $(document).ready(function () {
-            //  cartModalBindButtons();
-
-        });
-    </script>
-
 <?php endif; ?>
 
 <div class="products-amount m-3">
@@ -70,7 +59,7 @@
             </div>
         <?php else: ?>
             <div class="col-12">
-                <p class="mb-0"><?php _e("Your cart is empty."); ?></p>
+                <p class="mb-0 text-center"><?php _e("Your cart is empty."); ?></p>
             </div>
         <?php endif; ?>
     </div>

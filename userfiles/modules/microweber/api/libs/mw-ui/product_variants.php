@@ -161,7 +161,7 @@
                                                     </div>
                                                     <input type="text" class="form-control" value="0.00">
                                                     <div class="input-group-append">
-                                                            <span class="input-group-text" data-toggle="tooltip" title=""
+                                                            <span class="input-group-text" data-bs-toggle="tooltip" title=""
                                                                   data-original-title="<?php _e("To put a product on sale, make Compare at price the original price and enter the lower amount into Price"); ?>."><i class="mdi mdi-help-circle"></i></span>
                                                     </div>
                                                 </div>
@@ -350,7 +350,7 @@
                                         </div>
 
                                         <div class="col-md-6 d-flex align-items-center">
-                                            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advandec-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+                                            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advandec-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
                                         </div>
                                     </div>
 

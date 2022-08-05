@@ -155,7 +155,18 @@ if(!isset($item['type'] )){
             <div class="card-body pb-3">
                 <?php if ($item['type'] != 'microweber-core-update'): ?>
                     <?php if (isset($screenshot) and $screenshot): ?>
-                        <a target="_blank" href="<?php print $item['homepage']; ?>"
+
+                        <?php $package_link_url_preview = '';
+                        if(isset($item['homepage'])){
+                            $package_link_url_preview = $item['homepage'];
+                        }
+                        if(isset($item['demo_link'])){
+                            $package_link_url_preview = $item['demo_link'];
+                        }
+                        ?>
+
+
+                        <a target="_blank" href="<?php print $package_link_url_preview; ?>"
                            class="package-image package-<?php print $item['type'] ?>"
                            style="width: calc(100% + 24px); margin: -12px -12px 0 -12px !important;">
                             <img src="<?php print thumbnail($screenshot, 400); ?>" alt="">
@@ -220,7 +231,7 @@ if(!isset($item['type'] )){
                             <?php
                             if(isset($item['extra']['preview_url'])):
                                 ?>
-                                <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="btn-block btn btn-link btn-sm p-0">
+                                <a href="<?php echo $item['extra']['preview_url']; ?>" target="_blank" class="js-package-demo-link btn-block btn btn-link btn-sm p-0">
                                     <?php _e('Demo'); ?>
                                 </a>
                             <?php

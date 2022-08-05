@@ -32,7 +32,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 params.tagging_tag_id = tagging_tag_id;
                 params.taggable_ids = taggable_ids;
 
-                mw.load_module('tags/edit_tagging_tag', '#mw_admin_edit_tagging_tag_item_module', null, params);
+                mw.load_module('tags/edit_tagging_tag', '#mw_admin_edit_tagging_tag_item_module', function(){
+                    mw_admin_edit_tag_modal.center();
+                }, params);
             }
 
             function deleteTaggingTag(tagging_tag_id) {
@@ -114,8 +116,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php sync_tags(); ?>
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Tagged content"); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#global-tags"><i class="mdi mdi-tag mr-1"></i> <?php _e('Global Tags'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Tagged content"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#global-tags"><i class="mdi mdi-tag mr-1"></i> <?php _e('Global Tags'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -129,7 +131,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label mb-0"><?php _e("Search tags");?></label>
-                            <small class="d-block text-muted mb-2"><?php _e("You can search multiple tags seperated by coma");?>.</small>
+                            <small class="d-block text-muted mb-2"><?php _e("You can search multiple tags separated by coma");?>.</small>
 
                             <div class="input-group">
                                 <input type="text" class="form-control js-search-tags-keyword" placeholder="<?php _e("Keyword");?>...">

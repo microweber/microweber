@@ -83,7 +83,7 @@
 
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
-  padding-right: $form-select-padding-x + $form-select-indicator-padding;
+  padding-inline-end: $form-select-padding-x + $form-select-indicator-padding;
 }
 
 
@@ -115,7 +115,7 @@
   }
 
   > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
-    margin-left: -$input-border-width;
+    margin-inline-start: -$input-border-width;
     @include border-start-radius(0);
   }
 }

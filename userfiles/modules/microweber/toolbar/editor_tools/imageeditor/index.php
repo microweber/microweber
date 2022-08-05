@@ -184,7 +184,7 @@
             }
             .imeditor-image-description > div.mw-ui-col > div{
                 padding-left: 0px;
-                padding-right: 0px;
+                padding-inline-end: 0px;
             }
         }
 
@@ -224,7 +224,7 @@
             </div>
             <div class="mw-ui-field-holder" id="edititems">
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;" id="editmenu">
-                <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
+                <div class="mw-ui-btn-nav pull-left" style="margin-inline-end:12px">
 
 
                   <span class="mw-ui-btn tip" data-tip="<?php _e('Crop') ?>" onclick="createCropTool();">

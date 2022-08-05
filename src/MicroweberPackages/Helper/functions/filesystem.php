@@ -78,19 +78,17 @@ if (!function_exists('get_file_extension')) {
     /**
      * Returns extension from a filename.
      *
-     * @param $LoSFileName Your filename
+     * @param $pathToFile string filename
      *
      * @return string $filename extension
      *
      * @category Files
      */
-	function get_file_extension($LoSFileName)
-	{
-		$LoSFileName = rtrim($LoSFileName, '.');
-		$LoSFileExtensions = substr($LoSFileName, strrpos($LoSFileName, '.') + 1);
-
-		return $LoSFileExtensions;
-	}
+    function get_file_extension($pathToFile)
+    {
+        $pathToFile = rtrim($pathToFile, '.');
+        return substr($pathToFile, strrpos($pathToFile, '.') + 1);
+    }
 }
 
 if (!function_exists('no_ext')) {

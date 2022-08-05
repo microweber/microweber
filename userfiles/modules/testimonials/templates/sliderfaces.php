@@ -39,7 +39,7 @@ description: Testimonials displayed in Slider with Faces
             dots: true,
             arrows: false,
             adaptiveHeight: true,
-            rtl:getComputedStyle(el[0]).direction == 'rtl'
+            rtl: document.documentElement.dir === 'rtl',
         })
             .on('beforeChange init reInit', function (event, slick, currentSlide, nextSlide) {
                 configFaces(nextSlide)

@@ -76,9 +76,17 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 
 * HTTP server  
 * Database server
-* PHP >= 7.3
+* PHP >= 8.1
   * `lib-xml` must be enabled (with DOM support)
   * `GD` PHP extension
+  * `intl` PHP extension
+  * `curl` PHP extension
+  * `zip` PHP extension
+  * `openssl` PHP extension
+  * `bcmath` PHP extension
+  * `fileinfo` PHP extension
+  * `pdo_sqlite` PHP extension
+  * `pdo_mysql` PHP extension
 
 ### HTTP Server
 
@@ -92,7 +100,12 @@ server {
   location / {
     try_files $uri $uri/ /index.php$is_args$args;
   }
+  location ~ /(vendor|src|config|storage|.git|.env) {
+   deny all;
+   return 404;
+ }
 }
+
 ```
 
 ### IIS
@@ -142,6 +155,11 @@ See the [online guides](http://microweber.com/docs/guides/README.md) for develop
 We are looking for people who want to help us improve Microweber.
 
 If you are a developer, submitting fixes is easy. Just fork the Microweber repository, make your changes, submit a pull request, and be sure all tests are passing.
+
+## Discord server
+
+You can join our Discord server [here](https://microweber.org/go/discord).
+
 
 ## Build Status
 

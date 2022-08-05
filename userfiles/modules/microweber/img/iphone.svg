@@ -116,7 +116,7 @@
 }
 
 .firebugLayoutLineLeft {
-    margin-left: -1px !important;
+    margin-inline-start: -1px !important;
     border-left: 1px solid #999999 !important;
 }
 

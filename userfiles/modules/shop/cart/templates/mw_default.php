@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="col-2 justify-content-center align-self-center">
-                                    <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="mdi mdi-delete text-danger d-flex justify-content-center justify-content-md-end" style="font-size: x-large"></i></a>
+                                    <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="mdi mdi-delete text-danger d-flex justify-content-center justify-content-md-end" style="font-size: x-large"></i></a>
                                 </div>
                             </div>
                         </div>

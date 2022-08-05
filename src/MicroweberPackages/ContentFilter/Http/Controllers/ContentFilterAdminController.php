@@ -4,7 +4,8 @@ namespace MicroweberPackages\ContentFilter\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 
 class ContentFilterAdminController extends AdminController
 {

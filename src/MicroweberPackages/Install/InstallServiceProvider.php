@@ -9,6 +9,7 @@ class InstallServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+
         View::addNamespace('install', __DIR__ . '/resources/views');
     }
 }

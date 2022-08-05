@@ -31,7 +31,13 @@ class ModuleRepository extends AbstractRepository
 
             $getModules = DB::table('modules')->get();
             $allModules = collect($getModules)->map(function ($item) {
+
+                if (!empty($item->settings)) {
+                    $item->settings = json_decode($item->settings, true);
+                }
+
                 return (array)$item;
+
             })->toArray();
 
             return $allModules;

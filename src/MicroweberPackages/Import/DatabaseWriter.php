@@ -51,6 +51,12 @@ class DatabaseWriter
      */
 	public $deleteOldContent = false;
 
+
+    /**
+     * @var bool
+     */
+	public $deleteOldCssFiles = false;
+
 	/**
 	 * The content from backup file
 	 * @var string
@@ -70,6 +76,10 @@ class DatabaseWriter
 
 	public function setDeleteOldContent($delete) {
 	    $this->deleteOldContent = $delete;
+    }
+
+    public function setDeleteOldCssFiles($delete) {
+	    $this->deleteOldCssFiles = $delete;
     }
 
     public function setLogger($logger) {
@@ -244,6 +254,10 @@ class DatabaseWriter
 	 */
 	public function runWriter()
 	{
+        $this->logger->clearLog();
+        $this->_deleteOldCssFiles();
+        $this->_deleteOldContent();
+
         if (isset($this->content->__table_structures)) {
             $this->logger->setLogInfo('Building database tables');
 
@@ -361,7 +375,7 @@ class DatabaseWriter
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
         $log['total_steps'] = SessionStepper::totalSteps();
-        $log['precentage'] = SessionStepper::percentage();
+        $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
         $log['data'] = false;
@@ -381,20 +395,36 @@ class DatabaseWriter
         return $log;
 	}
 
+	private function _deleteOldCssFiles()
+    {
+        // Delete old css files
+        if ($this->deleteOldCssFiles) {
+            $currentTemplate = get_option('current_template','template');
+            if (!empty($currentTemplate)) {
+                $deleteFolder = userfiles_path() . 'css' . DS . $currentTemplate;
+                if (is_dir($deleteFolder)) {
+                    rmdir_recursive($deleteFolder, false);
+                }
+            }
+        }
+    }
+
 	private function _deleteOldContent()
     {
         // Delete old content
-        if (!empty($this->content) && $this->deleteOldContent) {
-            foreach ($this->content as $table=>$items) {
-                if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
-                    continue;
-                }
-                if (\Schema::hasTable($table)) {
-                    $this->logger->setLogInfo('Truncate table: ' . $table);
-                    try {
-                        \DB::table($table)->truncate();
-                    } catch (\Exception $e) {
-                        $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
+        if ($this->deleteOldContent) {
+            if (!empty($this->content)) {
+                foreach ($this->content as $table => $items) {
+                    if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
+                        continue;
+                    }
+                    if (\Schema::hasTable($table)) {
+                        $this->logger->setLogInfo('Truncate table: ' . $table);
+                        try {
+                            \DB::table($table)->truncate();
+                        } catch (\Exception $e) {
+                            $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
+                        }
                     }
                 }
             }

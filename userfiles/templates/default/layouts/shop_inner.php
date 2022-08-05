@@ -4,9 +4,9 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-8">
-        <h2 class="edit"  field="title" rel="post"><?php _e('Product inner page'); ?></h2>
+        <h2 class="edit"  field="title" rel="content"><?php _e('Product inner page'); ?></h2>
         <hr>
-        <div class="edit"  field="content" rel="post">
+        <div class="edit"  field="content" rel="content">
           <div class="mw-row">
             <div class="mw-col" style="width:50%">
               <div class="mw-col-container">
@@ -19,7 +19,7 @@
                   <div class="edit"  field="content_body" rel="post">
                     <p class="element"><?php _e('This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative & Make Web.'); ?></p>
                   </div>
-                  <module type="shop/cart_add" rel="post" />
+                  <module type="shop/cart_add" rel="content" />
                 </div>
               </div>
             </div>

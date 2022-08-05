@@ -7,9 +7,10 @@
  */
 
 
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
-Route::name('admin.backup.')
-    ->prefix('admin/backup')
+Route::name('admin.import.')
+    ->prefix(ADMIN_PREFIX.'/import')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Backup\Http\Controllers\Admin')
     ->group(function () {
@@ -23,6 +24,5 @@ Route::name('admin.backup.')
 
         Route::post('/language/export', 'LanguageController@export')->name('language.export');
         Route::post('/language/upload', 'LanguageController@upload')->name('language.upload');
-
 
     });

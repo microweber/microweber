@@ -71,7 +71,9 @@ Route::post('api/save_user', function (Request $request) {
     if(!is_logged()){
         App::abort(403, 'Unauthorized action.');
     }
+
     $input = Input::all();
+
     return save_user($input);
 })->middleware(['api']);
 
@@ -97,7 +99,9 @@ Route::name('api.user.')
     ->group(function () {
 
     Route::post('login', 'UserLoginController@login')->name('login')->middleware(['allowed_ips','throttle:60,1']);
-    Route::any('logout', 'UserLoginController@logout')->name('logout');
+    Route::any('logout', 'UserLoginController@logout')->name('logout')->excludedMiddleware(
+        \MicroweberPackages\App\Http\Middleware\XSS::class
+    );
     Route::post('register', 'UserRegisterController@register')->name('register')->middleware(['allowed_ips']);
 
     Route::post('/forgot-password', 'UserForgotPasswordController@send')
@@ -119,7 +123,14 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\User\Http\Controllers\Api')
     ->group(function () {
 
-        Route::get('/logout', '\MicroweberPackages\User\Http\Controllers\UserLogoutController@index')->name('api.logout');
+        Route::get('/logout', '\MicroweberPackages\User\Http\Controllers\UserLogoutController@index')->name('api.logout')
+            ->middleware([
+                \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+                \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class
+            ])
+            ->excludedMiddleware(
+           'api'
+        );;
 
         Route::apiResource('user', 'UserApiController');
     });

@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class ReloadDatabaseCommand extends Command
 {
-    protected $name = 'microweber:reload_database';
+    protected $name = 'microweber:reload-database';
     protected $description = 'Reload Microweber Database';
 
     public function handle()

@@ -110,8 +110,8 @@
 /* Skin 3 */
 .two-images {
   margin-bottom: 40px;
-  margin-left: -10px !important;
-  margin-right: -10px !important;
+  margin-inline-start: -10px !important;
+  margin-inline-end: -10px !important;
 }
 .two-images .mw-head-image {
   margin: 0;
@@ -202,8 +202,8 @@
 /* Skin 8 */
 .two-images {
   margin-bottom: 40px;
-  margin-left: -10px !important;
-  margin-right: -10px !important;
+  margin-inline-start: -10px !important;
+  margin-inline-end: -10px !important;
 }
 .two-images .mw-head-image {
   margin: 0;

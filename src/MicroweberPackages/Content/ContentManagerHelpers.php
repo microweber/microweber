@@ -838,14 +838,18 @@ class ContentManagerHelpers extends ContentManagerCrud
                         } else {
                             if (!$save_as_draft) {
 
+                                $should_redirect_to_new_url = false;
                                 if (isset($save_page['id']) && $save_page['id'] > 0) {
                                     unset($save_page['url']);
                                 } else {
+                                    $should_redirect_to_new_url = true;
+
                                     $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
                                     if ($multilanguageIsActive) {
                                         if (function_exists('detect_lang_from_url')) {
                                             $lang_from_url = detect_lang_from_url($save_page['url']);
                                             if (isset($lang_from_url['target_url'])) {
+
                                                 $save_page['url'] = $lang_from_url['target_url'];
                                                 $save_page['title'] = $lang_from_url['target_url'];
                                             }
@@ -853,10 +857,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     }
                                 }
 
+ 
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
+                                if ($should_redirect_to_new_url) {
+                                    $json_print['new_page_url'] = $new_content_link;
+                                }
 
-                                $json_print['new_page_url'] = $new_content_link;
 
                             }
 

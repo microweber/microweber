@@ -30,7 +30,7 @@
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'" value="" />';
+                    outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
 
                     // If ml input is changed change and the value attr
                     $('body').on('keyup','#' + mlInputLocaleId, function () {

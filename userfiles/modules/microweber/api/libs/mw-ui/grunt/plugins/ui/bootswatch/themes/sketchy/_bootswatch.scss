@@ -214,7 +214,7 @@ select.form-control {
 }
 
 .form-check-label {
-  padding-left: 2.5rem;
+  padding-inline-start: 2.5rem;
 }
 
 .form-check-inline {
@@ -238,8 +238,8 @@ select.form-control {
   }
 
   .form-check-label {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
   }
 }
 

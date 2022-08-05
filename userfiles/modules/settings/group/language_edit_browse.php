@@ -1,4 +1,7 @@
 <?php
+
+use MicroweberPackages\Translation\Models\TranslationText;
+
 $filter = [];
 if (isset($params['search'])) {
     $filter['search'] = $params['search'];
@@ -91,6 +94,18 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     }
 
     $(document).ready(function () {
+
+        $('.js-import-language-translations').click(function () {
+            $('.js-import-language-translations').html('Importing...');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo route('admin.language.import_missing_translations'); ?>",
+            }).done(function (resp) {
+                mw.notification.success('<?php _e('Translations are imported'); ?>');
+                location.reload();
+            });
+        });
+
         $('.js-search-lang-text').off('input');
         $('.js-search-lang-text').on('input', function () {
             mw.on.stopWriting(this,function() {
@@ -118,6 +133,8 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
         });
 
     });
+
+
 </script>
 <style scoped>
     .lang_textarea_key {
@@ -127,13 +144,26 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
         resize: both;
     }
 </style>
+
+<?php
+if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang())->count() == 0):
+?>
+<div class="alert alert-warning mb-3">
+<?php _e('Translations not found in database. Do you wish to import translations? '); ?>
+    <br /><br />
+    <button type="button" class="js-import-language-translations btn btn-outline-primary btn-sm"><?php _e('Import'); ?></button>
+</div>
+<?php
+endif;
+?>
+
 <div class="card bg-light style-1 mb-3">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12">
                 <div class="form-group mb-0">
                     <label class="control-label mb-0"><?php _e('Language file'); ?>:
-                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-toggle="collapse" data-target="#language-edit-<?php echo $namespaceMd5;?>">
+                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
                             <?php
                             if ($namespace == '*') {
                                 echo 'Global';

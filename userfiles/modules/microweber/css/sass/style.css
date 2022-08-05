@@ -505,13 +505,13 @@ Primary style
 }
 .microweber nav.options-nav ul li:nth-of-type(odd) {
   /* space occupied by the navigation trigger */
-  margin-right: 30px;
+  margin-inline-end: 30px;
   float: left;
 }
 .microweber nav.options-nav ul li:nth-of-type(even) {
   /* space occupied by the navigation trigger */
   float: right;
-  margin-left: 30px;
+  margin-inline-start: 30px;
 }
 .microweber nav.options-nav ul li .open {
   z-index: 9999;
@@ -947,7 +947,7 @@ Primary style
 }
 .microweber switch input {
   position: absolute;
-  margin-left: -9999px;
+  margin-inline-start: -9999px;
   visibility: hidden;
 }
 .microweber switch input + label {
@@ -1001,7 +1001,7 @@ Primary style
 }
 .microweber .light switch input:checked + label:after {
   background-color: #1ACC2F;
-  margin-left: 30px;
+  margin-inline-start: 30px;
   -webkit-transition: margin 0.4s, color 0.2s;
   transition: margin 0.4s, color 0.2s;
 }
@@ -1026,7 +1026,7 @@ Primary style
 }
 .microweber .dark switch input:checked + label:after {
   background-color: #1ACC2F;
-  margin-left: 30px;
+  margin-inline-start: 30px;
   -webkit-transition: margin 0.4s, color 0.2s;
   transition: margin 0.4s, color 0.2s;
 }

@@ -342,7 +342,14 @@ class CommentsTest extends TestCase
             ]
         );
         $commentData = $response->getData();
-        $this->assertEquals($commentData->data->comment_body, Markdown::convertToHtml($comment2));
+
+        $t1 =$commentData->data->comment_body;
+        $t2 =Markdown::convertToHtml($comment2);
+
+        $t1 = str_replace(array("\r\n", "\n\r", "\n", "\r"), '<br>', $t1);;
+        $t2 = str_replace(array("\r\n", "\n\r", "\n", "\r"), '<br>', $t2);;
+
+        $this->assertEquals($t1, $t2);
 
 
         // publish

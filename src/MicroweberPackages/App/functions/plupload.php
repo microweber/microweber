@@ -22,19 +22,21 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 //    }
 }
 
-if (!is_admin()) {
-    $validate_token = mw()->user_manager->csrf_validate($_GET);
-    if ($validate_token == false) {
-        header("HTTP/1.1 401 Unauthorized");
-        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
-    }
+//if (!is_admin()) {
+    //$validate_token = mw()->user_manager->csrf_validate($_GET);
+
+// validation is now on middleware
+//    if ($validate_token == false) {
+//        header("HTTP/1.1 401 Unauthorized");
+//        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+//    }
 
     $is_ajax = mw()->url_manager->is_ajax();
     if (!$is_ajax) {
         header("HTTP/1.1 401 Unauthorized");
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
-}
+//}
 
 $host = (parse_url(site_url()));
 
@@ -334,8 +336,11 @@ $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled
 if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
     $ext = strrpos($fileName, '.');
+
     $fileName_a = substr($fileName, 0, $ext);
     $fileName_b = substr($fileName, $ext);
+
+    $fileName_b = strtolower($fileName_b);
 
     $count = 1;
     while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b)) {
@@ -498,7 +503,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 
     if (is_file($filePath) and !$chunks || $chunk == $chunks - 1) {
         $ext = get_file_extension($filePath);
-
+        $ext = strtolower($ext);
         if (function_exists('finfo_open') and function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
             $mime = @finfo_file($finfo, $filePath);
@@ -531,13 +536,22 @@ if (!$chunks || $chunk == $chunks - 1) {
 
                 $imgCreatedFromPng = @imagecreatefrompng($filePath);
                 if ($imgCreatedFromPng) {
+
+                    // keep bg color transparent
+                    imagealphablending($imgCreatedFromPng, false);
+                    imagesavealpha($imgCreatedFromPng, true);
+
                     imagepng($imgCreatedFromPng, $filePath);  // this will create fresh new image without exif sensitive data
                     $valid = true;
                 }
 
+
+
             } else if ($ext === 'gif') {
 
+
                 $imgCreatedFromGif = @imagecreatefromgif($filePath);
+
                 if ($imgCreatedFromGif) {
 
                     $filePathOld = stream_get_meta_data(tmpfile())['uri'];
@@ -549,17 +563,25 @@ if (!$chunks || $chunk == $chunks - 1) {
                 }
 
             } else if ($ext === 'svg') {
-
+                $valid = false;
                 if (is_file($filePath)) {
                     $sanitizer = new \enshrined\svgSanitize\Sanitizer();
                     // Load the dirty svg
                     $dirtySVG = file_get_contents($filePath);
                      // Pass it to the sanitizer and get it back clean
-                    $cleanSVG = $sanitizer->sanitize($dirtySVG);
-                    file_put_contents($filePath, $cleanSVG);
+                    try {
+                        $cleanSVG = $sanitizer->sanitize($dirtySVG);
+                        $valid = true;
+                    } catch (\Exception $e) {
+                        $valid = false;
+                    }
+
+                    if ($valid) {
+                        file_put_contents($filePath, $cleanSVG);
+                    }
 
                 }
-               $valid = true;
+
 
             } else {
                 $valid = false;

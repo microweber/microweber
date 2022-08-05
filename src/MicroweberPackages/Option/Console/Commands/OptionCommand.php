@@ -3,27 +3,25 @@
 namespace MicroweberPackages\Option\Console\Commands;
 
 use Illuminate\Console\Command;
-use MicroweberPackages\App\Http\Controllers\FrontendController;
-use Symfony\Component\Console\Input\InputArgument;
 
 class OptionCommand extends Command
 {
     protected $name = 'microweber:option';
     protected $description = 'Set Microweber option';
-    protected $controller;
 
-    public function __construct(FrontendController $controller)
-    {
-        $this->controller = $controller;
-        parent::__construct();
-    }
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'microweber:option {--option_key=} {--option_value=} {--option_group=}';
 
-    public function fire()
+    public function handle()
     {
         $input = array(
-            'option_key' => $this->argument('option_key'),
-            'option_value' => $this->argument('option_value'),
-            'option_group' => $this->argument('option_group'),
+            'option_key' => $this->option('option_key'),
+            'option_value' => $this->option('option_value'),
+            'option_group' => $this->option('option_group'),
         );
 
         $this->info('Setting option...');
@@ -31,12 +29,4 @@ class OptionCommand extends Command
         $this->info($result);
     }
 
-    protected function getArguments()
-    {
-        return [
-            ['option_key', InputArgument::REQUIRED, 'The key of the option'],
-            ['option_value', InputArgument::REQUIRED, 'The value of the option'],
-            ['option_group', InputArgument::REQUIRED, 'The group of the option'],
-        ];
-    }
 }

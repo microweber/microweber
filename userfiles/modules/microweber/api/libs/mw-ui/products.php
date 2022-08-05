@@ -68,21 +68,21 @@
 
                             <div class="col item-image">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <img src="https://cdn.vox-cdn.com/thumbor/uejBZCud-JlRsCn5w26ltmfdGFs=/0x0:675x450/1200x800/filters:focal(284x171:392x279)/cdn.vox-cdn.com/uploads/chorus_image/image/66466293/Untitled_3.0.jpg" />
-                                </div>    
+                                </div>
                             </div>
 
                             <div class="col item-title">
                                 <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
-                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a> 
+                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <br />
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a> 
-                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a> 
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a>
                                     <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                 </div>
                             </div>
@@ -108,20 +108,20 @@
 
                             <div class="col" style="min-width: 120px;">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <img src="https://cdn.vox-cdn.com/thumbor/uejBZCud-JlRsCn5w26ltmfdGFs=/0x0:675x450/1200x800/filters:focal(284x171:392x279)/cdn.vox-cdn.com/uploads/chorus_image/image/66466293/Untitled_3.0.jpg" />
-                                </div>    
+                                </div>
                             </div>
 
                             <div class="col" style="min-width: 270px;">
                                 <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
-                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a> 
+                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a> 
-                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a> 
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a>
                                     <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                 </div>
                             </div>
@@ -147,20 +147,20 @@
 
                             <div class="col" style="min-width: 120px;">
                                 <div class="position-absolute text-muted" style="z-index: 1; right: 0; top: -10px;">
-                                    <i class="mdi mdi-shopping mdi-18px" data-toggle="tooltip" title="Продукт"></i>
+                                    <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title="Продукт"></i>
                                 </div>
                                 <div class="img-circle-holder border-radius-0 border-0">
                                     <i class="mdi mdi-shopping mdi-64px text-muted"></i>
-                                </div>    
+                                </div>
                             </div>
 
                             <div class="col" style="min-width: 270px;">
                                 <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
-                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a> 
+                                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">
-                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a> 
-                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a> 
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="#" class="btn btn-outline-success btn-sm">Live edit</a>
                                     <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
                                 </div>
                             </div>

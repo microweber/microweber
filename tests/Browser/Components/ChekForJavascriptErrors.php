@@ -130,6 +130,7 @@ class ChekForJavascriptErrors extends BaseComponent
         $skipErrorStrings = [
             'Blocked attempt to show',
             'userfiles/install_log.txt?',
+            'https://www.googletagmanager.com/a?id=UA-12345678',
         ];
         $findedErrors = [];
         if (!empty($consoleLog)) {
@@ -163,6 +164,10 @@ class ChekForJavascriptErrors extends BaseComponent
 
         if (!empty($findedErrors)) {
             $findedErrors[] = 'page url: ' . $browser->driver->getCurrentURL();
+
+            $html = $browser->script("return document.documentElement.outerHTML");
+            file_put_contents(storage_path('logs/error.html'), $html);
+
             throw new \Exception(print_r($findedErrors, true));
         }
 
@@ -171,7 +176,7 @@ class ChekForJavascriptErrors extends BaseComponent
         // Check for dump and prints
         $printStrings = [
             'array (',
-            'Array (', 
+            'Array (',
             'stdClass Object',
             'stdClass',
             'Sfdump',

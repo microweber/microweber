@@ -222,6 +222,13 @@
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
+                if(window.top.document.documentElement.dir === 'rtl') {
+                    if (position.indexOf('right') !== -1) {
+                        position = position.replace('right', 'left');
+                    } else if (position.indexOf('left') !== -1) {
+                        position = position.replace('left', 'right');
+                    }
+                }
                 el = mw.$(el);
                 if (el.length === 0) {
                     return false;
@@ -457,6 +464,12 @@
 
     mw.tools.tooltip = tooltip;
     var TTTime = null;
+    mw.tools.titleTipOff = function () {
+
+        clearTimeout(TTTime);
+        mw.$(mw.tools[ '_titleTip']).hide();
+    };
+
     mw.tools.titleTip = function (el, _titleTip) {
         clearTimeout(TTTime);
         mw.$(mw.tools[_titleTip]).hide();
@@ -513,7 +526,7 @@
             mw.$(mw.tools[_titleTip]).removeClass('mw-tooltip-circle');
         }
         mw.$(mw.tools[_titleTip]).show();
-        }, 500)
+        }, 500);
     };
 
 })();

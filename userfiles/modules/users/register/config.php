@@ -16,8 +16,8 @@ $options = array();
 $option = array();
 
 $option['option_key'] = 'enable_user_fb_login';
-$option['name'] = _e('Enable Facebook login', TRUE);
-$option['help'] = _e('You can enable or disable login with facebook', TRUE);
+$option['name'] = 'Enable Facebook login';
+$option['help'] = 'You can enable or disable login with facebook';
 $option['option_value'] = 'n';
 $option['position'] = '3';
 $option['field_type'] = 'dropdown';
@@ -26,8 +26,8 @@ $config['options'][] = $option;
 
 $option = array();
 $option['option_key'] = 'enable_user_twitter_login';
-$option['name'] = _e('Enable Twitter login', TRUE);
-$option['help'] = _e('You can enable or disable login with twitter', TRUE);
+$option['name'] ='Enable Twitter login';
+$option['help'] = 'You can enable or disable login with twitter';
 $option['option_value'] = 'n';
 $option['position'] = '3';
 $option['field_type'] = 'dropdown';
@@ -37,8 +37,8 @@ $config['options'][] = $option;
 
 $option = array();
 $option['option_key'] = 'enable_user_email_confirmation';
-$option['name'] = _e('Email confirmation required', TRUE);
-$option['help'] = _e('If set to yes, the user will need to confirm their email address', TRUE);
+$option['name'] = 'Email confirmation required';
+$option['help'] = 'If set to yes, the user will need to confirm their email address';
 $option['option_value'] = 'n';
 $option['position'] = '3';
 $option['field_type'] = 'radio';

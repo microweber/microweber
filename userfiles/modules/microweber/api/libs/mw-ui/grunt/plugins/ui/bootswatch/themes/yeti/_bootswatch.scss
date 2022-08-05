@@ -398,8 +398,8 @@ label,
   .page-link {
     border-color: transparent;
     border-radius: 3px;
-    margin-left: 0.1em;
-    margin-right: 0.1em;
+    margin-inline-start: 0.1em;
+    margin-inline-end: 0.1em;
 
     &:hover,
     &:focus {

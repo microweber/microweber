@@ -8,8 +8,8 @@ if (!empty($template_id)) {
     $template = array();
     $template['name'] = '';
     $template['type'] = 'new_comment';
-    $template['from_name'] = get_option('email_from_name', 'email');
-    $template['from_email'] = get_option('email_from', 'email');
+    $template['from_name'] = get_email_from_name();
+    $template['from_email'] = get_email_from();
     $template['copy_to'] = '';
     $template['subject'] = '';
     $template['message'] = '';

@@ -125,6 +125,7 @@ Route::get('test-lang', function () {
 });
 */
 
+
 Route::group([
     //'middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
     'namespace' => '\MicroweberPackages\App\Http\Controllers'
@@ -150,14 +151,25 @@ Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\
 });
 
 
-Route::get('/csrf', function () {
+Route::post('/csrf', function () {
     if (is_ajax()) {
         event_trigger('mw.csrf.ajax_request');
     }
-
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
-    return response()->json(['token' => csrf_token()], 200, $headers);
-})->name('csrf');
+    $response =  response()->json(
+        ['time' =>time()], 200, $headers
+    );
+    $request = request();
+    $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+    return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+
+
+})->middleware([
+    \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+
+])->name('csrf');
 
 
 Route::group([
@@ -194,16 +206,16 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any('/', 'FrontendController@index')->name('home');
 
-    $custom_admin_url = \Config::get('microweber.admin_url');
-    $admin_url = 'admin';
-    if ($custom_admin_url) {
-        $admin_url = $custom_admin_url;
-    }
+//    $custom_admin_url = \Config::get('microweber.admin_url');
+//    $admin_url = 'admin';
+//    if ($custom_admin_url) {
+//        $admin_url = $custom_admin_url;
+//    }
 
-    Route::any('/' . $admin_url, 'AdminController@index')->name('admin.home');
-    Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
-
-    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
+//    Route::any('/' . $admin_url, 'AdminController@index')->name('admin.home');
+//    Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'));
+//
+//    Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
 
     Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
 

@@ -59,6 +59,7 @@ class Content extends Model
         'is_home',
         'is_shop',
         'is_deleted',
+        'is_active',
         'subtype',
         'subtype_value',
         'parent',

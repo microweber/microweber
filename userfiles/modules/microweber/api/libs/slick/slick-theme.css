@@ -80,38 +80,38 @@
 
 .slick-prev
 {
-    left: -25px;
+    left: -25px !important;
 }
 [dir='rtl'] .slick-prev
 {
-    right: -25px;
-    left: auto;
+    right: -25px !important;
+    left: auto !important;
 }
 .slick-prev:before
 {
-    content: '←';
+    content: '←' !important;
 }
 [dir='rtl'] .slick-prev:before
 {
-    content: '→';
+    content: '→' !important;
 }
 
 .slick-next
 {
-    right: -25px;
+    right: -25px !important;
 }
 [dir='rtl'] .slick-next
 {
-    right: auto;
-    left: -25px;
+    right: auto !important;
+    left: -25px !important;
 }
 .slick-next:before
 {
-    content: '→';
+    content: '→' !important;
 }
 [dir='rtl'] .slick-next:before
 {
-    content: '←';
+    content: '←' !important;
 }
 
 /* Dots */

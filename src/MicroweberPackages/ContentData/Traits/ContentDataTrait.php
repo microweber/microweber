@@ -47,6 +47,10 @@ trait ContentDataTrait
                 }
             }
         });
+
+        static::deleting(function($model) {
+            $model->contentData()->delete();
+        });
     }
 
     public function getContentDataAttribute()

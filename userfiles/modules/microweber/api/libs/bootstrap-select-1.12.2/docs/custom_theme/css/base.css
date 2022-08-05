@@ -18,7 +18,7 @@ ul.nav li.main {
 }
 
 .container > div.col-md-3 {
-    padding-left: 0;
+    padding-inline-start: 0;
 }
 
 .container > div.col-md-9 {
@@ -81,7 +81,7 @@ div.source-links {
 .bs-sidebar .nav .nav > li > a {
     padding-top:    3px;
     padding-bottom: 3px;
-    padding-left: 30px;
+    padding-inline-start: 30px;
     font-size: 90%;
 }
 

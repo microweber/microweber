@@ -41,9 +41,23 @@
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     }
+    .animation-clear-btn{
+        float: right;
+        margin: -30px 0 0 0;
+    }
+
+    html[dir="rtl"] .animation-clear-btn{
+        float: left;
+     }
+
+    .mw-field .mw-range + .mw-range{
+        display: none;
+    }
 
 </style>
-
+<script>mw.require('prop_editor.js')</script>
+<script>mw.require('module_settings.js')</script>
+<script>mw.lib.require('colorpicker')</script>
 <script type="text/javascript">
 
     // mw.parent().require("external_callbacks.js");
@@ -124,6 +138,54 @@
                })
            })(this)
        })
+
+        $('.mw-field.mw-field-flat.unit').each(function (){
+            if(!this.querySelector('.mw-range')) {
+                var sl = mw.element('<div class="mw-range default-values-list-slider" />');
+                $('input', this).on('input', function () {
+                    var val = this.value;
+                    var slVal = this.value;
+                    var t = ['auto', 'normal', 'inherit', 'initial'];
+
+                    if(t.includes(val)) {
+                        slVal = 0
+                    }
+
+                    var num = parseFloat(slVal);
+                    if(isNaN(num)) {
+                        num = 0;
+                    }
+
+                    if(/^\d+$/.test(val)) {
+                        val = this.value + 'px'
+                    }
+                    output(this.parentNode.dataset.prop, val);
+                    $(sl.get(0)).slider('value', num)
+                })
+                $(sl.get(0)).slider({
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    slide: function( event, ui ) {
+
+                        var dvalUnit = (/^\d+$/.test(this.previousElementSibling.value) ?  'px' : this.previousElementSibling.value.replace(/[0-9]/g, '')).trim().toLowerCase();
+                        var units = ['cm','mm','q','in','pc','pt','px','em','ex','ch','rem','lh','vw','vh','vmin','vmax',]
+                        var dval = ui.value;
+
+                        dval += (units.indexOf(dvalUnit) !== -1 ? dvalUnit : 'px');
+
+                        console.log(dval)
+                        console.log(dvalUnit)
+
+                        this.previousElementSibling.value = dval;
+                        output(this.parentNode.dataset.prop, dval)
+
+                    }
+                })
+                $(this).append(sl.get(0));
+            }
+        })
+
 
 
     })
@@ -317,15 +379,34 @@ var _prepare = {
         var units = [
             'px', '%', 'rem', 'em', 'vh', 'vw'
         ];
-        units = [];
-        $('.unit').each(function(){
+        units = [];// todo: add units
+        $('mw-accordion-item.mw-accordion-item-css .unit:not(.ready)').each(function(){
+            this.classList.add('ready')
             // var select = $('<select style="width: 60px"/>');
             var select = $('<span class="reset-field  tip" data-tipposition="top-right" data-tip="Restore default value"><i class="mdi mdi-history"></i></span>');
             select.on('click', function () {
                 var prev = $(this).prev();
-                output( prev.attr('data-prop'), '');
-                prev.find('input').val(this._defaultValue);
-                $('.mw-range.ui-slider', prev).slider('value', this._defaultValue || 0)
+                var prop = prev.attr('data-prop');
+                var css = getComputedStyle(ActiveNode);
+                var val = '';
+                if(prop ) {
+                    output( prop, '');
+                    val = css[prop];
+                }
+
+
+
+                var isbg = prev.prev().find('.mw-field-color-indicator-display');
+                if(isbg.length) {
+                    isbg.css('backgroundColor', val);
+                }
+
+
+
+                prev.val(val);
+                prev.find('input').val(val);
+                var n = parseFloat(val)
+                $('.mw-range.ui-slider', prev).slider('value', !isNaN(n) ? n : 0)
             });
             $('input', this)
                 .attr('type', 'range');
@@ -336,20 +417,27 @@ var _prepare = {
             });
             select.on('change', function(){
                 var prev = $(this).parent().prev();
-                output(prev.attr('data-prop'), prev.find('input').val() + this.value)
+                var prop = prev.attr('data-prop');
+                if(prop ) {
+                    output(prop, prev.find('input').val() + this.value)
+
+                }
             });
 
-            $(this).after(select)
-            $('input',this).on('input', function(){
+            $(this).after(select);
+            $('input', this).on('input', function(){
                 var $el = $(this);
                 var parent = $el.parent()
-                var next = parent.next().find('select');
-                var val = $el.val().trim();
-                if(parseFloat(val) == val){
-                    output( parent.attr('data-prop'), val ? val + 'px' : '');
-                } else {
-                    output( parent.attr('data-prop'), val ? val + 'px' : '');
+                 var val = $el.val().trim();
+                var prop = parent.attr('data-prop');
+                if(prop) {
+                    if(parseFloat(val) == val){
+                        output( prop, val ? val + 'px' : '');
+                    } else {
+                        output( prop, val ? val + 'px' : '');
+                    }
                 }
+
             })
         })
     }
@@ -375,13 +463,13 @@ var _populate = {
             }
         }
         var size = frst.width || 0;
-        var color = frst.color || 'rgba(0,0,0,0)';
+        var color = frst.color || 'rgba(0,0,0,1)';
         var style = frst.style || 'none';
 
-        mw.$('#border-position').val('all')
-        mw.$('#border-size').val(size)
-        mw.$('#border-color').val(color)
-        mw.$('#border-type').val(style)
+        mw.$('#border-position').val('all');
+        mw.$('#border-size').val(size);
+        mw.$('#border-color').val(color);
+        mw.$('#border-type').val(style);
     },
     padding: function(css){
         var padding = css.get.padding(undefined, true);
@@ -394,43 +482,37 @@ var _populate = {
         $('.unit').each(function(){
             var val = css.css[this.dataset.prop];
             var btn = $('.mw-ui-btn', this.parentNode)[0];
-            if(btn) {
+            if (btn) {
                 btn._defaultValue = '';
             }
-
-            if(val) {
+            if (val) {
                 var nval = parseFloat(val);
                 var isn = !isNaN(nval);
                 var unit = val.replace(/[0-9]/g, '').replace(/\./g, '');
                 val = isn ? nval : val;
-                if(btn) {
+                if (btn) {
                     btn._defaultValue = val;
                 }
                 $('input', this).val(val);
                 $('.mw-range.ui-slider', this).slider('value', isn ? nval : 0)
             }
-
         });
         $(".colorField").each(function(){
             if(this.dataset.prop) {
                 var color = css.css[this.dataset.prop];
-
                 var hasColor = color !== 'rgba(0, 0, 0, 0)';
-
                 if(color) {
-                    if(hasColor) {
+                    if (hasColor) {
                         this.value = mw.color.rgbOrRgbaToHex(color);
                     } else {
                         this.value = 'none';
                         this.previousElementSibling.querySelector('.mw-field-color-indicator-display').style.backgroundColor = 'transparent'
                     }
-
                 }
 
                 this.type = 'text'
 
                 var el = this;
-
 
                 el.placeholder = '#ffffff';
                 if(this.parentNode.querySelector('.mw-field-color-indicator') === null) {
@@ -557,7 +639,7 @@ var populateSpecials = function (css) {
     colmobile.value = ''
     holder.style.display = 'none';
 
-    var containerType = document.querySelector('#field-conatiner-type');
+    var containerType = document.querySelector('#container-type');
     containerType.style.display = 'none';
     var ol = document.getElementById('overlay-edit');
     ol.style.display = 'none';
@@ -642,11 +724,10 @@ var output = function(property, value){
 var _defaultValuesArray = ['auto', 'inherit', 'unset'];
 
 var numValue = function (value) {
-
-    if(['auto', 'inherit', 'initial', 'revert', 'unset'].indexOf(value) !== -1) {
-        return value;
+    if(/^\d+$/.test(value)) {
+        return value + 'px';
     }
-    return value ? value + 'px' : '';
+    return value;
 };
 
 
@@ -663,8 +744,12 @@ var defaultValuesUI = function (prop, targetNode) {
         node.append(dfslider)
         $(dfslider.get(0)).slider({
             slide: function( event, ui ) {
-                output(defaultValuesUIProp, numValue(ui.value))
-                defaultValuesUITarget.value = ui.value
+                var val = parseFloat(ui.value);
+                if(isNaN(val)) {
+                    val = 0;
+                }
+                output(defaultValuesUIProp, numValue(val))
+                defaultValuesUITarget.value = val
             }
         })
         _defaultValuesArray.forEach(function (val){
@@ -693,8 +778,11 @@ var defaultValuesUI = function (prop, targetNode) {
     }
 
     targetNode.addEventListener('focus', function (e){
-        console.log(dfslider)
-        $(dfslider.get(0)).slider("value", targetNode.value)
+        var val = parseFloat(targetNode.value);
+        if(isNaN(val)) {
+            val = 0;
+        }
+        $(dfslider.get(0)).slider("value", val)
         defaultValuesUIProp = prop;
         defaultValuesUITarget = e.target;
         var rect = e.target.getBoundingClientRect();
@@ -768,6 +856,25 @@ var init = function(){
     $("#background-reset").on("click", function () {
         output('backgroundImage', '');
     });
+
+    $("#background-select-gradient").on("click", function () {
+
+        var mTitle = "Pick gradient color";
+        var defaults = {
+            url: mw.external_tool('gradient_picker'),
+            width: 500,
+            height: 500,
+            autoHeight:true,
+            overlay:true,
+            title: 'Gradient Picker',
+            className: 'mw-dialog-module-settings',
+            closeButtonAction: 'remove'
+        };
+        var options = {};
+        var settings = Object.assign({}, defaults, options)
+        return mw.top().dialogIframe(settings);
+
+    });
     $("#background-select-item").on("click", function () {
         var dialog;
         var picker = new mw.filePicker({
@@ -806,7 +913,9 @@ var init = function(){
         setTimeout(function(){
           $(document.body).trigger('click')
         }, 400)
-    })
+    });
+
+
 
 
 };
@@ -841,6 +950,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             $('#classtags-accordion').show();
         }
     }
+
+    animationGUI.set()
 });
 
     $(document).ready(function(){
@@ -862,14 +973,16 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 $(".mw-ese-holder.active").removeClass('active');
         });
 
-        init();
 
-        var editorRoot = document.getElementById('css-editor-root');
+            init();
 
-        setInterval(function(){
-            editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
-        }, 700)
-        mw.components._init();
+            var editorRoot = document.getElementById('css-editor-root');
+
+            setInterval(function(){
+                editorRoot.classList[ActiveNode ? 'remove' : 'add']('disabled');
+            }, 700)
+            mw.components._init();
+
 
     });
 
@@ -885,6 +998,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 mw.$('#text-mask')[can ? 'show' : 'hide']();
 
                 mw.$('#text-mask-field')[0].checked = mw.tools.hasClass(ActiveNode, 'mw-bg-mask');
+                 animationGUI.set()
             }
             populateSpecials(css);
         }
@@ -969,12 +1083,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         })
 
     </script>
-    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion" data-options="openFirst: false">
 
 
 
 
-<mw-accordion-item >
+<mw-accordion-item class="mw-accordion-item-css">
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/background.svg"> <?php _e("Background"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -985,6 +1099,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 <span
                     class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip mdi mdi-folder-image mdi-17px" data-tip="Select background image"
                     id="background-select-item"><span class="background-preview"></span></span>
+
+                <span
+                    class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip mdi mdi-folder-image mdi-17px" data-tip="Select gradient"
+                    id="background-select-gradient" style="display: none"><span class="background-gradient"></span></span>
+
+
                 <span id="background-remove" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Remove background" data-tipposition="top-right"><span class="mdi mdi-delete"></span></span>
                 <span id="background-reset" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-small tip" data-tip="Reset background" data-tipposition="top-right"><span class="mdi mdi-history"></span></span>
             </div>
@@ -1072,7 +1192,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </div>
 </mw-accordion-item>
 
-        <mw-accordion-item>
+        <mw-accordion-item class="mw-accordion-item-css">
 
             <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
 
@@ -1106,7 +1226,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             </div>
                         </div>
                     </div>
-                </div
+                </div>
 
 
 
@@ -1222,7 +1342,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </mw-accordion-item>
 
-    <mw-accordion-item id="overlay-edit">
+        <mw-accordion-item class="mw-accordion-item-css" id="overlay-edit">
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/overlay.svg"> <?php _e("Overlay"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="s-field">
@@ -1261,7 +1381,23 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             </div>
         </div>
     </mw-accordion-item>
-    <mw-accordion-item id="columns-edit">
+        <mw-accordion-item class="mw-accordion-item-css" id="container-type">
+        <div class="mw-ui-box-header mw-accordion-title">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/container.svg"> <?php _e("Container"); ?>
+        </div>
+        <div class="mw-accordion-content mw-ui-box-content">
+
+        <div class="s-field" id="field-conatiner-type">
+            <label><?php _e("Container type"); ?></label>
+            <div class="s-field-content">
+                <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container"/> <span></span><span> Fixed </span> </label>
+                <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container-fluid"/> <span></span><span> Fluid </span> </label>
+
+            </div>
+        </div>
+        </div>
+    </mw-accordion-item>
+        <mw-accordion-item class="mw-accordion-item-css" id="columns-edit">
 
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/grid.svg"> <?php _e("Grid"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
@@ -1302,19 +1438,12 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
                 </div>
             </div>
-            <div class="s-field" id="field-conatiner-type">
-                <label><?php _e("Container type"); ?></label>
-                <div class="s-field-content">
-                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container"/> <span></span><span> Fixed </span> </label>
-                    <label class="mw-ui-check"> <input type="radio" onchange="sccontainertype(this.value)" name="containertype" value="container-fluid"/> <span></span><span> Fluid </span> </label>
 
-                </div>
-            </div>
         </div>
 
 
     </mw-accordion-item>
-    <mw-accordion-item  id="size-box" style="display: none">
+        <mw-accordion-item class="mw-accordion-item-css"  id="size-box" style="display: none">
         <div class="mw-ui-box-header mw-accordion-title"><?php _e("Size"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-esr-col">
@@ -1384,21 +1513,21 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </mw-accordion-item>
 
-    <mw-accordion-item >
+        <mw-accordion-item class="mw-accordion-item-css" >
         <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/spacing.svg"><?php _e("Spacing"); ?></div>
         <div class="mw-accordion-content mw-ui-box-content">
             <div class="mw-element-spacing-editor">
                 <span class="mw-ese-label"><?php _e("Margin"); ?></span>
                 <div class="mw-ese-holder mw-ese-margin">
-                    <span class="input mw-ese-top"><input type="number" class=" margin-top"></span>
-                    <span class="input mw-ese-right"><input type="number" class=" margin-right"></span>
-                    <span class="input mw-ese-bottom"><input type="number" class=" margin-bottom"></span>
-                    <span class="input mw-ese-left"><input type="number" class=" margin-left"></span>
+                    <span class="input mw-ese-top"><input type="text" class=" margin-top"></span>
+                    <span class="input mw-ese-right"><input type="text" class=" margin-right"></span>
+                    <span class="input mw-ese-bottom"><input type="text" class=" margin-bottom"></span>
+                    <span class="input mw-ese-left"><input type="text" class=" margin-left"></span>
                     <div class="mw-ese-holder mw-ese-padding">
-                        <span class="input mw-ese-top"><input type="number" min="0" class=" padding-top"></span>
-                        <span class="input mw-ese-right"><input type="number" min="0" class=" padding-right"></span>
-                        <span class="input mw-ese-bottom"><input type="number" min="0" class=" padding-bottom"></span>
-                        <span class="input mw-ese-left"><input type="number" min="0" class=" padding-left"></span>
+                        <span class="input mw-ese-top"><input type="text" min="0" class=" padding-top"></span>
+                        <span class="input mw-ese-right"><input type="text" min="0" class=" padding-right"></span>
+                        <span class="input mw-ese-bottom"><input type="text" min="0" class=" padding-bottom"></span>
+                        <span class="input mw-ese-left"><input type="text" min="0" class=" padding-left"></span>
                         <span class="mw-ese-label"><?php _e("Padding"); ?></span>
                     </div>
                 </div>
@@ -1408,7 +1537,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     </mw-accordion-item>
 
 
-<mw-accordion-item  >
+        <mw-accordion-item class="mw-accordion-item-css"  >
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/border.svg"><?php _e("Border"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="s-field">
@@ -1464,7 +1593,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </div>
 </mw-accordion-item>
-<mw-accordion-item  >
+        <mw-accordion-item class="mw-accordion-item-css" >
     <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/miscellaneous.svg"><?php _e("Miscellaneous"); ?></div>
     <div class="mw-accordion-content mw-ui-box-content">
         <div class="rouded-corners" >
@@ -1498,13 +1627,385 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         </div>
     </div>
 </mw-accordion-item>
-        <mw-accordion-item id="classtags-accordion">
+        <mw-accordion-item class="mw-accordion-item-css" id="classtags-accordion">
 
             <div class="mw-ui-box-header mw-accordion-title"> <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/attributes.svg"><?php _e("Attributes"); ?></div>
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>
                     <div class="mw-ui-field w100" id="classtags"></div>
+                </div>
+
+            </div>
+
+        </mw-accordion-item>
+
+        <mw-accordion-item id="animations-accordion">
+
+            <style>
+                #animations {
+                    display: block;
+                }
+            </style>
+
+            <script>
+
+
+                var animations = {
+                    common: [
+                        'none',
+                        'bounce',
+                        'flash',
+                        'pulse',
+                        'rubberBand',
+                        'shakeX',
+                        'shakeY',
+                        'headShake',
+                        'swing',
+                        'tada',
+                        'wobble',
+                        'jello',
+                        'heartBeat',
+                        'flip',
+                        'flipInX',
+                        'flipInY',
+
+                        'hinge',
+                        'jackInTheBox',
+                        'rollIn'
+                    ],
+                    appear: [
+                        'backInDown',
+                        'backInLeft',
+                        'backInRight',
+                        'backInUp',
+                        'bounceIn',
+                        'bounceInDown',
+                        'bounceInLeft',
+                        'bounceInRight',
+                        'bounceInUp',
+                        'fadeIn',
+                        'fadeInDown',
+                        'fadeInDownBig',
+                        'fadeInLeft',
+                        'fadeInLeftBig',
+                        'fadeInRight',
+                        'fadeInRightBig',
+                        'fadeInUp',
+                        'fadeInUpBig',
+                        'fadeInTopLeft',
+                        'fadeInTopRight',
+                        'fadeInBottomLeft',
+                        'fadeInBottomRight',
+                        'lightSpeedInRight',
+                        'lightSpeedInLeft',
+                        'rotateIn',
+                        'rotateInDownLeft',
+                        'rotateInDownRight',
+                        'zoomIn',
+                        'zoomInDown',
+                        'zoomInLeft',
+                        'zoomInRight',
+                        'zoomInUp',
+                        'slideInDown',
+                        'slideInLeft',
+                        'slideInRight',
+                        'slideInUp'
+                    ]
+                };
+
+                ;(function(){
+                    var animationApi = {
+                        preview: function (animation) {
+                            return mw.top().__animate(animation)
+                        },
+                        remove: function (id) {
+
+                            var item = mw.top().__pageAnimations.find(function (item) {  return item.id === id });
+                            var citem = Object.assign({}, item)
+                            mw.top().__pageAnimations.splice(mw.top().__pageAnimations.indexOf(item), 1);
+                            Array.from(mw.top().doc.querySelectorAll(citem.selector)).forEach(function (node){
+                                if(node.$$mwAnimations && node.$$mwAnimations.length) {
+                                    var i = node.$$mwAnimations.findIndex(function(a){return a.id === id});
+                                    if(i > -1) {
+                                        node.$$mwAnimations.splice(i, 1);
+                                    }
+                                }
+                            })
+                        },
+                        add: function (node, obj) {
+                            var sel = mw.tools.generateSelectorForNode(node);
+                            var id = mw.id('animation');
+
+
+
+                            if (!node.$$mwAnimations) {
+                                node.$$mwAnimations = [];
+                            }
+
+                            var curr = node.$$mwAnimations.find(function (item) {
+                                return item.when === obj.when;
+                            });
+
+                            if (curr) {
+                                //this.remove(curr.id)
+                            }
+                            var config = Object.assign({selector: sel, id: id}, obj)
+                            node.$$mwAnimations.push(config)
+                            mw.top().__pageAnimations.push(config)
+                            animationApi.preview(config)
+
+                            return config;
+                        }
+                    };
+
+                    var textCase = function (text) {
+                        var result = text.replace(/([A-Z])/g, " $1");
+                        return result.charAt(0).toUpperCase() + result.slice(1);
+                    }
+
+                    window.animationGUI = {
+
+                        _types:  {
+                            animationSelector: function() {
+                                var wrap = mw.element({
+                                    props: { className: 's-field'},
+                                    content: [
+                                        {
+                                            tag: 'label',
+                                            props: { innerHTML: mw.lang('Motion')},
+                                        },
+                                        {
+
+                                            props: {  className: 'mw-field mw-field-flat'},
+                                        }
+                                    ]
+                                });
+                                var select = mw.element('<select />');
+                                for (var cat in animations) {
+                                    if (animations.hasOwnProperty(cat)) {
+                                         var group = document.createElement('optgroup');
+                                         group.label = textCase(cat)
+                                         select.append(group);
+                                         var groupAnims = animations[cat];
+                                         var i = 0;
+                                         for( ; i < groupAnims.length; i++) {
+                                             var option = document.createElement('option');
+                                             option.value = groupAnims[i];
+                                             option.innerHTML = textCase(groupAnims[i]);
+                                             group.appendChild(option)
+                                         }
+                                    }
+                                }
+                                mw.element('.mw-field', wrap).append(select)
+                                return wrap;
+
+                            },
+                            speed: function () {
+                                var root = mw.element({
+                                    props: { className: 's-field'},
+
+                                    content: [
+                                        {
+                                            tag: 'label',
+                                            props: { innerHTML: mw.lang('Speed')},
+                                        },
+                                        {
+                                            props: {
+                                                className: 'mw-field mw-field-flat unit',
+                                                dataset: {
+                                                    // after: 'sec.'
+                                                },
+                                            },
+                                            content: {
+                                                tag: 'input',
+                                                props: { type: 'text', placeholder: mw.lang('Speed in seconds') },
+                                            }
+                                        }
+
+                                    ]
+                                })
+                                var sl = mw.element('<div class="mw-range default-values-list-slider" />');
+                                mw.element('.mw-field', root).append(sl)
+                                $(sl.get(0)).slider({
+                                    min: 0.1,
+                                    max: 5,
+                                    step: 0.1,
+                                    slide: function( event, ui ) {
+                                        // this.previousElementSibling.value = Math.round((ui.value / 1000) * 100) / 100;
+                                        this.previousElementSibling.value = ui.value;
+                                        $(this.previousElementSibling).trigger('input')
+                                    }
+                                })
+                                 return  root;
+                            },
+                            when: function () {
+                                return  mw.element(
+                                {
+
+                                    props: {
+                                        style: {
+                                            marginTop: '10px'
+                                        }
+                                    },
+                                    content: [
+                                        {
+                                            props: { className: 's-field'},
+                                            content: [
+                                                {
+                                                    tag: 'label',
+                                                    props: { innerHTML: mw.lang('Trigger')},
+                                                },
+                                                {
+                                                    props: {
+                                                        className: 'mw-field mw-field-flat',
+                                                    },
+                                                    content: [
+                                                        {
+                                                            tag: 'select',
+                                                            props: {  },
+                                                            content: [
+                                                                { tag: 'option', props: { value: 'onAppear', innerHTML: mw.lang('When element appears on screen')}},
+                                                                { tag: 'option', props: { value: 'onHover', innerHTML: mw.lang('When mouse is over')}},
+                                                                { tag: 'option', props: { value: 'onClick', innerHTML: mw.lang('When element is clicked')}},
+                                                            ]
+                                                        },
+                                                    ]
+                                                },
+                                            ]
+                                        },
+
+                                    ]
+                                }
+
+                                );
+                            }
+                        },
+                        renderSingle: function (anim) {
+                            var box = mw.element('<div class="mw-module-settings-box" />');
+                            var del = mw.element('<a class="mw-ui-link animation-clear-btn">Clear</a>')
+                            var typeSelect = animationGUI._types.animationSelector();
+                            var speed = animationGUI._types.speed();
+                            var when = animationGUI._types.when();
+
+                            del.on('click', function () {
+                                mw.element('select', typeSelect)
+                                    .val('none')
+                                    .get(0)
+                                    .dispatchEvent(new Event('input'));
+                            })
+
+                            box
+                                .append(del)
+                                .append(typeSelect)
+                                .append(speed)
+                                .append(when);
+
+                            mw.element('select', when).val(anim.when).on('input', function () {
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                anim.when = this.value;
+                                if(curr) {
+                                    curr.when = this.value;
+                                }
+                                mw.top().wysiwyg.change(ActiveNode)
+                            });
+
+                            $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
+
+                            mw.element('select', typeSelect).val(anim.animation).on('input', function () {
+
+                                mw.element('select', when).get(0).disabled = this.value === 'none';
+                                mw.element('input', speed.get(0)).get(0).disabled = this.value === 'none';
+                                $( '.mw-range', speed.get(0) ).slider( this.value === 'none' ? "disable" : "enable" );
+
+
+                                anim.animation = this.value;
+                                mw.top().__animate(anim)
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                if(curr) {
+                                    curr.animation = this.value;
+                                }
+                                mw.top().wysiwyg.change(ActiveNode)
+
+                            });
+
+                            $('input', speed.get(0)).val(anim.speed).on('input', function () {
+                                 $('.mw-range', speed.get(0)).slider('value', parseFloat(this.value))
+                                 var val = this.value + 's';
+                                anim.speed = val;
+                                mw.top().__animate(anim);
+                                var curr = mw.__pageAnimations.find(function(a){
+                                    return !!anim.id || a.id === anim.id
+                                });
+                                if (curr) {
+                                    curr.speed = val;
+                                }
+                                mw.top().wysiwyg.change(ActiveNode)
+                            });
+
+                            mw.element('select', when).get(0).disabled = anim.animation === 'none';
+                            mw.element('input', speed.get(0)).get(0).disabled = anim.animation === 'none';
+                            $( '.mw-range', speed.get(0) ).slider( anim.animation === 'none' ? "disable" : "enable" );
+
+                            return box
+                        },
+                        add: function () {
+                            var el = document.querySelector('#animations');
+                            var anim = {
+                                selector: mw.tools.generateSelectorForNode(ActiveNode),
+                                animation: 'none',
+                                speed: 1,
+                                when: 'onAppear',
+                                id: mw.id('animation')
+                            }
+                            animationApi.add(ActiveNode, anim);
+                            el.appendChild(animationGUI.renderSingle(anim).get(0));
+                        },
+                        set: function () {
+                            var el = document.querySelector('#animations');
+                            while (el.firstChild) {
+                                el.removeChild(el.firstChild);
+                            }
+                            /* Add blank animation to each */
+                            if(!ActiveNode.$$mwAnimations) {
+
+                                 animationApi.add(ActiveNode, {
+                                     selector: mw.tools.generateSelectorForNode(ActiveNode),
+                                     animation: 'none',
+                                     speed: 1,
+                                     when: 'onAppear',
+                                     id: mw.id('animation')
+                                 });
+                            }
+
+                            if(ActiveNode && ActiveNode.$$mwAnimations) {
+                                ActiveNode.$$mwAnimations.forEach(function (anim){
+                                    el.appendChild(animationGUI.renderSingle(anim).get(0));
+                                });
+                            }
+
+                        }
+                    };
+
+                     window.animationGUI = animationGUI;
+
+                })();
+            </script>
+
+            <div class="mw-ui-box-header mw-accordion-title">
+            <img class="rte_css_editor_svg svg" width="20px" src="<?php print mw_includes_url(); ?>img/animations.svg"><?php _e("Animations"); ?></div>
+            <div class="mw-accordion-content mw-ui-box-content">
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Animations"); ?></label>
+
+
+                    <div class="w100" id="animations">
+
+                    </div>
                 </div>
 
             </div>

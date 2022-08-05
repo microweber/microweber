@@ -482,13 +482,15 @@ class UserManagerTest extends TestCase
 
 
         $findResetPasswordLink = false;
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $body = $email->getBody();
 
-            if (strpos($body, '--unit-testingRESET_passwordlink-') !== false) {
-                if (strpos($body, '?email=') !== false) {
+            $emailArray = $this->getEmailDataAsArrayFromObject($email);
+            $body = $emailArray['body'];
+
+             if (str_contains($body, '--unit-testingRESET_passwordlink-') !== false) {
+                if (str_contains($body, '?email') !== false) {
                     $findResetPasswordLink = true;
                 }
             }
@@ -530,11 +532,14 @@ class UserManagerTest extends TestCase
         $findUnitTestingText = false;
         $checkMailIsFound = false;
         $findUsername = false;
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $subject = $email->getSubject();
-            $body = $email->getBody();
+
+            $emailArray = $this->getEmailDataAsArrayFromObject($email);
+
+            $subject = $emailArray['subject'];
+            $body = $emailArray['body'];
 
             if ($subject == 'New Registration') {
                 $checkMailIsFound = true;
@@ -630,3 +635,4 @@ class UserManagerTest extends TestCase
     }
 
 }
+

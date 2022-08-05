@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Request;
 use MicroweberPackages\App\Http\Middleware\ApiAuth;
 use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
+use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use voku\helper\AntiXSS;
 
 
 class ApiController  extends FrontendController
@@ -67,7 +67,7 @@ class ApiController  extends FrontendController
 
 
         if (defined('TEMPLATE_DIR')) {
-             app()->template_manager->boot_template();
+            app()->template_manager->boot_template();
         }
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
@@ -527,16 +527,13 @@ class ApiController  extends FrontendController
                 //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
             }
 
-            // print $api_function;
+            // print $api_function;`
         } else {
             $api_function = mw()->format->clean_html($api_function);
             $api_function = mw()->format->clean_xss($api_function);
-
-            App::abort(403, 'The api function is not defined in the allowed functions list');
-
+            return response('The api function is not defined in the allowed functions list', 403);
 
 
-          //  mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
         }
 
         if (isset($res)) {
@@ -609,22 +606,39 @@ class ApiController  extends FrontendController
         // sanitize attributes
         if($request_data){
             $request_data_new = [];
-            $antixss = new AntiXSS();
-            foreach ($request_data as $k=>$v){
 
-                $v = $antixss->xss_clean($v);
+            $xssClean = new XSSClean();
+
+            foreach ($request_data as $k=>$v){
+                if(is_string($v)) {
+                    $v = str_replace('<', '-', $v);
+                    $v = str_replace('>', '-', $v);
+                    $v = str_replace('"', '-', $v);
+                    $v = str_replace("'", '-', $v);
+                }
+                if(is_array($v)) {
+                    $v = $xssClean->cleanArray($v);
+                } else {
+                    $v = $xssClean->clean($v);
+                }
 
                 if(is_string($k)){
-                    $k = $antixss->xss_clean($k);
+                    $k = str_replace('<', '-', $k);
+                    $k = str_replace('>', '-', $k);
+                    $k = str_replace('"', '-', $k);
+                    $k = str_replace("'", '-', $k);
+
+                    $k = $xssClean->clean($k);
                     if($k){
                         $request_data_new[$k] = $v;
                     }
                 } else {
                     $request_data_new[$k] = $v;
                 }
-                
+
             }
             $request_data = $request_data_new;
+
         }
 
         $page = false;
@@ -902,7 +916,7 @@ class ApiController  extends FrontendController
             $mod_iframe = true;
         }
 
-        //$data = $request_data;
+        $data = $request_data;
 
         if (($_POST)) {
             $data = $_POST;
@@ -973,7 +987,7 @@ class ApiController  extends FrontendController
 
             unset($data['ondrop']);
         }
-        // d($data);
+
 
 
         $opts = array();
@@ -1021,7 +1035,10 @@ class ApiController  extends FrontendController
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
+            $data = xss_clean($data);
             foreach ($data as $k => $v) {
+                $k = $this->app->module_manager->format_attr($k);
+
                 if ($k != 'ondrop') {
                     if ($k == 'id') {
                         $has_id = true;
@@ -1031,9 +1048,7 @@ class ApiController  extends FrontendController
                         $v1 = $this->app->format->array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
-                        $v = $this->app->format->clean_html($v);
-
-                        //$v = app()->database_manager->escape_string($v);
+                        $v = $this->app->module_manager->format_attr($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -1179,7 +1194,7 @@ class ApiController  extends FrontendController
                 }
 
                 $this->return_data = 1;
-                 $page = $this->frontend();
+                $page = $this->frontend();
             } else {
                 $page = $this->app->content_manager->get_by_id($_REQUEST['content_id']);
             }

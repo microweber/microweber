@@ -407,7 +407,6 @@ function mw_print_admin_backup_settings_link()
     }
 }
 
-api_expose_admin('mw_post_update');
 function mw_post_update()
 {
     $a = is_admin();
@@ -422,7 +421,6 @@ function mw_post_update()
     }
 }
 
-api_expose_admin('mw_reload_modules');
 function mw_reload_modules()
 {
 
@@ -430,7 +428,7 @@ function mw_reload_modules()
     rmdir_recursive($bootstrap_cached_folder);
 
     mw()->module_manager->scan(['reload_modules' => 1, 'scan' => 1]);
-
+    mw_post_update();
     if (isset($_GET['redirect_to'])) {
         return app()->url_manager->redirect($_GET['redirect_to']);
     }
@@ -498,6 +496,14 @@ function mw_validate_licenses($params)
     $update_api = mw('update');
 
     return $update_api->validate_license($params);
+}
+
+api_expose_admin('mw_consume_license');
+function mw_consume_license($params)
+{
+    $update_api = mw('update');
+
+    return $update_api->consume_license($params);
 }
 
 function mw_updates_count()
@@ -1163,5 +1169,45 @@ if (!function_exists('hashClosure')) {
         $rf = new \ReflectionFunction($f);
         $pseudounique = $rf->getFileName() . $rf->getEndLine();
         return crc32($pseudounique);
+    }
+}
+
+
+if (!function_exists('mergeScreenshotParts')) {
+    function mergeScreenshotParts($files, $outputFilename = 'full-screenshot.png')
+    {
+
+        $targetHeight = 0;
+
+        $allImageSizes = [];
+        foreach ($files as $file) {
+            $imageSize = getimagesize($file);
+            $allImageSizes[] = [
+                'file' => $file,
+                'width' => $imageSize[0],
+                'height' => $imageSize[1],
+            ];
+            $targetHeight += $imageSize[1];
+        }
+
+        $targetWidth = $allImageSizes[0]['width'];
+        $targetImage = imagecreatetruecolor($targetWidth, $targetHeight);
+
+        $i = 0;
+        foreach ($allImageSizes as $imageSize) {
+
+            $mergeFile = imagecreatefrompng($imageSize['file']);
+
+            $destinationY = 0;
+            if ($i > 0) {
+                $destinationY = $imageSize['height'] * $i;
+            }
+
+            imagecopymerge($targetImage, $mergeFile, 0, $destinationY, 0, 0, $imageSize['width'], $imageSize['height'], 100);
+            imagedestroy($mergeFile);
+            $i++;
+        }
+
+        imagepng($targetImage, $outputFilename, 8);
     }
 }

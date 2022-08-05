@@ -23,6 +23,7 @@
         <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>
             <directory>./userfiles/modules/*/tests/</directory>
+            <directory>./userfiles/modules/*/*/src/tests/</directory>
             <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
         </testsuite>
         <testsuite name="MicroweberTestMultilanguage">

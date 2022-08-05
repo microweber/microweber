@@ -31,11 +31,24 @@
                         $(form).addClass('loading');
                         mw.tools.disable(mw.$("[type='submit']", form));
 
-                        mw.form.post(mw.$('#user_forgot_password_form<?php echo $rand;?>'), '<?php print site_url('api') ?>/user_send_forgot_password', function (a) {
+                        mw.form.post(mw.$('#user_forgot_password_form<?php echo $rand;?>'), '<?php print route('api.user.password.email') ?>', function (a) {
                             mw.response('#form-holder<?php echo $rand;?>', this);
+                            formenabled = true;
+                            if(this.error  && this.message){
+                                mw.notification.error(this.message);
+                            } else if(this.message){
+                                mw.notification.msg(this.message);
+                            }
+                            $(form).removeClass('loading');
+                            mw.tools.enable(mw.$("[type='submit']", form));
+                        },false, function (a) {
+
+                            mw.notification.msg(this);
+
                             formenabled = true;
                             $(form).removeClass('loading');
                             mw.tools.enable(mw.$("[type='submit']", form));
+
                         });
                     }
                     return false;

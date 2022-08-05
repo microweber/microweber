@@ -332,7 +332,7 @@
   .datepicker--nav-title i {
     font-style: normal;
     color: #9c9c9c;
-    margin-left: 5px; }
+    margin-inline-start: 5px; }
   .datepicker--nav-title:hover {
     background: #f0f0f0; }
   .datepicker--nav-title.-disabled- {
@@ -412,7 +412,7 @@
   -webkit-flex: 0 1 153px;
       -ms-flex: 0 1 153px;
           flex: 0 1 153px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   max-width: 153px; }
 
 .datepicker--time-label {
@@ -465,7 +465,7 @@
       -ms-flex-item-align: end;
           align-self: flex-end;
   color: #9c9c9c;
-  margin-left: 6px;
+  margin-inline-start: 6px;
   font-size: 11px;
   margin-bottom: 1px; }
 

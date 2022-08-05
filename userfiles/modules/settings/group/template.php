@@ -60,7 +60,7 @@
         $change_template = true;
         $selected_template = $_GET['template'];
     }
-
+    $selected_template = xss_clean($selected_template);
     ?>
 <?php if($change_template){ ?>
     <div class="alert alert-dismissible alert-primary">

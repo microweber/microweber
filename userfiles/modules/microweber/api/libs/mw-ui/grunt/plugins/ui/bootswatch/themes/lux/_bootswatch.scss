@@ -22,7 +22,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
   }
 
   &-brand {
-    margin-right: 2rem;
+    margin-inline-end: 2rem;
   }
 }
 
@@ -43,7 +43,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;6
 }
 
 .nav-item {
-  margin-right: 2rem;
+  margin-inline-end: 2rem;
 }
 
 // Buttons =====================================================================

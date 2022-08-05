@@ -186,6 +186,12 @@ function character_limiter($str, $n = 500, $end_char = '&#8230;')
 
 function api_url($str = '')
 {
+
+    if (\Illuminate\Support\Facades\Route::has($str)) {
+        return route($str);
+    }
+
+
     $str = ltrim($str, '/');
 
     return site_url('api/' . $str);
@@ -339,7 +345,6 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expirat
     return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group, $expiration_in_seconds);
 }
 
-api_expose_admin('clearcache');
 /**
  * Clears all cache data.
  *

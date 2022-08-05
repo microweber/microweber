@@ -9,7 +9,7 @@
 
 
 Route::name('admin.backup.')
-    ->prefix('admin/backup')
+    ->prefix(ADMIN_PREFIX .'/backup')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Backup\Http\Controllers\Admin')
     ->group(function () {

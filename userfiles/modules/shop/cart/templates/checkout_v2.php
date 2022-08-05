@@ -70,7 +70,7 @@ $total = cart_total();
                            </div>
                        </div>
                        <div class="col-2 justify-content-center align-self-center">
-                           <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
+                           <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="material-icons text-danger d-flex justify-content-center justify-content-md-end">delete_forever</i></a>
                        </div>
                    </div>
                </div>

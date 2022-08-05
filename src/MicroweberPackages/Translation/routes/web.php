@@ -7,7 +7,7 @@
  */
 
 Route::name('admin.')
-    ->prefix('admin')
+    ->prefix(ADMIN_PREFIX)
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Translation\Http\Controllers')
     ->group(function () {
@@ -16,6 +16,8 @@ Route::name('admin.')
         Route::post('language/import', 'TranslationController@import')->name('language.import');
         Route::post('language/export', 'TranslationController@export')->name('language.export');
         Route::post('language/send_to_us', 'TranslationController@sendToUs')->name('language.send_to_us');
+
+        Route::any('language/import_missing_translations', 'TranslationController@importMissingTranslations')->name('language.import_missing_translations');
 
 });
 /*

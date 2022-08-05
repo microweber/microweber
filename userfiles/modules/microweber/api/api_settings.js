@@ -160,9 +160,9 @@
         ],
         slick: [
             function () {
-                mw.require(mw.settings.libs_url + 'slick' + '/slick.css', true);
-                mw.moduleCSS(mw.settings.libs_url + 'slick' + '/slick-theme.css');
-                mw.require(mw.settings.libs_url + 'slick' + '/slick.min.js', true);
+                mw.require(mw.settings.libs_url + 'slick/slick.css', true);
+                mw.moduleCSS(mw.settings.libs_url + 'slick/slick-theme.css');
+                mw.require(mw.settings.libs_url + 'slick/slick.min.js', true);
             }
         ],
         ion_range_slider: [
@@ -308,13 +308,13 @@
         ],
         materialDesignIcons: [
             function () {
-                mw.require('css/fonts/materialdesignicons/css/materialdesignicons.min.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css');
             }
         ],
         mw_icons_mind: [
             function () {
-                mw.require('fonts/mw-icons-mind/line/style.css');
-                mw.require('fonts/mw-icons-mind/solid/style.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/line/style.css');
+                mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/solid/style.css');
             }
         ],
         uppy: [
@@ -334,6 +334,11 @@
             function () {
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
+            }
+        ],
+        xss: [
+            function () {
+                mw.require(mw.settings.libs_url + 'xss' + '/xss.min.js');
             }
         ],
         codemirror: [
@@ -488,8 +493,10 @@
 
 <?php
 if(isset($inline_scripts) and is_array($inline_scripts)){
-    print implode($inline_scripts,"\n");
+    print implode("\n", $inline_scripts);
 }
+
+
 
 ?>
 

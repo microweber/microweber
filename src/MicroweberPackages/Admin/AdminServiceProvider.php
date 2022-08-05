@@ -16,11 +16,11 @@ use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
 
-//        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
 //        $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
 }

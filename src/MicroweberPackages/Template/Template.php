@@ -155,6 +155,9 @@ class Template
     }
     public function name()
     {
+        if(app()->content_manager->template_name){
+            return app()->content_manager->template_name;
+        }
         if (!defined('TEMPLATE_NAME')) {
             return $this->app->option_manager->get('current_template', 'template');
             //$this->app->content_manager->define_constants();
@@ -167,7 +170,9 @@ class Template
 
     public function dir($add = false)
     {
-
+        if(app()->content_manager->template_name){
+            return normalize_path(templates_path() . app()->content_manager->template_name . DS);
+        }
 
         if (defined('TEMPLATE_DIR')) {
             $val = TEMPLATE_DIR;

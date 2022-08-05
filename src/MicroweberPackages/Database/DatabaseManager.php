@@ -22,6 +22,7 @@ use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
+use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
 
 use MicroweberPackages\Option\Models\Option;
@@ -616,22 +617,21 @@ class DatabaseManager extends DbUtils
         $table_assoc_name = $this->assoc_table_name($table);
 
         $criteria_orig = $data;
-
         $criteria = $this->map_array_to_table($table, $data);
 
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
         } else {
             if ($allow_scripts == false) {
-                $criteria = $this->clean_input($criteria);
+               $criteria = $this->clean_input($criteria);
 
-                $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
+               // $evil = ['(?<!\w)on\w*', 'xmlns', 'formaction', 'xlink:href', 'FSCommand', 'seekSegmentTime'];
+              //  $clearInput = new HTMLClean();
+               // $criteria = $clearInput->cleanArray($criteria);
 
-                $criteria = $this->app->format->clean_xss($criteria, true, $evil, 'removeEvilAttributes');
             }
 
         }
-
         $criteria = $this->app->url_manager->replace_site_url($criteria);
 
         if (is_array($data_to_save_options) and $data_to_save_options['use_this_field_for_id'] != false) {

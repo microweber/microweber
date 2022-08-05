@@ -18,6 +18,7 @@ class LiveEditTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
+
         $response = $this->call(
             'GET',
             route('home'),
@@ -25,6 +26,8 @@ class LiveEditTest extends TestCase
                 'editmode' => 'y'
             ]
         );
+
+        $this->assertEquals(200, $response->getStatusCode());
 
     }
 

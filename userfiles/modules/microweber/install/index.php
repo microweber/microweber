@@ -486,7 +486,7 @@
     <br/>
     <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info pull-left">
         <?php _e("Login to admin panel"); ?>
-    </a> <a href="<?php print site_url() ?>" class="mw-ui-btn pull-left" style="margin-left: 20px;">
+    </a> <a href="<?php print site_url() ?>" class="mw-ui-btn pull-left" style="margin-inline-start: 20px;">
         <?php _e("Visit your site"); ?>
     </a>
 

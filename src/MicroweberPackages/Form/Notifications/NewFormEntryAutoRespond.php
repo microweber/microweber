@@ -62,10 +62,9 @@ class NewFormEntryAutoRespond extends Notification
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
                     $appendFilePath = url2dir($appendFile);
-                    $fileExtension = \Illuminate\Support\Facades\File::extension($appendFilePath);
                     $mail->attach($appendFilePath, [
                         'as' => basename($appendFilePath),
-                        'mime' => $fileExtension,
+                        'mime' => \Illuminate\Support\Facades\File::mimeType($appendFilePath),
                     ]);
                 }
             }

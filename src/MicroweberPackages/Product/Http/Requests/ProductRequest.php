@@ -8,7 +8,7 @@ use MicroweberPackages\Product\Models\Product;
 class ProductRequest extends ContentSaveRequest
 {
     public $model = Product::class;
-    
+
     public $rules = [
         'title' => 'required|max:500',
         'url' => 'max:500',
@@ -24,7 +24,7 @@ class ProductRequest extends ContentSaveRequest
         'content_data.qty' => 'max:200',
         'content_data.max_qty_per_order' => 'max:200',
         'content_data.physical_product' => 'max:200',
-        'content_data.fixed_cost' => 'max:200',
+        'content_data.shipping_fixed_cost' => 'max:200',
         'content_data.weight' => 'max:200',
         'content_data.weight_type' => 'max:200',
         'content_data.free_shipping' => 'max:200',

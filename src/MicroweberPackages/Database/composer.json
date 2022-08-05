@@ -17,7 +17,7 @@
       "MicroweberPackages\\Database\\": ""
     },
     "files": [
-      "helpers.php"
+      "functions/helpers.php"
     ]
   },
   "config": {

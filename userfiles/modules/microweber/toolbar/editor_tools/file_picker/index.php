@@ -239,7 +239,7 @@ if (array_key_exists('types', $_GET)) {
     #media_search_field {
         float: left;
         width: 275px;
-        margin-right: 15px;
+        margin-inline-end: 15px;
     }
 
 

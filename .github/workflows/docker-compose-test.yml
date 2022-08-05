@@ -1,11 +1,6 @@
 name: Docker Compose
 on:
-  create:
-    tags:
-      - v*
-  pull_request:
-  push: { branches: [ master, stable, dev ] }
-
+  push:
 jobs:
   test:
     name: Docker compose

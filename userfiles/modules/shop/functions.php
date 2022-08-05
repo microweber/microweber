@@ -36,10 +36,11 @@ function mw_print_admin_dashboard_orders_btn()
     $admin_dashboard_btn['link'] = route('admin.order.index');
     $admin_dashboard_btn['icon_class'] = 'mdi mdi-shopping';
     $notif_html = '';
-    $notif_count = mw()->order_manager->get_count_of_new_orders();
-    if ($notif_count > 0) {
-        $notif_html = '<span class="badge badge-success badge-sm badge-pill ml-2">' . $notif_count . '</span>';
-    }
+// must be moved  ajax because its slow when you have many orders
+//    $notif_count = mw()->order_manager->get_count_of_new_orders();
+//    if ($notif_count > 0) {
+//        $notif_html = '<span class="badge badge-success badge-sm badge-pill ml-2">' . $notif_count . '</span>';
+//    }
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
     mw()->ui->module('admin.dashboard.menu', $admin_dashboard_btn);
 }
@@ -92,6 +93,8 @@ event_bind('recover_shopping_cart', function ($params = false) {
 
 
 event_bind('mw.admin.dashboard.content.2', function ($params = false) {
+
+
     print '<div type="shop/orders/dashboard_recent_orders" class="mw-lazy-load-module" id="site_stats_dashboard_recent_orders"></div>';
 
     // print '  <module type="site_stats/admin" id="site_stats_admin" />';

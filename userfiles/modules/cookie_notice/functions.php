@@ -102,12 +102,13 @@ function scwCookie_ajax()
 event_bind('mw.front', function () {
     $mod_id = 'init_scwCookiedefault';
     $settings = get_option('settings', $mod_id);
-    $json = json_decode($settings, true);
-
-    if (isset($json['cookies_policy']) AND $json['cookies_policy'] == 'y') {
-        $init = init_scwCookie($mod_id);
-        if (is_object($init) and method_exists($init, 'getOutput')) {
-            mw()->template->foot($init->getOutput());
+    if($settings) {
+        $json = json_decode($settings, true);
+        if (isset($json['cookies_policy']) and $json['cookies_policy'] == 'y') {
+            $init = init_scwCookie($mod_id);
+            if (is_object($init) and method_exists($init, 'getOutput')) {
+                mw()->template->foot($init->getOutput());
+            }
         }
     }
 });

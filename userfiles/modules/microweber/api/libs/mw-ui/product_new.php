@@ -32,7 +32,7 @@
                                     <i class="mdi mdi-link mdi-20px lh-1_3 mr-1 text-silver float-left"></i>
                                     <small>
                                         <span class="text-silver">http://localhost/microweber/</span>
-                                        <span class="contenteditable" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true">shop</span>
+                                        <span class="contenteditable" data-bs-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true">shop</span>
                                     </small>
                                 </span>
                             </div>
@@ -73,7 +73,7 @@
                                     </div>
                                     <input type="text" class="form-control" value="0.00">
                                     <div class="input-group-append">
-                                        <span class="input-group-text" data-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
+                                        <span class="input-group-text" data-bs-toggle="tooltip" title="" data-original-title="To put a product on sale, make Compare at price the original price and enter the lower amount into Price."><i class="mdi mdi-help-circle"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +261,7 @@
                         </div>
 
                         <div class="col-md-6 d-flex align-items-center">
-                            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advandec-weight-settings">Show advanced weight setttings</a>
+                            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advandec-weight-settings">Show advanced weight setttings</a>
                         </div>
                     </div>
 

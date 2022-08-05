@@ -327,7 +327,7 @@ if (isset($params['quick_edit'])) {
                                             ?>
 
                                         <span class="text-silver" id="slug-base-url" ><?php print $site_prefix_url; ?></span>
-                                        <span class="contenteditable js-slug-base-url" data-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
+                                        <span class="contenteditable js-slug-base-url" data-bs-toggle="tooltip" data-title="edit" data-placement="right" contenteditable="true"><?php print $data['url']; ?></span>
                                     </span>
                                   </div>
 

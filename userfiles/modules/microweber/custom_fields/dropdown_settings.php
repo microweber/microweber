@@ -2,7 +2,7 @@
 
 <div class="mw-custom-field-group ">
     <div class="mb-3">
-        <label class="mw-ui-check left" style="margin-right: 7px;">
+        <label class="mw-ui-check left" style="margin-inline-end: 7px;">
             <input type="checkbox" data-option-group="custom_fields" name="options[multiple]" value="1" <?php if ($settings["multiple"]): ?> checked="checked" <?php endif; ?>/>
             <span></span>
             <span> <?php _e("Multiple Choices"); ?></span>
@@ -33,7 +33,7 @@
             </div>
         <?php endif; ?>
         <script type="text/javascript">
-            mw.custom_fields.sort("fields<?php print $rand; ?>"); 
+            mw.custom_fields.sort("fields<?php print $rand; ?>");
         </script>
     </div>
     <?php print $savebtn; ?>

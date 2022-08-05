@@ -74,7 +74,7 @@ if($pin == false or $pin == ''){
 <?php //dd($map_style_param) ?>
 
 
-<div class="relative" style="height: 400px">
+<div class="relative">
     <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
             src="https://maps.google.com/maps?f=q&amp;hl=en&amp;<?php if($pinEncoded): ?>center=<?php echo $pinEncoded;?>&amp;<?php endif; ?>geocode=&amp;time=&amp;date=&amp;ttype=&amp;q=<?php print urlencode($address); ?>&amp;ie=UTF8&amp;om=1&amp;s=AARTsJpG68j7ib5XkPnE95ZRHLMVsa8OWg&amp;spn=0.011588,0.023174&amp;z=<?php print intval($zoom); ?>&amp;output=embed&amp;style=<?php print $map_style_param ?>&amp;output=embed">
     </iframe>

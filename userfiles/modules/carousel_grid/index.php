@@ -144,6 +144,7 @@ $items_number = intval($items_number);
                         slidesDone++;
                         if (slidesDone == allslides.length) {
                             $("#carousel-grid-<?php print $params['id']; ?>").slick({
+                                rtl: document.documentElement.dir === 'rtl',
                                 adaptiveHeight: true
                             })
                         }

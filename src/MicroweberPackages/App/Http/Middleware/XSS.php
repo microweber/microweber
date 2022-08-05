@@ -13,13 +13,16 @@ class XSS
     {
         $input = $request->all();
 
-        $clean = new HTMLClean();
 
-        array_walk_recursive($input, function (&$input) use ($clean) {
-            if (is_string($input)) {
-                $input = $clean->clean($input);
-            }
-        });
+        if ($request->isMethod('post') and !empty($input)) {
+            $clean = new HTMLClean();
+            array_walk_recursive($input, function (&$input) use ($clean) {
+                if (is_string($input)) {
+                    $input = $clean->clean($input);
+                }
+            });
+        }
+
 
         $request->merge($input);
         return $next($request);

@@ -18,7 +18,7 @@ TODO: add option to show accept button instead of close
     <?php if ($type == 'on_click'):
         $onclick = (($source == 'existing_page' && !empty($page_id))? 'onclick="return popup_get_content();"' : '');
     ?>
-        <a id="#popup-link" <?php print $onclick;?> data-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false"><?php print $link_text;?></a>
+        <a id="#popup-link" <?php print $onclick;?> data-bs-toggle="modal" href="#popup-<?php print $params['id']; ?>" data-backdrop="false"><?php print $link_text;?></a>
     <?php endif; ?>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="popup-<?php print $params['id']; ?>" style="display:none">

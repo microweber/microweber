@@ -13,6 +13,7 @@ use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
+use Tests\Browser\Components\AdminMakeInstall;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -48,6 +49,7 @@ abstract class DuskTestCase extends BaseTestCase
 
         \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
+
     }
 
     /**
@@ -64,10 +66,10 @@ abstract class DuskTestCase extends BaseTestCase
         $arguments[] = '--disable-gpu';
         $arguments[] = '--no-sandbox';
         $arguments[] = '--ignore-certificate-errors';
-        $arguments[] = '--window-size=1920,1080';
+        $arguments[] = '--window-size=1280,1080';
         $arguments[] = '--disable-popup-blocking';
 
-
+      //  $arguments[] = '--headless';
 
         $options = (new ChromeOptions)->addArguments(collect($arguments)
             ->unless($this->hasHeadlessDisabled(), function ($items) use ($arguments) {
@@ -100,13 +102,16 @@ abstract class DuskTestCase extends BaseTestCase
     protected function assertPreConditions(): void
     {
 
+
+
+
+
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
 
         if (mw_is_installed()) {
 
             save_option('dusk_test', 1, 'dusk');
-
 
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
@@ -118,6 +123,8 @@ abstract class DuskTestCase extends BaseTestCase
             \DB::table('multilanguage_supported_locales')->truncate();
 
             app()->multilanguage_repository->clearCache();
+            app()->option_repository->clearCache();
+            clearcache();
 
             $this->app->bind('permalink_manager', function () {
                 return new PermalinkManager();

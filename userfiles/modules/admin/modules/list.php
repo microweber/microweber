@@ -269,7 +269,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 <?php } ?>
 
 
-<div class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
+<ul class="modules-list list-<?php print $mod_obj_str ?>" ocr="off">
     <?php
     $def_icon = modules_path() . 'default.jpg';
     $def_icon = mw()->url_manager->link_to_file($def_icon);
@@ -307,15 +307,6 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
     <?php endif; ?>
 
 
-    <script>
-        $(document).ready(function () {
-
-            $('.mw_module_image img','#<?php print $params['id'] ?>').each(function (index) {
-                var img = $(this).data('src');
-                $(this).attr('src', img);
-            });
-        });
-    </script>
 
 
     <?php
@@ -548,7 +539,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
             }
 
         </style>
-    <div id="default-layouts-holder">
+    <ul id="default-layouts-holder">
         <?php foreach ($modules_by_categories as $mod_cat => $modules) : ?>
 
             <?php if ($mod_obj_str == 'modules' and count($modules_by_categories) > 1): ?>
@@ -698,7 +689,7 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
         <?php endforeach; ?>
 
-</div>
+</ul>
     <?php endif; ?>
 
 
@@ -737,16 +728,18 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
                     var shImg = document.createElement('div');
                     shImg.innerHTML = data;
                     shImg.part = 'mw-module-icon';
-                    shImg.querySelector('svg').part = 'mw-module-icon-svg';
-                    Array.from(shImg.querySelectorAll('style')).forEach(function (style){
-                        style.remove()
-                    })
-                    Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item){
-                        item.removeAttribute('class')
-                        item.removeAttribute('id')
-                    })
-                    shadow.appendChild(shImg);
-                    img.parentNode.replaceChild(el, img);
+                    if(shImg.querySelector('svg') !== null) {
+                        shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                        Array.from(shImg.querySelectorAll('style')).forEach(function (style) {
+                            style.remove()
+                        })
+                        Array.from(shImg.querySelectorAll('[id],[class]')).forEach(function (item) {
+                            item.removeAttribute('class')
+                            item.removeAttribute('id')
+                        })
+                        shadow.appendChild(shImg);
+                        img.parentNode.replaceChild(el, img);
+                    }
                 })
             } else {
                 this.src = src;
@@ -757,3 +750,13 @@ if (isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset(
 
 
 
+
+<script>
+    $(document).ready(function () {
+
+        $('.mw_module_image img','#<?php print $params['id'] ?>').each(function (index) {
+            var img = $(this).data('src');
+            $(this).attr('src', img);
+        });
+    });
+</script>

@@ -27,17 +27,27 @@ if (!isset($params['project_name'])) {
         $("#edit-testimonials").attr("edit-id", "0");
         $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
+
+        var sel = document.querySelector('.js-add-new-testimonials')
+        bootstrap.Tab.getOrCreateInstance(sel).show()
     }
 
     add_new_testimonial = function () {
         $("#edit-testimonials").attr("edit-id", 0);
         $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
-        $('.js-add-new-testimonials').trigger('click');
+   //     $('.js-add-new-testimonials').trigger('click');
+      //  $('.js-add-new-testimonials').tab('show');
+        var sel = document.querySelector('.js-add-new-testimonials')
+        bootstrap.Tab.getOrCreateInstance(sel).show()
     }
 
     list_testimonial = function () {
-        $('.js-list-testimonials').trigger('click');
+      //  $('.js-list-testimonials').trigger('click');
+     //   $('.js-list-testimonials').tab('show');
+
+        var sel = document.querySelector('.js-list-testimonials')
+        bootstrap.Tab.getOrCreateInstance(sel).show()
     }
         ``
     edit_testimonial = function (id) {
@@ -45,7 +55,13 @@ if (!isset($params['project_name'])) {
         $("#edit-testimonials").attr("edit-id", id);
         $("#edit-testimonials").attr("project_name", '<?php echo $params['project_name']; ?>');
         mw.reload_module("#edit-testimonials");
-        $('.js-add-new-testimonials').trigger('click');
+
+        var sel = document.querySelector('.js-add-new-testimonials')
+        bootstrap.Tab.getOrCreateInstance(sel).show()
+
+
+       // $('.js-add-new-testimonials').trigger('click');
+      //  $('.js-add-new-testimonials').tab('show');
     }
 
     $(document).ready(function () {
@@ -160,7 +176,7 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
                                 </div>
 
                                 <div class="col">
-                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-bs-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
                                     <h6 class="font-weight-bold"><?php echo $item->name ?> </h6>
 

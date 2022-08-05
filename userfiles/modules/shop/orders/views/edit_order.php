@@ -46,7 +46,7 @@
     </script>
 
     <div class="main-toolbar">
-        <a href="#vieworder=0" class="btn btn-link text-silver px-0" data-toggle="tooltip" data-title="Back to list"><i class="mdi mdi-chevron-left"></i> <?php _e('Back to orders'); ?></a>
+        <a href="#vieworder=0" class="btn btn-link text-silver px-0" data-bs-toggle="tooltip" data-title="Back to list"><i class="mdi mdi-chevron-left"></i> <?php _e('Back to orders'); ?></a>
     </div>
 
     <div class="card bg-light style-1 mb-3">
@@ -329,7 +329,7 @@
                     <?php if (isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
                         <div class="mb-3">
                             <?php _e("Payment amount"); ?>: <?php print $ord['payment_amount']; ?>
-                            <i class="mdi mdi-help-circle" data-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
+                            <i class="mdi mdi-help-circle" data-bs-toggle="tooltip" data-title="<?php _e("Amount paid by the user"); ?>"></i>
                         </div>
                     <?php endif; ?>
                     <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>

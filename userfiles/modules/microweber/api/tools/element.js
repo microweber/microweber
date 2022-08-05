@@ -27,6 +27,15 @@
             return this;
         };
 
+        this.scrollTop = function (val) {
+            if(typeof val === 'undefined') {
+                return this._active().scrollTop;
+            }
+            return this.each(function(){
+                this.scrollTop = val;
+            });
+        };
+
         this.encapsulate = function () {
 
         };
@@ -45,7 +54,7 @@
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
-                        scope.append(el);
+                        scope.append(new MWElement(el));
                     });
                 } else if(this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
@@ -399,7 +408,11 @@
         };
         this.init = function(){
             this.nodes = [];
-            this.root = root || document;
+            var _root = root || document;
+             if(_root.get) {
+                _root = _root.get(0);
+            }
+            this.root = _root;
             this._asElement = false;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
@@ -438,8 +451,8 @@
          };
         this.init();
     };
-    mw.element = function(options){
-        return new MWElement(options);
+    mw.element = function(options, root){
+        return new MWElement(options, root);
     };
     mw.element.module = function (name, func) {
         MWElement.prototype[name] = func;

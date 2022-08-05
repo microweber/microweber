@@ -4,7 +4,6 @@ namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Auth;
 
-use MicroweberPackages\App\Http\Middleware\Admin;
 use MicroweberPackages\Notification\Models\Notification;
 use MicroweberPackages\Notification\Notifications\LegacyNotification;
 use MicroweberPackages\User\Models\User;
@@ -358,7 +357,7 @@ class NotificationsManager
         $readyNotifications = [];
 
         $admin = Auth::user();
-
+dd(debug_backtrace(1));
         if (isset($admin->unreadNotifications) and !empty($admin->unreadNotifications)) {
             foreach ($admin->unreadNotifications as $notification) {
 

@@ -67,13 +67,13 @@ if (isset($params['for_module_id'])) {
         <div class="js-custom-receivers" <?php if (!$emailCustomReceivers): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
                 <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
+                <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers separated with coma."); ?></small>
                 <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
            <!-- <div class="form-group">
                 <label class="control-label"><?php /*_e("Carbon copy e-mails"); */?></label>
-                <small class="text-muted d-block mb-2"><?php /*_e("This will send carbon copy of messages to the current e-mail addresses. The e-mail addresses must be seperated with a comma."); */?></small>
+                <small class="text-muted d-block mb-2"><?php /*_e("This will send carbon copy of messages to the current e-mail addresses. The e-mail addresses must be separated with a comma."); */?></small>
                 <input name="email_bcc" option-group="<?php /*print $mod_id */?>" value="<?php /*print get_option('email_cc', $mod_id); */?>" class="mw_option_field form-control" type="text"/>
             </div>-->
         </div>

@@ -9,7 +9,10 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
-    private $_addMultilanguage = [];
+    private array $_addMultilanguage = [];
+
+    /** @var array $fillable */
+
 
     public function initializeHasMultilanguageTrait()
     {
@@ -42,9 +45,8 @@ trait HasMultilanguageTrait
 
     public static function bootHasMultilanguageTrait()
     {
-        $defaultLocale = mw()->lang_helper->default_lang();
 
-        static::saving(function ($model) use ($defaultLocale) {
+        static::saving(function ($model)  {
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                 if(isset($model->attributes['lang'])){
                 unset($model->attributes['lang']);
@@ -54,6 +56,7 @@ trait HasMultilanguageTrait
                 }
              }
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
                 // When receive a save_option
                 if (isset($model->attributes['lang']) && isset($model->attributes['module'])) {
                     $translatableModuleOptions = self::getTranslatableModuleOptions();
@@ -89,6 +92,8 @@ trait HasMultilanguageTrait
                      }
                     // Append to model if we want to save changes for original model
                     if (!empty($model->_addMultilanguage)) {
+                        $defaultLocale = mw()->lang_helper->default_lang();
+
                         foreach ($model->_addMultilanguage as $field => $multilanguage) {
                             if (isset($multilanguage[$defaultLocale])) {
                                 $model->$field = $multilanguage[$defaultLocale];
@@ -187,9 +192,12 @@ trait HasMultilanguageTrait
     public static function getTranslatableModuleOptions()
     {
         $translatableModuleOptions = [];
-        foreach (get_modules_from_db() as $module) {
-            if (isset($module['settings']['translatable_options'])) {
-                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+        $modules = mw()->module_manager->get_modules('ui=any&installed=1');
+        if ($modules) {
+            foreach ($modules as $module) {
+                if (isset($module['settings']['translatable_options'])) {
+                    $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+                }
             }
         }
         return $translatableModuleOptions;

@@ -48,7 +48,16 @@ class RssController extends Controller
                 $tmp['id'] = $item['id'];
                 $tmp['url'] = content_link($item['id']);
                 $tmp['title'] = $item['title'];
-                $tmp['description'] = content_description($item['id']);
+                $content = content_description($item['id']);;
+                if(isset($item['content']) and $item['content']){
+                    $content = $item['content'];
+                }
+
+                if(isset($item['content_body']) and $item['content_body']){
+                    $content = $item['content_body'];
+                }
+                $content = app()->url_manager->replace_site_url_back($content);
+                $tmp['description'] = $content;
                 $tmp['tags'] = content_tags($item['id']);
                 $tmp['categories'] = content_categories($item['id']);
 

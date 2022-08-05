@@ -43,11 +43,11 @@ mw.backup = {
             } else {
                 mw.backup.export(sendParams);
             }
-            if (export_data.precentage) {
+            if (export_data.percentage) {
                 mw.progress({
                     element: '.js-backup-log',
                     action: ''
-                }).set(export_data.precentage);
+                }).set(export_data.percentage);
             }
         });
     },

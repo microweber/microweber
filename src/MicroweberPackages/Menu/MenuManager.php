@@ -44,7 +44,7 @@ class MenuManager
      *
      * @param array|bool $tables
      */
-    public function set_table_names($tables = false)
+    public function set_table_names($tables = [])
     {
         if (!isset($tables['menus'])) {
             $tables['menus'] = 'menus';
@@ -72,7 +72,11 @@ class MenuManager
         if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
             $data_to_save['is_active'] = 1;
         }
-      //  dump($data_to_save);
+
+        if (isset($data_to_save['title']) and !isset($data_to_save['menu_name'])) {
+            $data_to_save['menu_name'] = $data_to_save['title'];
+        }
+
         $save = $this->app->database_manager->save($table, $data_to_save);
         $this->app->cache_manager->delete('menus');
 
@@ -679,7 +683,9 @@ class MenuManager
                 }
 
                 foreach ($item as $key => $value) {
-                    $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
+                    if ($value) {
+                        $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
+                    }
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
                 $menu_link = str_replace('{a_class}', $a_class, $menu_link);

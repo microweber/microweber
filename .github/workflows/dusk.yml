@@ -1,14 +1,14 @@
 name: Dusk
-on: [ push,pull_request ]
+on: [ push ]
 
 jobs:
   dusk:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 2
+      max-parallel: 1
       matrix:
-        php-versions: [ '7.4' ]
+        php-versions: [ '8.1' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

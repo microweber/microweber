@@ -84,7 +84,7 @@ if (isset($params['for_module_id'])) {
 
         <div class="form-group mt-3">
             <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers seperated with coma."); ?></small>
+            <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers separated with coma."); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>
 

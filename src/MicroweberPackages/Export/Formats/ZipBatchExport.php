@@ -133,12 +133,14 @@ class ZipBatchExport extends DefaultExport
         $selectBatch = ($currentStep - 1);
 
         if (!isset($filesBatch[$selectBatch])) {
-            SessionStepper::finish();
+
+           SessionStepper::finish();
         }
 
         if (SessionStepper::isFinished()) {
             $this->logger->setLogInfo('No files in batch for current step.');
             $this->_finishUp();
+
             return $zipFileName;
         }
 
@@ -173,7 +175,7 @@ class ZipBatchExport extends DefaultExport
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
         $log['total_steps'] = SessionStepper::totalSteps();
-        $log['precentage'] = SessionStepper::percentage();
+        $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
         $log['data'] = false;

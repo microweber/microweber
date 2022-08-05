@@ -88,6 +88,7 @@
         <?php event_trigger('mw.admin.footer'); ?>
 
         <?php include(__DIR__ . DS . 'copyright.php'); ?>
+
     </main>
 
 <?php endif; ?>
