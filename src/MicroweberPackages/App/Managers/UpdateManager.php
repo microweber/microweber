@@ -5,6 +5,7 @@ namespace MicroweberPackages\App\Managers;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\ComposerClient\Client;
+use MicroweberPackages\Install\UpdateMissingConfigFiles;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 if (defined('INI_SYSTEM_CHECK_DISABLED') == false) {
@@ -172,6 +173,11 @@ class UpdateManager
     public function post_update($version = false)
     {
         if (mw_is_installed()) {
+
+            $copyConfigs = new UpdateMissingConfigFiles();
+            $copyConfigs->copyMissingConfigStubs();
+
+            $this->app->event_manager->trigger('mw.update.post');
 
             $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'),true);
             rmdir_recursive($bootstrap_cached_folder);
