@@ -8,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Session\SessionServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\Install\UpdateMissingConfigFiles;
 
 class LaravelApplication extends Application
 {
@@ -25,6 +26,21 @@ class LaravelApplication extends Application
         parent::__construct($basePath);
     }
 
+    public function boot()
+    {
+
+        // we check if there is cached file for the curent version and copy the missing config files if there is no cache file
+        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
+        $mwVersionFile = normalize_path($mwVersionFile, false);
+        if(!is_file($mwVersionFile)){
+            $copyConfigs = new UpdateMissingConfigFiles();
+            $copyConfigs->copyMissingConfigStubs();
+            file_put_contents($mwVersionFile,  self::VERSION . '_' . self::APP_VERSION );
+        }
+
+
+        parent::boot();
+    }
 
     /**
      * Get the path to the cached services.php file.
