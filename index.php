@@ -28,6 +28,10 @@ if (!class_exists('PDO') ) {
     exit('Error: PDO PHP extension is required to run Microweber');
 }
 
+if (!class_exists('Locale') ) {
+    exit('Error: Intl PHP extension is required to run Microweber');
+}
+
 if (!class_exists('XMLReader') ) {
     exit('Error: XML PHP extension is required to run Microweber');
 }
