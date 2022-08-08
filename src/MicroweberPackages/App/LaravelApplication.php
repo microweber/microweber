@@ -22,9 +22,14 @@ class LaravelApplication extends Application
     public function __construct($basePath = null)
     {
         $this->base_path_local = $basePath;
-        $this->_check_new_config_files();
         $this->_check_system();
         parent::__construct($basePath);
+    }
+
+    public function boot()
+    {
+        $this->_check_new_config_files();
+        parent::boot();
     }
 
     /**
