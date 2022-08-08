@@ -28,7 +28,7 @@ class Menu extends Model
         "rollover_image"
     ];
 
-    public $translatable = ['title'];
+    public $translatable = ['title','url'];
 
     public $cacheTagsToClear = ['menus','repositories','content'];
 }

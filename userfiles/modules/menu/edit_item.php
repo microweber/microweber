@@ -1,4 +1,7 @@
 <?php
+
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+
 $rand = uniqid();
 if (is_admin() == false) {
     mw_error('Must be admin');
@@ -120,6 +123,9 @@ if ($id == 0) {
                         <input type="hidden" name="parent_id" value="<?php print $params['menu-id'] ?>"/>
                     <?php endif; ?>
 
+
+                    <?php if (!MultilanguageHelpers::multilanguageIsEnabled()): ?>
+
                     <div class="form-group change-url-box">
                         <div class="input-group mb-3 append-transparent">
 
@@ -129,6 +135,26 @@ if ($id == 0) {
                             </div>
                         </div>
                     </div>
+
+                    <?php else: ?>
+
+
+                        <?php
+
+
+
+                        $menuModel = \MicroweberPackages\Menu\Menu::where('id', $data['id'])->first();
+                        $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+                        echo $formBuilder->text('url')
+                            ->setModel($menuModel)
+                            ->placeholder($data['url'])
+                            ->value($data['url'])
+                            ->autofocus(true);
+                        ?>
+
+
+                    <?php endif; ?>
                 </div>
                 <div class="col-auto">
                     <label class="control-label d-block">&nbsp;</label>
