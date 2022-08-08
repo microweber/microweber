@@ -2530,28 +2530,23 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.3.0",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8"
+                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
-                "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/83b609028194aa042ea33b5af2d41a7427de80e6",
+                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1||^8.0"
+                "php": ">=5.3.0"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "^6.5||^7.4",
-                "phpspec/prophecy-phpunit": "^1.1",
-                "phpunit/phpunit": "^7.5||^9.5",
-                "psr/cache": "^1.0||^2.0",
-                "psr/http-client": "^1.0",
-                "psr/http-factory": "^1.0"
+                "phpunit/phpunit": ">=4.8 <=9"
             },
             "suggest": {
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
@@ -2586,9 +2581,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.3.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
-            "time": "2022-07-15T16:48:45+00:00"
+            "time": "2021-11-08T20:18:51+00:00"
         },
         {
             "name": "florianv/exchanger",
@@ -3811,44 +3806,43 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "6.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "d0c55e3450f94e138526b686ba61ff7fd66df3ce"
+                "reference": "b896124eceeaee542e9ce7152378ff1cc828b1e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/d0c55e3450f94e138526b686ba61ff7fd66df3ce",
-                "reference": "d0c55e3450f94e138526b686ba61ff7fd66df3ce",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/b896124eceeaee542e9ce7152378ff1cc828b1e9",
+                "reference": "b896124eceeaee542e9ce7152378ff1cc828b1e9",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
-                "illuminate/console": "^6.0|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/console": "^8.0|^9.0",
+                "illuminate/support": "^8.0|^9.0",
                 "nesbot/carbon": "^2.0",
-                "php": "^7.2|^8.0",
+                "php": "^7.3|^8.0",
                 "php-webdriver/webdriver": "^1.9.0",
-                "symfony/console": "^4.3|^5.0|^6.0",
-                "symfony/finder": "^4.3|^5.0|^6.0",
-                "symfony/process": "^4.3|^5.0|^6.0",
-                "vlucas/phpdotenv": "^3.0|^4.0|^5.2"
+                "symfony/console": "^5.1.4|^6.0",
+                "symfony/finder": "^5.1.4|^6.0",
+                "symfony/process": "^5.1.4|^6.0",
+                "vlucas/phpdotenv": "^5.2"
             },
             "require-dev": {
-                "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.16|^5.17.1|^6.12.1|^7.0",
-                "phpunit/phpunit": "^7.5.15|^8.4|^9.0"
+                "mockery/mockery": "^1.4.2",
+                "orchestra/testbench": "^6.12.1|^7.0|dev-phpunit10",
+                "phpunit/phpunit": "^9.0|^10.0"
             },
             "suggest": {
                 "ext-pcntl": "Used to gracefully terminate Dusk when tests are running."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.x-dev"
+                    "dev-master": "7.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -3879,9 +3873,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/6.x"
+                "source": "https://github.com/laravel/dusk/tree/master"
             },
-            "time": "2022-07-26T15:21:28+00:00"
+            "time": "2022-01-13T12:53:26+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4063,30 +4057,30 @@
         },
         {
             "name": "laravel/passport",
-            "version": "10.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "75fd509928952ccbaff47e609d4f0e657a2c22cf"
+                "reference": "ed6f6c1d7582d4650bd9ccdf37ee950f11383940"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/75fd509928952ccbaff47e609d4f0e657a2c22cf",
-                "reference": "75fd509928952ccbaff47e609d4f0e657a2c22cf",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/ed6f6c1d7582d4650bd9ccdf37ee950f11383940",
+                "reference": "ed6f6c1d7582d4650bd9ccdf37ee950f11383940",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "firebase/php-jwt": "^6.0",
-                "illuminate/auth": "^8.37|^9.0",
-                "illuminate/console": "^8.37|^9.0",
-                "illuminate/container": "^8.37|^9.0",
-                "illuminate/contracts": "^8.37|^9.0",
-                "illuminate/cookie": "^8.37|^9.0",
-                "illuminate/database": "^8.37|^9.0",
-                "illuminate/encryption": "^8.37|^9.0",
-                "illuminate/http": "^8.37|^9.0",
-                "illuminate/support": "^8.37|^9.0",
+                "firebase/php-jwt": "^5.0",
+                "illuminate/auth": "^8.2|^9.0",
+                "illuminate/console": "^8.2|^9.0",
+                "illuminate/container": "^8.2|^9.0",
+                "illuminate/contracts": "^8.2|^9.0",
+                "illuminate/cookie": "^8.2|^9.0",
+                "illuminate/database": "^8.2|^9.0",
+                "illuminate/encryption": "^8.2|^9.0",
+                "illuminate/http": "^8.2|^9.0",
+                "illuminate/support": "^8.2|^9.0",
                 "lcobucci/jwt": "^3.4|^4.0",
                 "league/oauth2-server": "^8.2",
                 "nyholm/psr7": "^1.3",
@@ -4099,11 +4093,10 @@
                 "orchestra/testbench": "^6.0|^7.0",
                 "phpunit/phpunit": "^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "10.x-dev"
+                    "dev-master": "11.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4137,40 +4130,39 @@
                 "issues": "https://github.com/laravel/passport/issues",
                 "source": "https://github.com/laravel/passport"
             },
-            "time": "2022-06-08T09:32:00+00:00"
+            "time": "2022-07-13T14:39:47+00:00"
         },
         {
             "name": "laravel/sanctum",
-            "version": "2.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sanctum.git",
-                "reference": "863b610662bc09091fb73188f127d65eb64d3398"
+                "reference": "49b9f17823a8c62069b842a625ad191986ab4dcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sanctum/zipball/863b610662bc09091fb73188f127d65eb64d3398",
-                "reference": "863b610662bc09091fb73188f127d65eb64d3398",
+                "url": "https://api.github.com/repos/laravel/sanctum/zipball/49b9f17823a8c62069b842a625ad191986ab4dcc",
+                "reference": "49b9f17823a8c62069b842a625ad191986ab4dcc",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/console": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/contracts": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/database": "^6.9|^7.0|^8.0|^9.0",
-                "illuminate/support": "^6.9|^7.0|^8.0|^9.0",
-                "php": "^7.2|^8.0"
+                "illuminate/console": "^9.0",
+                "illuminate/contracts": "^9.0",
+                "illuminate/database": "^9.0",
+                "illuminate/support": "^9.0",
+                "php": "^8.0.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
-                "phpunit/phpunit": "^8.0|^9.3"
+                "orchestra/testbench": "^7.0",
+                "phpunit/phpunit": "^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "4.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4203,7 +4195,7 @@
                 "issues": "https://github.com/laravel/sanctum/issues",
                 "source": "https://github.com/laravel/sanctum"
             },
-            "time": "2022-06-08T09:35:18+00:00"
+            "time": "2022-07-22T14:37:05+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -4267,37 +4259,36 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "5.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "9afc1e9cb3476052b21881dc203116a6dc794fed"
+                "reference": "c3d7e859dc7ca3953b62b6f44af09cc421b0ab98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/9afc1e9cb3476052b21881dc203116a6dc794fed",
-                "reference": "9afc1e9cb3476052b21881dc203116a6dc794fed",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/c3d7e859dc7ca3953b62b6f44af09cc421b0ab98",
+                "reference": "c3d7e859dc7ca3953b62b6f44af09cc421b0ab98",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "^6.0|^7.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
                 "illuminate/http": "^6.0|^7.0|^8.0|^9.0",
                 "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
-                "league/oauth1-client": "^1.10.1",
+                "league/oauth1-client": "^1.0",
                 "php": "^7.2|^8.0"
             },
             "require-dev": {
+                "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0",
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
                 "phpunit/phpunit": "^8.0|^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.x-dev"
+                    "dev-master": "6.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -4333,7 +4324,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2022-07-26T15:35:44+00:00"
+            "time": "2022-01-25T20:12:41+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -4736,36 +4727,39 @@
         },
         {
             "name": "league/csv",
-            "version": "9.8.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "9d2e0265c5d90f5dd601bc65ff717e05cec19b47"
+                "reference": "4b17f68b4a4052f17d7e6ac2b0ce286ea0a427f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/9d2e0265c5d90f5dd601bc65ff717e05cec19b47",
-                "reference": "9d2e0265c5d90f5dd601bc65ff717e05cec19b47",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/4b17f68b4a4052f17d7e6ac2b0ce286ea0a427f0",
+                "reference": "4b17f68b4a4052f17d7e6ac2b0ce286ea0a427f0",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": "^7.4 || ^8.0"
+                "php": "^8.1.2"
             },
             "require-dev": {
-                "ext-curl": "*",
+                "doctrine/collections": "^1.6.8",
                 "ext-dom": "*",
-                "friendsofphp/php-cs-fixer": "^v3.4.0",
-                "phpstan/phpstan": "^1.3.0",
-                "phpstan/phpstan-phpunit": "^1.0.0",
-                "phpstan/phpstan-strict-rules": "^1.1.0",
-                "phpunit/phpunit": "^9.5.11"
+                "friendsofphp/php-cs-fixer": "^v3.9",
+                "phpbench/phpbench": "^1.2.6",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.3",
+                "phpunit/phpunit": "^9.5.20"
             },
             "suggest": {
-                "ext-dom": "Required to use the XMLConverter and or the HTMLConverter classes",
+                "ext-dom": "Required to use the XMLConverter and the HTMLConverter classes",
                 "ext-iconv": "Needed to ease transcoding CSV using iconv stream filters"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4816,7 +4810,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-04T00:13:07+00:00"
+            "time": "2022-08-08T04:23:07+00:00"
         },
         {
             "name": "league/event",
@@ -10918,25 +10912,25 @@
         },
         {
             "name": "symfony/intl",
-            "version": "6.1.x-dev",
+            "version": "6.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "9fc07ba57eb33d44c6b3b86b4e1ef927620d1a39"
+                "reference": "9179803f7d5c68cc7b619baccf05974ac877a559"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/9fc07ba57eb33d44c6b3b86b4e1ef927620d1a39",
-                "reference": "9fc07ba57eb33d44c6b3b86b4e1ef927620d1a39",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/9179803f7d5c68cc7b619baccf05974ac877a559",
+                "reference": "9179803f7d5c68cc7b619baccf05974ac877a559",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
             "require-dev": {
-                "symfony/filesystem": "^5.4|^6.0"
+                "symfony/filesystem": "^5.4|^6.0",
+                "symfony/finder": "^5.4|^6.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -10979,7 +10973,7 @@
                 "localization"
             ],
             "support": {
-                "source": "https://github.com/symfony/intl/tree/v6.1.0"
+                "source": "https://github.com/symfony/intl/tree/6.2"
             },
             "funding": [
                 {
@@ -10995,7 +10989,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-12T16:22:53+00:00"
+            "time": "2022-08-02T07:15:54+00:00"
         },
         {
             "name": "symfony/mailer",
@@ -12052,16 +12046,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "6.1.x-dev",
+            "version": "6.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "45d0f5bb8df7255651ca91c122fab604e776af03"
+                "reference": "3aaa746957af025557e2aefdeb96b607ac3d0c74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/45d0f5bb8df7255651ca91c122fab604e776af03",
-                "reference": "45d0f5bb8df7255651ca91c122fab604e776af03",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/3aaa746957af025557e2aefdeb96b607ac3d0c74",
+                "reference": "3aaa746957af025557e2aefdeb96b607ac3d0c74",
                 "shasum": ""
             },
             "require": {
@@ -12099,7 +12093,6 @@
                 "symfony/config": "",
                 "symfony/yaml": ""
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -12129,7 +12122,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/6.1"
+                "source": "https://github.com/symfony/translation/tree/6.2"
             },
             "funding": [
                 {
@@ -12145,7 +12138,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T16:17:38+00:00"
+            "time": "2022-08-02T16:18:05+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -16142,5 +16135,5 @@
         "ext-sodium": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
