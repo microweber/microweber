@@ -14,7 +14,7 @@ class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '1.3.0-dev1';
+    const APP_VERSION = '1.3.0-dev2';
 
 
     private $base_path_local;
@@ -22,24 +22,9 @@ class LaravelApplication extends Application
     public function __construct($basePath = null)
     {
         $this->base_path_local = $basePath;
+        $this->_check_new_config_files();
         $this->_check_system();
         parent::__construct($basePath);
-    }
-
-    public function boot()
-    {
-
-        // we check if there is cached file for the curent version and copy the missing config files if there is no cache file
-        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
-        $mwVersionFile = normalize_path($mwVersionFile, false);
-        if(!is_file($mwVersionFile)){
-            $copyConfigs = new UpdateMissingConfigFiles();
-            $copyConfigs->copyMissingConfigStubs();
-            file_put_contents($mwVersionFile,  self::VERSION . '_' . self::APP_VERSION );
-        }
-
-
-        parent::boot();
     }
 
     /**
@@ -80,7 +65,17 @@ class LaravelApplication extends Application
         $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
-
+    private function _check_new_config_files()
+    {
+        // we check if there is cached file for the current version and copy the missing config files if there is no cached file
+        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
+        $mwVersionFile = normalize_path($mwVersionFile, false);
+        if(!is_file($mwVersionFile)){
+            $copyConfigs = new UpdateMissingConfigFiles();
+            $copyConfigs->copyMissingConfigStubs();
+            file_put_contents($mwVersionFile,  self::VERSION . '_' . self::APP_VERSION );
+        }
+    }
 
     private function _check_system()
     {
