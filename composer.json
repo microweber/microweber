@@ -87,7 +87,7 @@
         "microweber-templates/shopmag": "3.7",
         "microweber-templates/bootstrap5": "1.3",
         "microweber-packages/composer-client": "2.0",
-        "microweber-modules/standalone-updater": "3.8"
+        "microweber-modules/standalone-updater": "3.9"
     },
     "require-dev": {
         "fzaninotto/faker": "*",
