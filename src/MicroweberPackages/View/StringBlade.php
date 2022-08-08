@@ -35,7 +35,7 @@ class StringBlade
      */
     protected function getBlade($bladeString)
     {
-        $bladePath = $this->generateBladePath();
+        $bladePath = $this->generateBladePath($bladeString);
 
         $content = \Blade::compileString($bladeString);
 
@@ -74,10 +74,10 @@ class StringBlade
      *
      * @return string
      */
-    protected function generateBladePath()
+    protected function generateBladePath($bladeString = '')
     {
         $cachePath = rtrim(config('cache.stores.file.path'), '/');
-        $tempFileName = sha1('string-blade' . microtime());
+        $tempFileName =md5('string-blade-'.$bladeString );
         $directory = "{$cachePath}/string-blades";
 
         if (!is_dir($directory)) {
