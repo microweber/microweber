@@ -11,6 +11,7 @@ use Auth;
 use MicroweberPackages\App\Http\Middleware\AllowedIps;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View as MicroweberView;
 use Illuminate\Support\Facades\View as LaravelView;
 
@@ -19,15 +20,15 @@ class AdminController extends Controller
 
     public $middleware = [
         [
-            'middleware'=>'admin',
-            'options'=>[]
+            'middleware' => 'admin',
+            'options' => []
         ],
         [
-            'middleware'=>'xss',
-            'options'=>[]
-        ],[
-            'middleware'=> AllowedIps::class,
-            'options'=>[]
+            'middleware' => 'xss',
+            'options' => []
+        ], [
+            'middleware' => AllowedIps::class,
+            'options' => []
         ]
     ];
 
@@ -56,7 +57,8 @@ class AdminController extends Controller
     }
 
 
-    public function render() {
+    public function render()
+    {
 
         $is_installed = mw_is_installed();
 
@@ -106,11 +108,10 @@ class AdminController extends Controller
         }
 
 
-
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
         $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
-         $layout = new MicroweberView($view);
+        $layout = new MicroweberView($view);
 
         if ($this->render_content) {
             $layout->assign('render_content', $this->render_content);
@@ -129,7 +130,6 @@ class AdminController extends Controller
         //  $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
 
 
-
         $default_css_url = $this->app->template->get_default_system_ui_css_url();
         $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
@@ -144,8 +144,6 @@ class AdminController extends Controller
 
         $layout = str_ireplace('<head>', '<head>' . $main_css_url, $layout, $rep);
         $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
-
-
 
 
         // }
@@ -170,9 +168,7 @@ class AdminController extends Controller
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
         }
-        return Blade::render($layout );
-
-       // return $layout;
+        return app(StringBlade::class)->render($layout, []);
     }
 
     private function hasNoAdmin()

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5692c0dded77e001741eefb31d580a5f",
+    "content-hash": "63f5d201cea872d907ffb0794ad06f52",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -4203,21 +4203,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "944c564545331ef57a114f6a9330732d481f3e2e"
+                "reference": "23ff3d2f724cfd9e628382d3905e650b9d22f516"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/944c564545331ef57a114f6a9330732d481f3e2e",
-                "reference": "944c564545331ef57a114f6a9330732d481f3e2e",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/23ff3d2f724cfd9e628382d3905e650b9d22f516",
+                "reference": "23ff3d2f724cfd9e628382d3905e650b9d22f516",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "pestphp/pest": "^1.21.3",
-                "phpstan/phpstan": "^1.8.2",
-                "symfony/var-dumper": "^5.4.11"
+                "pestphp/pest": "^1.18",
+                "phpstan/phpstan": "^0.12.98",
+                "symfony/var-dumper": "^5.3"
             },
             "default-branch": true,
             "type": "library",
@@ -4255,7 +4255,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2022-08-08T13:17:54+00:00"
+            "time": "2022-06-08T09:44:12+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -5415,16 +5415,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.10.7",
+            "version": "v2.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "fa0441bf82f1674beecb3a8ad8a4ae428736ed18"
+                "reference": "020ad095cf1239138b097d22b584e2701ec3edfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/fa0441bf82f1674beecb3a8ad8a4ae428736ed18",
-                "reference": "fa0441bf82f1674beecb3a8ad8a4ae428736ed18",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/020ad095cf1239138b097d22b584e2701ec3edfb",
+                "reference": "020ad095cf1239138b097d22b584e2701ec3edfb",
                 "shasum": ""
             },
             "require": {
@@ -5476,7 +5476,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.10.7"
+                "source": "https://github.com/livewire/livewire/tree/v2.10.6"
             },
             "funding": [
                 {
@@ -5484,7 +5484,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-08T13:52:53+00:00"
+            "time": "2022-06-19T02:54:20+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -6033,23 +6033,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "3.8",
+            "version": "3.9",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "b95ee517d9209cc84903f2ee5c1b326073f6c2c8"
+                "reference": "6b1c51a5899d3a0fce892617aba1dd9f464b377d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.8-8275a0.zip",
-                "reference": "b95ee517d9209cc84903f2ee5c1b326073f6c2c8",
-                "shasum": "65eba7ddd3cee579da190a1038488c9ceace5623"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-3.9-0eb20e.zip",
+                "reference": "6b1c51a5899d3a0fce892617aba1dd9f464b377d",
+                "shasum": "2f95b5d61af4c60e1c95a27d7f65241417de3d7a"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/38/README.md"
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/39/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6070,7 +6070,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2022-07-12T12:56:48+00:00"
+            "time": "2022-08-08T10:40:05+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -16135,5 +16135,5 @@
         "ext-sodium": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
