@@ -69,6 +69,11 @@ class LaravelApplication extends Application
     {
         // we check if there is cached file for the current version and copy the missing config files if there is no cached file
         $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
+        $checkDir  = dirname($mwVersionFile);
+        if (!is_dir($checkDir)) {
+            mkdir($checkDir);
+        }
+
         $mwVersionFile = normalize_path($mwVersionFile, false);
         if(!is_file($mwVersionFile)){
             $copyConfigs = new UpdateMissingConfigFiles();
