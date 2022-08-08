@@ -19,7 +19,7 @@ class UpdateMissingConfigFiles
             }
         }
         if ($files) {
-            $config_dir = config_path();
+            $config_dir = __DIR__ . '/../../../config';
             foreach ($to_copy as $file) {
                 $target = normalize_path($config_dir . '/' . no_ext($file) . '.php', false);
                 if (!is_file($target)) {
