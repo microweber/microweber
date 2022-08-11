@@ -7,7 +7,7 @@ services:
 #      - ./:/app
 #    command: composer install
   php-apache:
-    image: thecodingmachine/php:8.1-v4-apache
+    image: thecodingmachine/php:8.1-v4-apache-node16
     ports:
       - 80:80
     volumes:
@@ -18,7 +18,8 @@ services:
       APACHE_EXTENSION_DAV: 0
       PHP_INI_MEMORY_LIMIT: 1g
       PHP_INI_ERROR_REPORTING: E_ALL
-      PHP_EXTENSIONS: pgsql gettext imap sockets dom gd intl mbstring zip curl soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql sodium
+      PHP_EXTENSIONS: pgsql gettext imap sockets zip curl dom gd exif intl mbstring bcmath curl dom opcache mbstring soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
+      PECL_EXTENSION: sodium
       STARTUP_COMMAND_1: composer install
   mariadb:
     image: mariadb:10.3
