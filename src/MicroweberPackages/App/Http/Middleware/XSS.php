@@ -14,7 +14,8 @@ class XSS
         $input = $request->all();
 
 
-        if ($request->isMethod('post') and !empty($input)) {
+        if (($request->isMethod('post')  or $request->isMethod('patch')) and !empty($input)) {
+
             $clean = new HTMLClean();
             array_walk_recursive($input, function (&$input) use ($clean) {
                 if (is_string($input)) {
@@ -22,7 +23,6 @@ class XSS
                 }
             });
         }
-
 
         $request->merge($input);
         return $next($request);
