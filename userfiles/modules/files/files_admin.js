@@ -42,7 +42,7 @@ createPopHTML = function (sourceUrl, type) {
     return h;
 };
 
-deleteItem = function (url, name, frommodal) {
+deleteItem = function (url, name, frommodal,removeSelectorOndelete) {
 
     var obj, msg;
     if (typeof url === 'string') {
@@ -56,6 +56,9 @@ deleteItem = function (url, name, frommodal) {
         return false;
     }
 
+
+
+    $('#mw_alert').remove();
     mw.tools.confirm(msg, function () {
         $(document.body).addClass("loading");
         if (frommodal === true) {
@@ -63,7 +66,14 @@ deleteItem = function (url, name, frommodal) {
         }
         $.post(mw.settings.api_url + "media/delete_media_file", obj, function (a) {
             $(document.body).removeClass("loading");
-            _mw_admin_files_manage('all');
+
+            if (typeof removeSelectorOndelete === 'string') {
+                $(removeSelectorOndelete).fadeOut();
+            } else {
+                _mw_admin_files_manage('all');
+            }
+
+          //  _mw_admin_files_manage('all');
             mw.notification.msg(a);
 
         });

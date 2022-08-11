@@ -311,6 +311,29 @@ mw.image = {
         }
         document.body.appendChild(img);
     },
+    preloadAsLink: function (url, callback) {
+
+        var link = document.createElement("link");
+        link.href = url;
+        link.rel = "preload";
+        link.as = "image";
+        link.onload = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img);
+                }
+            }, 33);
+        };
+        link.onerror = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img);
+                }
+            }, 33);
+        };
+        document.head.appendChild(link);
+    },
+
     description: {
         add: function (text) {
             var img = document.querySelector("img.element-current");
