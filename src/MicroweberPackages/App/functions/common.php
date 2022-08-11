@@ -382,6 +382,10 @@ function clearcache()
         return app()->url_manager->redirect($_GET['redirect_to']);
     }
 
+    if(function_exists('opcache_reset')){
+        @opcache_reset();
+    }
+
     return true;
 }
 
