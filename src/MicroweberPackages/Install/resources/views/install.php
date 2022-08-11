@@ -490,12 +490,49 @@
                                 if ($pre_configured) {
                                     $hide_db_setup = true;
                                 }
+
+                                $dbDefaultDbname = '';
+                                $dbDefaultDbTablePrefix = '';
+                                $dbDefaultPassword = '';
+
+                                if(isset($config['database'])){
+                                    $dbDefaultDbname = $config['database'];
+                                }
+
+                                if(isset($config['password'])){
+                                    $dbDefaultPassword = $config['password'];
+                                }
+                                if(isset($config['prefix'])){
+                                    $dbDefaultDbTablePrefix = $config['prefix'];
+                                }
+
+                                if(isset($config['db_driver'])){
+                                    $dbDefaultEngine = $config['db_driver'];
+                                }
+
+                                if(isset($config['db_name'])){
+                                    $dbDefaultDbname = $config['db_name'];
+                                }
+
+                                if(isset($config['db_prefix'])){
+                                    $dbDefaultDbTablePrefix = $config['db_prefix'];
+                                }  if(isset($config['db_password'])){
+                                    $dbDefaultPassword = $config['db_password'];
+                                }
+
                                 ?>
 
                                 <form method="post" id="form_<?php print $rand; ?>" autocomplete="off">
 
                                     <div class="mw-ui-row" id="install-row">
                                         <div>
+
+                                            <?php if ($hide_db_setup == true): ?>
+
+                                            <a href="javascript:$('#mw_db_setup_toggle').toggle()" class="btn-link mb-3 text-center">Advanced settings</a>
+
+                                            <?php endif; ?>
+
                                             <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
                                                 <?php if (!$hide_db_setup): ?>
                                                     <h4><?php _e('Database Server'); ?></h4>
@@ -539,13 +576,13 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Password'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
-                                                        <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if (isset($config['password'])): ?><?php print $config['password']; ?><?php endif; ?>"/>
+                                                        <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if ($dbDefaultPassword): ?><?php print $dbDefaultPassword; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Database'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if (isset($config['database'])): ?><?php print $config['database']; ?><?php endif; ?>"/>
+                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if ($dbDefaultDbname): ?><?php print $dbDefaultDbname; ?><?php endif; ?>"/>
                                                     </div>
                                                 </div>
 
@@ -560,7 +597,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label"><?php _e('Table Prefix'); ?></label>
                                                     <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
-                                                    <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if (isset($config['prefix'])): ?><?php print $config['prefix']; ?><?php endif; ?>" onblur="prefix_add(this)"/>
+                                                    <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if ($dbDefaultDbTablePrefix): ?><?php print $dbDefaultDbTablePrefix; ?><?php endif; ?>" onblur="prefix_add(this)"/>
                                                 </div>
                                             </div>
 

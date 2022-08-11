@@ -20,6 +20,10 @@ class ApiAuth
      */
     public function handle(Request $request, Closure $next, $guard = null)
     {
+        if(!mw_is_installed()){
+            return $next($request);
+        }
+
         if (Auth::check() && Auth::user()->is_admin == 1) {
             return $next($request);
         }
