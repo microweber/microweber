@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Menu url field is now translatable
 - Added helper to compile blade from string
 - Other fixes
-- [see all changes....](https://github.com/microweber/microweber/compare/1.2.20...1.3.0 "")
+- [see all changes....](https://github.com/microweber/microweber/compare/1.3.0...1.3.1 "")
 
 
 ## [1.3.0] - 2022-07-20
