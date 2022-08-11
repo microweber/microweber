@@ -148,6 +148,7 @@ mw.filePicker = function (options) {
                     $wrap.append(fr);
                     fr.onload = function () {
                         mw.tools.loading(el, false);
+                        mw.tools.iframeAutoHeight(fr)
                         this.contentWindow.$(this.contentWindow.document.body).on('click', '.mw-browser-list-file', function () {
                             var url = this.href;
                             scope.setSectionValue(url);

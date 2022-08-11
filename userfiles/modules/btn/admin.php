@@ -389,6 +389,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                 <div class="mw-accordion">
+
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <i class="mw-icon-gear"></i> <?php _e("Custom design"); ?>
@@ -578,17 +592,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     </div>
 
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
-                            <div class="mw-ui-box mw-ui-box-content">
-                                <module type="admin/modules/templates" simple="true"/>
                             </div>
                         </div>
                     </div>

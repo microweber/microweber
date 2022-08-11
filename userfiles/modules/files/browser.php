@@ -376,7 +376,9 @@ if (isset($params['viewsize'])) {
                                     <?php if (isset($data['files'])): ?>
                                         <ul class="<?php print $browser_list_holder_class ?>">
                                             <?php foreach ($data['files'] as $item): ?>
-                                                <li>
+                                                <?php $rand = 'item'.crc32($item); ?>
+                                                <li class="mw-browser-list-item-rand-<?php print $rand; ?>">
+
                                                 <div class="mw-browser-list-item">
                                                     <a title="<?php print basename($item); ?>"
                                                        class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item, '.'), 1); ?>"
@@ -392,7 +394,7 @@ if (isset($params['viewsize'])) {
                                                         <?php endif; ?>
                                                         <span class="mw-browser-list-name"><?php print basename($item) ?></span>
                                                     </a>
-                                                    <?php $rand = md5($item); ?>
+
                                                     <div class="mw-file-item-check">
                                                         <label class="mw-ui-check pull-left">
                                                             <input type="checkbox" oninput="gchecked()" name="fileitem" id="v<?php print $rand; ?>"
@@ -400,7 +402,7 @@ if (isset($params['viewsize'])) {
                                                             <span></span>
                                                         </label>
                                                         <span class="mw-file-item-delete"
-                                                              onclick="deleteItem(document.getElementById('v<?php print $rand; ?>').value);"></span>
+                                                              onclick="deleteItem(document.getElementById('v<?php print $rand; ?>').value,false,false,'.mw-browser-list-item-rand-<?php print $rand; ?>');"></span>
                                                     </div>
                                                     </div>
                                                 </li>
@@ -416,12 +418,18 @@ if (isset($params['viewsize'])) {
                                                     var item = all[i];
                                                     var datasrc = item.getAttribute("data-src");
                                                     if (mw.tools.inview(item) && datasrc !== null) {
-                                                        mw.spinner(({element: item, size: 30})).show();
-                                                        (function (node){
-                                                            mw.image.preload(datasrc, function () {
-                                                                mw.spinner(({element: node})).hide();
-                                                            })
-                                                        })(item)
+                                                        item.removeAttribute("data-src")
+
+                                                        if(self === top){
+                                                            mw.spinner(({element: item, size: 30})).show();
+                                                            (function (node){
+                                                                mw.image.preload(datasrc, function () {
+                                                                    mw.spinner(({element: node})).hide();
+                                                                })
+                                                            })(item)
+                                                        }
+
+
                                                         if (item.nodeName === 'IMG') {
                                                             $(item).attr('src', datasrc).removeClass('image-item-not-ready');
                                                         } else {
@@ -433,9 +441,9 @@ if (isset($params['viewsize'])) {
                                                 }
                                             };
                                             var browserList = mw.$('#mw-browser-list-holder')
-                                            $(browserList).on('scroll', function () {
-                                                rendImages();
-                                            });
+                                            // $(browserList).on('scroll', function () {
+                                            //     rendImages();
+                                            // });
                                             $(window).on('load', function () {
                                                 if (window.thismodal) {
                                                     $(thismodal).on('dialogCenter', function () {
@@ -444,7 +452,7 @@ if (isset($params['viewsize'])) {
                                                         }, 333);
                                                     })
                                                 }
-                                                $()
+
                                             });
                                             $(window).on('load ajaxStop resize scroll', function () {
                                                 setTimeout(function () {
