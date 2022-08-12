@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1.2",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-json": "*",
