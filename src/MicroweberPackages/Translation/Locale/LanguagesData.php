@@ -128,7 +128,7 @@ class LanguagesData
     public static function getRtlLangs()
     {
 
-        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'khw', 'ks', 'ps', 'ur', 'yi');
+        $rtl_langs = array('ar', 'arc', 'dv', 'far', 'fa','khw', 'ks', 'ps', 'ur', 'yi');
         return $rtl_langs;
     }
 
