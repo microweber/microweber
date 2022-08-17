@@ -127,6 +127,7 @@ class TranslationController {
 
        $translations = base64_decode($request->post('translations'));
        $translations = json_decode($translations, true);
+       $translations = xss_clean($translations);
 
        $saveTranslations = [];
 
