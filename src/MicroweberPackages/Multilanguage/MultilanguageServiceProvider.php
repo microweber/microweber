@@ -81,10 +81,7 @@ class MultilanguageServiceProvider extends ServiceProvider
             return new MultilanguageRepository();
         });
 
-
-
        $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
-
 
         if (empty($getSupportedLocales)) {
             $isMultilanguageActive = false;

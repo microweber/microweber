@@ -136,6 +136,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 vertical-align: middle;
+                direction: ltr;
             }
 
         </style>
@@ -217,7 +218,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="control-label"><?php _e("Align"); ?></label>
                 <div class="form-group">
 
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <div class="btn-group btn-group-toggle" data-bs-toggle="buttons" dir="ltr">
                         <label class="btn btn-outline-secondary <?php print $align === 'left' ? 'active' : ''; ?>">
                             <input class="mw_option_field" type="radio" value="left"  name="align"> <i class="mdi mdi-format-horizontal-align-left"></i>
                         </label>
@@ -388,6 +389,20 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                 <div class="mw-accordion">
+
+
+                    <div class="mw-accordion-item">
+                        <div class="mw-ui-box-header mw-accordion-title">
+                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
+                        </div>
+                        <div class="mw-accordion-content">
+                            <div class="mw-ui-box mw-ui-box-content">
+                                <module type="admin/modules/templates" simple="true"/>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="mw-accordion-item">
                         <div class="mw-ui-box-header mw-accordion-title">
                             <i class="mw-icon-gear"></i> <?php _e("Custom design"); ?>
@@ -577,17 +592,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     </div>
 
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mw-accordion-item">
-                        <div class="mw-ui-box-header mw-accordion-title">
-                            <i class="mw-icon-gear"></i> <?php _e('Template'); ?>
-                        </div>
-                        <div class="mw-accordion-content">
-                            <div class="mw-ui-box mw-ui-box-content">
-                                <module type="admin/modules/templates" simple="true"/>
                             </div>
                         </div>
                     </div>

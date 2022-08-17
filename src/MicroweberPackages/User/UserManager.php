@@ -188,6 +188,20 @@ class UserManager
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
+
+
+        // check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            if (user_ip() != $_SERVER['REMOTE_ADDR']) {
+                $check3 = $this->app->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]15 min ago&updated_at=[lt]15 min&rel_type=login_failed&user_ip=' . $_SERVER['REMOTE_ADDR']);
+                if ($check3 > 100) {
+                    return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
+                }
+            }
+        }
+
+
+
         if (isset($params['code_login'])) {
             return $this->codeLogin($params['code_login']);
         }
@@ -446,11 +460,19 @@ class UserManager
      *
      * @uses $this->get_by_id()
      */
+
+    public $nice_name_cache = array();
+
     public function nice_name($id = false, $mode = 'full')
     {
 
+
         if (!$id) {
             $id = $this->id();
+        }
+
+        if(isset($this->nice_name_cache[$mode.$id])){
+            return $this->nice_name_cache[$mode.$id];
         }
 
         $user = $this->get_by_id($id);
@@ -528,7 +550,7 @@ class UserManager
                 $name = $name_from_email[0];
             }
         }
-
+        $this->nice_name_cache[$mode.$id] = $name;
         return $name;
     }
 
@@ -738,18 +760,14 @@ class UserManager
             }
         }
         if ($force == false) {
-
             if (!is_cli()) {
                 $validate_token = mw()->user_manager->csrf_validate($params);
-
                 if ($validate_token == false) {
-
                     return array(
                         'error' => _e('Confirm edit of profile', true),
                         'form_data_required' => 'token',
                         'form_data_module' => 'users/profile/confirm_edit'
                     );
-
                 }
             }
 
@@ -832,8 +850,13 @@ class UserManager
         $data_to_save = $this->app->format->clean_xss($data_to_save);
 
 
+        if (isset($data_to_save['password2'])) {
+            $data_to_save['verify_password'] = $data_to_save['password2'];
+        }
+
         $checkValidator = $user->validateAndFill($data_to_save);
         $getValidatorMessages = $user->getValidatorMessages();
+
 
         if ($checkValidator) {
 
@@ -1477,7 +1500,8 @@ class UserManager
         } else if (is_file($file)) {
             return site_url('logout');
         } else {
-            return route('api.user.logout');
+            //return route('api.user.logout');
+            return route('logout');
         }
 
     }

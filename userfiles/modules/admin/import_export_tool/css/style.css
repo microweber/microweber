@@ -1,0 +1,31 @@
+.import-modal-vendors {
+
+}
+.import-modal-vendor-btn {
+    width: 158px;
+    height: 158px;
+    padding: 15px;
+    border: 3px solid #d5d5d5;
+    border-radius: 4px;
+    margin-right: 20px;
+    margin-top: 20px;
+    float:left;
+}
+.import-modal-vendor-btn:hover {
+    cursor:pointer;
+    border: 3px solid #4592ff78;
+}
+.import-modal-vendor-btn-title {
+    width:100%;
+    text-align: center;
+    font-size:15px;
+}
+.import-modal-vendor-btn-image {
+    width:100%;
+    height: 97px;
+    text-align: center;
+}
+.import-modal-vendor-btn-image img {
+    width: 84px;
+}
+

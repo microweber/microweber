@@ -46,7 +46,7 @@
                 </li>
 
                 <li class="mx-1 d-none d-md-block">
-                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-toggle="dropdown"><span class="d-none d-md-block">Add new</span> <i class="mdi mdi-plus"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-bs-toggle="dropdown"><span class="d-none d-md-block">Add new</span> <i class="mdi mdi-plus"></i></button>
                     <div class="dropdown-menu ">
                         <a class="dropdown-item" href="#">Post</a>
                         <a class="dropdown-item" href="#">Product</a>
@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="mx-1 language-selector">
-                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-gb"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-bs-toggle="dropdown"><i class="flag-icon flag-icon-gb"></i></button>
                     <div class="dropdown-menu ">
                         <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-us"></i> English</a>
                         <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-fr"></i> French</a>
@@ -92,12 +92,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="javascript:;"><i class="mdi mdi-earth"></i> Website</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Pages <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New page"><i class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item active" href="#">Posts <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New post"><i
+                    <a class="dropdown-item" href="#">Pages <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New page"><i class="mdi mdi-plus"></i></span></a>
+                    <a class="dropdown-item active" href="#">Posts <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New post"><i
                                     class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item" href="products.php">Products <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New product"><i
+                    <a class="dropdown-item" href="products.php">Products <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New product"><i
                                     class="mdi mdi-plus"></i></span></a>
-                    <a class="dropdown-item" href="#">Categories <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-toggle="tooltip" title="New category"><i
+                    <a class="dropdown-item" href="#">Categories <span class="btn btn-primary btn-rounded btn-icon btn-sm add-new" onClick="javascript:return false;" data-bs-toggle="tooltip" title="New category"><i
                                     class="mdi mdi-plus"></i></span></a>
                 </div>
             </li>

@@ -161,7 +161,7 @@ address {
 
 ol,
 ul {
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
 }
 
 ol,
@@ -186,7 +186,7 @@ dt {
 
 dd {
   margin-bottom: .5rem;
-  margin-left: 0; // 1
+  margin-inline-start: 0; // 1
 }
 
 

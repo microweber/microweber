@@ -8,12 +8,13 @@ use Illuminate\Foundation\Application;
 use Illuminate\Session\SessionServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
+use MicroweberPackages\Install\UpdateMissingConfigFiles;
 
 class LaravelApplication extends Application
 {
 
     //remember to change also in version.txt
-    const APP_VERSION = '1.2.12';
+    const APP_VERSION = '1.3.1';
 
 
     private $base_path_local;
@@ -25,6 +26,11 @@ class LaravelApplication extends Application
         parent::__construct($basePath);
     }
 
+    public function boot()
+    {
+        $this->_check_new_config_files();
+        parent::boot();
+    }
 
     /**
      * Get the path to the cached services.php file.
@@ -34,7 +40,7 @@ class LaravelApplication extends Application
     public function getCachedServicesPath()
     {
 
-         return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.'.self::VERSION . '_' . self::APP_VERSION.'.php');
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.' . self::VERSION . '_' . self::APP_VERSION . '.php');
     }
 
     /**
@@ -44,9 +50,8 @@ class LaravelApplication extends Application
      */
     public function getCachedPackagesPath()
     {
-        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.'.self::VERSION . '_' . self::APP_VERSION.'.php');
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.' . self::VERSION . '_' . self::APP_VERSION . '.php');
     }
-
 
 
     /**
@@ -65,7 +70,22 @@ class LaravelApplication extends Application
         $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
+    private function _check_new_config_files()
+    {
+        // we check if there is cached file for the current version and copy the missing config files if there is no cached file
+        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
+        $checkDir  = dirname($mwVersionFile);
+        if (!is_dir($checkDir)) {
+            mkdir($checkDir);
+        }
 
+        $mwVersionFile = normalize_path($mwVersionFile, false);
+        if(!is_file($mwVersionFile)){
+            $copyConfigs = new UpdateMissingConfigFiles();
+            $copyConfigs->copyMissingConfigStubs();
+            file_put_contents($mwVersionFile,  self::VERSION . '_' . self::APP_VERSION );
+        }
+    }
 
     private function _check_system()
     {
@@ -94,16 +114,15 @@ class LaravelApplication extends Application
         */
         $storage_dir = $this->base_path_local . DIRECTORY_SEPARATOR . 'storage';
 
-        $storage_sessions_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'sessions';
+        $storage_sessions_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'sessions';
         if (!is_dir($storage_sessions_dir) and !is_link($storage_sessions_dir)) {
             $this->_mkdir_recursive($storage_sessions_dir);
         }
 
-        $storage_view_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework'.DIRECTORY_SEPARATOR.'views';
+        $storage_view_dir = $storage_dir . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'views';
         if (!is_dir($storage_view_dir) and !is_link($storage_view_dir)) {
             $this->_mkdir_recursive($storage_view_dir);
         }
-
 
 
     }
@@ -132,6 +151,25 @@ class LaravelApplication extends Application
         is_dir(dirname($pathname)) || $this->_mkdir_recursive(dirname($pathname));
 
         return is_dir($pathname) || @mkdir($pathname);
+    }
+
+
+    /**
+     * Write the service manifest file to disk.
+     *
+     * @param array $manifest
+     * @return array
+     *
+     * @throws \Exception
+     */
+    public function writeManifest($manifest)
+    {
+        try {
+            parent::writeManifest($manifest);
+        } catch (\Exception $e) {
+
+        }
+
     }
 
 

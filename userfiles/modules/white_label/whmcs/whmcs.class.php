@@ -365,7 +365,7 @@ class WHMCS
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Update_Client
      */
-    public function updateClient($uid = 0, $update)
+    public function updateClient($uid = 0, $update=false)
     {
         $attributes = array("firstname", "lastname", "companyname", "email", "address1", "address2", "city", "state", "postcode", "country", "phonenumber", "password2", "credit", "taxexempt", "notes", "cardtype", "cardnum", "expdate", "startdate", "issuenumber", "language", "customfields", "status", "latefeeoveride", "overideduenotices", "disableautocc");
 
@@ -569,7 +569,7 @@ class WHMCS
      * @throws WhmcsException
      * @link http://docs.whmcs.com/API:Add_Invoice_Payment
      */
-    public function addInvoicePayment($invoiceid, $txid, $amount = 0, $gateway, $date = '')
+    public function addInvoicePayment($invoiceid=false, $txid=false, $amount = 0, $gateway=false, $date = '')
     {
         if ($amount > 0) {
             $params['amount'] = $amount;

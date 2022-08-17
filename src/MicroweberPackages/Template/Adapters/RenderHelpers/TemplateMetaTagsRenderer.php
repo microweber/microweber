@@ -132,13 +132,13 @@ class TemplateMetaTagsRenderer
                     if ($meta['description'] != false and trim($meta['description']) != '') {
                         // $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
-                        $meta['description'] = str_replace("\n", ' ', $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                        $meta['description'] = str_replace("\n", ' ', $this->app->format->limit(strip_tags($meta['content']), 500));
                     }
 
                     if (isset($meta['description']) and $meta['description'] != '') {
                         $meta['og_description'] = $meta['description'];
                     } else {
-                        $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
+                        $meta['og_description'] = trim($this->app->format->limit(strip_tags($meta['content']), 500));
                     }
                 }
             } else {
@@ -214,18 +214,20 @@ class TemplateMetaTagsRenderer
 
             $analyticsTag = true;
             $fbPixel = true;
-            $getCookieNotice = json_decode(get_option('settings','init_scwCookiedefault'),true);
-            if (isset($getCookieNotice['cookies_policy']) && $getCookieNotice['cookies_policy'] == 'y') {
-                $analyticsTag = true;
-                $fbPixel = false;
-                if (Cookie::get('google-analytics-allow') == 1) {
+            $settings = get_option('settings','init_scwCookiedefault');
+            if ($settings) {
+                $getCookieNotice = json_decode($settings, true);
+                if (isset($getCookieNotice['cookies_policy']) && $getCookieNotice['cookies_policy'] == 'y') {
                     $analyticsTag = true;
-                }
-                if (Cookie::get('facebook-pixel-allow') == 1) {
-                    $fbPixel = true;
+                    $fbPixel = false;
+                    if (Cookie::get('google-analytics-allow') == 1) {
+                        $analyticsTag = true;
+                    }
+                    if (Cookie::get('facebook-pixel-allow') == 1) {
+                        $fbPixel = true;
+                    }
                 }
             }
-
             if ($analyticsTag) {
                 $headers[] = $this->_render_analytics_tags();
             }

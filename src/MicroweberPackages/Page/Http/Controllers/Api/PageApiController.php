@@ -8,7 +8,7 @@
 namespace MicroweberPackages\Page\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Page\Http\Requests\PageRequest;
 use MicroweberPackages\Page\Repositories\PageRepository;
 

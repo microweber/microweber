@@ -127,8 +127,8 @@ select.form-control {
 
   &.form-control-sm,
   &.form-control-lg {
-    padding-right: 0;
-    padding-left: 0;
+    padding-inline-end: 0;
+    padding-inline-start: 0;
   }
 }
 
@@ -190,13 +190,13 @@ textarea.form-control {
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -$form-grid-gutter-width / 2;
-  margin-left: -$form-grid-gutter-width / 2;
+  margin-inline-end: -$form-grid-gutter-width / 2;
+  margin-inline-start: -$form-grid-gutter-width / 2;
 
   > .col,
   > [class*="col-"] {
-    padding-right: $form-grid-gutter-width / 2;
-    padding-left: $form-grid-gutter-width / 2;
+    padding-inline-end: $form-grid-gutter-width / 2;
+    padding-inline-start: $form-grid-gutter-width / 2;
   }
 }
 
@@ -208,13 +208,13 @@ textarea.form-control {
 .form-check {
   position: relative;
   display: block;
-  padding-left: $form-check-input-gutter;
+  padding-inline-start: $form-check-input-gutter;
 }
 
 .form-check-input {
   position: absolute;
   margin-top: $form-check-input-margin-y;
-  margin-left: -$form-check-input-gutter;
+  margin-inline-start: -$form-check-input-gutter;
 
   // Use [disabled] and :disabled for workaround https://github.com/twbs/bootstrap/issues/28247
   &[disabled] ~ .form-check-label,
@@ -230,15 +230,15 @@ textarea.form-control {
 .form-check-inline {
   display: inline-flex;
   align-items: center;
-  padding-left: 0; // Override base .form-check
-  margin-right: $form-check-inline-margin-x;
+  padding-inline-start: 0; // Override base .form-check
+  margin-inline-end: $form-check-inline-margin-x;
 
   // Undo .form-check-input defaults and add some `margin-right`.
   .form-check-input {
     position: static;
     margin-top: 0;
-    margin-right: $form-check-inline-input-margin-x;
-    margin-left: 0;
+    margin-inline-end: $form-check-inline-input-margin-x;
+    margin-inline-start: 0;
   }
 }
 
@@ -317,14 +317,14 @@ textarea.form-control {
       align-items: center;
       justify-content: center;
       width: auto;
-      padding-left: 0;
+      padding-inline-start: 0;
     }
     .form-check-input {
       position: relative;
       flex-shrink: 0;
       margin-top: 0;
-      margin-right: $form-check-input-margin-x;
-      margin-left: 0;
+      margin-inline-end: $form-check-input-margin-x;
+      margin-inline-start: 0;
     }
 
     .custom-control {

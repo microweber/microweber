@@ -4,15 +4,12 @@
             <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("List of orders"); ?></strong>
                 <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php _e('Add new order'); ?></button>
             </h5>
-
-
-
         </div>
         <div class="card-body pt-3 pb-0">
 
             @include('order::admin.orders.partials.abandoned_filtering')
 
-            <?php if (count($orders) > 0): ?>
+            <?php if ($orders->count() > 0): ?>
                 <?php foreach ($orders as $order): ?>
                 @include('order::admin.orders.abandoned_card', ['order'=>$order])`
                 <?php endforeach;?>

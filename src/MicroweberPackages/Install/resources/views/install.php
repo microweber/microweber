@@ -24,8 +24,8 @@
     <script src="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.js"></script>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/jqueryui/jquery-ui.css"/>
 
-   <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
-        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/libs/mw-ui/grunt/plugins/ui/css/main.css"/>
 
     <?php
     $rand = uniqid();
@@ -161,7 +161,7 @@
         }
 
         $(document).ready(function () {
-            $("input[name='table_prefix']").bind('keydown', function (e) {
+            $("input[name='db_prefix']").bind('keydown', function (e) {
                 if ((e.keycode || e.which) == 32) {
                     e.preventDefault();
                 }
@@ -444,6 +444,11 @@
                                 $server_check_errors['pdo'] = 'The PDO MYSQL PHP extension must be loaded';
                             }
 
+                            if (!class_exists('\ZipArchive')  ) {
+                                $check_pass = false;
+                                $server_check_errors['zip'] = 'The Zip PHP extension must be loaded';
+                            }
+
                             if (extension_loaded('gd') && function_exists('gd_info')) {
                             } else {
                                 $check_pass = false;
@@ -491,12 +496,83 @@
                                 if ($pre_configured) {
                                     $hide_db_setup = true;
                                 }
+
+                                $dbDefaultDbname = '';
+                                $dbDefaultDbTablePrefix = '';
+                                $dbDefaultUsername = '';
+                                $dbDefaultPassword = '';
+                                $dbDefaultHostname = '';
+                                $dbDefaultEngine = 'sqlite';
+                                $dbDefaultLang = 'en_US';
+
+
+                                // hostname
+                                if(isset($config['host']) and $config['host']){
+                                    $dbDefaultHostname = $config['host'];
+                                }
+
+                                if(isset($config['db_host']) and $config['db_host']){
+                                    $dbDefaultHostname = $config['db_host'];
+                                }
+
+                                // db name
+                                if(isset($config['database']) and $config['database']){
+                                    $dbDefaultDbname = $config['database'];
+                                }
+                                if(isset($config['db_name']) and $config['db_name']){
+                                    $dbDefaultDbname = $config['db_name'];
+                                }
+
+                                // db username
+                                if(isset($config['username']) and $config['username']){
+                                    $dbDefaultUsername = $config['username'];
+                                }
+                                if(isset($config['db_username']) and $config['db_username']){
+                                    $dbDefaultUsername = $config['db_username'];
+                                }
+
+                                // db pass
+                                if(isset($config['password']) and $config['password']){
+                                    $dbDefaultPassword = $config['password'];
+                                }
+                                if(isset($config['db_password']) and $config['db_password']){
+                                    $dbDefaultPassword = $config['db_password'];
+                                }
+
+                                // prefix
+
+                                if(isset($config['prefix']) and $config['prefix']){
+                                    $dbDefaultDbTablePrefix = $config['prefix'];
+                                }
+
+                                if(isset($config['db_prefix']) and $config['db_prefix']){
+                                    $dbDefaultDbTablePrefix = $config['db_prefix'];
+                                }
+
+                                // driver
+                                if(isset($config['db_driver']) and $config['db_driver']){
+                                    $dbDefaultEngine = $config['db_driver'];
+                                }
+
+                                if(isset($config['site_lang']) and $config['site_lang']){
+                                    $dbDefaultLang = $config['site_lang'];
+                                }
+
+
+
                                 ?>
 
                                 <form method="post" id="form_<?php print $rand; ?>" autocomplete="off">
 
                                     <div class="mw-ui-row" id="install-row">
                                         <div>
+
+                                            <?php if ($hide_db_setup == true): ?>
+
+                                            <a href="javascript:$('#mw_db_setup_toggle').toggle()" class="btn-link mb-3 text-center">Advanced settings</a>
+
+                                            <?php endif; ?>
+
                                             <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
                                                 <?php if (!$hide_db_setup): ?>
                                                     <h4><?php _e('Database Server'); ?></h4>
@@ -528,25 +604,25 @@
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Hostname'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The address of your database server'); ?></small>
-                                                        <input type="text" class="form-control" autofocus name="db_host" tabindex="2" value="<?php if (isset($config['host'])): ?><?php print $config['host']; ?><?php endif; ?>"/>
+                                                        <input type="text" class="form-control" autofocus name="db_host" tabindex="2" value="<?php if ($dbDefaultHostname): ?><?php print $dbDefaultHostname; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Username'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_user" tabindex="2" value="<?php if (isset($config['username'])): ?><?php print $config['username']; ?><?php endif; ?>"/>
+                                                        <input type="text" class="form-control" name="db_username" tabindex="2" value="<?php if ($dbDefaultUsername): ?><?php print $dbDefaultUsername; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Password'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
-                                                        <input type="password" class="form-control" name="db_pass" tabindex="2" value="<?php if (isset($config['password'])): ?><?php print $config['password']; ?><?php endif; ?>"/>
+                                                        <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if ($dbDefaultPassword): ?><?php print $dbDefaultPassword; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="control-label"><?php _e('Database'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if (isset($config['database'])): ?><?php print $config['database']; ?><?php endif; ?>"/>
+                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if ($dbDefaultDbname): ?><?php print $dbDefaultDbname; ?><?php endif; ?>"/>
                                                     </div>
                                                 </div>
 
@@ -561,7 +637,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label"><?php _e('Table Prefix'); ?></label>
                                                     <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
-                                                    <input type="text" class="form-control" name="table_prefix" tabindex="3" value="<?php if (isset($config['prefix'])): ?><?php print $config['prefix']; ?><?php endif; ?>" onblur="prefix_add(this)"/>
+                                                    <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if ($dbDefaultDbTablePrefix): ?><?php print $dbDefaultDbTablePrefix; ?><?php endif; ?>" onblur="prefix_add(this)"/>
                                                 </div>
                                             </div>
 
@@ -628,9 +704,9 @@
                                             <?php endif; ?>
 
 
-                                           <div class="text-center">
-                                               <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
-                                           </div>
+                                            <div class="text-center">
+                                                <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                            </div>
                                             <div class="row mt-3">
 
 
@@ -655,7 +731,7 @@
                                                         ?>
                                                         <select name="site_lang" class="form-control" tabindex="8">
                                                             <?php foreach ($langs as $langKey=>$langValue): ?>
-                                                                <option value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
+                                                                <option <?php if ($dbDefaultLang and $dbDefaultLang == $langKey): ?> selected <?php endif; ?> value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -737,7 +813,7 @@
                                     <input type="hidden" value="UTC" name="default_timezone"/>
 
                                     <div class="text-end text-right">
-                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" tabindex="16"><?php _e('Install'); ?></button>
+                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" id="install-button"  tabindex="16"><?php _e('Install'); ?></button>
                                     </div>
                                 </form>
                             <?php endif; ?>

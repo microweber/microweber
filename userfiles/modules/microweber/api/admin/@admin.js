@@ -1,3 +1,12 @@
+//mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
+//mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
+mw.require('tree.js');
+mw.require('link-editor.js');
+mw.require('tags.js');
+mw.require(mw.settings.modules_url + '/categories/categories.js');
+
+
+
 
 mw.admin = {
     language: function(language) {
@@ -16,11 +25,27 @@ mw.admin = {
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
+          /*
+            if (!!frame && frame !== null && !!frame.contentWindow) {
+                var width_mbar = mw.$('#main-bar').width(),
+                    tree = document.querySelector('.tree-column'),
+                    width_tbar = mw.$(tree).width(),
+                    ww = mw.$(window).width();
+                if (tree.style.display === 'none') {
+                    width_tbar = 0;
+                }
+                if (width_mbar > 200) {
+                    width_mbar = 0;
+                }
+                mw.$(frame)
+                    .width(ww - width_tbar - width_mbar - 35)
+                    .height(frame.contentWindow.document.body.offsetHeight);
+            }*/
         },
         init: function (area, params) {
             params = params || {};
             if (typeof params === 'object') {
-                if (params.src) {
+                if (typeof params.src != 'undefined') {
                     delete(params.src);
                 }
             }
@@ -29,6 +54,7 @@ mw.admin = {
             area = mw.$(area);
             var frame = document.createElement('iframe');
             frame.src = mw.external_tool('wysiwyg?' + params);
+            console.log(mw.external_tool('wysiwyg?' + params))
             frame.className = 'mw-iframe-editor';
             frame.scrolling = 'no';
             var name = 'mweditor' + mw.random();
@@ -59,7 +85,9 @@ mw.admin = {
     insertModule: function (module) {
         document.querySelector('.mw-iframe-editor').contentWindow.mw.insertModule(module);
     },
-    simpleRotator: function (rotator) {
+
+
+        simpleRotator: function (rotator) {
         if (rotator === null) {
             return undefined;
         }
@@ -170,7 +198,7 @@ mw.contactForm = function () {
 };
 
 
-$(document).ready(function () {
+$(mwd).ready(function () {
 
 
     mw.$(document.body).on('keydown', function (e) {
@@ -199,10 +227,12 @@ $(document).ready(function () {
     });
 });
 
-$(window).on('load', function () {
+$(mww).on('load', function () {
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });
+
+
 
     if (document.getElementById('main-bar-user-menu-link') !== null) {
 
@@ -233,3 +263,35 @@ $(window).on('load', function () {
 });
 
 
+QTABSArrow = function (el) {
+    el = mw.$(el);
+    if (el == null) {
+        return;
+    }
+    if (!el.length) {
+        return;
+    }
+    var left = el.offset().left - mw.$(document.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
+    mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
+};
+
+
+;(function (){
+
+    var self;
+    var RtlDetect=self={_regexEscape:/([\.\*\+\^\$\[\]\\\(\)\|\{\}\,\-\:\?])/g,_regexParseLocale:/^([a-zA-Z]*)([_\-a-zA-Z]*)$/,_escapeRegExpPattern:function(str){if(typeof str!=='string'){return str}
+            return str.replace(self._regexEscape,'\\$1')},_toLowerCase:function(str,reserveReturnValue){if(typeof str!=='string'){return reserveReturnValue&&str}
+            return str.toLowerCase()},_toUpperCase:function(str,reserveReturnValue){if(typeof str!=='string'){return reserveReturnValue&&str}
+            return str.toUpperCase()},_trim:function(str,delimiter,reserveReturnValue){var patterns=[];var regexp;var addPatterns=function(pattern){patterns.push('^'+pattern+'+|'+pattern+'+$')};if(typeof delimiter==='boolean'){reserveReturnValue=delimiter;delimiter=null}
+            if(typeof str!=='string'){return reserveReturnValue&&str}
+            if(Array.isArray(delimiter)){delimiter.map(function(item){var pattern=self._escapeRegExpPattern(item);addPatterns(pattern)})}
+            if(typeof delimiter==='string'){var patternDelimiter=self._escapeRegExpPattern(delimiter);addPatterns(patternDelimiter)}
+            if(!delimiter){addPatterns('\\s')}
+            var pattern='('+patterns.join('|')+')';regexp=new RegExp(pattern,'g');while(str.match(regexp)){str=str.replace(regexp,'')}
+            return str},_parseLocale:function(strLocale){var matches=self._regexParseLocale.exec(strLocale);var parsedLocale;var lang;var countryCode;if(!strLocale||!matches){return}
+            matches[2]=self._trim(matches[2],['-','_']);lang=self._toLowerCase(matches[1]);countryCode=self._toUpperCase(matches[2])||countryCode;parsedLocale={lang:lang,countryCode:countryCode};return parsedLocale},isRtlLang:function(strLocale){var objLocale=self._parseLocale(strLocale);if(!objLocale){return}
+            return(self._BIDI_RTL_LANGS.indexOf(objLocale.lang)>=0)},getLangDir:function(strLocale){return self.isRtlLang(strLocale)?'rtl':'ltr'}};Object.defineProperty(self,'_BIDI_RTL_LANGS',{value:['ae','ar','arc','bcc','bqi','ckb','dv','fa','glk','he','ku','mzn','nqo','pnb','ps','sd','ug','ur','yi'],writable:!1,enumerable:!0,configurable:!1})
+
+    mw.admin.rtlDetect = RtlDetect;
+
+})();

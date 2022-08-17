@@ -2,6 +2,101 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.1] - 2022-08-11
+- Maintenance release 
+- Fix to add missing config files on update
+- Fixed XSS in the category name
+- Menu url field is now translatable
+- Added helper to compile blade from string
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.3.0...1.3.1 "")
+
+
+## [1.3.0] - 2022-07-20
+- Upgraded to Laravel 9 and PHP 8.1
+- Added Livewire support for the admin panel
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.20...1.3.0 "")
+
+
+## [1.2.21] - 2022-07-18
+- Fixed security related to module attributes
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.20...1.2.21 "")
+
+
+## [1.2.20] - 2022-07-09
+- Fixed security issue when uploading svg files with script tags
+- Fixed security issue when using special characters as url parameters
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.19...1.2.20 "")
+
+
+## [1.2.19] - 2022-07-04
+- Fixed uploading, now requires a valid XSRF token.
+- Fixed artisan command names and arguments are now with dash instead of underscore
+- Fixed XSRF token is now obtained from the server by ajax request.
+- Fixed forgot password now works by username not only by email.
+- Fixed external URL redirect on logout, while providing username and password in the URL.
+- Fixed toggle of notifications accordion was broken due Bootstrap 5 migration
+- Fixed bug related to image resizing in live edit.
+- Fixed twitter feed was not loading when you reload the module by JS. 
+- Added ability for the code editor to pop-out in new window.
+- Added icons in the dom tree in live edit for easier identification of elements.
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.18...1.2.19 "")
+
+
+## [1.2.18] - 2022-06-22
+- Fixed unpublished products that were shown on frontend
+- Fixed empty CSS properties are removed when you reset the element from live edit
+- Fixed mail sending, when using laravel config
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.17...1.2.18 "")
+
+
+## [1.2.17] - 2022-06-14
+ - Fixed Bootstrap 5 dropdowns and tabs 
+ - Fixed api_url function to use router if exists
+ - Other fixes
+ - [see all changes....](https://github.com/microweber/microweber/compare/1.2.16...1.2.17 "")
+
+
+## [1.2.16] - 2022-06-09
+ - Fixed more RTL issues 
+ - Fixed translation issues on the slider module
+ - Fixed PNG anf GIF image transparency issue
+ - Fixed Twitter feed module
+ - Fixed contact form not accepting terms and conditions
+ - Translations update 
+ - Security fixes
+ - Other fixes
+ - [see all changes....](https://github.com/microweber/microweber/compare/1.2.15...1.2.16 "")
+
+
+## [1.2.15] - 2022-04-29
+- Added new free template based on Bootstrap 5
+- Added support for inline svg in live edit
+- Added support animations in live edit
+- Fixed contact form not sending email, when disable mail saving option is enabled
+- Security fixes 
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.14...1.2.15 "")
+
+
+## [1.2.14] - 2022-04-14
+- Updated admin panel to Bootstrap 5
+- Improvements on the editor when editing UL and LI elements
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.13...1.2.14 "")
+
+
+## [1.2.13] - 2022-04-04
+- Fixes right to left text alignment in the editor.
+- Fixes on Multi language
+- Security fixes
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.2.12...1.2.13 "")
 
 
 ## [1.2.12] - 2022-03-22
@@ -23,8 +118,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added more tests
 - Other fixes
 - [see all changes....](https://github.com/microweber/microweber/compare/1.2.10...1.2.11 "")
- 
- 
+
+
 ## [1.2.10] - 2021-12-08
 - Fixes on live edit
 - Fixes on multi language
@@ -479,7 +574,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Fix: Parser bugs
 - Changed: to MIT license 
 - [see all changes....](https://github.com/microweber/microweber/compare/1.0.8...1.0.10 "")
- 
+
 
 ## [1.0.8] - 2017-04-26
 

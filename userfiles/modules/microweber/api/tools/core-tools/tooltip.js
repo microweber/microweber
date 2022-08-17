@@ -85,15 +85,15 @@
             if (target) {
                 scope.settings.element = target;
             }
-            var el = mw.element(scope.settings.element);
+            var el = mw.$(scope.settings.element);
             if (el.length === 0) {
                 return false;
             }
             var tooltip = this.tooltip.get(0);
             var w = el.outerWidth(),
-                tipwidth = tooltip.offsetWidth,
+                tipwidth = mw.$(tooltip).outerWidth(),
                 h = el.outerHeight(),
-                tipheight = tooltip.offsetHeight,
+                tipheight = mw.$(tooltip).outerHeight(),
                 off = el.offset();
             if (off.top === 0 && off.left === 0) {
                 off = el.parent().offset();
@@ -222,7 +222,13 @@
             return tooltip;
         },
         setPosition: function (tooltip, el, position) {
-            if(!el || el.length === 0) return;
+                if(window.top.document.documentElement.dir === 'rtl') {
+                    if (position.indexOf('right') !== -1) {
+                        position = position.replace('right', 'left');
+                    } else if (position.indexOf('left') !== -1) {
+                        position = position.replace('left', 'right');
+                    }
+                }
                 el = mw.$(el);
                 if (el.length === 0) {
                     return false;
@@ -236,10 +242,6 @@
                     arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
                 if (off.top === 0 && off.left === 0) {
                     off = mw.$(el).parent().offset();
-                }
-                if (!off) {
-                    console.log(el);
-                    return ;
                 }
                 mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
                 mw.tools.addClass(tooltip, position);
@@ -460,12 +462,14 @@
 
     };
 
-    mw.tooltip = function (config) {
-        return mw.tools.tooltip.init(config);
-    };
-
     mw.tools.tooltip = tooltip;
     var TTTime = null;
+    mw.tools.titleTipOff = function () {
+
+        clearTimeout(TTTime);
+        mw.$(mw.tools[ '_titleTip']).hide();
+    };
+
     mw.tools.titleTip = function (el, _titleTip) {
         clearTimeout(TTTime);
         mw.$(mw.tools[_titleTip]).hide();
@@ -522,7 +526,7 @@
             mw.$(mw.tools[_titleTip]).removeClass('mw-tooltip-circle');
         }
         mw.$(mw.tools[_titleTip]).show();
-        }, 500)
+        }, 500);
     };
 
 })();

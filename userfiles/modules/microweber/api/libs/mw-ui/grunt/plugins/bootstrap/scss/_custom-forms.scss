@@ -8,21 +8,38 @@
 // Base class takes care of all the key behavioral aspects.
 
 .custom-control {
-  position: relative;
-  display: block;
-  min-height: $font-size-base * $line-height-base;
-  padding-left: $custom-control-gutter + $custom-control-indicator-size;
-}
+    position: relative;
+    display: block;
+    min-height: $font-size-base * $line-height-base;
+    &.custom-checkbox{
+        .custom-control-label{
+            padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
+
+        }
+    }
+    &.custom-radio,
+    &.custom-switch {
+        padding-inline-start: $custom-control-gutter + $custom-control-indicator-size;
+    }
+    &.custom-switch {
+        .custom-control-label{
+            position: relative;
+        }
+
+    }
+ }
+
+
 
 .custom-control-inline {
   display: inline-flex;
-  margin-right: $custom-control-spacer-x;
+  margin-inline-end: $custom-control-spacer-x;
 }
 
 .custom-control-input {
   position: absolute;
   left: 0;
-  z-index: -1; // Put the input behind the label so it doesn't overlay text
+  z-index: 1; // Put the input behind the label so it doesn't overlay text
   width: $custom-control-indicator-size;
   height: ($font-size-base * $line-height-base + $custom-control-indicator-size) / 2;
   opacity: 0;
@@ -72,7 +89,7 @@
 // Build the custom controls out of pseudo-elements.
 
 .custom-control-label {
-  position: relative;
+  position: static;
   margin-bottom: 0;
   color: $custom-control-label-color;
   vertical-align: top;
@@ -106,10 +123,44 @@
   }
 }
 
+.custom-control.custom-radio{
+    .custom-control-label {
+        &::after,
+        &::before {
+
+            left: 0;
+
+        }
+    }
+}
+
+html[dir="rtl"] {
+    .custom-switch{
+        .custom-control-label {
+            &::before {
+
+                left: calc(100% + 10px);
+
+            }
+
+            &::after {
+
+                left: calc(100% + 27px);
+            }
+        }
+        .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(-0.92rem);
+        }
+    }
+
+}
+
 
 // Checkboxes
 //
 // Tweak just a few things for checkboxes.
+
+
 
 .custom-checkbox {
   .custom-control-label::before {
@@ -141,6 +192,21 @@
       background-color: $custom-control-indicator-checked-disabled-bg;
     }
   }
+    .custom-control-label:before,
+    .custom-control-label:after{
+        left: 0 !important;
+    }
+}
+
+html[dir="rtl"] {
+    .custom-radio,
+    .custom-checkbox {
+        .custom-control-label:before,
+        .custom-control-label:after{
+            left: auto !important;
+            right: 0 !important;
+        }
+    }
 }
 
 // Radios
@@ -172,7 +238,7 @@
 // Tweak a few things for switches
 
 .custom-switch {
-  padding-left: $custom-switch-width + $custom-control-gutter;
+  padding-inline-start: $custom-switch-width + $custom-control-gutter;
 
   .custom-control-label {
     &::before {
@@ -208,6 +274,8 @@
     }
   }
 }
+
+
 
 
 // Select
@@ -256,7 +324,7 @@
   &[multiple],
   &[size]:not([size="1"]) {
     height: auto;
-    padding-right: $custom-select-padding-x;
+    padding-inline-end: $custom-select-padding-x;
     background-image: none;
   }
 
@@ -281,7 +349,7 @@
   height: $custom-select-height-sm;
   padding-top: $custom-select-padding-y-sm;
   padding-bottom: $custom-select-padding-y-sm;
-  padding-left: $custom-select-padding-x-sm;
+  padding-inline-start: $custom-select-padding-x-sm;
   @include font-size($custom-select-font-size-sm);
 }
 
@@ -289,7 +357,7 @@
   height: $custom-select-height-lg;
   padding-top: $custom-select-padding-y-lg;
   padding-bottom: $custom-select-padding-y-lg;
-  padding-left: $custom-select-padding-x-lg;
+  padding-inline-start: $custom-select-padding-x-lg;
   @include font-size($custom-select-font-size-lg);
 }
 
@@ -455,8 +523,8 @@
     width: $custom-range-thumb-width;
     height: $custom-range-thumb-height;
     margin-top: 0; // Edge specific
-    margin-right: $custom-range-thumb-focus-box-shadow-width; // Workaround that overflowed box-shadow is hidden.
-    margin-left: $custom-range-thumb-focus-box-shadow-width;  // Workaround that overflowed box-shadow is hidden.
+    margin-inline-end: $custom-range-thumb-focus-box-shadow-width; // Workaround that overflowed box-shadow is hidden.
+    margin-inline-start: $custom-range-thumb-focus-box-shadow-width;  // Workaround that overflowed box-shadow is hidden.
     @include gradient-bg($custom-range-thumb-bg);
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
@@ -486,7 +554,7 @@
   }
 
   &::-ms-fill-upper {
-    margin-right: 15px; // arbitrary?
+    margin-inline-end: 15px; // arbitrary?
     background-color: $custom-range-track-bg;
     @include border-radius($custom-range-track-border-radius);
   }

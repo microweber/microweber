@@ -22,16 +22,11 @@ class AdminAddCategoryTest extends DuskTestCase
 
         $environment = app()->environment();
 
-
-
         $this->browse(function (Browser $browser) use ($environment) {
-
 
             $browser->within(new AdminLogin, function ($browser) {
                 $browser->fillForm();
             });
-
-
 
             $browser->pause(1000);
             $browser->within(new EnvCheck, function ($browser) {
@@ -76,9 +71,14 @@ class AdminAddCategoryTest extends DuskTestCase
                 $browser->addImage(userfiles_path() . '/templates/default/img/patterns/img3.jpg');
             });
 
-            $browser->scrollTo('@category-save');
+            $browser->scrollTo('#content-title-field');
+            $browser->pause(1000);
+
+            $browser->scrollTo('[dusk="category-save"]');
+            $browser->pause(1000);
+
             $browser->click('@category-save');
-            $browser->pause(2000);
+            $browser->pause(4000);
 
             $findCategory = Category::where('title', $categoryTitle)->first();
 

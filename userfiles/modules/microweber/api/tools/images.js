@@ -39,18 +39,24 @@ mw.image = {
                 minHeight: 60,
                 start: function () {
                     mw.image.isResizing = true;
-                    mw.$(mw.image_resizer).resizable("option", "maxWidth", mw.image.currentResizing.parent().width());
+                    mw.$(mw.image_resizer)
+                        .resizable("option", "maxWidth", mw.image.currentResizing.parent().width())
+                        .height('auto');
                     mw.$(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit')).addClass("changed");
                 },
                 stop: function () {
                     mw.image.isResizing = false;
                     mw.drag.fix_placeholders();
-                    mw.wysiwyg.change(mw.image.currentResizing[0])
+                    mw.image.currentResizing[0].style.height = 'auto';
+                    mw.wysiwyg.change(mw.image.currentResizing[0]);
+
+
                 },
                 resize: function () {
                     var offset = mw.image.currentResizing.offset();
                     mw.$(this).css(offset);
-                },
+                    mw.image.currentResizing[0].style.height = 'auto';
+                 },
                 aspectRatio: 16 / 9
             });
             mw.image_resizer.mwImageResizerComponent = true;
@@ -305,6 +311,29 @@ mw.image = {
         }
         document.body.appendChild(img);
     },
+    preloadAsLink: function (url, callback) {
+
+        var link = document.createElement("link");
+        link.href = url;
+        link.rel = "preload";
+        link.as = "image";
+        link.onload = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img);
+                }
+            }, 33);
+        };
+        link.onerror = function () {
+            setTimeout(function () {
+                if (typeof callback === 'function') {
+                    callback.call(img);
+                }
+            }, 33);
+        };
+        document.head.appendChild(link);
+    },
+
     description: {
         add: function (text) {
             var img = document.querySelector("img.element-current");

@@ -262,7 +262,7 @@ class ImageLib
         if (is_array($option) && strtolower($option[0]) == 'crop') {
             $cropPos = $option[1];         # get the crop option
         } else if (strpos($option, '-') !== false) {
-            // *** Or pass in a hyphen seperated option
+            // *** Or pass in a hyphen separated option
             $optionPiecesArray = explode('-', $option);
             $cropPos = end($optionPiecesArray);
         }
@@ -2141,14 +2141,18 @@ class ImageLib
         #             * bmp files have no native support for bmp files. We use a
         #               third party class to save as bmp.
     {
+
         // *** Perform a check or two.
-        if (!is_resource($this->imageResized)) {
+        if (!is_resource($this->imageResized) and !$this->imageResized instanceof \GdImage ) {
+
             if ($this->debug) {
                 die('saveImage: This is not a resource.');
             } else {
                 die();
             }
+
         }
+
         $fileInfoArray = pathInfo($savePath);
         clearstatcache();
         if (!is_writable($fileInfoArray['dirname'])) {

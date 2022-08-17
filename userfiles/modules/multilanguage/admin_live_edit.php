@@ -33,9 +33,9 @@ only_admin_access();
 <div id="mw-language-settings">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs m-1 w-100">
         <nav id="nav-language-settings" class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center  active " data-toggle="tab" href="#mw-lang-settings"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e('Languages'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#mw-multilang-settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#mw-multilang-templates"><i class="mdi mdi-pencil-ruler mr-1"></i><?php print _e('Templates'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center  active " data-bs-toggle="tab" href="#mw-lang-settings"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e('Languages'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#mw-multilang-settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#mw-multilang-templates"><i class="mdi mdi-pencil-ruler mr-1"></i><?php print _e('Templates'); ?></a>
         </nav>
 
         <div id="mw-lang-settings" class="mw-accordion-content mw-ui-box-content">

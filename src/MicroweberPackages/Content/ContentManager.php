@@ -39,6 +39,7 @@ class ContentManager
     public $main_page_id = false;
     public $post_id = false;
     public $category_id = false;
+    public $template_name = false;
 
 
     /**
@@ -141,6 +142,11 @@ class ContentManager
     public function set_table_names($tables = false)
     {
         $prefix = '';
+
+        if($tables == false){
+            $tables = array();
+        }
+
         if (!isset($tables['content'])) {
             $tables['content'] = 'content';
         }
@@ -782,7 +788,7 @@ class ContentManager
         }
     }
 
-    public function paging_links($base_url = false, $pages_count, $paging_param = 'current_page', $keyword_param = 'keyword')
+    public function paging_links($base_url = false, $pages_count = false, $paging_param = 'current_page', $keyword_param = 'keyword')
     {
         if ($base_url == false) {
             if ($this->app->url_manager->is_ajax() == false) {
@@ -1960,6 +1966,7 @@ class ContentManager
         }
 
 
+        $this->template_name = $the_active_site_template;
         if (defined('ACTIVE_TEMPLATE_DIR') == false) {
             define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
         }

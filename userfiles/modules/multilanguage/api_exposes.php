@@ -26,6 +26,7 @@ api_expose_admin('multilanguage/supported_locale/set_active', function ($params)
             cache_clear('options');
             cache_clear('content');
             cache_clear('repositories');
+            clearcache();
             if ($save) {
                 return ['success'=>true];
             }

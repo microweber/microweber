@@ -93,9 +93,14 @@ class TemplateInstaller
             $manager->setSessionId($sessionId);
             $manager->setFile($default_content_file);
             $manager->setBatchImporting(false);
+            $manager->setToDeleteOldContent(false);
             $manager->setOvewriteById(true);
-            $manager->setLogger($this->logger);
-            $manager->setLanguage($this->language);
+            if ($this->logger) {
+                $manager->setLogger($this->logger);
+            }
+            if ($this->language) {
+                $manager->setLanguage($this->language);
+            }
             $manager->start();
 
             ob_get_clean();

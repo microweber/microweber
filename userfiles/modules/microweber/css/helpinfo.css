@@ -33,7 +33,7 @@
   }
 
   #mw_info_helper_content ul, #mw_info_helper_content ol{
-    padding-left: 16px;
+    padding-inline-start: 16px;
   }
 
   #mw_info_helper_footer{
@@ -46,7 +46,7 @@
   }
 
   #mw_info_helper_footer .mw-ui-btn.right{
-    margin-left:10px;
+    margin-inline-start:10px;
   }
 
   #helpinfo_arr{
@@ -65,7 +65,7 @@
   }
   .bottomcenter #helpinfo_arr{
     left: 50%;
-    margin-left: -17px;
+    margin-inline-start: -17px;
   }
   .topright #helpinfo_arr{
     top: auto;
@@ -84,7 +84,7 @@
     bottom: -17px;
     background-position: left bottom;
     left: 50%;
-    margin-left: -17px;
+    margin-inline-start: -17px;
   }
 
   .lefttop #helpinfo_arr{
@@ -142,5 +142,5 @@
 
   .mwhelpinfoimg{
     float: left;
-    margin-right: 20px;
+    margin-inline-end: 20px;
   }

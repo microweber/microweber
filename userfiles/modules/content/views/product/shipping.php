@@ -70,7 +70,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>
                             </div>
-                            <input type="text" class="form-control" name="content_data[fixed_cost]" value="<?php echo $contentData['fixed_cost']; ?>">
+                            <input type="text" class="form-control" name="content_data[shipping_fixed_cost]" value="<?php echo $contentData['shipping_fixed_cost']; ?>">
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <a href="javascript:;" class="btn btn-link" data-toggle="collapse" data-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
+            <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advanced-weight-settings"><?php _e("Show advanced weight settings"); ?></a>
 
             <div class="collapse" id="advanced-weight-settings">
                 <hr class="thin no-padding"/>

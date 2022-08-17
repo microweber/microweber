@@ -69,7 +69,7 @@
         <div class="js-toggle-backup-select-items">
 
             <div class="card style-1 mb-3 card-collapse">
-                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-database-tables">
+                <div class="card-header no-border cursor-pointer" data-bs-toggle="collapse" data-bs-target="#include-database-tables">
                     <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Database Tables"); ?></strong></h6>
                 </div>
 
@@ -104,7 +104,7 @@
 
             <?php if (config('microweber.allow_php_files_upload')): ?>
             <div class="card style-1 mb-3 card-collapse">
-                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-modules">
+                <div class="card-header no-border cursor-pointer" data-bs-toggle="collapse" data-bs-target="#include-modules">
                     <h6><i class="mdi mdi-view-grid-plus text-primary mr-2"></i> <strong><?php _e("Include Modules"); ?></strong></h6>
                 </div>
 
@@ -130,7 +130,7 @@
             </div>
 
             <div class="card style-1 mb-3 card-collapse">
-                <div class="card-header no-border cursor-pointer" data-toggle="collapse" data-target="#include-templates">
+                <div class="card-header no-border cursor-pointer" data-bs-toggle="collapse" data-bs-target="#include-templates">
                     <h6><i class="mdi mdi-pencil-ruler text-primary mr-2"></i> <strong><?php _e("Include Templates"); ?></strong></h6>
                 </div>
 
@@ -155,7 +155,7 @@
                 </div>
             </div>
             <?php endif; ?>
-            
+
             <label class="mw-ui-check">
                 <input type="checkbox" class="js-include-media" name="include_media" value="1">
                 <span></span><span>Include media files</span>

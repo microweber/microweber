@@ -2,8 +2,6 @@
 
 
 
-
-
 <?php
 /*
  * $lang = get_option('language', 'website');
@@ -14,12 +12,6 @@ set_current_lang($lang);
 */
 
 $lang = mw()->lang_helper->current_lang();
-
-if(isset($params['edit-lang']) and $params['edit-lang']){
-    $lang = $params['edit-lang'];
-    set_current_lang($lang);
-    $lang = mw()->lang_helper->current_lang();
-}
 ?>
 
 <script type="text/javascript">

@@ -87,11 +87,23 @@
     if (isset($_GET['autosize'])) {
         $autoSize = $_GET['autosize'];
     }
+    $autoSize = intval($autoSize);
 
     $type = '';
     if (isset($_GET['type'])) {
         $type = $_GET['type'];
     }
+    $type = xss_clean($type);
+
+            $other = [
+                ';',
+                '\'',
+                '//',
+                '`',
+                '\\',
+
+            ];
+    $type = str_replace($other, '', $type);
 
     $mod_id = $mod_orig_id = false;
     $is_linked_mod = false;
@@ -106,6 +118,8 @@
     if ($mod_id != $mod_orig_id) {
         $is_linked_mod = true;
     }
+
+
     ?>
 
     <script type="text/javascript">
@@ -122,7 +136,7 @@
         addIcon();
 
         autoSize = <?php  print $autoSize; ?>;
-        settingsType = '<?php print $type; ?>';
+        settingsType = '<?php print htmlentities($type); ?>';
 
         window.onbeforeunload = function () {
             $(document.body).addClass("mw-external-loading")
@@ -403,7 +417,9 @@
                 if (mw.notification) {
                     mw.notification.success('<?php _ejs('Settings are saved') ?>');
                 }
+                <?php if (isset($params['id'])) : ?>
                 mw.reload_module_parent('#<?php print $params['id']  ?>')
+                <?php endif; ?>
 
             });
 
@@ -440,9 +456,11 @@
 <body class="mw-external-loading loading">
 <div id="settings-main">
     <div id="settings-container">
-        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
-             id="module-id-<?php print $params['id'] ?>">{content}
-        </div>
+        <?php if (isset($params['id'])) : ?>
+            <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
+                 id="module-id-<?php print $params['id'] ?>">{content}
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 

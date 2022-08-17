@@ -137,6 +137,14 @@ function is_module_installed($module_name)
 
 function module_admin_url($module_name = false)
 {
+    $module = module_info($module_name);
+
+    if (isset($module['settings']['routes']['admin'])) {
+        if (Route::has($module['settings']['routes']['admin'])) {
+            return route($module['settings']['routes']['admin']);
+        }
+    }
+
     return admin_url() . 'view:modules/load_module:' . module_name_encode(strtolower($module_name));
 }
 

@@ -27,7 +27,9 @@ mw.moduleSettings = function(options){
 
     this.items = [];
 
-    if(!this.options.element) return;
+    if(!this.options.element) {
+        return;
+    }
 
     this.interval = function (c) {
         if(!this._interval) {
@@ -35,20 +37,37 @@ mw.moduleSettings = function(options){
             this._interval = setInterval(function () {
                 if(scope.options.element && document.body.contains(scope.options.element)) {
                     scope._intervals.forEach(function (func){
-                        func.call(scope)
-                    })
+                        func.call(scope);
+                    });
                 } else {
-                    clearInterval(scope._interval)
+                    clearInterval(scope._interval);
                 }
-            }, 1000)
+            }, 1000);
         }
-    }
+    };
 
     this.createItemHolderHeader = function(i){
         if(this.options.header){
             var header = document.createElement('div');
             header.className = "mw-ui-box-header";
-            header.innerHTML = this.options.header.replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+            var render = this.options.header
+                .replace(/{count}/g, '<span class="mw-module-settings-box-index">'+(i+1)+'</span>');
+
+            header.innerHTML = render;
+            var valReflect = header.querySelector('[data-reflect]');
+            if(valReflect) {
+                setTimeout(function (valReflect){
+                    var node = header.parentElement.querySelector('[name="'+valReflect.dataset.reflect+'"]');
+                    if(node) {
+                        valReflect.innerHTML = node.value;
+                        node.addEventListener('input', function (){
+                            valReflect.innerHTML = node.value;
+                        });
+                    }
+
+                }, 100, valReflect);
+
+            }
             mw.$(header).on('click', function(){
                 mw.$(this).next().slideToggle();
             });

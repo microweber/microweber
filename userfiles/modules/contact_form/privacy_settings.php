@@ -49,12 +49,13 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                     <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
                         <div class="row">
                             <div class="col-12">
+
                                 <div class="form-group mb-3">
                                     <label class="control-label"><?php _e("Users must agree to the terms and conditions") ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e("If the user does not agree to the terms, he will not be able to use the contact form") ?></small>
                                 </div>
 
-                                <module type="users/terms/set_for_module" for_module="contact_form"/>
+                                <module type="users/terms/set_for_module" for_module="<?php echo $params['parent-module-id']; ?>"/>
 
                                 <div class="form-group mb-3">
                                     <label class="control-label"><?php _e("Saving data and emails") ?></label>
@@ -63,18 +64,18 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 
                                 <div class="form-group mb-4">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="mw_option_field custom-control-input" id="skip_saving_emails_<?php $params['id']; ?>" parent-reload="true" name="skip_saving_emails" value="y" data-value-unchecked="n" data-value-checked="y" option-group="<?php print $mod_id ?>" <?php if (get_option('skip_saving_emails', $mod_id) == 'y'): ?>checked<?php endif; ?> />
-                                        <label class="custom-control-label" for="skip_saving_emails_<?php $params['id']; ?>"><?php _e("Skip saving emails in my website database."); ?></label>
+                                        <input type="checkbox" class="mw_option_field custom-control-input" id="skip_saving_emails_<?php echo $params['id']; ?>" parent-reload="true" name="skip_saving_emails" value="y" data-value-unchecked="n" data-value-checked="y" option-group="<?php print $mod_id ?>" <?php if (get_option('skip_saving_emails', $mod_id) == 'y'): ?>checked<?php endif; ?> />
+                                        <label class="custom-control-label" for="skip_saving_emails_<?php echo $params['id']; ?>"><?php _e("Skip saving emails in my website database."); ?></label>
                                     </div>
                                 </div>
 
                                 <div class="form-group mb-3">
                                     <label class="control-label d-block"><?php _e("Want to view and edit the text and the page?") ?></label>
-                                    <button class="btn btn-sm btn-outline-primary mt-2" data-toggle="collapse" data-target="#contact-form-settings"><?php _e("Edit the text and URL") ?></button>
+                                    <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-bs-target="#contact-form-settings"><?php _e("Edit the text and URL") ?></button>
                                 </div>
 
                                 <div class="collapse" id="contact-form-settings">
-                                    <module type="users/terms/edit" terms-group="contact_form"/>
+                                    <module type="users/terms/edit" terms-group="contact_form" />
                                 </div>
                             </div>
                         </div>

@@ -15,7 +15,6 @@
 
 ?>
 
-
 <script>
     mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
 </script>

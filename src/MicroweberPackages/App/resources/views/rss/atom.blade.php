@@ -18,8 +18,8 @@
                 @php
                     if (!empty($item['categories'])) {
                         foreach ($item['categories'] as $catItem) {
-                            echo '<category term="'.urlencode($catItem['title']).'"></category>';
-                        }
+                            echo '<category label="'.htmlentities($catItem['title']).'"  term="'.htmlentities($catItem['url']).'"></category>';
+                         }
                     }
                @endphp
 
@@ -32,9 +32,7 @@
                @endphp
 
                 @if(!empty($item['description']))
-                <content type="html" xml:base="{{ $item['url'] }}">
-                    <![CDATA[ {{ $item['description'] }} ]]>
-                </content>
+                <content type="html" xml:base="{{ $item['url'] }}"><![CDATA[ {{ $item['description'] }} ]]></content>
                 @endif
 
             </item>

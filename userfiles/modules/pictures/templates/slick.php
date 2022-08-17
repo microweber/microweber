@@ -33,6 +33,7 @@ description: Slick Pictures List Template
             //  d($('.slickSlider', '#<?php print $params['id'] ?>').slick('getSlick').slick('getSlick'));
 
             $('.slickSlider', '#<?php print $params['id'] ?>').slick({
+                rtl: document.documentElement.dir === 'rtl',
                 dots: false,
                 arrows: false,
                 infinite: false,

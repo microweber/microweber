@@ -9,7 +9,7 @@ class TemplateInstaller extends Import
 {
     public $batchImporting = true;
     public $ovewriteById = true;
-    public $deleteOldContent = true;
+    public $deleteOldContent = false;
 
     public function __construct() {
         $this->logger = new BackupLogger();

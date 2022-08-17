@@ -101,7 +101,7 @@ class BackupController
         $filename = $backupLocation . $fileId;
         $filename = str_replace('..', '', $filename);
 
-        $allowedExt = ['json','zip'];
+        $allowedExt = ['json','zip','xlsx'];
         $fileExt = get_file_extension($filename);
 
         if (!in_array($fileExt,$allowedExt)) {

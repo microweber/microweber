@@ -41,7 +41,9 @@ class Lang
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
         $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
         $this->clearCache();
-        mw()->option_manager->clear_memory();
+
+        // must not clear options cache here
+        //  mw()->option_manager->clear_memory();
 
         $this->lang = $lang;
         return app()->setLocale($lang);

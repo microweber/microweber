@@ -1,4 +1,5 @@
 /* UI */
+
 $(document).ready(function () {
     if($.fn.tooltip) {
         $('[data-toggle="tooltip"]').tooltip();

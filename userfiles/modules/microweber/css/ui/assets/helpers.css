@@ -145,14 +145,14 @@
 }
 .mw-ui-inline-list > * {
   display: inline-block;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   vertical-align: middle;
 }
 .mw-ui-inline-list li {
   list-style: none;
 }
 .mw-ui-inline-list li:last-child {
-  margin-right: 0;
+  margin-inline-end: 0;
 }
 .mw-ui-inline-list li * {
   vertical-align: middle;
@@ -258,13 +258,13 @@ html.mw-loading:after {
   padding: 6px 0;
 }
 .mw-list li {
-  padding-left: 14px;
+  padding-inline-start: 14px;
   list-style: none;
   line-height: 2;
 }
 .mw-list li [class*='mw-icon-'] {
   font-size: 25px;
-  margin-right: 6px;
+  margin-inline-end: 6px;
   width: 30px;
 }
 .mw-socials-facebook-color {
@@ -353,58 +353,58 @@ html.mw-loading:after {
   margin-top: 80px !important;
 }
 .mw-m-l-0 {
-  margin-left: 0px !important;
+  margin-inline-start: 0px !important;
 }
 .mw-m-l-10 {
-  margin-left: 10px !important;
+  margin-inline-start: 10px !important;
 }
 .mw-m-l-20 {
-  margin-left: 20px !important;
+  margin-inline-start: 20px !important;
 }
 .mw-m-l-30 {
-  margin-left: 30px !important;
+  margin-inline-start: 30px !important;
 }
 .mw-m-l-40 {
-  margin-left: 40px !important;
+  margin-inline-start: 40px !important;
 }
 .mw-m-l-50 {
-  margin-left: 50px !important;
+  margin-inline-start: 50px !important;
 }
 .mw-m-l-60 {
-  margin-left: 60px !important;
+  margin-inline-start: 60px !important;
 }
 .mw-m-l-70 {
-  margin-left: 70px !important;
+  margin-inline-start: 70px !important;
 }
 .mw-m-l-80 {
-  margin-left: 80px !important;
+  margin-inline-start: 80px !important;
 }
 .mw-m-r-0 {
-  margin-right: 0px !important;
+  margin-inline-end: 0px !important;
 }
 .mw-m-r-10 {
-  margin-right: 10px !important;
+  margin-inline-end: 10px !important;
 }
 .mw-m-r-20 {
-  margin-right: 20px !important;
+  margin-inline-end: 20px !important;
 }
 .mw-m-r-30 {
-  margin-right: 30px !important;
+  margin-inline-end: 30px !important;
 }
 .mw-m-r-40 {
-  margin-right: 40px !important;
+  margin-inline-end: 40px !important;
 }
 .mw-m-r-50 {
-  margin-right: 50px !important;
+  margin-inline-end: 50px !important;
 }
 .mw-m-r-60 {
-  margin-right: 60px !important;
+  margin-inline-end: 60px !important;
 }
 .mw-m-r-70 {
-  margin-right: 70px !important;
+  margin-inline-end: 70px !important;
 }
 .mw-m-r-80 {
-  margin-right: 80px !important;
+  margin-inline-end: 80px !important;
 }
 .mw-m-b-0 {
   margin-bottom: 0px !important;
@@ -543,52 +543,52 @@ html.mw-loading:after {
     margin-top: 40px !important;
   }
   .mw-m-l-10 {
-    margin-left: 5px !important;
+    margin-inline-start: 5px !important;
   }
   .mw-m-l-20 {
-    margin-left: 10px !important;
+    margin-inline-start: 10px !important;
   }
   .mw-m-l-30 {
-    margin-left: 15px !important;
+    margin-inline-start: 15px !important;
   }
   .mw-m-l-40 {
-    margin-left: 20px !important;
+    margin-inline-start: 20px !important;
   }
   .mw-m-l-50 {
-    margin-left: 25px !important;
+    margin-inline-start: 25px !important;
   }
   .mw-m-l-60 {
-    margin-left: 30px !important;
+    margin-inline-start: 30px !important;
   }
   .mw-m-l-70 {
-    margin-left: 35px !important;
+    margin-inline-start: 35px !important;
   }
   .mw-m-l-80 {
-    margin-left: 40px !important;
+    margin-inline-start: 40px !important;
   }
   .mw-m-r-10 {
-    margin-right: 5px !important;
+    margin-inline-end: 5px !important;
   }
   .mw-m-r-20 {
-    margin-right: 10px !important;
+    margin-inline-end: 10px !important;
   }
   .mw-m-r-30 {
-    margin-right: 15px !important;
+    margin-inline-end: 15px !important;
   }
   .mw-m-r-40 {
-    margin-right: 20px !important;
+    margin-inline-end: 20px !important;
   }
   .mw-m-r-50 {
-    margin-right: 25px !important;
+    margin-inline-end: 25px !important;
   }
   .mw-m-r-60 {
-    margin-right: 30px !important;
+    margin-inline-end: 30px !important;
   }
   .mw-m-r-70 {
-    margin-right: 35px !important;
+    margin-inline-end: 35px !important;
   }
   .mw-m-r-80 {
-    margin-right: 40px !important;
+    margin-inline-end: 40px !important;
   }
   .mw-m-b-10 {
     margin-bottom: 5px !important;

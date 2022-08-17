@@ -24,7 +24,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
             $modelAttributes = $this->model->getAttributes();
         }
 
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 
@@ -41,7 +41,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
 
                     $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
                     $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
+                    $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-bs-toggle="tab" href="#' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
                 }
 
                 $html .='</nav>

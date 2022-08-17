@@ -114,7 +114,7 @@ address {
 
 ol,
 ul {
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
 }
 
 ol,
@@ -137,7 +137,7 @@ dt {
 
 dd {
   margin-bottom: 0.5rem;
-  margin-left: 0;
+  margin-inline-start: 0;
 }
 
 blockquote {

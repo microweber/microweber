@@ -71,7 +71,7 @@ $total = cart_total();
                            </div>
 
                            <div class="col-1 checkout-v2-remove-icon d-flex justify-content-end">
-                               <a data-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary" style="font-size: 24px;"></i></a>
+                               <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary" style="font-size: 24px;"></i></a>
                            </div>
                        </div>
                    <?php endforeach; ?>

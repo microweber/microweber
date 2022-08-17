@@ -19,6 +19,7 @@ function coupon_apply($params = array())
     $errorMessage = '';
 
     $coupon_code = $params['coupon_code'];
+    $coupon_code = xss_clean($coupon_code);
 
     $coupon = coupon_get_by_code($coupon_code);
     if (empty($coupon)) {
@@ -104,6 +105,8 @@ function coupons_save_coupon($couponData = array())
     $ok = false;
     $errorMessage = '';
     $table = 'cart_coupons';
+
+    $couponData = xss_clean($couponData);
 
 
     if (!isset($couponData['is_active'])) {

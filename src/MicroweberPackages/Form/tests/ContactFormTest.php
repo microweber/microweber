@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Form\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Symfony\Component\Mime\Part\Multipart\MixedPart;
+use Symfony\Component\Mime\Part\TextPart;
 
 class ContactFormTest extends TestCase
 {
@@ -90,7 +92,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_autorespond_append_files',
-            'option_value' => 'global1.jpg,global2.jpg'
+            'option_value' => modules_path() . 'contact_form/contact_form.png'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -121,35 +123,32 @@ class ContactFormTest extends TestCase
         $mailToUser = [];
         $mailToReceivers = [];
 
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
+
         foreach ($emails as $email) {
 
-            $emailAsArray = [];
-            $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody();
-            $emailAsArray['to'] = key($email->getTo());
-            $emailAsArray['from'] = key($email->getFrom());
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
-            $emailAsArray['replyTo'] = false;
-            if (!empty($email->getReplyTo())) {
-                $emailAsArray['replyTo'] = key($email->getReplyTo());
-            }
 
-            if (strpos($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
+            if (str_contains($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
                 // Mail to user
                 $mailToUser[] = $emailAsArray;
             }
 
-            if (strpos($emailAsArray['subject'], $formName) !== false) {
+            if (str_contains($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
                 $mailToReceivers[] = $emailAsArray;
             }
         }
 
 
+
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
-        $this->assertTrue(str_contains($mailToUser[0]['body'],'This is the autorespond text - global'));
+
+        $body = $mailToUser[0]['body'];
+
+        $this->assertTrue(str_contains($body, 'This is the autorespond text - global'));
         $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
         $this->assertSame($mailToUser[0]['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
         $this->assertSame($mailToUser[0]['to'], 'unit.b.slaveykov@unittest-global.com');
@@ -174,6 +173,7 @@ class ContactFormTest extends TestCase
         $this->assertTrue(isset($export['success']));
         $this->assertTrue(isset($export['download']));
     }
+
     public function testCustomContactFormSettingsRequiredSubmit()
     {
         $rel = 'module';
@@ -286,7 +286,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_autorespond_append_files',
-            'option_value' => 'file1.jpg,file2.jpg'
+            'option_value' => modules_path() . 'contact_form/contact_form.png'
         ));
         save_option(array(
             'option_group' => $optionGroup,
@@ -345,19 +345,10 @@ class ContactFormTest extends TestCase
         $mailToUser = [];
         $mailToReceivers = [];
 
-        $emails = app()->make('mailer')->getSwiftMailer()->getTransport()->messages();
+        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
         foreach ($emails as $email) {
 
-            $emailAsArray = [];
-            $emailAsArray['subject'] = $email->getSubject();
-            $emailAsArray['body'] = $email->getBody();
-            $emailAsArray['to'] = key($email->getTo());
-            $emailAsArray['from'] = key($email->getFrom());
-
-            $emailAsArray['replyTo'] = false;
-            if (!empty($email->getReplyTo())) {
-                $emailAsArray['replyTo'] = key($email->getReplyTo());
-            }
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
             if (strpos($emailAsArray['subject'], $formName) !== false) {
                 // Mail to receivers
@@ -374,36 +365,30 @@ class ContactFormTest extends TestCase
         $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
         foreach ($mailToReceivers as $email) {
 
-            $to = key($email->getTo());
-            $body = $email->getBody();
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
-            $replyTo = key($email->getReplyTo()); // Reply to must be the user email
-            $this->assertEquals($replyTo, 'unit.b.slaveykov@unittest.com');
+            $this->assertEquals($emailAsArray['replyTo'], 'unit.b.slaveykov@unittest.com');
 
-            $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest.com'));
-            $this->assertTrue(str_contains($body,'0885451012'));
-            $this->assertTrue(str_contains($body,'CloudVisionLtd'));
-            $this->assertTrue(str_contains($body,'Bozhidar Slaveykov'));
-            $this->assertTrue(str_contains($body,'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'unit.b.slaveykov@unittest.com'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'0885451012'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'CloudVisionLtd'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'Bozhidar Slaveykov'));
+            $this->assertTrue(str_contains($emailAsArray['body'],'HELLO CONTACT FORM! THIS IS MY MESSAGE'));
         }
 
         // The User must receive auto respond data
         $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
         foreach ($mailToUser as $email) {
 
-            $subject = $email->getSubject();
-            $body = $email->getBody();
-            $to = key($email->getTo());
-            $from = key($email->getFrom());
-            $replyTo = key($email->getReplyTo());
+            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
+            $this->assertTrue(str_contains($emailAsArray['body'],'This is the autorespond text'));
 
-            $this->assertTrue(str_contains($body,'This is the autorespond text'));
+            $this->assertSame($emailAsArray['replyTo'], 'AutoRespondEmailReply1@UnitTest.com');
+            $this->assertSame($emailAsArray['subject'], 'This is the autorespond subject');
+            $this->assertSame($emailAsArray['from'], 'AutoRespondEmailFrom@UnitTest.com');
+            $this->assertSame($emailAsArray['to'], 'unit.b.slaveykov@unittest.com');
 
-            $this->assertSame($replyTo, 'AutoRespondEmailReply1@UnitTest.com');
-            $this->assertSame($subject, 'This is the autorespond subject');
-            $this->assertSame($from, 'AutoRespondEmailFrom@UnitTest.com');
-            $this->assertSame($to, 'unit.b.slaveykov@unittest.com');
         }
     }
 

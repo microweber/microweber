@@ -4,6 +4,8 @@ namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Symfony\Component\Mime\Part\Multipart\MixedPart;
+use Symfony\Component\Mime\Part\TextPart;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -161,16 +163,16 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
             // make fresh install
             $install_params = array(
-                'username' => 'test' . uniqid(),
-                'password' => 'test',
-                'email' => 'test' . uniqid() . '@example.com',
-                'db_driver' => $db_driver,
-                'db_host' => $db_host,
-                'db_user' => $db_user,
-                'db_pass' => $db_pass,
-                'db_name' => $db_name,
-                'prefix' => $db_prefix,
-                //  'db_name' => ':memory:',
+                '--username' => 'test' . uniqid(),
+                '--password' => 'test',
+                '--email' => 'test' . uniqid() . '@example.com',
+                '--db-driver' => $db_driver,
+                '--db-host' => $db_host,
+                '--db-username' => $db_user,
+                '--db-password' => $db_pass,
+                '--db-name' => $db_name,
+                '--db-prefix' => $db_prefix,
+                //  '--db-name' => ':memory:',
                 '--env' => $environment,
             );
 
@@ -288,12 +290,45 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function assertPreConditions(): void
     {
-
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
-
-
-
     }
+
+
+
+    public function getEmailDataAsArrayFromObject($email) {
+
+        $emailOriginal = $email->getOriginalMessage();
+        $body = $emailOriginal->getBody();
+
+        $emailAsArray = [];
+
+        $emailAsArray['body'] = '';
+        if ($body instanceof TextPart) {
+            $emailAsArray['body'] = $body->getBody();
+        }
+
+        if ($body instanceof MixedPart) {
+            $emailAsArray['body'] = $body->bodyToString();
+
+            if (isset($emailAsArray['body'])) {
+                $emailAsArray['body'] = utf8_encode(quoted_printable_decode($emailAsArray['body']));
+            }
+        }
+
+
+        $emailAsArray['subject'] = $emailOriginal->getSubject();
+        $emailAsArray['to'] = $emailOriginal->getTo()[0]->getAddress();
+        $emailAsArray['from'] = $emailOriginal->getFrom()[0]->getAddress();
+
+        $emailAsArray['replyTo'] = false;
+
+        if (isset($emailOriginal->getReplyTo()[0]) && !empty($emailOriginal->getReplyTo()[0]->getAddress())) {
+            $emailAsArray['replyTo'] = $emailOriginal->getReplyTo()[0]->getAddress();
+        }
+
+        return $emailAsArray;
+    }
+
 }
 

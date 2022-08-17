@@ -79,6 +79,7 @@ class OptionRepository extends AbstractRepository
             $allOptions = [];
             $getAllOptions = \DB::table('options')
                 ->select('option_group')
+                ->whereNotNull('option_group')
                 ->groupBy('option_group')
                 ->get();
             $getAllOptions = collect($getAllOptions)->map(function ($option) {
@@ -93,6 +94,7 @@ class OptionRepository extends AbstractRepository
 
             return $allOptions;
         });
+        return self::$_getAllExistingOptionGroups;
     }
 
     public function optionGroupExists($optionGroup)
@@ -100,6 +102,7 @@ class OptionRepository extends AbstractRepository
         $existingGroups = $this->getAllExistingOptionGroups();
 
         if ($existingGroups) {
+            $existingGroups = array_filter($existingGroups);
             $existingGroups = array_flip($existingGroups);
             if (isset($existingGroups[$optionGroup])) {
                 return true;
@@ -111,6 +114,7 @@ class OptionRepository extends AbstractRepository
 
     public function clearCache()
     {
+
         self::$_getOptionsByGroup = [];
         self::$_getAllExistingOptionGroups = [];
         self::$_cacheCallbackMemory = [];

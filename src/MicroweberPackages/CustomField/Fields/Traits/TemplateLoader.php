@@ -19,7 +19,7 @@ trait TemplateLoader
         $template_name = $this->getTemplateName($data);
         $default_template_name = $this->getDefaultTemplateName();
 
-        $ovewrite_templates_path = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields' . DS . 'templates';
+        $ovewrite_templates_path = app()->template->dir() . 'modules' . DS . 'custom_fields' . DS . 'templates';
         $original_tempaltes_path = modules_path() . 'custom_fields' . DS . 'templates';
 
         // Try to open overwrite template files

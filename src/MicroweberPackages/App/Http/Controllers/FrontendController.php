@@ -23,7 +23,6 @@ use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response;
-use voku\helper\AntiXSS;
 
 
 class FrontendController extends Controller
@@ -152,6 +151,15 @@ class FrontendController extends Controller
         if ($favicon_image) {
             mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
         }
+
+
+        $animations = get_option( 'animations-global', 'template');
+        if ($animations) {
+            // adds the animations definitions to the head
+            mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
+        }
+
+
 
 
         $page = false;

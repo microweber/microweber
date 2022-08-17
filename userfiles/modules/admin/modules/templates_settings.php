@@ -52,8 +52,8 @@ if ($module_template != false) {
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
         <div class="mw-ui-box m-t-20">
             <div class="mw-ui-box-header">
-                <i class="mw-icon-gear mr-1"></i>
-                <label claas="control-label font-weight-bold"><?php _e("Show/Hide skin settings"); ?></label>
+<!--                <i class="mw-icon-gear mr-1"></i>-->
+                <label claas="control-label font-weight-bold" style="font-weight: bold;"><?php _e("Skin settings"); ?></label>
                 <small class="text-muted d-block mb-3"><?php _e('Edit your design from here.');?></small>
             </div>
             <div class="mw-ui-box-content">

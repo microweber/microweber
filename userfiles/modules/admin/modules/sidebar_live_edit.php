@@ -58,7 +58,7 @@
                             <i class="mw-icon-search" aria-hidden="true"></i>
                         </label>
                         <input oninput="mwSidebarSearchItems(this.value, 'layouts')" placeholder="<?php _e('Search for Layouts'); ?>" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1" id="mw-sidebar-search-input-for-modules-and-layouts">
-                        <a href="javascript:mwSidebarSearchClear('layouts');" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></a>
+                        <span onclick="mwSidebarSearchClear('layouts');event.preventDefault()" class="mw-sidebar-search-clear-x-btn mw-icon-close" aria-hidden="true" style="display: none;"></span>
                     </div>
                     <p class="mw-search-no-results" ><?php _e("No results were found"); ?></p>
                 </div>
@@ -82,9 +82,9 @@
                                placeholder="Search for Modules"
                                autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1"
                                id="mw-sidebar-search-input-for-modules">
-                        <a href="javascript:mwSidebarSearchClear('modules');"
+                        <span onclick="mwSidebarSearchClear('modules');event.preventDefault()"
                            class="mw-sidebar-search-clear-x-btn mw-icon-close"
-                           aria-hidden="true" style="display: none;"></a>
+                           aria-hidden="true" style="display: none;"></span>
                     </div>
                     <p class="mw-search-no-results"><?php _e("No results were found"); ?></p>
                 </div>
@@ -111,13 +111,9 @@
         <script>
 
             function mwSidebarSearchClear(what) {
-                $('[data-id="mw-sidebar-search-input-for-modules-and-layouts"]').val('');
-                $('.mw-sidebar-search-clear-x-btn', '.' + what).hide();
-                mwSidebarSearchItems('', what);
-                $('.mw-search-no-results', '.' + what).hide();
-                $('.mw-ui-box-header-2', '.' + what).show();
-                $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                mw.element('#mw-sidebar-search-input-for-modules-and-layouts,#mw-sidebar-search-input-for-modules').val('');
 
+                return mwSidebarSearchItems('', what);
             }
 
             function mwSidebarSearchItems(value, what) {
@@ -139,6 +135,7 @@
                     $('.mw-search-no-results' ).hide();
                      $('.mw-ui-box-header-2,.module-item-module').show();
                     $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                    mw.element('#mw-sidebar-modules-and-layouts-holder,#mw-sidebar-modules-and-layouts-holder').scrollTop(0);
 
                     return;
                 } else {
@@ -198,14 +195,20 @@
                 }
 
                 $('#modules-and-layouts-sidebar .module-item-module[data-is-hidden]').hide();
+                mw.element('#mw-sidebar-modules-and-layouts-holder,#mw-sidebar-modules-and-layouts-holder').scrollTop(0);
 
             }
+
+
 
             $(document).ready(function () {
                 mw.sidebarSettingsTabs = mw.tabs({
                     nav: '#mw-modules-layouts-tabsnav  .tabnav',
                     tabs: '#mw-modules-layouts-tabsnav .tabitem'
                 });
+
+
+
 
 
 
@@ -256,6 +259,11 @@
                 setTimeout(function () {
                     mw.drag.toolbar_modules();
                     $("#mw-sidebar-layouts-list, #mw-sidebar-modules-list").removeClass("module");
+
+
+                    document.getElementById('mw-sidebar-layouts-list').addEventListener('mouseout', function () {
+                        mw.tools.titleTipOff();
+                    }) ;
 
                 }, 333)
 

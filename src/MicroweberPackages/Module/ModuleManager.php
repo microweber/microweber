@@ -14,6 +14,7 @@
 namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Database\Utils as DbUtils;
 
 class ModuleManager
@@ -46,7 +47,10 @@ class ModuleManager
         }
         $this->set_table_names();
         if (mw_is_installed()) {
-            $this->activeLicenses = $this->app->database_manager->get('nolimit=1&status=active&table=' . $this->tables['system_licenses']);
+            $getSystemLicense = SystemLicenses::get();
+            if ($getSystemLicense != null) {
+                $this->activeLicenses = $getSystemLicense->toArray();
+            }
         }
 
 
@@ -368,7 +372,8 @@ class ModuleManager
                         } else {
                             $try_icon = $t1 . '.jpg';
                         }
-                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.png';
+                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.svg';
+                        $main_try_icon2 = modules_path() . $config['module'] . DS . 'icon.png';
                     } else {
                         if (is_file($mod_name . '.svg')) {
                             $try_icon = $mod_name . '.svg';
@@ -377,15 +382,19 @@ class ModuleManager
                         } else {
                             $try_icon = $mod_name . '.jpg';
                         }
+                        $main_try_icon = modules_path() . $mod_name . DS . 'icon.svg';
+                        $main_try_icon2 = modules_path() . $mod_name . DS . 'icon.png';
+
                     }
 
                     $try_icon = normalize_path($try_icon, false);
 
                     if ($main_try_icon and is_file($main_try_icon)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
-                    } elseif (is_file($try_icon)) {
-//                        d($config);
-//                        d($try_icon);
+                    } else if ($main_try_icon2 and is_file($main_try_icon2)) {
+                        $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon2);
+                    }elseif (is_file($try_icon)) {
+
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
@@ -493,6 +502,13 @@ class ModuleManager
                     }
                 }
             }
+
+
+//            if ($modules_remove_old or isset($options['cleanup_db']) == true) {
+//                // Run post update to reload modules migrations
+//                mw_post_update();
+//            }
+
 
             $c2 = array_merge($cfg_ordered, $cfg);
 
@@ -793,6 +809,23 @@ class ModuleManager
 
     }
 
+    public function format_attr($attr_value)
+    {
+        $attr_value = str_replace('"', '&quot;', $attr_value);
+        $attr_value = str_replace("'", '&#39;', $attr_value);
+        $attr_value = str_replace('<', '&lt;', $attr_value);
+        $attr_value = str_replace('>', '&gt;', $attr_value);
+        $attr_value = str_replace('&', '&amp;', $attr_value);
+        $attr_value = str_replace(']', '&#93;', $attr_value);
+        $attr_value = str_replace('[', '&#91;', $attr_value);
+        $attr_value = str_replace('{', '&#123;', $attr_value);
+        $attr_value = str_replace('}',  '&#125;', $attr_value);
+        $attr_value = str_replace('`',   '&#96;', $attr_value);
+        $attr_value = str_replace(';',    '&#59;', $attr_value);
+        return $attr_value;
+    }
+
+
     public function css_class($module_name)
     {
         global $mw_defined_module_classes;
@@ -815,23 +848,23 @@ class ModuleManager
 
     public function license($module_name = false)
     {
-        $module_name = str_replace('\\', '/', $module_name);
-        //   $lic = $this->app->update->get_licenses('limit=1&status=active&one=1&rel_type=' . $module_name);
+     //   $module_name = str_replace('\\', '/', $module_name);
         $licenses = $this->activeLicenses;
-        //$licenses = $this->app->update->get_licenses('nolimit=1&status=active');
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {
-                if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
+               /* if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
                     $lic = $license;
-                }
+                }*/
+                $lic[] = $license;
             }
         }
 
         if (!empty($lic)) {
             return true;
-        } else {
         }
+
+        return false;
     }
 
     /**
@@ -843,8 +876,6 @@ class ModuleManager
      */
     public function templates($module_name, $template_name = false, $get_settings_file = false)
     {
-
-
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
         $replace_paths = array();
@@ -1584,13 +1615,13 @@ class ModuleManager
 
         }
 
-        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and is_array($module['settings']['service_provider']) and !empty($module['settings']['service_provider'])) {
-            foreach ($module['settings']['service_provider'] as $service_provider) {
-                if (class_exists($service_provider)) {
-                    app()->register($service_provider);
-                }
-            }
-        }
+//        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and is_array($module['settings']['service_provider']) and !empty($module['settings']['service_provider'])) {
+//            foreach ($module['settings']['service_provider'] as $service_provider) {
+//                if (class_exists($service_provider)) {
+//                    app()->register($service_provider);
+//                }
+//            }
+//        }
 
         $loadProviders = [];
         if (is_array($module['settings']['service_provider'])) {

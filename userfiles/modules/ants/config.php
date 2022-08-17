@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Ants";
 $config['link'] = "https://github.com/tomphp/jquery.insects";
-$config['description'] = _e("Ferocious ants for your website!", TRUE);
+$config['description'] = "Ferocious ants for your website!";
 $config['author'] = "Tom Oram";
 $config['author_website'] = "http://devblog.x2k.co.uk/";
 $config['ui'] = false;

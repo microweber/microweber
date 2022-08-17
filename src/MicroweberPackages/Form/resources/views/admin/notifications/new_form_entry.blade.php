@@ -2,13 +2,13 @@
 <script>
     $(document).ready(function() {
         $('.collapse', '.js-form-entry-{{ $id }}').on('shown.bs.collapse', function () {
-            $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-toggle');
+            $('.js-form-entry-{{ $id }}').prop('disabled',true).removeAttr('data-bs-toggle');
         });
     });
 </script>
 
-<div class="js-form-entry-{{ $id }} card mb-2 not-collapsed-border collapsed card-message-holder {{ isset($id) ? 'card-bubble' : '' }} {{ !empty($is_read) ? 'active' : '' }} bg-silver"
-     data-toggle="collapse" data-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
+<div class="js-form-entry-{{ $id }} card mb-3 not-collapsed-border collapsed card-order-holder card-bubble <?php if ($is_read): ?>bg-silver<?php else: ?>card-success<?php endif; ?>"
+     data-bs-toggle="collapse" data-bs-target="#notif-entry-item-{{ $id }}" aria-expanded="false"
      aria-controls="collapseExample">
     <div class="card-body">
         @if(!empty($module_name) && $module_name == 'admin/notifications')
@@ -19,7 +19,7 @@
             </div>
         @endif
 
-            <div class="row align-items-center" data-toggle="collapse" data-target="#notif-entry-item-{{$id}}" >
+            <div class="row align-items-center" data-bs-toggle="collapse" data-bs-target="#notif-entry-item-{{$id}}" >
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>

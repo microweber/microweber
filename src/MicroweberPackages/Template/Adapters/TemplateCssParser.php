@@ -173,6 +173,9 @@ class TemplateCssParser
             'sourceRoot' => dirname($outputFileLocations['styleFilePath']).'/',
 
         ));
+        if(!is_file($outputFileLocations['styleFilePath'])){
+            return;
+        }
 
         $cssOrig = file_get_contents($outputFileLocations['styleFilePath']);
         $cssOrigFileDistContent=  '';
@@ -188,9 +191,7 @@ class TemplateCssParser
         if(!$variables){
             $cssOrigFileDistContent = $this->replaceAssetsRelativePaths($cssOrigFileDistContent,$params);
 
-            $response = \Response::make($cssOrigFileDistContent);
-            $response->header('Content-Type', 'text/css');
-            return $response;
+            return $cssOrigFileDistContent;
         }
 
         $compiler->setVariables($variables);
@@ -217,22 +218,21 @@ class TemplateCssParser
 
         $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
+        return $cssContent;
 
-
-       $response = \Response::make($cssContent);
-       $response->header('Content-Type', 'text/css');
-
-       return $response;
 
     }
 
     public function replaceAssetsRelativePaths($cssContent, $params)
     {
 
+
         if ($cssContent and isset($params['template_folder']) and isset($params['path'])) {
 
             $template_url_css_assets = templates_url() . $params['template_folder'] . '/' . dirname(dirname($params['path'])) . '/';
             $cssContent = str_replace('../', $template_url_css_assets, $cssContent);
+            // relative to userfiles/media/default/css/new-world
+             $cssContent = str_replace(userfiles_url(), '../../../../../../', $cssContent);
 
         }
         return $cssContent;
@@ -293,10 +293,8 @@ class TemplateCssParser
         // Save compiled file
          $this->_saveCompiledCss($outputFileLocations['output']['file'], $cssContent);
 
-        $response = \Response::make($cssContent);
-        $response->header('Content-Type', 'text/css');
 
-        return $response;
+        return $cssContent;
     }
 
     private function _getOutputFileLocations($lessFilePath, $templateFolder)

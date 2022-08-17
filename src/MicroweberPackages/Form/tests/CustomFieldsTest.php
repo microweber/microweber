@@ -6,13 +6,24 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class CustomFieldsTest extends TestCase
 {
+    public $template_name = 'default';
 
     public function setUp():void
     {
+        if (!defined('TEMPLATE_NAME')) {
+            define('TEMPLATE_NAME', $this->template_name);
+        }
         parent::setUp();
+
+        app()->content_manager->define_constants(['active_site_template' => $this->template_name]);
 
         // set permission to save custom fields (normally available to admin users)
         mw()->database_manager->extended_save_set_permission(true);
+
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            $this->app->content_manager->define_constants();
+        }
+
     }
 
     public function testMakeDefaultFields() {

@@ -23,23 +23,27 @@
 
 .mw-toolbar-add-new-content-ctrl{
     width: auto;
-    margin-left:10px !important;
+    margin-inline-start:10px !important;
 }
 
 .mw-ui-navigation a>[class*=mw-icon-] {
-    margin-right:0;
-    margin-left:8px;
+    margin-inline-end:0;
+    margin-inline-start:8px;
 }
 
 .mw_edit_delete{
     left: 0px !important;
     right: auto !important;
 }
- 
+
+
+.ts_main_a{
+    padding-inline-end: 10px;
+}
+
 
 .mw-handle-type-default .mw-handle-handler-icon{
     border-right: none;
-    border-left: 1px solid #333333;
 }
 
 .mw-close-sidebar-btn {
@@ -48,21 +52,12 @@
     left: 13px;
 }
 
-.mw-handle-menu-default .mw-handle-menu-item-icon, .mw-handle-menu-default .mw-edit-module-settings-tooltip-icon {
-    margin-right: 0;
-    margin-left: 6px;
-}
 
-.mw-module-dialog-icon{
-    margin-right: 0;
-    margin-left: 7px;
-}
+
+
 
 .module-modal-settings-menu-holder{
     display: none;
 }
 
-#liveedit_wysiwyg{
-    padding-left: 0;
-    padding-right: 10px;
-}
+

@@ -9,7 +9,7 @@
 namespace MicroweberPackages\Category\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\App\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use   MicroweberPackages\Category\Http\Requests\CategoryRequest;
 use MicroweberPackages\Category\Repositories\CategoryRepositoryApi;
 

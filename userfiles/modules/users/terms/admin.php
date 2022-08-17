@@ -22,6 +22,7 @@ $terms_url = get_option('terms_url', $mod_id);
     $(document).ready(function () {
         mw.options.form('.<?php print $config['module_class'] ?>', function () {
             mw.notification.success("<?php _ejs("Saved"); ?>.");
+            mw.reload_module_everywhere('users/terms');
         });
     });
 </script>

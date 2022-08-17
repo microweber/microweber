@@ -35,12 +35,14 @@ class MicroweberMigrator extends Migrator
      */
     protected function runUp($file, $batch, $pretend)
     {
-
         $this->ensureMigrationsTableExists();
         $migration = $this->resolve(
             $name = $this->getMigrationName($file)
         );
 
+        if(!$name) {
+            return;
+        }
         if ($pretend) {
             return $this->pretendToRun($migration, 'up');
         }
@@ -64,7 +66,30 @@ class MicroweberMigrator extends Migrator
         $this->note("<info>Migrated:</info>  {$name} ({$runTime} seconds)");
     }
 
-    private function ensureMigrationsTableExists()
+    /**
+     * Resolve a migration instance from a file.
+     *
+     * @param  string  $file
+     * @return object
+     */
+    public function resolve($file)
+    {
+        $class = $this->getMigrationClass($file);
+        if(class_exists($class)){
+            return new $class;
+        }
+        return null;
+    }
+
+    protected function runMigration($migration, $method)
+    {
+        if (!$migration) {
+            return false;
+        }
+        return parent::runMigration($migration, $method);
+    }
+
+        private function ensureMigrationsTableExists()
     {
         if (!DbSchema::hasTable('migrations')) {
             try {

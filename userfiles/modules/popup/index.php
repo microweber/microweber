@@ -164,7 +164,7 @@ if (is_file($template_file) != false) {
         }
     </style>
     <?php if ($type != 'on_click'): ?>
-    <a class="btn btn-default pull-right" data-toggle="modal" href="#popup-<?php print $params['id']; ?>"
+    <a class="btn btn-default pull-right" data-bs-toggle="modal" href="#popup-<?php print $params['id']; ?>"
        data-backdrop="false" style="margin-top: -30px;"><?php _e("Open Pop-Up"); ?></a>
     <?php endif; ?>
 <?php endif; ?>

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Multilanguage\FormElements;
 
+use MicroweberPackages\Translation\LanguageHelper;
+
 class TextArea extends \MicroweberPackages\Form\Elements\Text
 {
     public $randId;
@@ -11,7 +13,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
     {
         $this->defaultLanguage = mw()->lang_helper->default_lang();
         $this->currentLanguage = mw()->lang_helper->current_lang();
-        $this->randId = str_random();
+        $this->randId = 'ml_editor_element_'.md5(str_random());
         $fieldName = $this->getAttribute('name');
 
         $fieldValue = '';
@@ -27,7 +29,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         $localesJson = json_encode($locales);
 
         $modelTranslations = [];
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
         }
 
@@ -49,12 +51,17 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         }
         $translationsJson = json_encode($translations);
 
+        $textDir = 'ltr';
+        if(LanguageHelper::isRTL($this->currentLanguage)){
+            $textDir = 'rtl';
+        }
         return "<script>
             mw.lib.require('multilanguage');
             $(document).ready(function () {
                 $('#$this->randId').mlTextArea({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
+                    direction: '$textDir',
                     locales: $localesJson,
                     translations: $translationsJson,
                 });

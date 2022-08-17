@@ -3,7 +3,8 @@
 namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\App\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
+use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Order\Models\Order;
@@ -102,7 +103,9 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'orders'=>$orders
+            'orders'=>$orders,
+            'abandoned_count'=>Cart::where('order_completed', '=', '0')->groupBy('session_id')->count(),
+            'orders_count'=>Cart::where('order_completed', 1)->count()
         ]);
     }
 
@@ -133,7 +136,9 @@ class OrderController extends AdminController
             'orderDirection'=>$orderDirection,
             'filteringResults'=>$filteringResults,
             'keyword'=>$keyword,
-            'orders'=>$orders
+            'orders'=>$orders,
+            'abandoned_count'=>Cart::where('order_completed', '=', '0')->groupBy('session_id')->count(),
+            'orders_count'=>Cart::where('order_completed', 1)->count()
         ]);
     }
 

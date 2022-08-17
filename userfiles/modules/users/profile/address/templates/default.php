@@ -3,13 +3,13 @@
 
 <ul class="nav nav-tabs" id="user-profile-address-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link" id="client-information-tab" data-toggle="tab" href="#client-information" role="tab" aria-controls="client-information" aria-selected="false">Client Information</a>
+        <a class="nav-link" id="client-information-tab" data-bs-toggle="tab" href="#client-information" role="tab" aria-controls="client-information" aria-selected="false">Client Information</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="billing-address-tab" data-toggle="tab" href="#billing-address" role="tab" aria-controls="billing-address" aria-selected="false">Billing Address</a>
+        <a class="nav-link" id="billing-address-tab" data-bs-toggle="tab" href="#billing-address" role="tab" aria-controls="billing-address" aria-selected="false">Billing Address</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="shipping-address-tab" data-toggle="tab" href="#shipping-address" role="tab" aria-controls="shipping-address" aria-selected="false">Shipping Address</a>
+        <a class="nav-link" id="shipping-address-tab" data-bs-toggle="tab" href="#shipping-address" role="tab" aria-controls="shipping-address" aria-selected="false">Shipping Address</a>
     </li>
 </ul>
 

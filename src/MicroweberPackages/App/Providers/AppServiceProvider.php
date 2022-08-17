@@ -24,8 +24,8 @@ use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
-use MicroweberPackages\Debugbar\DebugbarServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
+use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -102,6 +102,7 @@ class AppServiceProvider extends ServiceProvider
     * Application Service Providers...
     */
     public $laravel_providers = [
+        \Illuminate\Translation\TranslationServiceProvider::class,
 
         \Illuminate\Session\SessionServiceProvider::class,
         //  \Illuminate\Filesystem\FilesystemServiceProvider::class,
@@ -122,7 +123,6 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Queue\QueueServiceProvider::class,
         \Illuminate\Redis\RedisServiceProvider::class,
         \Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        \Illuminate\Translation\TranslationServiceProvider::class,
         \Illuminate\Validation\ValidationServiceProvider::class,
         \Illuminate\View\ViewServiceProvider::class,
 
@@ -229,8 +229,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
-        $this->app->register(DebugbarServiceProvider::class);
+        //$this->app->register(DebugbarServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
@@ -282,6 +283,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
+      //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
         $this->app->register(CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
@@ -296,13 +298,20 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
-        $this->app->register(AdminServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+
+
+        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        if (config('debugbar.enabled')) {
+            \Barryvdh\Debugbar\Facades\Debugbar::enable();
+        } else {
+            \Barryvdh\Debugbar\Facades\Debugbar::disable();
+        }
 
         if (is_cli()) {
             $this->app->register(DuskServiceProvider::class);
@@ -493,6 +502,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);
 
+        if (is_cli()) {
+            $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
+        }
+
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 
@@ -514,8 +527,8 @@ class AppServiceProvider extends ServiceProvider
             $this->setupAppLocale();
 
             if (is_cli()) {
+
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
-                $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
                 $this->commands('MicroweberPackages\Console\Commands\UpdateCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
                 $this->commands('MicroweberPackages\Console\Commands\ReloadDatabaseCommand');
@@ -531,6 +544,7 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists(\App\Providers\AppServiceProvider::class)) {
             app()->register(\App\Providers\AppServiceProvider::class);
         }
+        $this->app->register(AdminServiceProvider::class);
 
          $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
@@ -539,7 +553,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // >>> MW Kernel add
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+      //  $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);
@@ -671,9 +685,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function setupAppLocale()
     {
-
         $isLocaleChangedFromMultilanguageLogics = false;
-
 
         $currentUri = request()->path();
 
@@ -685,7 +697,10 @@ class AppServiceProvider extends ServiceProvider
             if (is_lang_correct($locale)) {
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
-                change_language_by_locale($locale, true);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                    change_language_by_locale($locale, true);
+                }
             }
 
             // if locale is not changed from get request we must to chek URL SLUGS
@@ -699,7 +714,7 @@ class AppServiceProvider extends ServiceProvider
                         if (!$localeSettings) {
                             $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                         }
-                        if ($localeSettings and isset($localeSettings['locale'])) {
+                        if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
                             $isLocaleChangedFromMultilanguageLogics = true;
                             change_language_by_locale($localeSettings['locale'], true);
                         }
@@ -722,8 +737,12 @@ class AppServiceProvider extends ServiceProvider
                     $setCurrentLangTo = get_option('language', 'website');
                 }
             }
+
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
-                set_current_lang($setCurrentLangTo);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                    set_current_lang($setCurrentLangTo);
+                }
             }
         }
     }

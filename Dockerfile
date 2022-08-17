@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 
 RUN apt update && apt install -y --no-install-recommends \
@@ -10,6 +10,7 @@ RUN apt update && apt install -y --no-install-recommends \
         unzip \
         libonig-dev \
         graphviz \
+        libsodium-dev \
         libxml2-dev \
         libcurl4-openssl-dev \
         libfreetype6-dev \
@@ -21,7 +22,7 @@ RUN apt update && apt install -y --no-install-recommends \
 RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg && \
     docker-php-ext-install gd
 
-RUN docker-php-ext-install pdo_mysql zip dom curl mbstring intl
+RUN docker-php-ext-install pdo_mysql zip dom curl mbstring intl bcmath sodium opcache
 
 
 
@@ -29,9 +30,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY . /var/www/html
 
+
 WORKDIR /var/www/html
 
-RUN composer install --no-interaction --no-dev --prefer-dist
+RUN composer install --no-interaction --prefer-dist
 
 RUN chmod -R 777 /var/www/html
 RUN a2enmod rewrite

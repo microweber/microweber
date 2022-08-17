@@ -28,7 +28,7 @@ class UrlManager
         if ($u1 == false) {
             $valid_domain = parse_url($this->site_url());
             if (isset($valid_domain['host'])) {
-                $host = str_ireplace('www.', null, $valid_domain['host']);
+                $host = str_ireplace('www.', '', $valid_domain['host']);
                 $u1 = $host;
             }
         }
@@ -105,7 +105,15 @@ class UrlManager
 
         $redirectUrl = site_url();
         $parseUrl = parse_url($url);
+
         if (isset($parseUrl['host'])) {
+            if(isset($parseUrl['user']) and $parseUrl['user']){
+                return \Redirect::to(site_url());
+            }
+
+            if(isset($parseUrl['pass']) and $parseUrl['pass']){
+                return \Redirect::to(site_url());
+            }
             if ($parseUrl['host'] == site_hostname()) {
                 $redirectUrl = $url;
             }
@@ -274,9 +282,10 @@ class UrlManager
         $u1 = implode('/', $this->segment(-1, $url));
 
 
-        // clear request params
-        $cleanParam = new HTMLClean();
-        $u1 = $cleanParam->clean($u1);
+        // clear request params must not be here because of performance issues,
+        // please use middleware to clear request params
+       // $cleanParam = new HTMLClean();
+       // $u1 = $cleanParam->clean($u1);
 
 
         return $u1;
@@ -560,9 +569,8 @@ class UrlManager
 
     public function api_link($str = '')
     {
-        $str = ltrim($str, '/');
 
-        return $this->site_url('api/' . $str);
+        return api_url($str);
     }
 
 

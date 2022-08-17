@@ -3,7 +3,6 @@
     var MWElement = function(options, root){
         var scope = this;
 
-        this.isMWElement = true;
 
         this.toggle = function () {
             this.css('display', this.css('display') === 'none' ? 'block' : 'none');
@@ -12,14 +11,6 @@
         this._active = function () {
             return this.nodes[this.nodes.length - 1];
         };
-
-        this.getDocument = function () {
-            return this._active().ownerDocument;
-        }
-
-        this.getWindow = function () {
-            return this.getDocument().defaultView;;
-        }
 
         this.get = function(selector, scope){
             this.nodes = (scope || document).querySelectorAll(selector);
@@ -36,38 +27,40 @@
             return this;
         };
 
+        this.scrollTop = function (val) {
+            if(typeof val === 'undefined') {
+                return this._active().scrollTop;
+            }
+            return this.each(function(){
+                this.scrollTop = val;
+            });
+        };
+
         this.encapsulate = function () {
 
         };
-
-        var contentManage = function (content, scope) {
-            if (content) {
-                if (Array.isArray(content)) {
-                    content.forEach(function (el){
-                        contentManage(el, scope);
-                    });
-                } else if (content instanceof MWElement) {
-                    scope.append(content);
-                } else if (typeof content === 'object') {
-                    scope.append(new MWElement(content));
-                }
-            }
-        }
 
         this.create = function() {
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
 
-            if (this.settings.encapsulate === true) {
+            if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
                 el.attachShadow({
                     mode: mode
                 });
             }
             this.nodes = [el];
-
             if (this.settings.content) {
-                contentManage(this.settings.content, this)
+                if (Array.isArray(this.settings.content)) {
+                    this.settings.content.forEach(function (el){
+                        scope.append(new MWElement(el));
+                    });
+                } else if(this.settings.content instanceof MWElement) {
+                    this.append(this.settings.content);
+                }  else if(typeof this.settings.content === 'object') {
+                    this.append(new MWElement(this.settings.content));
+                }
             }
             this.$node = $(el);
         };
@@ -238,24 +231,9 @@
         };
 
         this.removeClass = function (cls) {
-            var isArray = Array.isArray(cls);
-            if(!isArray) {
-                cls = cls.trim();
-                var isMultiple = cls.split(' ');
-                if(isMultiple.length > 1) {
-                    return this.removeClass(isMultiple)
-                }
-                return this.each(function (){
-                    this.classList.remove(cls);
-                });
-            } else {
-                return this.each(function (){
-                    var i = 0, l = cls.length;
-                    for ( ; i < l; i++) {
-                        this.classList.remove(cls[i]);
-                    }
-                });
-            }
+            return this.each(function (){
+                this.classList.remove(cls.trim());
+            });
         };
 
         this.remove = function () {
@@ -303,12 +281,10 @@
         };
 
         this.offset = function () {
-            var curr = this._active();
-            var win = this.getWindow();
-            var rect = curr.getBoundingClientRect();
-            rect.offsetTop = rect.top + win.pageYOffset;
-            rect.offsetBottom = rect.bottom + win.pageYOffset;
-            rect.offsetLeft = rect.left + win.pageXOffset;
+            var rect = this._active().getBoundingClientRect();
+            rect.offsetTop = rect.top + window.pageYOffset;
+            rect.offsetBottom = rect.bottom + window.pageYOffset;
+            rect.offsetLeft = rect.left + window.pageXOffset;
             return rect;
         };
 
@@ -432,10 +408,11 @@
         };
         this.init = function(){
             this.nodes = [];
-            this.root = root || document;
-            if(this.root instanceof MWElement) {
-                this.root = this.root.get(0)
+            var _root = root || document;
+             if(_root.get) {
+                _root = _root.get(0);
             }
+            this.root = _root;
             this._asElement = false;
             this.document =  (this.root.body ? this.root : this.root.ownerDocument);
 
@@ -448,15 +425,10 @@
                 this._asElement = true;
             } else if(typeof options === 'string') {
                 if(options.indexOf('<') === -1) {
-
                     this.nodes = Array.prototype.slice.call(this.root.querySelectorAll(options));
                     options = {};
                     this._asElement = true;
-                } else if(this.settings && this.settings.content instanceof MWElement) {
-                    this.append(this.settings.content);
-                }  else if(this.settings && typeof this.settings.content === 'object') {
-                    this.append(new MWElement(this.settings.content));
-                }else {
+                } else {
                     var el = this._asdom(options);
 
                     this.nodes = [].slice.call(el.children);

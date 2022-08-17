@@ -36,7 +36,7 @@
             <directory>./src/MicroweberPackages/Backup/tests/</directory>
             <directory>./src/MicroweberPackages/Admin/tests/</directory>
             <directory>./src/MicroweberPackages/App/tests/</directory>
-             <directory>./src/MicroweberPackages/Blog/tests/</directory>
+            <directory>./src/MicroweberPackages/Blog/tests/</directory>
             <directory>./src/MicroweberPackages/Cache/tests/</directory>
             <directory>./src/MicroweberPackages/Cart/tests/</directory>
             <directory>./src/MicroweberPackages/Category/tests/</directory>
@@ -53,7 +53,6 @@
             <directory>./src/MicroweberPackages/CustomField/tests/</directory>
             <directory>./src/MicroweberPackages/Customer/tests/</directory>
             <directory>./src/MicroweberPackages/Database/tests/</directory>
-            <directory>./src/MicroweberPackages/Debugbar/tests/</directory>
             <directory>./src/MicroweberPackages/Event/tests/</directory>
             <directory>./src/MicroweberPackages/FileManager/tests/</directory>
             <directory>./src/MicroweberPackages/Form/tests/</directory>

@@ -40,8 +40,8 @@
   @include border-top-radius(subtract($toast-border-radius, $toast-border-width));
 
   .btn-close {
-    margin-right: $toast-padding-x / -2;
-    margin-left: $toast-padding-x;
+    margin-inline-end: $toast-padding-x / -2;
+    margin-inline-start: $toast-padding-x;
   }
 }
 

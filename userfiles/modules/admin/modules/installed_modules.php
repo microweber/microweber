@@ -66,6 +66,11 @@
             mw.$('#modules_admin_<?php print $params['id']; ?>').removeAttr('cleanup_db');
             $(".reload-module-btn").removeClass('reloading');
             mw.tools.loading(false);
+
+            $.post(mw.settings.api_url + 'mw_post_update');
+            mw.notification.success("The DB was reloaded");
+
+
         });
     }
 
@@ -253,7 +258,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                 <?php endif; ?>
 
 
-                <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-toggle="collapse" data-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
+                <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse" data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i> <?php _e("Filter"); ?></a>
 
                 <?php if (config('microweber.allow_php_files_upload')): ?>
                 <a href="javascript:;" onclick="mw_upload_module()" class="btn btn-outline-primary icon-left">

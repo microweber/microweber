@@ -11,7 +11,7 @@ description: Clean layout
 
 */
 
-
+ 
 ?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <section id="content">

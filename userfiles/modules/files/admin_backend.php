@@ -337,7 +337,10 @@
 
     </style>
 
-    <script>mw.require("<?php print $config['url_to_module']; ?>/files_admin.js"); </script>
+    <script>
+        MEDIA_UPLOADS_URL = '<?php echo media_uploads_url(); ?>';
+        mw.require("<?php print $config['url_to_module']; ?>/files_admin.js");
+    </script>
 
     <script type="text/javascript">
         gchecked = function () {
@@ -384,6 +387,12 @@
                     callback.call()
                 }
                 gchecked()
+
+                var dialog =  mw.top().dialog.get();
+                if(dialog){
+                    dialog.center();
+                }
+
             }, {'extensions': '<?php print $exts ?>'});
         }
 
@@ -551,7 +560,7 @@
                     <div class="browser-ctrl-bar">
                         <div>
                             <div class="dropdown d-inline-block">
-                                <button class="btn btn-success icon-left dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-success icon-left dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-plus"></i> <?php _e("Add"); ?>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

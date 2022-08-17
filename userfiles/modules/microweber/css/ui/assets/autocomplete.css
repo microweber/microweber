@@ -29,7 +29,7 @@
   background-size: cover;
   border-radius: 3px;
   vertical-align: middle;
-  margin-right: 7px;
+  margin-inline-end: 7px;
 }
 .mw-autocomplete .mw-autocomplete-value {
   display: inline-block;

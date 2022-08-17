@@ -9,12 +9,13 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Backup\Readers\XlsxReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Export\Formats\JsonExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
 use MicroweberPackages\Translation\TranslationImport;
+use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 
 class TranslationController {
 
@@ -126,6 +127,7 @@ class TranslationController {
 
        $translations = base64_decode($request->post('translations'));
        $translations = json_decode($translations, true);
+       $translations = xss_clean($translations);
 
        $saveTranslations = [];
 
@@ -187,5 +189,20 @@ class TranslationController {
 
     }
 
+
+    public function importMissingTranslations(Request $request)
+    {
+        $supportedLanguages = get_supported_languages();
+        if (!empty($supportedLanguages)) {
+            foreach ($supportedLanguages as $supportedLanguage) {
+                $translationsCount = TranslationText::where('translation_locale', $supportedLanguage['locale'])->count();
+                if ($translationsCount == 0) {
+                    TranslationPackageInstallHelper::installLanguage($supportedLanguage['locale']);
+                }
+            }
+        }
+
+        return ['done'=>true];
+    }
 
 }

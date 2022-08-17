@@ -14,7 +14,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
 
-        $this->randId = str_random();
+        $this->randId = 'ml_editor_element_'.md5(str_random());
 
         $schema = json_encode($this->getAttribute('schema'));
 
@@ -25,7 +25,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             $modelAttributes = $this->model->getAttributes();
         }
 
-        if (method_exists($this->model, 'getTranslationsFormated')) {
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelAttributes['multilanguage'] = $this->model->getTranslationsFormated();
         }
 
@@ -36,7 +36,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             <script>mw.require(\'icon_selector.js\')</script>
             <script>mw.require(\'wysiwyg.css\')</script>
             <div class="bs-component">
-            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
+            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" dir="ltr">
             ';
 
         foreach($supportedLanguages as $language) {
@@ -48,7 +48,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
             $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
             $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-            $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-toggle="tab" href="#mlfield' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
+            $html .= '<a class="btn btn-outline-secondary btn-sm justify-content-center '.$showTab.'" data-bs-toggle="tab" href="#mlfield' . $this->randId . $language['locale'] . '">'.$flagIcon.'</a>';
         }
 
         $html .='</nav>
@@ -65,7 +65,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
                         if (isset($multilanguageFields['option_value'])) {
-                            $inputValue = $multilanguageFields['option_value']; // its harcoded only for module options
+                            $inputValue = $multilanguageFields['option_value']; // its hardcoded only for module options
                         }
                     }
                 }
@@ -95,7 +95,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                     this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
                         element: \'#settings-box'.$mwModuleSettingsId.'\',
-                        header: \'<i class="mw-icon-drag"></i> Content #{count} <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
+                        header: \'<i class="mw-icon-drag"></i> Content #{count} <b data-reflect="primaryText"></b> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
                         key: \'settings\',
                         group: \'id\',

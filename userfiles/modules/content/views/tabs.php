@@ -99,7 +99,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             <div class="card-header no-border">
 
                 <h6><strong><?php _e("Custom fields"); ?></strong></h6>
-                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-toggle="collapse" data-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
+                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-bs-toggle="collapse" data-bs-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
 
             </div>
 

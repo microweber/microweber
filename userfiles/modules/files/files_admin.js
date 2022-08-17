@@ -1,3 +1,7 @@
+
+mw.lib.require('xss');
+
+
 createPopHTML = function (sourceUrl, type) {
     type = type || 'image';
     var h;
@@ -38,7 +42,7 @@ createPopHTML = function (sourceUrl, type) {
     return h;
 };
 
-deleteItem = function (url, name, frommodal) {
+deleteItem = function (url, name, frommodal,removeSelectorOndelete) {
 
     var obj, msg;
     if (typeof url === 'string') {
@@ -52,6 +56,9 @@ deleteItem = function (url, name, frommodal) {
         return false;
     }
 
+
+
+    $('#mw_alert').remove();
     mw.tools.confirm(msg, function () {
         $(document.body).addClass("loading");
         if (frommodal === true) {
@@ -59,7 +66,14 @@ deleteItem = function (url, name, frommodal) {
         }
         $.post(mw.settings.api_url + "media/delete_media_file", obj, function (a) {
             $(document.body).removeClass("loading");
-            _mw_admin_files_manage('all');
+
+            if (typeof removeSelectorOndelete === 'string') {
+                $(removeSelectorOndelete).fadeOut();
+            } else {
+                _mw_admin_files_manage('all');
+            }
+
+          //  _mw_admin_files_manage('all');
             mw.notification.msg(a);
 
         });
@@ -69,6 +83,15 @@ deleteItem = function (url, name, frommodal) {
 if (self === parent) {
     mw.on.hashParam('select-file', function (pval) {
         var dialog;
+
+        pval = filterXSS(pval);
+
+        var checkUrlIsCorrect = pval.indexOf(MEDIA_UPLOADS_URL);
+        if (checkUrlIsCorrect !== 0) {
+            mw.notification.error('Wrong media file.');
+            return false;
+        }
+
         if (pval.valueOf()) {
             var type = pval.valueOf().split(".").pop();
             type = type.toLowerCase();

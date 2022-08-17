@@ -3,8 +3,10 @@
 namespace Tests\Browser\Components;
 
 use Facebook\WebDriver\WebDriverBy;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use MicroweberPackages\User\Models\User;
 
 class AdminLogin extends BaseComponent
 {
@@ -47,6 +49,9 @@ class AdminLogin extends BaseComponent
             $browser->within(new AdminMakeInstall(), function ($browser) {
                 $browser->makeInstallation();
             });
+            $user = User::where('username', 1)->first();
+             Auth::login($user);
+
         }
 
         if (mw_is_installed()) {
@@ -78,7 +83,8 @@ class AdminLogin extends BaseComponent
             }
         }
 
-        $browser->visit(admin_url());
+       // $browser->visit(admin_url());
+        $browser->visit('http://127.0.0.1:8000/admin/');
         $browser->pause(3000);
 
     }
