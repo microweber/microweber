@@ -43,7 +43,7 @@
     text-overflow: ellipsis;
     max-width: 100%;
        padding-block-start: 5px;
-    padding-inline-end: 42px;
+    padding-inline-end: 0;
 
       font-size: 12px;
       color: #7e7e7e;
@@ -199,6 +199,7 @@
     line-height: 27px;
       width: 100%;
   }
+
     .mw-tree-toggler +   .mw-tree-item-content {
         width: ~"-webkit-calc(100% - 1px)";
         width: ~"calc(100% - 1px)";
@@ -214,7 +215,13 @@
     position: absolute;
     top: 0;
     right: 0;
+    bottom: 0;
   }
+    .mw-tree-item-content:hover {
+        .mw-tree-context-menu {
+            background-color: #fff;
+        }
+    }
     html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
         right: auto;
         left: 0;

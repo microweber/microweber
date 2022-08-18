@@ -2955,7 +2955,7 @@ html.mw-loading:after {
   text-overflow: ellipsis;
   max-width: 100%;
   padding-block-start: 5px;
-  padding-inline-end: 42px;
+  padding-inline-end: 0;
   font-size: 12px;
   color: #7e7e7e;
 }
@@ -3105,6 +3105,10 @@ html.mw-loading:after {
   position: absolute;
   top: 0;
   right: 0;
+  bottom: 0;
+}
+.mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu {
+  background-color: #fff;
 }
 .mw-tree-nav-skin-default html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
   right: auto;
