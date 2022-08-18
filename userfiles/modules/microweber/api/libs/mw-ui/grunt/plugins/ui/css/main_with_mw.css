@@ -15288,7 +15288,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-top-right-radius: 10px; }
     .card .card-header h1 i, .card .card-header .h1 i, .card .card-header h2 i, .card .card-header .h2 i, .card .card-header h3 i, .card .card-header .h3 i, .card .card-header h4 i, .card .card-header .h4 i, .card .card-header h5 i, .card .card-header .h5 i, .card .card-header h6 i, .card .card-header .h6 i {
       font-size: 1.25em;
-      float: left;
       line-height: 1; }
     .card .card-header:after {
       display: block;
@@ -15357,7 +15356,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     overflow: hidden; }
     .card.style-1 .card-header h1 i, .card.style-1 .card-header .h1 i, .card.style-1 .card-header h2 i, .card.style-1 .card-header .h2 i, .card.style-1 .card-header h3 i, .card.style-1 .card-header .h3 i, .card.style-1 .card-header h4 i, .card.style-1 .card-header .h4 i, .card.style-1 .card-header h5 i, .card.style-1 .card-header .h5 i, .card.style-1 .card-header h6 i, .card.style-1 .card-header .h6 i {
       font-size: 1.25em;
-      float: left;
+      /*float: left;*/
       line-height: 1; }
     .card.style-1 .card-header:after {
       display: block;
@@ -16023,7 +16022,6 @@ header {
   header .language-selector .btn {
     padding: 0.844rem 0.55rem; }
   header .mobile-toggle {
-    display: flex;
     align-items: center;
     justify-content: center;
     display: none; }
@@ -16225,16 +16223,12 @@ header {
       transform: rotate(90deg); }
   .main .tree {
     display: none;
-    width: 170px;
     float: left;
     border: 1px solid #4592ff;
     transition: all 0.5s ease;
     margin-inline-start: 15px;
     padding: 15px 0;
     background: whitesmoke; }
-    @media screen and (min-width: 1440px) {
-      .main .tree {
-        width: 220px; } }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;

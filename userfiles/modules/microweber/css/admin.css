@@ -598,3 +598,22 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
 }
 
 
+#admin-main-tree .ui-resizable-handle.ui-resizable-e{
+    margin-inline-end: -20px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+#admin-main-tree{
+    padding-inline-end: 0;
+}
+#admin-main-tree .ui-resizable-handle.ui-resizable-e:before{
+    content: '\22EE';
+    position: sticky;
+    top: 50%;
+    height: 20px;
+    font-size: 27px;
+    color: #70707094;
+    display: block;
+    margin-inline-start: -1px;
+}
