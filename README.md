@@ -1,8 +1,5 @@
 # Microweber: Drag-and-Drop CMS
 
-**Current version: 1.3 running on Laravel 8!**
-
-
 **[Download](https://microweber.com/download.php) |
 [What is Microweber?](#what-is) |
 [Core features of Microweber](#core-features) |
