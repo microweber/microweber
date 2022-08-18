@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('product-variants', function() {
 
-    $product = \MicroweberPackages\Product\Models\Product::where('id', 15)->first();
-    $getCustomFields = $product->customField()->where('type','radio')->get();
+    $getProduct = \MicroweberPackages\Product\Models\Product::where('id', 15)->first();
+    $getCustomFields = $getProduct->customField()->where('type','radio')->get();
 
     $generatedProductVariants = [];
     foreach($getCustomFields as $customField) {
@@ -29,14 +29,23 @@ Route::get('product-variants', function() {
         $generatedProductVariants[$customField->name_key] = $customFieldValues;
     }
 
-    $generatedProductVariants = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+    $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+    foreach ($cartesianProduct->asArray() as $cartesianProduct) {
+        $cartesianProductVariantValues = [];
+        foreach ($cartesianProduct as $cartesianProductKey=>$cartesianProductValue) {
+            $cartesianProductVariantValues[] = $cartesianProductValue;
+        }
 
-    dd($generatedProductVariants->asArray());
+        $productVariantUrl = $getProduct->url .'-'. str_slug(implode('-',$cartesianProductVariantValues));
 
-    foreach ($generatedProductVariants as $generatedProductVariant) {
-        // $findProductVariant = \MicroweberPackages\Product\Models\ProductVariant::where('ma')
-        $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
-        $productVariant->parent = $product->id;
+        $productVariant = \MicroweberPackages\Product\Models\ProductVariant::where('url', $productVariantUrl)->first();
+        if ($productVariant == null) {
+            $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
+        }
+
+        $productVariant->name = $getProduct->name . ' - ' . implode(', ', $cartesianProductVariantValues);
+        $productVariant->url = $productVariantUrl;
+        $productVariant->parent = $getProduct->id;
         $productVariant->save();
     }
 
