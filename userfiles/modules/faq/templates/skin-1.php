@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Default
+name: FAQ Skin 1
 
-description: Default
+description: FAQ Skin 1
 
 */
 ?>
@@ -18,11 +18,11 @@ description: Default
             $(e.target)
                 .prev('.card-header')
                 .find("i.mdi.arrow.sk2")
-                .toggleClass('mdi-minus mdi-plus')
+                .toggleClass('mdi-chevron-down mdi-chevron-up')
                 .toggleClass('active')
         }
-        $('#accordion-faq-default-skin').on('hidden.bs.collapse', toggleChevron);
-        $('#accordion-faq-default-skin').on('shown.bs.collapse', toggleChevron);
+        $('#accordion-faq-default-skin-1').on('hidden.bs.collapse', toggleChevron);
+        $('#accordion-faq-default-skin-1').on('shown.bs.collapse', toggleChevron);
 
         $(".card.sk2").click(function() {
             $(".card.sk2").removeClass("active");
@@ -38,26 +38,18 @@ description: Default
     }
 
     .mdi.arrow.sk2 {
-        color: #676767;
+        color: gray;
         line-height: 1 !important;
         font-size: 20px !important;
-        border: 2px solid #676767;
-        border-radius: 50%;
-    }
-
-    .faq-default-answer {
-        color: #7d7d7d;
-        font-weight:
     }
 </style>
 
 <div class="row text-center mb-5">
     <div class="col-xs-12 edit " rel="module-<?php print $params['id']; ?>" field="title-content">
-        <h2>Frequently asked questions</h2>
-        <p class="faq-default-answer lead mt-4">Have questions? We're here to help.</p>
+        <h3>Here’s a few answers to our most common questionsss</h3>
     </div>
 </div>
-<div class="accordion" id="accordion-faq-default-skin">
+<div class="accordion" id="accordion-faq-default-skin-1">
     <?php foreach ($data as $key => $slide) : ?>
 
         <?php
@@ -68,14 +60,14 @@ description: Default
 
         ?>
 
-        <div class="card sk2 card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
+        <div class="card sk2 card-collapse border mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
             <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
                 <button class="btn p-5 w-100" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
                     <?php //module icon -
                     //print isset($slide['icon']) ? $slide['icon'] . ' ' : '';
                     ?>
                     <h4> <?php print isset($slide['question']) ? $slide['question'] : ''; ?> </h4>
-                    <i class="mdi arrow sk2 ms-auto me-0 <?php if ($key == 0) : ?>mdi-minus<?php else : ?>mdi-minus<?php endif; ?>"></i>
+                    <i class="mdi arrow sk2 ms-auto me-0 <?php if ($key == 0) : ?>mdi-chevron-down<?php else : ?>mdi-chevron-down<?php endif; ?>"></i>
                 </button>
             </div>
 
@@ -84,7 +76,7 @@ description: Default
                 <div class="card-body px-5 py-5 ">
                     <div class="allow-drop">
                         <div class="element">
-                            <p class="lead faq-default-answer"> <?php print isset($slide['answer']) ? $slide['answer'] : 'FAQ Answer' ?></p>
+                            <p class="lead text-black"> <?php print isset($slide['answer']) ? $slide['answer'] : 'FAQ Answer' ?></p>
                         </div>
                     </div>
                 </div>
