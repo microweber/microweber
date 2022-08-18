@@ -1,13 +1,10 @@
 <?php return array (
-  'name' => 'Laravel',
-  'env' => 'production',
   'debug' => false,
-  'url' => 'http://localhost/mw3/',
-  'asset_url' => NULL,
+  'url' => 'http://127.0.0.1/debug/microweber-test2/',
   'timezone' => 'UTC',
   'locale' => 'en_US',
   'fallback_locale' => 'en',
-  'key' => 'base64:TDFJS05oOEJaVFBObkpGNWxHaldhdmNUMlQwMHptOUQ=',
+  'key' => 'base64:UlZ3cEtKQU5LTkNMZjN0UWVkNVBEblVIMHlQYjZ0N2I=',
   'cipher' => 'AES-256-CBC',
   'log' => 'daily',
   'providers' => 
