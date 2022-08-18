@@ -196,6 +196,41 @@ class Product extends Content
         return $this->hasMany(ProductVariant::class , 'parent');
     }
 
+    public function generateVariants()
+    {
+        $getCustomFields = $this->customField()->where('type','radio')->get();
+
+        $generatedProductVariants = [];
+        foreach($getCustomFields as $customField) {
+
+            $customFieldValues = [];
+            $getCustomFieldValues = $customField->fieldValue()->get();
+            foreach ($getCustomFieldValues as $getCustomFieldValue) {
+                $customFieldValues[] = $getCustomFieldValue->value;
+            }
+            $generatedProductVariants[$customField->name_key] = $customFieldValues;
+        }
+
+        $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+        foreach ($cartesianProduct->asArray() as $cartesianProduct) {
+            $cartesianProductVariantValues = [];
+            foreach ($cartesianProduct as $cartesianProductKey=>$cartesianProductValue) {
+                $cartesianProductVariantValues[] = $cartesianProductValue;
+            }
+
+            $productVariantUrl = $this->url .'-'. str_slug(implode('-',$cartesianProductVariantValues));
+
+            $productVariant = \MicroweberPackages\Product\Models\ProductVariant::where('url', $productVariantUrl)->first();
+            if ($productVariant == null) {
+                $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
+            }
+
+            $productVariant->name = $this->name . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->url = $productVariantUrl;
+            $productVariant->parent = $this->id;
+            $productVariant->save();
+        }
+    }
 
     public function getContentData($values = [])
     {
