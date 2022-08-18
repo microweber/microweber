@@ -225,7 +225,7 @@ class Product extends Content
                 $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
             }
 
-            $productVariant->name = $this->name . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->title = $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
             $productVariant->parent = $this->id;
             $productVariant->save();
