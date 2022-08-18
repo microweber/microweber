@@ -15,3 +15,4 @@ if ($data['id'] > 0) {
 <?php include_once __DIR__ .'/pricing.php'; ?>
 <?php include_once __DIR__ .'/inventory.php'; ?>
 <?php include_once __DIR__ .'/shipping.php'; ?>
+<?php include_once __DIR__ .'/variants.php'; ?>

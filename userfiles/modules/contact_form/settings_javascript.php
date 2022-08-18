@@ -69,7 +69,7 @@ $checkEmailFromGlobal = \MicroweberPackages\Option\Facades\Option::getValue('ema
 if (empty($checkEmailFromGlobal)):
     ?>
     <div class="alert alert-dismissible alert-danger">
-        <button type="button" class="close" data-dismiss="alert">x</button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <i class="mdi mdi-email"></i> <?php _e('You don\'t have system e-mail and smtp setup.');?>
         <a href="<?php echo admin_url('view:settings#option_group=email'); ?>" target="_blank"><?php _e('Setup your system settings here.');?></a>
     </div>

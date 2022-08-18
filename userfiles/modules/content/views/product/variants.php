@@ -14,10 +14,10 @@ $productVariantOptions[] = [
 ];
 ?>
 
-<script>mw.lib.require('mwui_init')</script>
+<script>mw.lib.require('mwui_init');alert(1)</script>
 <style>
     .js-product-variants {
-        display: none;
+        display: block;
     }
 </style>
 
@@ -123,7 +123,7 @@ $productVariantOptions[] = [
             //var productVariantOptionName = $(this).find('.js-option-name').val();
             var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
             productVariantCombinations.push(productVariantOptionValues);
-        }); 
+        });
 
         $('.js-product-variants-fields').html('');
         for (let item of cartesian(productVariantCombinations)) {

@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Default
+name: FAQ Skin 2
 
-description: Default
+description: FAQ Skin 2
 
 */
 ?>
@@ -21,8 +21,8 @@ description: Default
                 .toggleClass('mdi-minus mdi-plus')
                 .toggleClass('active')
         }
-        $('#accordion-faq-default-skin').on('hidden.bs.collapse', toggleChevron);
-        $('#accordion-faq-default-skin').on('shown.bs.collapse', toggleChevron);
+        $('#accordion-faq-default-skin-2').on('hidden.bs.collapse', toggleChevron);
+        $('#accordion-faq-default-skin-2').on('shown.bs.collapse', toggleChevron);
 
         $(".card.sk2").click(function() {
             $(".card.sk2").removeClass("active");
@@ -33,6 +33,12 @@ description: Default
 </script>
 
 <style>
+
+    .card.faq-skin-2 .card-header:after {
+        border: none!important;
+    }
+
+
     .card.sk2 {
         border: none;
     }
@@ -57,7 +63,7 @@ description: Default
         <p class="faq-default-answer lead mt-4">Have questions? We're here to help.</p>
     </div>
 </div>
-<div class="accordion" id="accordion-faq-default-skin">
+<div class="accordion" id="accordion-faq-default-skin-2">
     <?php foreach ($data as $key => $slide) : ?>
 
         <?php
@@ -68,7 +74,7 @@ description: Default
 
         ?>
 
-        <div class="card sk2 card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
+        <div class="card faq-skin-2 sk2 card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
             <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
                 <button class="btn p-5 w-100" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
                     <?php //module icon -

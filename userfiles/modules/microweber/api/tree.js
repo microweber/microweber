@@ -37,7 +37,7 @@
                 selectedClass:'selected',
                 skin:'default',
                 multiPageSelect:true,
-                saveState:true,
+                saveState: true,
                 stateStorage: {
                     get: function (id) {
                         return mw.storage.get( id);
@@ -47,6 +47,7 @@
                     }
                 },
                 sortable:false,
+                resizable:false,
                 nestedSortable:false,
                 singleSelect:false,
                 selectedData:[],
@@ -568,13 +569,37 @@
             if(this.options.sortable){
                 this.sortable();
             }
+            this.resizable();
+
+
             if(this.options.nestedSortable){
                 this.nestedSortable();
             }
 
         };
 
-        this.sortable = function(element){
+        this.resizable = function(){
+            if(this.options.resizable){
+                mw.$(this.list).resizable({
+                    maxWidth: 650,
+                    minWidth: 200,
+                    handles: "e",
+                    resize: function () {
+
+                        if(scope.list.id ) {
+
+                            scope.stateStorage.set('size-' + scope.list.id, scope.list.style.width)
+                        }
+                    }
+                });
+                 if(this.list.id && this.stateStorage.get(this.list.id)) {
+                    this.list.style.width = this.stateStorage.get('size-' + this.list.id) ;
+                }
+            }
+
+        };
+
+        this.sortable = function(){
             var items = mw.$(this.list);
             mw.$('ul', this.list).each(function () {
                 items.push(this);
