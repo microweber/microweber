@@ -3,6 +3,8 @@ namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
@@ -196,6 +198,46 @@ class Product extends Content
         return $this->hasMany(ProductVariant::class , 'parent');
     }
 
+    public function generateVariants()
+    {
+        $getCustomFields = $this->customField()->where('type','radio')->get();
+
+        $generatedProductVariants = [];
+        foreach($getCustomFields as $customField) {
+
+            $customFieldValues = [];
+            $getCustomFieldValues = $customField->fieldValue()->get();
+            foreach ($getCustomFieldValues as $getCustomFieldValue) {
+                $customFieldValues[] = $getCustomFieldValue->id;
+            }
+            $generatedProductVariants[$customField->id] = $customFieldValues;
+        }
+
+       $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+        foreach ($cartesianProduct->asArray() as $cartesianProduct) {
+
+            $productVariantContentData = [];
+            $cartesianProductVariantValues = [];
+            foreach ($cartesianProduct as $customFieldId=>$customFieldValueId) {
+                $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+                $cartesianProductVariantValues[] = $getCustomFieldValue->value;
+                $productVariantContentData['variant_cfi_'.$customFieldId] = $customFieldValueId;
+            }
+
+            $productVariant = \MicroweberPackages\Product\Models\ProductVariant::whereContentData($productVariantContentData)->first();
+            if ($productVariant == null) {
+                $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
+            }
+
+            $productVariantUrl = $this->url .'-'. str_slug(implode('-',$cartesianProductVariantValues));
+            $productVariant->title = $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->url = $productVariantUrl;
+            $productVariant->parent = $this->id;
+
+            $productVariant->setContentData($productVariantContentData);
+            $productVariant->save();
+        }
+    }
 
     public function getContentData($values = [])
     {

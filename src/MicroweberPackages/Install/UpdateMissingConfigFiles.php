@@ -26,6 +26,9 @@ class UpdateMissingConfigFiles
             }
             foreach ($to_copy as $file) {
                 $target = normalize_path($config_dir . '/' . no_ext($file) . '.php', false);
+                if (is_link($target)) {
+                    continue;
+                }
                 if (!is_file($target)) {
                     $source = normalize_path($dir . '/' . $file, false);
                     copy($source, $target);

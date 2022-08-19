@@ -169,9 +169,7 @@
 
     <?php if(isset($product) && $product !== null): ?>
 
-        <?php
-
-        /*<div class="card style-1 mb-3 product-variants">
+        <div class="card style-1 mb-3 product-variants">
         <div class="card-body pt-3 pb-1">
             <div class="row">
                 <div class="col-12">
@@ -188,9 +186,7 @@
                 </div>
             </div>
         </div>
-    </div>*/
-
-        ?>
+    </div>
 
     <?php endif; ?>
 

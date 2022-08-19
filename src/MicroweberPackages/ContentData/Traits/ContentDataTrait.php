@@ -120,11 +120,12 @@ trait ContentDataTrait
 
     public function scopeWhereContentData($query, $whereArr)
     {
-        $query->whereHas('contentData', function ($query) use ($whereArr) {
-            foreach ($whereArr as $fieldName => $fieldValue) {
+        // If you want to select multiple fields, we must use whereHas in foreach
+        foreach ($whereArr as $fieldName => $fieldValue) {
+            $query->whereHas('contentData', function ($query) use ($fieldName, $fieldValue) {
                 $query->where('field_name', $fieldName)->where('field_value', $fieldValue);
-            }
-        });
+            });
+        }
 
         return $query;
     }

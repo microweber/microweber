@@ -14,7 +14,7 @@ $productVariantOptions[] = [
 ];
 ?>
 
-<script>mw.lib.require('mwui_init');alert(1)</script>
+<script>mw.lib.require('mwui_init');</script>
 <style>
     .js-product-variants {
         display: block;
