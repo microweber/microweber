@@ -202,9 +202,11 @@ class Product extends Content
 
     public function generateVariants()
     {
+        $getVariants = $this->variants()->get();
         $getCustomFields = $this->customField()->where('type', 'radio')->get();
 
-        $generatedProductVariants = [];
+        // Get all custom fields for variations
+        $productCustomFieldsMap = [];
         foreach ($getCustomFields as $customField) {
 
             $customFieldValues = [];
@@ -212,41 +214,73 @@ class Product extends Content
             foreach ($getCustomFieldValues as $getCustomFieldValue) {
                 $customFieldValues[] = $getCustomFieldValue->id;
             }
-            $generatedProductVariants[$customField->id] = $customFieldValues;
+            $productCustomFieldsMap[$customField->id] = $customFieldValues;
+        }
+
+        // Make combinations ofr custom fields
+        $cartesianProduct = new CartesianProduct($productCustomFieldsMap);
+        $cartesianProduct = $cartesianProduct->asArray();
+
+        // Match old variants with new cartesian variants
+        $matchWithCartesian = [];
+        if ($getVariants->count() > 0) {
+            foreach ($getVariants as $variant) {
+                $contentData = $variant->getContentData();
+                if (!empty($contentData)) {
+                    foreach ($contentData as $contentDataKey => $contentDataValue) {
+                        foreach ($cartesianProduct as $cartesianProductCustomFields) {
+                            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+                                if ($contentDataKey == 'variant_cfi_' . $customFieldId && $contentDataValue == $customFieldValueId) {
+                                    $matchWithCartesian[$variant->id]['cfi_'.$customFieldId .'_cfvi_'. $customFieldValueId] = [
+                                        'variant_id' => $variant->id,
+                                        'content_data_key' => $contentDataKey,
+                                        'custom_field_id' => $customFieldId,
+                                        'custom_field_value_id' => $customFieldValueId,
+                                        'cartesian_content_data' => $cartesianProductCustomFields,
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update existing variants matched with new cartesian
+        if (!empty($matchWithCartesian)) {
+            foreach ($matchWithCartesian as $matchCartesian) {
+                $matchCartesian = end($matchCartesian);
+                $matchedVariantContentData = [];
+                foreach ($matchCartesian['cartesian_content_data'] as $customFieldId => $customFieldValueId) {
+                    $matchedVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
+                }
+                $getMatchedVariant = ProductVariant::where('parent', $this->id)->where('id', $matchCartesian['variant_id'])->first();
+                $getMatchedVariant->setContentData($matchedVariantContentData);
+                $getMatchedVariant->save();
+            }
         }
 
         $updatedProductVariantIds = [];
-        $cartesianProduct = new CartesianProduct($generatedProductVariants);
-        foreach ($cartesianProduct->asArray() as $cartesianProduct) {
+        foreach ($cartesianProduct as $cartesianProductCustomFields) {
 
             $productVariantContentData = [];
             $cartesianProductVariantValues = [];
-            foreach ($cartesianProduct as $customFieldId => $customFieldValueId) {
+            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
                 $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
                 $cartesianProductVariantValues[] = $getCustomFieldValue->value;
                 $productVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
             }
 
-
             $productVariant = ProductVariant::where('parent', $this->id)->whereContentData($productVariantContentData)->first();
-          /*  if ($productVariant == null) {
-                 foreach ($productVariantContentData as $productVariantContentDataKey=>$productVariantContentDataValue) {
-                     $productVariant = ProductVariant::where('parent', $this->id)->whereContentData([$productVariantContentDataKey=>$productVariantContentDataValue])->first();
-                     if ($productVariant !== null) {
-                         break;
-                     }
-                 }
-            }*/ 
 
             if ($productVariant == null) {
                 $productVariant = new ProductVariant();
+                $productVariant->parent = $this->id;
             }
 
             $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
-            $productVariant->title = 'id->'.$productVariant->id .'-'. $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->title = 'id->' . $productVariant->id . '-' . $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
-            $productVariant->parent = $this->id;
-
             $productVariant->setContentData($productVariantContentData);
             $productVariant->save();
 
@@ -254,10 +288,9 @@ class Product extends Content
         }
 
         // Delete old variants
-        $getVariants = $this->variants()->get();
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $productVariant) {
-                if (!in_array($productVariant->id,$updatedProductVariantIds)) {
+                if (!in_array($productVariant->id, $updatedProductVariantIds)) {
                     $productVariant->delete();
                 }
             }
