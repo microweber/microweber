@@ -228,14 +228,14 @@ class Product extends Content
             if ($productVariant == null) {
                 $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
             }
-            
+
             $productVariantUrl = $this->url .'-'. str_slug(implode('-',$cartesianProductVariantValues));
             $productVariant->title = $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
             $productVariant->parent = $this->id;
-            $productVariant->save();
 
             $productVariant->setContentData($productVariantContentData);
+            $productVariant->save();
         }
     }
 
