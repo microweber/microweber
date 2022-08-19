@@ -229,6 +229,9 @@ class Product extends Content
                 if (!empty($contentData)) {
                     foreach ($contentData as $contentDataKey => $contentDataValue) {
                         foreach ($cartesianProduct as $cartesianProductCustomFields) {
+
+                            dd($contentData,$cartesianProductCustomFields);
+
                             foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
                                 if ($contentDataKey == 'variant_cfi_' . $customFieldId && $contentDataValue == $customFieldValueId) {
                                     $matchWithCartesian[$variant->id]['cfi_'.$customFieldId .'_cfvi_'. $customFieldValueId] = [
@@ -245,7 +248,7 @@ class Product extends Content
                 }
             }
         }
-        
+
         // Update existing variants matched with new cartesian
         if (!empty($matchWithCartesian)) {
             foreach ($matchWithCartesian as $matchCartesian) {
@@ -259,6 +262,8 @@ class Product extends Content
                 $getMatchedVariant->save();
             }
         }
+
+        dd($matchWithCartesian);
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProduct as $cartesianProductCustomFields) {
@@ -277,11 +282,17 @@ class Product extends Content
                 $productVariant = new ProductVariant();
                 $productVariant->parent = $this->id;
             }
+            // Remove old variant_cfi
+            foreach ($productVariant->getContentData() as $contentDataKey=>$contentDataValue) {
+                if (strpos($contentDataKey, 'variant_cfi_') !== false) {
+                    $productVariant->deleteContentData([$contentDataKey]);
+                }
+            }
 
+            $productVariant->setContentData($productVariantContentData);
             $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
             $productVariant->title = 'id->' . $productVariant->id . '-' . $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
-            $productVariant->setContentData($productVariantContentData);
             $productVariant->save();
 
             $updatedProductVariantIds[] = $productVariant->id;
