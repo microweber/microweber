@@ -6,6 +6,7 @@ use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Product\CartesianProduct;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
@@ -215,7 +216,7 @@ class Product extends Content
         }
 
         $updatedProductVariantIds = [];
-        $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+        $cartesianProduct = new CartesianProduct($generatedProductVariants);
         foreach ($cartesianProduct->asArray() as $cartesianProduct) {
 
             $productVariantContentData = [];
@@ -226,13 +227,23 @@ class Product extends Content
                 $productVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
             }
 
-            $productVariant = \MicroweberPackages\Product\Models\ProductVariant::whereContentData($productVariantContentData)->first();
+
+            $productVariant = ProductVariant::where('parent', $this->id)->whereContentData($productVariantContentData)->first();
+          /*  if ($productVariant == null) {
+                 foreach ($productVariantContentData as $productVariantContentDataKey=>$productVariantContentDataValue) {
+                     $productVariant = ProductVariant::where('parent', $this->id)->whereContentData([$productVariantContentDataKey=>$productVariantContentDataValue])->first();
+                     if ($productVariant !== null) {
+                         break;
+                     }
+                 }
+            }*/ 
+
             if ($productVariant == null) {
-                $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
+                $productVariant = new ProductVariant();
             }
 
             $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
-            $productVariant->title = $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->title = 'id->'.$productVariant->id .'-'. $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
             $productVariant->parent = $this->id;
 
