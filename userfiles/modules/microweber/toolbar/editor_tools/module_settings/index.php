@@ -3,8 +3,16 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $module_info = false;
+
+    if(!isset($params['module'])){
+        if(isset($params['data-type'])){
+            $params['module'] = $params['data-type'];
+        }
+    }
+
     if (isset($params['module'])): ?>
-        <?php $module_info = mw()->module_manager->get('one=1&ui=any&module=' . $params['module']); ?>
+
+        <?php $module_info = mw()->module_manager->info($params['module']); ?>
     <?php endif; ?>
 
     <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
@@ -118,6 +126,7 @@
     if ($mod_id != $mod_orig_id) {
         $is_linked_mod = true;
     }
+
 
 
     ?>
