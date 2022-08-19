@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductScope;
@@ -21,9 +22,9 @@ class Product extends Content
 
     protected $table = 'content';
 
-    protected $appends = ['price','qty','sku'];
+    protected $appends = ['price', 'qty', 'sku'];
 
-  //  public $timestamps = false;
+    //  public $timestamps = false;
 
     public $fillable = [
         "subtype",
@@ -59,27 +60,27 @@ class Product extends Content
     ];
 
     public static $contentDataDefault = [
-        'qty'=>'nolimit',
-        'sku'=>'',
-        'barcode'=>'',
-        'track_quantity'=>'',
-        'max_quantity_per_order'=>'',
-        'sell_oos'=>'',
-        'physical_product'=>'',
-        'free_shipping'=>'',
-        'shipping_fixed_cost'=>'',
-        'weight_type'=>'kg',
-        'params_in_checkout'=>0,
-        'has_special_price'=>0,
-        'weight'=>'',
-        'width'=>'',
-        'height'=>'',
-        'depth'=>''
+        'qty' => 'nolimit',
+        'sku' => '',
+        'barcode' => '',
+        'track_quantity' => '',
+        'max_quantity_per_order' => '',
+        'sell_oos' => '',
+        'physical_product' => '',
+        'free_shipping' => '',
+        'shipping_fixed_cost' => '',
+        'weight_type' => 'kg',
+        'params_in_checkout' => 0,
+        'has_special_price' => 0,
+        'weight' => '',
+        'width' => '',
+        'height' => '',
+        'depth' => ''
     ];
 
     public $sortable = [
-        'id'=>[
-            'title'=> 'Product'
+        'id' => [
+            'title' => 'Product'
         ]
     ];
 
@@ -110,9 +111,9 @@ class Product extends Content
 
     private function fetchSingleAttributeByType($type, $returnAsObject = false)
     {
-        foreach($this->customField as $customFieldRow) {
-            if($customFieldRow->type == $type) {
-                if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+        foreach ($this->customField as $customFieldRow) {
+            if ($customFieldRow->type == $type) {
+                if (isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
                     if ($returnAsObject) {
                         return $customFieldRow;
                     }
@@ -126,9 +127,9 @@ class Product extends Content
 
     private function fetchSingleAttributeByName($name, $returnAsObject = false)
     {
-        foreach($this->customField as $customFieldRow) {
-            if($customFieldRow->name_key == $name) {
-                if(isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
+        foreach ($this->customField as $customFieldRow) {
+            if ($customFieldRow->name_key == $name) {
+                if (isset($customFieldRow->fieldValue[0]->value)) { //the value field must be only one
                     if ($returnAsObject) {
                         return $customFieldRow;
                     }
@@ -195,15 +196,15 @@ class Product extends Content
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class , 'parent');
+        return $this->hasMany(ProductVariant::class, 'parent');
     }
 
     public function generateVariants()
     {
-        $getCustomFields = $this->customField()->where('type','radio')->get();
+        $getCustomFields = $this->customField()->where('type', 'radio')->get();
 
         $generatedProductVariants = [];
-        foreach($getCustomFields as $customField) {
+        foreach ($getCustomFields as $customField) {
 
             $customFieldValues = [];
             $getCustomFieldValues = $customField->fieldValue()->get();
@@ -213,15 +214,16 @@ class Product extends Content
             $generatedProductVariants[$customField->id] = $customFieldValues;
         }
 
-       $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
+        $updatedProductVariantIds = [];
+        $cartesianProduct = new \MicroweberPackages\Product\CartesianProduct($generatedProductVariants);
         foreach ($cartesianProduct->asArray() as $cartesianProduct) {
 
             $productVariantContentData = [];
             $cartesianProductVariantValues = [];
-            foreach ($cartesianProduct as $customFieldId=>$customFieldValueId) {
+            foreach ($cartesianProduct as $customFieldId => $customFieldValueId) {
                 $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
                 $cartesianProductVariantValues[] = $getCustomFieldValue->value;
-                $productVariantContentData['variant_cfi_'.$customFieldId] = $customFieldValueId;
+                $productVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
             }
 
             $productVariant = \MicroweberPackages\Product\Models\ProductVariant::whereContentData($productVariantContentData)->first();
@@ -229,13 +231,25 @@ class Product extends Content
                 $productVariant = new \MicroweberPackages\Product\Models\ProductVariant();
             }
 
-            $productVariantUrl = $this->url .'-'. str_slug(implode('-',$cartesianProductVariantValues));
+            $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
             $productVariant->title = $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
             $productVariant->parent = $this->id;
 
             $productVariant->setContentData($productVariantContentData);
             $productVariant->save();
+
+            $updatedProductVariantIds[] = $productVariant->id;
+        }
+
+        // Delete old variants
+        $getVariants = $this->variants()->get();
+        if ($getVariants->count() > 0) {
+            foreach ($getVariants as $productVariant) {
+                if (!in_array($productVariant->id,$updatedProductVariantIds)) {
+                    $productVariant->delete();
+                }
+            }
         }
     }
 
@@ -244,7 +258,7 @@ class Product extends Content
         $defaultKeys = self::$contentDataDefault;
         $contentData = parent::getContentData($values);
 
-        foreach ($contentData as $key=>$value) {
+        foreach ($contentData as $key => $value) {
             $defaultKeys[$key] = $value;
         }
 
