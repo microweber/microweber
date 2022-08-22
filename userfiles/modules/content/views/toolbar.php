@@ -380,6 +380,8 @@ if ($last_page_front != false) {
                             <?php
                             if (user_can_access('module.content.edit')):
                                 ?>
+                                <option value=""><?php _e("Select action"); ?></option>
+
                                 <option value="assign_selected_posts_to_category"><?php _e("Move to category"); ?></option>
                                 <option value="publish_selected_posts"><?php _e("Published"); ?></option>
                                 <option value="unpublish_selected_posts"><?php _e("Unpublish"); ?></option>
