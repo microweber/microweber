@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\ContentVariantData\Providers;
+namespace MicroweberPackages\ContentDataVariant\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\ContentData\TranslateTables\TranslateContentData;

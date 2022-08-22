@@ -21,7 +21,7 @@ use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
-use MicroweberPackages\ContentVariantData\Providers\ContentDataVariantServiceProvider;
+use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\Core\CoreServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
