@@ -14,7 +14,7 @@ class ContentDataVariantServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . DS . 'migrations');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DS . 'migrations');
     }
 
 }

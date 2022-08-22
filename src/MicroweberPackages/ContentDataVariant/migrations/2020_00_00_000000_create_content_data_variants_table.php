@@ -12,7 +12,7 @@ class CreateContentDataVariantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('content_data_variants', function (Blueprint $table) {
+        Schema::create('content_data_variants', function (\Illuminate\Database\Schema\Blueprint $table) {
             $table->increments('id');
             $table->integer('custom_field_id')->nullable();
             $table->integer('custom_field_value_id')->nullable();
