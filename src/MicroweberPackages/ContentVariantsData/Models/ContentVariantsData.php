@@ -24,7 +24,5 @@ class ContentVariantsData extends Model
         'custom_field_id',
         'custom_field_value_id',
     ];
-
-
-
+    
 }
