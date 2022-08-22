@@ -12,19 +12,15 @@ class CreateContentDataVariantsTable extends Migration
      */
     public function up()
     {
-        app()->database_manager->build_tables($this->getSchema());
-    }
+        Schema::create('content_data_variants', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('custom_field_id')->nullable();
+            $table->integer('custom_field_value_id')->nullable();
+            $table->integer('rel_id')->nullable();
+            $table->text('rel_type')->nullable();
+            $table->timestamps();
 
-    public function getSchema()
-    {
-        return [
-            'content_data_variants' => [
-                'custom_field_id' => 'string',
-                'custom_field_value_id' => 'string',
-                'rel_type' => 'string',
-                'rel_id' => 'string',
-            ],
-         ];
+        });
     }
 
     /**
@@ -34,6 +30,6 @@ class CreateContentDataVariantsTable extends Migration
      */
     public function down()
     {
-        // delete
+        Schema::drop('content_data_variants');
     }
 }
