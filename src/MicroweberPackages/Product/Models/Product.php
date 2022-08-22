@@ -250,11 +250,31 @@ class Product extends Content
                         }
                     }
                 }
+
+                $perfectMatches = [];
                 if (!empty($cartesianProductMatch)) {
-                    dump($variant->title, $cartesianProductMatch, $cartesianProduct);
+                    foreach ($cartesianProduct as $cartesianProductIndex=>$cartesianProductCustomFields) {
+                        $currentCartesianMatchCount = 0;
+                        foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+                            foreach ($cartesianProductMatch as $cartesianMatch) {
+                                if ($customFieldId == $cartesianMatch['custom_field_id'] &&
+                                    $customFieldValueId == $cartesianMatch['custom_field_value_id']) {
+                                    $currentCartesianMatchCount++;
+                                }
+                            }
+                        }
+                        if (count($cartesianProductMatch) == $currentCartesianMatchCount) {
+                            $perfectMatches[] = [
+                                'cartesian_match'=>$cartesianMatch,
+                                'cartesian_product_index'=> $cartesianProductIndex,
+                            ];
+                        }
+                    }
                 }
             }
         }
+
+        dd($perfectMatches);
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProduct as $cartesianProductCustomFields) {
