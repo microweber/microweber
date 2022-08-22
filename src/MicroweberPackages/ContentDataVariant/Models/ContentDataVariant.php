@@ -1,19 +1,18 @@
 <?php
 
 
-namespace MicroweberPackages\ContentVariantsData\Models;
+namespace MicroweberPackages\ContentDataVariant\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
-
-class ContentVariantsData extends Model
+class ContentDataVariant extends Model
 {
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
 
-    protected $table = 'content_variants_data';
+    protected $table = 'content_data_variants';
 
     public $timestamps = true;
 
@@ -24,5 +23,5 @@ class ContentVariantsData extends Model
         'custom_field_id',
         'custom_field_value_id',
     ];
-    
+
 }

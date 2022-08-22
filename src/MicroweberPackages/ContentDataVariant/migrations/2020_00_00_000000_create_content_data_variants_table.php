@@ -3,7 +3,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContentVariantsDataTable extends Migration
+class CreateContentDataVariantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreateContentVariantsDataTable extends Migration
     public function getSchema()
     {
         return [
-            'content_variants_data' => [
+            'content_data_variants' => [
                 'custom_field_id' => 'string',
                 'custom_field_value_id' => 'string',
                 'rel_type' => 'string',

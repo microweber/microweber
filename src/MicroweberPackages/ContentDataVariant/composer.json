@@ -1,6 +1,6 @@
 {
-  "name": "microweber-packages/microweber-content-variants-data",
-  "description": "Microweber Content Variants Data",
+  "name": "microweber-packages/microweber-content-data-variant",
+  "description": "Microweber Content Data Variant",
   "version": "0.0.1",
   "authors": [
     {
@@ -14,13 +14,13 @@
   ],
   "autoload": {
     "psr-4": {
-      "MicroweberPackages\\ContentVariantsData\\": ""
+      "MicroweberPackages\\ContentDataVariant\\": ""
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "MicroweberPackages\\ContentVariantsData\\ContentVariantsDataServiceProvider"
+        "MicroweberPackages\\ContentDataVariant\\ContentDataVariantServiceProvider"
       ]
     }
   },

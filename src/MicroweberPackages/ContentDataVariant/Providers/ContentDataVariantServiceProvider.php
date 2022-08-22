@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\ContentVariantsData\Providers;
+namespace MicroweberPackages\ContentVariantData\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\ContentData\TranslateTables\TranslateContentData;
 
-class ContentVariantsDataServiceProvider extends ServiceProvider
+class ContentDataVariantServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -14,7 +14,7 @@ class ContentVariantsDataServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        $this->loadMigrationsFrom(__DIR__ . DS . 'migrations');
     }
 
 }
