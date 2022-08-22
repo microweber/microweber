@@ -223,50 +223,38 @@ class Product extends Content
         $cartesianProduct = new CartesianProduct($productCustomFieldsMap);
         $cartesianProduct = $cartesianProduct->asArray();
 
-/*
+
         // Match old variants with new cartesian variants
-        $matchWithCartesian = [];
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $variant) {
-                $contentData = $variant->getContentData();
-                if (!empty($contentData)) {
-                    foreach ($contentData as $contentDataKey => $contentDataValue) {
+                $cartesianProductMatch = [];
+                $getContentDataVariants = $variant->contentDataVariant()->get();
+                if ($getContentDataVariants->count() > 0) {
+                    foreach ($getContentDataVariants as $contentDataVariant) {
                         foreach ($cartesianProduct as $cartesianProductCustomFields) {
-
-                            dd($contentData,$cartesianProductCustomFields);
-
                             foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
-                                if ($contentDataKey == 'variant_cfi_' . $customFieldId && $contentDataValue == $customFieldValueId) {
-                                    $matchWithCartesian[$variant->id]['cfi_'.$customFieldId .'_cfvi_'. $customFieldValueId] = [
-                                        'variant_id' => $variant->id,
-                                        'content_data_key' => $contentDataKey,
-                                        'custom_field_id' => $customFieldId,
-                                        'custom_field_value_id' => $customFieldValueId,
-                                        'cartesian_content_data' => $cartesianProductCustomFields,
+                                if ($contentDataVariant->custom_field_id == $customFieldId
+                                    && $contentDataVariant->custom_field_value_id == $customFieldValueId) {
+
+                                    // For easy debug
+                                    $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+
+                                    $cartesianProductMatch[$customFieldId.$customFieldValueId] = [
+                                        'custom_field_id'=>$customFieldId,
+                                        'custom_field_value_id'=>$customFieldValueId,
+                                        'custom_field_value'=>$getCustomFieldValue->value,
+                                        'custom_data_variant_id'=>$contentDataVariant->id
                                     ];
                                 }
                             }
                         }
                     }
                 }
-            }
-        }*/
-
-       /* // Update existing variants matched with new cartesian
-        if (!empty($matchWithCartesian)) {
-            foreach ($matchWithCartesian as $matchCartesian) {
-                $matchCartesian = end($matchCartesian);
-                $matchedVariantContentData = [];
-                foreach ($matchCartesian['cartesian_content_data'] as $customFieldId => $customFieldValueId) {
-                    $matchedVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
+                if (!empty($cartesianProductMatch)) {
+                    dump($variant->title, $cartesianProductMatch, $cartesianProduct);
                 }
-                $getMatchedVariant = ProductVariant::where('parent', $this->id)->where('id', $matchCartesian['variant_id'])->first();
-                $getMatchedVariant->setContentData($matchedVariantContentData);
-                $getMatchedVariant->save();
             }
         }
-
-        dd($matchWithCartesian);*/
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProduct as $cartesianProductCustomFields) {
@@ -283,7 +271,7 @@ class Product extends Content
             }
 
             $productVariant = ProductVariant::where('parent', $this->id)->whereContentDataVariant($cartesianProductContentDataVariant)->first();
-            
+
             if ($productVariant == null) {
                 $productVariant = new ProductVariant();
                 $productVariant->parent = $this->id;
