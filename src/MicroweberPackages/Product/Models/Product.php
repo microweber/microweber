@@ -4,6 +4,8 @@ namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\ContentData\Models\ContentData;
+use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Product\CartesianProduct;
@@ -221,6 +223,7 @@ class Product extends Content
         $cartesianProduct = new CartesianProduct($productCustomFieldsMap);
         $cartesianProduct = $cartesianProduct->asArray();
 
+/*
         // Match old variants with new cartesian variants
         $matchWithCartesian = [];
         if ($getVariants->count() > 0) {
@@ -247,9 +250,9 @@ class Product extends Content
                     }
                 }
             }
-        }
+        }*/
 
-        // Update existing variants matched with new cartesian
+       /* // Update existing variants matched with new cartesian
         if (!empty($matchWithCartesian)) {
             foreach ($matchWithCartesian as $matchCartesian) {
                 $matchCartesian = end($matchCartesian);
@@ -263,37 +266,50 @@ class Product extends Content
             }
         }
 
-        dd($matchWithCartesian);
+        dd($matchWithCartesian);*/
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProduct as $cartesianProductCustomFields) {
 
-            $productVariantContentData = [];
+            $cartesianProductContentDataVariant = [];
             $cartesianProductVariantValues = [];
             foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
                 $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
                 $cartesianProductVariantValues[] = $getCustomFieldValue->value;
-                $productVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
+                $cartesianProductContentDataVariant[] = [
+                    'custom_field_id'=>$customFieldId,
+                    'custom_field_value_id'=>$customFieldValueId,
+                ];
             }
 
-            $productVariant = ProductVariant::where('parent', $this->id)->whereContentData($productVariantContentData)->first();
-
+            $productVariant = ProductVariant::where('parent', $this->id)->whereContentDataVariant($cartesianProductContentDataVariant)->first();
+            
             if ($productVariant == null) {
                 $productVariant = new ProductVariant();
                 $productVariant->parent = $this->id;
             }
-            // Remove old variant_cfi
-            foreach ($productVariant->getContentData() as $contentDataKey=>$contentDataValue) {
-                if (strpos($contentDataKey, 'variant_cfi_') !== false) {
-                    $productVariant->deleteContentData([$contentDataKey]);
-                }
-            }
 
-            $productVariant->setContentData($productVariantContentData);
             $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
             $productVariant->title = 'id->' . $productVariant->id . '-' . $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
             $productVariant->save();
+
+            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+
+                $findContentDataVariant = ContentDataVariant::where('rel_id',$productVariant->id)
+                                                            ->where('rel_type', 'content')
+                                                            ->where('custom_field_id',$customFieldId)
+                                                            ->where('custom_field_value_id',$customFieldValueId)
+                                                            ->first();
+                if ($findContentDataVariant == null) {
+                    $contentDataVariant = new ContentDataVariant();
+                    $contentDataVariant->rel_id = $productVariant->id;
+                    $contentDataVariant->rel_type = 'content';
+                    $contentDataVariant->custom_field_id = $customFieldId;
+                    $contentDataVariant->custom_field_value_id = $customFieldValueId;
+                    $contentDataVariant->save();
+                }
+            }
 
             $updatedProductVariantIds[] = $productVariant->id;
         }

@@ -10,7 +10,6 @@ use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 class ContentDataVariant extends Model
 {
     use CacheableQueryBuilderTrait;
-    use HasCreatedByFieldsTrait;
 
     protected $table = 'content_data_variants';
 
