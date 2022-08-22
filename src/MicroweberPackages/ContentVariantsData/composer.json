@@ -1,0 +1,34 @@
+{
+  "name": "microweber-packages/microweber-content-variants-data",
+  "description": "Microweber Content Variants Data",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\ContentVariantsData\\": ""
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\ContentVariantsData\\ContentVariantsDataServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "homepage": "http://microweber.org",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com"
+  }
+}
