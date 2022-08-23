@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('product-variants', function() {
+Route::post('product-variants', function() {
 
     $getProduct = \MicroweberPackages\Product\Models\Product::where('id', 15)->first();
     $getProduct->generateVariants();

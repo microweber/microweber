@@ -147,7 +147,11 @@ $productVariantOptions[] = [
     $(document).ready(function () {
 
        $('.js-product-has-variants').click(function () {
-           $('.js-product-variants').toggle();
+           if ($('.js-product-has-variants').is(':checked')) {
+               $('.js-product-variants').fadeIn();
+           } else {
+               $('.js-product-variants').fadeOut();
+           }
        });
 
        $('.js-add-variant-option').click(function () {
@@ -155,9 +159,14 @@ $productVariantOptions[] = [
                 alert('Maximum product variants are 3');
                return;
            }
+
+           $.post(mw.settings.api_url + "/product-variants", {})
+           .done(function (data) {
+
+           });
+
            refreshProductVariantValues();
            addProductVariantOption(Math.floor(Math.random() * 1000));
-
        });
 
         <?php if (!empty($productVariantOptions)): ?>
