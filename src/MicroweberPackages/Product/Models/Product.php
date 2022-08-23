@@ -251,7 +251,7 @@ class Product extends Content
                     }
                 }
                 if (!empty($matchWithCartesian)) {
-                 /*  foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
+                 foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
                        $findContentDataVariant = ContentDataVariant::where('rel_id', $variant->id)
                            ->where('rel_type', 'content')
                            ->where('custom_field_id', $contentDataVariant['custom_field_id'])
@@ -265,12 +265,10 @@ class Product extends Content
                            $findContentDataVariant->custom_field_value_id = $contentDataVariant['custom_field_value_id'];
                            $findContentDataVariant->save();
                        }
-                   }*/
+                   }
                 }
             }
         }
-
-        dd($cartesianProductDetailed);
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProductDetailed as $cartesianProduct) {
@@ -317,6 +315,7 @@ class Product extends Content
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $productVariant) {
                 if (!in_array($productVariant->id, $updatedProductVariantIds)) {
+                    $productVariant->contentDataVariant()->delete();
                     $productVariant->delete();
                 }
             }
