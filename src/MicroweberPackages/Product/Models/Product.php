@@ -210,7 +210,6 @@ class Product extends Content
         // Get all custom fields for variations
         $productCustomFieldsMap = [];
         foreach ($getCustomFields as $customField) {
-
             $customFieldValues = [];
             $getCustomFieldValues = $customField->fieldValue()->get();
             foreach ($getCustomFieldValues as $getCustomFieldValue) {
@@ -221,76 +220,52 @@ class Product extends Content
 
         // Make combinations ofr custom fields
         $cartesianProduct = new CartesianProduct($productCustomFieldsMap);
-        $cartesianProduct = $cartesianProduct->asArray();
+        $cartesianProductDetailed = [];
+        foreach ($cartesianProduct->asArray() as $cartesianProductIndex=>$cartesianProductCustomFields) {
+            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+                $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant'][] = [
+                    'custom_field_id'=>$customFieldId,
+                    'custom_field_value_id'=>$customFieldValueId,
+                ];
+            }
+        }
+
+        /**
+         * Steps to sync old product variants with new cartesian product
+         *
+         * 1. Get all old variants
+         * 2. Get content data of variants
+         *  - custom_field_id, custom_field_value_id
+         *  - color: green, black, red
+         * 3. Get all new cartesian variants
+         *  - color:green, black, red
+         *  - size, s, l, xl
+         * 4. We must to match all new cartesian variants with old variants green, black, red
+         */
 
 
         // Match old variants with new cartesian variants
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $variant) {
-                $cartesianProductMatch = [];
                 $getContentDataVariants = $variant->contentDataVariant()->get();
                 if ($getContentDataVariants->count() > 0) {
-                    foreach ($getContentDataVariants as $contentDataVariant) {
-                        foreach ($cartesianProduct as $cartesianProductCustomFields) {
-                            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
-                                if ($contentDataVariant->custom_field_id == $customFieldId
-                                    && $contentDataVariant->custom_field_value_id == $customFieldValueId) {
 
-                                    // For easy debug
-                                    $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
-
-                                    $cartesianProductMatch[$customFieldId.$customFieldValueId] = [
-                                        'custom_field_id'=>$customFieldId,
-                                        'custom_field_value_id'=>$customFieldValueId,
-                                        'custom_field_value'=>$getCustomFieldValue->value,
-                                        'custom_data_variant_id'=>$contentDataVariant->id
-                                    ];
-                                }
-                            }
-                        }
-                    }
-                }
-
-                $perfectMatches = [];
-                if (!empty($cartesianProductMatch)) {
-                    foreach ($cartesianProduct as $cartesianProductIndex=>$cartesianProductCustomFields) {
-                        $currentCartesianMatchCount = 0;
-                        foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
-                            foreach ($cartesianProductMatch as $cartesianMatch) {
-                                if ($customFieldId == $cartesianMatch['custom_field_id'] &&
-                                    $customFieldValueId == $cartesianMatch['custom_field_value_id']) {
-                                    $currentCartesianMatchCount++;
-                                }
-                            }
-                        }
-                        if (count($cartesianProductMatch) == $currentCartesianMatchCount) {
-                            $perfectMatches[] = [
-                                'cartesian_match'=>$cartesianMatch,
-                                'cartesian_product_index'=> $cartesianProductIndex,
-                            ];
-                        }
-                    }
                 }
             }
         }
 
-        dd($perfectMatches);
+        dd($cartesianProductDetailed);
 
         $updatedProductVariantIds = [];
-        foreach ($cartesianProduct as $cartesianProductCustomFields) {
+        foreach ($cartesianProductDetailed as $cartesianProduct) {
 
-            $cartesianProductContentDataVariant = [];
             $cartesianProductVariantValues = [];
-            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
-                $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+            foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
+                $getCustomFieldValue = CustomFieldValue::where('id', $contentDataVariant['custom_field_value_id'])->first();
                 $cartesianProductVariantValues[] = $getCustomFieldValue->value;
-                $cartesianProductContentDataVariant[] = [
-                    'custom_field_id'=>$customFieldId,
-                    'custom_field_value_id'=>$customFieldValueId,
-                ];
             }
 
-            $productVariant = ProductVariant::where('parent', $this->id)->whereContentDataVariant($cartesianProductContentDataVariant)->first();
+            $productVariant = ProductVariant::where('parent', $this->id)->whereContentDataVariant($cartesianProduct['content_data_variant'])->first();
 
             if ($productVariant == null) {
                 $productVariant = new ProductVariant();
@@ -302,20 +277,20 @@ class Product extends Content
             $productVariant->url = $productVariantUrl;
             $productVariant->save();
 
-            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+            foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
 
                 $findContentDataVariant = ContentDataVariant::where('rel_id',$productVariant->id)
-                                                            ->where('rel_type', 'content')
-                                                            ->where('custom_field_id',$customFieldId)
-                                                            ->where('custom_field_value_id',$customFieldValueId)
-                                                            ->first();
+                                            ->where('rel_type', 'content')
+                                            ->where('custom_field_id',$contentDataVariant['custom_field_id'])
+                                            ->where('custom_field_value_id',$contentDataVariant['custom_field_value_id'])
+                                            ->first();
                 if ($findContentDataVariant == null) {
-                    $contentDataVariant = new ContentDataVariant();
-                    $contentDataVariant->rel_id = $productVariant->id;
-                    $contentDataVariant->rel_type = 'content';
-                    $contentDataVariant->custom_field_id = $customFieldId;
-                    $contentDataVariant->custom_field_value_id = $customFieldValueId;
-                    $contentDataVariant->save();
+                    $findContentDataVariant = new ContentDataVariant();
+                    $findContentDataVariant->rel_id = $productVariant->id;
+                    $findContentDataVariant->rel_type = 'content';
+                    $findContentDataVariant->custom_field_id = $contentDataVariant['custom_field_id'];
+                    $findContentDataVariant->custom_field_value_id = $contentDataVariant['custom_field_value_id'];
+                    $findContentDataVariant->save();
                 }
             }
 
