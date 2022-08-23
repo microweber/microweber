@@ -230,27 +230,47 @@ class Product extends Content
                 ];
                 $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant'][] = $contentDataVariant;
             }
-            $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant_hash'] = md5(serialize($cartesianProductDetailed[$cartesianProductIndex]['content_data_variant']));
         }
 
         // Match old variants with new cartesian variants
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $variant) {
-                $getContentDataVariants = $variant->contentDataVariant()->get();
-                if ($getContentDataVariants->count() > 0) {
-                    $contentDataVariantCustomField = [];
-                    foreach ($getContentDataVariants as $contentDataVariant) {
-                        $contentDataVariantCustomField[] = [
-                            'custom_field_id' =>$contentDataVariant->custom_field_id,
-                            'custom_field_value_id' =>$contentDataVariant->custom_field_value_id,
-                        ];
+                $matchWithCartesian = [];
+                $getContentDataVariant = $variant->contentDataVariant()->get();
+                if ($getContentDataVariant->count() > 0) {
+                    foreach ($getContentDataVariant as $contentDataVariant) {
+                        foreach ($cartesianProductDetailed as $cartesianProduct) {
+                            foreach ($cartesianProduct['content_data_variant'] as $cartesianContentDataVariant) {
+                                if ($cartesianContentDataVariant['custom_field_value_id'] == $contentDataVariant['custom_field_value_id']
+                                    && $cartesianContentDataVariant['custom_field_value_id'] == $contentDataVariant['custom_field_value_id']) {
+                                    $matchWithCartesian = $cartesianProduct;
+                                    break 2;
+                                }
+                            }
+                        }
                     }
-                    dump(md5(serialize($contentDataVariantCustomField)));
+                }
+                if (!empty($matchWithCartesian)) {
+                 /*  foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
+                       $findContentDataVariant = ContentDataVariant::where('rel_id', $variant->id)
+                           ->where('rel_type', 'content')
+                           ->where('custom_field_id', $contentDataVariant['custom_field_id'])
+                           ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
+                           ->first();
+                       if ($findContentDataVariant == null) {
+                           $findContentDataVariant = new ContentDataVariant();
+                           $findContentDataVariant->rel_id = $variant->id;
+                           $findContentDataVariant->rel_type = 'content';
+                           $findContentDataVariant->custom_field_id = $contentDataVariant['custom_field_id'];
+                           $findContentDataVariant->custom_field_value_id = $contentDataVariant['custom_field_value_id'];
+                           $findContentDataVariant->save();
+                       }
+                   }*/
                 }
             }
         }
 
-        dump($cartesianProductDetailed);
+        dd($cartesianProductDetailed);
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProductDetailed as $cartesianProduct) {
