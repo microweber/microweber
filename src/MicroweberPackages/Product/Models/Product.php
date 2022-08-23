@@ -204,6 +204,7 @@ class Product extends Content
 
     public function generateVariants()
     {
+        clearcache();
         $getVariants = $this->variants()->get();
         $getCustomFields = $this->customField()->where('type', 'radio')->get();
 
@@ -223,38 +224,33 @@ class Product extends Content
         $cartesianProductDetailed = [];
         foreach ($cartesianProduct->asArray() as $cartesianProductIndex=>$cartesianProductCustomFields) {
             foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
-                $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant'][] = [
+                $contentDataVariant = [
                     'custom_field_id'=>$customFieldId,
                     'custom_field_value_id'=>$customFieldValueId,
                 ];
+                $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant'][] = $contentDataVariant;
             }
+            $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant_hash'] = md5(serialize($cartesianProductDetailed[$cartesianProductIndex]['content_data_variant']));
         }
-
-        /**
-         * Steps to sync old product variants with new cartesian product
-         *
-         * 1. Get all old variants
-         * 2. Get content data of variants
-         *  - custom_field_id, custom_field_value_id
-         *  - color: green, black, red
-         * 3. Get all new cartesian variants
-         *  - color:green, black, red
-         *  - size, s, l, xl
-         * 4. We must to match all new cartesian variants with old variants green, black, red
-         */
-
 
         // Match old variants with new cartesian variants
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $variant) {
                 $getContentDataVariants = $variant->contentDataVariant()->get();
                 if ($getContentDataVariants->count() > 0) {
-
+                    $contentDataVariantCustomField = [];
+                    foreach ($getContentDataVariants as $contentDataVariant) {
+                        $contentDataVariantCustomField[] = [
+                            'custom_field_id' =>$contentDataVariant->custom_field_id,
+                            'custom_field_value_id' =>$contentDataVariant->custom_field_value_id,
+                        ];
+                    }
+                    dump(md5(serialize($contentDataVariantCustomField)));
                 }
             }
         }
 
-        dd($cartesianProductDetailed);
+        dump($cartesianProductDetailed);
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProductDetailed as $cartesianProduct) {
