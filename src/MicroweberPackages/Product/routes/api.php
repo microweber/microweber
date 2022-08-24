@@ -36,6 +36,7 @@ Route::name('api.')
                        'price'=>$productVariant->price,
                        'qty'=>$productVariant->qty,
                        'sku'=>$productVariant->sku,
+                       'currency'=> get_currency_code(),
                      ];
                  }
                 }

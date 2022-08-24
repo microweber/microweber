@@ -22,22 +22,22 @@ $productVariantOptions[] = [
 </style>
 
 <script>
-    function addProductVariantInTable(variant_name) {
-        var variantHtml = '<tr>\n' +
+    function addProductVariantInTable(id, name, price, currency, qty, sku) {
+        var variantHtml = '<tr class="js-product-variant-tr" data-id="'+id+'">\n' +
             '<th scope="row" style="vertical-align: middle;">\n' +
-            '    <span>'+variant_name+'</span>\n' +
+            '    <span>'+name+'</span>\n' +
             '</th>\n' +
             '<td>\n' +
             '    <div class="input-group prepend-transparent m-0">\n' +
             '        <div class="input-group-prepend">\n' +
-            '            <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>\n' +
+            '            <span class="input-group-text text-muted">'+currency+'</span>\n' +
             '        </div>\n' +
-            '        <input type="text" class="form-control" value="0.00">\n' +
+            '        <input type="text" class="form-control" value="'+price+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td>\n' +
             '    <div class="input-group append-transparent input-group-quantity m-0">\n' +
-            '        <input type="text" class="form-control" value="0">\n' +
+            '        <input type="text" class="form-control" value="'+qty+'">\n' +
             '        <div class="input-group-append">\n' +
             '            <div class="input-group-text plus-minus-holder">\n' +
             '                <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>\n' +
@@ -48,7 +48,7 @@ $productVariantOptions[] = [
             '</td>\n' +
             '<td>\n' +
             '    <div class="form-group m-0">\n' +
-            '        <input type="text" class="form-control" value="">\n' +
+            '        <input type="text" class="form-control" value="'+sku+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td style="vertical-align: middle;">\n' +
@@ -108,7 +108,7 @@ $productVariantOptions[] = [
         }
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
             $.each(data, function(key,productVariant) {
-                addProductVariantInTable(productVariant.short_title);
+                addProductVariantInTable(productVariant.id, productVariant.short_title, productVariant.price, productVariant.currency, productVariant.qty, productVariant.sku);
             });
         });
     }
