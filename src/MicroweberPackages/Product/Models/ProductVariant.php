@@ -6,7 +6,6 @@ use MicroweberPackages\ContentDataVariant\Traits\ContentDataVariantTrait;
 
 class ProductVariant extends Product
 {
-
     use ContentDataVariantTrait;
 
     public function __construct(array $attributes = [])

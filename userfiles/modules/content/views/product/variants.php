@@ -22,7 +22,7 @@ $productVariantOptions[] = [
 </style>
 
 <script>
-    function addProductVariantValues(variant_name) {
+    function addProductVariantInTable(variant_name) {
         var variantHtml = '<tr>\n' +
             '<th scope="row" style="vertical-align: middle;">\n' +
             '    <span>'+variant_name+'</span>\n' +
@@ -89,48 +89,6 @@ $productVariantOptions[] = [
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
-    function cartesian(arrays){
-        var quant = 1, counters = [], retArr = [];
-
-        // Counts total possibilities and build the counters Array;
-        for(var i=0;i<arrays.length;i++){
-            counters[i] = 0;
-            quant *= arrays[i].length;
-        }
-
-        // iterate all possibilities
-        for(var i=0,nRow;i<quant;i++){
-            nRow = [];
-            for(var j=0;j<counters.length;j++){
-                if(counters[j] < arrays[j].length){
-                    nRow.push(arrays[j][counters[j]]);
-                } else { // in case there is no such an element it restarts the current counter
-                    counters[j] = 0;
-                    nRow.push(arrays[j][counters[j]]);
-                }
-                counters[j]++;
-            }
-            retArr.push(nRow);
-        }
-        return retArr;
-    }
-
-    function refreshProductVariantValues()
-    {
-        const productVariantCombinations = [];
-
-        $(".js-product-variant-option-box").each(function() {
-            //var productVariantOptionName = $(this).find('.js-option-name').val();
-            var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
-            productVariantCombinations.push(productVariantOptionValues);
-        });
-
-        $('.js-product-variants-fields').html('');
-        for (let item of cartesian(productVariantCombinations)) {
-            addProductVariantValues(item.join('/'));
-        }
-    }
-
     <?php
     foreach ($productVariantOptions as $productVariantOptionKey=>$productVariantOption):
     ?>
@@ -142,6 +100,14 @@ $productVariantOptions[] = [
     function deleteProductVariantOption(option_id) {
         refreshProductVariantValues();
         $('.js-product-variant-option-' + option_id).remove();
+    }
+
+    function refreshProductVariants() {
+        $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
+            $.each(data, function(key,productVariant) {
+                addProductVariantInTable(productVariant.short_title);
+            });
+        });
     }
 
     $(document).ready(function () {
@@ -186,6 +152,8 @@ $productVariantOptions[] = [
         <?php if (!empty($productVariantOptions)): ?>
         $('.js-product-has-variants').click();
         <?php endif; ?>
+
+        refreshProductVariants();
 
     });
 </script>
