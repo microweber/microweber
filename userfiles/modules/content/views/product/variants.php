@@ -22,22 +22,22 @@ $productVariantOptions[] = [
 </style>
 
 <script>
-    function addProductVariantValues(variant_name) {
-        var variantHtml = '<tr>\n' +
+    function addProductVariantInTable(id, name, price, currency, qty, sku) {
+        var variantHtml = '<tr class="js-product-variant-tr" data-id="'+id+'">\n' +
             '<th scope="row" style="vertical-align: middle;">\n' +
-            '    <span>'+variant_name+'</span>\n' +
+            '    <span>'+name+'</span>\n' +
             '</th>\n' +
             '<td>\n' +
             '    <div class="input-group prepend-transparent m-0">\n' +
             '        <div class="input-group-prepend">\n' +
-            '            <span class="input-group-text text-muted"><?php echo get_currency_code(); ?></span>\n' +
+            '            <span class="input-group-text text-muted">'+currency+'</span>\n' +
             '        </div>\n' +
-            '        <input type="text" class="form-control" value="0.00">\n' +
+            '        <input type="text" class="form-control" value="'+price+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td>\n' +
             '    <div class="input-group append-transparent input-group-quantity m-0">\n' +
-            '        <input type="text" class="form-control" value="0">\n' +
+            '        <input type="text" class="form-control" value="'+qty+'">\n' +
             '        <div class="input-group-append">\n' +
             '            <div class="input-group-text plus-minus-holder">\n' +
             '                <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>\n' +
@@ -48,7 +48,7 @@ $productVariantOptions[] = [
             '</td>\n' +
             '<td>\n' +
             '    <div class="form-group m-0">\n' +
-            '        <input type="text" class="form-control" value="">\n' +
+            '        <input type="text" class="form-control" value="'+sku+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td style="vertical-align: middle;">\n' +
@@ -89,48 +89,6 @@ $productVariantOptions[] = [
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
-    function cartesian(arrays){
-        var quant = 1, counters = [], retArr = [];
-
-        // Counts total possibilities and build the counters Array;
-        for(var i=0;i<arrays.length;i++){
-            counters[i] = 0;
-            quant *= arrays[i].length;
-        }
-
-        // iterate all possibilities
-        for(var i=0,nRow;i<quant;i++){
-            nRow = [];
-            for(var j=0;j<counters.length;j++){
-                if(counters[j] < arrays[j].length){
-                    nRow.push(arrays[j][counters[j]]);
-                } else { // in case there is no such an element it restarts the current counter
-                    counters[j] = 0;
-                    nRow.push(arrays[j][counters[j]]);
-                }
-                counters[j]++;
-            }
-            retArr.push(nRow);
-        }
-        return retArr;
-    }
-
-    function refreshProductVariantValues()
-    {
-        const productVariantCombinations = [];
-
-        $(".js-product-variant-option-box").each(function() {
-            //var productVariantOptionName = $(this).find('.js-option-name').val();
-            var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
-            productVariantCombinations.push(productVariantOptionValues);
-        });
-
-        $('.js-product-variants-fields').html('');
-        for (let item of cartesian(productVariantCombinations)) {
-            addProductVariantValues(item.join('/'));
-        }
-    }
-
     <?php
     foreach ($productVariantOptions as $productVariantOptionKey=>$productVariantOption):
     ?>
@@ -144,25 +102,60 @@ $productVariantOptions[] = [
         $('.js-product-variant-option-' + option_id).remove();
     }
 
+    function refreshProductVariants(clearOld = false) {
+        if (clearOld) {
+            $('.js-product-variants-fields').html('');
+        }
+        $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
+            $.each(data, function(key,productVariant) {
+                addProductVariantInTable(productVariant.id, productVariant.short_title, productVariant.price, productVariant.currency, productVariant.qty, productVariant.sku);
+            });
+        });
+    }
+
     $(document).ready(function () {
 
        $('.js-product-has-variants').click(function () {
-           $('.js-product-variants').toggle();
+           if ($('.js-product-has-variants').is(':checked')) {
+               $('.js-product-variants').fadeIn();
+           } else {
+               $('.js-product-variants').fadeOut();
+           }
        });
 
        $('.js-add-variant-option').click(function () {
-           if ($('.js-product-variant-option-box').length > 5) {
-                alert('Maximum product variants are 3');
+
+           if ($('.js-product-variant-option-box').length > 3) {
+               alert('Maximum product variants are 3');
                return;
            }
-           refreshProductVariantValues();
-           addProductVariantOption(Math.floor(Math.random() * 1000));
+
+           var productVariantOptions = [];
+           $(".js-product-variant-option-box").each(function() {
+
+               var productVariantOptionName = $(this).find('.js-option-name').val();
+               var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
+
+               productVariantOptions.push({
+                    option_name:productVariantOptionName,
+                    option_values:productVariantOptionValues,
+               });
+           });
+
+           $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
+                console.log(data);
+
+               refreshProductVariants(true);
+               addProductVariantOption(Math.floor(Math.random() * 1000));
+           });
 
        });
 
         <?php if (!empty($productVariantOptions)): ?>
         $('.js-product-has-variants').click();
         <?php endif; ?>
+
+        refreshProductVariants();
 
     });
 </script>
