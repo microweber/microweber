@@ -146,22 +146,40 @@ class Product extends Content
 
     public function getPriceAttribute()
     {
-        return $this->fetchSingleAttributeByType('price');
+        $price = $this->fetchSingleAttributeByType('price');
+        if (is_numeric($price)) {
+            return $price;
+        }
+
+        return 0;
     }
 
     public function getPriceModelAttribute()
     {
-        return $this->fetchSingleAttributeByType('price', true);
+        $price = $this->fetchSingleAttributeByType('price', true);
+        if (is_numeric($price)) {
+            return $price;
+        }
+
+        return 0;
     }
 
     public function getQtyAttribute()
     {
-        return $this->getContentDataByFieldName('qty');
+        $qty = $this->getContentDataByFieldName('qty');
+        if (is_numeric($qty)) {
+            return $qty;
+        }
+        return 0;
     }
 
     public function getSkuAttribute()
     {
-        return $this->getContentDataByFieldName('sku');
+        $sku = $this->getContentDataByFieldName('sku');
+        if ($sku) {
+            return $sku;
+        }
+        return '';
     }
 
     public function hasSpecialPrice()
