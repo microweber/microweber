@@ -155,17 +155,31 @@ $productVariantOptions[] = [
        });
 
        $('.js-add-variant-option').click(function () {
+
            if ($('.js-product-variant-option-box').length > 5) {
                 alert('Maximum product variants are 3');
                return;
            }
 
-           $.post(mw.settings.api_url + "/product-variants", {})
-           .done(function (data) {
+           var productVariantOptions = [];
+           $(".js-product-variant-option-box").each(function() {
 
+               var productVariantOptionName = $(this).find('.js-option-name').val();
+               var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
+
+               productVariantOptions.push({
+                    option_name:productVariantOptionName,
+                    option_values:productVariantOptionValues,
+               });
            });
 
-           refreshProductVariantValues();
+           console.log(productVariantOptions);
+
+           $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
+                console.log(data);
+           });
+
+          // refreshProductVariantValues();
            addProductVariantOption(Math.floor(Math.random() * 1000));
        });
 

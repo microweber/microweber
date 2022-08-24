@@ -7,4 +7,21 @@ Route::name('api.')
     ->group(function () {
         Route::apiResource('product', 'ProductApiController');
         Route::apiResource('product_variant', 'ProductVariantApiController');
+
+
+        Route::post('product_variant_save', function() {
+
+            $options = request()->post('options', []);
+            if (!empty($options)) {
+
+
+
+
+                // $getProduct = \MicroweberPackages\Product\Models\Product::where('id', 15)->first();
+                // $getProduct->generateVariants();
+
+            }
+
+        });
+
     });
