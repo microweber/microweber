@@ -232,7 +232,7 @@ class Product extends Content
             }
         }
 
-        // Match old variants with new cartesian variants
+      /*  // Match old variants with new cartesian variants
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $variant) {
                 $matchWithCartesian = [];
@@ -268,7 +268,7 @@ class Product extends Content
                    }
                 }
             }
-        }
+        }*/
 
         $updatedProductVariantIds = [];
         foreach ($cartesianProductDetailed as $cartesianProduct) {

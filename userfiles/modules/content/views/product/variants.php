@@ -102,7 +102,10 @@ $productVariantOptions[] = [
         $('.js-product-variant-option-' + option_id).remove();
     }
 
-    function refreshProductVariants() {
+    function refreshProductVariants(clearOld = false) {
+        if (clearOld) {
+            $('.js-product-variants-fields').html('');
+        }
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
             $.each(data, function(key,productVariant) {
                 addProductVariantInTable(productVariant.short_title);
@@ -122,8 +125,8 @@ $productVariantOptions[] = [
 
        $('.js-add-variant-option').click(function () {
 
-           if ($('.js-product-variant-option-box').length > 5) {
-                alert('Maximum product variants are 3');
+           if ($('.js-product-variant-option-box').length > 3) {
+               alert('Maximum product variants are 3');
                return;
            }
 
@@ -139,14 +142,13 @@ $productVariantOptions[] = [
                });
            });
 
-           console.log(productVariantOptions);
-
            $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
                 console.log(data);
+
+               refreshProductVariants(true);
+               addProductVariantOption(Math.floor(Math.random() * 1000));
            });
 
-          // refreshProductVariantValues();
-           addProductVariantOption(Math.floor(Math.random() * 1000));
        });
 
         <?php if (!empty($productVariantOptions)): ?>
