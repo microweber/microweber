@@ -348,7 +348,7 @@ class DatabaseWriter
                 SessionStepper::finish();
             }
 
-            if (SessionStepper::isFinished()) {
+            if (SessionStepper::isFinished() && !isset($itemsBatch[$selectBatch])) {
                 $this->logger->setLogInfo('No items in batch for current step.');
                 $this->_finishUp();
                 return array("success"=>"Done! All steps are finished.");
