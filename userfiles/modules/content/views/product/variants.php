@@ -118,13 +118,10 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-sku', function () {
 
-            var productVariantId = $(this).data('id');
-            var productVariantSku = $(this).val();
-
-            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
-                _method: "PATCH",
-                id: productVariantId,
-                qty: productVariantSku,
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'content_data[sku]': $(this).val()
             }).done(function (data) {
                 //
             });
@@ -133,13 +130,10 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-qty', function () {
 
-            var productVariantId = $(this).data('id');
-            var productVariantQty = $(this).val();
-
-            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
-                _method: "PATCH",
-                id: productVariantId,
-                qty: productVariantQty,
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'content_data[qty]': $(this).val()
             }).done(function (data) {
                 //
             });
@@ -148,13 +142,10 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-price', function () {
 
-            var productVariantId = $(this).data('id');
-            var productVariantPrice = $(this).val();
-
-            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
-                _method: "PATCH",
-                id: productVariantId,
-                price: productVariantPrice,
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'price': $(this).val()
             }).done(function (data) {
                 //
             });

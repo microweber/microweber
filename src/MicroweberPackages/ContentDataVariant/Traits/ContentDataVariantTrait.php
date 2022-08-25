@@ -1,9 +1,6 @@
 <?php
-
 namespace MicroweberPackages\ContentDataVariant\Traits;
 
-
-use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 
 trait ContentDataVariantTrait
