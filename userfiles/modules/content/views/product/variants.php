@@ -118,36 +118,39 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-sku', function () {
 
+            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
                 'content_data[sku]': $(this).val()
             }).done(function (data) {
-                //
+                mw.notification.success('SKU is updated!');
             });
 
         });
 
         $('body').on('change', '.js-product-variant-tr-qty', function () {
 
+            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
                 'content_data[qty]': $(this).val()
             }).done(function (data) {
-                //
+                mw.notification.success('Quantity is updated!');
             });
 
         });
 
         $('body').on('change', '.js-product-variant-tr-price', function () {
 
+            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
                 'price': $(this).val()
             }).done(function (data) {
-                //
+                mw.notification.success('Price is updated!');
             });
 
         });
