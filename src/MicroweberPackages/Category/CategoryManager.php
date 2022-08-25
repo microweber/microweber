@@ -1013,6 +1013,7 @@ class CategoryManager
                 $item['parent_type'] = 'page';
                 $item['title'] = $page['title'];
                 $item['url'] = content_link($page['id']);
+                $item['is_active'] = $page['is_active'];
                 // $item['has_children'] = 0;
 
                 $item['subtype'] = $page['subtype'];
@@ -1038,6 +1039,7 @@ class CategoryManager
                 }
                 $pages_cats = get_categories($cat_params);
                 if ($pages_cats) {
+
                     foreach ($pages_cats as $cat) {
 
                         $item = array();
@@ -1049,6 +1051,10 @@ class CategoryManager
                         $item['subtype'] = 'category';
                         $item['position'] = intval($cat['position']);
                         $item['url'] = category_link($cat['id']);
+                        $item['is_active'] = 1;
+                        if(isset($cat['is_hidden']) and $cat['is_hidden'] == 1){
+                            $item['is_active'] = 0;
+                        }
 
                         $json[] = $item;
 
