@@ -1,19 +1,3 @@
-<?php
-$productVariantOptions = [];
-$productVariantOptions[] = [
-    'option_name'=>'Size',
-    'option_values'=>['L','X','XL','M'],
-];
-$productVariantOptions[] = [
-    'option_name'=>'Color',
-    'option_values'=>['Green','Blue','White','Black'],
-];
-$productVariantOptions[] = [
-    'option_name'=>'Type',
-    'option_values'=>['Cotton','Metal'],
-];
-?>
-
 <script>mw.lib.require('mwui_init');</script>
 <style>
     .js-product-variants {
@@ -62,6 +46,18 @@ $productVariantOptions[] = [
         $('.js-product-variants-fields').append(variantHtml);
     }
 
+    function refreshProductVariantsOptions()
+    {
+        $('.js-product-variants-options').html('Loading...');
+
+        $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>/options", {}).done(function (data) {
+            $('.js-product-variants-options').html('');
+            $.each(data, function(index, option) {
+                addProductVariantOption(option.option_id, option.option_name, option.option_values.join(", "));
+            });
+        });
+    }
+
     function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
     {
         var optionHtml = '<div class="row js-product-variant-option-box js-product-variant-option-'+option_id+'">\n' +
@@ -89,14 +85,6 @@ $productVariantOptions[] = [
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
-    <?php
-    foreach ($productVariantOptions as $productVariantOptionKey=>$productVariantOption):
-    ?>
-        addProductVariantOption(<?php echo $productVariantOptionKey; ?>, '<?php echo $productVariantOption['option_name']; ?>', '<?php echo implode(',', $productVariantOption['option_values']); ?>,');
-    <?php
-    endforeach;
-    ?>
-
     function deleteProductVariantOption(option_id) {
         refreshProductVariantValues();
         $('.js-product-variant-option-' + option_id).remove();
@@ -104,7 +92,7 @@ $productVariantOptions[] = [
 
     function refreshProductVariants(clearOld = false) {
         if (clearOld) {
-            $('.js-product-variants-fields').html('Generating variants...');
+            $('.js-product-variants-fields').html('Loading...');
         }
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
             $('.js-product-variants-fields').html('');
@@ -117,7 +105,13 @@ $productVariantOptions[] = [
     $(document).ready(function () {
 
         $('body').on('click', '.js-product-variant-tr-delete', function () {
-
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "DELETE",
+                'id': $(this).data('id')
+            }).done(function (data) {
+                mw.notification.success('Variant is deleted!');
+                refreshProductVariants(true);
+            });
         });
 
         $('body').on('click', '.js-product-variant-tr-edit', function () {
@@ -126,7 +120,6 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-sku', function () {
 
-            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
@@ -139,7 +132,6 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-qty', function () {
 
-            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
@@ -152,7 +144,6 @@ $productVariantOptions[] = [
 
         $('body').on('change', '.js-product-variant-tr-price', function () {
 
-            mw.notification.success('Updating...');
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
                 '_method': "PATCH",
                 'id': $(this).data('id'),
@@ -178,6 +169,8 @@ $productVariantOptions[] = [
                return;
            }
 
+           refreshProductVariantsOptions();
+
            var productVariantOptions = [];
            $(".js-product-variant-option-box").each(function() {
 
@@ -192,19 +185,12 @@ $productVariantOptions[] = [
 
            $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
                 console.log(data);
-
                refreshProductVariants(true);
-               addProductVariantOption(Math.floor(Math.random() * 1000));
            });
 
        });
-
-        <?php if (!empty($productVariantOptions)): ?>
-        $('.js-product-has-variants').click();
-        <?php endif; ?>
-
-        refreshProductVariants();
-
+       refreshProductVariants();
+       refreshProductVariantsOptions();
     });
 </script>
 
