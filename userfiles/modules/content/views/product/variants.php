@@ -53,8 +53,8 @@ $productVariantOptions[] = [
             '</td>\n' +
             '<td style="vertical-align: middle;">\n' +
             '    <div class="btn-group">\n' +
-            '        <button class="btn btn-outline-secondary btn-sm js-product-variant-tr-edit" data-id="'+id+'">Edit</button>\n' +
-            '        <button class="btn btn-outline-secondary btn-sm js-product-variant-tr-delete" data-id="'+id+'"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
+            '        <button type="button" class="btn btn-outline-secondary btn-sm js-product-variant-tr-edit" data-id="'+id+'">Edit</button>\n' +
+            '        <button type="button" class="btn btn-outline-secondary btn-sm js-product-variant-tr-delete" data-id="'+id+'"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
             '    </div>\n' +
             '</td>\n' +
             '</tr>';
@@ -115,6 +115,14 @@ $productVariantOptions[] = [
     }
 
     $(document).ready(function () {
+
+        $('body').on('click', '.js-product-variant-tr-delete', function () {
+
+        });
+
+        $('body').on('click', '.js-product-variant-tr-edit', function () {
+
+        });
 
         $('body').on('change', '.js-product-variant-tr-sku', function () {
 
