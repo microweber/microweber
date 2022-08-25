@@ -22,7 +22,7 @@
                         decorate: true
                     }).hide();
                     mw.notification.success('<?php _ejs("Changes are saved"); ?>');
-                    mw.$(".custom-fields-settings-save-btn").attr('disabled', true);
+                    //mw.$(".custom-fields-settings-save-btn").attr('disabled', true);
                     if (mw.$($selector).find('.mw-needs-reload').length > 0) {
                         mw.reload_module('custom_fields/values_edit');
                     }
@@ -39,7 +39,7 @@
             })
             mw.$("input,textarea,select", this).on("change input", function () {
                 var el = this;
-                mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
+                // mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
             });
 
             mw.$($selector + " input").on('focus blur', function (e) {
