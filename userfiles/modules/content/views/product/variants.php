@@ -156,6 +156,7 @@
 
        $('.js-product-has-variants').click(function () {
            if ($('.js-product-has-variants').is(':checked')) {
+               mw.reload_module('content/views/edit_default_sidebar_variants');
                $('.js-product-variants').fadeIn();
            } else {
                $('.js-product-variants').fadeOut();
@@ -169,7 +170,9 @@
                return;
            }
 
-           refreshProductVariantsOptions();
+           $.post(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>/options", {}).done(function (data) {
+               refreshProductVariantsOptions();
+           });
 
            var productVariantOptions = [];
            $(".js-product-variant-option-box").each(function() {
@@ -199,19 +202,26 @@
         <h6><strong>Variants</strong></h6>
     </div>
 
+    <?php
+    $hasVariants = false;
+    if(isset($contentData['has_variants']) && $contentData['has_variants'] == 1) {
+        $hasVariants = true;
+    }
+    ?>
+
     <div class="card-body pt-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-product-has-variants" id="the-product-has-variants">
+                        <input type="checkbox" name="content_data[has_variants]" data-value-checked="1" data-value-unchecked="0"  value="1" <?php if($hasVariants): ?> checked="checked" <?php endif; ?> class="custom-control-input js-product-has-variants" id="the-product-has-variants">
                         <label class="custom-control-label" for="the-product-has-variants">This product has multiple options, like different sizes or colors</label>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="js-product-variants">
+        <div class="js-product-variants" <?php if(!$hasVariants): ?> style="display: none" <?php endif; ?>>
             <hr class="thin no-padding"/>
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>

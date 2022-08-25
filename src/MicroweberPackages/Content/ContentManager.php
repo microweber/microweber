@@ -488,12 +488,21 @@ class ContentManager
         return $this->app->data_fields_manager->get($params);
     }
 
-    public function data($content_id)
+    public function data($content_id,$field_name = false)
     {
         $data = array();
         $data['content_id'] = intval($content_id);
+        $values = $this->app->data_fields_manager->get_values($data);
 
-       return $this->app->data_fields_manager->get_values($data);
+        if ($field_name) {
+            if (isset($values[$field_name])) {
+                return $values[$field_name];
+            } else {
+                return false;
+            }
+        }
+
+        return $values;
     }
 
     public function tags($content_id = false, $return_full = false)

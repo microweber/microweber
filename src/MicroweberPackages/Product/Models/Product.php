@@ -234,6 +234,9 @@ class Product extends Content
             foreach ($getCustomFieldValues as $getCustomFieldValue) {
                 $customFieldValues[] = $getCustomFieldValue->id;
             }
+            if (empty($customFieldValues)) {
+                continue;
+            }
             $productCustomFieldsMap[$customField->id] = $customFieldValues;
         }
 
