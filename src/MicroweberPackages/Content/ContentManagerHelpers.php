@@ -5,7 +5,7 @@ namespace MicroweberPackages\Content;
 use Content;
 use ContentFields;
 use Illuminate\Support\Facades\Cache;
-use DB;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
@@ -857,7 +857,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     }
                                 }
 
- 
+
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($should_redirect_to_new_url) {
@@ -947,12 +947,30 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
                         }
 
+                        $save_module = true;
+
                         if (isset($the_field_data['attributes']['rel_type'])
-                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
-                            $save_module = true;
-                        } else {
+                            and (trim($the_field_data['attributes']['rel_type']) == 'content'
+                                or trim($the_field_data['attributes']['rel_type']) == 'post'
+                                or trim($the_field_data['attributes']['rel_type']) == 'page'
+                                or trim($the_field_data['attributes']['rel_type']) == 'category'
+                                or trim($the_field_data['attributes']['rel_type']) == 'product')) {
                             $save_module = false;
+                            // this will set the rel_id
                         }
+
+
+
+
+
+//
+//
+//                        if (isset($the_field_data['attributes']['rel_type'])
+//                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
+//                            $save_module = true;
+//                        } else {
+//                            $save_module = false;
+//                        }
 
 
                         if(!$save_module){
@@ -989,8 +1007,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $save_global = true;
                                     $save_module = true;
                                     break;
-                                case 'page':
+
                                 default:
+                                    $save_global = true;
+                                    $save_module = true;
                                     break;
                             }
                         }
@@ -1164,6 +1184,30 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
 
 
+                            if ($save_global and $save_module and isset($cont_field['rel_id']) and $cont_field['rel_id'] == 0 and isset($the_field_data['attributes']['field']) and isset($the_field_data['attributes']['rel_type'])) {
+                                // we check for existing fields with rel_id = 0 and remove them
+                                $getExisting = DB::table('content_fields')
+                                    ->where('field', $the_field_data['attributes']['field'])
+                                    ->where('rel_type', $the_field_data['attributes']['rel_type'])->get();
+                                if ($getExisting) {
+                                    //if we have more than one delete the other ones
+                                    $i = 1;
+                                    foreach ($getExisting as $existing) {
+                                        if($existing->rel_id != $cont_field['rel_id']){
+                                            DB::table('content_fields')->where('id', $existing->id)->delete();
+                                        }
+                                        if ($i > 1) {
+                                            DB::table('content_fields')->where('id', $existing->id)->delete();
+                                        }
+                                        $i++;
+                                    }
+                                }
+
+                            }
+
+
+
+
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url_manager->string(true);
@@ -1198,7 +1242,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->cache_manager->delete('repositories');
         $this->app->content_repository->clearCache();
         $this->app->category_repository->clearCache();
-       $this->app->menu_repository->clearCache();
+        $this->app->menu_repository->clearCache();
 
         return $json_print;
     }
@@ -1302,7 +1346,7 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
-     //    $table_drafts = $this->tables['content_fields_drafts'];
+        //    $table_drafts = $this->tables['content_fields_drafts'];
         $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
@@ -1419,34 +1463,34 @@ class ContentManagerHelpers extends ContentManagerCrud
         $filter['one'] = 1;
         $filter['no_cache'] = true;
 
-         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
+        if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
 
-          //   $find = $this->app->database_manager->get($table, $filter);
-
-
-             $find = false;
-             //delete old drafts
-             $old = \DB::table($table)
-                 ->where('rel_type', $data['rel_type'])
-                 ->where('rel_id', $data['rel_id'])
-                 ->where('field', $data['field'])
-                 ->where('url', $data['url'])
-                 ->take(1000)
-                 ->skip(1000)
-                 ->get();
-             if (!empty($old)){
-                 foreach ($old as $item) {
-                     \DB::table($table)->where('id', $item->id)->delete();
-                 }
-             }
-
-         }  else {
+            //   $find = $this->app->database_manager->get($table, $filter);
 
 
+            $find = false;
+            //delete old drafts
+            $old = \DB::table($table)
+                ->where('rel_type', $data['rel_type'])
+                ->where('rel_id', $data['rel_id'])
+                ->where('field', $data['field'])
+                ->where('url', $data['url'])
+                ->take(1000)
+                ->skip(1000)
+                ->get();
+            if (!empty($old)){
+                foreach ($old as $item) {
+                    \DB::table($table)->where('id', $item->id)->delete();
+                }
+            }
 
-              $find = $this->app->database_manager->get($table, $filter);
+        }  else {
 
-         }
+
+
+            $find = $this->app->database_manager->get($table, $filter);
+
+        }
 
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];

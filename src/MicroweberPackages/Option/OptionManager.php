@@ -339,12 +339,13 @@ class OptionManager
     public function save($data)
     {
 
-        if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user_manager->is_admin();
-            if ($is_admin == false) {
-                return false;
-            }
-        }
+//        if (defined('MW_API_CALL')) {
+        // this check is moved to middleware
+//            $is_admin = $this->app->user_manager->is_admin();
+//            if ($is_admin == false) {
+//                return false;
+//            }
+//        }
 
         if (is_string($data)) {
             $data = parse_params($data);
