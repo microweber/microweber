@@ -124,6 +124,7 @@
             var customFieldId = $(this).data('id');
             mw.tools.confirm(function () {
                 mw.custom_fields.remove(customFieldId, function (data) {
+                    refreshProductVariantsOptions();
                     generateProductVariants();
                 });
             });
