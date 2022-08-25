@@ -32,12 +32,12 @@ $productVariantOptions[] = [
             '        <div class="input-group-prepend">\n' +
             '            <span class="input-group-text text-muted">'+currency+'</span>\n' +
             '        </div>\n' +
-            '        <input type="text" class="form-control" value="'+price+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-price" data-id="'+id+'" value="'+price+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td>\n' +
             '    <div class="input-group append-transparent input-group-quantity m-0">\n' +
-            '        <input type="text" class="form-control" value="'+qty+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-qty" data-id="'+id+'" value="'+qty+'">\n' +
             '        <div class="input-group-append">\n' +
             '            <div class="input-group-text plus-minus-holder">\n' +
             '                <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>\n' +
@@ -48,13 +48,13 @@ $productVariantOptions[] = [
             '</td>\n' +
             '<td>\n' +
             '    <div class="form-group m-0">\n' +
-            '        <input type="text" class="form-control" value="'+sku+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-sku" data-id="'+id+'" value="'+sku+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td style="vertical-align: middle;">\n' +
             '    <div class="btn-group">\n' +
-            '        <button class="btn btn-outline-secondary btn-sm">Edit</button>\n' +
-            '        <button class="btn btn-outline-secondary btn-sm"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
+            '        <button class="btn btn-outline-secondary btn-sm js-product-variant-tr-edit" data-id="'+id+'">Edit</button>\n' +
+            '        <button class="btn btn-outline-secondary btn-sm js-product-variant-tr-delete" data-id="'+id+'"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
             '    </div>\n' +
             '</td>\n' +
             '</tr>';
@@ -104,9 +104,10 @@ $productVariantOptions[] = [
 
     function refreshProductVariants(clearOld = false) {
         if (clearOld) {
-            $('.js-product-variants-fields').html('');
+            $('.js-product-variants-fields').html('Generating variants...');
         }
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
+            $('.js-product-variants-fields').html('');
             $.each(data, function(key,productVariant) {
                 addProductVariantInTable(productVariant.id, productVariant.short_title, productVariant.price, productVariant.currency, productVariant.qty, productVariant.sku);
             });
@@ -114,6 +115,51 @@ $productVariantOptions[] = [
     }
 
     $(document).ready(function () {
+
+        $('body').on('change', '.js-product-variant-tr-sku', function () {
+
+            var productVariantId = $(this).data('id');
+            var productVariantSku = $(this).val();
+
+            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
+                _method: "PATCH",
+                id: productVariantId,
+                qty: productVariantSku,
+            }).done(function (data) {
+                //
+            });
+
+        });
+
+        $('body').on('change', '.js-product-variant-tr-qty', function () {
+
+            var productVariantId = $(this).data('id');
+            var productVariantQty = $(this).val();
+
+            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
+                _method: "PATCH",
+                id: productVariantId,
+                qty: productVariantQty,
+            }).done(function (data) {
+                //
+            });
+
+        });
+
+        $('body').on('change', '.js-product-variant-tr-price', function () {
+
+            var productVariantId = $(this).data('id');
+            var productVariantPrice = $(this).val();
+
+            $.post(mw.settings.api_url + "product_variant/" + productVariantId, {
+                _method: "PATCH",
+                id: productVariantId,
+                price: productVariantPrice,
+            }).done(function (data) {
+                //
+            });
+
+        });
 
        $('.js-product-has-variants').click(function () {
            if ($('.js-product-has-variants').is(':checked')) {
