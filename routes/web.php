@@ -12,10 +12,3 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::post('product-variants', function() {
-
-    $getProduct = \MicroweberPackages\Product\Models\Product::where('id', 15)->first();
-    $getProduct->generateVariants();
-
-});

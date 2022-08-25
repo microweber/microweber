@@ -1,19 +1,3 @@
-<?php
-$productVariantOptions = [];
-$productVariantOptions[] = [
-    'option_name'=>'Size',
-    'option_values'=>['L','X','XL','M'],
-];
-$productVariantOptions[] = [
-    'option_name'=>'Color',
-    'option_values'=>['Green','Blue','White','Black'],
-];
-$productVariantOptions[] = [
-    'option_name'=>'Type',
-    'option_values'=>['Cotton','Metal'],
-];
-?>
-
 <script>mw.lib.require('mwui_init');</script>
 <style>
     .js-product-variants {
@@ -32,12 +16,12 @@ $productVariantOptions[] = [
             '        <div class="input-group-prepend">\n' +
             '            <span class="input-group-text text-muted">'+currency+'</span>\n' +
             '        </div>\n' +
-            '        <input type="text" class="form-control" value="'+price+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-price" data-id="'+id+'" value="'+price+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td>\n' +
             '    <div class="input-group append-transparent input-group-quantity m-0">\n' +
-            '        <input type="text" class="form-control" value="'+qty+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-qty" data-id="'+id+'" value="'+qty+'">\n' +
             '        <div class="input-group-append">\n' +
             '            <div class="input-group-text plus-minus-holder">\n' +
             '                <button type="button" class="plus"><i class="mdi mdi-menu-up"></i></button>\n' +
@@ -48,18 +32,30 @@ $productVariantOptions[] = [
             '</td>\n' +
             '<td>\n' +
             '    <div class="form-group m-0">\n' +
-            '        <input type="text" class="form-control" value="'+sku+'">\n' +
+            '        <input type="text" class="form-control js-product-variant-tr-sku" data-id="'+id+'" value="'+sku+'">\n' +
             '    </div>\n' +
             '</td>\n' +
             '<td style="vertical-align: middle;">\n' +
             '    <div class="btn-group">\n' +
-            '        <button class="btn btn-outline-secondary btn-sm">Edit</button>\n' +
-            '        <button class="btn btn-outline-secondary btn-sm"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
+            '        <button type="button" class="btn btn-outline-secondary btn-sm js-product-variant-tr-edit" data-id="'+id+'">Edit</button>\n' +
+            '        <button type="button" class="btn btn-outline-secondary btn-sm js-product-variant-tr-delete" data-id="'+id+'"><i class="mdi mdi-trash-can-outline"></i></button>\n' +
             '    </div>\n' +
             '</td>\n' +
             '</tr>';
 
         $('.js-product-variants-fields').append(variantHtml);
+    }
+
+    function refreshProductVariantsOptions()
+    {
+        $('.js-product-variants-options').html('Loading...');
+
+        $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>/options", {}).done(function (data) {
+            $('.js-product-variants-options').html('');
+            $.each(data, function(index, option) {
+                addProductVariantOption(option.option_id, option.option_name, option.option_values.join(", "));
+            });
+        });
     }
 
     function addProductVariantOption(option_id = 0, option_name = '', option_values = '')
@@ -89,14 +85,6 @@ $productVariantOptions[] = [
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
     }
 
-    <?php
-    foreach ($productVariantOptions as $productVariantOptionKey=>$productVariantOption):
-    ?>
-        addProductVariantOption(<?php echo $productVariantOptionKey; ?>, '<?php echo $productVariantOption['option_name']; ?>', '<?php echo implode(',', $productVariantOption['option_values']); ?>,');
-    <?php
-    endforeach;
-    ?>
-
     function deleteProductVariantOption(option_id) {
         refreshProductVariantValues();
         $('.js-product-variant-option-' + option_id).remove();
@@ -104,9 +92,10 @@ $productVariantOptions[] = [
 
     function refreshProductVariants(clearOld = false) {
         if (clearOld) {
-            $('.js-product-variants-fields').html('');
+            $('.js-product-variants-fields').html('Loading...');
         }
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>", {}).done(function (data) {
+            $('.js-product-variants-fields').html('');
             $.each(data, function(key,productVariant) {
                 addProductVariantInTable(productVariant.id, productVariant.short_title, productVariant.price, productVariant.currency, productVariant.qty, productVariant.sku);
             });
@@ -114,6 +103,56 @@ $productVariantOptions[] = [
     }
 
     $(document).ready(function () {
+
+        $('body').on('click', '.js-product-variant-tr-delete', function () {
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "DELETE",
+                'id': $(this).data('id')
+            }).done(function (data) {
+                mw.notification.success('Variant is deleted!');
+                refreshProductVariants(true);
+            });
+        });
+
+        $('body').on('click', '.js-product-variant-tr-edit', function () {
+
+        });
+
+        $('body').on('change', '.js-product-variant-tr-sku', function () {
+
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'content_data[sku]': $(this).val()
+            }).done(function (data) {
+                mw.notification.success('SKU is updated!');
+            });
+
+        });
+
+        $('body').on('change', '.js-product-variant-tr-qty', function () {
+
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'content_data[qty]': $(this).val()
+            }).done(function (data) {
+                mw.notification.success('Quantity is updated!');
+            });
+
+        });
+
+        $('body').on('change', '.js-product-variant-tr-price', function () {
+
+            $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
+                '_method': "PATCH",
+                'id': $(this).data('id'),
+                'price': $(this).val()
+            }).done(function (data) {
+                mw.notification.success('Price is updated!');
+            });
+
+        });
 
        $('.js-product-has-variants').click(function () {
            if ($('.js-product-has-variants').is(':checked')) {
@@ -130,6 +169,8 @@ $productVariantOptions[] = [
                return;
            }
 
+           refreshProductVariantsOptions();
+
            var productVariantOptions = [];
            $(".js-product-variant-option-box").each(function() {
 
@@ -144,19 +185,12 @@ $productVariantOptions[] = [
 
            $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
                 console.log(data);
-
                refreshProductVariants(true);
-               addProductVariantOption(Math.floor(Math.random() * 1000));
            });
 
        });
-
-        <?php if (!empty($productVariantOptions)): ?>
-        $('.js-product-has-variants').click();
-        <?php endif; ?>
-
-        refreshProductVariants();
-
+       refreshProductVariants();
+       refreshProductVariantsOptions();
     });
 </script>
 
