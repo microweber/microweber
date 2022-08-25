@@ -71,8 +71,8 @@
             '</div>\n' +
             '<div class="col-md-8">\n' +
             '    <div class="text-end text-right">\n' +
-            '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
-            '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
+            '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2 js-product-variant-option-edit"  data-id="'+option_id+'">Edit</button>\n' +
+            '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2 js-product-variant-option-remove" data-id="'+option_id+'">Remove</button>\n' +
             '    </div>\n' +
             '    <div class="form-group">\n' +
             '        <input type="text" data-role="tagsinput"  name="product_variant_option['+option_id+'][values]" value="'+option_values+'" class="js-tags-input" placeholder="Separate options with a comma" />\n' +
@@ -83,11 +83,6 @@
         $('.js-product-variants-options').append(optionHtml);
 
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
-    }
-
-    function deleteProductVariantOption(option_id) {
-        refreshProductVariantValues();
-        $('.js-product-variant-option-' + option_id).remove();
     }
 
     function refreshProductVariants(clearOld = false) {
@@ -102,7 +97,42 @@
         });
     }
 
+    function generateProductVariants()
+    {
+        var productVariantOptions = [];
+        $(".js-product-variant-option-box").each(function() {
+
+            var productVariantOptionName = $(this).find('.js-option-name').val();
+            var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
+
+            productVariantOptions.push({
+                option_name:productVariantOptionName,
+                option_values:productVariantOptionValues,
+            });
+        });
+
+        $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
+            console.log(data);
+            refreshProductVariants(true);
+            refreshProductVariantsOptions();
+        });
+    }
+
     $(document).ready(function () {
+
+        $('body').on('click', '.js-product-variant-option-remove', function () {
+            var customFieldId = $(this).data('id');
+            mw.tools.confirm(function () {
+                mw.custom_fields.remove(customFieldId, function (data) {
+                    generateProductVariants();
+                });
+            });
+        });
+
+        $('body').on('click', '.js-product-variant-option-edit', function () {
+            var customFieldId = $(this).data('id');
+            return mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-'+customFieldId, customFieldId);
+        });
 
         $('body').on('click', '.js-product-variant-tr-delete', function () {
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
@@ -174,24 +204,9 @@
                refreshProductVariantsOptions();
            });
 
-           var productVariantOptions = [];
-           $(".js-product-variant-option-box").each(function() {
-
-               var productVariantOptionName = $(this).find('.js-option-name').val();
-               var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
-
-               productVariantOptions.push({
-                    option_name:productVariantOptionName,
-                    option_values:productVariantOptionValues,
-               });
-           });
-
-           $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
-                console.log(data);
-               refreshProductVariants(true);
-           });
-
+           generateProductVariants();
        });
+
        refreshProductVariants();
        refreshProductVariantsOptions();
     });

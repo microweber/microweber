@@ -50,7 +50,7 @@ mw.custom_fields = {
                     var par = mw.tools.firstParentWithClass(group, 'mw-admin-custom-field-edit-item-wrapper');
                     if (!!par) {
                         // mw.custom_fields.save(par);
-                        mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
+                        //mw.$(".custom-fields-settings-save-btn").attr('disabled', false)
                     }
                 }
             });

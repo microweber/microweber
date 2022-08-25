@@ -28,7 +28,7 @@ Route::name('api.')
             $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
             if ($findProduct != null) {
                 $customFields = [];
-                $getCustomFields = $findProduct->customField()->where('type', 'radio')->get();
+                $getCustomFields = $findProduct->customField()->where('type', 'radio')->orderBy('id','asc')->get();
                 if ($getCustomFields->count() > 0) {
                     foreach ($getCustomFields as $customField) {
 
