@@ -350,7 +350,8 @@ if (isset($params['live_edit'])) {
 
 
 
-                        <?php
+                    <?php
+                        /*    <?php
 
                         $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
@@ -361,6 +362,9 @@ if (isset($params['live_edit'])) {
 
 
                         <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+*/
+                        ?>
+
                     <?php endif; ?>
                 </div>
             </div>
@@ -749,34 +753,73 @@ if (isset($params['live_edit'])) {
 
 
 
+                                    <div class="col-md-12">
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
+                                            <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-group js-count-letters">
-                                            <div class="d-flex justify-content-between">
-                                                <label class="control-label"><?php _e("Meta Title"); ?></label>
-                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?></span>-->
-                                            </div>
-                                            <input type="text" class="form-control" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>">
+                                            <?php
+                                            echo $formBuilder->Text('category_meta_title')
+                                                ->setModel($categoryModel)
+                                                ->value($data['category_meta_title']) ->autocomplete(false) ;
+                                            ?>
                                         </div>
                                     </div>
+
+
+
+
+
+
 
                                     <div class="col-md-12">
-                                        <div class="form-group js-count-letters">
-                                            <div class="d-flex justify-content-between">
-                                                <label class="control-label"><?php _e("Meta descriptions"); ?></label>
-                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?> </span>-->
-                                            </div>
-                                            <textarea class="form-control" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta description"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+
+                                            <?php
+                                            echo $formBuilder->textArea('category_meta_keywords')
+                                                ->setModel($categoryModel)
+                                                ->value($data['description'])
+                                                ->autocomplete(false);
+                                            ?>
                                         </div>
                                     </div>
 
+
+
+
+
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label"><?php _e("Meta Keywords"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("Separate keywords with a comma and space"); ?></small>
-                                            <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+                                            <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
+
+                                            <?php
+                                            echo $formBuilder->Text('category_meta_keywords')
+                                                ->setModel($categoryModel)
+                                                ->value($data['category_meta_keywords'])
+                                                ->autocomplete(false);
+                                            ?>
                                         </div>
+
+                                        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
                                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -805,9 +848,41 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
 
+
                                 </div>
                             </div>
+
+
+
                         </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 mt-3">
+                            <?php if (intval($data['id']) != 0): ?>
+
+
+
+
+                                <?php
+
+                                $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                                if (isset($params['live_edit']) and $params['live_edit'] ) {
+                                    $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                                }
+                                ?>
+
+
+
+                                <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+
+
+                            <?php endif; ?>
+
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -815,4 +890,5 @@ if (isset($params['live_edit'])) {
 
 
     </div>
+
 </div>
