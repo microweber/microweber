@@ -67,16 +67,14 @@
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
-
+    
+    <?php print \Livewire\Livewire::scripts();    ?>
+    <?php print \Livewire\Livewire::styles();    ?>
 
     <!-- Alpine v3 -->
-    <?php   print \Livewire\Livewire::scripts();    ?>
-
-    <?php   print \Livewire\Livewire::styles();    ?>
-
-
-
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+    <!-- Livewire sortable -->
+    <script src="//cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
 
 </head>
 
