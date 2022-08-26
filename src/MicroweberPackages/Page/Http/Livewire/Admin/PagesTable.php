@@ -4,6 +4,7 @@ namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
+use MicroweberPackages\Admin\View\Columns\CardColumn;
 use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -33,19 +34,9 @@ class PagesTable extends AdminDataTableComponent
     {
         return [
             Column::make('ID', 'id')->sortable(),
-
-           ImageWithLinkColumn::make('Image','Image')
-            ->location(function($row) {
-                return [
-                    'target'=>'_blank',
-                    'href'=> route('admin.page.edit', $row->id),
-                    'location'=>  $row->thumbnail()
-                ];
+            CardColumn::make('Card', 'title')->attributes(function($row) {
+                return [''];
             }),
-
-            Column::make('Title')->sortable(),
-            Column::make('Url')->sortable(),
-            Column::make('Position','position')->sortable(),
         ];
     }
 
