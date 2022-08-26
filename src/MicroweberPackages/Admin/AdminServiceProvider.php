@@ -23,4 +23,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
 //        $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
+
+    public function boot()
+    {
+        View::addNamespace('admin', __DIR__ . '/resources/views');
+    }
 }

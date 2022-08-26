@@ -2,11 +2,14 @@
 
 namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
+use Illuminate\Database\Eloquent\Builder;
+use MicroweberPackages\Admin\AdminDataTableComponent;
+use MicroweberPackages\Admin\View\Columns\CardColumn;
+use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class PagesTable extends DataTableComponent
+class PagesTable extends AdminDataTableComponent
 {
     protected $model = Page::class;
     public array $perPageAccepted = [10, 25, 50, 100, 200];
@@ -31,9 +34,9 @@ class PagesTable extends DataTableComponent
     {
         return [
             Column::make('ID', 'id')->sortable(),
-            Column::make('Title')->sortable(),
-            Column::make('Url')->sortable(),
-            Column::make('Position','position')->sortable(),
+            CardColumn::make('Card', 'title')->attributes(function($row) {
+                return [''];
+            }),
         ];
     }
 
@@ -44,23 +47,13 @@ class PagesTable extends DataTableComponent
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function render()
+    public function builder(): Builder
     {
-        $this->setupColumnSelect();
-        $this->setupPagination();
-        $this->setupSecondaryHeader();
-        $this->setupFooter();
-        $this->setupReordering();
+        $query = Page::query();
+        $query->select(['content.id','content.title','content.url','content.position','content.created_by']);
+        $query->orderBy('position','asc');
 
-        return view('page::livewire.admin.livewire-tables.datatable')
-            ->with([
-                'columns' => $this->getColumns(),
-                'rows' => $this->getRows(),
-                'customView' => $this->customView(),
-            ]);
+        return $query;
     }
 }
 
