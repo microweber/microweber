@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
+use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
@@ -33,12 +34,12 @@ class PagesTable extends AdminDataTableComponent
         return [
             Column::make('ID', 'id')->sortable(),
 
-        ImageWithLinkColumn::make('Image','Image')
+           ImageWithLinkColumn::make('Image','Image')
             ->location(function($row) {
                 return [
                     'target'=>'_blank',
-                    'href'=> '',
-                    'location'=>  ''
+                    'href'=> route('admin.page.edit', $row->id),
+                    'location'=>  $row->thumbnail()
                 ];
             }),
 
@@ -55,5 +56,13 @@ class PagesTable extends AdminDataTableComponent
         }
     }
 
+    public function builder(): Builder
+    {
+        $query = Page::query();
+        $query->select(['content.id','content.title','content.url','content.position','content.created_by']);
+        $query->orderBy('position','asc');
+
+        return $query;
+    }
 }
 
