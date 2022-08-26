@@ -9,12 +9,26 @@ Route::name('api.')
         Route::apiResource('product_variant', 'ProductVariantApiController');
 
 
+        Route::post('product_variant/parent/{id}/options', function($parentId) {
+            $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
+            if ($findProduct != null) {
+                $findProduct->setCustomField(
+                    [
+                        'type'=>'radio',
+                        'name'=>'',
+                        'value'=>[],
+                    ]
+                );
+                $findProduct->save();
+            }
+        });
+
         Route::get('product_variant/parent/{id}/options', function($parentId) {
 
             $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
             if ($findProduct != null) {
                 $customFields = [];
-                $getCustomFields = $findProduct->customField()->where('type', 'radio')->get();
+                $getCustomFields = $findProduct->customField()->where('type', 'radio')->orderBy('id','asc')->get();
                 if ($getCustomFields->count() > 0) {
                     foreach ($getCustomFields as $customField) {
 

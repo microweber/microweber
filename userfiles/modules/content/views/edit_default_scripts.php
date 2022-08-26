@@ -112,6 +112,9 @@
         if (mw.notification != undefined) {
             mw.notification.success('<?php _ejs('Content saved!'); ?>');
         }
+
+        mw.reload_module('content/views/edit_default_sidebar_variants');
+
         if (parent !== self && !!parent.mw) {
 
             mw.reload_module_parent('posts');

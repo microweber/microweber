@@ -71,8 +71,8 @@
             '</div>\n' +
             '<div class="col-md-8">\n' +
             '    <div class="text-end text-right">\n' +
-            '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2">Edit</button>\n' +
-            '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2" onclick="deleteProductVariantOption('+option_id+')">Remove</button>\n' +
+            '        <button type="button" class="btn btn-link py-1 pb-2 h-auto px-2 js-product-variant-option-edit"  data-id="'+option_id+'">Edit</button>\n' +
+            '        <button type="button" class="btn btn-link btn-link-danger py-1 pb-2 h-auto px-2 js-product-variant-option-remove" data-id="'+option_id+'">Remove</button>\n' +
             '    </div>\n' +
             '    <div class="form-group">\n' +
             '        <input type="text" data-role="tagsinput"  name="product_variant_option['+option_id+'][values]" value="'+option_values+'" class="js-tags-input" placeholder="Separate options with a comma" />\n' +
@@ -83,11 +83,6 @@
         $('.js-product-variants-options').append(optionHtml);
 
         $("input[name='product_variant_option["+option_id+"][values]']").tagsinput()
-    }
-
-    function deleteProductVariantOption(option_id) {
-        refreshProductVariantValues();
-        $('.js-product-variant-option-' + option_id).remove();
     }
 
     function refreshProductVariants(clearOld = false) {
@@ -102,7 +97,43 @@
         });
     }
 
+    function generateProductVariants()
+    {
+        var productVariantOptions = [];
+        $(".js-product-variant-option-box").each(function() {
+
+            var productVariantOptionName = $(this).find('.js-option-name').val();
+            var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
+
+            productVariantOptions.push({
+                option_name:productVariantOptionName,
+                option_values:productVariantOptionValues,
+            });
+        });
+
+        $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
+            console.log(data);
+            refreshProductVariants(true);
+            refreshProductVariantsOptions();
+        });
+    }
+
     $(document).ready(function () {
+
+        $('body').on('click', '.js-product-variant-option-remove', function () {
+            var customFieldId = $(this).data('id');
+            mw.tools.confirm(function () {
+                mw.custom_fields.remove(customFieldId, function (data) {
+                    refreshProductVariantsOptions();
+                    generateProductVariants();
+                });
+            });
+        });
+
+        $('body').on('click', '.js-product-variant-option-edit', function () {
+            var customFieldId = $(this).data('id');
+            return mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-'+customFieldId, customFieldId);
+        });
 
         $('body').on('click', '.js-product-variant-tr-delete', function () {
             $.post(mw.settings.api_url + "product_variant/" + $(this).data('id'), {
@@ -156,6 +187,7 @@
 
        $('.js-product-has-variants').click(function () {
            if ($('.js-product-has-variants').is(':checked')) {
+               mw.reload_module('content/views/edit_default_sidebar_variants');
                $('.js-product-variants').fadeIn();
            } else {
                $('.js-product-variants').fadeOut();
@@ -169,26 +201,13 @@
                return;
            }
 
-           refreshProductVariantsOptions();
-
-           var productVariantOptions = [];
-           $(".js-product-variant-option-box").each(function() {
-
-               var productVariantOptionName = $(this).find('.js-option-name').val();
-               var productVariantOptionValues = $(this).find('.js-tags-input').val().split(",");
-
-               productVariantOptions.push({
-                    option_name:productVariantOptionName,
-                    option_values:productVariantOptionValues,
-               });
+           $.post(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>/options", {}).done(function (data) {
+               refreshProductVariantsOptions();
            });
 
-           $.post(mw.settings.api_url + "product_variant_save", {product_id:<?php echo (int) $data['id']; ?>, options:productVariantOptions}).done(function (data) {
-                console.log(data);
-               refreshProductVariants(true);
-           });
-
+           generateProductVariants();
        });
+
        refreshProductVariants();
        refreshProductVariantsOptions();
     });
@@ -199,19 +218,26 @@
         <h6><strong>Variants</strong></h6>
     </div>
 
+    <?php
+    $hasVariants = false;
+    if(isset($contentData['has_variants']) && $contentData['has_variants'] == 1) {
+        $hasVariants = true;
+    }
+    ?>
+
     <div class="card-body pt-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-product-has-variants" id="the-product-has-variants">
+                        <input type="checkbox" name="content_data[has_variants]" data-value-checked="1" data-value-unchecked="0"  value="1" <?php if($hasVariants): ?> checked="checked" <?php endif; ?> class="custom-control-input js-product-has-variants" id="the-product-has-variants">
                         <label class="custom-control-label" for="the-product-has-variants">This product has multiple options, like different sizes or colors</label>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="js-product-variants">
+        <div class="js-product-variants" <?php if(!$hasVariants): ?> style="display: none" <?php endif; ?>>
             <hr class="thin no-padding"/>
 
             <h6 class="text-uppercase mb-3"><strong>Create an option</strong></h6>
