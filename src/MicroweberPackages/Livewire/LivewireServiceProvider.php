@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route as RouteFacade;
 
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
 use LivewireUI\Modal\LivewireModalServiceProvider;
+use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
 
 class LivewireServiceProvider extends BaseLivewireServiceProvider
 {
@@ -51,8 +52,16 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         parent::register();
        // $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
 
-        app()->register(LivewireModalServiceProvider::class);
 
+
+        // Load datatables
+        app()->register(LaravelLivewireTablesServiceProvider::class);
+        $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
+
+
+
+        // Load UI Modal
+        app()->register(LivewireModalServiceProvider::class);
         $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
 
 
