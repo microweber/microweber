@@ -350,7 +350,8 @@ if (isset($params['live_edit'])) {
 
 
 
-                        <?php
+                    <?php
+                        /*    <?php
 
                         $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
@@ -361,6 +362,9 @@ if (isset($params['live_edit'])) {
 
 
                         <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+*/
+                        ?>
+
                     <?php endif; ?>
                 </div>
             </div>
@@ -765,6 +769,10 @@ if (isset($params['live_edit'])) {
 
 
 
+
+
+
+
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label class="control-label"><?php _e("Meta description"); ?></label>
@@ -804,7 +812,6 @@ if (isset($params['live_edit'])) {
 
 
 
-                                    </div>
 
 
 
@@ -841,9 +848,41 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
 
+
                                 </div>
                             </div>
+
+
+
                         </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 mt-3">
+                            <?php if (intval($data['id']) != 0): ?>
+
+
+
+
+                                <?php
+
+                                $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                                if (isset($params['live_edit']) and $params['live_edit'] ) {
+                                    $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                                }
+                                ?>
+
+
+
+                                <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+
+
+                            <?php endif; ?>
+
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -851,4 +890,5 @@ if (isset($params['live_edit'])) {
 
 
     </div>
+
 </div>
