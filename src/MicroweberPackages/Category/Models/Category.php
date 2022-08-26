@@ -82,7 +82,7 @@ class Category extends Model
 
     public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'content_data', 'categories'];
 
-    public $translatable = ['title','url','description','content'];
+    public $translatable = ['title','url','description','content','category_meta_keywords','category_meta_description','category_meta_title'];
 
     public function modelFilter()
     {
