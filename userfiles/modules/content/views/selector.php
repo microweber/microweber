@@ -28,7 +28,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
 ?>
 
 <?php if (isset($params['change-field'])): ?>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             mw.$('#content_selector_<?php print $rand ?>').on('change', function (e) {
                 var val = $(this).val();
@@ -59,3 +59,30 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
     pages_tree($pt_opts);
     ?>
 </select>
+
+<?php $treeId = 'tree-item-selector-' . $rand; ?>
+
+<div id="<?php print $treeId; ?>"></div>
+
+<script>
+
+    ;(function (){
+        function tree() {
+            var selected = [];
+            mw.admin.tree('#<?php print $treeId; ?>', {
+                options: {
+
+                }
+            }).then(function (res){
+                res.tree.select(<?php print $selected; ?>, 'page')
+            });
+        }
+        if (document.readyState !== 'loading') {
+            tree();
+        } else {
+            document.addEventListener('DOMContentLoaded', function () {
+                tree();
+            });
+        }
+    })();
+</script>

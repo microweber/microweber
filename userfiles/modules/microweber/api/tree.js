@@ -132,6 +132,27 @@
         this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
         this.search = function(){
+            if(this.options.searchInput === true) {
+                this.options.searchInput = document.createElement('input');
+                this.options.searchInput.className = 'form-control form-control-sm';
+                this.options.searchInput.placeholder = mw.lang('Search');
+                mw.$(this.options.searchInput).css({
+                    position: 'sticky',
+                    top: '20px',
+                    zIndex: '1',
+                    margin: '20px 15px 0 0',
+                    width: '300px',
+                });
+                this.options.searchInput.addEventListener('input', function () {
+                    scope.search();
+                });
+
+                setTimeout(function (){
+                    mw.$(scope.options.element).before(scope.options.searchInput);
+
+                }, 200)
+
+            }
             this._seachInput = mw.$(this.options.searchInput);
             if(!this._seachInput[0] || this._seachInput[0]._tree) return;
             this._seachInput[0]._tree = this;
