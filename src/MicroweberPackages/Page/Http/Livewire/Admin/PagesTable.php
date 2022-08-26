@@ -44,5 +44,23 @@ class PagesTable extends DataTableComponent
         }
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function render()
+    {
+        $this->setupColumnSelect();
+        $this->setupPagination();
+        $this->setupSecondaryHeader();
+        $this->setupFooter();
+        $this->setupReordering();
+
+        return view('page::livewire.admin.livewire-tables.datatable')
+            ->with([
+                'columns' => $this->getColumns(),
+                'rows' => $this->getRows(),
+                'customView' => $this->customView(),
+            ]);
+    }
 }
 
