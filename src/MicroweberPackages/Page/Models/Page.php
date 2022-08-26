@@ -37,6 +37,7 @@ class Page extends Content
         "is_active",
         "updated_at",
         "created_at",
+        "position",
     ];
 
 

@@ -33,6 +33,7 @@ class PagesTable extends DataTableComponent
             Column::make('ID', 'id')->sortable(),
             Column::make('Title')->sortable(),
             Column::make('Url')->sortable(),
+            Column::make('Position','position')->sortable(),
         ];
     }
 

@@ -67,7 +67,7 @@
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
-    
+
     <?php print \Livewire\Livewire::scripts();    ?>
     <?php print \Livewire\Livewire::styles();    ?>
 
