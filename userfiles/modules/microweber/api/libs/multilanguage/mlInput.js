@@ -4,6 +4,7 @@
             name: false,
             locales: [],
             currentLocale: false,
+            attributes: [],
             translations: [],
         }, options);
 
@@ -12,6 +13,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
+            var attributes = settings.attributes;
             var type = $(obj).attr('type');
 
             if (!name.length || !locales.length || !currentLocale.length){
@@ -30,7 +32,23 @@
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
-                    outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
+
+
+                    var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />');
+
+                    $.each(attributes, function(name, value) {
+                        if(!$(input).attr(name)){
+                            $(input).attr(name,value);
+                        }
+                    });
+
+
+
+                    //outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
+                    var inputHtml =  input[0].outerHTML;
+
+                 //  outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
+                     outputHtml +=inputHtml;
 
                     // If ml input is changed change and the value attr
                     $('body').on('keyup','#' + mlInputLocaleId, function () {

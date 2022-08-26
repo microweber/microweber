@@ -18,7 +18,7 @@ description: Default
             $(e.target)
                 .prev('.card-header')
                 .find("i.mdi.arrow.sk2")
-                .toggleClass('mdi-minus mdi-plus')
+                .toggleClass('mdi-plus mdi-minus')
                 .toggleClass('active')
         }
         $('#accordion-faq-default-skin').on('hidden.bs.collapse', toggleChevron);
@@ -70,12 +70,12 @@ description: Default
 
         <div class="card sk2 card-collapse mb-3 <?php if ($key == 0) : ?> active <?php endif; ?>">
             <div class="card-header p-0" id="header-item-<?php print $edit_field_key ?>">
-                <button class="btn p-5 w-100" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
+                <button class="btn p-5 w-100 d-flex" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" aria-expanded="true" aria-controls="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>">
                     <?php //module icon -
                     //print isset($slide['icon']) ? $slide['icon'] . ' ' : '';
                     ?>
                     <h4> <?php print isset($slide['question']) ? $slide['question'] : ''; ?> </h4>
-                    <i class="mdi arrow sk2 ms-auto me-0 <?php if ($key == 0) : ?>mdi-minus<?php else : ?>mdi-minus<?php endif; ?>"></i>
+                    <i class="mdi arrow sk2 ms-auto me-0 <?php if ($key == 0) : ?>mdi-plus<?php else : ?>mdi-plus<?php endif; ?>"></i>
                 </button>
             </div>
 

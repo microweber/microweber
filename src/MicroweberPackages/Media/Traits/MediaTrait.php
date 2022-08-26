@@ -24,7 +24,7 @@ trait MediaTrait
         return $this->hasMany(Media::class, 'rel_id')->orderBy('position', 'asc');
     }
 
-    public function thumbnail($width = false, $height = false, $crop = false)
+    public function thumbnail($width = 100, $height = 100, $crop = false)
     {
         $media = $this->media()->first();
         if ($media) {

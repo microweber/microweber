@@ -37,9 +37,8 @@ class Page extends Content
         "is_active",
         "updated_at",
         "created_at",
+        "position",
     ];
-
-
 
     /**
      * The "booted" method of the model.

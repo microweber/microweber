@@ -69,7 +69,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
                 });
             });
         </script>
-        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\">$fieldValue</textarea>";
+        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\" ".$this->renderAttributes().">$fieldValue</textarea>";
 
     }
 }

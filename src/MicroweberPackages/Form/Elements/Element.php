@@ -19,6 +19,10 @@ abstract class Element
     {
         unset($this->attributes[$attribute]);
     }
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
 
     public function getAttribute($attribute)
     {

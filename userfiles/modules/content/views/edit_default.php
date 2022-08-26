@@ -214,7 +214,27 @@ if (isset($params['quick_edit'])) {
 
 
     ?>
+    <script>
+        slugFromUrlField = function (field) {
+            var val = $(field).val();
+            var slug = mw.slug.create(val);
 
+            if(val != slug){
+                $(field).val(slug);
+            }
+
+        }
+
+        slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
+        slugFromTitle = function () {
+            if (slugEdited === false) {
+                var slug = mw.slug.create($('#content-title-field').val());
+                $('.js-slug-base-url-changed').val(slug);
+                $('.js-slug-base-url').text(slug);
+            }
+        }
+
+    </script>
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
 
         <?php if ($data['id'] > 0): ?>
@@ -301,6 +321,7 @@ if (isset($params['quick_edit'])) {
                                 <?php
                                 $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
                                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
                                 ?>
 
                                 <?php
@@ -335,14 +356,7 @@ if (isset($params['quick_edit'])) {
                                     <input autocomplete="off" name="url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
-                                        var slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
-                                        slugFromTitle = function () {
-                                            if (slugEdited === false) {
-                                                var slug = mw.slug.create($('#content-title-field').val());
-                                                $('.js-slug-base-url-changed').val(slug);
-                                                $('.js-slug-base-url').text(slug);
-                                            }
-                                        }
+
 
                                         $('.js-slug-base-url').on('paste', function (e) {
                                             e.preventDefault();
@@ -406,6 +420,7 @@ if (isset($params['quick_edit'])) {
                                              </div>')
                                         ->value($data['url'])
                                         ->id('content-slug-field')
+                                        ->oninput('slugFromUrlField(this);')
                                         ->autocomplete(false);
                                     ?>
                                 </div>

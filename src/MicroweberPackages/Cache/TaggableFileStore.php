@@ -15,6 +15,7 @@ use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
 use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
+use MicroweberPackages\Cache\Events\CacheFlushed;
 
 class TaggableFileStore implements Store
 {
@@ -645,6 +646,10 @@ class TaggableFileStore implements Store
                 if (isset($this->tags[$tag])) {
                     unset($this->tags[$tag]);
                 }
+            }
+
+            if ($this->emitEvents) {
+                event(new CacheFlushed('global',self::$flushedTags));
             }
         }
 

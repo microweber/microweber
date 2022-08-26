@@ -23,6 +23,10 @@ class PageController extends AdminController
         $this->repository = $repository;
     }
 
+    public function index(Request $request) {
+        return $this->view('page::admin.page.index');
+    }
+
     public function create() {
 
         return $this->view('page::admin.page.edit', [

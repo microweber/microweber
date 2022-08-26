@@ -138,8 +138,8 @@
 
                 categorySearch = function (el) {
                     var val = el.value.trim().toLowerCase();
-                    if (!val) {
-                        $(".mw-ui-category-selector a").show()
+                    if (!val || val === '') {
+                        $(".mw-ui-category-selector li").show()
                     }
                     else {
                         $(".mw-ui-category-selector li").each(function () {
@@ -193,7 +193,7 @@
 
                 }
                 mw.quick_cat_add_post_to_category_from_modal = function (id) {
-                  
+
                      mw.top().trigger("mwSelectToAddCategoryToContent", id);
 
 
