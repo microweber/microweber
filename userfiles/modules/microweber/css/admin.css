@@ -617,3 +617,8 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
     display: block;
     margin-inline-start: -1px;
 }
+
+.mw--global-admin-tree{
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+}
