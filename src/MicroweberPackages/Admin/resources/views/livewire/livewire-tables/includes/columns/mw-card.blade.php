@@ -7,7 +7,7 @@
             <div class="col text-center" style="max-width: 40px;">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox mx-1">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
                         <label class="custom-control-label" for="customCheck1"></label>
                     </div>
                 </div>
@@ -25,9 +25,11 @@
 
             <div class="col item-title">
                 <h5 class="text-dark text-break-line-1 mb-0">{{$row->title}}</h5>
-                <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
-                <br>
-                <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
+                @if($row->categories->count() > 0)
+                    <a href="#" class="text-muted">Category 1</a>
+                    <br>
+                @endif
+                <small class="text-muted">{{$row->link()}}</small>
                 <div class="mt-2">
                     @foreach($buttons as $button)
                     <a href="{{$button['href']}}" class="{{$button['class']}}">{{$button['name']}}</a>
@@ -35,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="col item-author"><span class="text-muted">Admin</span></div>
+            <div class="col item-author"><span class="text-muted">{{$row->authorName()}}</span></div>
             <div class="col item-comments" style="max-width: 100px;">
                     <span class="text-muted">
                         <i class="mdi mdi-comment mdi-18px"></i>
