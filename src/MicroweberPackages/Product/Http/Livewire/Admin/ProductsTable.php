@@ -9,11 +9,13 @@ use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class ProductsTable extends AdminDataTableComponent
 {
     protected $model = Product::class;
-    public array $perPageAccepted = [10, 25, 50, 100, 200];
+    public array $perPageAccepted = [1, 25, 50, 100, 200];
 
     public function configure(): void
     {
@@ -85,5 +87,40 @@ class ProductsTable extends AdminDataTableComponent
 
         return $query;
     }
+
+    public function filters(): array
+    {
+        return [
+            /* TextFilter::make('Package Name')
+                 ->config([
+                     'maxlength' => 5,
+                     'placeholder' => 'Search Package Name',
+                 ])
+                 ->filter(function(Builder $builder, string $value) {
+                     $builder->where('package.name', 'like', '%'.$value.'%');
+                 }),*/
+
+            SelectFilter::make('Visible')
+                ->setFilterPillTitle('Visible')
+                ->options([
+                    '' => 'Any',
+                    '1' => 'Published',
+                    '0' => 'Hidden',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+                    if ($value === '1') {
+                        $builder->where('is_active', 1);
+                    } elseif ($value === '0') {
+                        $builder->where('is_active', 0);
+                    }
+                }),
+
+            DateFilter::make('Updated at')
+                ->filter(function(Builder $builder, string $value) {
+                    $builder->where('updated_at', '>=', $value);
+                })
+        ];
+    }
+
 }
 
