@@ -1002,6 +1002,12 @@ class CategoryManager
             $pages_params['keyword'] = ($params['keyword']);
         }
 
+
+        if (isset($params['exclude_ids'])) {
+            $pages_params['exclude_ids'] = trim($params['exclude_ids']);
+        }
+
+
         if (isset($params['content_type'])) {
             $pages_params['content_type'] = ($params['content_type']);
         }
