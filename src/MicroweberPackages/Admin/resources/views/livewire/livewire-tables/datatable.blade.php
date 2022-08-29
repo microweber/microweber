@@ -5,15 +5,15 @@
         <x-livewire-tables::tools.toolbar />
     </x-livewire-tables::tools>
 
+    <div class="muted-cards">
     @forelse ($rows as $rowIndex => $row)
-
         @foreach($columns as $colIndex => $column)
             {{ $column->renderContents($row) }}
         @endforeach
-
     @empty
        no data
     @endforelse
+    </div>
 
     <x-livewire-tables::pagination :rows="$rows" />
 
