@@ -11,6 +11,20 @@ class MwCardColumn extends Column
     protected $buttonsCallback;
     protected $attributesCallback;
 
+    protected $icon = '';
+    protected $noThumbnailIcon = '';
+
+    public function noThumbnailIcon($icon) {
+        $this->noThumbnailIcon = $icon;
+
+        return $this;
+    }
+
+    public function icon($icon) {
+        $this->icon = $icon;
+
+        return $this;
+    }
 
     public function buttons(callable $callback): self
     {

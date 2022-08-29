@@ -37,6 +37,8 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
             MwCardColumn::make('Card', 'id')
+                ->icon('mdi mdi-shopping mdi-18px')
+                ->noThumbnailIcon('mdi mdi-shopping mdi-48px text-muted text-opacity-5')
                 ->buttons(function ($row) {
                     return [
                          [
