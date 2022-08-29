@@ -56,6 +56,7 @@
                 append:false,
                 prepend:false,
                 selectable:false,
+                disableSelectTypes:[],
                 filter:false,
                 cantSelectTypes: [],
                 document: document,
@@ -142,6 +143,7 @@
                     zIndex: '1',
                     margin: '20px 15px 0 0',
                     width: '300px',
+                    maxWidth: '100%',
                 });
                 this.options.searchInput.addEventListener('input', function () {
                     scope.search();
@@ -581,7 +583,8 @@
         };
 
         this.decorate = function(element){
-            if(this.options.selectable){
+            var _selectable = this.options.selectable && this.options.disableSelectTypes.indexOf(element._data.type) === -1;
+            if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
 
