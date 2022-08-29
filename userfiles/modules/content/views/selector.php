@@ -42,7 +42,8 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                     disableSelectTypes: ['category']
                 },
                 params: {
-                    content_type: 'page'
+                    content_type: 'page',
+                    exclude_ids: '<?php print $params['remove_ids'] ?>'
                 }
             }).then(function (res){
                 res.tree.select(<?php print $selected; ?>, 'page');
