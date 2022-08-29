@@ -166,11 +166,7 @@ class Product extends Content
 
     public function getQtyAttribute()
     {
-        $qty = $this->getContentDataByFieldName('qty');
-        if (is_numeric($qty)) {
-            return $qty;
-        }
-        return 0;
+        return $this->getContentDataByFieldName('qty');
     }
 
     public function getSkuAttribute()
@@ -198,7 +194,6 @@ class Product extends Content
 
     public function getInStockAttribute()
     {
-
         $sellWhenIsOos = $this->getContentDataByFieldName('sell_oos');
         if ($sellWhenIsOos == '1') {
             return true;
