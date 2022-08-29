@@ -105,7 +105,7 @@ class ProductsTable extends AdminDataTableComponent
                 ->options([
                     '' => 'Any',
                     '1' => 'Published',
-                    '0' => 'Hidden',
+                    '0' => 'Unpublished',
                 ])
                 ->filter(function(Builder $builder, string $value) {
                     if ($value === '1') {
@@ -113,6 +113,11 @@ class ProductsTable extends AdminDataTableComponent
                     } elseif ($value === '0') {
                         $builder->where('is_active', 0);
                     }
+                }),
+
+            DateFilter::make('Created at')
+                ->filter(function(Builder $builder, string $value) {
+                    $builder->where('created_at', '>=', $value);
                 }),
 
             DateFilter::make('Updated at')
