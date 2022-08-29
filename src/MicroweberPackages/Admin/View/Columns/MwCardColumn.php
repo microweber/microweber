@@ -5,10 +5,19 @@ namespace MicroweberPackages\Admin\View\Columns;
 use Illuminate\Database\Eloquent\Model;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class CardColumn extends Column
+class MwCardColumn extends Column
 {
-    protected string $view = 'admin::livewire.livewire-tables.includes.columns.card';
+    protected string $view = 'admin::livewire.livewire-tables.includes.columns.mw-card';
+    protected $buttonsCallback;
     protected $attributesCallback;
+
+
+    public function buttons(callable $callback): self
+    {
+        $this->buttonsCallback = $callback;
+
+        return $this;
+    }
 
     public function attributes(callable $callback): self
     {
@@ -36,6 +45,7 @@ class CardColumn extends Column
     {
         return view($this->getView())
             ->withColumn($this)
+            ->withButtons(app()->call($this->buttonsCallback, ['row'=>$row]))
             ->withRow($row)
             ->withAttributes($this->hasAttributesCallback() ? app()->call($this->getAttributesCallback(), ['row' => $row]) : []);
     }

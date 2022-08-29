@@ -4,7 +4,7 @@ namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
-use MicroweberPackages\Admin\View\Columns\CardColumn;
+use MicroweberPackages\Admin\View\Columns\MwCardColumn;
 use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -33,10 +33,29 @@ class PagesTable extends AdminDataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')->sortable(),
-            CardColumn::make('Card', 'title')->attributes(function($row) {
+            MwCardColumn::make('Card', 'id')
+                ->buttons(function ($row) {
+                    return [
+                         [
+                            'name'=>'Edit',
+                            'class'=>'btn btn-outline-primary btn-sm',
+                            'href'=>route('admin.page.edit', $row->id),
+                         ],
+                        [
+                            'name'=>'Live edit',
+                            'class'=>'btn btn-outline-success btn-sm',
+                            'href'=>route('admin.page.edit', $row->id),
+                         ],
+                        [
+                            'name'=>'Delete',
+                            'class'=>'btn btn-outline-danger btn-sm',
+                            'href'=>route('admin.page.edit', $row->id),
+                         ],
+                    ];
+                })
+                ->attributes(function($row) {
                 return [''];
-            }),
+            })->sortable(),
         ];
     }
 
