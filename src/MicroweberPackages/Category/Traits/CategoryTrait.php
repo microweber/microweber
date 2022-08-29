@@ -123,22 +123,10 @@ trait CategoryTrait
 
     public function getCategoriesAttribute()
     {
-      /*  if ($this->relationLoaded('categoryItems')) {
-            $relations = $this->getRelation('categoryItems');
-        } else {
-            $relations = $this->categoryItems()->with('parent')->get();
-            $this->setRelation('categoryItems', $relations);
-        }
-
-        return $relations;*/
-
         $categories = [];
-
-
         foreach ($this->categoryItems()->with('parent')->get() as $category) {
             $categories[] = $category;
         }
-
         return collect($categories);
     }
 

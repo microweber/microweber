@@ -514,31 +514,6 @@ function str_replace_bulk($search, $replace, $subject, &$count = null)
 }
 
 
-/**
- * @param $money
- * @return formated_money
- */
-function format_money_pdf($money, $currency = null)
-{
-    if (!$currency) {
-        $currency = \MicroweberPackages\Invoice\Currency::findOrFail(\MicroweberPackages\Invoice\CompanySetting::getSetting('currency', 1));
-    }
-
-    $format_money = number_format(
-        $money,
-        $currency->precision,
-        $currency->decimal_separator,
-        $currency->thousand_separator
-    );
-
-    $currency_with_symbol = '';
-    if ($currency->swap_currency_symbol) {
-        $currency_with_symbol = $format_money.'<span style="font-family: DejaVu Sans;">'.$currency->symbol.'</span>';
-    } else {
-        $currency_with_symbol = '<span style="font-family: DejaVu Sans;">'.$currency->symbol.'</span>'.$format_money;
-    }
-    return $currency_with_symbol;
-}
 
 if (!function_exists('array_recursive_diff')) {
     function array_recursive_diff($aArray1, $aArray2) {

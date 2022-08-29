@@ -4,7 +4,9 @@ namespace MicroweberPackages\Product;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Observers\ProductObserver;
 use MicroweberPackages\Product\Validators\PriceValidator;
@@ -19,6 +21,9 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Livewire::component('admin-products-table', ProductsTable::class);
+
         Product::observe(BaseModelObserver::class);
       //  Product::observe(ProductObserver::class); ->moved to CustomFieldsTrait
 
