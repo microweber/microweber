@@ -72,6 +72,16 @@ class PagesTable extends AdminDataTableComponent
         $query->select(['content.id','content.title','content.url','content.position','content.created_by']);
         $query->orderBy('position','asc');
 
+        if ($this->hasSearch()) {
+            $search = $this->getSearch();
+            $search = trim(strtolower($search));
+
+            $query->where(function (Builder $subQuery) use ($search) {
+                $subQuery->whereRaw('LOWER(`title`) LIKE ? ', ['%' . $search . '%']);
+                $subQuery->orWhereRaw('LOWER(`url`) LIKE ? ', ['%' . $search . '%']);
+            });
+        }
+
         return $query;
     }
 }
