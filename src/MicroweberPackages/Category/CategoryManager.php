@@ -1005,7 +1005,10 @@ class CategoryManager
         if (isset($params['content_type'])) {
             $pages_params['content_type'] = ($params['content_type']);
         }
-
+        $show_cats = true;
+        if (isset($params['content_type'])) {
+            $show_cats = false;
+        }
 
         $pages = get_pages($pages_params);
         if ($pages) {
@@ -1033,10 +1036,7 @@ class CategoryManager
                 $item['position'] = intval($page['position']);
                 $json[] = $item;
 
-                $show_cats = true;
-                if (!isset($params['content_type']) or $params['content_type'] == '') {
-                    $show_cats = false;
-                }
+
 
                 if($show_cats) {
                     $cat_params = [];
