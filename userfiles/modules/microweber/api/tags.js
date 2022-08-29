@@ -44,7 +44,7 @@ mw.tags = mw.chips = function(options){
         this.refresh();
     };
     this.rend = function(){
-        $.each(this.options.data, function(i){
+         $.each(this.options.data, function(i){
             var data = $.extend({index:i}, this);
             scope.options.element.appendChild(scope.tag(data));
         });
@@ -111,6 +111,7 @@ mw.tags = mw.chips = function(options){
     };
 
     this.dataTitle = function(data){
+        console.log(data)
         if(typeof data === 'string'){
             return data;
         }

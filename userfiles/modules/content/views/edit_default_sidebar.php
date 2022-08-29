@@ -13,6 +13,8 @@
         border: 1px solid #cfcfcf;
         margin: 20px 0;
         border-radius: 3px;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
 
     }
     .mw-ui-category-selector-abs li li .mw-tree-toggler{
@@ -190,7 +192,7 @@
                                 }
                             </script>
 
-                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
+                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -292,12 +294,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-                                <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
-                                <br/>
-                                <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-bs-toggle="collapse" data-bs-target="#show-categories-tree"><?php _e('Add to'); ?></button>
-                                <br/>
 
-                                <div id="show-categories-tree" class="collapse">
+                                 <strong><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></strong>
+
+
+                                <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
                                         <div class="mw-ui-field-holder">
                                             <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">

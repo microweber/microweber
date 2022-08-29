@@ -27,7 +27,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $localesJson = json_encode($locales);
 
         $modelTranslations = [];
-        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) { 
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
         }
 
@@ -48,6 +48,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             }
         }
         $translationsJson = json_encode($translations);
+        $attributes = json_encode($this->getAttributes());
 
         return "<script>
             mw.lib.require('multilanguage');
@@ -56,11 +57,17 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
                     locales: $localesJson,
+                    attributes: $attributes,
                     translations: $translationsJson,
                 });
             });
         </script>
-        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" />";
+
+
+
+
+
+        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
 
     }
 }

@@ -522,7 +522,8 @@ if (isset($params['live_edit'])) {
                                         data: data,
                                         singleSelect: true,
                                         selectedData: selectedData,
-                                        skip: skip
+                                        skip: skip,
+                                        searchInput: true
                                     });
                                     if (selectedData.length) {
                                         if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {

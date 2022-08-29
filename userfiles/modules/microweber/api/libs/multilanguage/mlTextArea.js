@@ -5,6 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
+            attributes: [],
             mwEditor: false,
         }, options);
 
@@ -13,6 +14,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
+            var attributes = settings.attributes;
             var mwEditor = settings.mwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
@@ -58,8 +60,21 @@
                 for (var i = 0; i < locales.length; i++) {
                     var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
 
+
+                    var input  = $('<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>');
+
+                    $.each(attributes, function(name, value) {
+                        if(!$(input).attr(name)){
+                            $(input).attr(name,value);
+                        }
+                    });
+
+                    var inputHtml =  input[0].outerHTML;
+
+
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
-                    outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
+                    outputHtml += inputHtml;
+                    //outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
 
                     // If ml textarea is changed change and the value

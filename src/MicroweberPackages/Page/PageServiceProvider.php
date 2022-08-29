@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Page\Http\Livewire\Admin\PagesTable;
+use MicroweberPackages\Page\Http\Livewire\Admin\ProductsTable;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Page\Observers\PageObserver;
 

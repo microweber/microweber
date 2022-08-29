@@ -1,18 +1,21 @@
 <?php
 
-namespace MicroweberPackages\Page\Http\Livewire\Admin;
+namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Admin\View\Columns\MwCardColumn;
 use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
-class PagesTable extends AdminDataTableComponent
+class ProductsTable extends AdminDataTableComponent
 {
-    protected $model = Page::class;
-    public array $perPageAccepted = [10, 25, 50, 100, 200];
+    protected $model = Product::class;
+    public array $perPageAccepted = [1, 25, 50, 100, 200];
 
     public function configure(): void
     {
@@ -62,13 +65,13 @@ class PagesTable extends AdminDataTableComponent
     public function changePosition($items): void
     {
         foreach ($items as $item) {
-            Page::find((int)$item['value'])->update(['position' => (int)$item['order']]);
+            Product::find((int)$item['value'])->update(['position' => (int)$item['order']]);
         }
     }
 
     public function builder(): Builder
     {
-        $query = Page::query();
+        $query = Product::query();
         $query->select(['content.id','content.title','content.url','content.position','content.created_by']);
         $query->orderBy('position','asc');
 
@@ -84,5 +87,45 @@ class PagesTable extends AdminDataTableComponent
 
         return $query;
     }
+
+    public function filters(): array
+    {
+        return [
+            /* TextFilter::make('Package Name')
+                 ->config([
+                     'maxlength' => 5,
+                     'placeholder' => 'Search Package Name',
+                 ])
+                 ->filter(function(Builder $builder, string $value) {
+                     $builder->where('package.name', 'like', '%'.$value.'%');
+                 }),*/
+
+            SelectFilter::make('Visible')
+                ->setFilterPillTitle('Visible')
+                ->options([
+                    '' => 'Any',
+                    '1' => 'Published',
+                    '0' => 'Unpublished',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+                    if ($value === '1') {
+                        $builder->where('is_active', 1);
+                    } elseif ($value === '0') {
+                        $builder->where('is_active', 0);
+                    }
+                }),
+
+            DateFilter::make('Created at')
+                ->filter(function(Builder $builder, string $value) {
+                    $builder->where('created_at', '>=', $value);
+                }),
+
+            DateFilter::make('Updated at')
+                ->filter(function(Builder $builder, string $value) {
+                    $builder->where('updated_at', '>=', $value);
+                })
+        ];
+    }
+
 }
 

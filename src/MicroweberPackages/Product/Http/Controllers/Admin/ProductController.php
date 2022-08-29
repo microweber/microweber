@@ -23,6 +23,10 @@ class ProductController extends AdminController
         $this->repository = $repository;
     }
 
+    public function index(Request $request) {
+        return $this->view('product::admin.product.index');
+    }
+
     public function create() {
 
         return $this->view('product::admin.product.edit', [

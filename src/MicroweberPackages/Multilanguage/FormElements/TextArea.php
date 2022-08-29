@@ -50,6 +50,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
             }
         }
         $translationsJson = json_encode($translations);
+        $attributes = json_encode($this->getAttributes());
 
         $textDir = 'ltr';
         if(LanguageHelper::isRTL($this->currentLanguage)){
@@ -63,6 +64,7 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
                     currentLocale: '$this->currentLanguage',
                     direction: '$textDir',
                     locales: $localesJson,
+                    attributes: $attributes,
                     translations: $translationsJson,
                 });
             });

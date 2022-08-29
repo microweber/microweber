@@ -40,8 +40,6 @@ class Page extends Content
         "position",
     ];
 
-
-
     /**
      * The "booted" method of the model.
      *

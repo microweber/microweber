@@ -833,7 +833,8 @@ mw.emitter = {
                     element: treeEl,
                     sortable: false,
                     selectable: true,
-                    singleSelect: true
+                    singleSelect: true,
+                    searchInput: true
                 });
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
@@ -1105,7 +1106,7 @@ mw.emitter = {
             var defaults = {
                 text: {
                     label: mw.lang('Link text'),
-                    description: mw.lang('Selected text for the link.'),
+                    description: mw.lang('Selected text for the link'),
                 },
                 link: {
                     label: mw.lang('Website URL'),

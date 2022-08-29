@@ -1,4 +1,11 @@
-mw.admin = mw.admin || {};
+
+
+
+if(!mw.admin) {
+
+    mw.admin = {};
+}
+
 mw.admin.custom_fields = mw.admin.custom_fields || {};
 
 mw.admin.custom_fields.initValues = function () {
