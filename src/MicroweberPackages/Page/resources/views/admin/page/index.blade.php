@@ -1,4 +1,5 @@
-<div class="form-group">
+<div class="js-tree tree" style="display: block">
+    <div class="form-group">
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements"
                id="open-close-all-tree-elements" value="1"/>
@@ -9,19 +10,9 @@
 </div>
 
 <div id="js-page-tree"></div>
+</div>
 
-<script>
-    $(document).ready(function () {
-        // Open close all tree elements
-        $('.js-open-close-all-tree-elements').on('change', function () {
-            if ($(this).is(':checked') == '1') {
-                pagesTree.openAll();
-            } else {
-                pagesTree.closeAll();
-            }
-        });
-    });
-</script>
+
 
 <script>
     var someElement = document.getElementById('js-page-tree');
@@ -38,7 +29,35 @@
             is_shop: '1'
         }
     }).then(function (res) {
-        pagesTree = res.tree;
+        pagesTree = res;
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Open close all tree elements
+        $('.js-open-close-all-tree-elements').on('change', function () {
+            if ($(this).is(':checked') == '1') {
+                pagesTree.tree.openAll();
+            } else {
+                pagesTree.tree.closeAll();
+            }
+        });
+
+        // Tree items
+        setTimeout(function () {
+            $('.mw-tree-item-title', pagesTree.list).on('click', function () {
+                $('li.selected', pagesTree.list).not(mw.tools.firstParentWithTag(this, 'li')).each(function () {
+                    pagesTree.tree.unselect(this)
+                });
+                var li = mw.tools.firstParentWithTag(this, 'li'),
+                    data = li._data,
+                    action;
+                if (!$(li).hasClass('mw-tree-additional-item')) {
+                    console.log(data);
+                }
+            });
+        }, 1000);
     });
 </script>
 
