@@ -4,7 +4,7 @@ namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
-use MicroweberPackages\Admin\View\Columns\MwCardColumn;
+use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;

@@ -13,6 +13,7 @@ namespace MicroweberPackages\Livewire;
 
 use Illuminate\Support\Facades\Route as RouteFacade;
 
+use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
 use LivewireUI\Modal\LivewireModalServiceProvider;
 use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
@@ -52,7 +53,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         parent::register();
        // $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
 
-
+        View::addNamespace('livewire', __DIR__ . '/resources/views');
 
         // Load datatables
         app()->register(LaravelLivewireTablesServiceProvider::class);

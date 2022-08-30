@@ -1,13 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Admin\View\Columns;
+namespace MicroweberPackages\Livewire\Views\Columns;
 
 use Illuminate\Database\Eloquent\Model;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class MwCardColumn extends Column
 {
-    protected string $view = 'admin::livewire.livewire-tables.includes.columns.mw-card';
+    protected string $view = 'livewire::livewire.livewire-tables.includes.columns.mw-card';
     protected $buttonsCallback;
     protected $attributesCallback;
 
