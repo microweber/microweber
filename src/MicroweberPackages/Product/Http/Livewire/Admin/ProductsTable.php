@@ -39,7 +39,7 @@ class ProductsTable extends AdminDataTableComponent
                 ->icon('mdi mdi-shopping mdi-18px')
                 ->noThumbnailIcon('mdi mdi-shopping mdi-48px text-muted text-opacity-5')
                 ->buttons(function ($row) {
-                    return [
+                    $buttons = [
                          [
                             'name'=>'Edit',
                             'class'=>'btn btn-outline-primary btn-sm',
@@ -56,6 +56,16 @@ class ProductsTable extends AdminDataTableComponent
                             'href'=>route('admin.page.edit', $row->id),
                          ],
                     ];
+
+                    if ($row->is_active < 1) {
+                       $buttons[] = [
+                            'name'=>'Unpublished',
+                            'class'=>'badge badge-warning font-weight-normal',
+                            'href'=> "",
+                        ];
+                    }
+
+                    return $buttons;
                 })
                 ->attributes(function($row) {
                 return [''];
@@ -73,7 +83,7 @@ class ProductsTable extends AdminDataTableComponent
     public function builder(): Builder
     {
         $query = Product::query();
-        $query->select(['content.id','content.title','content.url','content.position','content.created_by']);
+        $query->select(['content.id','content.is_active','content.title','content.url','content.position','content.created_by']);
         $query->orderBy('position','asc');
 
         if ($this->hasSearch()) {

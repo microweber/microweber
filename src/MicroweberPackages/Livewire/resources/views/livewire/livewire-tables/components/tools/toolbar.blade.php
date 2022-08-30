@@ -353,7 +353,7 @@
                     <button
                         wire:click="{{ $component->currentlyReorderingIsEnabled() ? 'disableReordering' : 'enableReordering' }}"
                         type="button"
-                        class="btn btn-default d-block w-100 d-md-inline"
+                        class="btn btn-outline-primary d-block w-100 d-md-inline"
                     >
                         @if ($component->currentlyReorderingIsEnabled())
                             @lang('Done Reordering')
@@ -618,7 +618,7 @@
                     <button
                         wire:click="{{ $component->currentlyReorderingIsEnabled() ? 'disableReordering' : 'enableReordering' }}"
                         type="button"
-                        class="btn btn-default d-block w-100 d-md-inline"
+                        class="btn btn-outline-primary d-block w-100 d-md-inline"
                     >
                         @if ($component->currentlyReorderingIsEnabled())
                             @lang('Done Reordering')
@@ -849,8 +849,7 @@
         <div
             x-cloak
             x-show="filtersOpen"
-        >
-
+         style="background: rgb(236, 244, 255)" class="pt-4">
             <div class="container">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
