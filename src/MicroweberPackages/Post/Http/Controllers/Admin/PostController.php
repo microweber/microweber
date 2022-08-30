@@ -25,6 +25,10 @@ class PostController extends AdminController
         $this->repository = $repository;
     }
 
+    public function index(Request $request) {
+        return $this->view('post::admin.posts.index');
+    }
+
     public function create() {
 
         return $this->view('post::admin.posts.edit', [
