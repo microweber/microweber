@@ -1,3 +1,21 @@
+<div id="js-page-tree"></div>
+
+<script>
+    var someElement = document.getElementById('js-page-tree');
+    var pagesTree = mw.admin.tree(someElement, {
+        options: {
+            sortable: false,
+            selectable: false,
+            singleSelect: true,
+            saveState: true,
+            searchInput: true
+        },
+        params: {
+
+        }
+    });
+</script>
+
 <div class="card style-1 mb-3">
     <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
 
