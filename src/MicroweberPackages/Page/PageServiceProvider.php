@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Page\Http\Livewire\Admin\PagesTable;
 use MicroweberPackages\Page\Http\Livewire\Admin\ProductsTable;
+use MicroweberPackages\Page\Http\Livewire\PageTree;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Page\Observers\PageObserver;
 
@@ -20,6 +21,7 @@ class PageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Livewire::component('admin-pages-tree', PageTree::class);
         Livewire::component('admin-pages-table', PagesTable::class);
 
         Page::observe(BaseModelObserver::class);

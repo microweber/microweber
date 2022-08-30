@@ -1,3 +1,7 @@
+
+
+<livewire:admin-pages-tree />
+
 <div class="js-tree tree" style="display: block">
     <div class="form-group">
     <div class="custom-control custom-switch">
@@ -54,7 +58,7 @@
                     data = li._data,
                     action;
                 if (!$(li).hasClass('mw-tree-additional-item')) {
-                    console.log(data);
+                    window.location.href = "{{route('admin.page.index')}}?category=" + data.id;
                 }
             });
         }, 1000);
