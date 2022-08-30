@@ -9,9 +9,16 @@
 
     <div class="muted-cards">
     @forelse ($rows as $rowIndex => $row)
+
             <div class="card card-product-holder mb-2">
                 <div class="card-body">
                     <div class="row align-items-center">
+
+                        <div wire:sortable.handle>
+                            waw
+                        </div>
+
+
                    @foreach($columns as $colIndex => $column)
 
                        @php
