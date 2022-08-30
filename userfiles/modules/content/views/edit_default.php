@@ -266,24 +266,38 @@ if (isset($params['quick_edit'])) {
         });
         </script>
 
+        <?php
+        $backToLink = '';
+        $typeIcon = 'mdi-text';
+        if ($type == 'Product') {
+            $backToLink = route('admin.product.index');
+            $typeIcon = 'mdi-shopping';
+        } else if ($type == 'Product variant') {
+            $backToLink = route('admin.product_variant.index');
+            $typeIcon = 'mdi-shopping';
+        } elseif ($type == 'Post') {
+            $backToLink = route('admin.post.index');
+            $typeIcon = 'mdi-text';
+        } elseif ($type == 'Page') {
+            $backToLink = route('admin.page.index');
+            $typeIcon = 'mdi-file-document';
+        }
+        ?>
+
+        <div class="position-relative">
+            <div class="main-toolbar mw-modules-toolbar-back-button-holder">
+                <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
+                    <i class="mdi mdi-chevron-left"></i> Back to <?php echo $type; ?>s
+                </a>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-8 manage-content-body">
                 <div class="content-title-field-row card style-1 mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">
-                            <?php
-                            $type_icon = 'mdi-text';
-                            if ($type == 'Product') {
-                                $type_icon = 'mdi-shopping';
-                            } else if ($type == 'Product variant') {
-                                $type_icon = 'mdi-shopping';
-                            } elseif ($type == 'Post') {
-                                $type_icon = 'mdi-text';
-                            } elseif ($type == 'Page') {
-                                $type_icon = 'mdi-file-document';
-                            }
-                            ?>
-                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
+                            <h5><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
                             <div id="content-title-field-buttons">

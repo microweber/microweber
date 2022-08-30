@@ -44,13 +44,13 @@
                                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
                                         <?php
                                         $type = $item['content_type'];
-                                        $type_icon = 'mdi-text';
+                                        $typeIcon = 'mdi-text';
                                         if ($type == 'product') {
-                                            $type_icon = 'mdi-shopping';
+                                            $typeIcon = 'mdi-shopping';
                                         } elseif ($type == 'post') {
-                                            $type_icon = 'mdi-text';
+                                            $typeIcon = 'mdi-text';
                                         } elseif ($type == 'page') {
-                                            $type_icon = 'mdi-file-document';
+                                            $typeIcon = 'mdi-file-document';
                                         }
 
                                         $target = '_self';
@@ -64,7 +64,7 @@
 
                                         <?php if ($pic == true): ?>
                                             <div class="mw-admin-product-item-icon text-muted">
-                                                <i class="mdi <?php echo $type_icon; ?> mdi-18px" data-bs-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
+                                                <i class="mdi <?php echo $typeIcon; ?> mdi-18px" data-bs-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
                                             </div>
                                         <?php endif; ?>
 
@@ -75,7 +75,7 @@
                                                 </a>
                                             <?php else : ?>
                                                 <a href="javascript:;" onclick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
-                                                    <i class="mdi <?php echo $type_icon; ?> mdi-48px text-muted text-opacity-5"></i>
+                                                    <i class="mdi <?php echo $typeIcon; ?> mdi-48px text-muted text-opacity-5"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
