@@ -107,7 +107,7 @@
 
                     <span
                         wire:key="{{ $component->getTableName() }}-filter-pill-{{ $filter->getKey() }}"
-                        class="badge rounded-pill bg-info d-inline-flex align-items-center"
+                        class="badge rounded-pill bg-primary d-inline-flex align-items-center"
                     >
                         {{ $filter->getFilterPillTitle() }}: {{ $filter->getFilterPillValue($value) }}
 

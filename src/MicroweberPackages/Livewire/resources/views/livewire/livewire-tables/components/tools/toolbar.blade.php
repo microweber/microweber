@@ -678,7 +678,7 @@
                                 @lang('Filters')
 
                                 @if ($count = $component->getFilterBadgeCount())
-                                    <span class="badge bg-info">
+                                    <span class="badge bg-primary">
                                         {{ $count }}
                                     </span>
                                 @endif

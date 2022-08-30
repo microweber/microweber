@@ -24,7 +24,7 @@ class PagesTable extends AdminDataTableComponent
             ->setDefaultReorderSort('position', 'asc')
             ->setReorderMethod('changePosition')
             ->setFilterLayoutSlideDown()
-            ->setRememberColumnSelectionDisabled()
+            ->setColumnSelectDisabled()
             ->setUseHeaderAsFooterEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
     }
@@ -34,23 +34,33 @@ class PagesTable extends AdminDataTableComponent
         return [
             MwCardColumn::make('Card', 'id')
                 ->buttons(function ($row) {
-                    return [
-                         [
+                    $buttons = [
+                        [
                             'name'=>'Edit',
                             'class'=>'btn btn-outline-primary btn-sm',
                             'href'=>route('admin.page.edit', $row->id),
-                         ],
+                        ],
                         [
                             'name'=>'Live edit',
                             'class'=>'btn btn-outline-success btn-sm',
                             'href'=>route('admin.page.edit', $row->id),
-                         ],
+                        ],
                         [
                             'name'=>'Delete',
                             'class'=>'btn btn-outline-danger btn-sm',
                             'href'=>route('admin.page.edit', $row->id),
-                         ],
+                        ],
                     ];
+
+                    if ($row->is_active < 1) {
+                        $buttons[] = [
+                            'name'=>'Unpublished',
+                            'class'=>'badge badge-warning font-weight-normal',
+                            'href'=> "",
+                        ];
+                    }
+
+                    return $buttons;
                 })
                 ->attributes(function($row) {
                 return [''];

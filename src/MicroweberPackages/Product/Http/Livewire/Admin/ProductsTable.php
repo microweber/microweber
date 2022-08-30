@@ -27,7 +27,7 @@ class ProductsTable extends AdminDataTableComponent
             ->setDefaultReorderSort('position', 'asc')
             ->setReorderMethod('changePosition')
             ->setFilterLayoutSlideDown()
-            ->setRememberColumnSelectionDisabled()
+            ->setColumnSelectDisabled()
             ->setUseHeaderAsFooterEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
     }
@@ -43,17 +43,17 @@ class ProductsTable extends AdminDataTableComponent
                          [
                             'name'=>'Edit',
                             'class'=>'btn btn-outline-primary btn-sm',
-                            'href'=>route('admin.page.edit', $row->id),
+                            'href'=>route('admin.product.edit', $row->id),
                          ],
                         [
                             'name'=>'Live edit',
                             'class'=>'btn btn-outline-success btn-sm',
-                            'href'=>route('admin.page.edit', $row->id),
+                            'href'=>route('admin.product.edit', $row->id),
                          ],
                         [
                             'name'=>'Delete',
                             'class'=>'btn btn-outline-danger btn-sm',
-                            'href'=>route('admin.page.edit', $row->id),
+                            'href'=>route('admin.product.edit', $row->id),
                          ],
                     ];
 

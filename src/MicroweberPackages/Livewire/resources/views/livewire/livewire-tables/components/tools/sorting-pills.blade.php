@@ -110,7 +110,7 @@
 
                     <span
                         wire:key="sorting-pill-{{ $columnSelectName }}"
-                        class="badge rounded-pill bg-info d-inline-flex align-items-center"
+                        class="badge rounded-pill bg-primary d-inline-flex align-items-center"
                     >
                         {{ $column->getSortingPillTitle() }}: {{ $column->getSortingPillDirection($component, $direction) }}
 
