@@ -93,13 +93,13 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-            PriceRangeFilter::make('Price range')
+         /*   PriceRangeFilter::make('Price range')
              ->config([
                  'placeholder' => 'Select price range',
              ])
              ->filter(function(Builder $builder, string $value) {
                  $builder->where('id', 'like', '%'.$value.'%');
-             }),
+             }),*/
 
             SelectFilter::make('Visible')
                 ->setFilterPillTitle('Visible')

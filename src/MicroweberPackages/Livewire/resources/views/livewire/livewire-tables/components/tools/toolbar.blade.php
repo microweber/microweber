@@ -75,13 +75,13 @@
                             @endif
                         >
                             @lang('Filters')
-            
+
                             @if ($count = $component->getFilterBadgeCount())
                                 <span class="ml-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-indigo-100 text-indigo-800 capitalize dark:bg-indigo-200 dark:text-indigo-900">
                                     {{ $count }}
                                 </span>
                             @endif
-            
+
                             <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -89,7 +89,7 @@
                             </svg>
                         </button>
                     </div>
-            
+
                     @if ($component->isFilterLayoutPopover())
                         <div
                             x-cloak
@@ -113,7 +113,7 @@
                                                 class="block text-sm font-medium leading-5 text-gray-700 dark:text-white">
                                                 {{ $filter->getName() }}
                                             </label>
-                
+
                                             {{ $filter->render($component) }}
                                         </div>
                                     </div>
@@ -225,14 +225,14 @@
                                     aria-expanded="true"
                                 >
                                     @lang('Columns')
-            
+
                                     <svg class="-mr-1 ml-2 w-5 h-5" x-description="Heroicon name: chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                     </svg>
                                 </button>
                             </span>
                         </div>
-            
+
                         <div
                             x-cloak
                             x-show="open"
@@ -413,13 +413,13 @@
                                 @endif
                             >
                                 @lang('Filters')
-                
+
                                 @if ($count = $component->getFilterBadgeCount())
                                     <span class="badge badge-info">
                                         {{ $count }}
                                     </span>
                                 @endif
-                
+
                                 <span class="caret"></span>
                             </button>
                         </div>
@@ -587,6 +587,7 @@
             x-cloak
             x-show="filtersOpen"
         >
+
             <div class="container">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
@@ -675,13 +676,13 @@
                                 @endif
                             >
                                 @lang('Filters')
-                
+
                                 @if ($count = $component->getFilterBadgeCount())
                                     <span class="badge bg-info">
                                         {{ $count }}
                                     </span>
                                 @endif
-                
+
                                 <span class="caret"></span>
                             </button>
                         </div>
@@ -849,6 +850,7 @@
             x-cloak
             x-show="filtersOpen"
         >
+
             <div class="container">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
