@@ -163,6 +163,7 @@
                 scope.filter(this.value);
             });
         };
+
         this.skip = function(itemData){
             if(this.options.skip && this.options.skip.length>0){
                 for( var n=0; n<scope.options.skip.length; n++ ){
@@ -176,6 +177,7 @@
                 return false;
             }
         };
+
         this.prepareData = function(){
             if(typeof this.options.filter === 'object'){
                 var final = [], scope = this;
@@ -724,7 +726,17 @@
             li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + (skip || 'none');
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
-            container.innerHTML = '<span class="mw-tree-item-title">'+item.title+'</span>';
+            var titleNode = document.createElement('span');
+            titleNode.className = 'mw-tree-item-title';
+            titleNode.innerHTML = item.title;
+
+            container.addEventListener('click', function (e){
+                if(e.target === container || e.target === titleNode) {
+                    scope.dispatch('itemClick', item);
+                }
+            });
+
+            container.appendChild(titleNode)
 
             li._data = item;
             li.id = scope.options.id + '-' + item.type+'-'+item.id;
