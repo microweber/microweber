@@ -13,7 +13,7 @@ class ImportExportToolTest extends TestCase
         $content = $zip->getFromName('data-example-1.xml');
         $zip->close();
 
-        $tempName = tempnam('/tmp','xml');
+        $tempName = tempnam(storage_path(),'xml');
         file_put_contents($tempName, $content);
 
         $this->assertNotEmpty($content);
@@ -39,7 +39,7 @@ class ImportExportToolTest extends TestCase
         $content = $zip->getFromName('data-example-1.csv');
         $zip->close();
 
-        $tempName = tempnam('/tmp','csv');
+        $tempName = tempnam(storage_path(),'csv');
         file_put_contents($tempName, $content);
 
         $this->assertNotEmpty($content);
