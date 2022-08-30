@@ -5,8 +5,7 @@ namespace MicroweberPackages\Product\Http\Livewire\Admin;
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Admin\View\Columns\MwCardColumn;
-use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
-use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
@@ -93,14 +92,14 @@ class ProductsTable extends AdminDataTableComponent
     public function filters(): array
     {
         return [
-            /* TextFilter::make('Package Name')
-                 ->config([
-                     'maxlength' => 5,
-                     'placeholder' => 'Search Package Name',
-                 ])
-                 ->filter(function(Builder $builder, string $value) {
-                     $builder->where('package.name', 'like', '%'.$value.'%');
-                 }),*/
+
+            PriceRangeFilter::make('Price range')
+             ->config([
+                 'placeholder' => 'Select price range',
+             ])
+             ->filter(function(Builder $builder, string $value) {
+                 $builder->where('id', 'like', '%'.$value.'%');
+             }),
 
             SelectFilter::make('Visible')
                 ->setFilterPillTitle('Visible')

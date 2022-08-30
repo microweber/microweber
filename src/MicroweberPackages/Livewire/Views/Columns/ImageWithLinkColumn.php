@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Admin\View\Columns;
+namespace MicroweberPackages\Livewire\Views\Columns;
 
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 

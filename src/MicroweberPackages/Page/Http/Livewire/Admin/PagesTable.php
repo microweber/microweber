@@ -5,7 +5,6 @@ namespace MicroweberPackages\Page\Http\Livewire\Admin;
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Admin\View\Columns\MwCardColumn;
-use MicroweberPackages\Admin\View\Columns\ImageWithLinkColumn;
 use MicroweberPackages\Page\Models\Page;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
