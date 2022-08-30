@@ -849,7 +849,7 @@
         <div
             x-cloak
             x-show="filtersOpen"
-         style="background: rgb(236, 244, 255)" class="pt-4">
+         style="background: rgb(236, 244, 255)" class="pt-4 mb-4">
             <div class="container">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)

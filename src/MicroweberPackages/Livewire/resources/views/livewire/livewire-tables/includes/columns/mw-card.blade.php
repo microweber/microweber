@@ -56,13 +56,15 @@
                 </div>
             </div>
 
-            <div class="col item-author"><span class="text-muted">{{$row->authorName()}}</span></div>
-            <div class="col item-comments" style="max-width: 100px;">
+            <div class="col item-author"><span class="text-muted">{{ucfirst($row->authorName())}}</span></div>
+
+          {{--  <div class="col item-comments" style="max-width: 100px;">
                 <span class="text-muted">
                     <i class="mdi mdi-comment mdi-18px"></i>
                     <span class="float-right mx-2">0</span>
                 </span>
-            </div>
+            </div>--}}
+
         </div>
     </div>
 </div>
