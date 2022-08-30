@@ -34,10 +34,24 @@ class ProductsTable extends AdminDataTableComponent
             ->setHideBulkActionsWhenEmptyEnabled();
 
         $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            if ($column->getTitle() == 'Author') {
+                return [
+                    'class' => 'col item-author manage-post-item-col-4 d-xl-block d-none',
+                ];
+            }
+            if ($column->getTitle() == 'Image') {
+                return [
+                    'class' => 'col item-image',
+                ];
+            }
+            if ($column->getTitle() == 'Title') {
+                return [
+                    'class' => 'col item-title manage-post-item-col-3 manage-post-main',
+                ];
+            }
             return [
-                'class' => 'bg-red-500 text-white',
+                'class' => 'col',
             ];
-            return [];
         });
     }
 
@@ -45,18 +59,16 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-            Column::make('Id')
-                ->sortable()
-                ->searchable()
-                ->secondaryHeader($this->getFilterByKey('id'))
-                ->footer($this->getFilterByKey('id')),
-
-           /* MwCardImageColumn::make('Image','image')
+           MwCardImageColumn::make('Image','image')
                 ->location(function($row) {
+                    $img = false;
+                    if ($row->media()->first() !== null) {
+                        $img = $row->thumbnail();
+                    }
                     return [
                         'target'=>'_blank',
                         'href'=> '',
-                        'location'=>  ''
+                        'location'=> $img
                     ];
                 }),
 
@@ -69,10 +81,8 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Author','content.created_by')
                 ->setOutputHtml(function($row) {
-                    return '<div class="col item-author manage-post-item-col-4 d-xl-block d-none">
-                                <span class="text-muted">'.ucfirst($row->authorName()).'</span>
-                            </div>';
-                }),*/
+                    return '<span class="text-muted">'.ucfirst($row->authorName()).'</span>';
+                }),
 
 
          /*   MwCardColumn::make('Card', 'id')

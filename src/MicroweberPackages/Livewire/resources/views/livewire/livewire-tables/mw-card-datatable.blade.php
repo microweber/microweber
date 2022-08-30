@@ -14,9 +14,17 @@
                     <div class="row align-items-center">
                    @foreach($columns as $colIndex => $column)
 
-                       @dump($column->getComponent()->getTdAttributes($column, $row, $colIndex, $rowIndex))
+                       @php
+                           $columnTdClass = '';
+                           $tdAttributes = $column->getComponent()->getTdAttributes($column, $row, $colIndex, $rowIndex);
+                           if (isset($tdAttributes['class'])) {
+                               $columnTdClass = $tdAttributes['class'];
+                           }
+                       @endphp
 
-                            {{ $column->renderContents($row) }}
+                        <div class="{{$columnTdClass}}">
+                        {{ $column->renderContents($row) }}
+                    </div>
                   @endforeach
                     </div>
                 </div>
