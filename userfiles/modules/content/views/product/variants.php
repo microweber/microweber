@@ -51,6 +51,10 @@
         $('.js-product-variants-options').html('Loading...');
 
         $.get(mw.settings.api_url + "product_variant/parent/<?php echo (int) $data['id']; ?>/options", {}).done(function (data) {
+
+           if(data.length == 0){
+            return;
+           }
             $('.js-product-variants-options').html('');
             $.each(data, function(index, option) {
                 addProductVariantOption(option.option_id, option.option_name, option.option_values.join(", "));
