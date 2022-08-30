@@ -3,6 +3,8 @@
 <div class="card card-product-holder mb-2">
     <div class="card-body">
         <div class="row align-items-center">
+
+
             <div class="col text-center" style="max-width: 40px;">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox mx-1">

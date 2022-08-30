@@ -9,9 +9,18 @@
 
     <div class="muted-cards">
     @forelse ($rows as $rowIndex => $row)
-        @foreach($columns as $colIndex => $column)
-            {{ $column->renderContents($row) }}
-        @endforeach
+            <div class="card card-product-holder mb-2">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                   @foreach($columns as $colIndex => $column)
+
+                       @dump($column->getComponent()->getTdAttributes($column, $row, $colIndex, $rowIndex))
+
+                            {{ $column->renderContents($row) }}
+                  @endforeach
+                    </div>
+                </div>
+            </div>
     @empty
        no data
     @endforelse

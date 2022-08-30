@@ -4,7 +4,9 @@ namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
+use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
+use MicroweberPackages\Livewire\Views\Columns\MwCardImageColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -30,12 +32,50 @@ class ProductsTable extends AdminDataTableComponent
             ->setColumnSelectDisabled()
             ->setUseHeaderAsFooterEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            return [
+                'class' => 'bg-red-500 text-white',
+            ];
+            return [];
+        });
     }
 
     public function columns(): array
     {
         return [
-            MwCardColumn::make('Card', 'id')
+
+            Column::make('Id')
+                ->sortable()
+                ->searchable()
+                ->secondaryHeader($this->getFilterByKey('id'))
+                ->footer($this->getFilterByKey('id')),
+
+           /* MwCardImageColumn::make('Image','image')
+                ->location(function($row) {
+                    return [
+                        'target'=>'_blank',
+                        'href'=> '',
+                        'location'=>  ''
+                    ];
+                }),
+
+            Column::make('Title')
+                ->sortable()
+                ->searchable()
+                ->secondaryHeader($this->getFilterByKey('title'))
+                ->footer($this->getFilterByKey('title')),
+
+
+            HtmlColumn::make('Author','content.created_by')
+                ->setOutputHtml(function($row) {
+                    return '<div class="col item-author manage-post-item-col-4 d-xl-block d-none">
+                                <span class="text-muted">'.ucfirst($row->authorName()).'</span>
+                            </div>';
+                }),*/
+
+
+         /*   MwCardColumn::make('Card', 'id')
                 ->icon('mdi mdi-shopping mdi-18px')
                 ->noThumbnailIcon('mdi mdi-shopping mdi-48px text-muted text-opacity-5')
                 ->buttons(function ($row) {
@@ -69,7 +109,7 @@ class ProductsTable extends AdminDataTableComponent
                 })
                 ->attributes(function($row) {
                 return [''];
-            })->sortable(),
+            })->sortable(),*/
         ];
     }
 

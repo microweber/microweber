@@ -25,7 +25,7 @@ abstract class AdminDataTableComponent extends DataTableComponent
         $this->setupFooter();
         $this->setupReordering();
 
-        return view('livewire::livewire.livewire-tables.datatable')
+        return view('livewire::livewire.livewire-tables.mw-card-datatable')
             ->with([
                 'columns' => $this->getColumns(),
                 'rows' => $this->getRows(),
