@@ -104,20 +104,11 @@ class ProductsTable extends AdminDataTableComponent
                 return $buttons;
             }),
 
-
             HtmlColumn::make('Author','content.created_by')
                 ->setOutputHtml(function($row) {
                     return '<span class="text-muted">'.ucfirst($row->authorName()).'</span>';
                 }),
 
-
-         /*   MwCardColumn::make('Card', 'id')
-                ->icon('mdi mdi-shopping mdi-18px')
-                ->noThumbnailIcon('mdi mdi-shopping mdi-48px text-muted text-opacity-5')
-
-                ->attributes(function($row) {
-                return [''];
-            })->sortable(),*/
         ];
     }
 

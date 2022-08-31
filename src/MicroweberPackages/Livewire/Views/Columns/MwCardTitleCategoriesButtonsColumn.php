@@ -34,6 +34,7 @@ class MwCardTitleCategoriesButtonsColumn extends Column
     {
         return view($this->getView())
             ->withColumn($this)
+            ->withRow($row)
             ->withButtons(app()->call($this->buttonsCallback, ['row'=>$row]));
     }
 }
