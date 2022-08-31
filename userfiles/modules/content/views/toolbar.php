@@ -168,7 +168,7 @@ if ($last_page_front != false) {
             </div>
         <?php elseif ($act == 'pages'): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h5 class="mb-0">
+                <h5 class="mb-0 d-flex">
                     <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Add Page"); ?></strong>
                 </h5>
@@ -176,7 +176,7 @@ if ($last_page_front != false) {
             </div>
         <?php elseif ($act == 'posts'): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h5 class="mb-0">
+                <h5 class="mb-0 d-flex">
                     <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Posts"); ?></strong>
                 </h5>
@@ -187,7 +187,7 @@ if ($last_page_front != false) {
 
         <?php elseif ($act == 'products'): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                 <h5 class="mb-0">
+                 <h5 class="mb-0 d-flex">
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Products"); ?></strong>
                 </h5>
@@ -195,7 +195,7 @@ if ($last_page_front != false) {
             </div>
         <?php elseif (isset($params['is_shop'])): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h5 class="mb-0">
+                <h5 class="mb-0 d-flex">
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("My Shop"); ?></strong>
                 </h5>
@@ -203,7 +203,7 @@ if ($last_page_front != false) {
             </div>
         <?php else: ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-                <h5 class="mb-0">
+                <h5 class="mb-0 d-flex">
                     <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Website"); ?></strong>
                 </h5>
