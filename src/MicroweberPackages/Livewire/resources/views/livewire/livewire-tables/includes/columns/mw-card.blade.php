@@ -36,6 +36,8 @@
             </div>
 
             <div class="col item-title manage-post-item-col-3 manage-post-main">
+
+
                 <div class="manage-item-main-top">
                     <a target="_self" href="" class="btn btn-link p-0">
                         <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">{{$row->title}}</h5>
@@ -56,6 +58,12 @@
                         <a href="{{$button['href']}}" class="{{$button['class']}}">{{$button['name']}}</a>
                     @endforeach
                 </div>
+
+
+
+
+
+
             </div>
 
             <div class="col item-author"><span class="text-muted">{{ucfirst($row->authorName())}}</span></div>

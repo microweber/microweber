@@ -7,6 +7,7 @@ use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardImageColumn;
+use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -72,11 +73,36 @@ class ProductsTable extends AdminDataTableComponent
                     ];
                 }),
 
-            Column::make('Title')
-                ->sortable()
-                ->searchable()
-                ->secondaryHeader($this->getFilterByKey('title'))
-                ->footer($this->getFilterByKey('title')),
+            MwCardTitleCategoriesButtonsColumn::make('Title')
+                ->buttons(function ($row) {
+                $buttons = [
+                    [
+                        'name'=>'Edit',
+                        'class'=>'btn btn-outline-primary btn-sm',
+                        'href'=>route('admin.product.edit', $row->id),
+                    ],
+                    [
+                        'name'=>'Live edit',
+                        'class'=>'btn btn-outline-success btn-sm',
+                        'href'=>route('admin.product.edit', $row->id),
+                    ],
+                    [
+                        'name'=>'Delete',
+                        'class'=>'btn btn-outline-danger btn-sm',
+                        'href'=>route('admin.product.edit', $row->id),
+                    ],
+                ];
+
+                if ($row->is_active < 1) {
+                    $buttons[] = [
+                        'name'=>'Unpublished',
+                        'class'=>'badge badge-warning font-weight-normal',
+                        'href'=> "",
+                    ];
+                }
+
+                return $buttons;
+            }),
 
 
             HtmlColumn::make('Author','content.created_by')
@@ -88,35 +114,7 @@ class ProductsTable extends AdminDataTableComponent
          /*   MwCardColumn::make('Card', 'id')
                 ->icon('mdi mdi-shopping mdi-18px')
                 ->noThumbnailIcon('mdi mdi-shopping mdi-48px text-muted text-opacity-5')
-                ->buttons(function ($row) {
-                    $buttons = [
-                         [
-                            'name'=>'Edit',
-                            'class'=>'btn btn-outline-primary btn-sm',
-                            'href'=>route('admin.product.edit', $row->id),
-                         ],
-                        [
-                            'name'=>'Live edit',
-                            'class'=>'btn btn-outline-success btn-sm',
-                            'href'=>route('admin.product.edit', $row->id),
-                         ],
-                        [
-                            'name'=>'Delete',
-                            'class'=>'btn btn-outline-danger btn-sm',
-                            'href'=>route('admin.product.edit', $row->id),
-                         ],
-                    ];
 
-                    if ($row->is_active < 1) {
-                       $buttons[] = [
-                            'name'=>'Unpublished',
-                            'class'=>'badge badge-warning font-weight-normal',
-                            'href'=> "",
-                        ];
-                    }
-
-                    return $buttons;
-                })
                 ->attributes(function($row) {
                 return [''];
             })->sortable(),*/
