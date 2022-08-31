@@ -40,6 +40,11 @@ class ProductsTable extends AdminDataTableComponent
                     'class' => 'col item-author manage-post-item-col-4 d-xl-block d-none',
                 ];
             }
+            if ($column->getTitle() == 'Price') {
+                return [
+                    'class' => 'col text-right',
+                ];
+            }
             if ($column->getTitle() == 'Image') {
                 return [
                     'class' => 'col item-image',
@@ -102,6 +107,11 @@ class ProductsTable extends AdminDataTableComponent
                 }
 
                 return $buttons;
+            }),
+
+            HtmlColumn::make('Price','content.price')
+            ->setOutputHtml(function($row) {
+                return currency_format($row->price);
             }),
 
             HtmlColumn::make('Author','content.created_by')
