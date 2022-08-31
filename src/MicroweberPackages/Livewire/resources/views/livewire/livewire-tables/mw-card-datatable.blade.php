@@ -14,10 +14,10 @@
                 <div class="card-body">
                     <div class="row align-items-center">
 
-                        <div wire:sortable.handle>
-                            waw
+                 {{-- <div wire:sortable.handle>
+                            sort
                         </div>
-
+                    --}}
 
                    @foreach($columns as $colIndex => $column)
 
