@@ -245,8 +245,8 @@ class ProductsTable extends DataTableComponent
                 ->setFilterPillTitle('Status')
                 ->options([
                     '' => 'Any',
-                    '1' => 'In Stock',
-                    '0' => 'Out Of Stock',
+                    'in_stock' => 'In Stock',
+                    'out_of_stock' => 'Out Of Stock',
                 ])
                 ->filter(function(Builder $builder, string $value) {
 
@@ -257,8 +257,8 @@ class ProductsTable extends DataTableComponent
                 ->setFilterPillTitle('Type')
                 ->options([
                     '' => 'Any',
-                    '1' => 'Discounted',
-                    '2' => 'Not discounted',
+                    'discounted' => 'Discounted',
+                    'not_discounted' => 'Not discounted',
                 ])
                 ->filter(function(Builder $builder, string $value) {
 
@@ -284,8 +284,8 @@ class ProductsTable extends DataTableComponent
                 ->setFilterPillTitle('Visible')
                 ->options([
                     '' => 'Any',
-                    '1' => 'Published',
-                    '0' => 'Unpublished',
+                    'published' => 'Published',
+                    'unpublished' => 'Unpublished',
                 ])
                 ->filter(function(Builder $builder, string $value) {
                     if ($value === '1') {
