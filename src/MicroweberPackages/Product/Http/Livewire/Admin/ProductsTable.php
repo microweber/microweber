@@ -30,7 +30,6 @@ class ProductsTable extends DataTableComponent
             ->setReorderEnabled()
             ->setSortingEnabled()
             ->setSearchEnabled()
-            ->setSearchDebounce(0)
             ->setDefaultReorderSort('position', 'asc')
             ->setReorderMethod('changePosition')
             ->setFilterLayoutSlideDown()
@@ -217,6 +216,13 @@ class ProductsTable extends DataTableComponent
         $quantity = $this->getAppliedFilterWithValue('quantity');
         if ($quantity) {
             $filters['qty'] = $quantity;
+        }
+
+        $contentData = [];
+
+        $sku = $this->getAppliedFilterWithValue('s_k_u');
+        if (!empty($sku)) {
+            $filters['contentData']['sku'] = $sku;
         }
 
         if ($this->hasSearch()) {
