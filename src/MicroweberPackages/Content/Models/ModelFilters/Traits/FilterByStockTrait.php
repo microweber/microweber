@@ -10,9 +10,8 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait FilterByInStockTrait
+trait FilterByStockTrait
 {
-
     /**
      * Filter by in stock
      *

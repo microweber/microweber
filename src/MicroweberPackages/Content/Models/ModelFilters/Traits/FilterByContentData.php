@@ -20,7 +20,6 @@ trait FilterByContentData
 
         if (is_string($params)) {
             $params = parse_params($params);
-
         }
 
         foreach ($params as $key => $value) {

@@ -218,6 +218,14 @@ class ProductsTable extends DataTableComponent
             $filters['qty'] = $quantity;
         }
 
+        $status= $this->getAppliedFilterWithValue('status');
+        if ($status == 'in_stock') {
+            $filters['inStock'] = true;
+        }
+        if ($status == 'out_of_stock') {
+            $filters['inStock'] = false;
+        }
+
         $contentData = [];
 
         $sku = $this->getAppliedFilterWithValue('s_k_u');
@@ -227,7 +235,10 @@ class ProductsTable extends DataTableComponent
 
         $type = $this->getAppliedFilterWithValue('type');
         if ($type == 'discounted') {
-            
+            $filters['discounted'] = true;
+        }
+        if ($type == 'not_discounted') {
+            $filters['not_discounted'] = true;
         }
 
         if ($this->hasSearch()) {
