@@ -227,6 +227,11 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
+            NumberFilter::make('Sales')
+                ->filter(function(Builder $builder, string $value) {
+                    //
+                }),
+
             NumberFilter::make('Quantity')
                 ->filter(function(Builder $builder, string $value) {
                     //
