@@ -121,7 +121,12 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Price','content.price')
             ->setOutputHtml(function($row) {
-                $price = '<span class="h5">'.currency_format($row->price).'</span>';
+                if ($row->hasSpecialPrice()) {
+                    $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($row->price).'</span>';
+                    $price .= '<br /><span class="h5">'.currency_format($row->price).'</span>';
+                } else {
+                    $price = '<span class="h5">'.currency_format($row->specialPrice).'</span>';
+                }
                 return $price;
             }),
 
