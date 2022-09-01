@@ -37,22 +37,32 @@ class ProductsTable extends AdminDataTableComponent
         $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
             if ($column->getTitle() == 'Author') {
                 return [
-                    'class' => 'col item-author manage-post-item-col-4 d-xl-block d-none',
+                    'class' => 'col-lg-1 col d-xl-block d-none',
                 ];
             }
             if ($column->getTitle() == 'Price') {
                 return [
-                    'class' => 'col text-right',
+                    'class' => 'col-lg-2 col text-center',
+                ];
+            }
+            if ($column->getTitle() == 'Stock') {
+                return [
+                    'class' => 'col-lg-1 col text-center',
+                ];
+            }
+            if ($column->getTitle() == 'Inventory') {
+                return [
+                    'class' => 'col-lg-2 col text-center',
                 ];
             }
             if ($column->getTitle() == 'Image') {
                 return [
-                    'class' => 'col item-image',
+                    'class' => 'col-lg-2 col item-image',
                 ];
             }
             if ($column->getTitle() == 'Title') {
                 return [
-                    'class' => 'col item-title manage-post-item-col-3 manage-post-main',
+                    'class' => 'col-lg-6 col item-title',
                 ];
             }
             return [
@@ -111,7 +121,31 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Price','content.price')
             ->setOutputHtml(function($row) {
-                return currency_format($row->price);
+                $price = '<span class="h5">'.currency_format($row->price).'</span>';
+                return $price;
+            }),
+
+            HtmlColumn::make('Stock','content.InStock')
+            ->setOutputHtml(function($row) {
+                if ($row->InStock) {
+                    $stock = '<span class="badge badge-success badge-sm">In stock</span>';
+                } else {
+                    $stock = '<span class="badge badge-danger badge-sm">Out Of Stock</span>';
+                }
+                return $stock;
+            }),
+
+            HtmlColumn::make('Inventory','content.price')
+            ->setOutputHtml(function($row) {
+                if ($row->qty == 'nolimit') {
+                    $quantity = 'Quantity: <i class="fa fa-infinity"></i>';
+                } else {
+                    $quantity = 'Quantity: ' . $row->qty;
+                }
+                if (!empty($row->sku)) {
+                    $quantity .= '<br />SKU: ' . $row->sku;
+                }
+                return $quantity;
             }),
 
             HtmlColumn::make('Author','content.created_by')
