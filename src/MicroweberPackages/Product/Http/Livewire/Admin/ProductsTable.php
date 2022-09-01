@@ -288,9 +288,9 @@ class ProductsTable extends DataTableComponent
                     'unpublished' => 'Unpublished',
                 ])
                 ->filter(function(Builder $builder, string $value) {
-                    if ($value === '1') {
+                    if ($value === 'published') {
                         $builder->where('is_active', 1);
-                    } elseif ($value === '0') {
+                    } elseif ($value === 'unpublished') {
                         $builder->where('is_active', 0);
                     }
                 }),
