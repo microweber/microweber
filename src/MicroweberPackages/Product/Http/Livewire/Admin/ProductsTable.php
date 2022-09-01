@@ -10,13 +10,15 @@ use MicroweberPackages\Livewire\Views\Columns\MwCardImageColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 
-class ProductsTable extends AdminDataTableComponent
+class ProductsTable extends DataTableComponent
 {
     protected $model = Product::class;
     public array $perPageAccepted = [1, 25, 50, 100, 200];
@@ -36,7 +38,7 @@ class ProductsTable extends AdminDataTableComponent
             ->setUseHeaderAsFooterEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
 
-        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+       /* $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
             if ($column->getTitle() == 'Author') {
                 return [
                     'class' => 'col-lg-1 col d-xl-block d-none',
@@ -48,6 +50,11 @@ class ProductsTable extends AdminDataTableComponent
                 ];
             }
             if ($column->getTitle() == 'Stock') {
+                return [
+                    'class' => 'col-lg-1 col text-center',
+                ];
+            }
+            if ($column->getTitle() == 'Sales') {
                 return [
                     'class' => 'col-lg-1 col text-center',
                 ];
@@ -64,20 +71,28 @@ class ProductsTable extends AdminDataTableComponent
             }
             if ($column->getTitle() == 'Title') {
                 return [
-                    'class' => 'col-lg-6 col item-title',
+                    'class' => 'col-lg-5 col item-title',
                 ];
             }
             return [
                 'class' => 'col',
             ];
-        });
+        });*/
     }
 
     public function columns(): array
     {
         return [
-
-           MwCardImageColumn::make('Image','image')
+             ImageColumn::make('Image')
+                 ->location(function($row) {
+                     return $row->thumbnail();
+                 })
+                 ->attributes(function($row) {
+                     return [
+                         'class' => 'w-8 h-8 rounded-full',
+                     ];
+                 }),
+          /* MwCardImageColumn::make('Image','image')
                 ->location(function($row) {
                     $img = false;
                     if ($row->media()->first() !== null) {
@@ -88,7 +103,7 @@ class ProductsTable extends AdminDataTableComponent
                         'href'=> '',
                         'location'=> $img
                     ];
-                }),
+                }),*/
 
             MwCardTitleCategoriesButtonsColumn::make('Title')
                 ->buttons(function ($row) {
@@ -142,6 +157,12 @@ class ProductsTable extends AdminDataTableComponent
                 return $stock;
             }),
 
+            HtmlColumn::make('Sales','content.sales')
+            ->setOutputHtml(function($row) {
+                $sales = '<span class="badge badge-danger badge-sm">0 sales</span>';
+                return $sales;
+            }),
+
             HtmlColumn::make('Inventory','content.price')
             ->setOutputHtml(function($row) {
                 if ($row->qty == 'nolimit') {
@@ -157,10 +178,10 @@ class ProductsTable extends AdminDataTableComponent
                 return $quantity;
             }),
 
-            HtmlColumn::make('Author','content.created_by')
+           /* HtmlColumn::make('Author','content.created_by')
                 ->setOutputHtml(function($row) {
                     return '<span class="text-muted">'.ucfirst($row->authorName()).'</span>';
-                }),
+                }),*/
 
         ];
     }
