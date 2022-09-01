@@ -156,12 +156,8 @@ class Product extends Content
 
     public function getPriceModelAttribute()
     {
-        $price = $this->fetchSingleAttributeByType('price', true);
-        if (is_numeric($price)) {
-            return $price;
-        }
-
-        return 0;
+        // This must return only object model, DON'T CHANGE IT!
+        return $this->fetchSingleAttributeByType('price', true);
     }
 
     public function getQtyAttribute()
