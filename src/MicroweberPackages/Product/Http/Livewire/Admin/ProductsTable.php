@@ -225,6 +225,11 @@ class ProductsTable extends DataTableComponent
             $filters['contentData']['sku'] = $sku;
         }
 
+        $type = $this->getAppliedFilterWithValue('type');
+        if ($type == 'discounted') {
+            
+        }
+
         if ($this->hasSearch()) {
             $search = $this->getSearch();
             $filters['title'] = $search;
