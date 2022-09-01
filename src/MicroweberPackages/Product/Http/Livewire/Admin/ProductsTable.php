@@ -163,10 +163,22 @@ class ProductsTable extends DataTableComponent
                 return $sales;
             }),
 
-            HtmlColumn::make('Inventory','content.price')
+            HtmlColumn::make('Quantity','content.price')
             ->setOutputHtml(function($row) {
                 if ($row->qty == 'nolimit') {
                     $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
+                } else if ($row->qty == 0) {
+                    $quantity = '<span class="text-small text-danger">0</span>';
+                } else {
+                    $quantity = $row->qty;
+                }
+                return $quantity;
+            }),
+
+          /*  HtmlColumn::make('Sku','content.sku')
+            ->setOutputHtml(function($row) {
+                if ($row->qty == 'nolimit') {
+                    $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i> Unlimited';
                 } else if ($row->qty == 0) {
                     $quantity = '<span class="text-small text-danger">No quantity</span>';
                 } else {
@@ -176,7 +188,7 @@ class ProductsTable extends DataTableComponent
                     $quantity .= '<br /><span class="text-small text-primary">SKU: ' . $row->sku.'</span>';
                 }
                 return $quantity;
-            }),
+            }),*/
 
            /* HtmlColumn::make('Author','content.created_by')
                 ->setOutputHtml(function($row) {
@@ -199,15 +211,20 @@ class ProductsTable extends DataTableComponent
         $query->select(['content.id','content.is_active','content.title','content.url','content.position','content.created_by']);
         $query->orderBy('position','asc');
 
+        $filters = [];
+      //  $filters['priceBetween'] = '10,20';
+
+        $quantity = $this->getAppliedFilterWithValue('quantity');
+        if ($quantity) {
+            $filters['qty'] = $quantity;
+        }
+
         if ($this->hasSearch()) {
             $search = $this->getSearch();
-            $search = trim(strtolower($search));
-
-            $query->where(function (Builder $subQuery) use ($search) {
-                $subQuery->whereRaw('LOWER(`title`) LIKE ? ', ['%' . $search . '%']);
-                $subQuery->orWhereRaw('LOWER(`url`) LIKE ? ', ['%' . $search . '%']);
-            });
+            $filters['title'] = $search;
         }
+
+        $query->filter($filters);
 
         return $query;
     }
@@ -228,8 +245,8 @@ class ProductsTable extends DataTableComponent
                 ->setFilterPillTitle('Status')
                 ->options([
                     '' => 'Any',
-                    '1' => 'InStock',
-                    '0' => 'OutOfStock',
+                    '1' => 'In Stock',
+                    '0' => 'Out Of Stock',
                 ])
                 ->filter(function(Builder $builder, string $value) {
 
