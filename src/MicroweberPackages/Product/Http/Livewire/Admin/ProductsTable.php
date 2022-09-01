@@ -12,7 +12,9 @@ use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 
 class ProductsTable extends AdminDataTableComponent
 {
@@ -200,6 +202,40 @@ class ProductsTable extends AdminDataTableComponent
              ->filter(function(Builder $builder, string $value) {
                  $builder->where('id', 'like', '%'.$value.'%');
              }),*/
+
+            SelectFilter::make('Status')
+                ->setFilterPillTitle('Status')
+                ->options([
+                    '' => 'Any',
+                    '1' => 'InStock',
+                    '0' => 'OutOfStock',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+
+
+                }),
+
+            SelectFilter::make('Type')
+                ->setFilterPillTitle('Type')
+                ->options([
+                    '' => 'Any',
+                    '1' => 'Discounted',
+                    '2' => 'Not discounted',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+
+
+                }),
+
+            NumberFilter::make('Quantity')
+                ->filter(function(Builder $builder, string $value) {
+                    //
+                }),
+
+            TextFilter::make('SKU')
+                ->filter(function(Builder $builder, string $value) {
+                    //
+                }),
 
             SelectFilter::make('Visible')
                 ->setFilterPillTitle('Visible')
