@@ -123,9 +123,9 @@ class ProductsTable extends AdminDataTableComponent
             ->setOutputHtml(function($row) {
                 if ($row->hasSpecialPrice()) {
                     $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($row->price).'</span>';
-                    $price .= '<br /><span class="h5">'.currency_format($row->price).'</span>';
+                    $price .= '<br /><span class="h5">'.currency_format($row->specialPrice).'</span>';
                 } else {
-                    $price = '<span class="h5">'.currency_format($row->specialPrice).'</span>';
+                    $price = '<span class="h5">'.currency_format($row->price).'</span>';
                 }
                 return $price;
             }),
@@ -143,12 +143,14 @@ class ProductsTable extends AdminDataTableComponent
             HtmlColumn::make('Inventory','content.price')
             ->setOutputHtml(function($row) {
                 if ($row->qty == 'nolimit') {
-                    $quantity = 'Quantity: <i class="fa fa-infinity"></i>';
+                    $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
+                } else if ($row->qty == 0) {
+                    $quantity = '<span class="text-small text-danger">No quantity</span>';
                 } else {
                     $quantity = 'Quantity: ' . $row->qty;
                 }
                 if (!empty($row->sku)) {
-                    $quantity .= '<br />SKU: ' . $row->sku;
+                    $quantity .= '<br /><span class="text-small text-primary">SKU: ' . $row->sku.'</span>';
                 }
                 return $quantity;
             }),
