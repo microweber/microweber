@@ -7,6 +7,7 @@ use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
+use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
@@ -214,7 +215,6 @@ class ProductsTable extends AdminDataTableComponent
             $filters['qty'] = $quantity;
         }
 
-
         $status = $this->getAppliedFilterWithValue('status');
         if ($status == 'in_stock') {
             $filters['inStock'] = true;
@@ -250,13 +250,13 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-         /*   PriceRangeFilter::make('Price range')
+           PriceRangeFilter::make('Price range')
              ->config([
                  'placeholder' => 'Select price range',
              ])
              ->filter(function(Builder $builder, string $value) {
                  $builder->where('id', 'like', '%'.$value.'%');
-             }),*/
+             }),
 
             SelectFilter::make('Status')
                 ->setFilterPillTitle('Status')

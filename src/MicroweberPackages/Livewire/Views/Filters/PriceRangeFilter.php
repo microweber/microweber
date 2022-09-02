@@ -52,7 +52,7 @@ class PriceRangeFilter extends Filter
 
     public function render(DataTableComponent $component)
     {
-        return view('livewire::livewire.livewire-tables.components.tools.filters.price-range', [
+        return view('livewire::livewire.mw-livewire-tables.components.tools.filters.price-range', [
             'component' => $component,
             'filter' => $this,
         ]);
