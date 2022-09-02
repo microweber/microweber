@@ -6,19 +6,15 @@ use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
-use MicroweberPackages\Livewire\Views\Columns\MwCardImageColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
-use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 
-class ProductsTable extends DataTableComponent
+class ProductsTable extends AdminDataTableComponent
 {
     protected $model = Product::class;
     public array $perPageAccepted = [1, 25, 50, 100, 200];
