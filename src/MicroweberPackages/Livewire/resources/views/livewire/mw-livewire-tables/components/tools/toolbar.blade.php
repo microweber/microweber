@@ -588,7 +588,7 @@
             x-show="filtersOpen"
         >
 
-            <div class="container">
+            <div class="container-filters">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
                         @if($filter->isVisibleInMenus())
@@ -850,7 +850,7 @@
             x-cloak
             x-show="filtersOpen"
          style="background: rgb(236, 244, 255)" class="pt-4 mb-4">
-            <div class="container">
+            <div class="container-filters">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
                         @if($filter->isVisibleInMenus())
