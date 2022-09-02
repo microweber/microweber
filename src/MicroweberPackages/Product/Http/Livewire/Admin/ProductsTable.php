@@ -30,6 +30,7 @@ class ProductsTable extends AdminDataTableComponent
             ->setFilterLayoutSlideDown()
             ->setColumnSelectDisabled()
             ->setUseHeaderAsFooterEnabled()
+            ->setBulkActionsEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
 
        /* $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
@@ -323,5 +324,16 @@ class ProductsTable extends AdminDataTableComponent
         ];
     }
 
+    public function bulkActions(): array
+    {
+        $bulkActions = [
+            'multipleProductPublish(1)' => 'Publish',
+            'multipleProductPublish(0)' => 'Unpublish',
+        ];
+
+        $bulkActions['multipleProductDelete'] = 'Delete';
+
+        return $bulkActions;
+    }
 }
 
