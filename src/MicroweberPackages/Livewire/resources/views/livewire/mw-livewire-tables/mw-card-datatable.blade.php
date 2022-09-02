@@ -3,7 +3,7 @@
         <x-livewire-tables::tools.sorting-pills />
         <x-livewire-tables::tools.filter-pills />
 
-        @include('livewire::livewire.livewire-tables.components.tools.toolbar')
+        @include('livewire::livewire.mw-livewire-tables.components.tools.toolbar')
 
     </x-livewire-tables::tools>
 
