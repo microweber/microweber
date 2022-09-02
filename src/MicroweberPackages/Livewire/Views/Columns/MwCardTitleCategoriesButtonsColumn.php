@@ -7,7 +7,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class MwCardTitleCategoriesButtonsColumn extends Column
 {
-    protected string $view = 'livewire::livewire.livewire-tables.includes.columns.mw-card-title-categories-buttons';
+    protected string $view = 'livewire::livewire.mw-livewire-tables.includes.columns.mw-card-title-categories-buttons';
 
     protected $buttonsCallback;
 

@@ -7,7 +7,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class HtmlColumn extends Column
 {
-    protected string $view = 'livewire::livewire.livewire-tables.includes.columns.html';
+    protected string $view = 'livewire::livewire.mw-livewire-tables.includes.columns.html';
 
     public function __construct(string $title, string $from = null)
     {
