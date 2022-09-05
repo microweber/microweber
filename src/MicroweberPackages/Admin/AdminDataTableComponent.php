@@ -14,6 +14,9 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 abstract class AdminDataTableComponent extends DataTableComponent
 {
+
+    public $state;
+
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */

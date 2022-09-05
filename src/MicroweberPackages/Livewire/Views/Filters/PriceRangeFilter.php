@@ -50,8 +50,20 @@ class PriceRangeFilter extends Filter
         return $value === '';
     }
 
+    public $state;
+
     public function render(DataTableComponent $component)
     {
+
+        if (!isset($component->state['minPrice'])) {
+            $component->state['minPrice'] = 0;
+        }
+        if (!isset($component->state['maxPrice'])) {
+            $component->state['maxPrice'] = 0;
+        }
+
+        $component->setFilter($this->key,$component->state['minPrice'] .','. $component->state['maxPrice']);
+
         return view('livewire::livewire.mw-livewire-tables.components.tools.filters.price-range', [
             'component' => $component,
             'filter' => $this,
