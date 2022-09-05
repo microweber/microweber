@@ -27,13 +27,13 @@
         minPrice_{{ $filter->getKey() }}.onkeyup = function() {
             priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
             priceRangeElement.value = priceRange;
-            $(priceRangeElement).trigger('change');
+
         };
 
         maxPrice_{{ $filter->getKey() }}.onkeyup = function() {
             priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
             priceRangeElement.value = priceRange;
-            $(priceRangeElement).trigger('change');
+            
         };
 
         priceRangeElement.value = priceRange;
