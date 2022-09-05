@@ -7,11 +7,10 @@
 @elseif ($theme === 'bootstrap-4' || $theme === 'bootstrap-5')
 
     <input
-        wire:model="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
+        wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
         wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
         id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
         type="text"
-        class="form-control"
     />
 
     <div class="mb-3 mb-md-0 input-group">
