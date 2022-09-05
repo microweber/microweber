@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Product\Models;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
@@ -191,12 +192,17 @@ class Product extends Content
 
     public function getSalesCountAttribute()
     {
-        return 555;
+        $query = $this->query();
+        $query->whereHas('cart', function ($subQuery) {
+            $subQuery->whereHas('order');
+        });
+
+        return $query->count();
     }
 
-    public function orders()
+    public function cart()
     {
-        return $this->hasMany(Order::class,'rel_id');
+        return $this->hasMany(Cart::class,'rel_id');
     }
 
     public function getInStockAttribute()

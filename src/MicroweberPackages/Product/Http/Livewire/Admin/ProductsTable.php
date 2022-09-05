@@ -103,9 +103,6 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Sales','content.sales')
             ->setOutputHtml(function($row) {
-
-                dump($row->orders()->first());
-
                 $sales = '<span class="badge badge-danger badge-sm">'.$row->salesCount.' sales</span>';
                 return $sales;
             }),

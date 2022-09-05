@@ -14,6 +14,7 @@ namespace MicroweberPackages\Cart\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Cart\Models\ModelFilters\CartFilter;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\Models\Product;
 
 class Cart extends Model
@@ -42,6 +43,11 @@ class Cart extends Model
     public function modelFilter()
     {
         return $this->provideFilter(CartFilter::class);
+    }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'id','order_id');
     }
 
     public function products()

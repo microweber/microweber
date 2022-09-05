@@ -12,3 +12,19 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('a', function () {
+
+    $productQuery = \MicroweberPackages\Product\Models\Product::query();
+    $productQuery->whereHas('cart', function ($query) {
+        $query->whereHas('order');
+        $query->with('order');
+    });
+    $productQuery->with('cart');
+
+    $products = $productQuery->first();
+
+
+    dump($products);
+
+});
