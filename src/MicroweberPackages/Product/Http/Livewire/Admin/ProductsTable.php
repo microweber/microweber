@@ -209,7 +209,13 @@ class ProductsTable extends AdminDataTableComponent
         $query->orderBy('position','asc');
 
         $filters = [];
-      //  $filters['priceBetween'] = '10,20';
+
+        $priceRange = $this->getAppliedFilterWithValue('price_range');
+        if ($priceRange) {
+            if (strpos($priceRange, ',') !== false) {
+                $filters['priceBetween'] = $priceRange;
+            }
+        }
 
         $quantity = $this->getAppliedFilterWithValue('quantity');
         if ($quantity) {
@@ -251,11 +257,10 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-
             PriceRangeFilter::make('Price range')
              ->config([
                  'placeholder' => 'Select price range',
-             ])->filter(function(Builder $builder, $values) {
+             ])->filter(function(Builder $builder, string $value) {
 
              }),
 
