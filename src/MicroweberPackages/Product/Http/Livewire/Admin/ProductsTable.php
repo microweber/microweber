@@ -34,47 +34,6 @@ class ProductsTable extends AdminDataTableComponent
             ->setUseHeaderAsFooterEnabled()
             ->setBulkActionsEnabled()
             ->setHideBulkActionsWhenEmptyEnabled();
-
-       /* $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
-            if ($column->getTitle() == 'Author') {
-                return [
-                    'class' => 'col-lg-1 col d-xl-block d-none',
-                ];
-            }
-            if ($column->getTitle() == 'Price') {
-                return [
-                    'class' => 'col-lg-2 col text-center',
-                ];
-            }
-            if ($column->getTitle() == 'Stock') {
-                return [
-                    'class' => 'col-lg-1 col text-center',
-                ];
-            }
-            if ($column->getTitle() == 'Sales') {
-                return [
-                    'class' => 'col-lg-1 col text-center',
-                ];
-            }
-            if ($column->getTitle() == 'Inventory') {
-                return [
-                    'class' => 'col-lg-2 col text-center',
-                ];
-            }
-            if ($column->getTitle() == 'Image') {
-                return [
-                    'class' => 'col-lg-2 col item-image',
-                ];
-            }
-            if ($column->getTitle() == 'Title') {
-                return [
-                    'class' => 'col-lg-5 col item-title',
-                ];
-            }
-            return [
-                'class' => 'col',
-            ];
-        });*/
     }
 
     public function columns(): array
@@ -89,18 +48,6 @@ class ProductsTable extends AdminDataTableComponent
                          'class' => 'w-8 h-8 rounded-full',
                      ];
                  }),
-          /* MwCardImageColumn::make('Image','image')
-                ->location(function($row) {
-                    $img = false;
-                    if ($row->media()->first() !== null) {
-                        $img = $row->thumbnail();
-                    }
-                    return [
-                        'target'=>'_blank',
-                        'href'=> '',
-                        'location'=> $img
-                    ];
-                }),*/
 
             MwCardTitleCategoriesButtonsColumn::make('Title')
                 ->buttons(function ($row) {
@@ -172,26 +119,6 @@ class ProductsTable extends AdminDataTableComponent
                 return $quantity;
             }),
 
-          /*  HtmlColumn::make('Sku','content.sku')
-            ->setOutputHtml(function($row) {
-                if ($row->qty == 'nolimit') {
-                    $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i> Unlimited';
-                } else if ($row->qty == 0) {
-                    $quantity = '<span class="text-small text-danger">No quantity</span>';
-                } else {
-                    $quantity = 'Quantity: ' . $row->qty;
-                }
-                if (!empty($row->sku)) {
-                    $quantity .= '<br /><span class="text-small text-primary">SKU: ' . $row->sku.'</span>';
-                }
-                return $quantity;
-            }),*/
-
-           /* HtmlColumn::make('Author','content.created_by')
-                ->setOutputHtml(function($row) {
-                    return '<span class="text-muted">'.ucfirst($row->authorName()).'</span>';
-                }),*/
-
         ];
     }
 
@@ -259,12 +186,16 @@ class ProductsTable extends AdminDataTableComponent
 
             PriceRangeFilter::make('Price range')
              ->config([
+                 'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
                  'placeholder' => 'Select price range',
              ])->filter(function(Builder $builder, string $value) {
 
              }),
 
             SelectFilter::make('Status')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                ])
                 ->setFilterPillTitle('Status')
                 ->options([
                     '' => 'Any',
@@ -277,6 +208,9 @@ class ProductsTable extends AdminDataTableComponent
                 }),
 
             SelectFilter::make('Type')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                ])
                 ->setFilterPillTitle('Type')
                 ->options([
                     '' => 'Any',
@@ -289,16 +223,25 @@ class ProductsTable extends AdminDataTableComponent
                 }),
 
             NumberFilter::make('Sales')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                ])
                 ->filter(function(Builder $builder, string $value) {
                     //
                 }),
 
             NumberFilter::make('Quantity')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                ])
                 ->filter(function(Builder $builder, string $value) {
                     //
                 }),
 
             TextFilter::make('SKU')
+                ->config([
+                   
+                ])
                 ->filter(function(Builder $builder, string $value) {
                     //
                 }),

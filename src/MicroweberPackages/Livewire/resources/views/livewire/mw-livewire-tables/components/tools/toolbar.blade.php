@@ -848,13 +848,14 @@
     @if ($component->filtersAreEnabled() && $component->filtersVisibilityIsEnabled() && $component->hasVisibleFilters() && $component->isFilterLayoutSlideDown())
         <div
             x-cloak
-            x-show="filtersOpen" 
+            x-show="filtersOpen"
          style="background: rgb(236, 244, 255)" class="p-3 pt-4 mb-4">
             <div class="container-filters">
                 <div class="row">
                     @foreach($component->getFilters() as $filter)
                         @if($filter->isVisibleInMenus())
-                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+
+                            <div class="@if($filter->getConfig('class')) {{$filter->getConfig('class')}} @else col-12 col-sm-6 col-md-3 col-lg-3 mb-4 @endif">
                                 <label for="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
                                     class="d-block">
                                     {{ $filter->getName() }}
