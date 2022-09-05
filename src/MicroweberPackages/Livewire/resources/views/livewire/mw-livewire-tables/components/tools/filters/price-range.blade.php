@@ -19,23 +19,34 @@
     </div>
 
     <script>
-        let minPrice_{{ $filter->getKey() }} = document.getElementById('js-{{ $filter->getKey() }}-min-price');
-        let maxPrice_{{ $filter->getKey() }} = document.getElementById('js-{{ $filter->getKey() }}-max-price');
-        let priceRange = minPrice_{{ $filter->getKey() }}.value + ', ' + maxPrice_{{ $filter->getKey() }}.value;
-        let priceRangeElement = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
+        document.addEventListener('livewire:load', function () {
 
-        minPrice_{{ $filter->getKey() }}.onkeyup = function() {
-            priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
-            priceRangeElement.value = priceRange;
-            priceRangeElement.dispatchEvent(new Event('input'));
-        };
+            let minPrice_{{ $filter->getKey() }} = document.getElementById('js-{{ $filter->getKey() }}-min-price');
+            let maxPrice_{{ $filter->getKey() }} = document.getElementById('js-{{ $filter->getKey() }}-max-price');
+            let priceRange_{{ $filter->getKey() }} = minPrice_{{ $filter->getKey() }}.value + ', ' + maxPrice_{{ $filter->getKey() }}.value;
+            let priceRangeElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
 
-        maxPrice_{{ $filter->getKey() }}.onkeyup = function() {
-            priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
-            priceRangeElement.value = priceRange;
-            priceRangeElement.dispatchEvent(new Event('input'));
-        };
+            const priceRangeExp_{{ $filter->getKey() }} = priceRangeElement_{{ $filter->getKey() }}.value.split(",");
+            if (priceRangeExp_{{ $filter->getKey() }}) {
+                if (priceRangeExp_{{ $filter->getKey() }}[0]) {
+                    minPrice_{{ $filter->getKey() }}.value = priceRangeExp_{{ $filter->getKey() }}[0];
+                }
+                if (priceRangeExp_{{ $filter->getKey() }}[1]) {
+                    maxPrice_{{ $filter->getKey() }}.value = priceRangeExp_{{ $filter->getKey() }}[1];
+                }
+            }
 
-        priceRangeElement.value = priceRange;
+            minPrice_{{ $filter->getKey() }}.onkeyup = function() {
+                priceRange_{{ $filter->getKey() }} = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
+                priceRangeElement_{{ $filter->getKey() }}.value = priceRange_{{ $filter->getKey() }};
+                priceRangeElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
+            };
+
+            maxPrice_{{ $filter->getKey() }}.onkeyup = function() {
+                priceRange_{{ $filter->getKey() }} = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
+                priceRangeElement_{{ $filter->getKey() }}.value = priceRange_{{ $filter->getKey() }};
+                priceRangeElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
+            };
+        });
     </script>
 @endif
