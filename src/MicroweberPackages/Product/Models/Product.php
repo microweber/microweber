@@ -14,6 +14,7 @@ use MicroweberPackages\Product\CartesianProduct;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
+use function Clue\StreamFilter\fun;
 
 class Product extends Content
 {
@@ -195,7 +196,9 @@ class Product extends Content
         $query = Product::query();
         $query->where('id', $this->id);
         $query->whereHas('cart', function ($subQuery) {
-            $subQuery->whereHas('order');
+            $subQuery->whereHas('order', function ($order) {
+               // dd($order->count());
+            });
         });
 
         return $query->count();

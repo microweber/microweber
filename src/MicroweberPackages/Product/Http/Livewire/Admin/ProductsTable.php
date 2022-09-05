@@ -103,12 +103,13 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Sales','content.sales')
             ->setOutputHtml(function($row) {
+                $ordersUrl = route('admin.order.index') . '?productId='.$row->id;
                 if ($row->salesCount == 1) {
-                    $sales = '<span class="badge badge-success badge-sm">'.$row->salesCount.' sale</span>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$row->salesCount.' sale</span></a>';
                 } else if ($row->salesCount > 1) {
-                    $sales = '<span class="badge badge-success badge-sm">'.$row->salesCount.' sales</span>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$row->salesCount.' sales</span></a>';
                 } else {
-                    $sales = '<span class="badge badge-danger badge-sm">'.$row->salesCount.' sales</span>';
+                    $sales = '<span>'.$row->salesCount.' sales</span>';
                 }
                 return $sales;
             }),
