@@ -11,6 +11,7 @@ use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -250,12 +251,12 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-           PriceRangeFilter::make('Price range')
+
+            PriceRangeFilter::make('Price range')
              ->config([
                  'placeholder' => 'Select price range',
-             ])
-             ->filter(function(Builder $builder, string $value) {
-                 $builder->where('id', 'like', '%'.$value.'%');
+             ])->filter(function(Builder $builder, $values) {
+
              }),
 
             SelectFilter::make('Status')
