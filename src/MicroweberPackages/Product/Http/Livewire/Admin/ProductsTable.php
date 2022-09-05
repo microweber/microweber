@@ -103,7 +103,10 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Sales','content.sales')
             ->setOutputHtml(function($row) {
-                $sales = '<span class="badge badge-danger badge-sm">0 sales</span>';
+
+                dump($row->orders()->first());
+
+                $sales = '<span class="badge badge-danger badge-sm">'.$row->salesCount.' sales</span>';
                 return $sales;
             }),
 
@@ -240,7 +243,7 @@ class ProductsTable extends AdminDataTableComponent
 
             TextFilter::make('SKU')
                 ->config([
-                   
+
                 ])
                 ->filter(function(Builder $builder, string $value) {
                     //

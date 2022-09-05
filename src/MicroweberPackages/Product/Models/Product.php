@@ -8,6 +8,7 @@ use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
@@ -186,6 +187,16 @@ class Product extends Content
     public function getSpecialPriceAttribute()
     {
         return $this->getContentDataByFieldName('special_price');
+    }
+
+    public function getSalesCountAttribute()
+    {
+        return 555;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'rel_id');
     }
 
     public function getInStockAttribute()
