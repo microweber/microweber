@@ -196,9 +196,7 @@ class Product extends Content
         $query = Product::query();
         $query->where('id', $this->id);
         $query->whereHas('cart', function ($subQuery) {
-            $subQuery->whereHas('order', function ($order) {
-               // dd($order->count());
-            });
+            $subQuery->whereHas('order');
         });
 
         return $query->count();
