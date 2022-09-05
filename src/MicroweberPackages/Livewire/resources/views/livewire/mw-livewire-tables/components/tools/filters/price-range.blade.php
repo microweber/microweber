@@ -25,13 +25,13 @@
         let priceRangeElement = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
 
         minPrice_{{ $filter->getKey() }}.onkeyup = function() {
-            priceRange = minPrice_{{ $filter->getKey() }}.value + ', ' + maxPrice_{{ $filter->getKey() }}.value;
+            priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
             priceRangeElement.value = priceRange;
             $(priceRangeElement).trigger('change');
         };
 
         maxPrice_{{ $filter->getKey() }}.onkeyup = function() {
-            priceRange = minPrice_{{ $filter->getKey() }}.value + ', ' + maxPrice_{{ $filter->getKey() }}.value;
+            priceRange = minPrice_{{ $filter->getKey() }}.value + ',' + maxPrice_{{ $filter->getKey() }}.value;
             priceRangeElement.value = priceRange;
             $(priceRangeElement).trigger('change');
         };
