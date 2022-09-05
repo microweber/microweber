@@ -21,36 +21,15 @@ class PriceRangeFilter extends Filter
         return $this->options;
     }
 
-    public function getKeys(): array
-    {
-        return collect($this->getOptions())
-            ->keys()
-            ->map(fn ($value) => (string)$value)
-            ->filter(fn ($value) => strlen($value))
-            ->values()
-            ->toArray();
-    }
-
     public function validate($value)
     {
-        if (! in_array($value, $this->getKeys())) {
-            return false;
-        }
-
         return $value;
-    }
-
-    public function getFilterPillValue($value): ?string
-    {
-        return $this->getCustomFilterPillValue($value) ?? $this->getOptions()[$value] ?? null;
     }
 
     public function isEmpty($value): bool
     {
         return $value === '';
     }
-
-    public $state;
 
     public function render(DataTableComponent $component)
     {
@@ -62,7 +41,7 @@ class PriceRangeFilter extends Filter
             $component->state['maxPrice'] = 0;
         }
 
-        $component->setFilter($this->key,$component->state['minPrice'] .','. $component->state['maxPrice']);
+        $component->setFilter($this->key, $component->state['minPrice'] . ',' . $component->state['maxPrice']);
 
         return view('livewire::livewire.mw-livewire-tables.components.tools.filters.price-range', [
             'component' => $component,
