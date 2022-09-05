@@ -151,6 +151,11 @@ class ProductsTable extends AdminDataTableComponent
             }
         }
 
+        $sales = $this->getAppliedFilterWithValue('sales');
+        if ($sales) {
+            $filters['sales'] = $sales;
+        }
+
         $quantity = $this->getAppliedFilterWithValue('quantity');
         if ($quantity) {
             $filters['qty'] = $quantity;

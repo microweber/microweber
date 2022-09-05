@@ -11,6 +11,7 @@ namespace MicroweberPackages\Product\Models\ModelFilters;
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterBySaleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
@@ -24,6 +25,7 @@ class ProductFilter extends ModelFilter
     use OrderByTrait;
     use FilterByTitleTrait;
     use FilterByQtyTrait;
+    use FilterBySaleTrait;
     use FilterByUrlTrait;
     use FilterByPriceTrait;
     use FilterByKeywordTrait;
