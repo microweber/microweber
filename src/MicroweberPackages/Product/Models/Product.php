@@ -192,7 +192,8 @@ class Product extends Content
 
     public function getSalesCountAttribute()
     {
-        $query = $this->query();
+        $query = Product::query();
+        $query->where('id', $this->id);
         $query->whereHas('cart', function ($subQuery) {
             $subQuery->whereHas('order');
         });
@@ -202,7 +203,7 @@ class Product extends Content
 
     public function cart()
     {
-        return $this->hasMany(Cart::class,'rel_id');
+        return $this->hasMany(Cart::class,'rel_id', 'id');
     }
 
     public function getInStockAttribute()

@@ -103,7 +103,13 @@ class ProductsTable extends AdminDataTableComponent
 
             HtmlColumn::make('Sales','content.sales')
             ->setOutputHtml(function($row) {
-                $sales = '<span class="badge badge-danger badge-sm">'.$row->salesCount.' sales</span>';
+                if ($row->salesCount == 1) {
+                    $sales = '<span class="badge badge-success badge-sm">'.$row->salesCount.' sale</span>';
+                } else if ($row->salesCount > 1) {
+                    $sales = '<span class="badge badge-success badge-sm">'.$row->salesCount.' sales</span>';
+                } else {
+                    $sales = '<span class="badge badge-danger badge-sm">'.$row->salesCount.' sales</span>';
+                }
                 return $sales;
             }),
 
