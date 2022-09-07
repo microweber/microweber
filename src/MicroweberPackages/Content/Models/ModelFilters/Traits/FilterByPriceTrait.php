@@ -25,6 +25,11 @@ trait FilterByPriceTrait
 
     }
 
+    public function sortPrice($direction)
+    {
+       //  $this->query->sort('id', $direction);
+    }
+
     public function price($price)
     {
 

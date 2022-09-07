@@ -155,6 +155,11 @@ class ProductsTable extends AdminDataTableComponent
             $filters['sortSales'] = $sortSalesDirection;
         }
 
+        $sortPriceDirection = $this->getSort('price');
+        if ($sortPriceDirection) {
+            $filters['sortPrice'] = $sortPriceDirection;
+        }
+
         $priceRange = $this->getAppliedFilterWithValue('price_range');
         if ($priceRange) {
             if (strpos($priceRange, ',') !== false) {
