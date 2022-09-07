@@ -19,7 +19,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 class ProductsTable extends AdminDataTableComponent
 {
     protected $model = Product::class;
-    public array $perPageAccepted = [1, 25, 50, 100, 200];
+  //  public array $perPageAccepted = [1, 25, 50, 100, 200];
 
     public function configure(): void
     {
