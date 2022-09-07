@@ -334,8 +334,12 @@ $user = get_user_by_id($user_id);
             if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
                 $action = 'pages';
                 $view = 'content';
-            }if ($routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
+            }if ($routeName == 'admin.product.index' || $routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
                 $action = 'products';
+                $view = 'shop';
+            }
+            if ($routeName == 'admin.product.dashboard') {
+                $action = 'dashboard';
                 $view = 'shop';
             }
             ?>
@@ -362,6 +366,9 @@ $user = get_user_by_id($user_id);
             } elseif ($view == 'customers') {
                 $shop_class = "active";
             } elseif ($view == 'order') {
+                $shop_class = "active";
+            }
+            if (Route::has('admin.product.dashboard')) {
                 $shop_class = "active";
             }
             ?>
@@ -407,13 +414,18 @@ $user = get_user_by_id($user_id);
 
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-                        <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
+                        <a href="<?php print route('admin.product.dashboard'); ?>" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
                             <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
+
+                            <a href="<?php print route('admin.product.dashboard'); ?>" class="dropdown-item <?php if ($action == 'dashboard'): ?> active <?php endif; ?>">
+                                <?php _e("Dashboard"); ?>
+                            </a>
+
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
                                     <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>

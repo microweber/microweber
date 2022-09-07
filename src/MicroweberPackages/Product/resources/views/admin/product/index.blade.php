@@ -12,6 +12,8 @@
     </div>
 
     <div class="card-body pt-3">
+        <livewire:content-bulk-options />
         <livewire:admin-products-table />
+
     </div>
 </div>

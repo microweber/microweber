@@ -24,5 +24,4 @@ trait FilterByQtyTrait {
             $query->where('field_value', '=', $qty);
         });
     }
-
 }

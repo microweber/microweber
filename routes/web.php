@@ -16,13 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('a', function () {
 
     $productQuery = \MicroweberPackages\Product\Models\Product::query();
-    $productQuery->whereHas('cart', function ($query) {
-        $query->whereHas('order');
-        $query->with('order');
-    });
-    $productQuery->with('cart');
+    $productQuery->filter([
+        'priceRange'=>'1,2'
+    ]);
 
-    $products = $productQuery->first();
+    $products = $productQuery->get();
 
 
     dump($products);

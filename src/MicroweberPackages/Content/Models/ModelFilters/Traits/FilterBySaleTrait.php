@@ -7,8 +7,8 @@
  */
 
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
-use Illuminate\Database\Eloquent\Builder;
-use MicroweberPackages\Product\Models\Product;
+use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Cart\Models\Cart;
 
 trait FilterBySaleTrait {
 
@@ -25,4 +25,17 @@ trait FilterBySaleTrait {
         });
     }
 
+    public function sortSales($direction)
+    {
+
+        $this->query->whereHas('cart', function ($subQuery) {
+            $subQuery->has('order');
+        })
+            ->join('cart', 'cart.rel_id', '=', 'content.id')
+            ->select('content.*',  DB::raw("count('order.id') as sales"))
+            ->where('cart.rel_type', 'content')
+            ->orderBy('sales', $direction)
+            ->groupBy('cart.rel_id');
+
+    }
 }

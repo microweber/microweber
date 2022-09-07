@@ -9,6 +9,7 @@ use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
@@ -193,18 +194,22 @@ class Product extends Content
 
     public function getSalesCountAttribute()
     {
-        $query = Product::query();
-        $query->where('id', $this->id);
-        $query->whereHas('cart', function ($subQuery) {
-            $subQuery->whereHas('order');
-        });
+        $cartQuery = Cart::query();
+        $cartQuery->where('rel_type', 'content');
+        $cartQuery->where('rel_id', $this->id);
+        $cartQuery->whereHas('order');
 
-        return $query->count();
+        return $cartQuery->count();
     }
 
     public function cart()
     {
         return $this->hasMany(Cart::class,'rel_id', 'id');
+    }
+
+    public function offer()
+    {
+        return $this->hasOne(Offer::class, 'product_id', 'id');
     }
 
     public function getInStockAttribute()

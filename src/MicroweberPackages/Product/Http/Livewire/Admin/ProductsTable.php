@@ -9,6 +9,7 @@ use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
@@ -19,7 +20,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 class ProductsTable extends AdminDataTableComponent
 {
     protected $model = Product::class;
-    public array $perPageAccepted = [1, 25, 50, 100, 200];
+  //  public array $perPageAccepted = [1, 25, 50, 100, 200];
 
     public function configure(): void
     {
@@ -39,15 +40,16 @@ class ProductsTable extends AdminDataTableComponent
     public function columns(): array
     {
         return [
-             ImageColumn::make('Image')
-                 ->location(function($row) {
-                     return $row->thumbnail();
-                 })
-                 ->attributes(function($row) {
-                     return [
-                         'class' => 'w-8 h-8 rounded-full',
-                     ];
-                 }),
+
+         ImageColumn::make('Image')
+             ->location(function($row) {
+                 return $row->thumbnail();
+             })
+             ->attributes(function($row) {
+                 return [
+                     'class' => 'w-8 h-8 rounded-full',
+                 ];
+             }),
 
             MwCardTitleCategoriesButtonsColumn::make('Title')
                 ->buttons(function ($row) {
@@ -80,7 +82,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $buttons;
             }),
 
-            HtmlColumn::make('Price','content.price')
+            HtmlColumn::make('Price' , 'price')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 if ($row->hasSpecialPrice()) {
                     $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($row->price).'</span>';
@@ -101,7 +104,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $stock;
             }),
 
-            HtmlColumn::make('Sales','content.sales')
+            HtmlColumn::make('Sales', 'sales')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 $ordersUrl = route('admin.order.index') . '?productId='.$row->id;
                 if ($row->salesCount == 1) {
@@ -114,7 +118,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $sales;
             }),
 
-            HtmlColumn::make('Quantity','content.price')
+            HtmlColumn::make('Quantity','quantity')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 if ($row->qty == 'nolimit') {
                     $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
@@ -140,9 +145,18 @@ class ProductsTable extends AdminDataTableComponent
     {
         $query = Product::query();
         $query->select(['content.id','content.is_active','content.title','content.url','content.position','content.created_by']);
-        $query->orderBy('position','asc');
 
         $filters = [];
+
+        $sortSalesDirection = $this->getSort('sales');
+        if ($sortSalesDirection) {
+            $filters['sortSales'] = $sortSalesDirection;
+        }
+
+        $sortPriceDirection = $this->getSort('price');
+        if ($sortPriceDirection) {
+            $filters['sortPrice'] = $sortPriceDirection;
+        }
 
         $priceRange = $this->getAppliedFilterWithValue('price_range');
         if ($priceRange) {
@@ -285,14 +299,38 @@ class ProductsTable extends AdminDataTableComponent
         ];
     }
 
+    public function multipleMoveToCategory()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multipleMoveToCategory',$selected );
+    }
+
+    public function multiplePublish()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multiplePublish',$selected );
+    }
+
+    public function multipleUnpublish()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multipleUnpublish',$selected );
+    }
+
+    public function multipleDelete()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multipleDelete',$selected );
+    }
+
     public function bulkActions(): array
     {
         $bulkActions = [
-            'multipleProductPublish(1)' => 'Publish',
-            'multipleProductPublish(0)' => 'Unpublish',
+            'multipleMoveToCategory' => 'Move to category',
+            'multiplePublish' => 'Publish',
+            'multipleUnpublish' => 'Unpublish',
+            'multipleDelete' => 'Delete',
         ];
-
-        $bulkActions['multipleProductDelete'] = 'Delete';
 
         return $bulkActions;
     }
