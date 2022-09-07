@@ -300,7 +300,7 @@ class ProductsTable extends AdminDataTableComponent
                 })
         ];
     }
-    
+
     public function assignSelectedPostsToCategory()
     {
     }
@@ -308,12 +308,11 @@ class ProductsTable extends AdminDataTableComponent
     public function bulkActions(): array
     {
         $bulkActions = [
-            'assignSelectedPostsToCategory(1)' => 'Move to category',
-            'multipleProductPublish(1)' => 'Publish',
-            'multipleProductPublish(0)' => 'Unpublish',
+            'multipleMoveToCategory' => 'Move to category',
+            'multiplePublish' => 'Publish',
+            'multipleUnpublish' => 'Unpublish',
+            'multipleDelete' => 'Delete',
         ];
-
-        $bulkActions['multipleProductDelete'] = 'Delete';
 
         return $bulkActions;
     }
