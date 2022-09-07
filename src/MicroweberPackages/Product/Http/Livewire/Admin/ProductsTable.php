@@ -301,8 +301,28 @@ class ProductsTable extends AdminDataTableComponent
         ];
     }
 
-    public function assignSelectedPostsToCategory()
+    public function multipleMoveToCategory()
     {
+        $selected = $this->getSelected();
+        $this->emit('multipleMoveToCategory',$selected );
+    }
+
+    public function multiplePublish()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multiplePublish',$selected );
+    }
+
+    public function multipleUnpublish()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multipleUnpublish',$selected );
+    }
+
+    public function multipleDelete()
+    {
+        $selected = $this->getSelected();
+        $this->emit('multipleDelete',$selected );
     }
 
     public function bulkActions(): array

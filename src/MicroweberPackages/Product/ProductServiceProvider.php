@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Observers\ProductObserver;
@@ -22,6 +23,7 @@ class ProductServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        Livewire::component('content-bulk-options', ContentBulkOptions::class);
         Livewire::component('admin-products-table', ProductsTable::class);
 
         Product::observe(BaseModelObserver::class);
