@@ -145,9 +145,15 @@ class ProductsTable extends AdminDataTableComponent
     {
         $query = Product::query();
         $query->select(['content.id','content.is_active','content.title','content.url','content.position','content.created_by']);
-        $query->orderBy('position','asc');
+
+        // $query->orderBy('position','asc');
 
         $filters = [];
+
+        $sortSalesDirection = $this->getSort('sales');
+        if ($sortSalesDirection) {
+            $filters['sortSales'] = $sortSalesDirection;
+        }
 
         $priceRange = $this->getAppliedFilterWithValue('price_range');
         if ($priceRange) {

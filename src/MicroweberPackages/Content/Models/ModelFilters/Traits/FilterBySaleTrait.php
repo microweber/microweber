@@ -7,8 +7,8 @@
  */
 
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
-use Illuminate\Database\Eloquent\Builder;
-use MicroweberPackages\Product\Models\Product;
+use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Cart\Models\Cart;
 
 trait FilterBySaleTrait {
 
@@ -25,4 +25,10 @@ trait FilterBySaleTrait {
         });
     }
 
+    public function sortSales($direction)
+    {
+
+        /// peca ti si tuka 
+
+    }
 }

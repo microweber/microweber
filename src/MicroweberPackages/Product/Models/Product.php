@@ -193,7 +193,6 @@ class Product extends Content
 
     public function getSalesCountAttribute()
     {
-
         $cartQuery = Cart::query();
         $cartQuery->where('rel_type', 'content');
         $cartQuery->where('rel_id', $this->id);
