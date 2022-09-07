@@ -17,12 +17,12 @@ trait FilterByPriceTrait
 
     public function discounted()
     {
-
+        $this->query->whereHas('offer');
     }
 
     public function notDiscounted()
     {
-
+        $this->query->doesntHave('offer');
     }
 
     public function sortPrice($direction)

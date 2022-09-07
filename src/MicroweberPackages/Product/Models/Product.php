@@ -9,6 +9,7 @@ use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
@@ -204,6 +205,11 @@ class Product extends Content
     public function cart()
     {
         return $this->hasMany(Cart::class,'rel_id', 'id');
+    }
+
+    public function offer()
+    {
+        return $this->hasOne(Offer::class, 'product_id', 'id');
     }
 
     public function getInStockAttribute()
