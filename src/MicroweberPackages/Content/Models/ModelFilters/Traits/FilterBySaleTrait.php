@@ -28,7 +28,14 @@ trait FilterBySaleTrait {
     public function sortSales($direction)
     {
 
-        /// peca ti si tuka 
+        $this->query->whereHas('cart', function ($subQuery) {
+            $subQuery->has('order');
+        })
+            ->join('cart', 'cart.rel_id', '=', 'content.id')
+            ->select('content.*',  DB::raw("count('order.id') as sales"))
+            ->where('cart.rel_type', 'content')
+            ->orderBy('sales', $direction)
+            ->groupBy('cart.rel_id');
 
     }
 }
