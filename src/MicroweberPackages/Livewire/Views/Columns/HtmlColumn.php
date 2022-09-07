@@ -7,9 +7,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class HtmlColumn extends Column
 {
-
-    protected bool $sortable = true;
-
+    protected string $columnSelectName;
     protected string $view = 'livewire::livewire.mw-livewire-tables.includes.columns.html';
 
     public function __construct(string $title, string $from = null)
@@ -17,6 +15,18 @@ class HtmlColumn extends Column
         parent::__construct($title, $from);
 
         $this->label(fn () => null);
+
+        $this->columnSelectName = $from;
+    }
+
+    public function isSortable(): bool
+    {
+        return $this->sortable === true;
+    }
+
+    public function getColumnSelectName(): ?string
+    {
+        return $this->columnSelectName;
     }
 
     public function setOutputHtml(callable $callback): self

@@ -41,18 +41,15 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-            Column::make('id', 'id')
-                ->sortable(),
-
-             ImageColumn::make('Image')
-                 ->location(function($row) {
-                     return $row->thumbnail();
-                 })
-                 ->attributes(function($row) {
-                     return [
-                         'class' => 'w-8 h-8 rounded-full',
-                     ];
-                 }),
+         ImageColumn::make('Image')
+             ->location(function($row) {
+                 return $row->thumbnail();
+             })
+             ->attributes(function($row) {
+                 return [
+                     'class' => 'w-8 h-8 rounded-full',
+                 ];
+             }),
 
             MwCardTitleCategoriesButtonsColumn::make('Title')
                 ->buttons(function ($row) {
@@ -85,7 +82,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $buttons;
             }),
 
-            HtmlColumn::make('Price','content.price')
+            HtmlColumn::make('Price' , 'price')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 if ($row->hasSpecialPrice()) {
                     $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($row->price).'</span>';
@@ -106,7 +104,7 @@ class ProductsTable extends AdminDataTableComponent
                 return $stock;
             }),
 
-            HtmlColumn::make('Sales')
+            HtmlColumn::make('Sales', 'sales')
             ->sortable()
             ->setOutputHtml(function($row) {
                 $ordersUrl = route('admin.order.index') . '?productId='.$row->id;
@@ -120,7 +118,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $sales;
             }),
 
-            HtmlColumn::make('Quantity','content.price')
+            HtmlColumn::make('Quantity','quantity')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 if ($row->qty == 'nolimit') {
                     $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
