@@ -619,6 +619,6 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
 }
 
 .mw--global-admin-tree{
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 220px);
     overflow: auto;
 }

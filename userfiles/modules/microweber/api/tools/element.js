@@ -44,22 +44,25 @@
             var el = this.document.createElement(this.settings.tag);
             this.node = el;
 
-            if (this.settings.encapsulate) {
+            /*if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
                 el.attachShadow({
                     mode: mode
                 });
-            }
+            }*/
+
             this.nodes = [el];
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
-                        scope.append(new MWElement(el));
+                        scope.append(el);
                     });
                 } else if(this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                } else if(typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
+                } else if(typeof this.settings.content === 'string') {
+                    this.get(0).innerHTML = (this.settings.content);
                 }
             }
             this.$node = $(el);
@@ -179,6 +182,9 @@
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) {
+                return;
+            }
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -213,26 +219,54 @@
             return el;
         };
 
-        this.addClass = function (cls) {
-             cls = cls.trim().split(' ');
+        var prepareClasses = function () {
+            var classes = [];
+            Array.from(arguments).forEach(function (arg){
+                Array.from(arg).forEach(function (arg){
+                    var arr;
+                    if(Array.isArray(arg)) {
+                        arr = arg;
+                    } else {
+                        arr = arg.split(' ');
+                    }
+                    arr.forEach(function (cls){
+                        cls = cls.trim();
+                        if(!!cls) {
+                            classes.push(cls);
+                        }
+                    });
+                });
+            });
+            return classes;
+        }
+
+        this.addClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
                 var node = this;
-                cls.forEach(function (singleClass){
-                    node.classList.add(singleClass);
+                classes.forEach(function (cls){
+                    node.classList.add(cls);
                 });
-
             });
         };
 
-        this.toggleClass = function (cls) {
+        this.toggleClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
-                this.classList.toggle(cls.trim());
+                var node = this;
+                classes.forEach(function (cls){
+                    node.classList.toggle(cls);
+                });
             });
         };
 
-        this.removeClass = function (cls) {
+        this.removeClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
-                this.classList.remove(cls.trim());
+                var node = this;
+                classes.forEach(function (cls){
+                    node.classList.remove(cls);
+                });
             });
         };
 
@@ -321,7 +355,6 @@
             return res;
         };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));

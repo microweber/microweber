@@ -20,6 +20,8 @@
 
         var defaults = {
             multiselect: true,
+            selectable: true,
+            canSelectFolder: false,
             options: true,
             element: null,
             query: {
@@ -29,7 +31,7 @@
                 display: 'list'
             },
             requestData: defaultRequest,
-            url: mw.settings.site_url + 'admin/file-manager/list'
+            url: mw.settings.site_url + 'api/file-manager/list'
         };
 
         var _e = {};
@@ -43,10 +45,13 @@
         var table, tableHeader, tableBody;
 
 
+        var _checkName = 'select-fm-' + (new Date().getTime());
+
+        var globalcheck;
 
         var _check = function () {
             return mw.element('<label class="mw-ui-check">' +
-                '<input type="checkbox"><span></span>' +
+                '<input type="' + (scope.settings.multiselect ? 'checkbox' : 'radio') + '" name="'+_checkName+'"><span></span>' +
                 '</label>');
         };
 
@@ -90,13 +95,46 @@
             return el;
         };
 
+        var _renameHandle = function (item) {
+            mw.prompt(mw.lang('Enter new name'), function(){
+
+            }, item.name);
+
+        };
+
+        var _downloadHandle = function (item) {
+
+        };
+
+
+        var _copyUrlHandle = function (item) {
+            mw.tools.copy(item.url);
+        };
+
+        var _deleteHandle = function (item) {
+            mw.confirm(mw.lang('Are you sure') + '?', function (){
+
+            });
+        };
+
+        var _selectedUI = function () {
+            scope.root.removeClass('mw-fm-all-selected', 'mw-fm-none-selected', 'mw-fm-part-selected');
+            if(scope.areAllSelected()) {
+                scope.root.addClass('mw-fm-all-selected');
+            } else if(scope.areNoneSelected()) {
+                scope.root.addClass('mw-fm-none-selected');
+            }  else {
+                scope.root.addClass('mw-fm-part-selected');
+            }
+        };
+
 
         var createOptions = function (item) {
             var options = [
-                { label: 'Rename', action: function (item) {}, match: function (item) { return true } },
-                { label: 'Download', action: function (item) {}, match: function (item) { return item.type === 'file'; } },
-                { label: 'Copy url', action: function (item) {}, match: function (item) { return true } },
-                { label: 'Delete', action: function (item) {}, match: function (item) { return true } },
+                { label: 'Rename', action: _renameHandle, match: function (item) { return true } },
+                { label: 'Download', action: _downloadHandle, match: function (item) { return item.type === 'file'; } },
+                { label: 'Copy url', action: _copyUrlHandle, match: function (item) { return true } },
+                { label: 'Delete', action: _deleteHandle, match: function (item) { return true } },
             ];
             var el = mw.element().addClass('mw-file-manager-list-item-options');
             el.append(mw.element({tag: 'span', content: '...', props: {tooltip:'options'}}).addClass('mw-file-manager-list-item-options-button'));
@@ -147,7 +185,12 @@
 
         this.updateData = function (data) {
             setData(data);
+            _selectedUI();
             this.dispatch('dataUpdated', data);
+        };
+
+        this.getItems = function () {
+            return this.getData().data;
         };
 
         this.getData = function () {
@@ -185,9 +228,7 @@
             }
         };
 
-        this.select = function (item) {
 
-        };
 
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
@@ -195,14 +236,24 @@
             var cellName = mw.element({ tag: 'td', content: item.name  });
             var cellSize = mw.element({ tag: 'td', content: _size(item) });
 
+
             var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified)  });
 
-            if(this.settings.multiselect) {
-                var check =  _check();
-                check.on('input', function () {
+            // canSelectFolder
 
-                });
-                row.append( mw.element({ tag: 'td', content: check }));
+            if(this.settings.selectable) {
+                if (this.settings.canSelectFolder || item.type === 'file') {
+                    var check =  _check();
+                    check.on('input', function () {
+                        scope[this.checked ? 'unselect' : 'select'](item);
+                        _selectedUI();
+                    });
+                    row.append( mw.element({ tag: 'td', content: check }));
+                } else {
+                    row.append( mw.element({ tag: 'td'  }));
+                }
+
+
             }
 
              row
@@ -227,7 +278,7 @@
             tableBody =  mw.element({
                 tag: 'tbody'
             });
-            scope._data.data.forEach(function (item) {
+            scope.getItems().forEach(function (item) {
                 var row = scope.singleListView(item);
                 rows.push({data: item, row: row});
                 tableBody.append(row);
@@ -243,38 +294,79 @@
                 scope._selected.push(obj);
             }
         };
-        var afterSelect = function (obj) {
+
+
+
+
+
+
+        var afterSelect = function (obj, state) {
             rows.forEach(function (rowItem){
                 if(rowItem.data === obj) {
-                    rowItem.row.find('input').prop('checked', true);
+                    rowItem.row.find('input').prop('checked', state);
                 }
             });
+            _selectedUI();
         };
 
+
+        this.getSelected = function () {
+            return this._selected;
+        };
+
+
+        this.areNoneSelected = function () {
+            return this.getSelected().length === 0;
+        };
+
+        this.areAllSelected = function () {
+             return this.getItems().length === this.getSelected().length;
+        };
 
         this.selectAll = function () {
             rows.forEach(function (rowItem){
                 scope.select(rowItem.data);
             });
         };
+        this.selectNone = function () {
+            rows.forEach(function (rowItem){
+                scope.unselect(rowItem.data);
+            });
+        };
+
+        this.selectAllToggle = function () {
+            if(this.areAllSelected()){
+                this.selectNone()
+            } else {
+                this.selectAll()
+            }
+        };
 
         this.select = function (obj) {
+
             if (this.settings.multiselect) {
                 pushUnique(obj);
             } else {
                 this._selected = [obj];
             }
-            afterSelect(obj);
+            afterSelect(obj, true);
+        };
+
+        this.unselect = function (obj) {
+            this._selected.splice(this._selected.indexOf(obj), 1);
+            afterSelect(obj, false);
         };
 
         var createListViewHeader = function () {
             var thCheck;
-            if (scope.settings.multiselect) {
-                var globalcheck = _check();
+            if (scope.settings.selectable) {
+                globalcheck = _check();
                 globalcheck.on('input', function () {
-                    scope.selectAll()
+                    scope.selectAllToggle();
                 });
                 thCheck = mw.element({ tag: 'th', content: globalcheck  }).addClass('mw-file-manager-select-all-heading');
+            } else {
+                thCheck = mw.element({ tag: 'th', }).addClass('mw-file-manager-select-all-heading');
             }
             var thImage = mw.element({ tag: 'th', content: ''  });
             var thName = mw.element({ tag: 'th', content: '<span>Name</span>'  }).addClass('mw-file-manager-sortable-table-header');
@@ -289,6 +381,7 @@
                 tag: 'thead',
                 content: tr
             });
+
             return tableHeader;
         };
 
@@ -334,8 +427,9 @@
                 props: {
                     className: 'mw-file-manager-root'
                 },
-                encapsulate: false
+                /*encapsulate: false*/
             });
+
 
         };
 
@@ -348,6 +442,7 @@
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
             }
+
         };
 
         this.init();

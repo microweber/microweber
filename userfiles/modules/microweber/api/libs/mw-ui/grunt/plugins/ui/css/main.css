@@ -15288,7 +15288,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     border-top-right-radius: 10px; }
     .card .card-header h1 i, .card .card-header .h1 i, .card .card-header h2 i, .card .card-header .h2 i, .card .card-header h3 i, .card .card-header .h3 i, .card .card-header h4 i, .card .card-header .h4 i, .card .card-header h5 i, .card .card-header .h5 i, .card .card-header h6 i, .card .card-header .h6 i {
       font-size: 1.25em;
-      float: left;
       line-height: 1; }
     .card .card-header:after {
       display: block;
@@ -15357,7 +15356,7 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
     overflow: hidden; }
     .card.style-1 .card-header h1 i, .card.style-1 .card-header .h1 i, .card.style-1 .card-header h2 i, .card.style-1 .card-header .h2 i, .card.style-1 .card-header h3 i, .card.style-1 .card-header .h3 i, .card.style-1 .card-header h4 i, .card.style-1 .card-header .h4 i, .card.style-1 .card-header h5 i, .card.style-1 .card-header .h5 i, .card.style-1 .card-header h6 i, .card.style-1 .card-header .h6 i {
       font-size: 1.25em;
-      float: left;
+      /*float: left;*/
       line-height: 1; }
     .card.style-1 .card-header:after {
       display: block;
