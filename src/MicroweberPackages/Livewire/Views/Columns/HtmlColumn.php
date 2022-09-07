@@ -7,6 +7,9 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class HtmlColumn extends Column
 {
+
+    protected bool $sortable = true;
+
     protected string $view = 'livewire::livewire.mw-livewire-tables.includes.columns.html';
 
     public function __construct(string $title, string $from = null)

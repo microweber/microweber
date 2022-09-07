@@ -9,6 +9,7 @@ use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
@@ -39,6 +40,10 @@ class ProductsTable extends AdminDataTableComponent
     public function columns(): array
     {
         return [
+
+            Column::make('id', 'id')
+                ->sortable(),
+
              ImageColumn::make('Image')
                  ->location(function($row) {
                      return $row->thumbnail();
@@ -101,7 +106,8 @@ class ProductsTable extends AdminDataTableComponent
                 return $stock;
             }),
 
-            HtmlColumn::make('Sales','content.sales')
+            HtmlColumn::make('Sales')
+            ->sortable()
             ->setOutputHtml(function($row) {
                 $ordersUrl = route('admin.order.index') . '?productId='.$row->id;
                 if ($row->salesCount == 1) {
