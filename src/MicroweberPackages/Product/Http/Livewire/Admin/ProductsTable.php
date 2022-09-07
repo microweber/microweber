@@ -300,10 +300,15 @@ class ProductsTable extends AdminDataTableComponent
                 })
         ];
     }
+    
+    public function assignSelectedPostsToCategory()
+    {
+    }
 
     public function bulkActions(): array
     {
         $bulkActions = [
+            'assignSelectedPostsToCategory(1)' => 'Move to category',
             'multipleProductPublish(1)' => 'Publish',
             'multipleProductPublish(0)' => 'Unpublish',
         ];
