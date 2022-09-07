@@ -27,7 +27,7 @@ trait FilterByPriceTrait
 
     public function sortPrice($direction)
     {
-       //  $this->query->sort('id', $direction);
+       //  $this->query->orderBy('id', $direction);
     }
 
     public function price($price)
@@ -39,8 +39,9 @@ trait FilterByPriceTrait
                 $query->where(function ($query2) use ($price) {
 
                     $price = intval($price);
-                     $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                    $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
                     $query2->whereRaw("CAST(value as INTEGER) = {$price}");
+
                     return $query2;
                 });
 
