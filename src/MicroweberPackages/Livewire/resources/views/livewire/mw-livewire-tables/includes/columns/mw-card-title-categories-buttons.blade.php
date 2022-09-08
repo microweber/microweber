@@ -8,7 +8,9 @@
     @if($row->categories->count() > 0)
         <span class="manage-post-item-cats-inline-list">
             @foreach($row->categories as $category)
+                @if($category->parent)
                 <a href="#" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+                @endif
             @endforeach
        </span>
     @endif
