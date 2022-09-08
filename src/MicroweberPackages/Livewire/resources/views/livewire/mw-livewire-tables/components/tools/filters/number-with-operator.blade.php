@@ -8,8 +8,8 @@
 
         class="form-control">
         <option value="equal">Equal</option>
-        <option value="more_than">More then</option>
-        <option value="lower_than">Lower then</option>
+        <option value="more_than">More than</option>
+        <option value="lower_than">Lower than</option>
     </select>
 
     <input type="number" class="form-control" placeholder="Sales count"
