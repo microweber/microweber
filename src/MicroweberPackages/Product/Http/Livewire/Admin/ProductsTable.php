@@ -10,11 +10,10 @@ use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
 use MicroweberPackages\Livewire\Views\Filters\NumberWithOperator;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
+use MicroweberPackages\Livewire\Views\Filters\HiddenFilter;
 use MicroweberPackages\Product\Models\Product;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
-use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -252,12 +251,13 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
+            HiddenFilter::make('Sales Operator'),
 
             NumberWithOperator::make('Sales')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
                 ])
-                ->filter(function(Builder $builder, string $value) {
+                ->filter(function(Builder $builder, $values) {
                     //
                 }),
 

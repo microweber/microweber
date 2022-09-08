@@ -1,16 +1,17 @@
 <div class="mb-3 mb-md-0 input-group">
-    <select class="form-control"
 
-        wire:model.stop="{{ $component->getTableName() }}.filters.operator.{{ $filter->getKey() }}"
-        wire:key="{{ $component->getTableName() }}-filter-operator-{{ $filter->getKey() }}"
-        id="{{ $component->getTableName() }}-filter-operator-{{ $filter->getKey() }}"
+    <select
 
+        wire:model.stop="{{ $component->getTableName() }}.filters.sales_operator"
+        wire:key="{{ $component->getTableName() }}-filter-sales_operator"
+        id="{{ $component->getTableName() }}-filter-sales_operator"
 
-    >
-        <option value="=">Equal</option>
-        <option value=">">More then</option>
-        <option value="<">Lower then</option>
+        class="form-control">
+        <option value="equal">Equal</option>
+        <option value="more_than">More then</option>
+        <option value="lower_than">Lower then</option>
     </select>
+
     <input type="number" class="form-control" placeholder="Sales count"
 
        wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
