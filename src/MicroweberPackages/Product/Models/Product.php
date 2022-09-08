@@ -382,7 +382,7 @@ class Product extends Content
 
 
 
-    public function productOrders()
+    public function orders()
     {
         return $this->hasManyThrough(
             Order::class,

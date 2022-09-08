@@ -240,7 +240,7 @@ class ProductFilterTest extends TestCase
         $products = $productQuery->get();
 
         foreach ($products as $product) {
-          $this->assertEquals($product->product_orders_count, $count_sales);
+          $this->assertEquals($product->orders()->count(), $count_sales);
         }
 
 
@@ -252,9 +252,10 @@ class ProductFilterTest extends TestCase
             'sortSales'=>'asc'
         ]);
         $products = $productQuery->get();
+
         $i = 1;
         foreach ($products as $product) {
-            $this->assertEquals($i, $product->sales);
+            $this->assertEquals($i, $product->orders()->count());
             $i++;
         }
 
@@ -266,7 +267,7 @@ class ProductFilterTest extends TestCase
         $products = $productQuery->get();
         $i = 2;
         foreach ($products as $product) {
-            $this->assertEquals($i, $product->sales);
+            $this->assertEquals($i, $product->orders()->count());
             $i--;
         }
 

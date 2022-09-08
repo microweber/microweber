@@ -20,23 +20,41 @@ trait FilterBySaleTrait {
      */
     public function sales($sales)
     {
-        $this->query->whereHas('productOrders')->with('cart', function ($subQuery) {
-             $subQuery->has('order');
-        })->withCount('productOrders')->where('product_orders_count', '=', $sales);
+        $params = [];
+        $params['sales_count'] = $sales;
+        $this->applySalesFilter($params);
 
     }
 
     public function sortSales($direction)
     {
+        $params = [];
+        $params['sales_sort'] = $direction;
+        $this->applySalesFilter($params);
 
-        $this->query->whereHas('cart', function ($subQuery) {
-            $subQuery->has('order');
-        })
-            ->join('cart', 'cart.rel_id', '=', 'content.id')
-            ->select('content.*',  DB::raw("count('order.id') as sales"))
-            ->where('cart.rel_type', 'content')
-            ->orderBy('sales', $direction)
-            ->groupBy('cart.rel_id');
+    }
+
+    private function applySalesFilter($params)
+    {
+        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
+
+        })->withCount('orders');
+
+
+
+        if (isset($params['sales_count']) && $params['sales_count'] != '') {
+            $sales = intval($params['sales_count']);
+            $this->query->where('orders_count', '=', $sales);
+        }
+
+        if (isset($params['sales_count']) && $params['sales_count'] != '') {
+            $sales = intval($params['sales_count']);
+            $this->query->where('orders_count', '=', $sales);
+        }
+        if(isset($params['sales_sort']) && $params['sales_sort'] != '') {
+            $this->query->orderBy('orders_count', $params['sales_sort']);
+        }
+
 
     }
 }
