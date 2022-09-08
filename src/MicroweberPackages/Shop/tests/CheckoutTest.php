@@ -212,7 +212,32 @@ class CheckoutTest extends TestCase
 
 
 
+        // test the productOrders relationship
 
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+
+        $productQuery =$productQuery->whereHas('productOrders');
+        $products = $productQuery->get();
+
+        $found = false;
+        foreach ($products as $product) {
+            if ($product->id == $saved_id) {
+                $found = true;
+            }
+        }
+        $this->assertTrue($found);
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+
+        $productQuery =$productQuery->whereDoesntHave('productOrders');
+        $products = $productQuery->get();
+        $found = false;
+        foreach ($products as $product) {
+            if ($product->id == $saved_id) {
+                $found = true;
+            }
+        }
+        $this->assertFalse($found);
 
     }
 

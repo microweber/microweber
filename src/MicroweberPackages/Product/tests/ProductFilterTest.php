@@ -164,5 +164,115 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct3->id, $results[0]->id);
     }
 
+    public function testProductFilterBySalesCount()
+    {
+        $clean = \MicroweberPackages\Cart\Models\Cart::truncate();
+        $clean = \MicroweberPackages\Order\Models\Order::truncate();
+
+
+
+        // add product and order it
+
+        $productPrice = rand(1, 9999);
+        $title = 'test Sales filter prod ordered once' . $productPrice;
+        $title2 = 'test Sales filter prod ordered many times' . $productPrice;
+
+        $params = array(
+
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+
+            ),
+            'is_active' => 1
+        );
+
+        $params['title'] = $title;
+
+        $saved_id = save_content($params);
+
+        $params['title'] = $title2;
+        $saved_id2 = save_content($params);
+
+        $get = get_content_by_id($saved_id);
+
+        $add_to_cart = array(
+            'content_id' => $saved_id,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+        $add_to_cart = array(
+            'content_id' => $saved_id2,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+
+
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['first_name'] = 'Client';
+        $checkoutDetails['last_name'] = 'Microweber';
+        $checkoutDetails['phone'] = '08812345678';
+        $checkoutDetails['address'] = 'Business Park, Mladost 4';
+        $checkoutDetails['city'] = 'Sofia';
+        $checkoutDetails['state'] = 'Sofia City';
+        $checkoutDetails['country'] = 'Bulgaria';
+        $checkoutDetails['zip'] = '1000';
+        $checkoutDetails['is_paid'] = 1;
+        $checkoutDetails['order_completed'] = 1;
+
+
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+
+        // order again to test
+        $cart_add = update_cart($add_to_cart);
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+
+        $count_sales = 2;
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'sales'=>$count_sales
+        ]);
+        $products = $productQuery->get();
+
+        foreach ($products as $product) {
+          $this->assertEquals($product->product_orders_count, $count_sales);
+        }
+
+
+
+
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'sortSales'=>'asc'
+        ]);
+        $products = $productQuery->get();
+        $i = 1;
+        foreach ($products as $product) {
+            $this->assertEquals($i, $product->sales);
+            $i++;
+        }
+
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'sortSales'=>'desc'
+        ]);
+        $products = $productQuery->get();
+        $i = 2;
+        foreach ($products as $product) {
+            $this->assertEquals($i, $product->sales);
+            $i--;
+        }
+
+
+
+    }
+
 
 }

@@ -20,9 +20,10 @@ trait FilterBySaleTrait {
      */
     public function sales($sales)
     {
-        $this->query->whereHas('cart', function ($subQuery) use ($sales) {
-            $subQuery->has('order', '>=', $sales);
-        });
+        $this->query->whereHas('productOrders')->with('cart', function ($subQuery) {
+             $subQuery->has('order');
+        })->withCount('productOrders')->where('product_orders_count', '=', $sales);
+
     }
 
     public function sortSales($direction)

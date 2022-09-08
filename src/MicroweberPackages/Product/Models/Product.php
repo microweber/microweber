@@ -379,4 +379,18 @@ class Product extends Content
 
         return $filter->apply();
     }
+
+
+
+    public function productOrders()
+    {
+        return $this->hasManyThrough(
+            Order::class,
+            Cart::class,
+            'rel_id',
+            'id',
+            'id',
+            'order_id',
+        );
+    }
 }
