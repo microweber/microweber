@@ -18,11 +18,11 @@
             tagsSelected_{{ $filter->getKey() }} = tagsElement_{{ $filter->getKey() }}.value.split(",");
         }
 
-        var tagsSelect_{{ $filter->getKey() }} = mw.select({ 
+        var tagsSelect_{{ $filter->getKey() }} = mw.select({
             element: '#{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete',
-            multiple: true,
+            multiple: false,
             autocomplete: true,
-            tags: true,
+            tags: false,
             placeholder: '',
             ajaxMode: {
                 paginationParam: 'page',
