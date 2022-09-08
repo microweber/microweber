@@ -6,9 +6,8 @@
                 var dialog = mw.dialog.get('#pick-categories');
                 var tree = mw.tree.get('#pick-categories');
                 var selected = tree.getSelected();
-                var posts = mw.check.collectChecked(document.getElementById('1'));
                 var data = {
-                    content_ids: posts,
+                    content_ids: {!! json_encode($multipleMoveToCategoryIds) !!},
                     categories: []
                 };
                 selected.forEach(function (item) {
@@ -20,7 +19,7 @@
                 });
                 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                     mw.notification.msg(msg);
-                    // reload modolue uere.......
+                    window.livewire.emit('multipleMoveToCategoryExecute');
                     dialog.remove();
                 });
             });

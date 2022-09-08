@@ -31,6 +31,12 @@ class ContentBulkOptions extends Component
         $this->multipleMoveToCategoryShowModal = true;
     }
 
+    public function multipleMoveToCategoryExecute()
+    {
+        $this->emit('refreshProductsTable');
+        $this->multipleMoveToCategoryShowModal = false;
+    }
+
 
     // Publish modal
     public $multiplePublishShowModal = false;
