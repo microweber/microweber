@@ -251,7 +251,7 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            HiddenFilter::make('Sales Operator'),
+            HiddenFilter::make('Sales Operator')->hiddenFromAll(),
 
             NumberWithOperator::make('Sales')
                 ->config([
