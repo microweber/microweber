@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Translation\TranslationServiceProvider as IlluminateTranslationServiceProvider;
-use MicroweberPackages\Application;
 use MicroweberPackages\Translation\Models\Translation;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Repositories\TranslationKeyRepository;
@@ -116,7 +115,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
 
                             DB::commit();
-                            \Cache::tags('translation_keys')->flush();
+                          //  \Cache::tags('translation_keys')->flush();
                         }
                         // all good
                     } catch (\Exception $e) {
