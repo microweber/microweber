@@ -41,7 +41,7 @@ trait FilterBySaleTrait {
         })->withCount('orders');
 
 
-
+ 
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
             $sales = intval($params['sales_count']);
             $this->query->where('orders_count', '=', $sales);
