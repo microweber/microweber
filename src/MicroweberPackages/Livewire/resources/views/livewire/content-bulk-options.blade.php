@@ -1,7 +1,7 @@
 <div>
     @if($multipleMoveToCategoryShowModal)
     <script>
-        assign_selected_posts_to_category_exec = function () {
+        function assign_selected_posts_to_category_exec() {
             mw.tools.confirm("Are you sure you want to move the selected data?", function () {
                 var dialog = mw.dialog.get('#pick-categories');
                 var tree = mw.tree.get('#pick-categories');
@@ -24,7 +24,7 @@
                     dialog.remove();
                 });
             });
-        };
+        }
 
         $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function (data) {
             var btn = document.createElement('button');
