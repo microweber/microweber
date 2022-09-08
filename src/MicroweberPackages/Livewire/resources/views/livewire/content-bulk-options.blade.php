@@ -20,7 +20,7 @@
                 });
                 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                     mw.notification.msg(msg);
-                    mw.reload_module('#<?php print $params['id']; ?>');
+                    // reload modolue uere.......
                     dialog.remove();
                 });
             });
