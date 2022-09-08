@@ -4,6 +4,7 @@ namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Admin\AdminDataTableComponent;
+use MicroweberPackages\CustomField\Fields\Number;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
@@ -251,9 +252,18 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
+
             NumberWithOperator::make('Sales')
                 ->config([
-                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                    'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+                    //
+                }),
+
+            NumberFilter::make('Sales')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
                 ])
                 ->filter(function(Builder $builder, string $value) {
                     //

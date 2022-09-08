@@ -1,6 +1,8 @@
 <div class="mb-3 mb-md-0 input-group">
-    <span class="input-group-text">Operator</span>
-    <input type="number" class="form-control" id="js-{{ $filter->getKey() }}-min-price" placeholder="Min price" />
-    <span class="input-group-text">To</span>
-    <input type="number" class="form-control" id="js-{{ $filter->getKey() }}-max-price" placeholder="Max Price" />
+    <select class="form-control">
+        <option value="=">Equal</option>
+        <option value=">">More then</option>
+        <option value="<">Lower then</option>
+    </select>
+    <input type="number" class="form-control" placeholder="Sales count" />
 </div>
