@@ -2,7 +2,7 @@
     @if($moveToCategory)
     <script>
         assign_selected_posts_to_category_exec = function () {
-            mw.tools.confirm("Are you sure you want to move the selected posts?", function () {
+            mw.tools.confirm("Are you sure you want to move the selected data?", function () {
                 var dialog = mw.dialog.get('#pick-categories');
                 var tree = mw.tree.get('#pick-categories');
                 var selected = tree.getSelected();
@@ -59,6 +59,12 @@
     @endif
 
 
-
+    @if($multipleDelete)
+        <script>
+        mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
+            
+        });
+        </script>
+    @endif
 
 </div>
