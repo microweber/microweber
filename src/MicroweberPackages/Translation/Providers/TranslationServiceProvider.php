@@ -71,6 +71,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
 
 
+            // @todo fix the insert logic
+            return;
 
             $this->app->terminating(function () {
                 $getNewKeys = app()->translator->getNewKeys();

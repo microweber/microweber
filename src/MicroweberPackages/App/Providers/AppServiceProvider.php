@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Providers;
 
 use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -247,6 +248,8 @@ class AppServiceProvider extends ServiceProvider
        // $this->app->register(AssetsServiceProvider::class);
         $this->app->register(TranslationServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
+
+
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
