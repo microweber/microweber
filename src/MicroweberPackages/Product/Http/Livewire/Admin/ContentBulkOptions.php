@@ -23,6 +23,7 @@ class ContentBulkOptions extends Component
 
     // Move to category modal
 
+    public $multipleMoveToCategoryShowModal = false;
     public $multipleMoveToCategoryIds = [];
     public function multipleMoveToCategoryShowModal($params)
     {

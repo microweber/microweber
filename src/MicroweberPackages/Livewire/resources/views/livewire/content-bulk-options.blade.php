@@ -6,7 +6,7 @@
                 var dialog = mw.dialog.get('#pick-categories');
                 var tree = mw.tree.get('#pick-categories');
                 var selected = tree.getSelected();
-                var posts = mw.check.collectChecked(document.getElementById('<?php print $params['id']; ?>'));
+                var posts = mw.check.collectChecked(document.getElementById('1'));
                 var data = {
                     content_ids: posts,
                     categories: []
