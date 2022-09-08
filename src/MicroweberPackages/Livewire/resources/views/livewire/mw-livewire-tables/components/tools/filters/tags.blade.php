@@ -2,7 +2,7 @@
     wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
     wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
     id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
-    type="text"
+    type="hidden"
 />
 
 <input type="text" value="" id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete"
