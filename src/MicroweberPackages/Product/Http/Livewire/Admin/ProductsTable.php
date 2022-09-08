@@ -12,6 +12,7 @@ use MicroweberPackages\Livewire\Views\Filters\CategoryFilter;
 use MicroweberPackages\Livewire\Views\Filters\NumberWithOperator;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Livewire\Views\Filters\HiddenFilter;
+use MicroweberPackages\Livewire\Views\Filters\TagsFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
@@ -226,6 +227,14 @@ class ProductsTable extends AdminDataTableComponent
             ])->filter(function(Builder $builder, string $value) {
 
             }),
+
+            TagsFilter::make('Tags')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
+                    'placeholder' => 'Select tags',
+                ])->filter(function(Builder $builder, string $value) {
+
+                }),
 
             PriceRangeFilter::make('Price range')
              ->config([
