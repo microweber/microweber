@@ -184,11 +184,11 @@ class ProductsTable extends AdminDataTableComponent
             $filters['qty'] = $quantity;
         }
 
-        $status = $this->getAppliedFilterWithValue('status');
-        if ($status == 'in_stock') {
+        $stockStatus = $this->getAppliedFilterWithValue('stock_status');
+        if ($stockStatus == 'in_stock') {
             $filters['inStock'] = true;
         }
-        if ($status == 'out_of_stock') {
+        if ($stockStatus == 'out_of_stock') {
             $filters['inStock'] = false;
         }
 
