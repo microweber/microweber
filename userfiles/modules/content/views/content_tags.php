@@ -75,7 +75,7 @@ if ($all_existing_tags == null) {
         $(tagsSelect).on('enterOrComma', function (e, node){
             tags.addTag({title: node.value, id: node.value});
             setTimeout(function () {node.value = '';})
-        })
+        });
 
 
 
