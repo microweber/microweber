@@ -5,34 +5,13 @@
     type="text"
 />
 
-<div id="content-tags-block"></div>
-<div id="content-tags-search-block"></div>
-
 <input type="text" value="" id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete"
        class="form-control">
 
 <script>
+    let tagslement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
 
-    var node = document.querySelector('#content-tags-block');
-    var tagsData = <?php print json_encode([]) ?>.map(function (tag) {
-        return {title: tag, id: tag}
-    });
-    var tags = new mw.tags({
-        element: node,
-        data: tagsData,
-        color: 'primary',
-        size: 'sm',
-        inputField: false,
-    })
-    $(tags)
-        .on('change', function (e, item, data) {
-            mw.element('[name="tag_names"]').val(data.map(function (c) {
-                return c.title
-            }).join(',')).trigger('change')
-        });
-
-
-    var tagsSelect = mw.select({
+    var tagsSelect_{{ $filter->getKey() }} = mw.select({
         element: '#{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete',
         multiple: false,
         autocomplete: true,
@@ -46,19 +25,13 @@
         }
     });
 
-    $(tagsSelect).on("change", function (event, tag) {
-        tags.addTag(tag);
-        
-        setTimeout(function () {
-            tagsSelect.element.value = '';
-        });
+    $(tagsSelect_{{ $filter->getKey() }}).on("change", function (event, tag) {
+        $(tagslement_{{ $filter->getKey() }}).val(tag.title);
+        tagslement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
     });
 
-    $(tagsSelect).on('enterOrComma', function (e, node) {
-        tags.addTag({title: node.value, id: node.value});
-        setTimeout(function () {
-            node.value = '';
-        })
+    $(tagsSelect_{{ $filter->getKey() }}).on('enterOrComma', function (e, node) {
+
     });
 
 </script>
