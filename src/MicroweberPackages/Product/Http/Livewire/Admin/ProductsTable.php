@@ -173,6 +173,11 @@ class ProductsTable extends AdminDataTableComponent
             $filters['sales'] = $sales;
         }
 
+        $salesOperator = $this->getAppliedFilterWithValue('sales_operator');
+        if ($salesOperator) {
+            $filters['salesOperator'] = $salesOperator;
+        }
+
         $quantity = $this->getAppliedFilterWithValue('quantity');
         if ($quantity) {
             $filters['qty'] = $quantity;
@@ -196,7 +201,7 @@ class ProductsTable extends AdminDataTableComponent
             $filters['discounted'] = true;
         }
         if ($type == 'not_discounted') {
-            $filters['not_discounted'] = true;
+            $filters['notDiscounted'] = true;
         }
 
         if ($this->hasSearch()) {
