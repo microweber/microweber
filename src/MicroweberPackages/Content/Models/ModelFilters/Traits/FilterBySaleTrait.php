@@ -22,7 +22,7 @@ trait FilterBySaleTrait {
     {
         $sales = intval($sales);
         if ($sales == 0) {
-            return;
+          //  return;
         }
 
 
@@ -42,25 +42,35 @@ trait FilterBySaleTrait {
 
     public function applySalesFilter($params)
     {
-        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
+   //     $this->query->whereHas('orders')->with('cart' )->with('orders' )->withCount('orders');
 
-        })->withCount('orders');
+
+        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
+            $subQuery->has('order');
+        }) ;
 
 
 
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
             $sales = intval($params['sales_count']);
-            $this->query->where('orders_count', '=', $sales);
+            $this->query->with('orders' )
+                ->whereHas('orders')
+                ->with('cart' )
+                ->groupBy('id' )
+                ->withCount('orders')->having('orders_count', '=', $sales);
+
+   //       $this->query->where('orders_count', '=', $sales);
         }
 
-        if (isset($params['sales_count_min']) && $params['sales_count_min'] != '') {
-            $sales = intval($params['sales_count_min']);
-            $this->query->where('orders_count', '<=', $sales);
-        }
-        if (isset($params['sales_count_max']) && $params['sales_count_max'] != '') {
-            $sales = intval($params['sales_count_max']);
-            $this->query->where('orders_count', '>=', $sales);
-        }
+//        if (isset($params['sales_count_min']) && $params['sales_count_min'] != '') {
+//            $sales = intval($params['sales_count_min']);
+//
+//            $this->query->where('orders_count', '<=', $sales);
+//        }
+//        if (isset($params['sales_count_max']) && $params['sales_count_max'] != '') {
+//            $sales = intval($params['sales_count_max']);
+//            $this->query->where('orders_count', '>=', $sales);
+//        }
 
 
         if(isset($params['sales_sort']) && $params['sales_sort'] != '') {
