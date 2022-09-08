@@ -197,11 +197,11 @@ class ProductsTable extends AdminDataTableComponent
             $filters['contentData']['sku'] = $sku;
         }
 
-        $type = $this->getAppliedFilterWithValue('type');
-        if ($type == 'discounted') {
+        $discount = $this->getAppliedFilterWithValue('discount');
+        if ($discount == 'discounted') {
             $filters['discounted'] = true;
         }
-        if ($type == 'not_discounted') {
+        if ($discount == 'not_discounted') {
             $filters['notDiscounted'] = true;
         }
 
