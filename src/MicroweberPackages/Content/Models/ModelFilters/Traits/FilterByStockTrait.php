@@ -20,11 +20,17 @@ trait FilterByStockTrait
      */
     public function inStock($isInStock)
     {
-        return $this->query->whereHas('contentData', function (Builder $query) use ($isInStock) {
-            if (!$isInStock) {
+
+
+
+         return $this->query->whereHas('contentData', function (Builder $query) use ($isInStock) {
+            if (!$isInStock or isset($isInStock) AND intval($isInStock) == 0) {
+                // out of stock
                 $query->where('field_name', '=', 'qty');
                 $query->where('field_value', '=', 0);
+                $query->where('field_value', '!=', 'nolimit');
             } else {
+                // in of stock
                 $query->where('field_name', '=', 'qty');
                 $query->where(function ($contentDataFieldValueQuery) {
                     $contentDataFieldValueQuery->where('field_value', '>', 0);
