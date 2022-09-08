@@ -622,3 +622,22 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
     max-height: calc(100vh - 220px);
     overflow: auto;
 }
+
+.mw-admin-edit-content-holder .card.style-1 .card-header .btn.btn-link {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    left: 0;
+    text-align: right;
+    bottom: 0;
+    display: block;
+}
+
+html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.btn-link {
+    right: 0;
+    left: 20px;
+    text-align: left;
+}
+.mw-admin-edit-content-holder .card.style-1 .card-header{
+    min-height: 55px;
+}
