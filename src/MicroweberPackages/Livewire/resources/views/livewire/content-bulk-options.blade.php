@@ -1,14 +1,13 @@
 <div>
-    @if(isset($moveToCategory) && $moveToCategory)
+    @if($multipleMoveToCategoryShowModal)
     <script>
-        assign_selected_posts_to_category_exec = function () {
+        function assign_selected_posts_to_category_exec() {
             mw.tools.confirm("Are you sure you want to move the selected data?", function () {
                 var dialog = mw.dialog.get('#pick-categories');
                 var tree = mw.tree.get('#pick-categories');
                 var selected = tree.getSelected();
-                var posts = mw.check.collectChecked(document.getElementById('<?php print $params['id']; ?>'));
                 var data = {
-                    content_ids: posts,
+                    content_ids: {!! json_encode($multipleMoveToCategoryIds) !!},
                     categories: []
                 };
                 selected.forEach(function (item) {
@@ -20,11 +19,12 @@
                 });
                 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                     mw.notification.msg(msg);
-                    mw.reload_module('#<?php print $params['id']; ?>');
-                    dialog.remove();
+                    window.livewire.emit('multipleMoveToCategoryExecute');
+                    window.livewire.emit('refreshProductsTable');
+                    dialog.remove(); 
                 });
             });
-        };
+        }
 
         $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function (data) {
             var btn = document.createElement('button');
