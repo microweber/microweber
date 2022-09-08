@@ -9,8 +9,6 @@ class ContentBulkOptions extends Component
 {
     protected $listeners = [
         'multipleMoveToCategory' => 'multipleMoveToCategoryShowModal',
-        'multipleMoveToCategoryExecute' => 'multipleMoveToCategoryExecute',
-
 
         'multiplePublish' => 'multiplePublishShowModal',
         'multiplePublishExecute' => 'multiplePublishExecute',
@@ -21,6 +19,16 @@ class ContentBulkOptions extends Component
         'multipleDelete' => 'multipleDeleteShowModal',
         'multipleDeleteExecute' => 'multipleDeleteExecute',
     ];
+
+
+    // Move to category modal
+
+    public $multipleMoveToCategoryIds = [];
+    public function multipleMoveToCategoryShowModal($params)
+    {
+        $this->multipleMoveToCategoryIds = $params;
+        $this->multipleMoveToCategoryShowModal = true;
+    }
 
 
     // Publish modal

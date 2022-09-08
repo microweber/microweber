@@ -1,5 +1,5 @@
 <div>
-    @if(isset($moveToCategory) && $moveToCategory)
+    @if($multipleMoveToCategoryShowModal)
     <script>
         assign_selected_posts_to_category_exec = function () {
             mw.tools.confirm("Are you sure you want to move the selected data?", function () {
