@@ -8,8 +8,8 @@
 <input type="text" value="" id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete"
        class="form-control">
 
-<script>
-    document.addEventListener('livewire:load', function () {
+<script id="js-tags-filter-<?php echo md5(rand(111,999));?>">
+    function initTagsFilter() {
 
         let tagsSelected_{{ $filter->getKey() }} = [];
         let tagsElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
@@ -18,7 +18,9 @@
             tagsSelected_{{ $filter->getKey() }} = tagsElement_{{ $filter->getKey() }}.value.split(",");
         }
 
-        var tagsSelect_{{ $filter->getKey() }} = mw.select({
+        mw.log($('#{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete'));
+
+        var tagsSelect_{{ $filter->getKey() }} = new mw.select({
             element: '#{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}-tags-autocomplete',
             multiple: false,
             autocomplete: true,
@@ -42,6 +44,7 @@
             tagsElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
         });
 
+    }
 
-    });
+    initTagsFilter();
 </script>
