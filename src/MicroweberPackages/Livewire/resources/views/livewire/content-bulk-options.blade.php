@@ -20,7 +20,8 @@
                 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                     mw.notification.msg(msg);
                     window.livewire.emit('multipleMoveToCategoryExecute');
-                    dialog.remove();
+                    window.livewire.emit('refreshProductsTable');
+                    dialog.remove(); 
                 });
             });
         }
