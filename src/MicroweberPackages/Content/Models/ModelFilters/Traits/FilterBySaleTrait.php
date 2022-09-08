@@ -45,19 +45,21 @@ trait FilterBySaleTrait {
    //     $this->query->whereHas('orders')->with('cart' )->with('orders' )->withCount('orders');
 
 
-        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
-            $subQuery->has('order');
-        }) ;
+//        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
+//            $subQuery->has('order');
+//        }) ;
 
 
 
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
             $sales = intval($params['sales_count']);
-            $this->query->with('orders' )
-                ->whereHas('orders')
-                ->with('cart' )
+            $this->query
+                //->with('orders' )
+                 ->whereHas('orders')
+             //   ->with('cart' )
                 ->groupBy('id' )
-                ->withCount('orders')->having('orders_count', '=', $sales);
+                ->withCount('orders')
+                ->having('orders_count', '=', $sales);
 
    //       $this->query->where('orders_count', '=', $sales);
         }
