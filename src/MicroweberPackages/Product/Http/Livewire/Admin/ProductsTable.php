@@ -22,6 +22,8 @@ class ProductsTable extends AdminDataTableComponent
     protected $model = Product::class;
   //  public array $perPageAccepted = [1, 25, 50, 100, 200];
 
+    protected $listeners = ['refreshProductsTable' => '$refresh'];
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')
