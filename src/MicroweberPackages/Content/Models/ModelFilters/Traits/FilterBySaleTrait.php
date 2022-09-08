@@ -22,7 +22,7 @@ trait FilterBySaleTrait {
     {
         $sales = intval($sales);
         if ($sales == 0) {
-          //  return;
+             return;
         }
 
 
@@ -32,6 +32,13 @@ trait FilterBySaleTrait {
 
     }
 
+    public function salesOperator($opeator)
+    {
+        $params = [];
+        $params['sales_operator'] = $opeator;
+        $this->applySalesFilter($params);
+
+    }
     public function sortSales($direction)
     {
         $params = [];
@@ -52,6 +59,27 @@ trait FilterBySaleTrait {
 
 
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
+            $operator = '=';
+            if (isset($params['sales_operator']) && $params['sales_operator'] != '') {
+                switch ($params['sales_operator']) {
+                    case 'greater':
+                    case 'more_than':
+                    case 'more_then':
+                        $operator = '>=';
+                        break;
+                    case 'lower':
+                    case 'lower_than':
+                    case 'less_than':
+                    case 'less_then':
+                    case 'lower_then':
+                        $operator = '<=';
+                        break;
+
+                }
+
+
+            }
+
             $sales = intval($params['sales_count']);
             $this->query
                 //->with('orders' )
@@ -59,7 +87,7 @@ trait FilterBySaleTrait {
              //   ->with('cart' )
                 ->groupBy('id' )
                 ->withCount('orders')
-                ->having('orders_count', '=', $sales);
+                ->having('orders_count', $operator, $sales);
 
    //       $this->query->where('orders_count', '=', $sales);
         }
