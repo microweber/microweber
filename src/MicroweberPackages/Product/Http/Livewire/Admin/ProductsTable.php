@@ -8,6 +8,7 @@ use MicroweberPackages\CustomField\Fields\Number;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
+use MicroweberPackages\Livewire\Views\Filters\CategoryFilter;
 use MicroweberPackages\Livewire\Views\Filters\NumberWithOperator;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Livewire\Views\Filters\HiddenFilter;
@@ -217,6 +218,14 @@ class ProductsTable extends AdminDataTableComponent
     public function filters(): array
     {
         return [
+
+            CategoryFilter::make('Category')
+            ->config([
+                'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
+                'placeholder' => 'Select category',
+            ])->filter(function(Builder $builder, string $value) {
+
+            }),
 
             PriceRangeFilter::make('Price range')
              ->config([
