@@ -22,28 +22,58 @@ class ContentBulkOptions extends Component
         'multipleDeleteExecute' => 'multipleDeleteExecute',
     ];
 
-    public $moveToCategory = false;
 
-    public function multipleMoveToCategoryShowModal($params)
-    {
-        $this->moveToCategory = true;
-    }
-
-    public $multiplePublish = false;
+    // Publish modal
+    public $multiplePublishShowModal = false;
+    public $multiplePublishIds = [];
 
     public function multiplePublishShowModal($params)
     {
-        $this->multiplePublish = true;
+        $this->multiplePublishIds = $params;
+        $this->multiplePublishShowModal = true;
     }
 
-    public $multipleUnpublish = false;
+    public function multiplePublishExecute()
+    {
+        if (!empty($this->multiplePublishIds)) {
+            foreach ($this->multiplePublishIds as $publishId) {
+                $findContent = Content::where('id', $publishId)->first();
+                if ($findContent !== null) {
+                    $findContent->is_active = 1;
+                    $findContent->save();
+                }
+            }
+        }
+
+        $this->emit('refreshProductsTable');
+        $this->multiplePublishShowModal = false;
+    }
+
+    // Unpublish modal
+    public $multipleUnpublishShowModal = false;
+    public $multipleUnpublishIds = [];
 
     public function multipleUnpublishShowModal($params)
     {
-        $this->multipleUnpublish = true;
+        $this->multipleUnpublishIds = $params;
+        $this->multipleUnpublishShowModal = true;
     }
 
+    public function multipleUnpublishExecute()
+    {
+        if (!empty($this->multipleUnpublishIds)) {
+            foreach ($this->multipleUnpublishIds as $unpublishId) {
+                $findContent = Content::where('id', $unpublishId)->first();
+                if ($findContent !== null) {
+                    $findContent->is_active = 0;
+                    $findContent->save();
+                }
+            }
+        }
 
+        $this->emit('refreshProductsTable');
+        $this->multipleUnpublishShowModal = false;
+    }
 
     // Delete modal
     public $multipleDeleteShowModal = false;
