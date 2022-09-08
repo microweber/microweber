@@ -245,7 +245,7 @@
                 if (this.settings.canSelectFolder || item.type === 'file') {
                     var check =  _check();
                     check.on('input', function () {
-                        scope[this.checked ? 'unselect' : 'select'](item);
+                         scope[this.checked ? 'unselect' : 'select'](item);
                         _selectedUI();
                     });
                     row.append( mw.element({ tag: 'td', content: check }));
@@ -301,11 +301,13 @@
 
 
         var afterSelect = function (obj, state) {
-            rows.forEach(function (rowItem){
-                if(rowItem.data === obj) {
-                    rowItem.row.find('input').prop('checked', state);
-                }
+            var curr = rows.find(function (row){
+                return row.data === obj;
             });
+            if(curr) {
+                var input = curr.row.find('input');
+                input.prop('checked', state);
+            }
             _selectedUI();
         };
 
@@ -361,6 +363,7 @@
             var thCheck;
             if (scope.settings.selectable) {
                 globalcheck = _check();
+                globalcheck.addClass('mw-file-manager-select-all-check');
                 globalcheck.on('input', function () {
                     scope.selectAllToggle();
                 });

@@ -216,7 +216,7 @@ class CheckoutTest extends TestCase
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
 
-        $productQuery =$productQuery->whereHas('productOrders');
+        $productQuery =$productQuery->whereHas('orders');
         $products = $productQuery->get();
 
         $found = false;
@@ -229,7 +229,7 @@ class CheckoutTest extends TestCase
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
 
-        $productQuery =$productQuery->whereDoesntHave('productOrders');
+        $productQuery =$productQuery->whereDoesntHave('orders');
         $products = $productQuery->get();
         $found = false;
         foreach ($products as $product) {

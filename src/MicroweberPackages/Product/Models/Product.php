@@ -194,12 +194,13 @@ class Product extends Content
 
     public function getSalesCountAttribute()
     {
+
         $cartQuery = Cart::query();
         $cartQuery->where('rel_type', 'content');
-        $cartQuery->where('rel_id', $this->id);
+        $cartQuery->where('rel_id', $this->getAttribute('id'));
         $cartQuery->whereHas('order');
-
         return $cartQuery->count();
+
     }
 
     public function cart()
@@ -237,7 +238,7 @@ class Product extends Content
 
     public function generateVariants()
     {
-        clearcache();
+     //   clearcache();
         $getVariants = $this->variants()->get();
         $getCustomFields = $this->customField()->where('type', 'radio')->get();
 
@@ -382,7 +383,7 @@ class Product extends Content
 
 
 
-    public function productOrders()
+    public function orders()
     {
         return $this->hasManyThrough(
             Order::class,
