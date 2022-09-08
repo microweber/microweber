@@ -1,12 +1,6 @@
-
 <div class="mb-3 mb-md-0 input-group">
-    <input
-        wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
-        wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
-        id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
-        type="number"
-        @if($filter->hasConfig('min')) min="{{ $filter->getConfig('min') }}" @endif
-        @if($filter->hasConfig('max')) max="{{ $filter->getConfig('max') }}" @endif
-        class="form-control"
-    />
+    <span class="input-group-text">Operator</span>
+    <input type="number" class="form-control" id="js-{{ $filter->getKey() }}-min-price" placeholder="Min price" />
+    <span class="input-group-text">To</span>
+    <input type="number" class="form-control" id="js-{{ $filter->getKey() }}-max-price" placeholder="Max Price" />
 </div>
