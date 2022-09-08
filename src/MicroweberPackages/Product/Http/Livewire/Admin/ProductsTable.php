@@ -220,11 +220,11 @@ class ProductsTable extends AdminDataTableComponent
 
              }),
 
-            SelectFilter::make('Status')
+            SelectFilter::make('Stock Status')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
                 ])
-                ->setFilterPillTitle('Status')
+                ->setFilterPillTitle('Stock Status')
                 ->options([
                     '' => 'Any',
                     'in_stock' => 'In Stock',
@@ -235,7 +235,7 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            SelectFilter::make('Type')
+            SelectFilter::make('Discount')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
                 ])

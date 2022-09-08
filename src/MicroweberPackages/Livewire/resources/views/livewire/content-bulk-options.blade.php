@@ -21,7 +21,7 @@
                     mw.notification.msg(msg);
                     window.livewire.emit('multipleMoveToCategoryExecute');
                     window.livewire.emit('refreshProductsTable');
-                    dialog.remove(); 
+                    dialog.remove();
                 });
             });
         }
