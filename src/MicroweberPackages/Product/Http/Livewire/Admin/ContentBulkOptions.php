@@ -65,7 +65,8 @@ class ContentBulkOptions extends Component
                 }
             }
         }
-        
+
+        $this->emit('refreshProductsTable');
         $this->multipleDeleteShowModal = false;
     }
 
