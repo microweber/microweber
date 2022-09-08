@@ -221,7 +221,7 @@ class ProductsTable extends AdminDataTableComponent
 
             CategoryFilter::make('Category')
             ->config([
-                'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
+                'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
                 'placeholder' => 'Select category',
             ])->filter(function(Builder $builder, string $value) {
 
@@ -229,11 +229,29 @@ class ProductsTable extends AdminDataTableComponent
 
             PriceRangeFilter::make('Price range')
              ->config([
-                 'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
+                 'class'=> 'col-12 col-sm-6 col-md-4 col-lg-5 mb-4',
                  'placeholder' => 'Select price range',
              ])->filter(function(Builder $builder, string $value) {
 
              }),
+
+            HiddenFilter::make('Sales Operator')->hiddenFromAll(),
+
+            NumberWithOperator::make('Sales')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-4 mb-4',
+                ])
+                ->filter(function(Builder $builder, $values) {
+                    //
+                }),
+
+            /*   NumberFilter::make('Sales')
+                   ->config([
+                       'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
+                   ])
+                   ->filter(function(Builder $builder, string $value) {
+                       //
+                   }),*/
 
             SelectFilter::make('Stock Status')
                 ->config([
@@ -265,27 +283,9 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            HiddenFilter::make('Sales Operator')->hiddenFromAll(),
-
-            NumberWithOperator::make('Sales')
-                ->config([
-                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
-                ])
-                ->filter(function(Builder $builder, $values) {
-                    //
-                }),
-
-         /*   NumberFilter::make('Sales')
-                ->config([
-                    'class'=> 'col-12 col-sm-6 col-md-4 col-lg-4 mb-4',
-                ])
-                ->filter(function(Builder $builder, string $value) {
-                    //
-                }),*/
-
             NumberFilter::make('Quantity')
                 ->config([
-                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-1 mb-4',
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
                 ])
                 ->filter(function(Builder $builder, string $value) {
                     //
