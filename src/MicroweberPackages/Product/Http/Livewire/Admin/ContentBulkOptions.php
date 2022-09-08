@@ -3,42 +3,70 @@
 namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use Livewire\Component;
+use MicroweberPackages\Content\Content;
 
 class ContentBulkOptions extends Component
 {
     protected $listeners = [
-        'multipleMoveToCategory' => 'multipleMoveToCategoryExecute',
-        'multiplePublish' => 'multiplePublishExecute',
-        'multipleUnpublish' => 'multipleUnpublishExecute',
-        'multipleDelete' => 'multipleDeleteExecute',
+        'multipleMoveToCategory' => 'multipleMoveToCategoryShowModal',
+        'multipleMoveToCategoryExecute' => 'multipleMoveToCategoryExecute',
+
+
+        'multiplePublish' => 'multiplePublishShowModal',
+        'multiplePublishExecute' => 'multiplePublishExecute',
+
+        'multipleUnpublish' => 'multipleUnpublishShowModal',
+        'multipleUnpublishExecute' => 'multipleUnpublishExecute',
+
+        'multipleDelete' => 'multipleDeleteShowModal',
+        'multipleDeleteExecute' => 'multipleDeleteExecute',
     ];
 
     public $moveToCategory = false;
 
-    public function multipleMoveToCategoryExecute($params)
+    public function multipleMoveToCategoryShowModal($params)
     {
         $this->moveToCategory = true;
     }
 
     public $multiplePublish = false;
 
-    public function multiplePublishExecute($params)
+    public function multiplePublishShowModal($params)
     {
         $this->multiplePublish = true;
     }
 
     public $multipleUnpublish = false;
 
-    public function multipleUnpublishExecute($params)
+    public function multipleUnpublishShowModal($params)
     {
         $this->multipleUnpublish = true;
     }
 
-    public $multipleDelete = false;
 
-    public function multipleDeleteExecute($params)
+
+    // Delete modal
+    public $multipleDeleteShowModal = false;
+    public $multipleDeleteIds = [];
+
+    public function multipleDeleteShowModal($params)
     {
-        $this->multipleDelete = true;
+        $this->multipleDeleteIds = $params;
+        $this->multipleDeleteShowModal = true;
+    }
+
+    public function multipleDeleteExecute()
+    {
+        if (!empty($this->multipleDeleteIds)) {
+            foreach ($this->multipleDeleteIds as $deleteId) {
+                $findContent = Content::where('id', $deleteId)->first();
+                if ($findContent !== null) {
+                    $findContent->delete();
+                }
+            }
+        }
+        
+        $this->multipleDeleteShowModal = false;
     }
 
     public function render()

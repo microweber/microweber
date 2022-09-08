@@ -59,10 +59,10 @@
     @endif
 
 
-    @if($multipleDelete)
+    @if($multipleDeleteShowModal)
         <script>
         mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-            
+            window.livewire.emit('multipleDeleteExecute');
         });
         </script>
     @endif
