@@ -24,4 +24,11 @@
             method: 'get'
         }
     });
+
+    $(tagsSelect).on("change", function (event, tag) {
+        if (tag.id) {
+            console.log(tag);
+        }
+    });
+
 </script>
