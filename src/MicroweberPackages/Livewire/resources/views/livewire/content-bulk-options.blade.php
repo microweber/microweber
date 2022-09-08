@@ -1,5 +1,5 @@
 <div>
-    @if($moveToCategory)
+    @if(isset($moveToCategory) && $moveToCategory)
     <script>
         assign_selected_posts_to_category_exec = function () {
             mw.tools.confirm("Are you sure you want to move the selected data?", function () {
@@ -58,6 +58,23 @@
     </script>
     @endif
 
+
+    @if($multiplePublishShowModal)
+        <script>
+            mw.tools.confirm("Are you sure you want to publish the selected data?", function () {
+                window.livewire.emit('multiplePublishExecute');
+            });
+        </script>
+    @endif
+
+
+    @if($multipleUnpublishShowModal)
+        <script>
+            mw.tools.confirm("Are you sure you want to unpublish the selected data?", function () {
+                window.livewire.emit('multipleUnpublishExecute');
+            });
+        </script>
+    @endif
 
     @if($multipleDeleteShowModal)
         <script>
