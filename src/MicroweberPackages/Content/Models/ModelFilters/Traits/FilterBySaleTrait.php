@@ -41,16 +41,22 @@ trait FilterBySaleTrait {
         })->withCount('orders');
 
 
- 
-        if (isset($params['sales_count']) && $params['sales_count'] != '') {
-            $sales = intval($params['sales_count']);
-            $this->query->where('orders_count', '=', $sales);
-        }
 
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
             $sales = intval($params['sales_count']);
             $this->query->where('orders_count', '=', $sales);
         }
+
+        if (isset($params['sales_count_min']) && $params['sales_count_min'] != '') {
+            $sales = intval($params['sales_count_min']);
+            $this->query->where('orders_count', '<=', $sales);
+        }
+        if (isset($params['sales_count_max']) && $params['sales_count_max'] != '') {
+            $sales = intval($params['sales_count_max']);
+            $this->query->where('orders_count', '>=', $sales);
+        }
+
+
         if(isset($params['sales_sort']) && $params['sales_sort'] != '') {
             $this->query->orderBy('orders_count', $params['sales_sort']);
         }
