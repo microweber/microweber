@@ -7,6 +7,7 @@ use MicroweberPackages\Admin\AdminDataTableComponent;
 use MicroweberPackages\Livewire\Views\Columns\HtmlColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardColumn;
 use MicroweberPackages\Livewire\Views\Columns\MwCardTitleCategoriesButtonsColumn;
+use MicroweberPackages\Livewire\Views\Filters\NumberWithOperator;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -250,7 +251,7 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            NumberFilter::make('Sales')
+            NumberWithOperator::make('Sales')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
                 ])
