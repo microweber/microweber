@@ -20,6 +20,12 @@ trait FilterBySaleTrait {
      */
     public function sales($sales)
     {
+        $sales = intval($sales);
+        if ($sales == 0) {
+            return;
+        }
+
+
         $params = [];
         $params['sales_count'] = $sales;
         $this->applySalesFilter($params);
@@ -34,7 +40,7 @@ trait FilterBySaleTrait {
 
     }
 
-    private function applySalesFilter($params)
+    public function applySalesFilter($params)
     {
         $this->query->whereHas('orders')->with('cart', function ($subQuery) {
 
