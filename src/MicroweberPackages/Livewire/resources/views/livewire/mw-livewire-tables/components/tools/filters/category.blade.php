@@ -36,7 +36,7 @@ $selected_page_id = 8;
         var dialog = mw.dialog({
             title: '<?php _ejs('Select categories'); ?>',
             footer: btn,
-            onResult: function(result){
+            onResult: function(result) {
                 selectedPages = [];
                 selectedCategories = [];
                 $.each(result, function (key, item) {
@@ -73,9 +73,9 @@ $selected_page_id = 8;
                         tree.select(this, 'page')
                     });
                 }
-                if (selectedCategories.length) {
+                if (selectedCategories.length > 0) {
                     $.each(selectedCategories, function () {
-                        tree.select(this, 'category')
+                        tree.select(this, 'category');
                     });
                 }
 
