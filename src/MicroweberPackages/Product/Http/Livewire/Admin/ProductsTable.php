@@ -236,13 +236,15 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            CategoryFilter::make('Category')
-            ->config([
-                'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
-                'placeholder' => 'Select category',
-            ])->filter(function(Builder $builder, string $value) {
+            HiddenFilter::make('Page')->hiddenFromAll(),
 
-            }),
+            CategoryFilter::make('Category')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
+                    'placeholder' => 'Select category',
+                ])->filter(function(Builder $builder, string $value) {
+
+                }),
 
             TagsFilter::make('Tags')
                 ->config([

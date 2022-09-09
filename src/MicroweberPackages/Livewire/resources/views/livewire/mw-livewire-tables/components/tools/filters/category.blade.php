@@ -1,9 +1,3 @@
-<?php
-
-$selected_page_id = 8;
-
-?>
-
 <input
     wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
     wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
@@ -11,10 +5,17 @@ $selected_page_id = 8;
     type="text"
 />
 
+<input
+    wire:model.stop="{{ $component->getTableName() }}.filters.page"
+    wire:key="{{ $component->getTableName() }}-filter-page"
+    id="{{ $component->getTableName() }}-filter-page"
+    type="text"
+/>
 
 <script type="text/javascript">
 
-    let categoryElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
+    pageElement_page = document.getElementById('{{ $component->getTableName() }}-filter-page');
+    categoryElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
 
     function removeItem(array, item){
         for(var i in array){
@@ -27,8 +28,12 @@ $selected_page_id = 8;
 
     categoryFilterSelectTree = function (){
 
-        var selectedPages = [ <?php print $selected_page_id; ?>];
+        var selectedPages =  pageElement_page.value.split(",");
         var selectedCategories =  categoryElement_{{ $filter->getKey() }}.value.split(",");
+
+
+        console.log('------>page->>.');
+        console.log(selectedPages);
 
         var ok = mw.element('<button class="btn btn-primary">Apply</button>');
         var btn = ok.get(0);
@@ -47,6 +52,10 @@ $selected_page_id = 8;
                         selectedPages.push(item.id);
                     }
                 });
+
+                pageElement_page.value = selectedPages.join(",");
+                pageElement_page.dispatchEvent(new Event('input'));
+
                 categoryElement_{{ $filter->getKey() }}.value = selectedCategories.join(",");
                 categoryElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
             }
@@ -62,6 +71,9 @@ $selected_page_id = 8;
                 multiPageSelect: false
             }
         }, 'treeTags').then(function (res){
+
+            alert(888);
+
             tree = res.tree;
             $(tree).on("selectionChange", function () {
                 btn.disabled = tree.getSelected().length === 0;
