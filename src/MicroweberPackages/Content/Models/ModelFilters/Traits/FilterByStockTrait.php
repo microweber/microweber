@@ -21,8 +21,6 @@ trait FilterByStockTrait
     public function inStock($isInStock)
     {
 
-
-
          return $this->query->whereHas('contentData', function (Builder $query) use ($isInStock) {
             if (!$isInStock or isset($isInStock) AND intval($isInStock) == 0) {
                 // out of stock

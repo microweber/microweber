@@ -15,14 +15,13 @@ trait FilterByPriceTrait
     protected $_minPriceFilter = false;
     protected $_maxPriceFilter = false;
 
-    public function discounted()
+    public function discounted($type = 1)
     {
-        $this->query->whereHas('offer');
-    }
-
-    public function notDiscounted()
-    {
-        $this->query->doesntHave('offer');
+        if ($type == 1) {
+            $this->query->whereHas('offer');
+        } else {
+            $this->query->doesntHave('offer');
+        }
     }
 
     public function sortPrice($direction)

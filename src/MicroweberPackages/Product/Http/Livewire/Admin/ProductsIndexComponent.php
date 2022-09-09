@@ -10,11 +10,16 @@ class ProductsIndexComponent extends Component
 {
     use WithPagination;
 
+    public $filters = [];
     protected $listeners = [];
 
     public function render()
     {
-        $products = Product::paginate(10);
+        $query = Product::query();
+
+        $query->filter($this->filters);
+
+        $products = $query->paginate(10);
 
         return view('product::admin.product.livewire.table', compact('products'));
     }

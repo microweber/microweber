@@ -1,7 +1,125 @@
 <div>
 
+    {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
+
     <div id="js-admin-product-filters">
 
+        <div style="background: rgb(236, 244, 255) none repeat scroll 0% 0%;" class="p-3 pt-4 mb-4">
+            <div class="container-filters">
+                <div class="row">
+
+                    <div class=" col-12 col-sm-6 col-md-4 col-lg-4 mb-4 ">
+                        <label class="d-block">
+                            Price range
+                        </label>
+                        <div class="mb-3 mb-md-0 input-group">
+                            <span class="input-group-text">From</span>
+                            <input type="number" class="form-control" wire:model.stop="filters.price_range[from]" placeholder="Min price">
+                            <span class="input-group-text">To</span>
+                            <input type="number" class="form-control" wire:model.stop="filters.price_range[to]" placeholder="Max Price">
+                        </div>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
+                        <label class="d-block">
+                            Stock Status
+                        </label>
+
+                        <select wire:model.stop="filters.inStock" class="form-control">
+                            <option value="">Any</option>
+                            <option value="1">In Stock</option>
+                            <option value="0">Out Of Stock</option>
+                        </select>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
+                        <label class="d-block">
+                            Discount
+                        </label>
+
+                        <select wire:model.stop="filters.discounted" class="form-control">
+                            <option value="">Any</option>
+                            <option value="1">Discounted</option>
+                            <option value="0">Not discounted</option>
+                        </select>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                        <label class="d-block">
+                            Sales
+                        </label>
+
+                        <div class="mb-3 mb-md-0 input-group">
+                            <select class="form-control" wire:model.stop="filters.operator.sales">
+                                <option value="=">Equal</option>
+                                <option value=">">More then</option>
+                                <option value="<">Lower then</option>
+                            </select>
+                            <input type="number" class="form-control" placeholder="Sales count" wire:model.stop="filters.sales">
+                        </div>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-1 mb-4 ">
+                        <label class="d-block">
+                            Quantity
+                        </label>
+
+                        <div class="mb-3 mb-md-0 input-group">
+                            <input wire:model.stop="filters.quantity" type="number" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                        <label class="d-block">
+                            SKU
+                        </label>
+
+                        <div class="mb-3 mb-md-0 input-group">
+                            <input wire:model.stop="filters.sku" type="text" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                        <label class="d-block">
+                            Visible
+                        </label>
+
+                        <select wire:model.stop="filters.visible" class="form-control">
+                            <option value="">Any</option>
+                            <option value="published">Published</option>
+                            <option value="unpublished">Unpublished</option>
+                        </select>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                        <label class="d-block">
+                            Created at
+                        </label>
+
+                        <div class="mb-3 mb-md-0 input-group">
+                            <input wire:model.stop="filters.created_at" type="date" class="form-control">
+                        </div>
+
+                    </div>
+
+                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                        <label class="d-block">
+                            Updated at
+                        </label>
+                        <div class="mb-3 mb-md-0 input-group">
+                            <input wire:model.stop="filters.updated_at" type="date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <table class="table">
@@ -110,7 +228,11 @@
         @endforeach
         </tbody>
     </table>
+
+
+
+    {{ $products->links() }}
+
 </div>
 
 
-{{ $products->links() }}
