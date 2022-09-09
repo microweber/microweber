@@ -236,7 +236,7 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            HiddenFilter::make('Page')->hiddenFromAll(),
+            HiddenFilter::make('Page')->hiddenFromMenus(),
 
             CategoryFilter::make('Category')
                 ->config([
