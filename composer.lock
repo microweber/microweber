@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "882e02348428193fd84d7263f71a5942",
+    "content-hash": "fd51f4efd9b849ddc84dddb0f5055f0a",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -3734,6 +3734,69 @@
                 "source": "https://github.com/justinrainbow/json-schema/tree/5.2.12"
             },
             "time": "2022-04-13T08:02:27+00:00"
+        },
+        {
+            "name": "kirschbaum-development/eloquent-power-joins",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kirschbaum-development/eloquent-power-joins.git",
+                "reference": "ad4ce611a67b60780507fb52eee7d62c810cd0ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kirschbaum-development/eloquent-power-joins/zipball/ad4ce611a67b60780507fb52eee7d62c810cd0ef",
+                "reference": "ad4ce611a67b60780507fb52eee7d62c810cd0ef",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "laravel/legacy-factories": "^1.0@dev",
+                "orchestra/testbench": "4.*|5.*|6.*|7.*",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kirschbaum\\PowerJoins\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luis Dalmolin",
+                    "email": "luis.nh@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The Laravel magic applied to joins.",
+            "homepage": "https://github.com/kirschbaum-development/eloquent-power-joins",
+            "keywords": [
+                "eloquent",
+                "join",
+                "laravel",
+                "mysql"
+            ],
+            "support": {
+                "issues": "https://github.com/kirschbaum-development/eloquent-power-joins/issues",
+                "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/master"
+            },
+            "time": "2022-08-24T14:22:24+00:00"
         },
         {
             "name": "knplabs/knp-menu",
@@ -9395,7 +9458,7 @@
         },
         {
             "name": "rappasoft/laravel-livewire-tables",
-            "version": "dev-master",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rappasoft/laravel-livewire-tables.git",
@@ -9419,7 +9482,6 @@
                 "phpunit/phpunit": "^9.3",
                 "spatie/laravel-ray": "^1.9"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -16195,13 +16257,13 @@
         "finlet/flexmail": 20,
         "florianv/exchanger": 20,
         "jenssegers/agent": 20,
+        "kirschbaum-development/eloquent-power-joins": 20,
         "knplabs/knp-menu": 20,
         "league/csv": 20,
         "microweber-packages/microweber-class-alias": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
         "predis/predis": 20,
-        "rappasoft/laravel-livewire-tables": 20,
         "wikimedia/composer-merge-plugin": 20
     },
     "prefer-stable": false,
@@ -16218,5 +16280,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

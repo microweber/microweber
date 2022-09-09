@@ -4,6 +4,7 @@ namespace MicroweberPackages\Content;
 use Conner\Tagging\Taggable;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
@@ -32,6 +33,7 @@ class Content extends Model
     use Filterable;
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
+    use PowerJoins;
 
     protected $table = 'content';
     protected $content_type = 'content';

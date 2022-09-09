@@ -109,6 +109,19 @@ trait CustomFieldsTrait
         return false;
     }
 
+    public function customFieldsPrices()
+    {
+        return $this->hasManyThrough(
+            CustomFieldValue::class,
+            CustomField::class,
+            'rel_id',
+            'custom_field_id',
+            'id',
+            'id'
+        )->where('custom_fields.type', '=', 'price');
+
+    }
+
     public function customFieldsValues()
     {
         return $this->hasManyThrough(

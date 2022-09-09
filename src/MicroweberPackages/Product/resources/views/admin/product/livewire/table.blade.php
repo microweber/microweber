@@ -158,6 +158,15 @@
             <div class="mb-3 mb-md-0 input-group">
                 <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
             </div>
+        </div>  <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+            <label>orderBy</label>
+            <select wire:model.stop="filters.orderBy" class="form-control">
+                <option value="">Any</option>
+                <option value="id,desc">id,desc</option>
+                <option value="id,asc">id,asc</option>
+                <option value="price,desc">price,desc</option>
+                <option value="price,asc">price,asc</option>
+            </select>
         </div>
     </div>
 
@@ -181,7 +190,7 @@
         <tbody>
         @foreach ($products as $product)
         <tr>
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox"> {{$product->id}}</td>
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>

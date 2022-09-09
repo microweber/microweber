@@ -28,7 +28,24 @@ trait OrderByTrait
             $orderDirection = $this->input['orderDirection'];
         }
 
-         return $this->query->orderBy($orderColumn, $orderDirection);
+
+        switch ($orderColumn) {
+            case 'price':
+                 $this->query->whereHas('customFieldsPrices', function ($query) use ($orderColumn, $orderDirection) {
+                    return $query->orderBy('custom_fields_values.value', $orderDirection);
+                })->orderByPowerJoins('customFieldsPrices.value', $orderDirection);
+
+                break;
+
+            default:
+                $this->query->orderBy($orderColumn, $orderDirection);
+                break;
+        }
+
+
+
+
+         return $this->query;
     }
 
 

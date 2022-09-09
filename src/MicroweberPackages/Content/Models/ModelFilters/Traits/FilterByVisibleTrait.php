@@ -20,7 +20,7 @@ trait FilterByVisibleTrait
     {
         $isVisible = intval($isVisible);
 
-        $this->where('is_active', $isVisible);
+        $this->where('content.is_active', $isVisible);
     }
 
 }
