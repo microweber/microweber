@@ -16,6 +16,7 @@ use MicroweberPackages\Livewire\Views\Filters\TagsFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -219,6 +220,22 @@ class ProductsTable extends AdminDataTableComponent
     public function filters(): array
     {
         return [
+
+
+            MultiSelectFilter::make('Multiselect Filter')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
+                ])
+                ->setFilterPillTitle('Multiselect Filter')
+                ->options([
+                    '' => 'Any',
+                    'in_stock' => 'In Stock',
+                    'out_of_stock' => 'Out Of Stock',
+                ])
+                ->filter(function(Builder $builder, $values) {
+
+
+                }),
 
             CategoryFilter::make('Category')
             ->config([
