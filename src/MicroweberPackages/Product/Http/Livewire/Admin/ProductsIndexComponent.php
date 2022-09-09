@@ -13,6 +13,8 @@ class ProductsIndexComponent extends Component
     public $filters = [];
     protected $listeners = [];
 
+    protected $queryString = ['filters'];
+
     public function clearFilters()
     {
         $this->filters = [];
