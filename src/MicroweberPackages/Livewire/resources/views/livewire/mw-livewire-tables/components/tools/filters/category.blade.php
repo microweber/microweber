@@ -4,7 +4,28 @@ $selected_page_id = "6";
 $categories_active_ids = "281,282,283";
 
 ?>
+
+<input
+    wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
+    wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
+    id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
+    type="hidden"
+/>
+
+
 <script type="text/javascript">
+
+    let categoryElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
+
+    function removeItem(array, item){
+        for(var i in array){
+            if(array[i]==item){
+                array.splice(i,1);
+                break;
+            }
+        }
+    }
+
     categoryFilterSelectTree = function (){
 
         var selectedPages = [ <?php print $selected_page_id; ?>];
@@ -17,7 +38,18 @@ $categories_active_ids = "281,282,283";
             title: '<?php _ejs('Select categories'); ?>',
             footer: btn,
             onResult: function(result){
-                console.log(result);
+                selectedPages = [];
+                selectedCategories = [];
+                $.each(result, function (key, item) {
+                    if (item.type == 'category') {
+                        selectedCategories.push(item.id);
+                    }
+                    if (item.type == 'page') {
+                        selectedPages.push(item.id);
+                    }
+                });
+                categoryElement_{{ $filter->getKey() }}.value = selectedCategories.join(","); 
+                categoryElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
             }
         });
 
