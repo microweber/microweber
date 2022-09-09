@@ -1,19 +1,35 @@
-<?php
+<input
+    wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
+    wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
+    id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
+    type="hidden"
+/>
 
+<input
+    wire:model.stop="{{ $component->getTableName() }}.filters.page"
+    wire:key="{{ $component->getTableName() }}-filter-page"
+    id="{{ $component->getTableName() }}-filter-page"
+    type="hidden"
+/>
 
-$selected_page_id = "6";
-$categories_active_ids = "281,282,283";
-
-?>
 <script type="text/javascript">
+
+    pageElement_page = document.getElementById('{{ $component->getTableName() }}-filter-page');
+    categoryElement_{{ $filter->getKey() }} = document.getElementById('{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}');
+
+    function removeItem(array, item){
+        for(var i in array){
+            if(array[i]==item){
+                array.splice(i,1);
+                break;
+            }
+        }
+    }
+
     categoryFilterSelectTree = function (){
 
-
-        var selectedPages = [ <?php print $selected_page_id; ?>];
-        var selectedCategories = [ <?php print $categories_active_ids; ?>];
-
-
-
+        var selectedPages =  pageElement_page.value.split(",");
+        var selectedCategories =  categoryElement_{{ $filter->getKey() }}.value.split(",");
 
         var ok = mw.element('<button class="btn btn-primary">Apply</button>');
         var btn = ok.get(0);
@@ -21,8 +37,23 @@ $categories_active_ids = "281,282,283";
         var dialog = mw.dialog({
             title: '<?php _ejs('Select categories'); ?>',
             footer: btn,
-            onResult: function(result){
-                console.log(result)
+            onResult: function(result) {
+                selectedPages = [];
+                selectedCategories = [];
+                $.each(result, function (key, item) {
+                    if (item.type == 'category') {
+                        selectedCategories.push(item.id);
+                    }
+                    if (item.type == 'page') {
+                        selectedPages.push(item.id);
+                    }
+                });
+
+                pageElement_page.value = selectedPages.join(",");
+                pageElement_page.dispatchEvent(new Event('input'));
+
+                categoryElement_{{ $filter->getKey() }}.value = selectedCategories.join(",");
+                categoryElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
             }
         });
 
@@ -36,6 +67,7 @@ $categories_active_ids = "281,282,283";
                 multiPageSelect: false
             }
         }, 'treeTags').then(function (res){
+
             tree = res.tree;
             $(tree).on("selectionChange", function () {
                 btn.disabled = tree.getSelected().length === 0;
@@ -43,13 +75,13 @@ $categories_active_ids = "281,282,283";
             $(tree).on("ready", function () {
 
                 if (selectedPages.length) {
-                    $.each(selectedPages, function () {
-                        tree.select(this, 'page')
+                    $.each(selectedPages, function (key,pageId) {
+                        tree.select(pageId, 'page')
                     });
                 }
-                if (selectedCategories.length) {
-                    $.each(selectedCategories, function () {
-                        tree.select(this, 'category')
+                if (selectedCategories.length > 0) {
+                    $.each(selectedCategories, function (key,catId) {
+                        tree.select(catId, 'category');
                     });
                 }
 
@@ -57,16 +89,14 @@ $categories_active_ids = "281,282,283";
             });
         });
 
-        ok.on('click', function(){ dialog.result(tree.getSelected(), true) })
+        ok.on('click', function(){
+            dialog.result(tree.getSelected(), true);
+        });
     }
-
-
-    $(document).ready(function () {
-
-    });
 </script>
 
-
-<button class="btn btn-outline-primary btn-block" onclick="categoryFilterSelectTree()"><i class="fa fa-list"></i> Select Categories</button>
+<button class="btn btn-outline-primary btn-block" onclick="categoryFilterSelectTree()">
+    <i class="fa fa-list"></i> Select Categories
+</button>
 
 
