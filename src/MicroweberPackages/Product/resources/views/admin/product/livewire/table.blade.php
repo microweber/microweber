@@ -175,6 +175,7 @@
             <th scope="col">Stock</th>
             <th scope="col">Sales</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Author</th>
         </tr>
         </thead>
         <tbody>
@@ -266,6 +267,9 @@
                   }
             @endphp
                 {!! $quantity !!}
+            </td>
+            <td>
+                {{$product->authorName()}}
             </td>
         </tr>
         @endforeach
