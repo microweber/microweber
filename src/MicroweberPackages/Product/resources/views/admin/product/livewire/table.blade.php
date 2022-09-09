@@ -166,6 +166,8 @@
                 <option value="id,asc">id,asc</option>
                 <option value="price,desc">price,desc</option>
                 <option value="price,asc">price,asc</option>
+                <option value="sales,desc">sales,desc</option>
+                <option value="sales,asc">sales,asc</option>
             </select>
         </div>
     </div>

@@ -36,7 +36,12 @@ trait OrderByTrait
                 })->orderByPowerJoins('customFieldsPrices.value', $orderDirection);
 
                 break;
+            case 'sales':
+                $this->query->whereHas('orders', function ($query) use ($orderColumn, $orderDirection) {
 
+                 })->orderByPowerJoinsCount('orders.id', $orderDirection);
+
+                break;
             default:
                 $this->query->orderBy($orderColumn, $orderDirection);
                 break;
