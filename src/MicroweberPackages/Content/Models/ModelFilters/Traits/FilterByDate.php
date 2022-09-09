@@ -19,14 +19,14 @@ trait FilterByDate
     public function createdAt($createdAt = false)
     {
         if ($createdAt) {
-
+            $this->query->where('created_at', '>=', $createdAt);
         }
     }
 
-    public function updatedAt($createdAt = false)
+    public function updatedAt($updatedAt = false)
     {
-        if ($createdAt) {
-
+        if ($updatedAt) {
+            $this->query->where('updated_at', '>=', $updatedAt);
         }
     }
 
