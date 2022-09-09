@@ -152,6 +152,13 @@ class ProductsTable extends AdminDataTableComponent
         $query = Product::query();
         $query->select(['content.id','content.is_active','content.title','content.url','content.position','content.created_by']);
 
+
+        $category = $this->getAppliedFilterWithValue('category');
+        if ($category) {
+            $categoryIds = explode(',', $category);
+            $query->whereCategoryIds($categoryIds);
+        }
+
         $filters = [];
 
         $sortSalesDirection = $this->getSort('sales');
