@@ -90,7 +90,7 @@
         });
 
         ok.on('click', function(){
-            dialog.result(tree.getSelected(), true)
+            dialog.result(tree.getSelected(), true);
         });
     }
 </script>
