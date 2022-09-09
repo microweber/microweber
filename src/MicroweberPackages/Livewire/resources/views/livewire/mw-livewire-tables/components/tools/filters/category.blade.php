@@ -1,7 +1,6 @@
 <?php
 
-$selected_page_id = "6";
-$categories_active_ids = "281,282,283";
+$selected_page_id = 8;
 
 ?>
 
@@ -9,7 +8,7 @@ $categories_active_ids = "281,282,283";
     wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
     wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
     id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
-    type="hidden"
+    type="text"
 />
 
 
@@ -29,7 +28,7 @@ $categories_active_ids = "281,282,283";
     categoryFilterSelectTree = function (){
 
         var selectedPages = [ <?php print $selected_page_id; ?>];
-        var selectedCategories = [ <?php print $categories_active_ids; ?>];
+        var selectedCategories =  categoryElement_{{ $filter->getKey() }}.value.split(",");
 
         var ok = mw.element('<button class="btn btn-primary">Apply</button>');
         var btn = ok.get(0);
@@ -48,7 +47,7 @@ $categories_active_ids = "281,282,283";
                         selectedPages.push(item.id);
                     }
                 });
-                categoryElement_{{ $filter->getKey() }}.value = selectedCategories.join(","); 
+                categoryElement_{{ $filter->getKey() }}.value = selectedCategories.join(",");
                 categoryElement_{{ $filter->getKey() }}.dispatchEvent(new Event('input'));
             }
         });
