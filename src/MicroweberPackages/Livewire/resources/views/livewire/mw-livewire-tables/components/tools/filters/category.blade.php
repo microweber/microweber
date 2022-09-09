@@ -2,14 +2,14 @@
     wire:model.stop="{{ $component->getTableName() }}.filters.{{ $filter->getKey() }}"
     wire:key="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
     id="{{ $component->getTableName() }}-filter-{{ $filter->getKey() }}"
-    type="text"
+    type="hidden"
 />
 
 <input
     wire:model.stop="{{ $component->getTableName() }}.filters.page"
     wire:key="{{ $component->getTableName() }}-filter-page"
     id="{{ $component->getTableName() }}-filter-page"
-    type="text"
+    type="hidden"
 />
 
 <script type="text/javascript">
