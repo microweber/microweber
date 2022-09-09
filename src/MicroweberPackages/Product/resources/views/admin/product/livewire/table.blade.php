@@ -2,6 +2,8 @@
 
     {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
 
+    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+
     <div id="js-admin-product-filters">
 
         <div style="background: rgb(236, 244, 255) none repeat scroll 0% 0%;" class="p-3 pt-4 mb-4">
