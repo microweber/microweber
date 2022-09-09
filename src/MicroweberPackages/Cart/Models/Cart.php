@@ -52,6 +52,6 @@ class Cart extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'id', 'rel_id')->where('rel_type', '=','content');
+        return $this->hasMany(Product::class, 'id', 'rel_id');
     }
 }
