@@ -69,7 +69,7 @@
                         </label>
 
                         <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.quantity" type="number" class="form-control">
+                            <input wire:model.stop="filters.qty" type="number" class="form-control">
                         </div>
 
                     </div>
