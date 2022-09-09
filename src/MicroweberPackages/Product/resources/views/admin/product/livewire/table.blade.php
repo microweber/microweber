@@ -5,151 +5,148 @@
     <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
 
     <div id="js-admin-product-filters">
+        <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
+            <div class="row">
 
-        <div style="background: rgb(236, 244, 255) none repeat scroll 0% 0%;" class="p-3 pt-4 mb-4">
-            <div class="container-filters">
-                <div class="row">
+                <div class=" col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                    <input type="hidden" id="js-price-range" wire:model.stop="filters.priceBetween">
+                    <label class="d-block">
+                        Price range
+                    </label>
+                    <div class="mb-3 mb-md-0 input-group">
+                        <span class="input-group-text">From</span>
+                        <input type="number" class="form-control" id="js-price-min" placeholder="Min price">
+                        <span class="input-group-text">To</span>
+                        <input type="number" class="form-control" id="js-price-max" placeholder="Max Price">
+                    </div>
+                    <script>
+                        document.addEventListener('livewire:load', function () {
 
-                    <div class=" col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-                        <input type="hidden" id="js-price-range" wire:model.stop="filters.priceBetween">
-                        <label class="d-block">
-                            Price range
-                        </label>
-                        <div class="mb-3 mb-md-0 input-group">
-                            <span class="input-group-text">From</span>
-                            <input type="number" class="form-control" id="js-price-min" placeholder="Min price">
-                            <span class="input-group-text">To</span>
-                            <input type="number" class="form-control" id="js-price-max" placeholder="Max Price">
-                        </div>
-                        <script>
-                            document.addEventListener('livewire:load', function () {
+                            let priceMin = document.getElementById('js-price-min');
+                            let priceMax = document.getElementById('js-price-max');
+                            let priceRangeValue = priceMin.value + ', ' + priceMax.value;
+                            let priceRangeElement = document.getElementById('js-price-range');
 
-                                let priceMin = document.getElementById('js-price-min');
-                                let priceMax = document.getElementById('js-price-max');
-                                let priceRangeValue = priceMin.value + ', ' + priceMax.value;
-                                let priceRangeElement = document.getElementById('js-price-range');
-
-                                const priceRangeExp = priceRangeElement.value.split(",");
-                                if (priceRangeExp) {
-                                    if (priceRangeExp[0]) {
-                                        priceMin.value = priceRangeExp[0];
-                                    }
-                                    if (priceRangeExp[1]) {
-                                        priceMax.value = priceRangeExp[1];
-                                    }
+                            const priceRangeExp = priceRangeElement.value.split(",");
+                            if (priceRangeExp) {
+                                if (priceRangeExp[0]) {
+                                    priceMin.value = priceRangeExp[0];
                                 }
+                                if (priceRangeExp[1]) {
+                                    priceMax.value = priceRangeExp[1];
+                                }
+                            }
 
-                                priceMin.onkeyup = function() {
-                                    priceRangeValue = priceMin.value + ',' + priceMax.value;
-                                    priceRangeElement.value = priceRangeValue;
-                                    priceRangeElement.dispatchEvent(new Event('input'));
-                                };
+                            priceMin.onkeyup = function() {
+                                priceRangeValue = priceMin.value + ',' + priceMax.value;
+                                priceRangeElement.value = priceRangeValue;
+                                priceRangeElement.dispatchEvent(new Event('input'));
+                            };
 
-                                priceMax.onkeyup = function() {
-                                    priceRangeValue = priceMin.value + ',' + priceMax.value;
-                                    priceRangeElement.value = priceRangeValue;
-                                    priceRangeElement.dispatchEvent(new Event('input'));
-                                };
-                            });
-                        </script>
+                            priceMax.onkeyup = function() {
+                                priceRangeValue = priceMin.value + ',' + priceMax.value;
+                                priceRangeElement.value = priceRangeValue;
+                                priceRangeElement.dispatchEvent(new Event('input'));
+                            };
+                        });
+                    </script>
 
-                    </div>
+                </div>
 
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
-                        <label class="d-block">
-                            Stock Status
-                        </label>
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
+                    <label class="d-block">
+                        Stock Status
+                    </label>
 
-                        <select wire:model.stop="filters.inStock" class="form-control">
-                            <option value="">Any</option>
-                            <option value="1">In Stock</option>
-                            <option value="0">Out Of Stock</option>
+                    <select wire:model.stop="filters.inStock" class="form-control">
+                        <option value="">Any</option>
+                        <option value="1">In Stock</option>
+                        <option value="0">Out Of Stock</option>
+                    </select>
+
+                </div>
+
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
+                    <label class="d-block">
+                        Discount
+                    </label>
+
+                    <select wire:model.stop="filters.discounted" class="form-control">
+                        <option value="">Any</option>
+                        <option value="1">Discounted</option>
+                        <option value="0">Not discounted</option>
+                    </select>
+
+                </div>
+
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                    <label class="d-block">
+                        Sales
+                    </label>
+
+                    <div class="mb-3 mb-md-0 input-group">
+                        <select class="form-control" wire:model.stop="filters.salesOperator">
+                            <option value="">Equal</option>
+                            <option value="greater">More than</option>
+                            <option value="lower">Lower than</option>
                         </select>
-
+                        <input type="number" class="form-control" placeholder="Sales count" wire:model.stop="filters.sales">
                     </div>
 
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-2 mb-4 ">
-                        <label class="d-block">
-                            Discount
-                        </label>
+                </div>
 
-                        <select wire:model.stop="filters.discounted" class="form-control">
-                            <option value="">Any</option>
-                            <option value="1">Discounted</option>
-                            <option value="0">Not discounted</option>
-                        </select>
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-1 mb-4 ">
+                    <label class="d-block">
+                        Quantity
+                    </label>
 
+                    <div class="mb-3 mb-md-0 input-group">
+                        <input wire:model.stop="filters.qty" type="number" class="form-control">
                     </div>
 
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-                        <label class="d-block">
-                            Sales
-                        </label>
+                </div>
 
-                        <div class="mb-3 mb-md-0 input-group">
-                            <select class="form-control" wire:model.stop="filters.salesOperator">
-                                <option value="">Equal</option>
-                                <option value="greater">More than</option>
-                                <option value="lower">Lower than</option>
-                            </select>
-                            <input type="number" class="form-control" placeholder="Sales count" wire:model.stop="filters.sales">
-                        </div>
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                    <label class="d-block">
+                        SKU
+                    </label>
 
+                    <div class="mb-3 mb-md-0 input-group">
+                        <input wire:model.stop="filters.contentData.sku" type="text" class="form-control">
                     </div>
 
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-1 mb-4 ">
-                        <label class="d-block">
-                            Quantity
-                        </label>
+                </div>
 
-                        <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.qty" type="number" class="form-control">
-                        </div>
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                    <label class="d-block">
+                        Visible
+                    </label>
 
+                    <select wire:model.stop="filters.visible" class="form-control">
+                        <option value="">Any</option>
+                        <option value="1">Published</option>
+                        <option value="0">Unpublished</option>
+                    </select>
+
+                </div>
+
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                    <label class="d-block">
+                        Created at
+                    </label>
+
+                    <div class="mb-3 mb-md-0 input-group">
+                        <input wire:model.stop="filters.created_at" type="date" class="form-control">
                     </div>
 
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-                        <label class="d-block">
-                            SKU
-                        </label>
+                </div>
 
-                        <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.contentData.sku" type="text" class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-                        <label class="d-block">
-                            Visible
-                        </label>
-
-                        <select wire:model.stop="filters.visible" class="form-control">
-                            <option value="">Any</option>
-                            <option value="1">Published</option>
-                            <option value="0">Unpublished</option>
-                        </select>
-
-                    </div>
-
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-                        <label class="d-block">
-                            Created at
-                        </label>
-
-                        <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.created_at" type="date" class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-                        <label class="d-block">
-                            Updated at
-                        </label>
-                        <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.updated_at" type="date" class="form-control">
-                        </div>
+                <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+                    <label class="d-block">
+                        Updated at
+                    </label>
+                    <div class="mb-3 mb-md-0 input-group">
+                        <input wire:model.stop="filters.updated_at" type="date" class="form-control">
                     </div>
                 </div>
             </div>
