@@ -124,6 +124,10 @@
         </div>
     </div>
 
+    <div class="page-loading" wire:loading>
+        Loading...
+    </div>
+
     <table class="table">
         <thead>
         <tr>

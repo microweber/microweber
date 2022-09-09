@@ -19,7 +19,7 @@ trait FilterByVisibleTrait
     public function visible($isVisible = 1)
     {
         $isVisible = intval($isVisible);
-        
+
         $this->where('is_active', $isVisible);
     }
 
