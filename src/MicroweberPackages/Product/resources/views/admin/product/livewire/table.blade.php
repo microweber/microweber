@@ -82,7 +82,7 @@
                         </label>
 
                         <div class="mb-3 mb-md-0 input-group">
-                            <input wire:model.stop="filters.sku" type="text" class="form-control">
+                            <input wire:model.stop="filters.contentData.sku" type="text" class="form-control">
                         </div>
 
                     </div>
@@ -94,8 +94,8 @@
 
                         <select wire:model.stop="filters.visible" class="form-control">
                             <option value="">Any</option>
-                            <option value="published">Published</option>
-                            <option value="unpublished">Unpublished</option>
+                            <option value="1">Published</option>
+                            <option value="0">Unpublished</option>
                         </select>
 
                     </div>

@@ -23,6 +23,9 @@ trait FilterByContentData
         }
 
         foreach ($params as $key => $value) {
+            if (empty(trim($value))) {
+                continue;
+            }
             $this->query->whereHas('contentData', function (Builder $query) use ($key, $value) {
                 $query->where('field_name', '=', $key);
                 if (is_array($value)) {
