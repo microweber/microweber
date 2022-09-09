@@ -5,6 +5,7 @@
     <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
 
     <div id="js-admin-product-filters">
+
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
             <div class="row">
 
@@ -149,6 +150,13 @@
                         <input wire:model.stop="filters.updated_at" type="date" class="form-control">
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+            <label>Keyword</label>
+            <div class="mb-3 mb-md-0 input-group">
+                <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
             </div>
         </div>
     </div>
