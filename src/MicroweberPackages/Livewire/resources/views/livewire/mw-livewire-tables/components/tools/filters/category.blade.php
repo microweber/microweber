@@ -31,10 +31,6 @@
         var selectedPages =  pageElement_page.value.split(",");
         var selectedCategories =  categoryElement_{{ $filter->getKey() }}.value.split(",");
 
-
-        console.log('------>page->>.');
-        console.log(selectedPages);
-
         var ok = mw.element('<button class="btn btn-primary">Apply</button>');
         var btn = ok.get(0);
 
@@ -72,8 +68,6 @@
             }
         }, 'treeTags').then(function (res){
 
-            alert(888);
-
             tree = res.tree;
             $(tree).on("selectionChange", function () {
                 btn.disabled = tree.getSelected().length === 0;
@@ -81,13 +75,13 @@
             $(tree).on("ready", function () {
 
                 if (selectedPages.length) {
-                    $.each(selectedPages, function () {
-                        tree.select(this, 'page')
+                    $.each(selectedPages, function (key,pageId) {
+                        tree.select(pageId, 'page')
                     });
                 }
                 if (selectedCategories.length > 0) {
-                    $.each(selectedCategories, function () {
-                        tree.select(this, 'category');
+                    $.each(selectedCategories, function (key,catId) {
+                        tree.select(catId, 'category');
                     });
                 }
 
