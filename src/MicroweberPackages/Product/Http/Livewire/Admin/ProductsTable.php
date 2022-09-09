@@ -15,8 +15,10 @@ use MicroweberPackages\Livewire\Views\Filters\HiddenFilter;
 use MicroweberPackages\Livewire\Views\Filters\TagsFilter;
 use MicroweberPackages\Livewire\Views\Filters\MwMultiSelectFilter;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Tag\Model\Tag;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -226,22 +228,15 @@ class ProductsTable extends AdminDataTableComponent
 
     public function filters(): array
     {
+        $tags = [];
+        $getTags = Tag::all();
+        if ($getTags != null) {
+            foreach ($getTags as $tag) {
+                $tags[$tag->slug] = $tag->name;
+            }
+        }
+
         return [
-
-            MwMultiSelectFilter::make('Multiselect Filter')
-                ->config([
-                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
-                ])
-                ->setFilterPillTitle('Multiselect Filter')
-                ->options([
-                    '' => 'Any',
-                    'in_stock' => 'In Stock',
-                    'out_of_stock' => 'Out Of Stock',
-                ])
-                ->filter(function(Builder $builder, $values) {
-
-
-                }),
 
             HiddenFilter::make('Page')->hiddenFromMenus(),
 
@@ -253,13 +248,24 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            TagsFilter::make('Tags')
+            MultiSelectFilter::make('Tags')
+                ->config([
+                    'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
+                ])
+                ->setFilterPillTitle('Multiselect Filter')
+                ->options($tags)
+                ->filter(function(Builder $builder, $values) {
+
+
+                }),
+
+        /*    TagsFilter::make('Tags')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
                     'placeholder' => 'Select tags',
                 ])->filter(function(Builder $builder, string $value) {
 
-                }),
+                }),*/
 
             PriceRangeFilter::make('Price range')
              ->config([
