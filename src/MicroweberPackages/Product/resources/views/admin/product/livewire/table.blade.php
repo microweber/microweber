@@ -53,10 +53,10 @@
                         </label>
 
                         <div class="mb-3 mb-md-0 input-group">
-                            <select class="form-control" wire:model.stop="filters.operator.sales">
-                                <option value="=">Equal</option>
-                                <option value=">">More then</option>
-                                <option value="<">Lower then</option>
+                            <select class="form-control" wire:model.stop="filters.salesOperator">
+                                <option value="">Equal</option>
+                                <option value="greater">More than</option>
+                                <option value="lower">Lower than</option>
                             </select>
                             <input type="number" class="form-control" placeholder="Sales count" wire:model.stop="filters.sales">
                         </div>

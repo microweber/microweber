@@ -49,35 +49,20 @@ trait FilterBySaleTrait {
 
     public function applySalesFilter($params)
     {
-   //     $this->query->whereHas('orders')->with('cart' )->with('orders' )->withCount('orders');
-
-
-//        $this->query->whereHas('orders')->with('cart', function ($subQuery) {
-//            $subQuery->has('order');
-//        }) ;
-
-
-
         if (isset($params['sales_count']) && $params['sales_count'] != '') {
             $operator = '=';
             if (isset($params['sales_operator']) && $params['sales_operator'] != '') {
                 switch ($params['sales_operator']) {
                     case 'greater':
                     case 'more_than':
-                    case 'more_then':
                         $operator = '>=';
                         break;
                     case 'lower':
                     case 'lower_than':
                     case 'less_than':
-                    case 'less_then':
-                    case 'lower_then':
                         $operator = '<=';
                         break;
-
                 }
-
-
             }
 
             $sales = intval($params['sales_count']);

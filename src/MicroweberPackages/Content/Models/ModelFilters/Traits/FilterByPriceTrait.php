@@ -31,7 +31,6 @@ trait FilterByPriceTrait
 
     public function price($price)
     {
-
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
             $query->whereHas('fieldValuePrice', function ($query) use ($price) {
 
