@@ -1,4 +1,9 @@
 <div>
+
+    <div id="js-admin-product-filters">
+
+    </div>
+
     <table class="table">
         <thead>
         <tr>
@@ -18,7 +23,42 @@
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>
-            <td>{{$product->title}}</td>
+            <td>
+
+                <div class="manage-item-main-top">
+
+                    <a target="_self" href="" class="btn btn-link p-0">
+                        <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
+                            {{$product->title}}
+                        </h5>
+                    </a>
+                    @if($product->categories->count() > 0)
+                        <span class="manage-post-item-cats-inline-list">
+                        @foreach($product->categories as $category)
+                                @if($category->parent)
+                                    <a href="#" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+                                @endif
+                            @endforeach
+                         </span>
+                    @endif
+                    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
+                       href="{{$product->link()}}">
+                        <small class="text-muted">{{$product->link()}}</small>
+                    </a>
+                 </div>
+
+
+                <div class="manage-post-item-links mt-3">
+                    <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
+                    <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
+                    <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    @if ($product->is_active < 1)
+                    <a href="{{route('admin.product.edit', $product->id)}}" class="badge badge-warning font-weight-normal">Unpublished</a>
+                    @endif
+                </div>
+
+
+            </td>
             <td>
                 @php
                 if ($product->hasSpecialPrice()) {
