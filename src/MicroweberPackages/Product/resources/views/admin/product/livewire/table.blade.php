@@ -137,7 +137,7 @@
                     </label>
 
                     <div class="mb-3 mb-md-0 input-group">
-                        <input wire:model.stop="filters.created_at" type="date" class="form-control">
+                        <input wire:model.stop="filters.createdAt" type="date" class="form-control">
                     </div>
 
                 </div>
@@ -147,7 +147,7 @@
                         Updated at
                     </label>
                     <div class="mb-3 mb-md-0 input-group">
-                        <input wire:model.stop="filters.updated_at" type="date" class="form-control">
+                        <input wire:model.stop="filters.updatedAt" type="date" class="form-control">
                     </div>
                 </div>
             </div>
