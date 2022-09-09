@@ -248,7 +248,7 @@ class ProductsTable extends AdminDataTableComponent
 
                 }),
 
-            MultiSelectFilter::make('Tags')
+            /*MultiSelectFilter::make('Tags')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
                 ])
@@ -257,15 +257,15 @@ class ProductsTable extends AdminDataTableComponent
                 ->filter(function(Builder $builder, $values) {
 
 
-                }),
+                }),*/
 
-        /*    TagsFilter::make('Tags')
+            TagsFilter::make('Tags')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-3 mb-4',
                     'placeholder' => 'Select tags',
                 ])->filter(function(Builder $builder, string $value) {
 
-                }),*/
+                }), 
 
             PriceRangeFilter::make('Price range')
              ->config([
