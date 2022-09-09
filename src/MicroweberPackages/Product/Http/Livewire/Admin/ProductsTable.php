@@ -13,10 +13,10 @@ use MicroweberPackages\Livewire\Views\Filters\NumberWithOperator;
 use MicroweberPackages\Livewire\Views\Filters\PriceRangeFilter;
 use MicroweberPackages\Livewire\Views\Filters\HiddenFilter;
 use MicroweberPackages\Livewire\Views\Filters\TagsFilter;
+use MicroweberPackages\Livewire\Views\Filters\MwMultiSelectFilter;
 use MicroweberPackages\Product\Models\Product;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ImageColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
-use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\NumberFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -221,8 +221,7 @@ class ProductsTable extends AdminDataTableComponent
     {
         return [
 
-
-            MultiSelectFilter::make('Multiselect Filter')
+            MwMultiSelectFilter::make('Multiselect Filter')
                 ->config([
                     'class'=> 'col-12 col-sm-6 col-md-3 col-lg-2 mb-4',
                 ])
