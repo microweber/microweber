@@ -1,6 +1,5 @@
 <?php
 
-
 $selected_page_id = "6";
 $categories_active_ids = "281,282,283";
 
@@ -8,12 +7,8 @@ $categories_active_ids = "281,282,283";
 <script type="text/javascript">
     categoryFilterSelectTree = function (){
 
-
         var selectedPages = [ <?php print $selected_page_id; ?>];
         var selectedCategories = [ <?php print $categories_active_ids; ?>];
-
-
-
 
         var ok = mw.element('<button class="btn btn-primary">Apply</button>');
         var btn = ok.get(0);
@@ -22,7 +17,7 @@ $categories_active_ids = "281,282,283";
             title: '<?php _ejs('Select categories'); ?>',
             footer: btn,
             onResult: function(result){
-                console.log(result)
+                console.log(result);
             }
         });
 
@@ -57,16 +52,14 @@ $categories_active_ids = "281,282,283";
             });
         });
 
-        ok.on('click', function(){ dialog.result(tree.getSelected(), true) })
+        ok.on('click', function(){
+            dialog.result(tree.getSelected(), true)
+        });
     }
-
-
-    $(document).ready(function () {
-
-    });
 </script>
 
-
-<button class="btn btn-outline-primary btn-block" onclick="categoryFilterSelectTree()"><i class="fa fa-list"></i> Select Categories</button>
+<button class="btn btn-outline-primary btn-block" onclick="categoryFilterSelectTree()">
+    <i class="fa fa-list"></i> Select Categories
+</button>
 
 
