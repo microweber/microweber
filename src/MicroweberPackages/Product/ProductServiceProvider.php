@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
+use MicroweberPackages\Product\Http\Livewire\Admin\ProductsIndexComponent;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Observers\ProductObserver;
@@ -25,6 +26,7 @@ class ProductServiceProvider extends ServiceProvider
 
         Livewire::component('content-bulk-options', ContentBulkOptions::class);
         Livewire::component('admin-products-table', ProductsTable::class);
+        Livewire::component('admin-products-index', ProductsIndexComponent::class);
 
         Product::observe(BaseModelObserver::class);
       //  Product::observe(ProductObserver::class); ->moved to CustomFieldsTrait
