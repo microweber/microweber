@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByPriceTrait
 {
-    protected $_minPriceFilter = false;
-    protected $_maxPriceFilter = false;
-
     public function discounted($type = 1)
     {
         if ($type == 1) {
