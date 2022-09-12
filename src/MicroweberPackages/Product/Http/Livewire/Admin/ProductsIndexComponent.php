@@ -14,8 +14,8 @@ class ProductsIndexComponent extends Component
     public $paginate = 10;
 
     public $filters = [];
-    protected $listeners = ['refreshProductsTable' => '$refresh'];
-    protected $queryString = ['filters'];
+    protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
+    protected $queryString = ['filters']; 
 
 
     public $checked = [];

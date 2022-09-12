@@ -33,7 +33,7 @@ class ContentBulkOptions extends Component
 
     public function multipleMoveToCategoryExecute()
     {
-        $this->emit('refreshProductsTable');
+        $this->emit('refreshProductIndexComponent');
         $this->multipleMoveToCategoryShowModal = false;
     }
 
@@ -60,7 +60,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsTable');
+        $this->emit('refreshProductIndexComponent');
         $this->multiplePublishShowModal = false;
     }
 
@@ -86,7 +86,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsTable');
+        $this->emit('refreshProductIndexComponent');
         $this->multipleUnpublishShowModal = false;
     }
 
@@ -111,7 +111,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsTable');
+        $this->emit('refreshProductIndexComponent');
         $this->multipleDeleteShowModal = false;
     }
 
