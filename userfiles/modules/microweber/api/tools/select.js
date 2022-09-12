@@ -45,6 +45,7 @@ mw.Select = function(options) {
 
     this.$element = $(this.settings.element).eq(0);
     this.element = this.$element[0];
+
     if(!this.element) {
         return;
     }
@@ -142,14 +143,14 @@ mw.Select = function(options) {
         return this.displayValue(plval)
     };
     this.displayValue = function(plval){
-        if(!plval && !this.settings.multiple && this.value()) {
+        if(typeof plval === 'undefined' && !this.settings.multiple && this.value()) {
             plval = scope.getLabel(this.value());
         }
-        plval = plval || this.settings.placeholder;
+        plval = typeof plval === 'undefined' ? this.settings.placeholder : plval;
         if(!scope._displayValue) {
             scope._displayValue = scope.document.createElement('span');
             scope._displayValue.className = 'mw-select-display-value mw-ui-size-' + this.settings.size;
-            $('.mw-select-value', this.root).append(scope._displayValue)
+            $('.mw-select-value', this.root).append(scope._displayValue);
         }
         if(this._rootInputMode){
             scope._displayValue.innerHTML = '&nbsp';
@@ -245,8 +246,8 @@ mw.Select = function(options) {
             var options = [];
             $.each(scope.settings.data, function(){
                 var opt = scope.rend.option(this);
-                options.push(opt)
-                scope.holder.appendChild(opt)
+                options.push(opt);
+                scope.holder.appendChild(opt);
             });
             scope.optionsHolder.appendChild(scope.holder);
 

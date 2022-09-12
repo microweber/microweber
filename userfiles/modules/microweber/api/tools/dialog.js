@@ -24,12 +24,15 @@
         mw.spinner({element: dialog.dialogContainer, size: 32, decorate: true}).show();
 
 
+        // var maxHeight = '75vh';
+        var maxHeight = 'calc(100vh - 240px)';
+
 
         setTimeout(function () {
             var frame = dialog.dialogContainer.querySelector('iframe');
             frame.style.minHeight = 0; // reset in case of conflicts
             if (options.autoHeight) {
-                mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: '75vh'});
+                mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
             } else{
                 $(frame).height(options.height - 60);
                 frame.style.position = 'relative';
@@ -45,7 +48,7 @@
                     dialog.dialogMain.classList.remove('mw-dialog-iframe-loading');
                     frame.contentWindow.thismodal = dialog;
                     if (options.autoHeight) {
-                        mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: '75vh'});
+                        mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
                     }
                 }, 78);
                 if (mw.tools.canAccessIFrame(frame)) {
@@ -466,6 +469,8 @@
                 css.top = dtop > 0 ? dtop : 0;
             }
 
+
+
             /*if(window !== mw.top().win && document.body.scrollHeight > mw.top().win.innerHeight){
                 $win = $(mw.top());
 
@@ -541,6 +546,7 @@
                 mw.interval('iframe-' + this.id, function () {
                     var max = mw.$(window).height() - scope.dialogHeader.clientHeight - scope.dialogFooter.clientHeight - 40;
                     scope.dialogContainer.style.maxHeight = max + 'px';
+                    scope.dialogContainer.style.maxHeight = 'calc(100vh - 200px)';
                     scope.containmentManage();
                 });
             }
@@ -562,7 +568,7 @@
                       };
                   } else  {
                       var curr = scope._observe.data;
-                      if(curr.width !== css.width || curr.height !== css.height) {
+                      // if(curr.width !== css.width || curr.height !== css.height) {
                           scope._observe.data = {
                               width: css.width,
                               height: css.height
@@ -571,7 +577,7 @@
                               width: css.width,
                               height: css.height
                           };
-                      }
+                      // }
                   }
                 };
                 this._observe.interval = setInterval(function (){

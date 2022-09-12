@@ -618,9 +618,14 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
     margin-inline-start: -1px;
 }
 
+
 .mw--global-admin-tree{
     max-height: calc(100vh - 220px);
     overflow: auto;
+}
+
+.mw-dialog-container .mw--global-admin-tree{
+    max-height: none;
 }
 
 .mw-admin-edit-content-holder .card.style-1 .card-header .btn.btn-link {
