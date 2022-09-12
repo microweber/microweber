@@ -19,7 +19,6 @@ class ProductsIndexComponent extends Component
 
 
     public $checked = [];
-    public $selectProduct = false;
     public $selectAll = false;
 
     public function clearFilters()
@@ -36,9 +35,19 @@ class ProductsIndexComponent extends Component
         }
     }
 
-    public function updatedChecked()
+    public function deselectAll()
     {
-        $this->selectProduct = false;
+        $this->checked = [];
+        $this->selectAll = false;
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectAll();
+        } else {
+            $this->deselectAll();
+        }
     }
 
     public function selectAll()

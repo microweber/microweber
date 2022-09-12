@@ -66,32 +66,30 @@
         </div>
     </div>
 
-
-    @if ($selectProduct)
+    @if ($selectAll)
         <div class="col-md-10 mb-2">
-            @if ($selectAll)
-                <div>
-                    You have selected all <strong>{{ $products->total() }}</strong> items.
-                </div>
-            @else
-                <div>
-                    You have selected <strong>{{ count($checked) }}</strong> items, Do you want to Select All
-                    <strong>{{ $products->total() }}</strong>?
-                    <a href="#" class="ml-2" wire:click="selectAll">Select All</a>
-                </div>
-            @endif
-
+            You have selected all <strong>{{ $products->total() }}</strong> items.
+            <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
         </div>
+    @else
+
+        @if(count($checked) > 0)
+        <div>
+            You have selected <strong>{{ count($checked) }}</strong> items, Do you want to Select All
+            <strong>{{ $products->total() }}</strong>?
+            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+        </div>
+        @endif
     @endif
 
     <div class="page-loading" wire:loading>
         Loading...
     </div>
 
-    <table class="table">
+    <table class="table mt-2">
         <thead>
         <tr>
-            <th scope="col"> <input type="checkbox" wire:model="selectProduct"></th>
+            <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
@@ -106,6 +104,7 @@
         <tr>
             <td>
                 <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
+                &nbsp; &nbsp; <span class="text-muted">{{ $product->id }}</span>
             </td>
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
