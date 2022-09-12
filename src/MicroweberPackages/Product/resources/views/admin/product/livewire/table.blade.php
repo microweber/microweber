@@ -10,6 +10,7 @@
             <div class="row">
 
                 @include('product::admin.product.livewire.table-filters.category')
+                @include('product::admin.product.livewire.table-filters.tags')
                 @include('product::admin.product.livewire.table-filters.price-range')
                 @include('product::admin.product.livewire.table-filters.stock-status')
                 @include('product::admin.product.livewire.table-filters.discount')
