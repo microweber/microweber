@@ -32,7 +32,7 @@ class ProductsIndexComponent extends Component
         if ($value) {
             $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
         } else {
-            $this->checked = []; 
+            $this->checked = [];
         }
     }
 
