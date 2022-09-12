@@ -1,8 +1,28 @@
 <div>
 
     {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
+    <br />
+    <br />
+    <br />
+    @if(!empty($filters))
+        <div class="mb-4">
+            <b>Filters:</b>
+        @foreach($filters as $filterKey=>$filterValues)
+           <span class="badge badge-primary">
+               {{ucfirst($filterKey)}}:
+               @if(is_array($filterValues))
+                 {{implode(', ', $filterValues)}}
+               @endif
+               @if(is_string($filterValues))
+                   {{$filterValues}}
+               @endif
+           </span>
+        @endforeach
 
-    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+
+            <button class="btn btn-outline-danger btn-sm" wire:click="clearFilters">Clear filers</button>
+        </div>
+    @endif
 
     <div id="js-admin-product-filters">
 
