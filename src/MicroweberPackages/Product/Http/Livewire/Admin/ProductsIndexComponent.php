@@ -14,8 +14,8 @@ class ProductsIndexComponent extends Component
     public $paginate = 10;
 
     public $filters = [];
-    protected $listeners = [];
-    protected $queryString = ['filters'];
+    protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
+    protected $queryString = ['filters']; 
 
 
     public $checked = [];
@@ -54,6 +54,26 @@ class ProductsIndexComponent extends Component
     {
         $this->selectAll = true;
         $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
+    }
+
+    public function multipleMoveToCategory()
+    {
+        $this->emit('multipleMoveToCategory',$this->checked );
+    }
+
+    public function multiplePublish()
+    {
+        $this->emit('multiplePublish',$this->checked );
+    }
+
+    public function multipleUnpublish()
+    {
+        $this->emit('multipleUnpublish',$this->checked );
+    }
+
+    public function multipleDelete()
+    {
+        $this->emit('multipleDelete',$this->checked );
     }
 
     public function render()

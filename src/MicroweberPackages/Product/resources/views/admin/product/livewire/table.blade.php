@@ -82,6 +82,22 @@
         @endif
     @endif
 
+    @if(count($checked) > 0)
+    <div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Bulk Actions
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
+                <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
+                <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
+                <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
+            </ul>
+        </div>
+    </div>
+    @endif
+
     <div class="page-loading" wire:loading>
         Loading...
     </div>
@@ -110,7 +126,6 @@
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>
             <td>
-
                 <div class="manage-item-main-top">
 
                     <a target="_self" href="" class="btn btn-link p-0">
@@ -199,8 +214,6 @@
         @endforeach
         </tbody>
     </table>
-
-
 
     {{ $products->links() }}
 
