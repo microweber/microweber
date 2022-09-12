@@ -3,7 +3,7 @@
         Tags
     </label>
 
-    <input  wire:model.stop="filters.tags" id="js-filter-tags" type="hidden" />
+    <input wire:model.stop="filters.tags" id="js-filter-tags" type="hidden" />
 
         <input type="text" value="" id="js-tags-autocomplete" class="form-control">
 
