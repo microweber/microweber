@@ -49,7 +49,17 @@ class Content extends Model
         'is_shop' => '0',
         'is_home' => '0',
     ];
+    protected $searchableByKeyword = [
+        'title',
+        'content',
+        'content_body',
 
+
+        'description',
+        'url',
+        'content_meta_title',
+        'content_meta_keywords',
+    ];
     protected $searchable = [
         'id',
         'title',

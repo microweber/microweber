@@ -23,6 +23,7 @@ class ProductsIndexComponent extends Component
     public function render()
     {
         $query = Product::query();
+        $query->disableCache(true);
 
         $query->filter($this->filters);
 

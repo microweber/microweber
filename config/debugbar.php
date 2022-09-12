@@ -14,7 +14,7 @@ return [
      |
      */
 
-    'enabled' =>    env('DEBUGBAR_ENABLED', false),
+    'enabled' =>    1,
   //  'enabled' =>    1,
     'except' => [
         'telescope*'
@@ -67,7 +67,7 @@ return [
      | Optionally, you can also send ServerTiming headers on ajax requests for the Chrome DevTools.
      */
 
-    'capture_ajax' => false,
+    'capture_ajax' => 1,
     'add_ajax_timing' => false,
 
     /*

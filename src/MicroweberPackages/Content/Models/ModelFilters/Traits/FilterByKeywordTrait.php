@@ -20,7 +20,8 @@ trait FilterByKeywordTrait
     {
         $model = $this->getModel();
         $table = $model->getTable();
-        $searchInFields = $model->getSearchable();
+      //  $searchInFields = $model->getSearchable();
+        $searchInFields = $model->getSearchableByKeyword();
         $keywordToSearch = false;
 
         $xssClean = new XSSClean();
@@ -69,7 +70,10 @@ trait FilterByKeywordTrait
                             $keywordToSearch = mb_substr($keywordToSearch, 0, 1000);
                         }
                         foreach ($searchInFields as $field) {
+                           // $subQuerySearch->orWhere($table . '.' . $field, '=',  $keywordToSearch);
                             $subQuerySearch->orWhere($table . '.' . $field, 'LIKE', '%' . $keywordToSearch . '%');
+                           // $subQuerySearch->whereRaw("LOWERCASE(  $field') LIKE '%'". strtolower($keywordToSearch)."'%'");
+
                         }
                     }
                 }
@@ -78,16 +82,18 @@ trait FilterByKeywordTrait
 
 
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                $multilanguageTranslationsQuery = MultilanguageTranslations::query();
-                $multilanguageTranslationsQuery->where('rel_type', $table);
-                $multilanguageTranslationsQuery->whereIn('field_name', ['url', 'description', 'title']);
-                $multilanguageTranslationsQuery->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
-                $multilanguageTranslationsQuery->limit(3000); // MYSQL LIMIT FOR WHERE IN
-                $multilanguageTranslations = $multilanguageTranslationsQuery->get();
-                $relIds = $multilanguageTranslations->pluck('rel_id');
-                if (!empty($relIds)) {
-                    $this->query->orWhereIn($table.'.id', $relIds);
-                }
+                $this->query->orWhere(function ($subQuerySearch) use ($table, $searchInFields, $keywordToSearch) {
+                    $multilanguageTranslationsQuery = MultilanguageTranslations::query();
+                    $multilanguageTranslationsQuery->where('rel_type', $table);
+                    $multilanguageTranslationsQuery->whereIn('field_name', ['url', 'description', 'title']);
+                    $multilanguageTranslationsQuery->where('field_value', 'LIKE', '%' . $keywordToSearch . '%');
+                    $multilanguageTranslationsQuery->limit(3000); // MYSQL LIMIT FOR WHERE IN
+                    $multilanguageTranslations = $multilanguageTranslationsQuery->get();
+                    $relIds = $multilanguageTranslations->pluck('rel_id');
+                    if (!empty($relIds)) {
+                      return  $subQuerySearch->orWhereIn($table.'.id', $relIds);
+                    }
+                });
             }
 
             return $this->query;
