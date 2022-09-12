@@ -4,19 +4,23 @@
     <br />
     <br />
     <br />
-    @if(!empty($filters))
+    @if(!empty($appliedFiltersFriendlyNames))
         <div class="mb-4">
-            <b>Filters:</b>
-        @foreach($filters as $filterKey=>$filterValues)
-           <span class="badge badge-primary">
-               {{ucfirst($filterKey)}}:
-               @if(is_array($filterValues))
-                 {{implode(', ', $filterValues)}}
-               @endif
-               @if(is_string($filterValues))
-                   {{$filterValues}}
-               @endif
-           </span>
+            <b>Filters</b> <br />
+        @foreach($appliedFiltersFriendlyNames as $filterKey=>$filterValues)
+              <span class="btn btn-sm btn-outline-primary">
+                  <i class="mw-icon-category"></i>
+                  <span class="tag-label-content">
+                       {{ucfirst($filterKey)}}:
+                      @if(is_array($filterValues))
+                          {{implode(', ', $filterValues)}}
+                      @endif
+                      @if(is_string($filterValues))
+                          {{$filterValues}}
+                      @endif
+                  </span>
+                  <span class="mw-icon-close ml-1"></span>
+              </span>
         @endforeach
 
 
