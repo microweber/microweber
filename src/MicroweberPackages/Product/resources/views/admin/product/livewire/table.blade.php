@@ -73,7 +73,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col"><input type="checkbox"></th>
+            <th scope="col"> <input wire:model="selectAll" type="checkbox" /></th>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
@@ -86,7 +86,9 @@
         <tbody>
         @foreach ($products as $product)
         <tr>
-            <td><input type="checkbox"> {{$product->id}}</td>
+            <td>
+                <input type="checkbox" wire:model="selectedIds" value="{{ $product->id }}" />
+            </td>
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>

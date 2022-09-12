@@ -17,9 +17,17 @@ class ProductsIndexComponent extends Component
     protected $listeners = [];
     protected $queryString = ['filters'];
 
+    public $selectAll = false;
+    public $selectedIds = [];
+
     public function clearFilters()
     {
         $this->filters = [];
+    }
+
+    public function mount()
+    {
+        $this->selectedIds = collect();
     }
 
     public function render()
@@ -60,7 +68,7 @@ class ProductsIndexComponent extends Component
                             } else {
                                 $filterFriendlyValue[] = $resourceId;
                             }
-                            
+
                         }
                     }
                 }
