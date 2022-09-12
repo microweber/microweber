@@ -530,12 +530,17 @@
                 return scope.document.createTextNode('');
             }
             var itype = 'radio';
+
             if(this.options.singleSelect){
 
             }
             else if(this.options.multiPageSelect || element._data.type !== 'page'){
                 itype = 'checkbox';
             }
+
+
+
+            console.log(itype, this.options.singleSelect);
             var label = scope.document.createElement('tree-label');
             var input = scope.document.createElement('input');
             var span = scope.document.createElement('span');

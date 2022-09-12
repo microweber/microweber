@@ -14,7 +14,8 @@
                     callback.call(scope, JSON.parse(this.responseText), xhr);
                 }
             };
-            xhr.open("GET", scope.settings.url, true);
+            var url = scope.settings.url + '?' + new URLSearchParams(params || {}).toString();
+            xhr.open("GET", url, true);
             xhr.send();
         };
 
@@ -26,16 +27,16 @@
             element: null,
             query: {
                 order: 'asc',
-                orderBy: 'name',
+                sort: 'date',
                 keyword: '',
-                display: 'list'
             },
             requestData: defaultRequest,
-            url: mw.settings.site_url + 'api/file-manager/list'
+            url: mw.settings.site_url + 'api/file-manager/list',
+            viewType: 'list' // 'list' | 'grid'
         };
 
         var _e = {};
-        var _viewType = 'list';
+
 
         this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
@@ -43,16 +44,22 @@
         this.settings = mw.object.extend({}, defaults, options);
 
         var table, tableHeader, tableBody;
-
+        var _viewType = this.settings.viewType;
 
         var _checkName = 'select-fm-' + (new Date().getTime());
 
         var globalcheck;
 
-        var _check = function () {
-            return mw.element('<label class="mw-ui-check">' +
-                '<input type="' + (scope.settings.multiselect ? 'checkbox' : 'radio') + '" name="'+_checkName+'"><span></span>' +
-                '</label>');
+        var _check = function (name) {
+            var input = document.createElement('input');
+            input.type = (scope.settings.multiselect ? 'checkbox' : 'radio');
+            input.name = name || _checkName;
+            var root = mw.element('<label class="mw-ui-check"><span></span></label>');
+            root.prepend(input);
+            return {
+                root: root,
+                input: mw.element(input),
+            };
         };
 
         var _size = function (item, dc) {
@@ -121,10 +128,16 @@
             scope.root.removeClass('mw-fm-all-selected', 'mw-fm-none-selected', 'mw-fm-part-selected');
             if(scope.areAllSelected()) {
                 scope.root.addClass('mw-fm-all-selected');
+                globalcheck.input.prop('checked', true);
+                globalcheck.input.prop('indeterminate', false);
             } else if(scope.areNoneSelected()) {
                 scope.root.addClass('mw-fm-none-selected');
+                globalcheck.input.prop('checked', false);
+                globalcheck.input.prop('indeterminate', false);
             }  else {
                 scope.root.addClass('mw-fm-part-selected');
+                globalcheck.input.prop('checked', false);
+                globalcheck.input.prop('indeterminate', true);
             }
         };
 
@@ -185,7 +198,9 @@
 
         this.updateData = function (data) {
             setData(data);
-            _selectedUI();
+            setTimeout(function (){
+                _selectedUI();
+            }, 100);
             this.dispatch('dataUpdated', data);
         };
 
@@ -197,8 +212,8 @@
             return this._data;
         };
 
-        this.requestData = function () {
-            var params = {};
+        this.requestData = function (params) {
+            this.settings.query = params;
             var cb = function (res) {
                 scope.updateData(res);
             };
@@ -229,6 +244,43 @@
         };
 
 
+        var _activeSort = {
+            sort: this.settings.query.sort || 'date',
+            order: this.settings.query.order || 'asc',
+        };
+
+        this.sort = function (by, order, _request) {
+            if(typeof _request === 'undefined') {
+                _request = true;
+            }
+            if(!order){
+                if(by === _activeSort.sort) {
+                    if(_activeSort.order === 'asc') {
+                        order = 'desc';
+                    } else {
+                        order = 'asc';
+                    }
+                } else {
+                    order = 'asc';
+                }
+            }
+            _activeSort.sort = by;
+            _activeSort.order = order;
+            this.settings.query.sort = _activeSort.sort;
+            this.settings.query.order = _activeSort.order;
+
+            mw.element('[data-sortable]', this.root).each(function (){
+                this.classList.remove('asc', 'desc');
+                if(this.dataset.sortable === _activeSort.sort) {
+                    this.classList.add(_activeSort.order);
+                }
+            });
+
+
+            if(_request) {
+                this.requestData(this.settings.query);
+            }
+        };
 
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
@@ -237,18 +289,23 @@
             var cellSize = mw.element({ tag: 'td', content: _size(item) });
 
 
+
+
             var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified)  });
 
-            // canSelectFolder
+
+
+
+
 
             if(this.settings.selectable) {
                 if (this.settings.canSelectFolder || item.type === 'file') {
                     var check =  _check();
-                    check.on('input', function () {
-                         scope[this.checked ? 'unselect' : 'select'](item);
+                    check.input.on('change', function () {
+                         scope[!this.checked ? 'unselect' : 'select'](item);
                         _selectedUI();
                     });
-                    row.append( mw.element({ tag: 'td', content: check }));
+                    row.append( mw.element({ tag: 'td', content: check.root }));
                 } else {
                     row.append( mw.element({ tag: 'td'  }));
                 }
@@ -338,9 +395,9 @@
 
         this.selectAllToggle = function () {
             if(this.areAllSelected()){
-                this.selectNone()
+                this.selectNone();
             } else {
-                this.selectAll()
+                this.selectAll();
             }
         };
 
@@ -361,13 +418,13 @@
 
         var createListViewHeader = function () {
             var thCheck;
-            if (scope.settings.selectable) {
-                globalcheck = _check();
-                globalcheck.addClass('mw-file-manager-select-all-check');
-                globalcheck.on('input', function () {
+            if (scope.settings.selectable && scope.settings.multiselect ) {
+                globalcheck = _check('select-fm-global-' + (new Date().getTime()));
+                globalcheck.root.addClass('mw-file-manager-select-all-check');
+                globalcheck.input.on('input', function () {
                     scope.selectAllToggle();
                 });
-                thCheck = mw.element({ tag: 'th', content: globalcheck  }).addClass('mw-file-manager-select-all-heading');
+                thCheck = mw.element({ tag: 'th', content: globalcheck.root  }).addClass('mw-file-manager-select-all-heading');
             } else {
                 thCheck = mw.element({ tag: 'th', }).addClass('mw-file-manager-select-all-heading');
             }
@@ -385,45 +442,34 @@
                 content: tr
             });
 
+
+            thName.dataset('sortable', 'name').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thSize.dataset('sortable', 'size').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thModified.dataset('sortable', 'modified').on('click', function (){ scope.sort(this.dataset.sortable) });
+
             return tableHeader;
         };
 
-        var listView = function () {
-            table =  mw.element('<table class="mw-file-manager-listview-table" />');
+        var _view = function () {
+            table =  mw.element('<table class="mw-file-manager-view-table" />');
             table
                 .append(createListViewHeader())
                 .append(listViewBody());
             return table;
         };
 
-        var gridView = function () {
-            var grid =  mw.element('<div />');
 
-            return grid;
-        };
 
         this.view = function (type) {
             if(!type) return _viewType;
             _viewType = type;
-            var viewblock;
-            if (_viewType === 'list') {
-                viewblock = listView();
-            } else if (_viewType === 'grid') {
-                viewblock = gridView();
-            }
+            var viewblock = _view(type);
             if(viewblock) {
                 this.root.empty().append(viewblock);
             }
             this.root.dataset('view', _viewType);
         };
 
-        this.refresh = function () {
-            if (_viewType === 'list') {
-                listViewBody();
-            } else if (_viewType === 'grid') {
-                this.listView();
-            }
-        };
 
         var createRoot = function (){
             scope.root = mw.element({
@@ -432,8 +478,6 @@
                 },
                 /*encapsulate: false*/
             });
-
-
         };
 
         this.init = function (){
@@ -441,11 +485,11 @@
             this.on('dataUpdated', function (res){
                 scope.view(_viewType);
             });
-            this.requestData();
+            this.sort(this.settings.query.sort, this.settings.query.order, false);
+            this.requestData(this.settings.query);
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
             }
-
         };
 
         this.init();

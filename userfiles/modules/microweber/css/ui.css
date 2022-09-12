@@ -4342,7 +4342,6 @@ div.mw-ui-field:after {
 }
 .mw-ui-check input + span:after {
   position: absolute;
-  transition: all 0.5s;
   visibility: hidden;
   opacity: 0;
   transform: scale(0.3);
@@ -4391,6 +4390,20 @@ div.mw-ui-field:after {
   color: #4592ff;
   text-align: center;
   font-size: 11px;
+}
+.mw-ui-check input[type="checkbox"]:indeterminate + span:after {
+  display: inline-block;
+  text-transform: none;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 15%;
+  background-image: none;
+  background-color: #4592ff;
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition: none;
 }
 .mw-ui-check input[type="checkbox"]:checked + span:after {
   transform: scale(1);

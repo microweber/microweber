@@ -102,7 +102,7 @@
 
 
 <script>
-    mw.FileManager({element:'#fm', selectable: true, multiselect: true})
+    window.f = mw.FileManager({element:'#fm', selectable: true, multiselect: true})
 </script>
 
 
