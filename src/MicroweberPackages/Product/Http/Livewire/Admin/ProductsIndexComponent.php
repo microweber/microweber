@@ -11,26 +11,56 @@ use MicroweberPackages\Product\Models\Product;
 class ProductsIndexComponent extends Component
 {
     use WithPagination;
+    public $paginate = 10;
 
     public $filters = [];
-    public $perPage = 10;
     protected $listeners = [];
     protected $queryString = ['filters'];
 
+
+    public $checked = [];
+    public $selectProduct = false;
     public $selectAll = false;
-    public $selectedIds = [];
 
     public function clearFilters()
     {
         $this->filters = [];
     }
 
-    public function mount()
+    public function updatedSelectProduct($value)
     {
-        $this->selectedIds = collect();
+        if ($value) {
+            $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
+        } else {
+            $this->checked = []; 
+        }
+    }
+
+    public function updatedChecked()
+    {
+        $this->selectProduct = false;
+    }
+
+    public function selectAll()
+    {
+        $this->selectAll = true;
+        $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
     }
 
     public function render()
+    {
+        return view('product::admin.product.livewire.table', [
+            'products'=>$this->products,
+            'appliedFiltersFriendlyNames'=>[],
+        ]);
+    }
+
+    public function getProductsProperty()
+    {
+        return $this->productsQuery->paginate($this->paginate);
+    }
+
+    public function getProductsQueryProperty()
     {
         $query = Product::query();
         $query->disableCache(true);
@@ -79,9 +109,7 @@ class ProductsIndexComponent extends Component
 
         $query->filter($appliedFilters);
 
-        $products = $query->paginate($this->perPage);
-
-        return view('product::admin.product.livewire.table', compact('products', 'appliedFiltersFriendlyNames'));
+        return $query;
     }
 }
 

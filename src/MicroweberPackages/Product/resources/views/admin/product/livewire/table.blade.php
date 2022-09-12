@@ -66,6 +66,24 @@
         </div>
     </div>
 
+
+    @if ($selectProduct)
+        <div class="col-md-10 mb-2">
+            @if ($selectAll)
+                <div>
+                    You have selected all <strong>{{ $products->total() }}</strong> items.
+                </div>
+            @else
+                <div>
+                    You have selected <strong>{{ count($checked) }}</strong> items, Do you want to Select All
+                    <strong>{{ $products->total() }}</strong>?
+                    <a href="#" class="ml-2" wire:click="selectAll">Select All</a>
+                </div>
+            @endif
+
+        </div>
+    @endif
+
     <div class="page-loading" wire:loading>
         Loading...
     </div>
@@ -73,7 +91,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th scope="col"> <input wire:model="selectAll" type="checkbox" /></th>
+            <th scope="col"> <input type="checkbox" wire:model="selectProduct"></th>
             <th scope="col">Image</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
@@ -87,7 +105,7 @@
         @foreach ($products as $product)
         <tr>
             <td>
-                <input type="checkbox" wire:model="selectedIds" value="{{ $product->id }}" />
+                <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
             </td>
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
