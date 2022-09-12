@@ -35,6 +35,8 @@
 
                 $(tagsSelect).on("change", function (event, tag) {
 
+                    tagsSelect.val = ''; 
+
                     tagsSelected.push(tag.title);
                     let tagsSelectedSeperated = tagsSelected.join(",");
                     tagsElement.value = tagsSelectedSeperated;
