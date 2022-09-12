@@ -43,7 +43,7 @@ trait OrderByTrait
 
                 break;
             default:
-                $this->query->orderBy($orderColumn, $orderDirection);
+                 $this->query->orderBy($this->query->getModel()->getTable().'.'.$orderColumn, $orderDirection);
                 break;
         }
 
