@@ -10,15 +10,6 @@
         pageElement= document.getElementById('js-filter-page');
         categoryElement = document.getElementById('js-filter-category');
 
-        function removeItem(array, item){
-            for(var i in array){
-                if(array[i]==item){
-                    array.splice(i,1);
-                    break;
-                }
-            }
-        }
-
         categoryFilterSelectTree = function (){
 
             var selectedPages =  pageElement.value.split(",");

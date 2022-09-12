@@ -37,16 +37,19 @@
 
                     tagsSelect.displayValue(' ');
 
-                    tagsSelected.push(tag.title);
-                    let tagsSelectedSeperated = tagsSelected.join(",");
-                    tagsElement.value = tagsSelectedSeperated;
-                    tagsElement.dispatchEvent(new Event('input'));
+                    if (!tagsSelected.includes(tag.title)) {
+                        tagsSelected.push(tag.title);
+                        let tagsSelectedSeperated = tagsSelected.join(",");
+                        tagsElement.value = tagsSelectedSeperated;
+                        tagsElement.dispatchEvent(new Event('input'));
+                    }
 
                 });
 
             }
-
-            initTagsFilter();
+            document.addEventListener('livewire:load', function () {
+                initTagsFilter();
+            });
         </script>
 
 
