@@ -60,7 +60,8 @@ class ProductsIndexComponent extends Component
     {
         return view('product::admin.product.livewire.table', [
             'products'=>$this->products,
-            'appliedFiltersFriendlyNames'=>[],
+            'appliedFilters'=>$this->appliedFilters,
+            'appliedFiltersFriendlyNames'=>$this->appliedFiltersFriendlyNames,
         ]);
     }
 
@@ -74,15 +75,15 @@ class ProductsIndexComponent extends Component
         $query = Product::query();
         $query->disableCache(true);
 
-        $appliedFilters = [];
-        $appliedFiltersFriendlyNames = [];
+        $this->appliedFilters = [];
+        $this->appliedFiltersFriendlyNames = [];
         foreach ($this->filters as $filterKey=>$filterValue) {
+
             if (empty($filterValue)) {
                 continue;
             }
-            $appliedFilters[$filterKey] = $filterValue;
 
-
+            $this->appliedFilters[$filterKey] = $filterValue;
             $filterFriendlyValue = $filterValue;
 
             if (is_string($filterValue)) {
@@ -113,10 +114,10 @@ class ProductsIndexComponent extends Component
                 }
             }
 
-            $appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
+            $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 
-        $query->filter($appliedFilters);
+        $query->filter($this->appliedFilters);
 
         return $query;
     }
