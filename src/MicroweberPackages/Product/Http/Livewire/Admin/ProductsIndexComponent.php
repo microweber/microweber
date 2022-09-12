@@ -51,18 +51,16 @@ class ProductsIndexComponent extends Component
                                 if ($getPage != null) {
                                     $filterFriendlyValue[] = $getPage->title;
                                 }
-                            }
-                            if ($filterKey == 'category') {
+                            } else if ($filterKey == 'category') {
                                 $resourceId = intval($resourceId);
                                 $getCategory = Category::where('id', $resourceId)->first();
                                 if ($getCategory != null) {
                                     $filterFriendlyValue[] = $getCategory->title;
                                 }
-                            }
-
-                            if ($filterKey == 'tags') {
+                            } else {
                                 $filterFriendlyValue[] = $resourceId;
                             }
+                            
                         }
                     }
                 }
