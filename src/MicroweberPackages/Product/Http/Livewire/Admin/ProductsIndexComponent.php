@@ -11,12 +11,11 @@ use MicroweberPackages\Product\Models\Product;
 class ProductsIndexComponent extends Component
 {
     use WithPagination;
-    public $paginate = 10;
+    public $paginate = 1;
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters']; 
-
+    protected $queryString = ['filters'];
 
     public $checked = [];
     public $selectAll = false;
@@ -24,15 +23,6 @@ class ProductsIndexComponent extends Component
     public function clearFilters()
     {
         $this->filters = [];
-    }
-
-    public function updatedSelectProduct($value)
-    {
-        if ($value) {
-            $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
-        } else {
-            $this->checked = [];
-        }
     }
 
     public function deselectAll()
