@@ -15,8 +15,18 @@ class ProductsIndexComponent extends Component
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters']; 
+    protected $queryString = ['filters'];
 
+    public $showColumns = [
+        'id'=>true,
+        'image'=>true,
+        'title'=>true,
+        'price'=>true,
+        'stock'=>true,
+        'sales'=>true,
+        'quantity'=>true,
+        'author'=>false
+    ];
 
     public $checked = [];
     public $selectAll = false;
@@ -26,19 +36,24 @@ class ProductsIndexComponent extends Component
         $this->filters = [];
     }
 
-    public function updatedSelectProduct($value)
-    {
-        if ($value) {
-            $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
-        } else {
-            $this->checked = [];
-        }
-    }
-
     public function deselectAll()
     {
         $this->checked = [];
         $this->selectAll = false;
+    }
+
+    public function updatedShowColumns($value)
+    {
+        \Cookie::queue('productShowColumns', json_encode($this->showColumns));
+    }
+
+    public function updatedChecked($value)
+    {
+        if (count($this->checked) == count($this->products->items())) {
+            $this->selectAll = true;
+        } else {
+            $this->selectAll = false;
+        }
     }
 
     public function updatedSelectAll($value)
@@ -88,6 +103,11 @@ class ProductsIndexComponent extends Component
     public function getProductsProperty()
     {
         return $this->productsQuery->paginate($this->paginate);
+    }
+
+    public function orderBy($value)
+    {
+        $this->filters['orderBy'] = $value;
     }
 
     public function getProductsQueryProperty()
@@ -140,6 +160,14 @@ class ProductsIndexComponent extends Component
         $query->filter($this->appliedFilters);
 
         return $query;
+    }
+
+    public function mount()
+    {
+        $columnsCookie = \Cookie::get('productShowColumns');
+        if (!empty($columnsCookie)) {
+            $this->showColumns = json_decode($columnsCookie, true);
+        }
     }
 }
 

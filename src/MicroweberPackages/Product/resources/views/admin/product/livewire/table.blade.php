@@ -66,24 +66,26 @@
         </div>
     </div>
 
-    @if ($selectAll)
-        <div class="col-md-10 mb-2">
-            You have selected all <strong>{{ $products->total() }}</strong> items.
-            <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
-        </div>
-    @else
+<div style="height: 60px">
 
-        @if(count($checked) > 0)
+    @if(count($checked) > 0)
+
+        @if (count($checked) == count($products->items()))
+            <div class="col-md-10 mb-2">
+                You have selected all {{ count($checked) }} items.
+                <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
+            </div>
+        @else
         <div>
-            You have selected <strong>{{ count($checked) }}</strong> items, Do you want to Select All
-            <strong>{{ $products->total() }}</strong>?
+            You have selected {{ count($checked) }} items,
+            Do you want to Select All {{ count($products->items()) }}?
             <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
         </div>
         @endif
     @endif
 
     @if(count($checked) > 0)
-    <div>
+    <div class="pull-left">
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Bulk Actions
@@ -98,21 +100,58 @@
     </div>
     @endif
 
+    <div class="pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Show columns
+            </button>
+            <div class="dropdown-menu p-3">
+               <label><input type="checkbox" wire:model="showColumns.id"> Id</label>
+               <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
+               <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
+               <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
+               <label><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
+               <label><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
+               <label><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
+               <label><input type="checkbox" wire:model="showColumns.author"> Author</label>
+            </div>
+        </div>
+    </div>
+
     <div class="page-loading" wire:loading>
         Loading...
     </div>
 
-    <table class="table mt-2">
+</div>
+
+    <table class="table">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
+            @if($showColumns['id'])
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
+            @endif
+            @if($showColumns['image'])
             <th scope="col">Image</th>
+            @endif
+            @if($showColumns['title'])
             <th scope="col">Title</th>
-            <th scope="col">Price</th>
+            @endif
+            @if($showColumns['price'])
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Price', 'key'=>'price', 'filters'=>$filters])
+            @endif
+            @if($showColumns['stock'])
             <th scope="col">Stock</th>
-            <th scope="col">Sales</th>
+            @endif
+            @if($showColumns['sales'])
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Sales', 'key'=>'sales', 'filters'=>$filters])
+            @endif
+            @if($showColumns['quantity'])
             <th scope="col">Quantity</th>
+            @endif
+            @if($showColumns['author'])
             <th scope="col">Author</th>
+            @endif
         </tr>
         </thead>
         <tbody>
@@ -120,11 +159,18 @@
         <tr>
             <td>
                 <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
-                &nbsp; &nbsp; <span class="text-muted">{{ $product->id }}</span>
             </td>
+            @if($showColumns['id'])
+                <td>
+                    {{ $product->id }}
+                </td>
+            @endif
+            @if($showColumns['image'])
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>
+            @endif
+            @if($showColumns['title'])
             <td>
                 <div class="manage-item-main-top">
 
@@ -160,6 +206,8 @@
 
 
             </td>
+            @endif
+            @if($showColumns['price'])
             <td>
                 @php
                 if ($product->hasSpecialPrice()) {
@@ -172,6 +220,8 @@
 
                 {!! $price !!}
             </td>
+            @endif
+            @if($showColumns['stock'])
             <td>
                 @php
                   if ($product->InStock) {
@@ -182,23 +232,27 @@
                 @endphp
                 {!! $stock !!}
             </td>
-            <td>
+            @endif
+            @if($showColumns['sales'])
+            <td style="text-align: center">
                 @php
                 $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
                 if ($product->salesCount == 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.' sale</span></a>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
                 } else if ($product->salesCount > 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.' sales</span></a>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
                 } else {
-                    $sales = '<span>'.$product->salesCount.' sales</span>';
+                    $sales = '<span>'.$product->salesCount.'</span>';
                 }
                 @endphp
                 {!! $sales !!}
             </td>
-            <td>
+            @endif
+            @if($showColumns['quantity'])
+            <td style="text-align: center">
             @php
                 if ($product->qty == 'nolimit') {
-                      $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
+                      $quantity = '<span><i class="fa fa-infinity" title="Unlimited Quantity"></i></span>';
                   } else if ($product->qty == 0) {
                       $quantity = '<span class="text-small text-danger">0</span>';
                   } else {
@@ -207,9 +261,12 @@
             @endphp
                 {!! $quantity !!}
             </td>
+            @endif
+            @if($showColumns['author'])
             <td>
                 {{$product->authorName()}}
             </td>
+            @endif
         </tr>
         @endforeach
         </tbody>
