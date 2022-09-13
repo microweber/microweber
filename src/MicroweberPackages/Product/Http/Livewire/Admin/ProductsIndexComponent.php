@@ -51,6 +51,11 @@ class ProductsIndexComponent extends Component
         \Cookie::queue('productShowColumns', json_encode($this->showColumns));
     }
 
+    public function updatedShowFilters($value)
+    {
+        $this->showFilters = array_filter($this->showFilters);
+    }
+
     public function updatedChecked($value)
     {
         if (count($this->checked) == count($this->products->items())) {
@@ -178,8 +183,6 @@ class ProductsIndexComponent extends Component
 
     public function mount()
     {
-        $this->showFilters = array_filter($this->showFilters);
-
         $columnsCookie = \Cookie::get('productShowColumns');
         if (!empty($columnsCookie)) {
             $this->showColumns = json_decode($columnsCookie, true);

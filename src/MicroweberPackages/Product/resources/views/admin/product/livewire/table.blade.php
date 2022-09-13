@@ -182,14 +182,14 @@
                     Show columns
                 </button>
                 <div class="dropdown-menu p-3">
-                   <label><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                   <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                   <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
-                   <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
-                   <label><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
-                   <label><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
-                   <label><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
-                   <label><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.price"> Price</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
                 </div>
             </div>
         </div>
