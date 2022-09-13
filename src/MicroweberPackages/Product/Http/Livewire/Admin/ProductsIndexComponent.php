@@ -180,7 +180,12 @@ class ProductsIndexComponent extends Component
             $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 
-        $query->filter($this->appliedFilters);
+        $applyFiltersToQuery = $this->appliedFilters;
+        if (!isset($applyFiltersToQuery['orderBy'])) {
+            $applyFiltersToQuery['orderBy'] = 'position,desc';
+        }
+
+        $query->filter($applyFiltersToQuery);
 
         return $query;
     }
