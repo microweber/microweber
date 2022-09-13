@@ -51,17 +51,19 @@
     <div id="js-admin-product-filters"  @if (!$enableFilters) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
             <div class="row">
-
                 @include('product::admin.product.livewire.table-filters.category')
                 @include('product::admin.product.livewire.table-filters.tags')
+                @include('product::admin.product.livewire.table-filters.visible')
+                @include('product::admin.product.livewire.table-filters.date')
+            </div>
+            <div class="row">
+
                 @include('product::admin.product.livewire.table-filters.price-range')
                 @include('product::admin.product.livewire.table-filters.stock-status')
                 @include('product::admin.product.livewire.table-filters.discount')
                 @include('product::admin.product.livewire.table-filters.sales')
                 @include('product::admin.product.livewire.table-filters.quantity')
                 @include('product::admin.product.livewire.table-filters.sku')
-                @include('product::admin.product.livewire.table-filters.visible')
-                @include('product::admin.product.livewire.table-filters.date')
 
             </div>
         </div>
@@ -126,7 +128,7 @@
 
     </div>
 
-    <table class="table">
+    <table class="table table-responsive" id="content-results-table">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
