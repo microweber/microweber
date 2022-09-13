@@ -106,6 +106,7 @@
                 Show columns
             </button>
             <div class="dropdown-menu p-3">
+               <label><input type="checkbox" wire:model="showColumns.id"> Id</label>
                <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
                <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
                <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
@@ -127,6 +128,9 @@
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
+            @if($showColumns['id'])
+                <th scope="col">ID</th>
+            @endif
             @if($showColumns['image'])
             <th scope="col">Image</th>
             @endif
@@ -155,8 +159,12 @@
         <tr>
             <td>
                 <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
-                &nbsp; &nbsp; <span class="text-muted">{{ $product->id }}</span>
             </td>
+            @if($showColumns['id'])
+                <td>
+                    <span class="text-muted">{{ $product->id }}</span>
+                </td>
+            @endif
             @if($showColumns['image'])
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
@@ -226,25 +234,25 @@
             </td>
             @endif
             @if($showColumns['sales'])
-            <td>
+            <td style="text-align: center">
                 @php
                 $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
                 if ($product->salesCount == 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.' sale</span></a>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
                 } else if ($product->salesCount > 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.' sales</span></a>';
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
                 } else {
-                    $sales = '<span>'.$product->salesCount.' sales</span>';
+                    $sales = '<span>'.$product->salesCount.'</span>';
                 }
                 @endphp
                 {!! $sales !!}
             </td>
             @endif
             @if($showColumns['quantity'])
-            <td>
+            <td style="text-align: center">
             @php
                 if ($product->qty == 'nolimit') {
-                      $quantity = '<i class="fa fa-infinity" title="Unlimited Quantity"></i>';
+                      $quantity = '<span><i class="fa fa-infinity" title="Unlimited Quantity"></i></span>';
                   } else if ($product->qty == 0) {
                       $quantity = '<span class="text-small text-danger">0</span>';
                   } else {

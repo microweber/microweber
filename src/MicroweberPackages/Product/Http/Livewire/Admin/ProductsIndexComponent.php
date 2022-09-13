@@ -18,6 +18,7 @@ class ProductsIndexComponent extends Component
     protected $queryString = ['filters'];
 
     public $showColumns = [
+        'id'=>true,
         'image'=>true,
         'title'=>true,
         'price'=>true,
