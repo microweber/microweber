@@ -67,66 +67,64 @@
         </div>
     </div>
 
-</div>
 
+    <div style="height: 60px" class="bulk-actions-show-columns">
 
-<div style="height: 60px">
+        @if(count($checked) > 0)
 
-    @if(count($checked) > 0)
-
-        @if (count($checked) == count($products->items()))
-            <div class="col-md-10 mb-2">
-                You have selected all {{ count($checked) }} items.
-                <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
+            @if (count($checked) == count($products->items()))
+                <div class="col-md-10 mb-2">
+                    You have selected all {{ count($checked) }} items.
+                    <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
+                </div>
+            @else
+            <div>
+                You have selected {{ count($checked) }} items,
+                Do you want to Select All {{ count($products->items()) }}?
+                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
             </div>
-        @else
-        <div>
-            You have selected {{ count($checked) }} items,
-            Do you want to Select All {{ count($products->items()) }}?
-            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+            @endif
+        @endif
+
+        @if(count($checked) > 0)
+        <div class="pull-left">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Bulk Actions
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
+                </ul>
+            </div>
         </div>
         @endif
-    @endif
 
-    @if(count($checked) > 0)
-    <div class="pull-left">
-        <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Bulk Actions
-            </button>
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
-            </ul>
-        </div>
-    </div>
-    @endif
-
-    <div class="pull-right">
-        <div class="btn-group">
-            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Show columns
-            </button>
-            <div class="dropdown-menu p-3">
-               <label><input type="checkbox" wire:model="showColumns.id"> Id</label>
-               <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
-               <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
-               <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
-               <label><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
-               <label><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
-               <label><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
-               <label><input type="checkbox" wire:model="showColumns.author"> Author</label>
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Show columns
+                </button>
+                <div class="dropdown-menu p-3">
+                   <label><input type="checkbox" wire:model="showColumns.id"> Id</label>
+                   <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
+                   <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
+                   <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
+                   <label><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
+                   <label><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
+                   <label><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
+                   <label><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="page-loading" wire:loading>
-        Loading...
-    </div>
+        <div class="page-loading" wire:loading>
+            Loading...
+        </div>
 
-</div>
+    </div>
 
     <table class="table">
         <thead>
