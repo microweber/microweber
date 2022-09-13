@@ -16,7 +16,7 @@ class ProductsIndexComponent extends Component
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters','enableFilters'];
+    protected $queryString = ['filters'];
 
     public $showColumns = [
         'id' => true,
@@ -28,6 +28,8 @@ class ProductsIndexComponent extends Component
         'quantity' => true,
         'author' => false
     ];
+
+    public $showFilters = [];
 
     public $checked = [];
     public $selectAll = false;
@@ -42,6 +44,12 @@ class ProductsIndexComponent extends Component
         $this->checked = [];
         $this->selectAll = false;
     }
+
+    public function updatedShowFilters($value)
+    {
+        \Cookie::queue('productShowFilters', json_encode($this->showFilters));
+    }
+
 
     public function updatedShowColumns($value)
     {
@@ -111,28 +119,6 @@ class ProductsIndexComponent extends Component
         $this->filters['orderBy'] = $value;
     }
 
-    public $enableReordering = false;
-
-    public function enableReordering()
-    {
-        $this->enableReordering = true;
-    }
-
-    public function disableReordering()
-    {
-        $this->enableReordering = false;
-    }
-
-    public $enableFilters = false;
-    public function toggleFilters()
-    {
-        if ($this->enableFilters) {
-            $this->enableFilters = false;
-        } else {
-            $this->enableFilters = true;
-        }
-    }
-
     public function getProductsQueryProperty()
     {
         $query = Product::query();
@@ -195,6 +181,11 @@ class ProductsIndexComponent extends Component
         $columnsCookie = \Cookie::get('productShowColumns');
         if (!empty($columnsCookie)) {
             $this->showColumns = json_decode($columnsCookie, true);
+        }
+
+        $filtersCookie = \Cookie::get('productShowFilters');
+        if (!empty($filtersCookie)) {
+            $this->showFilters = json_decode($filtersCookie, true);
         }
     }
 }

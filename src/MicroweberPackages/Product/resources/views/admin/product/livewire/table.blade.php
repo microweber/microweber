@@ -79,33 +79,45 @@
 
     <div class="d-md-flex justify-content-between mb-3">
         <div class="d-md-flex">
-            <div class="me-0 me-md-2 mb-3 mb-md-0">
-                <button wire:click="enableReordering" type="button" class="btn btn-outline-primary btn-block">
-                    Reorder
-                </button>
-            </div>
             <div class="mb-3 mb-md-0 input-group">
                 <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
                        class="form-control">
             </div>
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                 <div class="btn-group d-block d-md-inline">
-                    <button type="button" class="btn @if ($enableFilters) btn-primary @else btn-outline-primary @endif" wire:click="toggleFilters">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Filters
                     </button>
+                    <div class="dropdown-menu p-3">
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visibility</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="js-admin-product-filters"  @if (!$enableFilters) style="display: none"  @endif>
+    <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
             <div class="row">
+
+                @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
                 @include('product::admin.product.livewire.table-filters.category')
                 @include('product::admin.product.livewire.table-filters.tags')
+                @endif
+
+                @if(isset($showFilters['visible']) && $showFilters['visible'])
                 @include('product::admin.product.livewire.table-filters.visible')
+                @endif
+
+                @if(isset($showFilters['date']) && $showFilters['date'])
                 @include('product::admin.product.livewire.table-filters.date')
+                @endif
             </div>
+            @if(isset($showFilters['shop']) && $showFilters['shop'])
             <div class="row">
 
                 @include('product::admin.product.livewire.table-filters.price-range')
@@ -116,6 +128,7 @@
                 @include('product::admin.product.livewire.table-filters.sku')
 
             </div>
+            @endif
         </div>
     </div>
 
