@@ -17,6 +17,16 @@ class ProductsIndexComponent extends Component
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
     protected $queryString = ['filters'];
 
+    public $showColumns = [
+        'image'=>true,
+        'title'=>true,
+        'price'=>true,
+        'stock'=>true,
+        'sales'=>true,
+        'quantity'=>true,
+        'author'=>false
+    ];
+
     public $checked = [];
     public $selectAll = false;
 

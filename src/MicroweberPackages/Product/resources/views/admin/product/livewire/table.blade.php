@@ -66,6 +66,8 @@
         </div>
     </div>
 
+<div style="height: 60px">
+
     @if(count($checked) > 0)
 
         @if (count($checked) == count($products->items()))
@@ -83,7 +85,7 @@
     @endif
 
     @if(count($checked) > 0)
-    <div>
+    <div class="pull-left">
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 Bulk Actions
@@ -98,21 +100,54 @@
     </div>
     @endif
 
+    <div class="pull-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Show columns
+            </button>
+            <div class="dropdown-menu p-3">
+               <label><input type="checkbox" wire:model="showColumns.image"> Image</label>
+               <label><input type="checkbox" wire:model="showColumns.title"> Title</label>
+               <label><input type="checkbox" wire:model="showColumns.price"> Price</label>
+               <label><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
+               <label><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
+               <label><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
+               <label><input type="checkbox" wire:model="showColumns.author"> Author</label>
+            </div>
+        </div>
+    </div>
+
     <div class="page-loading" wire:loading>
         Loading...
     </div>
 
-    <table class="table mt-2">
+</div>
+
+    <table class="table">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
+            @if($showColumns['image'])
             <th scope="col">Image</th>
+            @endif
+            @if($showColumns['title'])
             <th scope="col">Title</th>
+            @endif
+            @if($showColumns['price'])
             <th scope="col">Price</th>
+            @endif
+            @if($showColumns['stock'])
             <th scope="col">Stock</th>
+            @endif
+            @if($showColumns['sales'])
             <th scope="col">Sales</th>
+            @endif
+            @if($showColumns['quantity'])
             <th scope="col">Quantity</th>
+            @endif
+            @if($showColumns['author'])
             <th scope="col">Author</th>
+            @endif
         </tr>
         </thead>
         <tbody>
@@ -122,9 +157,12 @@
                 <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
                 &nbsp; &nbsp; <span class="text-muted">{{ $product->id }}</span>
             </td>
+            @if($showColumns['image'])
             <td>
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
             </td>
+            @endif
+            @if($showColumns['title'])
             <td>
                 <div class="manage-item-main-top">
 
@@ -160,6 +198,8 @@
 
 
             </td>
+            @endif
+            @if($showColumns['price'])
             <td>
                 @php
                 if ($product->hasSpecialPrice()) {
@@ -172,6 +212,8 @@
 
                 {!! $price !!}
             </td>
+            @endif
+            @if($showColumns['stock'])
             <td>
                 @php
                   if ($product->InStock) {
@@ -182,6 +224,8 @@
                 @endphp
                 {!! $stock !!}
             </td>
+            @endif
+            @if($showColumns['sales'])
             <td>
                 @php
                 $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
@@ -195,6 +239,8 @@
                 @endphp
                 {!! $sales !!}
             </td>
+            @endif
+            @if($showColumns['quantity'])
             <td>
             @php
                 if ($product->qty == 'nolimit') {
@@ -207,9 +253,12 @@
             @endphp
                 {!! $quantity !!}
             </td>
+            @endif
+            @if($showColumns['author'])
             <td>
                 {{$product->authorName()}}
             </td>
+            @endif
         </tr>
         @endforeach
         </tbody>
