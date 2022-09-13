@@ -11,7 +11,7 @@ use MicroweberPackages\Product\Models\Product;
 class ProductsIndexComponent extends Component
 {
     use WithPagination;
-    public $paginate = 1;
+    public $paginate = 2;
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
@@ -43,7 +43,13 @@ class ProductsIndexComponent extends Component
     public function selectAll()
     {
         $this->selectAll = true;
-        $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
+        $productsCurrentPage = $this->products->items();
+        if (count($productsCurrentPage) > 0) {
+            $this->checked = [];
+            foreach ($productsCurrentPage as $product) {
+                $this->checked[] = $product->id;
+            }
+        }
     }
 
     public function multipleMoveToCategory()
