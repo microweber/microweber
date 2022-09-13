@@ -246,7 +246,13 @@
             @endif
             @if($showColumns['image'])
             <td>
+                @if($product->media()->first())
                 <img src="{{$product->thumbnail()}}" class="w-8 h-8 rounded-full">
+                @else
+                    <div class="img-circle-holder border-radius-0 border-0">
+                        <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
+                    </div>
+                @endif
             </td>
             @endif
             @if($showColumns['title'])
