@@ -155,5 +155,13 @@ class ProductsIndexComponent extends Component
 
         return $query;
     }
+
+    public function mount()
+    {
+        $columnsCookie = \Cookie::get('productShowColumns');
+        if (!empty($columnsCookie)) {
+            $this->showColumns = json_decode($columnsCookie, true);
+        }
+    }
 }
 
