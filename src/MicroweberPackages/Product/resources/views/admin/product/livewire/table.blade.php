@@ -129,7 +129,18 @@
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
             @if($showColumns['id'])
-                <th scope="col">ID</th>
+                <th scope="col">
+                    ID
+                    @if(isset($filters['orderBy']) && !empty($filters['orderBy']))
+                        @if ($filters['orderBy'] == 'id,desc')
+                            <i class="fa fa-arrow-down"></i>
+                        @else
+                        <i class="fa fa-arrow-up"></i>
+                        @endif
+                    @else
+                        <i class="fa fa-sort"></i>
+                    @endif
+                </th>
             @endif
             @if($showColumns['image'])
             <th scope="col">Image</th>
@@ -162,7 +173,7 @@
             </td>
             @if($showColumns['id'])
                 <td>
-                    <span class="text-muted">{{ $product->id }}</span>
+                    {{ $product->id }}
                 </td>
             @endif
             @if($showColumns['image'])
