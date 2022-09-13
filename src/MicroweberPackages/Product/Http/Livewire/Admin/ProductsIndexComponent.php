@@ -43,13 +43,7 @@ class ProductsIndexComponent extends Component
     public function selectAll()
     {
         $this->selectAll = true;
-        $productsCurrentPage = $this->products->items();
-        if (count($productsCurrentPage) > 0) {
-            $this->checked = [];
-            foreach ($productsCurrentPage as $product) {
-                $this->checked[] = $product->id;
-            }
-        }
+        $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
     }
 
     public function multipleMoveToCategory()
