@@ -23,13 +23,32 @@
               </span>
         @endforeach
 
-
             <button class="btn btn-outline-danger btn-sm" wire:click="clearFilters">Clear filers</button>
         </div>
     @endif
 
-    <div id="js-admin-product-filters">
+    <div class="d-md-flex justify-content-between mb-3">
+        <div class="d-md-flex">
+            <div class="me-0 me-md-2 mb-3 mb-md-0">
+                <button wire:click="enableReordering" type="button" class="btn btn-outline-primary btn-block">
+                    Reorder
+                </button>
+            </div>
+            <div class="mb-3 mb-md-0 input-group">
+                <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
+                       class="form-control">
+            </div>
+            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+                 <div class="btn-group d-block d-md-inline">
+                    <button type="button" class="btn @if ($enableFilters) btn-primary @else btn-outline-primary @endif" wire:click="toggleFilters">
+                        Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id="js-admin-product-filters"  @if (!$enableFilters) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
             <div class="row">
 
@@ -46,25 +65,10 @@
 
             </div>
         </div>
-
-        <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-            <label>Keyword</label>
-            <div class="mb-3 mb-md-0 input-group">
-                <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
-            </div>
-        </div>  <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
-            <label>orderBy</label>
-            <select wire:model.stop="filters.orderBy" class="form-control">
-                <option value="">Any</option>
-                <option value="id,desc">id,desc</option>
-                <option value="id,asc">id,asc</option>
-                <option value="price,desc">price,desc</option>
-                <option value="price,asc">price,asc</option>
-                <option value="sales,desc">sales,desc</option>
-                <option value="sales,asc">sales,asc</option>
-            </select>
-        </div>
     </div>
+
+</div>
+
 
 <div style="height: 60px">
 
