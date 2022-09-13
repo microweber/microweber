@@ -1,6 +1,4 @@
 <div>
-
-
     <style>
         #content-results-table tr .mw_admin_posts_sortable_handle {
             visibility: hidden;
@@ -9,11 +7,7 @@
             visibility: visible;
         }
     </style>
-
-
     <script>
-
-
         mw.manage_content_sort = function () {
             if (!mw.$("#content-results-table").hasClass("ui-sortable")) {
                 mw.$("#content-results-table").sortable({
@@ -45,15 +39,6 @@
         }
     </script>
 
-
-
-
-
-
-    {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
-    <br />
-    <br />
-    <br />
     @if(!empty($appliedFiltersFriendlyNames))
         <div class="mb-4">
             <b>Filters</b> <br />
@@ -223,10 +208,9 @@
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $product->id }}"  class="js-select-posts-for-action"  wire:model="checked">
-
-
-                <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"><i class="mdi mdi-cursor-move"></i></span>
-
+                <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
+                    <i class="mdi mdi-cursor-move"></i>
+                </span>
             </td>
             @if($showColumns['id'])
                 <td>
@@ -262,7 +246,6 @@
                     </a>
                  </div>
 
-
                 <div class="manage-post-item-links mt-3">
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
@@ -271,7 +254,6 @@
                     <a href="{{route('admin.product.edit', $product->id)}}" class="badge badge-warning font-weight-normal">Unpublished</a>
                     @endif
                 </div>
-
 
             </td>
             @endif
@@ -335,9 +317,7 @@
                 {{$product->authorName()}}
             </td>
             @endif
-
-
-
+            
         </tr>
         @endforeach
         </tbody>
