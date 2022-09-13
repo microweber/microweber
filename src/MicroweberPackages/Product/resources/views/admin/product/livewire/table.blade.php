@@ -91,9 +91,7 @@
                     <div class="dropdown-menu p-3">
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visibility</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
                     </div>
                 </div>
             </div>
@@ -102,32 +100,31 @@
 
     <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
+
+            @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
             <div class="row">
-
-                @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
-                @include('product::admin.product.livewire.table-filters.category')
-                @include('product::admin.product.livewire.table-filters.tags')
-                @endif
-
-                @if(isset($showFilters['visible']) && $showFilters['visible'])
-                @include('product::admin.product.livewire.table-filters.visible')
-                @endif
-
-                @if(isset($showFilters['date']) && $showFilters['date'])
-                @include('product::admin.product.livewire.table-filters.date')
-                @endif
+            @include('product::admin.product.livewire.table-filters.category')
+            @include('product::admin.product.livewire.table-filters.tags')
             </div>
+            @endif
+
             @if(isset($showFilters['shop']) && $showFilters['shop'])
             <div class="row">
-
                 @include('product::admin.product.livewire.table-filters.price-range')
                 @include('product::admin.product.livewire.table-filters.stock-status')
                 @include('product::admin.product.livewire.table-filters.discount')
                 @include('product::admin.product.livewire.table-filters.sales')
                 @include('product::admin.product.livewire.table-filters.quantity')
                 @include('product::admin.product.livewire.table-filters.sku')
-
             </div>
+            @endif
+
+            @if(isset($showFilters['other']) && $showFilters['other'])
+                <div class="row">
+                    @include('product::admin.product.livewire.table-filters.visible')
+                    @include('product::admin.product.livewire.table-filters.author')
+                    @include('product::admin.product.livewire.table-filters.date')
+                </div>
             @endif
         </div>
     </div>

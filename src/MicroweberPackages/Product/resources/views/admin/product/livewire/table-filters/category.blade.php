@@ -80,7 +80,7 @@
         });
     </script>
 
-    <button class="btn btn-outline-primary btn-block" onclick="categoryFilterSelectTree()">
+    <button class="btn btn-outline-primary" onclick="categoryFilterSelectTree()">
         <i class="fa fa-list"></i> Select Categories
     </button>
 
