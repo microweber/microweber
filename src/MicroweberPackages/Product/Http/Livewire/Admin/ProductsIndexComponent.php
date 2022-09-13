@@ -41,6 +41,11 @@ class ProductsIndexComponent extends Component
         $this->selectAll = false;
     }
 
+    public function updatedShowColumns($value)
+    {
+        \Cookie::queue('productShowColumns', json_encode($this->showColumns));
+    }
+
     public function updatedChecked($value)
     {
         if (count($this->checked) == count($this->products->items())) {
