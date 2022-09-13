@@ -10,7 +10,7 @@
         }
     </style>
 
-@dump($this->appliedFilters)
+
     <script>
 
 
