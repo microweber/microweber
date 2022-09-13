@@ -11,7 +11,7 @@ use MicroweberPackages\Product\Models\Product;
 class ProductsIndexComponent extends Component
 {
     use WithPagination;
-    public $paginate = 2;
+    public $paginate = 10;
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
