@@ -1,5 +1,55 @@
 <div>
 
+
+    <style>
+        #content-results-table tr .mw_admin_posts_sortable_handle {
+            visibility: hidden;
+        }
+        #content-results-table tr:hover .mw_admin_posts_sortable_handle {
+            visibility: visible;
+        }
+    </style>
+
+@dump($this->appliedFilters)
+    <script>
+
+
+        mw.manage_content_sort = function () {
+            if (!mw.$("#content-results-table").hasClass("ui-sortable")) {
+                mw.$("#content-results-table").sortable({
+                    items: '.manage-post-item',
+                    axis: 'y',
+                    handle: '.mw_admin_posts_sortable_handle',
+                    update: function () {
+                        var obj = {ids: []}
+                        $(this).find('.js-select-posts-for-action').each(function () {
+                            var id = this.attributes['value'].nodeValue;
+                            obj.ids.push(id);
+                        });
+                        $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
+                            mw.reload_module('#mw_page_layout_preview');
+                            mw.reload_module_parent('posts');
+                            mw.reload_module_parent('content');
+                            mw.reload_module_parent('shop/products');
+                            mw.notification.success('<?php _e("All changes are saved"); ?>.');
+                        });
+                    },
+                    start: function (a, ui) {
+                        $(this).height($(this).outerHeight());
+                        $(ui.placeholder).height($(ui.item).outerHeight())
+                        $(ui.placeholder).width($(ui.item).outerWidth())
+                    },
+                    scroll: false
+                });
+            }
+        }
+    </script>
+
+
+
+
+
+
     {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
     <br />
     <br />
@@ -131,7 +181,7 @@
     <table class="table table-responsive" id="content-results-table">
         <thead>
         <tr>
-            <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
+            <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
@@ -160,9 +210,13 @@
         </thead>
         <tbody>
         @foreach ($products as $product)
-        <tr>
+        <tr class="manage-post-item">
             <td>
-                <input type="checkbox" value="{{ $product->id }}" wire:model="checked">
+                <input type="checkbox" value="{{ $product->id }}"  class="js-select-posts-for-action"  wire:model="checked">
+
+
+                <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"><i class="mdi mdi-cursor-move"></i></span>
+
             </td>
             @if($showColumns['id'])
                 <td>
@@ -271,6 +325,9 @@
                 {{$product->authorName()}}
             </td>
             @endif
+
+
+
         </tr>
         @endforeach
         </tbody>
