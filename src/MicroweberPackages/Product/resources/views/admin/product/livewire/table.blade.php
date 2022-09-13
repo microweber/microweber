@@ -66,21 +66,19 @@
         </div>
     </div>
 
-    @if ($selectAll)
-        <div class="col-md-10 mb-2">
-            You have selected all <strong>{{ count($products->items()) }}</strong> items.
-            <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
-        </div>
-    @else
+    @if(count($checked) > 0)
 
-        @if(count($checked) > 0)
-            @if(count($checked) != count($products->items()))
-            <div>
-                You have selected <strong>{{ count($checked) }}</strong> items, Do you want to Select All
-                <strong>{{ count($products->items()) }}</strong>?
-                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+        @if (count($checked) == count($products->items()))
+            <div class="col-md-10 mb-2">
+                You have selected all <strong>{{ count($checked) }}</strong> items.
+                <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
             </div>
-            @endif
+        @else
+        <div>
+            You have selected <strong >{{ count($checked) }}</strong> items,
+            Do you want to Select All <strong>{{ count($products->items()) }}</strong>?
+            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+        </div>
         @endif
     @endif
 
