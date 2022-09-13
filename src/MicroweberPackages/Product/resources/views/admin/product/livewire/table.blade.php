@@ -317,7 +317,7 @@
                 {{$product->authorName()}}
             </td>
             @endif
-            
+
         </tr>
         @endforeach
         </tbody>

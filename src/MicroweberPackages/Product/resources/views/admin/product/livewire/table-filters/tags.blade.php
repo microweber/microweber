@@ -47,9 +47,7 @@
                 });
 
             }
-            document.addEventListener('livewire:load', function () {
-                initTagsFilter();
-            });
+            initTagsFilter();
         </script>
 
 
