@@ -31,6 +31,11 @@ class ProductsIndexComponent extends Component
         $this->selectAll = false;
     }
 
+    public function updatedChecked($value)
+    {
+        $this->selectAll = false;
+    }
+
     public function updatedSelectAll($value)
     {
         if ($value) {

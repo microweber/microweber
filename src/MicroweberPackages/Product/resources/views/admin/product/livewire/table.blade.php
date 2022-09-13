@@ -70,13 +70,13 @@
 
         @if (count($checked) == count($products->items()))
             <div class="col-md-10 mb-2">
-                You have selected all <strong>{{ count($checked) }}</strong> items.
+                You have selected all {{ count($checked) }} items.
                 <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
             </div>
         @else
         <div>
-            You have selected <strong >{{ count($checked) }}</strong> items,
-            Do you want to Select All <strong>{{ count($products->items()) }}</strong>?
+            You have selected {{ count($checked) }} items,
+            Do you want to Select All {{ count($products->items()) }}?
             <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
         </div>
         @endif
