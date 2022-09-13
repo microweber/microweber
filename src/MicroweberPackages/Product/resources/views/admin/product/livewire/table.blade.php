@@ -54,7 +54,7 @@
                           {{$filterValues}}
                       @endif
                   </span>
-                  <span class="mw-icon-close ml-1"></span>
+                  <span class="mw-icon-close ml-1" wire:click="removeFilter('{{$filterKey}}')"></span>
               </span>
         @endforeach
 

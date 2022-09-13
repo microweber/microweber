@@ -108,6 +108,11 @@ class ProductsIndexComponent extends Component
         return $this->productsQuery->paginate($this->paginate);
     }
 
+    public function removeFilter($key)
+    {
+        unset($this->filters[$key]);
+    }
+
     public function orderBy($value)
     {
         $this->filters['orderBy'] = $value;
