@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
 
-        pageElement= document.getElementById('js-filter-page');
+        pageElement = document.getElementById('js-filter-page');
         categoryElement = document.getElementById('js-filter-category');
 
         categoryFilterSelectTree = function (){

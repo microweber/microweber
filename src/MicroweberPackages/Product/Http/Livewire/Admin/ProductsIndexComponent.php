@@ -11,21 +11,22 @@ use MicroweberPackages\Product\Models\Product;
 class ProductsIndexComponent extends Component
 {
     use WithPagination;
+
     public $paginate = 10;
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters'];
+    protected $queryString = ['filters','enableFilters'];
 
     public $showColumns = [
-        'id'=>true,
-        'image'=>true,
-        'title'=>true,
-        'price'=>true,
-        'stock'=>true,
-        'sales'=>true,
-        'quantity'=>true,
-        'author'=>false
+        'id' => true,
+        'image' => true,
+        'title' => true,
+        'price' => true,
+        'stock' => true,
+        'sales' => true,
+        'quantity' => true,
+        'author' => false
     ];
 
     public $checked = [];
@@ -68,35 +69,35 @@ class ProductsIndexComponent extends Component
     public function selectAll()
     {
         $this->selectAll = true;
-        $this->checked = $this->products->pluck('id')->map(fn ($item) => (string) $item)->toArray();
+        $this->checked = $this->products->pluck('id')->map(fn($item) => (string)$item)->toArray();
     }
 
     public function multipleMoveToCategory()
     {
-        $this->emit('multipleMoveToCategory',$this->checked );
+        $this->emit('multipleMoveToCategory', $this->checked);
     }
 
     public function multiplePublish()
     {
-        $this->emit('multiplePublish',$this->checked );
+        $this->emit('multiplePublish', $this->checked);
     }
 
     public function multipleUnpublish()
     {
-        $this->emit('multipleUnpublish',$this->checked );
+        $this->emit('multipleUnpublish', $this->checked);
     }
 
     public function multipleDelete()
     {
-        $this->emit('multipleDelete',$this->checked );
+        $this->emit('multipleDelete', $this->checked);
     }
 
     public function render()
     {
         return view('product::admin.product.livewire.table', [
-            'products'=>$this->products,
-            'appliedFilters'=>$this->appliedFilters,
-            'appliedFiltersFriendlyNames'=>$this->appliedFiltersFriendlyNames,
+            'products' => $this->products,
+            'appliedFilters' => $this->appliedFilters,
+            'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
         ]);
     }
 
@@ -110,6 +111,28 @@ class ProductsIndexComponent extends Component
         $this->filters['orderBy'] = $value;
     }
 
+    public $enableReordering = false;
+
+    public function enableReordering()
+    {
+        $this->enableReordering = true;
+    }
+
+    public function disableReordering()
+    {
+        $this->enableReordering = false;
+    }
+
+    public $enableFilters = false;
+    public function toggleFilters()
+    {
+        if ($this->enableFilters) {
+            $this->enableFilters = false;
+        } else {
+            $this->enableFilters = true;
+        }
+    }
+
     public function getProductsQueryProperty()
     {
         $query = Product::query();
@@ -117,7 +140,7 @@ class ProductsIndexComponent extends Component
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
-        foreach ($this->filters as $filterKey=>$filterValue) {
+        foreach ($this->filters as $filterKey => $filterValue) {
 
             if (empty($filterValue)) {
                 continue;
