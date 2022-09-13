@@ -13,10 +13,11 @@ class ProductsIndexComponent extends Component
     use WithPagination;
 
     public $paginate = 10;
+    protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters', 'showFilters'];
+    protected $queryString = ['filters', 'showFilters','paginate'];
 
     public $showColumns = [
         'id' => true,

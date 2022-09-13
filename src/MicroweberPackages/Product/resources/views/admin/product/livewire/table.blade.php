@@ -150,6 +150,31 @@
         @endif
 
         <div class="pull-right">
+
+            <div class="btn-group">
+                Sort
+                <select wire:model.stop="filters.orderBy" class="form-control">
+                    <option value="">Any</option>
+                    <option value="id,desc">Id Desc</option>
+                    <option value="id,asc">Id Asc</option>
+                    <option value="price,desc">Price Desc</option>
+                    <option value="price,asc">Price Asc</option>
+                    <option value="sales,desc">Sales Desc</option>
+                    <option value="sales,asc">Sales Asc</option>
+                </select>
+            </div>
+
+            <div class="btn-group">
+                Limit
+                <select class="form-control" wire:model="paginate">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Show columns
