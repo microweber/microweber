@@ -151,9 +151,10 @@
 
         <div class="pull-right">
 
-            <div class="btn-group">
-                Sort
-                <select wire:model.stop="filters.orderBy" class="form-control">
+            <div class="d-inline-block mx-1">
+
+                <span class="d-md-block d-none">Sort</span>
+                <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
                     <option value="">Any</option>
                     <option value="id,desc">Id Desc</option>
                     <option value="id,asc">Id Asc</option>
@@ -164,9 +165,10 @@
                 </select>
             </div>
 
-            <div class="btn-group">
-                Limit
-                <select class="form-control" wire:model="paginate">
+            <div class="d-inline-block mx-1">
+
+                <span class="d-md-block d-none">Limit</span>
+                <select class="form-control form-control-sm" wire:model="paginate">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -176,7 +178,7 @@
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Show columns
                 </button>
                 <div class="dropdown-menu p-3">
