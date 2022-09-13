@@ -16,7 +16,7 @@ class ProductsIndexComponent extends Component
 
     public $filters = [];
     protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters'];
+    protected $queryString = ['filters', 'showFilters'];
 
     public $showColumns = [
         'id' => true,
@@ -44,12 +44,6 @@ class ProductsIndexComponent extends Component
         $this->checked = [];
         $this->selectAll = false;
     }
-
-    public function updatedShowFilters($value)
-    {
-        \Cookie::queue('productShowFilters', json_encode($this->showFilters));
-    }
-
 
     public function updatedShowColumns($value)
     {
@@ -178,14 +172,11 @@ class ProductsIndexComponent extends Component
 
     public function mount()
     {
+        $this->showFilters = array_filter($this->showFilters);
+
         $columnsCookie = \Cookie::get('productShowColumns');
         if (!empty($columnsCookie)) {
             $this->showColumns = json_decode($columnsCookie, true);
-        }
-
-        $filtersCookie = \Cookie::get('productShowFilters');
-        if (!empty($filtersCookie)) {
-            $this->showFilters = json_decode($filtersCookie, true);
         }
     }
 }

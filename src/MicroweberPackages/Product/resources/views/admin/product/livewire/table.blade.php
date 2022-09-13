@@ -90,8 +90,8 @@
                     </button>
                     <div class="dropdown-menu p-3">
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visibility</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visibility</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
                     </div>
