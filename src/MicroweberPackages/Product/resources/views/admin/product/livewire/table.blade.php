@@ -129,18 +129,7 @@
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll"> </th>
             @if($showColumns['id'])
-                <th scope="col">
-                    ID
-                    @if(isset($filters['orderBy']) && !empty($filters['orderBy']))
-                        @if ($filters['orderBy'] == 'id,desc')
-                            <i class="fa fa-arrow-down"></i>
-                        @else
-                        <i class="fa fa-arrow-up"></i>
-                        @endif
-                    @else
-                        <i class="fa fa-sort"></i>
-                    @endif
-                </th>
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['image'])
             <th scope="col">Image</th>
@@ -149,13 +138,13 @@
             <th scope="col">Title</th>
             @endif
             @if($showColumns['price'])
-            <th scope="col">Price</th>
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Price', 'key'=>'price', 'filters'=>$filters])
             @endif
             @if($showColumns['stock'])
             <th scope="col">Stock</th>
             @endif
             @if($showColumns['sales'])
-            <th scope="col">Sales</th>
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Sales', 'key'=>'sales', 'filters'=>$filters])
             @endif
             @if($showColumns['quantity'])
             <th scope="col">Quantity</th>

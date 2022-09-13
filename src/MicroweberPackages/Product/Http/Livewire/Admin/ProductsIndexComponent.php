@@ -105,6 +105,11 @@ class ProductsIndexComponent extends Component
         return $this->productsQuery->paginate($this->paginate);
     }
 
+    public function orderBy($value)
+    {
+        $this->filters['orderBy'] = $value;
+    }
+
     public function getProductsQueryProperty()
     {
         $query = Product::query();
