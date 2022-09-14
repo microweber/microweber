@@ -147,13 +147,14 @@
                 </button>
                 <div class="dropdown-menu p-3">
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.price"> Price</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount">Total Amount</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.created_at"> Created At</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.updated_at"> Updated At</label>
                 </div>
             </div>
         </div>
