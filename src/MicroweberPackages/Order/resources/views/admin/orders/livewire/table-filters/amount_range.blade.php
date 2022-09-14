@@ -38,7 +38,7 @@
                 amountRangeElement.value = amountRangeValue;
                 amountRangeElement.dispatchEvent(new Event('input'));
             };
-        
+
     </script>
 
 </div>

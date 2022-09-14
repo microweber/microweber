@@ -1,6 +1,6 @@
 <div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
     <label class="d-block">
-        Visible
+        Order Status
     </label>
 
     <select wire:model.stop="filters.orderStatus" class="form-control">
