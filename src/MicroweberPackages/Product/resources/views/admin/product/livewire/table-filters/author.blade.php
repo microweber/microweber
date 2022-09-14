@@ -13,6 +13,7 @@
 
         <script>
             $(document).ready(function () {
+                var authorId = $("#js-filter-author").val();
                 var filterAuthorFiled = new mw.autoComplete({
                     element: "#js-filter-author-select",
                     ajaxConfig: {
@@ -27,8 +28,8 @@
                     },
                     selected: [
                         {
-                            id: '',
-                            display_name: ''
+                            id: authorId,
+                            display_name: authorId
                         }
                     ]
                 });
