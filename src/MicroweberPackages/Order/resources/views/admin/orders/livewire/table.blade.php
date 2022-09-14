@@ -230,35 +230,35 @@
             @endif
             @if($showColumns['total_amount'])
             <td>
-                total_amount
+                {{$order->payment_amount}} {{$order->payment_currency}}
             </td>
             @endif
             @if($showColumns['shipping_method'])
             <td>
-                shipping_method
+                {{$order->shipping_service}}
             </td>
             @endif
             @if($showColumns['payment_method'])
             <td style="text-align: center">
-                payment_method
+                {{$order->payment_gw}}
             </td>
             @endif
             @if($showColumns['status'])
             <td style="text-align: center">
-                status
+                {{$order->order_status}}
             </td>
             @endif
               @if($showColumns['created_at'])
             <td style="text-align: center">
-                created_at
+                {{$order->created_at}}
             </td>
             @endif
               @if($showColumns['updated_at'])
             <td style="text-align: center">
-                updated_at
+                {{$order->updated_at}}
             </td>
             @endif
-            
+
         </tr>
         @endforeach
         </tbody>
