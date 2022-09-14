@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Product\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDate;
@@ -26,6 +27,7 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 class ProductFilter extends ModelFilter
 {
     use OrderByTrait;
+    use FilterByAuthor;
     use FilterByTitleTrait;
     use FilterByTagsTrait;
     use FilterByCategory;
