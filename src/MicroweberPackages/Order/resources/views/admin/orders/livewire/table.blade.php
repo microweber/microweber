@@ -172,26 +172,32 @@
             @if($showColumns['id'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
-            @if($showColumns['image'])
-                <th scope="col">Image</th>
+            @if($showColumns['products'])
+                <th scope="col">Products</th>
             @endif
-            @if($showColumns['title'])
-            <th scope="col">Title</th>
+            @if($showColumns['customer'])
+            <th scope="col">Customer</th>
             @endif
-            @if($showColumns['price'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Price', 'key'=>'price', 'filters'=>$filters])
+            @if($showColumns['total_amount'])
+                <th scope="col">Total Amount</th>
             @endif
-            @if($showColumns['stock'])
-            <th scope="col">Stock</th>
+            @if($showColumns['shipping_method'])
+            <th scope="col">Shipping Method</th>
             @endif
-            @if($showColumns['sales'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Sales', 'key'=>'sales', 'filters'=>$filters])
+
+            @if($showColumns['payment_method'])
+            <th scope="col">Payment Method</th>
             @endif
-            @if($showColumns['quantity'])
-            <th scope="col">Quantity</th>
+
+            @if($showColumns['status'])
+            <th scope="col">Status</th>
             @endif
-            @if($showColumns['author'])
-            <th scope="col">Author</th>
+
+            @if($showColumns['created_at'])
+            <th scope="col">Created At</th>
+            @endif
+            @if($showColumns['updated_at'])
+                <th scope="col">Updated At</th>
             @endif
         </tr>
         </thead>
