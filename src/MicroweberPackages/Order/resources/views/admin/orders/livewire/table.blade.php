@@ -204,24 +204,6 @@
         <tbody>
         @foreach ($orders as $order)
 
-        @php
-        $orderUser = $order->user()->first();
-        if ($order->customer_id > 0) {
-            $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
-        }
-
-        $carts = $order->cart()->with('products')->get();
-        $firstProduct = [];
-        foreach ($carts as $cart) {
-            if (isset($cart->products[0])) {
-                $firstProduct = $cart->products[0];
-                break;
-            }
-        }
-
-        $item = $order->toArray();
-        @endphp
-
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $order->id }}"  class="js-select-posts-for-action"  wire:model="checked">
@@ -235,70 +217,48 @@
                 </td>
             @endif
 
-            @if($showColumns['image'])
+            @if($showColumns['products'])
             <td>
-                <div class="img-circle-holder img-absolute">
-                    <?php
-                    $firstProductImage = '';
-                    if (is_object($firstProduct) and is_object($firstProduct->media()->first())) {
-                        $firstProductImage = $firstProduct->media()->first()->filename;
-                    }
-                    ?>
-                    <?php if (!empty($firstProductImage)): ?>
-                    <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>
-                    <?php else: ?>
-                    <img src="<?php echo thumbnail(''); ?>"/>
-                    <?php endif; ?>
-                </div>
+                products
             </td>
             @endif
 
-            @if($showColumns['title'])
+            @if($showColumns['customer'])
             <td>
-                @if (!empty($firstProduct['title']))
-                <span class="text-primary text-break-line-2">{{$firstProduct['title']}}</span>
-                @endif
+                customer
             </td>
             @endif
-            @if($showColumns['price'])
+            @if($showColumns['total_amount'])
             <td>
-               wfa
+                total_amount
             </td>
             @endif
-            @if($showColumns['stock'])
+            @if($showColumns['shipping_method'])
             <td>
-              fwa
+                shipping_method
             </td>
             @endif
-            @if($showColumns['sales'])
+            @if($showColumns['payment_method'])
             <td style="text-align: center">
-              fwa
+                payment_method
             </td>
             @endif
-            @if($showColumns['quantity'])
+            @if($showColumns['status'])
             <td style="text-align: center">
-              wfa
+                status
             </td>
             @endif
-            @if($showColumns['author'])
-            <td>
-                <?php if ($orderUser): ?>
-                <small class="text-muted"><?php _e("Created by"); ?>:
-                    <?php
-                    if ($orderUser->first_name) {
-                        echo $orderUser->first_name;
-                        if ($orderUser->last_name) {
-                            echo " " . $orderUser->last_name;
-                        }
-                    } else if ($orderUser) {
-                        echo $orderUser->username;
-                    }
-                    ?>
-                </small>
-                <?php endif; ?>
+              @if($showColumns['created_at'])
+            <td style="text-align: center">
+                created_at
             </td>
             @endif
-
+              @if($showColumns['updated_at'])
+            <td style="text-align: center">
+                updated_at
+            </td>
+            @endif
+            
         </tr>
         @endforeach
         </tbody>
