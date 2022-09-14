@@ -96,7 +96,7 @@ class OrdersIndexComponent extends Component
 
     public function render()
     {
-        return view('order::admin.order.livewire.table', [
+        return view('order::admin.orders.livewire.table', [
             'orders' => $this->orders,
             'appliedFilters' => $this->appliedFilters,
             'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
@@ -173,12 +173,7 @@ class OrdersIndexComponent extends Component
             $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 
-        $applyFiltersToQuery = $this->appliedFilters;
-        if (!isset($applyFiltersToQuery['orderBy'])) {
-            $applyFiltersToQuery['orderBy'] = 'position,desc';
-        }
-
-        $query->filter($applyFiltersToQuery);
+        $query->filter($this->appliedFilters);
 
         return $query;
     }
