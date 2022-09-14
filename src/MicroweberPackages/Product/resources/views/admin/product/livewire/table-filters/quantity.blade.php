@@ -4,7 +4,7 @@
     </label>
 
     <div class="mb-3 mb-md-0 input-group">
-        <select class="form-control" wire:model.stop="filters.quantityOperator">
+        <select class="form-control" wire:model.stop="filters.qtyOperator">
             <option value="">Equal</option>
             <option value="greater">More than</option>
             <option value="lower">Lower than</option>
