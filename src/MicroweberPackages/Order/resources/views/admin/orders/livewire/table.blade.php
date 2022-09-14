@@ -171,7 +171,9 @@
             @if($showColumns['id'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
-
+            @if($showColumns['image'])
+                <th scope="col">Image</th>
+            @endif
             @if($showColumns['title'])
             <th scope="col">Title</th>
             @endif
@@ -194,6 +196,25 @@
         </thead>
         <tbody>
         @foreach ($orders as $order)
+
+        @php
+        $orderUser = $order->user()->first();
+        if ($order->customer_id > 0) {
+            $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $order->customer_id)->first();
+        }
+
+        $carts = $order->cart()->with('products')->get();
+        $firstProduct = [];
+        foreach ($carts as $cart) {
+            if (isset($cart->products[0])) {
+                $firstProduct = $cart->products[0];
+                break;
+            }
+        }
+
+        $item = $order->toArray();
+        @endphp
+
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $order->id }}"  class="js-select-posts-for-action"  wire:model="checked">
@@ -207,9 +228,29 @@
                 </td>
             @endif
 
+            @if($showColumns['image'])
+            <td>
+                <div class="img-circle-holder img-absolute">
+                    <?php
+                    $firstProductImage = '';
+                    if (is_object($firstProduct) and is_object($firstProduct->media()->first())) {
+                        $firstProductImage = $firstProduct->media()->first()->filename;
+                    }
+                    ?>
+                    <?php if (!empty($firstProductImage)): ?>
+                    <img src="<?php echo thumbnail($firstProductImage, 160, 160); ?>"/>
+                    <?php else: ?>
+                    <img src="<?php echo thumbnail(''); ?>"/>
+                    <?php endif; ?>
+                </div>
+            </td>
+            @endif
+
             @if($showColumns['title'])
             <td>
-                waffa
+                @if (!empty($firstProduct['title']))
+                <span class="text-primary text-break-line-2">{{$firstProduct['title']}}</span>
+                @endif
             </td>
             @endif
             @if($showColumns['price'])
@@ -234,7 +275,20 @@
             @endif
             @if($showColumns['author'])
             <td>
-             faw
+                <?php if ($orderUser): ?>
+                <small class="text-muted"><?php _e("Created by"); ?>:
+                    <?php
+                    if ($orderUser->first_name) {
+                        echo $orderUser->first_name;
+                        if ($orderUser->last_name) {
+                            echo " " . $orderUser->last_name;
+                        }
+                    } else if ($orderUser) {
+                        echo $orderUser->username;
+                    }
+                    ?>
+                </small>
+                <?php endif; ?>
             </td>
             @endif
 
