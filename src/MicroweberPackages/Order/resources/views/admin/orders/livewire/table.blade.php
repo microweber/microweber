@@ -228,7 +228,12 @@
 
             @if($showColumns['products'])
             <td>
-                products
+                @php
+                    $carts = $order->cart()->with('products')->get();
+                @endphp
+                @foreach ($carts as $cart)
+                   <a href="#">{{$cart->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                @endforeach
             </td>
             @endif
 
@@ -269,6 +274,8 @@
                 <td style="text-align: center">
                     @if($order->order_status == 'pending')
                         <span class="badge badge-warning">Pending</span>
+                    @elseif($order->order_status == 'new')
+                        <span class="badge badge-primary">New</span>
                     @else
                         <span class="badge badge-primary">{{$order->order_status}}</span>
                     @endif
