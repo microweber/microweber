@@ -225,7 +225,7 @@
 
             @if($showColumns['customer'])
             <td>
-                customer
+                {{$order->customerName()}}
             </td>
             @endif
             @if($showColumns['total_amount'])

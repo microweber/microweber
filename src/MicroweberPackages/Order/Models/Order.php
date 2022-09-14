@@ -64,6 +64,27 @@ class Order extends Model
         return $this->hasOne(Customer::class);
     }
 
+    public function customerName()
+    {
+        $orderUser = $this->user()->first();
+
+        if ($this->customer_id > 0) {
+            $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
+        }
+
+        if ($orderUser->first_name) {
+            $fullName = $orderUser->first_name;
+            if ($orderUser->last_name) {
+                $fullName .= $orderUser->last_name;
+            }
+            return $fullName;
+        } else if ($orderUser) {
+            return $orderUser->username;
+        }
+
+        return "";
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
