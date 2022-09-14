@@ -49,7 +49,9 @@
 
             @if(isset($showFilters['order']) && $showFilters['order'])
             <div class="row">
-                @include('order::admin.orders.livewire.table-filters.visible')
+                @include('order::admin.orders.livewire.table-filters.order_id')
+                @include('order::admin.orders.livewire.table-filters.order_status')
+                @include('order::admin.orders.livewire.table-filters.amount_range')
             </div>
             @endif
 
