@@ -21,6 +21,8 @@ trait FilterByQtyTrait {
      */
     public function qty($qty)
     {
+        $qty = intval($qty);
+
         $qtyOperator = $this->qtyOperator;
 
         return $this->query->whereHas('contentData', function (Builder $query) use ($qty, $qtyOperator) {
@@ -28,12 +30,11 @@ trait FilterByQtyTrait {
             $query->where('field_name', '=', 'qty');
 
             if ($qtyOperator == 'greater') {
-
-                $query->where('field_value', '>', $qty);
+               $query->whereRaw('CAST(field_value as SIGNED) > '.$qty);
             }  else if ($qtyOperator =='lower') {
-                $query->where('field_value', '<', $qty);
+                $query->whereRaw('CAST(field_value as SIGNED) < '.$qty);
             } else {
-                $query->where('field_value', '=', $qty);
+                $query->whereRaw('CAST(field_value as SIGNED) = '.$qty);
             }
 
         });
