@@ -30,9 +30,11 @@ class OrdersIndexComponent extends Component
         'total_amount' => true,
         'shipping_method' => true,
         'payment_method' => true,
+        'payment_status' => true,
         'status' => true,
         'created_at' => false,
-        'updated_at' => false
+        'updated_at' => false,
+        'actions' => true
     ];
 
     public $showFilters = [];
@@ -183,7 +185,8 @@ class OrdersIndexComponent extends Component
     {
         $columnsCookie = \Cookie::get('orderShowColumns');
         if (!empty($columnsCookie)) {
-            $this->showColumns = json_decode($columnsCookie, true);
+            $showColumns = json_decode($columnsCookie, true);
+            $this->showColumns = array_merge($this->showColumns, $showColumns);
         }
     }
 }

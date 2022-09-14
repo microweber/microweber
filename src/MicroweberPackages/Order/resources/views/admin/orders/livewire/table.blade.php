@@ -1,8 +1,5 @@
 <div>
 
-    @include('product::admin.product.livewire.table-includes.category-tree-js')
-    @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
-
     @if(!empty($appliedFiltersFriendlyNames))
         <div class="mb-4">
             <b>Filters</b> <br />
@@ -152,9 +149,11 @@
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_status"> Payment Status</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.created_at"> Created At</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.updated_at"> Updated At</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.actions"> Actions</label>
                 </div>
             </div>
         </div>
@@ -165,7 +164,7 @@
 
     </div>
 
-    <table class="table table-responsive" id="content-results-table">
+    <table class="table table-responsive">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
@@ -175,12 +174,12 @@
             @if($showColumns['products'])
                 <th scope="col">Products</th>
             @endif
+
+
             @if($showColumns['customer'])
             <th scope="col">Customer</th>
             @endif
-            @if($showColumns['total_amount'])
-                <th scope="col">Total Amount</th>
-            @endif
+
             @if($showColumns['shipping_method'])
             <th scope="col">Shipping Method</th>
             @endif
@@ -189,15 +188,28 @@
             <th scope="col">Payment Method</th>
             @endif
 
-            @if($showColumns['status'])
-            <th scope="col">Status</th>
+            @if($showColumns['payment_status'])
+                <th scope="col">Payment Status</th>
             @endif
 
-            @if($showColumns['created_at'])
+
+            @if($showColumns['total_amount'])
+                <th scope="col">Total Amount</th>
+            @endif
+
+            @if($showColumns['status'])
+                <th scope="col">Status</th>
+            @endif
+
+              @if($showColumns['created_at'])
             <th scope="col">Created At</th>
             @endif
             @if($showColumns['updated_at'])
                 <th scope="col">Updated At</th>
+            @endif
+
+            @if($showColumns['actions'])
+                <th scope="col">Actions</th>
             @endif
         </tr>
         </thead>
@@ -206,10 +218,7 @@
 
         <tr class="manage-post-item">
             <td>
-                <input type="checkbox" value="{{ $order->id }}"  class="js-select-posts-for-action"  wire:model="checked">
-                <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
-                    <i class="mdi mdi-cursor-move"></i>
-                </span>
+                <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
             </td>
             @if($showColumns['id'])
                 <td>
@@ -228,11 +237,7 @@
                 {{$order->customerName()}}
             </td>
             @endif
-            @if($showColumns['total_amount'])
-            <td>
-                {{$order->payment_amount}} {{$order->payment_currency}}
-            </td>
-            @endif
+
             @if($showColumns['shipping_method'])
             <td>
                 {{$order->shipping_service}}
@@ -243,11 +248,33 @@
                 {{$order->payment_gw}}
             </td>
             @endif
-            @if($showColumns['status'])
-            <td style="text-align: center">
-                {{$order->order_status}}
-            </td>
+            @if($showColumns['payment_status'])
+                <td style="text-align: center">
+                    @if($order->is_paid == 1)
+                        <span class="badge badge-success">Paid</span>
+                    @else
+                        <span class="badge badge-danger">Unpaid</span>
+                    @endif
+                </td>
             @endif
+
+
+            @if($showColumns['total_amount'])
+                <td>
+                    <span class="badge badge-success">{{$order->payment_amount}} {{$order->payment_currency}}</span>
+                </td>
+            @endif
+
+            @if($showColumns['status'])
+                <td style="text-align: center">
+                    @if($order->order_status == 'pending')
+                        <span class="badge badge-warning">Pending</span>
+                    @else
+                        <span class="badge badge-primary">{{$order->order_status}}</span>
+                    @endif
+                </td>
+            @endif
+
               @if($showColumns['created_at'])
             <td style="text-align: center">
                 {{$order->created_at}}
@@ -257,6 +284,14 @@
             <td style="text-align: center">
                 {{$order->updated_at}}
             </td>
+            @endif
+
+            @if($showColumns['actions'])
+                <td style="text-align: center">
+                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-outline-primary btn-sm">
+                    <i class="fa fa-eye"></i>    View
+                    </a>
+                </td>
             @endif
 
         </tr>
