@@ -4,7 +4,7 @@
         <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
             <h5 class="mb-0">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
-                <strong class="d-xl-flex d-none">{{_e('Shop')}}</strong>
+                <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Products')}}</strong>
             </h5>
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Product')}}</a>
         </div>
