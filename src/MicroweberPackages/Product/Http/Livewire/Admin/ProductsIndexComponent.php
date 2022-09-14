@@ -148,6 +148,10 @@ class ProductsIndexComponent extends Component
             $this->appliedFilters[$filterKey] = $filterValue;
             $filterFriendlyValue = $filterValue;
 
+            if (is_numeric($filterValue)) {
+                $filterValue = $filterValue . ',';
+            }
+
             if (is_string($filterValue)) {
                 if (strpos($filterValue, ',') !== false) {
                     $filterValueExp = explode(',', $filterValue);
