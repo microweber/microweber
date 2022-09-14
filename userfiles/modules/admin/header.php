@@ -368,7 +368,7 @@ $user = get_user_by_id($user_id);
             } elseif ($view == 'order') {
                 $shop_class = "active";
             }
-            if (Route::has('admin.product.dashboard')) {
+            if ($routeName == 'admin.product.dashboard') {
                 $shop_class = "active";
             }
             ?>
