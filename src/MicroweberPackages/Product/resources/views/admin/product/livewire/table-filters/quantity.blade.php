@@ -4,7 +4,12 @@
     </label>
 
     <div class="mb-3 mb-md-0 input-group">
-        <input wire:model.stop="filters.qty" type="number" class="form-control">
+        <select class="form-control" wire:model.stop="filters.quantityOperator">
+            <option value="">Equal</option>
+            <option value="greater">More than</option>
+            <option value="lower">Lower than</option>
+        </select>
+        <input type="number" class="form-control" placeholder="Quantity" wire:model.stop="filters.qty">
     </div>
 
 </div>
