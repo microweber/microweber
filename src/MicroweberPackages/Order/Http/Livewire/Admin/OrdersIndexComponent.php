@@ -25,13 +25,14 @@ class OrdersIndexComponent extends Component
 
     public $showColumns = [
         'id' => true,
-        'image' => true,
-        'title' => true,
-        'price' => true,
-        'stock' => true,
-        'sales' => true,
-        'quantity' => true,
-        'author' => false
+        'products' => true,
+        'customer' => true,
+        'total_amount' => true,
+        'shipping_method' => true,
+        'payment_method' => true,
+        'status' => true,
+        'created_at' => false,
+        'updated_at' => false
     ];
 
     public $showFilters = [];

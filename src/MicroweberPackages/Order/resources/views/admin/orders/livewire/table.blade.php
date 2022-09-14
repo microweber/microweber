@@ -149,7 +149,7 @@
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount">Total Amount</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
