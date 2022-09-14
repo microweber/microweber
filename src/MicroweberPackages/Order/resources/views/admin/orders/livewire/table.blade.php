@@ -35,9 +35,9 @@
                         Filters
                     </button>
                     <div class="dropdown-menu p-3">
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.order"> Order</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
                     </div>
                 </div>
             </div>
@@ -47,28 +47,20 @@
     <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
 
-            @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
+            @if(isset($showFilters['order']) && $showFilters['order'])
             <div class="row">
-            @include('product::admin.product.livewire.table-filters.category')
-            @include('product::admin.product.livewire.table-filters.tags')
+                @include('order::admin.orders.livewire.table-filters.stock-status')
             </div>
             @endif
 
-            @if(isset($showFilters['shop']) && $showFilters['shop'])
-            <div class="row">
-                @include('product::admin.product.livewire.table-filters.price-range')
-                @include('product::admin.product.livewire.table-filters.stock-status')
-                @include('product::admin.product.livewire.table-filters.discount')
-                @include('product::admin.product.livewire.table-filters.sales')
-                @include('product::admin.product.livewire.table-filters.quantity')
-                @include('product::admin.product.livewire.table-filters.sku')
-            </div>
-            @endif
-
-            @if(isset($showFilters['other']) && $showFilters['other'])
+            @if(isset($showFilters['customer']) && $showFilters['customer'])
                 <div class="row">
-                    @include('product::admin.product.livewire.table-filters.visible')
-                    @include('product::admin.product.livewire.table-filters.author')
+                    @include('order::admin.orders.livewire.table-filters.customer')
+                </div>
+            @endif
+
+            @if(isset($showFilters['date']) && $showFilters['date'])
+                <div class="row">
                     @include('product::admin.product.livewire.table-filters.date')
                 </div>
             @endif
@@ -101,9 +93,6 @@
                     Bulk Actions
                 </button>
                 <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
                     <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
                 </ul>
             </div>
@@ -119,10 +108,6 @@
                     <option value="">Any</option>
                     <option value="id,desc">Id Desc</option>
                     <option value="id,asc">Id Asc</option>
-                    <option value="price,desc">Price Desc</option>
-                    <option value="price,asc">Price Asc</option>
-                    <option value="sales,desc">Sales Desc</option>
-                    <option value="sales,asc">Sales Asc</option>
                 </select>
             </div>
 
@@ -245,7 +230,7 @@
 
             @if($showColumns['shipping_method'])
             <td>
-                {{$order->shipping_service}}
+                {{$order->shippingMethodName()}}
             </td>
             @endif
             @if($showColumns['payment_method'])

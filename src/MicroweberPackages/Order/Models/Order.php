@@ -64,6 +64,18 @@ class Order extends Model
         return $this->hasOne(Customer::class);
     }
 
+    public function shippingMethodName()
+    {
+        if ($this->shipping_service == 'shop/shipping/gateways/pickup') {
+            return 'Pickup';
+        }
+        if ($this->shipping_service == 'shop/shipping/gateways/country') {
+            return 'Shipping to address';
+        }
+
+        return '';
+    }
+
     public function customerName()
     {
         $orderUser = $this->user()->first();
