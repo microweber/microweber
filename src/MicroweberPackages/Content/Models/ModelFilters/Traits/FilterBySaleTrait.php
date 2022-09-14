@@ -7,10 +7,12 @@
  */
 
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Cart\Models\Cart;
 
-trait FilterBySaleTrait {
+trait FilterBySaleTrait
+{
 
     /**
      * Filter by qty
@@ -20,31 +22,26 @@ trait FilterBySaleTrait {
      */
     public function sales($sales)
     {
-        $sales = intval($sales);
-        if ($sales == 0) {
-             return;
-        }
-
-
-        $params = [];
-        $params['sales_count'] = $sales;
-        $this->applySalesFilter($params);
-
+        $this->sales = intval($sales);
     }
 
+    /**
+     * @param $opeator
+     * @return void
+     */
     public function salesOperator($opeator)
     {
-        $params = [];
-        $params['sales_operator'] = $opeator;
-        $this->applySalesFilter($params);
+        $this->salesOperator = $opeator;
 
     }
+
+    /**
+     * @param $direction
+     * @return void
+     */
     public function sortSales($direction)
     {
-        $params = [];
-        $params['sales_sort'] = $direction;
-        $this->applySalesFilter($params);
-
+        $this->sortSales = $direction;
     }
 
     public function applySalesFilter($params)
@@ -67,31 +64,15 @@ trait FilterBySaleTrait {
 
             $sales = intval($params['sales_count']);
             $this->query
-                //->with('orders' )
-                 ->whereHas('orders')
-             //   ->with('cart' )
-                ->groupBy('id' )
+                ->whereHas('orders')
+                ->groupBy('id')
                 ->withCount('orders')
                 ->having('orders_count', $operator, $sales);
-
-   //       $this->query->where('orders_count', '=', $sales);
         }
 
-//        if (isset($params['sales_count_min']) && $params['sales_count_min'] != '') {
-//            $sales = intval($params['sales_count_min']);
-//
-//            $this->query->where('orders_count', '<=', $sales);
-//        }
-//        if (isset($params['sales_count_max']) && $params['sales_count_max'] != '') {
-//            $sales = intval($params['sales_count_max']);
-//            $this->query->where('orders_count', '>=', $sales);
-//        }
-
-
-        if(isset($params['sales_sort']) && $params['sales_sort'] != '') {
+        if (isset($params['sales_sort']) && $params['sales_sort'] != '') {
             $this->query->orderBy('orders_count', $params['sales_sort']);
         }
-
 
     }
 }
