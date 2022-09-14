@@ -16,7 +16,10 @@ class ProductsIndexComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
-    protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
+    protected $listeners = [
+        'refreshProductIndexComponent' => '$refresh',
+        'setFirstPageProductIndexComponent' => 'setFirstPagePagination',
+    ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
     public $showColumns = [
@@ -98,6 +101,11 @@ class ProductsIndexComponent extends Component
     public function multipleDelete()
     {
         $this->emit('multipleDelete', $this->checked);
+    }
+
+    public function setFirstPagePagination()
+    {
+        $this->setPage(1);
     }
 
     public function render()
