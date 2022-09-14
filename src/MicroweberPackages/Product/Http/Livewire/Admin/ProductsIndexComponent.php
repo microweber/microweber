@@ -180,6 +180,10 @@ class ProductsIndexComponent extends Component
                 }
             }
 
+            if (is_array($filterFriendlyValue)) {
+                $filterFriendlyValue = array_filter($filterFriendlyValue);
+            }
+
             $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 

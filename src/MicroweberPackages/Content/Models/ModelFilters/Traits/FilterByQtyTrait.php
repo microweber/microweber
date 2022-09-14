@@ -28,6 +28,7 @@ trait FilterByQtyTrait {
             $query->where('field_name', '=', 'qty');
 
             if ($qtyOperator == 'greater') {
+
                 $query->where('field_value', '>', $qty);
             }  else if ($qtyOperator =='lower') {
                 $query->where('field_value', '<', $qty);
