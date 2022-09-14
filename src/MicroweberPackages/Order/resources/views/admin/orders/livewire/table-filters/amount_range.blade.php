@@ -10,35 +10,35 @@
         <input type="number" class="form-control" id="js-amount-max" placeholder="Max amount">
     </div>
     <script>
-        document.addEventListener('livewire:load', function () {
 
-            let priceMin = document.getElementById('js-amount-min');
-            let priceMax = document.getElementById('js-amount-max');
-            let priceRangeValue = priceMin.value + ', ' + priceMax.value;
-            let priceRangeElement = document.getElementById('js-amount-range');
 
-            const priceRangeExp = priceRangeElement.value.split(",");
-            if (priceRangeExp) {
-                if (priceRangeExp[0]) {
-                    priceMin.value = priceRangeExp[0];
+            let amountMin = document.getElementById('js-amount-min');
+            let amountMax = document.getElementById('js-amount-max');
+            let amountRangeValue = amountMin.value + ', ' + amountMax.value;
+            let amountRangeElement = document.getElementById('js-amount-range');
+
+            const amountRangeExp = amountRangeElement.value.split(",");
+            if (amountRangeExp) {
+                if (amountRangeExp[0]) {
+                    amountMin.value = amountRangeExp[0];
                 }
-                if (priceRangeExp[1]) {
-                    priceMax.value = priceRangeExp[1];
+                if (amountRangeExp[1]) {
+                    amountMax.value = amountRangeExp[1];
                 }
             }
 
-            priceMin.onkeyup = function() {
-                priceRangeValue = priceMin.value + ',' + priceMax.value;
-                priceRangeElement.value = priceRangeValue;
-                priceRangeElement.dispatchEvent(new Event('input'));
+            amountMin.onkeyup = function() {
+                amountRangeValue = amountMin.value + ',' + amountMax.value;
+                amountRangeElement.value = amountRangeValue;
+                amountRangeElement.dispatchEvent(new Event('input'));
             };
 
-            priceMax.onkeyup = function() {
-                priceRangeValue = priceMin.value + ',' + priceMax.value;
-                priceRangeElement.value = priceRangeValue;
-                priceRangeElement.dispatchEvent(new Event('input'));
+            amountMax.onkeyup = function() {
+                amountRangeValue = amountMin.value + ',' + amountMax.value;
+                amountRangeElement.value = amountRangeValue;
+                amountRangeElement.dispatchEvent(new Event('input'));
             };
-        });
+        
     </script>
 
 </div>
