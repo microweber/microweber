@@ -49,7 +49,7 @@
 
             @if(isset($showFilters['order']) && $showFilters['order'])
             <div class="row">
-                @include('order::admin.orders.livewire.table-filters.stock-status')
+                @include('order::admin.orders.livewire.table-filters.visible')
             </div>
             @endif
 
