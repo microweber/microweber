@@ -79,7 +79,6 @@ class Order extends Model
     public function customerName()
     {
         $orderUser = $this->user()->first();
-
         if ($orderUser != null) {
             if ($this->customer_id > 0) {
                 $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
@@ -95,7 +94,6 @@ class Order extends Model
                 return $orderUser->username;
             }
         }
-
         return "";
     }
 
