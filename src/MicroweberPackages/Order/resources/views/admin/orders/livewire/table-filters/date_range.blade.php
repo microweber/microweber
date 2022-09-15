@@ -6,7 +6,7 @@
     <input type="hidden" id="js-date-range" wire:model.stop="filters.dateBetween">
 
     <label class="d-block">
-        Order Date Range
+        Orders Date Range
     </label>
 
     <div class="mb-3 mb-md-0 input-group">
