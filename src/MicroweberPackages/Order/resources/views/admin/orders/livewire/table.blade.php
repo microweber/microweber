@@ -65,7 +65,6 @@
             @if(isset($showFilters['date']) && $showFilters['date'])
                 <div class="row">
                     @include('order::admin.orders.livewire.table-filters.date_range')
-                    @include('order::admin.orders.livewire.table-filters.date')
                 </div>
             @endif
         </div>
