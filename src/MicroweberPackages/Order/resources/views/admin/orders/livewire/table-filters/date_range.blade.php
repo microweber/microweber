@@ -37,7 +37,9 @@
     document.addEventListener('livewire:load', function () {
         if (dateRangeElement) {
             const dateRangeExp = dateRangeElement.value.split(",");
-            dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
+            if (dateRangeExp && dateRangeExp[0] && dateRangeExp[1]) {
+                dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
+            }
         }
     });
 </script>
