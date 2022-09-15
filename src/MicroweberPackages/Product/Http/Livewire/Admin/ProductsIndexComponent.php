@@ -139,10 +139,14 @@ class ProductsIndexComponent extends Component
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
+        $whitelistedEmptyKeys = ['inStock'];
+
         foreach ($this->filters as $filterKey => $filterValue) {
 
-            if (empty($filterValue)) {
-                continue;
+            if (!in_array($filterKey, $whitelistedEmptyKeys)) {
+                if (empty($filterValue)) {
+                    continue;
+                }
             }
 
             $this->appliedFilters[$filterKey] = $filterValue;
