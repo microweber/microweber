@@ -51,8 +51,8 @@
             <div class="row">
                 @include('order::admin.orders.livewire.table-filters.order_id')
                 @include('order::admin.orders.livewire.table-filters.order_status')
-                @include('order::admin.orders.livewire.table-filters.amount_range')
                 @include('order::admin.orders.livewire.table-filters.payment_status')
+                @include('order::admin.orders.livewire.table-filters.amount_range')
             </div>
             @endif
 
