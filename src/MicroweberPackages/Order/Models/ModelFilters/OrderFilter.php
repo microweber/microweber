@@ -29,6 +29,13 @@ class OrderFilter extends ModelFilter
         $this->query->where('is_paid', $isPaid);
     }
 
+    public function customer($customerId)
+    {
+        $customerId = intval($customerId);
+
+        $this->query->where('created_by', $customerId);
+    }
+
     public function productId($productId)
     {
         $this->query->whereHas('cart', function ($query) use($productId) {
