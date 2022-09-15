@@ -70,12 +70,11 @@
         </div>
     </div>
 
-
     <div style="height: 60px" class="bulk-actions-show-columns">
 
         @if(count($checked) > 0)
 
-            @if (count($checked) == count($products->items()))
+            @if (count($checked) == count($orders->items()))
                 <div class="col-md-10 mb-2">
                     You have selected all {{ count($checked) }} items.
                     <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
@@ -83,7 +82,7 @@
             @else
             <div>
                 You have selected {{ count($checked) }} items,
-                Do you want to Select All {{ count($products->items()) }}?
+                Do you want to Select All {{ count($orders->items()) }}?
                 <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
             </div>
             @endif
