@@ -35,14 +35,6 @@ class OrderFilter extends ModelFilter
             $query->where('rel_id', '=', $productId);
         });
 
-
-     //   $this->query->cart()->where('rel_id', $productId);
-
-       /* return $this->query->where(function ($query) use ($productId) {
-            $query->whereHas('cart', function ($query) use ($productId) {
-                $query->where('rel_id', $productId);
-            });
-        });*/
     }
 
     public function orderStatus($orderStatus)
@@ -77,7 +69,7 @@ class OrderFilter extends ModelFilter
     }
 
 
-    public function priceBetween($price)
+    public function amountBetween($price)
     {
         $minPrice = $price;
         $maxPrice = false;
@@ -91,8 +83,14 @@ class OrderFilter extends ModelFilter
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        $this->query->where('amount', '>', $minPrice);
-        $this->query->where('amount', '<', $maxPrice);
+
+        if ($minPrice && $maxPrice) {
+            $this->query->whereBetween('amount', [$minPrice, $maxPrice]);
+        } else if ($minPrice) {
+            $this->query->where('amount', '>=', $minPrice);
+        } else if ($maxPrice) {
+            $this->query->where('amount', '<=', $maxPrice);
+        }
 
     }
 

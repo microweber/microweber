@@ -10,7 +10,7 @@
         <input type="number" class="form-control" id="js-amount-max" placeholder="Max amount">
     </div>
     <script>
-
+        document.addEventListener('livewire:load', function () {
 
             let amountMin = document.getElementById('js-amount-min');
             let amountMax = document.getElementById('js-amount-max');
@@ -27,18 +27,18 @@
                 }
             }
 
-            amountMin.onkeyup = function() {
+            amountMin.onkeyup = function () {
                 amountRangeValue = amountMin.value + ',' + amountMax.value;
                 amountRangeElement.value = amountRangeValue;
                 amountRangeElement.dispatchEvent(new Event('input'));
             };
 
-            amountMax.onkeyup = function() {
+            amountMax.onkeyup = function () {
                 amountRangeValue = amountMin.value + ',' + amountMax.value;
                 amountRangeElement.value = amountRangeValue;
                 amountRangeElement.dispatchEvent(new Event('input'));
             };
-
+        });
     </script>
 
 </div>
