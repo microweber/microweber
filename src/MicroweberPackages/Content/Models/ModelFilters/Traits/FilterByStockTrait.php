@@ -22,18 +22,18 @@ trait FilterByStockTrait
     {
 
          return $this->query->whereHas('contentData', function (Builder $query) use ($isInStock) {
-            if (!$isInStock or isset($isInStock) AND intval($isInStock) == 0) {
-                // out of stock
-                $query->where('field_name', '=', 'qty');
-                $query->where('field_value', '=', 0);
-                $query->where('field_value', '!=', 'nolimit');
-            } else {
+            if ($isInStock == 1) {
                 // in of stock
                 $query->where('field_name', '=', 'qty');
                 $query->where(function ($contentDataFieldValueQuery) {
                     $contentDataFieldValueQuery->where('field_value', '>', 0);
                     $contentDataFieldValueQuery->orWhere('field_value', '=', 'nolimit');
                 });
+            } else {
+                // out of stock
+                $query->where('field_name', '=', 'qty');
+                $query->where('field_value', '=', 0);
+                $query->where('field_value', '!=', 'nolimit');
             }
         });
 
