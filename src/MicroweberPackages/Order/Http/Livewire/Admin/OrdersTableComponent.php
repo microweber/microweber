@@ -16,6 +16,7 @@ class OrdersTableComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
+    public $appliedFilters = [];
     public $showColumns = [];
 
     protected $queryString = ['page'];
@@ -48,8 +49,6 @@ class OrdersTableComponent extends Component
         return view('order::admin.orders.livewire.table', [
             'orders' => $this->orders,
             'showColumns' => $this->showColumns,
-            'appliedFilters' => $this->appliedFilters,
-            'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
         ]);
     }
 
@@ -62,54 +61,16 @@ class OrdersTableComponent extends Component
     {
         $query = Order::query();
 
-        $this->appliedFilters = [];
-        $this->appliedFiltersFriendlyNames = [];
+        $whitelistedEmptyKeys = ['isPaid'];
         foreach ($this->filters as $filterKey => $filterValue) {
 
-            if (empty($filterValue)) {
-                continue;
-            }
-
-            $this->appliedFilters[$filterKey] = $filterValue;
-            $filterFriendlyValue = $filterValue;
-
-            if (is_numeric($filterValue)) {
-                $filterValue = $filterValue . ',';
-            }
-
-            if (is_string($filterValue)) {
-                if (strpos($filterValue, ',') !== false) {
-                    $filterValueExp = explode(',', $filterValue);
-                    if (!empty($filterValueExp)) {
-                        $filterFriendlyValue = [];
-                        foreach ($filterValueExp as $resourceId) {
-
-                            if ($filterKey == 'page') {
-                                $resourceId = intval($resourceId);
-                                $getPage = Page::where('id', $resourceId)->first();
-                                if ($getPage != null) {
-                                    $filterFriendlyValue[] = $getPage->title;
-                                }
-                            } else if ($filterKey == 'category') {
-                                $resourceId = intval($resourceId);
-                                $getCategory = Category::where('id', $resourceId)->first();
-                                if ($getCategory != null) {
-                                    $filterFriendlyValue[] = $getCategory->title;
-                                }
-                            } else {
-                                $filterFriendlyValue[] = $resourceId;
-                            }
-
-                        }
-                    }
+            if (!in_array($filterKey, $whitelistedEmptyKeys)) {
+                if (empty($filterValue)) {
+                    continue;
                 }
             }
 
-            if (is_array($filterFriendlyValue)) {
-                $filterFriendlyValue = array_filter($filterFriendlyValue);
-            }
-
-            $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
+            $this->appliedFilters[$filterKey] = $filterValue;
         }
 
         $query->filter($this->appliedFilters);

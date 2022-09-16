@@ -21,12 +21,14 @@ class OrderFilter extends ModelFilter
 
     public function id($id)
     {
+        $id = intval($id);
         $this->query->where('id', $id);
     }
 
     public function isPaid($isPaid)
     {
-        $this->query->where('is_paid', $isPaid);
+        $isPaid = intval($isPaid);
+        $this->query->where('is_paid', '=', $isPaid);
     }
 
     public function customer($customerId)
