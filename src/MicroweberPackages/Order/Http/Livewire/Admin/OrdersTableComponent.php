@@ -16,7 +16,6 @@ class OrdersTableComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
-    public $appliedFilters = [];
     public $showColumns = [];
 
     protected $queryString = ['page'];
@@ -60,20 +59,7 @@ class OrdersTableComponent extends Component
     public function getOrdersQueryProperty()
     {
         $query = Order::query();
-
-        $whitelistedEmptyKeys = ['isPaid'];
-        foreach ($this->filters as $filterKey => $filterValue) {
-
-            if (!in_array($filterKey, $whitelistedEmptyKeys)) {
-                if (empty($filterValue)) {
-                    continue;
-                }
-            }
-
-            $this->appliedFilters[$filterKey] = $filterValue;
-        }
-
-        $query->filter($this->appliedFilters);
+        $query->filter($this->filters);
 
         return $query;
     }

@@ -117,11 +117,7 @@ class OrdersFiltersComponent extends Component
         $this->appliedFiltersFriendlyNames = [];
 
         foreach ($this->filters as $filterKey => $filterValue) {
-
-            if (empty($filterValue)) {
-                continue;
-            }
-
+            
             $this->appliedFilters[$filterKey] = $filterValue;
             $filterFriendlyValue = $filterValue;
 
