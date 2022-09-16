@@ -36,6 +36,7 @@ class OrdersFiltersComponent extends Component
     public function refreshOrdersTable()
     {
         $this->emit('setFiltersToOrders', [
+            'page' => 1,
             'filters' => $this->filters,
             'showColumns' => $this->showColumns
         ]);

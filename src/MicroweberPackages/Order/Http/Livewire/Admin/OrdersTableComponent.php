@@ -36,6 +36,10 @@ class OrdersTableComponent extends Component
             $this->showColumns = $data['showColumns'];
         }
 
+        if (isset($data['page'])) {
+            $this->setPage($data['page']);
+        }
+
         $this->emitSelf('$refresh');
     }
 
