@@ -12,16 +12,13 @@ use MicroweberPackages\Product\Models\Product;
 
 class OrdersFiltersComponent extends Component
 {
-    use WithPagination;
     use WithColumnsManager;
 
-    public $paginate = 10;
-    protected $paginationTheme = 'bootstrap';
-
+    public $page;
     public $filters = [];
     protected $listeners = [
-        'refreshOrderIndexComponent' => '$refresh',
-        'setFirstPageOrderIndexComponent' => 'setFirstPagePagination',
+        'refreshOrdersFilters' => '$refresh',
+        'setFirstPageToOrders' => 'setFirstPagePagination',
     ];
     protected $queryString = ['filters', 'showFilters', 'page'];
 
@@ -29,7 +26,6 @@ class OrdersFiltersComponent extends Component
 
     public $checked = [];
     public $selectAll = false;
-
 
     public $appliedFilters = [];
     public $appliedFiltersFriendlyNames = [];
