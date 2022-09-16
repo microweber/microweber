@@ -59,19 +59,10 @@ class OrderFilter extends ModelFilter
             return;
         }
 
-        $model = $this->getModel();
-        $searchInFields = $model->getFillable();
-
-        return $this->query->where(function ($query) use ($model, $searchInFields, $keyword) {
-
+        return $this->query->where(function ($query) use ($keyword) {
             $query->whereHas('cart', function ($query) use ($keyword) {
                 $query->where('title', 'LIKE', '%' . $keyword . '%');
             });
-
-            $searchInFields = $model->getFillable();
-            foreach ($searchInFields as $field) {
-                $query->orWhere($field, 'LIKE', '%' . $keyword . '%');
-            }
         });
     }
 

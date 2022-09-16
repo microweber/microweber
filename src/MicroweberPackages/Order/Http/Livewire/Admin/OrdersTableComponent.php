@@ -31,7 +31,7 @@ class OrdersTableComponent extends Component
         if (isset($data['filters'])) {
             $this->filters = $data['filters'];
         }
-        
+
         if (isset($data['showColumns'])) {
             $this->showColumns = $data['showColumns'];
         }
