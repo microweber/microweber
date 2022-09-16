@@ -146,4 +146,6 @@
 
     </div>
 
+    @livewire('admin-orders-table', ['filters'=>$filters])
+
 </div>

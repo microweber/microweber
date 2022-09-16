@@ -23,9 +23,18 @@ class OrdersTableComponent extends Component
     protected $queryString = ['page'];
 
     protected $listeners = [
-        'refreshOrderIndexComponent' => '$refresh',
-        'setFirstPageOrderIndexComponent' => 'setFirstPagePagination',
+        'refreshOrdersFilters' => '$refresh',
+        'setFiltersToOrders' => 'setFilters',
+        'setFirstPageToOrders' => 'setFirstPagePagination',
     ];
+
+    public function setFilters($data)
+    {
+        if (isset($data['filters'])) {
+            $this->filters = $data['filters'];
+        }
+        $this->emitSelf('$refresh');
+    }
 
     public function render()
     {

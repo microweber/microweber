@@ -13,7 +13,6 @@
 
     <div class="card-body pt-3">
         <livewire:admin-orders-filters />
-        <livewire:admin-orders-table />
     </div>
 </div>
 

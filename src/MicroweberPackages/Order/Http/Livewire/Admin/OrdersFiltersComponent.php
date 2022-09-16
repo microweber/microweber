@@ -16,10 +16,7 @@ class OrdersFiltersComponent extends Component
 
     public $page;
     public $filters = [];
-    protected $listeners = [
-        'refreshOrdersFilters' => '$refresh',
-        'setFirstPageToOrders' => 'setFirstPagePagination',
-    ];
+
     protected $queryString = ['filters', 'showFilters', 'page'];
 
     public $showFilters = [];
@@ -33,6 +30,11 @@ class OrdersFiltersComponent extends Component
     public function clearFilters()
     {
         $this->filters = [];
+    }
+
+    public function updatedFilters()
+    {
+        $this->emit('setFiltersToOrders', ['filters'=>$this->filters]);
     }
 
     public function deselectAll()
