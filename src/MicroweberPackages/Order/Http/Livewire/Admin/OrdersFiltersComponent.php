@@ -3,16 +3,22 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Livewire\Component;
-use Livewire\WithPagination;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithColumnsManager;
-use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
 
 class OrdersFiltersComponent extends Component
 {
-    use WithColumnsManager;
+    public $showColumns = [
+        'id' => true,
+        'products' => true,
+        'customer' => true,
+        'total_amount' => true,
+        'shipping_method' => true,
+        'payment_method' => true,
+        'payment_status' => true,
+        'status' => true,
+        'created_at' => false,
+        'updated_at' => false,
+        'actions' => true
+    ];
 
     public $page;
     public $filters = [];
@@ -27,30 +33,42 @@ class OrdersFiltersComponent extends Component
     public $appliedFilters = [];
     public $appliedFiltersFriendlyNames = [];
 
+    public function refreshOrdersTable()
+    {
+        $this->emit('setFiltersToOrders', [
+            'filters' => $this->filters,
+            'showColumns' => $this->showColumns
+        ]);
+    }
+
     public function clearFilters()
     {
         $this->filters = [];
+        $this->refreshOrdersTable();
     }
 
     public function updatedFilters()
     {
-        $this->emit('setFiltersToOrders', ['filters'=>$this->filters]);
+        $this->refreshOrdersTable();
     }
 
     public function deselectAll()
     {
         $this->checked = [];
         $this->selectAll = false;
+        $this->refreshOrdersTable();
     }
 
     public function updatedShowColumns($value)
     {
         \Cookie::queue('orderShowColumns', json_encode($this->showColumns));
+        $this->refreshOrdersTable();
     }
 
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
+        $this->refreshOrdersTable();
     }
 
     public function updatedChecked($value)
@@ -60,6 +78,7 @@ class OrdersFiltersComponent extends Component
         } else {
             $this->selectAll = false;
         }
+        $this->refreshOrdersTable();
     }
 
     public function updatedSelectAll($value)
@@ -69,12 +88,14 @@ class OrdersFiltersComponent extends Component
         } else {
             $this->deselectAll();
         }
+        $this->refreshOrdersTable();
     }
 
     public function selectAll()
     {
         $this->selectAll = true;
         $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
+        $this->refreshOrdersTable();
     }
 
     public function multipleDelete()
@@ -84,7 +105,7 @@ class OrdersFiltersComponent extends Component
 
     public function setFirstPagePagination()
     {
-        $this->setPage(1);
+        $this->refreshOrdersTable();
     }
 
     public function render()
@@ -98,11 +119,13 @@ class OrdersFiltersComponent extends Component
     public function removeFilter($key)
     {
         unset($this->filters[$key]);
+        $this->refreshOrdersTable();
     }
 
     public function orderBy($value)
     {
         $this->filters['orderBy'] = $value;
+        $this->refreshOrdersTable();
     }
 
     public function mount()

@@ -146,6 +146,6 @@
 
     </div>
 
-    @livewire('admin-orders-table', ['filters'=>$filters])
+    @livewire('admin-orders-table', ['filters'=>$filters,'showColumns'=>$showColumns])
 
 </div>

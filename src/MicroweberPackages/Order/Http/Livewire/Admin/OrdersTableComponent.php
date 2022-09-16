@@ -5,20 +5,18 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithColumnsManager;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
 
 class OrdersTableComponent extends Component
 {
     use WithPagination;
-    use WithColumnsManager;
 
     public $paginate = 10;
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
+    public $showColumns = [];
 
     protected $queryString = ['page'];
 
@@ -40,6 +38,7 @@ class OrdersTableComponent extends Component
     {
         return view('order::admin.orders.livewire.table', [
             'orders' => $this->orders,
+            'showColumns' => $this->showColumns,
             'appliedFilters' => $this->appliedFilters,
             'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
         ]);
@@ -53,7 +52,6 @@ class OrdersTableComponent extends Component
     public function getOrdersQueryProperty()
     {
         $query = Order::query();
-        // $query->disableCache(true);
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
@@ -108,15 +106,6 @@ class OrdersTableComponent extends Component
         $query->filter($this->appliedFilters);
 
         return $query;
-    }
-
-    public function mount()
-    {
-        $columnsCookie = \Cookie::get('orderShowColumns');
-        if (!empty($columnsCookie)) {
-            $showColumns = json_decode($columnsCookie, true);
-            $this->showColumns = array_merge($this->showColumns, $showColumns);
-        }
     }
 }
 
