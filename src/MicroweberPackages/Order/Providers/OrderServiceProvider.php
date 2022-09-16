@@ -16,7 +16,8 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleManager;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
-use MicroweberPackages\Order\Http\Livewire\Admin\OrdersIndexComponent;
+use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
+use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
 use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsIndexComponent;
@@ -31,7 +32,8 @@ class OrderServiceProvider extends ServiceProvider
     public function boot()
     {
         //Livewire::component('content-bulk-options', ContentBulkOptions::class);
-        Livewire::component('admin-orders-index', OrdersIndexComponent::class);
+        Livewire::component('admin-orders-filters', OrdersFiltersComponent::class);
+        Livewire::component('admin-orders-table', OrdersTableComponent::class);
 
         /**
          * @property \MicroweberPackages\Order    $order_manager
