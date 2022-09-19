@@ -1,13 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Order\Http\Livewire\Admin;
+namespace MicroweberPackages\Admin\Http\Livewire;
 
-use Livewire\Component;
-use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
-use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\User\Models\User;
 
-class OrdersUsersAutoComplete extends AutoCompleteComponent
+class UsersAutoComplete extends AutoCompleteComponent
 {
     public $query;
     public $data;
