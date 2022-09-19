@@ -790,6 +790,7 @@
             }
             var title = scope.document.createElement('span');
             title.innerHTML = obj.title;
+            title.alt = obj.title;
             containerTitle.appendChild(title);
             li.onclick = function (ev) {
                 if(obj.action){

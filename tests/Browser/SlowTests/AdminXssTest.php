@@ -21,7 +21,7 @@ use Tests\DuskTestCase;
 
 class AdminXssTest extends DuskTestCase
 {
-    public function testPages()
+    public function testPagesXss()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 

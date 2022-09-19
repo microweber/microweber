@@ -6,7 +6,7 @@
     <input wire:model.stop="filters.productId" id="js-filter-product" type="hidden" class="form-control">
 
     <div class="mb-3 mb-md-0 input-group">
-        <div id="js-orders-search-by-products"></div>
+        <div id="js-orders-search-by-products" style="z-index: 200"></div>
     </div>
 
     <script>mw.require('autocomplete.js')</script>
