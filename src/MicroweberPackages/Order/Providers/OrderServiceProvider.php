@@ -16,8 +16,10 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleManager;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
+use MicroweberPackages\Order\Http\Livewire\Admin\OrdersCustomersAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
+use MicroweberPackages\Order\Http\Livewire\Admin\OrdersUsersAutoComplete;
 use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsIndexComponent;
@@ -34,6 +36,8 @@ class OrderServiceProvider extends ServiceProvider
         //Livewire::component('content-bulk-options', ContentBulkOptions::class);
         Livewire::component('admin-orders-filters', OrdersFiltersComponent::class);
         Livewire::component('admin-orders-table', OrdersTableComponent::class);
+        Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
+        Livewire::component('admin-orders-users-autocomplete', OrdersUsersAutoComplete::class);
 
         /**
          * @property \MicroweberPackages\Order    $order_manager

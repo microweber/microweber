@@ -31,7 +31,7 @@ class OrderFilter extends ModelFilter
         $this->query->where('is_paid', '=', $isPaid);
     }
 
-    public function customer($customerId)
+    public function customerId($customerId)
     {
         $customerId = intval($customerId);
 

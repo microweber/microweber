@@ -84,7 +84,9 @@ class Order extends Model
 
             $name = $this->payment_gw;
             $name = str_replace('shop/payments/gateways/','', $name);
-            $name = ucfirst($name);
+            $name = str_replace('_', ' ', $name);
+
+            $name = ucwords($name);
 
             return $name;
         }
@@ -99,7 +101,6 @@ class Order extends Model
             if ($this->customer_id > 0) {
                 $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
             }
-
             if ($orderUser->first_name) {
                 $fullName = $orderUser->first_name;
                 if ($orderUser->last_name) {
@@ -110,6 +111,18 @@ class Order extends Model
                 return $orderUser->username;
             }
         }
+
+        if (!empty($this->first_name) || !empty($this->last_name)) {
+            $name = '';
+            if (!empty($this->first_name)) {
+                $name = $this->first_name;
+            }
+            if (!empty($this->last_name)) {
+                $name .= ' ' . $this->last_name;
+            }
+            return $name;
+        }
+
         return "";
     }
 
