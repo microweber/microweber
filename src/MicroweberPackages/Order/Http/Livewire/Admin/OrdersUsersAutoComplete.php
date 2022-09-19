@@ -11,10 +11,23 @@ class OrdersUsersAutoComplete extends Component
     public $query;
     public $data;
     public $createdById;
+    public $filters = [];
+
+    protected $queryString = ['filters'];
+
+    public $showDropdown = false;
 
     public function mount()
     {
-        $this->resetProperties();
+        if (isset($this->filters['customerId'])) {
+            $this->createdById = $this->filters['customerId'];
+            $this->refreshQueryData();
+        }
+    }
+
+    public function closeDropdown()
+    {
+        $this->showDropdown = false;
     }
 
     public function render()
@@ -45,6 +58,8 @@ class OrdersUsersAutoComplete extends Component
 
     public function refreshQueryData()
     {
+        $this->showDropdown = false;
+
         $query = User::query();
 
         if ($this->createdById > 0) {
@@ -53,6 +68,7 @@ class OrdersUsersAutoComplete extends Component
             $get = $query->first();
             if ($get != null) {
                 $this->data = [];
+                $this->showDropdown = true;
                 $this->query = $get->displayName() . ' (#'.$get->id.')';
             }
             return;
@@ -71,6 +87,7 @@ class OrdersUsersAutoComplete extends Component
         $get = $query->get();
 
         if ($get != null) {
+            $this->showDropdown = true;
             $this->data = $get;
         }
     }

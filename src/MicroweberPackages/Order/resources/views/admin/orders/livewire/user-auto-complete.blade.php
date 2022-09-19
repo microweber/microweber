@@ -5,7 +5,7 @@
        wire:keydown.escape="resetProperties"
        wire:keydown.enter="refreshQueryData"
        wire:click="refreshQueryData"
-       wire:blur="resetProperties"
+       wire:blur="closeDropdown"
 
        placeholder="Type to search registered users...">
 
@@ -13,6 +13,7 @@
         Searching...
     </div>
 
+    @if($showDropdown)
     <ul class="list-group position-absolute" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
         @if(!empty($data))
             @foreach($data as $row)
@@ -22,5 +23,6 @@
             @endforeach
         @endif
     </ul>
+    @endif
 
 </div>
