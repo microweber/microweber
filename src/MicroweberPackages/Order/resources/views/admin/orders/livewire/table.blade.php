@@ -90,7 +90,7 @@
             @endif
             @if($showColumns['payment_method'])
             <td style="text-align: center">
-                {{$order->payment_gw}}
+                {{$order->paymentMethodName()}}
             </td>
             @endif
             @if($showColumns['payment_status'])

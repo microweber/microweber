@@ -52,6 +52,7 @@
                     @include('order::admin.orders.livewire.table-filters.order_status')
                     @include('order::admin.orders.livewire.table-filters.payment_status')
                     @include('order::admin.orders.livewire.table-filters.amount_range')
+                    @include('order::admin.orders.livewire.table-filters.product')
                 </div>
             @endif
 

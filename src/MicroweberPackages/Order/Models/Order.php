@@ -76,6 +76,22 @@ class Order extends Model
         return '';
     }
 
+    public function paymentMethodName()
+    {
+        if ($this->payment_gw == 'shop/payments/gateways/paypal') {
+            return 'PayPal';
+        } else {
+
+            $name = $this->payment_gw;
+            $name = str_replace('shop/payments/gateways/','', $name);
+            $name = ucfirst($name);
+
+            return $name;
+        }
+
+        return '';
+    }
+
     public function customerName()
     {
         $orderUser = $this->user()->first();
