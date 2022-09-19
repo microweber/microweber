@@ -29,15 +29,9 @@ class OrdersCustomerAutoComplete extends Component
 
     public function selectId(int $id)
     {
-        $getOrder = Order::where('id', $id)->first();
-        if ($getOrder != null) {
-
-            $this->query = $getOrder->first_name . $getOrder->last_name;
-
-            $this->selectedId = $id;
-            $this->refreshQueryData();
-            $this->emitSelf('$refresh');
-        }
+        $this->selectedId = $id;
+        $this->refreshQueryData();
+        $this->emitSelf('$refresh');
     }
 
     public function updatedQuery()
@@ -50,16 +44,23 @@ class OrdersCustomerAutoComplete extends Component
     {
         $query = Order::query();
 
+        if ($this->selectedId > 0) {
+            $query->where('id', $this->selectedId);
+            $query->limit(1);
+            $get = $query->first();
+            if ($get != null) {
+                $this->data = [];
+                $this->query = $get->first_name . ' '. $get->last_name . ' (#'.$get->id.')';
+            }
+            return;
+        }
+
         $keyword = trim($this->query);
 
         if (!empty($keyword)) {
             $query->where('first_name', 'like', '%' . $keyword . '%');
             $query->orWhere('last_name', 'like', '%' . $keyword . '%');
             $query->orWhere('email', 'like', '%' . $keyword . '%');
-        }
-
-        if ($this->selectedId > 0) {
-            $query->where('id', $this->selectedId);
         }
 
         $query->limit(10);
