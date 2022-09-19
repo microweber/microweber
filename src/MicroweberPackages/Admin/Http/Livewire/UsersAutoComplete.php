@@ -6,57 +6,16 @@ use MicroweberPackages\User\Models\User;
 
 class UsersAutoComplete extends AutoCompleteComponent
 {
-    public $query;
-    public $data;
-    public $createdById;
-    public $filters = [];
-
-    protected $queryString = ['filters'];
-
-    public $showDropdown = false;
-
-    public function mount()
-    {
-        if (isset($this->filters['customerId'])) {
-            $this->createdById = $this->filters['customerId'];
-            $this->refreshQueryData();
-        }
-    }
-
-    public function closeDropdown()
-    {
-        $this->showDropdown = false;
-    }
-
-    public function resetProperties()
-    {
-        $this->query = '';
-        $this->data = false;
-    }
-
-    public function selectCreatedById(int $id)
-    {
-        $this->createdById = $id;
-        $this->refreshQueryData();
-        $this->emitSelf('$refresh');
-
-        $this->emit('setFilterToOrders', 'customerId',$id);
-    }
-
-    public function updatedQuery()
-    {
-        $this->createdById = false;
-        $this->refreshQueryData();
-    }
+    public $model = User::class;
 
     public function refreshQueryData()
     {
-        $this->showDropdown = false;
+        $this->closeDropdown();
 
-        $query = User::query();
+        $query = $this->model::query();
 
-        if ($this->createdById > 0) {
-            $query->where('id', $this->createdById);
+        if ($this->selectedItem > 0) {
+            $query->where('id', $this->selectedItem);
             $query->limit(1);
             $get = $query->first();
             if ($get != null) {
@@ -80,8 +39,11 @@ class UsersAutoComplete extends AutoCompleteComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown = true;
-            $this->data = $get;
+            $this->showDropdown();
+            $this->data = [];
+            foreach ($get as $item) {
+                $this->data[] = ['key'=>$item->id, 'value'=>$item->displayName() . ' (#'.$item->id.')'];
+            }
         }
     }
 }
