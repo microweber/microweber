@@ -25,6 +25,10 @@ class OrdersFiltersComponent extends Component
     public $page;
     public $filters = [];
 
+    public $listeners = [
+        'setFilterToOrders'=>'setFilter'
+    ];
+
     protected $queryString = ['filters', 'showFilters', 'page'];
 
     public $showFilters = [];
@@ -168,6 +172,12 @@ class OrdersFiltersComponent extends Component
     public function removeFilter($key)
     {
         unset($this->filters[$key]);
+        $this->refreshOrdersTable();
+    }
+
+    public function setFilter($key, $value)
+    {
+        $this->filters[$key] = $value;
         $this->refreshOrdersTable();
     }
 

@@ -9,7 +9,7 @@ class OrdersCustomerAutoComplete extends Component
 {
     public $query;
     public $data;
-    public $selectedId;
+    public $createdById;
 
     public function mount()
     {
@@ -27,16 +27,18 @@ class OrdersCustomerAutoComplete extends Component
         $this->data = [];
     }
 
-    public function selectId(int $id)
+    public function selectCreatedById(int $id)
     {
-        $this->selectedId = $id;
+        $this->createdById = $id;
         $this->refreshQueryData();
         $this->emitSelf('$refresh');
+
+        $this->emit('setFilterToOrders', 'customerId',$id);
     }
 
     public function updatedQuery()
     {
-        $this->selectedId = false;
+        $this->createdById = false;
         $this->refreshQueryData();
     }
 
@@ -44,8 +46,8 @@ class OrdersCustomerAutoComplete extends Component
     {
         $query = Order::query();
 
-        if ($this->selectedId > 0) {
-            $query->where('id', $this->selectedId);
+        if ($this->createdById > 0) {
+            $query->where('created_by', $this->createdById);
             $query->limit(1);
             $get = $query->first();
             if ($get != null) {
@@ -63,7 +65,9 @@ class OrdersCustomerAutoComplete extends Component
             $query->orWhere('email', 'like', '%' . $keyword . '%');
         }
 
-        $query->limit(10);
+        $query->limit(30);
+
+        $query->groupBy('created_by');
 
         $get = $query->get();
 
