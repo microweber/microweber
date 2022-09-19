@@ -106,7 +106,7 @@
 
             @if($showColumns['total_amount'])
                 <td>
-                    <span class="badge badge-success">{{$order->payment_amount}} {{$order->payment_currency}}</span>
+                    <span class="badge badge-success">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</span>
                 </td>
             @endif
 
