@@ -3,3 +3,6 @@
        Shop Dashboard
     </div>
 </div>
+
+
+@dump($data)

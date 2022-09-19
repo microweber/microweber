@@ -28,8 +28,27 @@ class OrderFilter extends ModelFilter
     public function isPaid($isPaid)
     {
         $isPaid = intval($isPaid);
-        $this->query->where('is_paid', '=', $isPaid);
+        if($isPaid == 0){
+            $this->query->where(function ($query) use ($isPaid) {
+                $query->where('is_paid', 0)->orWhereNull('is_paid');
+            });
+        } else {
+            $this->query->where('is_paid', '=', 1);
+        }
     }
+
+    public function isCompleted($isCompleted)
+    {
+        $isCompleted = intval($isCompleted);
+        if($isCompleted == 0){
+            $this->query->where(function ($query) use ($isCompleted) {
+                $query->where('order_completed', 0)->orWhereNull('order_completed');
+            });
+        } else {
+            $this->query->where('order_completed', '=', 1);
+        }
+    }
+
 
     public function customerId($customerId)
     {
@@ -94,7 +113,7 @@ class OrderFilter extends ModelFilter
 
     }
 
-    public function dateBetween($date)
+    public function dateBetween(string $date)
     {
         $minDate = $date;
         $maxDate = false;
