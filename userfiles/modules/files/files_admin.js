@@ -84,7 +84,12 @@ if (self === parent) {
     mw.on.hashParam('select-file', function (pval) {
         var dialog;
 
+
+        htmlParser= new DOMParser().parseFromString(pval , 'text/html');
+        pval= htmlParser.body.textContent;
         pval = filterXSS(pval);
+        pval = pval.replace(/("|')/g, "");
+
 
         var checkUrlIsCorrect = pval.indexOf(MEDIA_UPLOADS_URL);
         if (checkUrlIsCorrect !== 0) {
