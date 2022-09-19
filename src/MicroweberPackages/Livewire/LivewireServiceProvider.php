@@ -51,9 +51,10 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     {
 
         parent::register();
-       // $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
+        $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
 
         View::addNamespace('livewire', __DIR__ . '/resources/views');
+
 
         // Load datatables
         app()->register(LaravelLivewireTablesServiceProvider::class);

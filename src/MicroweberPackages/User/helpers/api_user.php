@@ -68,9 +68,16 @@ api_expose_admin('users/search_authors', function ($params = false) {
         $kw = $params['kw'];
     }
 
-
+    $limit = 100;
     $all_users_search = array();
-    $all_users_search['limit'] = 100;
+
+    if (isset($params['limit'])) {
+        $limit = intval($params['limit']);
+    }
+
+
+
+    $all_users_search['limit'] = $limit;
     $all_users_search['fields'] = 'id,username,first_name,last_name,email,is_admin';
     if ($kw) {
         $all_users_search['keyword'] = $kw;
