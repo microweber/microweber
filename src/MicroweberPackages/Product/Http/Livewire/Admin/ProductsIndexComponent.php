@@ -19,6 +19,7 @@ class ProductsIndexComponent extends Component
     protected $listeners = [
         'refreshProductIndexComponent' => '$refresh',
         'setFirstPageProductIndexComponent' => 'setFirstPagePagination',
+        'autoCompleteSelectItem'=>'setFilter'
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
@@ -41,6 +42,12 @@ class ProductsIndexComponent extends Component
     public function clearFilters()
     {
         $this->filters = [];
+    }
+
+    public function setFilter($key, $value)
+    {
+        $this->filters[$key] = $value;
+       // $this->refreshProductsTable();
     }
 
     public function deselectAll()

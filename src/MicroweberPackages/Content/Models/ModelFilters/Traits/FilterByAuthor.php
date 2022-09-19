@@ -19,8 +19,13 @@ trait FilterByAuthor
     public function author($author = false)
     {
         if ($author) {
+            $author = intval($author);
             $this->query->where('created_by', '=', $author);
         }
     }
 
+    public function userId($userId)
+    {
+        return $this->author($userId);
+    }
 }
