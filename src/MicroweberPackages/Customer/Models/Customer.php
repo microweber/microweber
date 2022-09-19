@@ -29,10 +29,13 @@ class Customer extends Model
 
     public $translatable = ['first_name', 'last_name'];
 
-    public function getActiveAttribute($attribute)
+   /* public function getActiveAttribute($attribute)
     {
-        return $this->activeOptions()[$attribute];
-    }
+        $activeOptions = $this->activeOptions();
+        if (isset($activeOptions[$attribute])) {
+            return $activeOptions[$attribute];
+        }
+    }*/
 
     public function scopeActive($query)
     {
@@ -95,7 +98,8 @@ class Customer extends Model
 
         if ($filters->get('search')) {
 
-            $keywords = explode(' ', $filters->get('search'));
+            $search = trim($filters->get('search'));
+            $keywords = explode(' ', $search);
 
             $query->where(function ($query) use ($keywords) {
                 foreach ($keywords as $search) {
