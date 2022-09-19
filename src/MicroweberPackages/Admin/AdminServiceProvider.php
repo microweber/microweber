@@ -13,19 +13,19 @@ namespace MicroweberPackages\Admin;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\Livewire\Http\Livewire\Admin\AutoCompleteComponent;
 
 class AdminServiceProvider extends ServiceProvider
 {
     public function register()
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
-
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
-//        $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
 
     public function boot()
     {
-        View::addNamespace('admin', __DIR__ . '/resources/views');
+        Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
     }
 }

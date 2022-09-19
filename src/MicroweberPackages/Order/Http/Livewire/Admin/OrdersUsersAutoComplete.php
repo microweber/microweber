@@ -3,10 +3,11 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\User\Models\User;
 
-class OrdersUsersAutoComplete extends Component
+class OrdersUsersAutoComplete extends AutoCompleteComponent
 {
     public $query;
     public $data;
@@ -28,11 +29,6 @@ class OrdersUsersAutoComplete extends Component
     public function closeDropdown()
     {
         $this->showDropdown = false;
-    }
-
-    public function render()
-    {
-        return view('order::admin.orders.livewire.user-auto-complete');
     }
 
     public function resetProperties()
