@@ -71,7 +71,6 @@ class OrdersFiltersComponent extends Component
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
-        $this->refreshOrdersTable();
     }
 
     public function updatedChecked($value)
