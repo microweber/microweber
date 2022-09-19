@@ -338,7 +338,7 @@ $user = get_user_by_id($user_id);
                 $action = 'products';
                 $view = 'shop';
             }
-            if ($routeName == 'admin.product.dashboard') {
+            if ($routeName == 'admin.shop.dashboard') {
                 $action = 'dashboard';
                 $view = 'shop';
             }
@@ -368,7 +368,7 @@ $user = get_user_by_id($user_id);
             } elseif ($view == 'order') {
                 $shop_class = "active";
             }
-            if ($routeName == 'admin.product.dashboard') {
+            if ($routeName == 'admin.shop.dashboard') {
                 $shop_class = "active";
             }
             ?>
@@ -414,13 +414,13 @@ $user = get_user_by_id($user_id);
 
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-                        <a href="<?php print route('admin.product.dashboard'); ?>" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
+                        <a href="<?php print route('admin.shop.dashboard'); ?>" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
                             <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
 
-                            <a href="<?php print route('admin.product.dashboard'); ?>" class="dropdown-item <?php if ($action == 'dashboard'): ?> active <?php endif; ?>">
+                            <a href="<?php print route('admin.shop.dashboard'); ?>" class="dropdown-item <?php if ($action == 'dashboard'): ?> active <?php endif; ?>">
                                 <?php _e("Dashboard"); ?>
                             </a>
 
