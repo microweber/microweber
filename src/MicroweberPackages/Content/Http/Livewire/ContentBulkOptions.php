@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Product\Http\Livewire\Admin;
+namespace MicroweberPackages\Content\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Content\Content;
@@ -117,7 +117,7 @@ class ContentBulkOptions extends Component
 
     public function render()
     {
-        return view('livewire::livewire.content-bulk-options');
+        return view('content::admin.livewire.content-bulk-options');
     }
 }
 

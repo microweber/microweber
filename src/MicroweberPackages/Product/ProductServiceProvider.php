@@ -24,7 +24,6 @@ class ProductServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        Livewire::component('content-bulk-options', ContentBulkOptions::class);
         Livewire::component('admin-products-index', ProductsIndexComponent::class);
 
         Product::observe(BaseModelObserver::class);
