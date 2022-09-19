@@ -4,5 +4,4 @@
     </div>
 </div>
 
-
-@dump($data)
+@livewire('admin-shop-dashboard-sales')
