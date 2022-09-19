@@ -12,6 +12,6 @@
     </div>
 
     <div class="card-body pt-3">
-        <livewire:admin-posts-table />
+         todo finish post list admin ...
     </div>
 </div>
