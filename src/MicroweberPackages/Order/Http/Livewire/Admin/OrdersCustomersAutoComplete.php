@@ -10,15 +10,29 @@ class OrdersCustomersAutoComplete extends Component
     public $query;
     public $data;
     public $createdById;
+    public $filters = [];
+
+    protected $queryString = ['filters'];
+
+    public $showDropdown = false;
 
     public function mount()
     {
-        $this->resetProperties();
+        if (isset($this->filters['customerId'])) {
+            $this->createdById = $this->filters['customerId'];
+            $this->refreshQueryData();
+        }
     }
 
     public function render()
     {
         return view('order::admin.orders.livewire.customers-auto-complete');
+    }
+
+
+    public function closeDropdown()
+    {
+       $this->showDropdown = false;
     }
 
     public function resetProperties()
@@ -44,6 +58,8 @@ class OrdersCustomersAutoComplete extends Component
 
     public function refreshQueryData()
     {
+        $this->showDropdown = false;
+
         $query = Order::query();
 
         if ($this->createdById > 0) {
@@ -52,6 +68,7 @@ class OrdersCustomersAutoComplete extends Component
             $get = $query->first();
             if ($get != null) {
                 $this->data = [];
+                $this->showDropdown = true;
                 $this->query = $get->first_name . ' '. $get->last_name . ' (#'.$get->id.')';
             }
             return;
@@ -72,6 +89,7 @@ class OrdersCustomersAutoComplete extends Component
         $get = $query->get();
 
         if ($get != null) {
+            $this->showDropdown = true;
             $this->data = $get->toArray();
         }
     }

@@ -5,6 +5,7 @@
        wire:keydown.escape="resetProperties"
        wire:keydown.enter="refreshQueryData"
        wire:click="refreshQueryData"
+       wire:blur="resetProperties"
 
        placeholder="Type to search registered users...">
 
