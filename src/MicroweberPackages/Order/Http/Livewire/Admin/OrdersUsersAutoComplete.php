@@ -4,8 +4,9 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Livewire\Component;
 use MicroweberPackages\Order\Models\Order;
+use MicroweberPackages\User\Models\User;
 
-class OrdersCustomerAutoComplete extends Component
+class OrdersUsersAutoComplete extends Component
 {
     public $query;
     public $data;
@@ -18,13 +19,13 @@ class OrdersCustomerAutoComplete extends Component
 
     public function render()
     {
-        return view('order::admin.orders.livewire.customer-auto-complete');
+        return view('order::admin.orders.livewire.user-auto-complete');
     }
 
     public function resetProperties()
     {
         $this->query = '';
-        $this->data = [];
+        $this->data = false;
     }
 
     public function selectCreatedById(int $id)
@@ -44,15 +45,15 @@ class OrdersCustomerAutoComplete extends Component
 
     public function refreshQueryData()
     {
-        $query = Order::query();
+        $query = User::query();
 
         if ($this->createdById > 0) {
-            $query->where('created_by', $this->createdById);
+            $query->where('id', $this->createdById);
             $query->limit(1);
             $get = $query->first();
             if ($get != null) {
                 $this->data = [];
-                $this->query = $get->first_name . ' '. $get->last_name . ' (#'.$get->id.')';
+                $this->query = $get->displayName() . ' (#'.$get->id.')';
             }
             return;
         }
@@ -67,12 +68,10 @@ class OrdersCustomerAutoComplete extends Component
 
         $query->limit(30);
 
-        $query->groupBy('created_by');
-
         $get = $query->get();
 
         if ($get != null) {
-            $this->data = $get->toArray();
+            $this->data = $get;
         }
     }
 }

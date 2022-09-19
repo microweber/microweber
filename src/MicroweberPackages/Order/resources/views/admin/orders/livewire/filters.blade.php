@@ -45,7 +45,7 @@
 
     <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
-            
+
             <div class="row js-row-order-filters-box" style="@if(!isset($showFilters['order']) || !$showFilters['order']) display:none; @endif">
                 @include('order::admin.orders.livewire.table-filters.order_id')
                 @include('order::admin.orders.livewire.table-filters.order_status')
@@ -56,6 +56,7 @@
 
             <div class="row js-row-customer-filters-box" style="@if(!isset($showFilters['customer']) || !$showFilters['customer']) display:none; @endif">
                 @include('order::admin.orders.livewire.table-filters.customer')
+                @include('order::admin.orders.livewire.table-filters.user')
             </div>
 
             <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['date']) || !$showFilters['date']) display:none; @endif">

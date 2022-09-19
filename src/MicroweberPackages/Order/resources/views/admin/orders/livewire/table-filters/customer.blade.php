@@ -4,6 +4,6 @@
     </label>
 
     <div class="mb-3 mb-md-0">
-        @livewire('admin-orders-customer-autocomplete')
+        @livewire('admin-orders-customers-autocomplete')
     </div>
 </div>
