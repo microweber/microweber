@@ -1,6 +1,8 @@
 <div class="">
     <input class="form-control"
 
+       type="search"
+
        wire:model.debounce.500ms="query"
        wire:keydown.escape="resetProperties"
        wire:keydown.enter="refreshQueryData"
