@@ -1,4 +1,4 @@
-<div class=" col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+<div class=" col-12 col-sm-6 col-md-4 col-lg-4 mb-4 js-order-amount-rage-filter">
     <input type="hidden" id="js-amount-range" wire:model.stop="filters.amountBetween">
     <label class="d-block">
         Order Amount Range

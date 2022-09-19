@@ -1,9 +1,9 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4" wire:ignore>
+<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-customer-filter" wire:ignore >
     <label class="d-block">
         Customer
     </label>
 
-    <input wire:model.stop="filters.customer" id="js-filter-customer" type="hidden" class="form-control">
+    <input wire:model.stop="filters.customer" id="js-filter-customer" type="hidden" class="form-control" />
 
     <div class="mb-3 mb-md-0 input-group">
 
@@ -12,7 +12,7 @@
         <script>mw.require('autocomplete.js')</script>
 
         <script>
-            document.addEventListener('livewire:load', function () {
+            $(document).ready(function () {
                 var customerId = $("#js-filter-customer").val();
                 var filterCustomerFiled = new mw.autoComplete({
                     element: "#js-filter-customer-select",

@@ -1,4 +1,4 @@
-<div class=" col-12 col-sm-12 col-md-12 col-lg-12 mb-4">
+<div class=" col-12 col-sm-12 col-md-12 col-lg-12 mb-4 js-order-date-rage-filter">
 
     <input type="hidden" id="js-date-range" wire:model.stop="filters.dateBetween">
 

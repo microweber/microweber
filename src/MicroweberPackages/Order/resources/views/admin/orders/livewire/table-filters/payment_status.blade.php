@@ -1,4 +1,4 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-payment-status-filter">
     <label class="d-block">
         Payment Status
     </label>

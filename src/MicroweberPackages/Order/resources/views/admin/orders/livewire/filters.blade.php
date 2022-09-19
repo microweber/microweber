@@ -45,28 +45,23 @@
 
     <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
+            
+            <div class="row js-row-order-filters-box" style="@if(!isset($showFilters['order']) || !$showFilters['order']) display:none; @endif">
+                @include('order::admin.orders.livewire.table-filters.order_id')
+                @include('order::admin.orders.livewire.table-filters.order_status')
+                @include('order::admin.orders.livewire.table-filters.payment_status')
+                @include('order::admin.orders.livewire.table-filters.amount_range')
+                @include('order::admin.orders.livewire.table-filters.product')
+            </div>
 
-            @if(isset($showFilters['order']) && $showFilters['order'])
-                <div class="row">
-                    @include('order::admin.orders.livewire.table-filters.order_id')
-                    @include('order::admin.orders.livewire.table-filters.order_status')
-                    @include('order::admin.orders.livewire.table-filters.payment_status')
-                    @include('order::admin.orders.livewire.table-filters.amount_range')
-                    @include('order::admin.orders.livewire.table-filters.product')
-                </div>
-            @endif
+            <div class="row js-row-customer-filters-box" style="@if(!isset($showFilters['customer']) || !$showFilters['customer']) display:none; @endif">
+                @include('order::admin.orders.livewire.table-filters.customer')
+            </div>
 
-            @if(isset($showFilters['customer']) && $showFilters['customer'])
-                <div class="row">
-                    @include('order::admin.orders.livewire.table-filters.customer')
-                </div>
-            @endif
+            <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['date']) || !$showFilters['date']) display:none; @endif">
+                @include('order::admin.orders.livewire.table-filters.date_range')
+            </div>
 
-            @if(isset($showFilters['date']) && $showFilters['date'])
-                <div class="row">
-                    @include('order::admin.orders.livewire.table-filters.date_range')
-                </div>
-            @endif
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-<div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4" wire:ignore>
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-product-filter" wire:ignore>
     <label class="d-block">
         Product
     </label>
@@ -12,7 +12,7 @@
     <script>mw.require('autocomplete.js')</script>
 
     <script>
-        document.addEventListener('livewire:load', function () {
+        $(document).ready(function () {
 
             var filterProductElement = document.getElementById('js-filter-product');
 
