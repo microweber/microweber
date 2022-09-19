@@ -31,11 +31,17 @@ class OrderFilter extends ModelFilter
         $this->query->where('is_paid', '=', $isPaid);
     }
 
+    public function userId($userId)
+    {
+        $userId = intval($userId);
+        $this->query->where('created_by', $userId);
+    }
+
     public function customerId($customerId)
     {
         $customerId = intval($customerId);
 
-        $this->query->where('created_by', $customerId);
+        
     }
 
     public function productId($productId)

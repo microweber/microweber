@@ -7,6 +7,7 @@ use MicroweberPackages\User\Models\User;
 class UsersAutoComplete extends AutoCompleteComponent
 {
     public $model = User::class;
+    public $selectedItemKey = 'userId';
 
     public function refreshQueryData()
     {

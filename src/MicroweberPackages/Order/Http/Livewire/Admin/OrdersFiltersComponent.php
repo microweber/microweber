@@ -26,7 +26,8 @@ class OrdersFiltersComponent extends Component
     public $filters = [];
 
     public $listeners = [
-        'setFilterToOrders'=>'setFilter'
+        'setFilterToOrders'=>'setFilter',
+        'autoCompleteSelectItem'=>'setFilter'
     ];
 
     protected $queryString = ['filters', 'showFilters', 'page'];

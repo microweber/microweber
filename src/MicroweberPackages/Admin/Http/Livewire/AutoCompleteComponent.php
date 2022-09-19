@@ -8,6 +8,7 @@ class AutoCompleteComponent extends Component
 {
     public $model;
     public $selectedItem;
+    public $selectedItemKey = 'auto_complete_id';
     public $query;
     public $data;
     public $showDropdown = false;
@@ -57,6 +58,8 @@ class AutoCompleteComponent extends Component
         $this->selectedItem = $id;
         $this->refreshQueryData();
         $this->emitSelf('$refresh');
+
+        $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
     }
 
     public function render()
