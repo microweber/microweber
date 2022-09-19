@@ -4,6 +4,12 @@
     </label>
 
     <div class="mb-3 mb-md-0">
-        @livewire('admin-users-autocomplete')
+        @php
+            $selectedItem = false;
+            if (isset($filters['userId'])) {
+                $selectedItem = $filters['userId'];
+            }
+        @endphp
+        @livewire('admin-users-autocomplete', ['selectedItem'=>$selectedItem])
     </div>
 </div>

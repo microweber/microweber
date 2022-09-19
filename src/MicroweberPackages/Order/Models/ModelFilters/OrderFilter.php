@@ -40,8 +40,7 @@ class OrderFilter extends ModelFilter
     public function customerId($customerId)
     {
         $customerId = intval($customerId);
-
-        
+        $this->query->where('customer_id', $customerId);
     }
 
     public function productId($productId)

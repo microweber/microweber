@@ -20,10 +20,9 @@ class AutoCompleteComponent extends Component
 
     public function mount()
     {
-        /*  if (isset($this->filters['customerId'])) {
-              $this->selectedItem = $this->filters['customerId'];
+         if ($this->selectedItem) {
               $this->refreshQueryData();
-          }*/
+         }
     }
 
     public function updatedQuery()
