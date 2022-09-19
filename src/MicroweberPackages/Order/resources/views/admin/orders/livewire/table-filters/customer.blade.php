@@ -1,4 +1,4 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 ">
+<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4" wire:ignore>
     <label class="d-block">
         Customer
     </label>
@@ -12,13 +12,13 @@
         <script>mw.require('autocomplete.js')</script>
 
         <script>
-            $(document).ready(function () {
+            document.addEventListener('livewire:load', function () {
                 var customerId = $("#js-filter-customer").val();
                 var filterCustomerFiled = new mw.autoComplete({
                     element: "#js-filter-customer-select",
                     ajaxConfig: {
                         method: 'get',
-                        url: mw.settings.api_url + 'users/search_authors?kw=${val}',
+                        url: mw.settings.api_url + 'users/search_authors?kw=${val}&limit=10',
                         cache: true
                     },
                     map: {

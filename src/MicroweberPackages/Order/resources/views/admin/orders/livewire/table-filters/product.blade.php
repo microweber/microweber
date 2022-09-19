@@ -1,4 +1,4 @@
-<div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4" wire:ignore> 
+<div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4" wire:ignore>
     <label class="d-block">
         Product
     </label>
@@ -22,7 +22,7 @@
                 autoComplete:true,
                 ajaxConfig: {
                     method: 'get',
-                    url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}'
+                    url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&content_type=product&keyword=${val}&limit=10'
                 },
                 map: {
                     value: 'id',
