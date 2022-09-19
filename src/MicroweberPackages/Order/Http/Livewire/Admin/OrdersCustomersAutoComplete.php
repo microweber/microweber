@@ -2,10 +2,10 @@
 
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
 use MicroweberPackages\Order\Models\Order;
 
-class OrdersCustomersAutoComplete extends Component
+class OrdersCustomersAutoComplete extends AutoCompleteComponent
 {
     public $query;
     public $data;
@@ -22,11 +22,6 @@ class OrdersCustomersAutoComplete extends Component
             $this->createdById = $this->filters['customerId'];
             $this->refreshQueryData();
         }
-    }
-
-    public function render()
-    {
-        return view('order::admin.orders.livewire.customers-auto-complete');
     }
 
 

@@ -49,12 +49,16 @@ class OrderFilter extends ModelFilter
         }
     }
 
+    public function userId($userId)
+    {
+        $userId = intval($userId);
+        $this->query->where('created_by', $userId);
+    }
 
     public function customerId($customerId)
     {
         $customerId = intval($customerId);
-
-        $this->query->where('created_by', $customerId);
+        $this->query->where('customer_id', $customerId);
     }
 
     public function productId($productId)
@@ -113,7 +117,7 @@ class OrderFilter extends ModelFilter
 
     }
 
-    public function dateBetween(string $date)
+    public function dateBetween($date)
     {
         $minDate = $date;
         $maxDate = false;
