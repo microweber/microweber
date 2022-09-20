@@ -59,7 +59,7 @@
                 Order Status
                 <select class="form-control" wire:model="bulkStatus">
                     <option value="1">New</option>
-                    <option value="0">Pending</option> 
+                    <option value="0">Pending</option>
                 </select>
                 <button type="button" class="btn btn-success mt-3" wire:click="statusExecute">Change</button>
             </div>

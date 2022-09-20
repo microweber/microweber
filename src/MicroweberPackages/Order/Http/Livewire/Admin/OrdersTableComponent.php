@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkDeleteModal;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkOrderStatusModal;
+use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkStatusModal;
 use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkPaymentStatusModal;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
@@ -16,7 +16,7 @@ class OrdersTableComponent extends Component
     use WithPagination;
     use WithOrdersBulkDeleteModal;
     use WithOrdersBulkPaymentStatusModal;
-    use WithOrdersBulkOrderStatusModal;
+    use WithOrdersBulkStatusModal;
 
     public $paginationLimit = 10;
     protected $paginationTheme = 'bootstrap';
