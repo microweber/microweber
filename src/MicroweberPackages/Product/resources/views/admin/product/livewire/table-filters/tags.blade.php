@@ -19,7 +19,7 @@
 
                 mw.log($('#js-tags-autocomplete'));
 
-                var tagsSelect = new mw.select({
+                var tagsSelect = mw.select({
                     element: '#js-tags-autocomplete',
                     multiple: false,
                     autocomplete: true,
