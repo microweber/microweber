@@ -8,20 +8,6 @@ use MicroweberPackages\Page\Models\Page;
 
 class OrdersFiltersComponent extends Component
 {
-    public $showColumns = [
-        'id' => true,
-        'products' => true,
-        'customer' => true,
-        'total_amount' => true,
-        'shipping_method' => true,
-        'payment_method' => true,
-        'payment_status' => true,
-        'status' => true,
-        'created_at' => false,
-        'updated_at' => false,
-        'actions' => true
-    ];
-
     public $page;
     public $paginationLimit;
     public $filters = [];
@@ -35,9 +21,6 @@ class OrdersFiltersComponent extends Component
 
     public $showFilters = [];
 
-    public $checked = [];
-    public $selectAll = false;
-
     public $appliedFilters = [];
     public $appliedFiltersFriendlyNames = [];
 
@@ -45,8 +28,7 @@ class OrdersFiltersComponent extends Component
     {
         $this->emit('setFiltersToOrders', [
             'page' => 1,
-            'filters' => $this->filters,
-            'showColumns' => $this->showColumns
+            'filters' => $this->filters
         ]);
     }
 
@@ -61,64 +43,9 @@ class OrdersFiltersComponent extends Component
         $this->refreshOrdersTable();
     }
 
-    public function deselectAll()
-    {
-        $this->checked = [];
-        $this->selectAll = false;
-        $this->refreshOrdersTable();
-    }
-
-    public function updatedShowColumns($value)
-    {
-        \Cookie::queue('orderShowColumns', json_encode($this->showColumns));
-        $this->refreshOrdersTable();
-    }
-
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
-    }
-
-    public function updatedChecked($value)
-    {
-        if (count($this->checked) == count($this->orders->items())) {
-            $this->selectAll = true;
-        } else {
-            $this->selectAll = false;
-        }
-        $this->refreshOrdersTable();
-    }
-
-    public function updatedSelectAll($value)
-    {
-        if ($value) {
-            $this->selectAll();
-        } else {
-            $this->deselectAll();
-        }
-        $this->refreshOrdersTable();
-    }
-
-    public function updatedPaginationLimit($limit)
-    {
-        $this->emit('setPaginationLimitToOrders', $limit);
-    }
-
-    public function selectAll()
-    {
-        $this->selectAll = true;
-        $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
-        $this->refreshOrdersTable();
-    }
-
-    public function multipleDelete()
-    {
-        $this->emit('multipleDelete', $this->checked);
-    }
-
-    public function setPaginationFirstPage()
-    {
-        $this->refreshOrdersTable();
     }
 
     public function render()
@@ -194,13 +121,5 @@ class OrdersFiltersComponent extends Component
         $this->refreshOrdersTable();
     }
 
-    public function mount()
-    {
-        $columnsCookie = \Cookie::get('orderShowColumns');
-        if (!empty($columnsCookie)) {
-            $showColumns = json_decode($columnsCookie, true);
-            $this->showColumns = array_merge($this->showColumns, $showColumns);
-        }
-    }
 }
 
