@@ -43,13 +43,6 @@ class OrdersTableComponent extends Component
         $this->emitSelf('$refresh');
     }
 
-    public function render()
-    {
-        return view('order::admin.orders.livewire.table', [
-            'orders' => $this->orders,
-            'showColumns' => $this->showColumns,
-        ]);
-    }
 
     public function getOrdersProperty()
     {
@@ -63,5 +56,14 @@ class OrdersTableComponent extends Component
 
         return $query;
     }
+
+    public function render()
+    {
+        return view('order::admin.orders.livewire.table', [
+            'orders' => $this->orders,
+            'showColumns' => $this->showColumns,
+        ]);
+    }
+
 }
 

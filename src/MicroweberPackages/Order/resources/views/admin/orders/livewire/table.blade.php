@@ -9,7 +9,7 @@
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
+                @include('order::admin.orders.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['products'])
                 <th scope="col">Products</th>
