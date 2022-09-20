@@ -30,10 +30,10 @@ class OrderFilter extends ModelFilter
         $isPaid = intval($isPaid);
         if($isPaid == 0){
             $this->query->where(function ($query) use ($isPaid) {
-                $query->where('is_paid', 0)->orWhereNull('is_paid');
+                $query->where('cart_orders.is_paid', 0)->orWhereNull('cart_orders.is_paid');
             });
         } else {
-            $this->query->where('is_paid', '=', 1);
+            $this->query->where('cart_orders.is_paid', '=', 1);
         }
     }
 
@@ -42,10 +42,10 @@ class OrderFilter extends ModelFilter
         $isCompleted = intval($isCompleted);
         if($isCompleted == 0){
             $this->query->where(function ($query) use ($isCompleted) {
-                $query->where('order_completed', 0)->orWhereNull('order_completed');
+                $query->where('cart_orders.order_completed', 0)->orWhereNull('order_completed');
             });
         } else {
-            $this->query->where('order_completed', '=', 1);
+            $this->query->where('cart_orders.order_completed', '=', 1);
         }
     }
 

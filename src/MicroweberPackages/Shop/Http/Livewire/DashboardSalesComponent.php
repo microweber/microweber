@@ -34,6 +34,8 @@ class DashboardSalesComponent extends Component
 
     public function loadSalesData()
     {
+   //     $this->emit('initSalesChart');
+
         $sales = app()->order_repository->getOrdersCountGroupedByDate($this->filter);
         $sum = app()->order_repository->getOrdersTotalSumForPeriod($this->filter);
         $orders_count = app()->order_repository->getOrdersCountForPeriod($this->filter);
@@ -44,6 +46,7 @@ class DashboardSalesComponent extends Component
         $data['orders_total_items_count'] = $orders_items_count;
         $data['orders_data'] = $sales;
         $this->data = $data;
+
     }
     public function changeCurrency($currency)
     {

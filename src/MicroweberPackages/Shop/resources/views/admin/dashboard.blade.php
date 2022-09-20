@@ -4,4 +4,8 @@
     </div>
 </div>
 
+<script>
+    mw.require('<?php print modules_url() ?>microweber/api/libs/apexcharts/apexcharts.min.js', true,'apexcharts');
+</script>
+
 @livewire('admin-shop-dashboard-sales')

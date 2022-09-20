@@ -117,8 +117,8 @@ class OrderRepository extends AbstractRepository
 
         $orders = $this->getModel()->newQuery();
         $params = array_merge($params, [
-                 //  'isPaid' => 1,
-                //  'isCompleted' => 1,
+                   'isPaid' => 1,
+                  'isCompleted' => 1,
         ]);
         $dateSting = '';
         if (isset($params['from'])) {
