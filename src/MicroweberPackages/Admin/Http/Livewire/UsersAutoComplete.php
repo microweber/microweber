@@ -8,6 +8,7 @@ class UsersAutoComplete extends AutoCompleteComponent
 {
     public $model = User::class;
     public $selectedItemKey = 'userId';
+    public string $placeholder = 'Type to search users...';
 
     public function refreshQueryData()
     {
@@ -35,7 +36,7 @@ class UsersAutoComplete extends AutoCompleteComponent
             $query->orWhere('email', 'like', '%' . $keyword . '%');
         }
 
-        $query->limit(30);
+        $query->limit(200);
 
         $get = $query->get();
 

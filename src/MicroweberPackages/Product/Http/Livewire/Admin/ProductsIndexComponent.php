@@ -46,6 +46,9 @@ class ProductsIndexComponent extends Component
 
     public function setFilter($key, $value)
     {
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
         $this->filters[$key] = $value;
        // $this->refreshProductsTable();
     }
