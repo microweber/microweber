@@ -4,6 +4,10 @@
     margin: 15px 0 0;
     display: flex;
     justify-content: space-between;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background-color: #fff;
 }
 .mw-ui-form-controller-root{
     display: none;

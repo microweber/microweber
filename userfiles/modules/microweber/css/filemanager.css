@@ -20,14 +20,14 @@
     white-space: nowrap;
     font-size: 12px;
     font-weight: normal;
-    border-top: 1px solid #dbdcdd;
+
     border-bottom: 1px solid #dbdcdd;
 
 }
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb-image{
 
 }
-.mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb-folder{
+.mw-file-manager-root .mw-file-manager-list-item-thumb-folder{
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' /%3E%3C/svg%3E");
 }
 
@@ -36,6 +36,15 @@
     width: 100%;
 }
 
+.mw-file-manager-view-table thead.sticky-true > tr > th{
+    position: sticky;
+    top: 0;
+}
+
+.mw-file-manager-view-table tbody tr.selected,
+.mw-file-manager-view-table tbody tr.selected td{
+    background-color: rgb(204, 222, 255);
+}
 .mw-file-manager-view-table tr > *{
     padding: 10px;
 
@@ -58,6 +67,13 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    transition: transform .3s;
+    vertical-align: top;
+    margin: 0 0 0 7px;
+}
+
+.mw-file-manager-view-table th.desc[data-sortable]:after{
+    transform: rotateX(180deg);
 }
 
 .mw-file-manager-view-table tbody tr:hover > *{
@@ -147,4 +163,108 @@
     display: flex;
     padding: 15px 0;
     justify-content: space-between;
+}
+
+.mw-file-manager-root[data-view="grid"] thead th:empty{
+    display: none;
+}
+.mw-file-manager-root[data-view="grid"] thead,
+.mw-file-manager-root[data-view="grid"] tbody{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: start;
+    align-content: flex-start;
+}
+
+.mw-file-manager-root[data-view="grid"] tr,
+.mw-file-manager-root[data-view="grid"] tr td,
+.mw-file-manager-root[data-view="grid"] tr th{
+    display: block;
+}
+.mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.mw-file-manager-root[data-view="grid"] tr .mw-ui-check{
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+}
+.mw-file-manager-root[data-view="grid"] tr{
+    width: 160px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    padding-bottom: 35px;
+}
+
+
+.mw-file-manager-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #dbdcdd;
+    padding: 0px 0 12px;
+}
+
+.mw-file-manager-bar-view-type-selector{
+    display: inline-block;
+}
+
+.mw-file-manager-bar-path-root{
+    text-align: left;
+    flex: 1;
+    padding: 0 20px;
+}
+.mw-file-manager-bar-path{
+    display: inline-block;
+    max-width: 90%;
+    overflow:hidden;
+    text-align: right;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.mw-file-manager-bar-path > * + *:before{
+    display: inline-block;
+    content: '/';
+    margin: 0 5px;
+}
+.mw-file-manager-bar-path > *{
+    display: inline-block;
+}
+
+.mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-thumb-image-cell{
+    width: 70px;
+}
+.mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-check-cell{
+    width: 40px;
+}
+.mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-thumb-file{
+    background-color: #b7b7b7;
+    font-weight: bolder;
+    border-radius: 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb{
+    width: 140px;
+    height: 140px;
+}
+
+.mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb-folder{
+    background-size: 50px auto;
+}
+
+.mw-file-manager-root[data-view="grid"]  thead{
+    display: none !important;
+}
+.mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb-file{
+    background-color: #b7b7b7;
+    font-weight: bolder;
+    border-radius: 3px;
+    font-size: 20px;
+    text-transform: uppercase;
 }
