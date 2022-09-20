@@ -33,61 +33,9 @@
             </div>
         @endif
 
-        @if($deleteModal)
-            <div class="js-admin-orders-bulk-delete-modal">
-            <script>
-                mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-                    window.livewire.emit('deleteExecute');
-                }, function () {
-                    window.livewire.emit('hideDeleteModal');
-                });
-            </script>
-            </div>
-        @endif
-
-        @if($statusModal)
-            <script>
-                $(document).ready(function () {
-                    var dialog = mw.dialog({
-                        content: $('#js-bulk-change-status').html(),
-                        title: 'Order Status',
-                        height: 'auto',
-                    });
-                });
-            </script>
-            <template id="js-bulk-change-status">
-                Order Status
-                <select class="form-control" wire:model="bulkStatus">
-                    <option value="1">New</option>
-                    <option value="0">Pending</option>
-                </select>
-                <button type="button" class="btn btn-success mt-3" wire:click="statusExecute">Change</button>
-            </template>
-        @endif
-
-        @if($paymentStatusModal)
-            <script>
-                $(document).ready(function () {
-                    var dialog = mw.dialog({
-                        content: $('#js-bulk-change-payment-status').html(),
-                        title: 'Payment Status',
-                        height: 'auto'
-                    });
-                    $('.js-bulk-change-payment-status-change').click(function () {
-                        var status = $('.js-bulk-change-payment-status-select').val();
-                        window.livewire.emit('paymentStatusExecute', status);
-                    });
-                });
-            </script>
-            <template id="js-bulk-change-payment-status">
-                Payment Status
-                <select class="form-control js-bulk-change-payment-status-select">
-                    <option value="1">Paid</option>
-                    <option value="0">Unpaid</option>
-                </select>
-                <button type="button" class="btn btn-success mt-3 js-bulk-change-payment-status-change">Change</button>
-            </template>
-        @endif
+        @include('order::admin.orders.livewire.bulk-modals.delete')
+        @include('order::admin.orders.livewire.bulk-modals.status')
+        @include('order::admin.orders.livewire.bulk-modals.payment-status')
 
         <div class="pull-right">
 
