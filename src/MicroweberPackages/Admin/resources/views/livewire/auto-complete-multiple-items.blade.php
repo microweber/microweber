@@ -1,5 +1,7 @@
 <div class="">
-    <input class="form-control"
+
+    <div class="input-group">
+        <input class="form-control"
            type="search"
            wire:model.debounce.500ms="query"
            wire:keydown.escape="resetProperties"
@@ -7,7 +9,19 @@
            wire:click="refreshQueryData"
            wire:blur="closeDropdown"
 
-           placeholder="{{$placeholder}}">
+           @if($placeholderWithTags)
+               placeholder="{{$placeholderWithTags}}"
+           @else
+              placeholder="{{$placeholder}}"
+           @endif
+        >
+
+        @if($selectedItems)
+            <button class="btn btn-sm bg-transparent" wire:click="resetProperties" style="margin-left: -40px; z-index: 100;">
+                <i class="fa fa-times text-muted"></i>
+            </button>
+        @endif
+    </div>
 
     <div wire:loading wire:target="query">
         {{$searchingText}}
