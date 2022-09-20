@@ -23,7 +23,7 @@ class OrdersFiltersComponent extends Component
     ];
 
     public $page;
-    public $paginationLimit; 
+    public $paginationLimit;
     public $filters = [];
 
     public $listeners = [
