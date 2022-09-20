@@ -17,8 +17,19 @@ class ProductsAutoComplete extends AutoCompleteComponent
 
         $query = $this->model::query();
 
-        $keyword = trim($this->query);
+        if ($this->selectedItem > 0) {
+            $query->where('id', $this->selectedItem);
+            $query->limit(1);
+            $get = $query->first();
+            if ($get != null) {
+                $this->data = [];
+                $this->showDropdown = true;
+                $this->query = $get->title;
+            }
+            return;
+        }
 
+        $keyword = trim($this->query);
         if (!empty($keyword)) {
             $query->orWhere('title', 'like', '%' . $keyword . '%');
         }
@@ -31,7 +42,7 @@ class ProductsAutoComplete extends AutoCompleteComponent
             $this->showDropdown();
             $this->data = [];
             foreach ($get as $item) {
-                $this->data[] = ['key'=>$item->id, 'value'=>$item->title];
+                $this->data[] = ['key'=>$item->id, 'value'=>$item->title, 'thumbnail'=>$item->thumbnail(30,30)];
             }
         }
     }

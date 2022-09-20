@@ -113,6 +113,7 @@ class AutoCompleteComponent extends Component
     {
         $this->query = '';
         $this->data = false;
+        $this->selectItem(false);
     }
 
     /**

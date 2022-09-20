@@ -14,7 +14,9 @@ namespace MicroweberPackages\Admin;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Admin\Http\Livewire\AutoCompleteMultipleItemsComponent;
 use MicroweberPackages\Admin\Http\Livewire\ProductsAutoComplete;
+use MicroweberPackages\Admin\Http\Livewire\TagsAutoComplete;
 use MicroweberPackages\Admin\Http\Livewire\UsersAutoComplete;
 use MicroweberPackages\Livewire\Http\Livewire\Admin\AutoCompleteComponent;
 
@@ -28,8 +30,9 @@ class AdminServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
+       // Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
+       //  Livewire::component('admin-auto-complete-multiple-items', AutoCompleteMultipleItemsComponent::class);
         Livewire::component('admin-users-autocomplete', UsersAutoComplete::class);
-        Livewire::component('admin-tags-autocomplete', ProductsAutoComplete::class);
+        Livewire::component('admin-tags-autocomplete', TagsAutoComplete::class);
     }
 }
