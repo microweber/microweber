@@ -12,7 +12,7 @@ class OrdersTableComponent extends Component
 {
     use WithPagination;
 
-    public $paginate = 10;
+    public $paginationLimit = 10;
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
@@ -23,8 +23,13 @@ class OrdersTableComponent extends Component
     protected $listeners = [
         'refreshOrdersFilters' => '$refresh',
         'setFiltersToOrders' => 'setFilters',
-        'setFirstPageToOrders' => 'setFirstPagePagination',
+        'setPaginationLimitToOrders' => 'setPaginationLimit',
     ];
+
+    public function setPaginationLimit($limit)
+    {
+        $this->paginationLimit = $limit;
+    }
 
     public function setFilters($data)
     {
@@ -43,17 +48,10 @@ class OrdersTableComponent extends Component
         $this->emitSelf('$refresh');
     }
 
-    public function render()
-    {
-        return view('order::admin.orders.livewire.table', [
-            'orders' => $this->orders,
-            'showColumns' => $this->showColumns,
-        ]);
-    }
 
     public function getOrdersProperty()
     {
-        return $this->ordersQuery->paginate($this->paginate);
+        return $this->ordersQuery->paginate($this->paginationLimit);
     }
 
     public function getOrdersQueryProperty()
@@ -63,5 +61,14 @@ class OrdersTableComponent extends Component
 
         return $query;
     }
+
+    public function render()
+    {
+        return view('order::admin.orders.livewire.table', [
+            'orders' => $this->orders,
+            'showColumns' => $this->showColumns,
+        ]);
+    }
+
 }
 

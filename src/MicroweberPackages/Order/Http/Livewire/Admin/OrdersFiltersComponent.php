@@ -23,6 +23,7 @@ class OrdersFiltersComponent extends Component
     ];
 
     public $page;
+    public $paginationLimit;
     public $filters = [];
 
     public $listeners = [
@@ -98,6 +99,11 @@ class OrdersFiltersComponent extends Component
         $this->refreshOrdersTable();
     }
 
+    public function updatedPaginationLimit($limit)
+    {
+        $this->emit('setPaginationLimitToOrders', $limit);
+    }
+
     public function selectAll()
     {
         $this->selectAll = true;
@@ -110,7 +116,7 @@ class OrdersFiltersComponent extends Component
         $this->emit('multipleDelete', $this->checked);
     }
 
-    public function setFirstPagePagination()
+    public function setPaginationFirstPage()
     {
         $this->refreshOrdersTable();
     }

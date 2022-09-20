@@ -9,7 +9,7 @@
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
+                @include('order::admin.orders.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['products'])
                 <th scope="col">Products</th>
@@ -144,6 +144,32 @@
         </tr>
         @endforeach
         </tbody>
+
+        <tfoot>
+        <tr>
+            @if($showColumns['total_amount'] && $orders->total() > 0)
+                <td colspan="7">
+                  <span class="text-muted">{{ $orders->total() }} results found</span>
+                </td>
+                <td>
+                    @php
+                    $paymentCurrency = get_currency_symbol();
+                    $totalAmountOfOrders = 0;
+                    foreach ($orders as $order) {
+                        $totalAmountOfOrders = $totalAmountOfOrders + $order->payment_amount;
+                        $paymentCurrency = $order->payment_currency;
+                    }
+                    @endphp
+
+                    <span class="badge badge-success">
+                        {{number_format($totalAmountOfOrders, 2)}} {{$paymentCurrency}}
+                    </span>
+                </td>
+                <td colspan="2"></td>
+            @endif
+        </tr>
+        </tfoot>
+
     </table>
 
     {{ $orders->links() }}
