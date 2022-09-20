@@ -1,21 +1,15 @@
-
-
-<livewire:admin-pages-tree />
-
 <div class="js-tree tree" style="display: block">
     <div class="form-group">
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements"
-               id="open-close-all-tree-elements" value="1"/>
-        <label class="custom-control-label d-flex align-items-center" style="cursor:pointer"
-               for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?>
-                / <?php _e("Close"); ?></small></label>
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements"
+                   id="open-close-all-tree-elements" value="1"/>
+            <label class="custom-control-label d-flex align-items-center" style="cursor:pointer"
+                   for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+        </div>
     </div>
-</div>
 
-<div id="js-page-tree"></div>
+    <div id="js-page-tree"></div>
 </div>
-
 
 
 <script>
@@ -79,6 +73,7 @@
     </div>
 
     <div class="card-body pt-3">
-        <livewire:admin-pages-table/>
+
+        todo pages admin ...
     </div>
 </div>

@@ -7,6 +7,7 @@ use MicroweberPackages\Product\Events\ProductIsCreating;
 use MicroweberPackages\Product\Events\ProductIsUpdating;
 use MicroweberPackages\Product\Events\ProductWasCreated;
 use MicroweberPackages\Product\Events\ProductWasDeleted;
+use MicroweberPackages\Product\Events\ProductWasDestroyed;
 use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\Product;
 
@@ -55,7 +56,7 @@ class ProductRepository extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new ProductWasDestroy($ids));
+        event(new ProductWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }

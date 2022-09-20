@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -54,7 +56,7 @@ return [
     |
     */
 
-  //  'asset_url' => site_url().'/userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION,
+ //  'asset_url' => site_url().'/userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION,
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +70,7 @@ return [
     |
     */
 
-    'app_url' => null,
+    'app_url' => rtrim(site_url(), '/\\'),
 
     /*
     |--------------------------------------------------------------------------

@@ -21,12 +21,44 @@ class OrderFilter extends ModelFilter
 
     public function id($id)
     {
+        $id = intval($id);
         $this->query->where('id', $id);
     }
 
     public function isPaid($isPaid)
     {
-        $this->query->where('is_paid', $isPaid);
+        $isPaid = intval($isPaid);
+        if($isPaid == 0){
+            $this->query->where(function ($query) use ($isPaid) {
+                $query->where('is_paid', 0)->orWhereNull('is_paid');
+            });
+        } else {
+            $this->query->where('is_paid', '=', 1);
+        }
+    }
+
+    public function isCompleted($isCompleted)
+    {
+        $isCompleted = intval($isCompleted);
+        if($isCompleted == 0){
+            $this->query->where(function ($query) use ($isCompleted) {
+                $query->where('order_completed', 0)->orWhereNull('order_completed');
+            });
+        } else {
+            $this->query->where('order_completed', '=', 1);
+        }
+    }
+
+    public function userId($userId)
+    {
+        $userId = intval($userId);
+        $this->query->where('created_by', $userId);
+    }
+
+    public function customerId($customerId)
+    {
+        $customerId = intval($customerId);
+        $this->query->where('customer_id', $customerId);
     }
 
     public function productId($productId)
@@ -35,14 +67,6 @@ class OrderFilter extends ModelFilter
             $query->where('rel_id', '=', $productId);
         });
 
-
-     //   $this->query->cart()->where('rel_id', $productId);
-
-       /* return $this->query->where(function ($query) use ($productId) {
-            $query->whereHas('cart', function ($query) use ($productId) {
-                $query->where('rel_id', $productId);
-            });
-        });*/
     }
 
     public function orderStatus($orderStatus)
@@ -60,24 +84,15 @@ class OrderFilter extends ModelFilter
             return;
         }
 
-        $model = $this->getModel();
-        $searchInFields = $model->getFillable();
-
-        return $this->query->where(function ($query) use ($model, $searchInFields, $keyword) {
-
+      /*  return $this->query->where(function ($query) use ($keyword) {
             $query->whereHas('cart', function ($query) use ($keyword) {
                 $query->where('title', 'LIKE', '%' . $keyword . '%');
             });
-
-            $searchInFields = $model->getFillable();
-            foreach ($searchInFields as $field) {
-                $query->orWhere($field, 'LIKE', '%' . $keyword . '%');
-            }
-        });
+        });*/
     }
 
 
-    public function priceBetween($price)
+    public function amountBetween($price)
     {
         $minPrice = $price;
         $maxPrice = false;
@@ -91,8 +106,14 @@ class OrderFilter extends ModelFilter
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
-        $this->query->where('amount', '>', $minPrice);
-        $this->query->where('amount', '<', $maxPrice);
+
+        if ($minPrice && $maxPrice) {
+            $this->query->whereBetween('amount', [$minPrice, $maxPrice]);
+        } else if ($minPrice) {
+            $this->query->where('amount', '>=', $minPrice);
+        } else if ($maxPrice) {
+            $this->query->where('amount', '<=', $maxPrice);
+        }
 
     }
 

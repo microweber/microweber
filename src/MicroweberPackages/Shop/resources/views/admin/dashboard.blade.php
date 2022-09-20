@@ -3,3 +3,5 @@
        Shop Dashboard
     </div>
 </div>
+
+@livewire('admin-shop-dashboard-sales')

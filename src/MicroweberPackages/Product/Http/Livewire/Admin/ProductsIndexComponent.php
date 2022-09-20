@@ -13,10 +13,15 @@ class ProductsIndexComponent extends Component
     use WithPagination;
 
     public $paginate = 10;
+    protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
-    protected $listeners = ['refreshProductIndexComponent' => '$refresh'];
-    protected $queryString = ['filters','enableFilters'];
+    protected $listeners = [
+        'refreshProductIndexComponent' => '$refresh',
+        'setFirstPageProductIndexComponent' => 'setFirstPagePagination',
+        'autoCompleteSelectItem'=>'setFilter'
+    ];
+    protected $queryString = ['filters', 'showFilters','paginate'];
 
     public $showColumns = [
         'id' => true,
@@ -29,12 +34,23 @@ class ProductsIndexComponent extends Component
         'author' => false
     ];
 
+    public $showFilters = [];
+
     public $checked = [];
     public $selectAll = false;
 
     public function clearFilters()
     {
         $this->filters = [];
+    }
+
+    public function setFilter($key, $value)
+    {
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
+        $this->filters[$key] = $value;
+       // $this->refreshProductsTable();
     }
 
     public function deselectAll()
@@ -46,6 +62,11 @@ class ProductsIndexComponent extends Component
     public function updatedShowColumns($value)
     {
         \Cookie::queue('productShowColumns', json_encode($this->showColumns));
+    }
+
+    public function updatedShowFilters($value)
+    {
+        $this->showFilters = array_filter($this->showFilters);
     }
 
     public function updatedChecked($value)
@@ -92,6 +113,11 @@ class ProductsIndexComponent extends Component
         $this->emit('multipleDelete', $this->checked);
     }
 
+    public function setFirstPagePagination()
+    {
+        $this->setPage(1);
+    }
+
     public function render()
     {
         return view('product::admin.product.livewire.table', [
@@ -106,31 +132,14 @@ class ProductsIndexComponent extends Component
         return $this->productsQuery->paginate($this->paginate);
     }
 
+    public function removeFilter($key)
+    {
+        unset($this->filters[$key]);
+    }
+
     public function orderBy($value)
     {
         $this->filters['orderBy'] = $value;
-    }
-
-    public $enableReordering = false;
-
-    public function enableReordering()
-    {
-        $this->enableReordering = true;
-    }
-
-    public function disableReordering()
-    {
-        $this->enableReordering = false;
-    }
-
-    public $enableFilters = false;
-    public function toggleFilters()
-    {
-        if ($this->enableFilters) {
-            $this->enableFilters = false;
-        } else {
-            $this->enableFilters = true;
-        }
     }
 
     public function getProductsQueryProperty()
@@ -140,14 +149,22 @@ class ProductsIndexComponent extends Component
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
+        $whitelistedEmptyKeys = ['inStock'];
+
         foreach ($this->filters as $filterKey => $filterValue) {
 
-            if (empty($filterValue)) {
-                continue;
+            if (!in_array($filterKey, $whitelistedEmptyKeys)) {
+                if (empty($filterValue)) {
+                    continue;
+                }
             }
 
             $this->appliedFilters[$filterKey] = $filterValue;
             $filterFriendlyValue = $filterValue;
+
+            if (is_numeric($filterValue)) {
+                $filterValue = $filterValue . ',';
+            }
 
             if (is_string($filterValue)) {
                 if (strpos($filterValue, ',') !== false) {
@@ -177,10 +194,19 @@ class ProductsIndexComponent extends Component
                 }
             }
 
+            if (is_array($filterFriendlyValue)) {
+                $filterFriendlyValue = array_filter($filterFriendlyValue);
+            }
+
             $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 
-        $query->filter($this->appliedFilters);
+        $applyFiltersToQuery = $this->appliedFilters;
+        if (!isset($applyFiltersToQuery['orderBy'])) {
+            $applyFiltersToQuery['orderBy'] = 'position,desc';
+        }
+
+        $query->filter($applyFiltersToQuery);
 
         return $query;
     }

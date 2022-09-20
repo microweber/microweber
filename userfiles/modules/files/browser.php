@@ -90,8 +90,10 @@ if (isset($params['viewsize'])) {
 }
 
 ?>
-
 <script>
+    mw.lib.require('xss');
+</script>
+    <script>
 
     var back = function () {
         var curr = decodeURIComponent(mw.url.windowHashParam('path') || '')
@@ -112,6 +114,7 @@ if (isset($params['viewsize'])) {
     var select = function (node, p) {
         mw.element('.file-selected').removeClass('file-selected');
         mw.element(node).addClass('file-selected');
+        p = filterXSS(p);
         mw.url.windowHashParam('select-file', p);
     }
 

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByQtyTrait {
 
+    public $qtyOperator = 'equal';
+
     /**
      * Filter by qty
      *
@@ -19,9 +21,30 @@ trait FilterByQtyTrait {
      */
     public function qty($qty)
     {
-        return $this->query->whereHas('contentData', function (Builder $query) use ($qty) {
+        $qty = intval($qty);
+
+        $qtyOperator = $this->qtyOperator;
+
+        return $this->query->whereHas('contentData', function (Builder $query) use ($qty, $qtyOperator) {
+
             $query->where('field_name', '=', 'qty');
-            $query->where('field_value', '=', $qty);
+
+            if ($qtyOperator == 'greater') {
+               $query->whereRaw('CAST(field_value as SIGNED) > '.$qty);
+            }  else if ($qtyOperator =='lower') {
+                $query->whereRaw('CAST(field_value as SIGNED) < '.$qty);
+            } else {
+                $query->whereRaw('CAST(field_value as SIGNED) = '.$qty);
+            }
+
         });
+    }
+
+    /**
+     * @param $operator
+     * @return void
+     */
+    public function qtyOperator($operator) {
+        $this->qtyOperator = $operator;
     }
 }
