@@ -5,12 +5,12 @@
 
     <div class="mb-3 mb-md-0">
         @php
-            $selectedItem = false;
+            $selectedItems = [];
             if (isset($filters['tags'])) {
-                $selectedItem = $filters['tags'];
+                $selectedItems = explode(',', $filters['tags']);
             }
         @endphp
-        @livewire('admin-tags-autocomplete', ['selectedItem'=>$selectedItem])
+        @livewire('admin-tags-autocomplete', ['selectedItems'=>$selectedItems])
     </div>
 
 </div>
