@@ -650,6 +650,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $is_draft = 1;
             }
             $the_field_data_all = $post_data;
+            $this->app->event_manager->trigger('mw.content.save_edit.before', $the_field_data_all);
+
         } else {
             return array('error' => 'no POST?');
         }
@@ -1218,6 +1220,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             }
 
+
                             if ($save_global == true and $save_layout == false) {
 
 
@@ -1233,6 +1236,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
         }
+        $this->app->event_manager->trigger('mw.content.save_edit.after', $json_print);
+
+
         if (isset($opts_saved)) {
             $this->app->cache_manager->delete('options');
         }
