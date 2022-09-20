@@ -81,7 +81,7 @@
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>
-                <button type="button" class="btn btn-success mt-3" wire:click="paymentStatusExecute">Change</button>
+                <button type="button" class="btn btn-success mt-3" onclick="window.livewire.emit('paymentStatusExecute')">Change</button>
             </template>
         @endif
 

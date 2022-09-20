@@ -19,6 +19,6 @@ trait WithOrdersBulkPaymentStatusModal
 
     public function paymentStatusExecute()
     {
-
+        dd($this->bulkPaymentStatus);
     }
 }

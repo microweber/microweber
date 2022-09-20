@@ -49,6 +49,7 @@ class OrdersTableComponent extends Component
         'deleteExecute' => 'deleteExecute',
         'showDeleteModal' => 'showDeleteModal',
         'hideDeleteModal' => 'hideDeleteModal',
+        'paymentStatusExecute' => 'paymentStatusExecute',
     ];
 
     public function setPaginationLimit($limit)
