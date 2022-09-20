@@ -31,6 +31,14 @@
             </div>
         @endif
 
+        @if($multipleDelete)
+            <script>
+                mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
+                    window.livewire.emit('multipleDeleteExecute')
+                });
+            </script>
+        @endif
+
         <div class="pull-right">
 
             <div class="d-inline-block mx-1">
