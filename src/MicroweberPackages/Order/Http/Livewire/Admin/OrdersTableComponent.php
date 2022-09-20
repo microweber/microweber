@@ -41,6 +41,7 @@ class OrdersTableComponent extends Component
         'setFiltersToOrders' => 'setFilters',
         'setPaginationLimitToOrders' => 'setPaginationLimit',
         'multipleDeleteExecute' => 'multipleDeleteExecute',
+        'showMultipleDeleteModal' => 'showMultipleDeleteModal',
         'hideMultipleDeleteModal' => 'hideMultipleDeleteModal',
     ];
 
