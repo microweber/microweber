@@ -52,13 +52,11 @@ class OrdersTableComponent extends Component
     {
         $this->checked = [];
         $this->selectAll = false;
-        $this->refreshOrdersTable();
     }
 
     public function updatedShowColumns($value)
     {
         \Cookie::queue('orderShowColumns', json_encode($this->showColumns));
-        $this->refreshOrdersTable();
     }
 
     public function updatedChecked($value)
@@ -68,7 +66,6 @@ class OrdersTableComponent extends Component
         } else {
             $this->selectAll = false;
         }
-        $this->refreshOrdersTable();
     }
 
     public function updatedSelectAll($value)
@@ -78,14 +75,12 @@ class OrdersTableComponent extends Component
         } else {
             $this->deselectAll();
         }
-        $this->refreshOrdersTable();
     }
 
     public function selectAll()
     {
         $this->selectAll = true;
         $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
-        $this->refreshOrdersTable();
     }
 
     public function multipleDelete()
