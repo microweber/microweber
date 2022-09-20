@@ -18,7 +18,7 @@ class ProductsIndexComponent extends Component
     public $filters = [];
     protected $listeners = [
         'refreshProductIndexComponent' => '$refresh',
-        'setFirstPageProductIndexComponent' => 'setFirstPagePagination',
+        'setFirstPageProductIndexComponent' => 'setPaginationFirstPage',
         'autoCompleteSelectItem'=>'setFilter'
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
@@ -113,7 +113,7 @@ class ProductsIndexComponent extends Component
         $this->emit('multipleDelete', $this->checked);
     }
 
-    public function setFirstPagePagination()
+    public function setPaginationFirstPage()
     {
         $this->setPage(1);
     }

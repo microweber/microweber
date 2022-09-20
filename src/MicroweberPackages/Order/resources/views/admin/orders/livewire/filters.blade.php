@@ -112,7 +112,7 @@
             <div class="d-inline-block mx-1">
 
                 <span class="d-md-block d-none">Limit</span>
-                <select class="form-control form-control-sm" wire:model="paginate">
+                <select class="form-control form-control-sm" wire:model="paginationLimit">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
