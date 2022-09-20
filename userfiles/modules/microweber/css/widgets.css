@@ -30,7 +30,7 @@
 }
 .mw-ui-form-controller-root > div:first-of-type {
     padding-top: 15px;
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 350px);
     overflow: auto;
 }
 .mw-link-editor-posts-search .mw-autocomplete:before{

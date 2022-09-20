@@ -826,6 +826,7 @@ mw.emitter = {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 
             }
+
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -834,8 +835,9 @@ mw.emitter = {
                     sortable: false,
                     selectable: true,
                     singleSelect: true,
-                    searchInput: true
+                    searchInput: false
                 });
+
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
                     dialog.center();
