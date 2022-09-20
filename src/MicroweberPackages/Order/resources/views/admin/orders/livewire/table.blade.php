@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu">
                         <li><button class="dropdown-item" type="button" wire:click="showDeleteModal">Delete</button></li>
                         <li><button class="dropdown-item" type="button" wire:click="showPaymentStatusModal">Change Payment Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click="showOrderStatusModal">Change Order Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click="showStatusModal">Change Order Status</button></li>
                     </ul>
                 </div>
             </div>
@@ -45,23 +45,43 @@
             </div>
         @endif
 
-        @if($paymentStatusModal)
+        @if($statusModal)
             <script>
                 $(document).ready(function () {
                     var dialog = mw.dialog({
-                        content: $('.js-bulk-change-order-payment-status'),
-                        title: 'Order Payment Status',
+                        content: $('.js-bulk-change-status'),
+                        title: 'Order Status',
                         height: 'auto',
                     });
                 });
             </script>
-            <div class="js-bulk-change-order-payment-status">
+            <div class="js-bulk-change-status">
+                Order Status
+                <select class="form-control" wire:model="bulkStatus">
+                    <option value="1">New</option>
+                    <option value="0">Pending</option> 
+                </select>
+                <button type="button" class="btn btn-success mt-3" wire:click="statusExecute">Change</button>
+            </div>
+        @endif
+
+        @if($paymentStatusModal)
+            <script>
+                $(document).ready(function () {
+                    var dialog = mw.dialog({
+                        content: $('.js-bulk-change-payment-status'),
+                        title: 'Payment Status',
+                        height: 'auto',
+                    });
+                });
+            </script>
+            <div class="js-bulk-change-payment-status">
                 Payment Status
-                <select class="form-control">
+                <select class="form-control" wire:model="bulkPaymentStatus">
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>
-                <button type="button" class="btn btn-success mt-3">Change</button>
+                <button type="button" class="btn btn-success mt-3" wire:click="paymentStatusExecute">Change</button>
             </div>
         @endif
 
