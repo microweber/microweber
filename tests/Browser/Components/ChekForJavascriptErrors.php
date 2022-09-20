@@ -132,6 +132,7 @@ class ChekForJavascriptErrors extends BaseComponent
             'userfiles/install_log.txt?',
             'https://platform.twitter.com',
             'https://www.googletagmanager.com/a?id=UA-12345678',
+            'https://www.google-analytics.com',
             'Failed to load resource: net::ERR_CONTENT_LENGTH_MISMATCH',
             'log.txt - Failed to load resource: the server responded with a status of 404 (Not Found)',
             'Cannot read properties of undefined (reading \'done\')',
