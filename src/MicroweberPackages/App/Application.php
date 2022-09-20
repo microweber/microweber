@@ -23,6 +23,7 @@ use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
+use MicroweberPackages\Order\Repositories\OrderRepository;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\Translation\Translator;
@@ -78,6 +79,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property CartManager              $cart_manager
  * @property CartRepository         $cart_repository
  * @property OrderManager             $order_manager
+ * @property OrderRepository    $order_repository
  * @property CustomFieldRepository $custom_field_repository
  * @property OfferRepository             $offer_repository
  * @property TaxManager               $tax_manager

@@ -291,7 +291,7 @@ abstract class AbstractRepository
     }
 
 
-    public static $_loaded_models_cache_get = [];
+    public static array $_loaded_models_cache_get = [];
 
 
 //

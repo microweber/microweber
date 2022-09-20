@@ -20,6 +20,7 @@ use MicroweberPackages\Order\Http\Livewire\Admin\OrdersCustomersAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
 use MicroweberPackages\Order\OrderManager;
+use MicroweberPackages\Order\Repositories\OrderRepository;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -36,11 +37,20 @@ class OrderServiceProvider extends ServiceProvider
         Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
 
         /**
-         * @property \MicroweberPackages\Order    $order_manager
+         * @property \MicroweberPackages\Order\OrderManager    $order_manager
          */
         $this->app->singleton('order_manager', function ($app) {
             return new OrderManager();
         });
+
+        /**
+         * @property \MicroweberPackages\Order\Repositories\OrderRepository    $order_repository
+         */
+        $this->app->singleton('order_repository', function ($app) {
+            return new OrderRepository();
+        });
+
+
 
         View::addNamespace('order', dirname(__DIR__) . '/resources/views');
 

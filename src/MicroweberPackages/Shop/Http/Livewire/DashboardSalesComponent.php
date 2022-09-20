@@ -16,6 +16,8 @@ class DashboardSalesComponent extends Component
 
     public function loadData()
     {
-        $this->data= [1,2,3];
+        $sales = app()->order_repository->getStatsForPeriod();
+
+        $this->data= $sales;
     }
 }
