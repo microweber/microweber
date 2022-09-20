@@ -18,6 +18,6 @@ trait WithOrdersBulkPaymentStatusModal
 
     public function paymentStatusExecute($status = false)
     {
-        dd($status);
+        
     }
 }
