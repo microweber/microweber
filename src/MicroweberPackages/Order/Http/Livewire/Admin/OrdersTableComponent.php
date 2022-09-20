@@ -16,9 +16,25 @@ class OrdersTableComponent extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $filters = [];
-    public $showColumns = [];
 
     protected $queryString = ['page'];
+
+    public $checked = [];
+    public $selectAll = false;
+
+    public $showColumns = [
+        'id' => true,
+        'products' => true,
+        'customer' => true,
+        'total_amount' => true,
+        'shipping_method' => true,
+        'payment_method' => true,
+        'payment_status' => true,
+        'status' => true,
+        'created_at' => false,
+        'updated_at' => false,
+        'actions' => true
+    ];
 
     protected $listeners = [
         'refreshOrdersFilters' => '$refresh',
@@ -29,6 +45,52 @@ class OrdersTableComponent extends Component
     public function setPaginationLimit($limit)
     {
         $this->paginationLimit = $limit;
+    }
+
+
+    public function deselectAll()
+    {
+        $this->checked = [];
+        $this->selectAll = false;
+        $this->refreshOrdersTable();
+    }
+
+    public function updatedShowColumns($value)
+    {
+        \Cookie::queue('orderShowColumns', json_encode($this->showColumns));
+        $this->refreshOrdersTable();
+    }
+
+    public function updatedChecked($value)
+    {
+        if (count($this->checked) == count($this->orders->items())) {
+            $this->selectAll = true;
+        } else {
+            $this->selectAll = false;
+        }
+        $this->refreshOrdersTable();
+    }
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectAll();
+        } else {
+            $this->deselectAll();
+        }
+        $this->refreshOrdersTable();
+    }
+
+    public function selectAll()
+    {
+        $this->selectAll = true;
+        $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
+        $this->refreshOrdersTable();
+    }
+
+    public function multipleDelete()
+    {
+        $this->emit('multipleDelete', $this->checked);
     }
 
     public function setFilters($data)
@@ -60,6 +122,15 @@ class OrdersTableComponent extends Component
         $query->filter($this->filters);
 
         return $query;
+    }
+
+    public function mount()
+    {
+        $columnsCookie = \Cookie::get('orderShowColumns');
+        if (!empty($columnsCookie)) {
+            $showColumns = json_decode($columnsCookie, true);
+            $this->showColumns = array_merge($this->showColumns, $showColumns);
+        }
     }
 
     public function render()
