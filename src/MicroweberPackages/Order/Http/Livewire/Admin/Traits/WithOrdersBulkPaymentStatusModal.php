@@ -4,7 +4,6 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin\Traits;
 
 trait WithOrdersBulkPaymentStatusModal
 {
-    public $bulkPaymentStatus = '';
     public $paymentStatusModal = false;
 
     public function showPaymentStatusModal()
@@ -17,8 +16,8 @@ trait WithOrdersBulkPaymentStatusModal
         $this->paymentStatusModal = false;
     }
 
-    public function paymentStatusExecute()
+    public function paymentStatusExecute($status = false)
     {
-        dd($this->bulkPaymentStatus);
+        dd($status);
     }
 }

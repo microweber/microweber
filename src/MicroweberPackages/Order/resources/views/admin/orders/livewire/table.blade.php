@@ -71,18 +71,23 @@
                     var dialog = mw.dialog({
                         content: $('#js-bulk-change-payment-status').html(),
                         title: 'Payment Status',
-                        height: 'auto',
+                        height: 'auto'
                     });
-                    window.livewire.rescan();
+                    $('.js-bulk-change-payment-status-change').click(function () {
+                        var status = $('.js-bulk-change-payment-status-select').val();
+                        window.livewire.emit('paymentStatusExecute', status);
+                    });
                 });
             </script>
             <template id="js-bulk-change-payment-status">
+                <div>
                 Payment Status
-                <select class="form-control" wire:model="bulkPaymentStatus">
+                <select class="form-control js-bulk-change-payment-status-select">
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>
-                <button type="button" class="btn btn-success mt-3" onclick="window.livewire.emit('paymentStatusExecute')">Change</button>
+                <button type="button" class="btn btn-success mt-3 js-bulk-change-payment-status-change">Change</button>
+                </div>
             </template>
         @endif
 
