@@ -49,40 +49,40 @@
             <script>
                 $(document).ready(function () {
                     var dialog = mw.dialog({
-                        content: $('.js-bulk-change-status'),
+                        content: $('#js-bulk-change-status').html(),
                         title: 'Order Status',
                         height: 'auto',
                     });
                 });
             </script>
-            <div class="js-bulk-change-status">
+            <template id="js-bulk-change-status">
                 Order Status
                 <select class="form-control" wire:model="bulkStatus">
                     <option value="1">New</option>
                     <option value="0">Pending</option>
                 </select>
                 <button type="button" class="btn btn-success mt-3" wire:click="statusExecute">Change</button>
-            </div>
+            </template>
         @endif
 
         @if($paymentStatusModal)
             <script>
                 $(document).ready(function () {
                     var dialog = mw.dialog({
-                        content: $('.js-bulk-change-payment-status'),
+                        content: $('#js-bulk-change-payment-status').html(),
                         title: 'Payment Status',
                         height: 'auto',
                     });
                 });
             </script>
-            <div class="js-bulk-change-payment-status">
+            <template id="js-bulk-change-payment-status">
                 Payment Status
                 <select class="form-control" wire:model="bulkPaymentStatus">
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>
                 <button type="button" class="btn btn-success mt-3" wire:click="paymentStatusExecute">Change</button>
-            </div>
+            </template>
         @endif
 
         <div class="pull-right">
