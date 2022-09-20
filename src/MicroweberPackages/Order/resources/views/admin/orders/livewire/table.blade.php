@@ -25,20 +25,43 @@
                         Bulk Actions
                     </button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click="showMultipleDeleteModal">Delete</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click="showDeleteModal">Delete</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click="showPaymentStatusModal">Change Payment Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click="showOrderStatusModal">Change Order Status</button></li>
                     </ul>
                 </div>
             </div>
         @endif
 
-        @if($multipleDeleteModal)
+        @if($deleteModal)
             <script>
                 mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-                    window.livewire.emit('multipleDeleteExecute');
+                    window.livewire.emit('deleteExecute');
                 }, function () {
-                    window.livewire.emit('hideMultipleDeleteModal');
+                    window.livewire.emit('hideDeleteModal');
                 });
             </script>
+        @endif
+
+        @if($paymentStatusModal)
+            <script>
+                $(document).ready(function () {
+                    var dialog = mw.dialog({
+                        content: $('.js-bulk-change-order-payment-status'),
+                        title: 'Order Payment Status',
+                        height: 'auto',
+                    });
+                });
+            </script>
+
+            <div class="js-bulk-change-order-payment-status">
+                Payment Status
+                <select class="form-control">
+                    <option value="1">Paid</option>
+                    <option value="0">Unpaid</option>
+                </select>
+                <button type="button" class="btn btn-success mt-3">Change</button>
+            </div>
         @endif
 
         <div class="pull-right">
