@@ -80,14 +80,12 @@
                 });
             </script>
             <template id="js-bulk-change-payment-status">
-                <div>
                 Payment Status
                 <select class="form-control js-bulk-change-payment-status-select">
                     <option value="1">Paid</option>
                     <option value="0">Unpaid</option>
                 </select>
                 <button type="button" class="btn btn-success mt-3 js-bulk-change-payment-status-change">Change</button>
-                </div>
             </template>
         @endif
 

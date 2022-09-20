@@ -18,6 +18,7 @@ trait WithOrdersBulkPaymentStatusModal
 
     public function paymentStatusExecute($status = false)
     {
-        
+        $this->paymentStatusModal = false;
+        $this->emitSelf('$refresh');
     }
 }
