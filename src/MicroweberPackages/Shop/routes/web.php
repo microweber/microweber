@@ -6,7 +6,7 @@ Route::name('admin.')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers\Admin')
     ->group(function () {
-        Route::get('shop/dashboard', 'AdminShopController@dashboard')->name('shop.dashboard');
+        Route::get('shop/dashboard', 'DashboardShopController@dashboard')->name('shop.dashboard');
     });
 
 Route::name('admin.shop.filter.')
