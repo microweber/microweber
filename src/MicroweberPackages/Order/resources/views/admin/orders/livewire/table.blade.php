@@ -34,6 +34,7 @@
         @endif
 
         @if($deleteModal)
+            <div class="js-admin-orders-bulk-delete-modal">
             <script>
                 mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
                     window.livewire.emit('deleteExecute');
@@ -41,6 +42,7 @@
                     window.livewire.emit('hideDeleteModal');
                 });
             </script>
+            </div>
         @endif
 
         @if($paymentStatusModal)
@@ -53,7 +55,6 @@
                     });
                 });
             </script>
-
             <div class="js-bulk-change-order-payment-status">
                 Payment Status
                 <select class="form-control">

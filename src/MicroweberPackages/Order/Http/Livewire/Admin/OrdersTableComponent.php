@@ -46,9 +46,9 @@ class OrdersTableComponent extends Component
         'refreshOrdersFilters' => '$refresh',
         'setFiltersToOrders' => 'setFilters',
         'setPaginationLimitToOrders' => 'setPaginationLimit',
-        'multipleDeleteExecute' => 'multipleDeleteExecute',
-        'showMultipleDeleteModal' => 'showMultipleDeleteModal',
-        'hideMultipleDeleteModal' => 'hideMultipleDeleteModal',
+        'deleteExecute' => 'deleteExecute',
+        'showDeleteModal' => 'showDeleteModal',
+        'hideDeleteModal' => 'hideDeleteModal',
     ];
 
     public function setPaginationLimit($limit)

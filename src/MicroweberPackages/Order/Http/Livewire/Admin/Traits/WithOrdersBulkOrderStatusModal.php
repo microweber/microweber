@@ -6,12 +6,12 @@ trait WithOrdersBulkOrderStatusModal
 {
     public $orderStatusModal = false;
 
-    public function showorderStatusModal()
+    public function showOrderStatusModal()
     {
         $this->orderStatusModal = true;
     }
 
-    public function hideorderStatusModal()
+    public function hideOrderStatusModal()
     {
         $this->orderStatusModal = false;
     }
