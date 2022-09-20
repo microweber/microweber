@@ -13,18 +13,6 @@ class AutoCompleteComponent extends Component
     public $model;
 
     /**
-     * Multiple items selection with checkboxes
-     * @var bool
-     */
-    public $selectMultipleItems = false;
-
-    /**
-     * Array of multiple selected items
-     * @var array
-     */
-    public $selectedItems = [];
-
-    /**
      * Selected item when we have single selection autocomplete
      * @var string
      */
@@ -61,12 +49,6 @@ class AutoCompleteComponent extends Component
      */
     public string $view = 'admin::livewire.auto-complete';
 
-
-    /**
-     * Default ciew of multiple selection autocomplete
-     * @var string
-     */
-    public string $multipleItemsView = 'admin::livewire.auto-complete-multiple-items';
 
     /**
      * Placeholder text on ui
@@ -148,26 +130,10 @@ class AutoCompleteComponent extends Component
     }
 
     /**
-     * When we apply a multiple selections
-     * @param $items
-     * @return void
-     */
-    public function updatedSelectedItems($items)
-    {
-        $this->refreshQueryData();
-        $this->emitSelf('$refresh');
-        $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItems);
-    }
-
-    /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render()
     {
-        if ($this->selectMultipleItems) {
-            return view($this->multipleItemsView);
-        }
-
         return view($this->view);
     }
 }

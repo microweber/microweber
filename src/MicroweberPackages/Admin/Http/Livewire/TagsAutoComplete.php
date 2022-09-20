@@ -3,12 +3,10 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 use MicroweberPackages\Tag\Model\Tag;
-use MicroweberPackages\User\Models\User;
 
-class TagsAutoComplete extends AutoCompleteComponent
+class TagsAutoComplete extends AutoCompleteMultipleItemsComponent
 {
     public $model = Tag::class;
-    public $selectMultipleItems = true;
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search tags...';
 
