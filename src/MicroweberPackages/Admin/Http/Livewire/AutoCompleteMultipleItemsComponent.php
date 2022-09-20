@@ -59,7 +59,8 @@ class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
 
         if (!empty($this->selectedItems)) {
             if (is_array($this->selectedItems)) {
-                $this->placeholderWithTags = implode(', ', $this->selectedItems);
+                $items = array_map('ucfirst', $this->selectedItems);
+                $this->placeholderWithTags = implode(', ', $items);
             }
         }
     }

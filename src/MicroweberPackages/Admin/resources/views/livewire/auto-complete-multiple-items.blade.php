@@ -17,7 +17,7 @@
         >
 
         @if($selectedItems)
-            <button class="btn btn-sm bg-transparent" wire:click="resetProperties" style="margin-left: -40px; z-index: 100;">
+            <button class="btn btn-sm" wire:click="resetProperties" style="margin-left: -40px; z-index: 100;">
                 <i class="fa fa-times text-muted"></i>
             </button>
         @endif
