@@ -119,6 +119,7 @@ class OrderFilter extends ModelFilter
 
     public function dateBetween($date)
     {
+
         $minDate = $date;
         $maxDate = false;
 
@@ -137,6 +138,13 @@ class OrderFilter extends ModelFilter
         if (!empty($maxDate)) {
             $this->query->where($table . '.created_at', '<', $maxDate);
         }
+
+    }
+
+    public function currency($currency)
+    {
+        $table = $this->getModel()->getTable();
+        $this->query->where($table . '.currency', '=', $currency);
 
     }
 }

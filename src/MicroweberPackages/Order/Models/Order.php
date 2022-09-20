@@ -14,6 +14,7 @@ namespace MicroweberPackages\Order\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
@@ -23,6 +24,7 @@ class Order extends Model
 {
     use Notifiable;
     use Filterable;
+    use PowerJoins;
 
     public $table = 'cart_orders';
     public $fillable = [
