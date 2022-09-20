@@ -25,16 +25,18 @@
                         Bulk Actions
                     </button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click="showMultipleDeleteModal">Delete</button></li>
                     </ul>
                 </div>
             </div>
         @endif
 
-        @if($multipleDelete)
+        @if($multipleDeleteModal)
             <script>
                 mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-                    window.livewire.emit('multipleDeleteExecute')
+                    window.livewire.emit('multipleDeleteExecute');
+                }, function () {
+                    window.livewire.emit('hideMultipleDeleteModal');
                 });
             </script>
         @endif

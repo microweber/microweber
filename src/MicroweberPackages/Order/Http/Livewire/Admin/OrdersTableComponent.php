@@ -41,6 +41,7 @@ class OrdersTableComponent extends Component
         'setFiltersToOrders' => 'setFilters',
         'setPaginationLimitToOrders' => 'setPaginationLimit',
         'multipleDeleteExecute' => 'multipleDeleteExecute',
+        'hideMultipleDeleteModal' => 'hideMultipleDeleteModal',
     ];
 
     public function setPaginationLimit($limit)
@@ -84,10 +85,16 @@ class OrdersTableComponent extends Component
         $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
     }
 
-    public $multipleDelete = false;
-    public function multipleDelete()
+    public $multipleDeleteModal = false;
+
+    public function showMultipleDeleteModal()
     {
-        $this->multipleDelete = true;
+        $this->multipleDeleteModal = true;
+    }
+
+    public function hideMultipleDeleteModal()
+    {
+        $this->multipleDeleteModal = false;
     }
 
     public function multipleDeleteExecute()
