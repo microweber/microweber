@@ -101,6 +101,7 @@ mw.tools.confirm = function (question, callback, onCancel) {
                 footer: [cancel, ok],
                 title: mw.lang('Confirm')
             });
+
         }
         else {
             mw.$("#mw_confirm_modal .mw-alert-holder").html(question);
@@ -114,6 +115,18 @@ mw.tools.confirm = function (question, callback, onCancel) {
                 e.preventDefault();
             }
         });
+        if(modal.dialogHeader) {
+            var close = modal.dialogHeader.querySelector('.mw-dialog-close');
+            if(close){
+                close.addEventListener('click', function (){
+                    if(onCancel) {
+                        onCancel.call();
+                    }
+                });
+            }
+        }
+
+
         cancel.on('click', function () {
             if(onCancel) {
                 onCancel.call()
