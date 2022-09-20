@@ -73,6 +73,7 @@
                         title: 'Payment Status',
                         height: 'auto',
                     });
+                    window.livewire.rescan();
                 });
             </script>
             <template id="js-bulk-change-payment-status">
