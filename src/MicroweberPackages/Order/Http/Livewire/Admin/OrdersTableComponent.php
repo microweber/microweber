@@ -15,8 +15,8 @@ class OrdersTableComponent extends Component
 {
     use WithPagination;
     use WithOrdersBulkDeleteModal;
-    use WithOrdersBulkPaymentStatusModal;
     use WithOrdersBulkStatusModal;
+    use WithOrdersBulkPaymentStatusModal;
 
     public $paginationLimit = 10;
     protected $paginationTheme = 'bootstrap';
@@ -49,6 +49,7 @@ class OrdersTableComponent extends Component
         'deleteExecute' => 'deleteExecute',
         'showDeleteModal' => 'showDeleteModal',
         'hideDeleteModal' => 'hideDeleteModal',
+        'statusExecute' => 'statusExecute',
         'paymentStatusExecute' => 'paymentStatusExecute',
     ];
 
