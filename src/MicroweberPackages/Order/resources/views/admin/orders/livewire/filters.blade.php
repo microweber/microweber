@@ -57,6 +57,9 @@
 
             <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['shipping']) || !$showFilters['shipping']) display:none; @endif">
                 @include('order::admin.orders.livewire.table-filters.shipping.service')
+                @include('order::admin.orders.livewire.table-filters.shipping.tracking_number')
+                @include('order::admin.orders.livewire.table-filters.shipping.status')
+                @include('order::admin.orders.livewire.table-filters.shipping.shipped_at')
                 @include('order::admin.orders.livewire.table-filters.shipping.country')
                 @include('order::admin.orders.livewire.table-filters.shipping.city')
                 @include('order::admin.orders.livewire.table-filters.shipping.sate')
