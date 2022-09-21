@@ -3,5 +3,5 @@
         Shipping Phone
     </label>
 
-    <input type="text" class="form-control" wire:model="filters.shippingPhone" />
+    <input type="text" class="form-control" placeholder="Type to search by phone..." wire:model="filters.shippingPhone" />
 </div>

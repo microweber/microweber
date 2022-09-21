@@ -9,7 +9,7 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
 {
     public $model = Order::class;
     public $selectedItemKey = 'shipping.country';
-    public string $placeholder = 'Type to search country...';
+    public string $placeholder = 'Type to search by country...';
 
     public $modelGroupByField = 'country';
 

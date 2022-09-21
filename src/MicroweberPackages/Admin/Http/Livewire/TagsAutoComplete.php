@@ -8,7 +8,7 @@ class TagsAutoComplete extends AutoCompleteMultipleItemsComponent
 {
     public $model = Tag::class;
     public $selectedItemKey = 'tags';
-    public string $placeholder = 'Type to search tags...';
+    public string $placeholder = 'Type to search by tags...';
 
     public function refreshQueryData()
     {

@@ -8,7 +8,7 @@ class UsersAutoComplete extends AutoCompleteComponent
 {
     public $model = User::class;
     public $selectedItemKey = 'userId';
-    public string $placeholder = 'Type to search users...';
+    public string $placeholder = 'Type to search by users...';
 
     public function refreshQueryData()
     {

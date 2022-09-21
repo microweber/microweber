@@ -9,7 +9,7 @@ class ProductsAutoComplete extends AutoCompleteComponent
 {
     public $model = Product::class;
     public $selectedItemKey = 'productId';
-    public string $placeholder = 'Type to search products...';
+    public string $placeholder = 'Type to search by products...';
 
     public function refreshQueryData()
     {
