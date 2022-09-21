@@ -17,17 +17,12 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
 
         $query = $this->model::query();
 
-       /* if ($this->selectedItem > 0) {
-            $query->where('id', $this->selectedItem);
-            $query->limit(1);
-            $get = $query->first();
-            if ($get != null) {
-                $this->data = [];
-                $this->showDropdown = true;
-                $this->query = $get->displayName() . ' (#'.$get->id.')';
-            }
+        if ($this->selectedItem) {
+            $this->data = [];
+            $this->showDropdown = true;
+            $this->query = $this->selectedItem;
             return;
-        }*/
+        }
 
         $keyword = trim($this->query);
 

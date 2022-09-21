@@ -19,6 +19,11 @@ class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
 
+    public function shippingCountry($shipping)
+    {
+
+    }
+
     public function id($id)
     {
         $id = intval($id);

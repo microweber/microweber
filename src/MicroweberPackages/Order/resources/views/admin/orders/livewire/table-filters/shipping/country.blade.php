@@ -4,6 +4,12 @@
     </label>
 
     <div class="mb-3 mb-md-0">
-        @livewire('admin-orders-shipping-country-autocomplete')
+        @php
+            $selectedItem = false;
+            if (isset($filters['shipping.country'])) {
+                $selectedItem = $filters['shipping.country'];
+            }
+        @endphp
+        @livewire('admin-orders-shipping-country-autocomplete', ['selectedItem'=>$selectedItem])
     </div>
 </div>
