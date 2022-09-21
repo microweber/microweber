@@ -1,3 +1,4 @@
+{{--
 @if($statusModal)
     <template id="js-bulk-change-status">
         Order Status
@@ -22,14 +23,16 @@
         });
     </script>
 @endif
+--}}
 
 
 <script>
     window.livewire.on('statusModal', status => {
-        if (!status) {
+        alert(status);
+      /*  if (!status) {
             if (window.statusModal) {
                 window.statusModal.remove();
             }
-        }
+        }*/
     });
 </script>
