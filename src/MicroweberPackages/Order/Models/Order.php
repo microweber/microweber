@@ -48,7 +48,6 @@ class Order extends Model
 
     protected $searchable = [
         'is_completed',
-
     ];
 
     public function modelFilter()
@@ -133,4 +132,21 @@ class Order extends Model
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
+    public function getPaymentStatuses()
+    {
+        return [
+            'refunded'=>'Refunded',
+            'completed'=>'Completed',
+            'pending'=>'Pending',
+        ];
+    }
+
+    public static function getOrderStatuses()
+    {
+        return [
+            'new'=>'New',
+            'completed'=>'Completed',
+            'pending'=>'Pending',
+        ];
+    }
 }

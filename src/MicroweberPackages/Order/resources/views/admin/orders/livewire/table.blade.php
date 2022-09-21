@@ -34,9 +34,9 @@
                         Bulk Actions
                     </button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'>Delete</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'>Change Payment Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-status", {{ json_encode(["ids" => $checked]) }})'>Change Order Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> Change Order Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> Change Payment Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> Delete</button></li>
                     </ul>
                 </div>
             </div>
@@ -197,9 +197,11 @@
             @if($showColumns['status'])
                 <td style="text-align: center">
                     @if($order->order_status == 'pending')
-                        <span class="badge badge-warning">Pending</span>
+                        <span class="badge badge-warning text-white">Pending</span>
                     @elseif($order->order_status == 'new')
                         <span class="badge badge-primary">New</span>
+                    @elseif($order->order_status == 'completed')
+                        <span class="badge badge-success">Completed</span>
                     @else
                         <span class="badge badge-primary">{{$order->order_status}}</span>
                     @endif

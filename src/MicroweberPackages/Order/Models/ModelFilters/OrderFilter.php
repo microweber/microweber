@@ -84,11 +84,9 @@ class OrderFilter extends ModelFilter
             return;
         }
 
-      /*  return $this->query->where(function ($query) use ($keyword) {
-            $query->whereHas('cart', function ($query) use ($keyword) {
-                $query->where('title', 'LIKE', '%' . $keyword . '%');
-            });
-        });*/
+        $this->query->where('first_name', 'LIKE', '%' . $keyword . '%');
+        $this->query->orWhere('last_name', 'LIKE', '%' . $keyword . '%');
+
     }
 
 

@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkStatus;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkOrderStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
@@ -55,6 +55,10 @@ class OrdersTableComponent extends Component
         $this->paginationLimit = $limit;
     }
 
+    public function updatedPage()
+    {
+        $this->deselectAll();
+    }
 
     public function deselectAll()
     {
@@ -117,7 +121,14 @@ class OrdersTableComponent extends Component
     public function getOrdersQueryProperty()
     {
         $query = Order::query();
-        $query->filter($this->filters);
+
+        $applyFiltersToQuery = $this->filters;
+
+        if (!isset($applyFiltersToQuery['orderBy'])) {
+            $applyFiltersToQuery['orderBy'] = 'id,desc';
+        }
+
+        $query->filter($applyFiltersToQuery);
 
         return $query;
     }
