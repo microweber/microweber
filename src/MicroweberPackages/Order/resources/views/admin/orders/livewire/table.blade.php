@@ -233,32 +233,81 @@
 
         <tfoot>
         <tr>
-            @if($showColumns['total_amount'] && $orders->total() > 0)
-                <td colspan="7">
-                  <span class="text-muted">{{ $orders->total() }} results found</span>
-                </td>
+
+            <td></td>
+            @if($showColumns['id'])
+                <td></td>
+            @endif
+
+            @if($showColumns['products'])
+                <td></td>
+            @endif
+
+            @if($showColumns['customer'])
+                <td></td>
+            @endif
+
+            @if($showColumns['shipping_method'])
+                <td></td>
+            @endif
+
+            @if($showColumns['payment_method'])
+                <td></td>
+            @endif
+
+            @if($showColumns['payment_status'])
+                <td></td>
+            @endif
+
+
+            @if($showColumns['total_amount'])
                 <td>
                     @php
-                    $paymentCurrency = get_currency_symbol();
-                    $totalAmountOfOrders = 0;
-                    foreach ($orders as $order) {
-                        $totalAmountOfOrders = $totalAmountOfOrders + $order->payment_amount;
-                        $paymentCurrency = $order->payment_currency;
-                    }
+                        $paymentCurrency = get_currency_symbol();
+                        $totalAmountOfOrders = 0;
+                        foreach ($orders as $order) {
+                            $totalAmountOfOrders = $totalAmountOfOrders + $order->payment_amount;
+                            $paymentCurrency = $order->payment_currency;
+                        }
                     @endphp
 
                     <span class="badge badge-success">
                         {{number_format($totalAmountOfOrders, 2)}} {{$paymentCurrency}}
                     </span>
                 </td>
-                <td colspan="2"></td>
             @endif
+
+            @if($showColumns['status'])
+                <td></td>
+            @endif
+
+            @if($showColumns['created_at'])
+                <td></td>
+            @endif
+
+            @if($showColumns['updated_at'])
+                <td></td>
+            @endif
+
+            @if($showColumns['actions'])
+                <td></td>
+            @endif
+
         </tr>
         </tfoot>
 
     </table>
 
-    {{ $orders->links() }}
+    <div class="d-flex justify-content-center">
+
+        <div style="width: 100%">
+            <span class="text-muted">{{ $orders->total() }} results found</span>
+        </div>
+        
+        <div>
+        {{ $orders->links() }}
+        </div>
+    </div>
 
 </div>
 
