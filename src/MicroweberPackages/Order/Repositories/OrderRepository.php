@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Order\Repositories;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -122,9 +123,11 @@ class OrderRepository extends AbstractRepository
         ]);
         $dateSting = '';
         if (isset($params['from'])) {
+            $params['from'] = Carbon::parse(strtotime($params['from']))->format('Y-m-d') . ' 00:00:01';
             $dateSting = $params['from'];
         }
         if (isset($params['to'])) {
+            $params['to'] = Carbon::parse(strtotime($params['to']))->format('Y-m-d') . ' 23:59:59';
             $dateSting .= ',' . $params['to'];
         }
         if ($dateSting) {

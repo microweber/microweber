@@ -18,17 +18,19 @@
 
 
     <div class="card-body">
-        {!! json_encode($filter, JSON_PRETTY_PRINT) !!}
+        {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
 
-        <label for="start">Start date:</label>
 
-        <input type="date" id="start"  wire:model="filter.from"  value="" wire:change="loadSalesData" />
+        <label for="start_date">Start date:</label>
 
-        <label for="end">End date:</label>
+        <input type="date" id="start_date"  wire:model="filters.from"    />
 
-        <input type="date" id="end"  wire:model="filter.to"  value=""  wire:change="loadSalesData" />
+        <label for="end_date">End date:</label>
+
+        <input type="date" id="end_date"  wire:model="filters.to"   />
+
+
     </div>
-
 
 
 
@@ -39,7 +41,7 @@
         <?php
         $class = 'btn-outline-secondary';
 
-        if (isset($filter['currency']) and $filter['currency'] == $currency['currency']) {
+        if (isset($filters['currency']) and $filters['currency'] == $currency['currency']) {
             $class = 'btn-primary';
         }
         ?>
@@ -97,7 +99,7 @@
             <div id="amount<?php print $chart_id ?>">
 
             </div>
-            {!! json_encode($filter, JSON_PRETTY_PRINT) !!}
+            {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
 
             <pre>
                 {!! print_r($data, JSON_PRETTY_PRINT) !!}
