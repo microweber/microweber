@@ -19,9 +19,16 @@
 
     $currency_display = '';
     $show_period_range = '';
+    $show_period_dates_display = '';
 
     if (isset($filters['currency'])) {
         $currency_display = $filters['currency'];
+    }
+    if (isset($filters['from'])) {
+        $show_period_dates_display = 'From ' . $filters['from'];
+    }
+    if (isset($filters['to'])) {
+        $show_period_dates_display .= ' to ' . $filters['to'];
     }
 
     if (isset($view['show_period_range'])) {
@@ -73,19 +80,12 @@
             $class = 'btn-primary';
         }
         ?>
-        <button class="btn <?php print $class ?>" wire:click="changePeriodDateRangeType('<?php print $supported_period_range ?>')" ><?php print $supported_period_range ?></button>
+        <button class="btn <?php print $class ?>"
+                wire:click="changePeriodDateRangeType('<?php print $supported_period_range ?>')"><?php print $supported_period_range ?></button>
         <?php endforeach; ?>
 
     </div>
     <?php endif; ?>
-
-
-
-
-
-
-
-
 
 
     <div class="card py-3 mb-3">
@@ -116,36 +116,21 @@
             </div>
         </div>
     </div>
+
+    <?php if(isset($data['orders_data']) and $data['orders_data']): ?>
     <?php $rand = uniqid(); ?>
     <?php $chart_id = 'js_sales_stats_' . $rand; ?>
-    <script type="text/javascript">
-        window.onload = function () {
-            Livewire.on('initSalesChart', () => {
-                // Code Here
-                initJsSalesChart<?php print $chart_id ?>()
-            })
-        }
-    </script>
+
+    <div class="row" id="sales<?php print $chart_id ?>"></div>
+    <div class="row" id="amount<?php print $chart_id ?>"></div>
+
+    <div class="row w-100" id="echart_sales_<?php print $chart_id ?>"></div>
+    <div class="row w-100" id="echart_sales_amount_<?php print $chart_id ?>"></div>
+
+
     <div class="card py-3 mb-3">
         <div class="card-body py-3">
-            <div class="row" id="sales<?php print $chart_id ?>">
 
-            </div>
-            <div class="row" id="amount<?php print $chart_id ?>">
-
-            </div>
-
-            <div class="row w-100" id="echart_sales_<?php print $chart_id ?>">
-
-            </div>
-            <div class="row w-100" id="echart_sales_amount_<?php print $chart_id ?>">
-
-            </div>
-            {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
-
-            <pre>
-                {!! print_r($data, JSON_PRETTY_PRINT) !!}
-           </pre>
 
             <?php
             $sales_numbers = [];
@@ -161,7 +146,6 @@
             ?>
 
             <script>
-
                 function initJsSalesChart<?php print $chart_id ?>() {
                     var chartEl = document.getElementById("sales<?php print $chart_id ?>");
                     if (typeof chartEl !== 'undefined' && chartEl !== null) {
@@ -171,18 +155,17 @@
                     }
                     $(chartEl).addClass('chart-js-render-ready')
 
-
                     // echarts
                     var chartDom = document.getElementById('echart_sales_<?php print $chart_id ?>');
-                    salesChart = echarts.init(chartDom,null, {
-                     //   width: "100%",
+                    var salesChart = echarts.init(chartDom, null, {
+                        //   width: "100%",
                         height: 400
                     })
 
-                    salesChartTooltipOptions = {
+                    var salesChartTooltipOptions = {
                         show: true,
                         position: 'top',
-                      //  confine: true,
+                        //  confine: true,
                         textStyle: {
                             overflow: 'breakAll',
                             width: 40,
@@ -204,7 +187,7 @@
                                 name: '<?php print $show_period_range ?> Orders',
                                 data: <?php print json_encode(array_values($sales_numbers)) ?>,
                                 type: "line",
-                                smooth:false,
+                                smooth: false,
                                 lineStyle: {color: '#26be6b'}
 
                             }
@@ -212,25 +195,19 @@
                     });
 
 
-
-                    window.onresize = function() {
+                    window.onresize = function () {
                         salesChart.resize();
                     };
 
 
-
-
-
-
                     // echarts sales amount
-                     var chartDom = document.getElementById('echart_sales_amount_<?php print $chart_id ?>');
+                    var chartDom = document.getElementById('echart_sales_amount_<?php print $chart_id ?>');
 
 
-                      salesAmountChart = echarts.init(chartDom,null, {
-                            //   width: "100%",
-                            height: 400
-                        })
-
+                    var salesAmountChart = echarts.init(chartDom, null, {
+                        //   width: "100%",
+                        height: 400
+                    })
 
 
                     salesAmountChart.setOption({
@@ -253,15 +230,9 @@
                     });
 
 
-
-                    window.onresize = function() {
+                    window.onresize = function () {
                         salesAmountChart.resize();
                     };
-
-
-
-
-
 
 
                 }
@@ -269,6 +240,65 @@
                 initJsSalesChart<?php print $chart_id ?>()
             </script>
         </div>
+
+
+        <?php endif; ?>
+
+
+        <?php if(isset($data['orders_best_selling_products']) and $data['orders_best_selling_products']): ?>
+        <div class="card py-3 mb-3">
+
+            <div class="card-body py-3">
+
+                <h5 class="card-title">Most sold products</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><?php print $show_period_dates_display ?></h6>
+
+
+                <div class="row g-0">
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <th scope="col">Product name</th>
+                            <th scope="col">Orders</th>
+
+                            <th scope="col">Amount (<?php print $currency_display ?>)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <?php foreach ($data['orders_best_selling_products'] as $orders_best_selling_product): ?>
+                        <?php
+                        $content = app()->content_repository->getById($orders_best_selling_product['content_id']);
+
+                        if (!isset($content['title'])) {
+                            continue;
+                        }
+                        ?>
+                        <tr>
+                            <th scope="row"><?php print $content['title'] ?></th>
+                            <td><?php print $orders_best_selling_product['orders_count'] ?></td>
+                            <td><?php print $orders_best_selling_product['orders_amount_rounded'] ?></td>
+                        </tr>
+
+                        <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+        {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
+
+        <pre>
+                {!! print_r($data, JSON_PRETTY_PRINT) !!}
+           </pre>
+        <?php endif; ?>
+
+
     </div>
 
 </div>

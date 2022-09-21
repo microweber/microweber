@@ -30,7 +30,7 @@ class ShippingManagerServiceProvider extends ServiceProvider
 
         $this->app->singleton('shipping_manager', function ($app) {
             /**
-             * @var Application $app
+             * @var \MicroweberPackages\App\Application $app
              */
             return new ShippingManager($app->make(Container::class));
         });
