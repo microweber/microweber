@@ -51,6 +51,80 @@ class OrderRepository extends AbstractRepository
         }
         return 0;
     }
+    public function getBestSellingCategoriesForPeriod($params = [])
+    {
+        $categories = [];
+        $products = $this->getBestSellingProductsForPeriod($params);
+        if($products){
+            foreach ($products as $product) {
+                if(isset($product['content_id']) and !empty($product['content_id'])){
+                     $categories_get = app()->content_repository->getCategories($product['content_id']);
+                     if($categories_get){
+                         foreach ($categories_get as $category) {
+                             if(isset($category['id']) and !empty($category['id'])){
+                                 if($category['parent_id'] != 0){
+                                      continue;
+                                 }
+
+                                 if(!isset($categories[$category['id']])){
+                                     $categories[$category['id']] = $category;
+                                     $categories[$category['id']]['orders_count'] = 0;
+                                     $categories[$category['id']]['orders_amount'] = 0;
+                                     $categories[$category['id']]['orders_amount_rounded'] = 0;
+                                 }
+
+                                 $categories[$category['id']]['orders_count'] = $categories[$category['id']]['orders_count'] + $product['orders_count'];
+                                 $categories[$category['id']]['orders_amount'] = $categories[$category['id']]['orders_amount'] + $product['orders_amount'];
+                                 $categories[$category['id']]['orders_amount_rounded'] = $categories[$category['id']]['orders_amount_rounded'] + $product['orders_amount_rounded'];
+                             }
+                         }
+                     }
+
+                }
+            }
+            if(!empty($categories)){
+                // sort by orders_amount_rounded
+                usort($categories, function($a, $b) {
+                    return $b['orders_amount_rounded'] <=> $a['orders_amount_rounded'];
+                });
+            }
+
+
+            return $categories;
+        }
+    }
+    public function getBestSellingProductsForPeriod($params = [])
+    {
+        $orders = $this->getDefaultQueryForStats($params);
+        $orders->where('cart.rel_type', 'content');
+        $orders->join('cart', 'cart.order_id', '=', 'cart_orders.id');
+        $orders->join('content', 'cart.rel_id', '=', 'content.id');
+        $orders->select('cart.rel_id as content_id',
+            DB::raw("count(cart.rel_id) as orders_count"),
+            DB::raw("sum(cart_orders.amount) as orders_amount")
+        );
+
+        $orders->groupBy('cart.rel_id');
+        $orders->orderBy('orders_count', 'desc');
+
+        $data = $orders->get();
+        if ($data) {
+            $data = $data->toArray();
+
+            if (!empty($data)) {
+                array_walk($data, function (&$a, $b) {
+                    if (isset($a['orders_amount'])) {
+                        $a['orders_amount_rounded'] = ceil($a['orders_amount']);
+                    }
+                });
+
+            }
+
+
+            return $data;
+        }
+    }
+
     public function getOrderItemsCountForPeriod($params = [])
     {
  // todo  finish the query
@@ -151,13 +225,16 @@ class OrderRepository extends AbstractRepository
                   'isCompleted' => 1,
         ]);
         $dateSting = '';
-        if (isset($params['from'])) {
+        if (isset($params['from']) and $params['from']) {
             $params['from'] = Carbon::parse(strtotime($params['from']))->format('Y-m-d') . ' 00:00:01';
             $dateSting = $params['from'];
         }
-        if (isset($params['to'])) {
+        if (isset($params['to']) and $params['to']) {
             $params['to'] = Carbon::parse(strtotime($params['to']))->format('Y-m-d') . ' 23:59:59';
             $dateSting .= ',' . $params['to'];
+        }
+        if (isset($params['limit']) and $params['limit']) {
+            $orders->limit(intval($params['limit']));
         }
         if ($dateSting) {
             $params['dateBetween'] = $dateSting;

@@ -75,7 +75,7 @@ class OrderFilter extends ModelFilter
     {
         $isCompleted = intval($isCompleted);
         if($isCompleted == 0){
-            $this->query->where(function ($query) use ($isCompleted) {
+            $this->query->where(function ($query) {
                 $query->where('cart_orders.order_completed', 0)->orWhereNull('order_completed');
             });
         } else {
