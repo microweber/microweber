@@ -3,8 +3,11 @@
         Shipping Type
     </label>
 
-    <div class="mb-3 mb-md-0">
+    <select wire:model.stop="filters.shipping.service" class="form-control">
+        <option value="">Any</option>
+        @foreach(app()->shipping_manager->getShippingModules() as $shippingModule)
+        <option value="{{$shippingModule['module']}}">{{$shippingModule['name']}}</option>
+        @endforeach
+    </select>
 
-
-    </div>
 </div>
