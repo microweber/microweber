@@ -1,32 +1,23 @@
-@if($paymentStatusModal)
-    <template id="js-bulk-change-payment-status">
-        Payment Status
-        <select class="form-control js-bulk-change-payment-status-select">
-            <option value="1">Paid</option>
-            <option value="0">Unpaid</option>
-        </select>
-        <button type="button" class="btn btn-success mt-3 js-bulk-change-payment-status-change">Change</button>
-    </template>
-    <script>
-        $(document).ready(function () {
-            window.paymentStatusModal = mw.dialog({
-                content: $('#js-bulk-change-payment-status').html(),
-                title: 'Payment Status',
-                height: 'auto'
-            });
-            $('.js-bulk-change-payment-status-change').click(function () {
-                var status = $('.js-bulk-change-payment-status-select').val();
-                window.livewire.emit('paymentStatusExecute', status);
-            });
-        });
-    </script>
-@endif
-<script>
-    window.livewire.on('paymentStatusModal', status => {
-        if (!status) {
-            if (window.paymentStatusModal) {
-                window.paymentStatusModal.remove();
-            }
-        }
-    });
-</script>
+<div>
+    <div class="modal-header">
+        <h5 class="modal-title">Bulk Payment Status Change</h5>
+        <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">
+            <i class="fa fa-times text-muted"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            Payment Status<br/>
+            <select class="form-control" wire:model="paymentStatus">
+                <option>Select payment status</option>
+                <option value="1">Paid</option>
+                <option value="0">Unpaid</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" wire:click="$emit('closeModal')">Cancel</button>
+        <button type="button" class="btn btn-success" wire:click="change">Change</button>
+    </div>
+</div>
+
