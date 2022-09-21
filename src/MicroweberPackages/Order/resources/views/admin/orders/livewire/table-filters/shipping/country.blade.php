@@ -6,8 +6,8 @@
     <div class="mb-3 mb-md-0">
         @php
             $selectedItem = false;
-            if (isset($filters['shipping.country'])) {
-                $selectedItem = $filters['shipping.country'];
+            if (isset($filters['shipping']['country'])) {
+                $selectedItem = $filters['shipping']['country'];
             }
         @endphp
         @livewire('admin-orders-shipping-country-autocomplete', ['selectedItem'=>$selectedItem])

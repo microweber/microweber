@@ -3,5 +3,5 @@
         Shipping Post Code
     </label>
 
-    <input type="text" class="form-control" wire:model="filters.shippingPostCode" />
+    <input type="text" class="form-control"  placeholder="Type to search by post code..." wire:model="filters.shipping.zip" />
 </div>

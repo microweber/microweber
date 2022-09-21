@@ -8,7 +8,7 @@ use MicroweberPackages\Order\Models\Order;
 class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
 {
     public $model = Order::class;
-    public $selectedItemKey = 'shipping.country';
+    public $selectedItemKey = 'shipping';
     public string $placeholder = 'Type to search by country...';
 
     public $modelGroupByField = 'country';
@@ -45,7 +45,14 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
             $this->showDropdown();
             $this->data = [];
             foreach ($get as $item) {
-                $this->data[] = ['key'=>$item->{$this->modelGroupByField}, 'value'=>$item->{$this->modelGroupByField}];
+
+                $key = [
+                    $this->modelGroupByField => $item->{$this->modelGroupByField},
+                ];
+                $key = array_filter($key);
+                $key = json_encode($key);
+
+                $this->data[] = ['key'=>$key, 'value'=>$item->{$this->modelGroupByField}];
             }
         }
     }
