@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkStatus;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkOrderStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
