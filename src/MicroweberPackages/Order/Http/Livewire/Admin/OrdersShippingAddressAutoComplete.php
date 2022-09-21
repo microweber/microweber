@@ -6,5 +6,5 @@ class OrdersShippingAddressAutoComplete extends OrdersShippingCountryAutoComplet
 {
     public $selectedItemKey = 'shipping.address';
     public string $placeholder = 'Type to search address...';
-
+    public $modelGroupByField = 'address';
 }
