@@ -19,7 +19,7 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
 
         if ($this->selectedItem) {
             $this->data = [];
-            $this->showDropdown = true;
+            $this->showDropdown();
             $this->query = $this->selectedItem;
             return;
         }
