@@ -123,6 +123,12 @@ class AutoCompleteComponent extends Component
      */
     public function selectItem(string $item)
     {
+
+        $json = @json_decode($item, true);
+        if (!empty($json)) {
+            $item = $json;
+        }
+
         $this->selectedItem = $item;
         $this->refreshQueryData();
         $this->emitSelf('$refresh');

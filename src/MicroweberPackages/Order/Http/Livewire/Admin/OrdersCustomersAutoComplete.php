@@ -7,67 +7,27 @@ use MicroweberPackages\Order\Models\Order;
 
 class OrdersCustomersAutoComplete extends AutoCompleteComponent
 {
-    public $query;
-    public $data;
-    public $createdById;
-    public $filters = [];
-
-    protected $queryString = ['filters'];
-
-    public $showDropdown = false;
-
-    public function mount()
-    {
-        if (isset($this->filters['customerId'])) {
-            $this->createdById = $this->filters['customerId'];
-            $this->refreshQueryData();
-        }
-    }
-
-
-    public function closeDropdown()
-    {
-       $this->showDropdown = false;
-    }
-
-    public function resetProperties()
-    {
-        $this->query = '';
-        $this->data = [];
-    }
-
-    public function selectCreatedById(int $id)
-    {
-        $this->createdById = $id;
-        $this->refreshQueryData();
-        $this->emitSelf('$refresh');
-
-        $this->emit('setFilterToOrders', 'customerId',$id);
-    }
-
-    public function updatedQuery()
-    {
-        $this->createdById = false;
-        $this->refreshQueryData();
-    }
+    public $model = Order::class;
+    public $selectedItemKey = 'customer';
+    public string $placeholder = 'Type to search customers...';
 
     public function refreshQueryData()
     {
-        $this->showDropdown = false;
+        $this->closeDropdown();
 
-        $query = Order::query();
+        $query = $this->model::query();
 
-        if ($this->createdById > 0) {
-            $query->where('created_by', $this->createdById);
+       /* if ($this->selectedItem > 0) {
+            $query->where('id', $this->selectedItem);
             $query->limit(1);
             $get = $query->first();
             if ($get != null) {
                 $this->data = [];
                 $this->showDropdown = true;
-                $this->query = $get->first_name . ' '. $get->last_name . ' (#'.$get->id.')';
+                $this->query = $get->displayName() . ' (#'.$get->id.')';
             }
             return;
-        }
+        }*/
 
         $keyword = trim($this->query);
 
@@ -77,15 +37,26 @@ class OrdersCustomersAutoComplete extends AutoCompleteComponent
             $query->orWhere('email', 'like', '%' . $keyword . '%');
         }
 
-        $query->limit(30);
-
-        $query->groupBy('created_by');
+        $query->groupBy('email');
+        $query->limit(200);
 
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown = true;
-            $this->data = $get->toArray();
+            $this->showDropdown();
+            $this->data = [];
+            foreach ($get as $item) {
+                $key = [
+                    'email'=>$item->email,
+                    'first_name'=>$item->first_name,
+                    'last_name'=>$item->last_name,
+                    'customer_id'=>$item->customer_id,
+                ];
+                $key = array_filter($key);
+                $key = json_encode($key);
+
+                $this->data[] = ['key'=>$key, 'value'=>$item->first_name . ' ' . $item->last_name];
+            }
         }
     }
 }
