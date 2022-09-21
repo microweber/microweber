@@ -9,7 +9,7 @@ class OrdersCustomersAutoComplete extends AutoCompleteComponent
 {
     public $model = Order::class;
     public $selectedItemKey = 'customer';
-    public string $placeholder = 'Type to search customers...';
+    public string $placeholder = 'Type to search by customers...';
 
     public function refreshQueryData()
     {

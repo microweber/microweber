@@ -4,7 +4,12 @@
     </label>
 
     <div class="mb-3 mb-md-0">
-
-
+        @php
+            $selectedItem = false;
+            if (isset($filters['shipping.city'])) {
+                $selectedItem = $filters['shipping.city'];
+            }
+        @endphp
+        @livewire('admin-orders-shipping-city-autocomplete', ['selectedItem'=>$selectedItem])
     </div>
 </div>
