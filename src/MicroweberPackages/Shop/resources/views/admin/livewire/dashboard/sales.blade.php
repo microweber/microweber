@@ -291,14 +291,67 @@
             </div>
         </div>
 
-        {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
-
-        <pre>
-                {!! print_r($data, JSON_PRETTY_PRINT) !!}
-           </pre>
         <?php endif; ?>
 
 
+
+
+
+
+
+
+        <?php if(isset($data['orders_best_selling_categories']) and $data['orders_best_selling_categories']): ?>
+        <div class="card py-3 mb-3">
+
+            <div class="card-body py-3">
+
+                <h5 class="card-title">Most sold in categories</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><?php print $show_period_dates_display ?></h6>
+
+
+                <div class="row g-0">
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <th scope="col">Category name</th>
+                            <th scope="col">Orders</th>
+
+                            <th scope="col">Amount (<?php print $currency_display ?>)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <?php foreach ($data['orders_best_selling_categories'] as $category): ?>
+                        <?php
+
+                        if (!isset($category['title'])) {
+                            continue;
+                        }
+                        ?>
+                        <tr>
+                            <th scope="row"><?php print $category['title'] ?></th>
+                            <td><?php print $category['orders_count'] ?></td>
+                            <td><?php print $category['orders_amount_rounded'] ?></td>
+                        </tr>
+
+                        <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+        <?php endif; ?>
+
+
+        {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
+        <pre>
+         {!! print_r($data, JSON_PRETTY_PRINT) !!}
+        </pre>
     </div>
 
 </div>

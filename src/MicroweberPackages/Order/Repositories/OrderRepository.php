@@ -51,6 +51,48 @@ class OrderRepository extends AbstractRepository
         }
         return 0;
     }
+    public function getBestSellingCategoriesForPeriod($params = [])
+    {
+        $categories = [];
+        $products = $this->getBestSellingProductsForPeriod($params);
+        if($products){
+            foreach ($products as $product) {
+                if(isset($product['content_id']) and !empty($product['content_id'])){
+                     $categories_get = app()->content_repository->getCategories($product['content_id']);
+                     if($categories_get){
+                         foreach ($categories_get as $category) {
+                             if(isset($category['id']) and !empty($category['id'])){
+                                 if($category['parent_id'] != 0){
+                                      continue;
+                                 }
+
+                                 if(!isset($categories[$category['id']])){
+                                     $categories[$category['id']] = $category;
+                                     $categories[$category['id']]['orders_count'] = 0;
+                                     $categories[$category['id']]['orders_amount'] = 0;
+                                     $categories[$category['id']]['orders_amount_rounded'] = 0;
+                                 }
+
+                                 $categories[$category['id']]['orders_count'] = $categories[$category['id']]['orders_count'] + $product['orders_count'];
+                                 $categories[$category['id']]['orders_amount'] = $categories[$category['id']]['orders_amount'] + $product['orders_amount'];
+                                 $categories[$category['id']]['orders_amount_rounded'] = $categories[$category['id']]['orders_amount_rounded'] + $product['orders_amount_rounded'];
+                             }
+                         }
+                     }
+
+                }
+            }
+            if(!empty($categories)){
+                // sort by orders_amount_rounded
+                usort($categories, function($a, $b) {
+                    return $b['orders_amount_rounded'] <=> $a['orders_amount_rounded'];
+                });
+            }
+
+
+            return $categories;
+        }
+    }
     public function getBestSellingProductsForPeriod($params = [])
     {
         $orders = $this->getDefaultQueryForStats($params);
@@ -81,10 +123,8 @@ class OrderRepository extends AbstractRepository
 
             return $data;
         }
-
-
-
     }
+
     public function getOrderItemsCountForPeriod($params = [])
     {
  // todo  finish the query

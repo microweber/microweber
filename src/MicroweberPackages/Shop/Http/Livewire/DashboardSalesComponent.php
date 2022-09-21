@@ -54,7 +54,9 @@ class DashboardSalesComponent extends Component
         $orders_count = app()->order_repository->getOrdersCountForPeriod($this->filters);
         $orders_items_count = app()->order_repository->getOrderItemsCountForPeriod($this->filters);
         $orders_best_selling_products = app()->order_repository->getBestSellingProductsForPeriod($this->filters);
+        $orders_best_selling_categories = app()->order_repository->getBestSellingCategoriesForPeriod($this->filters);
         $data = [];
+        $data['orders_best_selling_categories'] = $orders_best_selling_categories;
         $data['orders_best_selling_products'] = $orders_best_selling_products;
         $data['orders_total_amount'] = $sum;
         $data['orders_total_count'] = $orders_count;
