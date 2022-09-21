@@ -3,8 +3,11 @@
         Shipping Status
     </label>
 
-    <div class="mb-3 mb-md-0">
+    <select wire:model.stop="filters.shipping.status" class="form-control">
+        <option value="">Any</option>
+        <option value="received">Received</option>
+        <option value="pending">Pending</option>
+        <option value="shipped">Shipped</option>
+    </select>
 
-
-    </div>
 </div>

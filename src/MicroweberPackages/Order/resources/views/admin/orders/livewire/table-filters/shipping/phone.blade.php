@@ -3,8 +3,5 @@
         Shipping Phone
     </label>
 
-    <div class="mb-3 mb-md-0">
-
-
-    </div>
+    <input type="text" class="form-control" wire:model="filters.shippingPhone" />
 </div>

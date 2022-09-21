@@ -3,8 +3,5 @@
         Shipped at
     </label>
 
-    <div class="mb-3 mb-md-0">
-
-
-    </div>
+    <input type="date" class="form-control" wire:model="filters.shippedAt" />
 </div>
