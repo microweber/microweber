@@ -15,6 +15,20 @@
     </div>
 
 
+    <?php
+
+    $currency_display = '';
+    $show_period_range = '';
+
+    if (isset($filters['currency'])) {
+        $currency_display = $filters['currency'];
+    }
+
+    if (isset($view['show_period_range'])) {
+        $show_period_range = ucfirst($view['show_period_range']);
+    }
+    ?>
+
     <div class="card-body">
         {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
         {!! json_encode($view, JSON_PRETTY_PRINT) !!}
@@ -81,7 +95,7 @@
 
                 <?php if(isset($data['orders_total_amount'])): ?>
                 <div class="col-6 col-md-4 border-200 border-bottom border-end pb-4">
-                    <h6 class="pb-1 text-700">Amount </h6>
+                    <h6 class="pb-1 text-700">Amount (<?php print $currency_display ?>)</h6>
                     <p class="font-sans-serif lh-1 mb-1 fs-2"><?php print currency_format($data['orders_total_amount'], $currency); ?> </p>
                 </div>
                 <?php endif; ?>
@@ -114,10 +128,17 @@
     </script>
     <div class="card py-3 mb-3">
         <div class="card-body py-3">
-            <div id="sales<?php print $chart_id ?>">
+            <div class="row" id="sales<?php print $chart_id ?>">
 
             </div>
-            <div id="amount<?php print $chart_id ?>">
+            <div class="row" id="amount<?php print $chart_id ?>">
+
+            </div>
+
+            <div class="row w-100" id="echart_sales_<?php print $chart_id ?>">
+
+            </div>
+            <div class="row w-100" id="echart_sales_amount_<?php print $chart_id ?>">
 
             </div>
             {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
@@ -149,71 +170,100 @@
                         }
                     }
                     $(chartEl).addClass('chart-js-render-ready')
-                    var optionsSales = {
-                        chart: {
-                            id: 'chartSales',
-                            type: 'line',
-                            stacked: false
+
+
+                    // echarts
+                    var chartDom = document.getElementById('echart_sales_<?php print $chart_id ?>');
+                    salesChart = echarts.init(chartDom,null, {
+                     //   width: "100%",
+                        height: 400
+                    })
+
+                    salesChartTooltipOptions = {
+                        show: true,
+                        position: 'top',
+                      //  confine: true,
+                        textStyle: {
+                            overflow: 'breakAll',
+                            width: 40,
+                        },
+                    };
+
+                    salesChart.setOption({
+                        legend: {},
+                        tooltip: salesChartTooltipOptions,
+                        xAxis: {
+                            type: "category",
+                            data: <?php print json_encode(array_keys($sales_numbers)) ?>
+                        },
+                        yAxis: {
+                            type: "value"
                         },
                         series: [
                             {
-                                name: 'sales',
-                                type: 'line',
-                                data: <?php print json_encode(array_values($sales_numbers)) ?>
+                                name: '<?php print $show_period_range ?> Orders',
+                                data: <?php print json_encode(array_values($sales_numbers)) ?>,
+                                type: "line",
+                                smooth:false,
+                                lineStyle: {color: '#26be6b'}
+
                             }
-                        ],
-                        xaxis: {
-                            type: 'datetime',
-                            tooltip: {
-                                enabled: true
-                            },
-                            categories: <?php print json_encode(array_keys($sales_numbers)) ?>
-                        }
-                    }
-
-                    var chart = new ApexCharts(chartEl, optionsSales);
-
-                    chart.render();
+                        ]
+                    });
 
 
-                    var chartElAmount = document.getElementById("amount<?php print $chart_id ?>");
+
+                    window.onresize = function() {
+                        salesChart.resize();
+                    };
 
 
-                    var optionsAmount = {
-                        chart: {
-                            id: 'chartAmount',
-                            height: 130,
-                            type: 'area',
-                            sparkline: {
-                                enabled: true
-                            },
-                            brush: {
-                                target: 'chartSales',
-                                enabled: true
-                            }
+
+
+
+
+                    // echarts sales amount
+                     var chartDom = document.getElementById('echart_sales_amount_<?php print $chart_id ?>');
+
+
+                      salesAmountChart = echarts.init(chartDom,null, {
+                            //   width: "100%",
+                            height: 400
+                        })
+
+
+
+                    salesAmountChart.setOption({
+                        legend: {},
+                        tooltip: salesChartTooltipOptions,
+                        xAxis: {
+                            type: "category",
+                            data: <?php print json_encode(array_keys($sales_numbers)) ?>
                         },
-                        dataLabels: {
-                            enabled: true,
+                        yAxis: {
+                            type: "value"
                         },
                         series: [
                             {
-                                name: 'amount',
-
-                                data: <?php print json_encode(array_values($sales_numbers_amount)) ?>
+                                name: '<?php print $show_period_range ?> Sales (<?php print $currency_display ?>)',
+                                data: <?php print json_encode(array_values($sales_numbers_amount)) ?>,
+                                type: 'bar'
                             }
-                        ],
-                        xaxis: {
-                            type: 'datetime',
-                            tooltip: {
-                                enabled: true
-                            },
-                            categories: <?php print json_encode(array_keys($sales_numbers)) ?>
-                        }
-                    }
+                        ]
+                    });
 
-                    var chart = new ApexCharts(chartElAmount, optionsAmount);
 
-                    chart.render();
+
+                    window.onresize = function() {
+                        salesAmountChart.resize();
+                    };
+
+
+
+
+
+
+
                 }
 
                 initJsSalesChart<?php print $chart_id ?>()
