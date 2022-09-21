@@ -1,5 +1,13 @@
 <div>
 
+    <div wire:loading>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
     <div style="height: 60px" class="bulk-actions-show-columns">
 
         @if(count($checked) > 0)
@@ -78,10 +86,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="page-loading" wire:loading>
-        Loading...
     </div>
 
     <table class="table table-responsive">
