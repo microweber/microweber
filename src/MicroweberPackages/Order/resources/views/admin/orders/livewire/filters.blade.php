@@ -31,10 +31,11 @@
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Filters
+                       <i class="fa fa-filter"></i> Filters
                     </button>
                     <div class="dropdown-menu p-3">
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.order"> Order</label>
+                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shipping"> Shipping</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
                     </div>
@@ -52,6 +53,16 @@
                 @include('order::admin.orders.livewire.table-filters.payment_status')
                 @include('order::admin.orders.livewire.table-filters.amount_range')
                 @include('order::admin.orders.livewire.table-filters.product')
+            </div>
+
+            <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['shipping']) || !$showFilters['shipping']) display:none; @endif">
+                @include('order::admin.orders.livewire.table-filters.shipping.service')
+                @include('order::admin.orders.livewire.table-filters.shipping.country')
+                @include('order::admin.orders.livewire.table-filters.shipping.city')
+                @include('order::admin.orders.livewire.table-filters.shipping.sate')
+                @include('order::admin.orders.livewire.table-filters.shipping.post-code')
+                @include('order::admin.orders.livewire.table-filters.shipping.address')
+                @include('order::admin.orders.livewire.table-filters.shipping.phone')
             </div>
 
             <div class="row js-row-customer-filters-box" style="@if(!isset($showFilters['customer']) || !$showFilters['customer']) display:none; @endif">
