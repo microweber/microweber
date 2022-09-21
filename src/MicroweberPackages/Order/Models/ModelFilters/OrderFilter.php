@@ -135,8 +135,12 @@ class OrderFilter extends ModelFilter
             $this->query->where($table . '.created_at', '>', $minDate);
         }
 
+
         if (!empty($maxDate)) {
             $this->query->where($table . '.created_at', '<', $maxDate);
+        } else {
+           // $this->query->where($table . '.created_at', '>', $minDate);
+
         }
 
 
