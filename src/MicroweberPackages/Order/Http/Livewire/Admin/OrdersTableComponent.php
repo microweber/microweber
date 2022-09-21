@@ -55,6 +55,10 @@ class OrdersTableComponent extends Component
         $this->paginationLimit = $limit;
     }
 
+    public function updatedPage()
+    {
+        $this->deselectAll();
+    }
 
     public function deselectAll()
     {
