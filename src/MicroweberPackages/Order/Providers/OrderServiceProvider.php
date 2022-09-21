@@ -21,6 +21,7 @@ use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkOrderStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersCustomersAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
+use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingCountryAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
 use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Order\Repositories\OrderRepository;
@@ -37,6 +38,7 @@ class OrderServiceProvider extends ServiceProvider
         //Livewire::component('content-bulk-options', ContentBulkOptions::class);
         Livewire::component('admin-orders-filters', OrdersFiltersComponent::class);
         Livewire::component('admin-orders-table', OrdersTableComponent::class);
+        Livewire::component('admin-orders-shipping-country-autocomplete', OrdersShippingCountryAutoComplete::class);
         Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
         Livewire::component('admin-orders-bulk-delete', OrdersBulkDelete::class);
         Livewire::component('admin-orders-bulk-order-status', OrdersBulkOrderStatus::class);
