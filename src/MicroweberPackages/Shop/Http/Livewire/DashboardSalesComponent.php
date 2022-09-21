@@ -11,6 +11,7 @@ class DashboardSalesComponent extends Component
     public $data = [];
     public $filters = [];
     public $supported_currencies = [];
+     public $view = [];
     public $currency = false;
     protected $listeners = ['changeCurrency' => '$refresh'];
     protected $queryString = ['filters'];
@@ -21,9 +22,11 @@ class DashboardSalesComponent extends Component
             $this->filters['currency'] =   $this->currency = app()->shop_manager->get_default_currency();
         }
 
-        $this->filters['from'] = Carbon::parse(strtotime('-2 years'))->format('Y-m-d');
+        $this->filters['from'] = Carbon::parse(strtotime('-1 year'))->format('Y-m-d');
         $this->filters['to'] = Carbon::parse(strtotime('today'))->format('Y-m-d');
-        $this->supported_currencies = app()->order_repository->getOrderCurrencies();
+        $this->view['supported_currencies'] = app()->order_repository->getOrderCurrencies();
+        $this->view['show_period_range'] = $this->view['show_period_range'] ?? 'daily';
+        $this->view['supported_period_ranges'] = ['daily', 'weekly', 'monthly', 'yearly'];
 
     }
 
@@ -37,7 +40,16 @@ class DashboardSalesComponent extends Component
     {
    //     $this->emit('initSalesChart');
 
-        $sales = app()->order_repository->getOrdersCountGroupedByDate($this->filters);
+        // this is used to refresh the chart
+        $filters = $this->filters;
+        if(isset($this->view['show_period_range'])){
+            $filters['period_group'] = $this->view['show_period_range'];
+         }
+
+        $sales = app()->order_repository->getOrdersCountGroupedByDate($filters);
+
+
+
         $sum = app()->order_repository->getOrdersTotalSumForPeriod($this->filters);
         $orders_count = app()->order_repository->getOrdersCountForPeriod($this->filters);
         $orders_items_count = app()->order_repository->getOrderItemsCountForPeriod($this->filters);
@@ -52,6 +64,11 @@ class DashboardSalesComponent extends Component
     public function changeCurrency($currency)
     {
         $this->filters['currency'] = $currency;
+        $this->loadSalesData();
+    }
+  public function changePeriodDateRangeType($type)
+    {
+        $this->view['show_period_range'] = $type;
         $this->loadSalesData();
     }
 

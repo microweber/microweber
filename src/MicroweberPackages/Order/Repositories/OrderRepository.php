@@ -91,15 +91,44 @@ class OrderRepository extends AbstractRepository
     }
     public function getOrdersCountGroupedByDate($params = [])
     {
+
+        $groupByFields = 'date';
+        if(isset($params['period_group'])){
+            switch ($params['period_group']) {
+                case 'daily':
+                    $groupByFields = 'date';
+                    break;
+                case 'weekly':
+                    $groupByFields = 'date_year_month_week';
+                    break;
+                case 'monthly':
+                    $groupByFields = 'date_year_month';
+                    break;
+                case 'yearly':
+                    $groupByFields = 'date_year';
+                    break;
+            }
+         }
+
         $orders = $this->getDefaultQueryForStats($params);
 
-        $data = $orders->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->get([
-                DB::raw('sum( amount ) as amount'),
-                DB::raw('DATE( created_at ) as date'),
-                DB::raw('COUNT( * ) as "count"')
-            ])->toArray();
+        $orders->groupBy($groupByFields);
+
+        $orders->orderBy('date', 'desc');
+
+        $data =  $orders->get([
+            DB::raw('sum( amount ) as amount'),
+            DB::raw('YEAR( created_at ) as date_year'),
+            DB::raw('MONTH( created_at ) as date_month'),
+            DB::raw('DATE( created_at ) as date'),
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') date_year_month"),
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m-%u') date_year_month_week"),
+            DB::raw("DATE_FORMAT(created_at, '%Y %M Week %u') date_year_month_week_display"),
+            DB::raw('COUNT( * ) as "count"'),
+
+        ])->toArray();
+
+
 
         if (!empty($data)) {
             array_walk($data, function (&$a, $b) {

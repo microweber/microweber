@@ -3,8 +3,6 @@
 ?>
 
 
-
-
 <div class="card" wire:init="loadSalesData">
 
     <div wire:loading>
@@ -19,25 +17,24 @@
 
     <div class="card-body">
         {!! json_encode($filters, JSON_PRETTY_PRINT) !!}
+        {!! json_encode($view, JSON_PRETTY_PRINT) !!}
 
 
         <label for="start_date">Start date:</label>
 
-        <input type="date" id="start_date"  wire:model="filters.from"    />
+        <input type="date" id="start_date" wire:model="filters.from"/>
 
         <label for="end_date">End date:</label>
 
-        <input type="date" id="end_date"  wire:model="filters.to"   />
+        <input type="date" id="end_date" wire:model="filters.to"/>
 
 
     </div>
 
 
-
-
-
+    <?php if(isset($view['supported_currencies'])): ?>
     <div class="card-body">
-        <?php foreach ($supported_currencies as $currency): ?>
+        <?php foreach ($view['supported_currencies'] as $currency): ?>
         <?php
         $class = 'btn-outline-secondary';
 
@@ -49,8 +46,32 @@
                 wire:click="changeCurrency('<?php print $currency['currency'] ?>')"><?php print $currency['currency'] ?></button>
         <?php endforeach; ?>
 
+    </div>
+    <?php endif; ?>
+
+    <?php if(isset($view['supported_period_ranges'])): ?>
+    <div class="card-body">
+        <?php foreach ($view['supported_period_ranges'] as $supported_period_range): ?>
+        <?php
+        $class = 'btn-outline-secondary';
+
+        if (isset($view['show_period_range']) and $view['show_period_range'] == $supported_period_range) {
+            $class = 'btn-primary';
+        }
+        ?>
+        <button class="btn <?php print $class ?>" wire:click="changePeriodDateRangeType('<?php print $supported_period_range ?>')" ><?php print $supported_period_range ?></button>
+        <?php endforeach; ?>
 
     </div>
+    <?php endif; ?>
+
+
+
+
+
+
+
+
 
 
     <div class="card py-3 mb-3">
