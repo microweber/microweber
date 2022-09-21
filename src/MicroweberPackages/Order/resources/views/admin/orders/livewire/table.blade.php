@@ -25,17 +25,13 @@
                         Bulk Actions
                     </button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click="showDeleteModal">Delete</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click="showPaymentStatusModal">Change Payment Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click="showStatusModal">Change Order Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'>Delete</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'>Change Payment Status</button></li>
+                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-status", {{ json_encode(["ids" => $checked]) }})'>Change Order Status</button></li>
                     </ul>
                 </div>
             </div>
         @endif
-
-        @include('order::admin.orders.livewire.bulk-modals.delete')
-        @include('order::admin.orders.livewire.bulk-modals.status')
-        @include('order::admin.orders.livewire.bulk-modals.payment-status')
 
         <div class="pull-right">
 

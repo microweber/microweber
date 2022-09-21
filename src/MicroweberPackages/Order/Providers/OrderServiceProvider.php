@@ -16,6 +16,9 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Http\Livewire\UsersAutoComplete;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersCustomersAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
@@ -35,6 +38,9 @@ class OrderServiceProvider extends ServiceProvider
         Livewire::component('admin-orders-filters', OrdersFiltersComponent::class);
         Livewire::component('admin-orders-table', OrdersTableComponent::class);
         Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
+        Livewire::component('admin-orders-bulk-delete', OrdersBulkDelete::class);
+        Livewire::component('admin-orders-bulk-status', OrdersBulkStatus::class);
+        Livewire::component('admin-orders-bulk-payment-status', OrdersBulkPaymentStatus::class);
 
         /**
          * @property \MicroweberPackages\Order\OrderManager    $order_manager
