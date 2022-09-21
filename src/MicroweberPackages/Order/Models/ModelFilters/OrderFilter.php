@@ -139,6 +139,7 @@ class OrderFilter extends ModelFilter
             $this->query->where($table . '.created_at', '<', $maxDate);
         }
 
+
     }
 
     public function currency($currency)

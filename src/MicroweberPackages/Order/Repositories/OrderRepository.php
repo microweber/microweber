@@ -15,7 +15,7 @@ class OrderRepository extends AbstractRepository
      */
     public $model = Order::class;
 
-    public function getOrderCurrenciesForPeriod($params = [])
+    public function getOrderCurrencies($params = [])
     {
         $orders = $this->getDefaultQueryForStats($params);
         $orders->groupBy('currency');

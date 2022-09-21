@@ -3,6 +3,8 @@
 ?>
 
 
+
+
 <div class="card" wire:init="loadSalesData">
 
     <div wire:loading>
@@ -13,6 +15,25 @@
             </div>
         </div>
     </div>
+
+
+    <div class="card-body">
+        {!! json_encode($filter, JSON_PRETTY_PRINT) !!}
+
+        <label for="start">Start date:</label>
+
+        <input type="date" id="start"  wire:model="filter.from"  value="" wire:change="loadSalesData" />
+
+        <label for="end">End date:</label>
+
+        <input type="date" id="end"  wire:model="filter.to"  value=""  wire:change="loadSalesData" />
+    </div>
+
+
+
+
+
+
     <div class="card-body">
         <?php foreach ($supported_currencies as $currency): ?>
         <?php
@@ -140,6 +161,9 @@
                             id: 'chartAmount',
                             height: 130,
                             type: 'area',
+                            sparkline: {
+                                enabled: true
+                            },
                             brush: {
                                 target: 'chartSales',
                                 enabled: true

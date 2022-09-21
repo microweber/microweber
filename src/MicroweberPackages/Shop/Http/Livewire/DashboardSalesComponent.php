@@ -22,7 +22,7 @@ class DashboardSalesComponent extends Component
 
         $this->filter['from'] = Carbon::parse(strtotime('-2 years'))->format('Y-m-d') . ' 00:00:01';
         $this->filter['to'] = Carbon::parse(strtotime('today'))->format('Y-m-d') . ' 23:59:59';
-        $this->supported_currencies = app()->order_repository->getOrderCurrenciesForPeriod();
+        $this->supported_currencies = app()->order_repository->getOrderCurrencies();
 
     }
 
