@@ -114,6 +114,7 @@ class AutoCompleteComponent extends Component
         $this->query = '';
         $this->data = false;
         $this->selectItem(false);
+        $this->closeDropdown();
     }
 
     /**
@@ -123,6 +124,11 @@ class AutoCompleteComponent extends Component
      */
     public function selectItem(string $item)
     {
+        $json = @json_decode($item, true);
+        if (!empty($json)) {
+            $item = $json;
+        }
+
         $this->selectedItem = $item;
         $this->refreshQueryData();
         $this->emitSelf('$refresh');

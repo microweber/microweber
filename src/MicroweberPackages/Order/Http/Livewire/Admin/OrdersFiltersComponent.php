@@ -5,6 +5,7 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin;
 use Livewire\Component;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 
 class OrdersFiltersComponent extends Component
 {
@@ -80,6 +81,12 @@ class OrdersFiltersComponent extends Component
                                 $getCategory = Category::where('id', $resourceId)->first();
                                 if ($getCategory != null) {
                                     $filterFriendlyValue[] = $getCategory->title;
+                                }
+                            } else if ($filterKey == 'productId') {
+                                $resourceId = intval($resourceId);
+                                $getProduct = Product::where('id', $resourceId)->first();
+                                if ($getProduct != null) {
+                                    $filterFriendlyValue[] = $getProduct->title;
                                 }
                             } else {
                                 $filterFriendlyValue[] = $resourceId;
