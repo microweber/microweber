@@ -74,7 +74,7 @@ class Order extends Model
             return 'Shipping to address';
         }
 
-        return '';
+        return $this->shipping_service;
     }
 
     public function paymentMethodName()
