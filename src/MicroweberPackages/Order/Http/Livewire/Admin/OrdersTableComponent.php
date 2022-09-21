@@ -5,18 +5,15 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkDeleteModal;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkStatusModal;
-use MicroweberPackages\Order\Http\Livewire\Admin\Traits\WithOrdersBulkPaymentStatusModal;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkStatus;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 
 class OrdersTableComponent extends Component
 {
     use WithPagination;
-    use WithOrdersBulkDeleteModal;
-    use WithOrdersBulkStatusModal;
-    use WithOrdersBulkPaymentStatusModal;
 
     public $paginationLimit = 10;
     protected $paginationTheme = 'bootstrap';
