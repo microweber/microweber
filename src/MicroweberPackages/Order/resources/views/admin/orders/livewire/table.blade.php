@@ -14,6 +14,7 @@
                     You have selected {{ count($checked) }} items,
                     Do you want to Select All {{ count($orders->items()) }}?
                     <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
                 </div>
             @endif
         @endif
