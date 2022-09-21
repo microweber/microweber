@@ -303,7 +303,7 @@
         <div style="width: 100%">
             <span class="text-muted">{{ $orders->total() }} results found</span>
         </div>
-        
+
         <div>
         {{ $orders->links() }}
         </div>
