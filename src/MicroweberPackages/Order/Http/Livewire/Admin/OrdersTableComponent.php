@@ -117,7 +117,14 @@ class OrdersTableComponent extends Component
     public function getOrdersQueryProperty()
     {
         $query = Order::query();
-        $query->filter($this->filters);
+
+        $applyFiltersToQuery = $this->filters;
+
+        if (!isset($applyFiltersToQuery['orderBy'])) {
+            $applyFiltersToQuery['orderBy'] = 'id,desc';
+        }
+
+        $query->filter($applyFiltersToQuery);
 
         return $query;
     }
