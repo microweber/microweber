@@ -1,14 +1,13 @@
-<script>
-    window.livewire.on('statusModal', status => {
-        if (!status) {
-            if (window.statusModal) {
-                window.statusModal.remove();
-            }
-        }
-    });
-</script>
-
 @if($statusModal)
+    <template id="js-bulk-change-status">
+        Order Status
+        <select class="form-control js-bulk-change-status-select">
+            <option value="1">Paid</option>
+            <option value="0">Unpaid</option>
+        </select>
+        <button type="button" class="btn btn-success mt-3 js-bulk-change-status-change">Change</button>
+    </template>
+
     <script>
         $(document).ready(function () {
             window.statusModal = mw.dialog({
@@ -22,12 +21,15 @@
             });
         });
     </script>
-    <template id="js-bulk-change-status">
-        Order Status
-        <select class="form-control js-bulk-change-status-select">
-            <option value="1">Paid</option>
-            <option value="0">Unpaid</option>
-        </select>
-        <button type="button" class="btn btn-success mt-3 js-bulk-change-status-change">Change</button>
-    </template>
 @endif
+
+
+<script>
+    window.livewire.on('statusModal', status => {
+        if (!status) {
+            if (window.statusModal) {
+                window.statusModal.remove();
+            }
+        }
+    });
+</script>
