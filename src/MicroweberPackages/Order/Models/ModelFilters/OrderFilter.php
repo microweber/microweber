@@ -19,9 +19,38 @@ class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
 
-    public function shippingCountry($shipping)
+    public function shippingState($state)
     {
+        $state = trim($state);
+        if (!empty($state)) {
+            $this->query->where('state', $state);
+        }
+    }
 
+    public function shippingCity($city)
+    {
+        $city = trim($city);
+        if (!empty($city)) {
+            $this->query->where('city', $city);
+        }
+    }
+
+    public function shippingCountry($country)
+    {
+        $country = trim($country);
+        if (!empty($country)) {
+            $this->query->where('country', $country);
+        }
+    }
+
+    public function shippingZip($zip)
+    {
+        $zip = trim($zip);
+        dd($zip);
+
+        if (!empty($zip)) {
+            $this->query->where('zip', $zip);
+        }
     }
 
     public function id($id)

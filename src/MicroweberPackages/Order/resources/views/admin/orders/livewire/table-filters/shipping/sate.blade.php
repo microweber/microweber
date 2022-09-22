@@ -6,8 +6,8 @@
     <div class="mb-3 mb-md-0">
         @php
             $selectedItem = false;
-            if (isset($filters['shipping.state'])) {
-                $selectedItem = $filters['shipping.state'];
+            if (isset($filters['shipping']['state'])) {
+                $selectedItem = $filters['shipping']['state'];
             }
         @endphp
         @livewire('admin-orders-shipping-state-autocomplete', ['selectedItem'=>$selectedItem])

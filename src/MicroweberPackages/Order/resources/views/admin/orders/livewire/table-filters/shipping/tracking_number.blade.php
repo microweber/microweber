@@ -3,5 +3,5 @@
         Shipping Tracking Number
     </label>
 
-    <input type="text" class="form-control" wire:model="filters.shipping.trackingNumber" />
+    <input type="text" class="form-control"  placeholder="Type to search by tracking number..." wire:model="filters.shipping.trackingNumber" />
 </div>
