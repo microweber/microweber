@@ -10,10 +10,12 @@ namespace MicroweberPackages\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use MicroweberPackages\Product\Models\Product;
 
 class OrderFilter extends ModelFilter
 {
@@ -97,38 +99,38 @@ class OrderFilter extends ModelFilter
 
     public function productId($productId)
     {
-
-        $this->query->whereHas('cart', function ($query) use($productId) {
-            $query->select('order_id');
-            $query->where('rel_id', '=', $productId);
-
+        $productId = intval($productId);
+        $this->query->whereHas('cart.order', function ($query) use($productId) {
+            $query->select('cart.order_id');
+            $query->where('cart.rel_id', '=', $productId);
+            $query->whereNotNull('cart.order_id');
         });
+
+    }
+
+    public function categoryId($categoryId)
+    {
+        $categoryId = intval($categoryId);
+
+
+        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
+             $query->whereNotNull('cart.order_id');
+            $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereCategoryIds([$categoryId]));
+        });
+
+
+
+
+
+
+//        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
+//        //    $query->select('cart.order_id');
+//       //     $query->where('cart.rel_id', '=', $categoryId);
 //
-//        $this->query->powerJoinWhereHas('cart', function ($query) use($productId) {
-//            $query->where('cart.rel_id', '=', $productId);
+//
+//
+//          //  $query->whereNotNull('cart.order_id');
 //        });
-
-
-
-
-
-        //  scopeJoinRelationshipUsingAlias(Builder $query, $relationName, $callback = null, bool $disableExtraConditions = false)
-
-//        $this->query->joinRelationship('cart', [
-//            'cart' => function ($join) {
-//                $join->as('cart_alias');
-//            }
-//        ])->where('cart_alias.rel_id', '=', $productId);;
-//        $this->query->joinRelationshipUsingAlias('cart', function ($join)  use($productId) {
-//            $join->as('cart_alias');
-//            $join->where('cart_alias.rel_id', '=', $productId);
-//           // $join->withTrashed();
-//        });
-
-//        $this->query->joinRelationshipUsingAlias('cart', 'cart_alias_product', function ($query) use($productId) {
-//            $query->where('cart_alias_product.rel_id', '=', $productId);
-//        }, false);
-
 
     }
 

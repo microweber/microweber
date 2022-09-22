@@ -18,6 +18,7 @@ trait FilterByCategory
 {
     public function category($categoryIds = false)
     {
+
         if ($categoryIds) {
             $this->query->whereCategoryIds($categoryIds);
         }

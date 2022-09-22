@@ -21,9 +21,13 @@
     $show_period_range = '';
     $show_period_dates_display = '';
     $selected_product_id = false;
+    $selected_category_id = false;
 
     if (isset($filters['productId'])) {
         $selected_product_id = $filters['productId'];
+    }
+    if (isset($filters['categoryId'])) {
+        $selected_category_id = $filters['categoryId'];
     }
 
     if (isset($filters['currency'])) {
@@ -64,6 +68,18 @@
         <div class="mb-3 mb-md-0">
 
             @livewire('admin-products-autocomplete', ['selectedItem'=>$selected_product_id])
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-product-filter">
+
+
+        <div class="mb-3 mb-md-0">
+
+            <label for="end_date">Category:</label>
+
+            <input type="text" wire:model="filters.categoryId"/>
         </div>
 
     </div>
@@ -362,6 +378,23 @@
                             <th scope="row"><?php print $category['title'] ?></th>
                             <td><?php print $category['orders_count'] ?></td>
                             <td><?php print $category['orders_amount_rounded'] ?></td>
+                            <td> </td>
+
+                            <td>
+                                <button class="btn <?php print $class ?>"
+                                        wire:click="setFilter('categoryId','<?php print $category['id'] ?>')">View</button>
+
+
+                                <?php if($selected_category_id == $category['id']): ?>
+                                <button class="btn btn-outline-danger"
+                                        wire:click="setFilter('categoryId','')">Clear</button>
+                                <?php endif; ?>
+
+
+                            </td>
+
+
+
                         </tr>
 
                         <?php endforeach; ?>

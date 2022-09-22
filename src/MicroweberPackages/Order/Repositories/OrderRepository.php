@@ -101,27 +101,20 @@ class OrderRepository extends AbstractRepository
     {
         $orders = $this->getDefaultQueryForStats($params);
         $orders->where('cart.rel_type', 'content');
-     // $orders->join('cart', 'cart.order_id', '=', 'cart_orders.id');
 
         $orders->join('cart', function ($join) use ($params) {
             $join->on('cart.order_id', '=', 'cart_orders.id');
             $join->whereNotNull('cart.order_id');
+            $join->where('cart_orders.is_paid', '=', 1);
 
             if(isset($params['productId']) and !empty($params['productId'])){
                 $join->where('cart.rel_id', '=', $params['productId']);
             }
          });
+        if(isset($params['productId']) and !empty($params['productId'])){
+            $orders->where('cart.rel_id', '=', $params['productId']);
+        }
 
-
-//        $orders->join('cart', function ($join) use ($params) {
-//             if(isset($params['productId']) and !empty($params['productId'])){
-//                $join->where('rel_id', $params['productId']);
-//            }
-//        });
-
-
-     //   $orders->joinRelationship('cart');
- //      $orders->join('content', 'cart.rel_id', '=', 'content.id');
         $orders->select('cart.rel_id as content_id',
             DB::raw("count(cart.rel_id) as orders_count"),
             DB::raw("sum(cart_orders.amount) as orders_amount")
@@ -157,6 +150,7 @@ class OrderRepository extends AbstractRepository
         $orders->join('cart', function ($join) use ($params) {
             $join->on('cart.order_id', '=', 'cart_orders.id');
             $join->whereNotNull('cart.order_id');
+            $join->where('cart_orders.is_paid', '=', 1);
 
             if(isset($params['productId']) and !empty($params['productId'])){
                 $join->where('cart.rel_id', '=', $params['productId']);
@@ -164,7 +158,9 @@ class OrderRepository extends AbstractRepository
         });
 
 
-
+        if(isset($params['productId']) and !empty($params['productId'])){
+            $orders->where('cart.rel_id', '=', $params['productId']);
+        }
         //  $orders->joinRelationship('cart');
         $orders->where('cart.rel_type', 'content');
        // $orders->select(DB::raw('COUNT( cart.rel_id ) as "count"') );
