@@ -18,9 +18,12 @@ class OrderRepository extends AbstractRepository
 
     public function getOrderCurrencies($params = [])
     {
-        $orders = $this->getDefaultQueryForStats($params);
+      //  $orders = $this->getDefaultQueryForStats($params);
+        $orders = $this->getModel()->newQuery();
+        $orders->select('currency');
+        $orders->whereNotNull('currency');
         $orders->groupBy('currency');
-        $orders->select('currency', DB::raw('count(*) as orders_count'));
+      //  $orders->select('currency', DB::raw('count(*) as orders_count'));
 
         $data = $orders->get();
         if ($data) {
@@ -34,7 +37,7 @@ class OrderRepository extends AbstractRepository
 
         $orders = $this->getDefaultQueryForStats($params);
 
-        $sum = $orders->sum('amount');
+        $sum = $orders->sum('cart_orders.amount');
         if ($sum) {
             return ceil($sum);
         }
@@ -45,7 +48,8 @@ class OrderRepository extends AbstractRepository
 
         $orders = $this->getDefaultQueryForStats($params);
 
-        $sum = $orders->count('id');
+        $sum = $orders->select('cart_orders.id');
+        $sum = $orders->count('cart_orders.id');
         if ($sum) {
             return intval($sum);
         }
@@ -97,8 +101,27 @@ class OrderRepository extends AbstractRepository
     {
         $orders = $this->getDefaultQueryForStats($params);
         $orders->where('cart.rel_type', 'content');
-        $orders->join('cart', 'cart.order_id', '=', 'cart_orders.id');
-        $orders->join('content', 'cart.rel_id', '=', 'content.id');
+     // $orders->join('cart', 'cart.order_id', '=', 'cart_orders.id');
+
+        $orders->join('cart', function ($join) use ($params) {
+            $join->on('cart.order_id', '=', 'cart_orders.id');
+            $join->whereNotNull('cart.order_id');
+
+            if(isset($params['productId']) and !empty($params['productId'])){
+                $join->where('cart.rel_id', '=', $params['productId']);
+            }
+         });
+
+
+//        $orders->join('cart', function ($join) use ($params) {
+//             if(isset($params['productId']) and !empty($params['productId'])){
+//                $join->where('rel_id', $params['productId']);
+//            }
+//        });
+
+
+     //   $orders->joinRelationship('cart');
+ //      $orders->join('content', 'cart.rel_id', '=', 'content.id');
         $orders->select('cart.rel_id as content_id',
             DB::raw("count(cart.rel_id) as orders_count"),
             DB::raw("sum(cart_orders.amount) as orders_amount")
@@ -127,15 +150,27 @@ class OrderRepository extends AbstractRepository
 
     public function getOrderItemsCountForPeriod($params = [])
     {
+
  // todo  finish the query
       $orders = $this->getDefaultQueryForStats($params);
 
-        $orders->joinRelationship('cart');
+        $orders->join('cart', function ($join) use ($params) {
+            $join->on('cart.order_id', '=', 'cart_orders.id');
+            $join->whereNotNull('cart.order_id');
+
+            if(isset($params['productId']) and !empty($params['productId'])){
+                $join->where('cart.rel_id', '=', $params['productId']);
+            }
+        });
+
+
+
+        //  $orders->joinRelationship('cart');
         $orders->where('cart.rel_type', 'content');
        // $orders->select(DB::raw('COUNT( cart.rel_id ) as "count"') );
        // $orders->groupBy('cart.rel_id');
       //  $sum =   $orders->count('cart.order_id');
-        $sum =   $orders->count('cart.order_id' );
+        $sum =   $orders->count('cart_orders.id' );
       //  dd($orders->toSql(),$sum);
 //
 //
@@ -186,6 +221,27 @@ class OrderRepository extends AbstractRepository
 
         $orders = $this->getDefaultQueryForStats($params);
 
+
+        $groupByFields = 'date';
+        if(isset($params['period_group'])){
+            switch ($params['period_group']) {
+                case 'daily':
+                    $groupByFields = 'date';
+                    break;
+                case 'weekly':
+                    $groupByFields = 'date_year_month_week';
+                    break;
+                case 'monthly':
+                    $groupByFields = 'date_year_month';
+                    break;
+                case 'yearly':
+                    $groupByFields = 'date_year';
+                    break;
+            }
+        }
+
+        $orders = $this->getDefaultQueryForStats($params);
+
         $orders->groupBy($groupByFields);
 
         $orders->orderBy('date', 'desc');
@@ -202,6 +258,7 @@ class OrderRepository extends AbstractRepository
 
         ])->toArray();
 
+//dump($orders->toSql(),$data);
 
 
         if (!empty($data)) {

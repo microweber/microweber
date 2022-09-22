@@ -20,6 +20,11 @@
     $currency_display = '';
     $show_period_range = '';
     $show_period_dates_display = '';
+    $selected_product_id = false;
+
+    if (isset($filters['productId'])) {
+        $selected_product_id = $filters['productId'];
+    }
 
     if (isset($filters['currency'])) {
         $currency_display = $filters['currency'];
@@ -51,7 +56,17 @@
 
 
     </div>
+    <div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-product-filter">
+        <label class="d-block">
+            Product
+        </label>
 
+        <div class="mb-3 mb-md-0">
+
+            @livewire('admin-products-autocomplete', ['selectedItem'=>$selected_product_id])
+        </div>
+
+    </div>
 
     <?php if(isset($view['supported_currencies'])): ?>
     <div class="card-body">
@@ -258,7 +273,8 @@
                     <table class="table table-responsive">
                         <thead>
                         <tr>
-                            <th scope="col">Product name</th>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Product Name</th>
                             <th scope="col">Orders</th>
 
                             <th scope="col">Amount (<?php print $currency_display ?>)</th>
@@ -276,9 +292,22 @@
                         }
                         ?>
                         <tr>
-                            <th scope="row"><?php print $content['title'] ?></th>
+                            <th scope="row"><?php print $content['id'] ?></th>
+                            <td><?php print $content['title'] ?></td>
                             <td><?php print $orders_best_selling_product['orders_count'] ?></td>
                             <td><?php print $orders_best_selling_product['orders_amount_rounded'] ?></td>
+                            <td>
+                                <button class="btn <?php print $class ?>"
+                                        wire:click="setFilter('productId','<?php print $content['id'] ?>')">View</button>
+
+
+                                <?php if($selected_product_id == $content['id']): ?>
+                                <button class="btn btn-outline-danger"
+                                        wire:click="setFilter('productId','')">Clear</button>
+                                <?php endif; ?>
+
+
+                                </td>
                         </tr>
 
                         <?php endforeach; ?>

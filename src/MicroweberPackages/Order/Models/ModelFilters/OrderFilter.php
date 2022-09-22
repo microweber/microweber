@@ -68,9 +68,38 @@ class OrderFilter extends ModelFilter
 
     public function productId($productId)
     {
+
         $this->query->whereHas('cart', function ($query) use($productId) {
+            $query->select('order_id');
             $query->where('rel_id', '=', $productId);
+
         });
+//
+//        $this->query->powerJoinWhereHas('cart', function ($query) use($productId) {
+//            $query->where('cart.rel_id', '=', $productId);
+//        });
+
+
+
+
+
+        //  scopeJoinRelationshipUsingAlias(Builder $query, $relationName, $callback = null, bool $disableExtraConditions = false)
+
+//        $this->query->joinRelationship('cart', [
+//            'cart' => function ($join) {
+//                $join->as('cart_alias');
+//            }
+//        ])->where('cart_alias.rel_id', '=', $productId);;
+//        $this->query->joinRelationshipUsingAlias('cart', function ($join)  use($productId) {
+//            $join->as('cart_alias');
+//            $join->where('cart_alias.rel_id', '=', $productId);
+//           // $join->withTrashed();
+//        });
+
+//        $this->query->joinRelationshipUsingAlias('cart', 'cart_alias_product', function ($query) use($productId) {
+//            $query->where('cart_alias_product.rel_id', '=', $productId);
+//        }, false);
+
 
     }
 

@@ -13,7 +13,12 @@ class DashboardSalesComponent extends Component
     public $supported_currencies = [];
      public $view = [];
     public $currency = false;
-    protected $listeners = ['changeCurrency' => '$refresh'];
+    protected $listeners = [
+        'changeCurrency' => '$refresh',
+        'autoCompleteSelectItem' => 'setFilter',
+   //     'refreshQueryData' => '$refresh',
+      //  'updatedQuery' => '$refresh',
+    ];
     protected $queryString = ['filters'];
 
     public function mount()
@@ -22,13 +27,14 @@ class DashboardSalesComponent extends Component
             $this->filters['currency'] =   $this->currency = app()->shop_manager->get_default_currency();
         }
 
-        $this->filters['from'] = Carbon::parse(strtotime('-1 year'))->format('Y-m-d');
+        $this->filters['from'] = Carbon::parse(strtotime('-2 months'))->format('Y-m-d');
         $this->filters['to'] = Carbon::parse(strtotime('today'))->format('Y-m-d');
         $this->view['supported_currencies'] = app()->order_repository->getOrderCurrencies();
         $this->view['show_period_range'] = $this->view['show_period_range'] ?? 'daily';
         $this->view['supported_period_ranges'] = ['daily', 'weekly', 'monthly', 'yearly'];
 
     }
+
 
     public function render()
     {
@@ -53,8 +59,9 @@ class DashboardSalesComponent extends Component
         $sum = app()->order_repository->getOrdersTotalSumForPeriod($this->filters);
         $orders_count = app()->order_repository->getOrdersCountForPeriod($this->filters);
         $orders_items_count = app()->order_repository->getOrderItemsCountForPeriod($this->filters);
-        $orders_best_selling_products = app()->order_repository->getBestSellingProductsForPeriod($this->filters);
+         $orders_best_selling_products = app()->order_repository->getBestSellingProductsForPeriod($this->filters);
         $orders_best_selling_categories = app()->order_repository->getBestSellingCategoriesForPeriod($this->filters);
+
         $data = [];
         $data['orders_best_selling_categories'] = $orders_best_selling_categories;
         $data['orders_best_selling_products'] = $orders_best_selling_products;
@@ -79,6 +86,17 @@ class DashboardSalesComponent extends Component
     public function updatedFilters($filters)
     {
          $this->loadSalesData();
+    }
+    public function removeFilter($key)
+    {
+        unset($this->filters[$key]);
+        $this->loadSalesData();
+    }
+
+    public function setFilter($key, $value)
+    {
+        $this->filters[$key] = $value;
+        $this->loadSalesData();
     }
 
 
