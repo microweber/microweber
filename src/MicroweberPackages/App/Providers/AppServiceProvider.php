@@ -715,13 +715,16 @@ class AppServiceProvider extends ServiceProvider
 
                 if (!empty($linkSegments)) {
                     if (isset($linkSegments[0]) and $linkSegments[0]) {
-                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
-                        if (!$localeSettings) {
-                            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
-                        }
-                        if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
-                            $isLocaleChangedFromMultilanguageLogics = true;
-                            change_language_by_locale($localeSettings['locale'], true);
+                        $skip_items = ['api','token'];
+                        if(!in_array($linkSegments[0], $skip_items)){
+                            $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
+                            if (!$localeSettings) {
+                                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
+                            }
+                            if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                                $isLocaleChangedFromMultilanguageLogics = true;
+                                change_language_by_locale($localeSettings['locale'], true);
+                            }
                         }
                     }
                 }
