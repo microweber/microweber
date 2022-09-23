@@ -659,8 +659,10 @@ class CartManager extends Crud
                 $found = false;
                 foreach ($content_custom_fields as $cf) {
                     if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
-                        $add[$cf['name']] = $data[$cf['name_key']];
-                    } elseif (isset($cf['type']) and $cf['type'] == 'price') {
+                        if(isset($data[$cf['name_key']])){
+                            $cf['name'] = $data[$cf['name_key']];
+                        }
+                   } elseif (isset($cf['type']) and $cf['type'] == 'price' and isset($cf['name']) and isset($cf['value'])) {
                         if ($cf['value'] != '') {
                             if (isset($product_prices[$cf['name']])) {
                                 $prices[$cf['name']] = $product_prices[$cf['name']];
