@@ -38,7 +38,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order ID"); ?></label>
-                <div class="input-group mb-0">
+                <div class="input-group mb-0 d-flex">
                     <input type="text" class="form-control" value="{{$id}}" name="id" placeholder="<?php _e("Order ID");?>">
                 </div>
             </div>
@@ -47,7 +47,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order Status"); ?></label>
-                <div class="input-group mb-0">
+                <div class="input-group mb-0 d-flex">
                     <select name="orderStatus" class="selectpicker" data-width="100%">
 
                         <option value="" @if($orderStatus == '') selected="selected" @endif>
@@ -75,7 +75,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Date from"); ?></label>
-                    <div class="input-group mb-0">
+                    <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
@@ -87,7 +87,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Date to"); ?></label>
-                    <div class="input-group mb-0">
+                    <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i> </span>
                         </div>
@@ -100,7 +100,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Order amount from"); ?></label>
-                    <div class="input-group mb-0">
+                    <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{get_currency_symbol()}}</span>
                         </div>
@@ -112,7 +112,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Order amount to"); ?></label>
-                    <div class="input-group mb-0">
+                    <div class="input-group mb-0 d-flex">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{get_currency_symbol()}} </span>
                         </div>
@@ -191,7 +191,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
-                    <div class="input-group mb-0">
+                    <div class="input-group mb-0 d-flex">
 
                         <select name="isPaid" class="selectpicker" data-width="100%">
 
