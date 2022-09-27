@@ -106,7 +106,7 @@
         element:'#fm',
         canSelectFolder: true,
         selectable: true,
-        multiselect: false,
+        multiselect: true,
         stickyHeader: 60,
 
     })

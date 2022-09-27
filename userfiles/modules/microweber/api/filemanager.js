@@ -28,6 +28,89 @@
             xhr.send();
         };
 
+        var defaultAddFile = function (file) {
+            return new Promise(function (resolve, reject){
+                var xhr = new XMLHttpRequest();
+                scope.dispatch('beforeAddFile', {xhr: xhr, input: input});
+                xhr.onreadystatechange = function(e) {
+                    if (this.readyState === 4 && this.status === 200) {
+                        resolve(JSON.parse(this.responseText));
+                    } else if(this.status !== 200) {
+                        reject(e);
+                    }
+                };
+                xhr.addEventListener('error', function (e){
+                    reject(e);
+                });
+                var url = scope.settings.url + '?path=' + scope.settings.query.path;
+                xhr.open("PUT", url, true);
+                var formData = new FormData();
+                formData.append("file", file);
+                xhr.send(formData);
+            });
+        };
+
+        this.uploadFile = function (file) {
+            return this.settings.addFile(file).then(function (){
+                scope.refresh(true);
+            });
+        };
+
+        this.methods = {
+            pc: function (options) {
+                var node = document.createElement('span');
+                node.innerHTML = options.title;
+                var upload = mw.upload({
+                    multiple: false,
+                    element: node,
+                    on: {
+                        filesUploaded: function () {
+                            scope.refresh(true);
+                        },
+                        progress: function (val) {
+                            scope.progress(val.percent);
+                        }
+                    }
+                });
+                scope.on('pathChanged', function (path) {
+                    upload.urlParam('path', path);
+                });
+                return node;
+            },
+            createFolder: function (options) {
+                var node = document.createElement('span');
+                node.innerHTML = options.title;
+                node.addEventListener('click', function (){
+                    mw.prompt('Folder name', function (val) {
+                        var xhr = new XMLHttpRequest();
+                        scope.loading(true);
+                        xhr.onreadystatechange = function(e) {
+                            if (this.readyState === 4 && this.status === 200) {
+                                 scope.refresh(true);
+                            } else if(this.status !== 200) {
+
+                            }
+                            scope.loading(false)
+                        };
+                        xhr.addEventListener('error', function (e){
+                            scope.loading(false)
+                        });
+                        var params = {
+                            path: scope.settings.query.path,
+                            name: val,
+                            new_folder: 1
+                        };
+                        var url = mw.settings.api_url + 'create_media_dir' + '?' + new URLSearchParams(params).toString();
+                        xhr.open("POST", url, true);
+                        xhr.send();
+                    });
+                });
+
+                return node;
+            }
+        };
+
+
         var defaults = {
             multiselect: true,
             selectable: true,
@@ -42,6 +125,11 @@
             backgroundColor: '#fafafa',
             stickyHeader: false,
             requestData: defaultRequest,
+            addFile: defaultAddFile,
+            methods: [
+                {title: 'Upload file', method: 'pc' },
+                {title: 'Create folder', method: 'createFolder' },
+            ],
             url: mw.settings.site_url + 'api/file-manager/list',
             viewType: 'list' // 'list' | 'grid'
         };
@@ -140,7 +228,32 @@
 
         var _deleteHandle = function (item) {
             mw.confirm(mw.lang('Are you sure') + '?', function (){
+                var xhr = new XMLHttpRequest();
+                scope.loading(true);
+                xhr.onreadystatechange = function(e) {
+                    if (this.readyState === 4 && this.status === 200) {
+                        scope.refresh(true);
+                    } else if(this.status !== 200) {
 
+                    }
+                    scope.loading(false)
+                };
+                xhr.addEventListener('error', function (e){
+                    scope.loading(false)
+                });
+                var dt = {
+                    path: item.path,
+                };
+                var url = mw.settings.api_url + 'media/delete_media_file';
+                xhr.open("POST", url, true);
+                var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                if (tokenFromCookie) {
+                    xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
+                }
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+                xhr.send(JSON.stringify(dt));
             });
         };
 
@@ -244,12 +357,43 @@
             return _data;
         };
 
-        this.loading = function (state) {
-            console.log(scope.root.get(0))
+        var _progress;
+        this.progress = function (state) {
+            state = Number(state)
+            if(!_progress || !_progress.get(0).parentNode) {
+                _progress = mw.element({
+                    props: {
+                        className: 'mw-file-manager-progress'
+                    }
+                });
+                scope.root.prepend(_progress);
+            }
             if(state) {
-                mw.spinner({element: scope.root.get(0), size: 32, decorate: true}).show();
+                mw.progress({element: _progress.get(0), }).set(state);
             } else {
-                mw.spinner({element: scope.root.get(0), size: 32}).remove();
+                mw.progress({element: _progress.get(0)}).hide();
+            }
+            if(state === 100) {
+                setTimeout(function (){
+                    mw.progress({element: _progress.get(0)}).hide();
+                }, 300)
+            }
+        }
+
+        var _loader;
+        this.loading = function (state) {
+            if(!_loader || !_loader.get(0).parentNode) {
+                _loader = mw.element({
+                    props: {
+                        className: 'mw-file-manager-spinner'
+                    }
+                });
+                scope.root.prepend(_loader);
+            }
+            if(state) {
+                mw.spinner({element: _loader.get(0), size: 32, decorate: false}).show();
+            } else {
+                mw.spinner({element: _loader.get(0)}).remove();
             }
         };
 
@@ -289,6 +433,18 @@
         var _activeSort = {
             orderBy: this.settings.query.orderBy || 'modified',
             order: this.settings.query.order || 'desc',
+        };
+
+        this.refresh = function (full){
+            if(full) {
+                this.requestData(this.settings.query, function (res){
+                    scope.setData(res);
+                    scope.renderData();
+                });
+            } else {
+                scope.renderData();
+            }
+
         };
 
         this.sort = function (by, order, _request) {
@@ -510,6 +666,98 @@
             this.path(this.settings.query.path );
         };
 
+
+
+        this.creteSearchNode = function (target) {
+          var html = '<div class="input-group mb-3">' +
+              '    <input type="text" class="form-control" placeholder="Search">' +
+              '    <div class="input-group-append">' +
+              '        <button type="button" class="btn btn-primary btn-icon"><i class="mdi mdi-magnify"></i></button>' +
+              '    </div>' +
+              '</div>';
+          var el = mw.element(html);
+          if(target) {
+              target.appendChild(el.get(0));
+          }
+
+           mw.element('button', el).on('click', function (){
+               scope.search( mw.element('input', el).val().trim(), true);
+           });
+
+
+
+          return el.get(0);
+        };
+
+        this.creteMethodsNode = function (target) {
+            if(!this.settings.methods) {
+                return;
+            }
+            target = target || document.createElement('div');
+
+            var root = mw.element({
+                props: {
+                    className: 'mw-file-manager-create-methods-dropdown'
+                }
+            });
+            var addButton = mw.element({
+                props: {
+                    className: 'btn btn-success mw-file-manager-create-methods-dropdown-add',
+                    innerHTML: '<i class="mdi mdi-plus"></i>'
+                }
+            });
+
+            addButton.on('click', function (){
+                this.parentElement.classList.toggle('active');
+            });
+
+            addButton.get(0).ownerDocument.body.addEventListener('click', function (e){
+                if (!addButton.get(0).contains(e.target)) {
+                    addButton.get(0).parentElement.classList.remove('active');
+                }
+            });
+
+            var selectElContent = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar-actions-content'
+                }
+            });
+            this.settings.methods.forEach(function (method){
+                var node = mw.element({
+                    props: {
+                        className: 'mw-file-manager-add-node'
+                    }
+                });
+                node.append(scope.methods[method.method](method));
+                selectElContent.append(node);
+            });
+            target.appendChild(root.get(0));
+            root.append(addButton);
+            root.append(selectElContent);
+            return target;
+        };
+
+
+        var createTopBar = function (){
+            var topBar = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar'
+                }
+            });
+
+            var selectEl = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar-actions'
+                }
+            });
+
+            scope.creteSearchNode(selectEl.get(0));
+            scope.creteMethodsNode(selectEl.get(0));
+            topBar.append(selectEl);
+            return topBar.get(0);
+
+        };
+
         var createMainBar = function (){
             var viewTypeSelectorRoot = mw.element({
                 props: {
@@ -622,6 +870,7 @@
         this.view = function () {
             this.root
                 .empty()
+                .append(createTopBar())
                 .append(createMainBar())
                 .append(_view());
         };
@@ -664,6 +913,8 @@
             }
             path = (path || '').trim();
             this.settings.query.path = path;
+            delete this.settings.query.keyword;
+            scope.dispatch('pathChanged', this.settings.query.path);
             path = path.split('/').map(function (itm){return itm.trim()}).filter(function (itm){return !!itm});
             _pathNode.empty();
 
@@ -714,6 +965,10 @@
         };
         this.init();
     };
+
+    FileManager.addMethod = function (name, cb) {
+
+    }
 
     mw.FileManager = function (options) {
         return new FileManager(options);
