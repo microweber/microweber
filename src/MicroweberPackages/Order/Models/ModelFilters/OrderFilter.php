@@ -100,10 +100,11 @@ class OrderFilter extends ModelFilter
     public function productId($productId)
     {
         $productId = intval($productId);
-        $this->query->whereHas('cart.order', function ($query) use($productId) {
-            $query->select('cart.order_id');
-            $query->where('cart.rel_id', '=', $productId);
-            $query->whereNotNull('cart.order_id');
+
+        $this->query->whereIn('cart_orders.id', function ($subQuery) use ($productId) {
+            $subQuery->select('cart.order_id')->from('cart')
+                ->where('cart.rel_type', 'content')
+                ->where('cart.rel_id', $productId);
         });
 
     }
@@ -123,20 +124,6 @@ class OrderFilter extends ModelFilter
             );
         });
 
-
-
-
-
-
-//        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
-//        //    $query->select('cart.order_id');
-//       //     $query->where('cart.rel_id', '=', $categoryId);
-//
-//
-//
-//          //  $query->whereNotNull('cart.order_id');
-//        });
-
     }
 
     public function orderStatus($orderStatus)
@@ -154,8 +141,17 @@ class OrderFilter extends ModelFilter
             return;
         }
 
-        $this->query->where('first_name', 'LIKE', '%' . $keyword . '%');
-        $this->query->orWhere('last_name', 'LIKE', '%' . $keyword . '%');
+     /*   $this->query->where('first_name', 'LIKE', '%' . $keyword . '%');
+        $this->query->orWhere('last_name', 'LIKE', '%' . $keyword . '%');*/
+
+        $this->query->whereIn('cart_orders.id', function ($subQuery) use ($keyword) {
+            $subQuery->select('cart.order_id')->from('cart')
+                ->where('cart.rel_type', 'content')
+                ->whereNotNull('cart.order_id')
+                ->whereIn('cart.rel_id', function ($subQueryProduct) use ($keyword) {
+                    $subQueryProduct->select('content.id')->from('content')->where('content.title', 'LIKE', '%' . $keyword . '%');
+                });
+        });
 
     }
 
