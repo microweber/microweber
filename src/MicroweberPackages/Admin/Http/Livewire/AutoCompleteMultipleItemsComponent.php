@@ -17,7 +17,18 @@ class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
      */
     public string $view = 'admin::livewire.auto-complete-multiple-items';
 
+    /**
+     * @var string
+     */
     public string $placeholderWithTags = '';
+
+    /**
+     * @var string[]
+     */
+    public $listeners = [
+        'autocompleteRefresh'=>'$refresh',
+        'resetProperties'=>'resetProperties'
+    ];
 
     /**
      * When we apply a multiple selections

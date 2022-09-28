@@ -134,7 +134,12 @@ class ProductsIndexComponent extends Component
 
     public function removeFilter($key)
     {
-        unset($this->filters[$key]);
+        if (isset($this->filters[$key])) {
+            if ($key == 'tags') {
+                $this->emit('tagsResetProperties');
+            }
+            unset($this->filters[$key]);
+        }
     }
 
     public function orderBy($value)
