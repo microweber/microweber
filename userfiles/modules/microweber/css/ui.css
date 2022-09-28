@@ -745,7 +745,7 @@ img {
   color: #9E9E9E;
 }
 .text-success {
-  color: #469a36;
+  color: #309e65;
 }
 .text-error {
   color: #f12b1c;
@@ -3274,7 +3274,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   border-color: transparent;
 }
 .mw-ui-box-notification {
-  background-color: #469a36;
+  background-color: #309e65;
   color: white;
   border-color: transparent;
 }
@@ -3295,7 +3295,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   color: white;
 }
 .mw-ui-box-notification > .mw-ui-box-header {
-  background-color: #58be45;
+  background-color: #3dc47e;
   color: white;
 }
 .mw-ui-box-accordion-content {
@@ -5071,11 +5071,11 @@ input.mw-ui-btn {
 .mw-ui-btn-notification,
 .mw-ui-btn.active-notification {
   color: #fff;
-  background-color: #469a36;
-  border-color: #469a36;
+  background-color: #309e65;
+  border-color: #309e65;
 }
 .mw-ui-btn-outline.mw-ui-btn-notification {
-  color: #469a36;
+  color: #309e65;
 }
 .mw-ui-bg-warn,
 .mw-ui-btn-warn,
@@ -5178,8 +5178,8 @@ input.mw-ui-btn {
 }
 .mw-ui-btn-notification:hover,
 .mw-ui-btn-notification.active {
-  background-color: #7acb6b;
-  border-color: #7acb6b;
+  background-color: #64d098;
+  border-color: #64d098;
 }
 .mw-ui-btn-warn:hover,
 .mw-ui-btn-warn.active {
@@ -5455,8 +5455,8 @@ Paging
   color: #262626;
 }
 .mw-paging-notification a {
-  background-color: #469a36;
-  border-color: #469a36;
+  background-color: #309e65;
+  border-color: #309e65;
   color: #fff;
 }
 .mw-paging-notification a.active,
@@ -5757,7 +5757,7 @@ li:hover > .show-on-hover {
   left: 0;
 }
 .mw-ui-progress-info {
-  color: rgba(255, 255, 255, 0.43);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 9px;
   position: relative;
   display: inline-block;
@@ -6867,7 +6867,7 @@ html[dir="rtl"] .mw-select .mw-select-value:after {
   vertical-align: middle;
 }
 .mw-success {
-  background-color: #469a36;
+  background-color: #309e65;
   color: #fff;
 }
 .mw-warning {
@@ -7123,7 +7123,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   color: #f12b1c;
 }
 .mw-color-notification {
-  color: #469a36;
+  color: #309e65;
 }
 .mw-progress {
   position: absolute;
@@ -7499,7 +7499,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   background-color: #f12b1c;
 }
 .mw-badge.mw-badge-notification {
-  background-color: #469a36;
+  background-color: #309e65;
 }
 .mw-block-edit-holder {
   overflow: hidden;

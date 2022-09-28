@@ -49,7 +49,7 @@
         }, 'treeTags').then(function (res) {
 
             tree = res.tree;
- 
+
             $(tree).on("ready", function () {
 
                 if (selectedPages.length) {

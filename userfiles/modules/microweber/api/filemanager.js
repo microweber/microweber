@@ -12,7 +12,7 @@
             xhr.onreadystatechange = function(e) {
                 if (this.readyState === 4 && this.status === 200) {
                     callback.call(scope, JSON.parse(this.responseText), xhr);
-                } else if(this.status !== 200) {
+                } else if(this.status !== 200 && this.readyState === 4) {
                     if(error) {
                         error.call(scope, e);
                     }
@@ -64,6 +64,9 @@
                     multiple: false,
                     element: node,
                     on: {
+                        fileAdded: function () {
+                            scope.progress(5);
+                        },
                         filesUploaded: function () {
                             scope.refresh(true);
                         },
@@ -143,7 +146,6 @@
         this.settings = mw.object.extend({}, defaults, options);
 
         var table, tableHeader, tableBody;
-
 
         var _checkName = 'select-fm-' + (new Date().getTime());
 
@@ -369,7 +371,7 @@
                 scope.root.prepend(_progress);
             }
             if(state) {
-                mw.progress({element: _progress.get(0), }).set(state);
+                mw.progress({element: _progress.get(0), action: 'Uploading...'}).set(state);
             } else {
                 mw.progress({element: _progress.get(0)}).hide();
             }
@@ -381,7 +383,8 @@
         }
 
         var _loader;
-        this.loading = function (state) {
+        this.loading = function (state, l) {
+            console.log(l, state)
             if(!_loader || !_loader.get(0).parentNode) {
                 _loader = mw.element({
                     props: {
@@ -402,12 +405,13 @@
             this.settings.query = params;
             var _cb = function (data) {
                 cb.call(undefined, data);
-                scope.loading(false);
+                scope.root[!data.data || data.data.length === 0 ? 'addClass' : 'removeClass']('no-results');
+                scope.loading(false, 1);
             };
 
             scope.loading(true);
             var err = function (er) {
-                scope.loading(false);
+                scope.loading(false, 2);
             };
 
             this.settings.requestData(
@@ -417,6 +421,26 @@
 
 
 
+
+        var _noResultsBlock = function () {
+            var noResultsContent = mw.element( {
+                tag: 'div',
+
+                props: {
+                    innerHTML: mw.lang('This folder does not contain any files or folders'),
+                    className: 'mw-file-manager-no-results-content',
+                },
+
+            });
+            var block = mw.element({
+                props: {
+                    className: 'mw-file-manager-no-results'
+                },
+                content: noResultsContent
+            });
+            scope.creteMethodsNode(noResultsContent.get(0));
+            return block;
+        };
 
         var userDate = function (date) {
             var dt = new Date(date);
@@ -669,24 +693,31 @@
 
 
         this.creteSearchNode = function (target) {
-          var html = '<div class="input-group mb-3">' +
-              '    <input type="text" class="form-control" placeholder="Search">' +
-              '    <div class="input-group-append">' +
-              '        <button type="button" class="btn btn-primary btn-icon"><i class="mdi mdi-magnify"></i></button>' +
-              '    </div>' +
+          var html = '<div class="mw-file-manager-search">' +
+              '<div class="mw-field"><input type="text" placeholder="Search"><button type="button" class="mw-file-manager-search-clear"></button></div><button type="button" class="mw-ui-btn mw-field-append mw-file-manager-search-button">' +
+              '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">' +
+              '<path d="M954.7,855L774.6,674.8c-13.5-13.5-30.8-20.8-48.4-22.5c54.3-67.7,87-153.5,87-246.8C813.1,187.4,635.7,10,417.6,10S22.1,187.4,22.1,405.5S199.5,801,417.6,801c82.3,0,158.8-25.3,222.1-68.5c0.4,19.6,8,39.1,23,54.1l180.2,180.2c15.4,15.5,35.7,23.2,55.9,23.2c20.2,0,40.5-7.7,55.9-23.2C985.6,935.9,985.6,885.9,954.7,855z M417.6,669.2c-145.4,0-263.7-118.3-263.7-263.7s118.3-263.7,263.7-263.7s263.7,118.3,263.7,263.7S563,669.2,417.6,669.2z"/>' +
+              '</svg></button>' +
               '</div>';
-          var el = mw.element(html);
-          if(target) {
-              target.appendChild(el.get(0));
-          }
 
-           mw.element('button', el).on('click', function (){
-               scope.search( mw.element('input', el).val().trim(), true);
-           });
+            var el = mw.element(html);
+            if(target) {
+                target.appendChild(el.get(0));
+            }
+            mw.element('.mw-file-manager-search-clear', el).on('click', function (){
+                mw.element('input', el).val('');
+                scope.search( '', true);
+            });
+            mw.element('.mw-file-manager-search-button', el).on('click', function (){
+                scope.search( mw.element('input', el).val().trim() , true);
+            });
 
-
-
-          return el.get(0);
+            mw.element('input', el).on('keydown', function (e){
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    scope.search( mw.element('input', el).val().trim(), true);
+                }
+            });
+            return el.get(0);
         };
 
         this.creteMethodsNode = function (target) {
@@ -702,8 +733,8 @@
             });
             var addButton = mw.element({
                 props: {
-                    className: 'btn btn-success mw-file-manager-create-methods-dropdown-add',
-                    innerHTML: '<i class="mdi mdi-plus"></i>'
+                    className: 'mw-ui-btn mw-ui-btn-notification mw-file-manager-create-methods-dropdown-add',
+                    innerHTML: '+'
                 }
             });
 
@@ -751,8 +782,9 @@
                 }
             });
 
-            scope.creteSearchNode(selectEl.get(0));
+
             scope.creteMethodsNode(selectEl.get(0));
+            scope.creteSearchNode(selectEl.get(0));
             topBar.append(selectEl);
             return topBar.get(0);
 
@@ -863,8 +895,9 @@
             } else {
                 scope.renderData();
             }
-
-            return table;
+            var tableWrap = mw.element('<div class="mw-file-manager-view-table-wrap" />');
+            tableWrap.append(table);
+            return tableWrap;
         };
 
         this.view = function () {
@@ -872,7 +905,8 @@
                 .empty()
                 .append(createTopBar())
                 .append(createMainBar())
-                .append(_view());
+                .append(_view())
+                .append(_noResultsBlock());
         };
 
         var createRoot = function (){

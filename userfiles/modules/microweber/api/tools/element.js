@@ -55,7 +55,11 @@
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
-                        scope.append(el);
+                        if(Object.getPrototypeOf(el) === Object.prototype) {
+                            scope.append(new MWElement(el));
+                        } else {
+                            scope.append(el);
+                        }
                     });
                 } else if(this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
