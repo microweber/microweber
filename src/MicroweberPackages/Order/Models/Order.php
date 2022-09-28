@@ -105,7 +105,7 @@ class Order extends Model
             if ($orderUser->first_name) {
                 $fullName = $orderUser->first_name;
                 if ($orderUser->last_name) {
-                    $fullName .= $orderUser->last_name;
+                    $fullName .= ' ' . $orderUser->last_name;
                 }
                 return $fullName;
             } else if ($orderUser) {
