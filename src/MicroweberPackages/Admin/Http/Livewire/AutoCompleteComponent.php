@@ -63,6 +63,13 @@ class AutoCompleteComponent extends Component
     public string $searchingText = 'Searching...';
 
     /**
+     * @var string[]
+     */
+    public $listeners = [
+      'autocompleteRefresh'=>'$refresh'
+    ];
+
+    /**
      * @return void
      */
     public function mount()
