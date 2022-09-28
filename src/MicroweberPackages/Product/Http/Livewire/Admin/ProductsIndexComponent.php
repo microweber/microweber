@@ -138,6 +138,9 @@ class ProductsIndexComponent extends Component
             if ($key == 'tags') {
                 $this->emit('tagsResetProperties');
             }
+            if ($key == 'userId') {
+                $this->emit('usersResetProperties');
+            }
             unset($this->filters[$key]);
         }
     }
