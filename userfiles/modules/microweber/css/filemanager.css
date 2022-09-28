@@ -36,6 +36,10 @@
     width: 100%;
 }
 
+.mw-file-manager-view-table {
+    width: 100%;
+}
+
 .mw-file-manager-view-table thead.sticky-true > tr > th{
     position: sticky;
     top: 0;
@@ -267,4 +271,55 @@
     border-radius: 3px;
     font-size: 20px;
     text-transform: uppercase;
+}
+
+
+.mw-file-manager-spinner .mw-spinner{
+    margin-top: 150px;
+}
+.mw-file-manager-spinner {
+    height: 0;
+    text-align: center;
+    width: 100%;
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+
+
+.active .mw-file-manager-top-bar-actions-content{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+.mw-file-manager-top-bar-actions-content{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    z-index: 10;
+    transition: .3s;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.7);
+    transform-origin: center top;
+}
+.mw-file-manager-top-bar-actions{
+    position: relative;
+}
+
+.mw-file-manager-add-node + .mw-file-manager-add-node{
+    border-top: 1px solid #eee;
+}
+.mw-file-manager-add-node{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+}
+.mw-file-manager-add-node > :first-child{
+    display: block;
+    padding: 10px;
+
 }

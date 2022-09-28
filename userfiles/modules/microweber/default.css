@@ -726,3 +726,6 @@ html[dir="rtl"] .mw-text-start{
 }
 
 
+#to-top {
+    bottom: 70px!important;
+}

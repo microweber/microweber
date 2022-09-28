@@ -49,9 +49,7 @@
         }, 'treeTags').then(function (res) {
 
             tree = res.tree;
-            $(tree).on("selectionChange", function () {
-                btn.disabled = tree.getSelected().length === 0;
-            });
+ 
             $(tree).on("ready", function () {
 
                 if (selectedPages.length) {
