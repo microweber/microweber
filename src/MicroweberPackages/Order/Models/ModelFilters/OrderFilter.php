@@ -48,8 +48,6 @@ class OrderFilter extends ModelFilter
     public function shippingZip($zip)
     {
         $zip = trim($zip);
-        dd($zip);
-
         if (!empty($zip)) {
             $this->query->where('zip', $zip);
         }
@@ -103,7 +101,7 @@ class OrderFilter extends ModelFilter
         $this->query->whereHas('cart.order', function ($query) use($productId) {
             $query->select('cart.order_id');
             $query->where('cart.rel_id', '=', $productId);
-            $query->whereNotNull('cart.order_id');
+            $query->whereNotNull('cart.order_id'); 
         });
 
     }
