@@ -99,11 +99,11 @@ class OrderFilter extends ModelFilter
     {
         $productId = intval($productId);
 
-      /*  $this->query->join('cart as cart_join', function ($join) use ($productId) {
+        $this->query->join('cart as cart_join', function ($join) use ($productId) {
             $join->on('cart_orders.id', '=', 'cart_join.order_id');
             $join->where('cart_join.rel_type', 'content');
             $join->where('cart_join.rel_id', $productId);
-        });*/
+        });
 
     }
 
