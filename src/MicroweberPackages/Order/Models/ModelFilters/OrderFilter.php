@@ -100,7 +100,9 @@ class OrderFilter extends ModelFilter
         $productId = intval($productId);
 
         $this->query->join('cart', function ($join) use ($productId) {
-            $join->on('cart_orders.order_id', '=', 'cart.id')->where('cart_orders.rel_id', $productId);
+            $join->on('cart_orders.order_id', '=', 'cart.id')
+                ->where('cart.rel_type', 'content')
+                ->where('cart.rel_id', $productId);
         });
 
     }
@@ -108,7 +110,7 @@ class OrderFilter extends ModelFilter
     public function categoryId($categoryId)
     {
         $categoryId = intval($categoryId);
-        
+
         $this->query->whereHas('cart.products', function ($query) use($categoryId) {
              $query->whereNotNull('cart.order_id');
             $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereCategoryIds([$categoryId]));
