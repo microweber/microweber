@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\User\Models\User;
 
 class ProductsIndexComponent extends Component
 {
@@ -192,6 +193,12 @@ class ProductsIndexComponent extends Component
                                 $getCategory = Category::where('id', $resourceId)->first();
                                 if ($getCategory != null) {
                                     $filterFriendlyValue[] = $getCategory->title;
+                                }
+                            }  else if ($filterKey == 'userId') {
+                                $resourceId = intval($resourceId);
+                                $getUser = User::where('id', $resourceId)->first();
+                                if ($getUser != null) {
+                                    $filterFriendlyValue[] = $getUser->username;
                                 }
                             } else {
                                 $filterFriendlyValue[] = $resourceId;
