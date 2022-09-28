@@ -35,7 +35,7 @@
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Filters
+                        <i class="fa fa-filter"></i>    Filters
                     </button>
                     <div class="dropdown-menu p-3">
                         <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
