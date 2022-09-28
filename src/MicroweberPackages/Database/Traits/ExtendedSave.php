@@ -292,14 +292,17 @@ trait ExtendedSave
                 }
                 $categories = $data_to_save['categories'];
                 if (is_array($categories) and empty($categories)) {
-                   return;
+                    return;
 
                 }
+
                 if (is_array($categories)) {
                     $save_cat_item = array();
                     $save_cat_item['rel_type'] = $data_to_save['table'];
                     $save_cat_item['rel_id'] = $data_to_save['id'];
                     $save_cat_item['data_type'] = 'category';
+                    $save_cat_item['no_cache'] = true;
+
                     $check = $this->app->category_manager->get_items($save_cat_item);
                     if (is_array($check) and !empty($check)) {
                         foreach ($check as $item) {
@@ -315,7 +318,7 @@ trait ExtendedSave
                             return;
                         }
 
-                    	$cat_id = false;
+                        $cat_id = false;
 
                         if ((is_string($category) or is_int($category)) and intval($category) != 0) {
                             // case where we pass array of category ids
@@ -323,37 +326,50 @@ trait ExtendedSave
                             $save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['rel_id'] = $data_to_save['id'];
                             $save_cat_item['parent_id'] = $category;
+                            $save_cat_item['no_cache'] = true;
 
                             $check = $this->app->category_manager->get_items($save_cat_item);
                             if ($check == false) {
                                 $this->app->category_manager->save_item($save_cat_item);
                             }
                         } elseif(is_string($category)) {
+                            $category = str_replace(array("\r\n", "\r", "\n", "\t"), '', $category);
 
-                        	$save_cat_item = array();
-                        	$save_cat_item['single'] = true;
-                        	$save_cat_item['rel_type'] = $data_to_save['table'];
-                        	$save_cat_item['title'] = $category;
+                            $save_cat_item = array();
+                            $save_cat_item['single'] = true;
+                            $save_cat_item['no_cache'] = true;
+                            $save_cat_item['fields'] = 'id';
+                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['title'] = $category;
 
 
 
-                        	$check = $this->app->category_manager->get($save_cat_item);
-                        	if (!$check) {
+                            $check = $this->app->category_manager->get($save_cat_item);
+                            if (!$check) {
+                                $save_cat_item['title'] =htmlentities($category);
+                                $check = $this->app->category_manager->get($save_cat_item);
+                            }
+
+                            if (!$check) {
                                 if (isset($data_to_save['parent'])) {
                                     $save_cat_item['rel_id'] = $data_to_save['parent'];
                                 } else {
                                     $save_cat_item['rel_id'] = $data_to_save['id'];
                                 }
-                        		$cat_id = $this->app->category_manager->save($save_cat_item);
-                        	} else {
-                        		$cat_id = $check['id'];
-                        	}
+                                $cat_id = $this->app->category_manager->save($save_cat_item);
+                            } else {
+                                $cat_id = $check['id'];
+                            }
 
                         }  elseif (is_array($category)) {
                             if (isset($category['title']) and isset($data_to_save['id'])) {
                                 $save_cat_item = array();
                                 $save_cat_item['single'] = true;
+                                $save_cat_item['no_cache'] = true;
                                 $save_cat_item['rel_type'] = $data_to_save['table'];
+
+                                $category['title'] = str_replace(array("\r\n", "\r", "\n", "\t"), '', $category['title']);
+
 
                                 if (isset($data_to_save['parent'])) {
                                     $save_cat_item['rel_id'] = $data_to_save['parent'];
@@ -376,20 +392,20 @@ trait ExtendedSave
 
                         if ($cat_id != false) {
 
-							$save_cat_item = array();
-							$save_cat_item['rel_type'] = $data_to_save['table'];
-							$save_cat_item['rel_id'] = $data_to_save['id'];
-							if (isset($category['parent_id'])) {
-								$save_cat_item['parent_id'] = $category['parent_id'];
-							} elseif($cat_id) {
-								$save_cat_item['parent_id'] = $cat_id;
-							}
+                            $save_cat_item = array();
+                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['rel_id'] = $data_to_save['id'];
+                            if (isset($category['parent_id'])) {
+                                $save_cat_item['parent_id'] = $category['parent_id'];
+                            } elseif($cat_id) {
+                                $save_cat_item['parent_id'] = $cat_id;
+                            }
 
-							$check = $this->app->category_manager->get_items($save_cat_item);
-							if ($check == false) {
-								$save_item = $this->app->category_manager->save_item($save_cat_item);
-							}
-						}
+                            $check = $this->app->category_manager->get_items($save_cat_item);
+                            if ($check == false) {
+                                $save_item = $this->app->category_manager->save_item($save_cat_item);
+                            }
+                        }
 
                     }
                 }

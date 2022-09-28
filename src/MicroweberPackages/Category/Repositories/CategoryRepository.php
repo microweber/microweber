@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Category\Repositories;
 
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\Content;
+use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -143,8 +145,30 @@ class CategoryRepository extends AbstractRepository
     public function countProductsInStock($categoryId)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
+            $categoryModelHasAviableProductsCount = 0;
+            $categoryModelHasAviableProducts = Category::where('categories.id', $categoryId)
+                ->select('categories.id')
+                ->where('categories.id', $categoryId)
+                ->filter(['hasProductsInStock' => true])
+                ->get();
+            if ($categoryModelHasAviableProducts) {
+                foreach ($categoryModelHasAviableProducts as $categoryModelHasAviableProduct) {
 
-            $categoryModelHasAviableProductsCount = Category::filter(['hasProductsInStock' => true])->count();
+                    $contentItems = $categoryModelHasAviableProduct->items()->get();
+                    $contentIds = [];
+                    foreach ($contentItems as $contentItem) {
+                        $contentIds[] = $contentItem->rel_id;
+                    }
+                    if (!empty($contentIds)) {
+                        $categoryModelHasAviableProductsCount += Product::query()->filter(['inStock' => true])
+                            ->whereIn('content.id', $contentIds)
+                            ->where('content.is_deleted', '=', '0')
+                            ->where('content.is_active', '=', '1')
+                            ->count();
+                    }
+                }
+            }
+
             return $categoryModelHasAviableProductsCount;
 
 

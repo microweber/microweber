@@ -113,9 +113,14 @@ class OrderFilter extends ModelFilter
         $categoryId = intval($categoryId);
 
 
-        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
+        $this->query->whereHas('cart', function ($query) use($categoryId) {
+            $query->select('cart.order_id');
              $query->whereNotNull('cart.order_id');
-            $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereCategoryIds([$categoryId]));
+          //  $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereHas('orders')->whereCategoryIds([$categoryId]));
+            $query->whereIn('cart.rel_id',
+               // Product::select(['content.id'])->joinRelationship('orders')->with('categoryItems')->whereCategoryIds([$categoryId])->select(['content.id'])
+                Product::select(['content.id'])->has('categoryItems')->has('orders')->whereCategoryIds([$categoryId])->select(['content.id'])
+            );
         });
 
 
