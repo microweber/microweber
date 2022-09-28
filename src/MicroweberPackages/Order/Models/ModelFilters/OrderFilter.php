@@ -100,7 +100,7 @@ class OrderFilter extends ModelFilter
         $productId = intval($productId);
 
         $this->query->join('cart', function ($join) use ($productId) {
-            $join->on('cart_orders.order_id', '=', 'cart.id')
+            $join->on('cart_orders.id', '=', 'cart.order_id')
                 ->where('cart.rel_type', 'content')
                 ->where('cart.rel_id', $productId);
         });
