@@ -156,7 +156,13 @@
                     $carts = $order->cart()->with('products')->get();
                 @endphp
                 @foreach ($carts as $cart)
-                   <a href="#">{{$cart->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                    @php
+                        $cartProduct = $cart->products->first();
+                        if ($cartProduct == null) {
+                            continue;
+                        }
+                    @endphp
+                   <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
                 @endforeach
             </td>
             @endif
