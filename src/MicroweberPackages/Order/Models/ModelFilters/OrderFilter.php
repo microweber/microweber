@@ -99,36 +99,20 @@ class OrderFilter extends ModelFilter
     {
         $productId = intval($productId);
 
-      /*  $this->query->whereHas('cart.products', function ($query) use($productId) {
-            $query->whereNotNull('cart.order_id');
-          //  $query->where('cart.rel_id', '=', $productId);
-        }); */
+        $this->query->join('cart', function ($join) use ($productId) {
+            $join->on('cart_orders.order_id', '=', 'cart.id')->where('cart_orders.rel_id', $productId);
+        });
+
     }
 
     public function categoryId($categoryId)
     {
         $categoryId = intval($categoryId);
-
-
+        
         $this->query->whereHas('cart.products', function ($query) use($categoryId) {
              $query->whereNotNull('cart.order_id');
             $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereCategoryIds([$categoryId]));
         });
-
-
-
-
-
-
-//        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
-//        //    $query->select('cart.order_id');
-//       //     $query->where('cart.rel_id', '=', $categoryId);
-//
-//
-//
-//          //  $query->whereNotNull('cart.order_id');
-//        });
-
     }
 
     public function orderStatus($orderStatus)
