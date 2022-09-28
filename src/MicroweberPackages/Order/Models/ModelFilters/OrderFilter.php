@@ -98,10 +98,11 @@ class OrderFilter extends ModelFilter
     public function productId($productId)
     {
         $productId = intval($productId);
+
         $this->query->whereHas('cart.order', function ($query) use($productId) {
             $query->select('cart.order_id');
             $query->where('cart.rel_id', '=', $productId);
-            $query->whereNotNull('cart.order_id'); 
+            $query->whereNotNull('cart.order_id');
         });
 
     }
