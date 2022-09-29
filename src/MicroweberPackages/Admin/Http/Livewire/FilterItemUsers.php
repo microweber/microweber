@@ -30,22 +30,34 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
         $this->refreshQueryData();
     }
 
+
+    public $firstTimeLoading = false;
+    public function mount()
+    {
+        $this->firstTimeLoading = true;
+    }
+
     public function refreshQueryData()
     {
+
         $this->showDropdown();
 
         $firstData = [];
 
-        if (!empty($this->selectedItems)) {
-            $query = $this->model::query();
-            $query->whereIn('id', $this->selectedItems);
-            $get = $query->get();
-            if ($get != null) {
-                foreach ($get as $item) {
-                    $firstData[$item->id] = ['key'=>$item->id, 'value'=>$item->displayName()];
+        if ($this->firstTimeLoading) {
+            if (!empty($this->selectedItems)) {
+                $query = $this->model::query();
+                $query->whereIn('id', $this->selectedItems);
+                $get = $query->get();
+                if ($get != null) {
+                    foreach ($get as $item) {
+                        $firstData[$item->id] = ['key' => $item->id, 'value' => $item->displayName()];
+                    }
                 }
             }
         }
+
+        $this->firstTimeLoading = false;
 
         $query = $this->model::query();
         $keyword = trim($this->query);
