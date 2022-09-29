@@ -100,10 +100,11 @@ class OrderFilter extends ModelFilter
     public function productId($productId)
     {
         $productId = intval($productId);
-        $this->query->whereHas('cart.order', function ($query) use($productId) {
-            $query->select('cart.order_id');
-            $query->where('cart.rel_id', '=', $productId);
-            $query->whereNotNull('cart.order_id');
+
+        $this->query->whereIn('cart_orders.id', function ($subQuery) use ($productId) {
+            $subQuery->select('cart.order_id')->from('cart')
+                ->where('cart.rel_type', 'content')
+                ->where('cart.rel_id', $productId);
         });
 
     }
@@ -113,24 +114,15 @@ class OrderFilter extends ModelFilter
         $categoryId = intval($categoryId);
 
 
-        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
+        $this->query->whereHas('cart', function ($query) use($categoryId) {
+            $query->select('cart.order_id');
              $query->whereNotNull('cart.order_id');
-            $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereCategoryIds([$categoryId]));
+          //  $query->whereIn('cart.rel_id', Product::select(['content.id'])->whereHas('orders')->whereCategoryIds([$categoryId]));
+            $query->whereIn('cart.rel_id',
+               // Product::select(['content.id'])->joinRelationship('orders')->with('categoryItems')->whereCategoryIds([$categoryId])->select(['content.id'])
+                Product::select(['content.id'])->has('categoryItems')->has('orders')->whereCategoryIds([$categoryId])->select(['content.id'])
+            );
         });
-
-
-
-
-
-
-//        $this->query->whereHas('cart.products', function ($query) use($categoryId) {
-//        //    $query->select('cart.order_id');
-//       //     $query->where('cart.rel_id', '=', $categoryId);
-//
-//
-//
-//          //  $query->whereNotNull('cart.order_id');
-//        });
 
     }
 
@@ -145,12 +137,23 @@ class OrderFilter extends ModelFilter
     public function keyword($keyword)
     {
         $keyword = trim($keyword);
+
         if (empty($keyword)) {
             return;
         }
 
-        $this->query->where('first_name', 'LIKE', '%' . $keyword . '%');
-        $this->query->orWhere('last_name', 'LIKE', '%' . $keyword . '%');
+        if (is_numeric($keyword)) {
+            $this->query->where('id', $keyword);
+        } else {
+            $this->query->whereIn('cart_orders.id', function ($subQuery) use ($keyword) {
+                $subQuery->select('cart.order_id')->from('cart')
+                    ->where('cart.rel_type', 'content')
+                    ->whereNotNull('cart.order_id')
+                    ->whereIn('cart.rel_id', function ($subQueryProduct) use ($keyword) {
+                        $subQueryProduct->select('content.id')->from('content')->where('content.title', 'LIKE', '%' . $keyword . '%');
+                    });
+            });
+        }
 
     }
 

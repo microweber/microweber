@@ -22,7 +22,7 @@ trait CategoryTrait
     public function scopeWhereCategoryIds($query, $ids = false) {
 
        // $excludeIds = [];
-        $table = $this->getTable();
+        $table = $this->getMorphClass();
 
         if (is_string($ids)) {
             $ids = explode(',', $ids);
@@ -33,15 +33,25 @@ trait CategoryTrait
         if (is_array($ids)) {
             $ids = array_filter($ids);
             if (!empty($ids)) {
-                if (!isset($search_joined_tables_check['categories_items'])) {
-                    $query = $query->join('categories_items', function ($join) use ($table, $ids) {
-                        $join->on('categories_items.rel_id', '=', $table . '.id')->where('categories_items.rel_type', '=', $table);
-                        /*if ($excludeIds) {
-                            $join->whereNotIn('categories_items.rel_id', $excludeIds);
-                        }*/
-                        $join->whereIn('categories_items.parent_id', $ids)->distinct();
+             //   if (!isset($search_joined_tables_check['categories_items'])) {
+                     $query->whereIn('content.id', function ($subQuery) use ($table, $ids) {
+                        $subQuery->select('categories_items.rel_id');
+                        $subQuery->from('categories_items');
+                        $subQuery->where('categories_items.rel_type', '=', $table);
+                        $subQuery->whereIn('categories_items.parent_id',$ids);
+                        $subQuery->groupBy('categories_items.rel_id');
+                        return $subQuery;
                     });
-                }
+
+
+//                    $query = $query->join('categories_items', function ($join) use ($table, $ids) {
+//                        $join->on('categories_items.rel_id', '=', $table . '.id')->where('categories_items.rel_type', '=', $table);
+//                        /*if ($excludeIds) {
+//                            $join->whereNotIn('categories_items.rel_id', $excludeIds);
+//                        }*/
+//                        $join->whereIn('categories_items.parent_id', $ids)->distinct();
+//                    });
+             //   }
                 //$query = $query->distinct();
 
             }

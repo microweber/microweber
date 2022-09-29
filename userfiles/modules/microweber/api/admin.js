@@ -7,6 +7,7 @@ mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 
 var _adm = {
+
     language: function(language) {
         if (typeof(mw.notification) != 'undefined') {
             mw.notification.success('Changing language...',10000);
@@ -190,6 +191,11 @@ if(mw.admin) {
     Object.assign(_adm, mw.admin);
 } else {
     mw.admin = _adm;
+}
+
+mw.admin.back = function () {
+    history.go(-1);
+    mw.element('#main-tree-search').val('');
 }
 
 mw.admin.tree = function (target, opt, mode) {

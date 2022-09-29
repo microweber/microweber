@@ -3,6 +3,7 @@ namespace MicroweberPackages\Category\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
@@ -38,6 +39,7 @@ class Category extends Model
         'rel_type' => 'content'
     ];
 
+    /* A list of fields that can be mass assigned. */
     public $fillable = [
         "id",
         "rel_type",

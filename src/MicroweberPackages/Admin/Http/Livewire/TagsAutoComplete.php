@@ -10,6 +10,14 @@ class TagsAutoComplete extends AutoCompleteMultipleItemsComponent
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search by tags...';
 
+    /**
+     * @var string[]
+     */
+    public $listeners = [
+        'tagsAutocompleteRefresh'=>'$refresh',
+        'tagsResetProperties'=>'resetProperties'
+    ];
+
     public function refreshQueryData()
     {
         $this->closeDropdown();

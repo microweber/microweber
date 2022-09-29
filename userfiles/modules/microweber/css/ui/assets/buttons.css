@@ -173,11 +173,11 @@ input.mw-ui-btn {
 .mw-ui-btn-notification,
 .mw-ui-btn.active-notification {
   color: #ffffff;
-  background-color: #469a36;
-  border-color: #469a36;
+  background-color: #309e65;
+  border-color: #309e65;
 }
 .mw-ui-btn-outline.mw-ui-btn-notification {
-  color: #469a36;
+  color: #309e65;
 }
 .mw-ui-bg-warn,
 .mw-ui-btn-warn,

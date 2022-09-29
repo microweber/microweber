@@ -10,6 +10,14 @@ class UsersAutoComplete extends AutoCompleteComponent
     public $selectedItemKey = 'userId';
     public string $placeholder = 'Type to search by users...';
 
+    /**
+     * @var string[]
+     */
+    public $listeners = [
+        'usersAutocompleteRefresh'=>'$refresh',
+        'usersResetProperties'=>'resetProperties'
+    ];
+
     public function refreshQueryData()
     {
         $this->closeDropdown();

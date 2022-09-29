@@ -189,15 +189,13 @@ mw.Select = function(options) {
                     scope.value(oh.$value)
                 };
             }
-
-
             return oh;
         },
         value: function() {
             var tag = 'span', cls = 'mw-ui-btn';
             if(scope.settings.autocomplete){
                 tag = 'span';
-                cls = 'mw-ui-field'
+                cls = 'mw-ui-field';
             }
             var oh = scope.document.createElement(tag);
             oh.className = cls + ' mw-ui-size-' + scope.settings.size + ' mw-ui-bg-' + scope.settings.color + ' mw-select-value';

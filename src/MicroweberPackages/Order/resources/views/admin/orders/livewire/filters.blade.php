@@ -25,7 +25,7 @@
     <div class="d-md-flex justify-content-between mb-3">
         <div class="d-md-flex">
             <div class="mb-3 mb-md-0 input-group">
-                <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
+                <input wire:model.debounce.500ms="filters.keyword" type="text" placeholder="Search by keyword..."
                        class="form-control">
             </div>
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">

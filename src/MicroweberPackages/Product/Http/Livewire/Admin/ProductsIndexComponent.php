@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\User\Models\User;
 
 class ProductsIndexComponent extends Component
 {
@@ -134,7 +135,15 @@ class ProductsIndexComponent extends Component
 
     public function removeFilter($key)
     {
-        unset($this->filters[$key]);
+        if (isset($this->filters[$key])) {
+            if ($key == 'tags') {
+                $this->emit('tagsResetProperties');
+            }
+            if ($key == 'userId') {
+                $this->emit('usersResetProperties');
+            }
+            unset($this->filters[$key]);
+        }
     }
 
     public function orderBy($value)
@@ -184,6 +193,12 @@ class ProductsIndexComponent extends Component
                                 $getCategory = Category::where('id', $resourceId)->first();
                                 if ($getCategory != null) {
                                     $filterFriendlyValue[] = $getCategory->title;
+                                }
+                            }  else if ($filterKey == 'userId') {
+                                $resourceId = intval($resourceId);
+                                $getUser = User::where('id', $resourceId)->first();
+                                if ($getUser != null) {
+                                    $filterFriendlyValue[] = $getUser->username;
                                 }
                             } else {
                                 $filterFriendlyValue[] = $resourceId;

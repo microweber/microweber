@@ -12,7 +12,7 @@
             xhr.onreadystatechange = function(e) {
                 if (this.readyState === 4 && this.status === 200) {
                     callback.call(scope, JSON.parse(this.responseText), xhr);
-                } else if(this.status !== 200) {
+                } else if(this.status !== 200 && this.readyState === 4) {
                     if(error) {
                         error.call(scope, e);
                     }
@@ -28,6 +28,92 @@
             xhr.send();
         };
 
+        var defaultAddFile = function (file) {
+            return new Promise(function (resolve, reject){
+                var xhr = new XMLHttpRequest();
+                scope.dispatch('beforeAddFile', {xhr: xhr, input: input});
+                xhr.onreadystatechange = function(e) {
+                    if (this.readyState === 4 && this.status === 200) {
+                        resolve(JSON.parse(this.responseText));
+                    } else if(this.status !== 200) {
+                        reject(e);
+                    }
+                };
+                xhr.addEventListener('error', function (e){
+                    reject(e);
+                });
+                var url = scope.settings.url + '?path=' + scope.settings.query.path;
+                xhr.open("PUT", url, true);
+                var formData = new FormData();
+                formData.append("file", file);
+                xhr.send(formData);
+            });
+        };
+
+        this.uploadFile = function (file) {
+            return this.settings.addFile(file).then(function (){
+                scope.refresh(true);
+            });
+        };
+
+        this.methods = {
+            pc: function (options) {
+                var node = document.createElement('span');
+                node.innerHTML = options.title;
+                var upload = mw.upload({
+                    multiple: false,
+                    element: node,
+                    on: {
+                        fileAdded: function () {
+                            scope.progress(5);
+                        },
+                        filesUploaded: function () {
+                            scope.refresh(true);
+                        },
+                        progress: function (val) {
+                            scope.progress(val.percent);
+                        }
+                    }
+                });
+                scope.on('pathChanged', function (path) {
+                    upload.urlParam('path', path);
+                });
+                return node;
+            },
+            createFolder: function (options) {
+                var node = document.createElement('span');
+                node.innerHTML = options.title;
+                node.addEventListener('click', function (){
+                    mw.prompt('Folder name', function (val) {
+                        var xhr = new XMLHttpRequest();
+                        scope.loading(true);
+                        xhr.onreadystatechange = function(e) {
+                            if (this.readyState === 4 && this.status === 200) {
+                                 scope.refresh(true);
+                            } else if(this.status !== 200) {
+
+                            }
+                            scope.loading(false)
+                        };
+                        xhr.addEventListener('error', function (e){
+                            scope.loading(false)
+                        });
+                        var params = {
+                            path: scope.settings.query.path,
+                            name: val,
+                            new_folder: 1
+                        };
+                        var url = mw.settings.api_url + 'create_media_dir' + '?' + new URLSearchParams(params).toString();
+                        xhr.open("POST", url, true);
+                        xhr.send();
+                    });
+                });
+
+                return node;
+            }
+        };
+
+
         var defaults = {
             multiselect: true,
             selectable: true,
@@ -42,6 +128,11 @@
             backgroundColor: '#fafafa',
             stickyHeader: false,
             requestData: defaultRequest,
+            addFile: defaultAddFile,
+            methods: [
+                {title: 'Upload file', method: 'pc' },
+                {title: 'Create folder', method: 'createFolder' },
+            ],
             url: mw.settings.site_url + 'api/file-manager/list',
             viewType: 'list' // 'list' | 'grid'
         };
@@ -55,7 +146,6 @@
         this.settings = mw.object.extend({}, defaults, options);
 
         var table, tableHeader, tableBody;
-
 
         var _checkName = 'select-fm-' + (new Date().getTime());
 
@@ -140,7 +230,32 @@
 
         var _deleteHandle = function (item) {
             mw.confirm(mw.lang('Are you sure') + '?', function (){
+                var xhr = new XMLHttpRequest();
+                scope.loading(true);
+                xhr.onreadystatechange = function(e) {
+                    if (this.readyState === 4 && this.status === 200) {
+                        scope.refresh(true);
+                    } else if(this.status !== 200) {
 
+                    }
+                    scope.loading(false)
+                };
+                xhr.addEventListener('error', function (e){
+                    scope.loading(false)
+                });
+                var dt = {
+                    path: item.path,
+                };
+                var url = mw.settings.api_url + 'media/delete_media_file';
+                xhr.open("POST", url, true);
+                var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                if (tokenFromCookie) {
+                    xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
+                }
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+                xhr.send(JSON.stringify(dt));
             });
         };
 
@@ -244,12 +359,44 @@
             return _data;
         };
 
-        this.loading = function (state) {
-            console.log(scope.root.get(0))
+        var _progress;
+        this.progress = function (state) {
+            state = Number(state)
+            if(!_progress || !_progress.get(0).parentNode) {
+                _progress = mw.element({
+                    props: {
+                        className: 'mw-file-manager-progress'
+                    }
+                });
+                scope.root.prepend(_progress);
+            }
             if(state) {
-                mw.spinner({element: scope.root.get(0), size: 32, decorate: true}).show();
+                mw.progress({element: _progress.get(0), action: 'Uploading...'}).set(state);
             } else {
-                mw.spinner({element: scope.root.get(0), size: 32}).remove();
+                mw.progress({element: _progress.get(0)}).hide();
+            }
+            if(state === 100) {
+                setTimeout(function (){
+                    mw.progress({element: _progress.get(0)}).hide();
+                }, 300)
+            }
+        }
+
+        var _loader;
+        this.loading = function (state, l) {
+            console.log(l, state)
+            if(!_loader || !_loader.get(0).parentNode) {
+                _loader = mw.element({
+                    props: {
+                        className: 'mw-file-manager-spinner'
+                    }
+                });
+                scope.root.prepend(_loader);
+            }
+            if(state) {
+                mw.spinner({element: _loader.get(0), size: 32, decorate: false}).show();
+            } else {
+                mw.spinner({element: _loader.get(0)}).remove();
             }
         };
 
@@ -258,12 +405,13 @@
             this.settings.query = params;
             var _cb = function (data) {
                 cb.call(undefined, data);
-                scope.loading(false);
+                scope.root[!data.data || data.data.length === 0 ? 'addClass' : 'removeClass']('no-results');
+                scope.loading(false, 1);
             };
 
             scope.loading(true);
             var err = function (er) {
-                scope.loading(false);
+                scope.loading(false, 2);
             };
 
             this.settings.requestData(
@@ -273,6 +421,26 @@
 
 
 
+
+        var _noResultsBlock = function () {
+            var noResultsContent = mw.element( {
+                tag: 'div',
+
+                props: {
+                    innerHTML: mw.lang('This folder does not contain any files or folders'),
+                    className: 'mw-file-manager-no-results-content',
+                },
+
+            });
+            var block = mw.element({
+                props: {
+                    className: 'mw-file-manager-no-results'
+                },
+                content: noResultsContent
+            });
+            scope.creteMethodsNode(noResultsContent.get(0));
+            return block;
+        };
 
         var userDate = function (date) {
             var dt = new Date(date);
@@ -289,6 +457,18 @@
         var _activeSort = {
             orderBy: this.settings.query.orderBy || 'modified',
             order: this.settings.query.order || 'desc',
+        };
+
+        this.refresh = function (full){
+            if(full) {
+                this.requestData(this.settings.query, function (res){
+                    scope.setData(res);
+                    scope.renderData();
+                });
+            } else {
+                scope.renderData();
+            }
+
         };
 
         this.sort = function (by, order, _request) {
@@ -510,6 +690,106 @@
             this.path(this.settings.query.path );
         };
 
+
+
+        this.creteSearchNode = function (target) {
+          var html = '<div class="mw-file-manager-search">' +
+              '<div class="mw-field"><input type="text" placeholder="Search"><button type="button" class="mw-file-manager-search-clear"></button></div><button type="button" class="mw-ui-btn mw-field-append mw-file-manager-search-button">' +
+              '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">' +
+              '<path d="M954.7,855L774.6,674.8c-13.5-13.5-30.8-20.8-48.4-22.5c54.3-67.7,87-153.5,87-246.8C813.1,187.4,635.7,10,417.6,10S22.1,187.4,22.1,405.5S199.5,801,417.6,801c82.3,0,158.8-25.3,222.1-68.5c0.4,19.6,8,39.1,23,54.1l180.2,180.2c15.4,15.5,35.7,23.2,55.9,23.2c20.2,0,40.5-7.7,55.9-23.2C985.6,935.9,985.6,885.9,954.7,855z M417.6,669.2c-145.4,0-263.7-118.3-263.7-263.7s118.3-263.7,263.7-263.7s263.7,118.3,263.7,263.7S563,669.2,417.6,669.2z"/>' +
+              '</svg></button>' +
+              '</div>';
+
+            var el = mw.element(html);
+            if(target) {
+                target.appendChild(el.get(0));
+            }
+            mw.element('.mw-file-manager-search-clear', el).on('click', function (){
+                mw.element('input', el).val('');
+                scope.search( '', true);
+            });
+            mw.element('.mw-file-manager-search-button', el).on('click', function (){
+                scope.search( mw.element('input', el).val().trim() , true);
+            });
+
+            mw.element('input', el).on('keydown', function (e){
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    scope.search( mw.element('input', el).val().trim(), true);
+                }
+            });
+            return el.get(0);
+        };
+
+        this.creteMethodsNode = function (target) {
+            if(!this.settings.methods) {
+                return;
+            }
+            target = target || document.createElement('div');
+
+            var root = mw.element({
+                props: {
+                    className: 'mw-file-manager-create-methods-dropdown'
+                }
+            });
+            var addButton = mw.element({
+                props: {
+                    className: 'mw-ui-btn mw-ui-btn-notification mw-file-manager-create-methods-dropdown-add',
+                    innerHTML: '+'
+                }
+            });
+
+            addButton.on('click', function (){
+                this.parentElement.classList.toggle('active');
+            });
+
+            addButton.get(0).ownerDocument.body.addEventListener('click', function (e){
+                if (!addButton.get(0).contains(e.target)) {
+                    addButton.get(0).parentElement.classList.remove('active');
+                }
+            });
+
+            var selectElContent = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar-actions-content'
+                }
+            });
+            this.settings.methods.forEach(function (method){
+                var node = mw.element({
+                    props: {
+                        className: 'mw-file-manager-add-node'
+                    }
+                });
+                node.append(scope.methods[method.method](method));
+                selectElContent.append(node);
+            });
+            target.appendChild(root.get(0));
+            root.append(addButton);
+            root.append(selectElContent);
+            return target;
+        };
+
+
+        var createTopBar = function (){
+            var topBar = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar'
+                }
+            });
+
+            var selectEl = mw.element({
+                props: {
+                    className: 'mw-file-manager-top-bar-actions'
+                }
+            });
+
+
+            scope.creteMethodsNode(selectEl.get(0));
+            scope.creteSearchNode(selectEl.get(0));
+            topBar.append(selectEl);
+            return topBar.get(0);
+
+        };
+
         var createMainBar = function (){
             var viewTypeSelectorRoot = mw.element({
                 props: {
@@ -615,15 +895,18 @@
             } else {
                 scope.renderData();
             }
-
-            return table;
+            var tableWrap = mw.element('<div class="mw-file-manager-view-table-wrap" />');
+            tableWrap.append(table);
+            return tableWrap;
         };
 
         this.view = function () {
             this.root
                 .empty()
+                .append(createTopBar())
                 .append(createMainBar())
-                .append(_view());
+                .append(_view())
+                .append(_noResultsBlock());
         };
 
         var createRoot = function (){
@@ -664,6 +947,8 @@
             }
             path = (path || '').trim();
             this.settings.query.path = path;
+            delete this.settings.query.keyword;
+            scope.dispatch('pathChanged', this.settings.query.path);
             path = path.split('/').map(function (itm){return itm.trim()}).filter(function (itm){return !!itm});
             _pathNode.empty();
 
@@ -714,6 +999,10 @@
         };
         this.init();
     };
+
+    FileManager.addMethod = function (name, cb) {
+
+    }
 
     mw.FileManager = function (options) {
         return new FileManager(options);

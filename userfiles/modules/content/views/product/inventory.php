@@ -98,13 +98,19 @@ if (!isset($contentData['sell_oos'])) {
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" name="content_data[track_quantity]" class="custom-control-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
-                        <label class="custom-control-label" for="customCheck2"><?php _e("Track quantity"); ?></label>
+                        <label class="custom-control-label" for="customCheck2">
+                            <?php _e("Track quantity"); ?>
+                            <?php if (isset($product) && $product): ?>
+                            <?php if($product->inStock): ?><span class="badge badge-success">In stock</span><?php endif; ?>
+                            <?php if($product->inStock == false): ?><span class="badge badge-danger">Out Of Stock</span><?php endif; ?>
+                            <?php endif; ?>
+                        </label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
+                        <input type="checkbox" data-value-checked="1" data-value-unchecked="0" class="custom-control-input js-invertory-sell-oos" id="customCheck3" name="content_data[sell_oos]" value="1" <?php if ($contentData['sell_oos']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck3"><?php _e("Continue selling when out of stock"); ?></label>
                     </div>
                 </div>
