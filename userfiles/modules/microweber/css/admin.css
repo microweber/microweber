@@ -646,3 +646,15 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
 .mw-admin-edit-content-holder .card.style-1 .card-header{
     min-height: 55px;
 }
+
+.mw-loading-products-bg-gray {
+    opacity: 0.5;
+}
+
+
+/* BOOTSTRAP OVERRIDES */
+
+.list-group-item.form-check {
+    padding-inline-start: 2.25rem;
+}
+
