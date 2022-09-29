@@ -38,16 +38,23 @@
             </div>
 
             @if($showDropdown)
-                <ul class="list-group list-group-compact mt-4" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
-                    @if(!empty($data))
-                        @foreach($data as $item)
-                            <li class="list-group-item list-group-item-action cursor-pointer">
-                                <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
-                                <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
+
+            <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
+                @if(!empty($data))
+                    @foreach($data as $item)
+                        <li class="list-group-item list-group-item-action cursor-pointer">
+                            <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
+                            <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+
+            <script>
+                window.livewire.on('loadMoreExecuted', () => {
+                    document.getElementById("js-filter-items-values-list").scrollTop = 10000;
+                });
+            </script>
 
             <div class="mt-3" style="border-top: 1px solid #cfcfcf">
                 <br />
@@ -56,7 +63,7 @@
                         Clear selection
                     </span>
                 @else
-                    <span class="cursor-pointer text-muted">Load more</span>
+                    <span class="cursor-pointer text-muted" wire:click="loadMore">Load more</span>
                 @endif
             @endif
             </div>

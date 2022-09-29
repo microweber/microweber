@@ -10,15 +10,24 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
     public $selectedItemKey = 'userIds';
     public string $placeholder = 'Type to search by users...';
 
+    public $perPage = 10;
+
     /**
      * @var string[]
      */
     public $listeners = [
-        'usersAutocompleteRefresh'=>'$refresh',
-        'usersResetProperties'=>'resetProperties'
+        'filterItemUsersRefresh'=>'$refresh',
+        'filterItemUsersResetProperties'=>'resetProperties'
     ];
 
     public string $view = 'admin::livewire.filters.filter-item';
+
+    public function loadMore()
+    {
+        $this->emit('loadMoreExecuted');
+        $this->perPage = $this->perPage + 5;
+        $this->refreshQueryData();
+    }
 
     public function refreshQueryData()
     {
@@ -33,7 +42,7 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
             $query->orWhere('email', 'like', '%' . $keyword . '%');
         }
 
-        $query->limit(10);
+        $query->limit($this->perPage);
 
         $get = $query->get();
 
