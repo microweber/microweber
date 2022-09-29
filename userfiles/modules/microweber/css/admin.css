@@ -654,7 +654,26 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
 
 /* BOOTSTRAP OVERRIDES */
 
-.list-group-item.form-check {
-    padding-inline-start: 2.25rem;
+.list-group-compact .list-group-item {
+    padding-inline-start: 23px !important;
+    border:0px !important;
 }
 
+.badge-dropdown {
+    background: #ffffff;
+    padding: 20px;
+    position: absolute;
+    z-index: 15;
+    box-shadow: 0px 4px 12px #00000054;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.badge-filter-item {
+    background: #fff;
+    color: #757575;
+    border-radius: 15px;
+    padding: 5px 6px;
+    margin: 0px 12px;
+    font-size: 12px;
+}
