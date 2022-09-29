@@ -10,7 +10,7 @@
                 $selectedItems = explode(',', $filters['tags']);
             }
         @endphp
-        @livewire('admin-tags-autocomplete', ['selectedItems'=>$selectedItems])
+        @livewire('admin-filter-item-tags', ['selectedItems'=>$selectedItems])
     </div>
 
 </div>
