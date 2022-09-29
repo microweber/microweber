@@ -98,7 +98,15 @@ if (!isset($contentData['sell_oos'])) {
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" name="content_data[track_quantity]" class="custom-control-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
-                        <label class="custom-control-label" for="customCheck2"><?php _e("Track quantity"); ?></label>
+                        <label class="custom-control-label" for="customCheck2">
+                            <?php _e("Track quantity"); ?>
+                            <?php if (isset($contentData['qty'])): ?>
+
+                            <?php if($contentData['qty'] > 0 || $contentData['qty'] == 'nolimit'): ?><span class="badge badge-success">In stock</span><?php endif; ?>
+                            <?php if($contentData['qty'] == 0): ?><span class="badge badge-danger">Out Of Stock</span><?php endif; ?>
+
+                            <?php endif; ?>
+                        </label>
                     </div>
                 </div>
 
