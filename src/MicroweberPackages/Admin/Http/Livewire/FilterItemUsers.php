@@ -7,6 +7,7 @@ use MicroweberPackages\User\Models\User;
 
 class FilterItemUsers extends AutoCompleteMultipleItemsComponent
 {
+    public $name = 'Users';
     public $model = User::class;
     public $selectedItemKey = 'userIds';
     public string $placeholder = 'Type to search by users...';

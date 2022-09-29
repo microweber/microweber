@@ -8,6 +8,7 @@ use MicroweberPackages\User\Models\User;
 
 class FilterItemTags extends AutoCompleteMultipleItemsComponent
 {
+    public $name = 'Tags';
     public $model = Tag::class;
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search by tags...';
@@ -82,10 +83,10 @@ class FilterItemTags extends AutoCompleteMultipleItemsComponent
 
         $query = $this->model::query();
         $keyword = trim($this->query);
+
         if (!empty($keyword)) {
-            $query->where('first_name', 'like', '%' . $keyword . '%');
-            $query->orWhere('last_name', 'like', '%' . $keyword . '%');
-            $query->orWhere('email', 'like', '%' . $keyword . '%');
+            $query->where('slug', 'like', '%' . $keyword . '%');
+            $query->orWhere('name', 'like', '%' . $keyword . '%');
         }
 
         $query->limit($this->perPage);
