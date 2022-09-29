@@ -5,7 +5,7 @@
             wire:click="refreshQueryData"
             wire:blur="closeDropdown"
 
-            class="btn btn-primary icon-left dropdown-toggle">
+            class="btn btn-primary icon-left">
 
             @if(!empty($selectedItems))
             Author: <span class="badge badge-filter-item">+{{count($selectedItems)}}</span>
@@ -13,6 +13,7 @@
             Author
         @endif
 
+        <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
     </button>
 
     @if($showDropdown)
@@ -51,6 +52,11 @@
             </ul>
 
             <script>
+                document.getElementById("js-filter-items-values-list").onscroll = function(ev) {
+                  /*  if ((document.getElementById("js-filter-items-values-list").innerHeight + document.getElementById("js-filter-items-values-list").scrollY) >= document.getElementById("js-filter-items-values-list").offsetHeight) {
+                        window.livewire.emit('loadMore');
+                    }*/
+                };
                 window.livewire.on('loadMoreExecuted', () => {
                     document.getElementById("js-filter-items-values-list").scrollTop = 10000;
                 });
