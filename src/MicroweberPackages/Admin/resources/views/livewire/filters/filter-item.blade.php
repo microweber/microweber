@@ -5,10 +5,10 @@
             wire:click="refreshQueryData"
             wire:blur="closeDropdown"
 
-            class="btn btn-primary icon-left">
+            class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif icon-left">
 
             @if(!empty($selectedItems))
-            Author: <span class="badge badge-filter-item">+{{count($selectedItems)}}</span>
+            Author: <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
         @else
             Author
         @endif
