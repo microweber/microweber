@@ -197,8 +197,11 @@ class Front
         }
 
         $posts_parent_category = $posts_parent_category_cfg = Option::fetchFromCollection($options, 'data-category-id');
+
         if ($posts_parent_category == '') {
             $posts_parent_category = false;
+        } else {
+            $post_params['category'] = $posts_parent_category;
         }
 
 
@@ -720,8 +723,6 @@ class Front
             $post_params['parent'] = PAGE_ID;
         }
 
-        //  d($post_params);
-        //  d($params);
 
         if ($is_search_global and isset($post_params['category'])) {
             unset($post_params['category']);
@@ -739,6 +740,8 @@ class Front
             unset($post_params['category']);
             $content = get_content($post_params);
         }
+
+
 
 
         $data = array();
