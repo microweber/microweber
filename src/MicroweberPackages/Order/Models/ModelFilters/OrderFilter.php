@@ -137,21 +137,23 @@ class OrderFilter extends ModelFilter
     public function keyword($keyword)
     {
         $keyword = trim($keyword);
+
         if (empty($keyword)) {
             return;
         }
 
-     /*   $this->query->where('first_name', 'LIKE', '%' . $keyword . '%');
-        $this->query->orWhere('last_name', 'LIKE', '%' . $keyword . '%');*/
-
-        $this->query->whereIn('cart_orders.id', function ($subQuery) use ($keyword) {
-            $subQuery->select('cart.order_id')->from('cart')
-                ->where('cart.rel_type', 'content')
-                ->whereNotNull('cart.order_id')
-                ->whereIn('cart.rel_id', function ($subQueryProduct) use ($keyword) {
-                    $subQueryProduct->select('content.id')->from('content')->where('content.title', 'LIKE', '%' . $keyword . '%');
-                });
-        });
+        if (is_numeric($keyword)) {
+            $this->query->where('id', $keyword);
+        } else {
+            $this->query->whereIn('cart_orders.id', function ($subQuery) use ($keyword) {
+                $subQuery->select('cart.order_id')->from('cart')
+                    ->where('cart.rel_type', 'content')
+                    ->whereNotNull('cart.order_id')
+                    ->whereIn('cart.rel_id', function ($subQueryProduct) use ($keyword) {
+                        $subQueryProduct->select('content.id')->from('content')->where('content.title', 'LIKE', '%' . $keyword . '%');
+                    });
+            });
+        }
 
     }
 
