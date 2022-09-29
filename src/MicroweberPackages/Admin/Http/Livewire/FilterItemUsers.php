@@ -22,7 +22,7 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
 
     public function refreshQueryData()
     {
-        $this->closeDropdown();
+        $this->showDropdown();
 
         $query = $this->model::query();
         $keyword = trim($this->query);
@@ -38,7 +38,6 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown();
             $this->data = [];
             foreach ($get as $item) {
                 $this->data[] = ['key'=>$item->id, 'value'=>$item->displayName()];

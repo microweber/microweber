@@ -3,6 +3,7 @@
     <button type="button"
 
             wire:click="refreshQueryData"
+            wire:blur="closeDropdown"
 
             class="btn btn-primary icon-left dropdown-toggle">
 
@@ -15,7 +16,7 @@
     </button>
 
     @if($showDropdown)
-        <div class="badge-dropdown position-absolute">
+        <div class="badge-dropdown position-absolute" wire:blur="closeDropdown">
 
         <div wire:loading wire:target="query">
             {{$searchingText}}
@@ -27,8 +28,6 @@
                        wire:model.debounce.500ms="query"
                        wire:keydown.escape="resetProperties"
                        wire:keydown.enter="refreshQueryData"
-                       wire:click="refreshQueryData"
-                       wire:blur="closeDropdown"
 
                        placeholder="{{$placeholder}}"
                 >
