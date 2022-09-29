@@ -8,7 +8,7 @@
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
             @if(!empty($selectedItems))
-            Author: <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
+            Author: {{$firstItemName}} @if(count($selectedItems) > 1) ... @endif <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
         @else
             Author <span class="mt-2">&nbsp;</span>
         @endif

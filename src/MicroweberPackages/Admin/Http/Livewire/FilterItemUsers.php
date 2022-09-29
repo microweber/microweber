@@ -31,10 +31,30 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
     }
 
 
+    public $firstItemName;
     public $firstTimeLoading = false;
+
     public function mount()
     {
         $this->firstTimeLoading = true;
+        $this->refreshFirstItemName();
+    }
+
+    public function updatedSelectedItems(array $items)
+    {
+        parent::updatedSelectedItems($items);
+
+        $this->refreshFirstItemName();
+    }
+
+    public function refreshFirstItemName()
+    {
+        if (isset($this->selectedItems[0])) {
+            $getItem = $this->model::where('id', $this->selectedItems[0])->first();
+            if ($getItem != null) {
+                $this->firstItemName = $getItem->displayName();
+            }
+        }
     }
 
     public function refreshQueryData()
