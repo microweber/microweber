@@ -100,7 +100,7 @@ if (!isset($contentData['sell_oos'])) {
                         <input type="checkbox" name="content_data[track_quantity]" class="custom-control-input js-track-quantity-check" value="1" <?php if ($contentData['track_quantity']==1):?>checked="checked"<?php endif; ?> id="customCheck2">
                         <label class="custom-control-label" for="customCheck2">
                             <?php _e("Track quantity"); ?>
-                            <?php if (isset($product) && $product): ?>
+                            <?php if (isset($product->inStock)): ?>
                             <?php if($product->inStock): ?><span class="badge badge-success">In stock</span><?php endif; ?>
                             <?php if($product->inStock == false): ?><span class="badge badge-danger">Out Of Stock</span><?php endif; ?>
                             <?php endif; ?>
