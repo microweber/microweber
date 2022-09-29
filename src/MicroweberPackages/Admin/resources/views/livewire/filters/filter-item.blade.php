@@ -5,7 +5,13 @@
             wire:click="refreshQueryData"
 
             class="btn btn-primary icon-left dropdown-toggle">
-        Author @if($query): {{$query}} @endif
+
+            @if(!empty($selectedItems))
+            Author: <span class="badge badge-filter-item">+{{count($selectedItems)}}</span>
+        @else
+            Author
+        @endif
+
     </button>
 
     @if($showDropdown)
@@ -44,13 +50,14 @@
                     @endif
                 </ul>
 
-            <div class="d-flex">
-                <button type="button" class="btn btn-link mt-2">Load more</button>
-
+            <div class="mt-3" style="border-top: 1px solid #cfcfcf">
+                <br />
                 @if($selectedItems)
-                    <button class="btn btn-link text-danger" wire:click="resetProperties">
-                        <i class="fa fa-times text-muted"></i> Clear all
-                    </button>
+                    <span class="cursor-pointer text-muted" wire:click="resetProperties">
+                        Clear selection
+                    </span>
+                @else
+                    <span class="cursor-pointer text-muted">Load more</span>
                 @endif
             @endif
             </div>
