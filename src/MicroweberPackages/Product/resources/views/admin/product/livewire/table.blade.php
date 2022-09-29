@@ -1,4 +1,40 @@
-<div>
+<div class="card style-1 mb-3">
+    <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
+        <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
+            <h5 class="mb-0 d-flex">
+                <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Products')}}</strong>
+            </h5>
+            <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Product')}}</a>
+        </div>
+        <div class="col-auto justify-content-md-end justify-content-center text-md-right my-md-0 mt-2 pr-0">
+            <div class="d-md-flex">
+
+                <div class="input-group mb-0 prepend-transparent mx-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+                    </div>
+
+                    <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
+                           class="form-control form-control-sm">
+                </div>
+
+                <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-filter"></i>    Filters
+                        </button>
+                        <div class="dropdown-menu p-3">
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-3">
 
     @include('product::admin.product.livewire.table-includes.category-tree-js')
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
@@ -25,27 +61,6 @@
             <button class="btn btn-outline-danger btn-sm" wire:click="clearFilters">Clear filers</button>
         </div>
     @endif
-
-    <div class="d-md-flex justify-content-between mb-3">
-        <div class="d-md-flex">
-            <div class="mb-3 mb-md-0 input-group">
-                <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
-                       class="form-control">
-            </div>
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-filter"></i>    Filters
-                    </button>
-                    <div class="dropdown-menu p-3">
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
         <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
@@ -322,6 +337,7 @@
 
     {{ $products->links() }}
 
+</div>
 </div>
 
 
