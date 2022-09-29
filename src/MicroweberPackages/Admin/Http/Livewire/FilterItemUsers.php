@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\User\Models\User;
 
 class FilterItemUsers extends AutoCompleteMultipleItemsComponent
@@ -33,9 +34,21 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
     {
         $this->showDropdown();
 
+        $firstData = [];
+
+        if (!empty($this->selectedItems)) {
+            $query = $this->model::query();
+            $query->whereIn('id', $this->selectedItems);
+            $get = $query->get();
+            if ($get != null) {
+                foreach ($get as $item) {
+                    $firstData[$item->id] = ['key'=>$item->id, 'value'=>$item->displayName()];
+                }
+            }
+        }
+
         $query = $this->model::query();
         $keyword = trim($this->query);
-
         if (!empty($keyword)) {
             $query->where('first_name', 'like', '%' . $keyword . '%');
             $query->orWhere('last_name', 'like', '%' . $keyword . '%');
@@ -45,12 +58,16 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
         $query->limit($this->perPage);
 
         $get = $query->get();
-
         if ($get != null) {
-            $this->data = [];
+            $lastData = [];
             foreach ($get as $item) {
-                $this->data[] = ['key'=>$item->id, 'value'=>$item->displayName()];
+                if (isset($firstData[$item->id])) {
+                    continue;
+                }
+                $lastData[$item->id] = ['key'=>$item->id, 'value'=>$item->displayName()];
             }
+
+            $this->data = array_merge($firstData, $lastData);
         }
     }
 }

@@ -5,12 +5,12 @@
             wire:click="refreshQueryData"
             wire:blur="closeDropdown"
 
-            class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif icon-left">
+            class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
             @if(!empty($selectedItems))
             Author: <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
         @else
-            Author
+            Author <span class="mt-2">&nbsp;</span>
         @endif
 
         <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
@@ -48,6 +48,7 @@
                             <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                         </li>
                     @endforeach
+                    <span class="cursor-pointer text-primary mt-2 mb-2" wire:click="loadMore">Load more</span>
                 @endif
             </ul>
 
@@ -68,8 +69,6 @@
                     <span class="cursor-pointer text-muted" wire:click="resetProperties">
                         Clear selection
                     </span>
-                @else
-                    <span class="cursor-pointer text-muted" wire:click="loadMore">Load more</span>
                 @endif
             @endif
             </div>
