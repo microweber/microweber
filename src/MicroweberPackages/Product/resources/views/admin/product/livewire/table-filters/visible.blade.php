@@ -7,13 +7,17 @@
     </select>--}}
 
     @php
+        $data = [
+            ['key'=>'','value'=>'Any'],
+            ['key'=>'1','value'=>'Published'],
+            ['key'=>'0','value'=>'Unpublished'],
+        ];
         $selectedItem = [];
         if (isset($filters['visible'])) {
             $selectedItem = $filters['visible'];
         }
     @endphp
 
-    @livewire('admin-filter-item', ['selectedItem'=>$selectedItem])
-
+    @livewire('admin-filter-item', ['selectedItem'=>$selectedItem, 'data'=>$data])
 
 </div>

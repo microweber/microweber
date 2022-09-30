@@ -5,7 +5,7 @@ namespace MicroweberPackages\Admin\Http\Livewire;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\User\Models\User;
 
-class FilterItemUsers extends FilterItemComponent
+class FilterItemUsers extends FilterItemMultipleSelectComponent
 {
     public $name = 'Users';
     public $model = User::class;

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 
-class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
+class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
 {
     /**
      * Array of multiple selected items

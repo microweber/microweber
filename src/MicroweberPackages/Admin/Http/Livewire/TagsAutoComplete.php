@@ -4,7 +4,7 @@ namespace MicroweberPackages\Admin\Http\Livewire;
 
 use MicroweberPackages\Tag\Model\Tag;
 
-class TagsAutoComplete extends AutoCompleteMultipleItemsComponent
+class TagsAutoComplete extends AutoCompleteMultipleSelectComponent
 {
     public $model = Tag::class;
     public $selectedItemKey = 'tags';

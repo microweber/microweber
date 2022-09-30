@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Tag\Model\Tag;
 use MicroweberPackages\User\Models\User;
 
-class FilterItemTags extends FilterItemComponent
+class FilterItemTags extends FilterItemMultipleSelectComponent
 {
     public $name = 'Tags';
     public $model = Tag::class;
