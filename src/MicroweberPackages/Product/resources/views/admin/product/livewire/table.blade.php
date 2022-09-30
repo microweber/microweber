@@ -8,37 +8,6 @@
             </h5>
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Product')}}</a>
         </div>
-        <div class="col-auto justify-content-md-end justify-content-center text-md-right my-md-0 mt-2 pr-0">
-            <div class="d-flex">
-
-                <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                    <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
-                           class="form-control form-control-sm">
-                </div>
-
-                <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-filter"></i>    Filters
-                        </button>
-                        <div class="dropdown-menu p-3">
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
-                        </div>
-                    </div>
-                </div>
-
-                @if(!empty($appliedFiltersFriendlyNames))
-                    <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                        <div class="btn-group">
-                    <button class="btn btn-outline-danger btn-sm" wire:click="clearFilters">Clear filers</button>
-                        </div>
-                    </div>
-                @endif
-
-            </div>
-        </div>
     </div>
 
     <div class="card-body pt-3">
@@ -46,35 +15,50 @@
     @include('product::admin.product.livewire.table-includes.category-tree-js')
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
-    <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
-        <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
+    <div class="d-flex">
+        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
+                   class="form-control">
+        </div>
 
-            @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
-            <div class="row">
+        @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
             @include('product::admin.product.livewire.table-filters.category')
             @include('product::admin.product.livewire.table-filters.tags')
-            </div>
-            @endif
+        @endif
 
-            @if(isset($showFilters['shop']) && $showFilters['shop'])
-            <div class="row">
-                @include('product::admin.product.livewire.table-filters.price-range')
-                @include('product::admin.product.livewire.table-filters.stock-status')
-                @include('product::admin.product.livewire.table-filters.discount')
-                @include('product::admin.product.livewire.table-filters.sales')
-                @include('product::admin.product.livewire.table-filters.quantity')
-                @include('product::admin.product.livewire.table-filters.sku')
-            </div>
-            @endif
+        @if(isset($showFilters['shop']) && $showFilters['shop'])
+            @include('product::admin.product.livewire.table-filters.price-range')
+            @include('product::admin.product.livewire.table-filters.stock-status')
+            @include('product::admin.product.livewire.table-filters.discount')
+            @include('product::admin.product.livewire.table-filters.sales')
+            @include('product::admin.product.livewire.table-filters.quantity')
+            @include('product::admin.product.livewire.table-filters.sku')
+        @endif
 
-            @if(isset($showFilters['other']) && $showFilters['other'])
-                <div class="row">
-                    @include('product::admin.product.livewire.table-filters.visible')
-                    @include('product::admin.product.livewire.table-filters.author')
-                    @include('product::admin.product.livewire.table-filters.date')
-                </div>
-            @endif
+        @if(isset($showFilters['other']) && $showFilters['other'])
+            @include('product::admin.product.livewire.table-filters.visible')
+            @include('product::admin.product.livewire.table-filters.author')
+            @include('product::admin.product.livewire.table-filters.date')
+        @endif
+
+        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+            </button>
+            <div class="dropdown-menu p-3">
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+            </div>
         </div>
+
+        @if(!empty($appliedFiltersFriendlyNames))
+            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+                <div class="btn-group">
+                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+                </div>
+            </div>
+        @endif
     </div>
 
     <div style="height: 60px" class="bulk-actions-show-columns">
