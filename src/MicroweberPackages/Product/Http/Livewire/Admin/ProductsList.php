@@ -9,7 +9,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\User\Models\User;
 
-class ProductsIndexComponent extends Component
+class ProductsList extends Component
 {
     use WithPagination;
 

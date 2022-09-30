@@ -1,1 +1,1 @@
-<livewire:admin-products-index />
+<livewire:admin-products-list />

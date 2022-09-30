@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
-use MicroweberPackages\Product\Http\Livewire\Admin\ProductsIndexComponent;
+use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
 use MicroweberPackages\Product\Http\Livewire\ProductsAutoComplete;
 use MicroweberPackages\Product\Models\Product;
@@ -22,7 +22,7 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Livewire::component('admin-products-index', ProductsIndexComponent::class);
+        Livewire::component('admin-products-list', ProductsList::class);
         Livewire::component('admin-products-autocomplete', ProductsAutoComplete::class);
 
         Product::observe(BaseModelObserver::class);
