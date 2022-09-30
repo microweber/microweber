@@ -16,8 +16,7 @@
 
 <script>
     document.body.addEventListener("click", function(e) {
-        let filterItemDate= document.getElementsByClassName('js-filter-item-dropdown')[0];
-        if (!filterItemDate.contains(e.target)) {
+        if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-dropdown'])) {
             window.livewire.emit('closeDropdown');
         }
     });
