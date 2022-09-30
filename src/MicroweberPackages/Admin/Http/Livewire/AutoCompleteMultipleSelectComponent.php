@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 
-class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
+class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
 {
     /**
      * Array of multiple selected items
@@ -30,6 +30,8 @@ class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
         'resetProperties'=>'resetProperties'
     ];
 
+    public $closeDropdownAfterSelect = false;
+
     /**
      * When we apply a multiple selections
      * @param $items
@@ -41,7 +43,11 @@ class AutoCompleteMultipleItemsComponent extends AutoCompleteComponent
         $this->refreshQueryData();
         $this->emitSelf('$refresh');
         $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItems);
-        $this->closeDropdown();
+
+        if ($this->closeDropdownAfterSelect) {
+            $this->closeDropdown();
+        }
+
         $this->refreshPlaceholder();
     }
 

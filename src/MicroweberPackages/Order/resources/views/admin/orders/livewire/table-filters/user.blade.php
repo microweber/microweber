@@ -10,6 +10,6 @@
                 $selectedItem = $filters['userId'];
             }
         @endphp
-        @livewire('admin-users-autocomplete', ['selectedItem'=>$selectedItem])
+        @livewire('admin-filter-item-users', ['selectedItem'=>$selectedItem])
     </div>
 </div>

@@ -9,7 +9,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\User\Models\User;
 
-class ProductsIndexComponent extends Component
+class ProductsList extends Component
 {
     use WithPagination;
 
@@ -139,7 +139,7 @@ class ProductsIndexComponent extends Component
             if ($key == 'tags') {
                 $this->emit('tagsResetProperties');
             }
-            if ($key == 'userId') {
+            if ($key == 'userIds') {
                 $this->emit('usersResetProperties');
             }
             unset($this->filters[$key]);
