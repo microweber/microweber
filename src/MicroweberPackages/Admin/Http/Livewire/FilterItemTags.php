@@ -6,15 +6,12 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Tag\Model\Tag;
 use MicroweberPackages\User\Models\User;
 
-class FilterItemTags extends AutoCompleteMultipleItemsComponent
+class FilterItemTags extends FilterItemComponent
 {
     public $name = 'Tags';
     public $model = Tag::class;
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search by tags...';
-
-    public $perPage = 10;
-    public $total = 0;
 
     /**
      * @var string[]

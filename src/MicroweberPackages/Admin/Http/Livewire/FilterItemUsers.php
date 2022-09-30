@@ -5,7 +5,7 @@ namespace MicroweberPackages\Admin\Http\Livewire;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\User\Models\User;
 
-class FilterItemUsers extends AutoCompleteMultipleItemsComponent
+class FilterItemUsers extends FilterItemComponent
 {
     public $name = 'Users';
     public $model = User::class;
@@ -88,6 +88,7 @@ class FilterItemUsers extends AutoCompleteMultipleItemsComponent
             $query->orWhere('email', 'like', '%' . $keyword . '%');
         }
 
+        $this->total = $query->count();
         $query->limit($this->perPage);
 
         $get = $query->get();
