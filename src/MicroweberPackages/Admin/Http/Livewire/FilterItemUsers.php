@@ -14,14 +14,13 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
 
     public $perPage = 10;
 
-    /**
-     * @var string[]
-     */
-    public $listeners = [
-      //  'closeDropdown'=>'closeDropdown',
-        'filterItemUsersRefresh'=>'$refresh',
-        'filterItemUsersResetProperties'=>'resetProperties'
-    ];
+    protected function getListeners()
+    {
+        return array_merge($this->listeners, [
+            'filterItemUsersRefresh'=>'$refresh',
+            'filterItemUsersResetProperties'=>'resetProperties'
+        ]);
+    }
 
     public function loadMore()
     {

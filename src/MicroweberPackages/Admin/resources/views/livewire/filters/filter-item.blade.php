@@ -1,8 +1,8 @@
-<div>
+<div class="js-filter-item-dropdown">
 
     <button type="button"
             wire:click="refreshQueryData"
-            wire:blur="closeDropdown"
+
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
         {{$name}} <span class="mt-2">&nbsp;</span>
@@ -11,7 +11,7 @@
     </button>
 
     @if($showDropdown)
-        <li class="badge-dropdown position-absolute" wire:blur="closeDropdown">
+        <li class="badge-dropdown position-absolute">
 
         <div wire:loading wire:target="query">
             {{$searchingText}}
@@ -20,7 +20,7 @@
             <div class="input-group">
                 <input class="form-control"
                        type="search"
-                       wire:click="showDropdown"
+                       wire:click="showDropdown('{{$this->id}}')"
                        wire:model.debounce.500ms="query"
                        placeholder="{{$placeholder}}"
                 >
@@ -68,5 +68,14 @@
 
         </div>
     @endif
+
+    <script>
+        document.body.addEventListener("click", function(e) {
+            if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-dropdown'])) {
+               // window.livewire.emit('closeDropdown','{{$this->id}}');
+            }
+        });
+    </script>
+
 
 </div>

@@ -8,6 +8,11 @@ class DropdownComponent extends Component
 {
 
     /**
+     * @var string
+     */
+    public $name = 'MyDropdown';
+
+    /**
      * Show/Hide dropdown on view
      * @var bool
      */
@@ -28,17 +33,21 @@ class DropdownComponent extends Component
     /**
      * @return void
      */
-    public function closeDropdown()
+    public function closeDropdown($wireElementId = false)
     {
-        $this->showDropdown = false;
+        if ($wireElementId == $this->id) {
+            $this->showDropdown = false;
+        }
     }
 
     /**
      * @return void
      */
-    public function showDropdown()
+    public function showDropdown($wireElementId = false)
     {
-        $this->showDropdown = true;
+        if ($wireElementId == $this->id) {
+            $this->showDropdown = true;
+        }
     }
 
     public function render()

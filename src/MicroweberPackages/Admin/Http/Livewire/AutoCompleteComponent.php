@@ -56,12 +56,14 @@ class AutoCompleteComponent extends DropdownComponent
      */
     public string $searchingText = 'Searching...';
 
-    /**
-     * @var string[]
-     */
-    public $listeners = [
-      'autocompleteRefresh'=>'$refresh'
-    ];
+
+    protected function getListeners()
+    {
+        return array_merge($this->listeners, [
+            'autocompleteRefresh'=>'$refresh',
+            'autocompleteReset'=>'resetProperties'
+        ]);
+    }
 
     /**
      * @return void

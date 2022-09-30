@@ -23,7 +23,7 @@
             <div class="input-group">
                 <input class="form-control"
                        type="search"
-                       wire:click="showDropdown"
+                       wire:click="showDropdown('{{$this->id}}')"
                        wire:model.debounce.500ms="query"
                        placeholder="{{$placeholder}}"
                 >
@@ -68,13 +68,12 @@
         </div>
     @endif
 
+    <script>
+        document.body.addEventListener("click", function(e) {
+            if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-multiple-dropdown'])) {
+               // window.livewire.emit('closeDropdown','{{$this->id}}');
+            }
+        });
+    </script>
+
 </div>
-
-<script>
-    document.body.addEventListener("click", function(e) {
-        if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-multiple-dropdown'])) {
-           // window.livewire.emit('closeDropdown');
-        }
-    });
-</script>
-
