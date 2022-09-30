@@ -8,6 +8,9 @@ use MicroweberPackages\User\Models\User;
 
 class FilterItemComponent extends AutoCompleteMultipleItemsComponent
 {
+    public $name = 'Component';
     public $perPage = 10;
     public $total = 0;
+
+    public string $view = 'admin::livewire.filters.filter-item';
 }

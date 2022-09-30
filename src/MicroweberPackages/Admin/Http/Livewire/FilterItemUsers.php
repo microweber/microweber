@@ -22,8 +22,6 @@ class FilterItemUsers extends FilterItemComponent
         'filterItemUsersResetProperties'=>'resetProperties'
     ];
 
-    public string $view = 'admin::livewire.filters.filter-item';
-
     public function loadMore()
     {
         $this->emit('loadMoreExecuted');

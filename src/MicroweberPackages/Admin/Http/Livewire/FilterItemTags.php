@@ -21,8 +21,6 @@ class FilterItemTags extends FilterItemComponent
         'filterItemTagsResetProperties'=>'resetProperties'
     ];
 
-    public string $view = 'admin::livewire.filters.filter-item';
-
     public function loadMore()
     {
         $this->emit('loadMoreExecuted');

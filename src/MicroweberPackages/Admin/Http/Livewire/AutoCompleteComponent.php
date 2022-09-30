@@ -70,11 +70,6 @@ class AutoCompleteComponent extends Component
     ];
 
     /**
-     * @var
-     */
-    public $name = '';
-
-    /**
      * @return void
      */
     public function mount()
