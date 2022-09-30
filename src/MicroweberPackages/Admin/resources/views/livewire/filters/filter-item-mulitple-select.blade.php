@@ -1,9 +1,6 @@
-<div>
+<div class="js-filter-item-multiple-dropdown">
 
-    <button type="button"
-
-            wire:click="refreshQueryData"
-            wire:blur="closeDropdown"
+    <button type="button" wire:click="refreshQueryData"
 
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
@@ -17,7 +14,7 @@
     </button>
 
     @if($showDropdown)
-        <div class="badge-dropdown position-absolute" wire:blur="closeDropdown">
+        <div class="badge-dropdown position-absolute">
 
         <div wire:loading wire:target="query">
             {{$searchingText}}
@@ -72,3 +69,12 @@
     @endif
 
 </div>
+
+<script>
+    document.body.addEventListener("click", function(e) {
+        if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-multiple-dropdown'])) {
+            window.livewire.emit('closeDropdown');
+        }
+    });
+</script>
+
