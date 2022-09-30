@@ -20,6 +20,10 @@ class DropdownComponent extends Component
      */
     public string $view = 'admin::livewire.dropdown';
 
+    public $listeners = [
+        'closeDropdown'=>'closeDropdown'
+    ];
+
     /**
      * @return void
      */
@@ -35,7 +39,7 @@ class DropdownComponent extends Component
     {
         $this->showDropdown = true;
     }
-    
+
     public function render()
     {
         return view($this->view);

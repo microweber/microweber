@@ -1,8 +1,6 @@
 <div class="ms-0 ms-md-2 mb-3 mb-md-0">
 
     @php
-        $data = [];
-
         $selectedItem = [];
         if (isset($filters['createdAt'])) {
             $selectedItem = $filters['createdAt'];
@@ -12,8 +10,7 @@
     @livewire('admin-filter-item-date', [
         'name'=>'Created At',
         'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'createdAt',
-        'data'=>$data
+        'selectedItemKey'=>'createdAt'
     ])
 
 </div>
@@ -21,8 +18,6 @@
 <div class="ms-0 ms-md-2 mb-3 mb-md-0">
 
     @php
-        $data = [];
-
         $selectedItem = [];
         if (isset($filters['updatedAt'])) {
             $selectedItem = $filters['updatedAt'];
@@ -32,8 +27,7 @@
     @livewire('admin-filter-item-date', [
         'name'=>'Updated At',
         'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'updatedAt',
-        'data'=>$data
+        'selectedItemKey'=>'updatedAt'
     ])
 
 </div>
