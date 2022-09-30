@@ -1,4 +1,4 @@
-<div class="js-filter-item-multiple-dropdown">
+<div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
 
     <button type="button" wire:click="refreshQueryData"
 
@@ -67,13 +67,5 @@
 
         </div>
     @endif
-
-    <script>
-        document.body.addEventListener("click", function(e) {
-            if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-multiple-dropdown'])) {
-               // window.livewire.emit('closeDropdown','{{$this->id}}');
-            }
-        });
-    </script>
 
 </div>

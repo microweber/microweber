@@ -3,7 +3,10 @@
     document.body.addEventListener("click", function(e) {
         if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-dropdown'])) {
 
-            var elementTarget = e.target;
+
+            var elementTarget = mw.tools.firstParentWithClass( e.target, 'js-filter-item-dropdown');
+
+
             var clickedDropdownId = $(elementTarget).attr('wire:id');
 
             console.log(elementTarget);
