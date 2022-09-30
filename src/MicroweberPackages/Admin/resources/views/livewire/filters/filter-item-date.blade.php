@@ -1,4 +1,4 @@
-<div class="js-filter-item-dropdown">
+<div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
 
     <button type="button" wire:click="showDropdown('{{$this->id}}')" class="btn @if(!empty($selectedItem)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
@@ -11,15 +11,5 @@
         <span class="text-muted">Select Date</span>
         <input type="date" class="form-control" />
     </div>
-
-    @if($showDropdown)
-        <script id="js-filter-item-dropdown-js-{{$this->id}}">
-            document.body.addEventListener("click", function(e) {
-                if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-dropdown'])) {
-                    window.livewire.emit('closeDropdown','{{$this->id}}');
-                }
-            });
-        </script>
-    @endif
 
 </div>
