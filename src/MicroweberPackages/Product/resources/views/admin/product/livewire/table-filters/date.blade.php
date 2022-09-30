@@ -30,10 +30,10 @@
     @endphp
 
     @livewire('admin-filter-item', [
-    'name'=>'Updated At',
-    'selectedItem'=>$selectedItem,
-    'selectedItemKey'=>'updatedAt',
-    'data'=>$data
+        'name'=>'Updated At',
+        'selectedItem'=>$selectedItem,
+        'selectedItemKey'=>'updatedAt',
+        'data'=>$data
     ])
 
 </div>
