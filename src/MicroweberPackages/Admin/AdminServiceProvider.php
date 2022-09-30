@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Http\Livewire\AutoCompleteMultipleSelectComponent;
+use MicroweberPackages\Admin\Http\Livewire\DropdownComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemMultipleSelectComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemTags;
@@ -36,6 +37,7 @@ class AdminServiceProvider extends ServiceProvider
     {
        // Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
        //  Livewire::component('admin-auto-complete-multiple-items', AutoCompleteMultipleItemsComponent::class);
+        Livewire::component('admin-dropdown', DropdownComponent::class);
         Livewire::component('admin-users-autocomplete', UsersAutoComplete::class);
         Livewire::component('admin-tags-autocomplete', TagsAutoComplete::class);
 
