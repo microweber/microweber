@@ -1,12 +1,20 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-4 mb-4 ">
-    <label class="d-block">
-        Stock Status
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0">
+    @php
+        $data = [
+            ['key'=>'','value'=>'Any'],
+            ['key'=>'1','value'=>'In Stock'],
+            ['key'=>'0','value'=>'Out Of Stock'],
+        ];
 
-    <select wire:model.stop="filters.inStock" class="form-control">
-        <option value="">Any</option>
-        <option value="1">In Stock</option>
-        <option value="0">Out Of Stock</option>
-    </select>
-
+        $selectedItem = [];
+        if (isset($filters['inStock'])) {
+            $selectedItem = $filters['inStock'];
+        }
+    @endphp
+    @livewire('admin-filter-item', [
+        'name'=>'Stock Status',
+        'selectedItem'=>$selectedItem,
+        'selectedItemKey'=>'inStock',
+        'data'=>$data
+    ])
 </div>

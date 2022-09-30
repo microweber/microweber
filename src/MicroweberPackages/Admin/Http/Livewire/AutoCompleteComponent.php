@@ -32,9 +32,9 @@ class AutoCompleteComponent extends Component
 
     /**
      * Sended data to view
-     * @var
+     * @var array
      */
-    public $data;
+    public $data = [];
 
     /**
      * Show/Hide dropdown on view
