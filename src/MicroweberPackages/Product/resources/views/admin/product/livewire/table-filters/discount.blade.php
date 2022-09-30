@@ -1,12 +1,20 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-4 mb-4 ">
-    <label class="d-block">
-        Discount
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0">
+    @php
+        $data = [
+            ['key'=>'','value'=>'Any'],
+            ['key'=>'1','value'=>'Discounted'],
+            ['key'=>'0','value'=>'Not discounted'],
+        ];
 
-    <select wire:model.stop="filters.discounted" class="form-control">
-        <option value="">Any</option>
-        <option value="1">Discounted</option>
-        <option value="0">Not discounted</option>
-    </select>
-
+        $selectedItem = [];
+        if (isset($filters['discounted'])) {
+            $selectedItem = $filters['discounted'];
+        }
+    @endphp
+    @livewire('admin-filter-item', [
+        'name'=>'Discount',
+        'selectedItem'=>$selectedItem,
+        'selectedItemKey'=>'discounted',
+        'data'=>$data
+    ])
 </div>

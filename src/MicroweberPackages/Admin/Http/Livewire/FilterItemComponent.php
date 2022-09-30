@@ -14,10 +14,15 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public string $view = 'admin::livewire.filters.filter-item';
 
+    public function updatedSelectedItem($value)
+    {
+        $this->selectItem($value);
+    }
 
     public function refreshQueryData()
     {
         $this->showDropdown();
 
+        $this->total = count($this->data);
     }
 }

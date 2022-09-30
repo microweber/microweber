@@ -1,9 +1,6 @@
-<div>
+<div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
 
-    <button type="button"
-
-            wire:click="refreshQueryData"
-            wire:blur="closeDropdown"
+    <button type="button" wire:click="refreshQueryData"
 
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
@@ -17,7 +14,7 @@
     </button>
 
     @if($showDropdown)
-        <div class="badge-dropdown position-absolute" wire:blur="closeDropdown">
+        <div class="badge-dropdown position-absolute">
 
         <div wire:loading wire:target="query">
             {{$searchingText}}
@@ -26,7 +23,7 @@
             <div class="input-group">
                 <input class="form-control"
                        type="search"
-                       wire:click="showDropdown"
+                       wire:click="showDropdown('{{$this->id}}')"
                        wire:model.debounce.500ms="query"
                        placeholder="{{$placeholder}}"
                 >
@@ -51,11 +48,6 @@
             </ul>
 
             <script>
-                document.getElementById("js-filter-items-values-list").onscroll = function(ev) {
-                  /*  if ((document.getElementById("js-filter-items-values-list").innerHeight + document.getElementById("js-filter-items-values-list").scrollY) >= document.getElementById("js-filter-items-values-list").offsetHeight) {
-                        window.livewire.emit('loadMore');
-                    }*/
-                };
                 window.livewire.on('loadMoreExecuted', () => {
                     document.getElementById("js-filter-items-values-list").scrollTop = 10000;
                 });

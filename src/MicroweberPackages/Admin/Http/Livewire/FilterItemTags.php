@@ -13,13 +13,13 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search by tags...';
 
-    /**
-     * @var string[]
-     */
-    public $listeners = [
-        'filterItemTagsRefresh'=>'$refresh',
-        'filterItemTagsResetProperties'=>'resetProperties'
-    ];
+    protected function getListeners()
+    {
+        return array_merge($this->listeners, [
+            'filterItemTagsRefresh'=>'$refresh',
+            'filterItemTagsResetProperties'=>'resetProperties'
+        ]);
+    }
 
     public function loadMore()
     {

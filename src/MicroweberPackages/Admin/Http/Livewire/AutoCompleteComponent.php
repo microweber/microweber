@@ -4,7 +4,7 @@ namespace MicroweberPackages\Admin\Http\Livewire;
 
 use Livewire\Component;
 
-class AutoCompleteComponent extends Component
+class AutoCompleteComponent extends DropdownComponent
 {
     /**
      * The eloquent laravel model
@@ -32,15 +32,9 @@ class AutoCompleteComponent extends Component
 
     /**
      * Sended data to view
-     * @var
+     * @var array
      */
-    public $data;
-
-    /**
-     * Show/Hide dropdown on view
-     * @var bool
-     */
-    public $showDropdown = false;
+    public $data = [];
 
 
     /**
@@ -62,12 +56,14 @@ class AutoCompleteComponent extends Component
      */
     public string $searchingText = 'Searching...';
 
-    /**
-     * @var string[]
-     */
-    public $listeners = [
-      'autocompleteRefresh'=>'$refresh'
-    ];
+
+    protected function getListeners()
+    {
+        return array_merge($this->listeners, [
+            'autocompleteRefresh'=>'$refresh',
+            'autocompleteReset'=>'resetProperties'
+        ]);
+    }
 
     /**
      * @return void
@@ -100,22 +96,6 @@ class AutoCompleteComponent extends Component
     /**
      * @return void
      */
-    public function closeDropdown()
-    {
-        $this->showDropdown = false;
-    }
-
-    /**
-     * @return void
-     */
-    public function showDropdown()
-    {
-        $this->showDropdown = true;
-    }
-
-    /**
-     * @return void
-     */
     public function resetProperties()
     {
         $this->query = '';
@@ -143,9 +123,6 @@ class AutoCompleteComponent extends Component
         $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function render()
     {
         return view($this->view);
