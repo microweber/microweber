@@ -42,7 +42,7 @@
                 @if(!empty($data))
                     @foreach($data as $item)
                         <li class="list-group-item list-group-item-action cursor-pointer">
-                            <input class="form-check-input me-1" type="checkbox" wire:model.debounce.1000ms="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
+                            <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
                             <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                         </li>
                     @endforeach
@@ -52,7 +52,7 @@
 
             <script>
                 window.livewire.on('loadMoreExecuted', () => {
-                //    document.getElementById("js-filter-items-values-list").scrollTop = 10000;
+                    document.getElementById("js-filter-items-values-list").scrollTop = 10000;
                 });
             </script>
 
