@@ -16,14 +16,16 @@
             var elementTargetId = $(el).attr('wire:id');
             if (typeof elementTargetId != 'undefined') {
                 var elementTargetIdOpenendDropdown = $(el).attr('data-dropdown-show');
-                $(".js-filter-item-dropdown[data-dropdown-show='1']").each(function () {
-                    var elementTargetIdOther = $(this).attr('wire:id');
-                    if (elementTargetIdOther) {
-                        if (elementTargetId != elementTargetIdOther) {
-                            window.livewire.emit('closeDropdown', elementTargetIdOther);
+                if (elementTargetIdOpenendDropdown == 1) {
+                    $(".js-filter-item-dropdown[data-dropdown-show='1']").each(function () {
+                        var elementTargetIdOther = $(this).attr('wire:id');
+                        if (elementTargetIdOther) {
+                            if (elementTargetId != elementTargetIdOther) {
+                                window.livewire.emit('closeDropdown', elementTargetIdOther);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         })
 
