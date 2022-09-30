@@ -17,6 +17,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Admin\Http\Livewire\AutoCompleteMultipleSelectComponent;
 use MicroweberPackages\Admin\Http\Livewire\DropdownComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
+use MicroweberPackages\Admin\Http\Livewire\FilterItemDate;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemMultipleSelectComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemTags;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemUsers;
@@ -45,6 +46,7 @@ class AdminServiceProvider extends ServiceProvider
         Livewire::component('admin-filter-item-multiple-items', FilterItemMultipleSelectComponent::class);
         Livewire::component('admin-filter-item-users', FilterItemUsers::class);
         Livewire::component('admin-filter-item-tags', FilterItemTags::class);
+        Livewire::component('admin-filter-item-date', FilterItemDate::class);
 
     }
 }

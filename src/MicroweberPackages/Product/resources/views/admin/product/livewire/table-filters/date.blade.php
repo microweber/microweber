@@ -9,7 +9,7 @@
         }
     @endphp
 
-    @livewire('admin-filter-item', [
+    @livewire('admin-filter-item-date', [
         'name'=>'Created At',
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'createdAt',
@@ -29,7 +29,7 @@
         }
     @endphp
 
-    @livewire('admin-filter-item', [
+    @livewire('admin-filter-item-date', [
         'name'=>'Updated At',
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'updatedAt',
