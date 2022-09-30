@@ -136,7 +136,10 @@ class OptionRepository extends AbstractRepository
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
 
-            $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
+            $allOptions = \DB::table('options')
+                ->where('option_group', $optionGroup)
+                ->whereNotNull('option_value')
+                ->get();
 
             $allOptions = collect($allOptions)->map(function ($option) {
                 return (array)$option;
