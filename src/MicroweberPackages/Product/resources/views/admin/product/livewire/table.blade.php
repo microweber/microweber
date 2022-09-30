@@ -21,8 +21,11 @@
                    class="form-control">
         </div>
 
-        @if(isset($showFilters['categoryTags']) && $showFilters['categoryTags'])
+        @if(isset($showFilters['category']) && $showFilters['category'])
             @include('product::admin.product.livewire.table-filters.category')
+        @endif
+
+        @if(isset($showFilters['tags']) && $showFilters['tags'])
             @include('product::admin.product.livewire.table-filters.tags')
         @endif
 
@@ -46,7 +49,8 @@
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
             <div class="dropdown-menu p-3">
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.categoryTags"> Category & Tags</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
             </div>
