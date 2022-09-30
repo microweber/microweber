@@ -18,6 +18,7 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
      * @var string[]
      */
     public $listeners = [
+      //  'closeDropdown'=>'closeDropdown',
         'filterItemUsersRefresh'=>'$refresh',
         'filterItemUsersResetProperties'=>'resetProperties'
     ];
@@ -58,7 +59,6 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
 
     public function refreshQueryData()
     {
-
         $this->showDropdown();
 
         $firstData = [];

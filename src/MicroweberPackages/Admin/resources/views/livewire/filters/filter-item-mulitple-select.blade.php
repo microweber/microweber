@@ -73,7 +73,7 @@
 <script>
     document.body.addEventListener("click", function(e) {
         if (!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['js-filter-item-multiple-dropdown'])) {
-            window.livewire.emit('closeDropdown');
+           // window.livewire.emit('closeDropdown');
         }
     });
 </script>

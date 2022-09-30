@@ -26,6 +26,7 @@ class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
      * @var string[]
      */
     public $listeners = [
+        'closeDropdown'=>'closeDropdown',
         'autocompleteRefresh'=>'$refresh',
         'resetProperties'=>'resetProperties'
     ];

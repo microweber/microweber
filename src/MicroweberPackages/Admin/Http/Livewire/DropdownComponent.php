@@ -21,7 +21,8 @@ class DropdownComponent extends Component
     public string $view = 'admin::livewire.dropdown';
 
     public $listeners = [
-        'closeDropdown'=>'closeDropdown'
+        'showDropdown'=>'showDropdown',
+        'closeDropdown'=>'closeDropdown',
     ];
 
     /**
