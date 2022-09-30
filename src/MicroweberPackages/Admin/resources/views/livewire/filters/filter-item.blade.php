@@ -26,10 +26,8 @@
             <div class="input-group">
                 <input class="form-control"
                        type="search"
+                       wire:click="showDropdown"
                        wire:model.debounce.500ms="query"
-                       wire:keydown.escape="resetProperties"
-                       wire:keydown.enter="refreshQueryData"
-
                        placeholder="{{$placeholder}}"
                 >
             </div>
@@ -63,14 +61,16 @@
                 });
             </script>
 
-            <div class="mt-3" style="border-top: 1px solid #cfcfcf">
-                <br />
+            <div class="d-flex pt-3" style="border-top: 1px solid #cfcfcf">
                 @if($selectedItems)
-                    <span class="cursor-pointer text-muted" wire:click="resetProperties">
-                        Clear selection
-                    </span>
+                    <div class="col">
+                        <span class="cursor-pointer text-muted" wire:click="resetProperties">
+                            Clear selection
+                        </span>
+                    </div>
                 @endif
             @endif
+                <div class="col text-right">{{count($data)}} of {{$total}}</div>
             </div>
 
         </div>

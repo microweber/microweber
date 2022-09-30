@@ -14,6 +14,7 @@ class FilterItemTags extends AutoCompleteMultipleItemsComponent
     public string $placeholder = 'Type to search by tags...';
 
     public $perPage = 10;
+    public $total = 0;
 
     /**
      * @var string[]
@@ -88,6 +89,8 @@ class FilterItemTags extends AutoCompleteMultipleItemsComponent
             $query->where('slug', 'like', '%' . $keyword . '%');
             $query->orWhere('name', 'like', '%' . $keyword . '%');
         }
+
+        $this->total = $query->count();
 
         $query->limit($this->perPage);
 
