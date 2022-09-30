@@ -39,10 +39,11 @@ class MultilanguageRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($fieldName, $fieldValue, $relType) {
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
+            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
 
             $getMultilangTranslatesQuery->where('field_name', $fieldName);
             $getMultilangTranslatesQuery->where('field_value', $fieldValue);
-            $getMultilangTranslatesQuery->whereNotNull('field_value');
+            //  $getMultilangTranslatesQuery->whereNotNull('field_value');
 
             if ($relType) {
                 $getMultilangTranslatesQuery->where('rel_type', $relType);
@@ -130,7 +131,7 @@ class MultilanguageRepository extends AbstractRepository
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
             $getMultilangTranslatesQuery->select('rel_id');
             $getMultilangTranslatesQuery->where('rel_type', $relType);
-            $getMultilangTranslatesQuery->whereNotNull('field_value');
+            //  $getMultilangTranslatesQuery->whereNotNull('field_value');
             $rel_ids = $getMultilangTranslatesQuery->groupBy('rel_id')->pluck('rel_id')->toArray();
 
             if ($rel_ids) {
@@ -157,10 +158,11 @@ class MultilanguageRepository extends AbstractRepository
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relType, $relId) {
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
+            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
 
             $getMultilangTranslatesQuery->where('rel_id', $relId);
             $getMultilangTranslatesQuery->where('rel_type', $relType);
-            $getMultilangTranslatesQuery->whereNotNull('field_value');
+            //  $getMultilangTranslatesQuery->whereNotNull('field_value');
 
             $executeQuery = $getMultilangTranslatesQuery->get();
 
@@ -188,9 +190,10 @@ class MultilanguageRepository extends AbstractRepository
 
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
 
+            $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
             $getMultilangTranslatesQuery->where('locale', $locale);
             $getMultilangTranslatesQuery->where('rel_type', $relType);
-            $getMultilangTranslatesQuery->whereNotNull('field_value');
+            // $getMultilangTranslatesQuery->whereNotNull('field_value');
 
             $executeQuery = $getMultilangTranslatesQuery->get();
             if ($executeQuery !== null) {

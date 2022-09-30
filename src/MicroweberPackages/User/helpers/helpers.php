@@ -19,6 +19,8 @@ function user_ip()
         $ipaddress = $_SERVER['HTTP_FORWARDED'];
     } else if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
         $ipaddress = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+    } else if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+        $ipaddress = $_SERVER['HTTP_X_REAL_IP'];
     } else if (isset($_SERVER['REMOTE_ADDR'])) {
         $ipaddress = $_SERVER['REMOTE_ADDR'];
     }

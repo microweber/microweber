@@ -98,7 +98,36 @@ class ContentRepository extends AbstractRepository
 
 
     }
+    public function getContentDataValues($id)
+    {
+        $id = intval($id);
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
+            $getContentData = DB::table('content_data')
+                ->select(['field_name', 'field_value', 'rel_type', 'rel_id'])
+                ->where('rel_type', 'content')
+                ->where('rel_id', $id)
+                ->get();
+
+            $get = collect($getContentData)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            if (!empty($get)) {
+                $res = array();
+                foreach ($get as $item) {
+                    if (isset($item['field_name']) and isset($item['field_value'])) {
+                        $res[$item['field_name']] = $item['field_value'];
+                    }
+                }
+
+
+                return $res;
+            }
+
+            return [];
+        });
+    }
     /**
      * Find content by id.
      *

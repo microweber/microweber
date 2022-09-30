@@ -18,10 +18,8 @@ class DataFieldsManager extends Crud
         if (isset($params['content_id'])) {
 
 
-            $params['rel_type'] = 'content';
-            $params['rel_id'] = $params['content_id'];
-            $get = app()->content_repository->getContentData($params['content_id']);
-            unset($params['content_id']);
+            return app()->content_repository->getContentDataValues($params['content_id']);
+
 
         } else {
             // get data for other than content
