@@ -38,7 +38,7 @@
                 <option value="greater">More than</option>
                 <option value="lower">Lower than</option>
             </select>
-            <input type="number" class="form-control" placeholder="Sales count" wire:model.stop="itemValue">
+            <input type="number" class="form-control" placeholder="{{$name}} count" wire:model.stop="itemValue">
         </div>
 
 
