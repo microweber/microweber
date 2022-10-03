@@ -30,12 +30,13 @@
         @endif
 
         @if(isset($showFilters['shop']) && $showFilters['shop'])
-            @include('product::admin.product.livewire.table-filters.price-range')
+        {{--    @include('product::admin.product.livewire.table-filters.price-range')
             @include('product::admin.product.livewire.table-filters.stock-status')
-            @include('product::admin.product.livewire.table-filters.discount')
+            @include('product::admin.product.livewire.table-filters.discount')--}}
             @include('product::admin.product.livewire.table-filters.sales')
             @include('product::admin.product.livewire.table-filters.quantity')
-            @include('product::admin.product.livewire.table-filters.sku')
+      {{--
+            @include('product::admin.product.livewire.table-filters.sku')--}}
         @endif
 
         @if(isset($showFilters['other']) && $showFilters['other'])
