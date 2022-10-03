@@ -41,4 +41,9 @@ class ProductFilter extends ModelFilter
     use FilterByVisibleTrait;
     use FilterByDate;
 
+    public function sku($sku)
+    {
+        $this->contentData(['sku'=>$sku]);
+    }
+
 }
