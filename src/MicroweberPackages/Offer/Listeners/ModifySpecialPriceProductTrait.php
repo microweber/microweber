@@ -15,11 +15,19 @@ trait ModifySpecialPriceProductTrait {
         if (!isset($product->priceModel->id)) {
             return;
         }
-
         if (isset($data['content_data']['special_price'])) {
 
-            $productId = $product->id;
-            $priceId = $product->priceModel->id;
+            $this->saveSpecialPriceToModel($product, $data);
+        }
+
+
+    }
+
+    public function saveSpecialPriceToModel($productModel, $data){
+        if (isset($data['content_data']['special_price'])) {
+
+            $productId = $productModel->id;
+            $priceId = $productModel->priceModel->id;
 
             $query = Offer::where('price_id', $priceId);
             if ($productId) {

@@ -707,6 +707,7 @@ class DatabaseManager extends DbUtils
 
         $criteria_overwrite['id'] = $id_to_return;
         $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
+        $this->app->event_manager->trigger('mw.database.' . $table . '.save.after.data', $data);
 
         return $id_to_return;
     }
@@ -965,8 +966,8 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
-                $model = new Content($params);
-                 // $model = app()->make(Content::class);
+              //  $model = new Content($params);
+                 $model = app()->make(Content::class);
 
                 //    $model::boot();
             } else if ($table == 'categories') {

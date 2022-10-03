@@ -24,7 +24,7 @@ class OfferServiceProvider extends ServiceProvider
     {
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Offer::class, function () {
-                return new OfferRepository(); 
+                return new OfferRepository();
             });
         });
 
@@ -35,6 +35,7 @@ class OfferServiceProvider extends ServiceProvider
         $this->app->bind('offer_repository', function () {
             return $this->app->repository_manager->driver(Offer::class);;
         });
+
 
 
     }

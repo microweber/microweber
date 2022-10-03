@@ -3,6 +3,7 @@ namespace MicroweberPackages\Content;
 
 use Conner\Tagging\Taggable;
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Traits\CategoryTrait;
@@ -34,6 +35,7 @@ class Content extends Model
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
     use PowerJoins;
+    use HasEvents;
 
     protected $table = 'content';
     protected $content_type = 'content';

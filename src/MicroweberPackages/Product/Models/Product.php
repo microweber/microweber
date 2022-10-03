@@ -12,6 +12,7 @@ use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
+use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
@@ -19,6 +20,14 @@ use function Clue\StreamFilter\fun;
 
 class Product extends Content
 {
+
+//    protected $dispatchesEvents = [
+//        'updated' =>  ProductWasUpdated::class,
+//     //   'updating' =>  ProductWasUpdated::class,
+//      //  'updating' =>  ProductWasUpdated::class,
+//     //   'deleted' => ProductWasUpdated::class,
+//    ];
+
 
     /**
      * @method filter(array $filter)

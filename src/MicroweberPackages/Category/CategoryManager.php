@@ -732,6 +732,7 @@ class CategoryManager
         if (intval($save) == 0) {
             return false;
         }
+        return $save;
     }
 
     /**
