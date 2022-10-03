@@ -24,7 +24,7 @@ class FilterItemComponent extends AutoCompleteComponent
         if (!empty($this->data)) {
             foreach ($this->data as $item) {
                 if ($item['key'] == $this->selectedItem) {
-                    $this->selectedItem = $item['value'];
+                    $this->selectedItemText = $item['value'];
                 }
             }
         }
