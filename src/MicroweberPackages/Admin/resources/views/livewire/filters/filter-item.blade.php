@@ -1,7 +1,7 @@
 <div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
 
     <button type="button"
-            wire:click="refreshQueryData"
+            wire:click="showDropdown('{{$this->id}}')"
 
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
@@ -11,6 +11,7 @@
     </button>
 
     @if($showDropdown)
+
         <li class="badge-dropdown position-absolute">
 
         <div wire:loading wire:target="query">
