@@ -14,9 +14,4 @@ class FilterItemMultipleSelectComponent extends AutoCompleteMultipleSelectCompon
 
     public string $view = 'admin::livewire.filters.filter-item-mulitple-select';
 
-
-    public function refreshQueryData()
-    {
-        $this->showDropdown($this->id);
-    }
 }

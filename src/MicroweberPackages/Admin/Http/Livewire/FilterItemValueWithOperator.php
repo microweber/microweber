@@ -18,13 +18,7 @@ class FilterItemValueWithOperator extends DropdownComponent
         $this->showDropdown($this->id);
     }
 
-    public function emitEvents()
-    {
-        $this->emit('autoCompleteSelectItem', $this->itemOperatorValueKey, $this->itemOperatorValue);
-        $this->emit('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
-    }
-
-   public function updatedItemValue()
+    public function updatedItemValue()
     {
         $this->emitEvents();
     }
@@ -34,11 +28,9 @@ class FilterItemValueWithOperator extends DropdownComponent
         $this->emitEvents();
     }
 
-/*    protected function getListeners()
+    public function emitEvents()
     {
-        return array_merge($this->listeners, [
-
-        ]);
-    }*/
-
+        $this->emit('autoCompleteSelectItem', $this->itemOperatorValueKey, $this->itemOperatorValue);
+        $this->emit('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
+    }
 }

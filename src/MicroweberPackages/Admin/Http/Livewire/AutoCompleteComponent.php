@@ -96,7 +96,7 @@ class AutoCompleteComponent extends DropdownComponent
      */
     public function refreshQueryData()
     {
-        //
+        $this->showDropdown($this->id);
     }
 
     /**
