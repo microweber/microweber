@@ -9,7 +9,7 @@
 
     <div class="badge-dropdown position-absolute" @if(!$showDropdown) style="display: none" @endif>
         <span class="text-muted">Select Date</span>
-        <input type="date" class="form-control" />
+        <input type="date" wire:model="selectedItem" class="form-control" />
     </div>
 
 </div>
