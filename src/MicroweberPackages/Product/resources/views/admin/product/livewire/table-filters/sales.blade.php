@@ -1,20 +1,22 @@
 <div class="ms-0 ms-md-2 mb-3 mb-md-0">
 
-
     @php
-        $data = [];
-
-        $selectedItem = [];
+        $itemValue = '';
+        $itemOperatorValue = '';
         if (isset($filters['sales'])) {
-            $selectedItem = $filters['sales'];
+            $itemValue = $filters['sales'];
+        }
+        if (isset($filters['salesOperator'])) {
+            $itemOperatorValue = $filters['salesOperator'];
         }
     @endphp
 
     @livewire('admin-filter-item-value-with-operator', [
         'name'=>'Sales',
-        'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'sales',
-        'data'=>$data
+        'itemValue'=>$itemValue,
+        'itemOperatorValue'=>$itemOperatorValue,
+        'itemValueKey'=>'sales',
+        'itemOperatorValueKey'=>'salesOperator'
     ])
 
 </div>
