@@ -43,7 +43,7 @@ class OrdersCustomersAutoComplete extends AutoCompleteComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown();
+            $this->showDropdown($this->id);
             $this->data = [];
             foreach ($get as $item) {
                 $key = [

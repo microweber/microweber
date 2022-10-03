@@ -18,7 +18,7 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
         $this->closeDropdown();
         if ($this->selectedItem) {
             $this->data = [];
-            $this->showDropdown();
+            $this->showDropdown($this->id);
             $this->query = $this->selectedItem;
             return;
         }
@@ -42,7 +42,7 @@ class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown();
+            $this->showDropdown($this->id);
             $this->data = [];
             foreach ($get as $item) {
 

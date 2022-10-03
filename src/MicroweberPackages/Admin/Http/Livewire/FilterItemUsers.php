@@ -58,7 +58,7 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
 
     public function refreshQueryData()
     {
-        $this->showDropdown();
+        $this->showDropdown($this->id);
 
         $firstData = [];
 

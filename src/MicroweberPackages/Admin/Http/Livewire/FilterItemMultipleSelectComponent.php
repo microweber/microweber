@@ -17,7 +17,6 @@ class FilterItemMultipleSelectComponent extends AutoCompleteMultipleSelectCompon
 
     public function refreshQueryData()
     {
-        $this->showDropdown();
-
+        $this->showDropdown($this->id);
     }
 }

@@ -21,7 +21,7 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function refreshQueryData()
     {
-        $this->showDropdown();
+        $this->showDropdown($this->id);
 
         $this->total = count($this->data);
     }

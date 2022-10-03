@@ -39,7 +39,7 @@ class ProductsAutoComplete extends AutoCompleteComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown();
+            $this->showDropdown($this->id);
             $this->data = [];
             foreach ($get as $item) {
                 $this->data[] = ['key'=>$item->id, 'value'=>$item->title, 'thumbnail'=>$item->thumbnail(30,30)];
