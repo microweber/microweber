@@ -21,7 +21,13 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function refreshQueryData()
     {
-        $this->showDropdown($this->id);
+        if (!empty($this->data)) {
+            foreach ($this->data as $item) {
+                if ($item['key'] == $this->selectedItem) {
+                    $this->selectedItem = $item['value'];
+                }
+            }
+        }
 
         $this->total = count($this->data);
     }

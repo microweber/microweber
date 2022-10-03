@@ -1,6 +1,6 @@
 <div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
 
-    <button type="button" wire:click="refreshQueryData"
+    <button type="button" wire:click="load"
 
             class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 

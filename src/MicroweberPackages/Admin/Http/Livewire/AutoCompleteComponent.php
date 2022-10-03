@@ -16,7 +16,7 @@ class AutoCompleteComponent extends DropdownComponent
      * Selected item when we have single selection autocomplete
      * @var string
      */
-    public $selectedItem;
+    public $selectedItem = '';
 
     /**
      * Selected item key when we fire a event with key and value
@@ -121,6 +121,12 @@ class AutoCompleteComponent extends DropdownComponent
         $this->emitSelf('$refresh');
 
         $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
+    }
+
+    public function load()
+    {
+        $this->showDropdown($this->id);
+        $this->refreshQueryData();
     }
 
     public function render()
