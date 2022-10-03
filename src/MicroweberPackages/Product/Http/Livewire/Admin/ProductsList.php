@@ -35,7 +35,9 @@ class ProductsList extends Component
         'author' => false
     ];
 
-    public $showFilters = [];
+    public $showFilters = [
+        'shop'=>1
+    ];
 
     public $checked = [];
     public $selectAll = false;
@@ -43,10 +45,12 @@ class ProductsList extends Component
     public function clearFilters()
     {
         $this->filters = [];
+        $this->showFilters = [];
     }
 
     public function setFilter($key, $value)
     {
+
         if (is_array($value)) {
             $value = implode(',', $value);
         }

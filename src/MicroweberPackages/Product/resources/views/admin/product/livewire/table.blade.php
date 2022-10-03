@@ -151,7 +151,7 @@
     </div>
 
     <table class="table table-responsive" id="content-results-table">
-        <thead>
+        <thead class="thead-light">
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])

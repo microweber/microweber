@@ -13,6 +13,9 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
     public $selectedItemKey = 'tags';
     public string $placeholder = 'Type to search by tags...';
 
+    public $firstItemName;
+    public $firstTimeLoading = false;
+
     protected function getListeners()
     {
         return array_merge($this->listeners, [
@@ -27,10 +30,6 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
         $this->perPage = $this->perPage + 5;
         $this->refreshQueryData();
     }
-
-
-    public $firstItemName;
-    public $firstTimeLoading = false;
 
     public function mount()
     {

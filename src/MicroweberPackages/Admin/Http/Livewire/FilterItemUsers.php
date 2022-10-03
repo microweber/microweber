@@ -12,6 +12,9 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
     public $selectedItemKey = 'userIds';
     public string $placeholder = 'Type to search by users...';
 
+    public $firstItemName;
+    public $firstTimeLoading = false;
+
     public $perPage = 10;
 
     protected function getListeners()
@@ -28,10 +31,6 @@ class FilterItemUsers extends FilterItemMultipleSelectComponent
         $this->perPage = $this->perPage + 5;
         $this->refreshQueryData();
     }
-
-
-    public $firstItemName;
-    public $firstTimeLoading = false;
 
     public function mount()
     {

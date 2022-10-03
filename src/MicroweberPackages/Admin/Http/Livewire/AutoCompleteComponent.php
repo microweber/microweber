@@ -18,6 +18,12 @@ class AutoCompleteComponent extends DropdownComponent
      */
     public $selectedItem = '';
 
+
+    /**
+     * @var string
+     */
+    public $selectedItemText = '';
+
     /**
      * Selected item key when we fire a event with key and value
      * @var string
@@ -90,7 +96,7 @@ class AutoCompleteComponent extends DropdownComponent
      */
     public function refreshQueryData()
     {
-        //
+        $this->showDropdown($this->id);
     }
 
     /**

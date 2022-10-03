@@ -678,3 +678,12 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
     margin: 0px 12px;
     font-size: 12px;
 }
+
+
+.manage-post-item:hover {
+    background: rgba(245, 245, 245, 0.3);
+    border-color: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
+    -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
+}
