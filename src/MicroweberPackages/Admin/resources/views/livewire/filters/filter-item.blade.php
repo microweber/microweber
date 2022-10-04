@@ -11,7 +11,7 @@
 
     @if($showDropdown)
 
-        <li class="badge-dropdown position-absolute">
+        <div class="badge-dropdown position-absolute">
 
         <div wire:loading wire:target="query">
             {{$searchingText}}
