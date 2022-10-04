@@ -12,7 +12,7 @@
 
     </button>
 
-    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
         <div class="mb-3 mb-md-0">
             <label>{{$name}} </label>
             <input type="text" class="form-control" placeholder="Fill the {{$name}}" wire:model.stop="itemValue">
@@ -23,11 +23,11 @@
         $(document).ready(function() {
             $('body').on('click', function(e) {
                 if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').hide();
+                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
                 }
             });
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').toggle();
+                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
             });
         });
     </script>

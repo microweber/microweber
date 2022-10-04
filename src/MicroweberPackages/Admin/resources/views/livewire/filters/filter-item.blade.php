@@ -6,7 +6,7 @@
 
     </button>
 
-    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}">
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
 
         @if($searchable)
         <div class="input-group mb-4">

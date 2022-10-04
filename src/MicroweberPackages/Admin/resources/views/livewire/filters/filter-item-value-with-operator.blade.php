@@ -26,7 +26,7 @@
 
     </button>
 
-    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
         <label>{{$name}} </label>
         <div class="mb-3 mb-md-0 input-group">
             <select class="form-control" wire:model.stop="itemOperatorValue">
@@ -42,11 +42,11 @@
         $(document).ready(function() {
             $('body').on('click', function(e) {
                 if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').hide();
+                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
                 }
             });
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').toggle();
+                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
             });
         });
     </script>
