@@ -658,8 +658,8 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
     padding-inline-start: 23px !important;
     border:0px !important;
 }
-
 .badge-dropdown {
+    margin-top:15px;
     background: #ffffff;
     padding: 20px;
     position: absolute;
@@ -668,8 +668,26 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
+    border-top:4px solid #d9d9d9;
+    border-bottom:4px solid #d9d9d9;
     width:300px;
 }
+
+.badge-dropdown:before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent #d9d9d9 transparent;
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    top: -10px;
+    left: 30px;
+    right: 0;
+}
+
 .badge-filter-item {
     background: #fff;
     color: #757575;

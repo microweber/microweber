@@ -15,7 +15,6 @@
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
 
         <input type="hidden" id="js-price-range" wire:model.stop="itemValue">
-        <input type="hidden" id="js-show-dropdown-value" wire:model.stop="showDropdown">
 
         <div class="mb-3 mb-md-0 input-group">
             <span class="input-group-text">From</span>
@@ -66,12 +65,11 @@
 
             $('body').on('click', function(e) {
                 if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').hide();
+                    $('.js-dropdown-content-{{$this->id}}').slideUp();
                 }
             });
 
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('#js-show-dropdown-value').val('1');
                 $('.js-dropdown-content-{{$this->id}}').slideToggle();
             });
         });
