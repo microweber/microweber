@@ -105,7 +105,6 @@ class AutoCompleteComponent extends DropdownComponent
     public function resetProperties()
     {
         $this->query = '';
-        $this->data = false;
         $this->selectItem(false);
         $this->closeDropdown();
     }
