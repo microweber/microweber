@@ -1,10 +1,10 @@
-<div class="ms-0 ms-md-2 mb-3 mb-md-0">
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
 
     @php
         $data = [
-            ['key'=>'','value'=>'Any'],
-            ['key'=>'1','value'=>'Published'],
-            ['key'=>'0','value'=>'Unpublished'],
+            ['key'=>'any','value'=>'Any'],
+            ['key'=>'published','value'=>'Published'],
+            ['key'=>'unpublished','value'=>'Unpublished'],
         ];
 
         $selectedItem = [];
@@ -15,6 +15,7 @@
 
     @livewire('admin-filter-item', [
         'name'=>'Visible',
+        'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'visible',
         'data'=>$data

@@ -1,21 +1,25 @@
 <div>
 
-    <button type="button" wire:click="load"
+    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
-            class="btn @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
-
-            @if(!empty($selectedItems))
+    @if(!empty($selectedItems))
         {{$name}}: {{$firstItemName}} @if(count($selectedItems) > 1) ... @endif <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
         @else
             {{$name}} <span class="mt-2">&nbsp;</span>
         @endif
 
-        <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
+
+        <div class="d-flex actions">
+            <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
+            @if(!empty($selectedItems))
+                <div class="action-dropdown-delete" wire:click="resetProperties"><i class="fa fa-times-circle"></i></div>
+            @endif
+        </div>
+
     </button>
 
-    @if($showDropdown)
-        <div class="badge-dropdown position-absolute">
 
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
             <div wire:loading wire:target="query">
             {{$searchingText}}
         </div>
@@ -32,8 +36,6 @@
             <div wire:loading wire:target="query">
                 {{$searchingText}}
             </div>
-
-            @if($showDropdown)
 
             <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
                 @if(!empty($data))
@@ -61,11 +63,23 @@
                         </span>
                     </div>
                 @endif
-            @endif
                 <div class="col text-right">{{count($data)}} of {{$total}}</div>
             </div>
 
         </div>
-    @endif
 
+
+
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', function(e) {
+                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
+                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
+                }
+            });
+            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
+                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
+            });
+        });
+    </script>
 </div>

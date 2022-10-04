@@ -21,38 +21,25 @@
                    class="form-control">
         </div>
 
-        @if(isset($showFilters['category']) && $showFilters['category'])
-            @include('product::admin.product.livewire.table-filters.category')
-        @endif
-
-        @if(isset($showFilters['tags']) && $showFilters['tags'])
-            @include('product::admin.product.livewire.table-filters.tags')
-        @endif
-
-        @if(isset($showFilters['shop']) && $showFilters['shop'])
-            @include('product::admin.product.livewire.table-filters.price-range')
-            @include('product::admin.product.livewire.table-filters.stock-status')
-            @include('product::admin.product.livewire.table-filters.discount')
-            @include('product::admin.product.livewire.table-filters.sales')
-            @include('product::admin.product.livewire.table-filters.quantity')
-            @include('product::admin.product.livewire.table-filters.sku')
-        @endif
-
-        @if(isset($showFilters['other']) && $showFilters['other'])
-            @include('product::admin.product.livewire.table-filters.visible')
-            @include('product::admin.product.livewire.table-filters.author')
-            @include('product::admin.product.livewire.table-filters.date')
-        @endif
-
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
-            <div class="dropdown-menu p-3">
+            <div class="dropdown-menu p-3" style="width:263px">
+                <h6 class="dropdown-header">Taxonomy</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+                <h6 class="dropdown-header">Shop</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.price_range"> Price Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stock_status"> Stock Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.quantity"> Quantity</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
+                <h6 class="dropdown-header">Other</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
             </div>
         </div>
 
@@ -62,6 +49,52 @@
                     <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
                 </div>
             </div>
+        @endif
+    </div>
+
+    <div class="d-flex flex-wrap mt-3">
+        @if(isset($showFilters['category']) && $showFilters['category'])
+            @include('product::admin.product.livewire.table-filters.category')
+        @endif
+
+        @if(isset($showFilters['tags']) && $showFilters['tags'])
+            @include('product::admin.product.livewire.table-filters.tags')
+        @endif
+
+        @if(isset($showFilters['price_range']) && $showFilters['price_range'])
+            @include('product::admin.product.livewire.table-filters.price-range')
+        @endif
+
+        @if(isset($showFilters['stock_status']) && $showFilters['stock_status'])
+            @include('product::admin.product.livewire.table-filters.stock-status')
+        @endif
+
+        @if(isset($showFilters['discount']) && $showFilters['discount'])
+            @include('product::admin.product.livewire.table-filters.discount')
+        @endif
+
+        @if(isset($showFilters['sales']) && $showFilters['sales'])
+            @include('product::admin.product.livewire.table-filters.sales')
+        @endif
+
+        @if(isset($showFilters['quantity']) && $showFilters['quantity'])
+            @include('product::admin.product.livewire.table-filters.quantity')
+        @endif
+
+        @if(isset($showFilters['sku']) && $showFilters['sku'])
+            @include('product::admin.product.livewire.table-filters.sku')
+        @endif
+
+        @if(isset($showFilters['visible']) && $showFilters['visible'])
+            @include('product::admin.product.livewire.table-filters.visible')
+        @endif
+
+        @if(isset($showFilters['author']) && $showFilters['author'])
+            @include('product::admin.product.livewire.table-filters.author')
+        @endif
+
+        @if(isset($showFilters['date']) && $showFilters['date'])
+            @include('product::admin.product.livewire.table-filters.date')
         @endif
     </div>
 
