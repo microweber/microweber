@@ -433,6 +433,30 @@ $user = get_user_by_id($user_id);
                             endif;
                             ?>
 
+                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                                <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
+                                    <?php  _e("Clients");   ?>
+                                </a>
+
+                                <?php
+
+                                /*
+                                <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                    <?php _e("Clients"); ?>
+                                </a>*/
+                                ?>
+                            <?php endif; ?>
+
+                            <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
+                                <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                    <?php _e("Invoices"); ?>
+                                </a>
+                            <?php endif; ?>
+
+                            <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                                <?php _e("Settings"); ?>
+                            </a>
+
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                                 <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products_beta'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?> <span class="badge badge-success badge-sm">BETA</span>
@@ -451,29 +475,7 @@ $user = get_user_by_id($user_id);
                                 </a>
                             <?php endif; ?>
 
-                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
-                            <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
-                                <?php  _e("Clients");   ?>
-                            </a>
 
-                            <?php
-
-                                /*
-                                <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
-                                    <?php _e("Clients"); ?>
-                                </a>*/
-                                ?>
-                            <?php endif; ?>
-
-                            <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
-                                    <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
-                                        <?php _e("Invoices"); ?>
-                                    </a>
-                            <?php endif; ?>
-
-                            <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
-                                <?php _e("Settings"); ?>
-                            </a>
                         </div>
                     </li>
                 <?php endif; ?>
