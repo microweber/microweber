@@ -1,5 +1,5 @@
 <div>
-    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
+    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($itemValue) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
         @if($itemValue)
             {{$name}}: {{$itemValue}}

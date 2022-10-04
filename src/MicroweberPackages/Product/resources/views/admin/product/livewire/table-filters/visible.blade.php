@@ -15,6 +15,7 @@
 
     @livewire('admin-filter-item', [
         'name'=>'Visible',
+        'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'visible',
         'data'=>$data

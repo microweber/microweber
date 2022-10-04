@@ -21,7 +21,7 @@ trait FilterByVisibleTrait
         if ($isVisible == 'any') {
             return;
         }
-        
+
         if ($isVisible == 'published') {
             $isVisible = 1;
         }

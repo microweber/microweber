@@ -1,6 +1,6 @@
 <div>
 
-    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
+    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($itemValue) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
         @if($itemValue)
             {{$name}}
@@ -24,6 +24,10 @@
 
         <span class="mt-2">&nbsp;</span>
 
+        <div class="d-flex actions">
+            <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
+            <div class="action-dropdown-delete"><i class="fa fa-times-circle"></i></div>
+        </div>
     </button>
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">

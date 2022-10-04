@@ -36,7 +36,7 @@
         top: -13px;
     }
 
-    .btn-badge-dropdown::after {
+   /* .btn-badge-dropdown::after {
         display: inline-block;
         margin-left: 0.255em;
         vertical-align: 0.255em;
@@ -45,6 +45,31 @@
         border-right: 0.3em solid transparent;
         border-bottom: 0;
         border-left: 0.3em solid transparent;
+    }*/
+
+     .btn-badge-dropdown .action-dropdown-icon {
+         cursor: pointer;
+         float: right;
+         width: 16px;
+         padding-top: 0px;
+         margin-left: 5px;
+         color: #ffffff91;
+         font-size:12px;
+     }
+    .btn-badge-dropdown:hover .action-dropdown-icon {
+        color:#FFFFFF;
+    }
+     .btn-badge-dropdown .action-dropdown-delete {
+         cursor: pointer;
+         float:right;
+         width:24px;
+         height:15px;
+         padding-left:8px;
+         color: #ffffff91;
+     }
+
+    .btn-badge-dropdown .action-dropdown-delete:hover {
+        color:#FFFFFF;
     }
 
     .badge-filter-item {
