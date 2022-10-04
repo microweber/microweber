@@ -1,8 +1,5 @@
-<div class="js-filter-item-dropdown" @if($showDropdown) data-dropdown-show="1" @else data-dropdown-show="0" @endif>
-
-    <button type="button" wire:click="load" class="btn @if(!empty($selectedItem)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
-
-
+<div>
+    <button type="button" class="btn js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
         @if($itemValue)
             {{$name}}: {{$itemValue}}
@@ -15,9 +12,10 @@
         <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
     </button>
 
-    <div class="badge-dropdown position-absolute" @if(!$showDropdown) style="display: none" @endif>
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
 
         <input type="hidden" id="js-price-range" wire:model.stop="itemValue">
+        <input type="hidden" id="js-show-dropdown-value" wire:model.stop="showDropdown">
 
         <div class="mb-3 mb-md-0 input-group">
             <span class="input-group-text">From</span>
@@ -61,6 +59,27 @@
                 };
             });
         </script>
-
     </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $(".js-dropdown-toggle-{{$this->id}}, .js-dropdown-content-{{$this->id}}").mouseover(function(e) {
+                if (typeof dropdownContentTimeout != "undefined") {
+                    clearTimeout(dropdownContentTimeout);
+                }
+            });
+
+            $(".js-dropdown-content-{{$this->id}}").mouseleave(function(e) {
+                dropdownContentTimeout = setTimeout(function() {
+                    $('.js-dropdown-content-{{$this->id}}').hide();
+                }, 1000);
+            });
+
+            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
+                $('#js-show-dropdown-value').val('1');
+                $('.js-dropdown-content-{{$this->id}}').slideToggle();
+            });
+        });
+    </script>
 </div>

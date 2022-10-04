@@ -17,6 +17,7 @@ class FilterItemValue extends DropdownComponent
 
     public function updatedItemValue()
     {
+        $this->showDropdown($this->id);
         $this->emitEvents();
     }
 

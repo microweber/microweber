@@ -14,9 +14,9 @@ class DropdownComponent extends Component
 
     /**
      * Show/Hide dropdown on view
-     * @var bool
+     * @var int
      */
-    public $showDropdown = false;
+    public $showDropdown = 0;
 
 
     /**
@@ -36,7 +36,7 @@ class DropdownComponent extends Component
     public function closeDropdown($wireElementId = false)
     {
         if ($wireElementId == $this->id) {
-            $this->showDropdown = false;
+            $this->showDropdown = 0;
         }
     }
 
@@ -46,7 +46,7 @@ class DropdownComponent extends Component
     public function showDropdown($wireElementId = false)
     {
         if ($wireElementId == $this->id) {
-            $this->showDropdown = true;
+            $this->showDropdown = 1;
         }
     }
 
