@@ -13,6 +13,7 @@
     @endphp
     @livewire('admin-filter-item', [
         'name'=>'Stock Status',
+        'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'stockStatus',
         'data'=>$data

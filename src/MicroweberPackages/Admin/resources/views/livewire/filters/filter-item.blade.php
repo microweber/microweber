@@ -10,11 +10,8 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
 
-    <div wire:loading wire:target="query">
-        {{$searchingText}}
-    </div>
-
-        <div class="input-group">
+        @if($searchable)
+        <div class="input-group mb-4">
             <input class="form-control"
                    type="search"
                    wire:click="showDropdown('{{$this->id}}')"
@@ -22,12 +19,12 @@
                    placeholder="{{$placeholder}}"
             >
         </div>
+            <div wire:loading wire:target="query">
+                {{$searchingText}}
+            </div>
+        @endif
 
-        <div wire:loading wire:target="query">
-            {{$searchingText}}
-        </div>
-
-        <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
+        <ul class="list-group list-group-compact" id="js-filter-items-values-list"  @if($searchable) style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;" @endif>
             @if(!empty($data))
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
@@ -43,16 +40,21 @@
             @endif
         </ul>
 
-        <div class="d-flex pt-3" style="border-top: 1px solid #cfcfcf">
-            @if($selectedItem)
-                <div class="col">
-                    <span class="cursor-pointer text-muted" wire:click="resetProperties">
-                        Clear selection
-                    </span>
-                </div>
-            @endif
-            <div class="col text-right">{{count($data)}} of {{$total}}</div>
-        </div>
+        @if($selectedItem || $searchable)
+            <div class="d-flex pt-3" style="border-top: 1px solid #cfcfcf">
+                @if($selectedItem)
+                    <div class="col">
+                        <span class="cursor-pointer text-muted" wire:click="resetProperties">
+                            Clear selection
+                        </span>
+                    </div>
+                @endif
+
+                @if($searchable)
+                 <div class="col text-right">{{count($data)}} of {{$total}}</div>
+                @endif
+            </div>
+        @endif
 
     </div>
 

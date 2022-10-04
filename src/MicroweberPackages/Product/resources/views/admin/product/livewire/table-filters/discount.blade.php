@@ -1,9 +1,9 @@
 <div class="ms-0 ms-md-2 mb-3 mb-md-0">
     @php
         $data = [
-            ['key'=>'','value'=>'Any'],
-            ['key'=>'1','value'=>'Discounted'],
-            ['key'=>'0','value'=>'Not discounted'],
+            ['key'=>'any','value'=>'Any'],
+            ['key'=>'yes','value'=>'Discounted'],
+            ['key'=>'no','value'=>'Not discounted'],
         ];
 
         $selectedItem = [];
@@ -13,6 +13,7 @@
     @endphp
     @livewire('admin-filter-item', [
         'name'=>'Discount',
+        'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'discounted',
         'data'=>$data

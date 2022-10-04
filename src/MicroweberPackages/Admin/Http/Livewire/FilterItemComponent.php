@@ -11,6 +11,7 @@ class FilterItemComponent extends AutoCompleteComponent
     public $name = 'Component';
     public $perPage = 10;
     public $total = 0;
+    public $searchable = true;
 
     public string $view = 'admin::livewire.filters.filter-item';
 

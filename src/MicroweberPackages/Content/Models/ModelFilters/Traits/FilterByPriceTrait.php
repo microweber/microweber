@@ -14,9 +14,9 @@ trait FilterByPriceTrait
 {
     public function discounted($type = 1)
     {
-        if ($type == 1) {
+        if ($type == 1 || $type == 'yes') {
             $this->query->whereHas('offer');
-        } else {
+        } else if ($type == 'no') {
             $this->query->doesntHave('offer');
         }
     }
