@@ -25,11 +25,21 @@
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
-            <div class="dropdown-menu p-3">
+            <div class="dropdown-menu p-3" style="width:263px">
+                <h6 class="dropdown-header">Taxonomy</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+                <h6 class="dropdown-header">Shop</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.price_range"> Price Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stock_status"> Stock Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.quantity"> Quantity</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
+                <h6 class="dropdown-header">Other</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
             </div>
         </div>
 
