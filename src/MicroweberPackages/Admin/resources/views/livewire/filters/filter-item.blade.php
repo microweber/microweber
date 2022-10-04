@@ -12,7 +12,6 @@
            @endif
        </div>
 
-
     </button>
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
