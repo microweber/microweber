@@ -135,19 +135,25 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getContentData($id)
+    public function getContentData($relId)
     {
 //        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
 //        if (!in_array($id, $existingIds)) {
 //            return [];
 //        }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $getContentData = DB::table('content_data')
-                ->where('rel_type', 'content')
-                ->where('rel_id', $id)
-                ->get();
+                ->where('rel_type', 'content');
+
+            if (is_array($relId)) {
+                $getContentData->whereIn('rel_id', $relId);
+            } else {
+                $getContentData->where('rel_id', $relId);
+            }
+
+            $getContentData = $getContentData->get();
 
             $contentData = collect($getContentData)->map(function ($item) {
                 return (array)$item;

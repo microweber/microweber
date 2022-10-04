@@ -152,15 +152,19 @@ class MultilanguageRepository extends AbstractRepository
 
     public function getTranslationsByRelTypeAndRelId($relType, $relId)
     {
-        if (!$this->hasTranslationsByRelTypeAndRelId($relType, $relId)) {
-            return [];
+        if (!is_array($relId)) {
+            if (!$this->hasTranslationsByRelTypeAndRelId($relType, $relId)) {
+                return [];
+            }
         }
-
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relType, $relId) {
             $getMultilangTranslatesQuery = DB::table('multilanguage_translations');
             $getMultilangTranslatesQuery->select(['locale','field_name', 'field_value','rel_type','rel_id']);
-
-            $getMultilangTranslatesQuery->where('rel_id', $relId);
+            if (is_array($relId)) {
+                $getMultilangTranslatesQuery->whereIn('rel_id', $relId);
+            } else {
+                $getMultilangTranslatesQuery->where('rel_id', $relId);
+            }
             $getMultilangTranslatesQuery->where('rel_type', $relType);
             //  $getMultilangTranslatesQuery->whereNotNull('field_value');
 
