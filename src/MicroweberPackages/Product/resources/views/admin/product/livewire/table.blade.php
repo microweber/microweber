@@ -42,7 +42,7 @@
         @endif
     </div>
 
-    <div class="row d-flex mt-3">
+    <div class="d-flex flex-wrap mt-3">
         @if(isset($showFilters['category']) && $showFilters['category'])
             @include('product::admin.product.livewire.table-filters.category')
         @endif
