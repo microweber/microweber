@@ -7,6 +7,12 @@
         <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
     </button>
 
+    <style>
+        .badge-dropdown {
+            visibility:hidden;
+            opacity:0;
+        }
+    </style>
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}">
 
