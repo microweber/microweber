@@ -24,7 +24,9 @@ if (!function_exists('get_rel_id_by_multilanguage_url')) {
         $filter = array();
         $filter['field_name'] = 'url';
         $filter['field_value'] = $url;
+        $filter['limit'] = 1;
         $filter['single'] = 1;
+         $filter['fields'] = ['rel_id', 'field_name','field_value','rel_type'];;
         if ($relType) {
             $filter['rel_type'] = $relType;
         }
@@ -35,14 +37,15 @@ if (!function_exists('get_rel_id_by_multilanguage_url')) {
         }
 
         if ($relType == 'categories') {
-            $category = get_categories('url=' . $url . '&single=1');
+
+            $category = get_categories('fields=id,url&url=' . $url . '&single=1&limit=1');
             if ($category) {
                 return $category['id'];
             }
             return false;
         }
 
-        $content = get_content('url=' . $url . '&single=1');
+        $content = get_content('fields=id,url&url=' . $url . '&single=1&limit=1');
         if ($content) {
             return $content['id'];
         }

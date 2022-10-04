@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class AddIndexToMultilanguageTables extends Migration
+class AddIndexToMultilanguageTables2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,35 +13,24 @@ class AddIndexToMultilanguageTables extends Migration
      */
     public function up()
     {
+
         try {
             Schema::table('multilanguage_translations', function (Blueprint $table) {
-                $table->index('locale');
-                $table->index('rel_id');
-                $table->index('rel_type');
-                $table->index('field_name');
+                $table->fullText('field_value');
             });
         } catch (Exception $e) {
 
         }
+
 
         try {
             Schema::table('multilanguage_supported_locales', function (Blueprint $table) {
-                $table->index('locale');
-                $table->index('language');
-                $table->index('is_active');
+                $table->index('display_locale');
+
             });
         } catch (Exception $e) {
 
         }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-
-    }
 }
