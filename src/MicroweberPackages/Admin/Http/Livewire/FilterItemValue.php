@@ -10,11 +10,6 @@ class FilterItemValue extends DropdownComponent
     public $itemValue;
     public $itemValueKey;
 
-    public function load()
-    {
-        $this->showDropdown($this->id);
-    }
-
     public function updatedItemValue()
     {
         $this->showDropdown($this->id);

@@ -13,18 +13,15 @@ class FilterItemValueWithOperator extends DropdownComponent
     public $itemValueKey;
     public $itemOperatorValueKey;
 
-    public function load()
-    {
-        $this->showDropdown($this->id);
-    }
-
     public function updatedItemValue()
     {
+        $this->showDropdown($this->id);
         $this->emitEvents();
     }
 
     public function updatedItemOperatorValue()
     {
+        $this->showDropdown($this->id);
         $this->emitEvents();
     }
 

@@ -31,8 +31,8 @@
             @if(!empty($data))
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
-                        <input class="form-check-input me-1" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}">
-                        <label class="form-check-label" for="filterItemRadio{{$i}}">
+                        <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->id}}">
+                            <input class="form-check-input me-1" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
                             {{ $item['value'] }}
                         </label>
                     </li>

@@ -16,7 +16,8 @@
 
     <div class="badge-dropdown position-absolute" @if(!$showDropdown) style="display: none" @endif>
 
-        <div class="mb-3 mb-md-0 input-group">
+        <div class="mb-3 mb-md-0">
+            <label>{{$name}} </label>
         <input type="text" class="form-control" placeholder="Fill the {{$name}}" wire:model.stop="itemValue">
         </div>
 

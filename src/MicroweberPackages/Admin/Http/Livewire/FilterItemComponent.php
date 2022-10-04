@@ -16,6 +16,7 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function updatedSelectedItem($value)
     {
+        $this->showDropdown($this->id);
         $this->selectItem($value);
     }
 
@@ -29,6 +30,10 @@ class FilterItemComponent extends AutoCompleteComponent
             }
         }
 
-        $this->total = count($this->data);
+        if (is_array($this->data)) {
+            $this->total = count($this->data);
+        } else {
+            $this->total = 0;
+        }
     }
 }
