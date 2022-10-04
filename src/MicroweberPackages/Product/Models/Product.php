@@ -225,15 +225,20 @@ class Product extends Content
     public function getInStockAttribute()
     {
         $sellWhenIsOos = $this->getContentDataByFieldName('sell_oos');
+        $qty = $this->getContentDataByFieldName('qty');
         if ($sellWhenIsOos == '1') {
             return true;
         }
 
-        if ($this->qty == 'nolimit') {
+        if ($qty === null) {
             return true;
         }
 
-        if ($this->qty > 0) {
+        if ($qty == 'nolimit') {
+            return true;
+        }
+
+        if ($qty > 0) {
             return true;
         }
 
