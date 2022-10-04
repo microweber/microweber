@@ -41,7 +41,9 @@ class MediaRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($tn_cache_id) {
             $return = false;
 
-            $check = \DB::table('media_thumbnails')->where('filename', $tn_cache_id)->first();
+            $check = \DB::table('media_thumbnails')
+                ->select(['id', 'filename', 'image_options'])
+                ->where('filename', $tn_cache_id)->first();
 
             //$check = MediaThumbnail::where('filename', $tn_cache_id)->first();
             if ($check and !empty($check)) {
