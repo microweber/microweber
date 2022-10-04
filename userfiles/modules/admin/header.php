@@ -335,7 +335,7 @@ $user = get_user_by_id($user_id);
                 $action = 'pages';
                 $view = 'content';
             }if ($routeName == 'admin.product.index' || $routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
-                $action = 'products';
+                $action = 'products_beta';
                 $view = 'shop';
             }
             if ($routeName == 'admin.shop.dashboard') {
@@ -425,11 +425,20 @@ $user = get_user_by_id($user_id);
                             </a>
 
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
                                     <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
-                                <?php
+                            <?php
+                            endif;
+                            ?>
+
+                            <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products_beta'): ?> active <?php endif; ?>">
+                                    <?php _e("Products"); ?> <span class="badge badge-success">BETA</span>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                                <?php 
                             endif;
                             ?>
 
