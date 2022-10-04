@@ -8,7 +8,7 @@
     </button>
 
 
-    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}" @if(!$showDropdown) style="display: none" @endif>
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}">
 
         @if($searchable)
         <div class="input-group mb-4">
@@ -69,11 +69,11 @@
         $(document).ready(function() {
            $('body').on('click', function(e) {
                 if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').slideUp();
+                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
                 }
             });
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').slideToggle();
+                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
             });
         });
     </script>

@@ -670,6 +670,16 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
     border-top:4px solid #4592ff;
     width:300px;
     margin-top:10px;
+    visibility:hidden;
+    opacity:0;
+    transition: 0.3s;
+    transform: scale(0);
+    transform-origin: center top;
+}
+.badge-dropdown.active {
+    visibility:visible;
+    transform: scale(1);
+    opacity:1;
 }
 
 .badge-dropdown::after {
