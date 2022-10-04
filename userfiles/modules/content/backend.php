@@ -695,7 +695,7 @@ if ($action == 'posts') {
                                                 data: data,
                                                 element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
                                                 resizable: true,
-                                                sortable: false,
+                                                sortable: true,
                                                 selectable: false,
                                                 toggleSelect: false,
                                                 id: 'admin-main-tree',
