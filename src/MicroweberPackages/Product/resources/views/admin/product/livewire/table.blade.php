@@ -21,6 +21,28 @@
                    class="form-control">
         </div>
 
+        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+            </button>
+            <div class="dropdown-menu p-3">
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+            </div>
+        </div>
+
+        @if(!empty($appliedFiltersFriendlyNames))
+            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+                <div class="btn-group">
+                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+                </div>
+            </div>
+        @endif
+    </div>
+
+    <div class="row d-flex mt-3">
         @if(isset($showFilters['category']) && $showFilters['category'])
             @include('product::admin.product.livewire.table-filters.category')
         @endif
@@ -42,26 +64,6 @@
             @include('product::admin.product.livewire.table-filters.visible')
             @include('product::admin.product.livewire.table-filters.author')
             @include('product::admin.product.livewire.table-filters.date')
-        @endif
-
-        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                More filters &nbsp; <i class="fa fa-plus-circle"></i>
-            </button>
-            <div class="dropdown-menu p-3">
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
-            </div>
-        </div>
-
-        @if(!empty($appliedFiltersFriendlyNames))
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <div class="btn-group">
-                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
-                </div>
-            </div>
         @endif
     </div>
 
