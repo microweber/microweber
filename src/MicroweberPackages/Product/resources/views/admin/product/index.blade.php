@@ -1,4 +1,6 @@
-<livewire:admin-products-list/>
+<livewire:admin-products-list />
+
+{{--
 <script>
 
     // document.body.addEventListener("click", function (e) {
@@ -30,4 +32,5 @@
         })
 
     });
-</script>
+    </script>
+--}}
