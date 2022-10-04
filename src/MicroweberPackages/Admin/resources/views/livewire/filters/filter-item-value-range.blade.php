@@ -64,16 +64,10 @@
     <script>
         $(document).ready(function() {
 
-            $(".js-dropdown-toggle-{{$this->id}}, .js-dropdown-content-{{$this->id}}").mouseover(function(e) {
-                if (typeof dropdownContentTimeout != "undefined") {
-                    clearTimeout(dropdownContentTimeout);
-                }
-            });
-
-            $(".js-dropdown-content-{{$this->id}}").mouseleave(function(e) {
-                dropdownContentTimeout = setTimeout(function() {
+            $('body').on('click', function(e) {
+                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
                     $('.js-dropdown-content-{{$this->id}}').hide();
-                }, 1000);
+                }
             });
 
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
