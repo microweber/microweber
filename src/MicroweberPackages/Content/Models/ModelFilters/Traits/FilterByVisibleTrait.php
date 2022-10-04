@@ -18,9 +18,19 @@ trait FilterByVisibleTrait
 {
     public function visible($isVisible = 1)
     {
-        $isVisible = intval($isVisible);
+        if ($isVisible == 'any') {
+            return;
+        }
+        
+        if ($isVisible == 'published') {
+            $isVisible = 1;
+        }
 
+        if ($isVisible == 'unpublished') {
+            $isVisible = 0;
+        }
+
+        $isVisible = intval($isVisible);
         $this->where('content.is_active', $isVisible);
     }
-
 }

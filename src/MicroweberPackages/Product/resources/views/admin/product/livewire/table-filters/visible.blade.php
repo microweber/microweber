@@ -2,9 +2,9 @@
 
     @php
         $data = [
-            ['key'=>'','value'=>'Any'],
-            ['key'=>'1','value'=>'Published'],
-            ['key'=>'0','value'=>'Unpublished'],
+            ['key'=>'any','value'=>'Any'],
+            ['key'=>'published','value'=>'Published'],
+            ['key'=>'unpublished','value'=>'Unpublished'],
         ];
 
         $selectedItem = [];

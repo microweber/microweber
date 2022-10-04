@@ -61,18 +61,39 @@
             @include('product::admin.product.livewire.table-filters.tags')
         @endif
 
-        @if(isset($showFilters['shop']) && $showFilters['shop'])
+        @if(isset($showFilters['price_range']) && $showFilters['price_range'])
             @include('product::admin.product.livewire.table-filters.price-range')
+        @endif
+
+        @if(isset($showFilters['stock_status']) && $showFilters['stock_status'])
             @include('product::admin.product.livewire.table-filters.stock-status')
+        @endif
+
+        @if(isset($showFilters['discount']) && $showFilters['discount'])
             @include('product::admin.product.livewire.table-filters.discount')
+        @endif
+
+        @if(isset($showFilters['sales']) && $showFilters['sales'])
             @include('product::admin.product.livewire.table-filters.sales')
+        @endif
+
+        @if(isset($showFilters['quantity']) && $showFilters['quantity'])
             @include('product::admin.product.livewire.table-filters.quantity')
+        @endif
+
+        @if(isset($showFilters['sku']) && $showFilters['sku'])
             @include('product::admin.product.livewire.table-filters.sku')
         @endif
 
-        @if(isset($showFilters['other']) && $showFilters['other'])
+        @if(isset($showFilters['visible']) && $showFilters['visible'])
             @include('product::admin.product.livewire.table-filters.visible')
+        @endif
+
+        @if(isset($showFilters['author']) && $showFilters['author'])
             @include('product::admin.product.livewire.table-filters.author')
+        @endif
+
+        @if(isset($showFilters['date']) && $showFilters['date'])
             @include('product::admin.product.livewire.table-filters.date')
         @endif
     </div>
