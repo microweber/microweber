@@ -1,10 +1,9 @@
 <div>
 
-    <button type="button" class="btn js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
+    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-primary @else btn-outline-primary @endif btn-sm icon-left">
 
        @if($selectedItemText) {{$name}}: {{$selectedItemText}} @else  {{$name}}  @endif <span class="mt-2">&nbsp;</span>
 
-        <i class="ml-2 fa fa-arrow-down" style="font-size: 10px"></i>
     </button>
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}}">
