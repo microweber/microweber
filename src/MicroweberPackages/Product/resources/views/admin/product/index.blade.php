@@ -8,7 +8,7 @@
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
         border-top-right-radius: 4px;
-        border-top:4px solid #4592ff;
+        border-top:4px solid #6c757d;
         width:300px;
         margin-top:10px;
         visibility:hidden;
@@ -29,7 +29,7 @@
         height: 0px;
         border-style: solid;
         border-width: 0 10px 10px 10px;
-        border-color: transparent transparent #4592ff transparent;
+        border-color: transparent transparent #6c757d transparent;
         display: inline-block;
         vertical-align: middle;
         position: absolute;
@@ -53,22 +53,29 @@
          width: 16px;
          padding-top: 0px;
          margin-left: 5px;
-         color: #ffffff91;
          font-size:12px;
      }
-    .btn-badge-dropdown:hover .action-dropdown-icon {
-        color:#FFFFFF;
-    }
-     .btn-badge-dropdown .action-dropdown-delete {
-         cursor: pointer;
-         float:right;
-         width:24px;
-         height:15px;
-         padding-left:8px;
+     .btn-secondary .action-dropdown-icon {
          color: #ffffff91;
      }
 
-    .btn-badge-dropdown .action-dropdown-delete:hover {
+    .btn-secondary:hover .action-dropdown-icon {
+        color:#FFFFFF;
+    }
+
+    .btn-badge-dropdown .action-dropdown-delete {
+       cursor: pointer;
+       float:right;
+       width:24px;
+       height:15px;
+       padding-left:8px;
+    }
+
+    .btn-secondary .action-dropdown-delete {
+         color: #ffffff91;
+     }
+
+    .btn-secondary .action-dropdown-delete:hover {
         color:#FFFFFF;
     }
 
