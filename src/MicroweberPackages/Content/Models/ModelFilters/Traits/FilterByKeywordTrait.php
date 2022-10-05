@@ -20,9 +20,13 @@ trait FilterByKeywordTrait
     {
         $model = $this->getModel();
         $table = $model->getTable();
-      //  $searchInFields = $model->getSearchable();
         $searchInFields = $model->getSearchableByKeyword();
         $keywordToSearch = false;
+
+        if (is_numeric($keyword)) {
+            $this->query->where('id', intval($keyword));
+            return;
+        }
 
         $xssClean = new XSSClean();
 
