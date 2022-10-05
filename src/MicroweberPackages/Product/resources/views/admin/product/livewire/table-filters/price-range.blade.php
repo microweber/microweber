@@ -6,12 +6,12 @@
             $itemValue = $filters['priceRange'];
         }
     @endphp
-
+    
     @livewire('admin-filter-item-value-range', [
         'name'=>'Price Range',
         'itemValue'=>$itemValue,
         'itemValueKey'=>'priceBetween',
-        'showDropdown'=>1,
+        'showDropdown'=> session()->get('showFilterPriceRange'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

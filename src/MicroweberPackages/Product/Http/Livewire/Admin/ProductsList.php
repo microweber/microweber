@@ -36,7 +36,7 @@ class ProductsList extends Component
     ];
 
     public $showFilters = [
-        'shop'=>1
+        'priceRange'=>1
     ];
 
     public $checked = [];
@@ -71,6 +71,11 @@ class ProductsList extends Component
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
+        if (!empty($this->showFilters)) {
+            foreach ($this->showFilters as $filterKey=>$filterValue) {
+                session()->flash('showFilter' . ucfirst($filterKey), '1');
+            }
+        }
     }
 
     public function updatedChecked($value)
