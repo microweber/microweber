@@ -11,7 +11,7 @@
         'name'=>'Created At',
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'createdAt',
-        'showDropdown'=> session()->get('showFilterCreatedAt'),
+        'showDropdown'=> session()->get('showFilterDate'),
         'onChangedEmitEvents' => [
          'setFirstPageProductsList'
         ]
@@ -32,7 +32,6 @@
         'name'=>'Updated At',
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'updatedAt',
-        'showDropdown'=> session()->get('showFilterUpdatedAt'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]
