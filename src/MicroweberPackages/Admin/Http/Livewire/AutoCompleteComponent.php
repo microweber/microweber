@@ -66,6 +66,7 @@ class AutoCompleteComponent extends DropdownComponent
     protected function getListeners()
     {
         return array_merge($this->listeners, [
+            'autocompleteLoad'=>'load',
             'autocompleteRefresh'=>'$refresh',
             'autocompleteReset'=>'resetProperties'
         ]);
@@ -132,10 +133,12 @@ class AutoCompleteComponent extends DropdownComponent
         $this->emit('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
     }
 
-    public function load()
+    public function load($id)
     {
-        $this->showDropdown($this->id);
-        $this->refreshQueryData();
+        if ($id == $this->id) {
+            $this->showDropdown($id);
+            $this->refreshQueryData();
+        }
     }
 
     public function render()
