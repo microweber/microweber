@@ -10,7 +10,10 @@
     @livewire('admin-filter-item-date', [
         'name'=>'Created At',
         'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'createdAt'
+        'selectedItemKey'=>'createdAt',
+        'onChangedEmitEvents' => [
+         'setFirstPageProductsList'
+        ]
     ])
 
 </div>
@@ -27,7 +30,10 @@
     @livewire('admin-filter-item-date', [
         'name'=>'Updated At',
         'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'updatedAt'
+        'selectedItemKey'=>'updatedAt',
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 
 </div>

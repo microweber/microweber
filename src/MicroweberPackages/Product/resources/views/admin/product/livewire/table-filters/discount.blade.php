@@ -16,6 +16,9 @@
         'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'discounted',
-        'data'=>$data
+        'data'=>$data,
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 </div>

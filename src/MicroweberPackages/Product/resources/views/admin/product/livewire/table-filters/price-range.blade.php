@@ -10,7 +10,10 @@
     @livewire('admin-filter-item-value-range', [
         'name'=>'Price Range',
         'itemValue'=>$itemValue,
-        'itemValueKey'=>'priceBetween'
+        'itemValueKey'=>'priceBetween',
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 
 </div>

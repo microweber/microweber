@@ -10,7 +10,10 @@
     @livewire('admin-filter-item-value', [
         'name'=>'SKU',
         'itemValue'=>$itemValue,
-        'itemValueKey'=>'sku'
+        'itemValueKey'=>'sku',
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 
 </div>

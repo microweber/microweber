@@ -6,6 +6,11 @@
             $selectedItems = explode(',', $filters['tags']);
         }
     @endphp
-    @livewire('admin-filter-item-tags', ['selectedItems'=>$selectedItems])
+    @livewire('admin-filter-item-tags', [
+        'selectedItems'=>$selectedItems,
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
+    ])
 
 </div>

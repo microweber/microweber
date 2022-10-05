@@ -16,7 +16,10 @@
         'itemValue'=>$itemValue,
         'itemOperatorValue'=>$itemOperatorValue,
         'itemValueKey'=>'sales',
-        'itemOperatorValueKey'=>'salesOperator'
+        'itemOperatorValueKey'=>'salesOperator',
+        'onChangedEmitEvents' => [
+          'setFirstPageProductsList'
+        ]
     ])
 
 </div>

@@ -5,5 +5,10 @@
             $selectedItems = explode(',', $filters['userIds']);
         }
     @endphp
-    @livewire('admin-filter-item-users', ['selectedItems'=>$selectedItems])
+    @livewire('admin-filter-item-users', [
+        'selectedItems'=>$selectedItems,
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
+    ])
 </div>
