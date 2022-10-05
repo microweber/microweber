@@ -18,8 +18,8 @@ class ProductsList extends Component
 
     public $filters = [];
     protected $listeners = [
-        'refreshProductIndexComponent' => '$refresh',
-        'setFirstPageProductIndexComponent' => 'setPaginationFirstPage',
+        'refreshProductsList' => '$refresh',
+        'setFirstPageProductsList' => 'setPaginationFirstPage',
         'autoCompleteSelectItem'=>'setFilter'
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
@@ -50,7 +50,6 @@ class ProductsList extends Component
 
     public function setFilter($key, $value)
     {
-
         if (is_array($value)) {
             $value = implode(',', $value);
         }
@@ -81,6 +80,11 @@ class ProductsList extends Component
         } else {
             $this->selectAll = false;
         }
+    }
+
+    public function updatedPaginate($limit)
+    {
+        $this->setPaginationFirstPage();
     }
 
     public function updatedSelectAll($value)

@@ -33,7 +33,7 @@
                 categoryElement.value = selectedCategories.join(",");
                 categoryElement.dispatchEvent(new Event('input'));
 
-                window.livewire.emit('setFirstPageProductIndexComponent');
+                window.livewire.emit('setFirstPageProductsList');
             }
         });
 
