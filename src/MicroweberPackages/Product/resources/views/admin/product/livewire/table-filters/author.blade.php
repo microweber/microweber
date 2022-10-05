@@ -7,6 +7,7 @@
     @endphp
     @livewire('admin-filter-item-users', [
         'selectedItems'=>$selectedItems,
+        'showDropdown'=> session()->get('showFilterAuthor'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

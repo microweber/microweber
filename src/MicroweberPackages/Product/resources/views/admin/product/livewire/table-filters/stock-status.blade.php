@@ -17,6 +17,7 @@
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'stockStatus',
         'data'=>$data,
+        'showDropdown'=> session()->get('showFilterStockStatus'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

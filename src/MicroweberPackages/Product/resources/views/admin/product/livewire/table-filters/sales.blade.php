@@ -17,6 +17,7 @@
         'itemOperatorValue'=>$itemOperatorValue,
         'itemValueKey'=>'sales',
         'itemOperatorValueKey'=>'salesOperator',
+        'showDropdown'=> session()->get('showFilterSales'),
         'onChangedEmitEvents' => [
           'setFirstPageProductsList'
         ]

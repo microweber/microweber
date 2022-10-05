@@ -6,7 +6,7 @@
             $itemValue = $filters['priceRange'];
         }
     @endphp
-    
+
     @livewire('admin-filter-item-value-range', [
         'name'=>'Price Range',
         'itemValue'=>$itemValue,

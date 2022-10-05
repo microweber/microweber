@@ -8,6 +8,7 @@
     @endphp
     @livewire('admin-filter-item-tags', [
         'selectedItems'=>$selectedItems,
+        'showDropdown'=> session()->get('showFilterTags'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

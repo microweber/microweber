@@ -11,6 +11,7 @@
         'name'=>'SKU',
         'itemValue'=>$itemValue,
         'itemValueKey'=>'sku',
+        'showDropdown'=> session()->get('showFilterSku'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

@@ -17,6 +17,7 @@
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'discounted',
         'data'=>$data,
+        'showDropdown'=> session()->get('showFilterDiscount'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

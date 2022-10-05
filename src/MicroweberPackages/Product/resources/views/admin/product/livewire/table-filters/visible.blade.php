@@ -19,6 +19,7 @@
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'visible',
         'data'=>$data,
+        'showDropdown'=> session()->get('showFilterVisible'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]
