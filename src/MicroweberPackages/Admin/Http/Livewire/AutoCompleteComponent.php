@@ -121,6 +121,10 @@ class AutoCompleteComponent extends DropdownComponent
             $item = $json;
         }
 
+        if (empty($item)) {
+            $this->selectedItemText = '';
+        }
+
         $this->selectedItem = $item;
         $this->refreshQueryData();
         $this->emitSelf('$refresh');
