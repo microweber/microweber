@@ -800,3 +800,77 @@ hr {
     background-color: #0dcaf0;
     border-color: #0dcaf0;
 }
+
+
+/*CARD*/
+
+.card-header {
+    background-color: rgba(0, 0, 0, .03)!important;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+}
+
+
+.nav-tabs .nav-link {
+    margin-bottom: 6px;
+    background: 0 0;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+
+.text-secondary {
+    color: #6c757d!important;
+}
+
+.border-secondary {
+    border-color: #6c757d!important;
+}
+
+.border-info {
+    border-color: #0dcaf0!important;
+}
+
+.bg-transparent {
+    background-color: transparent!important;
+}
+.border-success {
+    border-color: #198754!important;
+}
+
+.text-success {
+    color: #198754!important;
+}
+
+.bd-example>.dropdown-menu {
+    position: static;
+    display: block;
+}
+
+.bd-example>.list-group {
+    max-width: 400px;
+}
+
+.list-group-item-secondary {
+    color: #41464b;
+    background-color: #e2e3e5;
+}
+
+.list-group-item-info {
+    color: #055160;
+    background-color: #cff4fc;
+}
+
+.form-check-input {
+    position: unset;
+    margin-top: 0.3rem;
+    margin-inline-start: unset;
+}
+
+.bd-example-modal .modal {
+    position: static;
+    display: block;
+}
