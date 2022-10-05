@@ -17,7 +17,7 @@
         'itemOperatorValue'=>$itemOperatorValue,
         'itemValueKey'=>'qty',
         'itemOperatorValueKey'=>'qtyOperator',
-        'showDropdown'=> session()->get('showFilterQty'),
+        'showDropdown'=> session()->get('showFilterQuantity'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]
