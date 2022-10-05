@@ -17,8 +17,7 @@
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
-                   class="form-control">
+            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
         </div>
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
@@ -30,8 +29,8 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
                 <h6 class="dropdown-header">Shop</h6>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.price_range"> Price Range</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stock_status"> Stock Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceRange"> Price Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stockStatus"> Stock Status</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.quantity"> Quantity</label>
@@ -61,11 +60,11 @@
             @include('product::admin.product.livewire.table-filters.tags')
         @endif
 
-        @if(isset($showFilters['price_range']) && $showFilters['price_range'])
+        @if(isset($showFilters['priceRange']) && $showFilters['priceRange'])
             @include('product::admin.product.livewire.table-filters.price-range')
         @endif
 
-        @if(isset($showFilters['stock_status']) && $showFilters['stock_status'])
+        @if(isset($showFilters['stockStatus']) && $showFilters['stockStatus'])
             @include('product::admin.product.livewire.table-filters.stock-status')
         @endif
 

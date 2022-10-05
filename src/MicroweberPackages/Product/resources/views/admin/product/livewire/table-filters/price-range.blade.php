@@ -11,6 +11,7 @@
         'name'=>'Price Range',
         'itemValue'=>$itemValue,
         'itemValueKey'=>'priceBetween',
+        'showDropdown'=>1,
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]
