@@ -1,6 +1,7 @@
 <div>
 
-    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+
+    <button type="button" @if(empty($data)) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
     @if(!empty($selectedItems))
         {{$name}}: {{$firstItemName}} @if(count($selectedItems) > 1) ... @endif <span class="badge badge-filter-item mt-1">+{{count($selectedItems)}}</span>
@@ -76,7 +77,7 @@
             $('.js-dropdown-toggle-{{$this->id}}').click(function () {
                 $('.js-dropdown-content-{{$this->id}}').toggleClass('active', function(){
                     if ($(this).hasClass('active')) {
-                        
+
                     }
                 });
 
