@@ -52,6 +52,8 @@
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
                         priceRangeElement.dispatchEvent(new Event('input'));
+                    } else {
+                        mw.notification.error('Max value must be bigger then min value.');
                     }
                 };
 
@@ -60,6 +62,8 @@
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
                         priceRangeElement.dispatchEvent(new Event('input'));
+                    } else {
+                        mw.notification.error('Max value must be bigger then min value.');
                     }
                 };
             });
