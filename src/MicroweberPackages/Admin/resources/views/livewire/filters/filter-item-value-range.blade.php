@@ -47,7 +47,7 @@
                     }
                 }
 
-                priceMin.onkeyup = function() {
+                priceMin.onchange = function() {
                     if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
@@ -58,7 +58,7 @@
                     }
                 };
 
-                priceMax.onkeyup = function() {
+                priceMax.onchange = function() {
                     if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
