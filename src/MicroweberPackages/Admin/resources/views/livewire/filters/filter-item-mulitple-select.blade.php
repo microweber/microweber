@@ -7,8 +7,7 @@
         @else
             {{$name}} <span class="mt-2">&nbsp;</span>
         @endif
-
-
+        
         <div class="d-flex actions">
             <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
             @if(!empty($selectedItems))
@@ -67,8 +66,6 @@
             </div>
 
         </div>
-
-
 
     <script>
         $(document).ready(function() {
