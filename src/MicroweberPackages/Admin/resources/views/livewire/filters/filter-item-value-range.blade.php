@@ -48,21 +48,23 @@
                 }
 
                 priceMin.onkeyup = function() {
-                    if (priceMax.value > priceMin.value) {
+                    if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
                         priceRangeElement.dispatchEvent(new Event('input'));
                     } else {
-                        mw.notification.error('Max value must be bigger then min value.');
+                        // console.log(priceMin.value,priceMax.value);
+                        mw.notification.error('Min value must be smaller then max value.');
                     }
                 };
 
                 priceMax.onkeyup = function() {
-                    if (priceMax.value > priceMin.value) {
+                    if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
                         priceRangeValue = priceMin.value + ',' + priceMax.value;
                         priceRangeElement.value = priceRangeValue;
                         priceRangeElement.dispatchEvent(new Event('input'));
                     } else {
+                        // console.log(priceMin.value,priceMax.value);
                         mw.notification.error('Max value must be bigger then min value.');
                     }
                 };
