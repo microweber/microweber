@@ -174,6 +174,11 @@
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus()
+            return this;
+        };
+
         this.val = function(val){
             if(typeof val === 'undefined') {
                 return this._active().value;
@@ -319,11 +324,13 @@
         };
 
         this.offset = function () {
-            var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + window.pageYOffset;
-            rect.offsetBottom = rect.bottom + window.pageYOffset;
-            rect.offsetLeft = rect.left + window.pageXOffset;
-            return rect;
+            if(this._active()) {
+                var rect = this._active().getBoundingClientRect();
+                rect.offsetTop = rect.top + window.pageYOffset;
+                rect.offsetBottom = rect.bottom + window.pageYOffset;
+                rect.offsetLeft = rect.left + window.pageXOffset;
+                return rect;
+            }
         };
 
 

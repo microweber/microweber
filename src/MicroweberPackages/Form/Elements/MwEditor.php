@@ -18,7 +18,7 @@ class MwEditor extends TextArea
                         smallEditor: false,
                         minHeight: 250,
                         inputLanguage: '" . current_lang() .   "',
-                        maxHeight: '70vh',
+
                         controls: [
                                 [
                                     'undoRedo', '|', 'image', '|',

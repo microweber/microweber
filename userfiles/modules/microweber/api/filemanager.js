@@ -72,6 +72,9 @@
                         },
                         progress: function (val) {
                             scope.progress(val.percent);
+                        },
+                        error: function () {
+                            scope.progress(false);
                         }
                     }
                 });
@@ -93,10 +96,10 @@
                             } else if(this.status !== 200) {
 
                             }
-                            scope.loading(false)
+                            scope.loading(false);
                         };
                         xhr.addEventListener('error', function (e){
-                            scope.loading(false)
+                            scope.loading(false);
                         });
                         var params = {
                             path: scope.settings.query.path,
@@ -220,7 +223,10 @@
         };
 
         var _downloadHandle = function (item) {
-
+            var a = document.createElement("a");
+            a.href = item.url;
+            a.setAttribute("download", item.name);
+            a.click();
         };
 
 
@@ -244,16 +250,19 @@
                     scope.loading(false)
                 });
                 var dt = {
-                    path: item.path,
+                    // path: item.path,
+                    'path[]': 'C:\\xampp\\htdocs\\mw3\\userfiles\\media\\default\\25kb-copy-4_8.jpg',
                 };
                 var url = mw.settings.api_url + 'media/delete_media_file';
                 xhr.open("POST", url, true);
                 var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
                 if (tokenFromCookie) {
-                    xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
+                    xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie);
                 }
-                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
+                var fd = new FormData();
+                fd.append('path', ['C:\\xampp\\htdocs\\mw3\\userfiles\\media\\default\\25kb-copy-4_8.jpg'])
 
                 xhr.send(JSON.stringify(dt));
             });
@@ -401,12 +410,30 @@
         };
 
 
+        this.isSearch = function () {
+            return !!this.settings.query.keyword;
+        };
+
         this.requestData = function (params, cb) {
             this.settings.query = params;
             var _cb = function (data) {
                 cb.call(undefined, data);
-                scope.root[!data.data || data.data.length === 0 ? 'addClass' : 'removeClass']('no-results');
+                if(!data.data || data.data.length === 0) {
+                    scope.root.addClass('no-results');
+                    if(scope.isSearch()) {
+                        _noResultsLabel(mw.lang('Nothing found'));
+                        scope.root.addClass('no-results-search');
+                    } else {
+                        _noResultsLabel(mw.lang('This folder is empty'));
+                        scope.root.removeClass('no-results-search');
+                    }
+                } else {
+                    scope.root.removeClass('no-results');
+                    scope.root.removeClass('no-results-search');
+                }
+
                 scope.loading(false, 1);
+
             };
 
             scope.loading(true);
@@ -422,15 +449,26 @@
 
 
 
-        var _noResultsBlock = function () {
-            var noResultsContent = mw.element( {
-                tag: 'div',
+        var noResultsContentLabel, noResultsContent;
 
+        var _noResultsLabel = function (label) {
+            noResultsContentLabel.html(label);
+        };
+
+
+        var _noResultsBlock = function () {
+
+            noResultsContentLabel = mw.element({
                 props: {
-                    innerHTML: mw.lang('This folder does not contain any files or folders'),
+                    className: 'mw-file-manager-no-results-label'
+                },
+            });
+            noResultsContent = mw.element( {
+                tag: 'div',
+                props: {
                     className: 'mw-file-manager-no-results-content',
                 },
-
+                content: noResultsContentLabel
             });
             var block = mw.element({
                 props: {
@@ -438,7 +476,7 @@
                 },
                 content: noResultsContent
             });
-            scope.creteMethodsNode(noResultsContent.get(0));
+            scope.creteMethodsNode(noResultsContent.get(0), mw.lang('+ Add'));
             return block;
         };
 
@@ -514,6 +552,8 @@
             keyword = (keyword || '').trim();
 
             if(!keyword){
+                mw.element('input', scope.root).val('');
+                mw.element('.has-value', scope.root).removeClass('has-value');
                 delete this.settings.query.keyword;
                 this.sort('modified', 'desc', false);
             } else {
@@ -555,6 +595,7 @@
                     check.input.on('change', function () {
                          scope[!this.checked ? 'unselect' : 'select'](item);
                         _selectedUI();
+                        scope.dispatch('selectionChanged', scope.getSelected())
                     });
                     row.append( mw.element({ tag: 'td', content: check.root, props: {className: 'mw-file-manager-list-item-check-cell'} }));
                 } else {
@@ -704,9 +745,12 @@
             if(target) {
                 target.appendChild(el.get(0));
             }
+            mw.element('input', el).on('input', function (){
+                this.parentNode.classList[!this.value.trim() ? 'remove' : 'add']('has-value');
+            });
             mw.element('.mw-file-manager-search-clear', el).on('click', function (){
-                mw.element('input', el).val('');
                 scope.search( '', true);
+                mw.element('input', el).focus();
             });
             mw.element('.mw-file-manager-search-button', el).on('click', function (){
                 scope.search( mw.element('input', el).val().trim() , true);
@@ -720,7 +764,7 @@
             return el.get(0);
         };
 
-        this.creteMethodsNode = function (target) {
+        this.creteMethodsNode = function (target, label) {
             if(!this.settings.methods) {
                 return;
             }
@@ -734,7 +778,7 @@
             var addButton = mw.element({
                 props: {
                     className: 'mw-ui-btn mw-ui-btn-notification mw-file-manager-create-methods-dropdown-add',
-                    innerHTML: '+'
+                    innerHTML: label || '+'
                 }
             });
 
@@ -948,6 +992,8 @@
             path = (path || '').trim();
             this.settings.query.path = path;
             delete this.settings.query.keyword;
+            mw.element('input', scope.root).val('');
+            mw.element('.has-value', scope.root).removeClass('has-value');
             scope.dispatch('pathChanged', this.settings.query.path);
             path = path.split('/').map(function (itm){return itm.trim()}).filter(function (itm){return !!itm});
             _pathNode.empty();

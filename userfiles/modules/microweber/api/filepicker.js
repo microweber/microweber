@@ -135,8 +135,34 @@ mw.filePicker = function (options) {
             }, {'filetype':'images'});*/
 
             $(scope).on('$firstOpen', function (e, el, type) {
-                var comp = scope._getComponentObject('server');
-                if (type === 'server') {
+                 if (type === 'server') {
+                     var fm = mw.FileManager({
+                         element:$wrap[0],
+                         canSelectFolder: false,
+                         selectable: true,
+                         multiselect: scope.settings.multiple,
+                         stickyHeader: true,
+                     });
+                     fm.on('selectionChanged', function (val){
+
+                         scope.setSectionValue(val.map(a=>a.url));
+                         if (scope.settings.autoSelect) {
+                             scope.result();
+                         }
+                     });
+                }
+            });
+
+            return $wrap[0];
+        },
+        server2: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
+            /*mw.load_module('files/admin', $wrap, function () {
+
+            }, {'filetype':'images'});*/
+
+            $(scope).on('$firstOpen', function (e, el, type) {
+                 if (type === 'server') {
                     mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
                     if(scope.settings._frameMaxHeight) {

@@ -644,6 +644,74 @@ if ($action == 'posts') {
                             </div>
                         </div>
 
+                        <style>
+
+                            .fixed-side-column-container::-webkit-scrollbar {
+                                width: 7px;
+                                height: 7px;
+                            }
+
+
+                            .fixed-side-column-container::-webkit-scrollbar-track {
+                                background: #f1f1f1;
+                            }
+
+
+                            .fixed-side-column-container::-webkit-scrollbar-thumb {
+                                background: #888;
+                            }
+
+
+                            .fixed-side-column-container::-webkit-scrollbar-thumb:hover {
+                                background: #555;
+                            }
+
+
+
+
+                            .mw-tree-context-menu-content{
+                                position: absolute;
+                                background-color: #fff;
+                                visibility: hidden;
+                                opacity: 0;
+                                pointer-events: none;
+                                top: calc(100% - 2px);
+                                box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+                                z-index: 12;
+
+                            }
+                            html[dir="ltr"] .mw-tree-context-menu-content{
+                                right: 0;
+                            }
+                            html[dir="rtl"] .mw-tree-context-menu-content{
+                                left: 0;
+                            }
+                            .context-menu-active {
+                                z-index: 12;
+                            }
+                            .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content{
+                                visibility: visible;
+                                opacity: 1;
+                                pointer-events: all;
+                            }
+
+                            .mw-tree-context-menu-content-button{
+                                display: inline-flex;
+                                width: 20px;
+                                height: 20px;
+                                align-items: center;
+                                justify-content: center;
+                                cursor: pointer;
+                                position: relative;
+                                z-index: 10;
+                            }
+                            .fixed-side-column-container{
+                                min-height: 100px;
+                            }
+
+
+                        </style>
+
                         <script>
                             $(document).ready(function () {
                                 $('.js-open-close-all-tree-elements').on('change', function () {
@@ -654,6 +722,14 @@ if ($action == 'posts') {
                                     }
                                 });
                             });
+                            ;(function (){
+                                var treeHolderSet = function (){
+                                    var treeHolder = mw.element('#admin-main-tree');
+                                    treeHolder.css('height', 'calc(100vh - ' + (treeHolder.offset().top) + 'px)');
+                                }
+                                addEventListener('load', treeHolderSet);
+                                addEventListener('resize', treeHolderSet);
+                            })();
                         </script>
 
                         <div class="input-group mb-0 prepend-transparent">
@@ -669,11 +745,20 @@ if ($action == 'posts') {
                             var pagesTree;
 
                             var pagesTreeRefresh = function () {
-
+                                mw.spinner({
+                                    element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                    decorate: true,
+                                    size: 30
+                                }).show()
                                 var request = new XMLHttpRequest();
                                 request.open('GET', '<?php print $tree_url_endpoint; ?>', true);
                                 request.send();
                                 request.onload = function() {
+                                    mw.spinner({
+                                        element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                        decorate: true,
+                                        size: 40
+                                    }).hide()
                                     if (request.status >= 200 && request.status < 400) {
 
                                         var data = JSON.parse(request.responseText);
@@ -721,7 +806,7 @@ if ($action == 'posts') {
                                                     },
                                                     {
                                                         title: 'Move to trash',
-                                                        icon: 'mdi mdi-close',
+                                                        icon: 'mdi mdi-delete',
                                                         action: function (element, data, menuitem) {
                                                             if (data.type === 'category') {
                                                                 mw.content.deleteCategory(data.id, function () {
@@ -804,15 +889,7 @@ if ($action == 'posts') {
                                                 });
                                                 mainTreeSetActiveItems()
 
-                                                $("#edit-content-row .tree-column").resizable({
-                                                    handles: "e",
-                                                    resize: function (e, ui) {
-                                                        var root = mw.$(ui.element);
-                                                        mw.$('.fixed-side-column', root).width(root.width())
-                                                    },
-                                                    minWidth: 200
-                                                })
-                                            })
+                                             })
                                     }
                                 };
 
