@@ -47,6 +47,7 @@ class FilterItemCateogry extends DropdownComponent
                 $findCategory = Category::where('id', $categoryId)->first();
                 if ($findCategory !== null) {
                     $this->firstItemCategoryName = $findCategory->title;
+                    break;
                 }
             }
         }
@@ -66,6 +67,7 @@ class FilterItemCateogry extends DropdownComponent
                 $findPage = Page::where('id', $pageId)->first();
                 if ($findPage !== null) {
                     $this->firstItemPageName = $findPage->title;
+                    break;
                 }
             }
         }

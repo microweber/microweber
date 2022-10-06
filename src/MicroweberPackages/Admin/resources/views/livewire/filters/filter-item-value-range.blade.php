@@ -34,7 +34,7 @@
 </div>
 <div wire:ignore>
     <script>
-        document.addEventListener('livewire:load', function () {
+        $(document).ready(function() {
 
             let priceMin = document.getElementById('js-price-min');
             let priceMax = document.getElementById('js-price-max');
