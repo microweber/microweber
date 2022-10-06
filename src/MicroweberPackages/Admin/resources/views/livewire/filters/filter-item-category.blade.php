@@ -1,6 +1,6 @@
 <div>
 
-    <button type="button"  class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+    <button type="button"  class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($itemCategoryValue || $itemPageValue) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
         @if($itemCategoryValue || $itemPageValue)
             {{$name}}:
@@ -39,70 +39,71 @@
         <input wire:model.stop="itemCategoryValue" id="js-filter-category" type="hidden" />
         <input wire:model.stop="itemPageValue" id="js-filter-page" type="hidden" />
 
-        <div id="js-filter-item-tree" wire:ignore></div>
-
-        <script id="js-category-filter-select-tree-<?php echo time(); ?>" wire:ignore>
-
-            var pageElement = document.getElementById('js-filter-page');
-            var categoryElement = document.getElementById('js-filter-category');
-
-            var selectedPages = pageElement.value.split(",");
-            var selectedCategories = categoryElement.value.split(",");
-
-            var tree;
-
-            mw.admin.tree(document.getElementById('js-filter-item-tree'), {
-                options: {
-                    sortable: false,
-                    singleSelect: false,
-                    selectable: true,
-                    multiPageSelect: true
-                }
-            }, 'treeTags').then(function (res) {
-
-                tree = res.tree;
-
-                $(tree).on("ready", function () {
-                    if (selectedPages.length) {
-                        $.each(selectedPages, function (key, pageId) {
-                            tree.select(pageId, 'page', false)
-                        });
-                    }
-
-                    if (selectedCategories.length > 0) {
-                        $.each(selectedCategories, function (key, catId) {
-                            tree.select(catId, 'category', false);
-                        });
-                    }
-                });
-
-                $(tree).on("selectionChange", function () {
-
-                    selectedPages = [];
-                    selectedCategories = [];
-
-                    $.each(tree.getSelected(), function (key, item) {
-                        if (item.type == 'category') {
-                            selectedCategories.push(item.id);
-                        }
-                        if (item.type == 'page') {
-                            selectedPages.push(item.id);
-                        }
-                    });
-
-                    pageElement.value = selectedPages.join(",");
-                    pageElement.dispatchEvent(new Event('input'));
-
-                    categoryElement.value = selectedCategories.join(",");
-                    categoryElement.dispatchEvent(new Event('input'));
-
-                    window.livewire.emit('setFirstPageProductsList');
-                });
-
-            });
-        </script>
+        <div id="js-filter-item-tree-{{$this->id}}" wire:ignore></div>
 
     </div>
+
+
+    <script id="js-category-filter-select-tree-<?php echo time(); ?>">
+
+        var pageElement = document.getElementById('js-filter-page');
+        var categoryElement = document.getElementById('js-filter-category');
+
+        var selectedPages = pageElement.value.split(",");
+        var selectedCategories = categoryElement.value.split(",");
+
+        var tree;
+
+        mw.admin.tree(document.getElementById('js-filter-item-tree-{{$this->id}}'), {
+            options: {
+                sortable: false,
+                singleSelect: false,
+                selectable: true,
+                multiPageSelect: true
+            }
+        }, 'treeTags').then(function (res) {
+
+            tree = res.tree;
+
+            $(tree).on("ready", function () {
+                if (selectedPages.length) {
+                    $.each(selectedPages, function (key, pageId) {
+                        tree.select(pageId, 'page', false)
+                    });
+                }
+
+                if (selectedCategories.length > 0) {
+                    $.each(selectedCategories, function (key, catId) {
+                        tree.select(catId, 'category', false);
+                    });
+                }
+            });
+
+            $(tree).on("selectionChange", function () {
+
+                selectedPages = [];
+                selectedCategories = [];
+
+                $.each(tree.getSelected(), function (key, item) {
+                    if (item.type == 'category') {
+                        selectedCategories.push(item.id);
+                    }
+                    if (item.type == 'page') {
+                        selectedPages.push(item.id);
+                    }
+                });
+
+                pageElement.value = selectedPages.join(",");
+                pageElement.dispatchEvent(new Event('input'));
+
+                categoryElement.value = selectedCategories.join(",");
+                categoryElement.dispatchEvent(new Event('input'));
+
+                window.livewire.emit('setFirstPageProductsList');
+            });
+
+        });
+    </script>
 
 
     <script>

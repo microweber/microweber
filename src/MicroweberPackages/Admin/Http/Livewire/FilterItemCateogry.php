@@ -33,7 +33,7 @@ class FilterItemCateogry extends DropdownComponent
         $explode = explode(',', $this->itemPageValue);
         $explode = array_filter($explode);
         if (!empty($explode)) {
-            $this->selectedItemsCount =  $this->selectedItemsCount = count($explode);
+            $this->selectedItemsCount = $this->selectedItemsCount + count($explode);
         }
 
     }
