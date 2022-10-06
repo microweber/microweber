@@ -20,8 +20,9 @@
         <span class="text-muted">Select Date</span>
         <input type="date" wire:model="selectedItem" class="form-control" />
     </div>
+</div>
 
-
+<div wire:ignore>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {

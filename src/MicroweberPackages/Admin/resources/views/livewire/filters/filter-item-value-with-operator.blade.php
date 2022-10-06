@@ -44,7 +44,9 @@
             <input type="number" class="form-control" placeholder="{{$name}} count" wire:model.stop="itemValue">
         </div>
     </div>
+</div>
 
+<div wire:ignore>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {

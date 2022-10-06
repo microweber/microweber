@@ -67,7 +67,9 @@
             <div class="col text-right">{{count($data)}} of {{$total}}</div>
         </div>
     </div>
+</div>
 
+<div wire:ignore>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {

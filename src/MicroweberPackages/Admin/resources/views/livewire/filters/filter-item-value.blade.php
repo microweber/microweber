@@ -26,7 +26,10 @@
             <input type="text" class="form-control" placeholder="Fill the {{$name}}" wire:model.stop="itemValue">
         </div>
     </div>
+</div>
 
+
+<div wire:ignore>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {

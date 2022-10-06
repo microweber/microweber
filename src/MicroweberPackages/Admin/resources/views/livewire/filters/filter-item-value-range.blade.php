@@ -30,49 +30,50 @@
             <input type="number" class="form-control" id="js-price-max" placeholder="Max">
         </div>
 
-        <script>
-            document.addEventListener('livewire:load', function () {
-
-                let priceMin = document.getElementById('js-price-min');
-                let priceMax = document.getElementById('js-price-max');
-                let priceRangeValue = priceMin.value + ', ' + priceMax.value;
-                let priceRangeElement = document.getElementById('js-price-range');
-
-                const priceRangeExp = priceRangeElement.value.split(",");
-                if (priceRangeExp) {
-                    if (priceRangeExp[0]) {
-                        priceMin.value = priceRangeExp[0];
-                    }
-                    if (priceRangeExp[1]) {
-                        priceMax.value = priceRangeExp[1];
-                    }
-                }
-
-                priceMin.onchange = function() {
-                    if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
-                        priceRangeValue = priceMin.value + ',' + priceMax.value;
-                        priceRangeElement.value = priceRangeValue;
-                        priceRangeElement.dispatchEvent(new Event('input'));
-                    } else {
-                        // console.log(priceMin.value,priceMax.value);
-                        mw.notification.error('Min value must be smaller then max value.');
-                    }
-                };
-
-                priceMax.onchange = function() {
-                    if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
-                        priceRangeValue = priceMin.value + ',' + priceMax.value;
-                        priceRangeElement.value = priceRangeValue;
-                        priceRangeElement.dispatchEvent(new Event('input'));
-                    } else {
-                        // console.log(priceMin.value,priceMax.value);
-                        mw.notification.error('Max value must be bigger then min value.');
-                    }
-                };
-            });
-        </script>
     </div>
+</div>
+<div wire:ignore>
+    <script>
+        document.addEventListener('livewire:load', function () {
 
+            let priceMin = document.getElementById('js-price-min');
+            let priceMax = document.getElementById('js-price-max');
+            let priceRangeValue = priceMin.value + ', ' + priceMax.value;
+            let priceRangeElement = document.getElementById('js-price-range');
+
+            const priceRangeExp = priceRangeElement.value.split(",");
+            if (priceRangeExp) {
+                if (priceRangeExp[0]) {
+                    priceMin.value = priceRangeExp[0];
+                }
+                if (priceRangeExp[1]) {
+                    priceMax.value = priceRangeExp[1];
+                }
+            }
+
+            priceMin.onchange = function() {
+                if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
+                    priceRangeValue = priceMin.value + ',' + priceMax.value;
+                    priceRangeElement.value = priceRangeValue;
+                    priceRangeElement.dispatchEvent(new Event('input'));
+                } else {
+                    // console.log(priceMin.value,priceMax.value);
+                    mw.notification.error('Min value must be smaller then max value.');
+                }
+            };
+
+            priceMax.onchange = function() {
+                if (parseInt(priceMax.value) > parseInt(priceMin.value)) {
+                    priceRangeValue = priceMin.value + ',' + priceMax.value;
+                    priceRangeElement.value = priceRangeValue;
+                    priceRangeElement.dispatchEvent(new Event('input'));
+                } else {
+                    // console.log(priceMin.value,priceMax.value);
+                    mw.notification.error('Max value must be bigger then min value.');
+                }
+            };
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {
