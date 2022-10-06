@@ -1,4 +1,4 @@
-<div class="ms-0 ms-md-2 mb-3 mb-md-0">
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
     @php
         $data = [
             ['key'=>'any','value'=>'Any'],
@@ -16,6 +16,10 @@
         'searchable'=>false,
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'stockStatus',
-        'data'=>$data
+        'data'=>$data,
+        'showDropdown'=> session()->get('showFilterStockStatus'),
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 </div>

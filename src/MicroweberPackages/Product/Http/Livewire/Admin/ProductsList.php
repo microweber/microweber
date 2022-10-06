@@ -18,9 +18,10 @@ class ProductsList extends Component
 
     public $filters = [];
     protected $listeners = [
-        'refreshProductIndexComponent' => '$refresh',
-        'setFirstPageProductIndexComponent' => 'setPaginationFirstPage',
-        'autoCompleteSelectItem'=>'setFilter'
+        'refreshProductsList' => '$refresh',
+        'setFirstPageProductsList' => 'setPaginationFirstPage',
+        'autoCompleteSelectItem'=>'setFilter',
+        'hideFilterItem'=>'hideFilter'
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
@@ -36,7 +37,15 @@ class ProductsList extends Component
     ];
 
     public $showFilters = [
-        'shop'=>1
+        'categories'=>1,
+        'tags'=>1,
+        'priceBetween'=>1,
+        'stockStatus'=>1,
+        'discount'=>1,
+        'sales'=>1,
+        'qty'=>1,
+        'sku'=>1,
+        'userIds'=>1,
     ];
 
     public $checked = [];
@@ -50,7 +59,6 @@ class ProductsList extends Component
 
     public function setFilter($key, $value)
     {
-
         if (is_array($value)) {
             $value = implode(',', $value);
         }
@@ -69,9 +77,21 @@ class ProductsList extends Component
         \Cookie::queue('productShowColumns', json_encode($this->showColumns));
     }
 
+    public function hideFilter($key)
+    {
+        if (isset($this->showFilters[$key])) {
+            unset($this->showFilters[$key]);
+        }
+    }
+
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
+        if (!empty($this->showFilters)) {
+            foreach ($this->showFilters as $filterKey=>$filterValue) {
+                session()->flash('showFilter' . ucfirst($filterKey), '1');
+            }
+        }
     }
 
     public function updatedChecked($value)
@@ -81,6 +101,11 @@ class ProductsList extends Component
         } else {
             $this->selectAll = false;
         }
+    }
+
+    public function updatedPaginate($limit)
+    {
+        $this->setPaginationFirstPage();
     }
 
     public function updatedSelectAll($value)

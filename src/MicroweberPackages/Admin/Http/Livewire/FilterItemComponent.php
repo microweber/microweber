@@ -12,13 +12,28 @@ class FilterItemComponent extends AutoCompleteComponent
     public $perPage = 10;
     public $total = 0;
     public $searchable = true;
+    public $onChangedEmitEvents = [];
 
     public string $view = 'admin::livewire.filters.filter-item';
+
+    public function hideFilterItem($id)
+    {
+        if ($this->id == $id) {
+            $this->emit('hideFilterItem', $this->selectedItemKey);
+            $this->resetProperties();
+        }
+    }
 
     public function updatedSelectedItem($value)
     {
         $this->showDropdown($this->id);
         $this->selectItem($value);
+
+        if (!empty($this->onChangedEmitEvents)) {
+            foreach($this->onChangedEmitEvents as $event) {
+                $this->emit($event);
+            }
+        }
     }
 
     public function refreshQueryData()

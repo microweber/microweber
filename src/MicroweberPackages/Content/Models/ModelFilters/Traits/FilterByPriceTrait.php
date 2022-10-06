@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait FilterByPriceTrait
 {
-    public function discounted($type = 1)
+    public function discount($type = 1)
     {
         if ($type == 1 || $type == 'yes') {
             $this->query->whereHas('offer');

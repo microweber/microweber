@@ -1,4 +1,4 @@
-<div class="ms-0 ms-md-2 mb-3 mb-md-0">
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
 
     @php
         $itemValue = '';
@@ -16,7 +16,11 @@
         'itemValue'=>$itemValue,
         'itemOperatorValue'=>$itemOperatorValue,
         'itemValueKey'=>'qty',
-        'itemOperatorValueKey'=>'qtyOperator'
+        'itemOperatorValueKey'=>'qtyOperator',
+        'showDropdown'=> session()->get('showFilterQuantity'),
+        'onChangedEmitEvents' => [
+            'setFirstPageProductsList'
+        ]
     ])
 
 </div>

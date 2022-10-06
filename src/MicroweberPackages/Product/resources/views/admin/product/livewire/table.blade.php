@@ -12,47 +12,33 @@
 
     <div class="card-body pt-3">
 
-    @include('product::admin.product.livewire.table-includes.category-tree-js')
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..."
-                   class="form-control">
+            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
         </div>
-
-        @if(isset($showFilters['category']) && $showFilters['category'])
-            @include('product::admin.product.livewire.table-filters.category')
-        @endif
-
-        @if(isset($showFilters['tags']) && $showFilters['tags'])
-            @include('product::admin.product.livewire.table-filters.tags')
-        @endif
-
-        @if(isset($showFilters['shop']) && $showFilters['shop'])
-            @include('product::admin.product.livewire.table-filters.price-range')
-            @include('product::admin.product.livewire.table-filters.stock-status')
-            @include('product::admin.product.livewire.table-filters.discount')
-            @include('product::admin.product.livewire.table-filters.sales')
-            @include('product::admin.product.livewire.table-filters.quantity')
-            @include('product::admin.product.livewire.table-filters.sku')
-        @endif
-
-        @if(isset($showFilters['other']) && $showFilters['other'])
-            @include('product::admin.product.livewire.table-filters.visible')
-            @include('product::admin.product.livewire.table-filters.author')
-            @include('product::admin.product.livewire.table-filters.date')
-        @endif
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
-            <div class="dropdown-menu p-3">
+            <div class="dropdown-menu p-3" style="width:263px">
+                <h6 class="dropdown-header">Taxonomy</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shop"> Shop</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.other"> Other</label>
+                <h6 class="dropdown-header">Shop</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceBetween"> Price Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stockStatus"> Stock Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.qty"> Quantity</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
+                <h6 class="dropdown-header">Other</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> Created at</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
             </div>
         </div>
 
@@ -62,6 +48,56 @@
                     <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
                 </div>
             </div>
+        @endif
+    </div>
+
+    <div class="d-flex flex-wrap mt-3">
+        @if(isset($showFilters['category']) && $showFilters['category'])
+            @include('product::admin.product.livewire.table-filters.category')
+        @endif
+
+        @if(isset($showFilters['tags']) && $showFilters['tags'])
+            @include('product::admin.product.livewire.table-filters.tags')
+        @endif
+
+        @if(isset($showFilters['priceBetween']) && $showFilters['priceBetween'])
+            @include('product::admin.product.livewire.table-filters.price-between')
+        @endif
+
+        @if(isset($showFilters['stockStatus']) && $showFilters['stockStatus'])
+            @include('product::admin.product.livewire.table-filters.stock-status')
+        @endif
+
+        @if(isset($showFilters['discount']) && $showFilters['discount'])
+            @include('product::admin.product.livewire.table-filters.discount')
+        @endif
+
+        @if(isset($showFilters['sales']) && $showFilters['sales'])
+            @include('product::admin.product.livewire.table-filters.sales')
+        @endif
+
+        @if(isset($showFilters['qty']) && $showFilters['qty'])
+            @include('product::admin.product.livewire.table-filters.quantity')
+        @endif
+
+        @if(isset($showFilters['sku']) && $showFilters['sku'])
+            @include('product::admin.product.livewire.table-filters.sku')
+        @endif
+
+        @if(isset($showFilters['visible']) && $showFilters['visible'])
+            @include('product::admin.product.livewire.table-filters.visible')
+        @endif
+
+        @if(isset($showFilters['userIds']) && $showFilters['userIds'])
+            @include('product::admin.product.livewire.table-filters.author')
+        @endif
+
+        @if(isset($showFilters['createdAt']) && $showFilters['createdAt'])
+            @include('product::admin.product.livewire.table-filters.created-at')
+        @endif
+
+        @if(isset($showFilters['updatedAt']) && $showFilters['updatedAt'])
+            @include('product::admin.product.livewire.table-filters.updated-at')
         @endif
     </div>
 
