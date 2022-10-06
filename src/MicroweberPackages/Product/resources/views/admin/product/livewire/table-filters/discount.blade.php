@@ -7,15 +7,15 @@
         ];
 
         $selectedItem = [];
-        if (isset($filters['discounted'])) {
-            $selectedItem = $filters['discounted'];
+        if (isset($filters['discount'])) {
+            $selectedItem = $filters['discount'];
         }
     @endphp
     @livewire('admin-filter-item', [
         'name'=>'Discount',
         'searchable'=>false,
         'selectedItem'=>$selectedItem,
-        'selectedItemKey'=>'discounted',
+        'selectedItemKey'=>'discount',
         'data'=>$data,
         'showDropdown'=> session()->get('showFilterDiscount'),
         'onChangedEmitEvents' => [

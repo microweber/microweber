@@ -14,4 +14,12 @@ class FilterItemMultipleSelectComponent extends AutoCompleteMultipleSelectCompon
 
     public string $view = 'admin::livewire.filters.filter-item-mulitple-select';
 
+    public function hideFilterItem($id)
+    {
+        if ($this->id == $id) {
+            $this->emit('hideFilterItem', $this->selectedItemKey);
+            $this->resetProperties();
+        }
+    }
+
 }

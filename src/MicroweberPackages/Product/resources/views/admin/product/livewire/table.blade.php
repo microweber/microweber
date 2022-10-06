@@ -33,12 +33,13 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stockStatus"> Stock Status</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.quantity"> Quantity</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.qty"> Quantity</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.author"> Author</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> Created at</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
             </div>
         </div>
 
@@ -76,7 +77,7 @@
             @include('product::admin.product.livewire.table-filters.sales')
         @endif
 
-        @if(isset($showFilters['quantity']) && $showFilters['quantity'])
+        @if(isset($showFilters['qty']) && $showFilters['qty'])
             @include('product::admin.product.livewire.table-filters.quantity')
         @endif
 
@@ -88,12 +89,16 @@
             @include('product::admin.product.livewire.table-filters.visible')
         @endif
 
-        @if(isset($showFilters['author']) && $showFilters['author'])
+        @if(isset($showFilters['userIds']) && $showFilters['userIds'])
             @include('product::admin.product.livewire.table-filters.author')
         @endif
 
-        @if(isset($showFilters['date']) && $showFilters['date'])
-            @include('product::admin.product.livewire.table-filters.date')
+        @if(isset($showFilters['createdAt']) && $showFilters['createdAt'])
+            @include('product::admin.product.livewire.table-filters.created-at')
+        @endif
+
+        @if(isset($showFilters['updatedAt']) && $showFilters['updatedAt'])
+            @include('product::admin.product.livewire.table-filters.updated-at')
         @endif
     </div>
 

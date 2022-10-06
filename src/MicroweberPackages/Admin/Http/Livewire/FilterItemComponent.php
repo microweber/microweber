@@ -18,7 +18,10 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function hideFilterItem($id)
     {
-
+        if ($this->id == $id) {
+            $this->emit('hideFilterItem', $this->selectedItemKey);
+            $this->resetProperties();
+        }
     }
 
     public function updatedSelectedItem($value)

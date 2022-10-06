@@ -7,9 +7,10 @@
 
         <div class="d-flex actions">
             <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
-            @if($selectedItem)
+         {{--   @if($selectedItem)
                 <div class="action-dropdown-delete" wire:click="resetProperties"><i class="fa fa-times-circle"></i></div>
-            @endif
+            @endif--}}
+            <div class="action-dropdown-delete" wire:click="hideFilterItem('{{$this->id}}')"><i class="fa fa-times-circle"></i></div>
         </div>
 
 

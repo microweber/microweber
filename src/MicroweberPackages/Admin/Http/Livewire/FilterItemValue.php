@@ -21,7 +21,7 @@ class FilterItemValue extends DropdownComponent
     {
         if ($this->id == $id) {
             $this->emit('hideFilterItem', $this->itemValueKey);
-            $this->closeDropdown($this->id);
+            $this->resetProperties();
         }
     }
 
