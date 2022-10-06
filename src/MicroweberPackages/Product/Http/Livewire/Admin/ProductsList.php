@@ -20,7 +20,8 @@ class ProductsList extends Component
     protected $listeners = [
         'refreshProductsList' => '$refresh',
         'setFirstPageProductsList' => 'setPaginationFirstPage',
-        'autoCompleteSelectItem'=>'setFilter'
+        'autoCompleteSelectItem'=>'setFilter',
+        'hideFilterItem'=>'hideFilter'
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
@@ -36,7 +37,7 @@ class ProductsList extends Component
     ];
 
     public $showFilters = [
-        'priceRange'=>1
+        'priceBetween'=>1
     ];
 
     public $checked = [];
@@ -66,6 +67,13 @@ class ProductsList extends Component
     public function updatedShowColumns($value)
     {
         \Cookie::queue('productShowColumns', json_encode($this->showColumns));
+    }
+
+    public function hideFilter($key)
+    {
+        if (isset($this->showFilters[$key])) {
+            unset($this->showFilters[$key]);
+        }
     }
 
     public function updatedShowFilters($value)

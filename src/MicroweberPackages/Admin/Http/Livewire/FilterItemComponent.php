@@ -16,6 +16,11 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public string $view = 'admin::livewire.filters.filter-item';
 
+    public function hideFilterItem($id)
+    {
+
+    }
+
     public function updatedSelectedItem($value)
     {
         $this->showDropdown($this->id);

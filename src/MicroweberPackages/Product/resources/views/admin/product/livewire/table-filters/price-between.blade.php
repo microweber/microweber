@@ -2,16 +2,16 @@
 
     @php
         $itemValue = '';
-        if (isset($filters['priceRange'])) {
-            $itemValue = $filters['priceRange'];
+        if (isset($filters['priceBetween'])) {
+            $itemValue = $filters['priceBetween'];
         }
     @endphp
 
     @livewire('admin-filter-item-value-range', [
-        'name'=>'Price Range',
+        'name'=>'Price Between',
         'itemValue'=>$itemValue,
         'itemValueKey'=>'priceBetween',
-        'showDropdown'=> session()->get('showFilterPriceRange'),
+        'showDropdown'=> session()->get('showFilterPriceBetween'),
         'onChangedEmitEvents' => [
             'setFirstPageProductsList'
         ]

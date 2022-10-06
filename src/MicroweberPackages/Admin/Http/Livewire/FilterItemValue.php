@@ -17,6 +17,14 @@ class FilterItemValue extends DropdownComponent
         $this->emitEvents();
     }
 
+    public function hideFilterItem($id)
+    {
+        if ($this->id == $id) {
+            $this->emit('hideFilterItem', $this->itemValueKey);
+            $this->closeDropdown($this->id);
+        }
+    }
+
     public function updatedItemValue()
     {
         $this->showDropdown($this->id);

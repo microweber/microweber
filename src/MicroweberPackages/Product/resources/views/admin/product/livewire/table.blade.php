@@ -29,7 +29,7 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
                 <h6 class="dropdown-header">Shop</h6>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceRange"> Price Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceBetween"> Price Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stockStatus"> Stock Status</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
@@ -60,8 +60,8 @@
             @include('product::admin.product.livewire.table-filters.tags')
         @endif
 
-        @if(isset($showFilters['priceRange']) && $showFilters['priceRange'])
-            @include('product::admin.product.livewire.table-filters.price-range')
+        @if(isset($showFilters['priceBetween']) && $showFilters['priceBetween'])
+            @include('product::admin.product.livewire.table-filters.price-between')
         @endif
 
         @if(isset($showFilters['stockStatus']) && $showFilters['stockStatus'])
