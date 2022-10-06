@@ -2,14 +2,26 @@
 
     <button type="button"  class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
-        @if($itemCategoryValue)
-            {{$name}}:  {{$itemCategoryValue}}
+        @if($itemCategoryValue || $itemPageValue)
+            {{$name}}:
+
+            @if ($firstItemCategoryName && $firstItemPageName)
+            {{$firstItemCategoryName}}, {{$firstItemPageName}}...
+            @elseif ($firstItemCategoryName)
+            {{$firstItemCategoryName}}...
+            @elseif ($firstItemPageName)
+                {{$firstItemPageName}}...
+            @endif
+
+            <span class="badge badge-filter-item mt-1">
+                + {{$selectedItemsCount}}
+            </span>
+
         @else
             {{$name}}
         @endif
 
         <span class="mt-2">&nbsp;</span>
-
 
         <div class="d-flex actions">
             <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
