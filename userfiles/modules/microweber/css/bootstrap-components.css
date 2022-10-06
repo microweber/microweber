@@ -1,0 +1,246 @@
+/* BOOTSTRAP OVERRIDES */
+
+.list-group-compact .list-group-item {
+    padding-inline-start: 23px !important;
+    border:0px !important;
+}
+
+
+.manage-post-item:hover {
+    background: rgba(245, 245, 245, 0.3);
+    border-color: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
+    -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
+    box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
+}
+
+
+
+/*---------------*/
+/*UI*/
+/*-------------*/
+
+/*ACCORDIONS*/
+
+.accordion-button {
+    background-color: white;
+}
+
+.accordion-item {
+    background-color: white;
+
+}
+
+/*ALERTS*/
+
+.alert-info {
+    background-color: #cff4fc;
+    border-color: #b6effb;
+}
+
+
+.alert-light {
+    color: #636464;
+    background-color: #fefefe;
+    border-color: #fdfdfe;
+}
+
+.alert-secondary {
+    color: #41464b;
+    background-color: #e2e3e5;
+    border-color: #d3d6d8;
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+hr {
+    border-top: unset;
+}
+
+/*BADGES*/
+
+.bg-secondary {
+    background-color: #6c757d!important;
+}
+
+.btn .badge {
+    position: relative;
+    top: 0px;
+    left: 5px;
+}
+
+.bg-danger {
+    background-color: #dc3545!important;
+}
+
+.bg-info {
+    background-color: #0dcaf0!important;
+}
+
+.bg-light {
+    background-color: #fafafa !important;
+}
+
+/*BREADCRUMB*/
+
+.breadcrumb {
+
+    background-color: unset;
+
+}
+
+/*BUTTONS*/
+
+.btn-outline-info {
+    color: #0dcaf0!important;
+    border-color: #0dcaf0!important;
+}
+
+.btn-outline-light {
+    color: #f8f9fa!important;
+    border-color: #f8f9fa!important;
+}
+.btn-outline-light:hover {
+    color: #000!important;
+    background-color: #f8f9fa!important;
+    border-color: #f8f9fa!important;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.btn-secondary.disabled, .btn-secondary:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-check:checked + .btn-outline-primary, .btn-check:active + .btn-outline-primary, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show {
+    color: white;
+}
+
+.btn-info {
+    color: #000;
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+
+/*CARD*/
+
+.card-header {
+    background-color: rgba(0, 0, 0, .03)!important;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+}
+
+
+.nav-tabs .nav-link {
+    margin-bottom: 6px;
+    background: 0 0;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+
+.text-secondary {
+    color: #6c757d!important;
+}
+
+.border-secondary {
+    border-color: #6c757d!important;
+}
+
+.border-info {
+    border-color: #0dcaf0!important;
+}
+
+.bg-transparent {
+    background-color: transparent!important;
+}
+.border-success {
+    border-color: #198754!important;
+}
+
+.text-success {
+    color: #198754!important;
+}
+
+.bd-example>.dropdown-menu {
+    position: static;
+    display: block;
+}
+
+.bd-example>.list-group {
+    max-width: 400px;
+}
+
+.list-group-item-secondary {
+    color: #41464b;
+    background-color: #e2e3e5;
+}
+
+.list-group-item-info {
+    color: #055160;
+    background-color: #cff4fc;
+}
+
+.form-check-input {
+    position: unset;
+    margin-top: 0.3rem;
+    margin-inline-start: unset;
+}
+
+.bd-example-modal .modal {
+    position: static;
+    display: block;
+}
+
+.offcanvas.offcanvas-start.show, .offcanvas.show {
+    visibility: visible!important;
+}
+
+
+.bd-example .progress {
+    margin: 10px 0;
+}
+
+
+
+.scrollspy-example {
+    position: relative;
+    height: 200px;
+    margin-top: 0.5rem;
+    overflow: auto;
+}
+
+.scrollspy-example-2 {
+    position: relative;
+    height: 350px;
+    overflow: auto;
+}
