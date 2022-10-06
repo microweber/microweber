@@ -333,7 +333,7 @@
             return li;
         };
 
-        this.select = function(li, type){
+        this.select = function(li, type, applyTriggerChange = true){
             if(Array.isArray(li)){
                 $.each(li, function(){
                     scope.select(this);
@@ -349,7 +349,10 @@
 
             this.manageUnselected();
             this.getSelected();
-            triggerChange();
+
+            if (applyTriggerChange) {
+                triggerChange();
+            }
         };
 
 

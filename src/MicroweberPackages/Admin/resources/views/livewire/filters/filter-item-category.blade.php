@@ -2,12 +2,18 @@
 
     <button type="button"  class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
-        {{$name}} <span class="mt-2">&nbsp;</span>
+        @if($itemCategoryValue)
+            {{$name}}:  {{$itemCategoryValue}}
+        @else
+            {{$name}}
+        @endif
+
+        <span class="mt-2">&nbsp;</span>
 
 
         <div class="d-flex actions">
             <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
-         {{--   @if($selectedItem)
+         {{--  @if($selectedItem)
                 <div class="action-dropdown-delete" wire:click="resetProperties"><i class="fa fa-times-circle"></i></div>
             @endif--}}
             <div class="action-dropdown-delete" wire:click="hideFilterItem('{{$this->id}}')"><i class="fa fa-times-circle"></i></div>
@@ -18,48 +24,18 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif " style="width:400px;">
 
+        <input wire:model.stop="itemCategoryValue" id="js-filter-category" type="hidden" />
+        <input wire:model.stop="itemPageValue" id="js-filter-page" type="hidden" />
 
-        <input wire:model.stop="category" id="js-filter-category" type="hidden" />
-        <input wire:model.stop="page" id="js-filter-page" type="hidden" />
+        <div id="js-filter-item-tree" wire:ignore></div>
 
-        <div id="js-filter-item-tree"></div>
-
-
-        <script id="js-category-filter-select-tree-<?php echo time(); ?>">
+        <script id="js-category-filter-select-tree-<?php echo time(); ?>" wire:ignore>
 
             var pageElement = document.getElementById('js-filter-page');
             var categoryElement = document.getElementById('js-filter-category');
 
             var selectedPages = pageElement.value.split(",");
             var selectedCategories = categoryElement.value.split(",");
-
-            var ok = mw.element('<button class="btn btn-primary">Apply</button>');
-            var btn = ok.get(0);
-
-           /* var dialog = mw.dialog({
-                title: '<?php _ejs('Select categories'); ?>',
-                footer: btn,
-                onResult: function (result) {
-                    selectedPages = [];
-                    selectedCategories = [];
-                    $.each(result, function (key, item) {
-                        if (item.type == 'category') {
-                            selectedCategories.push(item.id);
-                        }
-                        if (item.type == 'page') {
-                            selectedPages.push(item.id);
-                        }
-                    });
-
-                    pageElement.value = selectedPages.join(",");
-                    pageElement.dispatchEvent(new Event('input'));
-
-                    categoryElement.value = selectedCategories.join(",");
-                    categoryElement.dispatchEvent(new Event('input'));
-
-                    window.livewire.emit('setFirstPageProductsList');
-                }
-            });*/
 
             var tree;
 
@@ -75,28 +51,44 @@
                 tree = res.tree;
 
                 $(tree).on("ready", function () {
-
                     if (selectedPages.length) {
                         $.each(selectedPages, function (key, pageId) {
-                            tree.select(pageId, 'page')
+                            tree.select(pageId, 'page', false)
                         });
                     }
+
                     if (selectedCategories.length > 0) {
                         $.each(selectedCategories, function (key, catId) {
-                            tree.select(catId, 'category');
+                            tree.select(catId, 'category', false);
                         });
                     }
-
-                   // dialog.center();
                 });
-            });
 
-            ok.on('click', function () {
-               // dialog.result(tree.getSelected(), true);
+                $(tree).on("selectionChange", function () {
+
+                    selectedPages = [];
+                    selectedCategories = [];
+
+                    $.each(tree.getSelected(), function (key, item) {
+                        if (item.type == 'category') {
+                            selectedCategories.push(item.id);
+                        }
+                        if (item.type == 'page') {
+                            selectedPages.push(item.id);
+                        }
+                    });
+
+                    pageElement.value = selectedPages.join(",");
+                    pageElement.dispatchEvent(new Event('input'));
+
+                    categoryElement.value = selectedCategories.join(",");
+                    categoryElement.dispatchEvent(new Event('input'));
+
+                    window.livewire.emit('setFirstPageProductsList');
+                });
+
             });
         </script>
-
-
 
     </div>
 
