@@ -3367,9 +3367,9 @@
                         <div class="bd-example py-3">
                             <nav class="navbar navbar-light bg-light">
                                 <div class="container-fluid">
-    <span class="navbar-text">
-      Navbar text with an inline element
-    </span>
+                                    <span class="navbar-text">
+                                      Navbar text with an inline element
+                                    </span>
                                 </div>
                             </nav>
                         </div>
@@ -3394,8 +3394,8 @@
                                             </li>
                                         </ul>
                                         <span class="navbar-text">
-        Navbar text with an inline element
-      </span>
+                                            Navbar text with an inline element
+                                          </span>
                                     </div>
                                 </div>
                             </nav>
@@ -3686,6 +3686,1029 @@
                                 </div>
                             </nav>
                         </div>
-        </div>
+
+
+
+                            <!--Offcanvas -->
+
+                            <h1 class="my-5">Offcanvas</h1>
+
+
+                                <h2 id="examples">Examples<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#examples" style="padding-left: 0.375em;"></a></h2>
+                                <h3 id="offcanvas-components">Offcanvas components<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#offcanvas-components" style="padding-left: 0.375em;"></a></h3>
+                                <p>Below is an offcanvas example that is shown by default (via <code>.show</code> on <code>.offcanvas</code>). Offcanvas includes support for a header with a close button and an optional body class for some initial <code>padding</code>. We suggest that you include offcanvas headers with dismiss actions whenever possible, or provide an explicit dismiss action.</p>
+                                <div class="bd-example bd-example-offcanvas p-0 bg-light overflow-hidden">
+                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here.
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 id="live-demo">Live demo<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#live-demo" style="padding-left: 0.375em;"></a></h3>
+                                <p>Use the buttons below to show and hide an offcanvas element via JavaScript that toggles the <code>.show</code> class on an element with the <code>.offcanvas</code> class.</p>
+                                <ul>
+                                    <li><code>.offcanvas</code> hides content (default)</li>
+                                    <li><code>.offcanvas.show</code> shows content</li>
+                                </ul>
+                                <p>You can use a link with the <code>href</code> attribute, or a button with the <code>data-bs-target</code> attribute. In both cases, the <code>data-bs-toggle="offcanvas"</code> is required.</p>
+                                <div class="bd-example py-3">
+                                    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                                        Link with href
+                                    </a>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                        Button with data-bs-target
+                                    </button>
+
+                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="visibility: hidden;" aria-hidden="true">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <div class="">
+                                                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                            </div>
+                                            <div class="dropdown mt-3">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                                                    Dropdown button
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 id="placement">Placement<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#placement" style="padding-left: 0.375em;"></a></h2>
+                                <p>There’s no default placement for offcanvas components, so you must add one of the modifier classes below;</p>
+                                <ul>
+                                    <li><code>.offcanvas-start</code> places offcanvas on the left of the viewport (shown above)</li>
+                                    <li><code>.offcanvas-end</code> places offcanvas on the right of the viewport</li>
+                                    <li><code>.offcanvas-top</code> places offcanvas on the top of the viewport</li>
+                                    <li><code>.offcanvas-bottom</code> places offcanvas on the bottom of the viewport</li>
+                                </ul>
+                                <p>Try the top, right, and bottom examples out below.</p>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
+
+                                    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 id="offcanvasTopLabel">Offcanvas top</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+
+                                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>
+
+                                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body small">
+                                            ...
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 id="backdrop">Backdrop<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#backdrop" style="padding-left: 0.375em;"></a></h2>
+                                <p>Scrolling the <code>&lt;body&gt;</code> element is disabled when an offcanvas and its backdrop are visible. Use the <code>data-bs-scroll</code> attribute to toggle <code>&lt;body&gt;</code> scrolling and <code>data-bs-backdrop</code> to toggle the backdrop.</p>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">Enable backdrop (default)</button>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling &amp; backdrop</button>
+
+                                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Colored with scrolling</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <p>Try scrolling the rest of the page to see this option in action.</p>
+                                        </div>
+                                    </div>
+                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Offcanvas with backdrop</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <p>.....</p>
+                                        </div>
+                                    </div>
+                                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdroped with scrolling</h5>
+                                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                        </div>
+                                        <div class="offcanvas-body">
+                                            <p>Try scrolling the rest of the page to see this option in action.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            <!--PAGINATION -->
+
+                            <h1 class="my-5">PAGINATION</h1>
+
+                                <h2 id="overview">Overview<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#overview" style="padding-left: 0.375em;"></a></h2>
+                                <p>We use a large block of connected links for our pagination, making links hard to miss and easily scalable—all while providing large hit areas. Pagination is built with list HTML elements so screen readers can announce the number of available links. Use a wrapping <code>&lt;nav&gt;</code> element to identify it as a navigation section to screen readers and other assistive technologies.</p>
+                                <p>In addition, as pages likely have more than one such navigation section, it’s advisable to provide a descriptive <code>aria-label</code> for the <code>&lt;nav&gt;</code> to reflect its purpose. For example, if the pagination component is used to navigate between a set of search results, an appropriate label could be <code>aria-label="Search results pages"</code>.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </div
+                                <h2 id="working-with-icons">Working with icons<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#working-with-icons" style="padding-left: 0.375em;"></a></h2>
+                                <p>Looking to use an icon or symbol in place of text for some pagination links? Be sure to provide proper screen reader support with <code>aria</code> attributes.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">«</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">»</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <h2 id="disabled-and-active-states">Disabled and active states<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#disabled-and-active-states" style="padding-left: 0.375em;"></a></h2>
+                                <p>Pagination links are customizable for different circumstances. Use <code>.disabled</code> for links that appear un-clickable and <code>.active</code> to indicate the current page.</p>
+                                <p>While the <code>.disabled</code> class uses <code>pointer-events: none</code> to <em>try</em> to disable the link functionality of <code>&lt;a&gt;</code>s, that CSS property is not yet standardized and doesn’t account for keyboard navigation. As such, you should always add <code>tabindex="-1"</code> on disabled links and use custom JavaScript to fully disable their functionality.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item active" aria-current="page">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <p>You can optionally swap out active or disabled anchors for <code>&lt;span&gt;</code>, or omit the anchor in the case of the prev/next arrows, to remove click functionality and prevent keyboard focus while retaining intended styles.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Previous</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">2</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <h2 id="sizing">Sizing<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#sizing" style="padding-left: 0.375em;"></a></h2>
+                                <p>Fancy larger or smaller pagination? Add <code>.pagination-lg</code> or <code>.pagination-sm</code> for additional sizes.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="...">
+                                        <ul class="pagination pagination-lg">
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">1</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="...">
+                                        <ul class="pagination pagination-sm">
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">1</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <h2 id="alignment">Alignment<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#alignment" style="padding-left: 0.375em;"></a></h2>
+                                <p>Change the alignment of pagination components with <a href="/docs/5.0/utilities/flex/">flexbox utilities</a>.</p>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-end">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+
+
+                            <!--POPOVERS -->
+
+                            <h1 class="my-5">POPOVERS</h1>
+
+
+                                    <!--   INICIALIZE EVERYWHERE !!!! --->
+                                    <!---->
+                                    <!--  <script>-->
+                                    <!--    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))-->
+                                    <!-- var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {-->
+                                    <!--   return new bootstrap.Popover(popoverTriggerEl)-->
+                                    <!--  })-->
+                                    <!--   </script>-->
+
+                                    <!-- INICIALIZE IN COINTAIER ONLY-->
+                                    <!---->
+                                    <!--  var popover = new bootstrap.Popover(document.querySelector('.example-popover'), {-->
+                                    <!--  container: 'body'-->
+                                    <!--  })-->
+
+
+
+                               <h2 id="example">Example<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#example" style="padding-left: 0.375em;"></a></h2>
+                                <div class="bd-example py-3">
+                                    <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="" data-bs-content="And here's some amazing content. It's very engaging. Right?" data-bs-original-title="Popover title" aria-describedby="popover569503">Click to toggle popover</button>
+                                </div>
+                                <h3 id="four-directions">Four directions<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#four-directions" style="padding-left: 0.375em;"></a></h3>
+                                <p>Four options are available: top, right, bottom, and left aligned. Directions are mirrored when using Bootstrap in RTL.</p>
+                                <div class="bd-example py-3">
+                                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Top popover" data-bs-original-title="" title="">
+                                        Popover on top
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Right popover" data-bs-original-title="" title="">
+                                        Popover on right
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover" data-bs-original-title="" title="">
+                                        Popover on bottom
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Left popover" data-bs-original-title="" title="">
+                                        Popover on left
+                                    </button>
+                                </div>
+                                <h3 id="dismiss-on-next-click">Dismiss on next click<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#dismiss-on-next-click" style="padding-left: 0.375em;"></a></h3>
+                                <p>Use the <code>focus</code> trigger to dismiss popovers on the user’s next click of a different element than the toggle element.</p>
+                                <div class="bd-callout bd-callout-danger">
+                                    <h4 id="specific-markup-required-for-dismiss-on-next-click">Specific markup required for dismiss-on-next-click</h4>
+                                    <p>For proper cross-browser and cross-platform behavior, you must use the <code>&lt;a&gt;</code> tag, <em>not</em> the <code>&lt;button&gt;</code> tag, and you also must include a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex"><code>tabindex</code></a> attribute.
+                                    </p></div>
+
+                                <div class="bd-example py-3">
+                                    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="" data-bs-content="And here's some amazing content. It's very engaging. Right?" data-bs-original-title="Dismissible popover">Dismissible popover</a>
+                                </div>
+                                <h3 id="disabled-elements">Disabled elements<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#disabled-elements" style="padding-left: 0.375em;"></a></h3>
+                                <p>Elements with the <code>disabled</code> attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the popover from a wrapper <code>&lt;div&gt;</code> or <code>&lt;span&gt;</code>, ideally made keyboard-focusable using <code>tabindex="0"</code>.</p>
+                                <p>For disabled popover triggers, you may also prefer <code>data-bs-trigger="hover focus"</code> so that the popover appears as immediate visual feedback to your users as they may not expect to <em>click</em> on a disabled element.</p>
+                                <div class="bd-example py-3">
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover" data-bs-original-title="" title="">
+                                      <button class="btn btn-primary" type="button" disabled="">Disabled button</button>
+                                    </span>
+                                </div>
+
+
+                            <!--PROGRESS BARS -->
+
+                            <h1 class="my-5">PROGRESS BARS</h1>
+
+
+
+
+
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <p>Bootstrap provides a handful of <a href="/docs/5.0/utilities/sizing/">utilities for setting width</a>. Depending on your needs, these may help with quickly configuring progress.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar w-75" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <h2 id="labels">Labels<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#labels" style="padding-left: 0.375em;"></a></h2>
+                                <p>Add labels to your progress bars by placing text within the <code>.progress-bar</code>.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    </div>
+                                </div>
+                                <h2 id="height">Height<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#height" style="padding-left: 0.375em;"></a></h2>
+                                <p>We only set a <code>height</code> value on the <code>.progress</code>, so if you change that value the inner <code>.progress-bar</code> will automatically resize accordingly.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress" style="height: 1px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <h2 id="backgrounds">Backgrounds<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#backgrounds" style="padding-left: 0.375em;"></a></h2>
+                                <p>Use background utility classes to change the appearance of individual progress bars.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <h2 id="multiple-bars">Multiple bars<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#multiple-bars" style="padding-left: 0.375em;"></a></h2>
+                                <p>Include multiple progress bars in a progress component if you need.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <h2 id="striped">Striped<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#striped" style="padding-left: 0.375em;"></a></h2>
+                                <p>Add <code>.progress-bar-striped</code> to any <code>.progress-bar</code> to apply a stripe via CSS gradient over the progress bar’s background color.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <h2 id="animated-stripes">Animated stripes<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#animated-stripes" style="padding-left: 0.375em;"></a></h2>
+                                <p>The striped gradient can also be animated. Add <code>.progress-bar-animated</code> to <code>.progress-bar</code> to animate the stripes right to left via CSS3 animations.</p>
+                                <div class="bd-example py-3">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="button" id="btnToggleAnimatedProgress" aria-pressed="false" autocomplete="off">
+                                        Toggle animation
+                                    </button>
+                                </div>
+
+
+                            <!--Scollspy -->
+
+                            <h1 class="my-5">Scollspy</h1>
+
+
+
+
+
+                                   <h2 class="py-3" id="example-in-navbar">Example in navbar<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#example-in-navbar" style="padding-left: 0.375em;"></a></h2>
+                                   <p>Scroll the area below the navbar and watch the active class change. The dropdown items will be highlighted as well.</p>
+                                   <div class="bd-example py-3">
+                                       <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
+                                           <a class="navbar-brand" href="#">Navbar</a>
+                                           <ul class="nav nav-pills">
+                                               <li class="nav-item">
+                                                   <a class="nav-link" href="#scrollspyHeading1">First</a>
+                                               </li>
+                                               <li class="nav-item">
+                                                   <a class="nav-link" href="#scrollspyHeading2">Second</a>
+                                               </li>
+                                               <li class="nav-item dropdown">
+                                                   <a class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+                                                   <ul class="dropdown-menu">
+                                                       <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
+                                                       <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
+                                                       <li><hr class="dropdown-divider"></li>
+                                                       <li><a class="dropdown-item active" href="#scrollspyHeading5">Fifth</a></li>
+                                                   </ul>
+                                               </li>
+                                           </ul>
+                                       </nav>
+                                       <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                                           <h4 id="scrollspyHeading1">First heading</h4>
+                                           <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                           <h4 id="scrollspyHeading2">Second heading</h4>
+                                           <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                           <h4 id="scrollspyHeading3">Third heading</h4>
+                                           <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                           <h4 id="scrollspyHeading4">Fourth heading</h4>
+                                           <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                           <h4 id="scrollspyHeading5">Fifth heading</h4>
+                                           <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                       </div>
+                                   </div>
+                                   <h2 class="py-3" id="example-with-nested-nav">Example with nested nav<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#example-with-nested-nav" style="padding-left: 0.375em;"></a></h2>
+                                   <p>Scrollspy also works with nested <code>.nav</code>s. If a nested <code>.nav</code> is <code>.active</code>, its parents will also be <code>.active</code>. Scroll the area next to the navbar and watch the active class change.</p>
+                                   <div class="bd-example py-3">
+                                       <div class="row">
+                                           <div class="col-4">
+                                               <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
+                                                   <a class="navbar-brand" href="#">Navbar</a>
+                                                   <nav class="nav nav-pills flex-column">
+                                                       <a class="nav-link active" href="#item-1">Item 1</a>
+                                                       <nav class="nav nav-pills flex-column">
+                                                           <a class="nav-link ms-3 my-1" href="#item-1-1">Item 1-1</a>
+                                                           <a class="nav-link ms-3 my-1" href="#item-1-2">Item 1-2</a>
+                                                       </nav>
+                                                       <a class="nav-link" href="#item-2">Item 2</a>
+                                                       <a class="nav-link" href="#item-3">Item 3</a>
+                                                       <nav class="nav nav-pills flex-column">
+                                                           <a class="nav-link ms-3 my-1" href="#item-3-1">Item 3-1</a>
+                                                           <a class="nav-link ms-3 my-1" href="#item-3-2">Item 3-2</a>
+                                                       </nav>
+                                                   </nav>
+                                               </nav>
+                                           </div>
+                                           <div class="col-8">
+                                               <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-offset="0" class="scrollspy-example-2" tabindex="0">
+                                                   <h4 id="item-1">Item 1</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h5 id="item-1-1">Item 1-1</h5>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h5 id="item-1-2">Item 1-2</h5>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h4 id="item-2">Item 2</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h4 id="item-3">Item 3</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h5 id="item-3-1">Item 3-1</h5>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h5 id="item-3-2">Item 3-2</h5>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <h2 class="py-3" id="example-with-list-group">Example with list-group<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#example-with-list-group" style="padding-left: 0.375em;"></a></h2>
+                                   <p>Scrollspy also works with <code>.list-group</code>s. Scroll the area next to the list group and watch the active class change.</p>
+                                   <div class="bd-example py-3">
+                                       <div class="row">
+                                           <div class="col-4">
+                                               <div id="list-example" class="list-group">
+                                                   <a class="list-group-item list-group-item-action active" href="#list-item-1">Item 1</a>
+                                                   <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                                                   <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                                                   <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                                               </div>
+                                           </div>
+                                           <div class="col-8">
+                                               <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+                                                   <h4 id="list-item-1">Item 1</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h4 id="list-item-2">Item 2</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h4 id="list-item-3">Item 3</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                                   <h4 id="list-item-4">Item 4</h4>
+                                                   <p>This is some placeholder content for the scrollspy page. Note that as you scroll down the page, the appropriate navigation link is highlighted. It's repeated throughout the component example. We keep adding some more example copy here to emphasize the scrolling and highlighting.</p>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                            <!--Spinners -->
+
+                            <h1 class="my-5">Spinners</h1>
+
+                            <div class="bd-content ps-lg-4">
+
+                                <h2 id="border-spinner">Border spinner<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#border-spinner" style="padding-left: 0.375em;"></a></h2>
+                                <p>Use the border spinners for a lightweight loading indicator.</p>
+                                <div class="bd-example py-3">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <h3 id="colors">Colors<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#colors" style="padding-left: 0.375em;"></a></h3>
+                                <p>The border spinner uses <code>currentColor</code> for its <code>border-color</code>, meaning you can customize the color with <a href="/docs/5.0/utilities/colors/">text color utilities</a>. You can use any of our text color utilities on the standard spinner.</p>
+                                <div class="bd-example py-3">
+
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-secondary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-success" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-danger" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-warning" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-info" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-light" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-border text-dark" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="bd-callout bd-callout-info">
+                                    <strong>Why not use <code>border-color</code> utilities?</strong> Each border spinner specifies a <code>transparent</code> border for at least one side, so <code>.border-{color}</code> utilities would override that.
+                                </div>
+
+                                <h2 id="growing-spinner">Growing spinner<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#growing-spinner" style="padding-left: 0.375em;"></a></h2>
+                                <p>If you don’t fancy a border spinner, switch to the grow spinner. While it doesn’t technically spin, it does repeatedly grow!</p>
+                                <div class="bd-example py-3">
+                                    <div class="spinner-grow" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <p>Once again, this spinner is built with <code>currentColor</code>, so you can easily change its appearance with <a href="/docs/5.0/utilities/colors/">text color utilities</a>. Here it is in blue, along with the supported variants.</p>
+                                <div class="bd-example py-3">
+
+                                    <div class="spinner-grow text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-secondary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-success" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-danger" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-warning" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-info" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-light" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow text-dark" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <h2 id="alignment">Alignment<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#alignment" style="padding-left: 0.375em;"></a></h2>
+                                <p>Spinners in Bootstrap are built with <code>rem</code>s, <code>currentColor</code>, and <code>display: inline-flex</code>. This means they can easily be resized, recolored, and quickly aligned.</p>
+                                <h3 id="margin">Margin<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#margin" style="padding-left: 0.375em;"></a></h3>
+                                <p>Use <a href="/docs/5.0/utilities/spacing/">margin utilities</a> like <code>.m-5</code> for easy spacing.</p>
+                                <div class="bd-example py-3">
+                                    <div class="spinner-border m-5" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <h3 id="placement">Placement<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#placement" style="padding-left: 0.375em;"></a></h3>
+                                <p>Use <a href="/docs/5.0/utilities/flex/">flexbox utilities</a>, <a href="/docs/5.0/utilities/float/">float utilities</a>, or <a href="/docs/5.0/utilities/text/">text alignment</a> utilities to place spinners exactly where you need them in any situation.</p>
+                                <h4 id="flex">Flex<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#flex" style="padding-left: 0.375em;"></a></h4>
+                                <div class="bd-example py-3">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <div class="d-flex align-items-center">
+                                        <strong>Loading...</strong>
+                                        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                                    </div>
+                                </div>
+                                <h4 id="floats">Floats<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#floats" style="padding-left: 0.375em;"></a></h4>
+                                <div class="bd-example py-3">
+                                    <div class="clearfix">
+                                        <div class="spinner-border float-end" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 id="text-align">Text align<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#text-align" style="padding-left: 0.375em;"></a></h4>
+                                <div class="bd-example py-3">
+                                    <div class="text-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h2 id="size">Size<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#size" style="padding-left: 0.375em;"></a></h2>
+                                <p>Add <code>.spinner-border-sm</code> and <code>.spinner-grow-sm</code> to make a smaller spinner that can quickly be used within other components.</p>
+                                <div class="bd-example py-3">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow spinner-grow-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <p>Or, use custom CSS or inline styles to change the dimensions as needed.</p>
+                                <div class="bd-example py-3">
+                                    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <h2 id="buttons">Buttons<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#buttons" style="padding-left: 0.375em;"></a></h2>
+                                <p>Use spinners within buttons to indicate an action is currently processing or taking place. You may also swap the text out of the spinner element and utilize button text as needed.</p>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" disabled="">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Loading...</span>
+                                    </button>
+                                    <button class="btn btn-primary" type="button" disabled="">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+                                <div class="bd-example py-3">
+                                    <button class="btn btn-primary" type="button" disabled="">
+                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Loading...</span>
+                                    </button>
+                                    <button class="btn btn-primary" type="button" disabled="">
+                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+
+
+                                <!--TOASTS -->
+
+                                <h1 class="my-5">TOASTS</h1>
+
+                                    <h3 id="basic">Basic<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#basic" style="padding-left: 0.375em;"></a></h3>
+                                    <p>To encourage extensible and predictable toasts, we recommend a header and body. Toast headers use <code>display: flex</code>, allowing easy alignment of content thanks to our margin and flexbox utilities.</p>
+                                    <p>Toasts are as flexible as you need and have very little required markup. At a minimum, we require a single element to contain your “toasted” content and strongly encourage a dismiss button.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                <strong class="me-auto">Bootstrap</strong>
+                                                <small>11 mins ago</small>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 id="live">Live<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#live" style="padding-left: 0.375em;"></a></h3>
+                                    <p>Click the button below to show a toast (positioned with our utilities in the lower right corner) that has been hidden by default with <code>.hide</code>.</p>
+                                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                                        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                <strong class="me-auto">Bootstrap</strong>
+                                                <small>11 mins ago</small>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bd-example">
+                                        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+                                    </div>
+                                    <h3 id="translucent">Translucent<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#translucent" style="padding-left: 0.375em;"></a></h3>
+                                    <p>Toasts are slightly translucent to blend in with what’s below them.</p>
+                                    <div class="bd-example bg-dark py-3">
+                                        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-header">
+                                                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                <strong class="me-auto">Bootstrap</strong>
+                                                <small class="text-muted">11 mins ago</small>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 id="stacking">Stacking<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#stacking" style="padding-left: 0.375em;"></a></h3>
+                                    <p>You can stack toasts by wrapping them in a toast container, which will vertically add some spacing.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div class="toast-container">
+                                            <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                <div class="toast-header">
+                                                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                    <strong class="me-auto">Bootstrap</strong>
+                                                    <small class="text-muted">just now</small>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                </div>
+                                                <div class="toast-body">
+                                                    See? Just like this.
+                                                </div>
+                                            </div>
+
+                                            <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                <div class="toast-header">
+                                                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                    <strong class="me-auto">Bootstrap</strong>
+                                                    <small class="text-muted">2 seconds ago</small>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                </div>
+                                                <div class="toast-body">
+                                                    Heads up, toasts will stack automatically
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 id="custom-content">Custom content<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#custom-content" style="padding-left: 0.375em;"></a></h3>
+                                    <p>Customize your toasts by removing sub-components, tweaking them with <a href="/docs/5.0/utilities/api/">utilities</a>, or by adding your own markup. Here we’ve created a simpler toast by removing the default <code>.toast-header</code>, adding a custom hide icon from <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>, and using some <a href="/docs/5.0/utilities/flex/">flexbox utilities</a> to adjust the layout.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div class="toast align-items-center fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    Hello, world! This is a toast message.
+                                                </div>
+                                                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>Alternatively, you can also add additional controls and components to toasts.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                                <div class="mt-2 pt-2 border-top">
+                                                    <button type="button" class="btn btn-primary btn-sm">Take action</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 id="color-schemes">Color schemes<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#color-schemes" style="padding-left: 0.375em;"></a></h3>
+                                    <p>Building on the above example, you can create different toast color schemes with our <a href="/docs/5.0/utilities/colors/">color</a> and <a href="/docs/5.0/utilities/background/">background</a> utilities. Here we’ve added <code>.bg-primary</code> and <code>.text-white</code> to the <code>.toast</code>, and then added <code>.btn-close-white</code> to our close button. For a crisp edge, we remove the default border with <code>.border-0</code>.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div class="toast align-items-center text-white bg-primary border-0 fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                            <div class="d-flex">
+                                                <div class="toast-body">
+                                                    Hello, world! This is a toast message.
+                                                </div>
+                                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h2 class="py-3" id="placement">Placement<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#placement" style="padding-left: 0.375em;"></a></h2>
+                                    <p>Place toasts with custom CSS as you need them. The top right is often used for notifications, as is the top middle. If you’re only ever going to show one toast at a time, put the positioning styles right on the <code>.toast</code>.</p>
+                                    <div class="bd-example py-3">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="selectToastPlacement">Toast placement</label>
+                                                <select class="form-select mt-2" id="selectToastPlacement">
+                                                    <option value="" selected="">Select a position...</option>
+                                                    <option value="top-0 start-0">Top left</option>
+                                                    <option value="top-0 start-50 translate-middle-x">Top center</option>
+                                                    <option value="top-0 end-0">Top right</option>
+                                                    <option value="top-50 start-0 translate-middle-y">Middle left</option>
+                                                    <option value="top-50 start-50 translate-middle">Middle center</option>
+                                                    <option value="top-50 end-0 translate-middle-y">Middle right</option>
+                                                    <option value="bottom-0 start-0">Bottom left</option>
+                                                    <option value="bottom-0 start-50 translate-middle-x">Bottom center</option>
+                                                    <option value="bottom-0 end-0">Bottom right</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+                                            <div class="toast-container position-absolute p-3" id="toastPlacement">
+                                                <div class="toast fade show">
+                                                    <div class="toast-header">
+                                                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                        <strong class="me-auto">Bootstrap</strong>
+                                                        <small>11 mins ago</small>
+                                                    </div>
+                                                    <div class="toast-body">
+                                                        Hello, world! This is a toast message.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>For systems that generate more notifications, consider using a wrapping element so they can easily stack.</p>
+                                    <div class="bd-example bg-dark bd-example-toasts p-0">
+                                        <div aria-live="polite" aria-atomic="true" class="position-relative">
+                                            <!-- Position it: -->
+                                            <!-- - `.toast-container` for spacing between toasts -->
+                                            <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
+                                            <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+                                            <div class="toast-container position-absolute top-0 end-0 p-3">
+
+                                                <!-- Then put toasts within -->
+                                                <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                    <div class="toast-header">
+                                                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                        <strong class="me-auto">Bootstrap</strong>
+                                                        <small class="text-muted">just now</small>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="toast-body">
+                                                        See? Just like this.
+                                                    </div>
+                                                </div>
+
+                                                <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                    <div class="toast-header">
+                                                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                        <strong class="me-auto">Bootstrap</strong>
+                                                        <small class="text-muted">2 seconds ago</small>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="toast-body">
+                                                        Heads up, toasts will stack automatically
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>You can also get fancy with flexbox utilities to align toasts horizontally and/or vertically.</p>
+                                    <div class="bd-example bg-dark bd-example-toasts d-flex">
+                                        <!-- Flexbox container for aligning the toasts -->
+                                        <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
+
+                                            <!-- Then put toasts within -->
+                                            <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                <div class="toast-header">
+                                                    <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                    <strong class="me-auto">Bootstrap</strong>
+                                                    <small>11 mins ago</small>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                </div>
+                                                <div class="toast-body">
+                                                    Hello, world! This is a toast message.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h2 class="py-3" id="accessibility">Accessibility<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#accessibility" style="padding-left: 0.375em;"></a></h2>
+                                    <p>Toasts are intended to be small interruptions to your visitors or users, so to help those with screen readers and similar assistive technologies, you should wrap your toasts in an <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions"><code>aria-live</code> region</a>. Changes to live regions (such as injecting/updating a toast component) are automatically announced by screen readers without needing to move the user’s focus or otherwise interrupt the user. Additionally, include <code>aria-atomic="true"</code> to ensure that the entire toast is always announced as a single (atomic) unit, rather than just announcing what was changed (which could lead to problems if you only update part of the toast’s content, or if displaying the same toast content at a later point in time). If the information needed is important for the process, e.g. for a list of errors in a form, then use the <a href="/docs/5.0/components/alerts/">alert component</a> instead of toast.</p>
+                                    <p>Note that the live region needs to be present in the markup <em>before</em> the toast is generated or updated. If you dynamically generate both at the same time and inject them into the page, they will generally not be announced by assistive technologies.</p>
+                                    <p>You also need to adapt the <code>role</code> and <code>aria-live</code> level depending on the content. If it’s an important message like an error, use <code>role="alert" aria-live="assertive"</code>, otherwise use <code>role="status" aria-live="polite"</code> attributes.</p>
+                                    <p>As the content you’re displaying changes, be sure to update the <a href="#options"><code>delay</code> timeout</a> so that users have enough time to read the toast.</p>
+                                    <p>When using <code>autohide: false</code>, you must add a close button to allow users to dismiss the toast.</p>
+                                    <div class="bd-example bg-light py-3">
+                                        <div role="alert" aria-live="assertive" aria-atomic="true" class="toast fade show" data-bs-autohide="false">
+                                            <div class="toast-header">
+                                                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+
+                                                <strong class="me-auto">Bootstrap</strong>
+                                                <small>11 mins ago</small>
+                                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                            </div>
+                                            <div class="toast-body">
+                                                Hello, world! This is a toast message.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>While technically it’s possible to add focusable/actionable controls (such as additional buttons or links) in your toast, you should avoid doing this for autohiding toasts. Even if you give the toast a long <a href="#options"><code>delay</code> timeout</a>, keyboard and assistive technology users may find it difficult to reach the toast in time to take action (since toasts don’t receive focus when they are displayed). If you absolutely must have further controls, we recommend using a toast with <code>autohide: false</code>.</p>
+
+
+
+                                <!--TOOLTIPS -->
+
+                                <h1 class="my-5">TOOLTIPS</h1>
+
+<!--                                Tooltips rely on the 3rd party library Popper for positioning. You must include popper.min.js before bootstrap.js or use bootstrap.bundle.min.js / bootstrap.bundle.js which contains Popper in order for tooltips to work!-->
+<!--                                Tooltips are opt-in for performance reasons, so you must initialize them yourself.-->
+<!--                                Tooltips with zero-length titles are never displayed.-->
+<!--                                Specify container: 'body' to avoid rendering problems in more complex components (like our input groups, button groups, etc).-->
+<!--                                Triggering tooltips on hidden elements will not work.-->
+<!--                                Tooltips for .disabled or disabled elements must be triggered on a wrapper element.-->
+<!--                                When triggered from hyperlinks that span multiple lines, tooltips will be centered. Use white-space: nowrap; on your <a>s to avoid this behavior.-->
+<!--                                    Tooltips must be hidden before their corresponding elements have been removed from the DOM.-->
+<!--                                    Tooltips can be triggered thanks to an element inside a shadow DOM.-->
+
+                                <ul>
+                                    <li>Tooltips rely on the 3rd party library <a href="https://popper.js.org/">Popper</a> for positioning. You must include <a href="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js">popper.min.js</a> before bootstrap.js or use <code>bootstrap.bundle.min.js</code> / <code>bootstrap.bundle.js</code> which contains Popper in order for tooltips to work!</li>
+                                    <li>Tooltips are opt-in for performance reasons, so <strong>you must initialize them yourself</strong>.</li>
+                                    <li>Tooltips with zero-length titles are never displayed.</li>
+                                    <li>Specify <code>container: 'body'</code> to avoid rendering problems in more complex components (like our input groups, button groups, etc).</li>
+                                    <li>Triggering tooltips on hidden elements will not work.</li>
+                                    <li>Tooltips for <code>.disabled</code> or <code>disabled</code> elements must be triggered on a wrapper element.</li>
+                                    <li>When triggered from hyperlinks that span multiple lines, tooltips will be centered. Use <code>white-space: nowrap;</code> on your <code>&lt;a&gt;</code>s to avoid this behavior.</li>
+                                    <li>Tooltips must be hidden before their corresponding elements have been removed from the DOM.</li>
+                                    <li>Tooltips can be triggered thanks to an element inside a shadow DOM.</li>
+                                </ul>
+
+                                <div class="bd-example py-3">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+                                        Tooltip on top
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right">
+                                        Tooltip on right
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+                                        Tooltip on bottom
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                                        Tooltip on left
+                                    </button>
+                                </div>
+
+                                <div class="bd-example py-3">
+                                    <h3 class="py-3">With custom HTML</h3>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+                                        Tooltip with HTML
+                                    </button>
+                                </div>
+
+            </div>
     </div>
 </div>
+
+
+
+<script>
+
+    // POPOVER
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
+    })
+</script>

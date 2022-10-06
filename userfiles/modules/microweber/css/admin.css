@@ -874,3 +874,27 @@ hr {
     position: static;
     display: block;
 }
+
+.offcanvas.offcanvas-start.show, .offcanvas.show {
+    visibility: visible!important;
+}
+
+
+.bd-example .progress {
+    margin: 10px 0;
+}
+
+
+
+.scrollspy-example {
+    position: relative;
+    height: 200px;
+    margin-top: 0.5rem;
+    overflow: auto;
+}
+
+.scrollspy-example-2 {
+    position: relative;
+    height: 350px;
+    overflow: auto;
+}
