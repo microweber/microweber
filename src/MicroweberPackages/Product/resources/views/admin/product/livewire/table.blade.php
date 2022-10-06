@@ -12,7 +12,6 @@
 
     <div class="card-body pt-3">
 
-    @include('product::admin.product.livewire.table-includes.category-tree-js')
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
     <div class="d-flex">

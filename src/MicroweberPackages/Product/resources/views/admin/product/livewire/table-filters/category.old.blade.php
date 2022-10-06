@@ -1,3 +1,23 @@
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+
+    <input wire:model.stop="filters.category" id="js-filter-category" type="hidden" />
+    <input wire:model.stop="filters.page" id="js-filter-page" type="hidden" />
+
+    <button class="btn btn-badge-dropdown btn-secondary  btn-sm icon-left" onclick="categoryFilterSelectTree()">
+        <i class="fa fa-list"></i> Categories
+
+        ...
+        <span class="badge badge-filter-item mt-1">+2</span>
+
+        <div class="d-flex actions">
+            <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
+            <div class="action-dropdown-delete"><i class="fa fa-times-circle"></i></div>
+        </div>
+
+    </button>
+
+</div>
+
 
 <script id="js-category-filter-select-tree-<?php echo time(); ?>">
 
