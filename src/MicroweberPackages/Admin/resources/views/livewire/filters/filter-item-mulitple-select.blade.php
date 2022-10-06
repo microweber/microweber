@@ -1,5 +1,4 @@
-<div>
-
+<div class="js-filter-item-wrapper-{{$this->id}}" @if($hideFilterItem == 1) style="display: none" @endif>
 
     <button type="button" @if(empty($data)) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
