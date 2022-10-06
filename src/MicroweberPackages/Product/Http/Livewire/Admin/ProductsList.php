@@ -37,7 +37,15 @@ class ProductsList extends Component
     ];
 
     public $showFilters = [
-        'priceBetween'=>1
+        'categories'=>1,
+        'tags'=>1,
+        'priceBetween'=>1,
+        'stockStatus'=>1,
+        'discount'=>1,
+        'sales'=>1,
+        'qty'=>1,
+        'sku'=>1,
+        'userIds'=>1,
     ];
 
     public $checked = [];
