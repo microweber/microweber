@@ -43,6 +43,22 @@
 
     </div>
 
+</div>
+
+<div wire:ignore>
+
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', function(e) {
+                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
+                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
+                }
+            });
+            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
+                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
+            });
+        });
+    </script>
 
     <script id="js-category-filter-select-tree-<?php echo time(); ?>">
 
@@ -104,19 +120,4 @@
 
         });
     </script>
-
-
-    <script>
-        $(document).ready(function() {
-            $('body').on('click', function(e) {
-                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
-                }
-            });
-            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
-            });
-        });
-    </script>
-
 </div>
