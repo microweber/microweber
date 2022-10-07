@@ -82,6 +82,9 @@ class ProductsList extends Component
         if (isset($this->showFilters[$key])) {
             unset($this->showFilters[$key]);
         }
+        if (isset($this->filters[$key])) {
+            unset($this->filters[$key]);
+        }
     }
 
     public function updatedShowFilters($value)
