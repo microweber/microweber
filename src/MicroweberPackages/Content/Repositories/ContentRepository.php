@@ -166,23 +166,23 @@ class ContentRepository extends AbstractRepository
     /**
      * Find content by id.
      *
-     * @param mixed $id
+     * @param mixed $relId
      *
      * @return Model|Collection
      */
-    public function getCustomFields($id)
+    public function getCustomFields($relId)
     {
 //        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
 //        if (!in_array($id, $existingIds)) {
 //            return [];
 //        }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $customFields = [];
             $getCustomFields = DB::table('custom_fields')
                 ->where('rel_type', 'content')
-                ->where('rel_id', $id)
+                ->where('rel_id', $relId)
                 ->get();
             foreach ($getCustomFields as $customField) {
                 $customField = (array)$customField;
@@ -213,9 +213,9 @@ class ContentRepository extends AbstractRepository
         });
     }
 
-    public function getCustomFieldsByType($id, $type)
+    public function getCustomFieldsByType($relId, $type)
     {
-        $fields = $this->getCustomFields($id);
+        $fields = $this->getCustomFields($relId);
         if ($fields) {
             foreach ($fields as $k => $field) {
                 if (isset($field['type']) and $field['type'] == $type) {
