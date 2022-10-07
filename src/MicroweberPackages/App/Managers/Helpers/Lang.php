@@ -39,7 +39,8 @@ class Lang
     {
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
-        $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+        //$lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+        $lang = htmlspecialchars($lang);
         $this->clearCache();
 
         // must not clear options cache here
