@@ -1,17 +1,17 @@
 <div class="bg-primary py-1 position-sticky sticky-top">
     <ul class="nav p-3" id="myTab" role="tablist">
-        <li class="mx-1 mx-1 d-flex align-items-center"><h5 class="text-white mr-3 my-0">Microweber UI</h5></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#navigations" role="tab" aria-controls="navigations" aria-selected="true">Navigations</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#buttons" role="tab" aria-controls="buttons" aria-selected="false">Buttons</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#badges" role="tab" aria-controls="badges" aria-selected="true">Badges</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false">Progress bars</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#typography" role="tab" aria-controls="typography" aria-selected="false">Typography</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#tables" role="tab" aria-controls="tables" aria-selected="false">Tables</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#forms" role="tab" aria-controls="tables" aria-selected="false">Forms</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">Cards</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#tabs" role="tab" aria-controls="tabs" aria-selected="false">Tabs</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#components" role="tab" aria-controls="components" aria-selected="false">Components</a></li>
-        <li class="mx-1"><a class="btn btn-info" data-bs-toggle="tab" href="#others-tab" role="tab" aria-controls="other" aria-selected="false">Other</a></li>
+        <li class="mx-1 mx-1 d-flex align-items-center"><h5 class="text-white me-3 my-0">Microweber UI</h5></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#navigations" role="tab" aria-controls="navigations" aria-selected="true">Navigations</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#buttons" role="tab" aria-controls="buttons" aria-selected="false">Buttons</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#badges" role="tab" aria-controls="badges" aria-selected="true">Badges</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false">Progress bars</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#typography" role="tab" aria-controls="typography" aria-selected="false">Typography</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#tables" role="tab" aria-controls="tables" aria-selected="false">Tables</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#forms" role="tab" aria-controls="tables" aria-selected="false">Forms</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">Cards</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#tabs" role="tab" aria-controls="tabs" aria-selected="false">Tabs</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#components" role="tab" aria-controls="components" aria-selected="false">Components</a></li>
+        <li class="mx-1"><a class="btn btn-dark" data-bs-toggle="tab" href="#others-tab" role="tab" aria-controls="other" aria-selected="false">Other</a></li>
     </ul>
 </div>
 
@@ -37,12 +37,12 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
                                     <div class="collapse navbar-collapse" id="navbarColor01">
-                                        <ul class="navbar-nav mr-auto">
+                                        <ul class="navbar-nav me-auto">
                                             <li class="nav-item active">
                                                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                                             </li>
@@ -57,7 +57,7 @@
                                             </li>
                                         </ul>
                                         <form class="form-inline my-2 my-lg-0">
-                                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                                            <input class="form-control me-sm-2" type="text" placeholder="Search">
                                             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
@@ -67,12 +67,12 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
                                     <div class="collapse navbar-collapse" id="navbarColor02">
-                                        <ul class="navbar-nav mr-auto">
+                                        <ul class="navbar-nav me-auto">
                                             <li class="nav-item active">
                                                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                                             </li>
@@ -87,7 +87,7 @@
                                             </li>
                                         </ul>
                                         <form class="form-inline my-2 my-lg-0">
-                                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                                            <input class="form-control me-sm-2" type="text" placeholder="Search">
                                             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
@@ -97,12 +97,12 @@
                             <div class="bs-component my-3">
                                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                                     <a class="navbar-brand" href="#">Navbar</a>
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
 
                                     <div class="collapse navbar-collapse" id="navbarColor03">
-                                        <ul class="navbar-nav mr-auto">
+                                        <ul class="navbar-nav me-auto">
                                             <li class="nav-item active">
                                                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                                             </li>
@@ -117,7 +117,7 @@
                                             </li>
                                         </ul>
                                         <form class="form-inline my-2 my-lg-0">
-                                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                                            <input class="form-control me-sm-2" type="text" placeholder="Search">
                                             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
@@ -179,7 +179,7 @@
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-primary">Primary</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -190,7 +190,7 @@
                                     <div class="btn-group d-none" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-secondary">Secondary</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop5" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop5" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop5">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -201,7 +201,7 @@
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-success">Success</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop2" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop2" type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -212,7 +212,7 @@
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-info">Info</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop3" type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop3">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -223,7 +223,7 @@
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-warning">Warning</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop6" type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop6" type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop6">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -234,7 +234,7 @@
                                     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                         <button type="button" class="btn btn-danger">Danger</button>
                                         <div class="btn-group" role="group">
-                                            <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
                                                 <a class="dropdown-item" href="#">Dropdown link</a>
@@ -405,7 +405,7 @@
                             </p>
 
                             <div class="bs-component my-3">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-primary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -419,7 +419,7 @@
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -433,7 +433,7 @@
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="checkbox" checked autocomplete="off"> Active
                                     </label>
@@ -447,7 +447,7 @@
                             </div>
 
                             <div class="bs-component my-3">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-primary active">
                                         <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
                                     </label>
@@ -461,7 +461,7 @@
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="radio" name="options" id="xoption1" autocomplete="off" checked> Active
                                     </label>
@@ -475,7 +475,7 @@
 
                                 &nbsp; &nbsp;
 
-                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-toggle="buttons">
+                                <div class="btn-group btn-group-toggle btn-hover-style-1" data-bs-toggle="buttons">
                                     <label class="btn btn-outline-secondary active">
                                         <input type="radio" name="options" id="yoption1" autocomplete="off" checked> Active
                                     </label>
@@ -498,13 +498,13 @@
                                 &nbsp; &nbsp;
 
                                 <div class="btn-toolbar d-inline-block" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <div class="btn-group me-2" role="group" aria-label="First group">
                                         <button type="button" class="btn btn-secondary">1</button>
                                         <button type="button" class="btn btn-secondary">2</button>
                                         <button type="button" class="btn btn-secondary">3</button>
                                         <button type="button" class="btn btn-secondary">4</button>
                                     </div>
-                                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                    <div class="btn-group me-2" role="group" aria-label="Second group">
                                         <button type="button" class="btn btn-secondary">5</button>
                                         <button type="button" class="btn btn-secondary">6</button>
                                         <button type="button" class="btn btn-secondary">7</button>
@@ -522,15 +522,15 @@
                     <div class="row d-flex justify-content-center">
                         <div class="col-lg-5">
                             <div class="my-3">
-                                <button type="button" class="btn btn-outline-secondary icon-left btn-sm"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ml-3">4</span></button>
-                                <button type="button" class="btn btn-outline-secondary icon-left"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ml-3">4</span></button>
-                                <button type="button" class="btn btn-outline-secondary icon-left btn-lg"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ml-3">4</span></button>
+                                <button type="button" class="btn btn-outline-secondary icon-left btn-sm"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ms-3">4</span></button>
+                                <button type="button" class="btn btn-outline-secondary icon-left"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ms-3">4</span></button>
+                                <button type="button" class="btn btn-outline-secondary icon-left btn-lg"><i class="mdi mdi-cart"></i> Notifications <span class="badge badge-success badge-pill ms-3">4</span></button>
                             </div>
 
                             <div class="my-3">
-                                <button class="btn btn-primary btn-sm" type="button" disabled><i class="spinner-border spinner-border-sm mr-2" aria-hidden="true"></i> Loading...</button>
+                                <button class="btn btn-primary btn-sm" type="button" disabled><i class="spinner-border spinner-border-sm me-2" aria-hidden="true"></i> Loading...</button>
                                 &nbsp; &nbsp;
-                                <button class="btn btn-primary" type="button" disabled><i class="spinner-border spinner-border-sm mr-2" aria-hidden="true"></i> Loading...</button>
+                                <button class="btn btn-primary" type="button" disabled><i class="spinner-border spinner-border-sm me-2" aria-hidden="true"></i> Loading...</button>
                             </div>
 
                             <div class="my-3">
@@ -1134,7 +1134,7 @@
 
 
                                 <div class="form-inline">
-                                    <div class="form-group mr-1 mb-2">
+                                    <div class="form-group me-1 mb-2">
                                         <label for="inputPassword2" class="sr-only">Password</label>
                                         <input type="text" class="form-control" id="inputPassword2" placeholder="Search">
                                     </div>
@@ -1180,7 +1180,7 @@
 
                                     <div class="form-group">
                                         <div class="custom-control custom-switch pl-0">
-                                            <label class="d-inline-block mr-5" for="customSwitch1">No</label>
+                                            <label class="d-inline-block me-5" for="customSwitch1">No</label>
                                             <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
                                             <label class="custom-control-label" for="customSwitch1">Yes</label>
                                         </div>
@@ -1443,7 +1443,7 @@
                                         </div>
                                         <input type="text" class="form-control" value="0.00"/>
                                         <div class="input-group-append">
-                                            <span class="input-group-text" data-toggle="tooltip" title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i
+                                            <span class="input-group-text" data-bs-toggle="tooltip" title="To put a product on sale, makeCompare at price the original price and enter the lower amount into Price."><i
                                                     class="mdi mdi-help-circle"></i></span>
                                         </div>
                                     </div>
@@ -1645,20 +1645,20 @@
                         <div class="col-12">
                             <div class="bs-component">
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center active" data-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary btn-sm justify-content-center" data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
                                 <br/>
                                 <br/>
                                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
-                                    <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#home">White</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#profile">Yellow</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Red</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Blue</a>
-                                    <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#other">Black</a>
+                                    <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#home">White</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#profile">Yellow</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Red</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Blue</a>
+                                    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#other">Black</a>
                                 </nav>
 
                                 <div id="myTabContent" class="tab-content py-3">
@@ -6415,7 +6415,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                 </div>
             </div>
 
@@ -6819,7 +6819,7 @@
                                 <h2>Modals</h2>
                                 <div class="bs-component">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Launch demo modal
                                     </button>
 
@@ -6847,39 +6847,39 @@
                             <div class="col-lg-6">
                                 <h2>Popovers</h2>
                                 <div class="bs-component" style="margin-bottom: 3em;">
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="left"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="left"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Left
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="top"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="top"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Top
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="bottom"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="bottom"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Bottom
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-toggle="popover" data-placement="right"
+                                    <button type="button" class="btn btn-secondary" title="Popover Title" data-container="body" data-bs-toggle="popover" data-placement="right"
                                             data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Right
                                     </button>
                                 </div>f
                                 <h2>Tooltips</h2>
                                 <div class="bs-component" style="margin-bottom: 3em;">
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Left</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="left" title="Tooltip on left">Left</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Top</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="top" title="Tooltip on top">Top</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</button>
 
-                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">Right</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-placement="right" title="Tooltip on right">Right</button>
                                 </div>
                                 <h2>Toasts</h2>
                                 <div class="bs-component">
                                     <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
                                         <div class="toast-header">
-                                            <strong class="mr-auto">Bootstrap</strong>
+                                            <strong class="me-auto">Bootstrap</strong>
                                             <small>11 mins ago</small>
-                                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                                            <button type="button" class="ms-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
