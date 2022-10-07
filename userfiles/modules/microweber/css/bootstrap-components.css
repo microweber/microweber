@@ -252,3 +252,14 @@ hr {
 .bd-example .fixed-bottom {
     position: static;
 }
+
+.card > .list-group:first-child .list-group-item:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card > .list-group:last-child .list-group-item:last-child {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
