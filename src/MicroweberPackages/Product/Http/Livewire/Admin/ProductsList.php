@@ -36,17 +36,7 @@ class ProductsList extends Component
         'author' => false
     ];
 
-    public $showFilters = [
-        'categories'=>1,
-        'tags'=>1,
-        'priceBetween'=>1,
-        'stockStatus'=>1,
-        'discount'=>1,
-        'sales'=>1,
-        'qty'=>1,
-        'sku'=>1,
-        'userIds'=>1,
-    ];
+    public $showFilters = [];
 
     public $checked = [];
     public $selectAll = false;
@@ -81,6 +71,9 @@ class ProductsList extends Component
     {
         if (isset($this->showFilters[$key])) {
             unset($this->showFilters[$key]);
+        }
+        if (isset($this->filters[$key])) {
+            unset($this->filters[$key]);
         }
     }
 
