@@ -244,3 +244,11 @@ hr {
     height: 350px;
     overflow: auto;
 }
+
+.bd-example .fixed-top, .bd-example .sticky-top {
+    position: static;
+}
+
+.bd-example .fixed-bottom {
+    position: static;
+}
