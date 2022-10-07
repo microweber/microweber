@@ -47,7 +47,7 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;

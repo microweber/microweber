@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CategoryItem extends Model

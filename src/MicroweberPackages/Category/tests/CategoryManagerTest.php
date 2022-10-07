@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Category\tests;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\Category\Models\Category;

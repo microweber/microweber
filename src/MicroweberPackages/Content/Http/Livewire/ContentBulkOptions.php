@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Content\Http\Livewire;
 
 use Livewire\Component;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 class ContentBulkOptions extends Component
 {

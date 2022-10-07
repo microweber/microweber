@@ -45,8 +45,8 @@ $cache_ttl = 3600;
 $cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $cfg_filter_in_stock.$show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
 $cache_group = 'categories';
 
-$results = cache_get($cache_id, $cache_group, $cache_ttl);
-//$results = false;
+//$results = cache_get($cache_id, $cache_group, $cache_ttl);
+ $results = false;
 if ($results) {
     $cats = $results;
 } else {
@@ -248,6 +248,20 @@ if ($results) {
                // $cat['has_posts'] = get_content('count=1&is_active=1&category=' . $cat['id']);
                  $cats[$k] = $cat;
             }
+
+
+        }
+
+
+        if(is_array($cats)){
+            // prepare categories for template
+            $cat_ids = array_column($cats,'id');
+
+            dd($cat_ids);
+
+//            $allInStockNum = app()->category_repository->countProductsInStock($selectedCat);
+
+
 
 
         }

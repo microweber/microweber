@@ -3,7 +3,8 @@
 namespace MicroweberPackages\Category\Repositories;
 
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -152,9 +153,9 @@ class CategoryRepository extends AbstractRepository
                 ->filter(['hasProductsInStock' => true])
                 ->get();
             if ($categoryModelHasAviableProducts) {
-                foreach ($categoryModelHasAviableProducts as $categoryModelHasAviableProduct) {
+                foreach ($categoryModelHasAviableProducts as $categoryModelHasAvailableProduct) {
 
-                    $contentItems = $categoryModelHasAviableProduct->items()->get();
+                    $contentItems = $categoryModelHasAvailableProduct->items()->get();
                     $contentIds = [];
                     foreach ($contentItems as $contentItem) {
                         $contentIds[] = $contentItem->rel_id;
@@ -174,5 +175,19 @@ class CategoryRepository extends AbstractRepository
 
         });
     }
+    public function getContentItemsIds($categoryIds)
+    {
 
+      //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
+
+            $categoryItemsModel = Product::select(['content.id'])->has('categoryItems')->has('orders')->whereCategoryIds([$categoryIds])->select(['content.id'])->get();
+
+
+            return $categoryModelHasAviableProductsCount;
+
+
+      //  });
+
+
+    }
 }

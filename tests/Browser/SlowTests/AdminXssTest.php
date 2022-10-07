@@ -6,7 +6,7 @@ namespace Tests\Browser\SlowTests;
 use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;

@@ -4,7 +4,7 @@
 namespace MicroweberPackages\SiteStats\Models;
 
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 class ContentViewCounter
 {

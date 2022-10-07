@@ -6,9 +6,7 @@ namespace MicroweberPackages\Content\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
-use MicroweberPackages\Content\ContentField;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 /**

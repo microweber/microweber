@@ -4,7 +4,7 @@ namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Content\Scopes\ProductScope;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
