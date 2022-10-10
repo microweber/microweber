@@ -396,7 +396,6 @@ class Product extends Content
     }
 
 
-
     public function orders()
     {
         return $this->hasManyThrough(
