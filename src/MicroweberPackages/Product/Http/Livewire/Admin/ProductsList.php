@@ -31,7 +31,7 @@ class ProductsList extends Component
         'title' => true,
         'price' => true,
         'stock' => true,
-        'sales' => true,
+        'orders' => true,
         'quantity' => true,
         'author' => false
     ];
