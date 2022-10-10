@@ -48,6 +48,7 @@
                 },
                 sortable:false,
                 resizable:false,
+                resizableOn: 'tree', // 'tree' | 'treeParent'
                 nestedSortable:false,
                 singleSelect:false,
                 selectedData:[],
@@ -543,8 +544,7 @@
 
 
 
-            console.log(itype, this.options.singleSelect);
-            var label = scope.document.createElement('tree-label');
+             var label = scope.document.createElement('tree-label');
             var input = scope.document.createElement('input');
             var span = scope.document.createElement('span');
             input.type = itype;
@@ -603,7 +603,8 @@
             if(this.options.sortable){
                 this.sortable();
             }
-            this.resizable();
+
+
 
 
             if(this.options.nestedSortable){
@@ -613,22 +614,33 @@
         };
 
         this.resizable = function(){
-            if(this.options.resizable){
-                mw.$(this.list).resizable({
-                    maxWidth: 650,
-                    minWidth: 200,
-                    handles: "e",
-                    resize: function () {
-
-                        if(scope.list.id ) {
-
-                            scope.stateStorage.set('size-' + scope.list.id, scope.list.style.width)
-                        }
-                    }
-                });
-                 if(this.list.id && this.stateStorage.get(this.list.id)) {
-                    this.list.style.width = this.stateStorage.get('size-' + this.list.id) ;
+             if(this.options.resizable){
+                var resEl;
+                if(this.options.resizableOn === 'tree') {
+                    resEl = mw.$(this.list);
+                } else if(this.options.resizableOn === 'treeParent') {
+                    resEl = mw.$(this.options.element);
                 }
+
+                setTimeout(function (){
+                    resEl.resizable({
+                        maxWidth: 650,
+                        minWidth: 200,
+                        handles: "e",
+                        resize: function () {
+
+                            if( resEl[0].id ) {
+                                scope.stateStorage.set('size-' + resEl[0].id, resEl[0].style.width);
+                            }
+                        }
+                    });
+ 
+                    if(resEl[0].id && scope.stateStorage.get('size-' + resEl[0].id)) {
+
+                        resEl[0].style.width = scope.stateStorage.get('size-' + resEl[0].id) ;
+                    }
+                }, 300);
+
             }
 
         };
@@ -679,21 +691,39 @@
                 update:function(e, ui){
 
                 }
-            })
+            });
         };
 
+        var _contextMenuOnce = null;
         this.contextMenu = function(element){
             var menu = scope.document.createElement('span');
             menu.className = 'mw-tree-context-menu';
             if(this.options.contextMenu){
+                var menuButton = scope.document.createElement('span');
+                var menuContent = scope.document.createElement('span');
+                menuButton.className = 'mw-tree-context-menu-content-button';
+                menuButton.innerHTML = '...';
+                menuButton.addEventListener('click', function (e){
+                   e.stopImmediatePropagation();
+                   Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
+                       if(node !== element) {
+                           node.classList.remove('context-menu-active');
+                       }
+                   });
+                   element.classList.toggle('context-menu-active');
+                });
+                menuContent.className = 'mw-tree-context-menu-content';
+                menu.appendChild(menuButton);
+                menu.appendChild(menuContent);
                 $.each(this.options.contextMenu, function(){
                     var menuitem = scope.document.createElement('span');
                     var icon = scope.document.createElement('span');
                     menuitem.title = this.title;
+                    menuitem.innerHTML = this.title;
                     menuitem.className = 'mw-tree-context-menu-item';
                     icon.className = this.icon;
-                    menuitem.appendChild(icon);
-                    menu.appendChild(menuitem);
+                    menuitem.prepend(icon);
+                    menuContent.appendChild(menuitem);
                     (function(menuitem, element, obj){
                         menuitem.onclick = function(){
                             if(obj.action){
@@ -702,6 +732,18 @@
                         }
                     })(menuitem, element, this);
                 });
+                if(!_contextMenuOnce) {
+                    _contextMenuOnce = true;
+                    scope.document.body.addEventListener('click', function (e){
+                        if(!scope.list.contains(e.target)) {
+                            Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
+
+                                    node.classList.remove('context-menu-active');
+
+                            });
+                        }
+                    })
+                }
             }
             return menu
 
@@ -873,6 +915,7 @@
             this.restoreState();
             this.loadSelected();
             this.search();
+            this.resizable();
             setTimeout(function(){
                 mw.$(scope).trigger('ready');
             }, 78)

@@ -14,9 +14,13 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: right center;
-    width: 100%;
-    height: 80vh;
+    width: 600px;
+    height: 400px;
+    margin: auto;
     align-items: center;
+}
+.mw-file-manager-no-results-label{
+    padding-bottom: 20px;
 }
 .mw-file-manager-root.no-results .mw-file-manager-view-table-wrap{
     display: none;
@@ -51,13 +55,16 @@
 
 
 .mw-file-manager-view-table {
-    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
 }
 
-.mw-file-manager-view-table {
-    width: 100%;
-}
 
+
+.mw-file-manager-view-table td{
+    word-break: break-all;
+}
 .mw-file-manager-view-table thead.sticky-true > tr > th{
     position: sticky;
     top: 0;
@@ -91,7 +98,7 @@
     background-position: center;
     transition: transform .3s;
     vertical-align: top;
-    margin: 0 0 0 7px;
+    margin-inline-start: 7px;
 }
 
 .mw-file-manager-view-table th.desc[data-sortable]:after{
@@ -146,6 +153,7 @@
 
 .mw-file-manager-list-item-options{
     position: relative;
+    word-break: normal;
 }
 
 .mw-file-manager-list-item-options-list > *{
@@ -251,7 +259,7 @@
 .mw-file-manager-bar-path > * + *:before{
     display: inline-block;
     content: '/';
-    margin: 0 5px;
+    margin-inline: 5px;
 }
 .mw-file-manager-bar-path > *{
     display: inline-block;
@@ -305,7 +313,7 @@
 }
 
 
-.active .mw-file-manager-top-bar-actions-content{
+.mw-file-manager-create-methods-dropdown.active .mw-file-manager-top-bar-actions-content{
     opacity: 1;
     visibility: visible;
     transform: scale(1);
@@ -335,6 +343,7 @@
 }
 .mw-file-manager-top-bar-actions .mw-ui-btn {
     display: inline-flex;
+    margin-inline-start: 10px;
 }
 .mw-file-manager-top-bar-actions .mw-ui-btn svg{
 
@@ -344,7 +353,7 @@
     vertical-align: top;
 }
 .mw-file-manager-create-methods-dropdown-add{
-    font-size: 21px;
+
 }
 
 .mw-file-manager-add-node + .mw-file-manager-add-node{
@@ -356,6 +365,8 @@
     overflow: hidden;
     cursor: pointer;
     white-space: nowrap;
+    font-size: 14px;
+    font-weight: normal;
 }
 .mw-file-manager-add-node > :first-child{
     display: block;
@@ -384,16 +395,49 @@
     position: relative;
 }
 .mw-file-manager-search-clear:after{
-    content: 'X';
+    transition: .7s;
+    content: '';
+    opacity: .1;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M324.91,256L497.13,83.79c19.36-18.7,19.89-49.57,1.19-68.89c-18.7-19.36-49.52-19.89-68.89-1.24l-1.19,1.24L255.98,187.12 L83.76,14.9C65.06-4.46,34.24-4.98,14.87,13.71C-4.49,32.36-5.01,63.24,13.68,82.55l1.19,1.24l172.22,172.17L14.87,428.22 c-19.36,18.7-19.89,49.52-1.19,68.89c18.7,19.36,49.52,19.89,68.89,1.19l1.19-1.19l172.22-172.22l172.26,172.22 c18.7,19.36,49.52,19.89,68.89,1.19c19.36-18.65,19.89-49.52,1.19-68.89l-1.19-1.19L324.91,255.96V256z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.mw-file-manager-search .has-value .mw-file-manager-search-clear:after{
+    opacity: .6;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+.mw-file-manager-search .has-value .mw-file-manager-search-clear{
+    visibility: visible;
 }
 .mw-file-manager-search-clear{
     position: absolute;
+    display: flex;
     top: 0;
     right: 0;
-    width:20px;
+    width:30px;
     height: 100%;
-    display: flex;
+    visibility: hidden;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+}
+
+.mw-file-manager-no-results-content{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.no-results-search .mw-file-manager-no-results .mw-file-manager-create-methods-dropdown{
+    display: none;
 }

@@ -18,7 +18,7 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
         <span class="text-muted">Select Date</span>
-        <input type="date" wire:model="selectedItem" class="form-control" />
+        <input type="date" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model="selectedItem" class="form-control" />
     </div>
 </div>
 

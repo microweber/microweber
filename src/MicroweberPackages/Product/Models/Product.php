@@ -201,7 +201,7 @@ class Product extends Content
         return $this->getContentDataByFieldName('special_price');
     }
 
-    public function getSalesCountAttribute()
+    public function getOrdersCountAttribute()
     {
 
         $cartQuery = Cart::query();
@@ -394,7 +394,6 @@ class Product extends Content
 
         return $filter->apply();
     }
-
 
 
     public function orders()

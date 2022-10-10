@@ -25,20 +25,35 @@ trait FilterByQtyTrait {
 
         $qtyOperator = $this->qtyOperator;
 
-        return $this->query->whereHas('contentData', function (Builder $query) use ($qty, $qtyOperator) {
+        $this->query->whereHas('contentData', function (Builder $query) use ($qty, $qtyOperator) {
 
             $query->where('field_name', '=', 'qty');
 
             if ($qtyOperator == 'greater') {
                 $query->whereRaw('CAST(field_value as SIGNED) > '.$qty);
-                $query->orWhereRaw('field_value = "nolimit"');
             }  else if ($qtyOperator =='lower') {
                 $query->whereRaw('CAST(field_value as SIGNED) < '.$qty);
             } else {
                 $query->whereRaw('CAST(field_value as SIGNED) = '.$qty);
             }
 
+
         });
+
+        if ($qtyOperator == 'greater') {
+            $this->query->orWhereHas('contentData', function (Builder $query) use ($qtyOperator) {
+                $query->where('field_name', '=', 'qty');
+                $query->where('field_value', '=', 'nolimit');
+            });
+        }
+
+        if ($qtyOperator == 'lower') {
+            $this->query->whereDoesntHave('contentData', function (Builder $query) use ($qtyOperator) {
+                $query->where('field_name', '=', 'qty');
+                $query->where('field_value', '=', 'nolimit');
+            });
+        }
+
     }
 
     /**

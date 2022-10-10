@@ -66,6 +66,7 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
 
         if ($this->firstTimeLoading) {
             if (!empty($this->selectedItems)) {
+                $this->selectedItems = array_filter($this->selectedItems);
                 $query = $this->model::query();
                 $query->whereIn('slug', $this->selectedItems);
                 $get = $query->get();

@@ -1,4 +1,6 @@
 .mw-tree {
+    container-name: mw-tree-root;
+    container-type: inline-size;
   .mw-tree-nav-skin-default {
        padding-inline: 20px;
       padding-block: 10px 20px;
@@ -6,6 +8,9 @@
   * {
     vertical-align: middle;
   }
+    tree-label input{
+        pointer-events: none;
+    }
 }
 
 .mw-tree-nav {
@@ -26,6 +31,27 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+
+    &::-webkit-scrollbar-thumb {
+        background: #d5d5d5;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
   ul {
     display: none;
   }
@@ -33,6 +59,7 @@
     cursor: pointer;
   }
   .mw-tree-item-title {
+      flex: 1;
     padding-inline: 4px 0;
     padding-block: 0;
     display: inline-block;
@@ -63,10 +90,7 @@
     * {
       vertical-align: middle;
     }
-      .mdi-pencil{
-          color: #0e80e5;
-          opacity: 1;
-      }
+
     &.selected > .mw-tree-item-content-root .mw-tree-item-title {
       color: #0e80e5;
       font-weight: bold;
@@ -75,6 +99,7 @@
         font-weight: normal;
       }
     }
+    &.context-menu-active > .mw-tree-item-content-root,
     &.selected > .mw-tree-item-content-root,
     .mw-tree-item-content-root:hover  {
       background: #fff;
@@ -162,20 +187,20 @@
       transform: rotate(180deg);
   }
 
-  .mw-tree-context-menu-item {
-    font-size: 14px;
-    display: inline-block;
-    visibility: hidden;
-    position: relative;
-    height: 21px;
-    width: 21px;
-    line-height: 17px;
-    text-align: center;
-    border: 1px solid transparent;
-    color: #3B3B3B;
-    opacity: 0.9;
-    cursor: pointer;
-  }
+    .mw-tree-context-menu-item {
+        font-size: 14px;
+        display: block;
+        position: relative;
+        border: 1px solid transparent;
+        color: #3B3B3B;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 1px 10px;
+        &>.mdi,
+        &>[class*="icon"]{
+            margin-inline-end: 7px;
+        }
+    }
   .mw-tree-item-content:hover .mw-tree-context-menu-item {
     visibility: visible;
   }
@@ -192,7 +217,7 @@
   .mw-tree-item-content {
     color: #212121;
     padding: 0;
-    display: inline-block;
+    display: inline-flex;
     position: relative;
     outline: none;
     background-repeat: no-repeat;
@@ -211,11 +236,13 @@
   }
 
   .mw-tree-context-menu {
-    display: inline-block;
+    display: inline-flex;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
+      align-items: center;
+      justify-content: center;
   }
     .mw-tree-item-content:hover {
         .mw-tree-context-menu {
@@ -315,4 +342,39 @@ html[dir="rtl"]{
 
 }
 
+@treeMobile: {
+    .mw-tree-nav-skin-default{
+        & > li > .mw-tree-item-content-root .mw-tree-toggler {
+            margin-inline: -15px -23px;
+        }
+        & > li li .mw-tree-item-content-root .mw-tree-toggler {
+            margin-inline: -15px -39px;
+        }
+        li li{
+            padding-inline-start: 8px;
+            margin-inline-start: 5px;
+        }
+        li:before,
+        li:after{
+            display: none;
+        }
+        .mw-ui-check input + span{
+            width: 12px;
+            height: 12px;
+            margin-inline-start: 7px;
+        }
+    }
+
+}
+
+@supports (container-name: mw-tree-root) {
+    @container mw-tree-root (max-width: 300px) {
+        @treeMobile();
+    }
+}
+@supports not (container-name: mw-tree-root) {
+    @media (max-width: 1200px) {
+        @treeMobile();
+    }
+}
 

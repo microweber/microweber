@@ -27,7 +27,7 @@
         <div class="input-group">
             <input class="form-control"
                    type="search"
-                   wire:keydown.enter="closeDropdown('{{$this->id}}')" 
+                   wire:keydown.enter="closeDropdown('{{$this->id}}')"
                    wire:click="showDropdown('{{$this->id}}')"
                    wire:model.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
@@ -40,7 +40,7 @@
 
         @if(empty($data))
             <div class="p-3">
-                {{_e('No items found')}}
+                {{_e('No '.strtolower($name).' found')}}
             </div>
         @else
         <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">

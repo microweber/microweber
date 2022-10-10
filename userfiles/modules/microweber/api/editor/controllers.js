@@ -139,18 +139,26 @@ MWEditor.controllers = {
                 }
             });
             el.on('click', function (e) {
+
                 var dialog;
                 var picker = new mw.filePicker({
                     type: 'images',
                     label: false,
                     autoSelect: false,
+                    multiple: true,
                     footer: true,
                     _frameMaxHeight: true,
                     onResult: function (res) {
                         var url = res.src ? res.src : res;
                         if(!url) return;
-                        url = url.toString();
-                        api.insertImage(url);
+                        if(!Array.isArray(url)) {
+                            url = [url];
+                        }
+                        url.forEach(function (src){
+                            api.insertImage(src.toString());
+                        })
+
+
                         dialog.remove();
                     }
                 });
