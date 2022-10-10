@@ -35,6 +35,10 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
     {
         $this->firstTimeLoading = true;
         $this->refreshFirstItemName();
+
+        if ($this->showDropdown == 1) {
+            $this->refreshQueryData();
+        }
     }
 
     public function updatedSelectedItems(array $items)
