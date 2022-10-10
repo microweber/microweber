@@ -31,9 +31,9 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceBetween"> Price Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.stockStatus"> Stock Status</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sales"> Sales</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orders"> Orders</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.qty"> Quantity</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label> 
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
@@ -72,8 +72,8 @@
             @include('product::admin.product.livewire.table-filters.discount')
         @endif
 
-        @if(isset($showFilters['sales']) && $showFilters['sales'])
-            @include('product::admin.product.livewire.table-filters.sales')
+        @if(isset($showFilters['orders']) && $showFilters['orders'])
+            @include('product::admin.product.livewire.table-filters.orders')
         @endif
 
         @if(isset($showFilters['qty']) && $showFilters['qty'])
@@ -146,8 +146,8 @@
                     <option value="id,asc">Id Asc</option>
                     <option value="price,desc">Price Desc</option>
                     <option value="price,asc">Price Asc</option>
-                    <option value="sales,desc">Sales Desc</option>
-                    <option value="sales,asc">Sales Asc</option>
+                    <option value="orders,desc">Orders Desc</option>
+                    <option value="orders,asc">Orders Asc</option>
                 </select>
             </div>
 
@@ -173,7 +173,7 @@
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.price"> Price</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.sales"> Sales</label>
+                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.orders"> Orders</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
                 </div>
@@ -205,8 +205,8 @@
             @if($showColumns['stock'])
             <th scope="col">Stock</th>
             @endif
-            @if($showColumns['sales'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Sales', 'key'=>'sales', 'filters'=>$filters])
+            @if($showColumns['orders'])
+                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'Orders', 'key'=>'orders', 'filters'=>$filters])
             @endif
             @if($showColumns['quantity'])
             <th scope="col">Quantity</th>
@@ -309,7 +309,7 @@
                 {!! $stock !!}
             </td>
             @endif
-            @if($showColumns['sales'])
+            @if($showColumns['orders'])
             <td style="text-align: center">
                 @php
                 $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
