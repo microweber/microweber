@@ -233,16 +233,16 @@ class ProductFilterTest extends TestCase
         $cart_add = update_cart($add_to_cart);
         $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
 
-        $count_sales = 2;
+        $count_orders = 2;
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
         $productQuery->filter([
-            'sales'=>$count_sales
+            'orders'=>$count_orders
         ]);
         $products = $productQuery->get();
 
         foreach ($products as $product) {
-          $this->assertEquals($product->orders()->count(), $count_sales);
+          $this->assertEquals($product->orders()->count(), $count_orders);
         }
 
 

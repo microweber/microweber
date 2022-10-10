@@ -33,7 +33,7 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.discount"> Discount</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orders"> Orders</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.qty"> Quantity</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label> 
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
@@ -313,12 +313,12 @@
             <td style="text-align: center">
                 @php
                 $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
-                if ($product->salesCount == 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
-                } else if ($product->salesCount > 1) {
-                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->salesCount.'</span></a>';
+                if ($product->ordersCount == 1) {
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->ordersCount.'</span></a>';
+                } else if ($product->ordersCount > 1) {
+                    $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->ordersCount.'</span></a>';
                 } else {
-                    $sales = '<span>'.$product->salesCount.'</span>';
+                    $sales = '<span>'.$product->ordersCount.'</span>';
                 }
                 @endphp
                 {!! $sales !!}

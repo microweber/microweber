@@ -10,7 +10,7 @@
             @endif
 
             @if($itemOperatorValue == 'greater')
-                greater than:
+                more than:
             @endif
 
             @if($itemOperatorValue == 'lower')
