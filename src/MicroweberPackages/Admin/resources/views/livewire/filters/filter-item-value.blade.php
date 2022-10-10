@@ -23,7 +23,10 @@
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
         <div class="mb-3 mb-md-0">
             <label>{{$name}} </label>
-            <input type="text" class="form-control" placeholder="Fill the {{$name}}" wire:model.stop="itemValue">
+            <input type="text" class="form-control" placeholder="Fill the {{$name}}"
+
+                   wire:keydown.enter="closeDropdown('{{$this->id}}')"
+                   wire:model.stop="itemValue">
         </div>
     </div>
 </div>
