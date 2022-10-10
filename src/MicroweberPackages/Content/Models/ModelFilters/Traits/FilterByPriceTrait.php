@@ -58,9 +58,14 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
+        if ($maxPrice == 0) {
+           $maxPrice= 1000000000000;
+        }
+
         if($minPrice == 0 and $maxPrice == 0) {
             return $this->query;
         }
+
         $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
             $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice) {
                 $query2->where(function ($query3) use ($minPrice, $maxPrice) {
