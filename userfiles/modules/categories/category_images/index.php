@@ -234,7 +234,9 @@ if ($results) {
 //
 
                     $latest = get_content($cont_params);
-                    $latest_count = get_content($cont_params2);
+                 //   $latest_count = get_content($cont_params2);
+                    //$latest_count = app()->category_repository->countProductsInStock($cat['id']);
+                    $latest_count = app()->category_repository->getCategoryContentItemsCount($cat['id']);
 
                     if (!$cat['picture'] and isset($latest[0])) {
                         $latest_product = $latest[0];
@@ -253,18 +255,17 @@ if ($results) {
         }
 
 
-        if(is_array($cats)){
-            // prepare categories for template
-            $cat_ids = array_column($cats,'id');
-
-            dd($cat_ids);
-
-//            $allInStockNum = app()->category_repository->countProductsInStock($selectedCat);
-
-
-
-
-        }
+//        if(is_array($cats)){
+//            // prepare categories for template
+//            $cat_ids = array_column($cats,'id');
+//
+//        //    dd($cat_ids);
+//
+//
+//
+//
+//
+//        }
     }
     cache_save($cats, $cache_id, $cache_group,$cache_ttl);
 

@@ -142,6 +142,37 @@ class CategoryRepository extends AbstractRepository
             return false;
         });
     }
+    public function getCategoryItemsCountAll()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+
+            $categoryItemsCountGroupedByRelType = [];
+            $categoryItemsCountData = CategoryItem:: groupBy('parent_id')
+                ->groupBy('rel_type')
+                ->get(['parent_id', 'rel_type', \DB::raw('count(rel_id) as count')]);
+
+            if($categoryItemsCountData){
+                foreach ($categoryItemsCountData as $key => $value) {
+                    $categoryItemsCountGroupedByRelType[$value->rel_type][$value->parent_id] = $value->count;
+                }
+            }
+            return $categoryItemsCountGroupedByRelType;
+        });
+
+    }
+
+    public function getCategoryContentItemsCount($categoryId)
+    {
+        $categoryItemsCountGroupedByRelType = $this->getCategoryItemsCountAll();
+
+        if(isset($categoryItemsCountGroupedByRelType['content']) and isset($categoryItemsCountGroupedByRelType['content'][$categoryId])){
+            return $categoryItemsCountGroupedByRelType['content'][$categoryId];
+        }
+
+        return 0;
+    }
+
+
 
     public function countProductsInStock($categoryId)
     {
@@ -160,12 +191,15 @@ class CategoryRepository extends AbstractRepository
                     foreach ($contentItems as $contentItem) {
                         $contentIds[] = $contentItem->rel_id;
                     }
+
+                   // $categoryModelHasAviableProductsCount = count($contentIds);
                     if (!empty($contentIds)) {
-                        $categoryModelHasAviableProductsCount += Product::query()->filter(['inStock' => true])
+                        $itemsCount = Product::query()->filter(['inStock' => true])
                             ->whereIn('content.id', $contentIds)
                             ->where('content.is_deleted', '=', '0')
                             ->where('content.is_active', '=', '1')
                             ->count();
+                        $categoryModelHasAviableProductsCount += $itemsCount;
                     }
                 }
             }
@@ -180,7 +214,10 @@ class CategoryRepository extends AbstractRepository
 
       //  return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
 
-            $categoryItemsModel = Product::select(['content.id'])->has('categoryItems')->has('orders')->whereCategoryIds([$categoryIds])->select(['content.id'])->get();
+            $categoryItemsModel = Product::select(['content.id'])
+                ->has('categoryItems')->has('orders')
+                ->whereCategoryIds([$categoryIds])
+                ->select(['content.id'])->get();
 
 
             return $categoryModelHasAviableProductsCount;
