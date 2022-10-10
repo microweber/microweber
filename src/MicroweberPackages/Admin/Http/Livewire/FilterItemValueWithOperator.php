@@ -7,7 +7,7 @@ class FilterItemValueWithOperator extends DropdownComponent
     public $name = 'Value with operator';
     public string $view = 'admin::livewire.filters.filter-item-value-with-operator';
 
-    public $itemOperatorValue;
+    public $itemOperatorValue = 'greater';
     public $itemValue;
 
     public $itemValueKey;

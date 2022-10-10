@@ -1,5 +1,4 @@
-<div>
-
+<div class="js-filter-item-wrapper-{{$this->id}}">
 
     <button type="button" @if(empty($data)) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItems)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
@@ -28,6 +27,7 @@
         <div class="input-group">
             <input class="form-control"
                    type="search"
+                   wire:keydown.enter="closeDropdown('{{$this->id}}')" 
                    wire:click="showDropdown('{{$this->id}}')"
                    wire:model.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
@@ -38,17 +38,23 @@
             {{$searchingText}}
         </div>
 
+        @if(empty($data))
+            <div class="p-3">
+                {{_e('No items found')}}
+            </div>
+        @else
         <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
-            @if(!empty($data))
-                @foreach($data as $item)
-                    <li class="list-group-item list-group-item-action cursor-pointer">
-                        <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
-                        <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
-                    </li>
-                @endforeach
-                <span class="cursor-pointer text-primary mt-2 mb-2" wire:click="loadMore">Load more</span>
+            @foreach($data as $item)
+                <li class="list-group-item list-group-item-action cursor-pointer">
+                    <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
+                    <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
+                </li>
+            @endforeach
+            @if(count($data) != $total)
+            <span class="cursor-pointer text-primary mt-2 mb-2" wire:click="loadMore">Load more</span>
             @endif
         </ul>
+        @endif
 
         <script>
             window.livewire.on('loadMoreExecuted', () => {
@@ -67,7 +73,9 @@
             <div class="col text-right">{{count($data)}} of {{$total}}</div>
         </div>
     </div>
+</div>
 
+<div wire:ignore>
     <script>
         $(document).ready(function() {
             $('body').on('click', function(e) {

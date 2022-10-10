@@ -66,7 +66,9 @@
 
     </div>
 
+</div>
 
+<div wire:ignore>
     <script>
         window.livewire.on('loadMoreExecuted', () => {
             document.getElementById("js-filter-items-values-list").scrollTop = 10000;

@@ -276,15 +276,16 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
     public function clearCache()
     {
-        self::$__getLinkAfterLocaleSettings = false;
+        self::$__getLinkAfterLocaleSettings = [];
         self::$_linkContent = [];
     }
 
-    private static $__getLinkAfterLocaleSettings = false;
+    private static $__getLinkAfterLocaleSettings = [];
 
     public function __getLinkAfter()
     {
         $currentLang = $this->language;
+
 
         // Display locale
         if (!isset(self::$__getLinkAfterLocaleSettings[$currentLang])) {

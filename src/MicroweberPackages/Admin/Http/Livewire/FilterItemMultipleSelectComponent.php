@@ -17,6 +17,7 @@ class FilterItemMultipleSelectComponent extends AutoCompleteMultipleSelectCompon
     public function hideFilterItem($id)
     {
         if ($this->id == $id) {
+            $this->closeDropdown($id);
             $this->emit('hideFilterItem', $this->selectedItemKey);
             $this->resetProperties();
         }

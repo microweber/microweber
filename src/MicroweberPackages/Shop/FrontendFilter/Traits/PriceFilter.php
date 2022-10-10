@@ -6,7 +6,7 @@ trait PriceFilter {
     public function appendFiltersActivePrice()
     {
         $minPrice = $this->request->get('min_price', 0.00);
-        $maxPrice = $this->request->get('max_price', false);
+        $maxPrice = $this->request->get('max_price', 100000000000);
 
         if ($maxPrice) {
             $filter = new \stdClass();
@@ -21,7 +21,7 @@ trait PriceFilter {
     public function applyQueryPrice()
     {
         $minPrice = $this->request->get('min_price', 0.00);
-        $maxPrice = $this->request->get('max_price', 0.00);
+        $maxPrice = $this->request->get('max_price', 100000000000);
 
         if ($maxPrice) {
             $this->query->filter([

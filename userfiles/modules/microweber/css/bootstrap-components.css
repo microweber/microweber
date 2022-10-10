@@ -150,8 +150,16 @@ hr {
 
 /*CARD*/
 
+.card.style-1 .card-header-fix .card-header {
+    background-color: white!important;
+}
+
 .card-header {
     background-color: rgba(0, 0, 0, .03)!important;
+}
+
+.mw-admin-edit-content-holder .card.style-1 .card-header {
+    color: #212529!important;
 }
 
 .nav-tabs .nav-link {
@@ -244,3 +252,22 @@ hr {
     height: 350px;
     overflow: auto;
 }
+
+.bd-example .fixed-top, .bd-example .sticky-top {
+    position: static;
+}
+
+.bd-example .fixed-bottom {
+    position: static;
+}
+
+.card > .list-group:first-child .list-group-item:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card > .list-group:last-child .list-group-item:last-child {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+

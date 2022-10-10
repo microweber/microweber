@@ -3,21 +3,21 @@
     @php
         $itemValue = '';
         $itemOperatorValue = '';
-        if (isset($filters['sales'])) {
-            $itemValue = $filters['sales'];
+        if (isset($filters['orders'])) {
+            $itemValue = $filters['orders'];
         }
-        if (isset($filters['salesOperator'])) {
-            $itemOperatorValue = $filters['salesOperator'];
+        if (isset($filters['ordersOperator'])) {
+            $itemOperatorValue = $filters['ordersOperator'];
         }
     @endphp
 
     @livewire('admin-filter-item-value-with-operator', [
-        'name'=>'Sales',
+        'name'=>'Orders',
         'itemValue'=>$itemValue,
         'itemOperatorValue'=>$itemOperatorValue,
-        'itemValueKey'=>'sales',
-        'itemOperatorValueKey'=>'salesOperator',
-        'showDropdown'=> session()->get('showFilterSales'),
+        'itemValueKey'=>'orders',
+        'itemOperatorValueKey'=>'ordersOperator',
+        'showDropdown'=> session()->get('showFilterOrders'),
         'onChangedEmitEvents' => [
           'setFirstPageProductsList'
         ]

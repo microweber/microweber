@@ -2,7 +2,7 @@
 
     @php
         $itemValue = '';
-        $itemOperatorValue = '';
+        $itemOperatorValue = 'greater';
         if (isset($filters['qty'])) {
             $itemValue = $filters['qty'];
         }
