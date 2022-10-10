@@ -217,6 +217,13 @@
         </tr>
         </thead>
         <tbody>
+        @if (count($products)==0)
+            <tr>
+                <td colspan="{{count($showColumns)}}">
+                    {{_e('No items found')}}
+                </td>
+            </tr>
+        @endif
         @foreach ($products as $product)
         <tr class="manage-post-item">
             <td>
