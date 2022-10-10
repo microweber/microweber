@@ -49,7 +49,9 @@
                     <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                 </li>
             @endforeach
+            @if(count($data) != $total)
             <span class="cursor-pointer text-primary mt-2 mb-2" wire:click="loadMore">Load more</span>
+            @endif
         </ul>
         @endif
 
