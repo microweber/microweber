@@ -233,7 +233,8 @@ if ($results) {
                     //get_extra_data=true&order_by=position desc&limit=30&is_active=1&category=" . $cat['id']
 //
 
-                    $latest = get_content($cont_params);
+                  // $latest = get_content($cont_params);
+                     $latest = [];
                  //   $latest_count = get_content($cont_params2);
                     //$latest_count = app()->category_repository->countProductsInStock($cat['id']);
                     $latest_count = app()->category_repository->getCategoryContentItemsCount($cat['id']);
@@ -243,9 +244,10 @@ if ($results) {
                         $cat['picture'] = get_picture($latest_product['id']);
                     }
                     if ($latest) {
-                        $cat['content_items'] = $latest;
-                        $cat['content_items_count'] = $latest_count;
+                       // $cat['content_items'] = $latest;
                     }
+                    $cat['content_items_count'] = $latest_count;
+
                 }
                // $cat['has_posts'] = get_content('count=1&is_active=1&category=' . $cat['id']);
                  $cats[$k] = $cat;
@@ -253,13 +255,13 @@ if ($results) {
 
 
         }
-
+      //  dd($cats);
 
 //        if(is_array($cats)){
 //            // prepare categories for template
 //            $cat_ids = array_column($cats,'id');
 //
-//        //    dd($cat_ids);
+//        //
 //
 //
 //
