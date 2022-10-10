@@ -30,7 +30,8 @@ trait FilterByQtyTrait {
             $query->where('field_name', '=', 'qty');
 
             if ($qtyOperator == 'greater') {
-               $query->whereRaw('CAST(field_value as SIGNED) > '.$qty);
+                $query->whereRaw('CAST(field_value as SIGNED) > '.$qty);
+                $query->orWhereRaw('field_value = "nolimit"');
             }  else if ($qtyOperator =='lower') {
                 $query->whereRaw('CAST(field_value as SIGNED) < '.$qty);
             } else {

@@ -37,9 +37,9 @@
         <label>{{$name}} </label>
         <div class="mb-3 mb-md-0 input-group">
             <select class="form-control" wire:model.stop="itemOperatorValue">
-                <option value="">Equal to</option>
                 <option value="greater">More than</option>
                 <option value="lower">Lower than</option>
+                <option value="">Equal to</option>
             </select>
             <input type="number" class="form-control" placeholder="{{$name}} count" wire:model.stop="itemValue">
         </div>
