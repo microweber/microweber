@@ -600,8 +600,7 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
 
 
 #admin-main-tree + .ui-resizable-handle.ui-resizable-e{
-    background-color: #ccc;
-    right: -10px !important;
+    right: -22px !important;
 }
 
 #admin-main-tree{

@@ -31,6 +31,27 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+
+    &::-webkit-scrollbar-thumb {
+        background: #d5d5d5;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
   ul {
     display: none;
   }
@@ -38,6 +59,7 @@
     cursor: pointer;
   }
   .mw-tree-item-title {
+      flex: 1;
     padding-inline: 4px 0;
     padding-block: 0;
     display: inline-block;
@@ -195,7 +217,7 @@
   .mw-tree-item-content {
     color: #212121;
     padding: 0;
-    display: inline-block;
+    display: inline-flex;
     position: relative;
     outline: none;
     background-repeat: no-repeat;

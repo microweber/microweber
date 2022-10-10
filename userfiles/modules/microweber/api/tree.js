@@ -48,6 +48,7 @@
                 },
                 sortable:false,
                 resizable:false,
+                resizableOn: 'tree', // 'tree' | 'treeParent'
                 nestedSortable:false,
                 singleSelect:false,
                 selectedData:[],
@@ -599,7 +600,8 @@
             if(this.options.sortable){
                 this.sortable();
             }
-            this.resizable();
+
+
 
 
             if(this.options.nestedSortable){
@@ -609,22 +611,29 @@
         };
 
         this.resizable = function(){
-            if(this.options.resizable){
-                var resEl = mw.$(this.options.element);
-                // var resEl = mw.$(this.list);
+             if(this.options.resizable){
+                var resEl;
+                if(this.options.resizableOn === 'tree') {
+                    resEl = mw.$(this.list);
+                } else if(this.options.resizableOn === 'treeParent') {
+                    resEl = mw.$(this.options.element);
+                }
+
                 setTimeout(function (){
                     resEl.resizable({
                         maxWidth: 650,
                         minWidth: 200,
                         handles: "e",
                         resize: function () {
-                            if(scope.list.id ) {
+
+                            if( resEl[0].id ) {
                                 scope.stateStorage.set('size-' + resEl[0].id, resEl[0].style.width);
                             }
                         }
                     });
-                    console.log(scope.stateStorage.get(resEl[0].id));
-                    if(resEl[0].id && scope.stateStorage.get(resEl[0].id)) {
+ 
+                    if(resEl[0].id && scope.stateStorage.get('size-' + resEl[0].id)) {
+
                         resEl[0].style.width = scope.stateStorage.get('size-' + resEl[0].id) ;
                     }
                 }, 300);
@@ -690,7 +699,7 @@
                 var menuButton = scope.document.createElement('span');
                 var menuContent = scope.document.createElement('span');
                 menuButton.className = 'mw-tree-context-menu-content-button';
-                menuButton.innerHTML = '&vellip;';
+                menuButton.innerHTML = '...';
                 menuButton.addEventListener('click', function (e){
                    e.stopImmediatePropagation();
                    Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
@@ -903,6 +912,7 @@
             this.restoreState();
             this.loadSelected();
             this.search();
+            this.resizable();
             setTimeout(function(){
                 mw.$(scope).trigger('ready');
             }, 78)

@@ -206,7 +206,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$(".js-top-save").hide();
 
-        window.scrollTo(0, 0);
+
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
@@ -722,14 +722,7 @@ if ($action == 'posts') {
                                     }
                                 });
                             });
-                            ;(function (){
-                                var treeHolderSet = function (){
-                                    var treeHolder = mw.element('#admin-main-tree');
-                                    treeHolder.css('height', 'calc(100vh - ' + (treeHolder.offset().top) + 'px)');
-                                }
-                                addEventListener('load', treeHolderSet);
-                                addEventListener('resize', treeHolderSet);
-                            })();
+
                         </script>
 
                         <div class="input-group mb-0 prepend-transparent">
@@ -780,6 +773,7 @@ if ($action == 'posts') {
                                                 data: data,
                                                 element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
                                                 resizable: true,
+                                                resizableOn: 'treeParent',
                                                 sortable: true,
                                                 selectable: false,
                                                 toggleSelect: false,
@@ -835,6 +829,7 @@ if ($action == 'posts') {
                                             });
                                             mw.adminPagesTree = pagesTree;
 
+
                                             $(pagesTree).on("orderChange", function (e, item, data, old, local) {
                                                 var obj = {ids: local};
                                                 var url;
@@ -887,7 +882,28 @@ if ($action == 'posts') {
                                                         mw.url.windowHashParam("action", action + ":" + data.id);
                                                     }
                                                 });
-                                                mainTreeSetActiveItems()
+                                                mainTreeSetActiveItems();
+                                                setTimeout(function () {
+
+                                                        var treeHolderSet = function (){
+
+                                                            var treeHolder = mw.element('#admin-main-tree');
+                                                            if(treeHolder) {
+                                                                treeHolder.css({
+                                                                    'height': 'calc(100vh - ' + (treeHolder.offset().top) + 'px)',
+                                                                    'overflow': 'auto',
+                                                                    'minHeight': '200px',
+                                                                });
+                                                            }
+
+
+                                                        }
+                                                        addEventListener('load', treeHolderSet);
+                                                        addEventListener('resize', treeHolderSet);
+
+
+                                                    treeHolderSet();
+                                                }, 100)
 
                                              })
                                     }
