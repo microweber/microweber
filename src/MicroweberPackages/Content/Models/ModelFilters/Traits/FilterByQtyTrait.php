@@ -40,10 +40,19 @@ trait FilterByQtyTrait {
 
         });
 
-        $this->query->orWhereHas('contentData', function (Builder $query) {
-            $query->where('field_name', '=', 'qty');
-            $query->where('field_value', '=','nolimit');
-        });
+        if ($qtyOperator == 'greater') {
+            $this->query->orWhereHas('contentData', function (Builder $query) use ($qtyOperator) {
+                $query->where('field_name', '=', 'qty');
+                $query->where('field_value', '=', 'nolimit');
+            });
+        }
+
+        if ($qtyOperator == 'lower') {
+            $this->query->whereDoesntHave('contentData', function (Builder $query) use ($qtyOperator) {
+                $query->where('field_name', '=', 'qty');
+                $query->where('field_value', '=', 'nolimit');
+            });
+        }
 
     }
 
