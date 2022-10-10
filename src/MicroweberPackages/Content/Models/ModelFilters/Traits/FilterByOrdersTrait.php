@@ -59,7 +59,7 @@ trait FilterByOrdersTrait
 
 
         if ($this->sortOrders) {
-            $this->query->orderBy('orders_count', $this->sortOrders); 
+            $this->query->orderBy('orders_count', $this->sortOrders);
         }
 
     }

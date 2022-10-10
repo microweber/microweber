@@ -18,7 +18,7 @@ Route::get('a', function () {
     $productQuery = \MicroweberPackages\Product\Models\Product::query();
     $productQuery->disableCache(true);
     $productQuery->filter([
-       // 'sortSales'=>'asc'
+       // 'sortOrders'=>'asc'
        // 'orderBy'=>'price,asc',
      //   'orderBy'=>'sales,desc',
        // 'orderBy'=>'sales,asc',
@@ -65,7 +65,7 @@ Route::get('a', function () {
 
     $productQuery = \MicroweberPackages\Product\Models\Product::query();
     $productQuery->filter([
-       // 'sortSales'=>'asc'
+       // 'sortOrders'=>'asc'
         'sales'=>2
 
     ]);

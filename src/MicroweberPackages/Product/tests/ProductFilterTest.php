@@ -251,7 +251,7 @@ class ProductFilterTest extends TestCase
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
         $productQuery->filter([
-            'sortSales'=>'asc'
+            'sortOrders'=>'asc'
         ]);
         $products = $productQuery->get();
 
@@ -264,7 +264,7 @@ class ProductFilterTest extends TestCase
 
         $productQuery = \MicroweberPackages\Product\Models\Product::query();
         $productQuery->filter([
-            'sortSales'=>'desc'
+            'sortOrders'=>'desc'
         ]);
         $products = $productQuery->get();
         $i = 2;
