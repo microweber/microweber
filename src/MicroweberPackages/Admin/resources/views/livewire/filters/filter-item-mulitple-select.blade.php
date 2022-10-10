@@ -27,6 +27,7 @@
         <div class="input-group">
             <input class="form-control"
                    type="search"
+                   wire:keydown.enter="closeDropdown('{{$this->id}}')" 
                    wire:click="showDropdown('{{$this->id}}')"
                    wire:model.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
