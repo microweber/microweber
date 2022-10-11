@@ -18,6 +18,7 @@ class ShopFilterTest extends TestCase
         $newShopPage->is_shop = 1;
         $newShopPage->content_type = 'page';
         $newShopPage->subtype = 'dynamic';
+        $newShopPage->is_active = 1;
         $newShopPage->save();
 
         $shopPage = Page::where('id', $newShopPage->id)->first();
@@ -33,6 +34,7 @@ class ShopFilterTest extends TestCase
             $newProduct->price = rand(11,999);
             $newProduct->title = uniqid();
             $newProduct->parent = $shopPage->id;
+            $newProduct->is_active = 1;
             $newProduct->save();
 
             $products[] = $newProduct;
