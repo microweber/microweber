@@ -8,7 +8,14 @@
                     <?php
                     if (user_can_access('module.categories.edit')):
                         ?>
+
+                    <?php if (isset($params['is_shop'])): ?>
                         <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                    <?php else: ?>
+                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                    <?php endif; ?>
+
+
                     <?php endif; ?>
 
                     <div class="form-group mb-0">
@@ -104,7 +111,11 @@
                                     <p><?php _e('Create your first category right now.'); ?><br/>
                                         <?php _e('You are able to do that in very easy way!'); ?></p>
                                     <br/>
+                                    <?php if (isset($params['is_shop'])): ?>
                                     <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
+                                    <?php else: ?>
+                                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -117,6 +128,7 @@
                         </script>
                     </div>
                 <?php endif; ?>
+
 
                 <?php
                 $mainFilterTree['return_data'] = true;

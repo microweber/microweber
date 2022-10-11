@@ -438,10 +438,12 @@ $user = get_user_by_id($user_id);
                             ?>
 
                             <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
+
                                 <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
                                     <?php _e("Categories"); ?>
                                     <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
+
                             <?php
                             endif;
                             ?>
