@@ -424,9 +424,9 @@ $user = get_user_by_id($user_id);
                         </a>
                         <div class="dropdown-menu">
 
-                            <a href="<?php print route('admin.shop.dashboard'); ?>" class="dropdown-item <?php if ($action == 'dashboard'): ?> active <?php endif; ?>">
-                                <?php _e("Dashboard"); ?>
-                            </a>
+                           <!-- <a href="<?php /*print route('admin.shop.dashboard'); */?>" class="dropdown-item <?php /*if ($action == 'dashboard'): */?> active <?php /*endif; */?>">
+                                <?php /*_e("Dashboard"); */?>
+                            </a>-->
 
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                                 <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
