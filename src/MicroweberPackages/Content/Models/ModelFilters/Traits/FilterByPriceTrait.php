@@ -76,12 +76,10 @@ trait FilterByPriceTrait
                     if ($maxPrice) {
 
                         if ($dbDriver == 'sqlite') {
-                            $query3->whereRaw("CAST(value as INTEGER) != 0");
                             $query3->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
-                            $query3->whereBetween(\DB::raw('CAST(value as INTEGER)'), [$minPrice, $maxPrice]);
-                        } else {
-                            $query3->whereBetween('value', [$minPrice, $maxPrice]);
                         }
+
+                        $query3->whereBetween('value', [$minPrice, $maxPrice]);
 
                     } else {
                         $query3->whereRaw("value REGEXP '^[0-9]*$'");
