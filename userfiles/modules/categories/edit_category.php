@@ -514,7 +514,7 @@ if (isset($params['live_edit'])) {
                                     document.querySelector('.btn-save').disabled = false;
                                     mw.askusertostay = true;
                                 });
-                                $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
+                                $.get("<?php print api_url('content/get_admin_js_tree_json'); ?><?php if(isset($params['is_shop'])): ?>?is_shop=1<?php else:?>?is_shop=0<?php endif;?>", function (data) {
                                     var categoryParentSelector = new mw.tree({
                                         id: 'category-parent-selector',
                                         element: '.category-parent-selector',

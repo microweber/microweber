@@ -8,7 +8,14 @@
                     <?php
                     if (user_can_access('module.categories.edit')):
                         ?>
-                        <button type="button" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></button>
+
+                    <?php if (isset($params['is_shop'])): ?>
+                        <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                    <?php else: ?>
+                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                    <?php endif; ?>
+
+
                     <?php endif; ?>
 
                     <div class="form-group mb-0">
@@ -62,8 +69,12 @@
                 ?>
 
                 <?php
+                $is_shop = 0;
+                if (isset($params['is_shop']) && $params['is_shop'] == 1) {
+                    $is_shop = 1;
+                }
                 $founded_cats = false;
-                $pages_with_cats = get_pages('no_limit=true');
+                $pages_with_cats = get_pages('no_limit=true&is_shop='.$is_shop);
                 if ($pages_with_cats): ?>
                     <?php foreach ($pages_with_cats as $page):
                         $pageTreeFilter = $mainFilterTree;
@@ -100,7 +111,11 @@
                                     <p><?php _e('Create your first category right now.'); ?><br/>
                                         <?php _e('You are able to do that in very easy way!'); ?></p>
                                     <br/>
-                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
+                                    <?php if (isset($params['is_shop'])): ?>
+                                    <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
+                                    <?php else: ?>
+                                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -113,6 +128,7 @@
                         </script>
                     </div>
                 <?php endif; ?>
+
 
                 <?php
                 $mainFilterTree['return_data'] = true;
