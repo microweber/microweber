@@ -83,7 +83,6 @@ trait FilterByPriceTrait
 
                     } else {
                         $query3->whereRaw("value REGEXP '^[0-9]*$'");
-                    //    $query3->whereRaw("CAST(value as INTEGER) != 0");
                         $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
                     }
 
