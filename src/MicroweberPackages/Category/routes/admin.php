@@ -1,5 +1,6 @@
 <?php
 
+// Blog and pages
 Route::name('admin.')
     ->prefix(ADMIN_PREFIX)
     ->middleware(['admin'])
@@ -7,6 +8,17 @@ Route::name('admin.')
     ->group(function () {
         Route::resource('category', 'CategoryController');
     });
+
+
+// Shop
+Route::name('admin.shop.')
+    ->prefix(ADMIN_PREFIX.'/shop')
+    ->middleware(['admin'])
+    ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
+    ->group(function () {
+        Route::resource('category', 'CategoryShopController');
+    });
+
 
 
 Route::name('api.')
@@ -19,15 +31,7 @@ Route::name('api.')
             return mw()->category_manager->reorder($request->only('ids'));
         });
 
-
         Route::delete('category/delete/{id}', 'CategoryApiController@destroy');
-
-
-//
-//        Route::delete('category/delete/{id}', function ($id) {
-//            return delete_category(['id'=>$id]);
-//        });
-//
 
         Route::apiResource('category', 'CategoryApiController');
         Route::post('category/{category}', 'CategoryApiController@update');
