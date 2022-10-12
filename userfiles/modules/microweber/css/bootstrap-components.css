@@ -162,6 +162,11 @@ hr {
     color: #212529!important;
 }
 
+.card.style-1 .card-header {
+    background-color: white!important;
+}
+
+
 .nav-tabs .nav-link {
     border: none;
 }

@@ -906,3 +906,8 @@ hr {
     height: 350px;
     overflow: auto;
 }
+
+.card.style-1 .card-header.js-add-custom-field {
+    background-color: #4592ff!important;
+    color: white!important;
+}

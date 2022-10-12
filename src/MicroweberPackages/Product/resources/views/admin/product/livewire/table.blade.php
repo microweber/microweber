@@ -193,7 +193,7 @@
     </div>
 
     <table class="table table-responsive" id="content-results-table">
-        <thead class="thead-light">
+        <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])
