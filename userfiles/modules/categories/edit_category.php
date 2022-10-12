@@ -338,7 +338,12 @@ if (isset($params['live_edit'])) {
 
                         <?php
 
-                        $add_sub_cateory_link = route('admin.category.create') .'?addsubcategory='.$data['id'];
+                        if (isset($params['is_shop'])) {
+                            $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
+                        } else {
+                            $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
+                        }
+
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
                             $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
                         }
