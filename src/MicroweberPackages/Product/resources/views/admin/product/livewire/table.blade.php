@@ -6,7 +6,7 @@
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Products')}}</strong>
             </h5>
-            <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Product')}}</a>
+            <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Product')}}</a>
         </div>
     </div>
 
@@ -16,12 +16,12 @@
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
+            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
         </div>
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+                <i class="fa fa-plus-circle"></i> Filters
             </button>
             <div class="dropdown-menu p-3" style="width:263px">
                 <h6 class="dropdown-header">Taxonomy</h6>
@@ -46,7 +46,7 @@
         @if(!empty($appliedFiltersFriendlyNames))
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <div class="btn-group">
-                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear</button>
                 </div>
             </div>
         @endif

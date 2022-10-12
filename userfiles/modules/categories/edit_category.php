@@ -676,7 +676,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label"><?php _e("Slug"); ?></label>
+                                            <label class="control-label"><?php _e("Category URL"); ?></label>
                                             <div class="mb-3">
                                                 <?php
                                                 $url = '';
