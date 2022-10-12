@@ -167,8 +167,9 @@ class MultilanguageObserver
 
     }
     private function getTranslatableModuleOptions() {
+        $modules = get_modules_from_db();
         $translatableModuleOptions = [];
-        foreach (get_modules_from_db() as $module) {
+        foreach ($modules as $module) {
             if (isset($module['settings']['translatable_options'])) {
                 $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
             }
