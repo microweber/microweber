@@ -41,6 +41,7 @@ trait SitemapHelpersTrait
 
                         foreach($allActiveLangs as $index => $lang) {
                             $tmp = [
+                                'id'=>$page->id,
                                 'original_link' => "{$siteUrl}{$lang['locale']}/{$page->url}/tags:{$tag['tag_slug']}",
                                 'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
                             ];
@@ -49,6 +50,7 @@ trait SitemapHelpersTrait
                         }
                     } else {
                         $tmp = [
+                            'id'=>$page->id,
                             'original_link' => "{$siteUrl}{$page->url}/tags:{$tag['tag_slug']}",
                             'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
                         ];
@@ -112,6 +114,7 @@ trait SitemapHelpersTrait
 
         foreach($categories as $cat) {
             $tmp = [
+                'id'=>$cat->id,
                 'original_link' => $cat->link(),
                 'updated_at' => $cat->updated_at->format('Y-m-d H:i:s'),
             ];
@@ -129,6 +132,7 @@ trait SitemapHelpersTrait
 
         foreach($posts as $post) {
             $tmp = [
+                'id' => $post->id,
                 'original_link' => $post->link(),
                 'updated_at' => $post->updated_at->format('Y-m-d H:i:s'),
             ];
@@ -146,6 +150,7 @@ trait SitemapHelpersTrait
 
         foreach($products as $prod) {
             $tmp = [
+                'id' => $prod->id,
                 'original_link' => $prod->link(),
                 'updated_at' => $prod->updated_at->format('Y-m-d H:i:s'),
             ];
