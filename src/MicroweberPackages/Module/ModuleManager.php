@@ -888,7 +888,7 @@ class ModuleManager
             $module_name_l = normalize_path($module_name_l, 1);
             $replace_paths[] = $module_name_l;
         }
-
+        $module_name_l_theme = false;
         if (defined('ACTIVE_TEMPLATE_DIR')) {
             $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
             $module_name_l_theme = normalize_path($module_name_l_theme, 1);
