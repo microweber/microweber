@@ -161,6 +161,25 @@
 
   }
 
+    .mw-tree-context-menu-content-button{
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .mw-tree-item-content-root:hover{
+        .mw-tree-context-menu-content-button{
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+    li.selected{
+        & > .mw-tree-item-content-root {
+            .mw-tree-context-menu-content-button{
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+    }
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
 
@@ -186,6 +205,24 @@
     .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
       transform: rotate(180deg);
   }
+    .mw-tree-context-menu-content{
+        position: absolute;
+        background-color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        top: calc(100% - 2px);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        z-index: 12;
+
+    }
+
+
+    .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content{
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+    }
 
     .mw-tree-context-menu-item {
         font-size: 14px;
@@ -201,6 +238,7 @@
             margin-inline-end: 7px;
         }
     }
+
   .mw-tree-item-content:hover .mw-tree-context-menu-item {
     visibility: visible;
   }
@@ -299,6 +337,13 @@
   }
 }
 
+html[dir="ltr"] .mw-tree-context-menu-content{
+    right: 0;
+}
+html[dir="rtl"] .mw-tree-context-menu-content{
+    left: 0;
+}
+
 html[dir="rtl"]{
     /*.mw-tree-nav-skin-default{
         direction: ltr;
@@ -375,6 +420,130 @@ html[dir="rtl"]{
 @supports not (container-name: mw-tree-root) {
     @media (max-width: 1200px) {
         @treeMobile();
+    }
+}
+
+
+.mw-tree-nav-skin-category-manager{
+    margin: 0;
+    padding: 0;
+    span.mw-tree-context-menu{
+        float: right;
+        color: #777;
+        .mw-tree-context-menu-content-button{
+            display: none;
+        }
+        .mw-tree-context-menu-content > * + *{
+            margin-inline-start: 10px;
+        }
+    }
+    ul,li{
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        ul{
+            margin-inline-start: 40px;
+        }
+    }
+    ul{
+        display: none;
+    }
+    li.opened{
+        & > ul{
+            display: block;
+        }
+        & > .mw-tree-item-content-root{
+            .mw-tree-toggler{
+                transform: translateY(-50%) rotate(90deg);
+            }
+        }
+    }
+    li{
+        list-style: none;
+    }
+    li[data-type="category"] {
+        & > .mw-tree-item-content-root {
+            .mw-tree-item-content{
+                background: #fcfcfc;
+                padding: 0.5rem 1rem;
+                display: block;
+                overflow: hidden;
+                border-radius: 10px;
+                margin-bottom: 0.5rem;
+                &:hover{
+                    background: #fcfcfc;
+                    border-color: #eeeff1;
+
+                    box-shadow: -1px 1px 1px 0 rgba(0, 0, 0, .11);
+                }
+
+                &:before{
+                    content: "\F024B";
+
+                    font: normal normal normal 1.25em/1 "Material Design Icons";
+                    color: #868686;
+                    margin-inline-start: -10px;
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+
+
+    }
+    li[data-type="page"] {
+        padding-top: 10px;
+        & > .mw-tree-item-content-root {
+            .mw-tree-item-content{
+                padding: 15px 25px 10px 25px;
+                background-color: #fff;
+                display: block;
+
+                border-bottom: 0;
+                position: relative;
+                overflow: hidden;
+                background-color: rgba(0, 0, 0, .03);
+                &:before{
+                    content: "\F0219";
+                    font: normal normal normal 1.25em/1 "Material Design Icons";
+                    color: #4592ff;
+                    margin-inline-start: -10px;
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+    }
+
+
+    .mw-tree-item-content-root{
+        position: relative;
+        padding-left: 24px;
+        display: block;
+
+        .mw-tree-toggler{
+            display: flex;
+
+            width: 25px;
+            height: 25px;
+            color: #bcbfc2;
+
+            border: none;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            font-size: 19px;
+            font-family: "Material Design Icons";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: .3s;
+            &:before{
+                content: "\F0142";
+            }
+        }
     }
 }
 

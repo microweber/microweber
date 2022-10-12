@@ -644,73 +644,7 @@ if ($action == 'posts') {
                             </div>
                         </div>
 
-                        <style>
 
-                            .fixed-side-column-container::-webkit-scrollbar {
-                                width: 7px;
-                                height: 7px;
-                            }
-
-
-                            .fixed-side-column-container::-webkit-scrollbar-track {
-                                background: #f1f1f1;
-                            }
-
-
-                            .fixed-side-column-container::-webkit-scrollbar-thumb {
-                                background: #888;
-                            }
-
-
-                            .fixed-side-column-container::-webkit-scrollbar-thumb:hover {
-                                background: #555;
-                            }
-
-
-
-
-                            .mw-tree-context-menu-content{
-                                position: absolute;
-                                background-color: #fff;
-                                visibility: hidden;
-                                opacity: 0;
-                                pointer-events: none;
-                                top: calc(100% - 2px);
-                                box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-                                z-index: 12;
-
-                            }
-                            html[dir="ltr"] .mw-tree-context-menu-content{
-                                right: 0;
-                            }
-                            html[dir="rtl"] .mw-tree-context-menu-content{
-                                left: 0;
-                            }
-                            .context-menu-active {
-                                z-index: 12;
-                            }
-                            .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content{
-                                visibility: visible;
-                                opacity: 1;
-                                pointer-events: all;
-                            }
-
-                            .mw-tree-context-menu-content-button{
-                                display: inline-flex;
-                                width: 20px;
-                                height: 20px;
-                                align-items: center;
-                                justify-content: center;
-                                cursor: pointer;
-                                position: relative;
-                                z-index: 10;
-                            }
-                            .fixed-side-column-container{
-                                min-height: 100px;
-                            }
-
-
-                        </style>
 
                         <script>
                             $(document).ready(function () {

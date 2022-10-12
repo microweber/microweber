@@ -8,14 +8,7 @@
                     <?php
                     if (user_can_access('module.categories.edit')):
                         ?>
-
-                    <?php if (isset($params['is_shop'])): ?>
-                        <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
-                    <?php else: ?>
-                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
-                    <?php endif; ?>
-
-
+                        <button type="button" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></button>
                     <?php endif; ?>
 
                     <div class="form-group mb-0">
@@ -32,78 +25,6 @@
         </div>
 
         <div class="card-body pt-3">
-            <div id="mw-admin-categories-tree-manager">
-
-            </div>
-            <script>
-
-                     var t = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
-                        options: {
-                            nestedSortable: '[data-type="page"] ul',
-                            selectable: false,
-                            singleSelect: true,
-                            saveState: true,
-                            searchInput: true,
-                            skin: 'category-manager',
-                            contextMenu: [
-                                {
-                                    title: 'Edit',
-                                    icon: 'mdi mdi-pencil',
-                                    action: function (element, data, menuitem) {
-                                        if (data.type == 'category') {
-                                            window.location  = "<?php print admin_url() ?>category/" + data.id + "/edit";
-
-                                        } else if (data.type == 'page') {
-                                            window.location  = "<?php print admin_url() ?>page/" + data.id + "/edit";
-
-                                        }
-                                        else {
-                                            mw.url.windowHashParam("action", "edit" + data.type + ":" + data.id);
-
-                                        }
-
-                                    }
-                                },
-                                {
-                                    title: 'Move to trash',
-                                    icon: 'mdi mdi-delete',
-                                    action: function (element, data, menuitem) {
-                                        if (data.type === 'category') {
-                                            mw.content.deleteCategory(data.id, function () {
-
-                                                $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
-                                                    if (window.pagesTreeRefresh) {
-                                                        pagesTreeRefresh()
-                                                    }
-
-                                                })
-                                            });
-                                        }
-                                        else {
-                                            mw.content.deleteContent(data.id, function () {
-                                                $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id, pagesTree.list).fadeOut(function () {
-                                                    if (window.pagesTreeRefresh) {
-                                                        pagesTreeRefresh()
-                                                    }
-                                                    ;
-                                                })
-                                            });
-                                        }
-                                    }
-                                }
-                            ]
-
-                        },
-                        params: {
-                            no_limit: true
-                        }
-                    });
-                    t.then(function (res) {
-
-                    });
-
-
-            </script>
             <div class="mw-ui-category-selector mw-ui-manage-list m-0" id="mw-ui-category-selector-manage">
 
                 <?php
@@ -141,12 +62,8 @@
                 ?>
 
                 <?php
-                $is_shop = 0;
-                if (isset($params['is_shop']) && $params['is_shop'] == 1) {
-                    $is_shop = 1;
-                }
                 $founded_cats = false;
-                $pages_with_cats = get_pages('no_limit=true&is_shop='.$is_shop);
+                $pages_with_cats = get_pages('no_limit=true');
                 if ($pages_with_cats): ?>
                     <?php foreach ($pages_with_cats as $page):
                         $pageTreeFilter = $mainFilterTree;
@@ -183,11 +100,7 @@
                                     <p><?php _e('Create your first category right now.'); ?><br/>
                                         <?php _e('You are able to do that in very easy way!'); ?></p>
                                     <br/>
-                                    <?php if (isset($params['is_shop'])): ?>
-                                    <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
-                                    <?php else: ?>
-                                        <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
-                                    <?php endif; ?>
+                                    <a href="javascript:;" onclick="mw.quick_cat_edit_create(0);" class="btn btn-primary btn-rounded"><?php _e('Create a Category'); ?></a>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +113,6 @@
                         </script>
                     </div>
                 <?php endif; ?>
-
 
                 <?php
                 $mainFilterTree['return_data'] = true;
@@ -356,11 +268,7 @@
 
                     } else {
 
-                        <?php if (isset($params['is_shop'])): ?>
-                        window.location = "<?php print admin_url() ?>shop/category/"+id+"/edit";
-                        <?php else: ?>
                         window.location = "<?php print admin_url() ?>category/"+id+"/edit";
-                        <?php endif; ?>
 
                   //  mw.url.windowHashParam('action', 'editcategory:' + id)
                     }
@@ -376,7 +284,6 @@
                             },
                             success: function () {
                                 mw.reload_module_everywhere('categories');
-                                mw.reload_module_everywhere('categories/manage');
                                 mw.reload_module_everywhere('content/manager');
                             }
                         });

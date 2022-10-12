@@ -88,32 +88,139 @@
         font-size: 12px;
     }
 </style>
+<style>
+    #js-page-tree{
+        position: sticky;
+        top: 70px;
+        min-height: 200px;
+    }
+</style>
 
-<div class="row">
-    <div class="col-md-2">
+<div class="main">
+    <div>
+        <div class="tree-show-hide-nav">
+
+            <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
+                    <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
         <div id="js-page-tree"></div>
 
+
         <script>
-            var someElement = document.getElementById('js-page-tree');
-            var pagesTree;
-            mw.admin.tree(someElement, {
-                options: {
-                    sortable: false,
-                    selectable: false,
-                    singleSelect: true,
-                    saveState: true,
-                    searchInput: true
-                },
-                params: {
-                    is_shop: '1'
+            ;(function (){
+
+                var treeNode = document.getElementById('js-page-tree');
+                var pagesTree;
+
+                $('.js-open-close-all-tree-elements').on('change', function () {
+                    if ($(this).is(':checked') ) {
+                        pagesTree.openAll();
+                    } else {
+                        pagesTree.closeAll();
+                    }
+                });
+
+                var select = function (id, type) {
+                    if (pagesTree) {
+                        pagesTree.select({
+                            id, type
+                        });
+                    }
                 }
-            }).then(function (res) {
-                pagesTree = res;
-            });
+                var treeTail = [
+                    {
+                        title: '<?php _e("Trash") ?>',
+                        icon: 'mdi mdi-delete',
+                        action: function () {
+                            mw.url.windowHashParam('action', 'trash');
+                        }
+                    }
+                ];
+                var contextMenu =  [
+                    {
+                        title: 'Edit',
+                        icon: 'mdi mdi-pencil',
+                        action: function (element, data, menuitem) {
+
+
+                        }
+                    },
+                    {
+                        title: 'Move to trash',
+                        icon: 'mdi mdi-delete',
+                        action: function (element, data, menuitem) {
+                            if (data.type === 'category') {
+
+                            }
+                            else {
+
+                            }
+                        }
+                    }
+                ];
+
+
+
+
+                mw.admin.tree(treeNode, {
+                    options: {
+                        sortable: false,
+                        selectable: false,
+                        singleSelect: true,
+                        saveState: true,
+                        searchInput: true,
+                        contextMenu: contextMenu,
+                        resizable: true,
+                        resizableOn: 'treeParent',
+                        append: treeTail,
+                        id: 'admin-main-tree',
+                    },
+                    params: {
+                        is_shop: '1'
+                    }
+                }, 'tree').then(function (res) {
+                    pagesTree = res.tree;
+                    // todo: remove
+                    select(8, 'category');
+
+                    setTimeout(function () {
+
+                        var treeHolderSet = function (){
+
+                            var treeHolder = mw.element('#admin-main-tree');
+                            if(treeHolder) {
+                                treeHolder.css({
+                                    'height': 'calc(100vh - 120px)',
+                                    'overflow': 'auto',
+                                    'minHeight': '200px',
+                                });
+                            }
+
+
+                        }
+                        addEventListener('load', treeHolderSet);
+                        addEventListener('resize', treeHolderSet);
+                        addEventListener('scroll', treeHolderSet);
+
+
+                        treeHolderSet();
+                    }, 100)
+
+                });
+            })();
         </script>
     </div>
-    <div class="col-md-10">
+    <main class="module-content">
         <livewire:admin-products-list />
         <livewire:admin-content-bulk-options />
-    </div>
+    </main>
 </div>
