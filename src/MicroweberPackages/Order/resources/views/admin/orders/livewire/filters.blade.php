@@ -22,25 +22,22 @@
         </div>
     @endif
 
-    <div class="d-md-flex justify-content-between mb-3">
-        <div class="d-md-flex">
-            <div class="mb-3 mb-md-0 input-group">
-                <input wire:model.debounce.500ms="filters.keyword" type="text" placeholder="Search by keyword..."
-                       class="form-control">
-            </div>
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                       <i class="fa fa-filter"></i> Filters
-                    </button>
-                    <div class="dropdown-menu p-3">
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.order"> Order</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shipping"> Shipping</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
-                    </div>
-                </div>
-            </div>
+    <div class="d-flex">
+        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            <input wire:model.debounce.500ms="filters.keyword" type="text" placeholder="Search by keyword..."
+                   class="form-control">
+        </div>
+        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            `<button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+            </button>
+            <div class="dropdown-menu p-3">
+                <h6 class="dropdown-header">Taxonomy</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.order"> Order</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shipping"> Shipping</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
+            </div>`
         </div>
     </div>
 
