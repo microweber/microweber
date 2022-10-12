@@ -180,7 +180,8 @@ class ProductsList extends Component
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
-        $whitelistedEmptyKeys = ['inStock'];
+        
+        $whitelistedEmptyKeys = ['inStock', 'orders','qty'];
 
         foreach ($this->filters as $filterKey => $filterValue) {
 
