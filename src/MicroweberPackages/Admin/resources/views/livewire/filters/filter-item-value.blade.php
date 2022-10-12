@@ -29,8 +29,6 @@
                    wire:model.stop="itemValue">
         </div>
     </div>
-</div>
-
 
 <div wire:ignore>
     <script>
@@ -45,4 +43,5 @@
             });
         });
     </script>
+</div>
 </div>

@@ -43,8 +43,6 @@
 
     </div>
 
-</div>
-
 <div wire:ignore>
 
     <script>
@@ -120,4 +118,5 @@
 
         });
     </script>
+</div>
 </div>

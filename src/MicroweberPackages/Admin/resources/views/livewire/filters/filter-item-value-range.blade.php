@@ -31,7 +31,7 @@
         </div>
 
     </div>
-</div>
+
 <div wire:ignore>
     <script>
         $(document).ready(function() {
@@ -76,4 +76,5 @@
             });
         });
     </script>
+</div>
 </div>

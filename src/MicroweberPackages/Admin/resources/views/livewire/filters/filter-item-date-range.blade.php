@@ -29,49 +29,49 @@
         </div>
 
     </div>
-</div>
-<div wire:ignore>
-    <script>
-        mw.lib.require("air_datepicker");
+    <div wire:ignore>
+        <script>
+            mw.lib.require("air_datepicker");
 
-        let dateRangeElement = document.getElementById('js-date-range');
-        var dateRangePickerInstance = $('#js-date-range-picker').datepicker({
-            language: 'en',
-            timepicker: false,
-            range: true,
-            multipleDates: true,
-            dateFormat: '',
-            multipleDatesSeparator: " - ",
-            onSelect: function (fd, d, picker) {
+            let dateRangeElement = document.getElementById('js-date-range');
+            var dateRangePickerInstance = $('#js-date-range-picker').datepicker({
+                language: 'en',
+                timepicker: false,
+                range: true,
+                multipleDates: true,
+                dateFormat: '',
+                multipleDatesSeparator: " - ",
+                onSelect: function (fd, d, picker) {
 
-                var dateRange = fd;
-                dateRange = dateRange.replace(' - ', ',');
+                    var dateRange = fd;
+                    dateRange = dateRange.replace(' - ', ',');
 
-                dateRangeElement.value = dateRange;
-                dateRangeElement.dispatchEvent(new Event('input'));
+                    dateRangeElement.value = dateRange;
+                    dateRangeElement.dispatchEvent(new Event('input'));
 
-            }
-        }).data('datepicker');
-
-        document.addEventListener('livewire:load', function () {
-            if (dateRangeElement) {
-                const dateRangeExp = dateRangeElement.value.split(",");
-                if (dateRangeExp && dateRangeExp[0] && dateRangeExp[1]) {
-                    dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
                 }
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('body').on('click', function(e) {
-                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
+            }).data('datepicker');
+
+            document.addEventListener('livewire:load', function () {
+                if (dateRangeElement) {
+                    const dateRangeExp = dateRangeElement.value.split(",");
+                    if (dateRangeExp && dateRangeExp[0] && dateRangeExp[1]) {
+                        dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
+                    }
                 }
             });
-            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('body').on('click', function(e) {
+                    if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
+                        $('.js-dropdown-content-{{$this->id}}').removeClass('active');
+                    }
+                });
+                $('.js-dropdown-toggle-{{$this->id}}').click(function () {
+                    $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
+                });
             });
-        });
-    </script>
+        </script>
+    </div>
 </div>
