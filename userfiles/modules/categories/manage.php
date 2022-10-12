@@ -304,6 +304,7 @@
                             },
                             success: function () {
                                 mw.reload_module_everywhere('categories');
+                                mw.reload_module_everywhere('categories/manage');
                                 mw.reload_module_everywhere('content/manager');
                             }
                         });
