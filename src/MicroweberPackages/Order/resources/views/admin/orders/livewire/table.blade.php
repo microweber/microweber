@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div style="height: 60px" class="bulk-actions-show-columns">
+    <div style="height: 60px;" class="bulk-actions-show-columns">
 
         @if(count($checked) > 0)
 
@@ -89,7 +89,7 @@
 
     </div>
 
-    <table class="table table-responsive">
+    <table class="table table-responsive orders-table">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
