@@ -819,9 +819,9 @@ hr {
 
 /*CARD*/
 
-.card-header {
-    background-color: rgba(0, 0, 0, .03)!important;
-}
+/*.card-header {*/
+/*    background-color: rgba(0, 0, 0, .03)!important;*/
+/*}*/
 
 .nav-tabs .nav-link {
     border: none;
