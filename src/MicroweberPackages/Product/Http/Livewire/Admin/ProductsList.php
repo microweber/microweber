@@ -52,8 +52,8 @@ class ProductsList extends Component
         if (is_array($value)) {
             $value = implode(',', $value);
         }
+        ;
         $this->filters[$key] = $value;
-       // $this->refreshProductsTable();
     }
 
     public function deselectAll()
@@ -180,7 +180,8 @@ class ProductsList extends Component
 
         $this->appliedFilters = [];
         $this->appliedFiltersFriendlyNames = [];
-        $whitelistedEmptyKeys = ['inStock'];
+        
+        $whitelistedEmptyKeys = ['inStock', 'orders','qty'];
 
         foreach ($this->filters as $filterKey => $filterValue) {
 

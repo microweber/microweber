@@ -89,4 +89,31 @@
     }
 </style>
 
-<livewire:admin-products-list />
+<div class="row">
+    <div class="col-md-2">
+        <div id="js-page-tree"></div>
+
+        <script>
+            var someElement = document.getElementById('js-page-tree');
+            var pagesTree;
+            mw.admin.tree(someElement, {
+                options: {
+                    sortable: false,
+                    selectable: false,
+                    singleSelect: true,
+                    saveState: true,
+                    searchInput: true
+                },
+                params: {
+                    is_shop: '1'
+                }
+            }).then(function (res) {
+                pagesTree = res;
+            });
+        </script>
+    </div>
+    <div class="col-md-10">
+        <livewire:admin-products-list />
+        <livewire:admin-content-bulk-options />
+    </div>
+</div>

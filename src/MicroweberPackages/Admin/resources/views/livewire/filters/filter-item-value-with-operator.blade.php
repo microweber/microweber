@@ -44,7 +44,6 @@
             <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model.stop="itemValue">
         </div>
     </div>
-</div>
 
 <div wire:ignore>
     <script>
@@ -59,4 +58,5 @@
             });
         });
     </script>
+</div>
 </div>

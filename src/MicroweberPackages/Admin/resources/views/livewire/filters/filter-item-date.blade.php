@@ -20,7 +20,6 @@
         <span class="text-muted">Select Date</span>
         <input type="date" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model="selectedItem" class="form-control" />
     </div>
-</div>
 
 <div wire:ignore>
     <script>
@@ -36,4 +35,5 @@
         });
     </script>
 
+</div>
 </div>

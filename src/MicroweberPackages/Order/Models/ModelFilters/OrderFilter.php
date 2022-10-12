@@ -48,7 +48,6 @@ class OrderFilter extends ModelFilter
     public function shippingZip($zip)
     {
         $zip = trim($zip);
-        dd($zip);
 
         if (!empty($zip)) {
             $this->query->where('zip', $zip);

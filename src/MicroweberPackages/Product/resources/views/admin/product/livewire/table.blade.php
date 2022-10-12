@@ -37,6 +37,7 @@
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> Date Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> Created at</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
             </div>
@@ -90,6 +91,11 @@
 
         @if(isset($showFilters['userIds']) && $showFilters['userIds'])
             @include('product::admin.product.livewire.table-filters.author')
+        @endif
+
+
+        @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
+            @include('product::admin.product.livewire.table-filters.date-between')
         @endif
 
         @if(isset($showFilters['createdAt']) && $showFilters['createdAt'])

@@ -73,7 +73,6 @@
             <div class="col text-right">{{count($data)}} of {{$total}}</div>
         </div>
     </div>
-</div>
 
 <div wire:ignore>
     <script>
@@ -93,4 +92,5 @@
             });
         });
     </script>
+</div>
 </div>
