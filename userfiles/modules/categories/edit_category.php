@@ -780,9 +780,9 @@ if (isset($params['live_edit'])) {
                                             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                                             <?php
-                                            echo $formBuilder->textArea('category_meta_keywords')
+                                            echo $formBuilder->textArea('category_meta_description')
                                                 ->setModel($categoryModel)
-                                                ->value($data['description'])
+                                                ->value($data['category_meta_description'])
                                                 ->autocomplete(false);
                                             ?>
                                         </div>

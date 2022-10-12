@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content;
+namespace MicroweberPackages\Content\Models;
 
 
 use Illuminate\Database\Eloquent\Model;

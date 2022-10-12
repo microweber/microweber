@@ -10,7 +10,7 @@ use MicroweberPackages\Product\Models\Product;
 
 trait SitemapHelpersTrait
 {
-    private function isMutilangOn()
+    public function isMutilangOn()
     {
         if (is_module('multilanguage')
             && get_option('is_active', 'multilanguage_settings') === 'y'
@@ -24,7 +24,7 @@ trait SitemapHelpersTrait
         return $res;
     }
 
-    private function fetchTagsLinks()
+    public function fetchTagsLinks()
     {
         $pages = Page::active()->get();
         $tagsData = [];
@@ -62,7 +62,7 @@ trait SitemapHelpersTrait
         return $tagsData;
     }
 
-    private function fetchProductsLinks()
+    public function fetchProductsLinks()
     {
         if($this->isMutilangOn()) {
             $productsData = $this->fetchMultilangContentByType('product');
@@ -73,7 +73,7 @@ trait SitemapHelpersTrait
         return $productsData;
     }
 
-    private function fetchPagesLinks()
+    public function fetchPagesLinks()
     {
         if($this->isMutilangOn()) {
             $pagesData = $this->fetchMultilangContentByType('page');
@@ -83,7 +83,7 @@ trait SitemapHelpersTrait
         return $pagesData;
     }
 
-    private function fetchPostsLinks()
+    public function fetchPostsLinks()
     {
         if($this->isMutilangOn()) {
             $postsData = $this->fetchMultilangContentByType('post');
@@ -94,7 +94,7 @@ trait SitemapHelpersTrait
         return $postsData;
     }
 
-    private function fetchCategoriesLinks()
+    public function fetchCategoriesLinks()
     {
         if($this->isMutilangOn()) {
             $categoriesData = multilanguage_get_all_category_links();
@@ -105,7 +105,7 @@ trait SitemapHelpersTrait
         return $categoriesData;
     }
 
-    private function fetchNotMutilangCategories()
+    public function fetchNotMutilangCategories()
     {
         $categories = Category::all();
         $categoriesLinksData = [];
@@ -122,7 +122,7 @@ trait SitemapHelpersTrait
         return $categoriesLinksData;
     }
 
-    private function fetchNotMutilangPosts()
+    public function fetchNotMutilangPosts()
     {
         $posts = Post::active()->get();
         $postsLinksData = [];
@@ -139,7 +139,7 @@ trait SitemapHelpersTrait
         return $postsLinksData;
     }
 
-    private function fetchNotMutilangProducts()
+    public function fetchNotMutilangProducts()
     {
         $products = Product::active()->get();
         $productsLinksData = [];
@@ -156,7 +156,7 @@ trait SitemapHelpersTrait
         return $productsLinksData;
     }
 
-    private function fetchMultilangContentByType($type)
+    public function fetchMultilangContentByType($type)
     {
         $allContentLinks = multilanguage_get_all_content_links();
         $items = [];
@@ -169,7 +169,7 @@ trait SitemapHelpersTrait
         return $items;
     }
 
-    private function needToUpdateSitemap($sitemapFileLocation)
+    public function needToUpdateSitemap($sitemapFileLocation)
     {
         return true;
 

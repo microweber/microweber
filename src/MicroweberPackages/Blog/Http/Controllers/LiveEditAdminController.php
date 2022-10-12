@@ -5,7 +5,7 @@ namespace MicroweberPackages\Blog\Http\Controllers;
 use Illuminate\Http\Request;
 use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
 use MicroweberPackages\Blog\Http\Controllers\Traits\CustomFieldsRenderTrait;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 class LiveEditAdminController
 {

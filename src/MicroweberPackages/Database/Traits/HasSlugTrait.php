@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\Database\Traits;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 trait HasSlugTrait
 {

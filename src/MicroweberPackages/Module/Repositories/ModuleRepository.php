@@ -5,7 +5,7 @@ namespace MicroweberPackages\Module\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Module\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 

@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;

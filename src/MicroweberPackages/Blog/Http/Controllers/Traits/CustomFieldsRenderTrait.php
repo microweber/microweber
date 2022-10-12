@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Blog\Http\Controllers\Traits;
 
 use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 trait CustomFieldsRenderTrait
 {

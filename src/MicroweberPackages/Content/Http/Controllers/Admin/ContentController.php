@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Post\Http\Requests\PostRequest;
 use MicroweberPackages\Post\Repositories\PostRepository;

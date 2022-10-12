@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\ContentData\Traits;
 
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 
 trait ContentDataTrait
