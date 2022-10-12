@@ -90,3 +90,4 @@
 </style>
 
 <livewire:admin-products-list />
+<livewire:admin-content-bulk-options />
