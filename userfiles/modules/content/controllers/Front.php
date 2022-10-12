@@ -769,9 +769,9 @@ class Front
                     $item['tn_image'] = false;
                 }
 
-
-                $item['content'] = htmlspecialchars_decode($item['content']);
-
+                if(isset($item['content']) and $item['content'] != false) {
+                    $item['content'] = htmlspecialchars_decode($item['content']);
+                }
 
                 if (isset($item['created_at']) and trim($item['created_at']) != '') {
                     $item['created_at'] = date($date_format, strtotime($item['created_at']));

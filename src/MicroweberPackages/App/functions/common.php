@@ -159,6 +159,9 @@ function microtime_float()
 if (!function_exists('character_limiter')) {
 function character_limiter($str, $n = 500, $end_char = '&#8230;')
 {
+    if(!is_string($str)){
+        return $str;
+    }
     if (strlen($str) < $n) {
         return $str;
     }

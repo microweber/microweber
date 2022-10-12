@@ -138,7 +138,9 @@ class TemplateMetaTagsRenderer
                     if (isset($meta['description']) and $meta['description'] != '') {
                         $meta['og_description'] = $meta['description'];
                     } else {
+                        if($meta['content']){
                         $meta['og_description'] = trim($this->app->format->limit(strip_tags($meta['content']), 500));
+                        }
                     }
                 }
             } else {
