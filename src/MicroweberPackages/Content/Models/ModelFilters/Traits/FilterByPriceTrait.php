@@ -73,19 +73,12 @@ trait FilterByPriceTrait
             $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice,$dbDriver) {
                 $query2->where(function ($query3) use ($minPrice, $maxPrice,$dbDriver) {
 
-                    if ($maxPrice) {
-
-                        if ($dbDriver == 'sqlite') {
-                            $query3->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
-                        }
-
-                        $query3->whereBetween('value', [$minPrice, $maxPrice]);
-
-                    } else {
-                        $query3->whereRaw("value REGEXP '^[0-9]*$'");
+                    if ($dbDriver == 'sqlite') {
                         $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
+                        $query3->whereRaw("CAST(value as INTEGER) <= {$maxPrice}");
+                    } else {
+                        $query3->whereBetween('value', [$minPrice, $maxPrice]);
                     }
-
 
                     return $query3;
                 });
