@@ -27,6 +27,7 @@ class OrdersTableComponent extends Component
 
     public $showColumns = [
         'id' => true,
+        'image' => true,
         'products' => true,
         'customer' => true,
         'total_amount' => true,
