@@ -52,8 +52,8 @@ class ProductsList extends Component
         if (is_array($value)) {
             $value = implode(',', $value);
         }
+        ;
         $this->filters[$key] = $value;
-       // $this->refreshProductsTable();
     }
 
     public function deselectAll()
