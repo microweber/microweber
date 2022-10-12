@@ -196,7 +196,7 @@ if(mw.admin) {
 mw.admin.back = function () {
     history.go(-1);
     mw.element('#main-tree-search').val('');
-}
+};
 
 mw.admin.tree = function (target, opt, mode) {
 
@@ -214,6 +214,8 @@ mw.admin.tree = function (target, opt, mode) {
         opt = {};
     }
 
+    mw.spinner({element: target, size: 32, decorate: true});
+
     var tree;
 
     var params = opt.params, options = opt.options;
@@ -221,6 +223,10 @@ mw.admin.tree = function (target, opt, mode) {
     var url = mw.settings.api_url + 'content/get_admin_js_tree_json';
     var treeEl = document.createElement('div');
     treeEl.className = 'mw--global-admin-tree';
+    if(options.id) {
+        treeEl.id = 'mw--parent-' + options.id;
+    }
+
 
 
     if(!params) {
@@ -295,6 +301,7 @@ mw.admin.tree = function (target, opt, mode) {
                 treeTags: mode === 'tree' ? null : tree
             };
             resolve(res);
+            mw.spinner({element: target}).remove();
         });
     });
 };

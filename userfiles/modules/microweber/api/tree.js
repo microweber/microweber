@@ -15,7 +15,7 @@
 (function(){
     mw.lib.require('jqueryui');
 
-    mw.lib.require('nestedsortable');
+    mw.lib.require('nestedSortable');
 
 
 
@@ -143,8 +143,9 @@
                     top: '20px',
                     zIndex: '1',
                     margin: '20px 15px 0 0',
-                    width: '300px',
+                    width: '100%',
                     maxWidth: '100%',
+
                 });
                 this.options.searchInput.addEventListener('input', function () {
                     scope.search();
@@ -597,20 +598,11 @@
             if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
-
             element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
-
             if(this.options.sortable){
                 this.sortable();
             }
-
-
-
-
-            if(this.options.nestedSortable){
-                this.nestedSortable();
-            }
-
+            this.nestedSortable();
         };
 
         this.resizable = function(){
@@ -628,13 +620,12 @@
                         minWidth: 200,
                         handles: "e",
                         resize: function () {
-
                             if( resEl[0].id ) {
                                 scope.stateStorage.set('size-' + resEl[0].id, resEl[0].style.width);
                             }
                         }
                     });
- 
+
                     if(resEl[0].id && scope.stateStorage.get('size-' + resEl[0].id)) {
 
                         resEl[0].style.width = scope.stateStorage.get('size-' + resEl[0].id) ;
@@ -643,6 +634,32 @@
 
             }
 
+        };
+
+        var _orderChangeHandle = function (e, ui){
+            setTimeout(function(){
+                var old = $.extend({},ui.item[0]._data);
+                var obj = ui.item[0]._data;
+                var objParent = ui.item[0].parentNode.parentNode._data;
+                ui.item[0].dataset.parent_id = objParent ? objParent.id : 0;
+
+                obj.parent_id = objParent ? objParent.id : 0;
+                obj.parent_type = objParent ? objParent.id : 'page';
+                var newdata = [];
+                mw.$('li', scope.list).each(function(){
+                    if(this._data) newdata.push(this._data);
+                });
+                scope.options.data = newdata;
+                var local = [];
+                mw.$(ui.item[0].parentNode).children('li').each(function(){
+                    if(this._data) {
+                        local.push(this._data.id);
+                    }
+                });
+                //$(scope.list).remove();
+                //scope.init();
+                mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local]);
+            }, 110);
         };
 
         this.sortable = function(){
@@ -656,42 +673,37 @@
                 listType:'ul',
                 handle:'.mw-tree-item-title',
                 update:function(e, ui){
-                    setTimeout(function(){
-                        var old = $.extend({},ui.item[0]._data);
-                        var obj = ui.item[0]._data;
-                        var objParent = ui.item[0].parentNode.parentNode._data;
-                        ui.item[0].dataset.parent_id = objParent ? objParent.id : 0;
 
-                        obj.parent_id = objParent ? objParent.id : 0;
-                        obj.parent_type = objParent ? objParent.id : 'page';
-                        var newdata = [];
-                        mw.$('li', scope.list).each(function(){
-                            if(this._data) newdata.push(this._data)
-                        });
-                        scope.options.data = newdata;
-                        var local = [];
-                        mw.$(ui.item[0].parentNode).children('li').each(function(){
-                            if(this._data) {
-                                local.push(this._data.id);
-                            }
-                        });
-                        //$(scope.list).remove();
-                        //scope.init();
-                        mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local])
-                    }, 110);
-
+                    _orderChangeHandle(e, ui)
                 }
             });
         };
-        this.nestedSortable = function(element){
-            mw.$('ul', this.list).nestedSortable({
-                items: ".type-category",
-                listType:'ul',
-                handle:'.mw-tree-item-title',
-                update:function(e, ui){
 
-                }
-            });
+        this.nestedSortable = function(){
+            if(typeof this.options.nestedSortable === 'string') {
+                mw.$(this.options.nestedSortable, this.list).each(function (){
+                    $(this).nestedSortable({
+                        items: ".type-category",
+                        listType:'ul',
+                        handle:'.mw-tree-item-title',
+                        update:function(e, ui){
+
+                            _orderChangeHandle(e, ui)
+                        }
+                    });
+                })
+            } else if (this.options.nestedSortable === true) {
+                mw.$('ul', this.list).nestedSortable({
+                    items: ".type-category",
+                    listType:'ul',
+                    handle:'.mw-tree-item-title',
+                    update:function(e, ui){
+                        _orderChangeHandle(e, ui);
+                    }
+                });
+            }
+
+
         };
 
         var _contextMenuOnce = null;
@@ -735,13 +747,26 @@
                 if(!_contextMenuOnce) {
                     _contextMenuOnce = true;
                     scope.document.body.addEventListener('click', function (e){
-                        if(!scope.list.contains(e.target)) {
-                            Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
-
+                        var active =  Array.from(scope.document.querySelectorAll('.context-menu-active'));
+                        if(active.length) {
+                            if(!scope.list.contains(e.target)) {
+                                active.forEach(function (node){
                                     node.classList.remove('context-menu-active');
+                                });
+                            } else {
+                                var li = mw.tools.firstParentOrCurrentWithTag(e.target, 'li');
+                                if(li) {
+                                    active.forEach(function (node){
+                                        if(!li.contains(node)) {
+                                            node.classList.remove('context-menu-active');
+                                        }
 
-                            });
+                                    });
+                                }
+
+                            }
                         }
+
                     })
                 }
             }
