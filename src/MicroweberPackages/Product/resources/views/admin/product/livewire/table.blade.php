@@ -120,7 +120,7 @@
             <div>
                 You have selected {{ count($checked) }} items,
                 Do you want to Select All {{ count($products->items()) }}?
-                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+                <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
             </div>
             @endif
         @endif
@@ -195,7 +195,14 @@
     <table class="table table-responsive" id="content-results-table">
         <thead>
         <tr>
-            <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
+            <th scope="col">
+
+                <div class="custom-control custom-checkbox mb-0">
+                    <input type="checkbox" wire:model="selectAll" id="secectall-procuts"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                    <label for="secectall-procuts" class="custom-control-label"></label>
+                </div>
+
+            </th>
             @if($showColumns['id'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
@@ -233,7 +240,13 @@
         @foreach ($products as $product)
         <tr class="manage-post-item">
             <td>
-                <input type="checkbox" value="{{ $product->id }}"  class="js-select-posts-for-action"  wire:model="checked">
+
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" value="{{ $product->id }}" id="products-{{ $product->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                    <label for="products-{{ $product->id }}" class="custom-control-label"></label>
+                </div>
+
                 <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
                     <i class="mdi mdi-cursor-move"></i>
                 </span>
