@@ -22,9 +22,7 @@ class TemplateApiController
         $importType = $request->get('import_type', 'default');
 
         $filePath = templates_path() . $template . DS . 'mw_default_content.zip';
-        if (!is_file($filePath)) {
-            return ['error'=>'Template dosen\'t have default content file.'];
-        }
+
 
         $importLog = [];
 
@@ -35,7 +33,9 @@ class TemplateApiController
             save_option('current_template', $template,'template');
 
         } else if ($importType == 'only_media' || $importType == 'full' || $importType == 'delete') {
-
+            if (!is_file($filePath)) {
+                return ['error'=>'Template dosen\'t have default content file.'];
+            }
             $sessionId = SessionStepper::generateSessionId(0);
 
             $installTemplate = new TemplateInstaller();

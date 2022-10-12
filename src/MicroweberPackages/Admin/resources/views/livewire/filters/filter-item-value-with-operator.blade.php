@@ -10,7 +10,7 @@
             @endif
 
             @if($itemOperatorValue == 'greater')
-                greater than:
+                more than:
             @endif
 
             @if($itemOperatorValue == 'lower')
@@ -37,11 +37,11 @@
         <label>{{$name}} </label>
         <div class="mb-3 mb-md-0 input-group">
             <select class="form-control" wire:model.stop="itemOperatorValue">
-                <option value="">Equal to</option>
                 <option value="greater">More than</option>
                 <option value="lower">Lower than</option>
+                <option value="">Equal to</option>
             </select>
-            <input type="number" class="form-control" placeholder="{{$name}} count" wire:model.stop="itemValue">
+            <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model.stop="itemValue">
         </div>
     </div>
 </div>

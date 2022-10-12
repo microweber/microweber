@@ -11,37 +11,37 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Cart\Models\Cart;
 
-trait FilterBySaleTrait
+trait FilterByOrdersTrait
 {
-    public $salesOperator = false;
-    public $sortSales = false;
+    public $ordersOperator = false;
+    public $sortOrders = false;
 
     /**
      * @param $opeator
      * @return void
      */
-    public function salesOperator($opeator)
+    public function ordersOperator($opeator)
     {
-        $this->salesOperator = $opeator;
+        $this->ordersOperator = $opeator;
     }
 
     /**
      * @param $direction
      * @return void
      */
-    public function sortSales($direction)
+    public function sortOrders($direction)
     {
-        $this->sortSales = $direction;
+        $this->sortOrders = $direction;
     }
 
-    public function sales($sales)
+    public function orders($orders)
     {
-        $sales = intval($sales);
+        $orders = intval($orders);
 
         $operator = '=';
 
-        if ($this->salesOperator) {
-            switch ($this->salesOperator) {
+        if ($this->ordersOperator) {
+            switch ($this->ordersOperator) {
                 case 'greater':
                     $operator = '>';
                     break;
@@ -55,11 +55,11 @@ trait FilterBySaleTrait
             ->whereHas('orders')
             ->groupBy('id')
             ->withCount('orders')
-            ->having('orders_count', $operator, $sales);
+            ->having('orders_count', $operator, $orders);
 
 
-        if ($this->sortSales) {
-            $this->query->orderBy('orders_count', $this->sortSales);
+        if ($this->sortOrders) {
+            $this->query->orderBy('orders_count', $this->sortOrders);
         }
 
     }

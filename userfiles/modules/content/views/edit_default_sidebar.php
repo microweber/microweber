@@ -9,20 +9,14 @@
 
 <style>
     #quick-parent-selector-tree .mw-tree-nav{
-        padding: 12px 30px;
+        margin: 0;
+        padding: 0 0 0 20px;
         border: 1px solid #cfcfcf;
-        margin: 20px 0;
         border-radius: 3px;
         max-height: calc(100vh - 100px);
         overflow: auto;
+    }
 
-    }
-    .mw-ui-category-selector-abs li li .mw-tree-toggler{
-        margin-inline-start: -37px !important;
-    }
-    .mw-ui-category-selector-abs .mw-tree-toggler{
-        margin-inline-start: -22px !important;
-    }
 </style>
 
 <script>

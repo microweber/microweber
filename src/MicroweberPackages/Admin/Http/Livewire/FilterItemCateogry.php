@@ -21,6 +21,19 @@ class FilterItemCateogry extends DropdownComponent
 
     public $selectedItemsCount = 0;
 
+    public function mount()
+    {
+        $this->calculateSelectedItemsCount();
+
+        if ($this->itemPageValue) {
+            $this->updatedItemPageValue($this->itemPageValue);
+        }
+        
+        if ($this->itemCategoryValue) {
+            $this->updatedItemCategoryValue($this->itemCategoryValue);
+        }
+    }
+
     public function calculateSelectedItemsCount()
     {
         $this->selectedItemsCount = 0;

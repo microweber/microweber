@@ -2915,12 +2915,19 @@ html.mw-loading:after {
   clear: both;
   display: block;
 }
+.mw-tree {
+  container-name: mw-tree-root;
+  container-type: inline-size;
+}
 .mw-tree .mw-tree-nav-skin-default {
   padding-inline: 20px;
   padding-block: 10px 20px;
 }
 .mw-tree * {
   vertical-align: middle;
+}
+.mw-tree tree-label input {
+  pointer-events: none;
 }
 .mw-tree-nav li.skip-true {
   opacity: 0.6;
@@ -2937,6 +2944,20 @@ html.mw-loading:after {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  overflow: auto;
+}
+.mw-tree-nav-skin-default::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.mw-tree-nav-skin-default::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.mw-tree-nav-skin-default::-webkit-scrollbar-thumb {
+  background: #d5d5d5;
+}
+.mw-tree-nav-skin-default::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 .mw-tree-nav-skin-default ul {
   display: none;
@@ -2945,6 +2966,7 @@ html.mw-loading:after {
   cursor: pointer;
 }
 .mw-tree-nav-skin-default .mw-tree-item-title {
+  flex: 1;
   padding-inline: 4px 0;
   padding-block: 0;
   display: inline-block;
@@ -2976,10 +2998,6 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default li * {
   vertical-align: middle;
 }
-.mw-tree-nav-skin-default li .mdi-pencil {
-  color: #0e80e5;
-  opacity: 1;
-}
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title {
   color: #0e80e5;
   font-weight: bold;
@@ -2988,6 +3006,7 @@ html.mw-loading:after {
   color: #0e80e5;
   font-weight: normal;
 }
+.mw-tree-nav-skin-default li.context-menu-active > .mw-tree-item-content-root,
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root,
 .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
   background: #fff;
@@ -3060,17 +3079,17 @@ html.mw-loading:after {
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-item {
   font-size: 14px;
-  display: inline-block;
-  visibility: hidden;
+  display: block;
   position: relative;
-  height: 21px;
-  width: 21px;
-  line-height: 17px;
-  text-align: center;
   border: 1px solid transparent;
   color: #3B3B3B;
-  opacity: 0.9;
   cursor: pointer;
+  white-space: nowrap;
+  padding: 1px 10px;
+}
+.mw-tree-nav-skin-default .mw-tree-context-menu-item > .mdi,
+.mw-tree-nav-skin-default .mw-tree-context-menu-item > [class*="icon"] {
+  margin-inline-end: 7px;
 }
 .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu-item {
   visibility: visible;
@@ -3085,7 +3104,7 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default .mw-tree-item-content {
   color: #212121;
   padding: 0;
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   outline: none;
   background-repeat: no-repeat;
@@ -3101,11 +3120,13 @@ html.mw-loading:after {
   width: calc(100% - 35px);
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu {
-  display: inline-block;
+  display: inline-flex;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
+  align-items: center;
+  justify-content: center;
 }
 .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu {
   background-color: #fff;
@@ -3185,6 +3206,52 @@ html[dir="rtl"] .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw
 }
 html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   transform: rotate(270deg);
+}
+@supports (container-name: mw-tree-root) {
+  @container mw-tree-root (max-width: 300px) {
+    .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
+      margin-inline: -15px -23px;
+    }
+    .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
+      margin-inline: -15px -39px;
+    }
+    .mw-tree-nav-skin-default li li {
+      padding-inline-start: 8px;
+      margin-inline-start: 5px;
+    }
+    .mw-tree-nav-skin-default li:before,
+    .mw-tree-nav-skin-default li:after {
+      display: none;
+    }
+    .mw-tree-nav-skin-default .mw-ui-check input + span {
+      width: 12px;
+      height: 12px;
+      margin-inline-start: 7px;
+    }
+  }
+}
+@supports not (container-name: mw-tree-root) {
+  @media (max-width: 1200px) {
+    .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
+      margin-inline: -15px -23px;
+    }
+    .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
+      margin-inline: -15px -39px;
+    }
+    .mw-tree-nav-skin-default li li {
+      padding-inline-start: 8px;
+      margin-inline-start: 5px;
+    }
+    .mw-tree-nav-skin-default li:before,
+    .mw-tree-nav-skin-default li:after {
+      display: none;
+    }
+    .mw-tree-nav-skin-default .mw-ui-check input + span {
+      width: 12px;
+      height: 12px;
+      margin-inline-start: 7px;
+    }
+  }
 }
 /****************************
             Boxes

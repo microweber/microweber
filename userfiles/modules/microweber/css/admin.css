@@ -599,16 +599,14 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
 }
 
 
-#admin-main-tree .ui-resizable-handle.ui-resizable-e{
-    margin-inline-end: -20px;
-    background-color: #eee;
-    border-radius: 10px;
+#admin-main-tree + .ui-resizable-handle.ui-resizable-e{
+    right: -22px !important;
 }
 
 #admin-main-tree{
     padding-inline-end: 0;
 }
-#admin-main-tree .ui-resizable-handle.ui-resizable-e:before{
+#admin-main-tree + .ui-resizable-handle.ui-resizable-e:before{
     content: '\22EE';
     position: sticky;
     top: 50%;
