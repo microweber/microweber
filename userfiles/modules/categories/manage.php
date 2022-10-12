@@ -284,7 +284,11 @@
 
                     } else {
 
+                        <?php if (isset($params['is_shop'])): ?>
+                        window.location = "<?php print admin_url() ?>shop/category/"+id+"/edit";
+                        <?php else: ?>
                         window.location = "<?php print admin_url() ?>category/"+id+"/edit";
+                        <?php endif; ?>
 
                   //  mw.url.windowHashParam('action', 'editcategory:' + id)
                     }
