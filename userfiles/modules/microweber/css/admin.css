@@ -659,11 +659,11 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
 }
 
 
-.manage-post-item td{
+.manage-post-item td, .orders-table td{
     padding: 25px 15px;
 }
 
-#content-results-table thead tr th {
+#content-results-table thead tr th, .orders-table thead tr th {
     padding: 15px 5px;
     background-color: #f5f5f5;
 
