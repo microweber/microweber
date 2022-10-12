@@ -10,7 +10,7 @@ namespace MicroweberPackages\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;

@@ -2,15 +2,15 @@
 
 namespace MicroweberPackages\Content;
 
-use Content;
-use ContentFields;
-use Illuminate\Support\Facades\Cache;
+
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use voku\helper\AntiXSS;
+
+use MicroweberPackages\Content\Models\ContentRelated;
+
 
 class ContentManagerHelpers extends ContentManagerCrud
 {

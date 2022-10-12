@@ -4,7 +4,7 @@ namespace MicroweberPackages\Content\Http\Controllers\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationRuleParser;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class ContentSaveRequest extends FormRequest

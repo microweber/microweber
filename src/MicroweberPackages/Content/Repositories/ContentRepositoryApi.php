@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Content\Repositories;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Events\ContentWasDestroyed;
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Content\Events\ContentIsCreating;

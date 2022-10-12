@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\tests;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use MicroweberPackages\Blog\Http\Controllers\BlogController;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;

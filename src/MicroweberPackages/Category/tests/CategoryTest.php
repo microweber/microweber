@@ -5,7 +5,7 @@ namespace MicroweberPackages\Media\tests;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Traits\CategoryTrait;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 use Illuminate\Database\Eloquent\Model;

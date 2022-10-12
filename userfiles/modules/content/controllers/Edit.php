@@ -3,7 +3,7 @@
 
 namespace content\controllers;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\View\View;
 
 class Edit

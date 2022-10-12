@@ -338,7 +338,12 @@ if (isset($params['live_edit'])) {
 
                         <?php
 
-                        $add_sub_cateory_link = route('admin.category.create') .'?addsubcategory='.$data['id'];
+                        if (isset($params['is_shop'])) {
+                            $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
+                        } else {
+                            $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
+                        }
+
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
                             $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
                         }
@@ -671,7 +676,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label"><?php _e("Slug"); ?></label>
+                                            <label class="control-label"><?php _e("Category URL"); ?></label>
                                             <div class="mb-3">
                                                 <?php
                                                 $url = '';
@@ -780,9 +785,9 @@ if (isset($params['live_edit'])) {
                                             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                                             <?php
-                                            echo $formBuilder->textArea('category_meta_keywords')
+                                            echo $formBuilder->textArea('category_meta_description')
                                                 ->setModel($categoryModel)
-                                                ->value($data['description'])
+                                                ->value($data['category_meta_description'])
                                                 ->autocomplete(false);
                                             ?>
                                         </div>
