@@ -61,40 +61,32 @@
         </div>
     </div>
 
-    <div id="js-admin-product-filters"  @if (empty($showFilters)) style="display: none"  @endif>
-        <div class="container-filters p-3 pt-4 mb-4" style="background: rgb(236, 244, 255)">
+    <div class="d-flex flex-wrap mt-3">
 
-            <div class="row js-row-order-filters-box" style="@if(!isset($showFilters['order']) || !$showFilters['order']) display:none; @endif">
+            @if(isset($showFilters['category']) && $showFilters['category'])
                 @include('order::admin.orders.livewire.table-filters.order_id')
-                @include('order::admin.orders.livewire.table-filters.order_status')
-                @include('order::admin.orders.livewire.table-filters.payment_status')
-                @include('order::admin.orders.livewire.table-filters.amount_range')
-                @include('order::admin.orders.livewire.table-filters.product')
-            </div>
+            @endif
 
-            <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['shipping']) || !$showFilters['shipping']) display:none; @endif">
-                @include('order::admin.orders.livewire.table-filters.shipping.service')
-                @include('order::admin.orders.livewire.table-filters.shipping.tracking_number')
-                @include('order::admin.orders.livewire.table-filters.shipping.status')
-                @include('order::admin.orders.livewire.table-filters.shipping.shipped_at')
-                @include('order::admin.orders.livewire.table-filters.shipping.country')
-                @include('order::admin.orders.livewire.table-filters.shipping.city')
-                @include('order::admin.orders.livewire.table-filters.shipping.sate')
-                @include('order::admin.orders.livewire.table-filters.shipping.post-code')
-                @include('order::admin.orders.livewire.table-filters.shipping.address')
-                @include('order::admin.orders.livewire.table-filters.shipping.phone')
-            </div>
+            @include('order::admin.orders.livewire.table-filters.order_status')
+            @include('order::admin.orders.livewire.table-filters.payment_status')
+            @include('order::admin.orders.livewire.table-filters.amount_range')
+            @include('order::admin.orders.livewire.table-filters.product')
 
-            <div class="row js-row-customer-filters-box" style="@if(!isset($showFilters['customer']) || !$showFilters['customer']) display:none; @endif">
-                @include('order::admin.orders.livewire.table-filters.customer')
-                @include('order::admin.orders.livewire.table-filters.user')
-            </div>
+            @include('order::admin.orders.livewire.table-filters.shipping.service')
+            @include('order::admin.orders.livewire.table-filters.shipping.tracking_number')
+            @include('order::admin.orders.livewire.table-filters.shipping.status')
+            @include('order::admin.orders.livewire.table-filters.shipping.shipped_at')
+            @include('order::admin.orders.livewire.table-filters.shipping.country')
+            @include('order::admin.orders.livewire.table-filters.shipping.city')
+            @include('order::admin.orders.livewire.table-filters.shipping.sate')
+            @include('order::admin.orders.livewire.table-filters.shipping.post-code')
+            @include('order::admin.orders.livewire.table-filters.shipping.address')
+            @include('order::admin.orders.livewire.table-filters.shipping.phone')
 
-            <div class="row js-row-date-filters-box" style="@if(!isset($showFilters['date']) || !$showFilters['date']) display:none; @endif">
-                @include('order::admin.orders.livewire.table-filters.date_range')
-            </div>
+            @include('order::admin.orders.livewire.table-filters.customer')
+            @include('order::admin.orders.livewire.table-filters.user')
 
-        </div>
+            @include('order::admin.orders.livewire.table-filters.date_range')
     </div>
 
     @livewire('admin-orders-table', ['filters'=>$filters])
