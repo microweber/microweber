@@ -121,8 +121,10 @@
                 var treeNode = document.getElementById('js-page-tree');
                 var pagesTree;
 
-                $('.js-open-close-all-tree-elements').on('change', function () {
-                    if ($(this).is(':checked') ) {
+                document
+                    .querySelector('.js-open-close-all-tree-elements')
+                    .addEventListener('change', function () {
+                    if (this.checked) {
                         pagesTree.openAll();
                     } else {
                         pagesTree.closeAll();
@@ -168,52 +170,51 @@
                     }
                 ];
 
+                var options = {
+                    sortable: false,
+                    selectable: false,
+                    singleSelect: false,
+                    selectableNodes: 'singleSelect',
+                    saveState: true,
+                    searchInput: true,
+                    contextMenu: contextMenu,
+                    resizable: true,
+                    resizableOn: 'treeParent',
+                    append: treeTail,
+                    id: 'admin-main-tree',
+                };
 
-
+                var params = {
+                    is_shop: '1'
+                };
 
                 mw.admin.tree(treeNode, {
-                    options: {
-                        sortable: false,
-                        selectable: false,
-                        singleSelect: true,
-                        saveState: true,
-                        searchInput: true,
-                        contextMenu: contextMenu,
-                        resizable: true,
-                        resizableOn: 'treeParent',
-                        append: treeTail,
-                        id: 'admin-main-tree',
-                    },
-                    params: {
-                        is_shop: '1'
-                    }
+                    options: options,
+                    params: params
                 }, 'tree').then(function (res) {
                     pagesTree = res.tree;
                     // todo: remove
                     select(8, 'category');
 
-                    setTimeout(function () {
-
-                        var treeHolderSet = function (){
-
-                            var treeHolder = mw.element('#admin-main-tree');
-                            if(treeHolder) {
-                                treeHolder.css({
-                                    'height': 'calc(100vh - 120px)',
-                                    'overflow': 'auto',
-                                    'minHeight': '200px',
-                                });
-                            }
-
-
+                    var treeHolderSet = function (){
+                        var treeHolder = mw.element('#admin-main-tree');
+                        if(treeHolder) {
+                            treeHolder.css({
+                                'height': 'calc(100vh - 120px)',
+                                'overflow': 'auto',
+                                'minHeight': '200px',
+                            });
                         }
-                        addEventListener('load', treeHolderSet);
-                        addEventListener('resize', treeHolderSet);
-                        addEventListener('scroll', treeHolderSet);
+                    }
+                    addEventListener('load', treeHolderSet);
+                    addEventListener('resize', treeHolderSet);
+                    addEventListener('scroll', treeHolderSet);
+                    treeHolderSet();
 
+                    pagesTree.on('selectionChange', function (itm){
+                        console.log( itm )
+                    })
 
-                        treeHolderSet();
-                    }, 100)
 
                 });
             })();

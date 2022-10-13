@@ -1,15 +1,20 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-user-filter" wire:ignore >
-    <label class="d-block">
-        Shipping Country
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
 
-    <div class="mb-3 mb-md-0">
-        @php
-            $selectedItem = false;
-            if (isset($filters['shipping']['country'])) {
-                $selectedItem = $filters['shipping']['country'];
-            }
-        @endphp
-        @livewire('admin-orders-shipping-country-autocomplete', ['selectedItem'=>$selectedItem])
-    </div>
+    @php
+        $itemValue = '';
+        if (isset($filters['shippingCountry'])) {
+            $itemValue = $filters['shippingCountry'];
+        }
+    @endphp
+
+    @livewire('admin-filter-item-value', [
+        'name'=>'Shipping Country',
+        'itemValue'=>$itemValue,
+        'itemValueKey'=>'shippingCountry',
+        'showDropdown'=> session()->get('showFilterShippingCountry'),
+        'onChangedEmitEvents' => [
+            'setFirstPageOrdersList'
+        ]
+    ])
+
 </div>
