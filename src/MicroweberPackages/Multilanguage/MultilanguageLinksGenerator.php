@@ -41,6 +41,7 @@ class MultilanguageLinksGenerator
 
                 $multiCatLangUrls[$contentDataLang] = [
                     'link'=>$contentDataDetails['link'],
+                    'slug'=>$contentDataDetails['slug'],
                     'locale'=>$contentDataLang,
                     'meta_locale'=> $metaLocale
                 ];
@@ -148,6 +149,7 @@ class MultilanguageLinksGenerator
             'item'=>$item,
             'type'=>$type,
             'link'=>$link,
+            'slug'=>$item['url'],
             'lang'=>$lang
         ];
     }
