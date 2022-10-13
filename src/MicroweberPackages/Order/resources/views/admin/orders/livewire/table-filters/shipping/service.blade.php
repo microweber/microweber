@@ -1,13 +1,33 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-user-filter" wire:ignore >
-    <label class="d-block">
-        Shipping Type
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+    @php
+        $data = [];
 
-    <select wire:model.stop="filters.shipping.service" class="form-control">
-        <option value="">Any</option>
-        @foreach(app()->shipping_manager->getShippingModules() as $shippingModule)
-        <option value="{{$shippingModule['module']}}">{{$shippingModule['name']}}</option>
-        @endforeach
-    </select>
+        $data[] = [
+            'key'=>'any',
+            'value'=>'Any',
+        ];
 
+        foreach (app()->shipping_manager->getShippingModules() as $shippingModule) {
+            $data[] = [
+                'key'=> $shippingModule['module'],
+                'value'=> $shippingModule['name'],
+            ];
+        }
+
+        $selectedItem = [];
+        if (isset($filters['shippingService'])) {
+            $selectedItem = $filters['shippingService'];
+        }
+    @endphp
+    @livewire('admin-filter-item', [
+        'name'=>'Shipping Type',
+        'searchable'=>false,
+        'selectedItem'=>$selectedItem,
+        'selectedItemKey'=>'shippingService',
+        'data'=>$data,
+        'showDropdown'=> session()->get('showFilterShippingService'),
+        'onChangedEmitEvents' => [
+          'setFirstPageOrdersList'
+        ]
+    ])
 </div>

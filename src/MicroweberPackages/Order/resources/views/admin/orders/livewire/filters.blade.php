@@ -39,12 +39,11 @@
                 </label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.paymentStatus"> Payment
                     Status</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orderAmountRange"> Order
-                    Amount Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.amountRange"> Amount Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.product"> Product </label>
 
                 <h6 class="dropdown-header">Shipping</h6>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingType"> Shipping Type</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingService"> Shipping Service</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingTrackingNumber">
                     Shipping Tracking Number</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingStatus"> Shipping
