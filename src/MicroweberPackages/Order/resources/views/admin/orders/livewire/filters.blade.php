@@ -77,7 +77,7 @@
 
     <div class="d-flex flex-wrap mt-3">
 
-        @if(isset($showFilters['orderId']) && $showFilters['orderId'])
+        @if(isset($showFilters['id']) && $showFilters['id'])
             @include('order::admin.orders.livewire.table-filters.order_id')
         @endif
 
@@ -89,7 +89,7 @@
             @include('order::admin.orders.livewire.table-filters.payment_status')
         @endif
 
-        @if(isset($showFilters['paymentStatus']) && $showFilters['amountRange'])
+        @if(isset($showFilters['amountRange']) && $showFilters['amountRange'])
             @include('order::admin.orders.livewire.table-filters.amount_range')
         @endif
 
