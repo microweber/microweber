@@ -127,6 +127,10 @@ class OrderFilter extends ModelFilter
 
     public function orderStatus($orderStatus)
     {
+        if ($orderStatus == 'any') {
+            return;
+        }
+
         $orderStatus = trim($orderStatus);
         if (!empty($orderStatus)) {
             $this->query->where('order_status', $orderStatus);

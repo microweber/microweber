@@ -1,6 +1,20 @@
-<div class="col-12 col-sm-6 col-md-2 col-lg-2 mb-4 js-order-id-filter">
-    <label class="d-block">
-        Order Id
-    </label>
-    <input type="text" class="form-control" wire:model="filters.id" />
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+
+    @php
+        $itemValue = '';
+        if (isset($filters['id'])) {
+            $itemValue = $filters['id'];
+        }
+    @endphp
+
+    @livewire('admin-filter-item-value', [
+        'name'=>'Order Id',
+        'itemValue'=>$itemValue,
+        'itemValueKey'=>'id',
+        'showDropdown'=> session()->get('showFilterId'),
+        'onChangedEmitEvents' => [
+            'setFirstPageOrdersList'
+        ]
+    ])
+
 </div>

@@ -1,12 +1,25 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-payment-status-filter">
-    <label class="d-block">
-        Payment Status
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+    @php
+        $data = [
+            ['key'=>'any','value'=>'Any'],
+            ['key'=>'1','value'=>'Paid'],
+            ['key'=>'0','value'=>'Unpaid']
+        ];
 
-    <select wire:model.stop="filters.isPaid" class="form-control">
-        <option value="">Any</option>
-        <option value="1">Paid</option>
-        <option value="0">Unpaid</option>
-    </select>
-
+        $selectedItem = [];
+        if (isset($filters['isPaid'])) {
+            $selectedItem = $filters['isPaid'];
+        }
+    @endphp
+    @livewire('admin-filter-item', [
+        'name'=>'Payment Status',
+        'searchable'=>false,
+        'selectedItem'=>$selectedItem,
+        'selectedItemKey'=>'isPaid',
+        'data'=>$data,
+        'showDropdown'=> session()->get('showFilterPaymentStatus'),
+        'onChangedEmitEvents' => [
+         'setFirstPageOrdersList'
+        ]
+    ])
 </div>
