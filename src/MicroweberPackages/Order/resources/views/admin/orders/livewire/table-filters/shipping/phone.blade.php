@@ -1,7 +1,20 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-user-filter" wire:ignore >
-    <label class="d-block">
-        Shipping Phone
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
 
-    <input type="text" class="form-control" placeholder="Type to search by phone..." wire:model="filters.shippingPhone" />
+    @php
+        $itemValue = '';
+        if (isset($filters['shippingPhone'])) {
+            $itemValue = $filters['shippingPhone'];
+        }
+    @endphp
+
+    @livewire('admin-filter-item-value', [
+        'name'=>'Shipping Phone',
+        'itemValue'=>$itemValue,
+        'itemValueKey'=>'shippingPhone',
+        'showDropdown'=> session()->get('showFilterShippingPhone'),
+        'onChangedEmitEvents' => [
+            'setFirstPageOrdersList'
+        ]
+    ])
+
 </div>

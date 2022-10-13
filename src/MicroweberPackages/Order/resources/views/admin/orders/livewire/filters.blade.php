@@ -1,37 +1,16 @@
 <div>
-    @if(!empty($appliedFiltersFriendlyNames))
-        <div class="mb-4">
-            <b>Filters</b> <br/>
-            @foreach($appliedFiltersFriendlyNames as $filterKey=>$filterValues)
-                <span class="btn btn-sm btn-outline-primary">
-                  <i class="mw-icon-category"></i>
-                  <span class="tag-label-content">
-                       {{ucfirst($filterKey)}}:
-                      @if(is_array($filterValues))
-                          {{implode(', ', $filterValues)}}
-                      @endif
-                      @if(is_string($filterValues))
-                          {{$filterValues}}
-                      @endif
-                  </span>
-                  <span class="mw-icon-close ml-1" wire:click="removeFilter('{{$filterKey}}')"></span>
-              </span>
-            @endforeach
-
-            <button class="btn btn-outline-danger btn-sm" wire:click="clearFilters">Clear filers</button>
-        </div>
-    @endif
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <input wire:model.debounce.500ms="filters.keyword" type="text" placeholder="Search by keyword..."
                    class="form-control">
         </div>
+
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            `
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+                Filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
+
             <div class="dropdown-menu p-3" style="max-height:300px;overflow-y: scroll;padding-bottom:10px">
                 <h6 class="dropdown-header">Order</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.id"> Id</label>
