@@ -31,7 +31,7 @@
             `<button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
-            <div class="dropdown-menu p-3">
+            <div class="dropdown-menu p-3" style="max-height:300px;overflow-y: scroll;padding-bottom:10px">
                 <h6 class="dropdown-header">Order</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.id"> Id</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orderStatus"> Order Status </label>
