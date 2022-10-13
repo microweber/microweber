@@ -49,14 +49,16 @@
                 sortable:false,
                 resizable:false,
                 resizableOn: 'tree', // 'tree' | 'treeParent'
-                nestedSortable:false,
-                singleSelect:false,
+                nestedSortable: false,
+                singleSelect: false,
+                clickSelect: false,
                 selectedData:[],
                 skip:[],
                 contextMenu:false,
                 append:false,
                 prepend:false,
                 selectable:false,
+                selectableNodes:false, // 'singleSelect' | 'singleSelectToggle' | 'multiSelect' | 'multiSelectToggle'
                 disableSelectTypes:[],
                 filter:false,
                 cantSelectTypes: [],
@@ -335,10 +337,13 @@
             return li;
         };
 
-        this.select = function(li, type, applyTriggerChange = true){
+        this.select = function(li, type, trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             if(Array.isArray(li)){
                 $.each(li, function(){
-                    scope.select(this);
+                    scope.select(this, type, trigger);
                 });
                 return;
             }
@@ -352,17 +357,20 @@
             this.manageUnselected();
             this.getSelected();
 
-            if (applyTriggerChange) {
+            if (trigger) {
                 triggerChange();
             }
         };
 
 
 
-        this.unselect = function(li, type){
+        this.unselect = function(li, type, trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             if(Array.isArray(li)){
                 $.each(li, function(){
-                    scope.unselect(this);
+                    scope.unselect(this, type, trigger);
                 });
                 return;
             }
@@ -374,7 +382,9 @@
             }
             this.manageUnselected();
             this.getSelected();
-            triggerChange();
+            if (trigger) {
+                triggerChange();
+            }
         };
 
         this.get = function(li, type){
@@ -408,25 +418,37 @@
         };
         this.toggleSelect = function(li, type){
             if(this.isSelected(li, type)){
-                this.unselect(li, type)
+                this.unselect(li, type);
             }
             else{
-                this.select(li, type)
+                this.select(li, type);
             }
         };
 
-        this.selectAll = function(){
+        this.selectAll = function(trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             this._selectionChangeDisable = true;
+
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange();
+            if(trigger) {
+                triggerChange();
+            }
         };
 
-        this.unselectAll = function(){
+        this.unselectAll = function(trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange();
+            if(trigger) {
+                triggerChange();
+            }
+
         };
 
         this.open = function(li, type, _skipsave){
@@ -543,9 +565,7 @@
                 itype = 'checkbox';
             }
 
-
-
-             var label = scope.document.createElement('tree-label');
+            var label = scope.document.createElement('tree-label');
             var input = scope.document.createElement('input');
             var span = scope.document.createElement('span');
             input.type = itype;
@@ -819,8 +839,14 @@
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
-                    if(scope.options.selectable) {
-                        if(scope.options.toggleSelect) {
+                    if(scope.options.selectable || scope.options.selectableNodes) {
+                        if(scope.options.selectableNodes === 'singleSelect' || scope.options.selectableNodes ===  'singleSelectToggle') {
+
+                            scope.unselect(scope.selectedData.filter(function (obj){
+                                return li._data.id !== obj.id || li._data.type !== obj.type
+                            }), undefined, false)
+                        }
+                        if(scope.options.toggleSelect || scope.options.selectableNodes === 'toggle') {
                             scope.toggleSelect(li);
                         } else {
                             scope.select(li);
