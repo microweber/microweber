@@ -32,11 +32,31 @@
                 More filters &nbsp; <i class="fa fa-plus-circle"></i>
             </button>
             <div class="dropdown-menu p-3">
-                <h6 class="dropdown-header">Taxonomy</h6>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.order"> Order</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shipping"> Shipping</label>
+                <h6 class="dropdown-header">Order</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.id"> Id</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orderStatus"> Order Status </label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.paymentStatus"> Payment Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orderAmountRange"> Order Amount Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.product">  Product </label>
+
+                <h6 class="dropdown-header">Shipping</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingType"> Shipping Type</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingTrackingNumber"> Shipping Tracking Number</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingStatus"> Shipping Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippedAt"> Shipped at</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingCountry">  Shipping Country</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingCity">  Shipping City</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingSate">  Shipping Sate</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingPostCode">  Shipping Post Code</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingAddress">  Shipping Address</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingPhone">  Shipping Phone</label>
+
+                <h6 class="dropdown-header">Customer</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.date"> Date</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.registeredUser">  Registered User </label>
+
+                <h6 class="dropdown-header">Date</h6>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween">  Orders Date Range</label>
             </div>`
         </div>
     </div>
