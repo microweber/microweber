@@ -18,7 +18,7 @@
                 </label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.paymentStatus"> Payment
                     Status</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.amountRange"> Amount Range</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.amountBetween"> Amount Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.product"> Product </label>
 
                 <h6 class="dropdown-header">Shipping</h6>
@@ -67,7 +67,7 @@
             @include('order::admin.orders.livewire.table-filters.payment_status')
         @endif
 
-        @if(isset($showFilters['amountRange']) && $showFilters['amountRange'])
+        @if(isset($showFilters['amountBetween']) && $showFilters['amountBetween'])
             @include('order::admin.orders.livewire.table-filters.amount_range')
         @endif
 
