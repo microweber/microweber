@@ -8,7 +8,7 @@
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                Filters &nbsp; <i class="fa fa-plus-circle"></i>
+                <i class="fa fa-plus-circle"></i> Filters
             </button>
 
             <div class="dropdown-menu p-3" style="max-height:300px;overflow-y: scroll;padding-bottom:10px">
@@ -119,7 +119,7 @@
             @include('order::admin.orders.livewire.table-filters.customer')
         @endif
 
-        @if(isset($showFilters['user']) && $showFilters['user'])
+        @if(isset($showFilters['registeredUser']) && $showFilters['registeredUser'])
             @include('order::admin.orders.livewire.table-filters.user')
         @endif
 
