@@ -1,7 +1,7 @@
 <div>
 
 
-    <button type="button" @if($searchable) wire:click="load({{$this->id}})" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($selectedItemText) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+    <button type="button" @if($searchable) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($selectedItemText) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
        @if($selectedItemText) {{$name}}: {{$selectedItemText}} @else  {{$name}}  @endif <span class="mt-2">&nbsp;</span>
 

@@ -13,7 +13,7 @@ class FilterItemProduct extends FilterItemComponent
     public $selectedItemKey = 'productId';
     public string $placeholder = 'Type to search by products...';
     public string $view = 'admin::livewire.filters.filter-item-product';
-
+    
     public function refreshQueryData()
     {
         if ($this->selectedItem > 0) {
