@@ -193,6 +193,12 @@ mw.Handle = function(options) {
 
         this.handleTitle.onclick = function () {
             mw.$(scope.wrapper).toggleClass('active');
+            mw.$('.dynamic-submodule-handle:not([data-listener])').each(function () {
+                this.dataset.listener = true;
+                this.addEventListener('click', function () {
+                    mw.tools.module_settings('#' + this.dataset.module);
+                });
+            })
         };
         mw.$(document.body).on('click', function (e) {
             if(!mw.tools.hasParentWithId(e.target, scope.wrapper.id)){
@@ -224,11 +230,11 @@ mw.Handle = function(options) {
             btn.onmousedown = function (e) {
                 e.preventDefault();
             };
-            btn.onclick = function (e) {
+            btn.addEventListener('click', function (e){
                 e.preventDefault();
                 data.action.call(scope, e, this, data);
-                scope.hide()
-            };
+                scope.hide();
+            })
         }
         return btn;
     };
@@ -1290,9 +1296,12 @@ mw._initHandles = {
                     dialog.remove();
                 });
             });
-            mw.$('.dynamic-submodule-handle').on('click', function () {
-                mw.tools.module_settings('#' + this.dataset.module);
-            });
+            mw.$('.dynamic-submodule-handle:not([data-listener])').each(function () {
+                this.dataset.listener = true;
+                this.addEventListener('click', function () {
+                    mw.tools.module_settings('#' + this.dataset.module);
+                });
+            })
         });
     },
     columns:function(){

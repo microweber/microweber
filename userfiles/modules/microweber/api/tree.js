@@ -734,7 +734,7 @@
                 var menuButton = scope.document.createElement('span');
                 var menuContent = scope.document.createElement('span');
                 menuButton.className = 'mw-tree-context-menu-content-button';
-                menuButton.innerHTML = '...';
+                menuButton.innerHTML = ' ';
                 menuButton.addEventListener('click', function (e){
                    e.stopImmediatePropagation();
                    Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
