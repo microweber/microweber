@@ -16,10 +16,9 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.id"> Id</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orderStatus"> Order Status
                 </label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.paymentStatus"> Payment
-                    Status</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.isPaid"> Payment Status</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.amountBetween"> Amount Range</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.product"> Product </label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.productId"> Product </label>
 
                 <h6 class="dropdown-header">Shipping</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.shippingService"> Shipping Service</label>
@@ -63,7 +62,7 @@
             @include('order::admin.orders.livewire.table-filters.order_status')
         @endif
 
-        @if(isset($showFilters['paymentStatus']) && $showFilters['paymentStatus'])
+        @if(isset($showFilters['isPaid']) && $showFilters['isPaid'])
             @include('order::admin.orders.livewire.table-filters.payment_status')
         @endif
 
@@ -71,7 +70,7 @@
             @include('order::admin.orders.livewire.table-filters.amount_range')
         @endif
 
-        @if(isset($showFilters['product']) && $showFilters['product'])
+        @if(isset($showFilters['productId']) && $showFilters['productId'])
             @include('order::admin.orders.livewire.table-filters.product')
         @endif
 
