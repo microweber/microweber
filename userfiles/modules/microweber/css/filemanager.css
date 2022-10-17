@@ -49,7 +49,7 @@
 
 }
 .mw-file-manager-root .mw-file-manager-list-item-thumb-folder{
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' /%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' fill='%23333333' /%3E%3C/svg%3E");
 }
 
 
@@ -68,6 +68,7 @@
 .mw-file-manager-view-table thead.sticky-true > tr > th{
     position: sticky;
     top: 0;
+    z-index: 2;
 }
 
 .mw-file-manager-view-table tbody tr.selected,
@@ -213,6 +214,20 @@
 .mw-file-manager-root[data-view="grid"] tr th{
     display: block;
 }
+.mw-file-manager-root[data-view="grid"] tr{
+    border: 1px solid transparent;
+    border-top-width: 0;
+
+    z-index: 1;
+}
+.mw-file-manager-root[data-view="grid"] tr:hover {
+    border-color: #ccc;
+    transition: .3s;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+}
+.mw-file-manager-root[data-view="grid"] tr:hover .mw-file-manager-list-item-thumb.mw-file-manager-list-item-thumb-folder{
+    background-color: #eee;
+}
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
     position: absolute;
     bottom: 10px;
@@ -222,6 +237,11 @@
     position: absolute;
     bottom: 5px;
     left: 10px;
+}
+.mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-options-list{
+    top: auto;
+    bottom: 0;
+    transform-origin: center bottom;
 }
 .mw-file-manager-root[data-view="grid"] tr{
     width: 160px;
