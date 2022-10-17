@@ -84,8 +84,10 @@ class FilterItemOrderCustomer extends FilterItemMultipleSelectComponent
         }
 
         $query->groupBy('email');
-        $query->limit(200);
 
+        $this->total = $query->get()->count();
+
+        $query->limit($this->perPage);
         $get = $query->get();
 
         if ($get != null) {
