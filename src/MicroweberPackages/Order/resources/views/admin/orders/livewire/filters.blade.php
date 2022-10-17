@@ -41,7 +41,7 @@
 
                 <h6 class="dropdown-header">Customer</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.customer"> Customer</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.registeredUser"> Registered
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Registered
                     User </label>
 
                 <h6 class="dropdown-header">Date</h6>
@@ -118,7 +118,7 @@
             @include('order::admin.orders.livewire.table-filters.customer')
         @endif
 
-        @if(isset($showFilters['registeredUser']) && $showFilters['registeredUser'])
+        @if(isset($showFilters['userIds']) && $showFilters['userIds'])
             @include('order::admin.orders.livewire.table-filters.user')
         @endif
 
