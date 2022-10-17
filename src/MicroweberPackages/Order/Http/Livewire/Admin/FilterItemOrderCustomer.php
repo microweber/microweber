@@ -14,10 +14,6 @@ class FilterItemOrderCustomer extends FilterItemComponent
     public $model = Order::class;
     public $selectedItemKey = 'customer';
     public string $placeholder = 'Type to search by customers...';
-
-    public $firstItemName;
-    public $firstTimeLoading = false;
-
     public $perPage = 10;
 
     protected function getListeners()

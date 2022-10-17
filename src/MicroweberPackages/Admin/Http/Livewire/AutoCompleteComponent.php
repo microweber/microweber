@@ -117,6 +117,8 @@ class AutoCompleteComponent extends DropdownComponent
      */
     public function selectItem(string $item)
     {
+        $this->selectedItem = $item;
+        
         if (empty($item)) {
             $this->selectedItemText = '';
         }
