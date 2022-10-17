@@ -122,7 +122,7 @@
             @include('order::admin.orders.livewire.table-filters.user')
         @endif
 
-        @if(isset($showFilters['dateRange']) && $showFilters['dateRange'])
+        @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
             @include('order::admin.orders.livewire.table-filters.date_range')
         @endif
     </div>

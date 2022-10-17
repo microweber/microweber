@@ -138,6 +138,7 @@ class OrdersTableComponent extends Component
         }
 
         $query->filter($applyFiltersToQuery);
+        $query->whereHas('cart');
 
         return $query;
     }

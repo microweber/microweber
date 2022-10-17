@@ -1,45 +1,18 @@
-<div class=" col-12 col-sm-12 col-md-12 col-lg-12 mb-4 js-order-date-rage-filter">
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+    @php
+        $itemValue = '';
+        if (isset($filters['dateBetween'])) {
+            $itemValue = $filters['dateBetween'];
+        }
+    @endphp
 
-    <input type="hidden" id="js-date-range" wire:model.stop="filters.dateBetween">
-
-    <label class="d-block">
-        Orders Date Range
-    </label>
-
-    <div class="mb-3 mb-md-0 input-group">
-        <input id="js-date-range-picker" class="form-control" type="text" />
-    </div>
-
+    @livewire('admin-filter-item-date-range', [
+        'name'=>'Orders Date',
+        'itemValue'=>$itemValue,
+        'itemValueKey'=>'dateBetween',
+        'showDropdown'=> session()->get('showFilterDateBetween'),
+        'onChangedEmitEvents' => [
+          'setFirstPageOrdersList'
+        ]
+    ])
 </div>
-
-<script>
-    mw.lib.require("air_datepicker");
-
-    let dateRangeElement = document.getElementById('js-date-range');
-    var dateRangePickerInstance = $('#js-date-range-picker').datepicker({
-        language: 'en',
-        timepicker: false,
-        range: true,
-        multipleDates: true,
-        dateFormat: '',
-        multipleDatesSeparator: " - ",
-        onSelect: function (fd, d, picker) {
-
-            var dateRange = fd;
-            dateRange = dateRange.replace(' - ', ',');
-
-            dateRangeElement.value = dateRange;
-            dateRangeElement.dispatchEvent(new Event('input'));
-
-        }
-    }).data('datepicker');
-
-    document.addEventListener('livewire:load', function () {
-        if (dateRangeElement) {
-            const dateRangeExp = dateRangeElement.value.split(",");
-            if (dateRangeExp && dateRangeExp[0] && dateRangeExp[1]) {
-                dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
-            }
-        }
-    });
-</script>

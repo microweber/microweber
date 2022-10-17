@@ -162,25 +162,24 @@
             @if($showColumns['image'])
                 <td>
                     @php
-                    if ($carts->count() > 0) {
-                        $cartProduct = $carts->products->first();
-                        @endphp
-                        @if (isset($cartProduct) && $cartProduct != null)
-                          <a href="#">
-                              <div class="img-circle-holder">
+                        $cart = $order->cart()->with('products')->first();
+                        $cartProduct = $cart->products->first();
+                    @endphp
+                    @if (isset($cartProduct) && $cartProduct != null)
+                        <a href="#">
+                            <div class="img-circle-holder">
                                 <img src="{{$cartProduct->thumbnail()}}" />
-                              </div>
-                          </a>
-                        @endif
-                    @php } else { @endphp
-                        No products
-                    @php  }  @endphp
+                            </div>
+                        </a>
+                    @endif
                 </td>
             @endif
 
             @if($showColumns['products'])
-            <td>
-                @if($carts->count() > 0)
+                <td>
+                    @php
+                        $carts = $order->cart()->with('products')->get();
+                    @endphp
                     @foreach ($carts as $cart)
                         @php
                             $cartProduct = $cart->products->first();
@@ -188,12 +187,9 @@
                                 continue;
                             }
                         @endphp
-                       <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                        <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
                     @endforeach
-                @else
-                    No products
-                @endif
-            </td>
+                </td>
             @endif
 
             @if($showColumns['customer'])
