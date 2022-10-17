@@ -21,6 +21,23 @@ class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
 
+    public function customer($filter)
+    {
+        if (!is_array($filter)) {
+            $filter = json_decode($filter, true);
+        }
+
+        if (!empty($filter)) {
+            if (isset($filter['customer_id'])) {
+                $this->customerId($filter['customer_id']);
+            } else if (isset($filter['email'])) {
+                $this->query->where('email', $filter['email']);
+            } else if (isset($filter['first_name'])) {
+                $this->query->where('first_name', $filter['first_name']);
+            }
+        }
+    }
+
     public function shippingState($state)
     {
         $state = trim($state);

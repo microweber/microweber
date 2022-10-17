@@ -3,11 +3,12 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemMultipleSelectComponent;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\User\Models\User;
 
-class FilterItemOrderCustomer extends FilterItemMultipleSelectComponent
+class FilterItemOrderCustomer extends FilterItemComponent
 {
     public $name = 'Customer';
     public $model = Order::class;
@@ -22,8 +23,8 @@ class FilterItemOrderCustomer extends FilterItemMultipleSelectComponent
     protected function getListeners()
     {
         return array_merge($this->listeners, [
-            'filterItemUsersRefresh'=>'$refresh',
-            'filterItemUsersResetProperties'=>'resetProperties'
+            'filterItemCustomerRefresh'=>'$refresh',
+            'filterItemCustomerResetProperties'=>'resetProperties'
         ]);
     }
 
@@ -34,47 +35,15 @@ class FilterItemOrderCustomer extends FilterItemMultipleSelectComponent
         $this->refreshQueryData();
     }
 
-    public function mount()
-    {
-        $this->firstTimeLoading = true;
-        $this->refreshFirstItemName();
-    }
-
-    public function updatedSelectedItems(array $items)
-    {
-        parent::updatedSelectedItems($items);
-
-        $this->refreshFirstItemName();
-    }
-
-    public function refreshFirstItemName()
-    {
-        if (isset($this->selectedItems[0])) {
-            $getItem = $this->model::where('id', $this->selectedItems[0])->first();
-            if ($getItem != null) {
-                $this->firstItemName = $getItem->displayName();
-            }
-        }
-    }
-
     public function refreshQueryData()
     {
-        $this->closeDropdown();
+        if (!empty($this->selectedItem)) {
+            if (isset($this->selectedItem['first_name'])) {
+                $this->selectedItemText = $this->selectedItem['first_name'] .' '. $this->selectedItem['last_name'];
+            }
+        }
 
         $query = $this->model::query();
-
-        /* if ($this->selectedItem > 0) {
-             $query->where('id', $this->selectedItem);
-             $query->limit(1);
-             $get = $query->first();
-             if ($get != null) {
-                 $this->data = [];
-                 $this->showDropdown = true;
-                 $this->query = $get->displayName() . ' (#'.$get->id.')';
-             }
-             return;
-         }*/
-
         $keyword = trim($this->query);
 
         if (!empty($keyword)) {
@@ -91,7 +60,7 @@ class FilterItemOrderCustomer extends FilterItemMultipleSelectComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown($this->id);
+
             $this->data = [];
             foreach ($get as $item) {
                 $key = [
