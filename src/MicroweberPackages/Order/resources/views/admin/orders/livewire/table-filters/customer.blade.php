@@ -6,7 +6,7 @@
            // $selectedItems = explode(',', $filters['customer']);
         }
     @endphp
-    @livewire('admin-filter-item-users', [
+    @livewire('admin-orders-filter-item-customer', [
         'name'=>'Customer',
         'selectedItems'=>$selectedItems,
         'showDropdown'=> session()->get('showFilterCustomer'),
