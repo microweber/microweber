@@ -38,8 +38,11 @@ class FilterItemOrderCustomer extends FilterItemComponent
     public function refreshQueryData()
     {
         if (!empty($this->selectedItem)) {
-            if (isset($this->selectedItem['first_name'])) {
-                $this->selectedItemText = $this->selectedItem['first_name'] .' '. $this->selectedItem['last_name'];
+            $json = @json_decode($this->selectedItem, true);
+            if (!empty($json)) {
+                if (isset($json['first_name'])) {
+                    $this->selectedItemText = $json['first_name'] .' '. $json['last_name'];
+                }
             }
         }
 
