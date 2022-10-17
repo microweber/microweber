@@ -23,7 +23,7 @@ use MicroweberPackages\Admin\Http\Livewire\FilterItemDateRange;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemMultipleSelectComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemProduct;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemTags;
-use MicroweberPackages\Admin\Http\Livewire\FilterItemUsers;
+use MicroweberPackages\Admin\Http\Livewire\FilterItemUser;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValueRange;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValueWithOperator;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValue;
@@ -52,7 +52,7 @@ class AdminServiceProvider extends ServiceProvider
         Livewire::component('admin-filter-item-product', FilterItemProduct::class);
         Livewire::component('admin-filter-item-category', FilterItemCateogry::class);
         Livewire::component('admin-filter-item-multiple-items', FilterItemMultipleSelectComponent::class);
-        Livewire::component('admin-filter-item-users', FilterItemUsers::class);
+        Livewire::component('admin-filter-item-users', FilterItemUser::class);
         Livewire::component('admin-filter-item-tags', FilterItemTags::class);
         Livewire::component('admin-filter-item-date', FilterItemDate::class);
         Livewire::component('admin-filter-item-value-with-operator', FilterItemValueWithOperator::class);
