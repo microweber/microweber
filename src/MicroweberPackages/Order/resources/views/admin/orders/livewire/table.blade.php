@@ -145,6 +145,10 @@
         <tbody>
         @foreach ($orders as $order)
 
+            @php
+                $carts = $order->cart()->with('products')->get();
+            @endphp
+
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
@@ -162,30 +166,30 @@
                         $cartProduct = $cart->products->first();
                     @endphp
                     @if (isset($cartProduct) && $cartProduct != null)
-                      <a href="#">
-                          <div class="img-circle-holder">
-                            <img src="{{$cartProduct->thumbnail()}}" />
-                          </div>
-                      </a>
+                        <a href="#">
+                            <div class="img-circle-holder">
+                                <img src="{{$cartProduct->thumbnail()}}" />
+                            </div>
+                        </a>
                     @endif
                 </td>
             @endif
 
             @if($showColumns['products'])
-            <td>
-                @php
-                    $carts = $order->cart()->with('products')->get();
-                @endphp
-                @foreach ($carts as $cart)
+                <td>
                     @php
-                        $cartProduct = $cart->products->first();
-                        if ($cartProduct == null) {
-                            continue;
-                        }
+                        $carts = $order->cart()->with('products')->get();
                     @endphp
-                   <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
-                @endforeach
-            </td>
+                    @foreach ($carts as $cart)
+                        @php
+                            $cartProduct = $cart->products->first();
+                            if ($cartProduct == null) {
+                                continue;
+                            }
+                        @endphp
+                        <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                    @endforeach
+                </td>
             @endif
 
             @if($showColumns['customer'])
