@@ -7,6 +7,7 @@
         }
     @endphp
     @livewire('admin-filter-item-users', [
+        'name'=>'Customer',
         'selectedItems'=>$selectedItems,
         'showDropdown'=> session()->get('showFilterCustomer'),
         'onChangedEmitEvents' => [
