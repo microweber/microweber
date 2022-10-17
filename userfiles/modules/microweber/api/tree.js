@@ -473,7 +473,7 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
-            mw.$(li).parents(".mw-tree-item-hidden").removeClass('mw-tree-item-hidden').each(function(){
+            mw.$(li).parents("li").removeClass('mw-tree-item-hidden').each(function(){
                 scope.open(this);
             });
         };
