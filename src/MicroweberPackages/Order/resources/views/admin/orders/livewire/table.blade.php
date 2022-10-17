@@ -145,6 +145,10 @@
         <tbody>
         @foreach ($orders as $order)
 
+            @php
+                $carts = $order->cart()->with('products')->get();
+            @endphp
+
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
@@ -158,33 +162,37 @@
             @if($showColumns['image'])
                 <td>
                     @php
-                        $cart = $order->cart()->with('products')->first();
-                        $cartProduct = $cart->products->first();
-                    @endphp
-                    @if (isset($cartProduct) && $cartProduct != null)
-                      <a href="#">
-                          <div class="img-circle-holder">
-                            <img src="{{$cartProduct->thumbnail()}}" />
-                          </div>
-                      </a>
-                    @endif
+                    if ($carts->count() > 0) {
+                        $cartProduct = $carts->products->first();
+                        @endphp
+                        @if (isset($cartProduct) && $cartProduct != null)
+                          <a href="#">
+                              <div class="img-circle-holder">
+                                <img src="{{$cartProduct->thumbnail()}}" />
+                              </div>
+                          </a>
+                        @endif
+                    @php } else { @endphp
+                        No products
+                    @php  }  @endphp
                 </td>
             @endif
 
             @if($showColumns['products'])
             <td>
-                @php
-                    $carts = $order->cart()->with('products')->get();
-                @endphp
-                @foreach ($carts as $cart)
-                    @php
-                        $cartProduct = $cart->products->first();
-                        if ($cartProduct == null) {
-                            continue;
-                        }
-                    @endphp
-                   <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
-                @endforeach
+                @if($carts->count() > 0)
+                    @foreach ($carts as $cart)
+                        @php
+                            $cartProduct = $cart->products->first();
+                            if ($cartProduct == null) {
+                                continue;
+                            }
+                        @endphp
+                       <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                    @endforeach
+                @else
+                    No products
+                @endif
             </td>
             @endif
 
