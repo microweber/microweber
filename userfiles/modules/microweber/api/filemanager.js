@@ -113,9 +113,9 @@
                             name: val,
                             new_folder: 1
                         };
-                        var url = mw.settings.api_url + 'create_media_dir' + '?' + new URLSearchParams(params).toString();
+                        var url = route('api.file-manager.create-folder') + '?' + new URLSearchParams(params).toString();
                         xhr.open("POST", url, true);
-                        xhr.send();
+                        xhr.send(); 
                     });
                 });
 

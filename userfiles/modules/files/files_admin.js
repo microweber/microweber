@@ -203,7 +203,7 @@ saveNewFolder = function (a) {
             name: a,
             new_folder: 1
         }
-        $.post(mw.settings.api_url + "create_media_dir", obj, function (data) {
+        $.post(route('api.file-manager.create-folder'), obj, function (data) {
             if(data.error) {
                 mw.notification.error(data.error);
 
