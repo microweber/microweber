@@ -73,7 +73,7 @@ class FileManagerApiController extends Controller {
                     $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, true);
                 }
 
-                $relative_path = str_ireplace(base_path(), '', $file);
+                $relative_path = str_ireplace(media_base_path(), '', $file);
 
                 $data[] = [
                     'type'=>'file',
@@ -132,41 +132,45 @@ class FileManagerApiController extends Controller {
 
     public function delete(Request $request)
     {
+        $deletePaths = $request->post('paths', false);
 
-        dump($request->all());
-        return;
-        // $target_path = media_base_path() . 'uploaded' . DS;
-        $target_path = media_uploads_path();
-        $target_path = normalize_path($target_path, 0);
-        $path_restirct = userfiles_path();
+        if (empty($deletePaths)) {
+            return array('error' => 'Please set file paths for delete.');
+        }
 
-        $fn_remove_path = $_REQUEST['path'];
-        $resp = array();
-        if ($fn_remove_path != false and is_array($fn_remove_path)) {
-            foreach ($fn_remove_path as $key => $value) {
-                $fn_remove = $this->app->url_manager->to_path($value);
+        $resp = [];
 
-                if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
-                    $path = urldecode($fn_remove);
+        if (!empty($deletePaths) && is_array($deletePaths)) {
+
+            $pathRestirct = media_base_path();
+
+            foreach ($deletePaths as $deletePath) {
+
+                $deletePath = trim($deletePath);
+                $fnRemove = app()->url_manager->to_path($deletePath);
+
+                if (isset($fnRemove) and trim($fnRemove) != '' and trim($fnRemove) != 'false') {
+
+                    $path = urldecode($fnRemove);
                     $path = normalize_path($path, 0);
                     $path = str_replace('..', '', $path);
-                    $path = str_replace($path_restirct, '', $path);
-                    $target_path = userfiles_path() . DS . $path;
-                    $target_path = normalize_path($target_path, false);
+                    $path = str_replace($pathRestirct, '', $path);
 
-                    //  if (stristr($target_path, media_base_path())) {
-                    if (stristr($target_path, media_uploads_path())) {
-                        if (is_dir($target_path)) {
-                            mw('MicroweberPackages\Utils\System\Files')->rmdir($target_path, false);
-                            $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
-                        } elseif (is_file($target_path)) {
-                            unlink($target_path);
-                            $resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
+                    $targetPath = media_base_path() . DS . $path;
+                    $targetPath = normalize_path($targetPath, false);
+
+                    if (stristr($targetPath, media_uploads_path())) {
+                        if (is_dir($targetPath)) {
+                            mw('MicroweberPackages\Utils\System\Files')->rmdir($targetPath, false);
+                            $resp = array('success' => 'Directory ' . $targetPath . ' is deleted');
+                        } elseif (is_file($targetPath)) {
+                            unlink($targetPath);
+                            $resp = array('success' => 'File ' . basename($targetPath) . ' is deleted');
                         } else {
-                            $resp = array('error' => 'Not valid file or folder ' . $target_path . ' ');
+                            $resp = array('error' => 'Not valid file or folder ' . $targetPath . ' ');
                         }
                     } else {
-                        $resp = array('error' => 'Not allowed to delete on ' . $target_path . ' ');
+                        $resp = array('error' => 'Not allowed to delete on ' . $targetPath . ' ');
                     }
                 }
             }
