@@ -21,7 +21,7 @@ class FileManagerApiController extends Controller {
         }
 
         $order = $request->get('order', 'asc');
-        $orderBy = $request->get('orderBy', 'modified');
+        $orderBy = $request->get('orderBy', 'filemtime');
         $path = urldecode($path);
 
         $path = str_replace('./', '', $path);
