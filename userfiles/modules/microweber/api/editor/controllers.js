@@ -156,9 +156,7 @@ MWEditor.controllers = {
                         }
                         url.forEach(function (src){
                             api.insertImage(src.toString());
-                        })
-
-
+                        });
                         dialog.remove();
                     }
                 });

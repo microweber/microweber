@@ -22,6 +22,11 @@
 .mw-file-manager-no-results-label{
     padding-bottom: 20px;
 }
+.mw-dialog-container .mw-file-manager-view-table-wrap{
+    max-height: calc(100vh - 500px);
+    min-height: 250px;
+    overflow: auto;
+}
 .mw-file-manager-root.no-results .mw-file-manager-view-table-wrap{
     display: none;
 }
@@ -31,6 +36,9 @@
 }
 .mw-file-manager-root{
     color: #2b2b2b;
+    min-height: 150px;
+    position: relative;
+
 }
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
     width: 46px;
@@ -79,7 +87,7 @@
     padding: 10px;
 
 }
-.mw-file-manager-view-table tr > *:last-child{
+.mw-file-manager-view-table .mw-file-manager-options-cell{
     width: 40px;
     text-align: right;
 }
@@ -228,10 +236,32 @@
 .mw-file-manager-root[data-view="grid"] tr:hover .mw-file-manager-list-item-thumb.mw-file-manager-list-item-thumb-folder{
     background-color: #eee;
 }
+
+.mw-file-manager-root[data-view="grid"] tbody tr .mw-file-manager-list-item-check-cell{
+    padding: 0;
+}
+.mw-file-manager-root[data-view="grid"] tbody tr {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+.mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-name-cell{
+    padding-block: 0 10px;
+}
+.mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-modified-cell{
+    color: #999;
+    font-size: 11px;
+    padding-block: 0;
+}
+.mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-size-cell{
+    color: #555;
+    font-size: 12px;
+    padding-block: 0;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-ui-check{
     position: absolute;
@@ -320,9 +350,6 @@
 }
 
 
-.mw-file-manager-spinner .mw-spinner{
-    margin-top: 150px;
-}
 .mw-file-manager-spinner {
     height: 0;
     text-align: center;

@@ -128,11 +128,11 @@
             multiselect: true,
             selectable: true,
             canSelectFolder: false,
-            options: true,
+            options: false,
             element: null,
             query: {
                 order: 'asc',
-                orderBy: 'modified',
+                orderBy: 'filemtime',
                 path: '/'
             },
             backgroundColor: '#fafafa',
@@ -257,8 +257,8 @@
                     scope.loading(false)
                 });
                 var dt = {
-                    // path: item.path,
-                    'path[]': 'C:\\xampp\\htdocs\\mw3\\userfiles\\media\\default\\25kb-copy-4_8.jpg',
+                    path: item.path,
+
                 };
                 var url = mw.settings.api_url + 'media/delete_media_file';
                 xhr.open("POST", url, true);
@@ -268,8 +268,7 @@
                 }
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
-                var fd = new FormData();
-                fd.append('path', ['C:\\xampp\\htdocs\\mw3\\userfiles\\media\\default\\25kb-copy-4_8.jpg'])
+
 
                 xhr.send(JSON.stringify(dt));
             });
@@ -377,7 +376,7 @@
 
         var _progress;
         this.progress = function (state) {
-            state = Number(state)
+            state = Number(state);
             if(!_progress || !_progress.get(0).parentNode) {
                 _progress = mw.element({
                     props: {
@@ -400,7 +399,6 @@
 
         var _loader;
         this.loading = function (state, l) {
-            console.log(l, state)
             if(!_loader || !_loader.get(0).parentNode) {
                 _loader = mw.element({
                     props: {
@@ -500,7 +498,7 @@
 
 
         var _activeSort = {
-            orderBy: this.settings.query.orderBy || 'modified',
+            orderBy: this.settings.query.orderBy || 'filemtime',
             order: this.settings.query.order || 'desc',
         };
 
@@ -562,7 +560,7 @@
                 mw.element('input', scope.root).val('');
                 mw.element('.has-value', scope.root).removeClass('has-value');
                 delete this.settings.query.keyword;
-                this.sort('modified', 'desc', false);
+                this.sort('filemtime', 'desc', false);
             } else {
                 this.settings.query.keyword = keyword;
                 this.sort('keyword', 'desc', false);
@@ -586,10 +584,10 @@
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
-            var cellName = mw.element({ tag: 'td', content: item.name  });
-            var cellSize = mw.element({ tag: 'td', content: _size(item) });
+            var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell'} });
+            var cellSize = mw.element({ tag: 'td', content: _size(item), props: {className: 'mw-file-manager-list-item-size-cell'} });
 
-            var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified)  });
+            var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified), props: {className: 'mw-file-manager-list-item-modified-cell'} });
             if(item.type === 'folder') {
                 row.on('click', function (){
                     scope.path(scope.path() + '/' + item.name);
@@ -615,7 +613,7 @@
                 .append(cellSize)
                 .append(cellmodified);
             if(this.settings.options) {
-                var cellOptions = mw.element({ tag: 'td', content: createOptions(item) });
+                var cellOptions = mw.element({ tag: 'td', content: createOptions(item) }).addClass('mw-file-manager-options-cell');
                 row.append(cellOptions);
             }
             return row;
@@ -820,6 +818,7 @@
         };
 
 
+
         var createTopBar = function (){
             var topBar = mw.element({
                 props: {
@@ -847,8 +846,14 @@
                     className: 'mw-file-manager-bar-view-type-selector'
                 }
             });
+            var sortSelectRoot = mw.element({
+                props: {
+                    className: 'mw-file-manager-bar-view-sort-selector'
+                }
+            });
             _backNode = mw.element({
                 tag: 'button',
+
                 props: {
                     className: 'btn btn-outline-primary btn-sm',
                     innerHTML: '<i class="mdi mdi-keyboard-backspace"></i> ' + mw.lang('Back')
@@ -858,13 +863,35 @@
                 scope.back();
             });
 
+
+
             var viewTypeSelector = mw.select({
                 element: viewTypeSelectorRoot.get(0),
                 size: 'small',
+                placeholder: mw.lang('Display'),
                 data: [
                     {title: mw.lang('List'), value: 'list'},
                     {title: mw.lang('Grid'), value: 'grid'},
                 ]
+            });
+
+            var sortTypeSelector = mw.select({
+                element: sortSelectRoot.get(0),
+                size: 'small',
+                placeholder: mw.lang('Sort'),
+                data: [
+                    {title: mw.lang('Name') + '&#8593;', value: 'basename|asc'},
+                    {title: mw.lang('Name') + '&#8595;', value: 'basename|desc'},
+                    {title: mw.lang('Size') + '&#8593;', value: 'filesize|asc'},
+                    {title: mw.lang('Size') + '&#8595;', value: 'filesize|desc'},
+                    {title: mw.lang('Last modified') + '&#8593;', value: 'filemtime|asc'},
+                    {title: mw.lang('Last modified') + '&#8595;', value: 'filemtime|desc'},
+                ]
+            });
+
+            sortTypeSelector.on('change', function (val){
+                var arr = val[0].value.split('|');
+                scope.sort(arr[0], arr[1])
             });
             viewTypeSelector.on('change', function (val){
                 scope.viewType( val[0].value);
@@ -889,6 +916,7 @@
             bar
                 .append(_backNode)
                 .append(_pathNodeRoot)
+                .append(sortSelectRoot)
                 .append(viewTypeSelectorRoot);
             return bar;
         };
@@ -909,8 +937,12 @@
             var thName = mw.element({ tag: 'th', content: '<span>Name</span>'  }).addClass('mw-file-manager-sortable-table-header');
             var thSize = mw.element({ tag: 'th', content: '<span>Size</span>'  }).addClass('mw-file-manager-sortable-table-header');
             var thModified = mw.element({ tag: 'th', content: '<span>Last modified</span>'  }).addClass('mw-file-manager-sortable-table-header');
-            var thOptions = mw.element({ tag: 'th', content: ''  });
-            var ths = [thCheck, thImage, thName, thSize, thModified, thOptions];
+
+            var ths = [thCheck, thImage, thName, thSize, thModified];
+
+            if(scope.settings.options) {
+                ths.push(mw.element({ tag: 'th', content: ''  }).addClass('mw-file-manager-options-cell'));
+            }
 
                 ths.forEach(function (th){
                     th.css('backgroundColor', scope.settings.backgroundColor);
@@ -929,9 +961,9 @@
             });
             tableHeader.addClass('sticky-' + (scope.settings.stickyHeader !== false && scope.settings.stickyHeader !== undefined));
             tableHeader.css('backgroundColor', scope.settings.backgroundColor);
-            thName.dataset('sortable', 'name').on('click', function (){ scope.sort(this.dataset.sortable) });
-            thSize.dataset('sortable', 'size').on('click', function (){ scope.sort(this.dataset.sortable) });
-            thModified.dataset('sortable', 'modified').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thName.dataset('sortable', 'basename').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thSize.dataset('sortable', 'filesize').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thModified.dataset('sortable', 'filemtime').on('click', function (){ scope.sort(this.dataset.sortable) });
 
             return tableHeader;
         };
@@ -1042,6 +1074,7 @@
                 scope.view();
                 scope.path(scope.settings.query.path, false);
                 scope.sort(scope.settings.query.orderBy, scope.settings.query.order, false);
+                scope.dispatch('ready');
             });
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
@@ -1053,9 +1086,7 @@
         this.init();
     };
 
-    FileManager.addMethod = function (name, cb) {
 
-    }
 
     mw.FileManager = function (options) {
         return new FileManager(options);
