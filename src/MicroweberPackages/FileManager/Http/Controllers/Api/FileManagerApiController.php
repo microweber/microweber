@@ -53,11 +53,15 @@ class FileManagerApiController extends Controller {
         // Append dirs
         if (isset($getData['dirs']) && is_array($getData['dirs'])) {
             foreach ($getData['dirs'] as $dir) {
+
+
+                $relativeDir = str_ireplace(media_base_path(), '', $dir);
+
                 $data[] = [
                     'type'=>'folder',
                     'mimeType'=> mime_content_type($dir),
                     'name'=> basename($dir),
-                    'path'=> $dir,
+                    'path'=> $relativeDir,
                     'created'=> date('Y-m-d H:i:s',filectime($dir)),
                     'modified'=> date('Y-m-d H:i:s',filemtime($dir))
                 ];
