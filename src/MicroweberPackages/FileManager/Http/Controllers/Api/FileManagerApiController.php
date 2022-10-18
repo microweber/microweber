@@ -112,4 +112,67 @@ class FileManagerApiController extends Controller {
         ];
     }
 
+    public function rename(Request $request)
+    {
+        $path = $request->get('path', false);
+        $newPath = $request->get('newPath', false);
+
+        $path = trim($path);
+        $newPath = trim($newPath);
+
+        if (empty($path)) {
+            return array('error' => 'Please set file path');
+        }
+
+        if (empty($newPath)) {
+            return array('error' => 'Please set new file path');
+        }
+
+    }
+
+    public function delete(Request $request)
+    {
+
+        dump($request->all());
+        return;
+        // $target_path = media_base_path() . 'uploaded' . DS;
+        $target_path = media_uploads_path();
+        $target_path = normalize_path($target_path, 0);
+        $path_restirct = userfiles_path();
+
+        $fn_remove_path = $_REQUEST['path'];
+        $resp = array();
+        if ($fn_remove_path != false and is_array($fn_remove_path)) {
+            foreach ($fn_remove_path as $key => $value) {
+                $fn_remove = $this->app->url_manager->to_path($value);
+
+                if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
+                    $path = urldecode($fn_remove);
+                    $path = normalize_path($path, 0);
+                    $path = str_replace('..', '', $path);
+                    $path = str_replace($path_restirct, '', $path);
+                    $target_path = userfiles_path() . DS . $path;
+                    $target_path = normalize_path($target_path, false);
+
+                    //  if (stristr($target_path, media_base_path())) {
+                    if (stristr($target_path, media_uploads_path())) {
+                        if (is_dir($target_path)) {
+                            mw('MicroweberPackages\Utils\System\Files')->rmdir($target_path, false);
+                            $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
+                        } elseif (is_file($target_path)) {
+                            unlink($target_path);
+                            $resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
+                        } else {
+                            $resp = array('error' => 'Not valid file or folder ' . $target_path . ' ');
+                        }
+                    } else {
+                        $resp = array('error' => 'Not allowed to delete on ' . $target_path . ' ');
+                    }
+                }
+            }
+        }
+
+        return $resp;
+    }
+
 }

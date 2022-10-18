@@ -13,7 +13,7 @@ Route::name('api.')
     ->group(function () {
 
     Route::get('file-manager/list', 'FileManagerApiController@list')->name('file-manager.list');
-    Route::delete('file-manager/file', 'FileManagerApiController@delete')->name('file-manager.delete');
-    Route::put('file-manager/file', 'FileManagerApiController@modify')->name('file-manager.modify');
+    Route::delete('file-manager/file', 'FileManagerrenameApiController@delete')->name('file-manager.delete');
+    Route::patch('file-manager/file', 'FileManagerApiController@rename')->name('file-manager.rename');
 
 });

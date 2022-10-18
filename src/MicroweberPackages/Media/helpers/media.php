@@ -28,10 +28,6 @@ api_expose_admin('save_media');
 api_expose('pixum_img');
 api_expose('thumbnail_img');
 
-api_expose_admin('media/delete_media_file', function ($data) {
-    return app()->media_manager->delete_media_file($data);
-});
-
 api_expose_admin('delete_media', function ($data) {
     return app()->media_manager->delete($data);
 });
