@@ -162,15 +162,15 @@ class FileManagerApiController extends Controller {
                     if (stristr($targetPath, media_uploads_path())) {
                         if (is_dir($targetPath)) {
                             mw('MicroweberPackages\Utils\System\Files')->rmdir($targetPath, false);
-                            $resp = array('success' => 'Directory ' . $targetPath . ' is deleted');
+                            $resp = array('success' => 'Directory ' . basename($targetPath) . ' is deleted');
                         } elseif (is_file($targetPath)) {
                             unlink($targetPath);
                             $resp = array('success' => 'File ' . basename($targetPath) . ' is deleted');
                         } else {
-                            $resp = array('error' => 'Not valid file or folder ' . $targetPath . ' ');
+                            $resp = array('error' => 'Not valid file or folder ' . basename($targetPath) . ' ');
                         }
                     } else {
-                        $resp = array('error' => 'Not allowed to delete on ' . $targetPath . ' ');
+                        $resp = array('error' => 'Not allowed to delete on ' . basename($targetPath) . ' ');
                     }
                 }
             }
