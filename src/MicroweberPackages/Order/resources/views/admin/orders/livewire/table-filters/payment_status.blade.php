@@ -17,7 +17,7 @@
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'isPaid',
         'data'=>$data,
-        'showDropdown'=> session()->get('showFilterPaymentStatus'),
+        'showDropdown'=> session()->get('showFilterIsPaid'),
         'onChangedEmitEvents' => [
          'setFirstPageOrdersList'
         ]

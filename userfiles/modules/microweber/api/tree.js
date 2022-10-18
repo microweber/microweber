@@ -473,7 +473,7 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
-            mw.$(li).parents(".mw-tree-item-hidden").removeClass('mw-tree-item-hidden').each(function(){
+            mw.$(li).parents("li").removeClass('mw-tree-item-hidden').each(function(){
                 scope.open(this);
             });
         };
@@ -734,7 +734,7 @@
                 var menuButton = scope.document.createElement('span');
                 var menuContent = scope.document.createElement('span');
                 menuButton.className = 'mw-tree-context-menu-content-button';
-                menuButton.innerHTML = '...';
+                menuButton.innerHTML = ' ';
                 menuButton.addEventListener('click', function (e){
                    e.stopImmediatePropagation();
                    Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){

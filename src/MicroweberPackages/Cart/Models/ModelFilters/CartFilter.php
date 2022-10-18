@@ -16,7 +16,6 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 
 class CartFilter extends ModelFilter
 {
-    use OrderByTrait;
     use FilterByTitleTrait;
     use FilterByUrlTrait;
     use FilterByKeywordTrait;

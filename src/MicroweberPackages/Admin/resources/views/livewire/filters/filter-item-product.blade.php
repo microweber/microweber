@@ -1,6 +1,5 @@
 <div>
 
-
     <button type="button" @if($searchable) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if($selectedItemText) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
        @if($selectedItemText) {{$name}}: {{$selectedItemText}} @else  {{$name}}  @endif <span class="mt-2">&nbsp;</span>
@@ -36,11 +35,16 @@
         <ul class="list-group list-group-compact" id="js-filter-items-values-list"  @if($searchable) style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;" @endif>
             @if(!empty($data))
                 @foreach($data as $i=>$item)
-                    <li class="list-group-item cursor-pointer">
-                        <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->id}}">
-                            <input class="form-check-input me-1" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
-                            {{ $item['value'] }}
-                        </label>
+                    <li class="list-group-item list-group-item-action cursor-pointer d-flex align-items-center" wire:click="selectItem('{{$item['key']}}')">
+
+                        @if(isset($item['thumbnail']))
+                            <div
+                                class="bg-image mr-3"
+                                style="background-image: url('{{$item['thumbnail']}}'); background-repeat: no-repeat; background-position: center center; width: 30px;height: 30px;">
+                            </div>
+                        @endif
+
+                        <div>{{ $item['value'] }}</div>
                     </li>
                 @endforeach
                 @if($total > count($data))

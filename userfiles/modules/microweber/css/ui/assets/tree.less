@@ -162,14 +162,46 @@
   }
 
     .mw-tree-context-menu-content-button{
-        opacity: 0;
-        pointer-events: none;
+            position: relative;
+            opacity: 0;
+            transition: .3s;
+            transform: scale(.7);
+            pointer-events: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px;
+            height: 25px;
+            background-color: rgba(183, 216, 255, 0.15);
+            margin-inline-end: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+           &:after{
+               position: absolute;
+               content: '';
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+               transition: .3s;
+               background-repeat: no-repeat;
+               background-position: center;
+               background-size: auto 12px;
+               background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z'%3E%3C/path%3E%3C/svg%3E");
+
+           }
+        &:hover{
+            background-color: rgba(183, 216, 255, 0.55);
+        }
     }
 
+
+    .context-menu-active > .mw-tree-item-content-root,
     .mw-tree-item-content-root:hover{
         .mw-tree-context-menu-content-button{
             opacity: 1;
             pointer-events: all;
+            transform: scale(1);
         }
     }
     li.selected{
@@ -177,6 +209,8 @@
             .mw-tree-context-menu-content-button{
                 opacity: 1;
                 pointer-events: all;
+                transform: scale(1);
+
             }
         }
     }
@@ -214,10 +248,17 @@
         top: calc(100% - 2px);
         box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
         z-index: 12;
+        transition: .3s;
 
     }
 
 
+    .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button{
+
+        &:after{
+            transform: rotate(-90deg);
+        }
+    }
     .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content{
         visibility: visible;
         opacity: 1;

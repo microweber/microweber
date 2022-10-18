@@ -6,7 +6,8 @@
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Orders')}}</strong>
             </h5>
-            <a href="#" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Order')}}</a>
+            <a href="{{route('admin.order.abandoned')}}" class="btn btn-outline-warning btn-sm ms-md-4 ms-1">{{_e('Abandoned Carts')}}</a>
+            <a href="" class="btn btn-outline-success btn-sm ms-md-4 ms-1">{{_e('Add Order')}}</a>
         </div>
 
     </div>
