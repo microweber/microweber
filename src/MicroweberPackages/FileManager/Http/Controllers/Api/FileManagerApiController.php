@@ -6,7 +6,7 @@ use MicroweberPackages\App\Http\Controllers\Controller;
 
 class FileManagerApiController extends Controller {
 
-    public function listFiles(Request $request) {
+    public function list(Request $request) {
 
         $path = media_uploads_path();
         $pathRestirct = media_uploads_path();
@@ -72,8 +72,8 @@ class FileManagerApiController extends Controller {
                 if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp') {
                     $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, true);
                 }
-                $relative_path = str_ireplace(base_path(), '', $file);
 
+                $relative_path = str_ireplace(base_path(), '', $file);
 
                 $data[] = [
                     'type'=>'file',
