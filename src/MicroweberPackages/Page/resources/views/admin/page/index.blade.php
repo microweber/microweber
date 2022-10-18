@@ -68,7 +68,7 @@
                 <strong class="d-xl-flex d-none">{{_e('Website')}}</strong>
             </h5>
             <a href="{{route('admin.page.create')}}"
-               class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Page')}}</a>
+               class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Page')}}</a>
         </div>
     </div>
 

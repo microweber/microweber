@@ -28,6 +28,13 @@
             xhr.send();
         };
 
+        var plusIcon = function (color, margin) {
+            if(!color) {
+                color = 'white';
+            }
+            return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 472 472" style="width: 14px; margin-inline-end:' + margin + 'px;" xml:space="preserve"><path fill="'+color+'" d="M472 185H287V0H185v185H0v102h185v185h102V287h185V185z"/></svg>';
+        };
+
         var defaultAddFile = function (file) {
             return new Promise(function (resolve, reject){
                 var xhr = new XMLHttpRequest();
@@ -476,7 +483,7 @@
                 },
                 content: noResultsContent
             });
-            scope.creteMethodsNode(noResultsContent.get(0), mw.lang('+ Add'));
+            scope.creteMethodsNode(noResultsContent.get(0), plusIcon('white', 10) + ' '  + mw.lang('Add'));
             return block;
         };
 
@@ -778,7 +785,7 @@
             var addButton = mw.element({
                 props: {
                     className: 'mw-ui-btn mw-ui-btn-notification mw-file-manager-create-methods-dropdown-add',
-                    innerHTML: label || '+'
+                    innerHTML: label || plusIcon('white')
                 }
             });
 

@@ -1,15 +1,20 @@
-<div class=" col-12 col-sm-6 col-md-3 col-lg-3 mb-4 js-order-user-filter" wire:ignore >
-    <label class="d-block">
-        Shipping Address
-    </label>
+<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
 
-    <div class="mb-3 mb-md-0">
-        @php
-            $selectedItem = false;
-            if (isset($filters['shipping']['address'])) {
-                $selectedItem = $filters['shipping']['address'];
-            }
-        @endphp
-        @livewire('admin-orders-shipping-address-autocomplete', ['selectedItem'=>$selectedItem])
-    </div>
+    @php
+        $itemValue = '';
+        if (isset($filters['shippingAddress'])) {
+            $itemValue = $filters['shippingAddress'];
+        }
+    @endphp
+
+    @livewire('admin-filter-item-value', [
+    'name'=>'Shipping Address',
+    'itemValue'=>$itemValue,
+    'itemValueKey'=>'shippingAddress',
+    'showDropdown'=> session()->get('showFilterId'),
+    'onChangedEmitEvents' => [
+    'setFirstPageOrdersList'
+    ]
+    ])
+
 </div>

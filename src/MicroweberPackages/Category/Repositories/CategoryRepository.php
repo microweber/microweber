@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\Category\Repositories;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -142,6 +144,41 @@ class CategoryRepository extends AbstractRepository
         });
     }
 
+
+    public function getCategoryItemsCountAll()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+
+            $categoryItemsCountGroupedByRelType = [];
+
+            $categoryItemsCountData = CategoryItem::rightJoin('content', 'content.id', '=', 'rel_id')
+                ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `content`.`id` ) as count')])
+                ->where('categories_items.rel_type','content')
+                ->groupBy('categories_items.parent_id')
+                ->get();
+
+            if ($categoryItemsCountData) {
+                foreach ($categoryItemsCountData as $key => $value) {
+                    $categoryItemsCountGroupedByRelType[$value->rel_type][$value->parent_id] = $value->count;
+                }
+            }
+            return $categoryItemsCountGroupedByRelType;
+        });
+
+    }
+
+    public function getCategoryContentItemsCount($categoryId)
+    {
+        $categoryItemsCountGroupedByRelType = $this->getCategoryItemsCountAll();
+
+        if (isset($categoryItemsCountGroupedByRelType['content']) and isset($categoryItemsCountGroupedByRelType['content'][$categoryId])) {
+            return $categoryItemsCountGroupedByRelType['content'][$categoryId];
+        }
+
+        return 0;
+    }
+
+
     public function countProductsInStock($categoryId)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
@@ -152,19 +189,22 @@ class CategoryRepository extends AbstractRepository
                 ->filter(['hasProductsInStock' => true])
                 ->get();
             if ($categoryModelHasAviableProducts) {
-                foreach ($categoryModelHasAviableProducts as $categoryModelHasAviableProduct) {
+                foreach ($categoryModelHasAviableProducts as $categoryModelHasAvailableProduct) {
 
-                    $contentItems = $categoryModelHasAviableProduct->items()->get();
+                    $contentItems = $categoryModelHasAvailableProduct->items()->get();
                     $contentIds = [];
                     foreach ($contentItems as $contentItem) {
                         $contentIds[] = $contentItem->rel_id;
                     }
+
+                    // $categoryModelHasAviableProductsCount = count($contentIds);
                     if (!empty($contentIds)) {
-                        $categoryModelHasAviableProductsCount += Product::query()->filter(['inStock' => true])
+                        $itemsCount = Product::query()->filter(['inStock' => true])
                             ->whereIn('content.id', $contentIds)
                             ->where('content.is_deleted', '=', '0')
                             ->where('content.is_active', '=', '1')
                             ->count();
+                        $categoryModelHasAviableProductsCount += $itemsCount;
                     }
                 }
             }
@@ -174,5 +214,6 @@ class CategoryRepository extends AbstractRepository
 
         });
     }
+
 
 }

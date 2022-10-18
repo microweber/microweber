@@ -10,7 +10,7 @@ namespace MicroweberPackages\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
@@ -20,6 +20,23 @@ use MicroweberPackages\Product\Models\Product;
 class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
+
+    public function customer($filter)
+    {
+        if (!is_array($filter)) {
+            $filter = json_decode($filter, true);
+        }
+
+        if (!empty($filter)) {
+            if (isset($filter['customer_id'])) {
+                $this->customerId($filter['customer_id']);
+            } else if (isset($filter['email'])) {
+                $this->query->where('email', $filter['email']);
+            } else if (isset($filter['first_name'])) {
+                $this->query->where('first_name', $filter['first_name']);
+            }
+        }
+    }
 
     public function shippingState($state)
     {
@@ -127,6 +144,10 @@ class OrderFilter extends ModelFilter
 
     public function orderStatus($orderStatus)
     {
+        if ($orderStatus == 'any') {
+            return;
+        }
+
         $orderStatus = trim($orderStatus);
         if (!empty($orderStatus)) {
             $this->query->where('order_status', $orderStatus);

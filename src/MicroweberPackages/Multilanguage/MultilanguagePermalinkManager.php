@@ -286,7 +286,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         $currentLang = $this->language;
 
-
+        if(!is_array(self::$__getLinkAfterLocaleSettings)){
+            self::$__getLinkAfterLocaleSettings = [];
+        }
         // Display locale
         if (!isset(self::$__getLinkAfterLocaleSettings[$currentLang])) {
             self::$__getLinkAfterLocaleSettings[$currentLang] = app()->multilanguage_repository->getSupportedLocaleByLocale($currentLang);

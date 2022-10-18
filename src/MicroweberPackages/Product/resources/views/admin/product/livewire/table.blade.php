@@ -6,7 +6,7 @@
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Products')}}</strong>
             </h5>
-            <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Product')}}</a>
+            <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Product')}}</a>
         </div>
     </div>
 
@@ -16,12 +16,12 @@
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control">
+            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
         </div>
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                More filters &nbsp; <i class="fa fa-plus-circle"></i>
+                <i class="fa fa-plus-circle"></i> Filters
             </button>
             <div class="dropdown-menu p-3" style="width:263px">
                 <h6 class="dropdown-header">Taxonomy</h6>
@@ -36,7 +36,7 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userIds"> Author</label>
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> Author</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> Date Range</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> Created at</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
@@ -46,7 +46,7 @@
         @if(!empty($appliedFiltersFriendlyNames))
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <div class="btn-group">
-                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear filers</button>
+                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear</button>
                 </div>
             </div>
         @endif
@@ -89,7 +89,7 @@
             @include('product::admin.product.livewire.table-filters.visible')
         @endif
 
-        @if(isset($showFilters['userIds']) && $showFilters['userIds'])
+        @if(isset($showFilters['userId']) && $showFilters['userId'])
             @include('product::admin.product.livewire.table-filters.author')
         @endif
 
@@ -120,7 +120,7 @@
             <div>
                 You have selected {{ count($checked) }} items,
                 Do you want to Select All {{ count($products->items()) }}?
-                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="selectAll">Select All</button>
+                <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
             </div>
             @endif
         @endif
@@ -193,9 +193,16 @@
     </div>
 
     <table class="table table-responsive" id="content-results-table">
-        <thead class="thead-light">
+        <thead>
         <tr>
-            <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
+            <th scope="col">
+
+                <div class="custom-control custom-checkbox mb-0">
+                    <input type="checkbox" wire:model="selectAll" id="secectall-procuts"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                    <label for="secectall-procuts" class="custom-control-label"></label>
+                </div>
+
+            </th>
             @if($showColumns['id'])
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
@@ -233,7 +240,13 @@
         @foreach ($products as $product)
         <tr class="manage-post-item">
             <td>
-                <input type="checkbox" value="{{ $product->id }}"  class="js-select-posts-for-action"  wire:model="checked">
+
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" value="{{ $product->id }}" id="products-{{ $product->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                    <label for="products-{{ $product->id }}" class="custom-control-label"></label>
+                </div>
+
                 <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
                     <i class="mdi mdi-cursor-move"></i>
                 </span>

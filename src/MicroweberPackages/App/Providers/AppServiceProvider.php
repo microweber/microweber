@@ -47,7 +47,7 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
@@ -693,13 +693,14 @@ class AppServiceProvider extends ServiceProvider
         $isLocaleChangedFromMultilanguageLogics = false;
 
         $currentUri = request()->path();
+        $currentLocale = current_lang();
 
         //  Change language if user request language with LINK has lang abr
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
             $localeIsChangedFromGetRequest = false;
             $locale = request()->get('locale');
-            if (is_lang_correct($locale)) {
+            if (is_lang_correct($locale) and $locale != $currentLocale) {
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
@@ -722,8 +723,10 @@ class AppServiceProvider extends ServiceProvider
                                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                             }
                             if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
-                                $isLocaleChangedFromMultilanguageLogics = true;
-                                change_language_by_locale($localeSettings['locale'], true);
+                                if($localeSettings['locale'] != $currentLocale){
+                                    $isLocaleChangedFromMultilanguageLogics = true;
+                                    change_language_by_locale($localeSettings['locale'], true);
+                                }
                             }
                         }
                     }
@@ -746,7 +749,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
+            if ($currentLocale != $setCurrentLangTo and $setCurrentLangTo and is_lang_correct($setCurrentLangTo)) {
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
                 if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
                     set_current_lang($setCurrentLangTo);

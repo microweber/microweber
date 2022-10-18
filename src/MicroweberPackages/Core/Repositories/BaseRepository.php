@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 /**
  * Interface CoreRepository

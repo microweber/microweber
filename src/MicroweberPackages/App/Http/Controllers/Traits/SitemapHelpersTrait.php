@@ -10,7 +10,7 @@ use MicroweberPackages\Product\Models\Product;
 
 trait SitemapHelpersTrait
 {
-    private function isMutilangOn()
+    public function isMutilangOn()
     {
         if (is_module('multilanguage')
             && get_option('is_active', 'multilanguage_settings') === 'y'
@@ -24,7 +24,7 @@ trait SitemapHelpersTrait
         return $res;
     }
 
-    private function fetchTagsLinks()
+    public function fetchTagsLinks()
     {
         $pages = Page::active()->get();
         $tagsData = [];
@@ -41,6 +41,7 @@ trait SitemapHelpersTrait
 
                         foreach($allActiveLangs as $index => $lang) {
                             $tmp = [
+                                'id'=>$page->id,
                                 'original_link' => "{$siteUrl}{$lang['locale']}/{$page->url}/tags:{$tag['tag_slug']}",
                                 'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
                             ];
@@ -49,6 +50,7 @@ trait SitemapHelpersTrait
                         }
                     } else {
                         $tmp = [
+                            'id'=>$page->id,
                             'original_link' => "{$siteUrl}{$page->url}/tags:{$tag['tag_slug']}",
                             'updated_at' => $page->updated_at->format('Y-m-d H:i:s'),
                         ];
@@ -62,7 +64,7 @@ trait SitemapHelpersTrait
         return $tagsData;
     }
 
-    private function fetchProductsLinks()
+    public function fetchProductsLinks()
     {
         if($this->isMutilangOn()) {
             $productsData = $this->fetchMultilangContentByType('product');
@@ -73,7 +75,7 @@ trait SitemapHelpersTrait
         return $productsData;
     }
 
-    private function fetchPagesLinks()
+    public function fetchPagesLinks()
     {
         if($this->isMutilangOn()) {
             $pagesData = $this->fetchMultilangContentByType('page');
@@ -83,7 +85,7 @@ trait SitemapHelpersTrait
         return $pagesData;
     }
 
-    private function fetchPostsLinks()
+    public function fetchPostsLinks()
     {
         if($this->isMutilangOn()) {
             $postsData = $this->fetchMultilangContentByType('post');
@@ -94,7 +96,7 @@ trait SitemapHelpersTrait
         return $postsData;
     }
 
-    private function fetchCategoriesLinks()
+    public function fetchCategoriesLinks()
     {
         if($this->isMutilangOn()) {
             $categoriesData = multilanguage_get_all_category_links();
@@ -105,13 +107,14 @@ trait SitemapHelpersTrait
         return $categoriesData;
     }
 
-    private function fetchNotMutilangCategories()
+    public function fetchNotMutilangCategories()
     {
         $categories = Category::all();
         $categoriesLinksData = [];
 
         foreach($categories as $cat) {
             $tmp = [
+                'id'=>$cat->id,
                 'original_link' => $cat->link(),
                 'updated_at' => $cat->updated_at->format('Y-m-d H:i:s'),
             ];
@@ -122,13 +125,14 @@ trait SitemapHelpersTrait
         return $categoriesLinksData;
     }
 
-    private function fetchNotMutilangPosts()
+    public function fetchNotMutilangPosts()
     {
         $posts = Post::active()->get();
         $postsLinksData = [];
 
         foreach($posts as $post) {
             $tmp = [
+                'id' => $post->id,
                 'original_link' => $post->link(),
                 'updated_at' => $post->updated_at->format('Y-m-d H:i:s'),
             ];
@@ -139,13 +143,14 @@ trait SitemapHelpersTrait
         return $postsLinksData;
     }
 
-    private function fetchNotMutilangProducts()
+    public function fetchNotMutilangProducts()
     {
         $products = Product::active()->get();
         $productsLinksData = [];
 
         foreach($products as $prod) {
             $tmp = [
+                'id' => $prod->id,
                 'original_link' => $prod->link(),
                 'updated_at' => $prod->updated_at->format('Y-m-d H:i:s'),
             ];
@@ -156,7 +161,7 @@ trait SitemapHelpersTrait
         return $productsLinksData;
     }
 
-    private function fetchMultilangContentByType($type)
+    public function fetchMultilangContentByType($type)
     {
         $allContentLinks = multilanguage_get_all_content_links();
         $items = [];
@@ -169,7 +174,7 @@ trait SitemapHelpersTrait
         return $items;
     }
 
-    private function needToUpdateSitemap($sitemapFileLocation)
+    public function needToUpdateSitemap($sitemapFileLocation)
     {
         return true;
 

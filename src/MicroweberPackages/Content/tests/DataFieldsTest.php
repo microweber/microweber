@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Content\tests;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class DataFieldsTest extends TestCase

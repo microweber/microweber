@@ -27,6 +27,7 @@ class OrdersTableComponent extends Component
 
     public $showColumns = [
         'id' => true,
+        'image' => true,
         'products' => true,
         'customer' => true,
         'total_amount' => true,
@@ -48,6 +49,7 @@ class OrdersTableComponent extends Component
         'hideDeleteModal' => 'hideDeleteModal',
         'statusExecute' => 'statusExecute',
         'paymentStatusExecute' => 'paymentStatusExecute',
+        'hideFilterItem'=>'hideFilter'
     ];
 
     public function setPaginationLimit($limit)
@@ -95,6 +97,13 @@ class OrdersTableComponent extends Component
         $this->checked = $this->orders->pluck('id')->map(fn($item) => (string)$item)->toArray();
     }
 
+    public function hideFilter($key)
+    {
+        if (isset($this->filters[$key])) {
+            unset($this->filters[$key]);
+        }
+    }
+
     public function setFilters($data)
     {
         if (isset($data['filters'])) {
@@ -129,6 +138,7 @@ class OrdersTableComponent extends Component
         }
 
         $query->filter($applyFiltersToQuery);
+        $query->whereHas('cart');
 
         return $query;
     }

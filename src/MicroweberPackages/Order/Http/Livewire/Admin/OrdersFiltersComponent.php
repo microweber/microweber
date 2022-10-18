@@ -15,15 +15,13 @@ class OrdersFiltersComponent extends Component
 
     public $listeners = [
         'setFilterToOrders'=>'setFilter',
-        'autoCompleteSelectItem'=>'setFilter'
+        'autoCompleteSelectItem'=>'setFilter',
+        'hideFilterItem'=>'hideFilter'
     ];
 
     protected $queryString = ['filters', 'showFilters', 'page'];
 
     public $showFilters = [];
-
-    public $appliedFilters = [];
-    public $appliedFiltersFriendlyNames = [];
 
     public function refreshOrdersTable()
     {
@@ -52,63 +50,7 @@ class OrdersFiltersComponent extends Component
 
     public function render()
     {
-        $this->appliedFilters = [];
-        $this->appliedFiltersFriendlyNames = [];
-
-        foreach ($this->filters as $filterKey => $filterValue) {
-
-            $this->appliedFilters[$filterKey] = $filterValue;
-            $filterFriendlyValue = $filterValue;
-
-            if (is_numeric($filterValue)) {
-                $filterValue = $filterValue . ',';
-            }
-
-            if (is_string($filterValue)) {
-                if (strpos($filterValue, ',') !== false) {
-                    $filterValueExp = explode(',', $filterValue);
-                    if (!empty($filterValueExp)) {
-                        $filterFriendlyValue = [];
-                        foreach ($filterValueExp as $resourceId) {
-
-                            if ($filterKey == 'page') {
-                                $resourceId = intval($resourceId);
-                                $getPage = Page::where('id', $resourceId)->first();
-                                if ($getPage != null) {
-                                    $filterFriendlyValue[] = $getPage->title;
-                                }
-                            } else if ($filterKey == 'category') {
-                                $resourceId = intval($resourceId);
-                                $getCategory = Category::where('id', $resourceId)->first();
-                                if ($getCategory != null) {
-                                    $filterFriendlyValue[] = $getCategory->title;
-                                }
-                            } else if ($filterKey == 'productId') {
-                                $resourceId = intval($resourceId);
-                                $getProduct = Product::where('id', $resourceId)->first();
-                                if ($getProduct != null) {
-                                    $filterFriendlyValue[] = $getProduct->title;
-                                }
-                            } else {
-                                $filterFriendlyValue[] = $resourceId;
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            if (is_array($filterFriendlyValue)) {
-                $filterFriendlyValue = array_filter($filterFriendlyValue);
-            }
-
-            $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
-        }
-
-        return view('order::admin.orders.livewire.filters', [
-            'appliedFilters' => $this->appliedFilters,
-            'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
-        ]);
+        return view('order::admin.orders.livewire.filters');
     }
 
     public function removeFilter($key)
@@ -121,6 +63,16 @@ class OrdersFiltersComponent extends Component
     {
         $this->filters[$key] = $value;
         $this->refreshOrdersTable();
+    }
+
+    public function hideFilter($key)
+    {
+        if (isset($this->showFilters[$key])) {
+            unset($this->showFilters[$key]);
+        }
+        if (isset($this->filters[$key])) {
+            unset($this->filters[$key]);
+        }
     }
 
     public function orderBy($value)

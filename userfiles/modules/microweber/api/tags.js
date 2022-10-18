@@ -33,6 +33,11 @@ mw.tags = mw.chips = function(options){
         ]
     */
 
+    var _e = {};
+
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
 
     this.refresh = function(){
         mw.$(scope.options.element).empty();
@@ -111,7 +116,6 @@ mw.tags = mw.chips = function(options){
     };
 
     this.dataTitle = function(data){
-        console.log(data)
         if(typeof data === 'string'){
             return data;
         }
@@ -125,10 +129,9 @@ mw.tags = mw.chips = function(options){
             return;
         }
         else{
-            return data[this.map.icon]
+            return data[this.map.icon];
         }
     };
-
 
      this.createImage = function (config) {
          var img = this.dataImage(config);
@@ -136,6 +139,7 @@ mw.tags = mw.chips = function(options){
             return img;
         }
      };
+
      this.createIcon = function (config) {
         var ic = this.dataIcon(config);
 
@@ -270,7 +274,8 @@ mw.tags = mw.chips = function(options){
 
             tag_holder.onclick = function (e) {
                 if(e.target !== tag_close){
-                    mw.$(scope).trigger('tagClick', [this._config, this._index, this])
+                    mw.$(scope).trigger('tagClick', [this._config, this._index, this]);
+                    scope.dispatch('tagClick', [this._config, this._index, this]);
                 }
             };
 
@@ -313,6 +318,15 @@ mw.treeTags = mw.treeChips = function(options){
     mw.$( this.options.element ).append(tagsHolder);
     mw.$( this.options.element ).append(treeHolder);
 
+     mw.$(this.tags).on('tagClick', function(e, data){
+         var li = scope.tree.get(data);
+
+         if(li) {
+             scope.tree.show(data);
+         }
+
+         li.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+     });
      mw.$(this.tags).on('tagRemoved', function(event, item){
          scope.tree.unselect(item);
      });

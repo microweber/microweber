@@ -145,8 +145,7 @@ class ProductsList extends Component
     {
         return view('product::admin.product.livewire.table', [
             'products' => $this->products,
-            'appliedFilters' => $this->appliedFilters,
-            'appliedFiltersFriendlyNames' => $this->appliedFiltersFriendlyNames,
+            'appliedFilters' => $this->appliedFilters
         ]);
     }
 
@@ -161,7 +160,7 @@ class ProductsList extends Component
             if ($key == 'tags') {
                 $this->emit('tagsResetProperties');
             }
-            if ($key == 'userIds') {
+            if ($key == 'userId') {
                 $this->emit('usersResetProperties');
             }
             unset($this->filters[$key]);
@@ -179,8 +178,8 @@ class ProductsList extends Component
         $query->disableCache(true);
 
         $this->appliedFilters = [];
-        $this->appliedFiltersFriendlyNames = [];
-        $whitelistedEmptyKeys = ['inStock'];
+
+        $whitelistedEmptyKeys = ['inStock', 'orders','qty'];
 
         foreach ($this->filters as $filterKey => $filterValue) {
 
@@ -191,51 +190,6 @@ class ProductsList extends Component
             }
 
             $this->appliedFilters[$filterKey] = $filterValue;
-            $filterFriendlyValue = $filterValue;
-
-            if (is_numeric($filterValue)) {
-                $filterValue = $filterValue . ',';
-            }
-
-            if (is_string($filterValue)) {
-                if (strpos($filterValue, ',') !== false) {
-                    $filterValueExp = explode(',', $filterValue);
-                    if (!empty($filterValueExp)) {
-                        $filterFriendlyValue = [];
-                        foreach ($filterValueExp as $resourceId) {
-
-                            if ($filterKey == 'page') {
-                                $resourceId = intval($resourceId);
-                                $getPage = Page::where('id', $resourceId)->first();
-                                if ($getPage != null) {
-                                    $filterFriendlyValue[] = $getPage->title;
-                                }
-                            } else if ($filterKey == 'category') {
-                                $resourceId = intval($resourceId);
-                                $getCategory = Category::where('id', $resourceId)->first();
-                                if ($getCategory != null) {
-                                    $filterFriendlyValue[] = $getCategory->title;
-                                }
-                            }  else if ($filterKey == 'userId') {
-                                $resourceId = intval($resourceId);
-                                $getUser = User::where('id', $resourceId)->first();
-                                if ($getUser != null) {
-                                    $filterFriendlyValue[] = $getUser->username;
-                                }
-                            } else {
-                                $filterFriendlyValue[] = $resourceId;
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            if (is_array($filterFriendlyValue)) {
-                $filterFriendlyValue = array_filter($filterFriendlyValue);
-            }
-
-            $this->appliedFiltersFriendlyNames[$filterKey] = $filterFriendlyValue;
         }
 
         $applyFiltersToQuery = $this->appliedFilters;

@@ -1,34 +1,34 @@
 <?php
 
-namespace MicroweberPackages\Product\Http\Livewire;
+namespace MicroweberPackages\Admin\Http\Livewire;
 
-use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Tag\Model\Tag;
+use MicroweberPackages\User\Models\User;
 
-class ProductsAutoComplete extends AutoCompleteComponent
+class FilterItemProduct extends FilterItemComponent
 {
     public $model = Product::class;
     public $selectedItemKey = 'productId';
     public string $placeholder = 'Type to search by products...';
-
+    public string $view = 'admin::livewire.filters.filter-item-product';
+    
     public function refreshQueryData()
     {
-        $this->closeDropdown();
-
-        $query = $this->model::query();
-
         if ($this->selectedItem > 0) {
+            $query = $this->model::query();
             $query->where('id', $this->selectedItem);
             $query->limit(1);
             $get = $query->first();
             if ($get != null) {
-                $this->data = [];
-                $this->showDropdown = true;
-                $this->query = $get->title;
+                $this->selectedItemText = $get->title;
             }
-            return;
         }
 
+
+        // New query
+        $query = $this->model::query();
         $keyword = trim($this->query);
         if (!empty($keyword)) {
             $query->orWhere('title', 'like', '%' . $keyword . '%');
@@ -39,7 +39,6 @@ class ProductsAutoComplete extends AutoCompleteComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown($this->id);
             $this->data = [];
             foreach ($get as $item) {
                 $this->data[] = ['key'=>$item->id, 'value'=>$item->title, 'thumbnail'=>$item->thumbnail(30,30)];

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Offer\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Events\ContentWasCreated;
 use MicroweberPackages\Content\Events\ContentWasUpdated;
 use MicroweberPackages\Product\Events\ProductWasCreated;

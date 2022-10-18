@@ -67,7 +67,7 @@ class ProductFilterTest extends TestCase
         $results = $model->get();
 
 
-        $this->assertEquals(2, $results->count());
+        $this->assertEquals(1, $results->count());
         $this->assertEquals($newProduct->id, $results[0]->id);
 
 

@@ -35,8 +35,6 @@ class ModuleManager
             define('EMPTY_MOD_STR', "<div class='mw-empty-module '>{module_title} {type}</div>");
         }
 
-        /*  print '         1                  ';
-          dump(debug_backtrace(1));*/
 
         if (!is_object($this->app)) {
             if (is_object($app)) {
@@ -47,10 +45,11 @@ class ModuleManager
         }
         $this->set_table_names();
         if (mw_is_installed()) {
-            $getSystemLicense = SystemLicenses::get();
-            if ($getSystemLicense != null) {
-                $this->activeLicenses = $getSystemLicense->toArray();
-            }
+            $this->activeLicenses  = app()->module_repository->getSystemLicenses();
+//            $getSystemLicense = SystemLicenses::get();
+//            if ($getSystemLicense != null) {
+//                $this->activeLicenses = $getSystemLicense->toArray();
+//            }
         }
 
 
@@ -595,6 +594,9 @@ class ModuleManager
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $options = $params2;
+        }
+        if(!is_array($params)){
+            $params = array();
         }
         $params['table'] = $table;
         if (!isset($params['group_by'])) {

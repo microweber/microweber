@@ -120,7 +120,7 @@ if (!empty($template_config)) {
 
 
                                 <?php } else if ($type == 'select') { ?>
-                                    <select name="content_data[<?php print $name; ?>]" class="form-control" placeholder="<?php print $default_value ?>">
+                                    <select name="content_data[<?php print $name; ?>]" class="form-select" placeholder="<?php print $default_value ?>">
                                         <?php if ($select_options): ?>
                                             <?php foreach ($select_options as $key => $option): ?>
                                                 <option value="<?php echo $key; ?>" <?php if ($value == $key): ?>selected<?php endif; ?>><?php echo $option; ?></option>

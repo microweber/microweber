@@ -203,12 +203,24 @@ class ContentManagerCrud extends Crud
         }
 
          if (isset($params['filter-only-in-stock'])) {
-            $params['__query_get_only_in_stock'] = function ($query){
-                return $query->whereIn('content.id', function ($subQuery)  {
+            $params['__query_get_only_in_stock'] = function ($query) use ($params) {
+                return $query->whereIn('content.id', function ($subQuery) use ($params)  {
                     $subQuery->select('content_data.content_id');
                     $subQuery->from('content_data');
                     $subQuery->where('content_data.field_name', '=', 'qty');
                     $subQuery->where('content_data.field_value', '!=','0');
+
+                    if(isset($params['category'])){
+                        $subQuery->whereIn('content_data.rel_id', function ($subQuery) use ($params)  {
+                            $subQuery->select('categories_items.rel_id');
+                            $subQuery->from('categories_items');
+                            if(is_array($params['category'])) {
+                                $subQuery->whereIn('categories_items.parent_id', array_map('intval', $params['category']));
+                            } else {
+                                $subQuery->where('categories_items.parent_id', intval($params['category']));
+                            }
+                         });
+                    }
                 });
               };
              unset($params['filter-only-in-stock']);

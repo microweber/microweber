@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div style="height: 60px" class="bulk-actions-show-columns">
+    <div style="height: 60px;" class="bulk-actions-show-columns">
 
         @if(count($checked) > 0)
 
@@ -72,6 +72,7 @@
                 </button>
                 <div class="dropdown-menu p-3">
                     <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
                     <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
                     <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
                     <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
@@ -88,17 +89,21 @@
 
     </div>
 
-    <table class="table table-responsive">
+    <table class="table table-responsive orders-table">
         <thead>
         <tr>
             <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
             @if($showColumns['id'])
                 @include('order::admin.orders.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
+
+            @if($showColumns['image'])
+                <th scope="col">Image</th>
+            @endif
+
             @if($showColumns['products'])
                 <th scope="col">Products</th>
             @endif
-
 
             @if($showColumns['customer'])
             <th scope="col">Customer</th>
@@ -140,6 +145,10 @@
         <tbody>
         @foreach ($orders as $order)
 
+            @php
+                $carts = $order->cart()->with('products')->get();
+            @endphp
+
         <tr class="manage-post-item">
             <td>
                 <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
@@ -150,21 +159,37 @@
                 </td>
             @endif
 
-            @if($showColumns['products'])
-            <td>
-                @php
-                    $carts = $order->cart()->with('products')->get();
-                @endphp
-                @foreach ($carts as $cart)
+            @if($showColumns['image'])
+                <td>
                     @php
+                        $cart = $order->cart()->with('products')->first();
                         $cartProduct = $cart->products->first();
-                        if ($cartProduct == null) {
-                            continue;
-                        }
                     @endphp
-                   <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
-                @endforeach
-            </td>
+                    @if (isset($cartProduct) && $cartProduct != null)
+                        <a href="#">
+                            <div class="img-circle-holder">
+                                <img src="{{$cartProduct->thumbnail()}}" />
+                            </div>
+                        </a>
+                    @endif
+                </td>
+            @endif
+
+            @if($showColumns['products'])
+                <td>
+                    @php
+                        $carts = $order->cart()->with('products')->get();
+                    @endphp
+                    @foreach ($carts as $cart)
+                        @php
+                            $cartProduct = $cart->products->first();
+                            if ($cartProduct == null) {
+                                continue;
+                            }
+                        @endphp
+                        <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                    @endforeach
+                </td>
             @endif
 
             @if($showColumns['customer'])
@@ -216,12 +241,12 @@
 
               @if($showColumns['created_at'])
             <td style="text-align: center">
-                {{$order->created_at}}
+                {{$order->created_at}}<br />  {{mw()->format->ago($order->created_at)}}
             </td>
             @endif
               @if($showColumns['updated_at'])
             <td style="text-align: center">
-                {{$order->updated_at}}
+                {{$order->updated_at}}<br />  {{mw()->format->ago($order->updated_at)}}
             </td>
             @endif
 
@@ -236,71 +261,6 @@
         </tr>
         @endforeach
         </tbody>
-
-        <tfoot>
-        <tr>
-
-            <td></td>
-            @if($showColumns['id'])
-                <td></td>
-            @endif
-
-            @if($showColumns['products'])
-                <td></td>
-            @endif
-
-            @if($showColumns['customer'])
-                <td></td>
-            @endif
-
-            @if($showColumns['shipping_method'])
-                <td></td>
-            @endif
-
-            @if($showColumns['payment_method'])
-                <td></td>
-            @endif
-
-            @if($showColumns['payment_status'])
-                <td></td>
-            @endif
-
-
-            @if($showColumns['total_amount'])
-                <td>
-                    @php
-                        $paymentCurrency = get_currency_symbol();
-                        $totalAmountOfOrders = 0;
-                        foreach ($orders as $order) {
-                            $totalAmountOfOrders = $totalAmountOfOrders + $order->payment_amount;
-                            $paymentCurrency = $order->payment_currency;
-                        }
-                    @endphp
-
-                    <span class="badge badge-success">
-                        {{number_format($totalAmountOfOrders, 2)}} {{$paymentCurrency}}
-                    </span>
-                </td>
-            @endif
-
-            @if($showColumns['status'])
-                <td></td>
-            @endif
-
-            @if($showColumns['created_at'])
-                <td></td>
-            @endif
-
-            @if($showColumns['updated_at'])
-                <td></td>
-            @endif
-
-            @if($showColumns['actions'])
-                <td></td>
-            @endif
-
-        </tr>
-        </tfoot>
 
     </table>
 

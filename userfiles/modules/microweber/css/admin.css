@@ -618,10 +618,7 @@ html[dir="rtl"] .table th, html[dir="rtl"] .table td {
 }
 
 
-.mw--global-admin-tree{
-    max-height: calc(100vh - 220px);
-    overflow: auto;
-}
+
 
 .mw-dialog-container .mw--global-admin-tree{
     max-height: none;
@@ -659,12 +656,28 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
 }
 
 
+.manage-post-item td, .orders-table td{
+    padding: 25px 15px;
+}
+
+#content-results-table thead tr th, .orders-table thead tr th {
+    padding: 15px 5px;
+    background-color: #f5f5f5;
+
+
+}
+
+.manage-post-item {
+    border-radius: 10px;
+}
+
 .manage-post-item:hover {
     background: rgba(245, 245, 245, 0.3);
     border-color: rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
     -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.11);
     box-shadow: -1px 1px 1px 0px rgb(0 0 0 / 11%);
+    border-radius: 10px;
 }
 
 
@@ -803,9 +816,9 @@ hr {
 
 /*CARD*/
 
-.card-header {
-    background-color: rgba(0, 0, 0, .03)!important;
-}
+/*.card-header {*/
+/*    background-color: rgba(0, 0, 0, .03)!important;*/
+/*}*/
 
 .nav-tabs .nav-link {
     border: none;
@@ -897,3 +910,13 @@ hr {
     height: 350px;
     overflow: auto;
 }
+
+.card.style-1 .card-header.js-add-custom-field {
+    background-color: #4592ff!important;
+    color: white!important;
+}
+
+/*.table.table-responsive .form-check .form-check-input {*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*}*/

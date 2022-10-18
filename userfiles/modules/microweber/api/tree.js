@@ -15,7 +15,7 @@
 (function(){
     mw.lib.require('jqueryui');
 
-    mw.lib.require('nestedsortable');
+    mw.lib.require('nestedSortable');
 
 
 
@@ -49,14 +49,16 @@
                 sortable:false,
                 resizable:false,
                 resizableOn: 'tree', // 'tree' | 'treeParent'
-                nestedSortable:false,
-                singleSelect:false,
+                nestedSortable: false,
+                singleSelect: false,
+                clickSelect: false,
                 selectedData:[],
                 skip:[],
                 contextMenu:false,
                 append:false,
                 prepend:false,
                 selectable:false,
+                selectableNodes:false, // 'singleSelect' | 'singleSelectToggle' | 'multiSelect' | 'multiSelectToggle'
                 disableSelectTypes:[],
                 filter:false,
                 cantSelectTypes: [],
@@ -143,8 +145,9 @@
                     top: '20px',
                     zIndex: '1',
                     margin: '20px 15px 0 0',
-                    width: '300px',
+                    width: '100%',
                     maxWidth: '100%',
+
                 });
                 this.options.searchInput.addEventListener('input', function () {
                     scope.search();
@@ -334,10 +337,13 @@
             return li;
         };
 
-        this.select = function(li, type, applyTriggerChange = true){
+        this.select = function(li, type, trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             if(Array.isArray(li)){
                 $.each(li, function(){
-                    scope.select(this);
+                    scope.select(this, type, trigger);
                 });
                 return;
             }
@@ -351,17 +357,20 @@
             this.manageUnselected();
             this.getSelected();
 
-            if (applyTriggerChange) {
+            if (trigger) {
                 triggerChange();
             }
         };
 
 
 
-        this.unselect = function(li, type){
+        this.unselect = function(li, type, trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             if(Array.isArray(li)){
                 $.each(li, function(){
-                    scope.unselect(this);
+                    scope.unselect(this, type, trigger);
                 });
                 return;
             }
@@ -373,7 +382,9 @@
             }
             this.manageUnselected();
             this.getSelected();
-            triggerChange();
+            if (trigger) {
+                triggerChange();
+            }
         };
 
         this.get = function(li, type){
@@ -407,25 +418,37 @@
         };
         this.toggleSelect = function(li, type){
             if(this.isSelected(li, type)){
-                this.unselect(li, type)
+                this.unselect(li, type);
             }
             else{
-                this.select(li, type)
+                this.select(li, type);
             }
         };
 
-        this.selectAll = function(){
+        this.selectAll = function(trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             this._selectionChangeDisable = true;
+
             this.select(this.options.data);
             this._selectionChangeDisable = false;
-            triggerChange();
+            if(trigger) {
+                triggerChange();
+            }
         };
 
-        this.unselectAll = function(){
+        this.unselectAll = function(trigger){
+            if(typeof trigger === 'undefined') {
+                trigger = true;
+            }
             this._selectionChangeDisable = true;
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
-            triggerChange();
+            if(trigger) {
+                triggerChange();
+            }
+
         };
 
         this.open = function(li, type, _skipsave){
@@ -450,7 +473,7 @@
             li = this.get(li, type);
             if(!li) return;
             li.classList.remove('mw-tree-item-hidden');
-            mw.$(li).parents(".mw-tree-item-hidden").removeClass('mw-tree-item-hidden').each(function(){
+            mw.$(li).parents("li").removeClass('mw-tree-item-hidden').each(function(){
                 scope.open(this);
             });
         };
@@ -542,9 +565,7 @@
                 itype = 'checkbox';
             }
 
-
-
-             var label = scope.document.createElement('tree-label');
+            var label = scope.document.createElement('tree-label');
             var input = scope.document.createElement('input');
             var span = scope.document.createElement('span');
             input.type = itype;
@@ -597,20 +618,11 @@
             if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
-
             element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
-
             if(this.options.sortable){
                 this.sortable();
             }
-
-
-
-
-            if(this.options.nestedSortable){
-                this.nestedSortable();
-            }
-
+            this.nestedSortable();
         };
 
         this.resizable = function(){
@@ -628,13 +640,12 @@
                         minWidth: 200,
                         handles: "e",
                         resize: function () {
-
                             if( resEl[0].id ) {
                                 scope.stateStorage.set('size-' + resEl[0].id, resEl[0].style.width);
                             }
                         }
                     });
- 
+
                     if(resEl[0].id && scope.stateStorage.get('size-' + resEl[0].id)) {
 
                         resEl[0].style.width = scope.stateStorage.get('size-' + resEl[0].id) ;
@@ -643,6 +654,32 @@
 
             }
 
+        };
+
+        var _orderChangeHandle = function (e, ui){
+            setTimeout(function(){
+                var old = $.extend({},ui.item[0]._data);
+                var obj = ui.item[0]._data;
+                var objParent = ui.item[0].parentNode.parentNode._data;
+                ui.item[0].dataset.parent_id = objParent ? objParent.id : 0;
+
+                obj.parent_id = objParent ? objParent.id : 0;
+                obj.parent_type = objParent ? objParent.id : 'page';
+                var newdata = [];
+                mw.$('li', scope.list).each(function(){
+                    if(this._data) newdata.push(this._data);
+                });
+                scope.options.data = newdata;
+                var local = [];
+                mw.$(ui.item[0].parentNode).children('li').each(function(){
+                    if(this._data) {
+                        local.push(this._data.id);
+                    }
+                });
+                //$(scope.list).remove();
+                //scope.init();
+                mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local]);
+            }, 110);
         };
 
         this.sortable = function(){
@@ -656,42 +693,37 @@
                 listType:'ul',
                 handle:'.mw-tree-item-title',
                 update:function(e, ui){
-                    setTimeout(function(){
-                        var old = $.extend({},ui.item[0]._data);
-                        var obj = ui.item[0]._data;
-                        var objParent = ui.item[0].parentNode.parentNode._data;
-                        ui.item[0].dataset.parent_id = objParent ? objParent.id : 0;
 
-                        obj.parent_id = objParent ? objParent.id : 0;
-                        obj.parent_type = objParent ? objParent.id : 'page';
-                        var newdata = [];
-                        mw.$('li', scope.list).each(function(){
-                            if(this._data) newdata.push(this._data)
-                        });
-                        scope.options.data = newdata;
-                        var local = [];
-                        mw.$(ui.item[0].parentNode).children('li').each(function(){
-                            if(this._data) {
-                                local.push(this._data.id);
-                            }
-                        });
-                        //$(scope.list).remove();
-                        //scope.init();
-                        mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local])
-                    }, 110);
-
+                    _orderChangeHandle(e, ui)
                 }
             });
         };
-        this.nestedSortable = function(element){
-            mw.$('ul', this.list).nestedSortable({
-                items: ".type-category",
-                listType:'ul',
-                handle:'.mw-tree-item-title',
-                update:function(e, ui){
 
-                }
-            });
+        this.nestedSortable = function(){
+            if(typeof this.options.nestedSortable === 'string') {
+                mw.$(this.options.nestedSortable, this.list).each(function (){
+                    $(this).nestedSortable({
+                        items: ".type-category",
+                        listType:'ul',
+                        handle:'.mw-tree-item-title',
+                        update:function(e, ui){
+
+                            _orderChangeHandle(e, ui)
+                        }
+                    });
+                })
+            } else if (this.options.nestedSortable === true) {
+                mw.$('ul', this.list).nestedSortable({
+                    items: ".type-category",
+                    listType:'ul',
+                    handle:'.mw-tree-item-title',
+                    update:function(e, ui){
+                        _orderChangeHandle(e, ui);
+                    }
+                });
+            }
+
+
         };
 
         var _contextMenuOnce = null;
@@ -702,7 +734,7 @@
                 var menuButton = scope.document.createElement('span');
                 var menuContent = scope.document.createElement('span');
                 menuButton.className = 'mw-tree-context-menu-content-button';
-                menuButton.innerHTML = '...';
+                menuButton.innerHTML = ' ';
                 menuButton.addEventListener('click', function (e){
                    e.stopImmediatePropagation();
                    Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
@@ -735,13 +767,26 @@
                 if(!_contextMenuOnce) {
                     _contextMenuOnce = true;
                     scope.document.body.addEventListener('click', function (e){
-                        if(!scope.list.contains(e.target)) {
-                            Array.from(scope.document.querySelectorAll('.context-menu-active')).forEach(function (node){
-
+                        var active =  Array.from(scope.document.querySelectorAll('.context-menu-active'));
+                        if(active.length) {
+                            if(!scope.list.contains(e.target)) {
+                                active.forEach(function (node){
                                     node.classList.remove('context-menu-active');
+                                });
+                            } else {
+                                var li = mw.tools.firstParentOrCurrentWithTag(e.target, 'li');
+                                if(li) {
+                                    active.forEach(function (node){
+                                        if(!li.contains(node)) {
+                                            node.classList.remove('context-menu-active');
+                                        }
 
-                            });
+                                    });
+                                }
+
+                            }
                         }
+
                     })
                 }
             }
@@ -794,8 +839,14 @@
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
             if(!skip){
                 container.onclick = function(){
-                    if(scope.options.selectable) {
-                        if(scope.options.toggleSelect) {
+                    if(scope.options.selectable || scope.options.selectableNodes) {
+                        if(scope.options.selectableNodes === 'singleSelect' || scope.options.selectableNodes ===  'singleSelectToggle') {
+
+                            scope.unselect(scope.selectedData.filter(function (obj){
+                                return li._data.id !== obj.id || li._data.type !== obj.type
+                            }), undefined, false)
+                        }
+                        if(scope.options.toggleSelect || scope.options.selectableNodes === 'toggle') {
                             scope.toggleSelect(li);
                         } else {
                             scope.select(li);

@@ -6,7 +6,7 @@
                 <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-xl-flex d-none">{{_e('Posts')}}</strong>
             </h5>
-            <a href="{{route('admin.post.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ml-md-2 ml-1">{{_e('Add Post')}}</a>
+            <a href="{{route('admin.post.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Post')}}</a>
         </div>
 
     </div>
