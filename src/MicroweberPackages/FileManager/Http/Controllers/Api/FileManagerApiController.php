@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Helper\HTMLClean;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FileManagerApiController extends Controller {
 
@@ -22,6 +25,7 @@ class FileManagerApiController extends Controller {
             $keyword = $request->get('keyword');
         }
 
+        $limit = intval($request->get('limit', false));
         $order = $request->get('order', 'asc');
         $orderBy = $request->get('orderBy', 'filemtime');
         $path = urldecode($path);
@@ -49,6 +53,26 @@ class FileManagerApiController extends Controller {
 
         $data = [];
         $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
+
+        $paginationOutput = [];
+        if ($limit > 0) {
+            if (isset($getData['files']) && !empty($getData['files'])) {
+                $paginatedData = $this->paginateArray($getData['files'], $limit);
+
+                $paginationOutput = [
+                    'limit'=>$limit,
+                    'total' => $paginatedData->total(),
+                    'count' => $paginatedData->count(),
+                    'perPage' => $paginatedData->perPage(),
+                    'currentPage' => $paginatedData->currentPage(),
+                    'totalPages' => $paginatedData->lastPage()
+                ];
+
+                $getData['files'] = $paginatedData->items();
+            }
+        }
+
+        $getData['dirs'] = [];
 
         // Append dirs
         if (isset($getData['dirs']) && is_array($getData['dirs'])) {
@@ -83,7 +107,7 @@ class FileManagerApiController extends Controller {
 
                 $data[] = [
                     'type'=>'file',
-                    'mimeType'=> mime_content_type($file),
+                    'mimeType'=> mime_content_type($file), 
                     'name'=> basename($file),
                     'path'=> $relative_path,
                     'created'=> date('Y-m-d H:i:s',filectime($file)),
@@ -93,6 +117,12 @@ class FileManagerApiController extends Controller {
                     'size'=> filesize($file),
                 ];
             }
+        }
+
+        if (empty($paginationOutput)) {
+            $paginationOutput = [
+                'total'=>count($data),
+            ];
         }
 
         return [
@@ -108,14 +138,21 @@ class FileManagerApiController extends Controller {
                 'create'=>true,
                 'delete'=>true,
             ],
-            'pagination'=>[
-                'itemsPerPage'=>15,
-                'offset'=>0,
-                'total'=>count($data),
-                'next'=>0,
-                'prev'=>0,
-            ]
+            'pagination'=>$paginationOutput
         ];
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+
+    public function paginateArray($items, $perPage = 50, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
   /*  public function rename(Request $request)
