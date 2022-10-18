@@ -115,7 +115,7 @@
                         };
                         var url = route('api.file-manager.create-folder') + '?' + new URLSearchParams(params).toString();
                         xhr.open("POST", url, true);
-                        xhr.send(); 
+                        xhr.send();
                     });
                 });
 
@@ -257,11 +257,11 @@
                     scope.loading(false)
                 });
                 var dt = {
-                    path: item.path,
+                    paths:[item.path],
 
                 };
-                var url = mw.settings.api_url + 'media/delete_media_file';
-                xhr.open("POST", url, true);
+                var url = route('api.file-manager.delete');
+                xhr.open("DELETE", url, true);
                 var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
                 if (tokenFromCookie) {
                     xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie);
