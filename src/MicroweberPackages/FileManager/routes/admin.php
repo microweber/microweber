@@ -14,6 +14,6 @@ Route::name('api.')
 
     Route::get('file-manager/list', 'FileManagerApiController@list')->name('file-manager.list');
     Route::delete('file-manager/file', 'FileManagerApiController@delete')->name('file-manager.delete');
-    Route::patch('file-manager/file', 'FileManagerApiController@rename')->name('file-manager.rename');
+  /*  Route::patch('file-manager/file', 'FileManagerApiController@rename')->name('file-manager.rename');*/
 
 });

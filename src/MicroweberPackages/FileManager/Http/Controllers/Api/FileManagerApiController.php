@@ -112,7 +112,7 @@ class FileManagerApiController extends Controller {
         ];
     }
 
-    public function rename(Request $request)
+  /*  public function rename(Request $request)
     {
         $path = $request->get('path', false);
         $newPath = $request->get('newPath', false);
@@ -128,7 +128,7 @@ class FileManagerApiController extends Controller {
             return array('error' => 'Please set new file path');
         }
 
-    }
+    }*/
 
     public function delete(Request $request)
     {
