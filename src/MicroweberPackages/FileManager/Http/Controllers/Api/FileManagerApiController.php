@@ -208,7 +208,7 @@ class FileManagerApiController extends Controller {
             $targetPath = $fnPath;
         }
         if (empty($folderName)) {
-            $resp = array('error' => 'You must send new_folder parameter');
+            $resp = array('error' => 'You must send folder name parameter.');
         } else {
             $fnNewFolderPath = $folderName;
             $fnNewFolderPath = urldecode($fnNewFolderPath);
@@ -222,7 +222,7 @@ class FileManagerApiController extends Controller {
             $fnNewFolderPath = str_replace('..', '', $fnNewFolderPath);
             $fnNewFolderPath_new = $targetPath . DS . $fnNewFolderPath;
             $fnPath = normalize_path($fnNewFolderPath_new, false);
-            
+
             if (!is_dir($fnPath)) {
                 mkdir_recursive($fnPath);
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
