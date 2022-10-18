@@ -133,7 +133,8 @@ class Manager
         $posts_mod['paging_param'] = 'pg';
 
 
-        $posts_mod['orderby'] = 'created_at desc';
+       // $posts_mod['orderby'] = 'created_at desc';
+        $posts_mod['orderby'] = 'position desc';
         if (isset($params['data-order'])) {
             $posts_mod['orderby'] = $params['data-order'];
         }
