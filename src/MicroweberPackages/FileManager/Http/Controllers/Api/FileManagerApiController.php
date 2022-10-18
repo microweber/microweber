@@ -2,7 +2,9 @@
 namespace MicroweberPackages\FileManager\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
+use MicroweberPackages\Helper\HTMLClean;
 
 class FileManagerApiController extends Controller {
 
@@ -179,4 +181,72 @@ class FileManagerApiController extends Controller {
         return $resp;
     }
 
+    public function createFolder(Request $request)
+    {
+        $folderName = $request->post('name', false);
+        $folderPath = $request->post('path', false);
+
+        $clean = new HTMLClean();
+        $folderName = $clean->clean($folderName);
+        $folderPath = $clean->clean($folderPath);
+
+        $targetPath = media_uploads_path();
+
+        if (trim($folderPath) != '') {
+
+            $folderPath = urldecode($folderPath);
+            $folderPath = $this->pathAutoCleanString($folderPath);
+
+            if (Str::length($folderPath) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
+
+            $fnPath = $targetPath . DS . $folderPath . DS;
+            $fnPath = str_replace('..', '', $fnPath);
+            $fnPath = normalize_path($fnPath, false);
+
+            $targetPath = $fnPath;
+        }
+        if (empty($folderName)) {
+            $resp = array('error' => 'You must send new_folder parameter');
+        } else {
+            $fnNewFolderPath = $folderName;
+            $fnNewFolderPath = urldecode($fnNewFolderPath);
+
+            $fnNewFolderPath = $this->pathAutoCleanString($fnNewFolderPath);
+
+            if (Str::length($fnNewFolderPath) > 500) {
+                return array('error' => 'Folder path is too long.');
+            }
+
+            $fnNewFolderPath = str_replace('..', '', $fnNewFolderPath);
+            $fnNewFolderPath_new = $targetPath . DS . $fnNewFolderPath;
+            $fnPath = normalize_path($fnNewFolderPath_new, false);
+            
+            if (!is_dir($fnPath)) {
+                mkdir_recursive($fnPath);
+                $resp = array('success' => 'Folder ' . $fnPath . ' is created');
+            } else {
+                $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
+            }
+        }
+
+        return $resp;
+    }
+
+    private function pathAutoCleanString($string)
+    {
+        $url = $string;
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url); // substitutes anything but letters, numbers and '_' with separator
+        $url = trim($url, "-");
+
+        if (function_exists('iconv')) {
+            $url = iconv("utf-8", "us-ascii//TRANSLIT", $url); // TRANSLIT does the whole job
+        }
+
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url); // keep only letters, numbers, '_' and separator
+
+        return $url;
+    }
 }

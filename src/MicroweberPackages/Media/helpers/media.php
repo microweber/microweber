@@ -16,10 +16,6 @@ api_expose('thumbnail_img');
 api_expose_admin('get_media');
 
 
-
-api_expose_admin('create_media_dir');
-
-
 api_expose_admin('upload_progress_check');
 api_expose_admin('upload');
 api_expose_admin('reorder_media');
@@ -117,11 +113,6 @@ function get_media($params)
 function get_pictures($params)
 {
     return app()->media_manager->get($params);
-}
-
-function create_media_dir($params)
-{
-    return app()->media_manager->create_media_dir($params);
 }
 
 /**
