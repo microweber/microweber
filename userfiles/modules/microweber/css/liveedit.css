@@ -688,8 +688,8 @@ html.mw_pages #items_handle {
 #backtoadminindropdown {
     border-radius: 0;
     display: flex;
-    background-color: #0084D8;
-    color: #fff;
+    background-color: #fff;
+    color: #2b2b2b;
     padding: 10px;
 }
 
