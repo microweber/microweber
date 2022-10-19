@@ -131,6 +131,7 @@ class ChekForJavascriptErrors extends BaseComponent
             'Blocked attempt to show',
             'userfiles/install_log.txt?',
             'https://platform.twitter.com',
+            'https://fonts.cdnfonts.com',
             'https://www.googletagmanager.com/a?id=UA-12345678',
             'https://www.google-analytics.com',
             'Failed to load resource: net::ERR_CONTENT_LENGTH_MISMATCH',
