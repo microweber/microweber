@@ -106,6 +106,7 @@
         </style>
 
         <livewire:admin-orders-filters />
+
     </div>
 </div>
 

@@ -1,12 +1,15 @@
+<div class="mt-4">
+@if($orders->count() > 0)
 @foreach ($orders as $order)
 
     @php
         $carts = $order->cart()->with('products')->get();
     @endphp
-    <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver" data-bs-toggle="collapse" href="#collapse-order-card-{{$order->id}}" role="button" aria-expanded="false" aria-controls="collapse-order-card-{{$order->id}}">
+    <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver">
     <div class="card-body">
-        <div class="row">
-            <div class="col-12 col-md-6">
+
+        <div class="row"  data-bs-toggle="collapse" href="#collapse-order-card-{{$order->id}}" role="button" aria-expanded="false" aria-controls="collapse-order-card-{{$order->id}}">
+            <div class="col-12 col-md-6" >
                 <div class="row align-items-center">
                     <div class="col item-image">
                         <div class="img-circle-holder">
@@ -54,9 +57,9 @@
                         @endif
                     </div>
                     <div class="col-6 col-sm-4 col-md item-date">  {{$order->created_at}}<br /> <br /><small class="text-muted"> {{mw()->format->ago($order->created_at)}}</small></div>
-                    <div class="col-12 col-sm-4 col-md item-status">
+                 {{--   <div class="col-12 col-sm-4 col-md item-status">
                         <span class="text-success">New</span><br /><small class="text-muted">&nbsp;</small>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>
@@ -118,5 +121,6 @@
         </div>
     </div>
 </div>
-
 @endforeach
+@endif
+</div>

@@ -8,12 +8,14 @@
         </div>
     </div>
 
-    <div style="height: 60px;" class="bulk-actions-show-columns">
+    <div style="height: 60px;" class="bulk-actions-show-columns flex">
+
 
         @if(count($checked) > 0)
+            <div class="flex">
 
             @if (count($checked) == count($orders->items()))
-                <div class="col-md-10 mb-2">
+                <div >
                     You have selected all {{ count($checked) }} items.
                     <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
                 </div>
@@ -25,22 +27,30 @@
                     <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
                 </div>
             @endif
-        @endif
 
-        @if(count($checked) > 0)
-            <div class="pull-left">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Bulk Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> Change Order Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> Change Payment Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> Delete</button></li>
-                    </ul>
-                </div>
+            <div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bulk Actions
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> Change Order Status</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> Change Payment Status</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> Delete</button></li>
+                        </ul>
+                    </div>
+            </div>
+
             </div>
         @endif
+
+        <div class="d-inline-block mx-1">
+            <span class="d-md-block d-none">Display Type</span>
+            <div class="btn-group mb-4">
+                <a href="#" wire:click="setDisplayType('card')" class="btn btn-outline-primary @if($displayType=='card') active @endif"><i class="fa fa-id-card"></i></a>
+                <a href="#" wire:click="setDisplayType('table')" class="btn btn-outline-primary @if($displayType=='table') active @endif"><i class="fa fa-list"></i></a>
+            </div>
+        </div>
 
         <div class="pull-right">
 
@@ -89,17 +99,12 @@
 
     </div>
 
-    <div class="btn-group mb-4">
-        <a href="#" wire:click="setViewType('card')" class="btn btn-outline-primary @if($viewType=='card') active @endif"><i class="fa fa-id-card"></i></a>
-        <a href="#" wire:click="setViewType('table')" class="btn btn-outline-primary @if($viewType=='table') active @endif"><i class="fa fa-list"></i></a>
-    </div>
-
-    @if($viewType == 'card')
-        @include('order::admin.orders.livewire.view-types.card')
+    @if($displayType == 'card')
+        @include('order::admin.orders.livewire.display-types.card')
     @endif
 
-    @if($viewType == 'table')
-        @include('order::admin.orders.livewire.view-types.table')
+    @if($displayType == 'table')
+        @include('order::admin.orders.livewire.display-types.table')
     @endif
 
     <div class="d-flex justify-content-center">
