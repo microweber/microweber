@@ -3,37 +3,68 @@
     @php
         $carts = $order->cart()->with('products')->get();
     @endphp
-    <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver" data-bs-toggle="collapse" href="#collapse-1111" role="button" aria-expanded="false" aria-controls="collapse-1111">
+    <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver" data-bs-toggle="collapse" href="#collapse-order-card-{{$order->id}}" role="button" aria-expanded="false" aria-controls="collapse-order-card-{{$order->id}}">
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
                     <div class="col item-image">
                         <div class="img-circle-holder">
-                            <img src="http://templates.microweber.com/new-world/userfiles/cache/thumbnails/800/tn-1f6fb5c5df393ae432d222e0ae453079.jpg" />
+
+                            @php
+                                $cart = $order->cart()->with('products')->first();
+                                $cartProduct = $cart->products->first();
+                            @endphp
+                            @if (isset($cartProduct) && $cartProduct != null)
+                                <a href="#">
+                                    <img src="{{$cartProduct->thumbnail()}}" />
+                                </a>
+                            @endif
+
                         </div>
                     </div>
-                    <div class="col item-id"><span class="text-primary">#4</span></div>
+                    <div class="col item-id"><span class="text-primary">#{{$order->id}}</span></div>
                     <div class="col item-title">
-                        <span class="text-primary text-break-line-2">3D Sound Speaker 3D Sound Speaker 3D Sound Speaker 3D Sound Speaker 3D Sound Speaker</span>
-                        <small class="text-muted">Ordered by: Boris Sokolov</small>
+                        <span class="text-primary text-break-line-2">
+                             @php
+                                 $carts = $order->cart()->with('products')->get();
+                             @endphp
+                            @foreach ($carts as $cart)
+                                @php
+                                    $cartProduct = $cart->products->first();
+                                    if ($cartProduct == null) {
+                                        continue;
+                                    }
+                                @endphp
+                                <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                            @endforeach
+                        </span>
+                        <small class="text-muted">Ordered by:  {{$order->customerName()}}</small>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
 
-                    <div class="col-6 col-sm-4 col-md item-amount">$20 USD<br /><small class="text-muted">Paid</small></div>
-                    <div class="col-6 col-sm-4 col-md item-date">Mar 05, 2020<br /><small class="text-muted">12:33h</small></div>
-                    <div class="col-12 col-sm-4 col-md item-status"><span class="text-success">New</span><br /><small class="text-muted">&nbsp;</small></div>
+                    <div class="col-6 col-sm-4 col-md item-amount">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}<br />
+                        @if($order->is_paid == 1)
+                            <span class="text-muterd">Paid</span>
+                        @else
+                            <span class="text-danger">Unpaid</span>
+                        @endif
+                    </div>
+                    <div class="col-6 col-sm-4 col-md item-date">  {{$order->created_at}}<br /> <br /><small class="text-muted"> {{mw()->format->ago($order->created_at)}}</small></div>
+                    <div class="col-12 col-sm-4 col-md item-status">
+                        <span class="text-success">New</span><br /><small class="text-muted">&nbsp;</small>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="collapse" id="collapse-1111">
+        <div class="collapse" id="collapse-order-card-{{$order->id}}">
             <div class="row mt-3">
                 <div class="col-12 text-center text-sm-left">
-                    <a href="dashboard.html" class="btn btn-primary btn-sm btn-rounded">View order</a>
+                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-primary btn-sm btn-rounded">View order</a>
                 </div>
             </div>
             <hr class="thin" />
@@ -42,17 +73,17 @@
                     <h6><strong>Customer Information</strong></h6>
                     <div>
                         <small class="text-muted">Client name:</small>
-                        <p>Boris Sokolov</p>
+                        <p> {{$order->customerName()}}</p>
                     </div>
 
                     <div>
                         <small class="text-muted">E-mail:</small>
-                        <p>sokolov.boris@gmail.com</p>
+                        <p> {{$order->email}}</p>
                     </div>
 
                     <div>
                         <small class="text-muted">Phone:</small>
-                        <p>0878 999 888</p>
+                        <p>{{$order->phone}}</p>
                     </div>
                 </div>
 
@@ -61,12 +92,12 @@
 
                     <div>
                         <small class="text-muted">Amount:</small>
-                        <p>$20 USD</p>
+                        <p>{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</p>
                     </div>
 
                     <div>
                         <small class="text-muted">Payment method:</small>
-                        <p>Pay on delivery</p>
+                        <p>{{$order->paymentMethodName()}}</p>
                     </div>
                 </div>
 
@@ -75,12 +106,12 @@
 
                     <div>
                         <small class="text-muted">Shipping method:</small>
-                        <p>DHL</p>
+                        <p>{{$order->shippingMethodName()}}</p>
                     </div>
 
                     <div>
                         <small class="text-muted">Address:</small>
-                        <p>Bulgaria, Sofia 100, bul. Cherni Vrah 47</p>
+                        <p>{{$order->address()}}</p>
                     </div>
                 </div>
             </div>
