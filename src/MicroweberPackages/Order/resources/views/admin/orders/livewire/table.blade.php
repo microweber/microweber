@@ -89,6 +89,12 @@
 
     </div>
 
+    <div class="btn-group mb-4">
+        <a href="#" class="btn btn-primary active" aria-current="page"><i class="fa fa-id-card"></i></a>
+        <a href="#" class="btn btn-primary"><i class="fa fa-table"></i></a>
+    </div>
+
+
     <table class="table table-responsive orders-table">
         <thead>
         <tr>
