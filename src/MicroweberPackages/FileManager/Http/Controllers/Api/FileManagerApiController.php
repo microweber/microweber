@@ -58,7 +58,6 @@ class FileManagerApiController extends Controller {
         if ($limit > 0) {
             if (isset($getData['files']) && !empty($getData['files'])) {
                 $paginatedData = $this->paginateArray($getData['files'], $limit);
-
                 $paginationOutput = [
                     'limit'=>$limit,
                     'total' => $paginatedData->total(),
@@ -72,12 +71,9 @@ class FileManagerApiController extends Controller {
             }
         }
 
-        $getData['dirs'] = [];
-
         // Append dirs
         if (isset($getData['dirs']) && is_array($getData['dirs'])) {
             foreach ($getData['dirs'] as $dir) {
-
 
                 $relativeDir = str_ireplace(media_base_path(), '', $dir);
 
@@ -107,7 +103,7 @@ class FileManagerApiController extends Controller {
 
                 $data[] = [
                     'type'=>'file',
-                    'mimeType'=> mime_content_type($file), 
+                    'mimeType'=> mime_content_type($file),
                     'name'=> basename($file),
                     'path'=> $relative_path,
                     'created'=> date('Y-m-d H:i:s',filectime($file)),
