@@ -52,6 +52,13 @@ class OrdersTableComponent extends Component
         'hideFilterItem'=>'hideFilter'
     ];
 
+    public $viewType = 'card';
+
+    public function setViewType($type)
+    {
+        $this->viewType = $type;
+    }
+
     public function setPaginationLimit($limit)
     {
         $this->paginationLimit = $limit;
