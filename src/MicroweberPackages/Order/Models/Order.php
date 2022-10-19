@@ -77,7 +77,7 @@ class Order extends Model
         return $this->shipping_service;
     }
 
-    public function address()
+    public function addressText()
     {
         if (empty(trim($this->address))) {
             return 'No address';

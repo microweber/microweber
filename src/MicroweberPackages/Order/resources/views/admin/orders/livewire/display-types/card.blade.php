@@ -114,7 +114,7 @@
 
                     <div>
                         <small class="text-muted">Address:</small>
-                        <p>{{$order->address()}}</p>
+                        <p>{{$order->addressText()}}</p>
                     </div>
                 </div>
             </div>
