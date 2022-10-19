@@ -37,8 +37,10 @@
                     var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />');
 
                     $.each(attributes, function(name, value) {
-                        if(!$(input).attr(name)){
-                            $(input).attr(name,value);
+                        if (name !== 'value') {
+                            if (!$(input).attr(name)) {
+                                $(input).attr(name, value);
+                            }
                         }
                     });
 

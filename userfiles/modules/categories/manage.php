@@ -33,12 +33,12 @@
 
         <div class="card-body pt-3">
             <div id="mw-admin-categories-tree-manager">
-
-            </div>
+             </div>
             <script>
 
                      var t = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: {
+                            url : mw.settings.api_url + 'content/get_admin_js_tree_json'<?php if(isset($params['is_shop'])): ?> + '?is_shop=1'<?php else:?> + ''<?php endif;?>,
                             nestedSortable: '[data-type="page"] ul',
                             selectable: false,
                             singleSelect: true,
