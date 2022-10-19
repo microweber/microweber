@@ -22,6 +22,7 @@ $data = $products;
         mw.dialog.remove();
         mw.reload_modules(['shop/orders/manage', 'shop/checkout', 'shop/cart']);
         mw.notification.success('<?php _e('Order completed') ?>', 5000);
+        window.location.reload();
     }
 </script>
 

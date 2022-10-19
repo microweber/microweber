@@ -3167,6 +3167,7 @@ html.mw-loading:after {
   color: #212121;
   padding: 0;
   display: inline-flex;
+  align-items: center;
   position: relative;
   outline: none;
   background-repeat: no-repeat;
@@ -4546,6 +4547,7 @@ div.mw-ui-field:after {
   vertical-align: middle;
 }
 .mw-ui-check {
+  position: relative;
   cursor: pointer;
   vertical-align: middle;
   display: inline-block;
@@ -4559,6 +4561,9 @@ div.mw-ui-field:after {
 .mw-ui-check input {
   position: absolute;
   opacity: 0;
+  pointer-events: none !important;
+  top: 0 !important;
+  left: 0 !important;
 }
 .mw-ui-check input + span {
   display: inline-block;

@@ -77,6 +77,15 @@ class Order extends Model
         return $this->shipping_service;
     }
 
+    public function addressText()
+    {
+        if (empty(trim($this->address))) {
+            return 'No address';
+        }
+
+        return $this->address;
+    }
+
     public function paymentMethodName()
     {
         if ($this->payment_gw == 'shop/payments/gateways/paypal') {

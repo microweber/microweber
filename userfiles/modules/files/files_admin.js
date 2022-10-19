@@ -46,36 +46,44 @@ deleteItem = function (url, name, frommodal,removeSelectorOndelete) {
 
     var obj, msg;
     if (typeof url === 'string') {
-        obj = {path: [url]};
+        obj = {paths: [url]};
         name = name || 'this';
         msg = "Are you sure you want to delete " + name + "?";
     } else if (url.constructor === [].constructor) {
-        obj = {path: url}
+        obj = {paths: [url]}
         msg = "Are you sure you want to delete these files";
     } else {
         return false;
     }
-
-
-
+    
     $('#mw_alert').remove();
     mw.tools.confirm(msg, function () {
         $(document.body).addClass("loading");
         if (frommodal === true) {
             mw.$("#prfile").remove()
         }
-        $.post(mw.settings.api_url + "media/delete_media_file", obj, function (a) {
-            $(document.body).removeClass("loading");
 
-            if (typeof removeSelectorOndelete === 'string') {
-                $(removeSelectorOndelete).fadeOut();
-            } else {
-                _mw_admin_files_manage('all');
+        $.ajax({
+            url: route('api.file-manager.delete'),
+            data: obj,
+            type: 'DELETE',
+            success: function(result) {
+                $(document.body).removeClass("loading");
+
+                if (typeof removeSelectorOndelete === 'string') {
+                    $(removeSelectorOndelete).fadeOut();
+                } else {
+                    _mw_admin_files_manage('all');
+                }
+
+                //  _mw_admin_files_manage('all');
+                if (result.success) {
+                    mw.notification.success(result.success);
+                }
+                if (result.error) {
+                    mw.notification.error(result.error);
+                }
             }
-
-          //  _mw_admin_files_manage('all');
-            mw.notification.msg(a);
-
         });
     })
 }
@@ -203,7 +211,7 @@ saveNewFolder = function (a) {
             name: a,
             new_folder: 1
         }
-        $.post(mw.settings.api_url + "create_media_dir", obj, function (data) {
+        $.post(route('api.file-manager.create-folder'), obj, function (data) {
             if(data.error) {
                 mw.notification.error(data.error);
 
