@@ -113,6 +113,15 @@
             <th scope="col">Shipping Method</th>
             @endif
 
+            @if($showColumns['payment_method'])
+            <th scope="col">Payment Method</th>
+            @endif
+
+            @if($showColumns['payment_status'])
+                <th scope="col">Payment Status</th>
+            @endif
+
+
             @if($showColumns['total_amount'])
                 <th scope="col">Total Amount</th>
             @endif
@@ -194,22 +203,24 @@
                 {{$order->shippingMethodName()}}
             </td>
             @endif
+            @if($showColumns['payment_method'])
+            <td style="text-align: center">
+                {{$order->paymentMethodName()}}
+            </td>
+            @endif
+            @if($showColumns['payment_status'])
+                <td style="text-align: center">
+                    @if($order->is_paid == 1)
+                        <span class="badge badge-success">Paid</span>
+                    @else
+                        <span class="badge badge-danger">Unpaid</span>
+                    @endif
+                </td>
+            @endif
 
 
             @if($showColumns['total_amount'])
                 <td>
-                    @if($showColumns['payment_method'])
-                            {{$order->paymentMethodName()}}
-                    @endif
-
-                    @if($showColumns['payment_status'])
-                        @if($order->is_paid == 1)
-                            <span class="badge badge-success">Paid</span>
-                        @else
-                            <span class="badge badge-danger">Unpaid</span>
-                        @endif
-                    @endif
-
                     <span class="badge badge-success">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</span>
                 </td>
             @endif
