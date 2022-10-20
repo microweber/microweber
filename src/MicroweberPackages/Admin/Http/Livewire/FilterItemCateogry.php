@@ -107,12 +107,16 @@ class FilterItemCateogry extends DropdownComponent
 
     public function selectItemCategory($itemId)
     {
+        $this->itemCategoryValue = $itemId;
         $this->updatedItemCategoryValue($itemId);
+        $this->closeDropdown($this->id);
     }
 
     public function selectItemPage($itemId)
     {
+        $this->itemPageValue = $itemId;
         $this->updatedItemPageValue($itemId);
+        $this->closeDropdown($this->id);
     }
 
     protected function getListeners()
