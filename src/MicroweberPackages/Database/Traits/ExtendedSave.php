@@ -202,9 +202,9 @@ trait ExtendedSave
                 $custom_fields = $data_to_save['custom_fields_advanced'];
                 if (is_array($custom_fields) and !empty($custom_fields)) {
                     foreach ($custom_fields as $k => $v) {
-                        $save_cat_item = array();
-                        $save_cat_item['rel_type'] = $data_to_save['table'];
-                        $save_cat_item['rel_id'] = $data_to_save['id'];
+                        $save_custom_field_item = array();
+                        $save_custom_field_item['rel_type'] = $data_to_save['table'];
+                        $save_custom_field_item['rel_id'] = $data_to_save['id'];
 
                         if (isset($v['name']) and !isset($v['type'])) {
                             if ($v['name'] == 'price') {
@@ -213,27 +213,29 @@ trait ExtendedSave
                         }
 
                         if (isset($v['type'])) {
-                            $save_cat_item['type'] = $v['type'];
+                            $save_custom_field_item['type'] = $v['type'];
                             if (isset($v['name'])) {
-                                $save_cat_item['name'] = $v['name'];
+                                $save_custom_field_item['name'] = $v['name'];
                             }
-                            $check = $save_cat_item;
+                            $check = $save_custom_field_item;
                             $check['single'] = true;
+                            $check['no_cache'] = true;
 
                             $check = $this->app->fields_manager->getAll($check);
 
                             if (isset($check['id'])) {
-                                $save_cat_item['id'] = $check['id'];
+                                $save_custom_field_item['id'] = $check['id'];
                             }
                             if (isset($v['value'])) {
-                                $save_cat_item['value'] = $v['value'];
+                                $save_custom_field_item['value'] = $v['value'];
                             }
                             if (isset($v['values'])) {
-                                $save_cat_item['values'] = $v['values'];
+                                $save_custom_field_item['values'] = $v['values'];
                             }
 
-                            $save_cat_item = array_merge($save_cat_item, $v);
-                            $save_field = $this->app->fields_manager->save($save_cat_item);
+                            $save_custom_field_item = array_merge($save_custom_field_item, $v);
+
+                            $save_field = $this->app->fields_manager->save($save_custom_field_item);
 
                         }
                     }

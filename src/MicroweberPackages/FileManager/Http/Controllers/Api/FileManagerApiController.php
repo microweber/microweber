@@ -72,19 +72,26 @@ class FileManagerApiController extends Controller {
         }
 
         // Append dirs
-        if (isset($getData['dirs']) && is_array($getData['dirs'])) {
-            foreach ($getData['dirs'] as $dir) {
+        $appendDirs = true;
+        if (!empty($request->get('page')) && $request->get('page') > 1) {
+            $appendDirs = false;
+        }
 
-                $relativeDir = str_ireplace(media_base_path(), '', $dir);
+        if ($appendDirs) {
+            if (isset($getData['dirs']) && is_array($getData['dirs'])) {
+                foreach ($getData['dirs'] as $dir) {
 
-                $data[] = [
-                    'type'=>'folder',
-                    'mimeType'=> mime_content_type($dir),
-                    'name'=> basename($dir),
-                    'path'=> $relativeDir,
-                    'created'=> date('Y-m-d H:i:s',filectime($dir)),
-                    'modified'=> date('Y-m-d H:i:s',filemtime($dir))
-                ];
+                    $relativeDir = str_ireplace(media_base_path(), '', $dir);
+
+                    $data[] = [
+                        'type' => 'folder',
+                        'mimeType' => mime_content_type($dir),
+                        'name' => basename($dir),
+                        'path' => $relativeDir,
+                        'created' => date('Y-m-d H:i:s', filectime($dir)),
+                        'modified' => date('Y-m-d H:i:s', filemtime($dir))
+                    ];
+                }
             }
         }
 

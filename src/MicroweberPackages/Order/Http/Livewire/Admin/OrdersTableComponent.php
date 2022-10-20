@@ -52,6 +52,14 @@ class OrdersTableComponent extends Component
         'hideFilterItem'=>'hideFilter'
     ];
 
+    public $displayType = 'card';
+
+    public function setDisplayType($type)
+    {
+        $this->displayType = $type;
+        \Cookie::queue('orderDisplayType', $type);
+    }
+
     public function setPaginationLimit($limit)
     {
         $this->paginationLimit = $limit;
@@ -138,13 +146,17 @@ class OrdersTableComponent extends Component
         }
 
         $query->filter($applyFiltersToQuery);
-        $query->whereHas('cart');
 
         return $query;
     }
 
     public function mount()
     {
+        $displayType = \Cookie::get('orderDisplayType');
+        if (!empty($displayType)) {
+            $this->displayType = $displayType;
+        }
+
         $columnsCookie = \Cookie::get('orderShowColumns');
         if (!empty($columnsCookie)) {
             $showColumns = json_decode($columnsCookie, true);

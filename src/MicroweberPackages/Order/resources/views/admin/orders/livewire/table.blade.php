@@ -8,12 +8,14 @@
         </div>
     </div>
 
-    <div style="height: 60px;" class="bulk-actions-show-columns">
+    <div style="height: 60px;" class="bulk-actions-show-columns flex">
+
 
         @if(count($checked) > 0)
+            <div class="flex">
 
             @if (count($checked) == count($orders->items()))
-                <div class="col-md-10 mb-2">
+                <div >
                     You have selected all {{ count($checked) }} items.
                     <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
                 </div>
@@ -25,22 +27,30 @@
                     <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
                 </div>
             @endif
-        @endif
 
-        @if(count($checked) > 0)
-            <div class="pull-left">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Bulk Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> Change Order Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> Change Payment Status</button></li>
-                        <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> Delete</button></li>
-                    </ul>
-                </div>
+            <div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bulk Actions
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> Change Order Status</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> Change Payment Status</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> Delete</button></li>
+                        </ul>
+                    </div>
+            </div>
+
             </div>
         @endif
+
+        <div class="d-inline-block mx-1">
+            <span class="d-md-block d-none">Display Type</span>
+            <div class="btn-group mb-4">
+                <a href="#" wire:click="setDisplayType('card')" class="btn btn-outline-primary @if($displayType=='card') active @endif"><i class="fa fa-id-card"></i></a>
+                <a href="#" wire:click="setDisplayType('table')" class="btn btn-outline-primary @if($displayType=='table') active @endif"><i class="fa fa-list"></i></a>
+            </div>
+        </div>
 
         <div class="pull-right">
 
@@ -89,180 +99,13 @@
 
     </div>
 
-    <table class="table table-responsive orders-table">
-        <thead>
-        <tr>
-            <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
-            @if($showColumns['id'])
-                @include('order::admin.orders.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
-            @endif
+    @if($displayType == 'card')
+        @include('order::admin.orders.livewire.display-types.card')
+    @endif
 
-            @if($showColumns['image'])
-                <th scope="col">Image</th>
-            @endif
-
-            @if($showColumns['products'])
-                <th scope="col">Products</th>
-            @endif
-
-            @if($showColumns['customer'])
-            <th scope="col">Customer</th>
-            @endif
-
-            @if($showColumns['shipping_method'])
-            <th scope="col">Shipping Method</th>
-            @endif
-
-            @if($showColumns['payment_method'])
-            <th scope="col">Payment Method</th>
-            @endif
-
-            @if($showColumns['payment_status'])
-                <th scope="col">Payment Status</th>
-            @endif
-
-
-            @if($showColumns['total_amount'])
-                <th scope="col">Total Amount</th>
-            @endif
-
-            @if($showColumns['status'])
-                <th scope="col">Status</th>
-            @endif
-
-              @if($showColumns['created_at'])
-            <th scope="col">Created At</th>
-            @endif
-            @if($showColumns['updated_at'])
-                <th scope="col">Updated At</th>
-            @endif
-
-            @if($showColumns['actions'])
-                <th scope="col">Actions</th>
-            @endif
-        </tr>
-        </thead>
-        <tbody>
-        @foreach ($orders as $order)
-
-            @php
-                $carts = $order->cart()->with('products')->get();
-            @endphp
-
-        <tr class="manage-post-item">
-            <td>
-                <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
-            </td>
-            @if($showColumns['id'])
-                <td>
-                    {{ $order->id }}
-                </td>
-            @endif
-
-            @if($showColumns['image'])
-                <td>
-                    @php
-                        $cart = $order->cart()->with('products')->first();
-                        $cartProduct = $cart->products->first();
-                    @endphp
-                    @if (isset($cartProduct) && $cartProduct != null)
-                        <a href="#">
-                            <div class="img-circle-holder">
-                                <img src="{{$cartProduct->thumbnail()}}" />
-                            </div>
-                        </a>
-                    @endif
-                </td>
-            @endif
-
-            @if($showColumns['products'])
-                <td>
-                    @php
-                        $carts = $order->cart()->with('products')->get();
-                    @endphp
-                    @foreach ($carts as $cart)
-                        @php
-                            $cartProduct = $cart->products->first();
-                            if ($cartProduct == null) {
-                                continue;
-                            }
-                        @endphp
-                        <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
-                    @endforeach
-                </td>
-            @endif
-
-            @if($showColumns['customer'])
-            <td>
-                {{$order->customerName()}}
-            </td>
-            @endif
-
-            @if($showColumns['shipping_method'])
-            <td>
-                {{$order->shippingMethodName()}}
-            </td>
-            @endif
-            @if($showColumns['payment_method'])
-            <td style="text-align: center">
-                {{$order->paymentMethodName()}}
-            </td>
-            @endif
-            @if($showColumns['payment_status'])
-                <td style="text-align: center">
-                    @if($order->is_paid == 1)
-                        <span class="badge badge-success">Paid</span>
-                    @else
-                        <span class="badge badge-danger">Unpaid</span>
-                    @endif
-                </td>
-            @endif
-
-
-            @if($showColumns['total_amount'])
-                <td>
-                    <span class="badge badge-success">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</span>
-                </td>
-            @endif
-
-            @if($showColumns['status'])
-                <td style="text-align: center">
-                    @if($order->order_status == 'pending')
-                        <span class="badge badge-warning text-white">Pending</span>
-                    @elseif($order->order_status == 'new')
-                        <span class="badge badge-primary">New</span>
-                    @elseif($order->order_status == 'completed')
-                        <span class="badge badge-success">Completed</span>
-                    @else
-                        <span class="badge badge-primary">{{$order->order_status}}</span>
-                    @endif
-                </td>
-            @endif
-
-              @if($showColumns['created_at'])
-            <td style="text-align: center">
-                {{$order->created_at}}<br />  {{mw()->format->ago($order->created_at)}}
-            </td>
-            @endif
-              @if($showColumns['updated_at'])
-            <td style="text-align: center">
-                {{$order->updated_at}}<br />  {{mw()->format->ago($order->updated_at)}}
-            </td>
-            @endif
-
-            @if($showColumns['actions'])
-                <td style="text-align: center">
-                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-outline-primary btn-sm">
-                    <i class="fa fa-eye"></i>    View
-                    </a>
-                </td>
-            @endif
-
-        </tr>
-        @endforeach
-        </tbody>
-
-    </table>
+    @if($displayType == 'table')
+        @include('order::admin.orders.livewire.display-types.table')
+    @endif
 
     <div class="d-flex justify-content-center">
 

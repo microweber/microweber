@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="d-flex flex-wrap mt-3">
+    <div class="d-flex flex-wrap mt-3 mb-3">
 
         @if(isset($showFilters['id']) && $showFilters['id'])
             @include('order::admin.orders.livewire.table-filters.order_id')

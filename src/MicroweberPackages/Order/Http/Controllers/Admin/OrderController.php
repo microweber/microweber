@@ -14,7 +14,10 @@ use MicroweberPackages\Order\Models\Order;
 class OrderController extends AdminController
 {
     public function index(Request $request) {
-        return $this->view('order::admin.orders.index');
+
+        $getOrder = Order::first();
+
+        return $this->view('order::admin.orders.index', compact('getOrder'));
     }
 
     public function show($id)

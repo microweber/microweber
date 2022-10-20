@@ -204,8 +204,14 @@ class ShopManager
         if ($prices) {
             $return = array();
             foreach ($prices as $price_data) {
+                $i = 0;
                 if (isset($price_data['name']) and isset($price_data['value'])) {
-                    $return[$price_data['name']] = $price_data['value'];
+                    $i++ ;
+                    $name = $price_data['name'];
+                    if(isset($return[$name])){
+                        $name = $name . ' ' . $i;
+                    }
+                    $return[$name] = $price_data['value'];
                 }
             }
             return $return;
@@ -220,7 +226,8 @@ class ShopManager
         $prices = $this->get_product_prices($content_id);
         if ($prices and is_array($prices) and !empty($prices)) {
             $vals2 = array_values($prices);
-            $val1 = array_shift($vals2);
+            $val1 = reset($vals2);
+
             return $val1;
         } else {
             return false;

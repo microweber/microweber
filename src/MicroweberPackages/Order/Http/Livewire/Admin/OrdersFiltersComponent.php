@@ -46,6 +46,11 @@ class OrdersFiltersComponent extends Component
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
+        if (!empty($this->showFilters)) {
+            foreach ($this->showFilters as $filterKey=>$filterValue) {
+                session()->flash('showFilter' . ucfirst($filterKey), '1');
+            }
+        }
     }
 
     public function render()

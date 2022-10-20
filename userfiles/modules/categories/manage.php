@@ -63,7 +63,10 @@
                             ]
                         },
                         params: {
-                            no_limit: true
+                            no_limit: true,
+                            <?php if(isset($params['is_shop'])): ?>
+                                is_shop: 1,
+                            <?php endif; ?>
                         }
                     }).then(function (res) {
                         $(res.tree).on('orderChange', function (e, obj){
