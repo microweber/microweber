@@ -208,7 +208,7 @@ class ContentManagerCrud extends Crud
                     $subQuery->select('content_data.content_id');
                     $subQuery->from('content_data');
                     $subQuery->where('content_data.field_name', '=', 'qty');
-                    $subQuery->where('content_data.field_value', '!=','0');
+                    $subQuery->where('content_data.field_value', '<>','0');
 
                     if(isset($params['category'])){
                         $subQuery->whereIn('content_data.rel_id', function ($subQuery) use ($params)  {

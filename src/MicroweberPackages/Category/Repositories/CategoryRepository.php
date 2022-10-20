@@ -135,7 +135,11 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
 
-            $categoryModelHasAviableProducts = Category::where('id', $categoryId)->select('id')->limit(1)->filter(['hasProductsInStock' => true])->first();
+            $categoryModelHasAviableProducts = Category::where('id', $categoryId)
+                ->select('id')
+                ->limit(1)
+                ->filter(['hasProductsInStock' => true])
+                ->first();
             if ($categoryModelHasAviableProducts) {
                 return true;
             }
@@ -150,8 +154,14 @@ class CategoryRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
             $categoryItemsCountGroupedByRelType = [];
+            $model = (new CategoryItem())->newQuery();
+            $categoryItemsCountData = $model
+                ->rightJoin('content', function ($join) {
+                    $join->on('content.id', '=', 'categories_items.rel_id')
+                        ->where('content.is_deleted', '=', 0)
+                        ->where('content.is_active', '=', 1);
+                })
 
-            $categoryItemsCountData = CategoryItem::rightJoin('content', 'content.id', '=', 'rel_id')
                 ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `content`.`id` ) as count')])
                 ->where('categories_items.rel_type','content')
                 ->groupBy('categories_items.parent_id')
@@ -167,6 +177,10 @@ class CategoryRepository extends AbstractRepository
 
     }
 
+    public function getCategoryContentItemsInStockCount($categoryId)
+    {
+
+    }
     public function getCategoryContentItemsCount($categoryId)
     {
         $categoryItemsCountGroupedByRelType = $this->getCategoryItemsCountAll();
