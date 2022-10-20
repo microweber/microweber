@@ -22,7 +22,7 @@ class ProductsList extends Component
         'setFirstPageProductsList' => 'setPaginationFirstPage',
         'autoCompleteSelectItem'=>'setFilter',
         'hideFilterItem'=>'hideFilter',
-        'showFilterItem'=>'showFilter',
+        'applyFilterItem'=>'applyFilterItem',
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
@@ -78,9 +78,10 @@ class ProductsList extends Component
         }
     }
 
-    public function showFilter($key)
+    public function applyFilterItem($filter, $filterValue)
     {
-        $this->showFilters[$key] = true;
+        $this->filters[$filter] = $filterValue;
+        $this->showFilters[$filter] = true;
     }
 
     public function updatedShowFilters($value)

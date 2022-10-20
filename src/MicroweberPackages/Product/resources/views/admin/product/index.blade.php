@@ -208,12 +208,10 @@
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
                             if (item.type == 'category') {
-                                window.livewire.emit('showFilterItem', 'category');
-                                window.livewire.emit('selectItemCategory', item.id);
+                                window.livewire.emit('applyFilterItem', 'category', item.id);
                             }
                             if (item.type == 'page') {
-                                window.livewire.emit('showFilterItem', 'category');
-                                window.livewire.emit('selectItemPage', item.id);
+                                window.livewire.emit('applyFilterItem', 'page', item.id);
                             }
                         });
                     });

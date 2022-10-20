@@ -4,7 +4,19 @@
         <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
-                <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Products')}}</strong>
+                <strong class="d-xl-flex d-none">
+                    {{_e('Shop')}} {{_e('Products')}}
+
+                    @php
+                        $findCategory = false;
+                        if (isset($filters['category'])) {
+                            $findCategory = get_category_by_id($filters['category']);
+                        }
+                    @endphp
+
+                    @if($findCategory) <i class="mdi mdi-arrow-right"></i> {{$findCategory['title']}} @endif
+
+                </strong>
             </h5>
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Product')}}</a>
         </div>
@@ -25,7 +37,7 @@
             </button>
             <div class="dropdown-menu p-3" style="width:263px">
                 <h6 class="dropdown-header">Taxonomy</h6>
-                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>
+                {{--<label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>--}}
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
                 <h6 class="dropdown-header">Shop</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.priceBetween"> Price Range</label>
@@ -53,9 +65,9 @@
     </div>
 
     <div class="d-flex flex-wrap mt-3">
-        @if(isset($showFilters['category']) && $showFilters['category'])
+      {{--  @if(isset($showFilters['category']) && $showFilters['category'])
             @include('product::admin.product.livewire.table-filters.category')
-        @endif
+        @endif--}}
 
         @if(isset($showFilters['tags']) && $showFilters['tags'])
             @include('product::admin.product.livewire.table-filters.tags')
