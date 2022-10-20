@@ -21,7 +21,8 @@ class ProductsList extends Component
         'refreshProductsList' => '$refresh',
         'setFirstPageProductsList' => 'setPaginationFirstPage',
         'autoCompleteSelectItem'=>'setFilter',
-        'hideFilterItem'=>'hideFilter'
+        'hideFilterItem'=>'hideFilter',
+        'showFilterItem'=>'showFilter',
     ];
     protected $queryString = ['filters', 'showFilters','paginate'];
 
@@ -75,6 +76,11 @@ class ProductsList extends Component
         if (isset($this->filters[$key])) {
             unset($this->filters[$key]);
         }
+    }
+
+    public function showFilter($key)
+    {
+        $this->showFilters[$key] = true;
     }
 
     public function updatedShowFilters($value)
