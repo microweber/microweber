@@ -18,7 +18,9 @@
 
                 </strong>
             </h5>
+            <div class="justify-content-end">
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Product')}}</a>
+            </div>
         </div>
     </div>
 

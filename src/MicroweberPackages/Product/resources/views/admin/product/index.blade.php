@@ -96,7 +96,7 @@
     }
 </style>
 
-<div class="main">
+<div class="main pt-0">
     <div>
         <div class="tree-show-hide-nav">
 
@@ -110,8 +110,7 @@
         <div id="js-page-tree"></div>
 
         <script>
-            ;(function (){
-
+            (function (){
                 var treeNode = document.getElementById('js-page-tree');
                 var pagesTree;
 
