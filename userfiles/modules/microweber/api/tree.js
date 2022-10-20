@@ -230,7 +230,7 @@
                 var it = this._postCreated[i];
                 if(it.parent_id !== 0) {
                     var has = this.options.data.find(function (a) {
-                        return a.id ==  it.parent_id; // 1 == '1'
+                        return a.id == it.parent_id; // 1 == '1'
                     });
                     if(!has) {
                         it.parent_id = 0;
@@ -619,9 +619,7 @@
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
             element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
-            if(this.options.sortable){
-                this.sortable();
-            }
+            this.sortable();
             this.nestedSortable();
         };
 
@@ -679,23 +677,42 @@
                 //$(scope.list).remove();
                 //scope.init();
                 mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local]);
+                scope.dispatch('orderChange', [obj, scope.options.data, old, local]);
             }, 110);
         };
 
         this.sortable = function(){
-            var items = mw.$(this.list);
-            mw.$('ul', this.list).each(function () {
-                items.push(this);
-            });
-            items.sortable({
-                items: ".type-category, .type-page",
-                axis:'y',
-                listType:'ul',
-                handle:'.mw-tree-item-title',
-                update:function(e, ui){
-
-                    _orderChangeHandle(e, ui)
+            if(this.options.sortable){
+                var selector = '.type-category, .type-page';
+                if(typeof this.options.sortable === 'string') {
+                    selector = this.options.sortable;
                 }
+                var items = mw.$(this.list);
+                mw.$('ul', this.list).each(function () {
+                    items.push(this);
+                });
+                items.sortable({
+                    items: selector,
+                    axis:'y',
+                    listType:'ul',
+                    handle:'.mw-tree-item-title',
+                    update:function(e, ui){
+
+                        _orderChangeHandle(e, ui)
+                    }
+                });
+            }
+        };
+
+        this.getSameLevelObjects = function(object){
+             var parent = this.get(object).parentElement;
+            return Array.from(parent.children).map(function (li) {
+                return li._data;
+            });
+        }
+        this.getChildObjects = function(parentObject){
+            return Array.from(this.get(parentObject).children).map(function (li) {
+                return li._data;
             });
         };
 
@@ -730,7 +747,7 @@
         this.contextMenu = function(element){
             var menu = scope.document.createElement('span');
             menu.className = 'mw-tree-context-menu';
-            if(this.options.contextMenu){
+            if(this.options.contextMenu) {
                 var menuButton = scope.document.createElement('span');
                 var menuContent = scope.document.createElement('span');
                 menuButton.className = 'mw-tree-context-menu-content-button';
@@ -748,21 +765,24 @@
                 menu.appendChild(menuButton);
                 menu.appendChild(menuContent);
                 $.each(this.options.contextMenu, function(){
-                    var menuitem = scope.document.createElement('span');
-                    var icon = scope.document.createElement('span');
-                    menuitem.title = this.title;
-                    menuitem.innerHTML = this.title;
-                    menuitem.className = 'mw-tree-context-menu-item';
-                    icon.className = this.icon;
-                    menuitem.prepend(icon);
-                    menuContent.appendChild(menuitem);
-                    (function(menuitem, element, obj){
-                        menuitem.onclick = function(){
-                            if(obj.action){
-                                obj.action.call(element, element, element._data, menuitem)
-                            }
-                        }
-                    })(menuitem, element, this);
+                    if(!this.filter || this.filter(element._data, element)){
+                        var menuitem = scope.document.createElement('span');
+                        var icon = scope.document.createElement('span');
+                        menuitem.title = this.title;
+                        menuitem.innerHTML = this.title;
+                        menuitem.className = ((this.className || '') + ' mw-tree-context-menu-item').trim();
+                        icon.className = this.icon;
+                        menuitem.prepend(icon);
+                        menuContent.appendChild(menuitem);
+                        (function(menuitem, element, obj){
+                            menuitem.onclick = function(){
+                                if(obj.action){
+                                    obj.action.call(element, element, element._data, menuitem)
+                                }
+                            };
+                        })(menuitem, element, this);
+                    }
+
                 });
                 if(!_contextMenuOnce) {
                     _contextMenuOnce = true;

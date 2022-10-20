@@ -239,6 +239,9 @@
 
 .mw-file-manager-root[data-view="grid"] tbody tr .mw-file-manager-list-item-check-cell{
     padding: 0;
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
 }
 .mw-file-manager-root[data-view="grid"] tbody tr {
     display: flex;
@@ -263,11 +266,7 @@
     font-size: 12px;
     padding-block: 0;
 }
-.mw-file-manager-root[data-view="grid"] tr .mw-ui-check{
-    position: absolute;
-    bottom: 5px;
-    left: 10px;
-}
+
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-options-list{
     top: auto;
     bottom: 0;
@@ -487,4 +486,20 @@
 
 .no-results-search .mw-file-manager-no-results .mw-file-manager-create-methods-dropdown{
     display: none;
+}
+
+
+.mw-file-manager-paging-top{
+    border-bottom: 1px solid #dbdcdd;
+}
+
+.mw-file-manager-paging{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+.mw-file-manager-paging-bottom{
+    border-top: 1px solid #dbdcdd;
+    padding-bottom: 0;
 }
