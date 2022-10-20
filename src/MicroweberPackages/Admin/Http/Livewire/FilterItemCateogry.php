@@ -28,7 +28,7 @@ class FilterItemCateogry extends DropdownComponent
         if ($this->itemPageValue) {
             $this->updatedItemPageValue($this->itemPageValue);
         }
-        
+
         if ($this->itemCategoryValue) {
             $this->updatedItemCategoryValue($this->itemCategoryValue);
         }
@@ -105,11 +105,22 @@ class FilterItemCateogry extends DropdownComponent
         $this->emit('autoCompleteSelectItem', $this->itemPageValueKey, $this->itemPageValue);
     }
 
-/*    protected function getListeners()
+    public function selectItemCategory($itemId)
+    {
+        $this->updatedItemCategoryValue($itemId);
+    }
+
+    public function selectItemPage($itemId)
+    {
+        $this->updatedItemPageValue($itemId);
+    }
+
+    protected function getListeners()
     {
         return array_merge($this->listeners, [
-
+            'selectItemPage'=>'selectItemPage',
+            'selectItemCategory'=>'selectItemCategory'
         ]);
-    }*/
+    }
 
 }

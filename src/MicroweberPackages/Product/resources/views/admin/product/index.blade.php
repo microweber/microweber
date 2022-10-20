@@ -106,14 +106,8 @@
                     <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
                 </div>
             </div>
-
-
-
-
-
         </div>
         <div id="js-page-tree"></div>
-
 
         <script>
             ;(function (){
@@ -211,10 +205,16 @@
                     addEventListener('scroll', treeHolderSet);
                     treeHolderSet();
 
-                    pagesTree.on('selectionChange', function (itm){
-                        console.log( itm )
-                    })
-
+                    pagesTree.on('selectionChange', function (items){
+                        $.each(items, function (key, item) {
+                            if (item.type == 'category') {
+                                window.livewire.emit('selectItemCategory', item.id);
+                            }
+                            if (item.type == 'page') {
+                                window.livewire.emit('selectItemPage', item.id);
+                            }
+                        });
+                    });
 
                 });
             })();
