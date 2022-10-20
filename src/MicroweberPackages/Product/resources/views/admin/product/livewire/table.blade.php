@@ -198,8 +198,8 @@
             <th scope="col">
 
                 <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" wire:model="selectAll" id="secectall-procuts"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
-                    <label for="secectall-procuts" class="custom-control-label"></label>
+                    <input type="checkbox" wire:model="selectAll" id="select-all-products" class="custom-control-input">
+                    <label for="select-all-products" class="custom-control-label"></label>
                 </div>
 
             </th>
