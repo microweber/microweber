@@ -219,6 +219,7 @@ trait ExtendedSave
                             }
                             $check = $save_custom_field_item;
                             $check['single'] = true;
+                            $check['no_cache'] = true;
 
                             $check = $this->app->fields_manager->getAll($check);
 
