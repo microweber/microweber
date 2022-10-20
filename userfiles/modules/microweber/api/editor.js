@@ -246,13 +246,20 @@ var MWEditor = function (options) {
             var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
             var css = mw.CSSParser(target);
             var api = scope.api;
+            var isImage = false;
 
+            if (localTarget && localTarget.nodeName && localTarget.nodeName === 'IMG') {
+                isImage = true;
+            }
+            if (target && target.nodeName && target.nodeName === 'IMG') {
+                isImage = true;
+            }
 
             var iterData = {
                 selection: scope.selection,
                 target: target,
                 localTarget: localTarget,
-                isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
+                isImage: isImage,
                 css: css.get,
                 cssNative: css.css,
                 event: event,
