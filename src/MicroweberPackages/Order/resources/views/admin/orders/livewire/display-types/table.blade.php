@@ -56,6 +56,9 @@
 
         @php
             $carts = $order->cart()->with('products')->get();
+            if ($carts->count() == 0) {
+                continue;
+            }
         @endphp
 
         <tr class="manage-post-item">

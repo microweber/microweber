@@ -4,6 +4,9 @@
 
     @php
         $carts = $order->cart()->with('products')->get();
+        if ($carts->count() == 0) {
+            continue;
+        }
     @endphp
     <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver">
     <div class="card-body">
