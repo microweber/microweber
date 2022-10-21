@@ -233,11 +233,16 @@ if (!empty($template_config)) {
                             $value = $contentFieldModel->value;
                         }
 
-                        if ($field['type'] =='richtext' || $field['type'] =='rich_text' || $field['type'] =='mw_editor') {
+                        $readOnly = false;
+                        if (isset($field['readonly']) && $field['readonly']) {
+                            $readOnly = true;
+                        }
+                        if ($field['type'] =='richtext') {
 
                             echo $formBuilder->mwEditor('content_fields['.$field['name'].']')
                                 ->setModel($contentFieldModel)
                                 ->value($value)
+                                ->readOnly($readOnly)
                                 ->setReadValueFromModelField('value')
                                 ->autocomplete(false);
 
@@ -246,6 +251,7 @@ if (!empty($template_config)) {
                             echo $formBuilder->text('content_fields['.$field['name'].']')
                                 ->setModel($contentFieldModel)
                                 ->value($value)
+                                ->readOnly($readOnly)
                                 ->setReadValueFromModelField('value')
                                 ->placeholder($field['title'])
                                 ->autocomplete(false);
