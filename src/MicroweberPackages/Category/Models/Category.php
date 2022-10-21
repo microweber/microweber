@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -16,7 +17,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Category extends Model
 {
-    use HasMultilanguageTrait;
+    use HasContentFieldTrait;
     use CacheableQueryBuilderTrait;
     use Filterable;
     use HasSearchableTrait;
@@ -25,6 +26,7 @@ class Category extends Model
     use MaxPositionTrait;
     use MediaTrait;
     use HasSlugTrait;
+    use HasMultilanguageTrait;
 
     protected $table = 'categories';
 
