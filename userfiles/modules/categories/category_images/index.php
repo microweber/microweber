@@ -236,8 +236,14 @@ if ($results) {
                   // $latest = get_content($cont_params);
                      $latest = [];
                  //   $latest_count = get_content($cont_params2);
-                    //$latest_count = app()->category_repository->countProductsInStock($cat['id']);
-                    $latest_count = app()->category_repository->getCategoryContentItemsCount($cat['id']);
+                    //$latest_count = app()->category_repository->getCategoryProductsInStockCount($cat['id']);
+                    if($cfg_filter_in_stock){
+                         $latest_count = app()->category_repository->getCategoryProductsInStockCount($cat['id']);
+
+                    } else {
+                        $latest_count = app()->category_repository->getCategoryContentItemsCount($cat['id']);
+
+                    }
 
                     if (!$cat['picture'] and isset($latest[0])) {
                         $latest_product = $latest[0];

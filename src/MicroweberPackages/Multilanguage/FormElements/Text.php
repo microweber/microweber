@@ -63,10 +63,6 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             });
         </script>
 
-
-
-
-
         <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
 
     }
