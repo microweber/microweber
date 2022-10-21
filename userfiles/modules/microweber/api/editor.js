@@ -247,7 +247,6 @@ var MWEditor = function (options) {
             var css = mw.CSSParser(target);
             var api = scope.api;
 
-
             var iterData = {
                 selection: scope.selection,
                 target: target,
