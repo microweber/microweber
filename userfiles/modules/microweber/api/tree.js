@@ -695,7 +695,7 @@
                     items: selector,
                     axis:'y',
                     listType:'ul',
-                    handle:'.mw-tree-item-title',
+                    handle: scope.options.sortableHandle || '.mw-tree-item-title',
                     update:function(e, ui){
 
                         _orderChangeHandle(e, ui)
@@ -722,7 +722,7 @@
                     $(this).nestedSortable({
                         items: ".type-category",
                         listType:'ul',
-                        handle:'.mw-tree-item-title',
+                        handle: scope.options.nestedSortableHandle || '.mw-tree-item-title',
                         update:function(e, ui){
 
                             _orderChangeHandle(e, ui)

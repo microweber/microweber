@@ -10,8 +10,7 @@
 <style>
     #quick-parent-selector-tree .mw-tree-nav{
         margin: 0;
-        padding: 0 0 0 20px;
-        border: 1px solid #cfcfcf;
+        padding: 10px 0 0 20px;
         border-radius: 3px;
         max-height: calc(100vh - 100px);
         overflow: auto;
