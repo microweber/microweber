@@ -469,9 +469,18 @@ html[dir="rtl"]{
 .mw-tree-nav-skin-category-manager{
     margin: 0;
     padding: 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    .mw-tree-item-content{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
     span.mw-tree-context-menu{
-        float: right;
-        color: #777;
+        margin-inline-start: auto !important;
         .mw-tree-context-menu-content-button{
             display: none;
         }
@@ -508,7 +517,7 @@ html[dir="rtl"]{
             .mw-tree-item-content{
                 background: #fcfcfc;
                 padding: 0.5rem 1rem;
-                display: block;
+
                 overflow: hidden;
                 border-radius: 10px;
                 margin-bottom: 0.5rem;
@@ -538,7 +547,6 @@ html[dir="rtl"]{
             .mw-tree-item-content{
                 padding: 15px 25px 10px 25px;
                 background-color: #fff;
-                display: block;
 
                 border-bottom: 0;
                 position: relative;

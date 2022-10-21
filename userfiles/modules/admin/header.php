@@ -76,8 +76,38 @@
     <!-- Livewire sortable -->
     <script src="//cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
 
-</head>
+    <?php if (config('app.debug')) { ?>
 
+        <script type="text/javascript">
+            window.__onerror_alert_shown = false;
+            window.onerror = function (msg, url, lineNo, columnNo, error) {
+                if ((typeof(msg) != 'undefined')  && !window.__onerror_alert_shown) {
+                    var string = msg;
+                    var message = [
+                        'Message: ' + msg,
+                        'URL: ' + url,
+                        'Line: ' + lineNo,
+                        'Column: ' + columnNo,
+                        'Error object: ' + JSON.stringify(error)
+                    ].join(' \n ');
+
+                    console.log(message);
+                    mw.notification.error(msg,10000);
+
+                    return false;
+                }
+                window.__onerror_alert_shown = true;
+
+
+            };
+
+        </script>
+    <?php } ?>
+
+
+
+
+</head>
 
 
 

@@ -10,7 +10,10 @@ mw.content = mw.content || {
             });
         });
     },
-    deleteCategory: function (id, callback) {
+    deleteCategory: function (id, callback, reload) {
+        if(typeof reload === 'undefined') {
+            reload = true;
+        }
         mw.tools.confirm('Are you sure you want to delete this?', function () {
          $.ajax({
                 url: mw.settings.api_url + 'category/delete/' + id,
@@ -21,9 +24,11 @@ mw.content = mw.content || {
                     if (callback) {
                         callback.call(result, result);
                     }
-                    mw.reload_module_everywhere('content/manager');
-                    mw.reload_module_everywhere('categories');
-                    mw.url.windowDeleteHashParam('action');
+                    if(reload) {
+                        mw.reload_module_everywhere('content/manager');
+                        mw.reload_module_everywhere('categories');
+                        mw.url.windowDeleteHashParam('action');
+                    }
                 }
             });
 

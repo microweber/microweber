@@ -8,6 +8,19 @@
 
         var defaultRequest = function (params, callback, error) {
             var xhr = new XMLHttpRequest();
+            if(!params) {
+                params = {};
+            }
+            if(!params.limit) {
+                params.limit = 50;
+            }
+
+            params.limit = parseFloat(params.limit);
+
+            if(params.limit > 1000) {
+                params.limit = 50;
+            }
+
             scope.dispatch('beforeRequest', {xhr: xhr, params: params});
             xhr.onreadystatechange = function(e) {
                 if (this.readyState === 4 && this.status === 200) {
@@ -111,7 +124,7 @@
                         var params = {
                             path: scope.settings.query.path,
                             name: val,
-                            new_folder: 1
+                            new_folder: 1,
                         };
                         var url = route('api.file-manager.create-folder') + '?' + new URLSearchParams(params).toString();
                         xhr.open("POST", url, true);
@@ -193,6 +206,61 @@
         };
 
 
+
+
+        var _createPaginationNavLink = function (i, label, curr) {
+            if(!label) {
+                label = i;
+            }
+            var lnk = mw.element('<a>' + label + '</a>');
+
+            lnk.on('click', function () {
+                scope.setPage(i);
+            });
+            if(i === curr) {
+                lnk.addClass('active');
+            }
+            return lnk;
+        };
+
+        var _createPaginationNav = function (array, curr, totalPages) {
+            var wrapper = mw.element('<div class="mw-paging mw-paging-medium" />');
+            if(curr > 1){
+                wrapper.append(_createPaginationNavLink(1, '&laquo;', curr));
+                wrapper.append(_createPaginationNavLink(curr-1, '&lsaquo;', curr));
+
+            }
+            array.forEach(function (i){
+                if(i <= totalPages) {
+                   wrapper.append(_createPaginationNavLink(i, i, curr));
+                }
+            });
+            if(curr < totalPages){
+                wrapper.append(_createPaginationNavLink(curr+1, '&rsaquo;'));
+                wrapper.append(_createPaginationNavLink(totalPages, '&raquo;'));
+            }
+            return wrapper;
+        }
+        var createPagination = function (obj) {
+            if(!scope.pagingNavigations) {
+                scope.pagingNavigations = {
+                    top: mw.element('<div class="mw-file-manager-paging mw-file-manager-paging-top" />'),
+                    bottom: mw.element('<div class="mw-file-manager-paging mw-file-manager-paging-bottom" />')
+                }
+                scope.tableWrapper.prepend(scope.pagingNavigations.top);
+                scope.tableWrapper.append(scope.pagingNavigations.bottom);
+            }
+            var pg = obj.pagination;
+            var array, curr = pg.currentPage;
+            if (curr === 1 || curr === 2 || curr === 3) {
+                array = [1,2,3,4,5];
+            } else {
+                array = [curr-2,curr-1,curr,curr+1,curr+2];
+            }
+
+            scope.pagingNavigations.top.empty().append(_createPaginationNav(array, curr, pg.totalPages));
+            scope.pagingNavigations.bottom.empty().append(_createPaginationNav(array, curr, pg.totalPages));
+        };
 
         var _image = function (item) {
             if (item.type === 'folder') {
@@ -395,10 +463,10 @@
                     mw.progress({element: _progress.get(0)}).hide();
                 }, 300)
             }
-        }
+        };
 
         var _loader;
-        this.loading = function (state, l) {
+        this.loading = function (state) {
             if(!_loader || !_loader.get(0).parentNode) {
                 _loader = mw.element({
                     props: {
@@ -419,15 +487,22 @@
             return !!this.settings.query.keyword;
         };
 
+        this.setPage = function (page) {
+            this.settings.query.page = page;
+            this.requestRender(this.settings.query);
+        }
+
         this.requestData = function (params, cb) {
             this.settings.query = params;
             var _cb = function (data) {
+
                 cb.call(undefined, data);
+                createPagination(data)
                 if(!data.data || data.data.length === 0) {
                     scope.root.addClass('no-results');
                     if(scope.isSearch()) {
                         _noResultsLabel(mw.lang('Nothing found'));
-                        scope.root.addClass('no-results-search');
+                        scope. root.addClass('no-results-search');
                     } else {
                         _noResultsLabel(mw.lang('This folder is empty'));
                         scope.root.removeClass('no-results-search');
@@ -436,9 +511,7 @@
                     scope.root.removeClass('no-results');
                     scope.root.removeClass('no-results-search');
                 }
-
                 scope.loading(false, 1);
-
             };
 
             scope.loading(true);
@@ -502,16 +575,19 @@
             order: this.settings.query.order || 'desc',
         };
 
+        this.requestRender = function (query) {
+            this.requestData(query, function (res){
+                scope.setData(res);
+                scope.renderData();
+            });
+        }
+
         this.refresh = function (full){
             if(full) {
-                this.requestData(this.settings.query, function (res){
-                    scope.setData(res);
-                    scope.renderData();
-                });
+                this.requestRender(this.settings.query)
             } else {
                 scope.renderData();
             }
-
         };
 
         this.sort = function (by, order, _request) {
@@ -980,6 +1056,7 @@
             }
             var tableWrap = mw.element('<div class="mw-file-manager-view-table-wrap" />');
             tableWrap.append(table);
+            scope.tableWrapper = tableWrap;
             return tableWrap;
         };
 
@@ -1029,6 +1106,7 @@
                 return this.settings.query.path;
             }
             path = (path || '').trim();
+            this.settings.query.page = 1;
             this.settings.query.path = path;
             delete this.settings.query.keyword;
             mw.element('input', scope.root).val('');
