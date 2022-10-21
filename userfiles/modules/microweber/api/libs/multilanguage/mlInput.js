@@ -35,6 +35,7 @@
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
                     var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
+                    // for multidimensional names
                     if (name.match(/\[[^\]]*]/g)) {
 
                         mlInputLocaleId = 'ml-input';
