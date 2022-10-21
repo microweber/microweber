@@ -17,8 +17,14 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         $fieldName = $this->getAttribute('name');
 
         $fieldValue = '';
-        if (isset($this->model->{$fieldName})) {
-            $fieldValue = $this->model->{$fieldName};
+        if ($this->readValueFromField) {
+            if (isset($this->model->{$this->readValueFromField})) {
+                $fieldValue = $this->model->{$this->readValueFromField};
+            }
+        } else {
+            if (isset($this->model->{$fieldName})) {
+                $fieldValue = $this->model->{$fieldName};
+            }
         }
 
         $locales = [];
@@ -38,13 +44,20 @@ class TextArea extends \MicroweberPackages\Form\Elements\Text
         foreach ($locales as $locale) {
             $translations[$locale] = '';
         }
+
+        // Fill the translations if available
+        $findTranslationsFromField = $fieldName;
+        if ($this->readValueFromField) {
+            $findTranslationsFromField = $this->readValueFromField;
+        }
+
         // Fill the translations if available
         if (!empty($modelTranslations)) {
             foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
-                if (isset($modelTranslation[$fieldName])) {
-                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                if (isset($modelTranslation[$findTranslationsFromField])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$findTranslationsFromField];
                     if ($this->currentLanguage == $modelTranslationLocale) {
-                        $fieldValue = $modelTranslation[$fieldName];
+                        $fieldValue = $modelTranslation[$findTranslationsFromField];
                     }
                 }
             }
