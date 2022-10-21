@@ -113,7 +113,7 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($content_data['qty'],1);
 
 
-        $check  = app()->category_repository->countProductsInStock($category->id);
+        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
         $this->assertEquals($check,1);
 
 
