@@ -372,8 +372,18 @@ class FieldsManager
         if ($customField == null) {
             $customField = new CustomField();
             $customField->name = $this->getFieldNameByType($fieldData['type']);
+
             if (!isset($fieldData['value'])) {
                 $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+            }
+
+            $countDuplicates = CustomField::where('rel_type', $fieldData['rel_type'])
+                ->where('rel_id', $fieldData['rel_id'])
+                ->where('type', $fieldData['type'])
+                ->count();
+
+            if ($countDuplicates > 0) {
+                $customField->name = $customField->name . ' ('.($countDuplicates+1).')';
             }
         }
 
@@ -418,10 +428,10 @@ class FieldsManager
         if (!empty($fieldData['is_active'])) {
             $customField->is_active = $fieldData['is_active'];
         }
-        if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
 
+        if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
             $customField->copy_of_field = $fieldData['set_copy_of'];
-            $customField->session_id =app()->user_manager->session_id();
+            $customField->session_id = app()->user_manager->session_id();
         }
 
 
