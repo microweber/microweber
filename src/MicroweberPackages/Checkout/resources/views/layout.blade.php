@@ -223,7 +223,7 @@
 
 <script type="text/javascript">
     mw.require("<?php print(mw_includes_url()); ?>css/ui.css");
-    mw.lib.require("bootstrap4");
+    mw.lib.require("bootstrap5");
 </script>
 
 @hasSection('checkout_sidebar')
@@ -241,7 +241,7 @@
             <?php endif; ?>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse px-0" id="navbarSupportedContent">
 
             @hasSection('checkout_sidebar')
                 @yield('checkout_sidebar')
