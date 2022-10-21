@@ -220,13 +220,13 @@ if (!empty($template_config)) {
                         <?php
                         if ($field['type'] =='richtext' || $field['type'] =='rich_text' || $field['type'] =='mw_editor') {
 
-                            echo $formBuilder->mwEditor('content_fields_'.$field['name'])
+                            echo $formBuilder->mwEditor('content_fields['.$field['name'].']')
                                 //->setModel($contentModel)
                                 //->value($data['content'])
                                 ->autocomplete(false);
 
                         } else {
-                            echo $formBuilder->text('content_fields_'.$field['name'])
+                            echo $formBuilder->text('content_fields['.$field['name'].']')
                                 //->setModel($categoryModel)
                                 //->prepend($htmlCategoryTitlePrepend)
                                 ->placeholder($field['title'])
