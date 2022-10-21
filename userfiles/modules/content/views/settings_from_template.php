@@ -214,7 +214,12 @@ if (!empty($template_config)) {
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                 foreach($edit_fields_from_template_conf_ready as $field) {
 
-                    $contentFieldModel = \MicroweberPackages\ContentField\Models\ContentField::where('rel_type', 'content')
+                    $relType = 'content';
+                    if ($params['content-type'] == 'category') {
+                        $relType = 'categories';
+                    }
+
+                    $contentFieldModel = \MicroweberPackages\ContentField\Models\ContentField::where('rel_type', $relType)
                         ->where('rel_id', $params['content-id'])
                         ->where('field', $field['name'])
                         ->first();

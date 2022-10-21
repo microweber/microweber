@@ -31,7 +31,7 @@ trait HasContentFieldTrait
             if (!empty($model->_addContentFields) && is_array($model->_addContentFields)) {
                 foreach($model->_addContentFields as $fieldName=>$fieldValue) {
 
-                    $findContentData = contentField::where('rel_id', $model->id)
+                    $findContentData = ContentField::where('rel_id', $model->id)
                         ->where('rel_type', $model->getMorphClass())
                         ->where('field', $fieldName)
                         ->first();
