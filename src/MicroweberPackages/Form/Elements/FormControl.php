@@ -4,6 +4,7 @@ namespace MicroweberPackages\Form\Elements;
 
 abstract class FormControl extends Element
 {
+    protected $readValueFromField = false;
     protected $model = [];
 
     public function __construct($name)
@@ -21,6 +22,18 @@ abstract class FormControl extends Element
     public function getModel()
     {
         return $this->model;
+    }
+
+    public function setReadValueFromModelField($field)
+    {
+        $this->readValueFromField = $field;
+
+        return $this;
+    }
+
+    public function getReadValueFromField()
+    {
+        return $this->readValueFromField;
     }
 
     protected function setName($name)
