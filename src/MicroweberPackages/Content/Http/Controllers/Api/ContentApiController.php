@@ -58,7 +58,7 @@ class ContentApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  PageRequest $request
+     * @param  ContentRequest $request
      * @param  string $id
      * @return Response
      */
