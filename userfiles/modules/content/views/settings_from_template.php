@@ -8,6 +8,9 @@ $template_config = mw()->template->get_config();
 $data_fields_conf = false;
 $data_fields_values = false;
 
+$edit_fields_from_template_conf = [];
+$edit_fields_from_template_conf_ready = [];
+
 if (!empty($template_config)) {
     if (isset($params['content-type'])) {
         if (isset($template_config['data-fields-' . $params['content-type']]) and is_array($template_config['data-fields-' . $params['content-type']])) {
@@ -21,8 +24,34 @@ if (!empty($template_config)) {
                 $data_fields_values = mw()->data_fields_manager->get_values('rel_type=category&rel_id=' . $params['category-id']);
             }
         }
+
+
+        if (isset($template_config['edit-fields-' . $params['content-type']]) and is_array($template_config['edit-fields-' . $params['content-type']])) {
+            $edit_fields_from_template_conf_items = $template_config['edit-fields-' . $params['content-type']];
+            $edit_filed_values = [];
+
+            foreach ($edit_fields_from_template_conf_items as $edit_fields_from_template_conf) {
+                if (isset($edit_fields_from_template_conf['field'])) {
+                    if (isset($data['id']) and $data['id'] != 0) {
+                        $get_edit_field_values = [];
+                        $get_edit_field_values['rel_id'] = $data['id'];
+                        $get_edit_field_values['rel_type'] = 'content';
+                        $get_edit_field_values['field'] = $edit_fields_from_template_conf['field'];
+                        $edit_filed_values = get_content_field($get_edit_field_values);
+                        $edit_fields_from_template_conf['value'] = $edit_filed_values;
+                    } else {
+                        $edit_fields_from_template_conf['value'] = '';
+                        $edit_fields_from_template_conf_ready[] = $edit_fields_from_template_conf;
+
+                    }
+                }
+            }
+
+        }
     }
-} ?>
+}
+
+ ?>
 <?php if (is_array($data_fields_conf)): ?>
     <div class="card style-1 mb-3 fields">
         <div class="card-header no-border">
@@ -170,3 +199,7 @@ if (!empty($template_config)) {
         </div>
     </div>
 <?php endif; ?>
+
+
+
+
