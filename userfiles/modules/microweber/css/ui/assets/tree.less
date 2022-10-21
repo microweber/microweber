@@ -499,6 +499,15 @@ html[dir="rtl"]{
     ul{
         display: none;
     }
+    .ui-sortable > li.ui-sortable-helper{
+        cursor: grabbing;
+    }
+    .ui-sortable > li{
+        cursor: grab;
+    }
+    li.mw-tree-item-hidden{
+        display: none;
+    }
     li.opened{
         & > ul{
             display: block;

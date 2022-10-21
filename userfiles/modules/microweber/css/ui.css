@@ -3357,6 +3357,15 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
 .mw-tree-nav-skin-category-manager ul {
   display: none;
 }
+.mw-tree-nav-skin-category-manager .ui-sortable > li.ui-sortable-helper {
+  cursor: grabbing;
+}
+.mw-tree-nav-skin-category-manager .ui-sortable > li {
+  cursor: grab;
+}
+.mw-tree-nav-skin-category-manager li.mw-tree-item-hidden {
+  display: none;
+}
 .mw-tree-nav-skin-category-manager li.opened > ul {
   display: block;
 }

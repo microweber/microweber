@@ -31,12 +31,12 @@ if (!empty($template_config)) {
             $edit_filed_values = [];
 
             foreach ($edit_fields_from_template_conf_items as $edit_fields_from_template_conf) {
-                if (isset($edit_fields_from_template_conf['field'])) {
+                if (isset($edit_fields_from_template_conf['name'])) {
                     if (isset($data['id']) and $data['id'] != 0) {
                         $get_edit_field_values = [];
                         $get_edit_field_values['rel_id'] = $data['id'];
                         $get_edit_field_values['rel_type'] = 'content';
-                        $get_edit_field_values['field'] = $edit_fields_from_template_conf['field'];
+                        $get_edit_field_values['name'] = $edit_fields_from_template_conf['name'];
                         $edit_filed_values = get_content_field($get_edit_field_values);
                         $edit_fields_from_template_conf['value'] = $edit_filed_values;
                     } else {
@@ -200,6 +200,47 @@ if (!empty($template_config)) {
     </div>
 <?php endif; ?>
 
+<?php if (!empty($edit_fields_from_template_conf_ready)): ?>
+<div class="card style-1 mb-3 fields">
+    <div class="card-header no-border">
+        <label class="control-label"><?php _e("Template Edit Fields"); ?></label>
+        <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template Edit Fields') ?></a>
+    </div>
+    <div class="card-body pb-4">
+        <div class="collapse" id="template-edit-fields">
+            <div class="row">
+                <?php
+                // $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                foreach($edit_fields_from_template_conf_ready as $field) {
+                    ?>
 
+                    <div class="col-md-12 mt-3">
+                        <label><?php echo $field['title']; ?></label>
+                        <?php
+                        if ($field['type'] =='richtext' || $field['type'] =='rich_text' || $field['type'] =='mw_editor') {
 
+                            echo $formBuilder->mwEditor('content_fields['.$field['name'].']')
+                                //->setModel($contentModel)
+                                //->value($data['content'])
+                                ->autocomplete(false);
 
+                        } else {
+                            echo $formBuilder->text('content_fields['.$field['name'].']')
+                                //->setModel($categoryModel)
+                                //->prepend($htmlCategoryTitlePrepend)
+                                ->placeholder($field['title'])
+                                //->value($titleValue)
+                            ;
+                        }
+                        ?>
+                    </div>
+
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

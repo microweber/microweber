@@ -20,7 +20,8 @@
 
                       mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: {
-                            sortable: '.type-category',
+                            sortable: '>.type-category',
+                            sortableHandle: '.mw-tree-item-content',
                             selectable: false,
                             singleSelect: true,
                             saveState: true,
@@ -53,7 +54,6 @@
                                                 })
                                             }, false);
                                         }
-
                                     },
                                     filter: function (obj, node) {
                                         return obj.type === 'category';
