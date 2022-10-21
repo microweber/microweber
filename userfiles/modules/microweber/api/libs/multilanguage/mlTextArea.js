@@ -91,10 +91,8 @@
 
                     var inputHtml =  input[0].outerHTML;
 
-
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
                     outputHtml += inputHtml;
-                    //outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
                     outputHtml += '</div>';
 
                     // If ml textarea is changed change and the value

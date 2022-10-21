@@ -70,12 +70,7 @@
                         }
                     });
 
-
-
-                    //outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
                     var inputHtml =  input[0].outerHTML;
-
-                 //  outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
                      outputHtml +=inputHtml;
 
                     // If ml input is changed change and the value attr
