@@ -21,6 +21,7 @@ use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
+use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\Core\CoreServiceProvider;
@@ -265,6 +266,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ContentDataServiceProvider::class);
         $this->app->register(ContentDataVariantServiceProvider::class);
         $this->app->register(ContentDataEventServiceProvider::class);
+        $this->app->register(ContentFieldServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);
         $this->app->register(CustomFieldEventServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
