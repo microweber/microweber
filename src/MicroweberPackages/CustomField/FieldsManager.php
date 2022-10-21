@@ -339,6 +339,15 @@ class FieldsManager
 
                 unset($fieldData['copy_of']);
 
+                $countDuplicates = CustomField::where('rel_type', $fieldData['rel_type'])
+                    ->where('rel_id', $fieldData['rel_id'])
+                    ->where('type', $fieldData['type'])
+                    ->count();
+
+                if ($countDuplicates > 0) {
+                    $fieldData['name'] = $fieldData['name'] . ' ('.($countDuplicates+1).')';
+                    $fieldData['name_key'] = $fieldData['name_key'] . '-'.($countDuplicates+1);
+                }
 
                 return $this->save($fieldData);
 
