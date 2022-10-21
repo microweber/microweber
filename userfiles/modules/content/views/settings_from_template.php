@@ -223,15 +223,24 @@ if (!empty($template_config)) {
                     <div class="col-md-12 mt-3">
                         <label><?php echo $field['title']; ?></label>
                         <?php
+                        $value = '';
+                        if ($contentFieldModel) {
+                            $value = $contentFieldModel->value;
+                        }
+
                         if ($field['type'] =='richtext' || $field['type'] =='rich_text' || $field['type'] =='mw_editor') {
+
                             echo $formBuilder->mwEditor('content_fields['.$field['name'].']')
                                 ->setModel($contentFieldModel)
+                                ->value($value)
                                 ->setReadValueFromModelField('value')
                                 ->autocomplete(false);
 
                         } else {
+
                             echo $formBuilder->text('content_fields['.$field['name'].']')
                                 ->setModel($contentFieldModel)
+                                ->value($value)
                                 ->setReadValueFromModelField('value')
                                 ->placeholder($field['title'])
                                 ->autocomplete(false);

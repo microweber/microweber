@@ -61,7 +61,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
                 }
             }
         }
-        
+
         $translationsJson = json_encode($translations);
         $textDir = 'ltr';
         if(LanguageHelper::isRTL($this->currentLanguage)){
