@@ -35,22 +35,19 @@
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
                     var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
-                    //name="multilanguage[content_fields]['faq'][en_US]"
                     if (name.match(/\[[^\]]*]/g)) {
-                        mlInputName = 'multilanguage';
+
+                        mlInputLocaleId = 'ml-input';
+                        mlInputName = 'multilanguage'
+
                         $.each($(obj).serializeAssoc(), function(key, values) {
-                            mlInputName += '['+key+']';
-                            $.each(values, function(key, value) {
-                                mlInputName += '['+key+']';
-                                mlInputName += '['+value+']';
-                            });
+                            mlInputName += '['+key+']['+Object.keys(values)[0]+']';
+                            mlInputLocaleId += '-'+key+ '-'+Object.keys(values)[0]+'-';
                         });
+
                         mlInputName += '['+locales[i]+']';
+                        mlInputLocaleId += i;
                     }
-                    //
-                    // console.log(name);
-                    // console.log(mlInputName);
-                    // return;
 
                     var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="'+mlInputName+'" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />');
 
