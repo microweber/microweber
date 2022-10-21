@@ -27,7 +27,17 @@
             $(obj).css('opacity', 0.2).css('display','none');
             $(obj).attr('value', translations[currentLocale]);
 
-            var outputHtml = '<div class="input-group js-input-group-'+name+'">';
+            var plainName = name;
+
+            // for multidimensional names
+            if (name.match(/\[[^\]]*]/g)) {
+                $.each($(obj).serializeAssoc(), function(key, values) {
+                    plainName = key+ '-'+Object.keys(values)[0];
+                });
+                plainName = plainName.replace('_','-');
+            }
+
+            var outputHtml = '<div class="input-group js-input-group-'+plainName+'">';
 
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
@@ -80,7 +90,7 @@
                     mlInputLocaleIds[i] = mlInputLocaleId;
                 }
 
-                var mlInputLocaleChangeId = 'ml-input-'+name+'-change';
+                var mlInputLocaleChangeId = 'ml-input-'+plainName+'-change';
                 outputHtml += '<div class="input-group-append">';
                     outputHtml += '<span>';
                         outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';
