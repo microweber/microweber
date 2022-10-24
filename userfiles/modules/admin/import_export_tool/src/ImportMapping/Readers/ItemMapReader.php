@@ -73,8 +73,12 @@ class ItemMapReader
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
-                $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
-                $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['locale'].']';
+                $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['display_name'].']';
+                $itemNames['multilanguage.slug.' . $language['locale']] = 'Slug ['. $language['display_name'].']';
+                $itemNames['multilanguage.description.' . $language['locale']] = 'Description ['. $language['display_name'].']';
+                $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['display_name'].']';
+                $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['display_name'].']';
+                $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['display_name'].']';
             }
         }
 
@@ -89,7 +93,11 @@ class ItemMapReader
             $itemGroupMultilanguage = [];
             foreach (get_supported_languages() as $language) {
                 $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.slug.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_meta_keywords.' . $language['locale'];
             }
             $itemGroups['Multilanguage'] = $itemGroupMultilanguage;
         }
