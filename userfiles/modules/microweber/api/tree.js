@@ -775,7 +775,8 @@
                         menuitem.prepend(icon);
                         menuContent.appendChild(menuitem);
                         (function(menuitem, element, obj){
-                            menuitem.onclick = function(){
+                            menuitem.onclick = function(event){
+                                event.stopImmediatePropagation();
                                 if(obj.action){
                                     obj.action.call(element, element, element._data, menuitem)
                                 }

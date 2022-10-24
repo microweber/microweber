@@ -139,7 +139,8 @@ MWEditor.controllers = {
                 }
             });
             el.on('click', function (e) {
-
+                e.preventDefault();
+                api.saveSelection();
                 var dialog;
                 var picker = new mw.filePicker({
                     type: 'images',
@@ -148,12 +149,16 @@ MWEditor.controllers = {
                     multiple: true,
                     footer: true,
                     _frameMaxHeight: true,
+                    cancel: function () {
+                        dialog.remove()
+                    },
                     onResult: function (res) {
                         var url = res.src ? res.src : res;
                         if(!url) return;
                         if(!Array.isArray(url)) {
                             url = [url];
                         }
+                        api.restoreSelection();
                         url.forEach(function (src){
                             api.insertImage(src.toString());
                         });

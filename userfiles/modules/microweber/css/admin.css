@@ -26,6 +26,9 @@
     clear: both;
 }
 
+.main aside{
+    flex: 1;
+}
 .main aside > ul > li.nav-item {
     width: 100%;
 }
