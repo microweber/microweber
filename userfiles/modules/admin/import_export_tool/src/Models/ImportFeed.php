@@ -5,7 +5,9 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
 use MicroweberPackages\Import\Formats\CsvReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
 class ImportFeed extends Model
@@ -33,8 +35,62 @@ class ImportFeed extends Model
         'detected_content_tags'=>'array'
     ];
 
-    public function readFeedFromFile(string $filename)
+    public function readFeedFromFile(string $filename, $fileType = false)
     {
+        if ($fileType == 'xlsx') {
+
+            $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
+            $sheetCount = $spreadshet->getSheetCount();
+            if ($sheetCount == 0) {
+                throw new \Exception('No sheets found');
+            }
+
+            // Read sheet
+            $readedRows = [];
+            for ($i = 0; $i <= $sheetCount; $i++) {
+
+                try {
+                    $getSheet = $spreadshet->setSheet($i)->getSheet();
+                    $getRows = $spreadshet->getRows();
+                    $sheetNames[$i] = $getSheet->getTitle();
+                    $repeatableTargetKeys[$getSheet->getTitle()] = [];
+
+                    // unset headers
+                    $dataHeader = $getRows[0];
+                    unset($getRows[0]);
+                    foreach ($getRows as $row) {
+                        $readyRow = array();
+                        foreach ($row as $rowKey => $rowValue) {
+                            $readyRow[$dataHeader[$rowKey]] = $rowValue;
+                        }
+                        $readedRows[$getSheet->getTitle()][] = $readyRow;
+                    }
+                } catch (\Exception $e) {
+
+                }
+            }
+
+            $sourceContent = [];
+            $repeatableData = [];
+            if (isset($readedRows[$this->content_tag])) {
+                $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
+                $repeatableData = $readedRows[$this->content_tag][0];
+            }
+
+            $this->source_file_realpath = str_replace(base_path(), '', $filename);
+            $this->source_file_size = filesize($filename);
+            $this->source_content = $sourceContent;
+            $this->detected_content_tags = $repeatableTargetKeys;
+            $this->count_of_contents = count($repeatableData);
+            $this->mapped_content = [];
+
+            $this->save();
+        }
+
+    }
+
+    public function readFeedFromFileOld(string $filename) {
+
         $content = file_get_contents($filename);
 
         $contentTag = false;
@@ -63,6 +119,21 @@ class ImportFeed extends Model
             $repeatableTargetKeys = ['Data' => []];
             $repeatableData = $sourceContent['Data'];
         }
+
+     /*   $sourceContent = ['items' => [
+            'item'=>[
+                'title'=>'Item 1'
+            ],
+            'item'=>[
+                'title'=>'Item 2'
+            ],
+            'item'=>[
+                'title'=>'Item 3'
+            ],
+        ]];
+        $contentTag = 'item';
+        $repeatableTargetKeys = ['items' => []];
+        $repeatableData = $sourceContent['items'];*/
 
         $this->source_file_realpath = str_replace(base_path(), '', $filename);
         $this->source_file_size = filesize($filename);

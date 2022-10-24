@@ -640,7 +640,7 @@ if (isset($params['live_edit'])) {
 
                         <?php if (isset($data['id'])): ?>
                             <div class="col-md-12">
-                                <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
+                                <module type="content/views/settings_from_template" content-type="category" content-id="<?php print $data['id'] ?>" category-id="<?php print $data['id'] ?>"/>
                             </div>
                         <?php endif; ?>
 

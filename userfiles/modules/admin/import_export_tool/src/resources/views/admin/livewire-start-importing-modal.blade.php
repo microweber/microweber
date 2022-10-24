@@ -19,6 +19,8 @@
                 <h3>Done!</h3>
             @endif
 
+           {{-- <button wire:click="nextStep" type="button">aaaaide</button>--}}
+
         </div>
     </div>
     <div class="modal-footer">

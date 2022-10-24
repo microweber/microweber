@@ -43,9 +43,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         }
         ?>
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='import'):?> active <?php endif; ?>" data-toggle="tab" href="#import"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Import"); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='export'):?> active <?php endif; ?>" data-toggle="tab" href="#export"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e("Export"); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='settings'):?> active <?php endif; ?>" data-toggle="tab" href="#settings"><i class="mdi mdi-cog mr-1"></i> <?php _e("Settings"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='import'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#import"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Import"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='export'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#export"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e("Export"); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center <?php if ($showTab =='settings'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog mr-1"></i> <?php _e("Settings"); ?></a>
         </nav>
 
         <div class="tab-content py-3">

@@ -27,14 +27,40 @@
             $(obj).css('opacity', 0.2).css('display','none');
             $(obj).attr('value', translations[currentLocale]);
 
-            var outputHtml = '<div class="input-group js-input-group-'+name+'">';
+            var plainName = name;
+
+            // for multidimensional names
+            if (name.match(/\[[^\]]*]/g)) {
+                $.each($(obj).serializeAssoc(), function(key, values) {
+                    plainName = key+ '-'+Object.keys(values)[0];
+                });
+                plainName = plainName.replace('_','-');
+            }
+
+            var outputHtml = '<div class="input-group js-input-group-'+plainName+'">';
 
                 var mlInputLocaleIds = [];
                 for (var i = 0; i < locales.length; i++) {
+
                     var mlInputLocaleId = 'ml-input-'+name+'-'+i;
+                    var mlInputName = 'multilanguage['+name+']['+locales[i]+']';
 
+                    // for multidimensional names
+                    if (name.match(/\[[^\]]*]/g)) {
 
-                    var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />');
+                        mlInputLocaleId = 'ml-input';
+                        mlInputName = 'multilanguage'
+
+                        $.each($(obj).serializeAssoc(), function(key, values) {
+                            mlInputName += '['+key+']['+Object.keys(values)[0]+']';
+                            mlInputLocaleId += '-'+key+ '-'+Object.keys(values)[0]+'-';
+                        });
+
+                        mlInputName += '['+locales[i]+']';
+                        mlInputLocaleId += i;
+                    }
+
+                    var input  = $('<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="'+mlInputName+'" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />');
 
                     $.each(attributes, function(name, value) {
                         if (name !== 'value') {
@@ -44,12 +70,7 @@
                         }
                     });
 
-
-
-                    //outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
                     var inputHtml =  input[0].outerHTML;
-
-                 //  outputHtml +='<input type="text" class="form-control" value="'+translations[locales[i]]+'" id="'+mlInputLocaleId+'" name="multilanguage['+name+']['+locales[i]+']" dir="'+mw.admin.rtlDetect.getLangDir(locales[i])+'" lang="'+locales[i]+'" value="" />';
                      outputHtml +=inputHtml;
 
                     // If ml input is changed change and the value attr
@@ -64,7 +85,7 @@
                     mlInputLocaleIds[i] = mlInputLocaleId;
                 }
 
-                var mlInputLocaleChangeId = 'ml-input-'+name+'-change';
+                var mlInputLocaleChangeId = 'ml-input-'+plainName+'-change';
                 outputHtml += '<div class="input-group-append">';
                     outputHtml += '<span>';
                         outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';

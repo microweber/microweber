@@ -9,6 +9,7 @@ use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -21,11 +22,11 @@ use MicroweberPackages\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {
-    use HasMultilanguageTrait;
     use TaggableTrait;
     use ContentDataTrait;
     use CustomFieldsTrait;
     use CategoryTrait;
+    use HasContentFieldTrait;
     use HasSlugTrait;
     use HasSearchableTrait;
     use HasMenuItem;
@@ -35,6 +36,7 @@ class Content extends Model
     use CacheableQueryBuilderTrait;
     use PowerJoins;
     use HasEvents;
+    use HasMultilanguageTrait;
 
     protected $table = 'content';
     protected $content_type = 'content';
@@ -54,8 +56,6 @@ class Content extends Model
         'title',
         'content',
         'content_body',
-
-
         'description',
         'url',
         'content_meta_title',

@@ -210,28 +210,51 @@ if (!empty($template_config)) {
         <div class="collapse" id="template-edit-fields">
             <div class="row">
                 <?php
-                // $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+
                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
                 foreach($edit_fields_from_template_conf_ready as $field) {
+
+                    $relType = 'content';
+                    if ($params['content-type'] == 'category') {
+                        $relType = 'categories';
+                    }
+
+                    $contentFieldModel = \MicroweberPackages\ContentField\Models\ContentField::where('rel_type', $relType)
+                        ->where('rel_id', $params['content-id'])
+                        ->where('field', $field['name'])
+                        ->first();
                     ?>
 
                     <div class="col-md-12 mt-3">
                         <label><?php echo $field['title']; ?></label>
                         <?php
-                        if ($field['type'] =='richtext' || $field['type'] =='rich_text' || $field['type'] =='mw_editor') {
+                        $value = '';
+                        if ($contentFieldModel) {
+                            $value = $contentFieldModel->value;
+                        }
 
-                            echo $formBuilder->mwEditor('content_fields_'.$field['name'])
-                                //->setModel($contentModel)
-                                //->value($data['content'])
+                        $readOnly = false;
+                        if (isset($field['readonly']) && $field['readonly']) {
+                            $readOnly = true;
+                        }
+                        if ($field['type'] =='richtext') {
+
+                            echo $formBuilder->mwEditor('content_fields['.$field['name'].']')
+                                ->setModel($contentFieldModel)
+                                ->value($value)
+                                ->readOnly($readOnly)
+                                ->setReadValueFromModelField('value')
                                 ->autocomplete(false);
 
                         } else {
-                            echo $formBuilder->text('content_fields_'.$field['name'])
-                                //->setModel($categoryModel)
-                                //->prepend($htmlCategoryTitlePrepend)
+
+                            echo $formBuilder->text('content_fields['.$field['name'].']')
+                                ->setModel($contentFieldModel)
+                                ->value($value)
+                                ->readOnly($readOnly)
+                                ->setReadValueFromModelField('value')
                                 ->placeholder($field['title'])
-                                //->value($titleValue)
-                            ;
+                                ->autocomplete(false);
                         }
                         ?>
                     </div>

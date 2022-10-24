@@ -145,20 +145,31 @@
                         title: 'Edit',
                         icon: 'mdi mdi-pencil',
                         action: function (element, data, menuitem) {
-
-
+                            window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
                         }
                     },
                     {
-                        title: 'Move to trash',
+                        title: 'Delete',
                         icon: 'mdi mdi-delete',
                         action: function (element, data, menuitem) {
-                            if (data.type === 'category') {
 
+                            mw.spinner({element: element, size: 15, color: 'red',decorate: true});
+
+                            if (data.type === 'category') {
+                                mw.content.deleteCategory(data.id, function () {
+                                  $(element).fadeOut();
+                                  mw.notification.success('<?php _e("Category deleted"); ?>');
+                                });
                             }
                             else {
-
+                                mw.content.deleteContent(data.id, function () {
+                                    $(element).fadeOut();
+                                    mw.notification.success('<?php _e("Content deleted"); ?>');
+                                });
                             }
+
+
+
                         }
                     }
                 ];
