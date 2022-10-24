@@ -21,7 +21,7 @@ class ViewImport extends Component
     public $import_feed_original = [];
     public $confirming_delete_id;
     public $delete_also_content = 0;
-    public $photo;
+    public $uploadFile;
 
     public function save()
     {
@@ -82,6 +82,17 @@ class ViewImport extends Component
 
     public function upload()
     {
+        $this->validate([
+            'uploadFile' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        $uploadFilePath = $this->uploadFile->store('import-export-tool');
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+
+        $feed->source_type = 'upload_file';
+        $feed->source_file = $uploadFilePath;
+        $feed->source_file_realpath = storage_path(). '/app/'.$uploadFilePath;
+        $feed->save();
 
     }
 
