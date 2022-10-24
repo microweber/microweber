@@ -23,8 +23,8 @@ class ItemMapReader
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
-        'updated_at' => ['updated_date', 'published'],
-        'created_at' => ['publish_date', 'pubDate', 'updated'],
+        'updated_at' => ['updated_date', 'published','updated_at'],
+        'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
         'is_active' => ['isEnable', 'isEnabled', 'isActive'],
     ];
 
@@ -75,12 +75,12 @@ class ItemMapReader
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
-                $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['display_name'].']';
-                $itemNames['multilanguage.slug.' . $language['locale']] = 'Slug ['. $language['display_name'].']';
-                $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['display_name'].']';
-                $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['display_name'].']';
-                $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['display_name'].']';
-                $itemNames['multilanguage.description.' . $language['locale']] = 'Meta Description ['. $language['display_name'].']';
+                $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
+                $itemNames['multilanguage.slug.' . $language['locale']] = 'Slug ['. $language['locale'].']';
+                $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['locale'].']';
+                $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
+                $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
+                $itemNames['multilanguage.description.' . $language['locale']] = 'Meta Description ['. $language['locale'].']';
             }
         }
 

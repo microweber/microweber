@@ -41,6 +41,8 @@ class StartImportingModal extends ModalComponent
             return; // next step
         }
 
+        dd($this->import_feed->mapped_content[1]);
+
         // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
