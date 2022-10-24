@@ -28,6 +28,10 @@ class StartImportingModal extends ModalComponent
     public $import_feed_session_id = false;
     public $import_feed;
 
+    public $listeners = [
+        'importExportToolNextStep'=>'nextStep'
+    ];
+
     public function nextStep()
     {
         $xmlFile = base_path() . DS . $this->import_feed->source_file_realpath;
@@ -73,12 +77,15 @@ class StartImportingModal extends ModalComponent
         \Config::set('microweber.disable_model_cache', 1);
         \Config::set('cache.driver', 'array');
         app('cache')->setDefaultDriver('array');
-        
+
+        $multilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         $defaultLang = default_lang();
         $savedIds = array();
+
+        DB::beginTransaction();
         foreach($itemsBatch[$selectBatch] as $item) {
 
-            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            if ($multilanguageEnabled) {
                 if (!isset($item['title'])) {
                     if (isset($item['multilanguage']['title'][$defaultLang])) {
                         $item['title'] = $item['multilanguage']['title'][$defaultLang];
@@ -107,6 +114,7 @@ class StartImportingModal extends ModalComponent
             }
 
         }
+        DB::commit();
 
         if (empty($this->import_feed->imported_content_ids)) {
             $this->import_feed->imported_content_ids = [];
@@ -120,6 +128,8 @@ class StartImportingModal extends ModalComponent
         $this->import_feed->total_running = $this->import_log['current_step'];
         $this->import_feed->imported_content_ids = $importedContentIds;
         $this->import_feed->save();
+
+        $this->dispatchBrowserEvent('nextStepCompleted', []);
 
         return $savedIds;
     }
@@ -147,6 +157,7 @@ class StartImportingModal extends ModalComponent
 
         $this->import_log['total_steps'] = $this->import_feed->split_to_parts;
         $this->import_feed_session_id = SessionStepper::generateSessionId($this->import_feed->split_to_parts);
+
     }
 
     public function render()
