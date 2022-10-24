@@ -3,7 +3,7 @@
 
 
 
-
+mw.lib.require('xss');
 
 
 
@@ -377,9 +377,7 @@ MWEditor.api = function (scope) {
             range.deleteContents()
             range.insertNode(frag)
         },
-        cleanHTML: function (target){
 
-        },
         cssApplier: function (css) {
             var styles = '';
             if (typeof css === 'object') {
@@ -496,16 +494,16 @@ MWEditor.api = function (scope) {
             }
         },
         saveSelection: function () {
-            var sel = scope.getSelection();
+
+
             scope.api.savedSelection = {
-                selection: sel,
-                range: sel.getRangeAt(0),
-                element: mw.$(scope.api.elementNode(sel.getRangeAt(0).commonAncestorContainer))
+                selection: scope.getSelection(),
+                range: scope.lastRange,
+                element: mw.$(scope.api.elementNode(scope.lastRange.commonAncestorContainer))
             };
         },
         restoreSelection: function () {
             if (scope.api.savedSelection) {
-                var sel = scope.getSelection();
                 scope.api.savedSelection.element.attr("contenteditable", "true");
                 scope.api.savedSelection.element.focus();
                 scope.api.savedSelection.selection.removeAllRanges();
@@ -514,23 +512,24 @@ MWEditor.api = function (scope) {
         },
         _cleaner: document.createElement('div'),
         cleanHTML: function(html) {
-             this._cleaner.innerHTML = html;
+            this._cleaner.innerHTML = html;
             var elements = Array.prototype.slice.call(this._cleaner.querySelectorAll('iframe,script,noscript'));
             while (elements.length) {
                 elements[0].remove();
                 elements.shift();
             }
-            return this._cleaner.innerHTML;
+            return /*filterXSS*/(this._cleaner.innerHTML);
         },
         insertHTML: function(html) {
             return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
         },
         insertImage: function (url) {
-            var id =  mw.id('image_');
-            var img = '<img id="' + id + '" contentEditable="false" class="element" src="' + url + '" />';
+            var img = '<img alt="'+url+'" src="' + url + '" />';
             scope.api.insertHTML(img);
-            img = mw.$("#" + id);
-            img.removeAttr("_moz_dirty");
+            img = document.querySelector('[src="' + url + '"]');
+            img.removeAttribute("_moz_dirty");
+            img.setAttribute("contentEditable", false);
+            img.setAttribute("class", 'element');
             return img[0];
         },
         link: function (result) {
