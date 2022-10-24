@@ -32,10 +32,11 @@ class ImportExportToolServiceProvider extends ServiceProvider
     protected $defer = true;
 
 
-
-    public function provides() {
+    public function provides()
+    {
         return ['MicroweberPackages\Modules\Admin\ImportExportTool'];
     }
+
     /**
      * Bootstrap the application services.
      *
@@ -45,16 +46,19 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
-        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
-        $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
         Livewire::component('import_export_tool_no_feeds', NoFeeds::class);
         Livewire::component('import_export_tool_new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool_start_importing_modal', StartImportingModal::class);
         Livewire::component('import_export_tool_view_import', ViewImport::class);
         Livewire::component('import_export_tool_html_dropdown_mapping_preview', HtmlDropdownMappingPreview::class);
 
-        View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
+    }
 
+    public function register()
+    {
+        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
+        $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
+
+        View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
     }
 }
