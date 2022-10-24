@@ -87,12 +87,16 @@ class ViewImport extends Component
         ]);
 
         $uploadFilePath = $this->uploadFile->store('import-export-tool');
+        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
         $feed = ImportFeed::where('id', $this->import_feed_id)->first();
 
         $feed->source_type = 'upload_file';
         $feed->source_file = $uploadFilePath;
-        $feed->source_file_realpath = storage_path(). '/app/'.$uploadFilePath;
+        $feed->source_file_realpath = $fullFilePath;
+        $feed->last_downloaded_date = Carbon::now();
         $feed->save();
+
+        $feed->readFeedFromFile($fullFilePath, $this->uploadFile->guessExtension());
 
     }
 

@@ -64,6 +64,21 @@ class ImportFeed extends Model
             $repeatableData = $sourceContent['Data'];
         }
 
+     /*   $sourceContent = ['items' => [
+            'item'=>[
+                'title'=>'Item 1'
+            ],
+            'item'=>[
+                'title'=>'Item 2'
+            ],
+            'item'=>[
+                'title'=>'Item 3'
+            ],
+        ]];
+        $contentTag = 'item';
+        $repeatableTargetKeys = ['items' => []];
+        $repeatableData = $sourceContent['items'];*/
+
         $this->source_file_realpath = str_replace(base_path(), '', $filename);
         $this->source_file_size = filesize($filename);
         $this->source_content = $sourceContent;
