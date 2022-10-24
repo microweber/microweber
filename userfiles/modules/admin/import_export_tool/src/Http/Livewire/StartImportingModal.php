@@ -70,6 +70,10 @@ class StartImportingModal extends ModalComponent
             return array("success"=>"Done! All steps are finished.");
         }
 
+        \Config::set('microweber.disable_model_cache', 1);
+        \Config::set('cache.driver', 'array');
+        app('cache')->setDefaultDriver('array');
+        
         $defaultLang = default_lang();
         $savedIds = array();
         foreach($itemsBatch[$selectBatch] as $item) {
