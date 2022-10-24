@@ -4,13 +4,17 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class StartImportingModal extends ModalComponent
 {
@@ -41,8 +45,6 @@ class StartImportingModal extends ModalComponent
             return; // next step
         }
 
-        dd($this->import_feed->mapped_content[1]);
-
         // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
@@ -67,13 +69,39 @@ class StartImportingModal extends ModalComponent
             return array("success"=>"Done! All steps are finished.");
         }
 
+        $defaultLang = default_lang();
         $savedIds = array();
         foreach($itemsBatch[$selectBatch] as $item) {
-            if (isset($item['price'])) {
-                $savedIds[] = DatabaseSave::saveProduct($item);
-            } else{
-                $savedIds[] = DatabaseSave::savePost($item);
+
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                if (!isset($item['title'])) {
+                    if (isset($item['multilanguage']['title'][$defaultLang])) {
+                        $item['title'] = $item['multilanguage']['title'][$defaultLang];
+                    }
+                    if (isset($item['multilanguage']['description'][$defaultLang])) {
+                        $item['description'] = $item['multilanguage']['description'][$defaultLang];
+                    }
+                    if (isset($item['multilanguage']['content_meta_title'][$defaultLang])) {
+                        $item['content_meta_title'] = $item['multilanguage']['content_meta_title'][$defaultLang];
+                    }
+                    if (isset($item['multilanguage']['content_meta_keywords'][$defaultLang])) {
+                        $item['content_meta_keywords'] = $item['multilanguage']['content_meta_keywords'][$defaultLang];
+                    }
+                    if (isset($item['multilanguage']['slug'][$defaultLang])) {
+                        $item['slug'] = $item['multilanguage']['slug'][$defaultLang];
+                    }
+                }
             }
+
+            $findContent = DB::table('content')->where('id', $item['id'])->first();
+            if ($findContent) {
+                unset($item['id']);
+                $productUpdate = \MicroweberPackages\Product\Models\Product::update($item, $item['id']);
+            } else {
+                unset($item['id']);
+                $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
+            }
+
         }
 
         if (empty($this->import_feed->imported_content_ids)) {

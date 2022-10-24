@@ -6,7 +6,7 @@
     <div class="modal-body">
         <div>
             @if(!$done)
-            <div {{--wire:poll="nextStep"--}}>
+            <div wire:poll="nextStep">
                 <h3>Importing content</h3>
                 <h4>Step {{$import_log['current_step']}} of {{$import_log['total_steps']}}</h4>
                 <div class="progress">
@@ -19,7 +19,7 @@
                 <h3>Done!</h3>
             @endif
 
-            <button wire:click="nextStep" type="button">aaaaide</button>
+           {{-- <button wire:click="nextStep" type="button">aaaaide</button>--}}
 
         </div>
     </div>

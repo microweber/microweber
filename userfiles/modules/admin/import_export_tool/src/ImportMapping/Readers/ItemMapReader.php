@@ -20,6 +20,7 @@ class ItemMapReader
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
         'pictures' => ['image', 'g:image_link'],
         'price' => ['price', 'g:price'],
+        'id' => ['id'],
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
@@ -36,7 +37,8 @@ class ItemMapReader
     ];
 
     private static $itemNames = [
-        'content_data.external_id' => 'External ID',
+        'id' => 'Id',
+        'content_data.external_id' => 'External Id',
         'title' => 'Title',
         //  'description'=>'Description',
         'content_body' => 'Content Body',
@@ -76,7 +78,7 @@ class ItemMapReader
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
-                $itemNames['multilanguage.slug.' . $language['locale']] = 'Slug ['. $language['locale'].']';
+                $itemNames['multilanguage.url.' . $language['locale']] = 'Slug ['. $language['locale'].']';
                 $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['locale'].']';
                 $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
                 $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
@@ -95,7 +97,7 @@ class ItemMapReader
             $itemGroupMultilanguage = [];
             foreach (get_supported_languages() as $language) {
                 $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.slug.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.url.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
