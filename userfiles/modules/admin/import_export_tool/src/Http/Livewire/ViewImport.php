@@ -98,6 +98,8 @@ class ViewImport extends Component
 
         $feed->readFeedFromFile($fullFilePath, $this->uploadFile->guessExtension());
 
+        session()->flash('message', 'Feed is uploaded successfully.');
+        return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
     }
 
     public function render()

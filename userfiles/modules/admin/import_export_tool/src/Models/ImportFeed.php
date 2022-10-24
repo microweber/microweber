@@ -5,7 +5,9 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
 use MicroweberPackages\Import\Formats\CsvReader;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
 class ImportFeed extends Model
@@ -33,8 +35,46 @@ class ImportFeed extends Model
         'detected_content_tags'=>'array'
     ];
 
-    public function readFeedFromFile(string $filename)
+    public function readFeedFromFile(string $filename, $fileType = false)
     {
+        if ($fileType == 'xlsx') {
+
+            $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
+            $sheetCount = $spreadshet->getSheetCount();
+            if ($sheetCount == 0) {
+                throw new \Exception('No sheets found');
+            }
+
+            $sheetNames = [];
+            $repeatableTargetKeys = [];
+            for ($i = 0; $i <= $sheetCount; $i++) {
+                $getSheet = $spreadshet->setSheet($i)->getSheet();
+                $sheetNames[$i] = $getSheet->getTitle();
+                $repeatableTargetKeys[$getSheet->getTitle()] = [];
+            }
+
+            $sourceContent = [];
+            $repeatableData = [];
+            $contentTag = $sheetNames[0];
+
+            $this->source_file_realpath = str_replace(base_path(), '', $filename);
+            $this->source_file_size = filesize($filename);
+            $this->source_content = $sourceContent;
+            $this->detected_content_tags = $repeatableTargetKeys;
+            $this->count_of_contents = count($repeatableData);
+            $this->mapped_content = [];
+
+            if ($contentTag && empty($this->content_tag)) {
+                $this->content_tag = $contentTag;
+            }
+
+            $this->save();
+        }
+
+    }
+
+    public function readFeedFromFileOld(string $filename) {
+
         $content = file_get_contents($filename);
 
         $contentTag = false;
