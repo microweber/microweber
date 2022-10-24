@@ -15,6 +15,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\Item
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Product\Models\Product;
 
 class StartImportingModal extends ModalComponent
 {
@@ -93,10 +94,9 @@ class StartImportingModal extends ModalComponent
                 }
             }
 
-            $findContent = DB::table('content')->where('id', $item['id'])->first();
-            if ($findContent) {
-                unset($item['id']);
-                $productUpdate = \MicroweberPackages\Product\Models\Product::update($item, $item['id']);
+            $findProduct = Product::where('id', $item['id'])->first();
+            if ($findProduct) {
+                $findProduct->update($item);
             } else {
                 unset($item['id']);
                 $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
