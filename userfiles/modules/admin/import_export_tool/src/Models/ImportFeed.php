@@ -63,7 +63,6 @@ class ImportFeed extends Model
                         foreach ($row as $rowKey => $rowValue) {
                             $readyRow[$dataHeader[$rowKey]] = $rowValue;
                         }
-                        $readyRow = array_filter($readyRow);
                         $readedRows[$getSheet->getTitle()][] = $readyRow;
                     }
                 } catch (\Exception $e) {

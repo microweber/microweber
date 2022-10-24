@@ -25,6 +25,7 @@ class ItemMapReader
         'categories' => ['genre', 'category', 'g:google_product_category'],
         'updated_at' => ['updated_date', 'published'],
         'created_at' => ['publish_date', 'pubDate', 'updated'],
+        'is_active' => ['isEnable', 'isEnabled', 'isActive'],
     ];
 
     public static $itemTypes = [
@@ -43,6 +44,7 @@ class ItemMapReader
         'categories' => 'Categories',
         'tags' => 'Tags',
         'price' => 'Price',
+        'is_active' => 'Active',
         'content_data.special_price' => 'Special Price',
         'content_data.shipping_fixed_cost' => 'Shipping Fixed Cost',
         'content_data.weight' => 'Weight',
@@ -75,10 +77,10 @@ class ItemMapReader
             foreach (get_supported_languages() as $language) {
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['display_name'].']';
                 $itemNames['multilanguage.slug.' . $language['locale']] = 'Slug ['. $language['display_name'].']';
-                $itemNames['multilanguage.description.' . $language['locale']] = 'Description ['. $language['display_name'].']';
                 $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['display_name'].']';
                 $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['display_name'].']';
                 $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['display_name'].']';
+                $itemNames['multilanguage.description.' . $language['locale']] = 'Meta Description ['. $language['display_name'].']';
             }
         }
 

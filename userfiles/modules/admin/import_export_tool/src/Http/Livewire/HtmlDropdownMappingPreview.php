@@ -29,6 +29,7 @@ class HtmlDropdownMappingPreview extends Component
         if ($importFeed == null) {
             return redirect(route('admin.import-export-tool.index'));
         }
+
         $this->import_feed = $importFeed->toArray();
         unset($this->import_feed['source_content']);
 
