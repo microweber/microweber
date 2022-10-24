@@ -180,7 +180,7 @@ class HtmlDropdownMappingRecursiveTable
             'selected'=>false,
         ];
 
-        foreach (ItemMapReader::$itemNames as $key=>$name) {
+        foreach (ItemMapReader::getItemNames() as $key=>$name) {
 
             $selected = false;
             if (isset(ItemMapReader::$map[$key])) {
@@ -204,17 +204,39 @@ class HtmlDropdownMappingRecursiveTable
         $html = '
         <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">';
 
-        foreach ($selectOptions as $name => $option) {
+        $itemGroups = ItemMapReader::getItemGroups();
 
+        $showInGroup = [];
+
+        $html .= '<optgroup label="Default">';
+        foreach ($selectOptions as $name => $option) {
             if (!isset($option['name'])) {
                 continue;
             }
-
             if ($option['selected']) {
                 $this->automaticSelectedOptions[$mapKeyHtml] = $name;
             }
+            $itemIsFindedInGroup = false;
+            foreach ($itemGroups as $groupName=>$groupItems) {
+                foreach ($groupItems as $groupItem) {
+                    if ($groupItem == $name) {
+                        $itemIsFindedInGroup = true;
+                        $showInGroup[$groupName][] = '<option value="'.$name.'">'.$option['name'].'</option>';
+                    }
+                }
+            }
+            if (!$itemIsFindedInGroup) {
+                $html .= '<option value="'.$name.'">'.$option['name'].'</option>';
+            }
+        }
+        $html .= '</optgroup>';
 
-            $html .= '<option value="'.$name.'">'.$option['name'].'</option>';
+       foreach ($showInGroup as $groupName=>$groupItemsOptions) {
+           $html .= '<optgroup label="'.$groupName.'">';
+           foreach ($groupItemsOptions as $groupItemOption) {
+               $html .= $groupItemOption;
+           }
+            $html .= '</optgroup>';
         }
 
         $html .= '</select>';

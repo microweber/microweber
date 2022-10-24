@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers;
 
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+
 class ItemMapReader
 {
     public static $categorySeparators = [
@@ -32,7 +34,7 @@ class ItemMapReader
         'tags' => self::ITEM_TYPE_ARRAY,
     ];
 
-    public static $itemNames = [
+    private static $itemNames = [
         'content_data.external_id' => 'External ID',
         'title' => 'Title',
         //  'description'=>'Description',
@@ -51,14 +53,53 @@ class ItemMapReader
         'created_at' => 'Created at',
     ];
 
+    private static $itemGroups = [
+        'Content Data'=> [
+            'content_data.special_price',
+            'content_data.shipping_fixed_cost',
+            'content_data.weight',
+            'content_data.mpn',
+            'content_data.barcode',
+            'content_data.sku',
+        ]
+    ];
+
     public const ITEM_TYPE_STRING = 'string';
     public const ITEM_TYPE_ARRAY = 'array';
 
+    public static function getItemNames()
+    {
+        $itemNames = self::$itemNames;
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            foreach (get_supported_languages() as $language) {
+                $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
+                $itemNames['multilanguage.content_body.' . $language['locale']] = 'Content Body ['. $language['locale'].']';
+            }
+        }
+
+        return $itemNames;
+    }
+
+    public static function getItemGroups()
+    {
+        $itemGroups = self::$itemGroups;
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            $itemGroupMultilanguage = [];
+            foreach (get_supported_languages() as $language) {
+                $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
+            }
+            $itemGroups['Multilanguage'] = $itemGroupMultilanguage;
+        }
+
+        return $itemGroups;
+    }
+
     public static function getMapping($item)
     {
-
         $map = [];
-
         if (!empty($item)) {
             foreach ($item as $itemKey => $itemValue) {
                 foreach (self::$map as $internalKey => $mapKeys) {
