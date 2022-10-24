@@ -45,17 +45,38 @@ class ImportFeed extends Model
                 throw new \Exception('No sheets found');
             }
 
-            $sheetNames = [];
-            $repeatableTargetKeys = [];
+            // Read sheet
+            $readedRows = [];
             for ($i = 0; $i <= $sheetCount; $i++) {
-                $getSheet = $spreadshet->setSheet($i)->getSheet();
-                $sheetNames[$i] = $getSheet->getTitle();
-                $repeatableTargetKeys[$getSheet->getTitle()] = [];
+
+                try {
+                    $getSheet = $spreadshet->setSheet($i)->getSheet();
+                    $getRows = $spreadshet->getRows();
+                    $sheetNames[$i] = $getSheet->getTitle();
+                    $repeatableTargetKeys[$getSheet->getTitle()] = [];
+
+                    // unset headers
+                    $dataHeader = $getRows[0];
+                    unset($getRows[0]);
+                    foreach ($getRows as $row) {
+                        $readyRow = array();
+                        foreach ($row as $rowKey => $rowValue) {
+                            $readyRow[$dataHeader[$rowKey]] = $rowValue;
+                        }
+                        $readyRow = array_filter($readyRow);
+                        $readedRows[$getSheet->getTitle()][] = $readyRow;
+                    }
+                } catch (\Exception $e) {
+
+                }
             }
 
             $sourceContent = [];
             $repeatableData = [];
-            $contentTag = $sheetNames[0];
+            if (isset($readedRows[$this->content_tag])) {
+                $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
+                $repeatableData = $readedRows[$this->content_tag][0];
+            }
 
             $this->source_file_realpath = str_replace(base_path(), '', $filename);
             $this->source_file_size = filesize($filename);
@@ -63,10 +84,6 @@ class ImportFeed extends Model
             $this->detected_content_tags = $repeatableTargetKeys;
             $this->count_of_contents = count($repeatableData);
             $this->mapped_content = [];
-
-            if ($contentTag && empty($this->content_tag)) {
-                $this->content_tag = $contentTag;
-            }
 
             $this->save();
         }
