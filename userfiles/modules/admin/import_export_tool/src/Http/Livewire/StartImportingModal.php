@@ -107,6 +107,13 @@ class StartImportingModal extends ModalComponent
 
             if ($this->import_feed->import_to == 'categories') {
 
+                if (isset($item['parent_id'])) {
+                    $findParentCategory = Category::where('id', $item['parent_id'])->first();
+                    if (!$findParentCategory) {
+                        unset($item['parent_id']);
+                    }
+                }
+
                 $findCategory = Category::where('id', $item['id'])->first();
                 if ($findCategory) {
                     $findCategory->update($item);
