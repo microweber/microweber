@@ -93,7 +93,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                         }
                     });
 
-                    this.bxSettings_'.$mwModuleSettingsId.' = new mw.moduleSettings({
+                    this.mwModuleSettings'.$mwModuleSettingsId.' = new mw.moduleSettings({
                         element: \'#settings-box'.$mwModuleSettingsId.'\',
                         header: \'<i class="mw-icon-drag"></i> Content #{count} <b data-reflect="primaryText"></b> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
@@ -103,7 +103,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                         schema: '.$schema.'
                     });
 
-                    $(bxSettings_'.$mwModuleSettingsId.').on(\'change\', function (e, val) {
+                    $(mwModuleSettings'.$mwModuleSettingsId.').on(\'change\', function (e, val) {
                         var final = [];
                         $.each(val, function () {
                             var current = $.extend({}, this);
@@ -119,7 +119,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
                     <input type="hidden" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
                     <div class="mb-3">
-                        <span class="btn btn-primary btn-rounded" onclick="bxSettings_'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
+                        <span class="btn btn-primary btn-rounded" onclick="mwModuleSettings'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
                     </div>
                     <div id="settings-box'.$mwModuleSettingsId.'"></div>
                 </div>
