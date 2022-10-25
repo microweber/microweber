@@ -136,7 +136,7 @@ class CategoryRepository extends AbstractRepository
         if($this->getCategoryProductsInStockCount($categoryId) > 0){
             return true;
         }
-
+        return false;
 
     }
 
