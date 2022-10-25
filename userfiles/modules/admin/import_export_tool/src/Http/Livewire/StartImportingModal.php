@@ -104,13 +104,15 @@ class StartImportingModal extends ModalComponent
                 }
             }
 
-
             if ($this->import_feed->import_to == 'categories') {
+
+                $item['rel_id'] = $this->import_feed->parent_page;
+                $item['rel_type'] = 'content';
 
                 if (isset($item['parent_id'])) {
                     $findParentCategory = Category::where('id', $item['parent_id'])->first();
                     if (!$findParentCategory) {
-                        $item['parent_id'] = $this->import_feed->parent_page;
+                        $item['parent_id'] = 0;
                     }
                 }
 
