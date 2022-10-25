@@ -120,7 +120,6 @@ class StartImportingModal extends ModalComponent
                 if ($findCategory) {
                     $findCategory->update($item);
                 } else {
-                    unset($item['id']);
                     $categoryCreate = Category::create($item);
                 }
 
@@ -129,7 +128,6 @@ class StartImportingModal extends ModalComponent
                 if ($findProduct) {
                     $findProduct->update($item);
                 } else {
-                    unset($item['id']);
                     $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
                 }
             }
