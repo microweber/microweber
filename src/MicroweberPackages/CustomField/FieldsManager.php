@@ -378,7 +378,18 @@ class FieldsManager
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
 
+
         if ($customField == null) {
+
+            if(!isset($fieldData['rel_type']) and isset($fieldData['content_id'])){
+                 $fieldData['rel_type'] = 'content';
+            }
+
+            if(!isset($fieldData['rel_id']) and isset($fieldData['content_id'])){
+                $fieldData['rel_id'] = $fieldData['content_id'];
+            }
+
+
             $customField = new CustomField();
             $customField->name = $this->getFieldNameByType($fieldData['type']);
 
