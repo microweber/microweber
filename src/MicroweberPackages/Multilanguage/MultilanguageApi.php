@@ -51,7 +51,7 @@ class MultilanguageApi
 
                 TranslationText::where('translation_locale', $find['locale'])->delete();
 
-                clearcache(); 
+                clearcache();
                 return $delete;
             }
         }
@@ -96,6 +96,8 @@ class MultilanguageApi
         if (!isset($params['locale'])) {
             return;
         }
+
+
 
         $json = array();
         $locale = $params['locale'];

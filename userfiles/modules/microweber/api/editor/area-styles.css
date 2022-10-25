@@ -5,6 +5,9 @@
     align-items: center;
     justify-content: center;
     display: flex;
+
+    overflow: auto;
+    resize: both;
 }
 
 .mw-small-editor{

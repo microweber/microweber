@@ -281,8 +281,7 @@ var MWEditor = function (options) {
     }
 
     this.initInteraction = function () {
-        var ait = 100,
-            currt = new Date().getTime();
+
         this.interactionData = {};
         $(scope.actionWindow.document).on('selectionchange', function(e){
             $(scope).trigger('selectionchange', [{
@@ -345,6 +344,16 @@ var MWEditor = function (options) {
         node.classList[active ? 'add' : 'remove'](this.settings.activeClass);
     };
 
+    this.lastRange = null;
+    var areaSelectionMemo = function () {
+          scope.actionWindow.document.addEventListener('selectionchange', function(e) {
+            var sel = scope.getSelection();
+            if(scope.editArea.contains(sel.anchorNode) && scope.editArea.contains(sel.focusNode)) {
+                scope.lastRange = sel.getRangeAt(0);
+            }
+        });
+    };
+
     this.createFrame = function () {
         this.frame = this.document.createElement('iframe');
         this.frame.className = 'mw-editor-frame';
@@ -376,6 +385,7 @@ var MWEditor = function (options) {
             });
             scope.actionWindow = this.contentWindow;
             scope.$editArea = scope.$iframeArea;
+            scope.editArea = scope.$iframeArea[0];
             mw.tools.iframeAutoHeight(scope.frame);
 
             scope.preventEvents();
@@ -440,6 +450,7 @@ var MWEditor = function (options) {
         };
         this.wrapper.appendChild(this.area.node);
         scope.$editArea = this.area.$node;
+        scope.editArea = this.area.get(0);
         scope.preventEvents();
         $(scope).trigger('ready');
     };
@@ -450,6 +461,7 @@ var MWEditor = function (options) {
             return;
         }
         this.$editArea = $(this.document.body);
+        this.editArea = this.$editArea.get(0);
         this.wrapper.className += ' mw-editor-wrapper-document-mode';
         mw.$(this.document.body).append(this.wrapper)[0].mwEditor = this;
         $(scope).trigger('ready');
@@ -655,6 +667,7 @@ var MWEditor = function (options) {
 
     this._onReady = function () {
         $(this).on('ready', function () {
+
             scope.initInteraction();
             scope.api.execCommand('enableObjectResizing', false, 'false');
             scope.api.execCommand('2D-Position', false, false);
@@ -691,9 +704,22 @@ var MWEditor = function (options) {
                 css.width = scope.settings.width;
             }
             scope.$editArea.css(css);
-            $('module', scope.$editArea).attr('contenteditable', false)
+            $('module', scope.$editArea).attr('contenteditable', false);
+            areaSelectionMemo();
             scope.addDependencies();
             scope.createSmallEditor();
+
+
+            var sel = scope.lastRange;
+            var currentNode;
+            if( !sel ) {
+                currentNode = scope.editArea.lastChild || scope.editArea;
+                var range = document.createRange();
+                range.setStartBefore(currentNode.firstChild || currentNode);
+                range.setEndAfter(currentNode.lastChild || currentNode);
+                range.collapse();
+                scope.lastRange = range;
+            }
 
         });
     };

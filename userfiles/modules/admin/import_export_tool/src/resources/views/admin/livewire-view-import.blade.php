@@ -114,7 +114,7 @@
 <div id="import">
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home"
            aria-selected="true">
             <span class="number">1</span>
             <span class="tab-name">Import setup</span>
@@ -122,7 +122,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
            aria-controls="profile" aria-selected="false">
             <span class="number">2</span>
             <span class="tab-name">Data Mapping</span>
@@ -130,7 +130,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
            aria-controls="contact" aria-selected="false">
             <span class="number">3</span>
             <span class="tab-name">Import</span>
@@ -150,8 +150,6 @@
                         Main settings
                     </div>
                     <div class="card-body">
-
-                        <form wire:submit.prevent="submit">
                         <table class="table table-borderless">
                             <tbody>
                             <tr>
@@ -172,16 +170,11 @@
                                         <small>Upload content feed file</small>
                                     </td>
                                     <td>
-                                        <form wire:submit.prevent="save">
-                                            @if ($photo)
-                                                Photo Preview:
-                                                <img src="{{ $photo->temporaryUrl() }}">
-                                            @endif
-                                            <input type="file" wire:model="photo">
-                                            @error('photo') <span class="error">{{ $message }}</span> @enderror
-                                            <button type="submit">Upload Photo</button>
+                                        <form wire:submit.prevent="upload">
+                                            <input type="file" wire:model="uploadFile">
+                                            @error('uploadFile') <span class="error">{{ $message }}</span> @enderror
+                                            <button type="submit" class="btn btn-primary">Upload</button>
                                         </form>
-
                                     </td>
                                 </tr>
                             @endif
@@ -246,6 +239,8 @@
                                         <option value="20">20 part(s)</option>
                                         <option value="30">30 part(s)</option>
                                         <option value="100">100 part(s)</option>
+                                        <option value="200">200 part(s)</option>
+                                        <option value="500">500 part(s)</option>
                                     </select>
 
                                 </td>
@@ -374,7 +369,6 @@
                             </tr>
                             </tbody>
                         </table>
-                        </form>
                     </div>
                 </div>
             </div>

@@ -66,9 +66,20 @@ MWEditor.interactionControls = {
             var scope = this;
             var el = mw.element({
                 props: {
-                    className: 'mw-editor-image-handle-wrap'
+                    className: 'mw-editor-image-handle-wrap',
+                    tabIndex: -1
                 }
             });
+            el.on('keydown', function (e){
+                if (e.keyCode === 8 || e.keyCode === 46) {
+                    if (scope.__target) {
+                        scope.__target.remove();
+                        el.hide();
+                    }
+                }
+            });
+
+
             var changeButton = mw.element({
                 props: {
                     innerHTML: '<i class="mdi mdi-folder-multiple-image"></i>',
@@ -133,6 +144,7 @@ MWEditor.interactionControls = {
             if (data.isImage) {
                 var $target = $(data.localTarget);
                 this.$target = $target;
+                this.__target = $target.get(0);
                 var css = $target.offset();
                 css.width = $target.outerWidth();
                 css.height = $target.outerHeight();

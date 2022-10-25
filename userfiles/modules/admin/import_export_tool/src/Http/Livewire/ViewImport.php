@@ -21,7 +21,7 @@ class ViewImport extends Component
     public $import_feed_original = [];
     public $confirming_delete_id;
     public $delete_also_content = 0;
-    public $photo;
+    public $uploadFile;
 
     public function save()
     {
@@ -82,7 +82,24 @@ class ViewImport extends Component
 
     public function upload()
     {
+        $this->validate([
+            'uploadFile' => 'required|mimes:xlsx,xls,csv',
+        ]);
 
+        $uploadFilePath = $this->uploadFile->store('import-export-tool');
+        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+
+        $feed->source_type = 'upload_file';
+        $feed->source_file = $uploadFilePath;
+        $feed->source_file_realpath = $fullFilePath;
+        $feed->last_downloaded_date = Carbon::now();
+        $feed->save();
+
+        $feed->readFeedFromFile($fullFilePath, $this->uploadFile->guessExtension());
+
+        session()->flash('message', 'Feed is uploaded successfully.');
+        return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
     }
 
     public function render()

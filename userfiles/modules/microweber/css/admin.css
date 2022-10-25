@@ -26,6 +26,9 @@
     clear: both;
 }
 
+.main aside{
+    flex: 1;
+}
 .main aside > ul > li.nav-item {
     width: 100%;
 }
@@ -573,7 +576,7 @@ html[dir="rtl"] .plain-language-selector:before{
     box-shadow: none;
     padding: 10px 0;
     padding-inline-start: 30px;
-    font-size: 14px;
+    font-size: 12px;
     color: #9a9a9a;
     cursor: pointer;
 }
@@ -582,7 +585,7 @@ html[dir="rtl"] .plain-language-selector:before{
     position: relative;
 
     padding: 2px 14px;
-    border: 1px solid #cccccc70;
+    border: 1px solid rgba(204, 204, 204, 0.19);
     border-radius: 5px;
 
 }

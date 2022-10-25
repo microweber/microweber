@@ -7,7 +7,7 @@ Route::name('api.multilanguage.')
         \Route::any('geolocaiton_test', function () {
             $geo = get_geolocation_detailed();
             return json_encode($geo, JSON_PRETTY_PRINT);
-        })->name('geolocaiton_test');
+        })->name('geolocaiton_test')->middleware(['api','admin']);
 
 
         \Route::any('change_language', function (\Illuminate\Http\Request $request) {
