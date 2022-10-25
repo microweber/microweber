@@ -97,16 +97,16 @@ class CategoryManagerTest extends TestCase
 
 
         $cont_title = 'Product with cats to test filter';
-        $newPage = new Product();
-        $newPage->title = $cont_title;
-        $newPage->is_active = 1;
-        $newPage->is_deleted = 0;
-        $newPage->content_type = 'product';
-        $newPage->subtype = 'product';
-        $newPage->setContentData(['qty'=>'1']);
-        $newPage->category_ids = $category->id;
-        $newPage->save();
-        $content_data = content_data($newPage->id);
+        $newProduct = new Product();
+        $newProduct->title = $cont_title;
+        $newProduct->is_active = 1;
+        $newProduct->is_deleted = 0;
+        $newProduct->content_type = 'product';
+        $newProduct->subtype = 'product';
+        $newProduct->setContentData(['qty'=>'1']);
+        $newProduct->category_ids = $category->id;
+        $newProduct->save();
+        $content_data = content_data($newProduct->id);
         $check  = app()->category_repository->hasProductsInStock($category->id);
 
         $this->assertTrue($check);
@@ -115,6 +115,45 @@ class CategoryManagerTest extends TestCase
 
         $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
         $this->assertEquals($check,1);
+
+
+        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $this->assertEquals($check,1);
+
+
+        //make unpublished
+        $newProduct->is_active = 0;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $this->assertEquals($check,0);
+
+
+
+        //make deleted, but published
+        $newProduct->is_active = 1;
+        $newProduct->is_deleted = 1;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $this->assertEquals($check,0);
+
+        //make deleted, and unpublished
+        $newProduct->is_active = 0;
+        $newProduct->is_deleted = 0;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $this->assertEquals($check,0);
 
 
 
