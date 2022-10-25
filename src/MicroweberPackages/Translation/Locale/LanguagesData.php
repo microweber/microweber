@@ -67,8 +67,15 @@ class LanguagesData
                             if ( $default_locale and !empty($default_locale)) {
                                 $lang["locale"] = $default_locale;
                             } else {
-                                $lang["locale"] = array_key_first($locales);
-                            }
+
+                                if($lang["name"] == 'English'){
+                                    $lang["locale"] = 'en_US';
+                                } else {
+                                    $lang["locale"] = array_key_first($locales);
+                                }
+
+
+                             }
 
                             $lang["rtl"] = $isRtl;
 
