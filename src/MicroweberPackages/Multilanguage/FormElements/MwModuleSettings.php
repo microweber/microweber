@@ -7,17 +7,10 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
     public $currentLanguage;
     public $defaultLanguage;
     public $groupId;
-    public $tabNameReflect;
 
     public function setGroupId($id)
     {
         $this->groupId = $id;
-        return $this;
-    }
-
-    public function setTabNameReflect($name)
-    {
-        $this->tabNameReflect = $name;
         return $this;
     }
 
@@ -99,10 +92,6 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             }
 
             $tabNameReflect = 'Content #{count}';
-            if ($this->tabNameReflect) {
-                $tabNameReflect = '<span data-reflect="'.$this->tabNameReflect.'"></span>';;
-            }
-
             $schemaArray = $this->getAttribute('schema');
             if (isset($schemaArray[0]['id']) && isset($schemaArray[0]['label'])) {
                 $tabNameReflect = $schemaArray[0]['label']. ': <span data-reflect="'.$schemaArray[0]['id'].'"></span>';;
