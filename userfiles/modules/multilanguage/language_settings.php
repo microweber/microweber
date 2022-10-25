@@ -193,7 +193,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
     }
 </script>
 
- 
+
 
 <script>mw.lib.require('flag_icons');</script>
 

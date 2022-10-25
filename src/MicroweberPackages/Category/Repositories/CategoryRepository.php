@@ -208,7 +208,7 @@ class CategoryRepository extends AbstractRepository
     private function getCategoryItemsCountQueryBuilder()
     {
         $model = (new CategoryItem())->newQuery();
-        $model->rightJoin('content', function ($join) {
+        $model->join('content', function ($join) {
             $join->on('content.id', '=', 'categories_items.rel_id')
                 ->where('content.is_deleted', '=', 0)
                 ->where('content.is_active', '=', 1);
