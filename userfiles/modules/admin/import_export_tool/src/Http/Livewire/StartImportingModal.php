@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\App\Http\RequestRoute;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
@@ -103,12 +104,25 @@ class StartImportingModal extends ModalComponent
                 }
             }
 
-            $findProduct = Product::where('id', $item['id'])->first();
-            if ($findProduct) {
-                $findProduct->update($item);
+
+            if ($this->import_feed->import_to == 'categories') {
+
+                $findCategory = Category::where('id', $item['id'])->first();
+                if ($findCategory) {
+                    $findCategory->update($item);
+                } else {
+                    unset($item['id']);
+                    $categoryCreate = Category::create($item);
+                }
+
             } else {
-                unset($item['id']);
-                $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
+                $findProduct = Product::where('id', $item['id'])->first();
+                if ($findProduct) {
+                    $findProduct->update($item);
+                } else {
+                    unset($item['id']);
+                    $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
+                }
             }
 
         }
