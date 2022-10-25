@@ -6,6 +6,13 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
     public $randId;
     public $currentLanguage;
     public $defaultLanguage;
+    public $groupId;
+
+    public function setGroupId($id)
+    {
+        $this->groupId = $id;
+        return $this;
+    }
 
     public function render()
     {
@@ -79,6 +86,10 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
             }
 
 
+            $moduleSettingsGroupId = 'id';
+            if ($this->groupId) {
+                $moduleSettingsGroupId = $this->groupId;
+            }
 
             $html .= '<div class="tab-pane fade '.$showTab.' js-multilanguage-tab-'.$this->randId.'" id="mlfield' . $this->randId . $language['locale'] . '">
 
@@ -98,7 +109,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                         header: \'<i class="mw-icon-drag"></i> Content #{count} <b data-reflect="primaryText"></b> <a class="pull-right" data-action="remove"><i class="mdi mdi-delete"></i></a>\',
                         data: data'.$mwModuleSettingsId.',
                         key: \'settings\',
-                        group: \'id\',
+                        group:\''.$moduleSettingsGroupId.'\',
                         autoSave: true,
                         schema: '.$schema.'
                     });
@@ -117,7 +128,7 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-'.$mwModuleSettingsId.'-settings">
-                    <input type="hidden" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
+                    <input type="hidden" option-group="'.$moduleSettingsGroupId.'" name="'.$this->getAttribute('name').'" lang="'.$language['locale'].'" id="settingsfield'.$mwModuleSettingsId.'" value="" class="mw_option_field" />
                     <div class="mb-3">
                         <span class="btn btn-primary btn-rounded" onclick="mwModuleSettings'.$mwModuleSettingsId.'.addNew(0, \'blank\');"> '. _e('Add new', true) . '</span>
                     </div>

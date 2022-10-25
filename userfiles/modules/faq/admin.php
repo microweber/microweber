@@ -48,6 +48,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     echo $formBuilder->mwModuleSettings('settings')
                         ->setModel($moduleOption)
+                        ->setGroupId('faq')
                         ->schema([
                             [
                                 'interface' => 'text',
