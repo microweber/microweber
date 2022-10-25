@@ -166,9 +166,9 @@ class CategoryRepository extends AbstractRepository
             $categoryItemsCountGroupedByRelType = [];
             $query = $this->getCategoryItemsCountQueryBuilder();
             $query->whereIn('categories_items.rel_id',
-                Product::select(['content.id'])
+                Product::select(['id'])
                     ->filter(['inStock' => 1])
-                    ->select(['content.id'])
+
             );
 
             $categoryItemsCountData = $query->get();
