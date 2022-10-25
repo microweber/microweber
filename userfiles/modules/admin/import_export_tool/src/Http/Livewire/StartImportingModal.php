@@ -34,8 +34,8 @@ class StartImportingModal extends ModalComponent
 
     public function nextStep()
     {
-        $xmlFile = base_path() . DS . $this->import_feed->source_file_realpath;
-        if (!is_file($xmlFile)) {
+        $sourceFile = base_path() . DS . $this->import_feed->source_file_realpath;
+        if (!is_file($sourceFile)) {
             return redirect(route('admin.import-export-tool.index'));
         }
 
