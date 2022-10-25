@@ -9,6 +9,49 @@ Route::name('admin.import-export-tool.')
     ->group(function () {
 
 
+       Route::get('ddd', function () {
+
+           for ($i = 1; $i <= 100; $i++) {
+               $rand = rand(111,999);
+               $productTitleEn = 'Product title EN' . $rand;
+               $productTitleAr = 'Product title AR' . $rand;
+                $saved = \MicroweberPackages\Product\Models\Product::create([
+                    'title'=>$productTitleEn,
+                    'description'=>$productTitleEn,
+                    'content_body'=>$productTitleEn,
+                    'content_meta_title'=>$productTitleEn,
+                    'content_meta_keywords'=>$productTitleEn,
+                    'price'=>rand(111,999),
+                    'stock'=>rand(0,1),
+                    'multilanguage'=>[
+                        'title'=>[
+                            'en_US'=>$productTitleEn,
+                            'ar_SA'=>$productTitleAr
+                        ],
+                        'description'=>[
+                            'en_US'=>$productTitleEn,
+                            'ar_SA'=>$productTitleAr
+                        ],
+                        'content_body'=>[
+                            'en_US'=>$productTitleEn,
+                            'ar_SA'=>$productTitleAr
+                        ],
+                        'content_meta_title'=>[
+                            'en_US'=>$productTitleEn,
+                            'ar_SA'=>$productTitleAr
+                        ],
+                        'content_meta_keywords'=>[
+                            'en_US'=>$productTitleEn,
+                            'ar_SA'=>$productTitleAr
+                        ]
+                    ]
+                ]);
+                //dump($saved->toArray());
+               echo 'Product saved:' . $i. '<br /><meta http-equiv="refresh" content="0;">';
+           }
+       });
+
+
        Route::get('waw', function () {
 
           //  $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
