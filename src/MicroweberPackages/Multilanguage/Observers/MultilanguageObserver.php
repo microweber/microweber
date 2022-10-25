@@ -34,7 +34,11 @@ class MultilanguageObserver
                     $model->translatable = ['option_value'];
                 }
             }
+
         }
+
+        $locale = $this->getLocale();
+        $defaultLocale = $this->getDefaultLocale();
 
         if (!empty($model->translatable)) {
 
@@ -57,7 +61,7 @@ class MultilanguageObserver
                     continue;
                 }
 
-                $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
+                $multilanguage[$defaultLocale][$fieldName] = $model->$fieldName;
 
                 if ($findTranslations !== null) {
 
@@ -67,9 +71,9 @@ class MultilanguageObserver
                             $multilanguage[$findedTranslation['locale']][$fieldName] = $this->_decodeCastValue($model, $fieldName, $findedTranslation['field_value']);
 
                             // Replace model fields if the default lang is different from current lang
-                            if ($this->getLocale() !== $this->getDefaultLocale()) {
-                                if (isset($multilanguage[$this->getLocale()][$fieldName])) {
-                                    $model->$fieldName = $multilanguage[$this->getLocale()][$fieldName];
+                            if ($locale !== $defaultLocale) {
+                                if (isset($multilanguage[$locale][$fieldName])) {
+                                    $model->$fieldName = $multilanguage[$locale][$fieldName];
                                 }
                             }
                         }
