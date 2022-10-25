@@ -97,22 +97,33 @@ class MultilanguageRepository extends AbstractRepository
 
     public function getSupportedLocaleByLocale($locale)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($locale) {
-            $locale = DB::table('multilanguage_supported_locales')->where('locale', $locale)->first();
-            $locale = (array)$locale;
+        if(!$locale){
+            return [];
+        }
 
-            return $locale;
-        });
+        $allLocales = $this->getSupportedLocales(true);
+        if($allLocales){
+            foreach ($allLocales as $localeItem){
+                if(isset($localeItem['locale']) and strtolower($localeItem['locale']) == strtolower($locale)){
+                    return $localeItem;
+                }
+            }
+        }
     }
 
     public function getSupportedLocaleByDisplayLocale($display_locale)
     {
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($display_locale) {
-            $display_locale = DB::table('multilanguage_supported_locales')->where('display_locale', $display_locale)->first();
-            $display_locale = (array)$display_locale;
-
-            return $display_locale;
-        });
+        if(!$display_locale){
+            return [];
+        }
+        $allLocales = $this->getSupportedLocales(true);
+        if($allLocales){
+            foreach ($allLocales as $localeItem){
+                if(isset($localeItem['display_locale']) and strtolower($localeItem['display_locale']) == strtolower($display_locale)){
+                    return $localeItem;
+                }
+            }
+        }
     }
 
     public function getTranslationByLocale($locale)

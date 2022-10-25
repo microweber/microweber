@@ -706,6 +706,7 @@ class AppServiceProvider extends ServiceProvider
                 $isLocaleChangedFromMultilanguageLogics = true;
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
                 if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+
                     change_language_by_locale($locale, true);
                 }
             }
@@ -718,6 +719,7 @@ class AppServiceProvider extends ServiceProvider
                 if (!empty($linkSegments)) {
                     if (isset($linkSegments[0]) and $linkSegments[0]) {
                         $skip_items = ['api','token'];
+
                         if(!in_array($linkSegments[0], $skip_items)){
                             $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
                             if (!$localeSettings) {
@@ -725,7 +727,18 @@ class AppServiceProvider extends ServiceProvider
                             }
                             if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
                                 $isLocaleChangedFromMultilanguageLogics = true;
-                                change_language_by_locale($localeSettings['locale'], true);
+
+                                $needToChangeLocale = true;
+                                $needToChangeLocaleCookie = true;
+                                if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
+                                    if ($_COOKIE['lang'] == $localeSettings['locale']) {
+                                        $needToChangeLocaleCookie = false;
+                                    }
+                                }
+                             //   $needToChangeLocale = true;
+                                if($needToChangeLocale){
+                                    change_language_by_locale($localeSettings['locale'], $needToChangeLocaleCookie);
+                                }
                             }
                         }
                     }
@@ -735,6 +748,7 @@ class AppServiceProvider extends ServiceProvider
 
         // If locale is not changed from link
         if (!$isLocaleChangedFromMultilanguageLogics) {
+
             // If we have a lang cookie read from theere
             if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
                 $setCurrentLangTo = $_COOKIE['lang'];
@@ -747,6 +761,7 @@ class AppServiceProvider extends ServiceProvider
                     $setCurrentLangTo = get_option('language', 'website');
                 }
             }
+
 
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);

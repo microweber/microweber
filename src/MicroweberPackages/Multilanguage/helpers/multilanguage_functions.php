@@ -93,6 +93,7 @@ if (!function_exists('change_language_by_locale')) {
             $skip = false;
 
             $cookie = \Cookie::get('lang');
+
             if ($cookie and $cookie == $locale) {
                 $skip = true;
             }
@@ -101,7 +102,12 @@ if (!function_exists('change_language_by_locale')) {
 
                 $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
                 if ($multilanguageIsActive) {
+
                     $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                     if (!$localeSettings) {
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($locale);
+                    }
+
                 } else {
                     $localeSettings = ['locale' => $locale];
                 }
@@ -113,6 +119,7 @@ if (!function_exists('change_language_by_locale')) {
                 }
 
                 if ($applyCookieLang) {
+
                     if ($localeSettings != null and isset($localeSettings['locale'])) {
 
                         setcookie('lang', $locale, time() + (86400 * 30), "/");
