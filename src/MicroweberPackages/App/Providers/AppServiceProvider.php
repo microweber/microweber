@@ -695,14 +695,13 @@ class AppServiceProvider extends ServiceProvider
         $isLocaleChangedFromMultilanguageLogics = false;
 
         $currentUri = request()->path();
-        $currentLocale = current_lang();
 
         //  Change language if user request language with LINK has lang abr
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
             $localeIsChangedFromGetRequest = false;
             $locale = request()->get('locale');
-            if (is_lang_correct($locale) and $locale != $currentLocale) {
+            if (is_lang_correct($locale)) {
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
@@ -725,10 +724,8 @@ class AppServiceProvider extends ServiceProvider
                                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                             }
                             if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
-                                if($localeSettings['locale'] != $currentLocale){
-                                    $isLocaleChangedFromMultilanguageLogics = true;
-                                    change_language_by_locale($localeSettings['locale'], true);
-                                }
+                                $isLocaleChangedFromMultilanguageLogics = true;
+                                change_language_by_locale($localeSettings['locale'], true);
                             }
                         }
                     }
@@ -751,7 +748,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
-            if ($currentLocale != $setCurrentLangTo and $setCurrentLangTo and is_lang_correct($setCurrentLangTo)) {
+            if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
                 if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
                     set_current_lang($setCurrentLangTo);
