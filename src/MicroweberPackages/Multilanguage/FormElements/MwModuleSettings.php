@@ -72,7 +72,11 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
                         if (isset($multilanguageFields['option_value'])) {
-                            $inputValue = $multilanguageFields['option_value']; // its hardcoded only for module options
+                            $isValidJson = json_decode($multilanguageFields['option_value'], true); // its hardcoded only for module options
+                            if (is_array($isValidJson)) {
+                                // maybe json will be broken from db, and this will broke the whole component
+                                $inputValue = json_encode($isValidJson);
+                            }
                         }
                     }
                 }
@@ -80,11 +84,9 @@ class MwModuleSettings extends \MicroweberPackages\Form\Elements\MwModuleSetting
 
             $mwModuleSettingsId = $this->randId . $language['locale'];
 
-
             if(!$inputValue or $inputValue == ''){
                 $inputValue = "[]";
             }
-
 
             $moduleSettingsGroupId = 'id';
             if ($this->groupId) {
