@@ -207,13 +207,15 @@ class CategoryRepository extends AbstractRepository
 
     private function getCategoryItemsCountQueryBuilder()
     {
+
+        $realTableName = app()->database_manager->real_table_name('content');
         $model = (new CategoryItem())->newQuery();
-        $model->rightJoin('content', function ($join) {
+        $model->leftJoin('content', function ($join) {
             $join->on('content.id', '=', 'categories_items.rel_id')
                 ->where('content.is_deleted', '=', 0)
                 ->where('content.is_active', '=', 1);
         })
-            ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `content`.`id` ) as count')])
+            ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `'.$realTableName.'`.`id` ) as count')])
             ->where('categories_items.rel_type', 'content')
             ->groupBy('categories_items.parent_id');
 
