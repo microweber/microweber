@@ -153,6 +153,19 @@
                         <table class="table table-borderless">
                             <tbody>
                             <tr>
+                                <td><label for="feed_source_type"><b>Feed Import To</b></label><br>
+                                    <small>Select the import to</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_source_type" wire:model="import_feed.import_to">
+                                        <option value="products">Products</option>
+                                        <option value="pages">Pages</option>
+                                        <option value="posts">Posts</option>
+                                        <option value="categories">Categories</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td><label for="feed_source_type"><b>Feed Source Type</b></label><br>
                                     <small>Select the type of source</small>
                                 </td>
