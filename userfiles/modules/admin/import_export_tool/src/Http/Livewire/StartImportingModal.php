@@ -110,7 +110,7 @@ class StartImportingModal extends ModalComponent
                 if (isset($item['parent_id'])) {
                     $findParentCategory = Category::where('id', $item['parent_id'])->first();
                     if (!$findParentCategory) {
-                        unset($item['parent_id']);
+                        $item['parent_id'] = 0;
                     }
                 }
 
