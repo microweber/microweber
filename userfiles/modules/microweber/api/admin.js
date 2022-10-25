@@ -17,8 +17,12 @@ var _adm = {
                 if (typeof(mw.notification) != 'undefined') {
                     mw.notification.success('Language changed! Reloading page...');
                 }
-
+                setTimeout(function(){
+                  //  window.location.href = window.location.href;
                 location.reload();
+                }, 1000);
+
+               // location.reload();
             });
     },
     editor: {
