@@ -11,8 +11,6 @@ use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Product\Models\Product;

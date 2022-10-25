@@ -36,6 +36,7 @@ class HtmlDropdownMappingPreview extends Component
         $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
         $dropdownMapping->setContent($importFeed->source_content);
         $dropdownMapping->setContentParentTags($importFeed->content_tag);
+        $dropdownMapping->setImportTo($this->import_feed['import_to']);
 
         $this->data = $dropdownMapping->render();
 

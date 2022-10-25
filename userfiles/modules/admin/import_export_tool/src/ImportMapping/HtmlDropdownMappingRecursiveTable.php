@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapCategoryReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 
 
@@ -12,6 +13,12 @@ class HtmlDropdownMappingRecursiveTable
     public $content = [];
     public $contentParentTags = false;
     public $html = [];
+    public $importTo;
+
+    public function setImportTo($importTo)
+    {
+        $this->importTo = $importTo;
+    }
 
     public function setContent($content)
     {
@@ -180,11 +187,21 @@ class HtmlDropdownMappingRecursiveTable
             'selected'=>false,
         ];
 
-        foreach (ItemMapReader::getItemNames() as $key=>$name) {
+        if ($this->importTo == 'categories') {
+            $itemMapReaderItemNames = ItemMapCategoryReader::getItemNames();
+            $itemMapReaderMap = ItemMapCategoryReader::$map;
+            $itemGroups = ItemMapCategoryReader::getItemGroups();
+        } else {
+            $itemMapReaderItemNames = ItemMapReader::getItemNames();
+            $itemMapReaderMap = ItemMapReader::$map;
+            $itemGroups = ItemMapReader::getItemGroups();
+        }
+
+        foreach ($itemMapReaderItemNames as $key=>$name) {
 
             $selected = false;
-            if (isset(ItemMapReader::$map[$key])) {
-                foreach (ItemMapReader::$map[$key] as $itemMapKey) {
+            if (isset($itemMapReaderMap[$key])) {
+                foreach ($itemMapReaderMap[$key] as $itemMapKey) {
                     if (stripos($mapKey, $itemMapKey) !== false) {
                         $selected = true;
                         break;
@@ -204,11 +221,9 @@ class HtmlDropdownMappingRecursiveTable
         $html = '
         <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">';
 
-        $itemGroups = ItemMapReader::getItemGroups();
-
         $showInGroup = [];
 
-        $html .= '<optgroup label="Default">';
+        $html .= '<optgroup label="Category fields">';
         foreach ($selectOptions as $name => $option) {
             if (!isset($option['name'])) {
                 continue;

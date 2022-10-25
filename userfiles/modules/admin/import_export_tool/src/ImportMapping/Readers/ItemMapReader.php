@@ -21,6 +21,7 @@ class ItemMapReader
         'pictures' => ['image', 'g:image_link'],
         'price' => ['price', 'g:price'],
         'id' => ['id'],
+        'parent' => ['parent_id'],
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
@@ -38,6 +39,7 @@ class ItemMapReader
 
     private static $itemNames = [
         'id' => 'Id',
+        'parent' => 'Parent Id',
         'content_data.external_id' => 'External Id',
         'title' => 'Title',
         //  'description'=>'Description',
