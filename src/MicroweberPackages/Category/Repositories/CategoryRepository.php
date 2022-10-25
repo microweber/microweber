@@ -166,9 +166,9 @@ class CategoryRepository extends AbstractRepository
             $categoryItemsCountGroupedByRelType = [];
             $query = $this->getCategoryItemsCountQueryBuilder();
             $query->whereIn('categories_items.rel_id',
-                Product::select(['id'])
+                Product::select(['content.id'])
                     ->filter(['inStock' => 1])
-
+                    ->select(['content.id'])
             );
 
             $categoryItemsCountData = $query->get();
@@ -208,7 +208,7 @@ class CategoryRepository extends AbstractRepository
     private function getCategoryItemsCountQueryBuilder()
     {
         $model = (new CategoryItem())->newQuery();
-        $model->join('content', function ($join) {
+        $model->leftJoin('content', function ($join) {
             $join->on('content.id', '=', 'categories_items.rel_id')
                 ->where('content.is_deleted', '=', 0)
                 ->where('content.is_active', '=', 1);
