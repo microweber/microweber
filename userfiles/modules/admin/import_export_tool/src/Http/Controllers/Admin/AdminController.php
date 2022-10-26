@@ -10,15 +10,9 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 {
     public function index(Request $request)
     {
-        $importFeedNames = [];
-        $getImportFeeds = ImportFeed::all();
-        if ($getImportFeeds->count() > 0) {
-            foreach ($getImportFeeds as $importFeed) {
-                $importFeedNames[$importFeed->id] = $importFeed->name;
-            }
-        }
+        $importFeeds = ImportFeed::all();
 
-        return $this->view('import_export_tool::admin.index', ['import_feed_names' => $importFeedNames]);
+        return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
     }
 
     public function import($id)
