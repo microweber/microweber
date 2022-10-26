@@ -20,6 +20,11 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
     }
 
+    public function importWizard()
+    {
+        return $this->view('import_export_tool::admin.import-wizard');
+    }
+
     public function importStart($id) {
 
         $feedMapToArray = new FeedMapToArray();

@@ -23,6 +23,11 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
+                    <div class="mb-4 mt-4">
+                    <a href="{{route('admin.import-export-tool.import-wizard')}}" class="btn btn-primary btn-sm">
+                        Add new import
+                    </a>
+                    </div>
 
                     @if($import_feeds->count() == 0)
 
