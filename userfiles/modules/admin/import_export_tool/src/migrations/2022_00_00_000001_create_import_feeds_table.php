@@ -42,6 +42,7 @@ class CreateImportFeedsTable extends Migration
                 $table->string('old_content_action')->nullable();
                 $table->integer('count_of_contents')->nullable();
                 $table->integer('total_running')->nullable();
+                $table->integer('is_draft')->nullable();
                 $table->timestamps();
             });
         }

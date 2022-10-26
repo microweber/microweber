@@ -6,13 +6,13 @@
 
         <div style="width:550px;">
             <div class="mb-2">Upload File Type</div>
-            <select class="form-control mb-3 w-100">
-                <option value="download">Download feed from link</option>
-                <option value="upload">Upload feed from your computer</option>
+            <select class="form-control mb-3 w-100" wire:model="import_feed.source_type">
+                <option value="download_link">Download feed from link</option>
+                <option value="upload_file">Upload feed from your computer</option>
             </select>
         </div>
 
-        
+
 
     </div>
 
