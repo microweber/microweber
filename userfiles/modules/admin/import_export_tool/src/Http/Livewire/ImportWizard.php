@@ -10,6 +10,7 @@ class ImportWizard extends Component
 
     public $tab = 'type';
     public $importTo = 'type';
+
     public $import_feed = [];
 
     public function showTab($tab)
@@ -31,6 +32,14 @@ class ImportWizard extends Component
         $findImportFeed->name = 'Import ' . ucfirst($importTo);
         $findImportFeed->import_to = $importTo;
         $findImportFeed->save();
+    }
+
+    public function mount()
+    {
+        $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        if ($findImportFeed) {
+            $this->import_feed = $findImportFeed->toArray();
+        }
     }
 
     public function render()
