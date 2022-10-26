@@ -104,25 +104,25 @@
             </div>
 
             <ul class="import-wizard justify-content-center">
-                <li class="import-wizard__item active">
-                    <div class="import-wizard__link">
+                <li class="import-wizard__item @if($tab =='type') active @endif">
+                    <a href="{{route('admin.import-export-tool.import-wizard')}}" class="import-wizard__link">
                         <span class="step">1</span>
                         <span class="desc">Import Type</span>
-                    </div>
+                    </a>
                 </li>
-                <li class="import-wizard__item">
+                <li class="import-wizard__item @if($tab =='upload') active @endif">
                     <div class="import-wizard__link">
                         <span class="step">2</span>
                         <span class="desc">Upload File</span>
                     </div>
                 </li>
-                <li class="import-wizard__item">
+                <li class="import-wizard__item @if($tab =='map') active @endif">
                     <div class="import-wizard__link">
                         <span class="step">3</span>
                         <span class="desc">Map Fields</span>
                     </div>
                 </li>
-                <li class="import-wizard__item">
+                <li class="import-wizard__item @if($tab =='import') active @endif">
                     <div class="import-wizard__link">
                         <span class="step">4</span>
                         <span class="desc">Import</span>

@@ -12,11 +12,15 @@ class ImportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
             return redirect(route('admin.import-export-tool.import-wizard-upload'));
         }
 
-        return $this->view('import_export_tool::admin.import-wizard.index');
+        return $this->view('import_export_tool::admin.import-wizard.index', [
+            'tab'=>'type'
+        ]);
     }
 
     public function upload(Request $request)
     {
-        return $this->view('import_export_tool::admin.import-wizard.upload');
+        return $this->view('import_export_tool::admin.import-wizard.upload',[
+            'tab'=>'upload'
+        ]);
     }
 }
