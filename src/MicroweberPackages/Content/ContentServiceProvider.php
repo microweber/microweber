@@ -16,6 +16,15 @@ use MicroweberPackages\Content\Http\Livewire\ContentBulkOptions;
  */
 class ContentServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        Livewire::component('admin-content-bulk-options', ContentBulkOptions::class);
+        View::addNamespace('content', __DIR__ . DS . 'resources' . DS . 'views');
+
+        $this->loadMigrationsFrom(__DIR__ . DS . 'migrations');
+        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'api.php');
+        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'web.php');
+    }
     /**
      * Bootstrap the application services.
      *
@@ -26,14 +35,9 @@ class ContentServiceProvider extends ServiceProvider
         $this->app->translate_manager->addTranslateProvider(TranslateContent::class);
         $this->app->translate_manager->addTranslateProvider(TranslateContentFields::class);
 
-        Content::observe(BaseModelObserver::class);
+        \MicroweberPackages\Content\Models\Content::observe(BaseModelObserver::class);
         //  Content::observe(CreatedByObserver::class);
 
-        Livewire::component('admin-content-bulk-options', ContentBulkOptions::class);
-        View::addNamespace('content', __DIR__ . DS . 'resources' . DS . 'views');
 
-        $this->loadMigrationsFrom(__DIR__ . DS . 'migrations');
-        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'api.php');
-        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'web.php');
     }
 }
