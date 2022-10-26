@@ -21,6 +21,7 @@
                 -moz-transition: all .4s ease;
                 transition: all .4s ease;
                 padding: 0 13px;
+                margin-top:10px;
             }
 
             .import-wizard__link {
@@ -130,9 +131,7 @@
                 </li>
             </ul>
             <div class="mt-5 mb-5">
-                <div class="d-flex justify-content-center">
-                    @yield('content')
-                </div>
+                @yield('content')
             </div>
         </form>
 
