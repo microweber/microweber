@@ -19,10 +19,10 @@
             </div>
             <div>
                 <form wire:submit.prevent="upload">
-                    <input type="file" wire:model="uploadFile">
-                    @error('uploadFile') <span class="error">{{ $message }}</span> @enderror
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    <input type="file" wire:model="upload_file">
+                    <button type="submit" class="btn btn-outline-primary">Upload</button>
                 </form>
+                @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
         </div>
     @endif

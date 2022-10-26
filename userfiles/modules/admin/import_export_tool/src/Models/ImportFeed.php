@@ -164,7 +164,7 @@ class ImportFeed extends Model
             $this->source_file = $sourceFile;
             $this->last_downloaded_date = Carbon::now();
             $this->save();
-            
+
             return true;
         }
 

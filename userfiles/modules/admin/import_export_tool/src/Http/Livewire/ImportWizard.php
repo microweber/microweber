@@ -1,16 +1,21 @@
 <?php
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
+use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportWizard extends Component
 {
+    use WithFileUploads;
+
     protected $queryString = ['tab', 'importTo'];
 
     public $tab = 'type';
     public $importTo = 'type';
 
+    public $upload_file;
     public $import_feed = [];
 
     public function showTab($tab)
@@ -46,6 +51,28 @@ class ImportWizard extends Component
         }
 
         return ['downloaded' => false];
+    }
+
+    public function upload()
+    {
+        $this->validate([
+            'upload_file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        $uploadFilePath = $this->upload_file->store('import-export-tool');
+        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+
+        $feed = ImportFeed::where('is_draft', 1)->first();
+
+        $feed->source_type = 'upload_file';
+        $feed->source_file = $uploadFilePath;
+        $feed->source_file_realpath = $fullFilePath;
+        $feed->last_downloaded_date = Carbon::now();
+        $feed->save();
+
+        $this->tab = 'import';
+        session()->flash('message', 'Feed is uploaded successfully.');
+
     }
 
     public function mount()

@@ -1,7 +1,11 @@
 <div class="card style-1 mb-3">
 
     <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="admin/import_export_tool"/>
+        <?php $module_info = module_info('admin/import_export_tool'); ?>
+        <h5>
+            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
+            <strong><?php _e($module_info['name']); ?></strong>
+        </h5>
     </div>
 
     <div class="card-body pt-3">
@@ -95,7 +99,7 @@
                 color: #fff;
             }
         </style>
-        <form class="wizard-container" method="POST" action="#" id="js-wizard-form" novalidate="novalidate">
+        <div class="wizard-container">
 
             <div class="text-center">
                 <h1>
@@ -133,7 +137,7 @@
             <div class="mt-5 mb-5">
                 @yield('content')
             </div>
-        </form>
+        </div>
 
     </div>
 </div>
