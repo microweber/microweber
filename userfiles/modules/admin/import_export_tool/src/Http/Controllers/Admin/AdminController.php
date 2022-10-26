@@ -20,9 +20,9 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
     }
 
-    public function importWizard()
+    public function importWizard(Request $request)
     {
-        return $this->view('import_export_tool::admin.import-wizard');
+
     }
 
     public function importStart($id) {
@@ -32,7 +32,6 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         $array = $feedMapToArray->toArray();
 
        DatabaseSave::savePost($array[0]);
-
 
     }
 }
