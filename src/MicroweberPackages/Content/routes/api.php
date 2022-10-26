@@ -35,42 +35,43 @@ Route::name('api.')
 
         Route::post('content/set_published', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->set_published($request->all());
-        });
+        })->name('content.set_published');
 
         Route::post('content/set_unpublished', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->set_unpublished($request->all());
-        });
+        })->name('content.set_unpublished');
+
         Route::post('content/reorder', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->reorder($request->all());
-        });
+        })->name('content.reorder');
 
         Route::post('content/reset_edit', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->reset_edit_field($request->all());
-        });
+        })->name('content.reset_edit');
 
         Route::post('content/reset_modules_settings', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->reset_modules_settings($request->all());
-        });
+        })->name('content.reset_modules_settings');
 
         Route::post('content/bulk_assign', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->bulk_assign($request->all());
-        });
+        })->name('content.bulk_assign');
         Route::post('content/copy', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->copy($request->all());
-        });
+        })->name('content.copy');
 
 
         Route::post('content/related_content/add', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->related_content_add($request->all());
-        });
+        })->name('content.related.add');
 
         Route::post('content/related_content/remove', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->related_content_remove($request->all());
-        });
+        })->name('content.related.remove');
 
         Route::post('content/related_content/reorder', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->related_content_reorder($request->all());
-        });
+        })->name('content.related.reorder');
 
         Route::any('content/redirect_to_content', function (\Illuminate\Http\Request $request) {
 
@@ -82,12 +83,12 @@ Route::name('api.')
                 }
                 return redirect($url);
             }
-        });
+        })->name('content.redirect_to_content');
 
 
         Route::post('content/delete', function (\Illuminate\Http\Request $request) {
             return mw()->content_manager->helpers->delete($request->all());
-        });
+        })->name('content.delete');
 
         Route::get('content/get_link_admin', function (\Illuminate\Http\Request $request) {
 
@@ -120,6 +121,6 @@ Route::name('api.')
             }
 
             return false;
-        });
+        })->name('content.get_link_admin');
 
     });

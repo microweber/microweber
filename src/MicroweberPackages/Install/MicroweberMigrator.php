@@ -113,5 +113,11 @@ class MicroweberMigrator extends Migrator
             $this->logger->log($text);
         }
     }
+    public function note($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
 
 }
