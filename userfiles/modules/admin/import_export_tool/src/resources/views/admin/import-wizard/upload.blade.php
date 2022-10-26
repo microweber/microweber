@@ -37,16 +37,18 @@
                     <input type="text" class="form-control" wire:model.defer="import_feed.source_file"
                            id="source_file" placeholder="https://site.com/feed.xml">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-primary" id="source_file" wire:click="download"
-                                wire:loading.attr="disabled">Download
+                        <button type="button" class="btn btn-primary" id="source_file"
+                                wire:click="download"
+                                wire:loading.attr="disabled">
+                            Download
                         </button>
                     </div>
                 </div>
                 <div wire:loading wire:target="download">
                     <div class="spinner-border spinner-border-sm text-success" role="status"></div>
                     <span class="text-success">
-                                       Downloading the source file...
-                                   </span>
+                       Downloading the source file...
+                   </span>
                 </div>
                 @if($import_feed['last_downloaded_date'])
                 <div class="text-muted">

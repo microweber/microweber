@@ -162,6 +162,7 @@ class ImportFeed extends Model
 
         if ($downloaded && is_file($filename)) {
 
+            $this->source_file = $sourceFile;
             $this->last_downloaded_date = Carbon::now();
             $this->save();
 

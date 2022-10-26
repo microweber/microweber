@@ -34,6 +34,19 @@ class ImportWizard extends Component
         $findImportFeed->save();
     }
 
+    public function download()
+    {
+        $sourceFile = $this->import_feed['source_file'];
+
+        $feed = ImportFeed::where('is_draft', 1)->first();
+
+        if ($feed->downloadFeed($sourceFile)) {
+            session()->flash('message', 'Feed is downloaded successfully.');
+        }
+
+        return ['downloaded' => false];
+    }
+
     public function mount()
     {
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
