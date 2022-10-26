@@ -104,8 +104,10 @@ class StartImportingModal extends ModalComponent
                 }
             }
 
-
             if ($this->import_feed->import_to == 'categories') {
+
+                $item['rel_id'] = $this->import_feed->parent_page;
+                $item['rel_type'] = 'content';
 
                 if (isset($item['parent_id'])) {
                     $findParentCategory = Category::where('id', $item['parent_id'])->first();
@@ -118,7 +120,6 @@ class StartImportingModal extends ModalComponent
                 if ($findCategory) {
                     $findCategory->update($item);
                 } else {
-                    unset($item['id']);
                     $categoryCreate = Category::create($item);
                 }
 
@@ -127,7 +128,6 @@ class StartImportingModal extends ModalComponent
                 if ($findProduct) {
                     $findProduct->update($item);
                 } else {
-                    unset($item['id']);
                     $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
                 }
             }
