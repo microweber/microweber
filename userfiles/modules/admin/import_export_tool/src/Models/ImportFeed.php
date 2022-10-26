@@ -159,20 +159,12 @@ class ImportFeed extends Model
         }
 
         $downloaded = mw()->http->url($sourceFile)->download($filename);
-
         if ($downloaded && is_file($filename)) {
 
             $this->source_file = $sourceFile;
             $this->last_downloaded_date = Carbon::now();
             $this->save();
-
-            $this->readFeedFromFile($filename);
-
-            if (empty($this->source_content)) {
-                unlink($filename);
-                return;
-            }
-
+            
             return true;
         }
 

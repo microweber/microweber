@@ -41,6 +41,7 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
 
         if ($feed->downloadFeed($sourceFile)) {
+            $this->tab = 'map';
             session()->flash('message', 'Feed is downloaded successfully.');
         }
 
