@@ -80,12 +80,11 @@ Route::name('admin.import-export-tool.')
             echo $html;
         });
 
+        Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
+
         Route::get('/', 'AdminController@index')->name('index');
         Route::get('/index', 'AdminController@index')->name('index');
         Route::get('/import/{id}', 'AdminController@import')->name('import');
         Route::get('/import-start/{id}', 'AdminController@importStart')->name('import-start');
 
-        // Wizard
-        Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
-        Route::get('/import-wizard/upload', 'ImportWizardController@upload')->name('import-wizard-upload');
     });
