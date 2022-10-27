@@ -2,7 +2,8 @@
 
 @section('content')
 
-    <div style="width:800px; margin:0 auto">
+    <div class="row">
+    <div class="mx-auto col-md-8">
 
         <div>
             <div class="mb-2">Upload File Type</div>
@@ -81,7 +82,7 @@
                         background: #fff;
                     }
                 </style>
-            <div class="d-flex justify-content-between mt-5">
+            <div class="d-flex align-items-center justify-content-between mt-5">
                  <div>
                      <span class="text-muted">Supported formats</span>
                  </div>
@@ -118,5 +119,6 @@
             </div>
 
         </div>
+    </div>
     </div>
 @endsection
