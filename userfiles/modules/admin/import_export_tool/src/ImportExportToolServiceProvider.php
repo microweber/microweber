@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -47,6 +48,8 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadViewsFrom( __DIR__. '/resources/views/components', 'import_export_tool');
+
         Livewire::component('import_export_tool_wizard', ImportWizard::class);
         Livewire::component('import_export_tool_no_feeds', NoFeeds::class);
         Livewire::component('import_export_tool_new_import_modal', NewImportModal::class);
