@@ -10,10 +10,11 @@ class ImportWizard extends Component
 {
     use WithFileUploads;
 
-    protected $queryString = ['tab', 'importTo'];
+    protected $queryString = ['tab', 'importTo','importFeedId'];
 
     public $tab = 'type';
     public $importTo = 'type';
+    public $importFeedId;
 
     public $upload_file;
     public $import_feed = [];
@@ -50,22 +51,30 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
 
         if ($feed->downloadFeed($sourceFile)) {
-           // $this->tab = 'map';
-            session()->flash('message', 'Feed is downloaded successfully.');
+            session()->flash('successMessage', 'Feed is downloaded successfully.');
             $this->dispatchBrowserEvent('read-feed-from-file');
+        } else {
+            session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
-
-        return ['downloaded' => false];
     }
 
-    public $log;
     public function readFeedFile()
     {
         $feed = ImportFeed::where('is_draft', 1)->first();
         if ($feed) {
             $feedFile = $feed->source_file_realpath;
-            $fileExt = pathinfo($feedFile,PATHINFO_EXTENSION);
-            $feed->readFeedFromFile($feedFile, $fileExt);
+            if (is_file($feedFile)) {
+                $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
+                $read = $feed->readContentFromFile($feedFile, $fileExt);
+                if ($read) {
+                    $this->tab = 'map';
+                    session()->flash('successMessage', 'Feed is read successfully.');
+                } else {
+                    session()->flash('errorMessage', 'No content found in feed file.');
+                }
+            } else {
+                session()->flash('errorMessage', 'Can\'t read feed.');
+            }
         }
     }
 
@@ -86,8 +95,8 @@ class ImportWizard extends Component
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
 
-        // $this->tab = 'import';
-        session()->flash('message', 'Feed is uploaded successfully.');
+        $this->dispatchBrowserEvent('read-feed-from-file');
+        session()->flash('successMessage', 'Feed is uploaded successfully.');
 
     }
 
@@ -96,6 +105,7 @@ class ImportWizard extends Component
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
+            $this->importFeedId = $findImportFeed->id;
         }
     }
 

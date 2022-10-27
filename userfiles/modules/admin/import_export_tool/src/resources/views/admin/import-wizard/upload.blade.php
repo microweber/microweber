@@ -2,15 +2,19 @@
 
 @section('content')
 
-    <div style="width: 800px;margin:0 auto">
+    <div class="row">
+    <div class="mx-auto col-md-8">
 
-    <div>
-        <div class="mb-2">Upload File Type</div>
-        <select class="form-control mb-3 w-100" wire:model="import_feed.source_type">
-            <option value="download_link">Download feed from link</option>
-            <option value="upload_file">Upload feed from your computer</option>
-        </select>
-    </div>
+        <div>
+
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Upload File Type</span>
+            <select class="form-select" wire:model="import_feed.source_type">
+                <option value="download_link">Download feed from link</option>
+                <option value="upload_file">Upload feed from your computer</option>
+            </select>
+        </div>
 
         <div style="background: #f9f9f9;padding: 30px;">
 
@@ -20,8 +24,13 @@
                 </div>
                 <div>
                     <form wire:submit.prevent="upload">
-                        <input type="file" wire:model="upload_file">
-                        <button type="submit" class="btn btn-outline-primary">Upload</button>
+                        <div class="input-group mb-3 mt-2">
+                            <input type="file" class="form-control" wire:model="upload_file" style="line-height: 1.9;">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fa fa-upload"></i>
+                                Upload
+                            </button>
+                        </div>
                     </form>
                     @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
@@ -59,10 +68,6 @@
                </span>
             </div>
 
-            <div class="mt-2">
-                {{$log}}
-            </div>
-
             <script type="text/javascript">
                 window.addEventListener('read-feed-from-file', event => {
                     $('.js-read-feed-from-file').show();
@@ -70,6 +75,58 @@
                 });
             </script>
 
+                <style>
+                    .js-supported-file-formats {
+                        width: 400px;
+                    }
+                    .js-supported-file-formats img {
+                        width: 50px;
+                        height: 50px;
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        border-radius: 3px;
+                    }
+                    .js-supported-file-formats img:hover {
+                        background: #fff;
+                    }
+                </style>
+            <div class="d-flex align-items-center justify-content-between mt-5">
+                 <div>
+                     <span class="text-muted">Supported formats</span>
+                 </div>
+                <div class="d-flex justify-content-between js-supported-file-formats">
+
+                    <a href="#">
+                        <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/xml.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/feed.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/shopify.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/woocommerce.svg" />
+                    </a>
+
+                    <a href="#">
+                    <img src="{{module_url('admin\import_export_tool')}}images/wordpress.svg" />
+                    </a>
+                </div>
+            </div>
+
         </div>
+    </div>
     </div>
 @endsection

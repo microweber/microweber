@@ -35,80 +35,124 @@ class ImportFeed extends Model
         'detected_content_tags'=>'array'
     ];
 
-    public function readFeedFromFile(string $filename, $fileType = false)
+    public function readContentFromFile(string $filename, $fileType = false)
     {
         if ($fileType == 'xlsx') {
+            return $this->readContentFromXlsx($filename);
+        } elseif ($fileType == 'xml') {
+            return $this->readContentFromXml($filename);
+        } else {
+            return false;
+        }
+    }
 
-            $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
-            $sheetCount = $spreadshet->getSheetCount();
-            if ($sheetCount == 0) {
-                throw new \Exception('No sheets found');
-            }
+    public function readContentFromXlsx(string $filename) {
 
-            // Read sheet
-            $readedRows = [];
-            for ($i = 0; $i <= $sheetCount; $i++) {
-
-                try {
-                    $getSheet = $spreadshet->setSheet($i)->getSheet();
-                    $getRows = $spreadshet->getRows();
-                    $sheetNames[$i] = $getSheet->getTitle();
-                    $repeatableTargetKeys[$getSheet->getTitle()] = [];
-
-                    // unset headers
-                    $dataHeader = $getRows[0];
-                    unset($getRows[0]);
-                    foreach ($getRows as $row) {
-                        $readyRow = array();
-                        foreach ($row as $rowKey => $rowValue) {
-                            $readyRow[$dataHeader[$rowKey]] = $rowValue;
-                        }
-                        $readedRows[$getSheet->getTitle()][] = $readyRow;
-                    }
-                } catch (\Exception $e) {
-
-                }
-            }
-
-            $countOfContents = 0;
-            $sourceContent = [];
-            ///$repeatableData = [];
-            if (isset($readedRows[$this->content_tag])) {
-                $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
-                //$repeatableData = $readedRows[$this->content_tag][0];
-                $countOfContents = count($readedRows[$this->content_tag]);
-            }
-
-            $this->source_file_realpath = str_replace(base_path(), '', $filename);
-            $this->source_file_size = filesize($filename);
-            $this->source_content = $sourceContent;
-            $this->detected_content_tags = $repeatableTargetKeys;
-            $this->count_of_contents = $countOfContents;
-            $this->mapped_content = []; 
-
-            $this->save();
+        $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
+        $sheetCount = $spreadshet->getSheetCount();
+        if ($sheetCount == 0) {
+            throw new \Exception('No sheets found');
         }
 
+        // Read sheet
+        $readedRows = [];
+        for ($i = 0; $i <= $sheetCount; $i++) {
+
+            try {
+                $getSheet = $spreadshet->setSheet($i)->getSheet();
+                $getRows = $spreadshet->getRows();
+                $sheetNames[$i] = $getSheet->getTitle();
+                $repeatableTargetKeys[$getSheet->getTitle()] = [];
+
+                // unset headers
+                $dataHeader = $getRows[0];
+                unset($getRows[0]);
+                foreach ($getRows as $row) {
+                    $readyRow = array();
+                    foreach ($row as $rowKey => $rowValue) {
+                        $readyRow[$dataHeader[$rowKey]] = $rowValue;
+                    }
+                    $readedRows[$getSheet->getTitle()][] = $readyRow;
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
+
+        $countOfContents = 0;
+        $sourceContent = [];
+
+        if (isset($readedRows[$this->content_tag])) {
+            $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
+            $countOfContents = count($readedRows[$this->content_tag]);
+        }
+
+        $this->source_content = $sourceContent;
+        $this->detected_content_tags = $repeatableTargetKeys;
+        $this->count_of_contents = $countOfContents;
+        $this->mapped_content = [];
+
+        $this->save();
+
+        return true;
+    }
+
+    public function readContentFromXml(string $filename) {
+
+        $content = file_get_contents($filename);
+
+        $newReader = new XmlToArray();
+        $content = $newReader->readXml($content);
+        if (!empty($content)) {
+
+            $repeatableData = [];
+
+            if (empty($this->content_tag)) {
+
+                // Try to automatically detect content tag
+
+                $contentTag = false;
+                $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($content);
+                $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+
+                if (!empty($repeatableTargetKeys)) {
+                    $contentTag = array_key_first($repeatableTargetKeys);
+                    $this->detected_content_tags = $repeatableTargetKeys;
+                }
+
+                if ($contentTag) {
+                    $repeatableData = Arr::get($content, $contentTag);
+                    $this->content_tag = $contentTag;
+                }
+
+            } else {
+                $repeatableData = Arr::get($content, $this->content_tag);
+            }
+
+            $this->count_of_contents = count($repeatableData);
+            $this->mapped_content = [];
+            $this->source_content = $content;
+            $this->save();
+
+            return true;
+        }
+
+        return false;
     }
 
     public function readFeedFromFileOld(string $filename) {
 
-        $content = file_get_contents($filename);
+        /*   $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
+       $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+       if (!empty($repeatableTargetKeys)) {
+           $contentTag = array_key_first($repeatableTargetKeys);
+       }*/
 
-        $contentTag = false;
-        $newReader = new XmlToArray();
-        $sourceContent = $newReader->readXml($content);
-        $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
-        $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-        if (!empty($repeatableTargetKeys)) {
-            $contentTag = array_key_first($repeatableTargetKeys);
-        }
-
-        if (!empty($this->content_tag)) {
+        /*if (!empty($this->content_tag)) {
             $repeatableData = Arr::get($sourceContent, $this->content_tag);
         } else if ($contentTag) {
             $repeatableData = Arr::get($sourceContent, $contentTag);
-        }
+        }*/
 
         if (empty($repeatableData)) {
             $repeatableData = [];
@@ -137,8 +181,6 @@ class ImportFeed extends Model
         $repeatableTargetKeys = ['items' => []];
         $repeatableData = $sourceContent['items'];*/
 
-        $this->source_file_realpath = str_replace(base_path(), '', $filename);
-        $this->source_file_size = filesize($filename);
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
@@ -152,18 +194,39 @@ class ImportFeed extends Model
 
     }
 
-    public function downloadFeed($sourceFile)
+    public function downloadFeed($url)
     {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
+        $allowedExt = ['xml','csv','json','xlsx','xls'];
+        $fileExt = pathinfo($url, PATHINFO_EXTENSION);
+
         $dir = storage_path() . DS . 'import_export_tool';
-        $filename = $dir . DS . md5($sourceFile) . '.txt';
+
+        $filename = $dir . DS . md5($url) . '.txt';
+        if (in_array($fileExt, $allowedExt)) {
+            $filename = $dir . DS . md5($url) . '.'.$fileExt;
+        }
+
         if (!is_dir($dir)) {
             mkdir_recursive($dir);
         }
 
-        $downloaded = mw()->http->url($sourceFile)->download($filename);
+        // Delete old file if exist
+        if (is_file($filename)) {
+            unlink($filename);
+        }
+
+        $downloaded = mw()->http->url($url)->download($filename);
+
         if ($downloaded && is_file($filename)) {
 
-            $this->source_file = $sourceFile;
+            $this->source_type = 'download_link';
+            $this->source_file = $url;
+            $this->source_file_realpath = $filename;
+            $this->source_file_size = filesize($filename);
             $this->last_downloaded_date = Carbon::now();
             $this->save();
 

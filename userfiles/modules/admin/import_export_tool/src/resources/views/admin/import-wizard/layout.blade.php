@@ -99,6 +99,19 @@
                 color: #fff;
             }
         </style>
+
+        @if (session()->has('successMessage'))
+            <script id="js-success-message-{{time()}}">
+                mw.notification.success('{{ session('successMessage') }}');
+            </script>
+        @endif
+
+        @if (session()->has('errorMessage'))
+            <script id="js-error-message-{{time()}}">
+                mw.notification.error('{{ session('errorMessage') }}');
+            </script>
+        @endif
+
         <div class="wizard-container">
 
             <div class="text-center">
@@ -134,7 +147,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="mt-5 mb-5">
+            <div class="mb-5">
                 @yield('content')
             </div>
         </div>

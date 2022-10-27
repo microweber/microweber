@@ -10,4 +10,8 @@
         @include('import_export_tool::admin.import-wizard.upload')
     @endif
 
+    @if($tab == 'map')
+        @include('import_export_tool::admin.import-wizard.map')
+    @endif
+
 @endsection
