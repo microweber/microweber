@@ -114,6 +114,14 @@ class ImportWizard extends Component
     public function mount()
     {
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+
+        if (!$findImportFeed) {
+            $newDraftFeed = new ImportFeed();
+            $newDraftFeed->is_draft = 1;
+            $newDraftFeed->save();
+            $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        }
+
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
             $this->importFeedId = $findImportFeed->id;

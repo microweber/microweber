@@ -19,7 +19,6 @@ class ImportFeed extends Model
     public const SOURCE_TYPE_DOWNLOAD_LINK = 'download_link';
 
     protected $attributes = [
-        'source_type' => self::SOURCE_TYPE_DOWNLOAD_LINK,
         'split_to_parts' => 10,
        // 'update_items' => ["visible","images","description","categories"],
         'download_images' => self::YES,
