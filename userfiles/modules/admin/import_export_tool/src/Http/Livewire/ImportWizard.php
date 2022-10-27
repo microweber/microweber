@@ -61,7 +61,12 @@ class ImportWizard extends Component
     public $log;
     public function readFeedFile()
     {
-        
+        $feed = ImportFeed::where('is_draft', 1)->first();
+        if ($feed) {
+            $feedFile = $feed->source_file_realpath;
+            $fileExt = pathinfo($feedFile,PATHINFO_EXTENSION);
+            $feed->readFeedFromFile($feedFile, $fileExt);
+        }
     }
 
     public function upload()

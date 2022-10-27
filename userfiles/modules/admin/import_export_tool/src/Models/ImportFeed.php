@@ -70,19 +70,21 @@ class ImportFeed extends Model
                 }
             }
 
+            $countOfContents = 0;
             $sourceContent = [];
-            $repeatableData = [];
+            ///$repeatableData = [];
             if (isset($readedRows[$this->content_tag])) {
                 $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
-                $repeatableData = $readedRows[$this->content_tag][0];
+                //$repeatableData = $readedRows[$this->content_tag][0];
+                $countOfContents = count($readedRows[$this->content_tag]);
             }
 
             $this->source_file_realpath = str_replace(base_path(), '', $filename);
             $this->source_file_size = filesize($filename);
             $this->source_content = $sourceContent;
             $this->detected_content_tags = $repeatableTargetKeys;
-            $this->count_of_contents = count($repeatableData);
-            $this->mapped_content = [];
+            $this->count_of_contents = $countOfContents;
+            $this->mapped_content = []; 
 
             $this->save();
         }
