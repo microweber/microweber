@@ -243,12 +243,21 @@ var MWEditor = function (options) {
             if (scope.selection.rangeCount === 0) {
                 return;
             }
-            var target = scope.api.elementNode( scope.selection.getRangeAt(0).commonAncestorContainer );
+            var range = scope.selection.getRangeAt(0);
+            var target = scope.api.elementNode( range.commonAncestorContainer );
             var css = mw.CSSParser(target);
             var api = scope.api;
 
+
+            var rangeInEditor = false;
+            if(scope.editArea.contains(scope.selection.anchorNode) && scope.editArea.contains(scope.selection.focusNode)) {
+                rangeInEditor = true;
+            }
+
             var iterData = {
                 selection: scope.selection,
+                lastRange: scope.lastRange,
+                rangeInEditor: rangeInEditor,
                 target: target,
                 localTarget: localTarget,
                 isImage: localTarget.nodeName === 'IMG' || target.nodeName === 'IMG',
@@ -262,10 +271,15 @@ var MWEditor = function (options) {
             };
 
             scope.interactionControlsRun(iterData);
+
+
+
             scope.controls.forEach(function (ctrl) {
                 if(ctrl.checkSelection) {
                     ctrl.checkSelection({
                         selection: scope.selection,
+                        lastRange: scope.lastRange,
+                        rangeInEditor: rangeInEditor,
                         controller: ctrl,
                         target: target,
                         css: css.get,

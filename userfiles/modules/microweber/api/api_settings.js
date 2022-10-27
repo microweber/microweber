@@ -344,7 +344,7 @@
         ],
         xss: [
             function () {
-                mw.require(mw.settings.libs_url + 'xss' + '/xss.min.js');
+                mw.require(mw.settings.libs_url + "xss/xss.min.js");
             }
         ],
         codemirror: [

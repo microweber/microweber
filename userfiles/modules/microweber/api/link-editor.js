@@ -1,6 +1,7 @@
 
 mw.require('widgets.css');
 mw.require('form-controls.js');
+mw.lib.require('xss');
 
 
     mw.LinkEditor = function(options) {
@@ -18,7 +19,8 @@ mw.require('form-controls.js');
                 /*{ type: 'title' },*/
             ],
             title: '<i class="mdi mdi-link mw-link-editor-icon"></i> ' + mw.lang('Link Settings'),
-            nav: 'tabs'
+            nav: 'tabs',
+            safeMode: true
         };
 
         this._confirm = [];
@@ -32,6 +34,7 @@ mw.require('form-controls.js');
         };
 
         this.setValue = function (data, controller) {
+            data = this.cleanData(data);
             controller = controller || 'auto';
 
             if(controller === 'auto') {
@@ -48,6 +51,27 @@ mw.require('form-controls.js');
         };
 
         this.settings =  mw.object.extend({}, defaults, options || {});
+
+
+        var _filterXSS = function (html){
+            var options = {
+
+            };
+
+            return (filterXSS(html, options)) ;
+        };
+        this.cleanData = function (data) {
+            if(scope.settings.safeMode) {
+                data = Object.assign({}, data);
+                if(data.url) {
+                    data.url = _filterXSS(data.url);
+                }
+                if(data.text) {
+                    data.text = _filterXSS(data.text);
+                }
+            }
+            return data;
+        };
 
 
         this.buildNavigation = function (){
@@ -143,6 +167,7 @@ mw.require('form-controls.js');
                         controller: ctrl
                     });
                     ctrl.onConfirm(function (data){
+                        data = scope.cleanData(data);
                         scope._confirm.forEach(function (f){
                             f(data);
                         });

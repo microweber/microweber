@@ -108,6 +108,9 @@
         selectable: true,
         multiselect: true,
         stickyHeader: 60,
+        selectableFilter: function (node) {
+            return node.mimeType.indexOf('image/') === 0;
+        }
 
     })
 </script>
