@@ -13,9 +13,7 @@ class XSS
     {
         $input = $request->all();
 
-
-        if (($request->isMethod('post')  or $request->isMethod('patch')) and !empty($input)) {
-
+        if (($request->isMethod('post')  or $request->isMethod('patch') or $request->isMethod('put') ) and !empty($input)) {
             $clean = new HTMLClean();
             array_walk_recursive($input, function (&$input) use ($clean) {
                 if (is_string($input)) {
