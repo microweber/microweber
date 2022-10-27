@@ -105,8 +105,31 @@ class ImportFeed extends Model
         $content = $newReader->readXml($content);
         if (!empty($content)) {
 
-            
+            $repeatableData = [];
 
+            if (empty($this->content_tag)) {
+                
+                // Try to automatically detect content tag
+
+                $contentTag = false;
+                $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($content);
+                $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
+
+                if (!empty($repeatableTargetKeys)) {
+                    $contentTag = array_key_first($repeatableTargetKeys);
+                }
+
+                if ($contentTag) {
+                    $repeatableData = Arr::get($content, $contentTag);
+                }
+
+            } else {
+                $repeatableData = Arr::get($content, $this->content_tag);
+            }
+
+            $this->detected_content_tags = $repeatableTargetKeys;
+            $this->count_of_contents = count($repeatableData);
+            $this->mapped_content = [];
             $this->source_content = $content;
             $this->save();
 
