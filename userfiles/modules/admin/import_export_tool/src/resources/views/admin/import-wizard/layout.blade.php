@@ -99,6 +99,19 @@
                 color: #fff;
             }
         </style>
+
+        @if (session()->has('successMessage'))
+            <script>
+                mw.notification.success('{{ session('successMessage') }}', 3000);
+            </script>
+        @endif
+
+        @if (session()->has('errorMessage'))
+            <script>
+                mw.notification.error('{{ session('errorMessage') }}', 3000);
+            </script>
+        @endif
+
         <div class="wizard-container">
 
             <div class="text-center">

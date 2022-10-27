@@ -50,22 +50,25 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
 
         if ($feed->downloadFeed($sourceFile)) {
-           // $this->tab = 'map';
-            session()->flash('message', 'Feed is downloaded successfully.');
+            $this->tab = 'map';
+            session()->flash('successMessage', 'Feed is downloaded successfully.');
             $this->dispatchBrowserEvent('read-feed-from-file');
+        } else {
+            session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
-
-        return ['downloaded' => false];
     }
 
-    public $log;
     public function readFeedFile()
     {
         $feed = ImportFeed::where('is_draft', 1)->first();
         if ($feed) {
             $feedFile = $feed->source_file_realpath;
-            $fileExt = pathinfo($feedFile,PATHINFO_EXTENSION);
-            $feed->readFeedFromFile($feedFile, $fileExt);
+            if (is_file($feedFile)) {
+                $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
+                $feed->readFeedFromFile($feedFile, $fileExt);
+            } else {
+                session()->flash('errorMessage', 'Can\'t read feed.');
+            }
         }
     }
 
@@ -87,7 +90,7 @@ class ImportWizard extends Component
         $feed->save();
 
         // $this->tab = 'import';
-        session()->flash('message', 'Feed is uploaded successfully.');
+        session()->flash('successMessage', 'Feed is uploaded successfully.');
 
     }
 

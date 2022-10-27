@@ -84,7 +84,7 @@ class ImportFeed extends Model
             $this->source_content = $sourceContent;
             $this->detected_content_tags = $repeatableTargetKeys;
             $this->count_of_contents = $countOfContents;
-            $this->mapped_content = []; 
+            $this->mapped_content = [];
 
             $this->save();
         }
@@ -152,18 +152,29 @@ class ImportFeed extends Model
 
     }
 
-    public function downloadFeed($sourceFile)
+    public function downloadFeed($url)
     {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
         $dir = storage_path() . DS . 'import_export_tool';
-        $filename = $dir . DS . md5($sourceFile) . '.txt';
+        $filename = $dir . DS . md5($url) . '.txt';
         if (!is_dir($dir)) {
             mkdir_recursive($dir);
         }
 
-        $downloaded = mw()->http->url($sourceFile)->download($filename);
-        if ($downloaded && is_file($filename)) {
+        // delete old file if exist
+        if (is_file($filename)) {
+            unlink($filename);
+        }
 
-            $this->source_file = $sourceFile;
+        $downloaded = mw()->http->url($url)->download($filename);
+
+        if ($downloaded && is_file($filename)) {
+            $this->source_type = 'download_link';
+            $this->source_file = $url;
+            $this->source_file_realpath = $filename;
             $this->last_downloaded_date = Carbon::now();
             $this->save();
 

@@ -59,10 +59,6 @@
                </span>
             </div>
 
-            <div class="mt-2">
-                {{$log}}
-            </div>
-
             <script type="text/javascript">
                 window.addEventListener('read-feed-from-file', event => {
                     $('.js-read-feed-from-file').show();
