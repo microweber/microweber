@@ -101,14 +101,14 @@
         </style>
 
         @if (session()->has('successMessage'))
-            <script>
-                mw.notification.success('{{ session('successMessage') }}', 3000);
+            <script id="js-success-message-{{time()}}">
+                mw.notification.success('{{ session('successMessage') }}');
             </script>
         @endif
 
         @if (session()->has('errorMessage'))
-            <script>
-                mw.notification.error('{{ session('errorMessage') }}', 3000);
+            <script id="js-error-message-{{time()}}">
+                mw.notification.error('{{ session('errorMessage') }}');
             </script>
         @endif
 

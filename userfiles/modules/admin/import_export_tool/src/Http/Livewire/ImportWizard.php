@@ -50,7 +50,6 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
 
         if ($feed->downloadFeed($sourceFile)) {
-            $this->tab = 'map';
             session()->flash('successMessage', 'Feed is downloaded successfully.');
             $this->dispatchBrowserEvent('read-feed-from-file');
         } else {
@@ -65,7 +64,13 @@ class ImportWizard extends Component
             $feedFile = $feed->source_file_realpath;
             if (is_file($feedFile)) {
                 $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
-                $feed->readFeedFromFile($feedFile, $fileExt);
+                $read = $feed->readFeedFromFile($feedFile, $fileExt);
+                if ($read) {
+                    $this->tab = 'map';
+                    session()->flash('successMessage', 'Feed is read successfully.');
+                } else {
+                    session()->flash('errorMessage', 'No content found in feed file.');
+                }
             } else {
                 session()->flash('errorMessage', 'Can\'t read feed.');
             }
