@@ -12,52 +12,64 @@
         </select>
     </div>
 
-    @if($this->import_feed['source_type'] == 'upload_file')
         <div style="background: #f9f9f9;padding: 30px;">
-            <div>
-                <b>Upload content feed file</b>
-            </div>
-            <div>
-                <form wire:submit.prevent="upload">
-                    <input type="file" wire:model="upload_file">
-                    <button type="submit" class="btn btn-outline-primary">Upload</button>
-                </form>
-                @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-        </div>
-    @endif
 
-    @if($this->import_feed['source_type'] == 'download_link')
-            <div style="background: #f9f9f9;padding: 30px;">
-            <div>
-                <b>Link to content feed file</b>
-            </div>
-            <div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" wire:model.defer="import_feed.source_file"
-                           id="source_file" placeholder="https://site.com/feed.xml">
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary" id="source_file"
-                                wire:click="download"
-                                wire:loading.attr="disabled">
-                            Download
-                        </button>
+            @if($this->import_feed['source_type'] == 'upload_file')
+                <div>
+                    <b>Upload content feed file</b>
+                </div>
+                <div>
+                    <form wire:submit.prevent="upload">
+                        <input type="file" wire:model="upload_file">
+                        <button type="submit" class="btn btn-outline-primary">Upload</button>
+                    </form>
+                    @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+            @endif
+
+            @if($this->import_feed['source_type'] == 'download_link')
+                <div>
+                    <b>Link to content feed file</b>
+                </div>
+                <div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" wire:model.defer="import_feed.source_file"
+                               id="source_file" placeholder="https://site.com/feed.xml">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="source_file"
+                                    wire:click="download"
+                                    wire:loading.attr="disabled">
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                    <div wire:loading wire:target="download">
+                        <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                        <span class="text-success">
+                           Downloading the source file...
+                       </span>
                     </div>
                 </div>
-                <div wire:loading wire:target="download">
-                    <div class="spinner-border spinner-border-sm text-success" role="status"></div>
-                    <span class="text-success">
-                       Downloading the source file...
-                   </span>
-                </div>
-                @if($import_feed['last_downloaded_date'])
-                <div class="text-muted">
-                    Last downloaded: {{$import_feed['last_downloaded_date']}}
-                </div>
-                @endif
-            </div>
-        </div>
-    @endif
+            @endif
 
+            <div class="mt-2 js-read-feed-from-file" style="display: none">
+                <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                <span class="text-success">
+                   Reading feed data...
+               </span>
+            </div>
+
+            <div class="mt-2">
+                {{$log}}
+            </div>
+
+            <script type="text/javascript">
+                window.addEventListener('read-feed-from-file', event => {
+                    $('.js-read-feed-from-file').show();
+                    window.livewire.emit('readFeedFile');
+                });
+            </script>
+
+        </div>
     </div>
 @endsection

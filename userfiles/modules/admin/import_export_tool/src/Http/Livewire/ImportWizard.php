@@ -18,6 +18,10 @@ class ImportWizard extends Component
     public $upload_file;
     public $import_feed = [];
 
+    public $listeners = [
+        'readFeedFile'=>'readFeedFile'
+    ];
+
     public function showTab($tab)
     {
         $this->tab = $tab;
@@ -46,11 +50,18 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
 
         if ($feed->downloadFeed($sourceFile)) {
-            $this->tab = 'map';
+           // $this->tab = 'map';
             session()->flash('message', 'Feed is downloaded successfully.');
+            $this->dispatchBrowserEvent('read-feed-from-file');
         }
 
         return ['downloaded' => false];
+    }
+
+    public $log;
+    public function readFeedFile()
+    {
+        
     }
 
     public function upload()
@@ -70,7 +81,7 @@ class ImportWizard extends Component
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
 
-        $this->tab = 'import';
+        // $this->tab = 'import';
         session()->flash('message', 'Feed is uploaded successfully.');
 
     }
