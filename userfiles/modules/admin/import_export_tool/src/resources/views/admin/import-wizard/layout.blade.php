@@ -10,6 +10,11 @@
 
     <div class="card-body pt-3">
 
+       <div>
+           <a href="{{route('admin.import-export-tool.index')}}" class="btn btn-outline-primary btn-sm">
+               <i class="fa fa-arrow-left"></i> Back to Imports</a>
+       </div>
+
         <style>
             .import-wizard {
                 list-style: none;
