@@ -51,7 +51,8 @@ class ImportFeed extends Model
         $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
         $sheetCount = $spreadshet->getSheetCount();
         if ($sheetCount == 0) {
-            throw new \Exception('No sheets found');
+             //  throw new \Exception('No sheets found');
+            return false;
         }
 
         // Read sheet
@@ -223,8 +224,12 @@ class ImportFeed extends Model
 
         if ($downloaded && is_file($filename)) {
 
+            if($filename != $this->source_file_realpath) {
+                $this->resetFeed();
+            }
+
             $this->source_type = 'download_link';
-            $this->source_file = $url;
+            $this->source_url = $url;
             $this->source_file_realpath = $filename;
             $this->source_file_size = filesize($filename);
             $this->last_downloaded_date = Carbon::now();
@@ -234,5 +239,19 @@ class ImportFeed extends Model
         }
 
         return false;
+    }
+
+    public function resetFeed()
+    {
+        $this->source_content = [];
+        $this->last_import_start = null;
+        $this->last_import_end = null;
+        $this->count_of_contents = null;
+        $this->content_tag = null;
+        $this->imported_content_ids = null;
+        $this->detected_content_tags = [];
+        $this->mapped_tags = [];
+        $this->mapped_content = [];
+        $this->save();
     }
 }

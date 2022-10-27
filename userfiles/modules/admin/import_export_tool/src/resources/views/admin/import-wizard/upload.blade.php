@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" wire:model.defer="import_feed.source_file"
+                        <input type="text" class="form-control" wire:model.defer="import_feed.source_url"
                                id="source_file" placeholder="https://site.com/feed.xml">
                         <div class="input-group-append">
                             <button type="button" class="btn btn-primary" id="source_file"

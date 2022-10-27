@@ -46,11 +46,11 @@ class ImportWizard extends Component
 
     public function download()
     {
-        $sourceFile = $this->import_feed['source_file'];
+        $sourceUrl = $this->import_feed['source_url'];
 
         $feed = ImportFeed::where('is_draft', 1)->first();
 
-        if ($feed->downloadFeed($sourceFile)) {
+        if ($feed->downloadFeed($sourceUrl)) {
             session()->flash('successMessage', 'Feed is downloaded successfully.');
             $this->dispatchBrowserEvent('read-feed-from-file');
         } else {
@@ -63,15 +63,19 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
         if ($feed) {
             $feedFile = $feed->source_file_realpath;
+
             if (is_file($feedFile)) {
+
                 $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
                 $read = $feed->readContentFromFile($feedFile, $fileExt);
+
                 if ($read) {
                     $this->tab = 'map';
                     session()->flash('successMessage', 'Feed is read successfully.');
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
                 }
+
             } else {
                 session()->flash('errorMessage', 'Can\'t read feed.');
             }
@@ -88,6 +92,10 @@ class ImportWizard extends Component
         $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
 
         $feed = ImportFeed::where('is_draft', 1)->first();
+
+        if($fullFilePath != $feed->source_file_realpath) {
+            $feed->resetFeed();
+        }
 
         $feed->source_type = 'upload_file';
         $feed->source_file = $uploadFilePath;
