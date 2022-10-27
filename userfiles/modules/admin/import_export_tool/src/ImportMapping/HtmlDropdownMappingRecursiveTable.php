@@ -223,7 +223,7 @@ class HtmlDropdownMappingRecursiveTable
         $showInGroup = [];
 
         $html .= '<optgroup label="'.ucfirst($this->importTo).' fields">';
-        
+
         foreach ($selectOptions as $name => $option) {
             if (!isset($option['name'])) {
                 continue;

@@ -167,7 +167,7 @@
                 <li class="import-wizard__item @if($tab =='upload') active @endif">
                     <a href="#" wire:click="showTab('upload')" class="import-wizard__link">
                         <span class="step">2</span>
-                        @if($import_feed['source_type'])
+                        @if($import_feed['source_type'] && !empty($import_feed['source_file_realpath']))
                             <div class="desc-box">
                                 <span class="desc">Upload File</span>
                                 <span class="small-desc">
@@ -177,6 +177,9 @@
                                         From URL
                                     @endif
                                 </span>
+                            </div>
+                            <div class="desc-icon">
+                                <x-import_export_tool::icon width="38px" name="check" />
                             </div>
                         @else
                         <span class="desc">Upload File</span>
@@ -192,6 +195,9 @@
                                 <span class="small-desc">
                                     Mapped
                                 </span>
+                            </div>
+                            <div class="desc-icon">
+                                <x-import_export_tool::icon width="38px" name="check" />
                             </div>
                         @else
                         <span class="desc">Map Fields</span>

@@ -40,6 +40,7 @@ class ImportWizard extends Component
             $findImportFeed->is_draft = 1;
         }
 
+        $findImportFeed->resetFeed();
         $findImportFeed->name = 'Import ' . ucfirst($importTo);
         $findImportFeed->import_to = $importTo;
         $findImportFeed->save();
@@ -60,6 +61,8 @@ class ImportWizard extends Component
         } else {
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
+        
+        $this->import_feed = $feed->toArray();
     }
 
     public function readFeedFile()
