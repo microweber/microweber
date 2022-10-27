@@ -108,7 +108,7 @@ class ImportFeed extends Model
             $repeatableData = [];
 
             if (empty($this->content_tag)) {
-                
+
                 // Try to automatically detect content tag
 
                 $contentTag = false;
@@ -117,17 +117,18 @@ class ImportFeed extends Model
 
                 if (!empty($repeatableTargetKeys)) {
                     $contentTag = array_key_first($repeatableTargetKeys);
+                    $this->detected_content_tags = $repeatableTargetKeys;
                 }
 
                 if ($contentTag) {
                     $repeatableData = Arr::get($content, $contentTag);
+                    $this->content_tag = $contentTag;
                 }
 
             } else {
                 $repeatableData = Arr::get($content, $this->content_tag);
             }
 
-            $this->detected_content_tags = $repeatableTargetKeys;
             $this->count_of_contents = count($repeatableData);
             $this->mapped_content = [];
             $this->source_content = $content;
