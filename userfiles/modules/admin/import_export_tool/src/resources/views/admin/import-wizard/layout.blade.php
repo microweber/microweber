@@ -140,11 +140,14 @@
 
         <div class="wizard-container">
 
-            <div class="text-center">
-                <h1>
-                    Import Wizard
-                </h1>
-                <p>Please follow the wizard to import new feed.</p>
+
+            <div class="row">
+                <div class="mx-auto col-md-8">
+                    <h4>
+                        Import Wizard
+                    </h4>
+                    <p>Please follow the wizard to import new feed.</p>
+                </div>
             </div>
 
             <ul class="import-wizard justify-content-center">

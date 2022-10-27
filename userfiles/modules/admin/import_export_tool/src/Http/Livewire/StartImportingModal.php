@@ -33,7 +33,7 @@ class StartImportingModal extends ModalComponent
 
     public function nextStep()
     {
-        $sourceFile = base_path() . DS . $this->import_feed->source_file_realpath;
+        $sourceFile = $this->import_feed->source_file_realpath;
         if (!is_file($sourceFile)) {
             return redirect(route('admin.import-export-tool.index'));
         }
@@ -124,6 +124,10 @@ class StartImportingModal extends ModalComponent
                 }
 
             } else {
+                if (!isset($item['id'])) {
+                    $item['id'] = 0;
+                }
+                
                 $findProduct = Product::where('id', $item['id'])->first();
                 if ($findProduct) {
                     $findProduct->update($item);

@@ -61,7 +61,7 @@ class ImportWizard extends Component
         } else {
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
-        
+
         $this->import_feed = $feed->toArray();
     }
 

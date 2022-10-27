@@ -14,4 +14,8 @@
         @include('import_export_tool::admin.import-wizard.map')
     @endif
 
+    @if($tab == 'import')
+        @include('import_export_tool::admin.import-wizard.import')
+    @endif
+
 @endsection
