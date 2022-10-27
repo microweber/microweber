@@ -6,8 +6,8 @@
       background: #fff;
       padding: 15px;
       border-radius: 4px;
-      border: 1px solid #cfcfcfa1;
-      box-shadow: 0px 0px 15px #0000001f;"
+      background: #fbfbfb;
+      border: 1px solid #cfcfcfa1;"
     >
 
         <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$importFeedId}}" />

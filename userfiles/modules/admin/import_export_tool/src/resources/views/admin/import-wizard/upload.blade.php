@@ -6,8 +6,11 @@
     <div class="mx-auto col-md-8">
 
         <div>
-            <div class="mb-2">Upload File Type</div>
-            <select class="form-control mb-3 w-100" wire:model="import_feed.source_type">
+
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Upload File Type</span>
+            <select class="form-control" wire:model="import_feed.source_type">
                 <option value="download_link">Download feed from link</option>
                 <option value="upload_file">Upload feed from your computer</option>
             </select>
