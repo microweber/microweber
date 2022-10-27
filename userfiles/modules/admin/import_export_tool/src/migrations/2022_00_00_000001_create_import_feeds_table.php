@@ -22,6 +22,7 @@ class CreateImportFeedsTable extends Migration
                 $table->string('import_to')->nullable();
                 $table->integer('parent_page')->nullable();
                 $table->string('source_type')->nullable();
+                $table->string('source_url')->nullable();
                 $table->string('source_file')->nullable();
                 $table->string('source_file_realpath')->nullable();
                 $table->string('source_file_size')->nullable();

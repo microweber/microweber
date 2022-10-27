@@ -229,7 +229,7 @@ class ImportFeed extends Model
             }
 
             $this->source_type = 'download_link';
-            $this->source_file = $url;
+            $this->source_url = $url;
             $this->source_file_realpath = $filename;
             $this->source_file_size = filesize($filename);
             $this->last_downloaded_date = Carbon::now();

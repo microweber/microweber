@@ -46,11 +46,11 @@ class ImportWizard extends Component
 
     public function download()
     {
-        $sourceFile = $this->import_feed['source_file'];
+        $sourceUrl = $this->import_feed['source_url'];
 
         $feed = ImportFeed::where('is_draft', 1)->first();
 
-        if ($feed->downloadFeed($sourceFile)) {
+        if ($feed->downloadFeed($sourceUrl)) {
             session()->flash('successMessage', 'Feed is downloaded successfully.');
             $this->dispatchBrowserEvent('read-feed-from-file');
         } else {
