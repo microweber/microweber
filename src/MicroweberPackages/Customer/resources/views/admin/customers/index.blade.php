@@ -100,7 +100,7 @@
     </form>
 </div>
 
-<table class="table mt-3 small vertical-align-middle">
+<table class="table table-responsive mt-3 small vertical-align-middle">
     <thead>
         <tr>
             <th class="border-0">

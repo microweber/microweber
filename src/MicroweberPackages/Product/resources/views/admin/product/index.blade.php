@@ -110,9 +110,10 @@
         <div id="js-page-tree"></div>
 
         <script>
+             pagesTree = null;
             (function (){
                 var treeNode = document.getElementById('js-page-tree');
-                var pagesTree;
+
 
                 document
                     .querySelector('.js-open-close-all-tree-elements')
