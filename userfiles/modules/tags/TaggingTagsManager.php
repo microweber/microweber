@@ -8,7 +8,7 @@
 
 // Language is changed
 event_bind('mw.admin.change_language', function () {
-    sync_tags();
+   // sync_tags();
 });
 
 function sync_tags() {

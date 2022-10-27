@@ -5,7 +5,7 @@
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-xl-flex d-none">
-                    {{_e('Shop')}} {{_e('Products')}}
+                 {{_e('Products')}}
 
                     @php
                         $findCategory = false;
@@ -14,7 +14,13 @@
                         }
                     @endphp
 
-                    @if($findCategory) <i class="mdi mdi-arrow-right"></i> {{$findCategory['title']}} @endif
+                    @if($findCategory)
+
+
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span> {{$findCategory['title']}}
+
+
+                    @endif
 
                 </strong>
             </h5>
@@ -252,7 +258,7 @@
             </tr>
         @endif
         @foreach ($products as $product)
-        <tr class="manage-post-item">
+        <tr class="manage-post-item manage-post-item-{{ $product->id }}">
             <td>
 
 
@@ -285,7 +291,7 @@
             <td>
                 <div class="manage-item-main-top">
 
-                    <a target="_self" href="" class="btn btn-link p-0">
+                    <a target="_self" href="{{route('admin.product.edit', $product->id)}}" class="btn btn-link p-0">
                         <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
                             {{$product->title}}
                         </h5>
@@ -294,7 +300,9 @@
                         <span class="manage-post-item-cats-inline-list">
                         @foreach($product->categories as $category)
                                 @if($category->parent)
-                                    <a href="#" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+
+                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+
                                 @endif
                             @endforeach
                          </span>
@@ -308,7 +316,7 @@
                 <div class="manage-post-item-links mt-3">
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
-                    <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <a href="javascript:mw.delete_single_post('{{ $product->id }}');" class="btn btn-outline-danger btn-sm">Delete</a>
                     @if ($product->is_active < 1)
                     <a href="{{route('admin.product.edit', $product->id)}}" class="badge badge-warning font-weight-normal">Unpublished</a>
                     @endif
@@ -345,7 +353,7 @@
             @if($showColumns['orders'])
             <td style="text-align: center">
                 @php
-                $ordersUrl = route('admin.order.index') . '?productId='.$product->id;
+                $ordersUrl = route('admin.order.index') . '?showFilters[productId]=1&filters[productId]='.$product->id;
                 if ($product->ordersCount == 1) {
                     $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->ordersCount.'</span></a>';
                 } else if ($product->ordersCount > 1) {

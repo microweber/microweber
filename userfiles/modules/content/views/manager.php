@@ -232,7 +232,7 @@ $params_module = $params;
         }
 
         if (isset($paging_links) and is_array($paging_links)): ?>
-            <ul class="pagination">
+            <ul class="pagination flex-wrap">
                 <?php $i = 1; ?>
                 <?php foreach ($paging_links as $item): ?>
                     <li class="page-item <?php if ($numactive == $i): ?> active <?php endif; ?>">

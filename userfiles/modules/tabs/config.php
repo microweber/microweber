@@ -11,3 +11,6 @@ $config['settings'] = [];
 $config['settings']['translatable_options'] = [
     'settings'
 ];
+$config['settings']['allowed_html_option_keys'] = [
+    'settings',
+];

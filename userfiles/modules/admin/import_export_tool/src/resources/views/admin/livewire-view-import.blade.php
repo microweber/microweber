@@ -153,6 +153,42 @@
                         <table class="table table-borderless">
                             <tbody>
                             <tr>
+                                <td><label for="feed_import_to"><b>Import To</b></label><br>
+                                    <small>Select the import to</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_import_to" wire:model="import_feed.import_to">
+                                        <option value="products">Products</option>
+                                        <option value="pages">Pages</option>
+                                        <option value="posts">Posts</option>
+                                        <option value="categories">Categories</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="feed_parent_page"><b>Default Parent Page</b></label><br>
+                                    <small>Select the import to</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                                        <?php
+                                        $posts_parent_page = 0;
+                                        ?>
+                                        <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
+                                        <?php
+                                        $pt_opts = array();
+                                        $pt_opts['link'] = "{empty}{title}";
+                                        $pt_opts['list_tag'] = " ";
+                                        $pt_opts['list_item_tag'] = "option";
+                                        $pt_opts['active_ids'] = $posts_parent_page;
+                                        $pt_opts['active_code_tag'] = '   selected="selected"  ';
+
+                                        pages_tree($pt_opts);
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td><label for="feed_source_type"><b>Feed Source Type</b></label><br>
                                     <small>Select the type of source</small>
                                 </td>

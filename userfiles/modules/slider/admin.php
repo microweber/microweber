@@ -71,7 +71,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     ->schema([
                         [
                             'interface' => 'text',
-                            'label' => ['Slide Heading'],
+                            'label' => 'Slide Heading',
                             'id' => 'primaryText'
                         ],
                         [
@@ -84,28 +84,28 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         [
                             'interface' => 'icon',
-                            'label' => ['Icon'],
+                            'label' => 'Icon',
                             'id' => 'icon'
                         ],
 
                         [
                             'interface' => 'text',
-                            'label' => ['Slide Description'],
+                            'label' => 'Slide Description',
                             'id' => 'secondaryText'
                         ],
                         [
                             'interface' => 'text',
-                            'label' => ['URL'],
+                            'label' => 'URL',
                             'id' => 'url'
                         ],
                         [
                             'interface' => 'text',
-                            'label' => ['See more text'],
+                            'label' => 'See more text',
                             'id' => 'seemoreText'
                         ],
                         [
                             'interface' => 'select',
-                            'label' => ['Skin'],
+                            'label' => 'Skin',
                             'id' => 'skin',
                             'options' => $skins
                         ],

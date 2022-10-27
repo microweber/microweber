@@ -32,14 +32,15 @@ if ($settings == false) {
 
 $data = array();
 $count = 0;
-foreach ($json as $slide) {
-    $count++;
-    if (!isset($slide['id'])) {
-        $slide['id'] = 'accordion-' .  $params['id']. '-'.$count;
+if (is_array($json)) {
+    foreach ($json as $slide) {
+        $count++;
+        if (!isset($slide['id'])) {
+            $slide['id'] = 'accordion-' .  $params['id']. '-'.$count;
+        }
+        array_push($data, $slide);
     }
-    array_push($data, $slide);
 }
-
 
 
 if (is_file($template_file)) {

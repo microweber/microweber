@@ -19,7 +19,10 @@ class CreateImportFeedsTable extends Migration
             Schema::create('import_feeds', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->nullable();
+                $table->string('import_to')->nullable();
+                $table->integer('parent_page')->nullable();
                 $table->string('source_type')->nullable();
+                $table->string('source_url')->nullable();
                 $table->string('source_file')->nullable();
                 $table->string('source_file_realpath')->nullable();
                 $table->string('source_file_size')->nullable();
@@ -40,6 +43,7 @@ class CreateImportFeedsTable extends Migration
                 $table->string('old_content_action')->nullable();
                 $table->integer('count_of_contents')->nullable();
                 $table->integer('total_running')->nullable();
+                $table->integer('is_draft')->nullable();
                 $table->timestamps();
             });
         }

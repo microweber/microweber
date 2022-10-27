@@ -36,6 +36,8 @@ class ViewImport extends Component
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
         $feed->old_content_action = $this->import_feed['old_content_action'];
         $feed->category_separator = $this->import_feed['category_separator'];
+        $feed->import_to = $this->import_feed['import_to'];
+        $feed->parent_page = $this->import_feed['parent_page'];
         $feed->save();
 
         session()->flash('message', 'Import feed is saved successfully.');

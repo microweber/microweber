@@ -11,11 +11,13 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\HtmlDropdownMappingPreview;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImportingModal;
@@ -46,12 +48,14 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadViewsFrom( __DIR__. '/resources/views/components', 'import_export_tool');
+
+        Livewire::component('import_export_tool_wizard', ImportWizard::class);
         Livewire::component('import_export_tool_no_feeds', NoFeeds::class);
         Livewire::component('import_export_tool_new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool_start_importing_modal', StartImportingModal::class);
         Livewire::component('import_export_tool_view_import', ViewImport::class);
         Livewire::component('import_export_tool_html_dropdown_mapping_preview', HtmlDropdownMappingPreview::class);
-
     }
 
     public function register()

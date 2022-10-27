@@ -1,5 +1,4 @@
 <div>
-
     <style>
         .tags {
             padding-left:5px;
@@ -9,14 +8,13 @@
             padding-left:5px;
         }
         .tag_value {
-           /* width: 800px;*/
+            color: #00168e;
         }
-        .tag_select {
-         /*   width: 200px;*/
+        .tag_value .value {
+            color: #000;
         }
     </style>
 
-    <br />
     <?php echo $data; ?>
 
 </div>

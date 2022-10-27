@@ -110,9 +110,10 @@
         <div id="js-page-tree"></div>
 
         <script>
+             pagesTree = null;
             (function (){
                 var treeNode = document.getElementById('js-page-tree');
-                var pagesTree;
+
 
                 document
                     .querySelector('.js-open-close-all-tree-elements')
@@ -235,3 +236,16 @@
         <livewire:admin-content-bulk-options />
     </main>
 </div>
+
+
+<script>
+    mw.delete_single_post = function (id) {
+        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
+            mw.post.del(id, function () {
+                mw.$(".manage-post-item-" + id).fadeOut(function () {
+                    $(this).remove()
+                });
+            });
+        });
+    }
+</script>
