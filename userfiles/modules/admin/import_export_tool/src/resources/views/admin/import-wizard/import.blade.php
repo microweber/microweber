@@ -31,7 +31,7 @@
                         </select>
                     </td>
                 </tr>
-
+{{--
                 <tr>
                     <td><label for="feed_download_image_1"><b>Download images</b></label><br>
                         <small>Download and check images</small>
@@ -43,7 +43,7 @@
                         <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
                         <label for="feed_download_image_0">No</label>
                     </td>
-                </tr>
+                </tr>--}}
 
                 <tr>
                     <td><label for="feed_parts"><b>Import parts</b></label><br>
@@ -70,7 +70,7 @@
 
                     </td>
                 </tr>
-
+{{--
                 <tr>
                     <td>
                         <label for="feed_primary_key">
@@ -87,10 +87,10 @@
                             <option value="sku">SKU</option>
                         </select>
                     </td>
-                </tr>
+                </tr>--}}
 
 
-                <tr>
+             {{--   <tr>
                     <td><label for="feed_data_old_content_action"><b>Old
                                 content</b></label><br><small>Content which are in your site but not
                             in xml anymore</small></td>
@@ -102,9 +102,9 @@
                         </select>
 
                     </td>
-                </tr>
+                </tr>--}}
 
-                <tr>
+              {{--  <tr>
                     <td>
                         <label for="feed_data_update-content_name">
                             <b>Update</b></label><br>
@@ -140,7 +140,7 @@
 
                         </div>
                     </td>
-                </tr>
+                </tr>--}}
 
             </tbody>
            </table>
