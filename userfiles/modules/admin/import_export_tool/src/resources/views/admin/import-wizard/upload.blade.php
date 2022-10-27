@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <div style="width: 800px;margin:0 auto">
+    <div class="w-50" style="margin:0 auto">
 
-    <div>
-        <div class="mb-2">Upload File Type</div>
-        <select class="form-control mb-3 w-100" wire:model="import_feed.source_type">
-            <option value="download_link">Download feed from link</option>
-            <option value="upload_file">Upload feed from your computer</option>
-        </select>
-    </div>
+        <div>
+            <div class="mb-2">Upload File Type</div>
+            <select class="form-control mb-3 w-100" wire:model="import_feed.source_type">
+                <option value="download_link">Download feed from link</option>
+                <option value="upload_file">Upload feed from your computer</option>
+            </select>
+        </div>
 
         <div style="background: #f9f9f9;padding: 30px;">
 
@@ -65,6 +65,33 @@
                     window.livewire.emit('readFeedFile');
                 });
             </script>
+
+                <style>
+                    .js-supported-file-formats {
+                        width: 350px;
+                    }
+                    .js-supported-file-formats img {
+                        width: 36px;
+                        filter: grayscale();
+                    }
+                    .js-supported-file-formats img:hover {
+                        filter: none;
+                    }
+                </style>
+            <div class="d-flex justify-content-between mt-5">
+                 <div>
+                     <span class="text-muted">Supported formats:</span>
+                 </div>
+                <div class="d-flex justify-content-between js-supported-file-formats">
+                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/xml.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/feed.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/shopify.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/woocommerce.svg" />
+                    <img src="{{module_url('admin\import_export_tool')}}images/wordpress.svg" />
+                </div>
+            </div>
 
         </div>
     </div>

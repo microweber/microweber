@@ -8,10 +8,10 @@
             padding-left:5px;
         }
         .tag_value {
-            color: #4592ff;
+            color: #00168e;
         }
         .tag_value .value {
-            color: #1a5fa8;
+            color: #000;
         }
     </style>
 
