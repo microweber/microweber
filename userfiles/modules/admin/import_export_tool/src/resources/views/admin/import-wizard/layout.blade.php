@@ -186,7 +186,16 @@
                 <li class="import-wizard__item @if($tab =='map') active @endif">
                     <a href="#" wire:click="showTab('map')" class="import-wizard__link">
                         <span class="step">3</span>
+                        @if($import_feed['mapped_content'])
+                            <div class="desc-box">
+                                <span class="desc">Map fields</span>
+                                <span class="small-desc">
+                                    Mapped
+                                </span>
+                            </div>
+                        @else
                         <span class="desc">Map Fields</span>
+                        @endif
                     </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='import') active @endif">

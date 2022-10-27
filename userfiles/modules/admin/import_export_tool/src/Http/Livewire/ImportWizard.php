@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportWizard extends Component
@@ -116,7 +117,14 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
         if ($feed) {
 
-            
+            $feedMapToArray = new FeedMapToArray();
+            $feedMapToArray->setImportFeedId($feed->id);
+            $preparedData = $feedMapToArray->toArray();
+
+            $feed->mapped_content = $preparedData;
+            $feed->save();
+
+            $this->import_feed = $feed->toArray();
 
             $this->showTab('import');
         }
