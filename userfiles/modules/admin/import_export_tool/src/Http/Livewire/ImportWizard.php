@@ -42,6 +42,9 @@ class ImportWizard extends Component
         $findImportFeed->name = 'Import ' . ucfirst($importTo);
         $findImportFeed->import_to = $importTo;
         $findImportFeed->save();
+
+        // refresh state
+        $this->import_feed = $findImportFeed->toArray();
     }
 
     public function download()

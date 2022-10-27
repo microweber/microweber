@@ -54,9 +54,30 @@
                 margin-right: 10px;
             }
 
+            .import-wizard__link .desc-box {
+                display: inline-block;
+                width: 126px;
+                float: right;
+                font-size: 12px;
+                padding-top: 5px;
+            }
+            .import-wizard__link .desc-icon {
+                width: 33px;
+                position: absolute;
+                margin-top: -42px;
+                margin-left: 135px;
+                opacity: 0.4;
+            }
+
             .import-wizard__link .desc {
                 text-transform: capitalize;
-                display: inline-block;
+
+            }
+            .import-wizard__link .small-desc {
+                text-transform: capitalize;
+                display: block;
+                color: #eee;
+                font-size: 10px;
             }
 
             .import-wizard .active .import-wizard__link {
@@ -123,28 +144,53 @@
 
             <ul class="import-wizard justify-content-center">
                 <li class="import-wizard__item @if($tab =='type') active @endif">
-                    <a href="{{route('admin.import-export-tool.import-wizard')}}" class="import-wizard__link">
+                    <a href="#" wire:click="showTab('type')" class="import-wizard__link">
                         <span class="step">1</span>
-                        <span class="desc">Import Type</span>
+                        @if($import_feed['import_to'])
+                        <div class="desc-box">
+                            <span class="desc">Import</span>
+                            <span class="small-desc">{{$import_feed['import_to']}}</span>
+                        </div>
+                        <div class="desc-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:40px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+                            </svg>
+                        </div>
+                        @else
+                            <span class="desc">Import Type</span>
+                        @endif
                     </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='upload') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('upload')" class="import-wizard__link">
                         <span class="step">2</span>
+                        @if($import_feed['source_type'])
+                            <div class="desc-box">
+                                <span class="desc">Upload File</span>
+                                <span class="small-desc">
+                                    @if($import_feed['source_type'] == 'upload_file')
+                                        From computer
+                                    @else
+                                        From URL
+                                    @endif
+                                </span>
+                            </div>
+                        @else
                         <span class="desc">Upload File</span>
-                    </div>
+                        @endif
+                    </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='map') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('map')" class="import-wizard__link">
                         <span class="step">3</span>
                         <span class="desc">Map Fields</span>
-                    </div>
+                    </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='import') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('import')" class="import-wizard__link">
                         <span class="step">4</span>
                         <span class="desc">Import</span>
-                    </div>
+                    </a>
                 </li>
             </ul>
             <div class="mb-5">
