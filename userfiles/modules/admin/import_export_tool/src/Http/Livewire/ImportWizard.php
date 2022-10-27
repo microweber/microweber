@@ -64,7 +64,7 @@ class ImportWizard extends Component
             $feedFile = $feed->source_file_realpath;
             if (is_file($feedFile)) {
                 $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
-                $read = $feed->readFeedFromFile($feedFile, $fileExt);
+                $read = $feed->readContentFromFile($feedFile, $fileExt);
                 if ($read) {
                     $this->tab = 'map';
                     session()->flash('successMessage', 'Feed is read successfully.');
