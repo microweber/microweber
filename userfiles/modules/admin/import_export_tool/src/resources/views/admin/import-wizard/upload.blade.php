@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="w-50" style="margin:0 auto">
+    <div style="width:800px; margin:0 auto">
 
         <div>
             <div class="mb-2">Upload File Type</div>
@@ -68,28 +68,52 @@
 
                 <style>
                     .js-supported-file-formats {
-                        width: 350px;
+                        width: 400px;
                     }
                     .js-supported-file-formats img {
-                        width: 36px;
-                        filter: grayscale();
+                        width: 50px;
+                        height: 50px;
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        border-radius: 3px;
                     }
                     .js-supported-file-formats img:hover {
-                        filter: none;
+                        background: #fff;
                     }
                 </style>
             <div class="d-flex justify-content-between mt-5">
                  <div>
-                     <span class="text-muted">Supported formats:</span>
+                     <span class="text-muted">Supported formats</span>
                  </div>
                 <div class="d-flex justify-content-between js-supported-file-formats">
-                    <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
+
+                    <a href="#">
+                        <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/csv.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/excel.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/supported-file-formats/xml.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/feed.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/shopify.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/woocommerce.svg" />
+                    </a>
+
+                    <a href="#">
                     <img src="{{module_url('admin\import_export_tool')}}images/wordpress.svg" />
+                    </a>
                 </div>
             </div>
 
