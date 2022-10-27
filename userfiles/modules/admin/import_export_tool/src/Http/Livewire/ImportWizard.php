@@ -93,6 +93,10 @@ class ImportWizard extends Component
 
         $feed = ImportFeed::where('is_draft', 1)->first();
 
+        if($fullFilePath != $feed->source_file_realpath) {
+            $feed->resetFeed();
+        }
+
         $feed->source_type = 'upload_file';
         $feed->source_file = $uploadFilePath;
         $feed->source_file_realpath = $fullFilePath;
