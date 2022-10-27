@@ -10,10 +10,11 @@ class ImportWizard extends Component
 {
     use WithFileUploads;
 
-    protected $queryString = ['tab', 'importTo'];
+    protected $queryString = ['tab', 'importTo','importFeedId'];
 
     public $tab = 'type';
     public $importTo = 'type';
+    public $importFeedId;
 
     public $upload_file;
     public $import_feed = [];
@@ -104,6 +105,7 @@ class ImportWizard extends Component
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
+            $this->importFeedId = $findImportFeed->id;
         }
     }
 

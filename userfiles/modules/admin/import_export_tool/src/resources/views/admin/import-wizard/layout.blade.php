@@ -147,7 +147,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="mt-5 mb-5">
+            <div class="mb-5">
                 @yield('content')
             </div>
         </div>
