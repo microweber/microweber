@@ -258,7 +258,7 @@
             </tr>
         @endif
         @foreach ($products as $product)
-        <tr class="manage-post-item">
+        <tr class="manage-post-item manage-post-item-{{ $product->id }}">
             <td>
 
 
@@ -301,10 +301,7 @@
                         @foreach($product->categories as $category)
                                 @if($category->parent)
 
-
-
-
-                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}})" xxhref="?filters[category]={{$category->parent->id}}&showFilters[category]=1" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
 
                                 @endif
                             @endforeach
@@ -319,7 +316,7 @@
                 <div class="manage-post-item-links mt-3">
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
-                    <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <a href="javascript:mw.delete_single_post('{{ $product->id }}');" class="btn btn-outline-danger btn-sm">Delete</a>
                     @if ($product->is_active < 1)
                     <a href="{{route('admin.product.edit', $product->id)}}" class="badge badge-warning font-weight-normal">Unpublished</a>
                     @endif
