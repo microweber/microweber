@@ -10,7 +10,7 @@
 
         <div class="input-group mb-3">
             <span class="input-group-text">Upload File Type</span>
-            <select class="form-control" wire:model="import_feed.source_type">
+            <select class="form-select" wire:model="import_feed.source_type">
                 <option value="download_link">Download feed from link</option>
                 <option value="upload_file">Upload feed from your computer</option>
             </select>
@@ -24,8 +24,13 @@
                 </div>
                 <div>
                     <form wire:submit.prevent="upload">
-                        <input type="file" wire:model="upload_file">
-                        <button type="submit" class="btn btn-outline-primary">Upload</button>
+                        <div class="input-group mb-3 mt-2">
+                            <input type="file" class="form-control" wire:model="upload_file" style="line-height: 1.9;">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fa fa-upload"></i>
+                                Upload
+                            </button>
+                        </div>
                     </form>
                     @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
