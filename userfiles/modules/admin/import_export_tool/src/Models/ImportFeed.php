@@ -51,7 +51,8 @@ class ImportFeed extends Model
         $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
         $sheetCount = $spreadshet->getSheetCount();
         if ($sheetCount == 0) {
-            throw new \Exception('No sheets found');
+             //  throw new \Exception('No sheets found');
+            return false;
         }
 
         // Read sheet

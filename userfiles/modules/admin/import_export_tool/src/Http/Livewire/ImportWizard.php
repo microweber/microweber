@@ -63,15 +63,19 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('is_draft', 1)->first();
         if ($feed) {
             $feedFile = $feed->source_file_realpath;
+
             if (is_file($feedFile)) {
+
                 $fileExt = pathinfo($feedFile, PATHINFO_EXTENSION);
                 $read = $feed->readContentFromFile($feedFile, $fileExt);
+
                 if ($read) {
                     $this->tab = 'map';
                     session()->flash('successMessage', 'Feed is read successfully.');
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
                 }
+
             } else {
                 session()->flash('errorMessage', 'Can\'t read feed.');
             }
