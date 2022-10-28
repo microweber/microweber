@@ -33,9 +33,9 @@
                                     icon: 'mdi mdi-pencil',
                                     action: function (element, data, menuitem) {
                                         if (data.type === 'category') {
-                                            top.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+                                            self.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
                                         } else if (data.type === 'page') {
-                                            top.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
+                                            self.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                         }
                                     },
                                     filter: function (obj, node) {
