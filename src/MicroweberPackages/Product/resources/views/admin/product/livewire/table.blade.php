@@ -3,7 +3,15 @@ $isInTrashed  = false;
 if(isset($showFilters['trashed']) && $showFilters['trashed']){
     $isInTrashed  = true;
 }
+
+$findCategory = false;
+if (isset($filters['category'])) {
+    $findCategory = get_category_by_id($filters['category']);
+}
+
+
 ?>
+
 
 
 
@@ -14,22 +22,20 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-md-flex d-none">
-                 {{_e('Products')}}
-
-                    @php
 
 
+                 <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('showFromCategory', false);return false;">{{_e('Products')}}</a>
 
-                        $findCategory = false;
-                        if (isset($filters['category'])) {
-                            $findCategory = get_category_by_id($filters['category']);
-                        }
-                    @endphp
+
+
 
                     @if($findCategory)
 
 
-                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span> {{$findCategory['title']}}
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
+
+                        {{$findCategory['title']}}
+
 
 
                     @endif
@@ -43,6 +49,13 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
                     @endif
 
                 </strong>
+
+
+                @if($findCategory)
+                <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('showFromCategory', false);return false;">
+                    <i class="fa fa-times-circle"></i>
+                </a>
+                @endif
             </h5>
             <div>
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">{{_e('Add Product')}}</a>
@@ -67,8 +80,14 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
 
        <?php if(!$isInTrashed): ?>
 
+
+
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
+            <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
+
+
+
+
         </div>
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
@@ -252,6 +271,16 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
 
     </div>
 
+
+
+
+
+
+
+        @if($products->total() > 0)
+
+
+
     <table class="table table-responsive" id="content-results-table">
         <thead>
         <tr>
@@ -341,7 +370,7 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
                         @foreach($product->categories as $category)
                                 @if($category->parent)
 
-                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                                    <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
                                        class="btn btn-link p-0 text-muted">
                                         {{$category->parent->title}}</a>
 
@@ -457,6 +486,17 @@ if(isset($showFilters['trashed']) && $showFilters['trashed']){
     </table>
 
     {{ $products->links() }}
+        @else
+
+
+            <?php
+            include (modules_path().'/content/views/no_results_found_products.php');
+
+            ?>
+
+
+
+        @endif
 
 </div>
 </div>
