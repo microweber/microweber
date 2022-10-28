@@ -59,8 +59,12 @@
             </tbody>
         </table>
 
-        @if($this->import_feed['mapped_content'])
+
+        @if($this->import_feed['source_content'])
         <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$importFeedId}}" />
+        @endif
+
+        @if($this->import_feed['mapped_content'])
 
         <div class="text-center">
             <div>

@@ -75,6 +75,10 @@ class ImportWizard extends Component
             }
 
             $this->readFeedFile();
+
+            $feed = ImportFeed::where('is_draft', 1)->first();
+            $this->import_feed = $feed->toArray();
+
             $this->emit('$refresh');
         }
     }
