@@ -48,6 +48,7 @@ class ImportFeed extends Model
 
     public function readContentFromXlsx(string $filename) {
 
+        $repeatableTargetKeys = [];
         $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
         $sheetCount = $spreadshet->getSheetCount();
         if ($sheetCount == 0) {
