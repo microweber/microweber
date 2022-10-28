@@ -98,6 +98,7 @@
                             });
                         }
                     })
+                    $('#content-title-field-buttons').show()
                 });
 
                 $(categorySelector.tags).on("tagClick", function (e, data) {
