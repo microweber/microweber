@@ -711,6 +711,7 @@ if ($action == 'posts') {
                                                 sortable: true,
                                                 selectable: false,
                                                 toggleSelect: false,
+                                                searchInputPlaceholder: '<?php _e('Search categories'); ?>',
                                                 id: 'admin-main-tree',
                                                 append: treeTail,
                                                 contextMenu: [

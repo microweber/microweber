@@ -242,46 +242,14 @@
 
     if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) :
         ?>
-        <div class="no-items-found products">
-            <?php
-            /*  if (isset($post_params['category-id'])) {
-              $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
-              } elseif (isset($post_params['category'])) {
-              $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-              } else if (isset($post_params['parent'])) {
-              $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-              } else {
-              $url = "#action=new:product";
-              } */
-            $url = "#action=new:product";
-            ?>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
-                        <h4><?php _e('You don’t have any products'); ?></h4>
-                        <p><?php _e('Create your first product right now.');?> <br/>
-                           <?php _e( 'You are able to do that in very easy way!'); ?></p>
-                        <br/>
-                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Product'); ?></a>
-                    </div>
-                </div>
-            </div>
+        <?php
+        include (__DIR__.'/no_results_found_products.php');
+
+        ?>
 
 
-            <script>
-                $(document).ready(function () {
-                    $('.js-hide-when-no-items').hide();
-                    //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('.manage-toobar').hide();
-                    $('.top-search').hide();
-                });
-            </script>
-        </div>
+
     <?php else: ?>
         <div class="no-items-found posts">
             <?php $url = "#action=new:post"; ?>
