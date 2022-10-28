@@ -392,7 +392,7 @@ if (isset($filters['category'])) {
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
                     <?php if(!$product->is_deleted): ?>
-                    <a href="javascript:mw.admin.content.delete('{{ $product->id }}');" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <a href="javascript:mw.admin.content.delete('{{ $product->id }}');" class="btn btn-outline-danger btn-sm js-delete-content-btn-{{ $product->id }}">Delete</a>
                     <?php endif; ?>
                     @if ($product->is_active < 1)
                     <a href="javascript:mw.admin.content.publishContent('{{ $product->id }}');" class="mw-set-content-unpublish badge badge-warning font-weight-normal">Unpublished</a>
