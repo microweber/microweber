@@ -124,6 +124,8 @@ class ImportWizard extends Component
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
 
+        $this->import_feed = $feed->toArray();
+
         $this->dispatchBrowserEvent('read-feed-from-file');
         session()->flash('successMessage', 'Feed is uploaded successfully.');
 
