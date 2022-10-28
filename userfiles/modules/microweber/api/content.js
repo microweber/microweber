@@ -38,7 +38,9 @@ mw.content = mw.content || {
         var master = {};
         master.id = $id;
         mw.$(document.body).addClass("loading");
-        mw.drag.save();
+        if(typeof mw.drag != 'undefined') {
+            mw.drag.save();
+        }
         $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/content/set_published',
@@ -68,7 +70,9 @@ mw.content = mw.content || {
         master.id = $id;
         mw.$(document.body).addClass("loading");
 
-        mw.drag.save();
+        if(typeof mw.drag != 'undefined') {
+            mw.drag.save();
+        }
         $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/content/set_unpublished',

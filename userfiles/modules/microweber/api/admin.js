@@ -353,6 +353,11 @@ mw.admin.content.restoreFromTrash = function (a, callback) {
          });
     });
 }
+mw.admin.content.publishContent = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to publish this content? ", function () {
+        mw.content.publish(a);
+    });
+}
 
 
 

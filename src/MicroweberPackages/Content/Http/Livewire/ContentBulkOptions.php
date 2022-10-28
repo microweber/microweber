@@ -18,6 +18,14 @@ class ContentBulkOptions extends Component
 
         'multipleDelete' => 'multipleDeleteShowModal',
         'multipleDeleteExecute' => 'multipleDeleteExecute',
+
+        'multipleUndelete' => 'multipleUndeleteShowModal',
+        'multipleUndeleteExecute' => 'multipleUndeleteExecute',
+
+        'multipleDeleteForever' => 'multipleDeleteForeverShowModal',
+        'multipleDeleteForeverExecute' => 'multipleDeleteForeverExecute',
+
+
     ];
 
 
@@ -33,7 +41,7 @@ class ContentBulkOptions extends Component
 
     public function multipleMoveToCategoryExecute()
     {
-        $this->emit('refreshProductsList');
+        $this->emit('refreshProductsListAndDeselectAll');
         $this->multipleMoveToCategoryShowModal = false;
     }
 
@@ -60,7 +68,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsList');
+        $this->emit('refreshProductsListAndDeselectAll');
         $this->multiplePublishShowModal = false;
     }
 
@@ -86,13 +94,16 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsList');
+        $this->emit('refreshProductsListAndDeselectAll');
         $this->multipleUnpublishShowModal = false;
     }
 
     // Delete modal
     public $multipleDeleteShowModal = false;
+    public $multipleUndeleteShowModal = false;
+    public $multipleDeleteForeverShowModal = false;
     public $multipleDeleteIds = [];
+    public $multipleUndeleteIds = [];
 
     public function multipleDeleteShowModal($params)
     {
@@ -100,7 +111,73 @@ class ContentBulkOptions extends Component
         $this->multipleDeleteShowModal = true;
     }
 
+
+
     public function multipleDeleteExecute()
+    {
+        if (!empty($this->multipleDeleteIds)) {
+            foreach ($this->multipleDeleteIds as $deleteId) {
+                $findContent = Content::where('id', $deleteId)->first();
+                if ($findContent !== null) {
+                    $findContent->is_deleted = 1;
+                    $findContent->save();
+                    //$findContent->delete();
+                }
+            }
+        }
+
+        $this->emit('refreshProductsListAndDeselectAll');
+        $this->multipleDeleteShowModal = false;
+    }
+
+
+    public function multipleDeleteForeverShowModal($params)
+    {
+        $this->multipleDeleteIds = $params;
+        $this->multipleDeleteForeverShowModal = true;
+    }
+
+
+
+
+
+
+    public function multipleUndeleteShowModal($params)
+    {
+        $this->multipleUndeleteIds = $params;
+        $this->multipleUndeleteShowModal = true;
+    }
+
+
+
+    public function multipleUndeleteExecute()
+    {
+        if (!empty($this->multipleUndeleteIds)) {
+            foreach ($this->multipleUndeleteIds as $deleteId) {
+                $findContent = Content::where('id', $deleteId)->first();
+                if ($findContent !== null) {
+                    $findContent->is_deleted = 0;
+                    $findContent->save();
+                 }
+            }
+        }
+
+        $this->emit('refreshProductsListAndDeselectAll');
+        $this->multipleUndeleteShowModal = false;
+    }
+
+
+    public function multipleUndeleteForeverShowModal($params)
+    {
+        $this->multipleUndeleteIds = $params;
+        $this->multipleUndeleteForeverShowModal = true;
+    }
+
+
+
+
+
+    public function multipleDeleteForeverExecute()
     {
         if (!empty($this->multipleDeleteIds)) {
             foreach ($this->multipleDeleteIds as $deleteId) {
@@ -111,9 +188,11 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsList');
-        $this->multipleDeleteShowModal = false;
+        $this->emit('refreshProductsListAndDeselectAll');
+        $this->multipleDeleteForeverShowModal = false;
     }
+
+
 
     public function render()
     {

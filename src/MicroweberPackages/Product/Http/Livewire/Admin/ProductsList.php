@@ -19,12 +19,18 @@ class ProductsList extends Component
     public $filters = [];
     protected $listeners = [
         'refreshProductsList' => '$refresh',
+        'refreshProductsListAndDeselectAll' => 'refreshProductsListAndDeselectAll',
         'setFirstPageProductsList' => 'setPaginationFirstPage',
-        'autoCompleteSelectItem'=>'setFilter',
-        'hideFilterItem'=>'hideFilter',
-        'applyFilterItem'=>'applyFilterItem',
+        'autoCompleteSelectItem' => 'setFilter',
+        'hideFilterItem' => 'hideFilter',
+        'applyFilterItem' => 'applyFilterItem',
+        'resetFilter' => 'clearFilters',
+        'showTrashed' => 'showTrashed',
+        'showFromCategory' => 'showFromCategory',
+        'showFromPage' => 'showFromPage',
+        'deselectAll' => 'deselectAll',
     ];
-    protected $queryString = ['filters', 'showFilters','paginate'];
+    protected $queryString = ['filters', 'showFilters', 'paginate'];
 
     public $showColumns = [
         'id' => true,
@@ -46,17 +52,24 @@ class ProductsList extends Component
     {
         $this->filters = [];
         $this->showFilters = [];
+        $this->setPaginationFirstPage();
     }
 
     public function setFilter($key, $value)
     {
         if (is_array($value)) {
             $value = implode(',', $value);
-        }
-        ;
+        };
         $this->filters[$key] = $value;
     }
 
+    public function refreshProductsListAndDeselectAll()
+    {
+        $this->deselectAll();
+        $this->emit('refreshProductsList');
+
+
+    }
     public function deselectAll()
     {
         $this->checked = [];
@@ -80,15 +93,65 @@ class ProductsList extends Component
 
     public function applyFilterItem($filter, $filterValue)
     {
+        $this->removeTrashedFilter();
         $this->filters[$filter] = $filterValue;
         $this->showFilters[$filter] = true;
+
+    }
+
+    public function removeTrashedFilter()
+    {
+        if (isset($this->filters['trashed'])) {
+            unset($this->filters['trashed']);
+        }
+        if (isset($this->showFilters['trashed'])) {
+            unset($this->showFilters['trashed']);
+        }
+
+    }
+
+    public function showFromPage($pageId)
+    {
+        $this->removeTrashedFilter();
+        if (isset($this->filters['category'])) {
+            unset($this->filters['category']);
+        }
+        if (isset($this->showFilters['category'])) {
+            unset($this->showFilters['category']);
+        }
+        $this->filters['page'] = $pageId;
+        $this->setPaginationFirstPage();
+    }
+
+
+    public function showFromCategory($categoryId)
+    {
+        $this->removeTrashedFilter();
+        if (isset($this->filters['page'])) {
+            unset($this->filters['page']);
+        }
+        if (isset($this->showFilters['page'])) {
+            unset($this->showFilters['page']);
+        }
+
+
+        $this->filters['category'] = $categoryId;
+        $this->setPaginationFirstPage();
+    }
+
+
+    public function showTrashed($showTrashed = false)
+    {
+        $this->filters['trashed'] = $showTrashed;
+        $this->showFilters['trashed'] = true;
+        $this->setPaginationFirstPage();
     }
 
     public function updatedShowFilters($value)
     {
         $this->showFilters = array_filter($this->showFilters);
         if (!empty($this->showFilters)) {
-            foreach ($this->showFilters as $filterKey=>$filterValue) {
+            foreach ($this->showFilters as $filterKey => $filterValue) {
                 session()->flash('showFilter' . ucfirst($filterKey), '1');
             }
         }
@@ -143,6 +206,15 @@ class ProductsList extends Component
         $this->emit('multipleDelete', $this->checked);
     }
 
+    public function multipleUndelete()
+    {
+        $this->emit('multipleUndelete', $this->checked);
+    }
+   public function multipleDeleteForever()
+    {
+        $this->emit('multipleDeleteForever', $this->checked);
+    }
+
     public function setPaginationFirstPage()
     {
         $this->setPage(1);
@@ -186,7 +258,7 @@ class ProductsList extends Component
 
         $this->appliedFilters = [];
 
-        $whitelistedEmptyKeys = ['inStock', 'orders','qty'];
+        $whitelistedEmptyKeys = ['inStock', 'orders', 'qty'];
 
         foreach ($this->filters as $filterKey => $filterValue) {
 
@@ -202,6 +274,9 @@ class ProductsList extends Component
         $applyFiltersToQuery = $this->appliedFilters;
         if (!isset($applyFiltersToQuery['orderBy'])) {
             $applyFiltersToQuery['orderBy'] = 'position,desc';
+        }
+        if (!isset($applyFiltersToQuery['trashed'])) {
+            $applyFiltersToQuery['trashed'] = 0;
         }
 
         $query->filter($applyFiltersToQuery);
