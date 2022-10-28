@@ -1,3 +1,7 @@
+<script>
+    mw.require('content.js', true);
+</script>
+
 <style>
     .badge-dropdown {
         background: #ffffff;
@@ -137,11 +141,27 @@
                         title: '<?php _e("Trash") ?>',
                         icon: 'mdi mdi-delete',
                         action: function () {
-                            mw.url.windowHashParam('action', 'trash');
+
+                            window.livewire.emit('resetFilter');
+                            window.livewire.emit('showTrashed', 1);
+
+
                         }
                     }
                 ];
                 var contextMenu =  [
+                    {
+                        title: 'Open',
+                        icon: 'mdi mdi-open-in-new',
+                        action: function (element, data) {
+
+                            if (data.type === 'category') {
+                                window.livewire.emit('showFromCategory', data.id);
+                            }  else {
+                                window.livewire.emit('showFromPage', data.id);
+                            }
+                        }
+                    },
                     {
                         title: 'Edit',
                         icon: 'mdi mdi-pencil',
@@ -183,6 +203,7 @@
                     saveState: true,
                     searchInput: true,
                     contextMenu: contextMenu,
+                    searchInputPlaceholder: '<?php _e('Search categories'); ?>',
                     resizable: true,
                     resizableOn: 'treeParent',
                     append: treeTail,
@@ -219,17 +240,32 @@
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
                             if (item.type == 'category') {
-                                window.livewire.emit('applyFilterItem', 'category', item.id);
+                                window.livewire.emit('showFromCategory', item.id);
                             }
                             if (item.type == 'page') {
-                                window.livewire.emit('applyFilterItem', 'page', item.id);
+                                window.livewire.emit('showFromPage', item.id);
                             }
+                            window.livewire.emit('setFirstPageProductsList');
+
                         });
                     });
 
                 });
             })();
         </script>
+
+        <script>
+
+            Livewire.on('selectCategoryFromTableList', function (id) {
+                pagesTree.unselectAll(false);
+                pagesTree.show(id, 'category');
+                pagesTree.select(id, 'category', true);
+            //    pagesTree.get(id, 'category').scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+            })
+        </script>
+
+
+
     </div>
     <main class="module-content">
         <livewire:admin-products-list />

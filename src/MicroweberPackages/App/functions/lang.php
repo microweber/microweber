@@ -130,7 +130,7 @@ function _e($k, $to_return = false, $replace = [])
     $trans = trans('*.'.$k, $replace, $locale);
     $trans = ltrim($trans, '*.');
 
-    $trans = str_ireplace('{{app_name}}', 'Microweber', $trans);
+  //  $trans = str_ireplace('{{app_name}}', 'Microweber', $trans);
 
     if ($to_return) {
         return $trans;

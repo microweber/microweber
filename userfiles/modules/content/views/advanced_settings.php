@@ -85,17 +85,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                 });
             });
         }
-        mw.del_current_page = function (a, callback) {
-            mw.tools.confirm("<?php _ejs("Are you sure you want to delete this"); ?>", function () {
-                var arr = (a.constructor === [].constructor) ? a : [a];
-                var obj = {ids: arr}
-                $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
-                    mw.notification.warning("<?php _ejs('Content was sent to Trash'); ?>");
-                    typeof callback === 'function' ? callback.call(data) : '';
-                    window.location.href = window.location.href;
-                });
-            });
-        }
+        // mw.del_current_page = function (a, callback) {
+        //
+        //     mw.admin.content.delete(a, function () {
+        //         window.location.href = window.location.href;
+        //     });
+        //
+        //
+        // }
 
         mw.adm_cont_type_change_holder_event = function (el) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
@@ -401,7 +398,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
-                        <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn" href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete Content"); ?></a>
 
                     </div>
 
@@ -584,6 +580,16 @@ if (isset($data['created_by']) and $data['created_by']) {
         </div>
     </div>
     <?php endif; ?>
+
+
+
+
+
+
+
+<?php include (__DIR__.'/content_delete_btns.php')?>
+
+
 
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>

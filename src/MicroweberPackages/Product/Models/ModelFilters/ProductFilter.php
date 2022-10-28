@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Product\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
+use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
@@ -19,12 +20,13 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByQtyTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByVisibleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 
-class ProductFilter extends ModelFilter
+class ProductFilter extends ContentFilter
 {
     use OrderByTrait;
     use FilterByAuthor;
@@ -39,7 +41,8 @@ class ProductFilter extends ModelFilter
     use FilterByContentData;
     use FilterByStockTrait;
     use FilterByVisibleTrait;
-    use FilterByDate;
+    use FilterByVisibleTrait;
+    use FilterByTrashedTrait;
 
     public function sku($sku)
     {

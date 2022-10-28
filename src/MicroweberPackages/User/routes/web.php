@@ -41,11 +41,13 @@ Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'
 
     Route::get('/forgot-password', 'UserForgotPasswordController@showForgotForm')->name('password.request');
     Route::post('/forgot-password', 'UserForgotPasswordController@send')
-        ->middleware(['throttle:3,1'])
+        ->middleware(['throttle:3,1',\MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class])
         ->name('password.email');
 
     Route::get('/reset-password/{token}', 'UserForgotPasswordController@showResetForm')->name('password.reset');
-    Route::post('/reset-password', 'UserForgotPasswordController@update')->name('password.update');
+    Route::post('/reset-password', 'UserForgotPasswordController@update')
+        ->middleware(['throttle:3,1',\MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class])
+        ->name('password.update');
 });
 
 

@@ -320,6 +320,55 @@ mw.contactForm = function () {
 };
 
 
+if(typeof mw.admin.content === 'undefined'){
+    mw.admin.content = {};
+}
+mw.admin.content.delete = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+
+
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr}
+
+        mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true});
+
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was sent to Trash");
+            typeof callback === 'function' ? callback.call(data) : '';
+            mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true}).remove();
+            window.livewire.emit('refreshProductsList');
+         });
+    });
+}
+mw.admin.content.deleteForever = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr, forever: true}
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was deleted forever");
+            typeof callback === 'function' ? callback.call(data) : '';
+         });
+    });
+}
+mw.admin.content.restoreFromTrash = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to restore this content from trash? ", function () {
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr, undelete: true}
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was restored from Trash");
+            typeof callback === 'function' ? callback.call(data) : '';
+         });
+    });
+}
+mw.admin.content.publishContent = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to publish this content? ", function () {
+        mw.content.publish(a);
+    });
+}
+
+
+
+
 $(mwd).ready(function () {
 
 
