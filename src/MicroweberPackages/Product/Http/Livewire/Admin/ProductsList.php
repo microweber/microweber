@@ -113,6 +113,11 @@ class ProductsList extends Component
     public function showFromPage($pageId)
     {
         $this->removeTrashedFilter();
+        $this->deselectAll();
+
+        if (isset($this->filters['keyword'])) {
+            unset($this->filters['keyword']);
+        }
         if (isset($this->filters['category'])) {
             unset($this->filters['category']);
         }
@@ -127,9 +132,14 @@ class ProductsList extends Component
     public function showFromCategory($categoryId)
     {
         $this->removeTrashedFilter();
+        $this->deselectAll();
+        if (isset($this->filters['keyword'])) {
+            unset($this->filters['keyword']);
+        }
         if (isset($this->filters['page'])) {
             unset($this->filters['page']);
         }
+
         if (isset($this->showFilters['page'])) {
             unset($this->showFilters['page']);
         }

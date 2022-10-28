@@ -151,6 +151,18 @@
                 ];
                 var contextMenu =  [
                     {
+                        title: 'Open',
+                        icon: 'mdi mdi-open-in-new',
+                        action: function (element, data) {
+
+                            if (data.type === 'category') {
+                                window.livewire.emit('showFromCategory', data.id);
+                            }  else {
+                                window.livewire.emit('showFromPage', data.id);
+                            }
+                        }
+                    },
+                    {
                         title: 'Edit',
                         icon: 'mdi mdi-pencil',
                         action: function (element, data, menuitem) {

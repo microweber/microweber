@@ -325,11 +325,18 @@ if(typeof mw.admin.content === 'undefined'){
 }
 mw.admin.content.delete = function (a, callback) {
     mw.tools.confirm("Are you sure you want to delete this? ", function () {
+
+
         var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids: arr}
+
+        mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true});
+
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
             mw.notification.warning("Content was sent to Trash");
             typeof callback === 'function' ? callback.call(data) : '';
+            mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true}).remove();
+            window.livewire.emit('refreshProductsList');
          });
     });
 }
