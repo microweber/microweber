@@ -56,6 +56,10 @@ class ImportFeed extends Model
             return false;
         }
 
+        if (empty($this->content_tag)) {
+            $this->content_tag = $spreadshet->setSheet(0)->getSheet()->getTitle();
+        }
+
         // Read sheet
         $readedRows = [];
         for ($i = 0; $i <= $sheetCount; $i++) {
