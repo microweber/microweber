@@ -65,6 +65,11 @@ class ImportWizard extends Component
         $this->import_feed = $feed->toArray();
     }
 
+    public function changeContentTag($tag)
+    {
+
+    }
+
     public function readFeedFile()
     {
         $feed = ImportFeed::where('is_draft', 1)->first();
