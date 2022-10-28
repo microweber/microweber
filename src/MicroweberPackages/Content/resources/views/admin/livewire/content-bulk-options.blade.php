@@ -26,6 +26,8 @@
             });
         }
 
+
+
         $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function (data) {
             var btn = document.createElement('button');
             btn.disabled = true;
@@ -83,5 +85,24 @@
         });
         </script>
     @endif
+
+
+    @if($multipleUndeleteShowModal)
+        <script>
+        mw.tools.confirm("Are you sure you want to restore the selected data?", function () {
+            window.livewire.emit('multipleUndeleteExecute');
+        });
+        </script>
+    @endif
+
+
+    @if($multipleDeleteForeverShowModal)
+        <script>
+        mw.tools.confirm("Are you sure you want to delete the selected data forever?", function () {
+            window.livewire.emit('multipleDeleteForeverExecute');
+        });
+        </script>
+    @endif
+
 
 </div>

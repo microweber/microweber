@@ -14,6 +14,7 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 
@@ -25,6 +26,7 @@ class ContentFilter extends ModelFilter
     use FilterByUrlTrait;
     use FilterByKeywordTrait;
     use FilterByTagsTrait;
+    use FilterByTrashedTrait;
 
     public function fields($fields)
     {

@@ -1,3 +1,7 @@
+<script>
+    mw.require('content.js', true);
+</script>
+
 <style>
     .badge-dropdown {
         background: #ffffff;
@@ -137,7 +141,11 @@
                         title: '<?php _e("Trash") ?>',
                         icon: 'mdi mdi-delete',
                         action: function () {
-                            mw.url.windowHashParam('action', 'trash');
+
+                            window.livewire.emit('resetFilter');
+                            window.livewire.emit('showTrashed', 1);
+
+
                         }
                     }
                 ];
@@ -218,18 +226,34 @@
 
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
+
                             if (item.type == 'category') {
-                                window.livewire.emit('applyFilterItem', 'category', item.id);
+                                window.livewire.emit('showFromCategory', item.id);
+                             //   window.livewire.emit('applyFilterItem', 'category', item.id);
                             }
                             if (item.type == 'page') {
-                                window.livewire.emit('applyFilterItem', 'page', item.id);
+                                window.livewire.emit('showFromPage', item.id);
+                               // window.livewire.emit('applyFilterItem', 'page', item.id);
                             }
+                            window.livewire.emit('setFirstPageProductsList');
+
                         });
                     });
 
                 });
             })();
         </script>
+
+        <script>
+            Livewire.on('applyFilterItem', function (filterType, filterId) {
+                mw.log('applyFilterItem')
+                mw.log(filterType)
+                mw.log(filterId)
+            })
+        </script>
+
+
+
     </div>
     <main class="module-content">
         <livewire:admin-products-list />

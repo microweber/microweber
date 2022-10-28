@@ -19,7 +19,10 @@ class SameSiteRefererMiddleware
     public function handle(Request $request, Closure $next, $guard = null)
     {
         $full_url = $request->headers->get('referer');
-
+        if (!$full_url) {
+            $error = 'You are not allowed to make requests from this domain';
+            return abort(403, $error);
+        }
         if ($full_url) {
             $result = $this->isSameSite($full_url);
             if (!$result) {

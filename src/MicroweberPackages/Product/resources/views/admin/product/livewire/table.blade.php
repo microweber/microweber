@@ -1,13 +1,25 @@
+<?php
+$isInTrashed  = false;
+if(isset($showFilters['trashed']) && $showFilters['trashed']){
+    $isInTrashed  = true;
+}
+?>
+
+
+
 <div class="card style-1 mb-3">
 
     <div class="card-header d-flex align-items-center justify-content-between px-md-4">
         <div class="col d-flex justify-content-md-between justify-content-center align-items-center px-0">
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
-                <strong class="d-xl-flex d-none">
+                <strong class="d-md-flex d-none">
                  {{_e('Products')}}
 
                     @php
+
+
+
                         $findCategory = false;
                         if (isset($filters['category'])) {
                             $findCategory = get_category_by_id($filters['category']);
@@ -22,6 +34,14 @@
 
                     @endif
 
+                    @if($isInTrashed)
+
+
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></i><?php _e('Trash') ?>
+
+
+                    @endif
+
                 </strong>
             </h5>
             <div>
@@ -30,11 +50,23 @@
         </div>
     </div>
 
+
+
+
     <div class="card-body pt-3">
+
+
 
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
+
+
+
+
     <div class="d-flex">
+
+       <?php if(!$isInTrashed): ?>
+
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
             <input wire:model.stop="filters.keyword" type="text" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
         </div>
@@ -62,6 +94,8 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
             </div>
         </div>
+
+        <?php endif; ?>
 
         @if(!empty($appliedFiltersFriendlyNames))
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
@@ -155,7 +189,13 @@
                     <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
                     <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
                     <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Delete</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
+                    <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
+                    <?php if($isInTrashed): ?>
+
+                    <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -301,7 +341,13 @@
                         @foreach($product->categories as $category)
                                 @if($category->parent)
 
-                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                                       class="btn btn-link p-0 text-muted">
+                                        {{$category->parent->title}}</a>
+
+
+
+
 
                                 @endif
                             @endforeach
@@ -316,11 +362,31 @@
                 <div class="manage-post-item-links mt-3">
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
                     <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
-                    <a href="javascript:mw.delete_single_post('{{ $product->id }}');" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <?php if(!$product->is_deleted): ?>
+                    <a href="javascript:mw.admin.content.delete('{{ $product->id }}');" class="btn btn-outline-danger btn-sm">Delete</a>
+                    <?php endif; ?>
                     @if ($product->is_active < 1)
-                    <a href="{{route('admin.product.edit', $product->id)}}" class="badge badge-warning font-weight-normal">Unpublished</a>
-                    @endif
+                    <a href="javascript:mw.admin.content.publishContent('{{ $product->id }}');" class="mw-set-content-unpublish badge badge-warning font-weight-normal">Unpublished</a>
+
+                     @endif
                 </div>
+
+
+
+
+                <?php if($product->is_deleted): ?>
+
+
+              <?php
+                    $data = $product->toArray();
+
+                    include(modules_path() . 'content/views/content_delete_btns.php');
+
+                    ?>
+
+
+                <?php endif; ?>
+
 
             </td>
             @endif
