@@ -66,14 +66,14 @@
                 $(categorySelector.tree).on('ready', function () {
                     if (window.pagesTree && pagesTree.selectedData.length) {
                         $.each(pagesTree.selectedData, function () {
-                            categorySelector.tree.select(this)
+                            categorySelector.tree.select(this, undefined, false)
                         })
                     } else {
                         $.each(selectedPages, function () {
-                            categorySelector.tree.select(this, 'page')
+                            categorySelector.tree.select(this, 'page', false);
                         });
                         $.each(selectedCategories, function () {
-                            categorySelector.tree.select(this, 'category')
+                            categorySelector.tree.select(this, 'category', false);
                         });
                     }
 

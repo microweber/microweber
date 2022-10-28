@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportWizard extends Component
@@ -30,7 +31,7 @@ class ImportWizard extends Component
 
     public function selectImportTo($importTo)
     {
-        $this->tab = 'upload';
+        $this->showTab('upload');
         $this->importTo = $importTo;
 
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
@@ -39,9 +40,13 @@ class ImportWizard extends Component
             $findImportFeed->is_draft = 1;
         }
 
+        $findImportFeed->resetFeed();
         $findImportFeed->name = 'Import ' . ucfirst($importTo);
         $findImportFeed->import_to = $importTo;
         $findImportFeed->save();
+
+        // refresh state
+        $this->import_feed = $findImportFeed->toArray();
     }
 
     public function download()
@@ -56,6 +61,8 @@ class ImportWizard extends Component
         } else {
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
+
+        $this->import_feed = $feed->toArray();
     }
 
     public function readFeedFile()
@@ -70,7 +77,7 @@ class ImportWizard extends Component
                 $read = $feed->readContentFromFile($feedFile, $fileExt);
 
                 if ($read) {
-                    $this->tab = 'map';
+                    $this->showTab('map');
                     session()->flash('successMessage', 'Feed is read successfully.');
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
@@ -108,9 +115,40 @@ class ImportWizard extends Component
 
     }
 
+    public function saveMapping()
+    {
+        $feed = ImportFeed::where('is_draft', 1)->first();
+        if ($feed) {
+
+            $feedMapToArray = new FeedMapToArray();
+            $feedMapToArray->setImportFeedId($feed->id);
+            $preparedData = $feedMapToArray->toArray();
+
+            $feed->mapped_content = $preparedData;
+            $feed->save();
+
+            $this->import_feed = $feed->toArray();
+
+            $this->showTab('import');
+        }
+    }
+
+    public function import()
+    {
+        sleep(5);
+    }
+
     public function mount()
     {
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+
+        if (!$findImportFeed) {
+            $newDraftFeed = new ImportFeed();
+            $newDraftFeed->is_draft = 1;
+            $newDraftFeed->save();
+            $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        }
+
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
             $this->importFeedId = $findImportFeed->id;

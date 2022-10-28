@@ -919,7 +919,12 @@ hr {
     color: white!important;
 }
 
-/*.table.table-responsive .form-check .form-check-input {*/
-/*    width: 20px;*/
-/*    height: 20px;*/
-/*}*/
+@media (min-height: 600px) {
+    #mw-edit-page-editor-holder .mw-editor-wrapper.mw-editor-default > .mw-bar{
+        position: sticky;
+        top: 123px;
+        z-index: 2;
+    }
+}
+
+

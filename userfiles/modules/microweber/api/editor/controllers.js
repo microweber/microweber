@@ -206,7 +206,7 @@ MWEditor.controllers = {
                     val = {
                         url: '',
                         text: api.getSelectionHTML(),
-                        target: false
+                        target: target.target === '_blank'
                     };
                 }
                 var linkEditor = new mw.LinkEditor({
@@ -656,7 +656,10 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.insertHTML('<table class="mw-ui-table" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>');
+                if((e.which || e.button) === 1) {
+                    var table = '<table id="test" class="mw-ui-table" style="width: 100%" border="1" width="100%"><tr><td></td><td></td></tr><tr><td></td><td></td></tr></table>';
+                    api.insertHTML(table);
+                }
             });
             return el;
         };

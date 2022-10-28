@@ -20,11 +20,13 @@
                 <h3>Done!</h3>
             @endif
 
-          <button wire:click="$emit('importExportToolNextStep')" type="button">Start</button>
-
         </div>
     </div>
     <script>
+       setTimeout(function() {
+            window.Livewire.emit('importExportToolNextStep');
+        }, 1000);
+
         window.addEventListener('nextStepCompleted', event => {
             window.Livewire.emit('importExportToolNextStep');
         });

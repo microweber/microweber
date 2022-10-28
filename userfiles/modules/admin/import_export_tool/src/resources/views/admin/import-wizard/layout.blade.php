@@ -10,6 +10,11 @@
 
     <div class="card-body pt-3">
 
+       <div>
+           <a href="{{route('admin.import-export-tool.index')}}" class="btn btn-outline-primary btn-sm">
+               <i class="fa fa-arrow-left"></i> Back to Imports</a>
+       </div>
+
         <style>
             .import-wizard {
                 list-style: none;
@@ -54,9 +59,30 @@
                 margin-right: 10px;
             }
 
+            .import-wizard__link .desc-box {
+                display: inline-block;
+                width: 126px;
+                float: right;
+                font-size: 12px;
+                padding-top: 5px;
+            }
+            .import-wizard__link .desc-icon {
+                width: 33px;
+                position: absolute;
+                margin-top: -42px;
+                margin-left: 135px;
+                opacity: 0.4;
+            }
+
             .import-wizard__link .desc {
                 text-transform: capitalize;
-                display: inline-block;
+
+            }
+            .import-wizard__link .small-desc {
+                text-transform: capitalize;
+                display: block;
+                color: #eee;
+                font-size: 10px;
             }
 
             .import-wizard .active .import-wizard__link {
@@ -114,37 +140,78 @@
 
         <div class="wizard-container">
 
-            <div class="text-center">
-                <h1>
-                    Import Wizard
-                </h1>
-                <p>Please follow the wizard to import new feed.</p>
+
+            <div class="row">
+                <div class="mx-auto col-md-8">
+                    <h4>
+                        Import Wizard
+                    </h4>
+                    <p>Please follow the wizard to import new feed.</p>
+                </div>
             </div>
 
             <ul class="import-wizard justify-content-center">
                 <li class="import-wizard__item @if($tab =='type') active @endif">
-                    <a href="{{route('admin.import-export-tool.import-wizard')}}" class="import-wizard__link">
+                    <a href="#" wire:click="showTab('type')" class="import-wizard__link">
                         <span class="step">1</span>
-                        <span class="desc">Import Type</span>
+                        @if($import_feed['import_to'])
+                        <div class="desc-box">
+                            <span class="desc">Import</span>
+                            <span class="small-desc">{{$import_feed['import_to']}}</span>
+                        </div>
+                        <div class="desc-icon">
+                            <x-import_export_tool::icon width="38px" name="{{$import_feed['import_to']}}" />
+                        </div>
+                        @else
+                            <span class="desc">Import Type</span>
+                        @endif
                     </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='upload') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('upload')" class="import-wizard__link">
                         <span class="step">2</span>
+                        @if($import_feed['source_type'] && !empty($import_feed['source_file_realpath']))
+                            <div class="desc-box">
+                                <span class="desc">Upload File</span>
+                                <span class="small-desc">
+                                    @if($import_feed['source_type'] == 'upload_file')
+                                        From computer
+                                    @else
+                                        From URL
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="desc-icon">
+                                <x-import_export_tool::icon width="38px" name="check" />
+                            </div>
+                        @else
                         <span class="desc">Upload File</span>
-                    </div>
+                        @endif
+                    </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='map') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('map')" class="import-wizard__link">
                         <span class="step">3</span>
+                        @if($import_feed['mapped_content'])
+                            <div class="desc-box">
+                                <span class="desc">Map fields</span>
+                                <span class="small-desc">
+                                    Mapped
+                                </span>
+                            </div>
+                            <div class="desc-icon">
+                                <x-import_export_tool::icon width="38px" name="check" />
+                            </div>
+                        @else
                         <span class="desc">Map Fields</span>
-                    </div>
+                        @endif
+                    </a>
                 </li>
                 <li class="import-wizard__item @if($tab =='import') active @endif">
-                    <div class="import-wizard__link">
+                    <a href="#" wire:click="showTab('import')" class="import-wizard__link">
                         <span class="step">4</span>
                         <span class="desc">Import</span>
-                    </div>
+                    </a>
                 </li>
             </ul>
             <div class="mb-5">

@@ -141,6 +141,7 @@
             multiselect: true,
             selectable: true,
             canSelectFolder: false,
+            selectableFilter: null,
             options: false,
             element: null,
             query: {
@@ -430,7 +431,7 @@
 
         this.getSelectableItems = function () {
             return this.getItems().filter(function (itm){
-                return itm.type !== 'folder' || scope.settings.canSelectFolder;
+                return (itm.type !== 'folder' || scope.settings.canSelectFolder) && scope.canSelect(itm);
             });
         };
 
@@ -655,8 +656,14 @@
                     scope.renderData();
                 });
             }
-        }
+        };
 
+        this.canSelect = function (item) {
+            if(typeof this.settings.selectableFilter === 'function') {
+                return this.settings.selectableFilter(item)
+            }
+            return true;
+        }
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
@@ -670,9 +677,8 @@
                 });
             }
             if(this.settings.selectable) {
-
-                if (this.settings.canSelectFolder || item.type === 'file') {
-                    var check =  _check();
+                if ((this.settings.canSelectFolder || item.type === 'file') && this.canSelect(item)) {
+                    var check = _check();
                     check.input.on('change', function () {
                          scope[!this.checked ? 'unselect' : 'select'](item);
                         _selectedUI();
@@ -692,6 +698,7 @@
                 var cellOptions = mw.element({ tag: 'td', content: createOptions(item) }).addClass('mw-file-manager-options-cell');
                 row.append(cellOptions);
             }
+
             return row;
         };
 
