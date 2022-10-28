@@ -54,6 +54,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                     mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");
                     <?php endif; ?>
                 });
+                $('#content-title-field-buttons').show()
             });
         }
         if (document.readyState !== 'loading') {
