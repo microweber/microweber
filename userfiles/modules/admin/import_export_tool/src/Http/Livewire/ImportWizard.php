@@ -65,9 +65,19 @@ class ImportWizard extends Component
         $this->import_feed = $feed->toArray();
     }
 
-    public function changeContentTag($tag)
+    public function changeContentTag()
     {
+        $feed = ImportFeed::where('is_draft', 1)->first();
+        if ($feed) {
+            if ($feed->content_tag != $this->import_feed['content_tag']) {
+                $feed->content_tag = $this->import_feed['content_tag'];
+                $feed->save();
 
+                $this->readFeedFile();
+                
+                $this->emit('$refresh');
+            }
+        }
     }
 
     public function readFeedFile()

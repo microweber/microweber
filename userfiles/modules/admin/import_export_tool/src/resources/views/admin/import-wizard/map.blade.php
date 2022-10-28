@@ -45,10 +45,12 @@
 
                     @if($this->import_feed['content_tag'])
                         <button wire:click="changeContentTag" type="button" class="btn btn-outline-success">
-                            <span wire:loading wire:target="changeContentTag">
-                                <span class="spinner-border spinner-border-sm" role="status"></span>
-                            </span>
                             <i class="fa fa-file-import"></i> Read data
+
+                            <span wire:loading wire:target="changeContentTag">
+                                <span class="spinner-border spinner-border-sm ml-2" role="status"></span>
+                            </span>
+
                         </button>
                     @endif
                     </div>
