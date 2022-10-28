@@ -93,10 +93,14 @@ class ImportWizard extends Component
                 if ($read) {
                     $this->showTab('map');
                     session()->flash('successMessage', 'Feed is read successfully.');
+
+                    // Read new feed
+                    $feed = ImportFeed::where('is_draft', 1)->first();
+                    $this->import_feed = $feed->toArray();
+
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
                 }
-
             } else {
                 session()->flash('errorMessage', 'Can\'t read feed.');
             }
@@ -123,8 +127,6 @@ class ImportWizard extends Component
         $feed->source_file_realpath = $fullFilePath;
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
-
-        $this->import_feed = $feed->toArray();
 
         $this->dispatchBrowserEvent('read-feed-from-file');
         session()->flash('successMessage', 'Feed is uploaded successfully.');
