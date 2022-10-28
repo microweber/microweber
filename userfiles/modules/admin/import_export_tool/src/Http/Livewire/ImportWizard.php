@@ -72,11 +72,10 @@ class ImportWizard extends Component
             if ($feed->content_tag != $this->import_feed['content_tag']) {
                 $feed->content_tag = $this->import_feed['content_tag'];
                 $feed->save();
-
-                $this->readFeedFile();
-                
-                $this->emit('$refresh');
             }
+
+            $this->readFeedFile();
+            $this->emit('$refresh');
         }
     }
 
