@@ -230,6 +230,16 @@
                 });
             })();
         </script>
+
+        <script>
+            Livewire.on('applyFilterItem', function (filter){
+                mw.log('applyFilterItem')
+                mw.log(filter)
+            })
+        </script>
+
+
+
     </div>
     <main class="module-content">
         <livewire:admin-products-list />

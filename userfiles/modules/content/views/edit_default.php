@@ -235,6 +235,9 @@ if (isset($params['quick_edit'])) {
         }
 
     </script>
+
+
+
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
 
         <?php if ($data['id'] > 0): ?>
@@ -292,8 +295,18 @@ if (isset($params['quick_edit'])) {
             </div>
         </div>
 
+
         <div class="row">
             <div class="col-md-8 manage-content-body">
+
+
+
+                <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
+                    <?php include (__DIR__.'/content_delete_btns.php')?>
+                <?php endif; ?>
+
+
+
                 <div class="content-title-field-row card style-1 mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">

@@ -304,7 +304,13 @@
                         @foreach($product->categories as $category)
                                 @if($category->parent)
 
-                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1" class="btn btn-link p-0 text-muted">{{$category->parent->title}}</a>
+                                    <a onclick="livewire.emit('applyFilterItem', 'category', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                                       class="btn btn-link p-0 text-muted">
+                                        {{$category->parent->title}}</a>
+
+
+
+
 
                                 @endif
                             @endforeach
