@@ -928,3 +928,8 @@ hr {
 }
 
 
+
+.mw-page-component-disabled {
+    pointer-events: none !important;
+    opacity: .9;
+}
