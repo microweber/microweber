@@ -46,7 +46,7 @@ class ImportWizard extends Component
         $findImportFeed->save();
 
         // refresh state
-        $this->import_feed = $findImportFeed->toArray();
+        $this->refreshImportFeedState($findImportFeed->toArray());
     }
 
     public function download()
@@ -62,7 +62,7 @@ class ImportWizard extends Component
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
 
-        $this->import_feed = $feed->toArray();
+        $this->refreshImportFeedState($feed->toArray());
     }
 
     public function changeContentTag()
@@ -77,7 +77,7 @@ class ImportWizard extends Component
             $this->readFeedFile();
 
             $feed = ImportFeed::where('is_draft', 1)->first();
-            $this->import_feed = $feed->toArray();
+            $this->refreshImportFeedState($feed->toArray());
 
             $this->emit('htmlDropdownMappingPreviewRefresh');
         }
@@ -100,7 +100,7 @@ class ImportWizard extends Component
 
                     // Read new feed
                     $feed = ImportFeed::where('is_draft', 1)->first();
-                    $this->import_feed = $feed->toArray();
+                    $this->refreshImportFeedState($feed->toArray());
 
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
@@ -149,7 +149,7 @@ class ImportWizard extends Component
             $feed->mapped_content = $preparedData;
             $feed->save();
 
-            $this->import_feed = $feed->toArray();
+            $this->refreshImportFeedState($feed->toArray());
 
             $this->showTab('import');
         }
@@ -172,16 +172,21 @@ class ImportWizard extends Component
         }
 
         if ($findImportFeed) {
-            $this->import_feed = $findImportFeed->toArray();
-            $this->importFeedId = $findImportFeed->id;
-
-            $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
-            $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
-
-            unset($this->import_feed['mapped_content']);
-            unset($this->import_feed['source_content']);
-
+            $this->refreshImportFeedState($findImportFeed->toArray());
         }
+    }
+
+    public function refreshImportFeedState($importFeed)
+    {
+
+        $this->import_feed = $importFeed;
+        $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
+        $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+
+        $this->importFeedId = $this->import_feed['id'];
+
+        unset($this->import_feed['mapped_content']);
+        unset($this->import_feed['source_content']);
     }
 
     public function render()
