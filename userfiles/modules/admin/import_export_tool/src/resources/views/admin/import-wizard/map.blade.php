@@ -60,7 +60,7 @@
         </table>
 
 
-        @if($this->import_feed['source_content'])
+        @if($this->import_feed['source_content_count'])
 
             <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$importFeedId}}" />
 

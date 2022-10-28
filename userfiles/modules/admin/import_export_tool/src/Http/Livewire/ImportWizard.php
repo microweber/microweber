@@ -174,6 +174,13 @@ class ImportWizard extends Component
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
             $this->importFeedId = $findImportFeed->id;
+
+            $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
+            $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+
+            unset($this->import_feed['mapped_content']);
+            unset($this->import_feed['source_content']);
+
         }
     }
 
