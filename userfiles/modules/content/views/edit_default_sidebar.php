@@ -100,8 +100,8 @@
                                 }
                             });
                         }
-                    })
-                    $('#content-title-field-buttons').show()
+                    });
+                    $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
                 });
 
                 $(categorySelector.tags).on("tagClick", function (e, data) {

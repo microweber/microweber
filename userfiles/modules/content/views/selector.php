@@ -54,7 +54,7 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
                     mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");
                     <?php endif; ?>
                 });
-                $('#content-title-field-buttons').show()
+                $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
             });
         }
         if (document.readyState !== 'loading') {

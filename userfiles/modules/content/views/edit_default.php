@@ -313,7 +313,7 @@ if (isset($params['quick_edit'])) {
                             <h5><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
-                            <div id="content-title-field-buttons" style="display: none">
+                            <div id="content-title-field-buttons" class="mw-page-component-disabled">
 
 
                                <?php
