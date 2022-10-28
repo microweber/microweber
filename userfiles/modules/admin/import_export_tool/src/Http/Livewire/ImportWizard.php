@@ -75,7 +75,11 @@ class ImportWizard extends Component
             }
 
             $this->readFeedFile();
-            $this->emit('$refresh');
+
+            $feed = ImportFeed::where('is_draft', 1)->first();
+            $this->import_feed = $feed->toArray();
+
+            $this->emit('htmlDropdownMappingPreviewRefresh');
         }
     }
 
@@ -93,10 +97,14 @@ class ImportWizard extends Component
                 if ($read) {
                     $this->showTab('map');
                     session()->flash('successMessage', 'Feed is read successfully.');
+
+                    // Read new feed
+                    $feed = ImportFeed::where('is_draft', 1)->first();
+                    $this->import_feed = $feed->toArray();
+
                 } else {
                     session()->flash('errorMessage', 'No content found in feed file.');
                 }
-
             } else {
                 session()->flash('errorMessage', 'Can\'t read feed.');
             }
@@ -166,6 +174,13 @@ class ImportWizard extends Component
         if ($findImportFeed) {
             $this->import_feed = $findImportFeed->toArray();
             $this->importFeedId = $findImportFeed->id;
+
+            $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
+            $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+
+            unset($this->import_feed['mapped_content']);
+            unset($this->import_feed['source_content']);
+
         }
     }
 

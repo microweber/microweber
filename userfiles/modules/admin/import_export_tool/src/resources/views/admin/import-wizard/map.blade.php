@@ -59,20 +59,22 @@
             </tbody>
         </table>
 
-        @if($this->import_feed['mapped_content'])
-        <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$importFeedId}}" />
 
-        <div class="text-center">
-            <div>
-            <button class="btn btn-outline-primary" wire:click="saveMapping"><i class="fa fa-arrow-right"></i> Save & Next Step</button>
+        @if($this->import_feed['source_content_count'])
+
+            <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$importFeedId}}" />
+
+            <div class="text-center">
+                <div>
+                <button class="btn btn-outline-primary" wire:click="saveMapping"><i class="fa fa-arrow-right"></i> Save & Next Step</button>
+                </div>
+                <div wire:loading wire:target="saveMapping" class="mt-3">
+                    <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                    <span class="text-success">
+                       Save mapping...
+                   </span>
+                </div>
             </div>
-            <div wire:loading wire:target="saveMapping" class="mt-3">
-                <div class="spinner-border spinner-border-sm text-success" role="status"></div>
-                <span class="text-success">
-                   Save mapping...
-               </span>
-            </div>
-        </div>
         @endif
 
     </div>
