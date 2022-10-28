@@ -79,7 +79,7 @@ class ImportWizard extends Component
             $feed = ImportFeed::where('is_draft', 1)->first();
             $this->import_feed = $feed->toArray();
 
-            $this->emit('$refresh');
+            $this->emit('htmlDropdownMappingPreviewRefresh');
         }
     }
 
