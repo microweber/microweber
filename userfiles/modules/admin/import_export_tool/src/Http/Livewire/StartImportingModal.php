@@ -131,6 +131,8 @@ class StartImportingModal extends ModalComponent
                 }
 
             } else {
+                $item['parent'] = $this->import_feed->parent_page;
+
                 if (!isset($item['id'])) {
                     $item['id'] = 0;
                 }
