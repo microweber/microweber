@@ -135,7 +135,11 @@ class ImportFeed extends Model
                 $repeatableData = Arr::get($content, $this->content_tag);
             }
 
-            $this->count_of_contents = count($repeatableData);
+            $this->count_of_contents = 0;
+            if (is_array($repeatableData)) {
+                $this->count_of_contents = count($repeatableData);
+            }
+
             $this->mapped_content = [];
             $this->source_content = $content;
             $this->save();

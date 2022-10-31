@@ -1194,7 +1194,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
         <mw-accordion-item class="mw-accordion-item-css">
 
-            <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+            <?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 
             $enabled_custom_fonts_array = array();

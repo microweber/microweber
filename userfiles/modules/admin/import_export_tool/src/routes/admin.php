@@ -87,4 +87,8 @@ Route::name('admin.import-export-tool.')
         Route::get('/import/{id}', 'AdminController@import')->name('import');
         Route::get('/import-start/{id}', 'AdminController@importStart')->name('import-start');
 
+
+        Route::get('/index-exports', 'AdminController@index')->name('index-exports');
+        Route::get('/export-wizard', 'AdminController@index')->name('export-wizard');
+
     });

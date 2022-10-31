@@ -1,4 +1,9 @@
-<div>
+@extends('import_export_tool::admin.module-layout')
+
+@section('module-content')
+    <div>
+
+
 <style>
     #xml_url_result {
         width: 24px;
@@ -104,13 +109,6 @@
     </script>
 @endif
 
-<div class="card style-1 mb-3">
-
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="admin/import_export_tool" />
-    </div>
-
-    <div class="card-body pt-3">
 <div id="import">
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -493,5 +491,4 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+@endsection

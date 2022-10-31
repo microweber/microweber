@@ -3,8 +3,7 @@
 @section('content')
 
     <div class="row">
-        <div class="mx-auto col-md-8">
-
+        <div class="mx-auto col-md-10">
 
             <table class="table">
                 <tbody>
@@ -14,19 +13,16 @@
                     </td>
                     <td>
                         <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                            <option value="0" <?php if ((0 == $import_feed['parent_page'])): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
                             <?php
-                            $posts_parent_page = 0;
-                            ?>
-                            <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
-                            <?php
-                            $pt_opts = array();
-                            $pt_opts['link'] = "{empty}{title}";
-                            $pt_opts['list_tag'] = " ";
-                            $pt_opts['list_item_tag'] = "option";
-                            $pt_opts['active_ids'] = $posts_parent_page;
-                            $pt_opts['active_code_tag'] = '   selected="selected"  ';
-
-                            pages_tree($pt_opts);
+                            $ptOpts = array();
+                            $ptOpts['link'] = "{empty}{title}";
+                            $ptOpts['list_tag'] = " ";
+                            $ptOpts['list_item_tag'] = "option";
+                            $ptOpts['active_ids'] = $import_feed['parent_page'];
+                            $ptOpts['active_code_tag'] = '   selected="selected"  ';
+                            $ptOpts['is_shop'] = 1;
+                            pages_tree($ptOpts);
                             ?>
                         </select>
                     </td>
