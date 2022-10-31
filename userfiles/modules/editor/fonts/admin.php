@@ -118,7 +118,7 @@ if ($is_load_more) {
 
 ?>
 <?php if (isset($fonts['items'])): ?>
-    <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+    <?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 
     $enabled_custom_fonts_array = array();
