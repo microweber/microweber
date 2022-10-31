@@ -94,7 +94,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
     <?php
 
-    $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+    $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString();
 
 
     ?>

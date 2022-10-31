@@ -22,7 +22,7 @@ if(isset($params['name'])){
     $name = $params['name'];
 }
 
-$enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+$enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString();
 $selected = get_option($group, $name);
 
 $enabled_custom_fonts_array = array(

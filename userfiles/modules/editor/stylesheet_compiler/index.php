@@ -215,7 +215,7 @@ if ($stylesheet_settings) {
                     </div>
                 <?php elseif ($setting['type'] == 'font_selector'): ?>
                     <?php
-                    $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
+                    $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString();
 
                     if (is_string($enabled_custom_fonts)) {
                         $enabled_custom_fonts_array = explode(',', $enabled_custom_fonts);

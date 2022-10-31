@@ -16,6 +16,11 @@ class GoogleFonts
 
     }
 
+    public static function getEnabledFontsAsString()
+    {
+        return implode(',', self::getEnabledFonts());
+    }
+
     public static function getDomain()
     {
         $use_google_fonts_proxy = get_option('use_google_fonts_proxy', 'template');
