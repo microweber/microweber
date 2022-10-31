@@ -201,8 +201,16 @@ class ImportWizard extends Component
     public function refreshImportFeedState($importFeed)
     {
         $this->import_feed = $importFeed;
-        $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
-        $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+
+        $this->import_feed['mapped_content_count'] = 0;
+        if (is_array($this->import_feed['mapped_content'])) {
+            $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
+        }
+
+        $this->import_feed['source_content_count'] = 0;
+        if (is_array($this->import_feed['source_content'])) {
+            $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+        }
 
         $this->importFeedId = $this->import_feed['id'];
 

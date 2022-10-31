@@ -66,9 +66,12 @@ class StartImportingModal extends ModalComponent
         }
 
         if (SessionStepper::isFinished()) {
+
+            $this->import_feed->is_draft = 0;
             $this->import_feed->total_running = 0;
             $this->import_feed->last_import_end = Carbon::now();
             $this->import_feed->save();
+
             $this->done = true;
 
             $this->closeModal();

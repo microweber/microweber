@@ -131,20 +131,22 @@ a.import-wizard-select-type:hover {
        <div class="mx-auto col-md-10">
             <div class="mt-4">
                 <div class="d-flex">
-                    <div class="h3">Import Wizard - </div>
-                    @if($this->import_feed_edit_name)
-                    <div class="h3 ml-2" style="margin-top:-10px">
-                        <input type="text"
-                               wire:blur="closeEditName"
-                                wire:keydown.escape="closeEditName"
-                                wire:keydown.enter="closeEditName"
-                               wire:model="import_feed.name" class="form-control form-control-lg" />
-                    </div>
-                    @else
-                    <div class="h3 ml-2">{{$import_feed['name']}}</div>
-                   <div class="ml-2">
-                       <a href="#" wire:click="editName" style="font-size: 17px"><i class="fa fa-pencil-alt"></i></a>
-                   </div>
+                    <div class="h3">Import Wizard  @if($import_feed['name']) - @endif </div>
+                    @if($import_feed['name'])
+                        @if($this->import_feed_edit_name)
+                        <div class="h3 ml-2" style="margin-top:-10px">
+                            <input type="text"
+                                   wire:blur="closeEditName"
+                                    wire:keydown.escape="closeEditName"
+                                    wire:keydown.enter="closeEditName"
+                                   wire:model="import_feed.name" class="form-control form-control-lg" />
+                        </div>
+                        @else
+                        <div class="h3 ml-2">{{$import_feed['name']}}</div>
+                       <div class="ml-2">
+                           <a href="#" wire:click="editName" style="font-size: 17px"><i class="fa fa-pencil-alt"></i></a>
+                       </div>
+                        @endif
                     @endif
                 </div>
                 <p>Please follow the wizard to import new feed.</p>
