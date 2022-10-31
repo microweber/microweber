@@ -23,6 +23,10 @@
                     <td>Multilanguage Title </td>
                 @endif
 
+                @if(isset($importFeed['mapped_content'][0]['multilanguage']['description']))
+                    <td>Multilanguage Description </td>
+                @endif
+
                 @if(isset($importFeed['mapped_content'][0]['content_body']))
                 <td>Content Body</td>
                 @endif
@@ -67,6 +71,20 @@
                         @endif
                                 [{{$locale}}]   <br />
                         @endforeach
+                        </td>
+                    @endif
+
+                    @if(isset($content['multilanguage']['description']))
+                        <td>
+                            @foreach($content['multilanguage']['description'] as $locale=>$value)
+
+                                @if(!empty($value))
+                                    {{$value}}
+                                @else
+                                    <span class="text-muted"> No description in feed</span>
+                                @endif
+                                [{{$locale}}]   <br />
+                            @endforeach
                         </td>
                     @endif
 
