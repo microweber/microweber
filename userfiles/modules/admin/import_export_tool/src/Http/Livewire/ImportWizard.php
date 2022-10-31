@@ -21,7 +21,8 @@ class ImportWizard extends Component
     public $import_feed = [];
 
     public $listeners = [
-        'readFeedFile'=>'readFeedFile'
+        'readFeedFile'=>'readFeedFile',
+        'importingFinished'=>'importingFinished',
     ];
 
     public function showTab($tab)
@@ -155,9 +156,9 @@ class ImportWizard extends Component
         }
     }
 
-    public function import()
+    public function importingFinished()
     {
-        sleep(5);
+        $this->showTab('report');
     }
 
     public function updatedImportFeed()

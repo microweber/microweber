@@ -198,7 +198,19 @@ a.import-wizard-select-type:hover {
         <li class="import-wizard__item @if($tab =='import') active @endif">
             <a href="#" wire:click="showTab('import')" class="import-wizard__link">
                 <span class="step">4</span>
-                <span class="desc">Import</span>
+                @if($import_feed['mapped_tags'])
+                    <div class="desc-box">
+                        <span class="desc">Import</span>
+                        <span class="small-desc">
+                           Imported
+                        </span>
+                    </div>
+                    <div class="desc-icon">
+                        <x-import_export_tool::icon width="38px" name="check" />
+                    </div>
+                @else
+                    <span class="desc">Imprt</span>
+                @endif
             </a>
         </li>
         <li class="import-wizard__item @if($tab =='report') active @endif">

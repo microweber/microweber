@@ -70,6 +70,10 @@ class StartImportingModal extends ModalComponent
             $this->import_feed->last_import_end = Carbon::now();
             $this->import_feed->save();
             $this->done = true;
+
+            $this->closeModal();
+            $this->emit('importingFinished');
+
             return array("success"=>"Done! All steps are finished.");
         }
 
@@ -127,7 +131,7 @@ class StartImportingModal extends ModalComponent
                 if (!isset($item['id'])) {
                     $item['id'] = 0;
                 }
-                
+
                 $findProduct = Product::where('id', $item['id'])->first();
                 if ($findProduct) {
                     $findProduct->update($item);
