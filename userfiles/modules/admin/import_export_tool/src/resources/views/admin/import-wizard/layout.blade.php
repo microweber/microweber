@@ -130,9 +130,17 @@ a.import-wizard-select-type:hover {
    <div class="row">
        <div class="mx-auto col-md-10">
             <div class="mt-4">
-                <h4>
-                    Import Wizard
-                </h4>
+                <div class="d-flex">
+                    <div class="h3">Import Wizard - </div>
+                  {{--  <div class="h3 ml-2">{{$import_feed['name']}}</div>--}}
+                    <div class="h3 ml-2" style="margin-top:-10px">
+                        <div class="input-group">
+                          <input type="text" wire:model="import_feed.name" class="form-control form-control-lg" />
+                            <button type="button" class="btn btn-outline-primary btn-lg">Save</button>
+                        </div>
+                    </div>
+                  {{--  <div class="ml-2"><a href="#" style="font-size: 17px"><i class="fa fa-pencil-alt"></i></a></div>--}}
+                </div>
                 <p>Please follow the wizard to import new feed.</p>
             </div>
         </div>
