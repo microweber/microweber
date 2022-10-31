@@ -22,7 +22,7 @@ class ImportExportToolTest extends TestCase
         $importFeed->name = rand(111, 999) . 'simple-feed';
         $importFeed->save();
 
-        $importFeed->readFeedFromFile($tempName);
+        $importFeed->readContentFromFile($tempName, 'xml');
 
         $this->assertEquals($importFeed->source_content['document']['product'][0]['title'], 'Soflyy T-Shirt');
         $this->assertEquals($importFeed->count_of_contents, 6);
@@ -48,7 +48,7 @@ class ImportExportToolTest extends TestCase
         $importFeed->name = rand(111, 999) . 'simple-csv-feed';
         $importFeed->save();
 
-        $importFeed->readFeedFromFile($tempName);
+        $importFeed->readContentFromFile($tempName,'csv');
 
         $this->assertEquals($importFeed->source_content['Data'][0]['Product Title'], 'Soflyy T-Shirt');
         $this->assertEquals($importFeed->source_content['Data'][0]['SKU'], '999-X');
