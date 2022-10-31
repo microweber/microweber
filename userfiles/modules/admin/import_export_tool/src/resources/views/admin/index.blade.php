@@ -48,7 +48,7 @@
             <td>{{mw()->format->human_filesize($feed->source_file_size)}}</td>
             <td>{{$feed->created_at}}</td>
             <td>{{$feed->updated_at}}</td>
-            <td><a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import',  $feed->id)}}">View</a></td>
+            <td><a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">View</a></td>
         </tr>
     @endforeach
     </tbody>
