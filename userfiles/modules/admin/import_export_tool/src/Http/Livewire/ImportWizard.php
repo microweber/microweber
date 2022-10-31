@@ -19,11 +19,22 @@ class ImportWizard extends Component
 
     public $upload_file;
     public $import_feed = [];
+    public $import_feed_edit_name = 0;
 
     public $listeners = [
         'readFeedFile'=>'readFeedFile',
         'importingFinished'=>'importingFinished',
     ];
+
+    public function editName()
+    {
+        $this->import_feed_edit_name = 1;
+    }
+
+    public function closeEditName()
+    {
+        $this->import_feed_edit_name = 0;
+    }
 
     public function showTab($tab)
     {

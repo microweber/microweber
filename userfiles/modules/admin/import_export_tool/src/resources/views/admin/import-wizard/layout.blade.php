@@ -132,14 +132,20 @@ a.import-wizard-select-type:hover {
             <div class="mt-4">
                 <div class="d-flex">
                     <div class="h3">Import Wizard - </div>
-                  {{--  <div class="h3 ml-2">{{$import_feed['name']}}</div>--}}
+                    @if($this->import_feed_edit_name)
                     <div class="h3 ml-2" style="margin-top:-10px">
-                        <div class="input-group">
-                          <input type="text" wire:model="import_feed.name" class="form-control form-control-lg" />
-                            <button type="button" class="btn btn-outline-primary btn-lg">Save</button>
-                        </div>
+                        <input type="text"
+                               wire:blur="closeEditName"
+                                wire:keydown.escape="closeEditName"
+                                wire:keydown.enter="closeEditName"
+                               wire:model="import_feed.name" class="form-control form-control-lg" />
                     </div>
-                  {{--  <div class="ml-2"><a href="#" style="font-size: 17px"><i class="fa fa-pencil-alt"></i></a></div>--}}
+                    @else
+                    <div class="h3 ml-2">{{$import_feed['name']}}</div>
+                   <div class="ml-2">
+                       <a href="#" wire:click="editName" style="font-size: 17px"><i class="fa fa-pencil-alt"></i></a>
+                   </div>
+                    @endif
                 </div>
                 <p>Please follow the wizard to import new feed.</p>
             </div>
