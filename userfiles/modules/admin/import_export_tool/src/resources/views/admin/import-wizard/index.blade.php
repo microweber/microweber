@@ -18,4 +18,8 @@
         @include('import_export_tool::admin.import-wizard.import')
     @endif
 
+    @if($tab == 'report')
+        @include('import_export_tool::admin.import-wizard.report')
+    @endif
+
 @endsection

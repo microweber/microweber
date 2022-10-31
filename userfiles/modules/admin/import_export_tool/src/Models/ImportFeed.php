@@ -139,7 +139,7 @@ class ImportFeed extends Model
             if (is_array($repeatableData)) {
                 $this->count_of_contents = count($repeatableData);
             }
-            
+
             $this->mapped_content = [];
             $this->source_content = $content;
             $this->save();

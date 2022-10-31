@@ -19,10 +19,22 @@ class ImportWizard extends Component
 
     public $upload_file;
     public $import_feed = [];
+    public $import_feed_edit_name = 0;
 
     public $listeners = [
-        'readFeedFile'=>'readFeedFile'
+        'readFeedFile'=>'readFeedFile',
+        'importingFinished'=>'importingFinished',
     ];
+
+    public function editName()
+    {
+        $this->import_feed_edit_name = 1;
+    }
+
+    public function closeEditName()
+    {
+        $this->import_feed_edit_name = 0;
+    }
 
     public function showTab($tab)
     {
@@ -155,14 +167,29 @@ class ImportWizard extends Component
         }
     }
 
-    public function import()
+    public function importingFinished()
     {
-        sleep(5);
+        $this->showTab('report');
+    }
+
+    public function updatedImportFeed()
+    {
+        $feed = ImportFeed::where('is_draft', 1)->first();
+        if ($feed) {
+            $feed->split_to_parts = $this->import_feed['split_to_parts'];
+            $feed->parent_page = $this->import_feed['parent_page'];
+            $feed->save();
+        }
     }
 
     public function mount()
     {
-        $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        $importFeedId = request()->get('importFeedId');
+        if ($importFeedId) {
+            $findImportFeed = ImportFeed::where('id', $importFeedId)->first();
+        }
+
+     /*   $findImportFeed = ImportFeed::where('is_draft', 1)->first();
 
         if (!$findImportFeed) {
             $newDraftFeed = new ImportFeed();
@@ -170,6 +197,7 @@ class ImportWizard extends Component
             $newDraftFeed->save();
             $findImportFeed = ImportFeed::where('is_draft', 1)->first();
         }
+        */
 
         if ($findImportFeed) {
             $this->refreshImportFeedState($findImportFeed->toArray());
@@ -178,10 +206,17 @@ class ImportWizard extends Component
 
     public function refreshImportFeedState($importFeed)
     {
-
         $this->import_feed = $importFeed;
-        $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
-        $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+
+        $this->import_feed['mapped_content_count'] = 0;
+        if (is_array($this->import_feed['mapped_content'])) {
+            $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
+        }
+
+        $this->import_feed['source_content_count'] = 0;
+        if (is_array($this->import_feed['source_content'])) {
+            $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
+        }
 
         $this->importFeedId = $this->import_feed['id'];
 
