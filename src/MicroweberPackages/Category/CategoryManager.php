@@ -871,8 +871,10 @@ class CategoryManager
         }
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cat_url_by_slug = $this->get_by_url($cat_url);
+
             if (isset($cat_url_by_slug['id'])) {
                 $cat_id = $cat_url_by_slug['id'];
+                return $cat_id;
             }
         }
 
