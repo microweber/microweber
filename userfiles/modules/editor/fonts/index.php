@@ -3,7 +3,7 @@ if(isset($params['module_settings'])){
 return include(__DIR__.DS.'admin.php');
 }
 ?>
-<?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+<?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 
 $enabled_custom_fonts_array = array();

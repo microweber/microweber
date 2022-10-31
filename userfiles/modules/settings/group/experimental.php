@@ -107,6 +107,30 @@
       </div>
 
   </div>
+
+
+
+    <div class="mw-ui-field-holder">
+        <label class="control-label"><?php _e("Use Google Fonts proxy?"); ?></label>
+        <?php $use_google_fonts_proxy = get_option('use_google_fonts_proxy', 'template'); ?>
+
+        <ul class="mw-ui-inline-list">
+            <li>
+                <label class="mw-ui-check">
+                    <input class="form-control mw_option_field" type="radio"   name="use_google_fonts_proxy" <?php if ($use_google_fonts_proxy == '1'): ?> checked <?php endif; ?> value="1" option-group="template">
+                    <span></span><span><?php _e("Yes"); ?></span>
+                </label>
+            </li>
+            <li>
+                <label class="mw-ui-check">
+                    <input class="form-control mw_option_field" type="radio"   name="use_google_fonts_proxy" <?php if (!$use_google_fonts_proxy or $use_google_fonts_proxy != '1'): ?> checked <?php endif; ?> value="0" option-group="template">
+                    <span></span><span><?php _e("No"); ?></span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
+
            <module type="settings/group/ui_colors_admin"/>
 </div>
 
