@@ -35,13 +35,13 @@
                 <td>Price</td>
                 @endif
 
-                @if(isset($importFeed['mapped_content'][0]['created_at']))
+             {{--   @if(isset($importFeed['mapped_content'][0]['created_at']))
                 <td>Created at</td>
                 @endif
 
                 @if(isset($importFeed['mapped_content'][0]['updated_at']))
                 <td>Updated at</td>
-                @endif
+                @endif--}}
 
             </tr>
             </thead>
@@ -95,14 +95,14 @@
                     @if(isset($content['price']))
                     <td>{{$content['price']}}   </td>
                     @endif
-
+{{--
                     @if(isset($content['created_at']))
                     <td> {{$content['created_at']}} </td>
                     @endif
 
                     @if(isset($content['updated_at']))
                     <td> {{$content['updated_at']}} </td>
-                    @endif
+                    @endif--}}
 
                 </tr>
             @endforeach
