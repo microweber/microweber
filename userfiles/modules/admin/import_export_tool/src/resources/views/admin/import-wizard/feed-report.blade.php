@@ -6,38 +6,66 @@
             <b>{{count($importFeed['mapped_content'])}} products are imported</b>
         </div>
 
+
         <table class="table">
             <thead>
             <tr>
+                @if(isset($importFeed['mapped_content'][0]['title']))
                 <td>Title</td>
+                @endif
+
+                @if(isset($importFeed['mapped_content'][0]['pictures']))
+                <td>Pictures</td>
+                @endif
+
+                @if(isset($importFeed['mapped_content'][0]['content_body']))
                 <td>Content Body</td>
+                @endif
+
+                @if(isset($importFeed['mapped_content'][0]['price']))
                 <td>Price</td>
+                @endif
+
+                @if(isset($importFeed['mapped_content'][0]['created_at']))
                 <td>Created at</td>
+                @endif
+
+                @if(isset($importFeed['mapped_content'][0]['updated_at']))
+                <td>Updated at</td>
+                @endif
             </tr>
             </thead>
             <tbody>
             @foreach($importFeed['mapped_content'] as $content)
                 <tr>
+                    @if(isset($content['title']))
+                    <td>  {{$content['title']}}   </td>
+                    @endif
+
+                    @if(isset($content['pictures']))
                     <td>
-                        @if(isset($content['title']))
-                            {{$content['title']}}
+                        @if(is_array($content['pictures']))
+                        @foreach($content['pictures'] as $picture) <img src="{{$picture}}" style="width:120px;" /> @endforeach
                         @endif
                     </td>
-                    <td>
-                        @if(isset($content['content_body']))
-                            {{$content['content_body']}}
-                        @endif
-                    </td>
-                    <td>
-                        @if(isset($content['price']))
-                        {{$content['price']}}
-                        @endif
-                    </td>
-                    <td>
-                        @if(isset($content['created_at']))
-                            {{$content['created_at']}}
-                        @endif
-                    </td>
+                    @endif
+
+                    @if(isset($content['content_body']))
+                    <td> {{$content['content_body']}}  </td>
+                    @endif
+
+                    @if(isset($content['price']))
+                    <td>{{$content['price']}}   </td>
+                    @endif
+
+                    @if(isset($content['created_at']))
+                    <td> {{$content['created_at']}} </td>
+                    @endif
+
+                    @if(isset($content['updated_at']))
+                    <td> {{$content['updated_at']}} </td>
+                    @endif
+
                 </tr>
             @endforeach
             </tbody>
