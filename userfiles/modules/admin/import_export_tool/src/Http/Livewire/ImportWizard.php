@@ -160,6 +160,16 @@ class ImportWizard extends Component
         sleep(5);
     }
 
+    public function updatedImportFeed()
+    {
+        $feed = ImportFeed::where('is_draft', 1)->first();
+        if ($feed) {
+            $feed->split_to_parts = $this->import_feed['split_to_parts'];
+            $feed->parent_page = $this->import_feed['parent_page'];
+            $feed->save();
+        }
+    }
+
     public function mount()
     {
         $findImportFeed = ImportFeed::where('is_draft', 1)->first();
@@ -178,7 +188,6 @@ class ImportWizard extends Component
 
     public function refreshImportFeedState($importFeed)
     {
-
         $this->import_feed = $importFeed;
         $this->import_feed['mapped_content_count'] = count($this->import_feed['mapped_content']);
         $this->import_feed['source_content_count'] = count($this->import_feed['source_content']);
