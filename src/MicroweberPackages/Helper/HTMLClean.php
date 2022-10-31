@@ -31,7 +31,7 @@ class HTMLClean
         }
     }
 
-    public function clean($html) {
+    public function clean($html,$options = []) {
 
 
 
@@ -47,6 +47,10 @@ class HTMLClean
 
         if ($this->purifierPath) {
             $config->set('Cache.SerializerPath', $this->purifierPath);
+        }
+        if(isset($options['disable_external_resources']) and $options['disable_external_resources'] == true){
+            $config->set('URI.DisableExternal', true);
+            $config->set('URI.DisableExternalResources', true);
         }
      //   $config->set('URI.DisableExternal', true);
        // $config->set('URI.DisableExternalResources', true);
