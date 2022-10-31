@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FeedReport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\HtmlDropdownMappingPreview;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
@@ -52,6 +53,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
         Livewire::component('import_export_tool_wizard', ImportWizard::class);
         Livewire::component('import_export_tool_no_feeds', NoFeeds::class);
+        Livewire::component('import_export_tool_feed_report', FeedReport::class);
         Livewire::component('import_export_tool_new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool_start_importing_modal', StartImportingModal::class);
         Livewire::component('import_export_tool_view_import', ViewImport::class);

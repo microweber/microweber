@@ -46,7 +46,7 @@ class ImportWizard extends Component
         $this->showTab('upload');
         $this->importTo = $importTo;
 
-        $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        $findImportFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
         if (!$findImportFeed) {
             $findImportFeed = new ImportFeed();
             $findImportFeed->is_draft = 1;
@@ -65,7 +65,7 @@ class ImportWizard extends Component
     {
         $sourceUrl = $this->import_feed['source_url'];
 
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 
         if ($feed->downloadFeed($sourceUrl)) {
             session()->flash('successMessage', 'Feed is downloaded successfully.');
@@ -79,7 +79,7 @@ class ImportWizard extends Component
 
     public function changeContentTag()
     {
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
         if ($feed) {
             if ($feed->content_tag != $this->import_feed['content_tag']) {
                 $feed->content_tag = $this->import_feed['content_tag'];
@@ -88,7 +88,7 @@ class ImportWizard extends Component
 
             $this->readFeedFile();
 
-            $feed = ImportFeed::where('is_draft', 1)->first();
+            $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
             $this->refreshImportFeedState($feed->toArray());
 
             $this->emit('htmlDropdownMappingPreviewRefresh');
@@ -97,7 +97,7 @@ class ImportWizard extends Component
 
     public function readFeedFile()
     {
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
         if ($feed) {
             $feedFile = $feed->source_file_realpath;
 
@@ -111,7 +111,7 @@ class ImportWizard extends Component
                     session()->flash('successMessage', 'Feed is read successfully.');
 
                     // Read new feed
-                    $feed = ImportFeed::where('is_draft', 1)->first();
+                    $feed = ImportFeed::where('id',$this->import_feed['id'])->first();
                     $this->refreshImportFeedState($feed->toArray());
 
                 } else {
@@ -132,7 +132,7 @@ class ImportWizard extends Component
         $uploadFilePath = $this->upload_file->store('import-export-tool');
         $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
 
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 
         if($fullFilePath != $feed->source_file_realpath) {
             $feed->resetFeed();
@@ -151,7 +151,8 @@ class ImportWizard extends Component
 
     public function saveMapping()
     {
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
+
         if ($feed) {
 
             $feedMapToArray = new FeedMapToArray();
@@ -174,7 +175,7 @@ class ImportWizard extends Component
 
     public function updatedImportFeed()
     {
-        $feed = ImportFeed::where('is_draft', 1)->first();
+        $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
         if ($feed) {
             $feed->split_to_parts = $this->import_feed['split_to_parts'];
             $feed->parent_page = $this->import_feed['parent_page'];
@@ -185,19 +186,17 @@ class ImportWizard extends Component
     public function mount()
     {
         $importFeedId = request()->get('importFeedId');
+        $findImportFeed = false;
         if ($importFeedId) {
             $findImportFeed = ImportFeed::where('id', $importFeedId)->first();
         }
-
-     /*   $findImportFeed = ImportFeed::where('is_draft', 1)->first();
 
         if (!$findImportFeed) {
             $newDraftFeed = new ImportFeed();
             $newDraftFeed->is_draft = 1;
             $newDraftFeed->save();
-            $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+            $findImportFeed = ImportFeed::where('id', $newDraftFeed->id)->first();
         }
-        */
 
         if ($findImportFeed) {
             $this->refreshImportFeedState($findImportFeed->toArray());
