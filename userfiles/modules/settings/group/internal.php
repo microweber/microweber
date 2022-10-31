@@ -67,7 +67,7 @@ if ($system_cache_adapter == false) {
 }
 
 
-$enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString();
+$enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 
 ?>

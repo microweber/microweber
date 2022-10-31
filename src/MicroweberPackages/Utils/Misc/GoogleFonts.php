@@ -5,9 +5,9 @@ namespace MicroweberPackages\Utils\Misc;
 class GoogleFonts
 {
 
-    public static function getEnabledFonts()
+    public static function getEnabledFonts() : string
     {
-        $custom_fonts = [];
+        $custom_fonts = '';
         $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
         if ($enabled_custom_fonts) {
             $custom_fonts = $enabled_custom_fonts;
@@ -16,12 +16,8 @@ class GoogleFonts
 
     }
 
-    public static function getEnabledFontsAsString()
-    {
-        return implode(',', self::getEnabledFonts());
-    }
 
-    public static function getDomain()
+    public static function getDomain() : string
     {
         $use_google_fonts_proxy = get_option('use_google_fonts_proxy', 'template');
         if (intval($use_google_fonts_proxy) == 1) {

@@ -19,5 +19,5 @@
     </div>
 
     <module type="settings/group/image_upload"/>
-    <?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString(); ?>
+    <?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts(); ?>
 </div>

@@ -3,7 +3,7 @@
 
 $google_font_domain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
 
-$enabled_custom_fonts =  \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFontsAsString();
+$enabled_custom_fonts =  \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 $enabled_custom_fonts_array = array();
 
