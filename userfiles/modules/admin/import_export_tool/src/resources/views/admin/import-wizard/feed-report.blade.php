@@ -18,14 +18,26 @@
             <tbody>
             @foreach($importFeed['mapped_content'] as $content)
                 <tr>
-                    <td>{{$content['title']}}</td>
-                    <td>{{$content['content_body']}}</td>
+                    <td>
+                        @if(isset($content['title']))
+                            {{$content['title']}}
+                        @endif
+                    </td>
+                    <td>
+                        @if(isset($content['content_body']))
+                            {{$content['content_body']}}
+                        @endif
+                    </td>
                     <td>
                         @if(isset($content['price']))
                         {{$content['price']}}
                         @endif
                     </td>
-                    <td>{{$content['created_at']}}</td>
+                    <td>
+                        @if(isset($content['created_at']))
+                            {{$content['created_at']}}
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </tbody>
