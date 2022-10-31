@@ -184,7 +184,12 @@ class ImportWizard extends Component
 
     public function mount()
     {
-        $findImportFeed = ImportFeed::where('is_draft', 1)->first();
+        $importFeedId = request()->get('importFeedId');
+        if ($importFeedId) {
+            $findImportFeed = ImportFeed::where('id', $importFeedId)->first();
+        }
+
+     /*   $findImportFeed = ImportFeed::where('is_draft', 1)->first();
 
         if (!$findImportFeed) {
             $newDraftFeed = new ImportFeed();
@@ -192,6 +197,7 @@ class ImportWizard extends Component
             $newDraftFeed->save();
             $findImportFeed = ImportFeed::where('is_draft', 1)->first();
         }
+        */
 
         if ($findImportFeed) {
             $this->refreshImportFeedState($findImportFeed->toArray());
