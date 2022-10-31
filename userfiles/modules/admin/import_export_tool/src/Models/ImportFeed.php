@@ -19,20 +19,20 @@ class ImportFeed extends Model
     public const SOURCE_TYPE_DOWNLOAD_LINK = 'download_link';
 
     protected $attributes = [
-        'source_type'=> 'download_link',
+        'source_type' => 'download_link',
         'split_to_parts' => 10,
-       // 'update_items' => ["visible","images","description","categories"],
+        // 'update_items' => ["visible","images","description","categories"],
         'download_images' => self::YES,
     ];
 
     protected $casts = [
-        'download_images'=>'int',
-        'update_items'=>'array',
-        'imported_content_ids'=>'array',
-        'source_content'=>'array',
-        'mapped_tags'=>'array',
-        'mapped_content'=>'array',
-        'detected_content_tags'=>'array'
+        'download_images' => 'int',
+        'update_items' => 'array',
+        'imported_content_ids' => 'array',
+        'source_content' => 'array',
+        'mapped_tags' => 'array',
+        'mapped_content' => 'array',
+        'detected_content_tags' => 'array'
     ];
 
     public function readContentFromFile(string $filename, $fileType = false)
@@ -41,18 +41,21 @@ class ImportFeed extends Model
             return $this->readContentFromXlsx($filename);
         } elseif ($fileType == 'xml') {
             return $this->readContentFromXml($filename);
+        } elseif ($fileType == 'csv') {
+            return $this->readContentFromCsv($filename);
         } else {
             return false;
         }
     }
 
-    public function readContentFromXlsx(string $filename) {
+    private function readContentFromXlsx(string $filename)
+    {
 
         $repeatableTargetKeys = [];
         $spreadshet = SpreadsheetHelper::newSpreadsheet($filename);
         $sheetCount = $spreadshet->getSheetCount();
         if ($sheetCount == 0) {
-             //  throw new \Exception('No sheets found');
+            //  throw new \Exception('No sheets found');
             return false;
         }
 
@@ -89,7 +92,7 @@ class ImportFeed extends Model
         $sourceContent = [];
 
         if (isset($readedRows[$this->content_tag])) {
-            $sourceContent = [$this->content_tag=>$readedRows[$this->content_tag]];
+            $sourceContent = [$this->content_tag => $readedRows[$this->content_tag]];
             $countOfContents = count($readedRows[$this->content_tag]);
         }
 
@@ -103,7 +106,24 @@ class ImportFeed extends Model
         return true;
     }
 
-    public function readContentFromXml(string $filename) {
+    private function readContentFromCsv(string $filename)  {
+
+        $reader = new CsvReader($filename);
+        $sourceContent = ['Data' => $reader->readData()];
+        $contentTag = 'Data';
+        $repeatableTargetKeys = ['Data' => []];
+        $repeatableData = $sourceContent['Data'];
+
+        $this->source_content = $sourceContent;
+        $this->detected_content_tags = $repeatableTargetKeys;
+        $this->count_of_contents = count($repeatableData);
+        $this->mapped_content = [];
+        $this->content_tag = $contentTag;
+
+        $this->save();
+    }
+
+    private function readContentFromXml(string $filename) {
 
         $content = file_get_contents($filename);
 
@@ -148,60 +168,6 @@ class ImportFeed extends Model
         }
 
         return false;
-    }
-
-    public function readFeedFromFileOld(string $filename) {
-
-        /*   $repeatableTargetKeys = $newReader->getArrayRepeatableTargetKeys($sourceContent);
-       $repeatableTargetKeys = Arr::dot($repeatableTargetKeys);
-       if (!empty($repeatableTargetKeys)) {
-           $contentTag = array_key_first($repeatableTargetKeys);
-       }*/
-
-        /*if (!empty($this->content_tag)) {
-            $repeatableData = Arr::get($sourceContent, $this->content_tag);
-        } else if ($contentTag) {
-            $repeatableData = Arr::get($sourceContent, $contentTag);
-        }*/
-
-        if (empty($repeatableData)) {
-            $repeatableData = [];
-        }
-
-        if (empty($sourceContent)) {
-            $reader = new CsvReader($filename);
-            $sourceContent = ['Data' => $reader->readData()];
-            $contentTag = 'Data';
-            $repeatableTargetKeys = ['Data' => []];
-            $repeatableData = $sourceContent['Data'];
-        }
-
-     /*   $sourceContent = ['items' => [
-            'item'=>[
-                'title'=>'Item 1'
-            ],
-            'item'=>[
-                'title'=>'Item 2'
-            ],
-            'item'=>[
-                'title'=>'Item 3'
-            ],
-        ]];
-        $contentTag = 'item';
-        $repeatableTargetKeys = ['items' => []];
-        $repeatableData = $sourceContent['items'];*/
-
-        $this->source_content = $sourceContent;
-        $this->detected_content_tags = $repeatableTargetKeys;
-        $this->count_of_contents = count($repeatableData);
-        $this->mapped_content = [];
-
-        if ($contentTag && empty($this->content_tag)) {
-            $this->content_tag = $contentTag;
-        }
-
-        $this->save();
-
     }
 
     public function downloadFeed($url)
