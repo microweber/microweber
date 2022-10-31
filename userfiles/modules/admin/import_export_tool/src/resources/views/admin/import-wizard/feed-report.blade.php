@@ -6,16 +6,21 @@
             <b>{{count($importFeed['mapped_content'])}} products are imported</b>
         </div>
 
-
         <table class="table">
             <thead>
             <tr>
-                @if(isset($importFeed['mapped_content'][0]['title']))
+
+                @if(isset($importFeed['mapped_content'][0]['pictures']))
+                    <td>Pictures</td>
+                @endif
+
+
+               @if(isset($importFeed['mapped_content'][0]['title']))
                 <td>Title</td>
                 @endif
 
-                @if(isset($importFeed['mapped_content'][0]['pictures']))
-                <td>Pictures</td>
+                @if(isset($importFeed['mapped_content'][0]['multilanguage']['title']))
+                    <td>Multilanguage Title </td>
                 @endif
 
                 @if(isset($importFeed['mapped_content'][0]['content_body']))
@@ -33,21 +38,36 @@
                 @if(isset($importFeed['mapped_content'][0]['updated_at']))
                 <td>Updated at</td>
                 @endif
+
             </tr>
             </thead>
             <tbody>
             @foreach($importFeed['mapped_content'] as $content)
                 <tr>
+                    @if(isset($content['pictures']))
+                        <td>
+                            @if(is_array($content['pictures']))
+                                @foreach($content['pictures'] as $picture) <img src="{{$picture}}" style="width:120px;" /> @endforeach
+                            @endif
+                        </td>
+                    @endif
+
                     @if(isset($content['title']))
                     <td>  {{$content['title']}}   </td>
                     @endif
 
-                    @if(isset($content['pictures']))
-                    <td>
-                        @if(is_array($content['pictures']))
-                        @foreach($content['pictures'] as $picture) <img src="{{$picture}}" style="width:120px;" /> @endforeach
+                    @if(isset($content['multilanguage']['title']))
+                            <td>
+                        @foreach($content['multilanguage']['title'] as $locale=>$value)
+
+                        @if(!empty($value))
+                         {{$value}}
+                        @else
+                            <span class="text-muted"> No title in feed</span>
                         @endif
-                    </td>
+                                [{{$locale}}]   <br />
+                        @endforeach
+                        </td>
                     @endif
 
                     @if(isset($content['content_body']))
