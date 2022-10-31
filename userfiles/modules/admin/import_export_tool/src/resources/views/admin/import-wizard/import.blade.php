@@ -3,8 +3,7 @@
 @section('content')
 
     <div class="row">
-        <div class="mx-auto col-md-8">
-
+        <div class="mx-auto col-md-10">
 
             <table class="table">
                 <tbody>
