@@ -62,7 +62,7 @@ class ItemMapReader
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
     ];
-    
+
     private static $itemGroups = [
         'Content Data'=> [
             'content_data.*',
@@ -106,16 +106,7 @@ class ItemMapReader
         $itemGroups = self::$itemGroups;
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $itemGroupMultilanguage = [];
-            foreach (get_supported_languages() as $language) {
-                $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.url.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_meta_keywords.' . $language['locale'];
-            }
-            $itemGroups['Multilanguage'] = $itemGroupMultilanguage;
+            $itemGroups['Multilanguage'] = ['multilanguage.*'];
         }
 
         return $itemGroups;
