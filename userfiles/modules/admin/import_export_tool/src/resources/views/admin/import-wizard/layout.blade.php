@@ -225,7 +225,7 @@ a.import-wizard-select-type:hover {
                         <x-import_export_tool::icon width="38px" name="check" />
                     </div>
                 @else
-                    <span class="desc">Imprt</span>
+                    <span class="desc">Import</span>
                 @endif
             </a>
         </li>
