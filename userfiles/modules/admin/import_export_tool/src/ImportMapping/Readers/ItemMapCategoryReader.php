@@ -35,6 +35,14 @@ class ItemMapCategoryReader extends ItemMapReader
     {
         $itemNames = self::$itemNames;
 
+        $templateConfig = mw()->template->get_config();
+
+        if (isset($templateConfig['edit-fields-category']) && !empty($templateConfig['edit-fields-category'])) {
+            foreach ($templateConfig['edit-fields-category'] as $templateField) {
+                $itemNames['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
+
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';

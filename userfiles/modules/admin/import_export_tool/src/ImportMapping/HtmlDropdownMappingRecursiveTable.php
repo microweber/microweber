@@ -234,7 +234,20 @@ class HtmlDropdownMappingRecursiveTable
             $itemIsFindedInGroup = false;
             foreach ($itemGroups as $groupName=>$groupItems) {
                 foreach ($groupItems as $groupItem) {
+
+                    $appendInGroup = false;
+                    $expName = explode('.', $name);
+                    if (isset($expName[0])) {
+                        if ($groupItem == $expName[0].'.*') {
+                            $appendInGroup = true;
+                        }
+                    }
+
                     if ($groupItem == $name) {
+                        $appendInGroup = true;
+                    }
+
+                    if ($appendInGroup) {
                         $itemIsFindedInGroup = true;
                         $showInGroup[$groupName][] = '<option value="'.$name.'">'.$option['name'].'</option>';
                     }

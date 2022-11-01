@@ -51,22 +51,24 @@ class ItemMapReader
         'is_active' => 'Active',
         'content_data.special_price' => 'Special Price',
         'content_data.shipping_fixed_cost' => 'Shipping Fixed Cost',
+        'content_data.width' => 'Width',
+        'content_data.height' => 'Height',
+        'content_data.depth' => 'Depth',
         'content_data.weight' => 'Weight',
+        'content_data.weight_type' => 'Weight Type',
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
     ];
-
+    
     private static $itemGroups = [
         'Content Data'=> [
-            'content_data.special_price',
-            'content_data.shipping_fixed_cost',
-            'content_data.weight',
-            'content_data.mpn',
-            'content_data.barcode',
-            'content_data.sku',
+            'content_data.*',
+        ],
+        'Content Fields'=> [
+            'content_fields.*'
         ]
     ];
 
@@ -76,6 +78,14 @@ class ItemMapReader
     public static function getItemNames()
     {
         $itemNames = self::$itemNames;
+
+        $templateConfig = mw()->template->get_config();
+
+        if (isset($templateConfig['edit-fields-product']) && !empty($templateConfig['edit-fields-product'])) {
+            foreach ($templateConfig['edit-fields-product'] as $templateField) {
+                $itemNames['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
