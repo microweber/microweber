@@ -89,6 +89,8 @@ class ItemMapCategoryReader extends ItemMapReader
             $supportedLanguages = get_supported_languages();
             if (!empty($supportedLanguages)) {
 
+                $templateEditFields = self::getTemplateEditFields();
+
                 foreach ($supportedLanguages as $language) {
 
                     $itemFields = [];
@@ -107,7 +109,6 @@ class ItemMapCategoryReader extends ItemMapReader
                 }
 
                 foreach ($supportedLanguages as $language) {
-                    $templateEditFields = self::getTemplateEditFields();
                     if (!empty($templateEditFields)) {
                         $contentFields = [];
                         foreach ($templateEditFields as $fieldName => $fieldTitle) {
