@@ -15,16 +15,8 @@
                     <td>{{$key}}</td>
                     <td>{{$value}}</td>
                     <td>
-                    @php
-                        $data = [
-                          ['key'=>'any','value'=>'Any'],
-                          ['key'=>'published','value'=>'Published'],
-                          ['key'=>'unpublished','value'=>'Unpublished'],
-                        ];
-                    @endphp
-                    @livewire('admin-filter-item', [
-                        'name'=> 'Map to',
-                        'data'=>$data
+                    @livewire('import-export-tool::field-map-dropdown-item', [
+
                     ])
                     </td>
                 </tr>

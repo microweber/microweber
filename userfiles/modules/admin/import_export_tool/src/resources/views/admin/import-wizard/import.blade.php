@@ -142,7 +142,7 @@
            </table>
 
             <button class="btn btn-primary btn-rounded"
-                    wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$importFeedId}}})">
+                    wire:click="$emit('openModal', 'import_export_tool::start_importing_modal',{importFeedId:{{$importFeedId}}})">
                 <i class="fa fa-file-import"></i> Start Importing
             </button>
 

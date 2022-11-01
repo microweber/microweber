@@ -9,7 +9,7 @@
 
 
 @if($import_feeds->count() == 0)
-    <livewire:import_export_tool_no_feeds />
+    <livewire:import_export_tool::no_feeds />
 @else
     <div class="mb-3 mt-3">
 <b>All imports</b>

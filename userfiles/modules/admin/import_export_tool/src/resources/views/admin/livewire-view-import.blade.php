@@ -411,7 +411,7 @@
                 <div class="card mt-4">
                     <div class="card-header">
                         Import Feeds
-                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool_new_import_modal')" id="addImport" value="Add new import">
+                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool::new_import_modal')" id="addImport" value="Add new import">
                     </div>
                     <div class="card-body">
 
@@ -480,12 +480,12 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
+        <livewire:import_export_tool::html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <br />
-        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
+        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool::start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
     </div>
 
 </div>
