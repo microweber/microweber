@@ -51,7 +51,7 @@ class HtmlDropdownMappingPreview extends Component
         }
 
         if ($this->isSimplePreview()) {
-
+            return view('import_export_tool::admin.livewire-html-dropdown-mapping-simple-preview');
         } else {
             return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview');
         }
