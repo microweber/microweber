@@ -106,7 +106,22 @@ class ItemMapReader
         $itemGroups = self::$itemGroups;
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $itemGroups['Multilanguage'] = ['multilanguage.*'];
+            foreach (get_supported_languages() as $language) {
+
+                $itemGroupMultilanguage = [];
+                $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.url.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
+                $itemGroupMultilanguage[] = 'multilanguage.content_meta_keywords.' . $language['locale'];
+
+                if (isset($language['language']) && !empty($language['language'])) {
+                    $itemGroups['Multilanguage - ' . $language['language']] = $itemGroupMultilanguage;
+                } else {
+                    $itemGroups['Multilanguage - ' . $language['locale']] = $itemGroupMultilanguage;
+                }
+            }
         }
 
         return $itemGroups;
