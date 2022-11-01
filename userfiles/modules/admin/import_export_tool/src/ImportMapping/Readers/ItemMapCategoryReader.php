@@ -29,7 +29,12 @@ class ItemMapCategoryReader extends ItemMapReader
         'is_hidden' => 'Active',
     ];
 
-    private static $itemGroups = [];
+    private static $itemGroups = [
+        'Content Fields'=> [
+            'content_fields.*'
+        ]
+    ];
+
 
     public static function getItemNames()
     {
@@ -37,19 +42,28 @@ class ItemMapCategoryReader extends ItemMapReader
 
         $templateConfig = mw()->template->get_config();
 
+        $editFieldsCategory = [];
         if (isset($templateConfig['edit-fields-category']) && !empty($templateConfig['edit-fields-category'])) {
             foreach ($templateConfig['edit-fields-category'] as $templateField) {
                 $itemNames['content_fields.' . $templateField['name']] = $templateField['title'];
+                $editFieldsCategory['content_fields.' . $templateField['name']] = $templateField['title'];
             }
         }
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
+
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
                 $itemNames['multilanguage.description.' . $language['locale']] = 'Description ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_description.' . $language['locale']] = 'Meta Description ['. $language['locale'].']';
+
+                if (!empty($editFieldsCategory)) {
+                    foreach ($editFieldsCategory as $editField=>$titleField) {
+                        $itemNames['multilanguage.'.$editField.'.' . $language['locale']] = $titleField . ' ['. $language['locale'].']';
+                    }
+                }
             }
         }
 
@@ -76,7 +90,7 @@ class ItemMapCategoryReader extends ItemMapReader
                 } else {
                     $itemGroups['Multilanguage - ' . $language['locale']] = $itemGroupMultilanguage;
                 }
-                
+
             }
         }
 
