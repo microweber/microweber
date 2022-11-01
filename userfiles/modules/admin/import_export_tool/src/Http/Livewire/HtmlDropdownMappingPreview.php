@@ -72,11 +72,12 @@ class HtmlDropdownMappingPreview extends Component
     }
 
     private function isSimplePreview()
-    {
+    {/*
         $fileExt = pathinfo($this->import_feed['source_file_realpath'], PATHINFO_EXTENSION);
         if ($fileExt == 'xlsx' || $fileExt == 'xls' || $fileExt == 'csv') {
             return true;
         }
+*/
         return false;
     }
 

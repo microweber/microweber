@@ -1,6 +1,11 @@
 <div>
+    <style>
+        .badge-dropdown::after {
+            left: 30px;
+        }
+    </style>
 
-    <button type="button" wire:click="load('{{$this->id}}')" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+    <button type="button" class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
         @if($selectedItem) {{$name}}: {{$selectedItem}} @else  {{$name}}  @endif <span class="mt-2">&nbsp;</span>
 
@@ -13,11 +18,8 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
 
-        wfa
-        fwa
 
-        fwa
-        fwa
+
 
     </div>
 
