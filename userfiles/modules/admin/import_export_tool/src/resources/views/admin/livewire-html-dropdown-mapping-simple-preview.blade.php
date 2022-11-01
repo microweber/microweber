@@ -5,7 +5,7 @@
             <tr>
                 <td>Field</td>
                 <td>Field Value</td>
-                <td>Map To</td>
+                <td style="width:130px">Map To</td>
             </tr>
         </thead>
         <tbody>
@@ -15,8 +15,16 @@
                     <td>{{$key}}</td>
                     <td>{{$value}}</td>
                     <td>
+                    @php
+                        $data = [
+                          ['key'=>'any','value'=>'Any'],
+                          ['key'=>'published','value'=>'Published'],
+                          ['key'=>'unpublished','value'=>'Unpublished'],
+                        ];
+                    @endphp
                     @livewire('admin-filter-item', [
-
+                        'name'=> 'Map to',
+                        'data'=>$data
                     ])
                     </td>
                 </tr>
