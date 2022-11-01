@@ -26,27 +26,44 @@ class HtmlDropdownMappingPreview extends Component
         $this->import_feed = $importFeed->toArray();
         unset($this->import_feed['source_content']);
 
-        $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
-        $dropdownMapping->setContent($importFeed->source_content);
-        $dropdownMapping->setContentParentTags($importFeed->content_tag);
-        $dropdownMapping->setImportTo($this->import_feed['import_to']);
+        if (!$this->isSimplePreview()) {
+            $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
+            $dropdownMapping->setContent($importFeed->source_content);
+            $dropdownMapping->setContentParentTags($importFeed->content_tag);
+            $dropdownMapping->setImportTo($this->import_feed['import_to']);
 
-        $this->data = $dropdownMapping->render();
+            $this->data = $dropdownMapping->render();
 
-        if (empty($this->import_feed['mapped_tags'])) {
-            $this->import_feed['mapped_tags'] = $dropdownMapping->getAutomaticSelectedOptions();
+            if (empty($this->import_feed['mapped_tags'])) {
+                $this->import_feed['mapped_tags'] = $dropdownMapping->getAutomaticSelectedOptions();
+            }
         }
     }
 
     public function render()
     {
+
+        // Save mapped
         if (isset($this->import_feed['mapped_tags']) && is_array($this->import_feed['mapped_tags'])) {
             $importFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
             $importFeed->mapped_tags = $this->import_feed['mapped_tags'];
             $importFeed->save();
         }
 
-        return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview');
+        if ($this->isSimplePreview()) {
+
+        } else {
+            return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview');
+        }
+    }
+
+    private function isSimplePreview()
+    {
+        $fileExt = pathinfo($this->import_feed['source_file_realpath'], PATHINFO_EXTENSION);
+        if ($fileExt == 'xlsx' || $fileExt == 'xls' || $fileExt == 'csv') {
+            return true;
+        }
+        return false;
     }
 
     public function mount($importFeedId)
