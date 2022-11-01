@@ -24,9 +24,23 @@ class HtmlDropdownMappingPreview extends Component
         }
 
         $this->import_feed = $importFeed->toArray();
-        unset($this->import_feed['source_content']);
 
-        if (!$this->isSimplePreview()) {
+        if ($this->isSimplePreview()) {
+
+            $contentKeys = [];
+            if (isset($this->import_feed['source_content'][$importFeed->content_tag][0])) {
+                foreach ($this->import_feed['source_content'][$importFeed->content_tag][0] as $itemKey => $itemValue) {
+                    $contentKeys[$itemKey] = $itemValue;
+                }
+                $contentKeys = array_filter($contentKeys);
+            }
+
+            $this->data = $contentKeys;
+
+        } else {
+
+            unset($this->import_feed['source_content']);
+
             $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
             $dropdownMapping->setContent($importFeed->source_content);
             $dropdownMapping->setContentParentTags($importFeed->content_tag);
