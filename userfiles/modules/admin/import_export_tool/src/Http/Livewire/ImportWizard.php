@@ -34,6 +34,13 @@ class ImportWizard extends Component
     public function closeEditName()
     {
         $this->import_feed_edit_name = 0;
+
+        $findImportFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
+        if ($findImportFeed) {
+            $findImportFeed->name = $this->import_feed['name'];
+            $findImportFeed->save();
+        }
+
     }
 
     public function showTab($tab)
