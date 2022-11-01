@@ -61,15 +61,23 @@ class ItemMapCategoryReader extends ItemMapReader
         $itemGroups = self::$itemGroups;
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $itemGroupMultilanguage = [];
+
             foreach (get_supported_languages() as $language) {
+
+                $itemGroupMultilanguage = [];
                 $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.category_meta_title.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.category_meta_keywords.' . $language['locale'];
                 $itemGroupMultilanguage[] = 'multilanguage.category_meta_description.' . $language['locale'];
+
+                if (isset($language['language']) && !empty($language['language'])) {
+                    $itemGroups['Multilanguage - ' . $language['language']] = $itemGroupMultilanguage;
+                } else {
+                    $itemGroups['Multilanguage - ' . $language['locale']] = $itemGroupMultilanguage;
+                }
+                
             }
-            $itemGroups['Category Multilanguage Fields'] = $itemGroupMultilanguage;
         }
 
         return $itemGroups;
