@@ -18,7 +18,7 @@ class ItemMapReader
         'content_data.external_id' => ['id', 'g:id'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
-        'pictures' => ['image', 'g:image_link'],
+        'media_urls' => ['image', 'g:image_link'],
         'price' => ['price', 'g:price'],
         'id' => ['id'],
         'parent' => ['parent_id'],
@@ -31,7 +31,7 @@ class ItemMapReader
     ];
 
     public static $itemTypes = [
-        'pictures' => self::ITEM_TYPE_ARRAY,
+        'media_urls' => self::ITEM_TYPE_ARRAY,
         'categories' => self::ITEM_TYPE_ARRAY,
         'first_level_categories' => self::ITEM_TYPE_ARRAY,
         'tags' => self::ITEM_TYPE_ARRAY,
@@ -44,7 +44,7 @@ class ItemMapReader
         'title' => 'Title',
         //  'description'=>'Description',
         'content_body' => 'Content Body',
-        'pictures' => 'Pictures',
+        'media_urls' => 'Pictures',
         'category_id' => 'Category Id',
         'categories' => 'Categories',
         'tags' => 'Tags',
