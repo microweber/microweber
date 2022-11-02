@@ -105,8 +105,8 @@ class ImportFeedToDatabase
 
                 if ($updateProductId > 0) {
                     $findProductById = Product::where('id', $updateProductId)->first();
-                    $findProductById->fill($item);
-                    $findProductById->save();
+                   // $findProductById->fill($item);
+                   // $findProductById->save();
 
                     $savedIds[] = $findProductById->id;
                 }
@@ -124,7 +124,7 @@ class ImportFeedToDatabase
 
             }
 
-            break;
+          //  break;
         }
 
         dd($savedIds);
