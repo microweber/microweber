@@ -77,19 +77,40 @@ class ImportFeedToDatabase
                 $item['rel_id'] = $this->importFeed->parent_page;
                 $item['rel_type'] = 'content';
 
-                if (isset($item['parent_id'])) {
-                    $findParentCategory = Category::where('id', $item['parent_id'])->first();
-                    if (!$findParentCategory) {
-                        $item['parent_id'] = 0;
-                    }
-                }
+               // dd($item);
 
+                $updateCategoryId = 0;
+                $insertNewCategory = true;
                 $findCategory = Category::where('id', $item['id'])->first();
                 if ($findCategory) {
-                    $findCategory->update($item);
-                } else {
-                    $categoryCreate = Category::create($item);
+                    // Update category
+                    $insertNewCategory = false;
+                    $updateCategoryId = $findCategory->id;
                 }
+
+                if ($updateCategoryId > 0) {
+
+                    $findCategoryById = Category::where('id', $updateCategoryId)->first();
+                    if (isset($item['media_urls'])) {
+                        unset($item['media_urls']);
+                    }
+                    $findCategoryById->fill($item);
+                    $findCategoryById->save();
+
+                    $savedIds[] = $findCategoryById->id;
+                }
+
+                if ($insertNewCategory) {
+                    $newCategory = new Category();
+                    if (isset($item['id'])) {
+                        $newCategory->id = $item['id'];
+                    }
+                    $newCategory->fill($item);
+                    $newCategory->save();
+
+                    $savedIds[] = $newCategory->id;
+                }
+
 
             } else {
                 $item['parent'] = $this->importFeed->parent_page;
@@ -104,9 +125,13 @@ class ImportFeedToDatabase
                 }
 
                 if ($updateProductId > 0) {
+
                     $findProductById = Product::where('id', $updateProductId)->first();
-                   // $findProductById->fill($item);
-                   // $findProductById->save();
+                    /*if (isset($item['media_urls'])) {
+                        unset($item['media_urls']);
+                    }*/
+                    $findProductById->fill($item);
+                    $findProductById->save();
 
                     $savedIds[] = $findProductById->id;
                 }
@@ -124,7 +149,8 @@ class ImportFeedToDatabase
 
             }
 
-          //  break;
+            //dd($item);
+            //break;
         }
 
         dd($savedIds);
