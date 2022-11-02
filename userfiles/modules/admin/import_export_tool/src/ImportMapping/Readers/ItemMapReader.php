@@ -45,7 +45,7 @@ class ItemMapReader
         //  'description'=>'Description',
         'content_body' => 'Content Body',
         'media_urls' => 'Pictures',
-        'category_id' => 'Category Id',
+        'category_ids' => 'Category Ids',
         'categories' => 'Categories',
         'tags' => 'Tags',
         'price' => 'Price',
