@@ -92,22 +92,44 @@ class ImportFeedToDatabase
                 }
 
             } else {
-
                 $item['parent'] = $this->importFeed->parent_page;
 
-                if (!isset($item['id'])) {
-                    $item['id'] = 0;
-                }
-
+                $updateProductId = 0;
+                $insertNewProduct = true;
                 $findProduct = Product::where('id', $item['id'])->first();
                 if ($findProduct) {
-                    $findProduct->update($item);
-                } else {
-                    $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
+                    // Update product
+                    $insertNewProduct = false;
+                    $updateProductId = $findProduct->id;
                 }
+
+                if ($updateProductId > 0) {
+                    $findProductById = Product::where('id', $updateProductId)->first();
+                    $findProductById->fill($item);
+                    $findProductById->save();
+                    
+                    $savedIds[] = $findProductById->id;
+                }
+
+                if ($insertNewProduct) {
+                    $newProduct = new Product();
+                    if (isset($item['id'])) {
+                        $newProduct->id = $item['id'];
+                    }
+                    $newProduct->fill($item);
+                    $newProduct->save();
+
+                    $savedIds[] = $newProduct->id;
+                }
+
             }
 
+            break;
         }
+
+        dd($savedIds);
+
+
         //DB::commit();
 
       /*  $importedContentIds = [];
