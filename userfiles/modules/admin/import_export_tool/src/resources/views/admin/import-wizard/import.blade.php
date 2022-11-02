@@ -21,7 +21,11 @@
                             $ptOpts['list_item_tag'] = "option";
                             $ptOpts['active_ids'] = $import_feed['parent_page'];
                             $ptOpts['active_code_tag'] = '   selected="selected"  ';
-                            $ptOpts['is_shop'] = 1;
+
+                            if ($import_feed['import_to'] == 'products') {
+                                $ptOpts['is_shop'] = 1;
+                            }
+                            
                             pages_tree($ptOpts);
                             ?>
                         </select>
