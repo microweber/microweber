@@ -4,17 +4,26 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Product\Models\Product;
 
 class ImportFeedToDatabase
 {
+    public $importFeed;
     public $importFeedId;
     public $batchImporting = false;
 
     public function setImportFeedId($id)
     {
         $this->importFeedId = $id;
+
+        $findImportFeed = ImportFeed::where('id', $this->importFeedId)->first();
+        if (!$findImportFeed) {
+            throw new \Exception('Feed not found.');
+        }
+
+        $this->importFeed = $findImportFeed;
     }
 
     public function setBatchImporting($import)
@@ -24,26 +33,24 @@ class ImportFeedToDatabase
 
     public function getItems()
     {
-        /*if ($this->batchImporting) {
-            $totalItemsForSave = sizeof($this->import_feed->mapped_content);
+        if ($this->batchImporting) {
+            /*$totalItemsForSave = sizeof($this->importFeed->mapped_content);
             $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
-            $itemsBatch = array_chunk($this->import_feed->mapped_content, $totalItemsForBatch);
-            return $itemsBatch[$selectBatch];
-        }*/
+            $itemsBatch = array_chunk($this->importFeed->mapped_content, $totalItemsForBatch);
+            return $itemsBatch[$selectBatch];*/
+        } else {
+            return $this->importFeed->mapped_content;
+        }
     }
 
     public function start()
     {
-        \Config::set('microweber.disable_model_cache', 1);
-        \Config::set('cache.driver', 'array');
-        app('cache')->setDefaultDriver('array');
-
         $multilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         $defaultLang = default_lang();
         $savedIds = array();
 
         //DB::beginTransaction();
-        foreach($this->items as $item) {
+        foreach($this->getItems() as $item) {
 
             if ($multilanguageEnabled) {
                 if (!isset($item['title'])) {
@@ -65,9 +72,9 @@ class ImportFeedToDatabase
                 }
             }
 
-            if ($this->import_feed->import_to == 'categories') {
+            if ($this->importFeed->import_to == 'categories') {
 
-                $item['rel_id'] = $this->import_feed->parent_page;
+                $item['rel_id'] = $this->importFeed->parent_page;
                 $item['rel_type'] = 'content';
 
                 if (isset($item['parent_id'])) {
@@ -85,7 +92,8 @@ class ImportFeedToDatabase
                 }
 
             } else {
-                $item['parent'] = $this->import_feed->parent_page;
+
+                $item['parent'] = $this->importFeed->parent_page;
 
                 if (!isset($item['id'])) {
                     $item['id'] = 0;
@@ -102,18 +110,14 @@ class ImportFeedToDatabase
         }
         //DB::commit();
 
-        if (empty($this->import_feed->imported_content_ids)) {
-            $this->import_feed->imported_content_ids = [];
-        }
-
-        $importedContentIds = [];
-        $importedContentIds = array_merge($importedContentIds,$this->import_feed->imported_content_ids);
+      /*  $importedContentIds = [];
+        $importedContentIds = array_merge($importedContentIds,$this->importFeed->imported_content_ids);
         $importedContentIds = array_merge($importedContentIds,$savedIds);
         $importedContentIds = array_unique($importedContentIds);
 
-        $this->import_feed->total_running = $this->import_log['current_step'];
-        $this->import_feed->imported_content_ids = $importedContentIds;
-        $this->import_feed->save();
+        $this->importFeed->total_running = $this->import_log['current_step'];
+        $this->importFeed->imported_content_ids = $importedContentIds;
+        $this->importFeed->save();*/
 
     }
 }
