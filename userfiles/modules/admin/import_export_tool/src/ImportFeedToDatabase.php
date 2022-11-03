@@ -45,10 +45,11 @@ class ImportFeedToDatabase
             $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->importFeed->split_to_parts);
             $itemsBatch = array_chunk($this->importFeed->mapped_content, $totalItemsForBatch);
             if (isset($itemsBatch[$this->batchStep])) {
-                return $itemsBatch[$this->batchStep];
+                return ['items'=> $itemsBatch[$this->batchStep], 'finished'=>false];
             }
+            return ['items'=> [], 'finished'=>true];
         } else {
-            return $this->importFeed->mapped_content;
+            return ['items'=>$this->importFeed->mapped_content,'finished'=>true];
         }
     }
 
@@ -58,7 +59,7 @@ class ImportFeedToDatabase
         $defaultLang = default_lang();
         $savedIds = array();
 
-        $items = $this->getItems();
+        $getItems = $this->getItems();
 
         $markImportStart = true;
         if ($this->batchImporting) {
@@ -74,7 +75,7 @@ class ImportFeedToDatabase
         }
 
         //DB::beginTransaction();
-        foreach($items as $item) {
+        foreach($getItems['items'] as $item) {
 
             if ($multilanguageEnabled) {
                 if (!isset($item['title'])) {
@@ -139,6 +140,10 @@ class ImportFeedToDatabase
             } else {
                 $item['parent'] = $this->importFeed->parent_page;
 
+                if (!isset($item['id'])) {
+                    continue;
+                }
+
                 $updateProductId = 0;
                 $insertNewProduct = true;
                 $findProduct = Product::where('id', $item['id'])->first();
@@ -151,9 +156,11 @@ class ImportFeedToDatabase
                 if ($updateProductId > 0) {
 
                     $findProductById = Product::where('id', $updateProductId)->first();
-                    /*if (isset($item['media_urls'])) {
+
+                    if (isset($item['media_urls'])) {
                         unset($item['media_urls']);
-                    }*/
+                    }
+
                     $findProductById->fill($item);
                     $findProductById->save();
 
@@ -177,10 +184,21 @@ class ImportFeedToDatabase
             //break;
         }
 
-        dd($savedIds);
-
-
         //DB::commit();
+
+
+        $markImportFinished = true;
+        if ($this->batchImporting) {
+            $markImportFinished = $getItems['finished'];
+        }
+
+        if ($markImportFinished) {
+            $this->import_feed->is_draft = 0;
+            $this->import_feed->total_running = 0;
+            $this->import_feed->last_import_end = Carbon::now();
+            $this->import_feed->save();
+        }
+
 
       /*  $importedContentIds = [];
         $importedContentIds = array_merge($importedContentIds,$this->importFeed->imported_content_ids);
@@ -191,5 +209,6 @@ class ImportFeedToDatabase
         $this->importFeed->imported_content_ids = $importedContentIds;
         $this->importFeed->save();*/
 
+        return ['finished'=>$markImportFinished];
     }
 }
