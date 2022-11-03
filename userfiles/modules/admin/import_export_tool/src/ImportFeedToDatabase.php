@@ -12,6 +12,7 @@ class ImportFeedToDatabase
 {
     public $importFeed;
     public $importFeedId;
+    public $batchStep = 0;
     public $batchImporting = false;
 
     public function setImportFeedId($id)
@@ -31,13 +32,20 @@ class ImportFeedToDatabase
         $this->batchImporting = $import;
     }
 
+    public function setBatchStep($step)
+    {
+        $this->batchStep = $step;
+    }
+
     public function getItems()
     {
         if ($this->batchImporting) {
-            /*$totalItemsForSave = sizeof($this->importFeed->mapped_content);
-            $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
+            $totalItemsForSave = sizeof($this->importFeed->mapped_content);
+            $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->importFeed->split_to_parts);
             $itemsBatch = array_chunk($this->importFeed->mapped_content, $totalItemsForBatch);
-            return $itemsBatch[$selectBatch];*/
+            if (isset($itemsBatch[$this->batchStep])) {
+                return $itemsBatch[$this->batchStep];
+            }
         } else {
             return $this->importFeed->mapped_content;
         }
@@ -49,8 +57,12 @@ class ImportFeedToDatabase
         $defaultLang = default_lang();
         $savedIds = array();
 
+        $items = $this->getItems();
+
+        dd($items);
+
         //DB::beginTransaction();
-        foreach($this->getItems() as $item) {
+        foreach($items as $item) {
 
             if ($multilanguageEnabled) {
                 if (!isset($item['title'])) {

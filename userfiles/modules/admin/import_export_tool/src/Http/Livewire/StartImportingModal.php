@@ -42,6 +42,10 @@ class StartImportingModal extends ModalComponent
 
         $import = new ImportFeedToDatabase();
         $import->setBatchImporting(true);
+
+        $batchStep = ($this->import_log['current_step'] - 1);
+        $import->setBatchStep($batchStep);
+
         $import->setImportFeedId($this->import_feed->id);
 
         $importStatus = $import->start();
@@ -82,7 +86,7 @@ class StartImportingModal extends ModalComponent
 
     public function clearLog()
     {
-
+        // clear log
     }
 
     public function setLogInfo($log)
