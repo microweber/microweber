@@ -17,29 +17,43 @@
                     </td>
                     <td>
                         <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+
                             <option value="">Select</option>
+
+                            <optgroup label="Main">
                             <option value="id">Id</option>
                             <option value="title">Title</option>
-                            <option value="model">Model</option>
-                            <option value="sku">SKU</option>
-                            <option value="barcode">Barcode</option>
-                            <option value="mpn">MPN</option>
-                            <option value="custom">Custom</option>
-                        </select>
-                        @if ($import_feed['primary_key'] == 'custom')
+                            </optgroup>
+
+                            <optgroup label="Content Data">
+                            <option value="content_data.model">Model</option>
+                            <option value="content_data.sku">SKU</option>
+                            <option value="content_data.barcode">Barcode</option>
+                            <option value="content_data.mpn">MPN</option>
+                            </optgroup>
+
                             @php
                                 $findContentData = \MicroweberPackages\ContentData\Models\ContentData::groupBy('field_name')->get();
+                                $dbFields = [];
+                                if (!empty($findContentData)) {
+                                    foreach ($findContentData as $field) {
+                                        if (array_key_exists($field->field_name, \MicroweberPackages\Product\Models\Product::$contentDataDefault)) {
+                                            continue;
+                                        }
+                                        $dbFields[] = $field->field_name;
+                                    }
+                                }
                             @endphp
-                            <br />
-                            <b>Content Data Field</b>
-                            <select class="form-control">
-                                @if(!empty($findContentData))
-                                    @foreach($findContentData as $contentData)
-                                    <option value="{{$contentData->field_name}}">{{$contentData->field_name}}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        @endif
+
+                            @if(!empty($dbFields))
+                                <optgroup label="Database Fields">
+                                @foreach($dbFields as $dbField)
+                                    <option value="content_data.{{$dbField}}">{{$dbField}}</option>
+                                @endforeach
+                                </optgroup>
+                            @endif
+
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -107,24 +121,6 @@
 
                     </td>
                 </tr>
-{{--
-                <tr>
-                    <td>
-                        <label for="feed_primary_key">
-                            <b>Primary key</b>
-                        </label>
-                        <br>
-                        <small>Unique Content ID or Content Model</small>
-                    </td>
-                    <td>
-                        <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
-                            <option value="content_title">Content Title</option>
-                            <option value="content_id">Content ID</option>
-                            <option value="model">Content model</option>
-                            <option value="sku">SKU</option>
-                        </select>
-                    </td>
-                </tr>--}}
 
 
              {{--   <tr>
