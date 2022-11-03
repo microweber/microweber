@@ -183,9 +183,8 @@ class ImportWizard extends Component
     public function updatedImportFeed()
     {
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
+        
         if ($feed) {
-
-            dd($this->import_feed);
             $feed->primary_key = $this->import_feed['primary_key'];
             $feed->download_images = $this->import_feed['download_images'];
             $feed->split_to_parts = $this->import_feed['split_to_parts'];
