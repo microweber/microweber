@@ -186,6 +186,17 @@ class ImportFeedToDatabase
 
         //DB::commit();
 
+        $importedContentIds = [];
+        if (is_array($this->importFeed->imported_content_ids)) {
+            $importedContentIds = array_merge($importedContentIds, $this->importFeed->imported_content_ids);
+        }
+        $importedContentIds = array_merge($importedContentIds, $savedIds);
+        $importedContentIds = array_unique($importedContentIds);
+
+        $this->importFeed->total_running = $this->batchStep;
+        $this->importFeed->imported_content_ids = $importedContentIds;
+        $this->importFeed->save();
+
 
         $markImportFinished = true;
         if ($this->batchImporting) {
@@ -193,21 +204,11 @@ class ImportFeedToDatabase
         }
 
         if ($markImportFinished) {
-            $this->import_feed->is_draft = 0;
-            $this->import_feed->total_running = 0;
-            $this->import_feed->last_import_end = Carbon::now();
-            $this->import_feed->save();
+            $this->importFeed->is_draft = 0;
+            $this->importFeed->total_running = 0;
+            $this->importFeed->last_import_end = Carbon::now();
+            $this->importFeed->save();
         }
-
-
-      /*  $importedContentIds = [];
-        $importedContentIds = array_merge($importedContentIds,$this->importFeed->imported_content_ids);
-        $importedContentIds = array_merge($importedContentIds,$savedIds);
-        $importedContentIds = array_unique($importedContentIds);
-
-        $this->importFeed->total_running = $this->import_log['current_step'];
-        $this->importFeed->imported_content_ids = $importedContentIds;
-        $this->importFeed->save();*/
 
         return ['finished'=>$markImportFinished];
     }
