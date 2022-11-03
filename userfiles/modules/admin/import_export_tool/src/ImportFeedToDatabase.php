@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -59,7 +60,18 @@ class ImportFeedToDatabase
 
         $items = $this->getItems();
 
-        dd($items);
+        $markImportStart = true;
+        if ($this->batchImporting) {
+            if ($this->batchStep > 0) {
+                $markImportStart = false;
+            }
+        }
+
+        if ($markImportStart) {
+            $this->importFeed->total_running = 1;
+            $this->importFeed->last_import_start = Carbon::now();
+            $this->importFeed->save();
+        }
 
         //DB::beginTransaction();
         foreach($items as $item) {
