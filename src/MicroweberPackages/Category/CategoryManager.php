@@ -1029,7 +1029,7 @@ class CategoryManager
                 $item['parent_type'] = 'page';
                 $item['title'] = $page['title'];
                 $item['url'] = content_link($page['id']);
-                $item['is_active'] = $page['is_active'];
+                $item['is_active'] = intval($page['is_active']);
                 // $item['has_children'] = 0;
 
                 $item['subtype'] = $page['subtype'];
@@ -1079,6 +1079,10 @@ class CategoryManager
                             $childrens = $this->get_category_childrens($cat['id']);
                             if ($childrens) {
                                 foreach ($childrens as $children) {
+                                    $children['is_active'] = 1;
+                                    if (isset($children['is_hidden']) and $children['is_hidden'] == 1) {
+                                        $children['is_active'] = 0;
+                                    }
                                     $json[] = $children;
                                 }
                             }
