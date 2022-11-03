@@ -266,8 +266,10 @@ class HtmlDropdownMappingRecursiveTable
         }
 
 
-        $html .= ' <option value="custom">Custom</option>';
+        $html .= ' <option value="custom_content_data">Custom Content Data</option>';
         $html .= '</select>';
+
+        $html .= '<input type="text" placeholder="Please enter content data key" class="form-control mt-2" />';
 
         return $html;
     }
