@@ -59,26 +59,6 @@ class StartImportingModal extends ModalComponent
             return array("success"=>"Done! All steps are finished.");
         }
 
-
-      /*  $totalItemsForSave = sizeof($this->import_feed->mapped_content);
-        $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
-        $itemsBatch = array_chunk($this->import_feed->mapped_content, $totalItemsForBatch);
-
-        $selectBatch = ($this->import_log['current_step'] - 1);
-        if (!isset($itemsBatch[$selectBatch])) {
-            SessionStepper::finish();
-        }
-
-        if (SessionStepper::isFinished()) {
-
-            $this->import_feed->is_draft = 0;
-            $this->import_feed->total_running = 0;
-            $this->import_feed->last_import_end = Carbon::now();
-            $this->import_feed->save();
-
-
-        }*/
-
         $this->dispatchBrowserEvent('nextStepCompleted', []);
 
         return [];
