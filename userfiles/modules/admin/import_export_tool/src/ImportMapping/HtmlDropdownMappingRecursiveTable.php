@@ -181,10 +181,6 @@ class HtmlDropdownMappingRecursiveTable
     private function dropdownSelect($mapKey)
     {
         $selectOptions = [];
-        $selectOptions[''] = [
-            'name'=>'Select type',
-            'selected'=>false,
-        ];
 
         if ($this->importTo == 'categories') {
             $itemMapReaderItemNames = ItemMapCategoryReader::getItemNames();
@@ -218,7 +214,9 @@ class HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
-        <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">';
+        <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">
+        <option value="0">Select</option>
+        ';
 
         $showInGroup = [];
 
@@ -267,6 +265,8 @@ class HtmlDropdownMappingRecursiveTable
             $html .= '</optgroup>';
         }
 
+
+        $html .= ' <option value="custom">Custom</option>';
         $html .= '</select>';
 
         return $html;
