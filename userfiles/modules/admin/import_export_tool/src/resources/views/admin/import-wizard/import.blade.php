@@ -9,7 +9,44 @@
                 <tbody>
                 <tr>
                     <td>
-                        <b> Import {{ucfirst($import_feed['import_to']) }} to page</b>
+                        <label for="feed_primary_key">
+                            <b>Primary key</b>
+                        </label>
+                        <br>
+                        <small>Update contents by primary key</small>
+                    </td>
+                    <td>
+                        <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+                            <option value="">Select</option>
+                            <option value="id">Id</option>
+                            <option value="title">Title</option>
+                            <option value="model">Model</option>
+                            <option value="sku">SKU</option>
+                            <option value="barcode">Barcode</option>
+                            <option value="mpn">MPN</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                        @if ($import_feed['primary_key'] == 'custom')
+                            @php
+                                $findContentData = \MicroweberPackages\ContentData\Models\ContentData::groupBy('field_name')->get();
+                            @endphp
+                            <br />
+                            <b>Content Data Field</b>
+                            <select class="form-control">
+                                @if(!empty($findContentData))
+                                    @foreach($findContentData as $contentData)
+                                    <option value="{{$contentData->field_name}}">{{$contentData->field_name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b> Import to</b>
+                        <br>
+                        <small>Select page to import content</small>
                     </td>
                     <td>
                         <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
@@ -25,13 +62,13 @@
                             if ($import_feed['import_to'] == 'products') {
                                 $ptOpts['is_shop'] = 1;
                             }
-                            
+
                             pages_tree($ptOpts);
                             ?>
                         </select>
                     </td>
                 </tr>
-{{--
+
                 <tr>
                     <td><label for="feed_download_image_1"><b>Download images</b></label><br>
                         <small>Download and check images</small>
@@ -43,7 +80,7 @@
                         <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
                         <label for="feed_download_image_0">No</label>
                     </td>
-                </tr>--}}
+                </tr>
 
                 <tr>
                     <td><label for="feed_parts"><b>Import parts</b></label><br>
