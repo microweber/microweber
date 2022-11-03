@@ -99,6 +99,8 @@ Route::name('admin.import-export-tool.')
 
             $import = new ImportFeedToDatabase();
             $import->setImportFeedId(1);
+            $import->setBatchStep(1);
+            $import->setBatchImporting(true);
 
             $importStatus = $import->start();
 
