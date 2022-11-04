@@ -99,6 +99,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = $countOfContents;
+        $this->mapped_tags = [];
         $this->mapped_content = [];
 
         $this->save();
@@ -117,6 +118,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
+        $this->mapped_tags = [];
         $this->mapped_content = [];
         $this->content_tag = $contentTag;
 
@@ -160,6 +162,7 @@ class ImportFeed extends Model
                 $this->count_of_contents = count($repeatableData);
             }
 
+            $this->mapped_tags = [];
             $this->mapped_content = [];
             $this->source_content = $content;
             $this->save();

@@ -16,20 +16,32 @@
                         <small>Update contents by primary key</small>
                     </td>
                     <td>
+                        @php
+                        $primaryKeyIsMapped = false;
+                        if (!empty($import_feed['mapped_tags'])) {
+                            foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
+                                if($mappedTagName == 'id') {
+                                    $primaryKeyIsMapped = $mappedTagKey;
+                                    $this->import_feed['primary_key'] = 'id';
+                                    break;
+                                }
+                            }
+                        }
+                        @endphp
                         <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
 
                             <option value="">Select</option>
 
                             <optgroup label="Main">
-                            <option value="id">Id</option>
-                            <option value="title">Title</option>
+                            <option value="id" @if(!$primaryKeyIsMapped) disabled="disabled" @endif>Id</option>
+                            <option value="title" @if($primaryKeyIsMapped) disabled="disabled" @endif>Title</option>
                             </optgroup>
 
                             <optgroup label="Content Data">
-                            <option value="content_data.model">Model</option>
-                            <option value="content_data.sku">SKU</option>
-                            <option value="content_data.barcode">Barcode</option>
-                            <option value="content_data.mpn">MPN</option>
+                            <option value="content_data.model" @if($primaryKeyIsMapped) disabled="disabled" @endif>Model</option>
+                            <option value="content_data.sku" @if($primaryKeyIsMapped) disabled="disabled" @endif>SKU</option>
+                            <option value="content_data.barcode" @if($primaryKeyIsMapped) disabled="disabled" @endif>Barcode</option>
+                            <option value="content_data.mpn" @if($primaryKeyIsMapped) disabled="disabled" @endif>MPN</option>
                             </optgroup>
 
                             @php
@@ -48,17 +60,26 @@
                             @if(!empty($dbFields))
                                 <optgroup label="Database Fields">
                                 @foreach($dbFields as $dbField)
-                                    <option value="content_data.{{$dbField}}">{{$dbField}}</option>
+                                    <option value="content_data.{{$dbField}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$dbField}}</option>
                                 @endforeach
                                 </optgroup>
                             @endif
 
-                            @if(!empty($import_feed['mapped_tags']))
+                            @php
+                                $customContentDataFields = [];
+                                if (!empty($import_feed['mapped_tags'])) {
+                                     foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
+                                        if(strpos($mappedTagName, 'custom_content_data') !== false) {
+                                         $customContentDataFields[$mappedTagKey] = $mappedTagName;
+                                        }
+                                    }
+                                }
+                            @endphp
+
+                            @if(!empty($customContentDataFields))
                                 <optgroup label="Custom Content Data Fields">
-                                    @foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName)
-                                        @if(strpos($mappedTagName, 'custom_content_data') !== false)
-                                        <option value="{{$mappedTagName}}">{{$mappedTagName}}</option>
-                                        @endif
+                                    @foreach($customContentDataFields as $mappedTagKey=>$mappedTagName)
+                                        <option value="{{$mappedTagName}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$mappedTagName}}</option>
                                     @endforeach
                                 </optgroup>
                             @endif

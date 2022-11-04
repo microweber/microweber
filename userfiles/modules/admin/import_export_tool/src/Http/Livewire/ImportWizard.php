@@ -22,6 +22,7 @@ class ImportWizard extends Component
     public $import_feed_edit_name = 0;
 
     public $listeners = [
+        'refreshImportFeedStateById'=> 'refreshImportFeedStateById',
         'readFeedFile'=>'readFeedFile',
         'importingFinished'=>'importingFinished',
     ];
@@ -88,6 +89,7 @@ class ImportWizard extends Component
     {
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
         if ($feed) {
+
             if ($feed->content_tag != $this->import_feed['content_tag']) {
                 $feed->content_tag = $this->import_feed['content_tag'];
                 $feed->save();
@@ -183,7 +185,7 @@ class ImportWizard extends Component
     public function updatedImportFeed()
     {
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
-        
+
         if ($feed) {
             $feed->primary_key = $this->import_feed['primary_key'];
             $feed->download_images = $this->import_feed['download_images'];
@@ -208,6 +210,14 @@ class ImportWizard extends Component
             $findImportFeed = ImportFeed::where('id', $newDraftFeed->id)->first();
         }
 
+        if ($findImportFeed) {
+            $this->refreshImportFeedState($findImportFeed->toArray());
+        }
+    }
+
+    public function refreshImportFeedStateById($id)
+    {
+        $findImportFeed = ImportFeed::where('id', $id)->first();
         if ($findImportFeed) {
             $this->refreshImportFeedState($findImportFeed->toArray());
         }

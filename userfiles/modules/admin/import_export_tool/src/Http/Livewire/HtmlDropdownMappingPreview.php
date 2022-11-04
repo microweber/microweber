@@ -56,12 +56,14 @@ class HtmlDropdownMappingPreview extends Component
 
     public function render()
     {
-
         // Save mapped
         if (isset($this->import_feed['mapped_tags']) && is_array($this->import_feed['mapped_tags'])) {
+
             $importFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
             $importFeed->mapped_tags = $this->import_feed['mapped_tags'];
             $importFeed->save();
+
+            $this->emit('refreshImportFeedStateById', $importFeed->id);
         }
 
         if ($this->isSimplePreview()) {

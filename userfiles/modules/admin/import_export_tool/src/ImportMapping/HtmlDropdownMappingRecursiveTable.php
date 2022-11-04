@@ -217,7 +217,7 @@ class HtmlDropdownMappingRecursiveTable
         <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
         <div wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
-        <option value="0">Select</option>
+        <option value="none">Select</option>
         ';
 
         $showInGroup = [];
