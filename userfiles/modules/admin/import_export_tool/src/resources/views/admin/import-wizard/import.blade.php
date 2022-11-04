@@ -57,7 +57,7 @@
                                 <optgroup label="Custom Content Data Fields">
                                     @foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName)
                                         @if(strpos($mappedTagName, 'custom_content_data') !== false)
-                                        <option value="content_data.{{$mappedTagName}}">{{$mappedTagName}}</option>
+                                        <option value="{{$mappedTagName}}">{{$mappedTagName}}</option>
                                         @endif
                                     @endforeach
                                 </optgroup>

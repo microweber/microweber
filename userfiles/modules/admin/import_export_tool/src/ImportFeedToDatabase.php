@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -140,17 +141,40 @@ class ImportFeedToDatabase
             } else {
                 $item['parent'] = $this->importFeed->parent_page;
 
-                if (!isset($item['id'])) {
-                    continue;
-                }
-
                 $updateProductId = 0;
                 $insertNewProduct = true;
-                $findProduct = Product::where('id', $item['id'])->first();
-                if ($findProduct) {
-                    // Update product
-                    $insertNewProduct = false;
-                    $updateProductId = $findProduct->id;
+
+                $findItemType = 'id';
+                if (strpos($this->importFeed->primary_key, 'custom_content_data') !== false) {
+                    $primaryKeyUndot = explode('.', $this->importFeed->primary_key);
+                    if (isset($primaryKeyUndot[1])) {
+                        if (isset($item[$primaryKeyUndot[0]][$primaryKeyUndot[1]])) {
+                            $findItemType = 'findByCustomContentData';
+                            $contentDataPrimaryKeyValue = $item[$primaryKeyUndot[0]][$primaryKeyUndot[1]];
+                            $findProduct = Product::whereContentData([$primaryKeyUndot[1], $contentDataPrimaryKeyValue])->first();
+                            if ($findProduct) {
+                                // Update product
+                                $insertNewProduct = false;
+                                $updateProductId = $findProduct->id;
+                            }
+                        }
+                    }
+                }
+
+                if (isset($item['custom_content_data'])  && !empty($item['custom_content_data'])  && is_array($item['custom_content_data'])) {
+                    foreach ($item['custom_content_data'] as $customContentDataKey=>$customContentDataValue) {
+                        $item['content_data'][$customContentDataKey] = $customContentDataValue;
+                    }
+                    unset($item['custom_content_data']);
+                }
+
+                if ($findItemType == 'id') {
+                    $findProduct = Product::where('id', $item['id'])->first();
+                    if ($findProduct) {
+                        // Update product
+                        $insertNewProduct = false;
+                        $updateProductId = $findProduct->id;
+                    }
                 }
 
                 if ($updateProductId > 0) {
