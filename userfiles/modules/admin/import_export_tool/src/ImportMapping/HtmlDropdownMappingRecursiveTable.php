@@ -275,17 +275,19 @@ class HtmlDropdownMappingRecursiveTable
         $html .= "
 <script>
 
-    if ($('#js-import-feed-mapped-tag-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
-        $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
-    } else {
-        $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
-    }
+    document.addEventListener('livewire:load', function () {
+        if ($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().includes('custom_content_data')) {
+            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
+        } else {
+            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
+        }
+    });
 
     document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
 
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
 
-        importFeedMappedTag.value = 'custom_content_data.' + $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
+        importFeedMappedTag.value = $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
         importFeedMappedTag.dispatchEvent(new Event('input'));
 
         if ($('#js-dropdown-select-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
