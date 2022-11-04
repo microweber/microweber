@@ -214,7 +214,7 @@ class HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
-        <input type="text" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
+        <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
         <div wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
         <option value="0">Select</option>
@@ -277,6 +277,10 @@ class HtmlDropdownMappingRecursiveTable
 
     document.addEventListener('livewire:load', function () {
         if ($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().includes('custom_content_data')) {
+            const feedMapTagSplit = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().split('.');
+            if (feedMapTagSplit[1]) {
+                $('#js-custom-map-key-" . md5($mapKeyHtml) . "').val(feedMapTagSplit[1]);
+            }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
         } else {
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
@@ -299,8 +303,13 @@ class HtmlDropdownMappingRecursiveTable
      document.getElementById('js-custom-map-key-".md5($mapKeyHtml)."').onchange = function() {
 
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
+        var importFeedMappedTagValue = $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
+        importFeedMappedTagValue = importFeedMappedTagValue.replaceAll(' ','_');
+        importFeedMappedTagValue = importFeedMappedTagValue.toLowerCase();
 
-        importFeedMappedTag.value = 'custom_content_data.' + $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
+        $('#js-custom-map-key-".md5($mapKeyHtml)."').val(importFeedMappedTagValue);
+
+        importFeedMappedTag.value = 'custom_content_data.' + importFeedMappedTagValue;
         importFeedMappedTag.dispatchEvent(new Event('input'));
     };
 </script>
