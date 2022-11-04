@@ -214,7 +214,7 @@ class HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
-        <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
+        <input type="text" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
         <div wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
         <option value="0">Select</option>
@@ -280,6 +280,8 @@ class HtmlDropdownMappingRecursiveTable
             const feedMapTagSplit = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().split('.');
             if (feedMapTagSplit[1]) {
                 $('#js-custom-map-key-" . md5($mapKeyHtml) . "').val(feedMapTagSplit[1]);
+            } else {
+                $('#js-dropdown-select-".md5($mapKeyHtml)."').val($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val());
             }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
         } else {
