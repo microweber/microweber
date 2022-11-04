@@ -270,12 +270,17 @@ class HtmlDropdownMappingRecursiveTable
         $html .= ' <option value="custom_content_data">Custom Content Data</option>';
         $html .= '</select>';
 
-        $html .= '<input type="text" placeholder="Please enter content data key" class="form-control mt-2" />';
+        $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
         $html .= "
 <script>
     document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
         importFeedMappedTag.value = $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
+        importFeedMappedTag.dispatchEvent(new Event('input'));
+    };
+     document.getElementById('js-custom-map-key-".md5($mapKeyHtml)."').onchange = function() {
+        var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
+        importFeedMappedTag.value = $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
         importFeedMappedTag.dispatchEvent(new Event('input'));
     };
 </script>";
