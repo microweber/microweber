@@ -271,15 +271,16 @@ class HtmlDropdownMappingRecursiveTable
         $html .= ' <optgroup label="Custom"><option value="custom_content_data">Content Data</option></optgroup>';
         $html .= '</select>';
 
-        $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
+        $html .= '<input type="text" style="border-color:rgb(69, 146, 255);color:rgb(69, 146, 255);" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
         $html .= "
 <script>
 
-    document.addEventListener('livewire:load', function () {
+    function refreshMapKeyInputs".md5($mapKeyHtml)."() {
         if ($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().includes('custom_content_data')) {
             const feedMapTagSplit = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().split('.');
             if (feedMapTagSplit[1]) {
                 $('#js-custom-map-key-" . md5($mapKeyHtml) . "').val(feedMapTagSplit[1]);
+                $('#js-dropdown-select-" . md5($mapKeyHtml) . "').val('custom_content_data');
             }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
         } else {
@@ -289,6 +290,11 @@ class HtmlDropdownMappingRecursiveTable
             }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
         }
+    }
+
+    refreshMapKeyInputs".md5($mapKeyHtml)."();
+    document.addEventListener('livewire:load', function () {
+        refreshMapKeyInputs".md5($mapKeyHtml)."();
     });
 
     document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
