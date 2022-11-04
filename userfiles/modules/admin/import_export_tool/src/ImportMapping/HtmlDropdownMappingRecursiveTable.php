@@ -215,6 +215,7 @@ class HtmlDropdownMappingRecursiveTable
 
         $html = '
         <input type="text" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
+        <div wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
         <option value="0">Select</option>
         ';
@@ -267,12 +268,19 @@ class HtmlDropdownMappingRecursiveTable
         }
 
 
-        $html .= ' <option value="custom_content_data">Custom Content Data</option>';
+        $html .= ' <optgroup label="Custom"><option value="custom_content_data">Content Data</option></optgroup>';
         $html .= '</select>';
 
-        $html .= '<input type="text" style="display:none" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
+        $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
         $html .= "
 <script>
+
+    if ($('#js-import-feed-mapped-tag-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
+        $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
+    } else {
+        $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
+    }
+
     document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
 
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
@@ -283,7 +291,7 @@ class HtmlDropdownMappingRecursiveTable
         if ($('#js-dropdown-select-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
             $('#js-custom-map-key-".md5($mapKeyHtml)."').show();
         } else {
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').hide();
+            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
         }
     };
      document.getElementById('js-custom-map-key-".md5($mapKeyHtml)."').onchange = function() {
@@ -293,7 +301,8 @@ class HtmlDropdownMappingRecursiveTable
         importFeedMappedTag.value = $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
         importFeedMappedTag.dispatchEvent(new Event('input'));
     };
-</script>";
+</script>
+</div>";
 
         return $html;
     }
