@@ -95,6 +95,8 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                         <div class="col-sm-6">
                                         <?php
                                         $supportedLanguages = TranslationPackageInstallHelper::getAvailableTranslations('json');
+
+
                                         if ($supportedLanguages !== null) {
                                         ?>
                                         <div class="form-group">
@@ -106,6 +108,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                                     <option value="<?php print $languageLocale; ?>"
                                                         <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
                                                         <?php echo $languageDisplayName; ?>
+                                                        [<?php echo $languageLocale; ?>]
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>

@@ -97,6 +97,7 @@ if (!function_exists('change_language_by_locale')) {
             if ($cookie and $cookie == $locale) {
                 $skip = true;
             }
+
             if (!$skip) {
 
 
@@ -111,6 +112,8 @@ if (!function_exists('change_language_by_locale')) {
                 } else {
                     $localeSettings = ['locale' => $locale];
                 }
+
+
                 $applyCookieLang = true;
                 if ($localeSettings != null and isset($localeSettings['locale'])) {
                     if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $locale) {
