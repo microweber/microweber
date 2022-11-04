@@ -214,7 +214,8 @@ class HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
-        <select class="form-control" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'">
+        <input type="text" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
+        <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
         <option value="0">Select</option>
         ';
 
@@ -270,6 +271,14 @@ class HtmlDropdownMappingRecursiveTable
         $html .= '</select>';
 
         $html .= '<input type="text" placeholder="Please enter content data key" class="form-control mt-2" />';
+        $html .= "
+<script>
+    document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
+        var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
+        importFeedMappedTag.value = $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
+        importFeedMappedTag.dispatchEvent(new Event('input'));
+    };
+</script>";
 
         return $html;
     }
