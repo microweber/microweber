@@ -8,6 +8,11 @@ if (!function_exists('is_cli')) {
             return $is;
         }
 
+        if(!empty($_SERVER) and isset($_SERVER['SERVER_SOFTWARE']) and isset($_SERVER['SERVER_PROTOCOL'])) {
+            $is = false;
+            return $is;
+        }
+
         $php_sapi_name = false;
         if(defined('PHP_SAPI')){
             $php_sapi_name= PHP_SAPI;

@@ -79,7 +79,7 @@ trait DetailsByLocaleTrait {
             'bg_BG' => array(
                 'code' => 'bg',
                 'locale' => 'bg_BG',
-                'name' => 'български',
+                'name' => 'Bulgarian',
                 'dir' => 'ltr',
                 'flag' => 'bg',
                 'facebook' => 'bg_BG',

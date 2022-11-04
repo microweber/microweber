@@ -12,14 +12,19 @@ if (MultilanguageHelpers::multilanguageIsEnabled()) {
     $supportedLanguages = get_supported_languages(true);
 } else {
     $supportedLanguages = array();
+    $supportedLanguagesFiles = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations('json');
+    if($supportedLanguagesFiles){
+        foreach ($supportedLanguagesFiles as $langKey => $langName) {
+            $item = [];
+            $item['locale'] = $langKey;
+            $item['display_name'] = $langName;
+            $supportedLanguages[] = $item;
+        }
+    }
 }
-//$supportedLanguages = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations('json');
+
 if ($supportedLanguages) {
 ?>
-
-
-
-
 
 <div class="form-group text-center">
      <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
