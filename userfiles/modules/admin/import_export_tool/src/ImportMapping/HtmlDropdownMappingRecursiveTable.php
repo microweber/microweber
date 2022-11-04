@@ -285,7 +285,7 @@ class HtmlDropdownMappingRecursiveTable
 
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
 
-        importFeedMappedTag.value = $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
+        importFeedMappedTag.value = 'custom_content_data.' + $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
         importFeedMappedTag.dispatchEvent(new Event('input'));
 
         if ($('#js-dropdown-select-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
@@ -298,7 +298,7 @@ class HtmlDropdownMappingRecursiveTable
 
         var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
 
-        importFeedMappedTag.value = $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
+        importFeedMappedTag.value = 'custom_content_data.' + $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
         importFeedMappedTag.dispatchEvent(new Event('input'));
     };
 </script>
