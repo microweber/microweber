@@ -2,7 +2,7 @@
 
     @php
     $activeClass = '';
-    if ($selectField == 'categories') {
+    if ($selectField == 'categories' || $selectField == 'custom_content_data') {
         $activeClass = 'active';
     }
     @endphp
@@ -26,17 +26,24 @@
         </select>
 
         @if ($selectField == 'categories')
-           <input type="text" placeholder="Please enter category seperator symbol" class="form-control mt-2" />
-           <select class="form-control mt-2" />
-            <option class="">Select</option>
-            <option class="seperated">Add as seperatred</option>
-            <option class="seperated">Add with childs</option>
-            </select>';
+
+            <select class="form-control mt-2" wire:model="category_separator">
+                @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
+                    <option value="{{$separator}}">Separate with "{{$separator}}"</option>
+                @endforeach
+            </select>
+
+           <select class="form-control mt-2">
+                <option value="">Select</option>
+                <option value="seperated">Add categories seperatred</option>
+                <option value="tree">Add categories in tree</option>
+            </select>
 
         @endif
 
-        <input type="text" placeholder="Please enter content data key" class="form-control mt-2" />
-
+        @if ($selectField == 'custom_content_data')
+         <input type="text" placeholder="Please enter content data key" class="form-control mt-2" />
+        @endif
 
     </div>
 
