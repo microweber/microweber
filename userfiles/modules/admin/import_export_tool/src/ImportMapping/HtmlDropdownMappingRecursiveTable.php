@@ -214,6 +214,7 @@ class HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $html = '
+        
         <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
         <div class="js-dropdown-select-wrapper" wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
@@ -271,10 +272,15 @@ class HtmlDropdownMappingRecursiveTable
         $html .= ' <optgroup label="Custom"><option value="custom_content_data">Content Data</option></optgroup>';
         $html .= '</select>';
 
+        $html .= '<input type="text" id="js-category-seperator-symbol-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter category seperator symbol" class="form-control mt-2" />';
+        $html .= '<select id="js-category-seperator-type-map-key-'.md5($mapKeyHtml).'" class="form-control mt-2" /><option class="">Select</option><option class="seperated">Add as seperatred</option><option class="seperated">Add with childs</option></select>';
         $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
         $html .= "
 <script>
 
+    // Category seperator
+
+    // Custom content data
     function refreshMapKeyInputs".md5($mapKeyHtml)."() {
         if ($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().includes('custom_content_data')) {
             const feedMapTagSplit = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().split('.');
