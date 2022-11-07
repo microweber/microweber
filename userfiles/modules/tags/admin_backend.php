@@ -50,7 +50,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             //mw.reload_module_everywhere('tags');
 
                             selected_taggable_items = getSelectedTaggableItems();
-                            if (selected_taggable_items) {
+                            if (typeof selected_taggable_items !== 'undefined' && selected_taggable_items.length > 0) {
                                 for (i = 0; i < selected_taggable_items.length; i++) {
                                     getPostTags(selected_taggable_items[i].post_id);
                                 }

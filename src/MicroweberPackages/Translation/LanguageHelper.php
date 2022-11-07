@@ -17,10 +17,11 @@ class LanguageHelper
 {
     public static function getDisplayLanguage($locale_name)
     {
+        $locale_name = self::normalizeLocaleName($locale_name);
 
         $locale = IntlLocale::getDisplayName($locale_name);
 
-        if($locale){
+        if ($locale) {
             return $locale;
         }
 
@@ -41,7 +42,7 @@ class LanguageHelper
     public static function getLanguageFlag($locale_name)
     {
         $flag = IntlLocale::getDisplayFlag($locale_name);
-        if($flag){
+        if ($flag) {
             return $flag;
         }
         $langData = self::getLangData($locale_name);
@@ -53,6 +54,8 @@ class LanguageHelper
 
     public static function isRTL($locale_name)
     {
+        $locale_name = self::normalizeLocaleName($locale_name);
+
         $langData = self::getLangData($locale_name);
         if ($langData and isset($langData['rtl'])) {
             return $langData['rtl'];
@@ -60,8 +63,16 @@ class LanguageHelper
         return false;
     }
 
+    public static function normalizeLocaleName($locale_name)
+    {
+        $locale_name = str_replace('-', '_', $locale_name);
+        return $locale_name;
+    }
+
     public static function getLangData($locale_name)
     {
+
+        $locale_name = self::normalizeLocaleName($locale_name);
 
         $found = false;
         $langs = self::getLanguagesWithDefaultLocale();
@@ -105,10 +116,10 @@ class LanguageHelper
         $readyLanguages = [];
         if ($langs) {
             foreach ($langs as $lang) {
-              //  $findFlag = IntlLocale::getDisplayFlag($lang['iso-639-1']);
+                //  $findFlag = IntlLocale::getDisplayFlag($lang['iso-639-1']);
                 $flag = IntlLocale::getDisplayFlag($lang['locale']);
 
-                if(!$flag){
+                if (!$flag) {
                     $flag = $lang['iso-639-1'];
                     $locale_explode = explode('_', $lang['locale']);
                     if (isset($locale_explode[1])) {
@@ -119,7 +130,6 @@ class LanguageHelper
                         $flag = 'us';
                     }
                 }
-
 
 
                 $name = ucfirst($lang['name']);

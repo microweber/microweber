@@ -30,16 +30,17 @@ function tagging_tagged_get_by_taggable_id($params) {
 api_expose_admin('tagging_tagged/add', 'tagging_tagged_add');
 function tagging_tagged_add($params) {
 
+    $params = xss_clean($params);
     $taggableIds = [];
-    if (isset($_POST['taggable_ids']) && is_array($_POST['taggable_ids'])){
-        $taggableIds = $_POST['taggable_ids'];
+    if (isset($params['taggable_ids']) && is_array($params['taggable_ids'])){
+        $taggableIds = $params['taggable_ids'];
     }
 
     if (empty($taggableIds)) {
         if (!isset($params['taggable_id']) || empty($params['taggable_id'])) {
             return ['status'=>false, 'message'=>_e('Post can\'t be identicated.', true)];
         }
-        $taggableIds[] = $_POST['taggable_id'];
+        $taggableIds[] = intval($params['taggable_id']);
     }
 
     if (empty(trim($params['tag_name']))) {
@@ -57,7 +58,7 @@ function tagging_tagged_add($params) {
         // return ['status'=>false, 'message'=>_e('Global tag can\'t be identicated.', true)];
     }
 
-    $getGlobalTag = db_get('tagging_tags',['id'=>$params['tagging_tag_id'], 'single'=>1]);
+    $getGlobalTag = db_get('tagging_tags',['id'=>intval($params['tagging_tag_id']), 'single'=>1]);
     if ($getGlobalTag) {
 
         $savedIds = [];
