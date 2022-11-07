@@ -13,6 +13,12 @@
         .tag_value .value {
             color: #000;
         }
+        .js-dropdown-select-wrapper.active {
+            background: rgb(217, 217, 217);
+            padding: 7px;
+            border-radius: 6px;
+            margin-top: 3px;
+        }
     </style>
 
     <?php echo $data; ?>

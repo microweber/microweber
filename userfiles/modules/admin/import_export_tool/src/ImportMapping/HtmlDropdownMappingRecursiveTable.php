@@ -215,7 +215,7 @@ class HtmlDropdownMappingRecursiveTable
 
         $html = '
         <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
-        <div wire:ignore>
+        <div class="js-dropdown-select-wrapper" wire:ignore>
         <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
         <option value="none">Select</option>
         ';
@@ -271,7 +271,7 @@ class HtmlDropdownMappingRecursiveTable
         $html .= ' <optgroup label="Custom"><option value="custom_content_data">Content Data</option></optgroup>';
         $html .= '</select>';
 
-        $html .= '<input type="text" style="border-color:rgb(69, 146, 255);color:rgb(69, 146, 255);" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
+        $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
         $html .= "
 <script>
 
@@ -283,12 +283,14 @@ class HtmlDropdownMappingRecursiveTable
                 $('#js-dropdown-select-" . md5($mapKeyHtml) . "').val('custom_content_data');
             }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
+            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().addClass('active');
         } else {
             var feedMapTagValue = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val();
             if (feedMapTagValue.length > 0) {
                 $('#js-dropdown-select-" . md5($mapKeyHtml) . "').val(feedMapTagValue);
             }
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
+            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().removeClass('active');
         }
     }
 
@@ -306,8 +308,10 @@ class HtmlDropdownMappingRecursiveTable
 
         if ($('#js-dropdown-select-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
             $('#js-custom-map-key-".md5($mapKeyHtml)."').show();
+            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().addClass('active');
         } else {
             $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
+            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().removeClass('active');
         }
     };
      document.getElementById('js-custom-map-key-".md5($mapKeyHtml)."').onchange = function() {
