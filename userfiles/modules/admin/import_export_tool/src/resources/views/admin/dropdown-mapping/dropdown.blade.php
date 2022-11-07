@@ -4,6 +4,7 @@
     $activeClass = '';
     if ($selectField == 'categories'
         || $selectField == 'id'
+        || $selectField == 'parent'
         || $selectField == 'is_active'
         || $selectField == 'tags'
         || $selectField == 'category_ids'
@@ -33,6 +34,10 @@
 
         @if ($selectField == 'id')
             <p class="text-success"><i class="fa fa-info"></i> The feed item id will be mapped with the same content id in website database.</p>
+        @endif
+
+        @if ($selectField == 'parent')
+            <p class="text-success"><i class="fa fa-info"></i> The feed item parent id will be mapped with the same content parent id in website database.</p>
         @endif
 
         @if ($selectField == 'tags')
