@@ -13,10 +13,11 @@
         color: #000;
     }
     .js-dropdown-select-wrapper.active {
-        background: rgb(217, 217, 217);
+        background: rgb(246, 246, 246);
         padding: 7px;
         border-radius: 6px;
         margin-top: 3px;
+        border-bottom: 4px solid #00000042;
     }
 </style>
 
