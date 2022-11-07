@@ -246,28 +246,34 @@ $user = get_user_by_id($user_id);
 ?>
 
 
+
+
 <div id="mw-admin-container">
     <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
 
-                <ul class="nav">
-                    <li class="mx-1 mobile-toggle">
-                        <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
+                <ul class="nav" id="admin-header-logo-nav">
+                    <li id="admin-logo-nav-toggle">
+                        <span class="js-toggle-mobile-nav">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
                     </li>
-
-                    <li class="mx-1 logo d-none d-lg-block">
+                    <li id="admin-logo">
+                        <?php
+                            if (mw()->ui->admin_logo != false):
+                                $logo = mw()->ui->admin_logo;
+                            elseif (mw()->ui->admin_logo_login() != false):
+                                $logo = mw()->ui->admin_logo_login();
+                            else:
+                                $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
+                            endif;
+                        ?>
                         <a href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-3 d-flex align-items-center h-100">
-                                <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>" class="logo svg" style="height: 40px;"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" class="logo svg" style="height: 40px;"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
-                                <?php endif; ?>
-                            </h5>
-                         </a>
+                            <img alt="" src="<?php print $logo; ?>">
+                        </a>
                     </li>
 
                     <?php
@@ -312,7 +318,6 @@ $user = get_user_by_id($user_id);
 
                 <ul class="nav">
                     <?php if (user_can_access('module.content.edit')): ?>
-
                         <li class="mx-1">
                             <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
                                 <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("Website"); ?></span>
@@ -406,6 +411,8 @@ $user = get_user_by_id($user_id);
                 $shop_class = "active";
             }
             ?>
+
+
 
             <ul class="nav flex-column" id="mw-admin-main-navigation">
                 <li class="nav-item">

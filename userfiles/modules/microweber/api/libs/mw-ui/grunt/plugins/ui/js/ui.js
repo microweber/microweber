@@ -92,12 +92,7 @@ $(document).ready(function () {
         $(this).parent().find('.dropdown-menu').toggleClass('show');
     });
 
-    $('.js-toggle-mobile-nav').on('click', function () {
-        $(this).toggleClass('opened');
-        $('body').find('aside').toggleClass('opened');
-        $('body').find('.tree').toggleClass('opened');
-        $('html, body').toggleClass('prevent-scroll');
-    });
+
 
     $('.js-show-more').on('click', function (e) {
         e.stopPropagation();

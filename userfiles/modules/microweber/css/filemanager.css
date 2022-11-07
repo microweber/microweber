@@ -23,7 +23,7 @@
     padding-bottom: 20px;
 }
 .mw-dialog-container .mw-file-manager-view-table-wrap{
-    max-height: calc(100vh - 500px);
+    max-height: calc(100vh - 510px);
     min-height: 250px;
     overflow: auto;
 }
@@ -502,4 +502,12 @@
 .mw-file-manager-paging-bottom{
     border-top: 1px solid #dbdcdd;
     padding-bottom: 0;
+}
+
+.mw-file-manager-bar-view-sort-selector{
+    margin-inline-end: 12px;
+    display: none;
+}
+[data-view="grid"] .mw-file-manager-bar-view-sort-selector{
+    display: block;
 }

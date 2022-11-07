@@ -33,6 +33,11 @@
   user-select: none;
   overflow: auto;
 
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title{
+        opacity: .7;
+        text-decoration: line-through;
+    }
+
     &::-webkit-scrollbar {
         width: 7px;
         height: 7px;
@@ -477,6 +482,12 @@ html[dir="rtl"]{
         align-items: center;
         justify-content: space-between;
         width: 100%;
+    }
+
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-content:before,
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title{
+        opacity: .5;
+        text-decoration: line-through;
     }
 
     span.mw-tree-context-menu{

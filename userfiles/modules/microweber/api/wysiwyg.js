@@ -1627,12 +1627,17 @@ mw.wysiwyg = {
         mw.wysiwyg.change(r);
     },
     fontSize: function (a) {
-
-        if (window.getSelection().isCollapsed) {
+        var sel = getSelection()
+        var r = sel.getRangeAt(0)
+        if (sel.isCollapsed) {
             return false;
         }
         mw.wysiwyg.allStatements(function () {
-
+            var node = r.commonAncestorContainer
+            mw.liveEditState.record({
+                target:node,
+                value: node.innerHTML
+            });
             rangy.init();
             var clstemp = 'mw-font-size-' + mw.random();
             var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
@@ -1647,7 +1652,11 @@ mw.wysiwyg = {
                 mw.wysiwyg.change(all[i]);
             }
 
-            mw.$('.edit .mw-font-size').removeClass('mw-font-size')
+            mw.$('.edit .mw-font-size').removeClass('mw-font-size');
+            mw.liveEditState.record({
+                target: node,
+                value: node.innerHTML
+            });
 
         });
     },
@@ -1880,6 +1889,7 @@ mw.wysiwyg = {
             .promise()
             .then(function (result){
                 mw.wysiwyg.restore_selection();
+                console.log(result)
                 mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
                 var fc = mw.top().win.getSelection().focusNode;
                 if(fc.querySelector) {
@@ -2011,7 +2021,14 @@ mw.wysiwyg = {
             var dialog;
             var handleResult = function (res) {
                 mw.wysiwyg.restore_selection();
-                var url = res.src ? res.src : res;
+                var url;
+                if(Array.isArray(res)) {
+                    url = res[0]
+                } else {
+                    url = res.src ? res.src : res;
+                }
+
+
                 if(action === 'editimage') {
                     if(mw.image.currentResizing) {
                         if (mw.image.currentResizing[0].nodeName === 'IMG') {
@@ -2117,6 +2134,7 @@ mw.wysiwyg = {
         return final;
     },
     insertMedia: function (url, type) {
+        console.log(url, type)
         var ext = url.split('.').pop().toLowerCase().split('?')[0];
         var name = url.split('/').pop().split('?')[0]
         if(!type) {
@@ -3042,6 +3060,7 @@ mw.linkTip = {
                 .then(function (result){
                     node.href = result.url;
                     node.innerHTML = result.text;
+                    node.target = result.target ? '_blank' : '_self';
                     mw.wysiwyg.change(node)
                 });
             mw.$('.mw-link-tip').remove();

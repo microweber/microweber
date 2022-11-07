@@ -9,14 +9,6 @@ body {
   background-color: $body-bg;
 }
 
-.prevent-scroll {
-  overflow: hidden;
-
-  /*  .sticky-top {
-      position: fixed !important;
-      width: 100% !important;
-    }*/
-}
 
 .container {
     width: 1920px;
@@ -25,12 +17,12 @@ body {
     @media screen and (max-width: 1600px) {
         max-width: 90%;
     }
-  @media screen and (max-width: 1440px) {
-    max-width: calc(100% - 30px);
-  }
-  @media screen and (max-width: 991px) {
-    max-width: calc(100% - 30px);
-  }
+    @media screen and (max-width: 1440px) {
+        max-width: calc(100% - 30px);
+    }
+    @media screen and (max-width: 991px) {
+        max-width: calc(100% - 30px);
+    }
 }
 
 header {
@@ -67,39 +59,7 @@ header {
     }
   }
 
-  .mobile-toggle {
 
-    align-items: center;
-    justify-content: center;
-    display: none;
-    @media screen and (max-width: 991px) {
-      display: block;
-    }
-    button {
-      transition: all 0.5s ease;
-      background: transparent;
-      border: 0;
-      outline: none !important;
-      height: 100%;
-      display: flex;
-      i {
-        font-size: 30px;
-        line-height: 1;
-        color: $primary;
-      }
-
-      &.opened {
-        background: $primary;
-        color: $white;
-        border-radius: 4px;
-        i {
-          color: $white;
-        }
-
-        //transform: rotate(90deg);
-      }
-    }
-  }
 
   .nav-last {
     @media screen and (max-width: 767px) {
@@ -403,6 +363,8 @@ header {
     }
   }
 }
+
+
 
 .site-pagination {
   ul {
@@ -1531,19 +1493,6 @@ header {
   }
 
   .anchorific {
-    /* ul:not(.collapseNav-initialized) {
-       display: flex;
-       list-style-type: none;
-       margin: 0;
-
-       li {
-         margin-inline-end: 20px;
-         &.active {
-           //font-weight: bold;
-         }
-       }
-     }*/
-
     ul.collapseNav-initialized {
       display: block;
 

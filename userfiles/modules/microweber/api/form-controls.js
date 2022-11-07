@@ -1037,6 +1037,10 @@ mw.emitter = {
                 var val = {};
                 if(textField) val.text = textField.value;
                 var url = this.filepicker.getValue();
+
+                if(Array.isArray(url)) {
+                    url = url[0]
+                }
                 val.url = typeof url === 'object' ? (url.src || url.url) : url;
                 val.data = (url.src || url.url || null);
                 if(targetField) val.target = targetField.checked;
@@ -1047,6 +1051,7 @@ mw.emitter = {
                 val = val || {};
                 if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = !!val.target;
+
                 return val;
             };
 
@@ -1068,6 +1073,7 @@ mw.emitter = {
 
 
             $(this.filepicker).on('Result', function (e, res) {
+                console.log(121212, res, scope.getValue())
                 if(scope.valid()) {
                     scope._onChange.forEach(function (f){
                         f(scope.getValue());

@@ -172,7 +172,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-post-outline text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Add Page"); ?></strong>
                 </h5>
-                <a href="<?php echo route('admin.page.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1"><?php _e("Add Page"); ?></a>
+                <a href="<?php echo route('admin.page.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4  card-header-add-button"><?php _e("Add Page"); ?></a>
             </div>
         <?php elseif ($act == 'posts'): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
@@ -180,7 +180,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Posts"); ?></strong>
                 </h5>
-                <a href="<?php echo route('admin.post.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1">
+                <a href="<?php echo route('admin.post.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">
                     <?php _e("Add Post"); ?>
                 </a>
             </div>
@@ -191,7 +191,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Products"); ?></strong>
                 </h5>
-                <a href="<?php echo route('admin.product.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1"><?php _e("Add Product"); ?></a>
+                <a href="<?php echo route('admin.product.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button"><?php _e("Add Product"); ?></a>
             </div>
         <?php elseif (isset($params['is_shop'])): ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
@@ -199,7 +199,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("My Shop"); ?></strong>
                 </h5>
-                <a href="<?php echo route('admin.product.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1"><?php _e("Add Product"); ?></a>
+                <a href="<?php echo route('admin.product.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button"><?php _e("Add Product"); ?></a>
             </div>
         <?php else: ?>
             <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
@@ -207,7 +207,7 @@ if ($last_page_front != false) {
                     <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                     <strong class="d-xl-flex d-none"><?php _e("Website"); ?></strong>
                 </h5>
-                <a href="<?php echo route('admin.page.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 ms-1"><?php _e("Add Page"); ?></a>
+                <a href="<?php echo route('admin.page.create'); ?>" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button"><?php _e("Add Page"); ?></a>
             </div>
         <?php endif; ?>
 

@@ -676,7 +676,6 @@ Primary style
   display: none;
   max-width: 300px;
   max-height: 500px;
-  position: absolute;
   border-radius: 0;
   position: fixed;
   top: 0;
@@ -930,274 +929,20 @@ Primary style
     top: 120%;
   }
 }
-.microweber range,
-.microweber switch {
-  width: 100%;
-  height: auto;
-  box-sizing: content-box;
-  display: inline-block;
-  clear: right;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.microweber switch {
-  height: 30px;
-}
-.microweber switch input {
-  position: absolute;
-  margin-inline-start: -9999px;
-  visibility: hidden;
-}
-.microweber switch input + label {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  outline: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.microweber switch input + label {
-  padding: 3px;
-  float: right;
-  width: 60px;
-  height: 30px;
-  border-radius: 15px;
-  z-index: 3003;
-}
-.microweber switch input + label:before, .microweber switch input + label:after {
-  display: block;
-  position: absolute;
-  content: "";
-}
-.microweber switch input + label:before {
-  height: 30px;
-  width: 60px;
-  border-radius: 27px;
-  border-radius: 15px;
-  -webkit-transition: background 0.3s;
-  transition: background 0.3s;
-  top: 0;
-  left: 0;
-}
-.microweber switch input + label:after {
-  width: 24px;
-  height: 24px;
-  border-radius: 27px;
-  -webkit-transition: margin .4s ease;
-  -webkit-transition: background 0.3s;
-  transition: background 0.3s;
-}
-.microweber switch label {
-  width: 66.66%;
-  float: left;
-}
-.microweber switch input {
-  width: 33.32%;
-  float: right;
-}
-.microweber .light switch input:checked + label:after {
-  background-color: #1ACC2F;
-  margin-inline-start: 30px;
-  -webkit-transition: margin 0.4s, color 0.2s;
-  transition: margin 0.4s, color 0.2s;
-}
-.microweber .light switch input:hover + label:after {
-  background-color: #1ACC2F;
-  -webkit-transition: margin 0.4s, color 0.2s;
-  transition: margin 0.4s, color 0.2s;
-}
-.microweber .light switch input + label:after {
-  background-color: #d2e1d1;
-}
-.microweber .light switch input + label::before {
-  background-color: rgba(174, 201, 172, 0.9);
-  box-shadow: inset 0 0 8px -3px #aec9ac;
-}
-.microweber .light switch input + label {
-  background-color: rgba(174, 201, 172, 0.9);
-  box-shadow: inset 0 0 8px -3px #aec9ac;
-}
-.microweber .light switch input input + label:before {
-  background-color: #d2e1d1;
-}
-.microweber .dark switch input:checked + label:after {
-  background-color: #1ACC2F;
-  margin-inline-start: 30px;
-  -webkit-transition: margin 0.4s, color 0.2s;
-  transition: margin 0.4s, color 0.2s;
-}
-.microweber .dark switch input:hover + label:after {
-  background-color: #1ACC2F;
-  -webkit-transition: margin 0.4s, color 0.2s;
-  transition: margin 0.4s, color 0.2s;
-}
-.microweber .dark switch input + label:after {
-  background-color: #39263a;
-}
-.microweber .dark switch input + label::before {
-  background-color: rgba(21, 14, 21, 0.9);
-  box-shadow: inset 0 0 8px -3px #150e15;
-}
-.microweber .dark switch input + label {
-  background-color: rgba(21, 14, 21, 0.9);
-  box-shadow: inset 0 0 8px -3px #aec9ac;
-}
-.microweber .dark switch input input + label:before {
-  background-color: #39263a;
-}
-.microweber range {
-  box-sizing: content-box;
-  box-sizing: content-box;
-  width: 100%;
-}
-.microweber range * {
-  box-sizing: content-box;
-}
-.microweber range label {
-  width: 33.33%;
-  max-width: 33.33%;
-  text-align: left;
-  float: left;
-}
-.microweber range input[type=range] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  border: none;
-  width: 50%;
-  float: right;
-  padding: 0;
-  box-sizing: content-box;
-  background-color: transparent;
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
-}
-.microweber range input[type=range]:focus {
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
-}
-.microweber range input[type=range]::-webkit-slider-runnable-track {
-  width: 50%;
-  float: right;
-  cursor: pointer;
-  box-shadow: inset 1px 1px 1px #000000, 0 0 1px #0d0d0d;
-  border-radius: 15px;
-  border: .2px solid #010101;
-  height: 30px;
-  padding: 3px;
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
-}
-.microweber range input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  border: none;
-  height: 24px;
-  width: 24px;
-  border-radius: 12px;
-  -webkit-transition: background 0.2s;
-  transition: background 0.2s;
-}
-.microweber range input[type=range]:hover::-webkit-slider-thumb {
-  background: #1ACC2F;
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
-}
-.microweber range input[type=range]::-moz-range-track {
-  height: 30px;
-  border-radius: 30px;
-  padding: 0.75px;
-  float: right;
-}
-.microweber range input[type=range]::-moz-range-thumb {
-  border: none;
-  height: 24px;
-  width: 24px;
-  border-radius: 12px;
-}
-.microweber range input[type=range]:hover::-moz-range-thumb {
-  background: #1ACC2F;
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
-}
-.microweber range input[type=range]::-ms-track {
-  height: 30px;
-  background: transparent;
-  border-color: transparent;
-  border-width: 0 0;
-  color: transparent;
-}
-.microweber range input[type=range]::-ms-fill-lower {
-  background: #777;
-  border-radius: 10px;
-}
-.microweber range input[type=range]::-ms-fill-upper {
-  background: rgba(174, 201, 172, 0.9);
-  border-radius: 10px;
-}
-.microweber range input[type=range]::-ms-thumb {
-  border: none;
-  height: 28px;
-  width: 30px -2;
-  border-radius: 25px;
-  background: #ccddcb;
-}
-.microweber range input[type=range] :focus::-ms-fill-lower {
-  background: #888;
-}
-.microweber range input[type=range] :focus::-ms-fill-upper {
-  background: #ccc;
-}
-.microweber .light range input[type=range]::-webkit-slider-runnable-track {
-  background: rgba(174, 201, 172, 0.9);
-  box-shadow: inset 0 0 8px -3px #aec9ac;
-}
-.microweber .light range input[type=range]::-webkit-slider-thumb {
-  background: #d2e1d1;
-}
-.microweber .light range input[type=range]::-moz-range-track {
-  background: rgba(174, 201, 172, 0.9);
-}
-.microweber .light range input[type=range]::-moz-range-thumb {
-  background: #d2e1d1;
-}
-.microweber .dark range input[type=range]::-webkit-slider-runnable-track {
-  background: rgba(21, 14, 21, 0.9);
-  box-shadow: inset 0 0 8px -3px #150e15;
-}
-.microweber .dark range input[type=range]::-webkit-slider-thumb {
-  background: #39263a;
-}
-.microweber .dark range input[type=range]::-moz-range-track {
-  background: rgba(21, 14, 21, 0.9);
-}
-.microweber .dark range input[type=range]::-moz-range-thumb {
-  background: #39263a;
-}
+
 
 .mw-edit-module-settings-tooltip-btn {
-  position: relative;
-  display: block;
-  height: 60px;
-  line-height: 50px;
-  padding: 0 calc(1em + 60px) 0 1em;
-  color: rgba(204, 221, 203, 0.7);
-  font-size: 1.4rem;
-  color: #ccddcb;
-  background-color: black;
-
-
-      padding: 0;
+    display: block;
+    line-height: 50px;
+    color: rgba(204, 221, 203, 0.7);
+    font-size: 1.4rem;
+    color: #ccddcb;
+    padding: 0;
     height: 60px;
     width: 60px;
     border-radius: 30px;
     position: relative;
     background-color: #332234;
-
-
 }
 .mw-edit-module-settings-tooltip-btn .mw-edit-module-settings-tooltip-icon  {
   font-size: 50px;
@@ -1207,44 +952,5 @@ Primary style
   line-height: 100%;
   text-align: center;
   font-style: normal;
-}
-
-
-.mw-ui-btn {
-    font-weight: 400;
-    text-align: center;
-    user-select: none;
-    line-height: 1.5;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0 1.308rem;
-    cursor: pointer;
-    position: relative;
-    text-decoration: none;
-    font-size: 0.875rem;
-    height: 40px;
-    border-radius: 5px;
-    color: #686868;
-    background-color: #eeefef;
-    border: 1px solid #cfcfcf;
-    outline: none;
-    transition: 0.3s;
-    white-space: nowrap;
-    vertical-align: middle;
-}
-
-.mw-ui-btn-invert {
-    color: #fff;
-    background-color: #2b2b2b;
-    border-color: #2b2b2b;
-}
-
-.mw-ui-btn-invert:hover, .mw-ui-btn-invert.active {
-    background-color: #5e5e5e;
-    border-color: #5e5e5e;
 }
 
