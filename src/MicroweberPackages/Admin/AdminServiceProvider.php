@@ -44,7 +44,7 @@ class AdminServiceProvider extends ServiceProvider
     {
        // Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
        //  Livewire::component('admin-auto-complete-multiple-items', AutoCompleteMultipleItemsComponent::class);
-        Livewire::component('admin-dropdown', DropdownComponent::class);
+
         Livewire::component('admin-users-autocomplete', UsersAutoComplete::class);
         Livewire::component('admin-tags-autocomplete', TagsAutoComplete::class);
 

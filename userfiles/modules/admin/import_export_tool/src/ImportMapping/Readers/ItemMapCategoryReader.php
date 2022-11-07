@@ -29,19 +29,51 @@ class ItemMapCategoryReader extends ItemMapReader
         'is_hidden' => 'Active',
     ];
 
-    private static $itemGroups = [];
+    private static $itemGroups = [
+        'Content Fields'=> [
+            'content_fields.*'
+        ]
+    ];
+
+    private static function getTemplateEditFields()
+    {
+        $templateConfig = mw()->template->get_config();
+
+        $editFieldsCategory = [];
+        if (isset($templateConfig['edit-fields-category']) && !empty($templateConfig['edit-fields-category'])) {
+            foreach ($templateConfig['edit-fields-category'] as $templateField) {
+                $editFieldsCategory['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
+
+        return $editFieldsCategory;
+    }
 
     public static function getItemNames()
     {
         $itemNames = self::$itemNames;
 
+        $templateEditFields = self::getTemplateEditFields();
+        if (!empty($templateEditFields)) {
+            foreach ($templateEditFields as $fieldName => $fieldTitle) {
+                $itemNames[$fieldName] = $fieldTitle;
+            }
+        }
+
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
+
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
                 $itemNames['multilanguage.description.' . $language['locale']] = 'Description ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_description.' . $language['locale']] = 'Meta Description ['. $language['locale'].']';
+
+                if (!empty($templateEditFields)) {
+                    foreach ($templateEditFields as $fieldName=>$fieldTitle) {
+                        $itemNames['multilanguage.'.$fieldName.'.' . $language['locale']] = $fieldTitle . ' ['. $language['locale'].']';
+                    }
+                }
             }
         }
 
@@ -53,15 +85,43 @@ class ItemMapCategoryReader extends ItemMapReader
         $itemGroups = self::$itemGroups;
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $itemGroupMultilanguage = [];
-            foreach (get_supported_languages() as $language) {
-                $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.category_meta_title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.category_meta_keywords.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.category_meta_description.' . $language['locale'];
+
+            $supportedLanguages = get_supported_languages();
+            if (!empty($supportedLanguages)) {
+
+                $templateEditFields = self::getTemplateEditFields();
+
+                foreach ($supportedLanguages as $language) {
+
+                    $itemFields = [];
+                    $itemFields[] = 'multilanguage.title.' . $language['locale'];
+                    $itemFields[] = 'multilanguage.description.' . $language['locale'];
+                    $itemFields[] = 'multilanguage.category_meta_title.' . $language['locale'];
+                    $itemFields[] = 'multilanguage.category_meta_keywords.' . $language['locale'];
+                    $itemFields[] = 'multilanguage.category_meta_description.' . $language['locale'];
+
+                    if (isset($language['language']) && !empty($language['language'])) {
+                        $itemGroups['Multilanguage - ' . $language['language']] = $itemFields;
+                    } else {
+                        $itemGroups['Multilanguage - ' . $language['locale']] = $itemFields;
+                    }
+
+                }
+
+                foreach ($supportedLanguages as $language) {
+                    if (!empty($templateEditFields)) {
+                        $contentFields = [];
+                        foreach ($templateEditFields as $fieldName => $fieldTitle) {
+                            $contentFields[] = 'multilanguage.' . $fieldName . '.' . $language['locale'];
+                        }
+                        if (isset($language['language']) && !empty($language['language'])) {
+                            $itemGroups['Multilanguage Content Fields - ' . $language['language']] = $contentFields;
+                        } else {
+                            $itemGroups['Multilanguage Content Fields - ' . $language['locale']] = $contentFields;
+                        }
+                    }
+                }
             }
-            $itemGroups['Category Multilanguage Fields'] = $itemGroupMultilanguage;
         }
 
         return $itemGroups;

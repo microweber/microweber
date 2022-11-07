@@ -1,6 +1,7 @@
 <?php
 
 use MicroweberPackages\Import\Formats\CsvReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
 
 Route::name('admin.import-export-tool.')
     ->prefix(ADMIN_PREFIX . '/import-export-tool')
@@ -86,5 +87,25 @@ Route::name('admin.import-export-tool.')
         Route::get('/index', 'AdminController@index')->name('index');
         Route::get('/import/{id}', 'AdminController@import')->name('import');
         Route::get('/import-start/{id}', 'AdminController@importStart')->name('import-start');
+
+
+        Route::get('/index-exports', 'AdminController@index')->name('index-exports');
+        Route::get('/export-wizard', 'AdminController@index')->name('export-wizard');
+
+
+
+
+        Route::get('/fffff', function () {
+
+            $import = new ImportFeedToDatabase();
+            $import->setImportFeedId(1);
+            $import->setBatchStep(1);
+            $import->setBatchImporting(true);
+
+            $importStatus = $import->start();
+
+            dd($importStatus);
+
+        });
 
     });

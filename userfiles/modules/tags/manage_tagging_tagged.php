@@ -36,6 +36,10 @@
 </style>
 
 <script>
+    mw.lib.require('xss');
+</script>
+
+<script>
     $(document).ready(function () {
 
         $('.js-add-tags-to-posts').attr('disabled', 'disabled');
@@ -179,6 +183,12 @@
 
         var tags = '';
         var keyword = $('.js-search-tags-keyword').val();
+
+      if(typeof keyword === 'undefined'){
+          keyword = '';
+      }
+
+        keyword = filterXSS(keyword);
 
         keyword = String(keyword).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 

@@ -25,7 +25,7 @@
         <input type="hidden" id="js-date-range" wire:model.stop="itemValue">
 
         <div class="mb-3 mb-md-0 input-group">
-            <input id="js-date-range-picker" class="form-control" type="text" />
+            <input id="js-date-range-picker" class="form-control" type="text" autocomplete="off" />
         </div>
 
     </div>
@@ -38,7 +38,7 @@
                 language: 'en',
                 timepicker: false,
                 range: true,
-                multipleDates: true,
+                multipleDates: false,
                 dateFormat: '',
                 multipleDatesSeparator: " - ",
                 onSelect: function (fd, d, picker) {
@@ -63,12 +63,28 @@
         </script>
         <script>
             $(document).ready(function() {
-                $('body').on('click', function(e) {
-                    if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
+                $('body').on('mousedown touchstart', function(e) {
+
+                    var skipCloseDatePickerModal = false;
+                    if (mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['js-dropdown-toggle-{{$this->id}}', 'js-dropdown-content-{{$this->id}}'])) {
+                        skipCloseDatePickerModal = true;
+                    }
+
+
+                    if (mw.tools.hasParentsWithClass(e.target, 'datepicker')) {
+                        skipCloseDatePickerModal = true;
+                    }
+                    if (mw.tools.hasParentsWithClass(e.target, 'datepickers-container')) {
+                        skipCloseDatePickerModal = true;
+                    }
+
+                    if (!skipCloseDatePickerModal) {
                         $('.js-dropdown-content-{{$this->id}}').removeClass('active');
                     }
+
                 });
                 $('.js-dropdown-toggle-{{$this->id}}').click(function () {
+
                     $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
                 });
             });

@@ -146,7 +146,7 @@ Route::group([
 
 Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
-Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+Route::group(['middleware' => 'api.static', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/userfiles/{path}', ['uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles'])->where('path', '.*');
 });
 

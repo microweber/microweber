@@ -1,4 +1,9 @@
-<div>
+@extends('import_export_tool::admin.module-layout')
+
+@section('module-content')
+    <div>
+
+
 <style>
     #xml_url_result {
         width: 24px;
@@ -104,13 +109,6 @@
     </script>
 @endif
 
-<div class="card style-1 mb-3">
-
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="admin/import_export_tool" />
-    </div>
-
-    <div class="card-body pt-3">
 <div id="import">
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
@@ -413,7 +411,7 @@
                 <div class="card mt-4">
                     <div class="card-header">
                         Import Feeds
-                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool_new_import_modal')" id="addImport" value="Add new import">
+                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool::new_import_modal')" id="addImport" value="Add new import">
                     </div>
                     <div class="card-body">
 
@@ -482,16 +480,15 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
+        <livewire:import_export_tool::dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <br />
-        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
+        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool::start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
     </div>
 
 </div>
 </div>
 </div>
-</div>
-</div>
+@endsection

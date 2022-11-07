@@ -11,6 +11,7 @@ use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\DatabaseSave;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -21,7 +22,7 @@ class StartImportingModal extends ModalComponent
     public $done = false;
     public $import_log = [
         'current_step'=>0,
-        'total_steps'=>10,
+        'total_steps'=>0,
         'percentage'=>0,
     ];
     public $import_feed_session_id = false;
@@ -33,133 +34,39 @@ class StartImportingModal extends ModalComponent
 
     public function nextStep()
     {
-        $sourceFile = $this->import_feed->source_file_realpath;
-        if (!is_file($sourceFile)) {
-            return redirect(route('admin.import-export-tool.index'));
-        }
-
-        if (empty($this->import_feed->mapped_content)) {
-
-            $feedMapToArray = new FeedMapToArray();
-            $feedMapToArray->setImportFeedId($this->import_feed->id);
-            $preparedData = $feedMapToArray->toArray();
-
-            $this->import_feed->mapped_content = $preparedData;
-            $this->import_feed->save();
-            return; // next step
-        }
-
-        // Start importing cached data
         SessionStepper::setSessionId($this->import_feed_session_id);
         SessionStepper::nextStep();
 
         $this->import_log['current_step'] = SessionStepper::currentStep();
         $this->import_log['percentage'] = SessionStepper::percentage();
 
-        $totalItemsForSave = sizeof($this->import_feed->mapped_content);
-        $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->import_log['total_steps']);
-        $itemsBatch = array_chunk($this->import_feed->mapped_content, $totalItemsForBatch);
+        $import = new ImportFeedToDatabase();
+        $import->setBatchImporting(true);
 
-        $selectBatch = ($this->import_log['current_step'] - 1);
-        if (!isset($itemsBatch[$selectBatch])) {
-            SessionStepper::finish();
-        }
+        $batchStep = ($this->import_log['current_step'] - 1);
+        $import->setBatchStep($batchStep);
 
-        if (SessionStepper::isFinished()) {
-            $this->import_feed->total_running = 0;
-            $this->import_feed->last_import_end = Carbon::now();
-            $this->import_feed->save();
+        $import->setImportFeedId($this->import_feed->id);
+
+        $importStatus = $import->start();
+
+        if ($importStatus['finished']) {
+
             $this->done = true;
+            $this->closeModal();
+            $this->emit('importingFinished');
+
             return array("success"=>"Done! All steps are finished.");
         }
 
-        \Config::set('microweber.disable_model_cache', 1);
-        \Config::set('cache.driver', 'array');
-        app('cache')->setDefaultDriver('array');
-
-        $multilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
-        $defaultLang = default_lang();
-        $savedIds = array();
-
-        DB::beginTransaction();
-        foreach($itemsBatch[$selectBatch] as $item) {
-
-            if ($multilanguageEnabled) {
-                if (!isset($item['title'])) {
-                    if (isset($item['multilanguage']['title'][$defaultLang])) {
-                        $item['title'] = $item['multilanguage']['title'][$defaultLang];
-                    }
-                    if (isset($item['multilanguage']['description'][$defaultLang])) {
-                        $item['description'] = $item['multilanguage']['description'][$defaultLang];
-                    }
-                    if (isset($item['multilanguage']['content_meta_title'][$defaultLang])) {
-                        $item['content_meta_title'] = $item['multilanguage']['content_meta_title'][$defaultLang];
-                    }
-                    if (isset($item['multilanguage']['content_meta_keywords'][$defaultLang])) {
-                        $item['content_meta_keywords'] = $item['multilanguage']['content_meta_keywords'][$defaultLang];
-                    }
-                    if (isset($item['multilanguage']['slug'][$defaultLang])) {
-                        $item['slug'] = $item['multilanguage']['slug'][$defaultLang];
-                    }
-                }
-            }
-
-            if ($this->import_feed->import_to == 'categories') {
-
-                $item['rel_id'] = $this->import_feed->parent_page;
-                $item['rel_type'] = 'content';
-
-                if (isset($item['parent_id'])) {
-                    $findParentCategory = Category::where('id', $item['parent_id'])->first();
-                    if (!$findParentCategory) {
-                        $item['parent_id'] = 0;
-                    }
-                }
-
-                $findCategory = Category::where('id', $item['id'])->first();
-                if ($findCategory) {
-                    $findCategory->update($item);
-                } else {
-                    $categoryCreate = Category::create($item);
-                }
-
-            } else {
-                if (!isset($item['id'])) {
-                    $item['id'] = 0;
-                }
-                
-                $findProduct = Product::where('id', $item['id'])->first();
-                if ($findProduct) {
-                    $findProduct->update($item);
-                } else {
-                    $productCreate = \MicroweberPackages\Product\Models\Product::create($item);
-                }
-            }
-
-        }
-        DB::commit();
-
-        if (empty($this->import_feed->imported_content_ids)) {
-            $this->import_feed->imported_content_ids = [];
-        }
-
-        $importedContentIds = [];
-        $importedContentIds = array_merge($importedContentIds,$this->import_feed->imported_content_ids);
-        $importedContentIds = array_merge($importedContentIds,$savedIds);
-        $importedContentIds = array_unique($importedContentIds);
-
-        $this->import_feed->total_running = $this->import_log['current_step'];
-        $this->import_feed->imported_content_ids = $importedContentIds;
-        $this->import_feed->save();
-
         $this->dispatchBrowserEvent('nextStepCompleted', []);
 
-        return $savedIds;
+        return [];
     }
 
     public function clearLog()
     {
-
+        // clear log
     }
 
     public function setLogInfo($log)
@@ -173,10 +80,6 @@ class StartImportingModal extends ModalComponent
         if ($this->import_feed == null) {
             return redirect(route('admin.import-export-tool.index'));
         }
-
-        $this->import_feed->total_running = 1;
-        $this->import_feed->last_import_start = Carbon::now();
-        $this->import_feed->save();
 
         $this->import_log['total_steps'] = $this->import_feed->split_to_parts;
         $this->import_feed_session_id = SessionStepper::generateSessionId($this->import_feed->split_to_parts);

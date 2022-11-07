@@ -27,7 +27,7 @@ class SecurityTest extends BaseTest
 
 
         $string = '<img src="https://google.bg/test.jpg" />';
-        $content = $antiXss->clean($string);
+        $content = $antiXss->clean($string,['disable_external_resources'=>true]);
         $this->assertEquals('', $content);
 
     }

@@ -61,6 +61,9 @@
                     <option value="">Any</option>
                     <option value="id,desc">Id Desc</option>
                     <option value="id,asc">Id Asc</option>
+
+                    <option value="created_at,desc">Date Desc</option>
+                    <option value="created_at,asc">Date Asc</option>
                 </select>
             </div>
 
@@ -75,6 +78,8 @@
                     <option value="500">500</option>
                 </select>
             </div>
+            @if($displayType=='table')
+
 
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,6 +100,8 @@
                     <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.actions"> Actions</label>
                 </div>
             </div>
+
+            @endif
         </div>
 
     </div>

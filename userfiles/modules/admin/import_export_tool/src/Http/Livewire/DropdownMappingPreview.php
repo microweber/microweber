@@ -7,8 +7,10 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdown
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class HtmlDropdownMappingPreview extends Component
+class DropdownMappingPreview extends Component
 {
+    use HtmlDropdownMappingRecursiveTable;
+
     public $import_feed_id = 0;
     public $import_feed = [];
     public $data;
@@ -24,29 +26,17 @@ class HtmlDropdownMappingPreview extends Component
         }
 
         $this->import_feed = $importFeed->toArray();
+
         unset($this->import_feed['source_content']);
 
-        $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
-        $dropdownMapping->setContent($importFeed->source_content);
-        $dropdownMapping->setContentParentTags($importFeed->content_tag);
-        $dropdownMapping->setImportTo($this->import_feed['import_to']);
-
-        $this->data = $dropdownMapping->render();
+        $this->setContent($importFeed->source_content);
+        $this->setContentParentTags($importFeed->content_tag);
+        $this->setImportTo($this->import_feed['import_to']);
 
         if (empty($this->import_feed['mapped_tags'])) {
-            $this->import_feed['mapped_tags'] = $dropdownMapping->getAutomaticSelectedOptions();
-        }
-    }
-
-    public function render()
-    {
-        if (isset($this->import_feed['mapped_tags']) && is_array($this->import_feed['mapped_tags'])) {
-            $importFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
-            $importFeed->mapped_tags = $this->import_feed['mapped_tags'];
-            $importFeed->save();
+            $this->import_feed['mapped_tags'] = $this->getAutomaticSelectedOptions();
         }
 
-        return view('import_export_tool::admin.livewire-html-dropdown-mapping-preview');
     }
 
     public function mount($importFeedId)

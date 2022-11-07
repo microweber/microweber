@@ -91,7 +91,7 @@ Route::post('api/delete_user', function (Request $request) {
 Route::name('api.user.')
     ->prefix('api/user')
     ->middleware([
-        'public.api',
+        'api.public',
       //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
         \MicroweberPackages\App\Http\Middleware\XSS::class
     ])

@@ -161,6 +161,7 @@ class TemplateMetaTagsRenderer
                 if (isset($meta['description']) and $meta['description'] != '') {
                 } else {
                     $meta['description'] = $this->websiteOptions['website_description'];
+
                 }
 
                 if (isset($meta['description']) and $meta['description'] != '') {
@@ -170,6 +171,12 @@ class TemplateMetaTagsRenderer
                 } else {
                     $meta['content_meta_description'] = $this->websiteOptions['website_description'];
                 }
+
+                if(!isset($meta['og_description']) and isset($meta['content_meta_description'])){
+                    $meta['og_description'] = $meta['content_meta_description'];
+                }
+
+
 
                 if (isset($meta['title']) and $meta['title'] != '') {
                     $meta['content_meta_title'] = strip_tags($meta['title']);

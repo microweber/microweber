@@ -7,7 +7,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class ItemMapReader
 {
     public static $categorySeparators = [
-        ' | ', '|', ' > ', '>', ' ; ', ';', ' , ', ',', ' _ ', '_'
+        '|', '>', ';', ',', '_'
     ];
 
     public static $map = [
@@ -18,7 +18,7 @@ class ItemMapReader
         'content_data.external_id' => ['id', 'g:id'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
-        'pictures' => ['image', 'g:image_link'],
+        'media_urls' => ['image', 'g:image_link'],
         'price' => ['price', 'g:price'],
         'id' => ['id'],
         'parent' => ['parent_id'],
@@ -31,7 +31,7 @@ class ItemMapReader
     ];
 
     public static $itemTypes = [
-        'pictures' => self::ITEM_TYPE_ARRAY,
+        'media_urls' => self::ITEM_TYPE_ARRAY,
         'categories' => self::ITEM_TYPE_ARRAY,
         'first_level_categories' => self::ITEM_TYPE_ARRAY,
         'tags' => self::ITEM_TYPE_ARRAY,
@@ -44,14 +44,19 @@ class ItemMapReader
         'title' => 'Title',
         //  'description'=>'Description',
         'content_body' => 'Content Body',
-        'pictures' => 'Pictures',
+        'media_urls' => 'Pictures',
+        'category_ids' => 'Category Ids',
         'categories' => 'Categories',
         'tags' => 'Tags',
         'price' => 'Price',
         'is_active' => 'Active',
         'content_data.special_price' => 'Special Price',
         'content_data.shipping_fixed_cost' => 'Shipping Fixed Cost',
+        'content_data.width' => 'Width',
+        'content_data.height' => 'Height',
+        'content_data.depth' => 'Depth',
         'content_data.weight' => 'Weight',
+        'content_data.weight_type' => 'Weight Type',
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',
@@ -61,21 +66,40 @@ class ItemMapReader
 
     private static $itemGroups = [
         'Content Data'=> [
-            'content_data.special_price',
-            'content_data.shipping_fixed_cost',
-            'content_data.weight',
-            'content_data.mpn',
-            'content_data.barcode',
-            'content_data.sku',
+            'content_data.*',
+        ],
+        'Content Fields'=> [
+            'content_fields.*'
         ]
     ];
 
     public const ITEM_TYPE_STRING = 'string';
     public const ITEM_TYPE_ARRAY = 'array';
 
+    private static function getTemplateEditFields()
+    {
+        $templateConfig = mw()->template->get_config();
+
+        $editFieldsProduct = [];
+        if (isset($templateConfig['edit-fields-product']) && !empty($templateConfig['edit-fields-product'])) {
+            foreach ($templateConfig['edit-fields-product'] as $templateField) {
+                $editFieldsProduct['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
+
+        return $editFieldsProduct;
+    }
+
     public static function getItemNames()
     {
         $itemNames = self::$itemNames;
+
+        $templateEditFields = self::getTemplateEditFields();
+        if (!empty($templateEditFields)) {
+            foreach ($templateEditFields as $fieldName => $fieldTitle) {
+                $itemNames[$fieldName] = $fieldTitle;
+            }
+        }
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             foreach (get_supported_languages() as $language) {
@@ -85,6 +109,12 @@ class ItemMapReader
                 $itemNames['multilanguage.content_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
                 $itemNames['multilanguage.content_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
                 $itemNames['multilanguage.description.' . $language['locale']] = 'Meta Description ['. $language['locale'].']';
+
+                if (!empty($templateEditFields)) {
+                    foreach ($templateEditFields as $fieldName=>$fieldTitle) {
+                        $itemNames['multilanguage.'.$fieldName.'.' . $language['locale']] = $fieldTitle . ' ['. $language['locale'].']';
+                    }
+                }
             }
         }
 
@@ -96,16 +126,44 @@ class ItemMapReader
         $itemGroups = self::$itemGroups;
 
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $itemGroupMultilanguage = [];
-            foreach (get_supported_languages() as $language) {
-                $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.url.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
-                $itemGroupMultilanguage[] = 'multilanguage.content_meta_keywords.' . $language['locale'];
+
+            $supportedLanguages = get_supported_languages();
+            if (!empty($supportedLanguages)) {
+
+                $templateEditFields = self::getTemplateEditFields();
+
+                foreach ($supportedLanguages as $language) {
+
+                    $itemGroupMultilanguage = [];
+                    $itemGroupMultilanguage[] = 'multilanguage.title.' . $language['locale'];
+                    $itemGroupMultilanguage[] = 'multilanguage.url.' . $language['locale'];
+                    $itemGroupMultilanguage[] = 'multilanguage.description.' . $language['locale'];
+                    $itemGroupMultilanguage[] = 'multilanguage.content_body.' . $language['locale'];
+                    $itemGroupMultilanguage[] = 'multilanguage.content_meta_title.' . $language['locale'];
+                    $itemGroupMultilanguage[] = 'multilanguage.content_meta_keywords.' . $language['locale'];
+
+                    if (isset($language['language']) && !empty($language['language'])) {
+                        $itemGroups['Multilanguage - ' . $language['language']] = $itemGroupMultilanguage;
+                    } else {
+                        $itemGroups['Multilanguage - ' . $language['locale']] = $itemGroupMultilanguage;
+                    }
+                }
+
+                foreach ($supportedLanguages as $language) {
+                    if (!empty($templateEditFields)) {
+                        $contentFields = [];
+                        foreach ($templateEditFields as $fieldName => $fieldTitle) {
+                            $contentFields[] = 'multilanguage.' . $fieldName . '.' . $language['locale'];
+                        }
+                        if (isset($language['language']) && !empty($language['language'])) {
+                            $itemGroups['Multilanguage Content Fields - ' . $language['language']] = $contentFields;
+                        } else {
+                            $itemGroups['Multilanguage Content Fields - ' . $language['locale']] = $contentFields;
+                        }
+                    }
+                }
+
             }
-            $itemGroups['Multilanguage'] = $itemGroupMultilanguage;
         }
 
         return $itemGroups;

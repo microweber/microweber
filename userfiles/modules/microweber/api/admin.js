@@ -335,8 +335,10 @@ mw.admin.content.delete = function (a, callback) {
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
             mw.notification.warning("Content was sent to Trash");
             typeof callback === 'function' ? callback.call(data) : '';
+            mw.admin.content.refreshContentListAfterAction();
+
             mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true}).remove();
-            window.livewire.emit('refreshProductsList');
+
          });
     });
 }
@@ -346,6 +348,8 @@ mw.admin.content.deleteForever = function (a, callback) {
         var obj = {ids: arr, forever: true}
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
             mw.notification.warning("Content was deleted forever");
+            mw.admin.content.refreshContentListAfterAction();
+
             typeof callback === 'function' ? callback.call(data) : '';
          });
     });
@@ -356,6 +360,8 @@ mw.admin.content.restoreFromTrash = function (a, callback) {
         var obj = {ids: arr, undelete: true}
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
             mw.notification.warning("Content was restored from Trash");
+            mw.admin.content.refreshContentListAfterAction();
+
             typeof callback === 'function' ? callback.call(data) : '';
          });
     });
@@ -363,9 +369,14 @@ mw.admin.content.restoreFromTrash = function (a, callback) {
 mw.admin.content.publishContent = function (a, callback) {
     mw.tools.confirm("Are you sure you want to publish this content? ", function () {
         mw.content.publish(a);
+        mw.admin.content.refreshContentListAfterAction();
     });
 }
-
+mw.admin.content.refreshContentListAfterAction = function () {
+    if(typeof window.livewire === 'function') {
+        window.livewire.emit('refreshProductsList');
+    }
+}
 
 
 

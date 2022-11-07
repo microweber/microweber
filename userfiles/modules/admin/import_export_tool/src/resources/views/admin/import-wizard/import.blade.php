@@ -3,35 +3,117 @@
 @section('content')
 
     <div class="row">
-        <div class="mx-auto col-md-8">
-
+        <div class="mx-auto col-md-10">
 
             <table class="table">
                 <tbody>
                 <tr>
                     <td>
-                        <b> Import {{ucfirst($import_feed['import_to']) }} to page</b>
+                        <label for="feed_primary_key">
+                            <b>Primary key</b>
+                        </label>
+                        <br>
+                        <small>Update contents by primary key</small>
+                    </td>
+                    <td>
+                        @php
+                        $primaryKeyIsMapped = false;
+                        if (!empty($import_feed['mapped_tags'])) {
+                            foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
+                                if($mappedTagName == 'id') {
+                                    $primaryKeyIsMapped = $mappedTagKey;
+                                    $this->import_feed['primary_key'] = 'id';
+                                    break;
+                                }
+                            }
+                        }
+                        @endphp
+                        <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+
+                            <option value="">Select</option>
+
+                            <optgroup label="Main">
+                            <option value="id" @if(!$primaryKeyIsMapped) disabled="disabled" @endif>Id</option>
+                            <option value="title" @if($primaryKeyIsMapped) disabled="disabled" @endif>Title</option>
+                            </optgroup>
+
+                            <optgroup label="Content Data">
+                            <option value="content_data.model" @if($primaryKeyIsMapped) disabled="disabled" @endif>Model</option>
+                            <option value="content_data.sku" @if($primaryKeyIsMapped) disabled="disabled" @endif>SKU</option>
+                            <option value="content_data.barcode" @if($primaryKeyIsMapped) disabled="disabled" @endif>Barcode</option>
+                            <option value="content_data.mpn" @if($primaryKeyIsMapped) disabled="disabled" @endif>MPN</option>
+                            </optgroup>
+
+                            @php
+                                $findContentData = \MicroweberPackages\ContentData\Models\ContentData::groupBy('field_name')->get();
+                                $dbFields = [];
+                                if (!empty($findContentData)) {
+                                    foreach ($findContentData as $field) {
+                                        if (array_key_exists($field->field_name, \MicroweberPackages\Product\Models\Product::$contentDataDefault)) {
+                                            continue;
+                                        }
+                                        $dbFields[] = $field->field_name;
+                                    }
+                                }
+                            @endphp
+
+                            @if(!empty($dbFields))
+                                <optgroup label="Database Fields">
+                                @foreach($dbFields as $dbField)
+                                    <option value="content_data.{{$dbField}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$dbField}}</option>
+                                @endforeach
+                                </optgroup>
+                            @endif
+
+                            @php
+                                $customContentDataFields = [];
+                                if (!empty($import_feed['mapped_tags'])) {
+                                     foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
+                                        if(strpos($mappedTagName, 'custom_content_data') !== false) {
+                                         $customContentDataFields[$mappedTagKey] = $mappedTagName;
+                                        }
+                                    }
+                                }
+                            @endphp
+
+                            @if(!empty($customContentDataFields))
+                                <optgroup label="Custom Content Data Fields">
+                                    @foreach($customContentDataFields as $mappedTagKey=>$mappedTagName)
+                                        <option value="{{$mappedTagName}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$mappedTagName}}</option>
+                                    @endforeach
+                                </optgroup>
+                            @endif
+
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b> Import to</b>
+                        <br>
+                        <small>Select page to import content</small>
                     </td>
                     <td>
                         <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                            <option value="0" <?php if ((0 == $import_feed['parent_page'])): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
                             <?php
-                            $posts_parent_page = 0;
-                            ?>
-                            <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
-                            <?php
-                            $pt_opts = array();
-                            $pt_opts['link'] = "{empty}{title}";
-                            $pt_opts['list_tag'] = " ";
-                            $pt_opts['list_item_tag'] = "option";
-                            $pt_opts['active_ids'] = $posts_parent_page;
-                            $pt_opts['active_code_tag'] = '   selected="selected"  ';
+                            $ptOpts = array();
+                            $ptOpts['link'] = "{empty}{title}";
+                            $ptOpts['list_tag'] = " ";
+                            $ptOpts['list_item_tag'] = "option";
+                            $ptOpts['active_ids'] = $import_feed['parent_page'];
+                            $ptOpts['active_code_tag'] = '   selected="selected"  ';
 
-                            pages_tree($pt_opts);
+                            if ($import_feed['import_to'] == 'products') {
+                                $ptOpts['is_shop'] = 1;
+                            }
+
+                            pages_tree($ptOpts);
                             ?>
                         </select>
                     </td>
                 </tr>
-{{--
+
                 <tr>
                     <td><label for="feed_download_image_1"><b>Download images</b></label><br>
                         <small>Download and check images</small>
@@ -43,7 +125,7 @@
                         <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
                         <label for="feed_download_image_0">No</label>
                     </td>
-                </tr>--}}
+                </tr>
 
                 <tr>
                     <td><label for="feed_parts"><b>Import parts</b></label><br>
@@ -70,24 +152,6 @@
 
                     </td>
                 </tr>
-{{--
-                <tr>
-                    <td>
-                        <label for="feed_primary_key">
-                            <b>Primary key</b>
-                        </label>
-                        <br>
-                        <small>Unique Content ID or Content Model</small>
-                    </td>
-                    <td>
-                        <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
-                            <option value="content_title">Content Title</option>
-                            <option value="content_id">Content ID</option>
-                            <option value="model">Content model</option>
-                            <option value="sku">SKU</option>
-                        </select>
-                    </td>
-                </tr>--}}
 
 
              {{--   <tr>
@@ -146,7 +210,7 @@
            </table>
 
             <button class="btn btn-primary btn-rounded"
-                    wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$importFeedId}}})">
+                    wire:click="$emit('openModal', 'import_export_tool::start_importing_modal',{importFeedId:{{$importFeedId}}})">
                 <i class="fa fa-file-import"></i> Start Importing
             </button>
 

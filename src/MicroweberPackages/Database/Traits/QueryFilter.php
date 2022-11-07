@@ -303,6 +303,19 @@ trait QueryFilter
                                         $to_search_keyword = str_replace('*', '', $to_search_keyword);
                                         $to_search_keyword = str_replace('[', '', $to_search_keyword);
                                         $to_search_keyword = str_replace(']', '', $to_search_keyword);
+
+                                        //check if keyword is breaking the regex and remove ( and ) from it
+                                        try{
+                                            $check_match = preg_match('~^[A-Za-z][A-Za-z0-9]*(\[(?P<array>"(?:.*(?:(?<!\\)(?>\\\\)*\").*|.*)+(?:(?<!\\)(?>\\\\)*"))\]|\[\]|)$~',trim($to_search_keyword,"\r\t"),$matches);
+                                        } catch(\Exception $e){
+                                            $to_search_keyword = str_replace('(', '', $to_search_keyword);
+                                            $to_search_keyword = str_replace(')', '', $to_search_keyword);
+                                        }
+
+                                        $to_search_keyword = str_replace('(', '', $to_search_keyword);
+                                        $to_search_keyword = str_replace(')', '', $to_search_keyword);
+
+
                                         $to_search_keyword = str_replace(';', '', $to_search_keyword);
                                         $to_search_keyword = str_replace('%', '', $to_search_keyword);
 
