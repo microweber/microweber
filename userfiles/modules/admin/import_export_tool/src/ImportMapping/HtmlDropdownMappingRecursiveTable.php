@@ -6,9 +6,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapCategoryReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 
-class HtmlDropdownMappingRecursiveTable
+trait HtmlDropdownMappingRecursiveTable
 {
     public $content = [];
     public $contentParentTags = false;
@@ -32,15 +33,31 @@ class HtmlDropdownMappingRecursiveTable
 
     public function render()
     {
+
+        // Save mapped
+
+      ////  dd($this->import_feed);
+        if (isset($this->import_feed['mapped_tags']) && is_array($this->import_feed['mapped_tags'])) {
+
+            $importFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
+            $importFeed->mapped_tags = $this->import_feed['mapped_tags'];
+            $importFeed->save();
+
+            $this->emit('refreshImportFeedStateById', $importFeed->id);
+        }
+        /// end of saving
+
+
+
         $content = $this->content;
 
         $firstItem = data_get($content, $this->contentParentTags . '.0');
         Arr::forget($content, $this->contentParentTags);
         data_fill($content, $this->contentParentTags . '.0', $firstItem);
 
-        $html = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
+        $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
 
-        return $html;
+        return view('import_export_tool::admin.dropdown-mapping.preview', compact('dropdowns'));
     }
 
     private function arrayPreviewInHtmlRecursive($array, $contentParentTags, $i=0, $lastKey = [])
@@ -213,17 +230,7 @@ class HtmlDropdownMappingRecursiveTable
 
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
-        $html = '
-        
-        <input type="hidden" id="js-import-feed-mapped-tag-'.md5($mapKeyHtml).'" wire:model="import_feed.mapped_tags.'.$mapKeyHtml.'" />
-        <div class="js-dropdown-select-wrapper" wire:ignore>
-        <select class="form-control" id="js-dropdown-select-'.md5($mapKeyHtml).'">
-        <option value="none">Select</option>
-        ';
-
-        $showInGroup = [];
-
-        $html .= '<optgroup label="'.ucfirst($this->importTo).' fields">';
+        $dropdowns = [];
 
         foreach ($selectOptions as $name => $option) {
             if (!isset($option['name'])) {
@@ -250,92 +257,27 @@ class HtmlDropdownMappingRecursiveTable
 
                     if ($appendInGroup) {
                         $itemIsFindedInGroup = true;
-                        $showInGroup[$groupName][] = '<option value="'.$name.'">'.$option['name'].'</option>';
+                        $dropdowns[$groupName][] = [
+                            'value'=>$name,
+                            'name'=>$option['name'],
+                        ];
                     }
                 }
             }
             if (!$itemIsFindedInGroup) {
-                $html .= '<option value="'.$name.'">'.$option['name'].'</option>';
+                $dropdowns[ucfirst($this->importTo)][] = [
+                    'value'=>$name,
+                    'name'=>$option['name'],
+                ];
             }
         }
-        $html .= '</optgroup>';
 
-       foreach ($showInGroup as $groupName=>$groupItemsOptions) {
-           $html .= '<optgroup label="'.$groupName.'">';
-           foreach ($groupItemsOptions as $groupItemOption) {
-               $html .= $groupItemOption;
-           }
-            $html .= '</optgroup>';
-        }
+        return \Livewire\Livewire::mount('import-export-tool::dropdown_mapping', [
+                'dropdowns'=>$dropdowns,
+                'mapKey'=>$mapKeyHtml
+            ]
+        )->html();
 
-
-        $html .= ' <optgroup label="Custom"><option value="custom_content_data">Content Data</option></optgroup>';
-        $html .= '</select>';
-
-        $html .= '<input type="text" id="js-category-seperator-symbol-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter category seperator symbol" class="form-control mt-2" />';
-        $html .= '<select id="js-category-seperator-type-map-key-'.md5($mapKeyHtml).'" class="form-control mt-2" /><option class="">Select</option><option class="seperated">Add as seperatred</option><option class="seperated">Add with childs</option></select>';
-        $html .= '<input type="text" id="js-custom-map-key-'.md5($mapKeyHtml).'" placeholder="Please enter content data key" class="form-control mt-2" />';
-        $html .= "
-<script>
-
-    // Category seperator
-
-    // Custom content data
-    function refreshMapKeyInputs".md5($mapKeyHtml)."() {
-        if ($('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().includes('custom_content_data')) {
-            const feedMapTagSplit = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val().split('.');
-            if (feedMapTagSplit[1]) {
-                $('#js-custom-map-key-" . md5($mapKeyHtml) . "').val(feedMapTagSplit[1]);
-                $('#js-dropdown-select-" . md5($mapKeyHtml) . "').val('custom_content_data');
-            }
-            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').show();
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().addClass('active');
-        } else {
-            var feedMapTagValue = $('#js-import-feed-mapped-tag-" . md5($mapKeyHtml) . "').val();
-            if (feedMapTagValue.length > 0) {
-                $('#js-dropdown-select-" . md5($mapKeyHtml) . "').val(feedMapTagValue);
-            }
-            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().removeClass('active');
-        }
-    }
-
-    refreshMapKeyInputs".md5($mapKeyHtml)."();
-    document.addEventListener('livewire:load', function () {
-        refreshMapKeyInputs".md5($mapKeyHtml)."();
-    });
-
-    document.getElementById('js-dropdown-select-".md5($mapKeyHtml)."').onchange = function() {
-
-        var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
-
-        importFeedMappedTag.value = $('#js-dropdown-select-".md5($mapKeyHtml)."').val();
-        importFeedMappedTag.dispatchEvent(new Event('input'));
-
-        if ($('#js-dropdown-select-".md5($mapKeyHtml)."').val() == 'custom_content_data') {
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').show();
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().addClass('active');
-        } else {
-            $('#js-custom-map-key-" . md5($mapKeyHtml) . "').hide();
-            $('#js-custom-map-key-".md5($mapKeyHtml)."').parent().removeClass('active');
-        }
-    };
-     document.getElementById('js-custom-map-key-".md5($mapKeyHtml)."').onchange = function() {
-
-        var importFeedMappedTag = document.getElementById('js-import-feed-mapped-tag-".md5($mapKeyHtml)."');
-        var importFeedMappedTagValue = $('#js-custom-map-key-".md5($mapKeyHtml)."').val();
-        importFeedMappedTagValue = importFeedMappedTagValue.replaceAll(' ','_');
-        importFeedMappedTagValue = importFeedMappedTagValue.toLowerCase();
-
-        $('#js-custom-map-key-".md5($mapKeyHtml)."').val(importFeedMappedTagValue);
-
-        importFeedMappedTag.value = 'custom_content_data.' + importFeedMappedTagValue;
-        importFeedMappedTag.dispatchEvent(new Event('input'));
-    };
-</script>
-</div>";
-
-        return $html;
     }
 
 

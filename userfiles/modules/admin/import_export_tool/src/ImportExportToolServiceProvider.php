@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMapping;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FeedReport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FieldMapDropdownItem;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\HtmlDropdownMappingPreview;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMappingPreview;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
@@ -58,8 +59,8 @@ class ImportExportToolServiceProvider extends ServiceProvider
         Livewire::component('import_export_tool::new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool::start_importing_modal', StartImportingModal::class);
         Livewire::component('import_export_tool::view_import', ViewImport::class);
-        Livewire::component('import_export_tool::html_dropdown_mapping_preview', HtmlDropdownMappingPreview::class);
-        Livewire::component('import-export-tool::field-map-dropdown-item', FieldMapDropdownItem::class);
+        Livewire::component('import_export_tool::dropdown_mapping_preview', DropdownMappingPreview::class);
+        Livewire::component('import-export-tool::dropdown_mapping', DropdownMapping::class);
     }
 
     public function register()
