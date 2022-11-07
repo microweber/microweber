@@ -31,6 +31,9 @@ class CheckoutCartXssTest extends DuskTestCase
 
             $browser->pause(1000);
 
+            $browser->script("$('html, body').animate({ scrollTop: $('[name=payment_gw]').first().offset().top - 160 }, 0);");
+            $browser->pause(1000);
+
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
 
             $browser->pause(3000);
