@@ -7,7 +7,7 @@
                 <strong class="d-xl-flex d-none">{{_e('Shop')}} {{_e('Orders')}}</strong>
             </h5>
             <a href="{{route('admin.order.abandoned')}}" class="btn btn-outline-warning btn-sm ms-md-4 ms-1">{{_e('Abandoned Carts')}}</a>
-            <a href="" class="btn btn-outline-success btn-sm ms-md-4 ms-1">{{_e('Add Order')}}</a>
+            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-outline-success btn-sm ms-md-4 ms-1">{{_e('Add Order')}}</a>
         </div>
 
     </div>

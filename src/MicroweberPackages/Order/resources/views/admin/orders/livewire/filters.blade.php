@@ -48,7 +48,7 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> Orders Date
                     Range</label>
             </div>
-            `
+
         </div>
     </div>
 
