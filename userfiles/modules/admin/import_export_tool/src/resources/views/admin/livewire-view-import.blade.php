@@ -480,7 +480,7 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool::html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
+        <livewire:import_export_tool::dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
