@@ -7,7 +7,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class ItemMapReader
 {
     public static $categorySeparators = [
-        ' | ', '|', ' > ', '>', ' ; ', ';', ' , ', ',', ' _ ', '_'
+        '|', '>', ';', ',', '_'
     ];
 
     public static $map = [

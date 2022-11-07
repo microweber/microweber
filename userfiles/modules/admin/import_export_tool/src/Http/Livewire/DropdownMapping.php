@@ -12,6 +12,9 @@ class DropdownMapping extends Component
     public $mapKey;
     public $dropdowns = [];
     public $selectField = false;
+    public $mediaUrlsSeperator = false;
+    public $categorySeparator = false;
+    public $tagsSeperator = false;
 
     public function render()
     {

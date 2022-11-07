@@ -2,7 +2,13 @@
 
     @php
     $activeClass = '';
-    if ($selectField == 'categories' || $selectField == 'custom_content_data') {
+    if ($selectField == 'categories'
+        || $selectField == 'id'
+        || $selectField == 'is_active'
+        || $selectField == 'tags'
+        || $selectField == 'category_ids'
+        || $selectField == 'media_urls'
+        || $selectField == 'custom_content_data') {
         $activeClass = 'active';
     }
     @endphp
@@ -25,9 +31,44 @@
             </optgroup>
         </select>
 
+        @if ($selectField == 'id')
+            <p class="text-success"><i class="fa fa-info"></i> The feed item id will be mapped with the same content id in website database.</p>
+        @endif
+
+        @if ($selectField == 'tags')
+            <select class="form-control mt-2" wire:model="tagsSeparator">
+                @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
+                    <option value="{{$separator}}">Separate with "{{$separator}}"</option>
+                @endforeach
+            </select>
+        @endif
+
+        @if ($selectField == 'is_active')
+            <p class="text-success">
+                <i class="fa fa-info"></i> This will be parsed as "active" when item value is a: [1,enabled,true,active or yes]
+            </p>
+        @endif
+
+        @if ($selectField == 'category_ids')
+            <select class="form-control mt-2" wire:model="categoryIdsSeperator">
+                @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
+                    <option value="{{$separator}}">Separate with "{{$separator}}"</option>
+                @endforeach
+            </select>
+            <p class="text-success"><i class="fa fa-info"></i> The feed category ids will be mapped with the same category id in website database.</p>
+        @endif
+
+        @if ($selectField == 'media_urls')
+            <select class="form-control mt-2" wire:model="mediaUrlsSeperator">
+                @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
+                    <option value="{{$separator}}">Separate with "{{$separator}}"</option>
+                @endforeach
+            </select>
+        @endif
+
         @if ($selectField == 'categories')
 
-            <select class="form-control mt-2" wire:model="category_separator">
+            <select class="form-control mt-2" wire:model="categorySeparator">
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
