@@ -8,8 +8,8 @@
 
             @if($error)
 
-                <h3>Done!</h3>
-                <p>{{$error}}</p>
+                <h3>Error! Can't import this feed.</h3>
+                <p class="text-danger">{{$error}}</p>
 
                 @else
 

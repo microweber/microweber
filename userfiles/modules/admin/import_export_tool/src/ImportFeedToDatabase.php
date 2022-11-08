@@ -149,6 +149,11 @@ class ImportFeedToDatabase
                 $insertNewProduct = true;
 
                 $findItemType = 'id';
+
+                if ($this->importFeed->primary_key == 'title') {
+                    $findItemType = 'title';
+                }
+
                 if (strpos($this->importFeed->primary_key, 'custom_content_data') !== false) {
                     $primaryKeyUndot = explode('.', $this->importFeed->primary_key);
                     if (isset($primaryKeyUndot[1])) {
@@ -177,6 +182,18 @@ class ImportFeedToDatabase
                         return ['error'=>'Please map the id from feed or change primary key to another identify method.'];
                     }
                     $findProduct = Product::where('id', $item['id'])->first();
+                    if ($findProduct) {
+                        // Update product
+                        $insertNewProduct = false;
+                        $updateProductId = $findProduct->id;
+                    }
+                }
+
+                if ($findItemType == 'title') {
+                    if (!isset($item['title'])) {
+                        return ['error'=>'Please map the title from feed or change primary key to another identify method.'];
+                    }
+                    $findProduct = Product::where('title', $item['title'])->first();
                     if ($findProduct) {
                         // Update product
                         $insertNewProduct = false;
