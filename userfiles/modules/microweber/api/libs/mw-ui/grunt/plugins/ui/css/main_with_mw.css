@@ -15982,13 +15982,6 @@ $border-radius-sm:            .2rem !default;*/
 body {
   background-color: whitesmoke; }
 
-.prevent-scroll {
-  overflow: hidden;
-  /*  .sticky-top {
-      position: fixed !important;
-      width: 100% !important;
-    }*/ }
-
 .container {
   width: 1920px;
   max-width: 90%; }
@@ -16021,30 +16014,6 @@ header {
     margin-bottom: 0; }
   header .language-selector .btn {
     padding: 0.844rem 0.55rem; }
-  header .mobile-toggle {
-    align-items: center;
-    justify-content: center;
-    display: none; }
-    @media screen and (max-width: 991px) {
-      header .mobile-toggle {
-        display: block; } }
-    header .mobile-toggle button {
-      transition: all 0.5s ease;
-      background: transparent;
-      border: 0;
-      outline: none !important;
-      height: 100%;
-      display: flex; }
-      header .mobile-toggle button i {
-        font-size: 30px;
-        line-height: 1;
-        color: #4592ff; }
-      header .mobile-toggle button.opened {
-        background: #4592ff;
-        color: #fff;
-        border-radius: 4px; }
-        header .mobile-toggle button.opened i {
-          color: #fff; }
   @media screen and (max-width: 767px) {
     header .nav-last {
       min-width: 100px; } }
@@ -17047,56 +17016,43 @@ header {
 
 .js-anchorific .anchor {
   display: none; }
-.js-anchorific .anchorific {
-    /* ul:not(.collapseNav-initialized) {
-       display: flex;
-       list-style-type: none;
-       margin: 0;
-
-       li {
-         margin-inline-end: 20px;
-         &.active {
-           //font-weight: bold;
-         }
-       }
-     }*/ }
-  .js-anchorific .anchorific ul.collapseNav-initialized {
-    display: block; }
-  .js-anchorific .anchorific ul {
-    display: none;
-    margin-bottom: 0;
-    text-align: right; }
-    .js-anchorific .anchorific ul li {
-      display: inline-block;
-      transition-duration: 0.5s;
-      margin-inline-end: 20px; }
-      .js-anchorific .anchorific ul li:last-child {
-        margin-inline-end: 0; }
-      .js-anchorific .anchorific ul li:hover {
-        cursor: pointer; }
-      .js-anchorific .anchorific ul li ul {
-        visibility: hidden;
-        opacity: 0;
-        position: absolute;
-        transition: all 0.5s ease;
-        margin-top: 1rem;
-        right: 0;
-        left: auto !important;
-        display: none;
-        padding: 10px; }
-        .js-anchorific .anchorific ul li ul.show {
-          visibility: visible;
-          opacity: 1;
-          display: block;
-          right: 0 !important; }
-        .js-anchorific .anchorific ul li ul li {
-          clear: both;
-          width: 100%; }
-      .js-anchorific .anchorific ul li li:hover > ul,
-      .js-anchorific .anchorific ul li li ul:hover {
+.js-anchorific .anchorific ul.collapseNav-initialized {
+  display: block; }
+.js-anchorific .anchorific ul {
+  display: none;
+  margin-bottom: 0;
+  text-align: right; }
+  .js-anchorific .anchorific ul li {
+    display: inline-block;
+    transition-duration: 0.5s;
+    margin-inline-end: 20px; }
+    .js-anchorific .anchorific ul li:last-child {
+      margin-inline-end: 0; }
+    .js-anchorific .anchorific ul li:hover {
+      cursor: pointer; }
+    .js-anchorific .anchorific ul li ul {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      transition: all 0.5s ease;
+      margin-top: 1rem;
+      right: 0;
+      left: auto !important;
+      display: none;
+      padding: 10px; }
+      .js-anchorific .anchorific ul li ul.show {
         visibility: visible;
         opacity: 1;
-        display: block; }
+        display: block;
+        right: 0 !important; }
+      .js-anchorific .anchorific ul li ul li {
+        clear: both;
+        width: 100%; }
+    .js-anchorific .anchorific ul li li:hover > ul,
+    .js-anchorific .anchorific ul li li ul:hover {
+      visibility: visible;
+      opacity: 1;
+      display: block; }
 
 .module-img path {
   fill: #2b2b2b; }

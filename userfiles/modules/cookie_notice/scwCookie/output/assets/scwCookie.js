@@ -2,8 +2,13 @@ if (!jQuery('.scw-cookie').hasClass('scw-cookie-out')) {
     jQuery(document).find('body').addClass('scw-cookie-in');
 }
 
+var scwCookieDefaultModId = '';
+
 function scwCookieHide(modId)
 {
+    if(!modId) {
+        modId = scwCookieDefaultModId;
+    }
     // accept all cookies and hide
     jQuery.post(
         mw.settings.api_url + 'scwCookie_ajax',
@@ -14,13 +19,13 @@ function scwCookieHide(modId)
     ).done(function(data){
         if (data.hasOwnProperty('success') && data.success) {
             $('.scw-cookie-switch').each(function(i,el) {
-                if(!$(el).hasClass('checked')){	           
+                if(!$(el).hasClass('checked')){
 	            $(el).children(':checkbox').prop('checked',true).change();
 	            $(el).addClass('checked');
 	        }
-	    });  
+	    });
             jQuery('.scw-cookie').addClass('scw-cookie-slide-out');
-            jQuery(document).find('body').removeClass('scw-cookie-in');            
+            jQuery(document).find('body').removeClass('scw-cookie-in');
         }
 
         if (jQuery('.scw-cookie').hasClass('changed')) {
@@ -65,8 +70,8 @@ jQuery(document).on('change', '.scw-cookie-toggle input[type="checkbox"]', funct
     jQuery(this).closest('.scw-cookie-switch').toggleClass('checked');
     jQuery.post(
         mw.settings.api_url + 'scwCookie_ajax',
-        {            
-            id 	   : modId,
+        {
+            id 	   : window.modId || scwCookieDefaultModId,
             action : 'toggle',
             name   : jQuery(this).attr('name'),
             value  : jQuery(this).prop('checked')
@@ -92,11 +97,11 @@ jQuery(document).ready(function($){
     });
 });
 
-jQuery(document).ready(function($){
+jQuery(document).ready(function(){
     jQuery.post(
         mw.settings.api_url + 'scwCookie_ajax',
         {
-            id : modId,
+            id : window.modId || scwCookieDefaultModId,
             action : 'load',
         }
     ).done(function(data){

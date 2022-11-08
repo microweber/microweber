@@ -44,9 +44,11 @@ class ImportFeedToDatabase
         if ($this->batchImporting) {
             $totalItemsForSave = sizeof($this->importFeed->mapped_content);
             $totalItemsForBatch = (int) ceil($totalItemsForSave / $this->importFeed->split_to_parts);
-            $itemsBatch = array_chunk($this->importFeed->mapped_content, $totalItemsForBatch);
-            if (isset($itemsBatch[$this->batchStep])) {
-                return ['items'=> $itemsBatch[$this->batchStep], 'finished'=>false];
+            if ($totalItemsForBatch > 0) {
+                $itemsBatch = array_chunk($this->importFeed->mapped_content, $totalItemsForBatch);
+                if (isset($itemsBatch[$this->batchStep])) {
+                    return ['items' => $itemsBatch[$this->batchStep], 'finished' => false];
+                }
             }
             return ['items'=> [], 'finished'=>true];
         } else {
@@ -140,6 +142,9 @@ class ImportFeedToDatabase
 
             } else {
                 $item['parent'] = $this->importFeed->parent_page;
+
+
+                dd($item);
 
                 $updateProductId = 0;
                 $insertNewProduct = true;

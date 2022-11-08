@@ -42,6 +42,7 @@
 
         @if ($selectField == 'tags')
             <select class="form-control mt-2" wire:model="tagsSeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -55,7 +56,8 @@
         @endif
 
         @if ($selectField == 'category_ids')
-            <select class="form-control mt-2" wire:model="categoryIdsSeperator">
+            <select class="form-control mt-2" wire:model="categoryIdSeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -64,7 +66,8 @@
         @endif
 
         @if ($selectField == 'media_urls')
-            <select class="form-control mt-2" wire:model="mediaUrlsSeperator">
+            <select class="form-control mt-2" wire:model="mediaUrlSeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -74,12 +77,13 @@
         @if ($selectField == 'categories')
 
             <select class="form-control mt-2" wire:model="categorySeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
             </select>
 
-           <select class="form-control mt-2">
+           <select class="form-control mt-2" wire:model="categoryAddType">
                 <option value="">Select</option>
                 <option value="seperated">Add categories seperatred</option>
                 <option value="tree">Add categories in tree</option>
@@ -88,7 +92,7 @@
         @endif
 
         @if ($selectField == 'custom_content_data')
-         <input type="text" placeholder="Please enter content data key" class="form-control mt-2" />
+         <input type="text" wire:model="customContentData" placeholder="Please enter content data key" class="form-control mt-2" />
         @endif
 
     </div>

@@ -531,7 +531,6 @@
                     var tabsnav = $(document.getElementById('quick-add-post-options'));
                     var off = tabsnav.offset();
                     $(tabs).show();
-                    QTABSArrow(this);
                     QTABMaxHeight();
                 }
                 else {

@@ -33,6 +33,7 @@ class ItemMapReader
     public static $itemTypes = [
         'media_urls' => self::ITEM_TYPE_ARRAY,
         'categories' => self::ITEM_TYPE_ARRAY,
+        'category_ids' => self::ITEM_TYPE_ARRAY,
         'first_level_categories' => self::ITEM_TYPE_ARRAY,
         'tags' => self::ITEM_TYPE_ARRAY,
     ];

@@ -33,22 +33,6 @@ trait HtmlDropdownMappingRecursiveTable
 
     public function render()
     {
-
-        // Save mapped
-
-      ////  dd($this->import_feed);
-        if (isset($this->import_feed['mapped_tags']) && is_array($this->import_feed['mapped_tags'])) {
-
-            $importFeed = ImportFeed::where('id', $this->import_feed['id'])->first();
-            $importFeed->mapped_tags = $this->import_feed['mapped_tags'];
-            $importFeed->save();
-
-            $this->emit('refreshImportFeedStateById', $importFeed->id);
-        }
-        /// end of saving
-
-
-
         $content = $this->content;
 
         $firstItem = data_get($content, $this->contentParentTags . '.0');
@@ -273,6 +257,7 @@ trait HtmlDropdownMappingRecursiveTable
         }
 
         return \Livewire\Livewire::mount('import-export-tool::dropdown_mapping', [
+                'importFeedId'=>$this->import_feed['id'],
                 'dropdowns'=>$dropdowns,
                 'mapKey'=>$mapKeyHtml
             ]

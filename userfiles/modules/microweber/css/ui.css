@@ -2946,6 +2946,10 @@ html.mw-loading:after {
   user-select: none;
   overflow: auto;
 }
+.mw-tree-nav-skin-default .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title {
+  opacity: 0.7;
+  text-decoration: line-through;
+}
 .mw-tree-nav-skin-default::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -3334,6 +3338,11 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+.mw-tree-nav-skin-category-manager .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-content:before,
+.mw-tree-nav-skin-category-manager .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title {
+  opacity: 0.5;
+  text-decoration: line-through;
 }
 .mw-tree-nav-skin-category-manager span.mw-tree-context-menu {
   margin-inline-start: auto !important;

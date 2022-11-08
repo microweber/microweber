@@ -439,23 +439,26 @@ $(mww).on('load', function () {
     });
 
     mw.$(".dr-item-table > table").click(function(){
-        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
+        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active');
     });
+
+    var nodes = mw.element('.main.container > aside,.main.container > .tree');
+    var ol = mw.element('<i class="admin-mobile-navi-overlay"></i>');
+    nodes.after(ol);
+    var buttons = Array.from(document.querySelectorAll('.js-toggle-mobile-nav,.admin-mobile-navi-overlay'));
+    buttons.forEach(function (node){
+        node.addEventListener('click', function () {
+            buttons.forEach(function (node){
+                node.classList.toggle('opened');
+            });
+            nodes.toggleClass('opened');
+        });
+    });
+
 
 });
 
 
-QTABSArrow = function (el) {
-    el = mw.$(el);
-    if (el == null) {
-        return;
-    }
-    if (!el.length) {
-        return;
-    }
-    var left = el.offset().left - mw.$(document.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
-    mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-};
 
 
 ;(function (){
@@ -520,3 +523,6 @@ $.fn.serializeAssoc = function() {
     });
     return data;
 };
+
+
+

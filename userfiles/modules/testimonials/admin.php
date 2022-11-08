@@ -78,7 +78,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             }
             if(typeof thismodal != 'undefined'){
-                thismodal.resize(800, 800)
+                thismodal.resize(800)
             }
         </script>
 
