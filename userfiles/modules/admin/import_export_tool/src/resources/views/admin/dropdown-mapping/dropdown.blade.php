@@ -56,7 +56,7 @@
         @endif
 
         @if ($selectField == 'category_ids')
-            <select class="form-control mt-2" wire:model="categoryIdsSeperator">
+            <select class="form-control mt-2" wire:model="categoryIdSeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
@@ -66,7 +66,7 @@
         @endif
 
         @if ($selectField == 'media_urls')
-            <select class="form-control mt-2" wire:model="mediaUrlsSeperator">
+            <select class="form-control mt-2" wire:model="mediaUrlSeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>

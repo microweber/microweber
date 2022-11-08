@@ -16,6 +16,7 @@ class AddNewFieldsToImportFeedsTable extends Migration
 
             $table->longText('custom_content_data_fields')->nullable();
             $table->longText('category_separators')->nullable();
+            $table->longText('category_ids_separators')->nullable();
             $table->longText('tags_separators')->nullable();
             $table->longText('media_url_separators')->nullable();
 

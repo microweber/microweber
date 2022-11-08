@@ -13,12 +13,43 @@ class DropdownMapping extends Component
     public $mapKey;
     public $dropdowns = [];
     public $selectField = false;
-    public $mediaUrlsSeperator = false;
+    public $mediaUrlSeparator = false;
     public $categorySeparator = false;
-    public $tagsSeperator = false;
+    public $categoryIdSeparator = false;
+    public $tagsSeparator = false;
     public $customContentData = false;
 
-    public function updatedSelectField($field)
+    public function updatedCustomContentData($field)
+    {
+        $field = str_slug($field);
+        $field = str_replace('-', '_', $field);
+        $field = str_replace(' ', '_', $field);
+
+        $this->customContentData = $field;
+        $this->updateFeedMapKeys();
+    }
+
+    public function updatedSelectField()
+    {
+        $this->updateFeedMapKeys();
+    }
+
+    public function updatedMediaUrlSeparator()
+    {
+        $this->updateFeedMapKeys();
+    }
+
+    public function updatedCategorySeparator()
+    {
+        $this->updateFeedMapKeys();
+    }
+
+    public function updatedCategoryIdSeparator()
+    {
+        $this->updateFeedMapKeys();
+    }
+
+    public function updatedTagsSeparator()
     {
         $this->updateFeedMapKeys();
     }
@@ -33,17 +64,40 @@ class DropdownMapping extends Component
             $mappedTags[$this->mapKey] = $this->selectField;
             $findFeed->mapped_tags = $mappedTags;
 
-            // Media Urls Separators
-            $mediaUrlSeparators = $findFeed->media_url_separators;
-            $mediaUrlSeparators[$this->mapKey] = $this->selectField;
-            $findFeed->media_url_separators = $mediaUrlSeparators;
+            // Custom content data
+            if ($this->customContentData) {
+                $customContentDataFields = $findFeed->custom_content_data_fields;
+                $customContentDataFields[$this->mapKey] = $this->customContentData;
+                $findFeed->custom_content_data_fields = $customContentDataFields;
+            }
+
+              // Media Urls Separators
+            if ($this->mediaUrlSeparator) {
+                $mediaUrlSeparators = $findFeed->media_url_separators;
+                $mediaUrlSeparators[$this->mapKey] = $this->mediaUrlSeparator;
+                $findFeed->media_url_separators = $mediaUrlSeparators;
+            }
 
             // Category Separators
-            $categorySeparators = $findFeed->category_separators;
-            $categorySeparators[$this->mapKey] = $this->selectField;
-            $findFeed->media_url_separators = $categorySeparators;
+            if ($this->categorySeparator) {
+                $categorySeparators = $findFeed->category_separators;
+                $categorySeparators[$this->mapKey] = $this->categorySeparator;
+                $findFeed->category_separators = $categorySeparators;
+            }
 
+            // Category Ids Separators
+            if ($this->categoryIdSeparator) {
+                $categoryIdsSeparators = $findFeed->category_ids_separators;
+                $categoryIdsSeparators[$this->mapKey] = $this->categoryIdSeparator;
+                $findFeed->category_ids_separators = $categoryIdsSeparators;
+            }
 
+            // Tags Separators
+            if ($this->tagsSeparator) {
+                $tagsSeparators = $findFeed->tags_separators;
+                $tagsSeparators[$this->mapKey] = $this->tagsSeparator;
+                $findFeed->tags_separators = $tagsSeparators;
+            }
 
             $findFeed->save();
         }
