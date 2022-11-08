@@ -2,6 +2,7 @@
 
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 
 Route::name('admin.import-export-tool.')
     ->prefix(ADMIN_PREFIX . '/import-export-tool')
@@ -97,6 +98,15 @@ Route::name('admin.import-export-tool.')
 
         Route::get('/fffff', function () {
 
+
+            $feedMapToArray = new FeedMapToArray();
+            $feedMapToArray->setImportFeedId(6);
+            $preparedData = $feedMapToArray->toArray();
+
+            dd($preparedData[0]);
+
+
+/*
             $import = new ImportFeedToDatabase();
             $import->setImportFeedId(1);
             $import->setBatchStep(1);
@@ -104,7 +114,7 @@ Route::name('admin.import-export-tool.')
 
             $importStatus = $import->start();
 
-            dd($importStatus);
+            dd($importStatus);*/
 
         });
 
