@@ -28,10 +28,22 @@ class DropdownMapping extends Component
         $findFeed = ImportFeed::where('id', $this->importFeedId)->first();
         if ($findFeed) {
 
+            // Main mapped tags
             $mappedTags = $findFeed->mapped_tags;
             $mappedTags[$this->mapKey] = $this->selectField;
-
             $findFeed->mapped_tags = $mappedTags;
+
+            // Media Urls Separators
+            $mediaUrlSeparators = $findFeed->media_url_separators;
+            $mediaUrlSeparators[$this->mapKey] = $this->selectField;
+            $findFeed->media_url_separators = $mediaUrlSeparators;
+
+            // Category Separators
+            $categorySeparators = $findFeed->category_separators;
+            $categorySeparators[$this->mapKey] = $this->selectField;
+            $findFeed->media_url_separators = $categorySeparators;
+
+
 
             $findFeed->save();
         }
