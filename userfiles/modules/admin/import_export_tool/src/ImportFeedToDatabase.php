@@ -143,8 +143,7 @@ class ImportFeedToDatabase
             } else {
                 $item['parent'] = $this->importFeed->parent_page;
 
-
-                dd($item);
+                // dd($item);
 
                 $updateProductId = 0;
                 $insertNewProduct = true;
@@ -174,6 +173,9 @@ class ImportFeedToDatabase
                 }
 
                 if ($findItemType == 'id') {
+                    if (!isset($item['id'])) {
+                        return ['error'=>'Please map the id from feed or change primary key to another identify method.'];
+                    }
                     $findProduct = Product::where('id', $item['id'])->first();
                     if ($findProduct) {
                         // Update product

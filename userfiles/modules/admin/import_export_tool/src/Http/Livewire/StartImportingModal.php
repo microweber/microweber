@@ -19,6 +19,7 @@ use MicroweberPackages\Product\Models\Product;
 
 class StartImportingModal extends ModalComponent
 {
+    public $error = false;
     public $done = false;
     public $import_log = [
         'current_step'=>0,
@@ -50,7 +51,12 @@ class StartImportingModal extends ModalComponent
 
         $importStatus = $import->start();
 
-        if ($importStatus['finished']) {
+        if (isset($importStatus['error'])) {
+            $this->error = $importStatus['error'];
+            return [];
+        }
+
+        if (isset($importStatus['finished'])) {
 
             $this->done = true;
             $this->closeModal();
