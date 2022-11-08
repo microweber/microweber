@@ -11,6 +11,7 @@ namespace MicroweberPackages\Order\Models\ModelFilters;
 use EloquentFilter\ModelFilter;
 use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
@@ -20,6 +21,7 @@ use MicroweberPackages\Product\Models\Product;
 class OrderFilter extends ModelFilter
 {
     use OrderByTrait;
+    use FilterByDateBetweenTrait;
 
     public function customer($filter)
     {
@@ -200,35 +202,6 @@ class OrderFilter extends ModelFilter
         } else if ($maxPrice) {
             $this->query->where('amount', '<=', $maxPrice);
         }
-
-    }
-
-    public function dateBetween($date)
-    {
-
-        $minDate = $date;
-        $maxDate = false;
-
-        if (strpos($date, ',') !== false) {
-            $date = explode(',', $date);
-            $minDate = $date[0];
-            $maxDate = $date[1];
-        }
-
-        $table = $this->getModel()->getTable();
-
-        if (!empty($minDate)) {
-            $this->query->where($table . '.created_at', '>', $minDate);
-        }
-
-
-        if (!empty($maxDate)) {
-            $this->query->where($table . '.created_at', '<', $maxDate);
-        } else {
-           // $this->query->where($table . '.created_at', '>', $minDate);
-
-        }
-
 
     }
 

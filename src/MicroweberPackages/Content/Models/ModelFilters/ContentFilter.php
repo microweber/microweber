@@ -10,6 +10,7 @@ namespace MicroweberPackages\Content\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
@@ -27,6 +28,7 @@ class ContentFilter extends ModelFilter
     use FilterByKeywordTrait;
     use FilterByTagsTrait;
     use FilterByTrashedTrait;
+    use FilterByDateBetweenTrait;
 
     public function fields($fields)
     {
