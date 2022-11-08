@@ -18,6 +18,12 @@ class DropdownMapping extends Component
     public $categoryIdSeparator = false;
     public $tagsSeparator = false;
     public $customContentData = false;
+    public $categoryAddType = false;
+
+    public function updatedCategoryAddType()
+    {
+        $this->updateFeedMapKeys();
+    }
 
     public function updatedCustomContentData($field)
     {
@@ -83,6 +89,13 @@ class DropdownMapping extends Component
                 $categorySeparators = $findFeed->category_separators;
                 $categorySeparators[$this->mapKey] = $this->categorySeparator;
                 $findFeed->category_separators = $categorySeparators;
+            }
+
+            // Category Adding Type
+            if ($this->categoryAddType) {
+                $categoryAddTypes = $findFeed->category_add_types;
+                $categoryAddTypes[$this->mapKey] = $this->categoryAddType;
+                $findFeed->category_add_types = $categoryAddTypes;
             }
 
             // Category Ids Separators

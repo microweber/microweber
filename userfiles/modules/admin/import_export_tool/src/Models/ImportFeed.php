@@ -36,6 +36,7 @@ class ImportFeed extends Model
         'media_url_separators' => 'array',
         'category_separators' => 'array',
         'category_ids_separators' => 'array',
+        'category_add_types' => 'array',
         'tags_separators' => 'array',
         'custom_content_data_fields' => 'array',
     ];

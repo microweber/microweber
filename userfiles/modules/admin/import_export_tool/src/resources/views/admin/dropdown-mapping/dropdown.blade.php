@@ -83,7 +83,7 @@
                 @endforeach
             </select>
 
-           <select class="form-control mt-2">
+           <select class="form-control mt-2" wire:model="categoryAddType">
                 <option value="">Select</option>
                 <option value="seperated">Add categories seperatred</option>
                 <option value="tree">Add categories in tree</option>
