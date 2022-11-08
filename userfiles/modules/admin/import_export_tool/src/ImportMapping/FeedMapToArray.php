@@ -37,6 +37,7 @@ class FeedMapToArray
 
             if (!empty($repeatableMappedTags)) {
                 foreach ($repeatableMappedTags as $tagKey=>$internalKey) {
+
                     $tagKey = str_replace(';', '.', $tagKey);
                     $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
 
@@ -52,10 +53,10 @@ class FeedMapToArray
                     continue;
                 }
 
-                $tagKey = str_replace(';', '.', $tagKey);
-                $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
+                $tagKeyClear = str_replace(';', '.', $tagKey);
+                $tagKeyClear = str_replace($this->importFeed->content_tag . '.', '', $tagKeyClear);
 
-                $saveItem = Arr::get($item, $tagKey);
+                $saveItem = Arr::get($item, $tagKeyClear);
 
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
 
@@ -64,6 +65,18 @@ class FeedMapToArray
                         $categories = explode($this->importFeed->category_separator, $saveItem);
                         $mappedData[$itemI][$internalKey] = $categories;
                         continue;
+                    }
+
+                    if ($internalKey == 'tags') {
+                        if (isset($this->importFeed->tags_separators[$tagKey])) {
+                            $mappedData[$itemI][$internalKey] = [];
+                            $tagSeperator = $this->importFeed->tags_separators[$tagKey];
+                            $tags = explode($tagSeperator, $saveItem);
+                            if (!empty($tags)) {
+                                $mappedData[$itemI][$internalKey] = $tags;
+                            }
+                            continue;
+                        }
                     }
 
                     if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {
