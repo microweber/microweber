@@ -16,6 +16,7 @@ class DropdownMapping extends Component
     public $mediaUrlsSeperator = false;
     public $categorySeparator = false;
     public $tagsSeperator = false;
+    public $customContentData = false;
 
     public function updatedSelectField($field)
     {

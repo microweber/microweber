@@ -92,7 +92,7 @@
         @endif
 
         @if ($selectField == 'custom_content_data')
-         <input type="text" placeholder="Please enter content data key" class="form-control mt-2" />
+         <input type="text" wire:model="customContentData" placeholder="Please enter content data key" class="form-control mt-2" />
         @endif
 
     </div>
