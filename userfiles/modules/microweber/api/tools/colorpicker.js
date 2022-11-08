@@ -20,21 +20,22 @@
         if (!mw.tools.colorPickerColors) {
             mw.tools.colorPickerColors = [];
 
-            var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
-            if(colorpicker_els.length > 0){
-                colorpicker_els.each(function () {
-                    var css = parent.getComputedStyle(this, null);
-                    if (css !== null) {
-                        if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
-                            mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+            if (typeof mw.color !== 'undefined' && typeof mw.color.rgbToHex !== 'undefined') {
+                var colorpicker_els = mw.top().$(".btn,h1,h2,h3,h4,h5");
+                if (colorpicker_els.length > 0) {
+                    colorpicker_els.each(function () {
+                        var css = parent.getComputedStyle(this, null);
+                        if (css !== null) {
+                            if (mw.tools.colorPickerColors.indexOf(css.color) === -1) {
+                                mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.color));
+                            }
+                            if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
+                                mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
+                            }
                         }
-                        if (mw.tools.colorPickerColors.indexOf(css.backgroundColor) === -1) {
-                            mw.tools.colorPickerColors.push(mw.color.rgbToHex(css.backgroundColor));
-                        }
-                    }
-                });
+                    });
+                }
             }
-
         }
         var proto = this;
         if (!options) {
