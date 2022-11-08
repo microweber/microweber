@@ -43,7 +43,7 @@ class ImportFeed extends Model
 
     public function readContentFromFile(string $filename, $fileType = false)
     {
-        if ($fileType == 'xlsx') {
+        if ($fileType == 'xlsx' || $fileType == 'xls') {
             return $this->readContentFromXlsx($filename);
         } elseif ($fileType == 'xml') {
             return $this->readContentFromXml($filename);

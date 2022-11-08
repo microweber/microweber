@@ -100,7 +100,7 @@ Route::name('admin.import-export-tool.')
 
 
             $feedMapToArray = new FeedMapToArray();
-            $feedMapToArray->setImportFeedId(6);
+            $feedMapToArray->setImportFeedId(1);
             $preparedData = $feedMapToArray->toArray();
 
             dd($preparedData[0]);
