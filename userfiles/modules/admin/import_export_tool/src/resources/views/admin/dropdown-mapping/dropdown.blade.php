@@ -42,6 +42,7 @@
 
         @if ($selectField == 'tags')
             <select class="form-control mt-2" wire:model="tagsSeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -56,6 +57,7 @@
 
         @if ($selectField == 'category_ids')
             <select class="form-control mt-2" wire:model="categoryIdsSeperator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -65,6 +67,7 @@
 
         @if ($selectField == 'media_urls')
             <select class="form-control mt-2" wire:model="mediaUrlsSeperator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
@@ -74,6 +77,7 @@
         @if ($selectField == 'categories')
 
             <select class="form-control mt-2" wire:model="categorySeparator">
+                <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
