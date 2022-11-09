@@ -32,12 +32,18 @@ class ImportFeed extends Model
         'source_content' => 'array',
         'mapped_tags' => 'array',
         'mapped_content' => 'array',
-        'detected_content_tags' => 'array'
+        'detected_content_tags' => 'array',
+        'media_url_separators' => 'array',
+        'category_separators' => 'array',
+        'category_ids_separators' => 'array',
+        'category_add_types' => 'array',
+        'tags_separators' => 'array',
+        'custom_content_data_fields' => 'array',
     ];
 
     public function readContentFromFile(string $filename, $fileType = false)
     {
-        if ($fileType == 'xlsx') {
+        if ($fileType == 'xlsx' || $fileType == 'xls') {
             return $this->readContentFromXlsx($filename);
         } elseif ($fileType == 'xml') {
             return $this->readContentFromXml($filename);

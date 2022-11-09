@@ -37,51 +37,55 @@
                             <option value="title" @if($primaryKeyIsMapped) disabled="disabled" @endif>Title</option>
                             </optgroup>
 
-                            <optgroup label="Content Data">
-                            <option value="content_data.model" @if($primaryKeyIsMapped) disabled="disabled" @endif>Model</option>
-                            <option value="content_data.sku" @if($primaryKeyIsMapped) disabled="disabled" @endif>SKU</option>
-                            <option value="content_data.barcode" @if($primaryKeyIsMapped) disabled="disabled" @endif>Barcode</option>
-                            <option value="content_data.mpn" @if($primaryKeyIsMapped) disabled="disabled" @endif>MPN</option>
-                            </optgroup>
+                            @if ($this->import_feed['import_to'] == 'products')
 
-                            @php
-                                $findContentData = \MicroweberPackages\ContentData\Models\ContentData::groupBy('field_name')->get();
-                                $dbFields = [];
-                                if (!empty($findContentData)) {
-                                    foreach ($findContentData as $field) {
-                                        if (array_key_exists($field->field_name, \MicroweberPackages\Product\Models\Product::$contentDataDefault)) {
-                                            continue;
-                                        }
-                                        $dbFields[] = $field->field_name;
-                                    }
-                                }
-                            @endphp
-
-                            @if(!empty($dbFields))
-                                <optgroup label="Database Fields">
-                                @foreach($dbFields as $dbField)
-                                    <option value="content_data.{{$dbField}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$dbField}}</option>
-                                @endforeach
+                                <optgroup label="Content Data">
+                                <option value="content_data.model" @if($primaryKeyIsMapped) disabled="disabled" @endif>Model</option>
+                                <option value="content_data.sku" @if($primaryKeyIsMapped) disabled="disabled" @endif>SKU</option>
+                                <option value="content_data.barcode" @if($primaryKeyIsMapped) disabled="disabled" @endif>Barcode</option>
+                                <option value="content_data.mpn" @if($primaryKeyIsMapped) disabled="disabled" @endif>MPN</option>
                                 </optgroup>
-                            @endif
 
-                            @php
-                                $customContentDataFields = [];
-                                if (!empty($import_feed['mapped_tags'])) {
-                                     foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
-                                        if(strpos($mappedTagName, 'custom_content_data') !== false) {
-                                         $customContentDataFields[$mappedTagKey] = $mappedTagName;
+                                @php
+                                    $findContentData = \MicroweberPackages\ContentData\Models\ContentData::groupBy('field_name')->get();
+                                    $dbFields = [];
+                                    if (!empty($findContentData)) {
+                                        foreach ($findContentData as $field) {
+                                            if (array_key_exists($field->field_name, \MicroweberPackages\Product\Models\Product::$contentDataDefault)) {
+                                                continue;
+                                            }
+                                            $dbFields[] = $field->field_name;
                                         }
                                     }
-                                }
-                            @endphp
+                                @endphp
 
-                            @if(!empty($customContentDataFields))
-                                <optgroup label="Custom Content Data Fields">
-                                    @foreach($customContentDataFields as $mappedTagKey=>$mappedTagName)
-                                        <option value="{{$mappedTagName}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$mappedTagName}}</option>
+                                @if(!empty($dbFields))
+                                    <optgroup label="Database Fields">
+                                    @foreach($dbFields as $dbField)
+                                        <option value="content_data.{{$dbField}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$dbField}}</option>
                                     @endforeach
-                                </optgroup>
+                                    </optgroup>
+                                @endif
+
+                                @php
+                                    $customContentDataFields = [];
+                                    if (!empty($import_feed['mapped_tags'])) {
+                                         foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
+                                            if(strpos($mappedTagName, 'custom_content_data') !== false) {
+                                             $customContentDataFields[$mappedTagKey] = $mappedTagName;
+                                            }
+                                        }
+                                    }
+                                @endphp
+
+                                @if(!empty($customContentDataFields))
+                                    <optgroup label="Custom Content Data Fields">
+                                        @foreach($customContentDataFields as $mappedTagKey=>$mappedTagName)
+                                            <option value="{{$mappedTagName}}" @if($primaryKeyIsMapped) disabled="disabled" @endif>{{$mappedTagName}}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
+
                             @endif
 
                         </select>

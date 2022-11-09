@@ -1,7 +1,4 @@
 <?php
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\migrations;
-
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -38,7 +35,6 @@ class CreateImportFeedsTable extends Migration
                 $table->string('detected_content_tags')->nullable();
                 $table->string('content_tag')->nullable();
                 $table->string('primary_key')->nullable();
-                $table->string('category_separator')->nullable();
                 $table->string('update_items')->nullable();
                 $table->string('old_content_action')->nullable();
                 $table->integer('count_of_contents')->nullable();

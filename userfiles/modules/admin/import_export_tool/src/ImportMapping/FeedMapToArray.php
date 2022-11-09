@@ -37,6 +37,7 @@ class FeedMapToArray
 
             if (!empty($repeatableMappedTags)) {
                 foreach ($repeatableMappedTags as $tagKey=>$internalKey) {
+
                     $tagKey = str_replace(';', '.', $tagKey);
                     $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
 
@@ -52,18 +53,64 @@ class FeedMapToArray
                     continue;
                 }
 
-                $tagKey = str_replace(';', '.', $tagKey);
-                $tagKey = str_replace($this->importFeed->content_tag . '.', '', $tagKey);
+                $tagKeyClear = str_replace(';', '.', $tagKey);
+                $tagKeyClear = str_replace($this->importFeed->content_tag . '.', '', $tagKeyClear);
 
-                $saveItem = Arr::get($item, $tagKey);
+                $saveItem = Arr::get($item, $tagKeyClear);
 
                 if (isset(ItemMapReader::$itemTypes[$internalKey])) {
 
                     // One tag item with category seperator
-                    if ($internalKey == 'categories' && !empty($this->importFeed->category_separator)) {
-                        $categories = explode($this->importFeed->category_separator, $saveItem);
-                        $mappedData[$itemI][$internalKey] = $categories;
-                        continue;
+                    if ($internalKey == 'categories') {
+                        if (isset($this->importFeed->category_separators[$tagKey])) {
+                            $mappedData[$itemI][$internalKey] = [];
+                            $categorySeparator = $this->importFeed->category_separators[$tagKey];
+                            $categories = explode($categorySeparator, $saveItem);
+                            if (!empty($categories)) {
+                                $categories = array_map('trim', $categories);
+                                $mappedData[$itemI][$internalKey] = $categories;
+                            }
+                            continue;
+                        }
+                    }
+
+                    if ($internalKey == 'category_ids') {
+                        if (isset($this->importFeed->category_ids_separators[$tagKey])) {
+                            $mappedData[$itemI][$internalKey] = [];
+                            $categoryIdsSeparator = $this->importFeed->category_ids_separators[$tagKey];
+                            $categoryIds = explode($categoryIdsSeparator, $saveItem);
+                            if (!empty($categoryIds)) {
+                                $categoryIds = array_map('trim', $categoryIds);
+                                $mappedData[$itemI][$internalKey] = $categoryIds;
+                            }
+                            continue;
+                        }
+                    }
+
+                    if ($internalKey == 'tags') {
+                        if (isset($this->importFeed->tags_separators[$tagKey])) {
+                            $mappedData[$itemI][$internalKey] = [];
+                            $tagSeperator = $this->importFeed->tags_separators[$tagKey];
+                            $tags = explode($tagSeperator, $saveItem);
+                            if (!empty($tags)) {
+                                $tags = array_map('trim', $tags);
+                                $mappedData[$itemI][$internalKey] = $tags;
+                            }
+                            continue;
+                        }
+                    }
+
+                    if ($internalKey == 'media_urls') {
+                        if (isset($this->importFeed->media_url_separators[$tagKey])) {
+                            $mappedData[$itemI][$internalKey] = [];
+                            $mediaUrlSeperator = $this->importFeed->media_url_separators[$tagKey];
+                            $mediaUrls = explode($mediaUrlSeperator, $saveItem);
+                            if (!empty($mediaUrls)) {
+                                $mediaUrls = array_map('trim', $mediaUrls);
+                                $mappedData[$itemI][$internalKey] = $mediaUrls;
+                            }
+                            continue;
+                        }
                     }
 
                     if (ItemMapReader::$itemTypes[$internalKey] == ItemMapReader::ITEM_TYPE_ARRAY) {

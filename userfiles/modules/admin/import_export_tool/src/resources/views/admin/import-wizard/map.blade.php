@@ -12,7 +12,7 @@
                         @php
                             $fileExt = pathinfo($this->import_feed['source_file_realpath'], PATHINFO_EXTENSION);
                         @endphp
-                        @if($fileExt == 'xlsx' || $fileExt == 'xlsx')
+                        @if($fileExt == 'xls' || $fileExt == 'xlsx')
                             <label for="feed_content_tag"><b>Excel Sheet Tab</b></label><br>
                             <small>Select the excel sheet tab</small>
                         @else
@@ -25,7 +25,7 @@
                         <div class="input-group">
                             <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
 
-                                @if($fileExt == 'xlsx' || $fileExt == 'xlsx')
+                                @if($fileExt == 'xls' || $fileExt == 'xlsx')
                                     <option>Select excel sheet</option>
                                 @else
                                     <option>Select content tag</option>
@@ -43,9 +43,8 @@
                                     <i class="fa fa-file-import"></i> Read data
 
                                     <span wire:loading wire:target="changeContentTag">
-                                <span class="spinner-border spinner-border-sm ml-2" role="status"></span>
-                            </span>
-
+                                      <span class="spinner-border spinner-border-sm ml-2" role="status"></span>
+                                     </span>
                                 </button>
                             @endif
                         </div>

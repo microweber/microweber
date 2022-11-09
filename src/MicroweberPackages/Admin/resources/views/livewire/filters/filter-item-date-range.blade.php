@@ -33,7 +33,7 @@
         <script>
             mw.lib.require("air_datepicker");
 
-            let dateRangeElement = document.getElementById('js-date-range');
+
             var dateRangePickerInstance = $('#js-date-range-picker').datepicker({
                 language: 'en',
                 timepicker: false,
@@ -43,6 +43,7 @@
                 multipleDatesSeparator: " - ",
                 onSelect: function (fd, d, picker) {
 
+                    var dateRangeElement = document.getElementById('js-date-range');
                     var dateRange = fd;
                     dateRange = dateRange.replace(' - ', ',');
 

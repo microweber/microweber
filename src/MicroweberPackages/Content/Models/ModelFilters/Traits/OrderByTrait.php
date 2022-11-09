@@ -8,6 +8,8 @@
 
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
+use Illuminate\Support\Facades\DB;
+
 trait OrderByTrait
 {
     public function orderBy($orderBy)
@@ -38,9 +40,12 @@ trait OrderByTrait
                 break;
             case 'orders':
 
-                $this->query->whereHas('orders', function ($query) use ($orderColumn, $orderDirection) {
-                    
-                 })->orderByPowerJoinsCount('orders.id', $orderDirection);
+                $table = app()->database_manager->real_table_name('cart');
+                $this->query->orderByLeftPowerJoinsCount('cart.order')
+                    ->select(
+                        'content.*',
+                        DB::raw("count(" . $table . ".order_id) AS total_orders"))
+                    ->orderBy('total_orders', $orderDirection);
 
                 break;
             default:
