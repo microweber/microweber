@@ -67,8 +67,22 @@ class FeedMapToArray
                             $categorySeparator = $this->importFeed->category_separators[$tagKey];
                             $categories = explode($categorySeparator, $saveItem);
                             if (!empty($categories)) {
+
                                 $categories = array_map('trim', $categories);
-                                $mappedData[$itemI][$internalKey] = $categories;
+
+                                if (isset($this->importFeed->category_add_types[$tagKey]) && $this->importFeed->category_add_types[$tagKey] == 'tree') {
+                                    $categoriesPrepare = [];
+                                    if (!empty($categories)) {
+                                        foreach ($categories as $category) {
+                                            $categoriesPrepare[] = [
+                                                'name' => $category,
+                                            ];
+                                        }
+                                    }
+                                    $mappedData[$itemI][$internalKey] = $this->buildCategoryTreeFromFirstLevel($categoriesPrepare);
+                                } else {
+                                    $mappedData[$itemI][$internalKey] = $categories;
+                                }
                             }
                             continue;
                         }
@@ -132,6 +146,16 @@ class FeedMapToArray
         }
 
         return $preparedData;
+    }
+
+    public function buildCategoryTreeFromFirstLevel($array, $i = 0)
+    {
+        $next = $i + 1;
+        if (isset($array[$next])) {
+            return array('0' => array('name' => $array[$i]['name'], 'childs' => $this->buildCategoryTreeFromFirstLevel($array, $next)));
+        } else {
+            return array('0' => array('name' => $array[$i]['name'], 'childs' => []));
+        }
     }
 
 }
