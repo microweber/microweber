@@ -31,10 +31,10 @@
     </thead>
     <tbody>
     @foreach($import_feeds as $feed)
-        <tr class="cursor-pointer" onclick="window.location.href='{{route('admin.import-export-tool.import',  $feed->id)}}'">
+        <tr class="cursor-pointer" onclick="window.location.href='{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}'">
             <th scope="row">{{$feed->id}}</th>
             <td>
-                <a href="{{route('admin.import-export-tool.import',  $feed->id)}}">{{$feed->name}}</a>
+                <a href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">{{$feed->name}}</a>
             </td>
             <td>{{ucfirst($feed->import_to)}}</td>
             <td>{{$feed->count_of_contents}}</td>
