@@ -45,10 +45,12 @@
         @endif
 
         <div class="d-inline-block mx-1">
-            <span class="d-md-block d-none">Display Type</span>
+            <span class="d-md-block d-none text-muted small"> Display as </span>
             <div class="btn-group mb-4">
-                <a href="#" wire:click="setDisplayType('card')" class="btn btn-outline-primary @if($displayType=='card') active @endif"><i class="fa fa-id-card"></i></a>
-                <a href="#" wire:click="setDisplayType('table')" class="btn btn-outline-primary @if($displayType=='table') active @endif"><i class="fa fa-list"></i></a>
+                <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
+                    <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
+                <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
+                    <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
             </div>
         </div>
 
@@ -56,7 +58,7 @@
 
             <div class="d-inline-block mx-1">
 
-                <span class="d-md-block d-none">Sort</span>
+                <span class="d-md-block d-none text-muted small">Sort</span>
                 <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
                     <option value="">Any</option>
                     <option value="id,desc">Id Desc</option>
@@ -69,7 +71,7 @@
 
             <div class="d-inline-block mx-1">
 
-                <span class="d-md-block d-none">Limit</span>
+                <span class="d-md-block d-none text-muted small">Limit</span>
                 <select class="form-control form-control-sm" wire:model="paginationLimit">
                     <option value="10">10</option>
                     <option value="25">25</option>
