@@ -65,6 +65,12 @@ class UserForgotPasswordController extends Controller
                 $user_id = $email_user->id;
             }
         }
+        if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
+            $email_user = User::where('username', $inputs['email'])->first();
+            if ($email_user) {
+                $user_id = $email_user->id;
+            }
+        }
 
 
 
