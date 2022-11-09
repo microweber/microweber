@@ -399,6 +399,10 @@ header {
   }
 }
 
+[dir="rtl"] .no-items-box {
+    background-position-x: left;
+}
+
 .main:not(.show-sidebar-tree) {
   .no-items-box {
     padding: 100px 50px;
