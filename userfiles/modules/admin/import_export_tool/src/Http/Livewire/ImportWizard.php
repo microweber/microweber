@@ -100,7 +100,8 @@ class ImportWizard extends Component
             $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
             $this->refreshImportFeedState($feed->toArray());
 
-            $this->emit('htmlDropdownMappingPreviewRefresh');
+            $this->emit('dropdownMappingPreviewRefresh');
+
         }
     }
 
@@ -167,11 +168,11 @@ class ImportWizard extends Component
             $feedMapToArray = new FeedMapToArray();
             $feedMapToArray->setImportFeedId($feed->id);
             $preparedData = $feedMapToArray->toArray();
+
             $feed->mapped_content = $preparedData;
             $feed->save();
 
             $this->refreshImportFeedState($feed->toArray());
-
             $this->showTab('import');
         }
     }

@@ -15,7 +15,7 @@ class DropdownMappingPreview extends Component
     public $import_feed = [];
     public $data;
     public $listeners = [
-        'htmlDropdownMappingPreviewRefresh'=>'readFeed'
+      //  'dropdownMappingPreviewRefresh'=>'$refresh'
     ];
 
     public function readFeed()

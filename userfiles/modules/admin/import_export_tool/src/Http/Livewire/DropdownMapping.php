@@ -123,6 +123,24 @@ class DropdownMapping extends Component
             if (isset($findFeed->mapped_tags[$this->mapKey])) {
                 $this->selectField = $findFeed->mapped_tags[$this->mapKey];
             }
+            if (isset($findFeed->category_add_types[$this->mapKey])) {
+                $this->categoryAddType = $findFeed->category_add_types[$this->mapKey];
+            }
+            if (isset($findFeed->media_url_separators[$this->mapKey])) {
+                $this->mediaUrlSeparator = $findFeed->media_url_separators[$this->mapKey];
+            }
+            if (isset($findFeed->tags_separators[$this->mapKey])) {
+                $this->tagsSeparator = $findFeed->tags_separators[$this->mapKey];
+            }
+            if (isset($findFeed->category_ids_separators[$this->mapKey])) {
+                $this->categoryIdSeparator = $findFeed->category_ids_separators[$this->mapKey];
+            }
+            if (isset($findFeed->category_separators[$this->mapKey])) {
+                $this->categorySeparator = $findFeed->category_separators[$this->mapKey];
+            }
+            if (isset($findFeed->custom_content_data_fields[$this->mapKey])) {
+                $this->customContentData = $findFeed->custom_content_data_fields[$this->mapKey];
+            }
         }
 
         return view('import_export_tool::admin.dropdown-mapping.dropdown');
