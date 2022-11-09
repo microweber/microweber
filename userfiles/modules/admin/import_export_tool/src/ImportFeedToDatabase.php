@@ -141,9 +141,8 @@ class ImportFeedToDatabase
 
 
             } else {
-                $item['parent'] = $this->importFeed->parent_page;
 
-                // dd($item);
+                $item['parent'] = $this->importFeed->parent_page;
 
                 $updateProductId = 0;
                 $insertNewProduct = true;
@@ -154,27 +153,28 @@ class ImportFeedToDatabase
                     $findItemType = 'title';
                 }
 
-                if (strpos($this->importFeed->primary_key, 'custom_content_data') !== false) {
-                    $primaryKeyUndot = explode('.', $this->importFeed->primary_key);
-                    if (isset($primaryKeyUndot[1])) {
-                        if (isset($item[$primaryKeyUndot[0]][$primaryKeyUndot[1]])) {
-                            $findItemType = 'findByCustomContentData';
-                            $contentDataPrimaryKeyValue = $item[$primaryKeyUndot[0]][$primaryKeyUndot[1]];
-                            $findProduct = Product::whereContentData([$primaryKeyUndot[1], $contentDataPrimaryKeyValue])->first();
-                            if ($findProduct) {
-                                // Update product
-                                $insertNewProduct = false;
-                                $updateProductId = $findProduct->id;
-                            }
-                        }
-                    }
+                if (strpos($this->importFeed->primary_key,'content_data.') !== false) {
+                    $findItemType = 'contentData';
                 }
 
-                if (isset($item['custom_content_data'])  && !empty($item['custom_content_data'])  && is_array($item['custom_content_data'])) {
-                    foreach ($item['custom_content_data'] as $customContentDataKey=>$customContentDataValue) {
-                        $item['content_data'][$customContentDataKey] = $customContentDataValue;
+                if ($findItemType == 'contentData') {
+                    $primaryKeyUndot = explode('.', $this->importFeed->primary_key);
+
+                    if (!isset($primaryKeyUndot[1])) {
+                        return ['error'=>'Please map the content data key from feed or change primary key to another identify method.'];
                     }
-                    unset($item['custom_content_data']);
+
+                    if (!isset($item['content_data'][$primaryKeyUndot[1]])) {
+                        return ['error'=>'Please map the '.$primaryKeyUndot[1].' from feed or change primary key to another identify method.'];
+                    }
+
+                    $contentDataPrimaryKeyValue = $item['content_data'][$primaryKeyUndot[1]];
+                    $findProduct = Product::whereContentData([$primaryKeyUndot[1], $contentDataPrimaryKeyValue])->first();
+                    if ($findProduct) {
+                        // Update product
+                        $insertNewProduct = false;
+                        $updateProductId = $findProduct->id;
+                    }
                 }
 
                 if ($findItemType == 'id') {
@@ -216,6 +216,7 @@ class ImportFeedToDatabase
                 }
 
                 if ($insertNewProduct) {
+
                     $newProduct = new Product();
                     if (isset($item['id'])) {
                         $newProduct->id = $item['id'];
