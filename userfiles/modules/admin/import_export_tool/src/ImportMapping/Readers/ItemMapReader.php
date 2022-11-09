@@ -11,6 +11,7 @@ class ItemMapReader
     ];
 
     public static $map = [
+        'content_data.qty' => ['qty','quantity', 'g:qty'],
         'content_data.mpn' => ['mpn', 'g:mpn'],
         'content_data.sku' => ['sku', 'g:sku'],
         'content_data.weight' => ['weight'],
@@ -50,8 +51,8 @@ class ItemMapReader
         'categories' => 'Categories',
         'tags' => 'Tags',
         'price' => 'Price',
-        'is_active' => 'Active',
         'content_data.special_price' => 'Special Price',
+        'content_data.qty' => 'Quantity',
         'content_data.shipping_fixed_cost' => 'Shipping Fixed Cost',
         'content_data.width' => 'Width',
         'content_data.height' => 'Height',
@@ -61,6 +62,7 @@ class ItemMapReader
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',
+        'is_active' => 'Active',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
     ];

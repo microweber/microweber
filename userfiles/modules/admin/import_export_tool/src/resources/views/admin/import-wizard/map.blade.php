@@ -43,9 +43,8 @@
                                     <i class="fa fa-file-import"></i> Read data
 
                                     <span wire:loading wire:target="changeContentTag">
-                                <span class="spinner-border spinner-border-sm ml-2" role="status"></span>
-                            </span>
-
+                                      <span class="spinner-border spinner-border-sm ml-2" role="status"></span>
+                                     </span>
                                 </button>
                             @endif
                         </div>
