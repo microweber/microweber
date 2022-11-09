@@ -43,10 +43,10 @@ class UserForgotPasswordController extends Controller
 
         if(!isset($inputs['email']) and isset($inputs['username'])){
 
-            $rules['username'] = 'required:min:3|max:255';
+            $rules['username'] = 'required:min:1|max:255';
 
         } else {
-            $rules['email'] = 'required|email';
+            $rules['email'] = 'required|:min:1|max:255';
 
         }
 
@@ -67,6 +67,13 @@ class UserForgotPasswordController extends Controller
         }
         if (!$user_id and isset($inputs['email']) and $inputs['email'] != '') {
             $email_user = User::where('username', $inputs['email'])->first();
+            if ($email_user) {
+                $user_id = $email_user->id;
+            }
+        }
+
+        if (!$user_id and isset($inputs['username']) and $inputs['username'] != '') {
+            $email_user = User::where('username', $inputs['username'])->first();
             if ($email_user) {
                 $user_id = $email_user->id;
             }
