@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Product\Models\Product;
@@ -79,7 +80,11 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
                         $firstLevelArray[] = $appendProduct;
                     }
 
-                    dd($firstLevelArray);
+                    $export = new XlsxExport(['products'=>$firstLevelArray]);
+                    $file = $export->start();
+
+                    return redirect($file['files'][0]['download']);
+
                 }
             }
         }
