@@ -131,15 +131,15 @@ a.import-wizard-select-type:hover {
        <div class="mx-auto col-md-10">
             <div class="mt-4">
                 <div class="d-flex">
-                    <div class="h3">Import Wizard  @if($export_feed['name']) - @endif </div>
+                    <div class="h3">Export Wizard  @if($export_feed['name']) - @endif </div>
                     @if($export_feed['name'])
-                        @if($this->import_feed_edit_name)
+                        @if($this->еьпорт_feed_edit_name)
                         <div class="h3 ml-2" style="margin-top:-10px">
                             <input type="text"
                                    wire:blur="closeEditName"
                                     wire:keydown.escape="closeEditName"
                                     wire:keydown.enter="closeEditName"
-                                   wire:model="import_feed.name" class="form-control form-control-lg" />
+                                   wire:model="еьпорт_feed.name" class="form-control form-control-lg" />
                         </div>
                         @else
                         <div class="h3 ml-2">{{$export_feed['name']}}</div>
@@ -149,7 +149,7 @@ a.import-wizard-select-type:hover {
                         @endif
                     @endif
                 </div>
-                <p>Please follow the wizard to import new feed.</p>
+                <p>Please follow the wizard to export new feed.</p>
             </div>
         </div>
     </div>
@@ -158,81 +158,39 @@ a.import-wizard-select-type:hover {
         <li class="import-wizard__item @if($tab =='type') active @endif">
             <a href="#" wire:click="showTab('type')" class="import-wizard__link">
                 <span class="step">1</span>
-                @if($export_feed['import_to'])
+                @if($export_feed['export_type'])
                 <div class="desc-box">
-                    <span class="desc">Import</span>
-                    <span class="small-desc">{{$export_feed['import_to']}}</span>
+                    <span class="desc">Export</span>
+                    <span class="small-desc">{{$export_feed['export_type']}}</span>
                 </div>
                 <div class="desc-icon">
-                    <x-import_export_tool::icon width="38px" name="{{$export_feed['import_to']}}" />
+                    <x-import_export_tool::icon width="38px" name="{{$export_feed['export_type']}}" />
                 </div>
                 @else
-                    <span class="desc">Import Type</span>
+                    <span class="desc">Type</span>
                 @endif
             </a>
         </li>
-        <li class="import-wizard__item @if($tab =='upload') active @endif">
-            <a href="#" wire:click="showTab('upload')" class="import-wizard__link">
+        <li class="import-wizard__item @if($tab =='format') active @endif">
+            <a href="#" wire:click="showTab('format')" class="import-wizard__link">
                 <span class="step">2</span>
-                @if($export_feed['source_type'] && !empty($export_feed['source_file_realpath']))
+                @if($export_feed['export_format'])
                     <div class="desc-box">
-                        <span class="desc">Upload File</span>
-                        <span class="small-desc">
-                            @if($export_feed['source_type'] == 'upload_file')
-                                From computer
-                            @else
-                                From URL
-                            @endif
-                        </span>
+                        <span class="desc">Export</span>
+                        <span class="small-desc">{{$export_feed['export_format']}}</span>
                     </div>
                     <div class="desc-icon">
-                        <x-import_export_tool::icon width="38px" name="check" />
+                        <x-import_export_tool::icon width="38px" name="{{$export_feed['export_format']}}" />
                     </div>
                 @else
-                <span class="desc">Upload File</span>
+                    <span class="desc">Format</span>
                 @endif
             </a>
         </li>
-        <li class="import-wizard__item @if($tab =='map') active @endif">
-            <a href="#" wire:click="showTab('map')" class="import-wizard__link">
+        <li class="import-wizard__item @if($tab =='export') active @endif">
+            <a href="#" wire:click="showTab('export')" class="import-wizard__link">
                 <span class="step">3</span>
-                @if($export_feed['mapped_content_count'])
-                    <div class="desc-box">
-                        <span class="desc">Map fields</span>
-                        <span class="small-desc">
-                            Mapped
-                        </span>
-                    </div>
-                    <div class="desc-icon">
-                        <x-import_export_tool::icon width="38px" name="check" />
-                    </div>
-                @else
-                <span class="desc">Map Fields</span>
-                @endif
-            </a>
-        </li>
-        <li class="import-wizard__item @if($tab =='import') active @endif">
-            <a href="#" wire:click="showTab('import')" class="import-wizard__link">
-                <span class="step">4</span>
-                @if($export_feed['mapped_tags'])
-                    <div class="desc-box">
-                        <span class="desc">Import</span>
-                        <span class="small-desc">
-                           Imported
-                        </span>
-                    </div>
-                    <div class="desc-icon">
-                        <x-import_export_tool::icon width="38px" name="check" />
-                    </div>
-                @else
-                    <span class="desc">Import</span>
-                @endif
-            </a>
-        </li>
-        <li class="import-wizard__item @if($tab =='report') active @endif">
-            <a href="#" wire:click="showTab('report')" class="import-wizard__link">
-                <span class="step">5</span>
-                <span class="desc">Report</span>
+                <span class="desc">Export</span>
             </a>
         </li>
     </ul>
