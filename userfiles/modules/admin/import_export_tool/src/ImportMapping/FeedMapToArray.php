@@ -70,7 +70,8 @@ class FeedMapToArray
 
                                 $categories = array_map('trim', $categories);
 
-                                if (isset($this->importFeed->category_add_types[$tagKey]) && $this->importFeed->category_add_types[$tagKey] == 'tree') {
+                                if (isset($this->importFeed->category_add_types[$tagKey])
+                                    && $this->importFeed->category_add_types[$tagKey] == 'tree') {
                                     $categoriesPrepare = [];
                                     if (!empty($categories)) {
                                         foreach ($categories as $category) {
