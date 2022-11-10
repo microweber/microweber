@@ -83,6 +83,7 @@ Route::name('admin.import-export-tool.')
         });
 
         Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
+        Route::get('/export-wizard', 'ExportWizardController@index')->name('export-wizard');
 
         Route::get('/', 'AdminController@index')->name('index');
         Route::get('/index', 'AdminController@index')->name('index');
@@ -91,20 +92,17 @@ Route::name('admin.import-export-tool.')
 
 
         Route::get('/index-exports', 'AdminController@index')->name('index-exports');
-        Route::get('/export-wizard', 'AdminController@index')->name('export-wizard');
 
 
 
 
         Route::get('/fffff', function () {
 
-
             $feedMapToArray = new FeedMapToArray();
-            $feedMapToArray->setImportFeedId(1);
+            $feedMapToArray->setImportFeedId(3);
             $preparedData = $feedMapToArray->toArray();
 
-            dd($preparedData[0]);
-
+            dd($preparedData);
 
 /*
             $import = new ImportFeedToDatabase();

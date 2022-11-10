@@ -11,7 +11,6 @@ class CreateImportFeedsTable extends Migration
      */
     public function up()
     {
-
         if (!Schema::hasTable('import_feeds')) {
             Schema::create('import_feeds', function (Blueprint $table) {
                 $table->bigIncrements('id');
