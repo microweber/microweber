@@ -83,7 +83,9 @@ Route::name('admin.import-export-tool.')
         });
 
         Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
+
         Route::get('/export-wizard', 'ExportWizardController@index')->name('export-wizard');
+        Route::get('/export-wizard/file/{id}', 'ExportWizardController@file')->name('export-wizard-file');
 
         Route::get('/', 'AdminController@index')->name('index');
         Route::get('/index', 'AdminController@index')->name('index');

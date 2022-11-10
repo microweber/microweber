@@ -41,6 +41,7 @@ class ExportWizard extends Component
         $findExportFeed = ExportFeed::where('id', $this->export_feed['id'])->first();
         if ($findExportFeed) {
             $findExportFeed->export_format = $format;
+            $findExportFeed->is_draft = 0;
             $findExportFeed->save();
 
             $this->export_feed = $findExportFeed->toArray();
