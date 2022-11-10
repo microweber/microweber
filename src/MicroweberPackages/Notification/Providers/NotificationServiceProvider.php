@@ -54,6 +54,9 @@ class NotificationServiceProvider extends ServiceProvider
 
         // Type transport
         $emailTransport = Option::getValue('email_transport', 'email');
+        if(!$emailTransport){
+            $emailTransport = 'php';
+        }
         if($emailTransport == 'config'){
             // use values from config/mail.php
             return;
@@ -76,6 +79,8 @@ class NotificationServiceProvider extends ServiceProvider
             }
             $emailFrom = str_replace(' ', '-', $emailFrom);
         }
+
+
 
         //Set config mails
         Config::set('mail.from.name', $emailFromName);
