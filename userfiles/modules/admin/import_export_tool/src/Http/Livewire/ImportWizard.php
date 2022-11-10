@@ -136,7 +136,7 @@ class ImportWizard extends Component
     public function upload()
     {
         $this->validate([
-            'upload_file' => 'required|mimes:xlsx,xls,csv',
+            'upload_file' => 'required|mimes:xlsx,xls,csv,xml',
         ]);
 
         $uploadFilePath = $this->upload_file->store('import-export-tool');
