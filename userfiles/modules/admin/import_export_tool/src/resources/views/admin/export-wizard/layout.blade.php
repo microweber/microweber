@@ -133,13 +133,13 @@ a.import-wizard-select-type:hover {
                 <div class="d-flex">
                     <div class="h3">Export Wizard  @if($export_feed['name']) - @endif </div>
                     @if($export_feed['name'])
-                        @if($this->еьпорт_feed_edit_name)
+                        @if($this->export_feed_edit_name)
                         <div class="h3 ml-2" style="margin-top:-10px">
                             <input type="text"
                                    wire:blur="closeEditName"
                                     wire:keydown.escape="closeEditName"
                                     wire:keydown.enter="closeEditName"
-                                   wire:model="еьпорт_feed.name" class="form-control form-control-lg" />
+                                   wire:model="export_feed.name" class="form-control form-control-lg" />
                         </div>
                         @else
                         <div class="h3 ml-2">{{$export_feed['name']}}</div>
@@ -177,7 +177,7 @@ a.import-wizard-select-type:hover {
                 @if($export_feed['export_format'])
                     <div class="desc-box">
                         <span class="desc">Export</span>
-                        <span class="small-desc">{{$export_feed['export_format']}}</span>
+                        <span class="small-desc">{{strtoupper($export_feed['export_format'])}}</span>
                     </div>
                     <div class="desc-icon">
                         <x-import_export_tool::icon width="38px" name="{{$export_feed['export_format']}}" />

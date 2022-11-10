@@ -3,10 +3,12 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ExportWizard extends Component
 {
-    public $queryString = ['exportType','exportFormat','tab'];
+    public $exportFeedId;
+    public $queryString = ['exportFeedId','exportType','exportFormat','tab'];
     public $tab = 'type';
     public $export_feed = [
         'name'=>'',
@@ -21,12 +23,28 @@ class ExportWizard extends Component
     {
         $this->exportType = $type;
         $this->tab = 'format';
+
+        $findExportFeed = ExportFeed::where('id', $this->export_feed['id'])->first();
+        if ($findExportFeed) {
+            $findExportFeed->export_type = $type;
+            $findExportFeed->save();
+
+            $this->export_feed = $findExportFeed->toArray();
+        }
     }
 
     public function selectExportFormat($format)
     {
         $this->exportFormat = $format;
         $this->tab = 'export';
+
+        $findExportFeed = ExportFeed::where('id', $this->export_feed['id'])->first();
+        if ($findExportFeed) {
+            $findExportFeed->export_format = $format;
+            $findExportFeed->save();
+
+            $this->export_feed = $findExportFeed->toArray();
+        }
     }
 
     public function showTab($tab)
@@ -37,20 +55,24 @@ class ExportWizard extends Component
     public function mount()
     {
         $exportFeedId = request()->get('exportFeedId');
+
         $findExportFeed = false;
         if ($exportFeedId) {
             $findExportFeed = ExportFeed::where('id', $exportFeedId)->first();
         }
 
         if (!$findExportFeed) {
+
             $newDraftFeed = new ExportFeed();
             $newDraftFeed->is_draft = 1;
             $newDraftFeed->save();
+
             $findExportFeed = ExportFeed::where('id', $newDraftFeed->id)->first();
         }
 
         if ($findExportFeed) {
-        //    $this->refreshImportFeedState($findExportFeed->toArray());
+            $this->export_feed = $findExportFeed->toArray();
+            $this->exportFeedId = $findExportFeed->id;
         }
     }
 
