@@ -27,7 +27,7 @@ if (isset($params['page-id'])) {
 $past_page = false;
 if ($last_page_front != false) {
     $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
-    if (isset($cont_by_url) and $cont_by_url == false) {
+    if (isset($cont_by_url) and $cont_by_url == false and is_array($past_page) and isset($past_page[0]['id'])) {
         $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
         $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
@@ -35,7 +35,7 @@ if ($last_page_front != false) {
     }
 } else {
     $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
-    if (isset($past_page[0])) {
+    if (is_array($past_page) and isset($past_page[0])) {
         $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
         $past_page = false;
