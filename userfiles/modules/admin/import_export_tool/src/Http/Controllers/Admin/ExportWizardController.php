@@ -32,16 +32,6 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
                     $firstLevelArray = [];
                     foreach ($getAllProducts as $product) {
 
-                        $productCategories = $product->categories->toArray();
-
-                        $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
-
-                        dump($productCategories);
-                        
-                        dd($product->id, $tree->get());
-                        dd();
-
-
                         $appendProduct = [];
                         $appendProduct['id'] = $product->id;
                         $appendProduct['parent_id'] = $product->parent;
@@ -91,11 +81,30 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 
                         $appendProduct['is_active'] = $product->is_active;
 
+                        $tags = $product->tags->toArray();
+                        if (!empty($tags)) {
+                            $tagsPlainText = [];
+                            foreach ($tags as $tag) {
+                                $tagsPlainText[] = $tag['tag_name'];
+                            }
+                            $appendProduct['tags'] = implode(', ',$tagsPlainText);
+                        }
+
+                        $productCategories = $product->categories->toArray();
+                        $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
+                        $getTree = $tree->get();
+                        if (!empty($getTree)) {
+                            $treeI = 0;
+                            foreach ($getTree as $treeItem) {
+                                if (isset($treeItem['plain'])) {
+                                    $appendProduct['category_' . $treeI] = $treeItem['plain'];
+                                    $treeI++;
+                                }
+                            }
+                        }
+
                         $firstLevelArray[] = $appendProduct;
                     }
-
-
-                    dd($firstLevelArray);
 
                     $export = new XlsxExport(['products'=>$firstLevelArray]);
                     $file = $export->start();
