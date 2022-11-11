@@ -36,7 +36,9 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 
                         $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
 
-                        dd($tree->get());
+                        dump($productCategories);
+                        
+                        dd($product->id, $tree->get());
                         dd();
 
 

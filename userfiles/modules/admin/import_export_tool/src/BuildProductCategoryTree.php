@@ -15,11 +15,31 @@ class BuildProductCategoryTree
 
     public function get()
     {
+        $productIds = [];
+
+        foreach ($this->productCategories as $categoryItem) {
+            $productIds[] = $categoryItem['category']['id'];
+        }
+
         $productCategoriesPlainText = [];
 
         foreach($this->categoryTreeItems as $categoryTreeItem) {
+
             $tree = new BuildCategoryTree($categoryTreeItem);
-            $productCategoriesPlainText[] = $tree->get();
+            $getTree = $tree->get();
+
+            if (isset($getTree['ids'])) {
+
+                $founded = false;
+                foreach ($getTree['ids'] as $treeId) {
+                    if (in_array($treeId, $productIds)) {
+                        $founded = true;
+                    }
+                }
+                if ($founded) {
+                    $productCategoriesPlainText[] = $getTree;
+                }
+            }
         }
 
         return $productCategoriesPlainText;
@@ -30,6 +50,7 @@ class BuildProductCategoryTree
 class BuildCategoryTree {
 
     public $txt = '';
+    public $ids = [];
     public $category = [];
 
     public function __construct($category)
@@ -42,6 +63,7 @@ class BuildCategoryTree {
         if (isset($category['childs'])) {
             foreach ($category['childs'] as $child) {
                 $this->txt .= ' > ' . $child['title'];
+                $this->ids[] = $child['id'];
                 if (isset($child['childs']) && !empty($child['childs'])) {
                     $this->build($child);
                 }
@@ -52,8 +74,10 @@ class BuildCategoryTree {
     public function get()
     {
         $this->txt .= $this->category['title'];
+        $this->ids[] = $this->category['id'];
+
         $this->build($this->category);
 
-        return $this->txt;
+        return ['plain'=>$this->txt,'ids'=>$this->ids];
     }
 }
