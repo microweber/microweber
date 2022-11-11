@@ -131,16 +131,22 @@ trait CategoryTrait
         return $this->hasMany(CategoryItem::class, 'rel_id');
     }
 
-    public function categoryTree()
+    public function getParentsByCategoryId($id)
     {
-        $categories = app()->content_repository->getCategories($this->id);
+        $findCategory = Category::select(['id','parent_id'])->where('id', $id)->first();
+        if ($findCategory) {
+            $category = $findCategory->toArray();
+            $category['parents'] = $this->getParentsByCategoryId($findCategory->parent_id);
+            return $category;
+        }
 
+        return [];
     }
 
     public function getCategoriesAttribute()
     {
         $categories = [];
-        foreach ($this->categoryItems()->with('parent')->get() as $category) {
+        foreach ($this->categoryItems()->with('category')->get() as $category) {
             $categories[] = $category;
         }
         return collect($categories);

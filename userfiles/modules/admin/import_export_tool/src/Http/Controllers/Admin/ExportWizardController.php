@@ -23,10 +23,21 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
         $findExportFeed = ExportFeed::where('id', $id)->first();
         if ($findExportFeed) {
             if ($findExportFeed->export_type == 'products') {
+
+
+                $categoryTree = app()->category_repository->tree();
+
+                dd($categoryTree);
+
+
                 $getAllProducts = Product::all();
                 if ($findExportFeed->export_format == 'xlsx') {
                     $firstLevelArray = [];
                     foreach ($getAllProducts as $product) {
+
+                       // $categoryTree = app()->content_repository->getCategories($product->id);
+
+                        dd($product->getCategoriesTree());
 
                         $appendProduct = [];
                         $appendProduct['id'] = $product->id;
@@ -79,6 +90,9 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 
                         $firstLevelArray[] = $appendProduct;
                     }
+
+
+                    dd($firstLevelArray);
 
                     $export = new XlsxExport(['products'=>$firstLevelArray]);
                     $file = $export->start();
