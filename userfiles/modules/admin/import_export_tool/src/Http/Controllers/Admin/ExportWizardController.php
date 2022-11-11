@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Adm
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Export\Formats\XlsxExport;
+use MicroweberPackages\Modules\Admin\ImportExportTool\BuildProductCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Product\Models\Product;
@@ -24,20 +25,20 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
         if ($findExportFeed) {
             if ($findExportFeed->export_type == 'products') {
 
-
-                $categoryTree = app()->category_repository->tree();
-
-                dd($categoryTree);
-
+                $categoryTreeItems = app()->category_repository->tree();
 
                 $getAllProducts = Product::all();
                 if ($findExportFeed->export_format == 'xlsx') {
                     $firstLevelArray = [];
                     foreach ($getAllProducts as $product) {
 
-                       // $categoryTree = app()->content_repository->getCategories($product->id);
+                        $productCategories = $product->categories->toArray();
 
-                        dd($product->getCategoriesTree());
+                        $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
+
+                        dd($tree->get());
+                        dd();
+
 
                         $appendProduct = [];
                         $appendProduct['id'] = $product->id;
