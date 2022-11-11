@@ -131,6 +131,12 @@ trait CategoryTrait
         return $this->hasMany(CategoryItem::class, 'rel_id');
     }
 
+    public function categoryTree()
+    {
+        $categories = app()->content_repository->getCategories($this->id);
+
+    }
+
     public function getCategoriesAttribute()
     {
         $categories = [];
