@@ -11,10 +11,14 @@ class ItemMapReader
     ];
 
     public static $map = [
+        'content_data.depth' => ['depth'],
+        'content_data.height' => ['height'],
+        'content_data.width' => ['width'],
         'content_data.qty' => ['qty','quantity', 'g:qty'],
         'content_data.mpn' => ['mpn', 'g:mpn'],
         'content_data.sku' => ['sku', 'g:sku'],
         'content_data.weight' => ['weight'],
+        'content_data.weight_type' => ['weight_type'],
         'content_data.barcode' => ['barcode', 'gtin', 'g:gtin'],
         'content_data.external_id' => ['id', 'g:id'],
         'title' => ['title', 'g:title', 'name'],
@@ -24,11 +28,12 @@ class ItemMapReader
         'id' => ['id'],
         'parent' => ['parent_id'],
         'content_data.special_price' => ['special_price', 'discount_price'],
-        'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price'],
+        'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price','shipping_fixed_cost'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
-        'is_active' => ['isEnable', 'isEnabled', 'isActive'],
+        'is_active' => ['isEnable', 'isEnabled', 'isActive','is_active'],
+        'tags' => ['tags'],
     ];
 
     public static $itemTypes = [

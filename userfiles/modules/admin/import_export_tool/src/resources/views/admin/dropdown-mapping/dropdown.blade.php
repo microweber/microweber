@@ -23,7 +23,7 @@
             @foreach($dropdowns as $groupName=>$groupItems)
                 <optgroup label="{{$groupName}}">
                     @foreach($groupItems as $groupItem)
-                    <option @if($groupItem['selected']) selected="selected" @endif value="{{$groupItem['value']}}">{{$groupItem['name']}}</option>
+                    <option value="{{$groupItem['value']}}">{{$groupItem['name']}}</option>
                     @endforeach
                 </optgroup>
             @endforeach
