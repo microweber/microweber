@@ -32,6 +32,7 @@ class DefaultExport implements ExportInterface
 		} else {
 			$exportFilename = 'backup_' . date("Y-m-d-his") . '.' . $this->type;
 		}
+
         $exportFilename = normalize_path($exportFilename,false);
 		return array(
 			'download' => route('admin.backup.download').'?file=' . $exportFilename,
