@@ -10,6 +10,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\BuildCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\BuildProductCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 
@@ -58,6 +59,12 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
             if ($findExportFeed->export_type == 'posts') {
                 if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                     $exportData = $this->exportPostsOneLevelArray();
+                }
+            }
+
+            if ($findExportFeed->export_type == 'pages') {
+                if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+                    $exportData = $this->exportPagesOneLevelArray();
                 }
             }
 
@@ -185,6 +192,68 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
             }
 
             $exportData[] = $appendPost;
+        }
+
+        return $exportData;
+    }
+
+    public function exportPagesOneLevelArray()
+    {
+        $exportData = [];
+        $getAllPages = Page::all();
+
+        foreach ($getAllPages as $page) {
+
+            $appendPage = [];
+            $appendPage['id'] = $page->id;
+            $appendPage['parent_id'] = $page->parent;
+
+            if (isset($post->multilanguage)) {
+                foreach ($post->multilanguage as $locale=>$mlFields) {
+                    foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
+                        $appendPage[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                    }
+                }
+            }  else {
+                $appendPage['title'] = $page->title;
+                $appendPage['url'] = $page->url;
+                $appendPage['content_body'] = $page->content_body;
+                $appendPage['content_meta_title'] = $page->content_meta_title;
+                $appendPage['content_meta_keywords'] = $page->content_meta_keywords;
+            }
+
+            $contentData = $page->contentData()->get();
+            if ($contentData->count() > 0) {
+                foreach ($contentData as $contentDataItem) {
+                    $appendPage[$contentDataItem->field_name] = $contentDataItem->field_value;
+                }
+            }
+
+            $contentField = $page->contentField()->get();
+            if ($contentField->count() > 0) {
+                foreach ($contentField as $contentFieldItem) {
+                    if (isset($contentFieldItem->multilanguage)) {
+                        foreach ($contentFieldItem->multilanguage as $locale=>$mlFields) {
+                            $appendPage[$contentFieldItem->field.'_'.strtolower($locale)] = $mlFields['value'];
+                        }
+                    } else {
+                        $appendPage[$contentFieldItem->field] = $contentFieldItem->value;
+                    }
+                }
+            }
+
+            $appendPage['is_active'] = $page->is_active;
+
+            $tags = $page->tags->toArray();
+            if (!empty($tags)) {
+                $tagsPlainText = [];
+                foreach ($tags as $tag) {
+                    $tagsPlainText[] = $tag['tag_name'];
+                }
+                $appendPage['tags'] = implode(', ',$tagsPlainText);
+            }
+
+            $exportData[] = $appendPage;
         }
 
         return $exportData;
