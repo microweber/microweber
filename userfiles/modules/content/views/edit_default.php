@@ -155,9 +155,7 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
         });
 
-        $('[name]').on('change input', function (){
-            contentChanged(true)
-        })
+
 
 
 
@@ -604,3 +602,11 @@ if (isset($params['quick_edit'])) {
         </div>
     </form>
 </div>
+
+<script>
+    addEventListener('load', function (){
+        mw.element('.mw_admin_edit_content_form [name]').on('input', function (){
+            contentChanged(true)
+        });
+    });
+</script>

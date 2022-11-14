@@ -9,6 +9,7 @@ class DefaultExport implements ExportInterface
 {
 	public $type = 'json';
 	public $data;
+	public $overwrite = false;
 
 	public function __construct($data = array())
 	{
@@ -18,6 +19,11 @@ class DefaultExport implements ExportInterface
 	public function setType($type)
 	{
 		$this->type = $type;
+	}
+
+    public function setOverwrite($overwrite)
+	{
+		$this->overwrite = $overwrite;
 	}
 
 	public function start()
@@ -32,6 +38,7 @@ class DefaultExport implements ExportInterface
 		} else {
 			$exportFilename = 'backup_' . date("Y-m-d-his") . '.' . $this->type;
 		}
+
         $exportFilename = normalize_path($exportFilename,false);
 		return array(
 			'download' => route('admin.backup.download').'?file=' . $exportFilename,
