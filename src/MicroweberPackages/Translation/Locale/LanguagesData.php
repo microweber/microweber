@@ -28,6 +28,7 @@ class LanguagesData
 
 
             foreach ($langs as $lang) {
+
                 if (isset($lang["iso-639-1"]) and !empty($lang["iso-639-1"])) {
 
                     $isRtl = false;
@@ -50,14 +51,15 @@ class LanguagesData
 
 
                         if ($locales and !empty($locales)) {
-                            uksort($locales, function ($a, $b) use ($main_locales) {
-                                if ($b and in_array($b, $main_locales)) {
-                                    return 1;
-                                } else {
-                                    return 0;
+                            $sort_locales = [];
+                            foreach ($locales as $locale => $country) {
+                                if (in_array($locale, $main_locales)) {
+                                    $sort_locales[$locale] = $country;
+                                    unset($locales[$locale]);
                                 }
+                            }
 
-                            });
+                            $locales = array_merge($sort_locales, $locales);
                         }
 
                         if ($locales) {
@@ -104,7 +106,7 @@ class LanguagesData
             "de_DE",
             "el_GR",
             "en_US",
-            "en_GB",
+
             "es_ES",
             "fi_FI",
             "fr_FR",
@@ -141,7 +143,8 @@ class LanguagesData
 
     public static function getLangDefaultLocale() {
         return [
-            "chinese" => "zh_CN"
+            "chinese" => "zh_CN",
+            "english" => "en_US",
         ];
     }
 }

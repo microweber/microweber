@@ -146,6 +146,10 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
 </style>
 
 <?php
+
+
+
+
 if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang())->count() == 0):
 ?>
 <div class="alert alert-warning mb-3">
