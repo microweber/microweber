@@ -23,6 +23,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FieldMapDrop
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMappingPreview;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoExportFeeds;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ViewImport;
@@ -57,6 +58,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
         Livewire::component('import_export_tool::import_wizard', ImportWizard::class);
         Livewire::component('import_export_tool::export_wizard', ExportWizard::class);
         Livewire::component('import_export_tool::no_feeds', NoFeeds::class);
+        Livewire::component('import_export_tool::no_export_feeds', NoExportFeeds::class);
         Livewire::component('import_export_tool::feed_report', FeedReport::class);
         Livewire::component('import_export_tool::new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool::start_importing_modal', StartImportingModal::class);

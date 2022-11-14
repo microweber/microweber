@@ -11,7 +11,7 @@ Route::name('admin.import-export-tool.')
     ->group(function () {
 
 
-        Route::get('ddd', function () {
+     /*   Route::get('ddd', function () {
 
             for ($i = 1; $i <= 100; $i++) {
                 $rand = rand(111, 999);
@@ -51,10 +51,10 @@ Route::name('admin.import-export-tool.')
                 //dump($saved->toArray());
                 echo 'Product saved:' . $i . '<br /><meta http-equiv="refresh" content="0;">';
             }
-        });
+        });*/
 
 
-        Route::get('waw', function () {
+    /*    Route::get('waw', function () {
 
             //  $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
             //$contentXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
@@ -80,12 +80,13 @@ Route::name('admin.import-export-tool.')
             $html = $dropdownMapping->render();
 
             echo $html;
-        });
+        });*/
 
         Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
 
         Route::get('/export-wizard', 'ExportWizardController@index')->name('export-wizard');
         Route::get('/export-wizard/file/{id}', 'ExportWizardController@file')->name('export-wizard-file');
+        Route::get('/delete-wizard/file/{id}', 'ExportWizardController@deleteFile')->name('delete-wizard-file');
 
         Route::get('/', 'AdminController@index')->name('index');
         Route::get('/index', 'AdminController@index')->name('index');
@@ -93,12 +94,12 @@ Route::name('admin.import-export-tool.')
         Route::get('/import-start/{id}', 'AdminController@importStart')->name('import-start');
 
 
-        Route::get('/index-exports', 'AdminController@index')->name('index-exports');
+        Route::get('/index-exports', 'AdminController@exports')->name('index-exports');
 
 
 
 
-        Route::get('/fffff', function () {
+/*        Route::get('/fffff', function () {
 
             $feedMapToArray = new FeedMapToArray();
             $feedMapToArray->setImportFeedId(3);
@@ -106,7 +107,6 @@ Route::name('admin.import-export-tool.')
 
             dd($preparedData);
 
-/*
             $import = new ImportFeedToDatabase();
             $import->setImportFeedId(1);
             $import->setBatchStep(1);
@@ -114,8 +114,8 @@ Route::name('admin.import-export-tool.')
 
             $importStatus = $import->start();
 
-            dd($importStatus);*/
+            dd($importStatus);
 
-        });
+        });*/
 
     });
