@@ -164,10 +164,7 @@ mw.wysiwyg = {
         var sel = window.getSelection(),
             range = sel.getRangeAt(0),
             common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
-        //var nodrop_state = !mw.tools.hasClass(common, 'nodrop') && !mw.tools.hasParentsWithClass(common, 'nodrop');
-        var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
-
-        if (mw.wysiwyg.isSelectionEditable() && nodrop_state) {
+        if (mw.wysiwyg.isSelectionEditable()) {
             if (typeof c === 'function') {
                 c.call();
             }
@@ -1633,9 +1630,12 @@ mw.wysiwyg = {
             return false;
         }
         mw.wysiwyg.allStatements(function () {
-            var node = r.commonAncestorContainer
+            var node = r.commonAncestorContainer;
+            if(node.nodeType !== 1) {
+                node = node.parentElement;
+            }
             mw.liveEditState.record({
-                target:node,
+                target: node,
                 value: node.innerHTML
             });
             rangy.init();
