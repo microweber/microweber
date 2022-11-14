@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
+use MicroweberPackages\Modules\Admin\ImportExportTool\BuildCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\BuildProductCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 
 class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\AdminController
@@ -39,123 +41,248 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
             $findExportFeed->is_draft = 0;
             $findExportFeed->save();
 
+            $exportData = [];
+
             if ($findExportFeed->export_type == 'products') {
-
-                $categoryTreeItems = app()->category_repository->tree();
-
-                $getAllProducts = Product::all();
                 if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
-                    $firstLevelArray = [];
-                    foreach ($getAllProducts as $product) {
-
-                        $appendProduct = [];
-                        $appendProduct['id'] = $product->id;
-                        $appendProduct['parent_id'] = $product->parent;
-
-                        if (isset($product->multilanguage)) {
-                            foreach ($product->multilanguage as $locale=>$mlFields) {
-                                foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
-                                    $appendProduct[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
-                                }
-                            }
-                        }  else {
-                            $appendProduct['title'] = $product->title;
-                            $appendProduct['url'] = $product->url;
-                            $appendProduct['content_body'] = $product->content_body;
-                            $appendProduct['content_meta_title'] = $product->content_meta_title;
-                            $appendProduct['content_meta_keywords'] = $product->content_meta_keywords;
-                        }
-
-                        $contentData = $product->contentData()->get();
-                        if ($contentData->count() > 0) {
-                            foreach ($contentData as $contentDataItem) {
-                                $appendProduct[$contentDataItem->field_name] = $contentDataItem->field_value;
-                            }
-                        }
-
-                        $contentField = $product->contentField()->get();
-                        if ($contentField->count() > 0) {
-                            foreach ($contentField as $contentFieldItem) {
-                                if (isset($contentFieldItem->multilanguage)) {
-                                    foreach ($contentFieldItem->multilanguage as $locale=>$mlFields) {
-                                        $appendProduct[$contentFieldItem->field.'_'.strtolower($locale)] = $mlFields['value'];
-                                    }
-                                } else {
-                                    $appendProduct[$contentFieldItem->field] = $contentFieldItem->value;
-                                }
-                            }
-                        }
-
-                        $appendProduct['price'] = $product->price;
-                        $appendProduct['special_price'] = $product->special_price;
-                        $appendProduct['qty'] = $product->qty;
-
-                        $appendProduct['in_stock'] = 0;
-                        if ($product->in_stock) {
-                            $appendProduct['in_stock'] = 1;
-                        }
-
-                        $appendProduct['is_active'] = $product->is_active;
-
-                        $tags = $product->tags->toArray();
-                        if (!empty($tags)) {
-                            $tagsPlainText = [];
-                            foreach ($tags as $tag) {
-                                $tagsPlainText[] = $tag['tag_name'];
-                            }
-                            $appendProduct['tags'] = implode(', ',$tagsPlainText);
-                        }
-
-                        $productCategories = $product->categories->toArray();
-
-                        if (!empty($productCategories)) {
-
-                            $productCategoryIds = [];
-                            foreach ($productCategories as $productCategory) {
-                                $productCategoryIds[] = $productCategory['category']['id'];
-                            }
-
-                            $appendProduct['category_ids'] = implode(',', $productCategoryIds);
-
-                            $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
-                            $getTree = $tree->get();
-                            if (!empty($getTree)) {
-                                $treeI = 0;
-                                foreach ($getTree as $treeItem) {
-                                    if (isset($treeItem['plain'])) {
-                                        $appendProduct['category_' . $treeI] = $treeItem['plain'];
-                                        $treeI++;
-                                    }
-                                }
-                            }
-                        }
-
-                        $firstLevelArray[] = $appendProduct;
-                    }
-
-                    if ($findExportFeed->export_format == 'csv') {
-                        $export = new CsvExport(['products' => $firstLevelArray]);
-                        $file = $export->start();
-
-                        return redirect($file['files'][0]['download']);
-                    }
-
-                    if ($findExportFeed->export_format == 'xml') {
-                        $export = new XmlExport(['products' => $firstLevelArray]);
-                        $file = $export->start();
-
-                        return redirect($file['files'][0]['download']);
-                    }
-
-                    if ($findExportFeed->export_format == 'xlsx') {
-                        $export = new XlsxExport(['products' => $firstLevelArray]);
-                        $file = $export->start();
-
-                        return redirect($file['files'][0]['download']);
-                    }
-
+                    $exportData = $this->exportProductOneLevelArray();
                 }
             }
+
+            if ($findExportFeed->export_type == 'categories') {
+                if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+                    $exportData = $this->exportCategoriesOneLevelArray();
+                }
+            }
+
+            if ($findExportFeed->export_type == 'posts') {
+                if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+                    $exportData = $this->exportPostsOneLevelArray();
+                }
+            }
+
+            if ($findExportFeed->export_format == 'csv') {
+                $export = new CsvExport([$findExportFeed->export_type => $exportData]);
+                $file = $export->start();
+
+                return redirect($file['files'][0]['download']);
+            }
+
+            if ($findExportFeed->export_format == 'xml') {
+                $export = new XmlExport([$findExportFeed->export_type => $exportData]);
+                $file = $export->start();
+
+                return redirect($file['files'][0]['download']);
+            }
+
+            if ($findExportFeed->export_format == 'xlsx') {
+                $export = new XlsxExport([$findExportFeed->export_type => $exportData]);
+                $file = $export->start();
+
+                return redirect($file['files'][0]['download']);
+            }
         }
+    }
+
+    public function exportCategoriesOneLevelArray()
+    {
+        $exportData = [];
+        $categoryTreeItems = app()->category_repository->tree();
+        if (!empty($categoryTreeItems)) {
+            $categoriesPlain = [];
+            foreach ($categoryTreeItems as $categoryTreeItem) {
+                $tree = new BuildCategoryTree($categoryTreeItem);
+                $getTree = $tree->get();
+                if (isset($getTree['plain'])) {
+                    $categoriesPlain[] = $getTree['plain'];
+                }
+            }
+            $exportData['categories'] = $categoriesPlain;
+        }
+
+        return $exportData;
+    }
+
+    public function exportPostsOneLevelArray()
+    {
+        $exportData = [];
+        $categoryTreeItems = app()->category_repository->tree();
+        $getAllPosts = Post::all();
+
+        foreach ($getAllPosts as $post) {
+
+            $appendPost = [];
+            $appendPost['id'] = $post->id;
+            $appendPost['parent_id'] = $post->parent;
+
+            if (isset($post->multilanguage)) {
+                foreach ($post->multilanguage as $locale=>$mlFields) {
+                    foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
+                        $appendPost[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                    }
+                }
+            }  else {
+                $appendPost['title'] = $post->title;
+                $appendPost['url'] = $post->url;
+                $appendPost['content_body'] = $post->content_body;
+                $appendPost['content_meta_title'] = $post->content_meta_title;
+                $appendPost['content_meta_keywords'] = $post->content_meta_keywords;
+            }
+
+            $contentData = $post->contentData()->get();
+            if ($contentData->count() > 0) {
+                foreach ($contentData as $contentDataItem) {
+                    $appendPost[$contentDataItem->field_name] = $contentDataItem->field_value;
+                }
+            }
+
+            $contentField = $post->contentField()->get();
+            if ($contentField->count() > 0) {
+                foreach ($contentField as $contentFieldItem) {
+                    if (isset($contentFieldItem->multilanguage)) {
+                        foreach ($contentFieldItem->multilanguage as $locale=>$mlFields) {
+                            $appendPost[$contentFieldItem->field.'_'.strtolower($locale)] = $mlFields['value'];
+                        }
+                    } else {
+                        $appendPost[$contentFieldItem->field] = $contentFieldItem->value;
+                    }
+                }
+            }
+
+            $appendPost['is_active'] = $post->is_active;
+
+            $tags = $post->tags->toArray();
+            if (!empty($tags)) {
+                $tagsPlainText = [];
+                foreach ($tags as $tag) {
+                    $tagsPlainText[] = $tag['tag_name'];
+                }
+                $appendPost['tags'] = implode(', ',$tagsPlainText);
+            }
+
+            $postCategories = $post->categories->toArray();
+
+            if (!empty($postCategories)) {
+
+                $postCategoryIds = [];
+                foreach ($postCategories as $postCategory) {
+                    $postCategoryIds[] = $postCategory['category']['id'];
+                }
+
+                $appendPost['category_ids'] = implode(',', $postCategoryIds);
+
+                $tree = new BuildProductCategoryTree($categoryTreeItems, $postCategories);
+                $getTree = $tree->get();
+                if (!empty($getTree)) {
+                    $treeI = 0;
+                    foreach ($getTree as $treeItem) {
+                        if (isset($treeItem['plain'])) {
+                            $appendPost['category_' . $treeI] = $treeItem['plain'];
+                            $treeI++;
+                        }
+                    }
+                }
+            }
+
+            $exportData[] = $appendPost;
+        }
+
+        return $exportData;
+    }
+
+    public function exportProductOneLevelArray()
+    {
+        $exportData = [];
+        $categoryTreeItems = app()->category_repository->tree();
+        $getAllProducts = Product::all();
+
+        foreach ($getAllProducts as $product) {
+
+            $appendProduct = [];
+            $appendProduct['id'] = $product->id;
+            $appendProduct['parent_id'] = $product->parent;
+
+            if (isset($product->multilanguage)) {
+                foreach ($product->multilanguage as $locale=>$mlFields) {
+                    foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
+                        $appendProduct[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                    }
+                }
+            }  else {
+                $appendProduct['title'] = $product->title;
+                $appendProduct['url'] = $product->url;
+                $appendProduct['content_body'] = $product->content_body;
+                $appendProduct['content_meta_title'] = $product->content_meta_title;
+                $appendProduct['content_meta_keywords'] = $product->content_meta_keywords;
+            }
+
+            $contentData = $product->contentData()->get();
+            if ($contentData->count() > 0) {
+                foreach ($contentData as $contentDataItem) {
+                    $appendProduct[$contentDataItem->field_name] = $contentDataItem->field_value;
+                }
+            }
+
+            $contentField = $product->contentField()->get();
+            if ($contentField->count() > 0) {
+                foreach ($contentField as $contentFieldItem) {
+                    if (isset($contentFieldItem->multilanguage)) {
+                        foreach ($contentFieldItem->multilanguage as $locale=>$mlFields) {
+                            $appendProduct[$contentFieldItem->field.'_'.strtolower($locale)] = $mlFields['value'];
+                        }
+                    } else {
+                        $appendProduct[$contentFieldItem->field] = $contentFieldItem->value;
+                    }
+                }
+            }
+
+            $appendProduct['price'] = $product->price;
+            $appendProduct['special_price'] = $product->special_price;
+            $appendProduct['qty'] = $product->qty;
+
+            $appendProduct['in_stock'] = 0;
+            if ($product->in_stock) {
+                $appendProduct['in_stock'] = 1;
+            }
+
+            $appendProduct['is_active'] = $product->is_active;
+
+            $tags = $product->tags->toArray();
+            if (!empty($tags)) {
+                $tagsPlainText = [];
+                foreach ($tags as $tag) {
+                    $tagsPlainText[] = $tag['tag_name'];
+                }
+                $appendProduct['tags'] = implode(', ',$tagsPlainText);
+            }
+
+            $productCategories = $product->categories->toArray();
+
+            if (!empty($productCategories)) {
+
+                $productCategoryIds = [];
+                foreach ($productCategories as $productCategory) {
+                    $productCategoryIds[] = $productCategory['category']['id'];
+                }
+
+                $appendProduct['category_ids'] = implode(',', $productCategoryIds);
+
+                $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
+                $getTree = $tree->get();
+                if (!empty($getTree)) {
+                    $treeI = 0;
+                    foreach ($getTree as $treeItem) {
+                        if (isset($treeItem['plain'])) {
+                            $appendProduct['category_' . $treeI] = $treeItem['plain'];
+                            $treeI++;
+                        }
+                    }
+                }
+            }
+
+            $exportData[] = $appendProduct;
+        }
+
+        return $exportData;
     }
 }
