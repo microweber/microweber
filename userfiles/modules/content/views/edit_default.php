@@ -319,20 +319,20 @@ if (isset($params['quick_edit'])) {
                                 if($wrapper_class=='in-popup'){ ?>
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
                                         <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                            </i><span ><?php _e("Live Edit"); ?></span>
+                                            <i class="mdi mdi-eye-outline me-1"></i><span ><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
                                 <?php } else { ?>
 
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
                                         <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                            </i><span><?php _e("Live Edit"); ?></span>
+                                            <i class="mdi mdi-eye-outline me-1"></i><span><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
 
                                 <?php } ?>
 
-                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><i class="mdi mdi-content-save me-1"></i><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
