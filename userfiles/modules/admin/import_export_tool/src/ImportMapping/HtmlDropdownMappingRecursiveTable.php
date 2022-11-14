@@ -173,12 +173,6 @@ trait HtmlDropdownMappingRecursiveTable
         return $html;
     }
 
-
-    public $automaticSelectedOptions = [];
-    public function getAutomaticSelectedOptions() {
-        return $this->automaticSelectedOptions;
-    }
-
     private function dropdownSelect($mapKey)
     {
         $selectOptions = [];
@@ -220,9 +214,6 @@ trait HtmlDropdownMappingRecursiveTable
             if (!isset($option['name'])) {
                 continue;
             }
-            if ($option['selected']) {
-                $this->automaticSelectedOptions[$mapKeyHtml] = $name;
-            }
             $itemIsFindedInGroup = false;
             foreach ($itemGroups as $groupName=>$groupItems) {
                 foreach ($groupItems as $groupItem) {
@@ -244,6 +235,7 @@ trait HtmlDropdownMappingRecursiveTable
                         $dropdowns[$groupName][] = [
                             'value'=>$name,
                             'name'=>$option['name'],
+                            'selected'=>$option['selected'],
                         ];
                     }
                 }
@@ -252,6 +244,7 @@ trait HtmlDropdownMappingRecursiveTable
                 $dropdowns[ucfirst($this->importTo)][] = [
                     'value'=>$name,
                     'name'=>$option['name'],
+                    'selected'=>$option['selected'],
                 ];
             }
         }

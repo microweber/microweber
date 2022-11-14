@@ -15,6 +15,7 @@
     @endphp
 
     <div class="js-dropdown-select-wrapper {{$activeClass}}">
+
         <select class="form-control" wire:model="selectField">
 
             <option value="none">Select</option>

@@ -20,6 +20,19 @@ class DropdownMapping extends Component
     public $customContentData = false;
     public $categoryAddType = false;
 
+    public function mount()
+    {
+        if (!empty($this->dropdowns)) {
+            foreach ($this->dropdowns as $groupName=>$groupItems) {
+                foreach($groupItems as $groupItem) {
+                    if ($groupItem['selected']) {
+                        $this->selectField = $groupItem['value'];
+                    }
+                }
+            }
+        }
+    }
+
     public function updatedCategoryAddType()
     {
         $this->updateFeedMapKeys();
@@ -120,6 +133,7 @@ class DropdownMapping extends Component
     {
         $findFeed = ImportFeed::where('id', $this->importFeedId)->first();
         if ($findFeed) {
+
             if (isset($findFeed->mapped_tags[$this->mapKey])) {
                 $this->selectField = $findFeed->mapped_tags[$this->mapKey];
             }
