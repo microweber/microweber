@@ -14,54 +14,96 @@
                 </div>
             </div>
         </div>
+        <?php if(isset($params['show_add_post_to_category_button'])): ?>
+        <?php endif; ?>
+
         <div class="card-body pt-3">
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
 
-                      mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
-                        options: {
-                            sortable: '>.type-category',
-                            sortableHandle: '.mw-tree-item-content',
-                            selectable: false,
-                            singleSelect: true,
-                            saveState: true,
-                            searchInput: true,
-                            skin: 'category-manager',
-                            contextMenu: [
-                                {
-                                    title: mw.lang('Edit'),
-                                    icon: 'mdi mdi-pencil',
-                                    action: function (element, data, menuitem) {
-                                        if (data.type === 'category') {
-                                            self.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
-                                        } else if (data.type === 'page') {
-                                            self.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
-                                        }
-                                    },
-                                    filter: function (obj, node) {
-                                        return obj.type === 'category';
-                                    },
-                                    className: 'btn btn-outline-primary btn-sm'
-                                },
-                                {
-                                    title: mw.lang('Delete'),
-                                    icon: 'mdi mdi-delete',
-                                    action: function (element, data, menuitem) {
-                                        if (data.type === 'category') {
-                                            mw.content.deleteCategory(data.id, function () {
-                                                $(element).fadeOut(function () {
-                                                    $(element).remove()
-                                                })
-                                            }, false);
-                                        }
-                                    },
-                                    filter: function (obj, node) {
-                                        return obj.type === 'category';
-                                    },
-                                    className: 'btn btn-outline-danger btn-sm'
+                <?php if(isset($params['show_add_post_to_category_button'])): ?>
+
+                treeDataOpts = {
+                    sortable: '>.type-category',
+                    sortableHandle: '.mw-tree-item-content',
+                    selectable: false,
+                    singleSelect: true,
+                    saveState: true,
+                    searchInput: true,
+                    skin: 'category-manager',
+                    contextMenu: [
+
+                        {
+                            title: mw.lang('Select'),
+                            icon: 'mdi mdi-check',
+                            action: function (element, data, menuitem) {
+                                mw.top().trigger("mwSelectToAddCategoryToContent", data.id);
+                            },
+                            filter: function (obj, node) {
+                                return obj.type === 'category';
+                            },
+
+                            className: 'btn btn-outline-success btn-sm  '
+                        }
+
+
+
+                    ]
+                };
+                <?php else: ?>
+                treeDataOpts = {
+                    sortable: '>.type-category',
+                    sortableHandle: '.mw-tree-item-content',
+                    selectable: false,
+                    singleSelect: true,
+                    saveState: true,
+                    searchInput: true,
+                    skin: 'category-manager',
+                    contextMenu: [
+
+
+
+                        {
+                            title: mw.lang('Edit'),
+                            icon: 'mdi mdi-pencil',
+                            action: function (element, data, menuitem) {
+                                if (data.type === 'category') {
+                                    self.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+                                } else if (data.type === 'page') {
+                                    self.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                 }
-                            ]
+                            },
+                            filter: function (obj, node) {
+                                return obj.type === 'category';
+                            },
+                            className: 'btn btn-outline-primary btn-sm'
                         },
+                        {
+                            title: mw.lang('Delete'),
+                            icon: 'mdi mdi-delete',
+                            action: function (element, data, menuitem) {
+                                if (data.type === 'category') {
+                                    mw.content.deleteCategory(data.id, function () {
+                                        $(element).fadeOut(function () {
+                                            $(element).remove()
+                                        })
+                                    }, false);
+                                }
+                            },
+                            filter: function (obj, node) {
+                                return obj.type === 'category';
+                            },
+                            className: 'btn btn-outline-danger btn-sm'
+                        }
+
+
+
+                    ]
+                };
+                <?php endif; ?>
+
+                      mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
+                        options: treeDataOpts,
                         params: {
                             no_limit: true,
                             <?php if(isset($params['is_shop'])): ?>

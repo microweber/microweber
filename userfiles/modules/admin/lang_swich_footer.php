@@ -13,7 +13,10 @@ if (MultilanguageHelpers::multilanguageIsEnabled()) {
 } else {
     $supportedLanguages = array();
     $supportedLanguagesFiles = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations('json');
-    if($supportedLanguagesFiles){
+
+
+    //$getTranslationLocalesImported =  app()->translation_key_repostory->getImportedLocales();
+     if($supportedLanguagesFiles){
         foreach ($supportedLanguagesFiles as $langKey => $langName) {
             $item = [];
             $item['locale'] = $langKey;
@@ -22,6 +25,15 @@ if (MultilanguageHelpers::multilanguageIsEnabled()) {
         }
     }
 }
+
+
+if(empty($supportedLanguages)){
+    $item = [];
+    $item['locale'] = 'en_US';
+    $item['display_name'] = 'English';
+    $supportedLanguages[] = $item;
+}
+
 
 if ($supportedLanguages) {
 ?>
@@ -45,12 +57,22 @@ if ($supportedLanguages) {
                     <?php echo $languageDisplayName; ?>
                 </option>
             <?php endforeach; ?>
+
+            <option value="edit_languages_redirect">&#9998; Edit languages...</option>
         </select>
     </div>
 </div>
     <script>
         document.querySelector("#lang_selector_admin_footer").addEventListener("change", function () {
-            mw.admin.language(this.value);
+
+            if(this.value == 'edit_languages_redirect'){
+
+               window.location.href = '<?php print admin_url('view:settings#option_group=language'); ?>';
+
+            } else {
+                mw.admin.language(this.value);
+
+            }
         });
     </script>
 <?php } ?>

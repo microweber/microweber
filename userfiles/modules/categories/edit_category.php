@@ -291,7 +291,7 @@ if (isset($params['live_edit'])) {
         <div class="card-header">
             <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?></strong></h5>
             <div>
-                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
+                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
             </div>
         </div>
     <?php endif; ?>
