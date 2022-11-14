@@ -91,21 +91,32 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
                         }
 
                         $productCategories = $product->categories->toArray();
-                        $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
-                        $getTree = $tree->get();
-                        if (!empty($getTree)) {
-                            $treeI = 0;
-                            foreach ($getTree as $treeItem) {
-                                if (isset($treeItem['plain'])) {
-                                    $appendProduct['category_' . $treeI] = $treeItem['plain'];
-                                    $treeI++;
+
+                        if (!empty($productCategories)) {
+
+                            $productCategoryIds = [];
+                            foreach ($productCategories as $productCategory) {
+                                $productCategoryIds[] = $productCategory['category']['id'];
+                            }
+
+                            $appendProduct['category_ids'] = implode(',', $productCategoryIds);
+
+                            $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
+                            $getTree = $tree->get();
+                            if (!empty($getTree)) {
+                                $treeI = 0;
+                                foreach ($getTree as $treeItem) {
+                                    if (isset($treeItem['plain'])) {
+                                        $appendProduct['category_' . $treeI] = $treeItem['plain'];
+                                        $treeI++;
+                                    }
                                 }
                             }
                         }
 
                         $firstLevelArray[] = $appendProduct;
                     }
-
+                    
                     $export = new XlsxExport(['products'=>$firstLevelArray]);
                     $file = $export->start();
 
