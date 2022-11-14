@@ -175,7 +175,12 @@ class Parser
 
         foreach ($pq ['.module'] as $elem) {
             $name = pq($elem)->attr('module');
+            $type = pq($elem)->attr('data-type');
+            if(!$type){
+                $type = pq($elem)->attr('type');
+            }
             $attrs = $elem->attributes;
+
             $module_html = '<module ';
             $attrs2 = [];
             if (!empty($attrs)) {
@@ -183,8 +188,11 @@ class Parser
                     $attrs2[$attribute_name] = $attribute_node->nodeValue;
                 }
             }
+
+
+
             if (!empty($attrs2)) {
-                $attrs2 = array_unique($attrs2);
+
                 foreach ($attrs2 as $attribute_name => $attribute_node) {
                     //$v = $attribute_node->nodeValue;
                     $v = $attribute_node;
@@ -200,9 +208,12 @@ class Parser
             }
             $module_html .= ' />';
 
-
             $has_type_attribute = false;
             if(isset( $attrs2['type'] ) or isset( $attrs2['data-type'] ) or isset( $attrs2['module'] )){
+                $has_type_attribute = true;
+
+            }
+            if($type){
                 $has_type_attribute = true;
 
             }

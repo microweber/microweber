@@ -181,4 +181,24 @@ HTML;
     }
 
 
+    public function testParsingModuleTags()
+    {
+
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $layout = <<<HTML
+<div class="module module-highlight-code" data-mw-title="highlight_code" data-type="highlight_code" id="highlight-code-20221114094239" parent-module="highlight_code" parent-module-id="highlight-code-20221114094239"></div>
+
+HTML;
+        $layout = app()->parser->make_tags($layout);
+        $layout = trim($layout);
+        $expected = '<module class="module module-highlight-code" data-mw-title="highlight_code" data-type="highlight_code" id="highlight-code-20221114094239" parent-module="highlight_code" parent-module-id="highlight-code-20221114094239"></module>';
+        $this->assertEquals($layout, $expected);
+
+
+    }
+
+
 }
