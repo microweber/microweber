@@ -54,6 +54,16 @@ class ContentRepository extends AbstractRepository
         });
     }
 
+    /**
+     * Build category tree for content
+     * @return void
+     */
+    public function categoryTree($id)
+    {
+        $allCategories = app()->category_repository->all();
+        $categoryContents = $this->content_repository->getCategories($id);
+
+    }
 
     /**
      * Find categories for content
