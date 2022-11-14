@@ -126,7 +126,7 @@ trait HtmlDropdownMappingRecursiveTable
                         $mapKey = implode('.', $getParentMapKey);
 
                         if (Str::startsWith($mapKey, $contentParentTags)) {
-                            $html .= "<td class='tag_select' style='width:300px'>" . $this->dropdownSelect($mapKey) . "</td>";
+                            $html .= "<td class='tag_select' style='width:300px'>" . $this->dropdownSelect($mapKey, $value) . "</td>";
                         } else{
                             $html .= "";
                         }
@@ -173,7 +173,7 @@ trait HtmlDropdownMappingRecursiveTable
         return $html;
     }
 
-    private function dropdownSelect($mapKey)
+    private function dropdownSelect($mapKey, $value = false)
     {
         $selectOptions = [];
 
@@ -192,9 +192,12 @@ trait HtmlDropdownMappingRecursiveTable
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
-                    if (stripos($mapKey, $itemMapKey) !== false) {
-                        $selected = true;
-                        break;
+                    $mapKeyExp = explode('.',$mapKey);
+                    if (isset($mapKeyExp[1])) {
+                        if ($mapKeyExp[1] == $itemMapKey) {
+                            $selected = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -252,7 +255,8 @@ trait HtmlDropdownMappingRecursiveTable
         return \Livewire\Livewire::mount('import-export-tool::dropdown_mapping', [
                 'importFeedId'=>$this->import_feed['id'],
                 'dropdowns'=>$dropdowns,
-                'mapKey'=>$mapKeyHtml
+                'mapKey'=>$mapKeyHtml,
+                'value'=>$value,
             ]
         )->html();
 

@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
 
 use Livewire\Component;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
@@ -11,6 +12,7 @@ class DropdownMapping extends Component
 {
     public $importFeedId;
     public $mapKey;
+    public $value;
     public $dropdowns = [];
     public $selectField = false;
     public $mediaUrlSeparator = false;
@@ -26,7 +28,44 @@ class DropdownMapping extends Component
             foreach ($this->dropdowns as $groupName=>$groupItems) {
                 foreach($groupItems as $groupItem) {
                     if ($groupItem['selected']) {
+
                         $this->selectField = $groupItem['value'];
+
+                        if ($groupItem['value'] == 'media_urls') {
+                            foreach (ItemMapReader::$categorySeparators as $separator) {
+                                if (strpos($this->value, $separator) !== false) {
+                                    $this->mediaUrlSeparator = $separator;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($groupItem['value'] == 'categories') {
+                            foreach (ItemMapReader::$categorySeparators as $separator) {
+                                if (strpos($this->value, $separator) !== false) {
+                                    $this->categorySeparator = $separator;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($groupItem['value'] == 'tags') {
+                            foreach (ItemMapReader::$categorySeparators as $separator) {
+                                if (strpos($this->value, $separator) !== false) {
+                                    $this->tagsSeparator = $separator;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($groupItem['value'] == 'category_ids') {
+                            foreach (ItemMapReader::$categorySeparators as $separator) {
+                                if (strpos($this->value, $separator) !== false) {
+                                    $this->categoryIdSeparator = $separator;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }

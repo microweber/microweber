@@ -7,7 +7,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class ItemMapReader
 {
     public static $categorySeparators = [
-        '|', '>', ';', ',', '_'
+        '|', '>', ';', ',',
     ];
 
     public static $map = [
@@ -20,7 +20,7 @@ class ItemMapReader
         'content_data.weight' => ['weight'],
         'content_data.weight_type' => ['weight_type'],
         'content_data.barcode' => ['barcode', 'gtin', 'g:gtin'],
-        'content_data.external_id' => ['id', 'g:id'],
+        'content_data.external_id' => ['g:id'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
         'media_urls' => ['image', 'g:image_link','media_urls'],
@@ -30,6 +30,7 @@ class ItemMapReader
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price','shipping_fixed_cost'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
+        'category_ids' => ['category_ids'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
         'is_active' => ['isEnable', 'isEnabled', 'isActive','is_active'],
