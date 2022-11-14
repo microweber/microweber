@@ -7,14 +7,21 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CategoryItem extends Model
 {
-
     use CacheableQueryBuilderTrait;
 
     public $table = 'categories_items';
     public $timestamps = false;
 
 
+    /**
+     * @deprecated
+     */
     public function parent()
+    {
+        return $this->category();
+    }
+
+    public function category()
     {
         return $this->hasOne(Category::class,  'id', 'parent_id');
     }

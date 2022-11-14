@@ -35,7 +35,7 @@ class CsvExport extends DefaultExport
 				$generateFileName = $this->_generateFilename($tableName);
 
 				$csv = \League\Csv\Writer::createFromPath($generateFileName['filepath'], 'w');
-				$csv->setEncodingFrom('UTF-8');
+				//$csv->setEncodingFrom('UTF-8');
 				$csv->setOutputBOM(\League\Csv\Writer::BOM_UTF8);
 				$csv->insertOne(array_keys(reset($exportData)));
 				$csv->insertAll($exportData);
