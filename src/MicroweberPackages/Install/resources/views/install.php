@@ -582,7 +582,7 @@
                                                     <label class="control-label">Database Engine</label>
                                                     <small class="text-muted d-block mb-2">Choose the database type</small>
 
-                                                    <select class="form-control" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
+                                                    <select class="form-select" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
                                                         <?php foreach ($dbEngines as $engine): ?>
                                                             <option value="<?php print $engine; ?>"
                                                                 <?php if ($dbDefaultEngine == $engine) {
@@ -655,7 +655,7 @@
                                                             </div>
 
                                                             <div class="col px-0">
-                                                                <select class="form-control" name="default_template" id="default_template" tabindex="6">
+                                                                <select class="form-select" name="default_template" id="default_template" tabindex="6">
                                                                     <?php foreach ($templates as $template): ?>
                                                                         <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
                                                                             <option value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
@@ -723,7 +723,7 @@
                                                         $tm = new \MicroweberPackages\Translation\TranslationPackageInstallHelper();
                                                         $langs = $tm->getAvailableTranslations();
                                                         ?>
-                                                        <select name="site_lang" class="form-control" tabindex="8">
+                                                        <select name="site_lang" class="form-select" tabindex="8">
                                                             <?php foreach ($langs as $langKey=>$langValue): ?>
                                                                 <option <?php if ($dbDefaultLang and $dbDefaultLang == $langKey): ?> selected <?php endif; ?> value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
                                                             <?php endforeach; ?>

@@ -63,8 +63,9 @@ class TranslationPackageInstallHelper
         return $translations;
     }
 
-    public static function installLanguage($locale)
+    public static function installLanguage( string $locale)
     {
+        $locale = str_replace('..', '', $locale);
         $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {

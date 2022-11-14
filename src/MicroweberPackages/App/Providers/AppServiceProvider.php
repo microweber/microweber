@@ -700,6 +700,7 @@ class AppServiceProvider extends ServiceProvider
         $isLocaleChangedFromMultilanguageLogics = false;
 
         $currentUri = request()->path();
+        $langCookie = request()->cookie('lang');
 
         //  Change language if user request language with LINK has lang abr
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
@@ -710,7 +711,7 @@ class AppServiceProvider extends ServiceProvider
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
-                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
 
                     change_language_by_locale($locale, true);
                 }
@@ -723,14 +724,14 @@ class AppServiceProvider extends ServiceProvider
 
                 if (!empty($linkSegments)) {
                     if (isset($linkSegments[0]) and $linkSegments[0]) {
-                        $skip_items = ['api','token'];
+                        $skip_items = ['api', 'token'];
 
-                        if(!in_array($linkSegments[0], $skip_items)){
+                        if (!in_array($linkSegments[0], $skip_items)) {
                             $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($linkSegments[0]);
                             if (!$localeSettings) {
                                 $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($linkSegments[0]);
                             }
-                            if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                            if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
                                 $isLocaleChangedFromMultilanguageLogics = true;
 
                                 $needToChangeLocale = true;
@@ -740,8 +741,8 @@ class AppServiceProvider extends ServiceProvider
                                         $needToChangeLocaleCookie = false;
                                     }
                                 }
-                             //   $needToChangeLocale = true;
-                                if($needToChangeLocale){
+                                //   $needToChangeLocale = true;
+                                if ($needToChangeLocale) {
                                     change_language_by_locale($localeSettings['locale'], $needToChangeLocaleCookie);
                                 }
                             }
@@ -755,8 +756,8 @@ class AppServiceProvider extends ServiceProvider
         if (!$isLocaleChangedFromMultilanguageLogics) {
 
             // If we have a lang cookie read from theere
-            if (isset($_COOKIE['lang']) && !empty($_COOKIE['lang'])) {
-                $setCurrentLangTo = $_COOKIE['lang'];
+            if (isset($langCookie) && ($langCookie)) {
+                $setCurrentLangTo = $langCookie;
             } else {
                 if (MultilanguageHelpers::multilanguageIsEnabled()) {
                     // Set from default homepage lang settings
@@ -769,8 +770,14 @@ class AppServiceProvider extends ServiceProvider
 
 
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
-                $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
-                if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] =='y') {
+                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
+
+                    $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
+                    if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
+                        set_current_lang($setCurrentLangTo);
+                    }
+                } else {
                     set_current_lang($setCurrentLangTo);
                 }
             }
