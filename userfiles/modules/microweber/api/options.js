@@ -288,8 +288,9 @@ mw.options = {
 
                                 if (module_parent_edit_field) {
                                    // window.mw.parent().tools.addClass(module_parent_edit_field, 'changed');
-                                    window.mw.parent().wysiwyg.change(module_parent_edit_field)
+                                    window.mw.parent().wysiwyg.change(module_parent_edit_field);
                                     window.mw.parent().askusertostay = true;
+
 
                                 }
                             }

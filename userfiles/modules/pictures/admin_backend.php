@@ -89,7 +89,7 @@ if ($for_id != false) {
         if (e !== 'done') {
             var data = {};
             data['for'] = f;
-            data.src = a;
+            data.src = Array.isArray(a) ? a[0] : a;
             data.media_type = 'picture';
 
             if (!id) {
@@ -105,11 +105,7 @@ if ($for_id != false) {
                 if (typeof load_iframe_editor === 'function') {
                     load_iframe_editor();
                 }
-                // mw.reload_module('#' + module_id);
                 mw.reload_module_everywhere('pictures/admin_backend_sortable_pics_list');
-
-                //
-
 
                 mw.reload_module_parent('pictures');
                 if (self !== top && typeof parent.mw === 'object') {

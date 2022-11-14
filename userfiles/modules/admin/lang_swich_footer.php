@@ -28,7 +28,11 @@ if ($supportedLanguages) {
 
 <div class="form-group text-center">
      <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
-        <select name="lang" id="lang_selector_admin_footer" data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
+        <select
+            name="lang"
+            id="lang_selector_admin_footer"
+            data-width="100%"
+            data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
             <?php foreach ($supportedLanguages as $language): ?>
 
             <?php

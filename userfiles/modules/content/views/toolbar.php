@@ -315,12 +315,17 @@ if ($last_page_front != false) {
                 <div class="js-hide-when-no-items">
                     <div class="js-search-by-keywords">
                         <div class="form-inline flex-nowrap">
-                            <div class="input-group mb-0 prepend-transparent mx-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
-                                </div>
+                            <div class="input-group mb-0 mx-2">
 
-                                <input type="text" class="js-search-by-keywords-input   form-control form-control-sm" style="width: 100px;" value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>" <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus="autofocus"<?php endif; ?> placeholder="<?php _e("Search"); ?>" onkeyup="event.keyCode==13?mw.url.windowHashParam('search',this.value):false"/>
+                                <input
+                                    type="text"
+                                    class="js-search-by-keywords-input
+                                    form-control form-control-sm"
+                                    style="width: 100px;"
+                                    value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
+                                    <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>autofocus<?php endif; ?>
+                                    placeholder="<?php _e("Search"); ?>"
+                                    onkeydown="mw.event.is.enter(event) ? mw.url.windowHashParam('search',this.value) : false"/>
                             </div>
 
                             <button type="button" class="btn btn-primary btn-sm btn-icon" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i></button>

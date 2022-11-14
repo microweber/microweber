@@ -27,6 +27,12 @@
              pagesTree = null;
             (function (){
                 var treeNode = document.getElementById('js-page-tree');
+                var treeNodeParent = treeNode.parentElement;
+                treeNodeParent.classList.add('js-tree');
+                treeNodeParent.classList.add('tree');
+                mw
+                    .element('.main > aside')
+                    .after(treeNodeParent);
 
 
                 document

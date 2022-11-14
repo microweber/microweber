@@ -659,10 +659,7 @@ if ($action == 'posts') {
 
                         </script>
 
-                        <div class="input-group mb-0 prepend-transparent">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text bg-white px-2"><i class="mdi mdi-magnify"></i></span>
-                            </div>
+                        <div class="input-group mb-0">
                             <input type="text" class="form-control form-control-sm" aria-label="Search" id="main-tree-search" placeholder="<?php _e('Search'); ?>">
                         </div>
                     </div>

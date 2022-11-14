@@ -9,46 +9,27 @@ mw.require(mw.settings.modules_url + '/categories/categories.js');
 var _adm = {
 
     language: function(language) {
-        if (typeof(mw.notification) != 'undefined') {
+        if (mw.notification) {
             mw.notification.success('Changing language...',10000);
         }
-        $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
-            .done(function (data) {
-                if (typeof(mw.notification) != 'undefined') {
-                    mw.notification.success('Language changed! Reloading page...');
-                }
-                setTimeout(function(){
-                  //  window.location.href = window.location.href;
+        var url = mw.settings.api_url + 'multilanguage/change_language';
+        $.post(url, {locale: language, is_admin: 1}).done(function () {
+            if (mw.notification) {
+                mw.notification.success('Language changed! Reloading page...');
+            }
+            setTimeout(function(){
                 location.reload();
-                }, 1000);
-
-               // location.reload();
-            });
+            }, 1000);
+        });
     },
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
-            /*
-              if (!!frame && frame !== null && !!frame.contentWindow) {
-                  var width_mbar = mw.$('#main-bar').width(),
-                      tree = document.querySelector('.tree-column'),
-                      width_tbar = mw.$(tree).width(),
-                      ww = mw.$(window).width();
-                  if (tree.style.display === 'none') {
-                      width_tbar = 0;
-                  }
-                  if (width_mbar > 200) {
-                      width_mbar = 0;
-                  }
-                  mw.$(frame)
-                      .width(ww - width_tbar - width_mbar - 35)
-                      .height(frame.contentWindow.document.body.offsetHeight);
-              }*/
         },
         init: function (area, params) {
             params = params || {};
             if (typeof params === 'object') {
-                if (typeof params.src != 'undefined') {
+                if (typeof params.src !== 'undefined') {
                     delete(params.src);
                 }
             }
@@ -57,7 +38,6 @@ var _adm = {
             area = mw.$(area);
             var frame = document.createElement('iframe');
             frame.src = mw.external_tool('wysiwyg?' + params);
-            console.log(mw.external_tool('wysiwyg?' + params))
             frame.className = 'mw-iframe-editor';
             frame.scrolling = 'no';
             var name = 'mweditor' + mw.random();
@@ -272,6 +252,7 @@ mw.admin.tree = function (target, opt, mode) {
             on: {
                 selectionChange: function () {
                     mw.askusertostay = true;
+
                 }
             }
         };
@@ -442,7 +423,7 @@ $(mww).on('load', function () {
         mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active');
     });
 
-    var nodes = mw.element('.main.container > aside,.main.container > .tree');
+    var nodes = mw.element('.main.container > aside,.main.container .tree');
     var ol = mw.element('<i class="admin-mobile-navi-overlay"></i>');
     nodes.after(ol);
     var buttons = Array.from(document.querySelectorAll('.js-toggle-mobile-nav,.admin-mobile-navi-overlay'));

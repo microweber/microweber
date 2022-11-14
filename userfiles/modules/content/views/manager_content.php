@@ -257,7 +257,7 @@
             <?php if (isset($post_params['content_type']) AND $post_params['content_type'] == 'page'): ?>
                 <div class="row">
                     <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_pages.svg');">
+                        <div class="no-items-box">
                             <h4><?php _e('You don’t have pages'); ?></h4>
                             <p><?php _e('Create your first page right now.'); ?><br/>
                                 <?php _e( 'You are able to do that in very easy way!'); ?></p>
@@ -269,7 +269,7 @@
             <?php else: ?>
                 <div class="row">
                     <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
+                        <div class="no-items-box">
                             <h4><?php _e('You don’t have any posts yet'); ?></h4>
                             <p><?php _e('Create your first post right now.'); ?><br/>
                                 <?php _e('You are able to do that in very easy way!'); ?> </p>
