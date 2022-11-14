@@ -116,7 +116,7 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 
                         $firstLevelArray[] = $appendProduct;
                     }
-                    
+
                     $export = new XlsxExport(['products'=>$firstLevelArray]);
                     $file = $export->start();
 
