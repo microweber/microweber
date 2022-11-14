@@ -23,7 +23,7 @@ class ItemMapReader
         'content_data.external_id' => ['id', 'g:id'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
-        'media_urls' => ['image', 'g:image_link'],
+        'media_urls' => ['image', 'g:image_link','media_urls'],
         'price' => ['price', 'g:price'],
         'id' => ['id'],
         'parent' => ['parent_id'],
