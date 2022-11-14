@@ -5,6 +5,7 @@ namespace MicroweberPackages\Content;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -1061,12 +1062,15 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
 
+                        $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
 
 //  AntiXSS makes bug on save convertind comments to htmlentities
 //                        $antixss = new AntiXSS();
 //                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
+
+                  //      $xssClean = new XSSClean();
+                   //     $html_to_save = $content = $xssClean->clean($html_to_save);
 
 
 
