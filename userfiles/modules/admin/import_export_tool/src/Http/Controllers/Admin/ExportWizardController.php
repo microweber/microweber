@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
@@ -92,6 +93,40 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
     }
 
     public function exportCategoriesOneLevelArray()
+    {
+        $exportData = [];
+
+        $getAllCategories = Category::all();
+        if ($getAllCategories->count() > 0) {
+            foreach ($getAllCategories as $category) {
+                $appendCategory = [];
+
+                $appendCategory['id'] = $category->id;
+                $appendCategory['parent_id'] = $category->parent_id;
+                $appendCategory['title'] = $category->title;
+                $appendCategory['url'] = $category->url;
+                $appendCategory['is_deleted'] = $category->is_deleted;
+                $appendCategory['is_hidden'] = $category->is_hidden;
+                $appendCategory['category_meta_title'] = $category->category_meta_title;
+                $appendCategory['category_meta_keywords'] = $category->category_meta_keywords;
+                $appendCategory['category_meta_description'] = $category->category_meta_description;
+
+                if (isset($category->multilanguage)) {
+                    foreach ($category->multilanguage as $locale=>$mlFields) {
+                        foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
+                            $appendCategory[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                        }
+                    }
+                }
+
+                $exportData[] = $appendCategory;
+            }
+        }
+
+        return $exportData;
+    }
+
+    public function exportCategoriesPlainOneLevelArray()
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
