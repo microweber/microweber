@@ -393,6 +393,15 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
                 }
             }
 
+            $getProductMedia = $product->media()->get();
+            if ($getProductMedia->count() > 0) {
+                $imageUrls = [];
+                foreach ($getProductMedia as $media) {
+                    $imageUrls[] = $media->filename;
+                }
+                $appendProduct['media_urls'] = implode(',', $imageUrls);
+            }
+
             $exportData[] = $appendProduct;
         }
 
