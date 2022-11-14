@@ -14,6 +14,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-body pt-3">
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
@@ -28,6 +29,22 @@
                             searchInput: true,
                             skin: 'category-manager',
                             contextMenu: [
+
+                                <?php if(isset($params['show_add_post_to_category_button'])): ?>
+                                {
+                                    title: mw.lang('Select'),
+                                    icon: 'mdi mdi-check',
+                                    action: function (element, data, menuitem) {
+                                        mw.top().trigger("mwSelectToAddCategoryToContent", data.id);
+                                    },
+                                    filter: function (obj, node) {
+                                        return obj.type === 'category';
+                                    },
+
+                                    className: 'btn btn-outline-success btn-sm  '
+                                },
+                                <?php endif; ?>
+
                                 {
                                     title: mw.lang('Edit'),
                                     icon: 'mdi mdi-pencil',
@@ -60,6 +77,8 @@
                                     },
                                     className: 'btn btn-outline-danger btn-sm'
                                 }
+
+
                             ]
                         },
                         params: {
