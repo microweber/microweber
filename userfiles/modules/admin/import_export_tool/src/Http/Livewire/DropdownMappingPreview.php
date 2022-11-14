@@ -33,10 +33,6 @@ class DropdownMappingPreview extends Component
         $this->setContentParentTags($importFeed->content_tag);
         $this->setImportTo($this->import_feed['import_to']);
 
-        if (empty($this->import_feed['mapped_tags'])) {
-            $this->import_feed['mapped_tags'] = $this->getAutomaticSelectedOptions();
-        }
-
     }
 
     public function mount($importFeedId)

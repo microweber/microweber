@@ -120,6 +120,7 @@ class DropdownMapping extends Component
     {
         $findFeed = ImportFeed::where('id', $this->importFeedId)->first();
         if ($findFeed) {
+
             if (isset($findFeed->mapped_tags[$this->mapKey])) {
                 $this->selectField = $findFeed->mapped_tags[$this->mapKey];
             }

@@ -15,6 +15,7 @@
     @endphp
 
     <div class="js-dropdown-select-wrapper {{$activeClass}}">
+
         <select class="form-control" wire:model="selectField">
 
             <option value="none">Select</option>
@@ -22,7 +23,7 @@
             @foreach($dropdowns as $groupName=>$groupItems)
                 <optgroup label="{{$groupName}}">
                     @foreach($groupItems as $groupItem)
-                    <option value="{{$groupItem['value']}}">{{$groupItem['name']}}</option>
+                    <option @if($groupItem['selected']) selected="selected" @endif value="{{$groupItem['value']}}">{{$groupItem['name']}}</option>
                     @endforeach
                 </optgroup>
             @endforeach
