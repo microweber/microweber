@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
+use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\BuildProductCategoryTree;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -18,17 +20,31 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
         ]);
     }
 
+    public function deleteFile($id)
+    {
+        $findExportFeed = ExportFeed::where('id', $id)->first();
+        if ($findExportFeed) {
+            $findExportFeed->delete();
+        }
+
+        return redirect(route('admin.import-export-tool.index-exports'));
+    }
+
     public function file($id)
     {
 
         $findExportFeed = ExportFeed::where('id', $id)->first();
         if ($findExportFeed) {
+
+            $findExportFeed->is_draft = 0;
+            $findExportFeed->save();
+
             if ($findExportFeed->export_type == 'products') {
 
                 $categoryTreeItems = app()->category_repository->tree();
 
                 $getAllProducts = Product::all();
-                if ($findExportFeed->export_format == 'xlsx') {
+                if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                     $firstLevelArray = [];
                     foreach ($getAllProducts as $product) {
 
@@ -117,10 +133,26 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
                         $firstLevelArray[] = $appendProduct;
                     }
 
-                    $export = new XlsxExport(['products'=>$firstLevelArray]);
-                    $file = $export->start();
+                    if ($findExportFeed->export_format == 'csv') {
+                        $export = new CsvExport(['products' => $firstLevelArray]);
+                        $file = $export->start();
 
-                    return redirect($file['files'][0]['download']);
+                        return redirect($file['files'][0]['download']);
+                    }
+
+                    if ($findExportFeed->export_format == 'xml') {
+                        $export = new XmlExport(['products' => $firstLevelArray]);
+                        $file = $export->start();
+
+                        return redirect($file['files'][0]['download']);
+                    }
+
+                    if ($findExportFeed->export_format == 'xlsx') {
+                        $export = new XlsxExport(['products' => $firstLevelArray]);
+                        $file = $export->start();
+
+                        return redirect($file['files'][0]['download']);
+                    }
 
                 }
             }

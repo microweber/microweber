@@ -20,7 +20,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{route('admin.import-export-tool.index')}}" class="nav-link
+                        <a href="{{route('admin.import-export-tool.index-exports')}}" class="nav-link
              @if(route_is('admin.import-export-tool.index-exports')) active @endif ">
                             Exports
                         </a>

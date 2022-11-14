@@ -7,10 +7,6 @@
    <i class="fa fa-file-import"></i> New import
 </a>
 
-<a href="{{route('admin.import-export-tool.export-wizard')}}" class="btn btn-outline-primary">
-    <i class="fa fa-file-export"></i> New export
-</a>
-
 @if($import_feeds->count() == 0)
     <livewire:import_export_tool::no_feeds />
 @else
