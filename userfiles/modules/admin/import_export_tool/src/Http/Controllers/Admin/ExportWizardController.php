@@ -70,21 +70,30 @@ class ExportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
             }
 
             if ($findExportFeed->export_format == 'csv') {
+
                 $export = new CsvExport([$findExportFeed->export_type => $exportData]);
+                $export->setOverwrite(true);
+
                 $file = $export->start();
 
                 return redirect($file['files'][0]['download']);
             }
 
             if ($findExportFeed->export_format == 'xml') {
+
                 $export = new XmlExport([$findExportFeed->export_type => $exportData]);
+                $export->setOverwrite(true);
+
                 $file = $export->start();
 
                 return redirect($file['files'][0]['download']);
             }
 
             if ($findExportFeed->export_format == 'xlsx') {
+
                 $export = new XlsxExport([$findExportFeed->export_type => $exportData]);
+                $export->setOverwrite(true);
+
                 $file = $export->start();
 
                 return redirect($file['files'][0]['download']);
