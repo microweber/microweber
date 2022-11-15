@@ -22,7 +22,7 @@
                             foreach($import_feed['mapped_tags'] as $mappedTagKey=>$mappedTagName) {
                                 if($mappedTagName == 'id') {
                                     $primaryKeyIsMapped = $mappedTagKey;
-                                    $this->import_feed['primary_key'] = 'id';
+                                   // $this->import_feed['primary_key'] = 'id'; 
                                     break;
                                 }
                             }
