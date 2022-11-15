@@ -2,6 +2,7 @@
 
     @if(isset($importFeed['mapped_content']))
 
+
         <div class="mb-2 text-center">
             <b>{{count($importFeed['mapped_content'])}} products are imported</b>
         </div>
@@ -9,40 +10,19 @@
         <table class="table">
             <thead>
             <tr>
+                @foreach($importFeed['mapped_content'][0] as $field=>$fieldValue)
 
-                @if(isset($importFeed['mapped_content'][0]['pictures']))
-                    <td>Pictures</td>
-                @endif
+                    @if (is_string($field) && is_string($fieldValue))
+                        <td>{{$field}} </td>
+                    @endif
 
+                    @if (is_array($fieldValue))
+                        @foreach($fieldValue as $mlField=>$mlFieldValue)
+                          <td>{{$mlField}}</td>
+                        @endforeach
+                    @endif
 
-               @if(isset($importFeed['mapped_content'][0]['title']))
-                <td>Title</td>
-                @endif
-
-                @if(isset($importFeed['mapped_content'][0]['multilanguage']['title']))
-                    <td>Multilanguage Title </td>
-                @endif
-
-                @if(isset($importFeed['mapped_content'][0]['multilanguage']['description']))
-                    <td>Multilanguage Description </td>
-                @endif
-
-                @if(isset($importFeed['mapped_content'][0]['content_body']))
-                <td>Content Body</td>
-                @endif
-
-                @if(isset($importFeed['mapped_content'][0]['price']))
-                <td>Price</td>
-                @endif
-
-             {{--   @if(isset($importFeed['mapped_content'][0]['created_at']))
-                <td>Created at</td>
-                @endif
-
-                @if(isset($importFeed['mapped_content'][0]['updated_at']))
-                <td>Updated at</td>
-                @endif--}}
-
+                @endforeach
             </tr>
             </thead>
             <tbody>
