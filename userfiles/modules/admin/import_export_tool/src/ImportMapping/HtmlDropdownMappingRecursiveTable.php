@@ -6,8 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapCategoryReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
-
 
 trait HtmlDropdownMappingRecursiveTable
 {
@@ -192,8 +190,28 @@ trait HtmlDropdownMappingRecursiveTable
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
+
+                    $itemMapKey = 'multilanguage.title.en_US';
+
                     $mapKeyExp = explode('.',$mapKey);
                     if (isset($mapKeyExp[1])) {
+
+                        if (!empty($this->supported_languages)) {
+                            foreach ($this->supported_languages as $supportedLanguage) {
+                                $itemMapKeyLower = strtolower($itemMapKey);
+                                $mapKeyExpLower = strtolower($mapKeyExp[1]);
+                                $supportedLocale = strtolower($supportedLanguage['locale']);
+                                if (strpos($mapKeyExpLower, $supportedLocale) !== false) {
+                                    $mapKeyExpLowerWithoutLocale = str_replace('_' . $supportedLocale, '', $mapKeyExpLower);
+                                   /* dump($itemMapKeyLower);
+                                    dump($mapKeyExpLowerWithoutLocale);
+                                     dd($mapKeyExpLower);*/
+                                    $selected = true;
+                                    break 2;
+                                }
+                            }
+                        }
+
                         if ($mapKeyExp[1] == $itemMapKey) {
                             $selected = true;
                             break;

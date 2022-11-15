@@ -6,11 +6,13 @@ use Livewire\Component;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class DropdownMappingPreview extends Component
 {
     use HtmlDropdownMappingRecursiveTable;
 
+    public $supported_languages = 0;
     public $import_feed_id = 0;
     public $import_feed = [];
     public $data;
@@ -37,6 +39,13 @@ class DropdownMappingPreview extends Component
 
     public function mount($importFeedId)
     {
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            $supportedLanguages = get_supported_languages();
+            if (!empty($supportedLanguages)) {
+                $this->supported_languages = $supportedLanguages;
+            }
+        }
+
         $this->import_feed_id = $importFeedId;
         $this->readFeed();
     }
