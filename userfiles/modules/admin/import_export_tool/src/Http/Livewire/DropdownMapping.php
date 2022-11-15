@@ -126,6 +126,13 @@ class DropdownMapping extends Component
                 $findFeed->primary_key = 'id';
             }
 
+            if (!in_array('id', $findFeed->mapped_tags)) {
+                $findFeed->primary_key = '';
+                if ($this->selectField == 'title') {
+                    $findFeed->primary_key = 'title';
+                }
+            }
+
             // Custom content data
             if ($this->customContentData) {
                 $customContentDataFields = $findFeed->custom_content_data_fields;
@@ -171,7 +178,7 @@ class DropdownMapping extends Component
             $findFeed->save();
 
             $this->emit('refreshImportFeedStateById', $findFeed->id);
-            
+
         }
     }
 
