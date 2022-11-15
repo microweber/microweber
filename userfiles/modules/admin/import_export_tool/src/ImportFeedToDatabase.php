@@ -204,11 +204,6 @@ class ImportFeedToDatabase
                 if ($updateProductId > 0) {
 
                     $findProductById = Product::where('id', $updateProductId)->first();
-
-                    if (isset($item['media_urls'])) {
-                        unset($item['media_urls']);
-                    }
-
                     $findProductById->fill($item);
                     $findProductById->save();
 
