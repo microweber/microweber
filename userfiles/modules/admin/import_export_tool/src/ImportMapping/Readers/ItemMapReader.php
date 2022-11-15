@@ -21,6 +21,7 @@ class ItemMapReader
         'content_data.weight_type' => ['weight_type'],
         'content_data.barcode' => ['barcode', 'gtin', 'g:gtin'],
         'content_data.external_id' => ['g:id'],
+        'content_data.max_qty_per_order' => ['max_qty_per_order'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
         'media_urls' => ['image', 'g:image_link','media_urls'],
@@ -35,6 +36,12 @@ class ItemMapReader
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
         'is_active' => ['isEnable', 'isEnabled', 'isActive','is_active'],
         'tags' => ['tags'],
+        'multilanguage.title.{{locale}}' => ['title_{{locale}}'],
+        'multilanguage.url.{{locale}}' => ['url_{{locale}}'],
+        'multilanguage.content_body.{{locale}}' => ['content_body_{{locale}}'],
+        'multilanguage.content_meta_title.{{locale}}' => ['content_meta_title_{{locale}}'],
+        'multilanguage.content_meta_keywords.{{locale}}' => ['content_meta_keywords_{{locale}}'],
+        'multilanguage.description.{{locale}}' => ['description_{{locale}}'],
     ];
 
     public static $itemTypes = [
@@ -68,6 +75,7 @@ class ItemMapReader
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',
+        'content_data.max_qty_per_order' => 'Maximum Quantity Per Order',
         'is_active' => 'Active',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
