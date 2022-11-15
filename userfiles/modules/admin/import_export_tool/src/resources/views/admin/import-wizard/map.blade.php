@@ -50,8 +50,8 @@
 
                             <button class="btn btn-outline-primary" wire:click="saveMapping"><i class="fa fa-save"></i>
                                 Save & Next Step
-                                <span wire:loading wire:target="saveMapping" class="mt-3">
-                                    <span class="spinner-border spinner-border-sm text-success" role="status"></span>
+                                <span wire:loading wire:target="saveMapping">
+                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
                                 </span>
                             </button>
 
