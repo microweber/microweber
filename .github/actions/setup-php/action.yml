@@ -22,7 +22,7 @@ runs:
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
 #    - name: zstd act workaround
 #      run: sudo apt install zstd
-      shell: bash
+#      shell: bash
     - name: google-chrome install
       run: |
         sleep 3
