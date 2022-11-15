@@ -11,7 +11,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class DropdownMappingPreview extends Component
 {
     use HtmlDropdownMappingRecursiveTable;
-    
+
     public $data;
     public $import_feed_id = 0;
     public $import_feed = [];
