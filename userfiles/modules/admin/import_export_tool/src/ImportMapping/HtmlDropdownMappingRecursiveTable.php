@@ -177,11 +177,11 @@ trait HtmlDropdownMappingRecursiveTable
 
         if ($this->importTo == 'categories') {
             $itemMapReaderItemNames = ItemMapCategoryReader::getItemNames();
-            $itemMapReaderMap = ItemMapCategoryReader::$map;
+            $itemMapReaderMap = ItemMapCategoryReader::getMap();
             $itemGroups = ItemMapCategoryReader::getItemGroups();
         } else {
             $itemMapReaderItemNames = ItemMapReader::getItemNames();
-            $itemMapReaderMap = ItemMapReader::$map;
+            $itemMapReaderMap = ItemMapReader::getMap();
             $itemGroups = ItemMapReader::getItemGroups();
         }
 
@@ -190,28 +190,9 @@ trait HtmlDropdownMappingRecursiveTable
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
-
-                    $itemMapKey = 'multilanguage.title.en_US';
-
+                    $itemMapKey = mb_strtolower($itemMapKey);
                     $mapKeyExp = explode('.',$mapKey);
                     if (isset($mapKeyExp[1])) {
-
-                        if (!empty($this->supported_languages)) {
-                            foreach ($this->supported_languages as $supportedLanguage) {
-                                $itemMapKeyLower = strtolower($itemMapKey);
-                                $mapKeyExpLower = strtolower($mapKeyExp[1]);
-                                $supportedLocale = strtolower($supportedLanguage['locale']);
-                                if (strpos($mapKeyExpLower, $supportedLocale) !== false) {
-                                    $mapKeyExpLowerWithoutLocale = str_replace('_' . $supportedLocale, '', $mapKeyExpLower);
-                                   /* dump($itemMapKeyLower);
-                                    dump($mapKeyExpLowerWithoutLocale);
-                                     dd($mapKeyExpLower);*/
-                                    $selected = true;
-                                    break 2;
-                                }
-                            }
-                        }
-
                         if ($mapKeyExp[1] == $itemMapKey) {
                             $selected = true;
                             break;

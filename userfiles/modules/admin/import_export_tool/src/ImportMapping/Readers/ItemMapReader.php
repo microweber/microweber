@@ -10,7 +10,7 @@ class ItemMapReader
         '|', '>', ';', ',',
     ];
 
-    public static $map = [
+    private static $map = [
         'content_data.depth' => ['depth'],
         'content_data.height' => ['height'],
         'content_data.width' => ['width'],
@@ -35,13 +35,7 @@ class ItemMapReader
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
         'is_active' => ['isEnable', 'isEnabled', 'isActive','is_active'],
-        'tags' => ['tags'],
-        'multilanguage.title.{{locale}}' => ['title_{{locale}}'],
-        'multilanguage.url.{{locale}}' => ['url_{{locale}}'],
-        'multilanguage.content_body.{{locale}}' => ['content_body_{{locale}}'],
-        'multilanguage.content_meta_title.{{locale}}' => ['content_meta_title_{{locale}}'],
-        'multilanguage.content_meta_keywords.{{locale}}' => ['content_meta_keywords_{{locale}}'],
-        'multilanguage.description.{{locale}}' => ['description_{{locale}}'],
+        'tags' => ['tags']
     ];
 
     public static $itemTypes = [
@@ -137,6 +131,37 @@ class ItemMapReader
 
         return $itemNames;
     }
+
+    public static function getMap() {
+
+        $map = self::$map;
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            foreach (get_supported_languages() as $language) {
+                $map['multilanguage.title.' . $language['locale']] = [
+                    'title_' . $language['locale']
+                ];
+                $map['multilanguage.url.' . $language['locale']] = [
+                    'url_' . $language['locale']
+                ];
+                $map['multilanguage.content_body.' . $language['locale']] = [
+                    'content_body_' . $language['locale']
+                ];
+                $map['multilanguage.content_meta_title.' . $language['locale']] = [
+                    'content_meta_title_' . $language['locale']
+                ];
+                $map['multilanguage.content_meta_keywords.' . $language['locale']] = [
+                    'content_meta_keywords_' . $language['locale']
+                ];
+                $map['multilanguage.description.' . $language['locale']] = [
+                    'description_' . $language['locale']
+                ];
+            }
+        }
+
+        return $map;
+    }
+
 
     public static function getItemGroups()
     {

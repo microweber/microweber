@@ -6,7 +6,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class ItemMapCategoryReader extends ItemMapReader
 {
-    public static $map = [
+    private static $map = [
         'id' => ['id'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
