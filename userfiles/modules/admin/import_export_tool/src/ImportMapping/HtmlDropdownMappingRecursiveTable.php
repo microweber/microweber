@@ -8,7 +8,6 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\Item
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-
 trait HtmlDropdownMappingRecursiveTable
 {
     public $content = [];
@@ -40,6 +39,16 @@ trait HtmlDropdownMappingRecursiveTable
         data_fill($content, $this->contentParentTags . '.0', $firstItem);
 
         $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
+
+
+        if (empty($this->import_feed['mapped_tags'])) {
+            $automaticSelected = $this->getAutomaticSelectedOptions();
+            $importFeed = ImportFeed::where('id', $this->import_feed_id)->first();
+            if ($importFeed) {
+                $importFeed->mapped_tags = $automaticSelected;
+                $importFeed->save();
+            }
+        }
 
         return view('import_export_tool::admin.dropdown-mapping.preview', compact('dropdowns'));
     }
@@ -126,7 +135,7 @@ trait HtmlDropdownMappingRecursiveTable
                         $mapKey = implode('.', $getParentMapKey);
 
                         if (Str::startsWith($mapKey, $contentParentTags)) {
-                            $html .= "<td class='tag_select' style='width:300px'>" . $this->dropdownSelect($mapKey) . "</td>";
+                            $html .= "<td class='tag_select' style='width:300px'>" . $this->dropdownSelect($mapKey, $value) . "</td>";
                         } else{
                             $html .= "";
                         }
@@ -173,17 +182,22 @@ trait HtmlDropdownMappingRecursiveTable
         return $html;
     }
 
-    private function dropdownSelect($mapKey)
+    public $automaticSelectedOptions = [];
+    public function getAutomaticSelectedOptions() {
+        return $this->automaticSelectedOptions;
+    }
+
+    private function dropdownSelect($mapKey, $value = false)
     {
         $selectOptions = [];
 
         if ($this->importTo == 'categories') {
             $itemMapReaderItemNames = ItemMapCategoryReader::getItemNames();
-            $itemMapReaderMap = ItemMapCategoryReader::$map;
+            $itemMapReaderMap = ItemMapCategoryReader::getMap();
             $itemGroups = ItemMapCategoryReader::getItemGroups();
         } else {
             $itemMapReaderItemNames = ItemMapReader::getItemNames();
-            $itemMapReaderMap = ItemMapReader::$map;
+            $itemMapReaderMap = ItemMapReader::getMap();
             $itemGroups = ItemMapReader::getItemGroups();
         }
 
@@ -192,9 +206,13 @@ trait HtmlDropdownMappingRecursiveTable
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
-                    if (stripos($mapKey, $itemMapKey) !== false) {
-                        $selected = true;
-                        break;
+                    $itemMapKey = mb_strtolower($itemMapKey);
+                    $mapKeyExp = explode('.',$mapKey);
+                    if (isset($mapKeyExp[1])) {
+                        if ($mapKeyExp[1] == $itemMapKey) {
+                            $selected = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -209,11 +227,16 @@ trait HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $dropdowns = [];
-
         foreach ($selectOptions as $name => $option) {
+
             if (!isset($option['name'])) {
                 continue;
             }
+
+            if ($option['selected']) {
+                $this->automaticSelectedOptions[$mapKeyHtml] = $name;
+            }
+
             $itemIsFindedInGroup = false;
             foreach ($itemGroups as $groupName=>$groupItems) {
                 foreach ($groupItems as $groupItem) {
@@ -252,7 +275,8 @@ trait HtmlDropdownMappingRecursiveTable
         return \Livewire\Livewire::mount('import-export-tool::dropdown_mapping', [
                 'importFeedId'=>$this->import_feed['id'],
                 'dropdowns'=>$dropdowns,
-                'mapKey'=>$mapKeyHtml
+                'mapKey'=>$mapKeyHtml,
+                'value'=>$value,
             ]
         )->html();
 

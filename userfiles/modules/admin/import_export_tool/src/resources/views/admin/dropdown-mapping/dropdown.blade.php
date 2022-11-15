@@ -5,6 +5,7 @@
     if ($selectField == 'categories'
         || $selectField == 'id'
         || $selectField == 'parent'
+        || $selectField == 'parent_id'
         || $selectField == 'is_active'
         || $selectField == 'tags'
         || $selectField == 'category_ids'
@@ -37,7 +38,7 @@
             <p class="text-success"><i class="fa fa-info"></i> The feed item id will be mapped with the same content id in website database.</p>
         @endif
 
-        @if ($selectField == 'parent')
+        @if ($selectField == 'parent' || $selectField == 'parent_id')
             <p class="text-success"><i class="fa fa-info"></i> The feed item parent id will be mapped with the same content parent id in website database.</p>
         @endif
 
