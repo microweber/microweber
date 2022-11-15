@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapCategoryReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 trait HtmlDropdownMappingRecursiveTable
 {
@@ -38,6 +39,16 @@ trait HtmlDropdownMappingRecursiveTable
         data_fill($content, $this->contentParentTags . '.0', $firstItem);
 
         $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
+
+
+        if (empty($this->import_feed['mapped_tags'])) {
+            $automaticSelected = $this->getAutomaticSelectedOptions();
+            $importFeed = ImportFeed::where('id', $this->import_feed_id)->first();
+            if ($importFeed) {
+                $importFeed->mapped_tags = $automaticSelected;
+                $importFeed->save();
+            }
+        }
 
         return view('import_export_tool::admin.dropdown-mapping.preview', compact('dropdowns'));
     }
@@ -171,6 +182,11 @@ trait HtmlDropdownMappingRecursiveTable
         return $html;
     }
 
+    public $automaticSelectedOptions = [];
+    public function getAutomaticSelectedOptions() {
+        return $this->automaticSelectedOptions;
+    }
+
     private function dropdownSelect($mapKey, $value = false)
     {
         $selectOptions = [];
@@ -211,11 +227,16 @@ trait HtmlDropdownMappingRecursiveTable
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
         $dropdowns = [];
-
         foreach ($selectOptions as $name => $option) {
+
             if (!isset($option['name'])) {
                 continue;
             }
+
+            if ($option['selected']) {
+                $this->automaticSelectedOptions[$mapKeyHtml] = $name;
+            }
+
             $itemIsFindedInGroup = false;
             foreach ($itemGroups as $groupName=>$groupItems) {
                 foreach ($groupItems as $groupItem) {
