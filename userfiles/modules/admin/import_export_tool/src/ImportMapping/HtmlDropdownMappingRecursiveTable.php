@@ -10,35 +10,18 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 trait HtmlDropdownMappingRecursiveTable
 {
-    public $content = [];
-    public $contentParentTags = false;
     public $html = [];
-    public $importTo;
-
-    public function setImportTo($importTo)
-    {
-        $this->importTo = $importTo;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-   public function setContentParentTags($tag)
-    {
-        $this->contentParentTags = $tag;
-    }
 
     public function render()
     {
-        $content = $this->content;
+        $contentParentTag = $this->import_feed['content_tag'];
+        $content = $this->import_feed['source_content'];
 
-        $firstItem = data_get($content, $this->contentParentTags . '.0');
-        Arr::forget($content, $this->contentParentTags);
-        data_fill($content, $this->contentParentTags . '.0', $firstItem);
+        $firstItem = data_get($content, $contentParentTag . '.0');
+        Arr::forget($content, $contentParentTag);
+        data_fill($content, $contentParentTag . '.0', $firstItem);
 
-        $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $this->contentParentTags);
+        $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $contentParentTag);
 
 
         if (empty($this->import_feed['mapped_tags'])) {
@@ -166,7 +149,7 @@ trait HtmlDropdownMappingRecursiveTable
 
     private function dropdownRepeatableSelect($mapKey)
     {
-        if ($mapKey == $this->contentParentTags) {
+        if ($mapKey == $this->import_feed['content_tag']) {
             return "";
         }
 
@@ -191,7 +174,7 @@ trait HtmlDropdownMappingRecursiveTable
     {
         $selectOptions = [];
 
-        if ($this->importTo == 'categories') {
+        if ($this->import_feed['import_to'] == 'categories') {
             $itemMapReaderItemNames = ItemMapCategoryReader::getItemNames();
             $itemMapReaderMap = ItemMapCategoryReader::getMap();
             $itemGroups = ItemMapCategoryReader::getItemGroups();
@@ -264,7 +247,7 @@ trait HtmlDropdownMappingRecursiveTable
                 }
             }
             if (!$itemIsFindedInGroup) {
-                $dropdowns[ucfirst($this->importTo)][] = [
+                $dropdowns[ucfirst($this->import_feed['import_to'])][] = [
                     'value'=>$name,
                     'name'=>$option['name'],
                     'selected'=>$option['selected'],
