@@ -245,7 +245,12 @@ class FieldsManager
                     if (isset($field['settings']['field_size'])) {
                         $field_size = $field['settings']['field_size'];
                     }
+                    $values = false;
+                    if (isset($field['settings']['value']) and $field['settings']['value']) {
+                        $values = $field['settings']['value'];
+                        $values = explode('|', $values);
 
+                    }
                     $existing['name'] = $field_name;
                     $existing['type'] = $field_type;
                     $existing['rel_type'] = $rel;
@@ -261,6 +266,9 @@ class FieldsManager
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['show_label'] = $show_label;
                         $make_field['required'] = $required;
+                        if($values){
+                            $make_field['value'] = $values;
+                        }
 
                         $make_field['show_placeholder'] = $show_placeholder;
                         if ($show_placeholder) {
