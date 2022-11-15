@@ -12,10 +12,11 @@
                 <tbody>
                 @foreach($content as $columnKey=>$columnValue)
                     <tr>
-                        <td>
+                        <td style="width: 100px">
                             {{$columnKey}}
                         </td>
                         <td>
+                            <div style="width:800px; overflow:hidden">
                             @if(is_string($columnValue))
                                 {{$columnValue}}
                             @endif
@@ -27,11 +28,11 @@
                             @else
 
                                 @if(is_array($columnValue))
-                                        {!! json_encode($columnValue, JSON_PRETTY_PRINT) !!}
+                                      <pre>  {!! json_encode($columnValue, JSON_PRETTY_PRINT) !!} </pre>
                                 @endif
 
                             @endif
-
+                            </div>
                         </td>
                     </tr>
                 @endforeach
