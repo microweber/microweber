@@ -8,9 +8,15 @@ class ItemMapCategoryReader extends ItemMapReader
 {
     private static $map = [
         'id' => ['id'],
+        'parent_id' => ['parent_id'],
+        'url' => ['url'],
+        'title' => ['title'],
+        'category_meta_title' => ['category_meta_title'],
+        'category_meta_keywords' => ['category_meta_keywords'],
+        'category_meta_description' => ['category_meta_description'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
-        'is_hidden' => ['isEnable', 'isEnabled', 'isActive'],
+        'is_hidden' => ['isEnable', 'isEnabled', 'isActive','is_deleted'],
     ];
 
     public static $itemTypes = [];
@@ -19,6 +25,7 @@ class ItemMapCategoryReader extends ItemMapReader
         'id' => 'Id',
         'parent_id' => 'Parent Id',
         'title' => 'Title',
+        'url' => 'Url',
         'description' => 'Description',
         'image' => 'Image',
         'category_meta_title' => 'Meta Title',
@@ -49,6 +56,42 @@ class ItemMapCategoryReader extends ItemMapReader
         return $editFieldsCategory;
     }
 
+    public static function getMap() {
+
+        $map = self::$map;
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            foreach (get_supported_languages() as $language) {
+                $map['multilanguage.title.' . $language['locale']] = [
+                    'title_' . $language['locale']
+                ];
+                $map['multilanguage.url.' . $language['locale']] = [
+                    'url_' . $language['locale']
+                ];
+                $map['multilanguage.category_body.' . $language['locale']] = [
+                    'category_body_' . $language['locale']
+                ];
+                $map['multilanguage.category_meta_title.' . $language['locale']] = [
+                    'category_meta_title_' . $language['locale']
+                ];
+                $map['multilanguage.category_meta_keywords.' . $language['locale']] = [
+                    'category_meta_keywords_' . $language['locale']
+                ];
+                $map['multilanguage.category_meta_description.' . $language['locale']] = [
+                    'category_meta_description_' . $language['locale']
+                ];
+                $map['multilanguage.description.' . $language['locale']] = [
+                    'description_' . $language['locale']
+                ];
+                $map['multilanguage.content.' . $language['locale']] = [
+                    'content_' . $language['locale']
+                ];
+            }
+        }
+
+        return $map;
+    }
+
     public static function getItemNames()
     {
         $itemNames = self::$itemNames;
@@ -64,7 +107,9 @@ class ItemMapCategoryReader extends ItemMapReader
             foreach (get_supported_languages() as $language) {
 
                 $itemNames['multilanguage.title.' . $language['locale']] = 'Title ['. $language['locale'].']';
+                $itemNames['multilanguage.url.' . $language['locale']] = 'URL ['. $language['locale'].']';
                 $itemNames['multilanguage.description.' . $language['locale']] = 'Description ['. $language['locale'].']';
+                $itemNames['multilanguage.content.' . $language['locale']] = 'Content ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_title.' . $language['locale']] = 'Meta Title ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_keywords.' . $language['locale']] = 'Meta Keywords ['. $language['locale'].']';
                 $itemNames['multilanguage.category_meta_description.' . $language['locale']] = 'Meta Description ['. $language['locale'].']';
