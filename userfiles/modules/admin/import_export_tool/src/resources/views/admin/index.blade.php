@@ -47,7 +47,15 @@
             <td>{{mw()->format->human_filesize($feed->source_file_size)}}</td>
             <td>{{$feed->created_at}}</td>
             <td>{{$feed->updated_at}}</td>
-            <td><a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">View</a></td>
+            <td>
+                <a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">View</a>
+
+
+                <a href="{{route('admin.import-export-tool.import-delete', $feed->id)}}" class="btn btn-outline-danger btn-sm">
+                    <i class="fa fa-times"></i> Delete
+                </a>
+
+            </td>
         </tr>
     @endforeach
     </tbody>

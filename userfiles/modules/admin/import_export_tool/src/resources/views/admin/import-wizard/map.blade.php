@@ -47,6 +47,15 @@
                                      </span>
                                 </button>
                             @endif
+
+                            <button class="btn btn-outline-primary" wire:click="saveMapping"><i class="fa fa-save"></i>
+                                Save & Next Step
+                                <span wire:loading wire:target="saveMapping">
+                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                                </span>
+                            </button>
+
+
                         </div>
                     </td>
                 </tr>

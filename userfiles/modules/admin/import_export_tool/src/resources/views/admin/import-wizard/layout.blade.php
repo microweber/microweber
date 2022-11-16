@@ -214,7 +214,7 @@ a.import-wizard-select-type:hover {
         <li class="import-wizard__item @if($tab =='import') active @endif">
             <a href="#" wire:click="showTab('import')" class="import-wizard__link">
                 <span class="step">4</span>
-                @if($import_feed['mapped_tags'])
+                @if($import_feed['imported_content_ids'])
                     <div class="desc-box">
                         <span class="desc">Import</span>
                         <span class="small-desc">

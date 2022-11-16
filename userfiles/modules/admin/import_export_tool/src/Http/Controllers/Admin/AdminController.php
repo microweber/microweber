@@ -9,7 +9,7 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 {
     public function index(Request $request)
     {
-        $importFeeds = ImportFeed::where('is_draft', 0)->get();
+        $importFeeds = ImportFeed::get();
 
         return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
     }
@@ -19,6 +19,16 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         $exportFeeds = ExportFeed::where('is_draft', 0)->get();
 
         return $this->view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
+    }
+
+    public function importDelete($id)
+    {
+        $findImportFeed = ImportFeed::where('id', $id)->first();
+        if ($findImportFeed) {
+            $findImportFeed->delete();
+        }
+
+        return redirect(route('admin.import-export-tool.index'));
     }
 
 
