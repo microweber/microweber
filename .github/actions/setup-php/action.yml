@@ -29,7 +29,7 @@ runs:
     - name: google-chrome install
       run: |
         sleep 3
-#        sudo apt-get install libxss1 libnss3 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+        sudo apt-get install libxss1 libnss3 libappindicator1 libindicator7 libxpm4 libxrender1 libnss3 libgconf-2-4
         sudo apt-get install xvfb gtk2-engines-pixbuf
         sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
         sleep 3
