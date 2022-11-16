@@ -50,12 +50,12 @@ deleteItem = function (url, name, frommodal,removeSelectorOndelete) {
         name = name || 'this';
         msg = "Are you sure you want to delete " + name + "?";
     } else if (url.constructor === [].constructor) {
-        obj = {paths: [url]}
+        obj = {paths: url}
         msg = "Are you sure you want to delete these files";
     } else {
         return false;
     }
-    
+
     $('#mw_alert').remove();
     mw.tools.confirm(msg, function () {
         $(document.body).addClass("loading");
