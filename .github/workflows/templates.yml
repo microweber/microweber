@@ -34,6 +34,7 @@ jobs:
           'microweber-templates/template-comingsoon',
           'microweber-templates/template-conference',
           'microweber-templates/template-cryptocurrency',
+          'microweber-templates/template-crypto2',
           'microweber-templates/template-digital',
           'microweber-templates/template-fitpower',
           'microweber-templates/template-floristry',
