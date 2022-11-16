@@ -7,10 +7,10 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 class ItemMapReader
 {
     public static $categorySeparators = [
-        '|', '>', ';', ',', '_'
+        '|', '>', ';', ',',
     ];
 
-    public static $map = [
+    private static $map = [
         'content_data.depth' => ['depth'],
         'content_data.height' => ['height'],
         'content_data.width' => ['width'],
@@ -20,7 +20,8 @@ class ItemMapReader
         'content_data.weight' => ['weight'],
         'content_data.weight_type' => ['weight_type'],
         'content_data.barcode' => ['barcode', 'gtin', 'g:gtin'],
-        'content_data.external_id' => ['id', 'g:id'],
+        'content_data.external_id' => ['g:id'],
+        'content_data.max_qty_per_order' => ['max_qty_per_order'],
         'title' => ['title', 'g:title', 'name'],
         'content_body' => ['description', 'g:description', 'content', 'html', 'summary'],
         'media_urls' => ['image', 'g:image_link','media_urls'],
@@ -30,10 +31,11 @@ class ItemMapReader
         'content_data.special_price' => ['special_price', 'discount_price'],
         'content_data.shipping_fixed_cost' => ['shipping_price', 'g:shipping.g:price','shipping_fixed_cost'],
         'categories' => ['genre', 'category', 'g:google_product_category'],
+        'category_ids' => ['category_ids'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
         'is_active' => ['isEnable', 'isEnabled', 'isActive','is_active'],
-        'tags' => ['tags'],
+        'tags' => ['tags']
     ];
 
     public static $itemTypes = [
@@ -67,6 +69,7 @@ class ItemMapReader
         'content_data.mpn' => 'MPN',
         'content_data.barcode' => 'Barcode',
         'content_data.sku' => 'SKU',
+        'content_data.max_qty_per_order' => 'Maximum Quantity Per Order',
         'is_active' => 'Active',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
@@ -128,6 +131,37 @@ class ItemMapReader
 
         return $itemNames;
     }
+
+    public static function getMap() {
+
+        $map = self::$map;
+
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            foreach (get_supported_languages() as $language) {
+                $map['multilanguage.title.' . $language['locale']] = [
+                    'title_' . $language['locale']
+                ];
+                $map['multilanguage.url.' . $language['locale']] = [
+                    'url_' . $language['locale']
+                ];
+                $map['multilanguage.content_body.' . $language['locale']] = [
+                    'content_body_' . $language['locale']
+                ];
+                $map['multilanguage.content_meta_title.' . $language['locale']] = [
+                    'content_meta_title_' . $language['locale']
+                ];
+                $map['multilanguage.content_meta_keywords.' . $language['locale']] = [
+                    'content_meta_keywords_' . $language['locale']
+                ];
+                $map['multilanguage.description.' . $language['locale']] = [
+                    'description_' . $language['locale']
+                ];
+            }
+        }
+
+        return $map;
+    }
+
 
     public static function getItemGroups()
     {
