@@ -10,6 +10,7 @@ jobs:
       matrix:
         php-versions: ['8.1']
         templates: [
+          'microweber-templates/big',
           'microweber-templates/bootstrap5',
           'microweber-templates/dream',
           'microweber-templates/green',
@@ -34,6 +35,7 @@ jobs:
           'microweber-templates/template-comingsoon',
           'microweber-templates/template-conference',
           'microweber-templates/template-cryptocurrency',
+          'microweber-templates/template-crypto2',
           'microweber-templates/template-digital',
           'microweber-templates/template-fitpower',
           'microweber-templates/template-floristry',
