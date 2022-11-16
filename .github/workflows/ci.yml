@@ -18,8 +18,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         coverage: xdebug #optional
-    - name: zstd act workaround
-      run: sudo apt install zstd
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
