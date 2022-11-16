@@ -143,6 +143,7 @@ mw.filePicker = function (options) {
                          selectable: true,
                          multiselect: scope.settings.multiple,
                          stickyHeader: true,
+                         selectableRow: true,
                      });
                      fm.on('selectionChanged', function (val){
 

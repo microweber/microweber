@@ -140,6 +140,7 @@
         var defaults = {
             multiselect: true,
             selectable: true,
+            selectableRow: false,
             canSelectFolder: false,
             selectableFilter: null,
             options: false,
@@ -663,7 +664,8 @@
                 return this.settings.selectableFilter(item)
             }
             return true;
-        }
+        };
+
         this.singleListView = function (item) {
             var row = mw.element({ tag: 'tr' });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
@@ -679,10 +681,15 @@
             if(this.settings.selectable) {
                 if ((this.settings.canSelectFolder || item.type === 'file') && this.canSelect(item)) {
                     var check = _check();
+                    if(scope.settings.selectableRow) {
+                        row.on('click', function(e){
+                            scope[check.input.get(0).checked ? 'unselect' : 'select'](item);
+                        });
+                    }
                     check.input.on('change', function () {
                          scope[!this.checked ? 'unselect' : 'select'](item);
                         _selectedUI();
-                        scope.dispatch('selectionChanged', scope.getSelected())
+                        scope.dispatch('selectionChanged', scope.getSelected());
                     });
                     row.append( mw.element({ tag: 'td', content: check.root, props: {className: 'mw-file-manager-list-item-check-cell'} }));
                 } else {
