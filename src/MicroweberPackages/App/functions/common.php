@@ -381,6 +381,33 @@ function clearcache()
         @mkdir_recursive($empty_folder);
     }
 
+
+    //remove blade cache
+    $empty_folder = storage_path() . DS . 'framework' . DS . 'views' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    $env = app()->environment();
+    $env = str_replace('..', '', $env);
+    //remove framework cache
+    $empty_folder = storage_path() . DS . 'framework' . DS . 'cache' . DS .$env . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    //remove composer-download cache
+    $empty_folder = storage_path() . DS .  'cache' . DS . 'composer-download' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    //remove updates_temp cache
+    $empty_folder = storage_path() . DS .  'cache' . DS . 'updates_temp' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
     if (isset($_GET['redirect_to'])) {
         return app()->url_manager->redirect($_GET['redirect_to']);
     }

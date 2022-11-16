@@ -3,12 +3,16 @@
 namespace Tests\Browser;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Form\Models\Form;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
+use MicroweberPackages\Form\Notifications\NewFormEntryToMail;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use MicroweberPackages\Utils\Mail\MailSender;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
@@ -111,6 +115,8 @@ class ContactFormTest extends DuskTestCase
     public function testSubmitWithCheckBoxesAndDropdowns()
     {
 
+
+
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         $title=  'Contact-Us' . time();
@@ -131,6 +137,7 @@ class ContactFormTest extends DuskTestCase
 
 
 
+
         $newPageLink = content_link($findPage->id);
 
         // Disable captcha
@@ -146,6 +153,7 @@ class ContactFormTest extends DuskTestCase
         $rel = 'module';
         $fields_csv_str = '';
         $rel_id = $contactformid;
+        $fields_csv_str .= 'test-email-field[type=email,field_size=6,show_placeholder=true,required=true],';
         $fields_csv_str .= 'test-text-field[type=text,field_size=6,show_placeholder=true,required=true],';
         $fields_csv_str .= 'test-phone-field[type=phone,field_size=6,show_placeholder=true,required=true],';
         $fields_csv_str .= 'test-textarea-field[type=textarea,field_size=12,show_placeholder=true,required=true],';
@@ -158,7 +166,6 @@ class ContactFormTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($newPageLink,$contactformid) {
             $browser->visit($newPageLink);
 
-
             $browser->pause('2000');
 
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
@@ -166,9 +173,11 @@ class ContactFormTest extends DuskTestCase
             });
 
 
-
-
             $browser->scrollTo('#'.$contactformid);
+
+            $browser->scrollTo('[name="test-email-field"]');
+            $browser->pause(1000);
+            $browser->type('[name="test-email-field"]', 'email@example.com');
 
             $browser->scrollTo('[name="test-text-field"]');
             $browser->pause(1000);
@@ -201,6 +210,7 @@ class ContactFormTest extends DuskTestCase
             $response = mw()->forms_manager->get_entires('rel_id=' . $contactformid);
 
             $fields = $response[0]["custom_fields"];
+            $id = $response[0]["id"];
 
             $this->assertEquals($fields['test-text-field'], 'test-text-field');
             $this->assertEquals($fields['test-phone-field'], 'test-phone-field');
@@ -209,6 +219,16 @@ class ContactFormTest extends DuskTestCase
             $this->assertEquals($fields['test-dropdown-field'], 'select_three');
             $this->assertEquals($fields['test-none-field'], null);
 
+
+//
+//            $fakeNotify = Notification::fake();
+//
+//            $formModel = FormData::with('formDataValues')->find($id);
+//
+//            $fakeNotify->sendNow(new NewFormEntryToMail($formModel));
+//
+//            $notifications = $fakeNotify->sentNotifications();
+//            dd($formModel);
         });
 
 

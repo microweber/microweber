@@ -208,14 +208,17 @@ class Files
             $arrayItems_d = array();
             foreach ($arrayItems_search as $file) {
                 if ($from_search == 0) {
-                    $file = $directory . DS . $file;
+                    if(str_ends_with( $directory,'\\') or str_ends_with( $directory,'/',) or str_ends_with( $directory,'\/')){
+                        $file = $directory .  $file;
+                    } else {
+                        $file = $directory . DS . $file;
+                    }
                 }
                 if (is_file($file)) {
 
                     $skip = false;
                     $df = normalize_path($file, false);
                     $file_ext = get_file_extension($df);
-
 
                     if ($filter_extensions and !empty($filter_extensions)) {
                         $skip = true;

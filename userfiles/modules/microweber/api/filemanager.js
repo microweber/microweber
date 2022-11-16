@@ -336,7 +336,8 @@
                 if (tokenFromCookie) {
                     xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie);
                 }
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                xhr.setRequestHeader('Content-Type', 'application/json');
 
 
 
@@ -367,7 +368,7 @@
 
         var createOptions = function (item) {
             var options = [
-                { label: 'Rename', action: _renameHandle, match: function (item) { return true } },
+             //   { label: 'Rename', action: _renameHandle, match: function (item) { return true } },
                 { label: 'Download', action: _downloadHandle, match: function (item) { return item.type === 'file'; } },
                 { label: 'Copy url', action: _copyUrlHandle, match: function (item) { return true } },
                 { label: 'Delete', action: _deleteHandle, match: function (item) { return true } },
