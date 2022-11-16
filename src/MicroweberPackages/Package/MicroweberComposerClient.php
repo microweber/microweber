@@ -251,11 +251,20 @@ class MicroweberComposerClient extends Client
         $moduleName = str_replace('microweber-modules/', '', $moduleName);
         $moduleName = str_replace('microweber-templates/', '', $moduleName);
 
-        $moduleLink = module_admin_url($moduleName);
+        $moduleLink = false;
+        if (mw_is_installed()) {
+            $moduleLink = module_admin_url($moduleName);
+        }
 
         $response = array();
-        $response['success'] = 'Success. You have installed: ' . $moduleName . ' <br /> <a href="'.$moduleLink.'">Visit the module</a>';
-        $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+
+        $message = 'Success. You have installed: ' . $moduleName;
+        if ($moduleLink) {
+            $message .= '<br /> <a href="'.$moduleLink.'">Visit the module</a>';
+            $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+        }
+
+        $response['success'] = $message;
         $response['log'] = 'Done!';
 
         if (isset($package['notification-url'])) {
