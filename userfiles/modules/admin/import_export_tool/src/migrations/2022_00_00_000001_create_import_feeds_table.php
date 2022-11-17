@@ -11,6 +11,7 @@ class CreateImportFeedsTable extends Migration
      */
     public function up()
     {
+
         if (!Schema::hasTable('import_feeds')) {
             Schema::create('import_feeds', function (Blueprint $table) {
                 $table->bigIncrements('id');
@@ -39,6 +40,12 @@ class CreateImportFeedsTable extends Migration
                 $table->integer('count_of_contents')->nullable();
                 $table->integer('total_running')->nullable();
                 $table->integer('is_draft')->nullable();
+                $table->longText('custom_content_data_fields')->nullable();
+                $table->longText('category_separators')->nullable();
+                $table->longText('category_ids_separators')->nullable();
+                $table->longText('category_add_types')->nullable();
+                $table->longText('tags_separators')->nullable();
+                $table->longText('media_url_separators')->nullable();
                 $table->timestamps();
             });
         }
