@@ -56,12 +56,8 @@ class StartImportingModal extends ModalComponent
             return [];
         }
 
-        if (isset($importStatus['finished'])) {
-
+        if (isset($importStatus['finished']) && $importStatus['finished']) {
             $this->done = true;
-            $this->closeModal();
-            $this->emit('importingFinished');
-
             return array("success"=>"Done! All steps are finished.");
         }
 
