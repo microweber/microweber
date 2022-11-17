@@ -1,3 +1,4 @@
+<div>
 <form wire:submit.prevent="save">
     <div class="modal-header">
         <h5 class="modal-title">Feed importing</h5>
@@ -44,3 +45,5 @@
     <div class="modal-footer">
     </div>
 </form>
+
+</div>
