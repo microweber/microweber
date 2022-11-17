@@ -81,7 +81,7 @@ class StringBlade
         $directory = "{$cachePath}/string-blades";
 
         if (!is_dir($directory)) {
-            mkdir($directory, 0777);
+            mkdir_recursive($directory, 0777);
         }
 
         return "{$directory}/{$tempFileName}.php";
