@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMapping;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
@@ -73,10 +74,12 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function register()
     {
-      //  $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
-        $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->app->singleton('improt_export_migrator', function ($app) {
+            $repository = $app['migration.repository'];
+            return new ModuleMigrator($repository, $app['db'], $app['files'], $app['events']);
+        });
 
+        $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
         View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
     }
 }
