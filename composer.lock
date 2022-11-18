@@ -6122,12 +6122,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater.git",
-                "reference": "43290ce847bdda3f541f385f3a1e32122a67ea41"
+                "reference": "92f43f07f0d18868491c8e30c86c0efed0236722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-modules/standalone-updater/zipball/43290ce847bdda3f541f385f3a1e32122a67ea41",
-                "reference": "43290ce847bdda3f541f385f3a1e32122a67ea41",
+                "url": "https://api.github.com/repos/microweber-modules/standalone-updater/zipball/92f43f07f0d18868491c8e30c86c0efed0236722",
+                "reference": "92f43f07f0d18868491c8e30c86c0efed0236722",
                 "shasum": ""
             },
             "type": "microweber-module",
@@ -6150,7 +6150,7 @@
                 "issues": "https://github.com/microweber-modules/standalone-updater/issues",
                 "source": "https://github.com/microweber-modules/standalone-updater/tree/4.0"
             },
-            "time": "2022-11-18T07:44:29+00:00"
+            "time": "2022-11-18T08:46:30+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
