@@ -36,7 +36,7 @@ class PostApiControllerTest extends TestCase
             'POST',
             route('api.post.store'),
             [
-                'title' => $title,
+                'title' => '       '.$title .'       ', //test if the space is removed
                 'category_ids'=>implode(',', $categoryIds),
                 'content_body' => $contentBody,
             ]
@@ -51,7 +51,7 @@ class PostApiControllerTest extends TestCase
             'PUT',
             route('api.post.update', [
                 'post' => $contentDataSaved->id,
-                'title' => $title2,
+                'title' => '       '.$title2 .'       ', //test if the space is removed
             ])
 
         );
