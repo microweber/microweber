@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
@@ -9,6 +10,10 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 {
     public function index(Request $request)
     {
+        if (!Schema::hasTable('import_feeds')) {
+            return redirect(route('admin.import-export-tool.install'));
+        }
+
         $importFeeds = ImportFeed::get();
 
         return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
