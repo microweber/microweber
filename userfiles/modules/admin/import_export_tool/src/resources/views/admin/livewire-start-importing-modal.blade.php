@@ -26,6 +26,8 @@
                 </div>
                 @else
                     <h3>Done!</h3>
+                    <br />
+                    <button wire:click="viewReport" class="btn btn-outline-success">View Report</button>
                 @endif
 
             @endif

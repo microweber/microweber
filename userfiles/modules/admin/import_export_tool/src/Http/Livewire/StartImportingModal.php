@@ -66,6 +66,12 @@ class StartImportingModal extends ModalComponent
         return [];
     }
 
+    public function viewReport()
+    {
+        $this->closeModal();
+        $this->emit('importingFinished');
+    }
+
     public function clearLog()
     {
         // clear log

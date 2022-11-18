@@ -70,7 +70,7 @@
 
             <livewire:import_export_tool::dropdown_mapping_preview importFeedId="{{$importFeedId}}" />
 
-       {{--     <div class="text-center"> 
+       {{--     <div class="text-center">
                 <div>
                 <button class="btn btn-outline-primary" wire:click="saveMapping"><i class="fa fa-arrow-right"></i> Save & Next Step</button>
                 </div>
