@@ -19,4 +19,8 @@ class ExportFeed extends Model
       'export_format',
       'export_type',
     ];
+    protected $casts = [
+        'split_to_parts' => 'int',
+    ];
+
 }

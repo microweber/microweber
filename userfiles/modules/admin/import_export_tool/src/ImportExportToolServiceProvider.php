@@ -25,6 +25,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoExportFeeds;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ViewImport;
 
