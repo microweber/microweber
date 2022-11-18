@@ -159,11 +159,11 @@ class SessionStepper
         }
 
         if ($countOfContents > 200) {
-            $parts = 20;
+            $parts = 30;
         }
 
         if ($countOfContents > 300) {
-            $parts = 30;
+            $parts = 60;
         }
 
         if ($countOfContents > 500) {
