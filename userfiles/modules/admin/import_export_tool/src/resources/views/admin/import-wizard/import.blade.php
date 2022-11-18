@@ -134,8 +134,30 @@
                 <tr>
                     <td><label for="feed_parts"><b>Import parts</b></label><br>
                         <small>Split importing</small>
+
                     </td>
                     <td>
+                        @php
+                        $recomendedSipltToParts = 10;
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 100) {
+                            $recomendedSipltToParts = 10;
+                        }
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 200) {
+                            $recomendedSipltToParts = 20;
+                        }
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 300) {
+                            $recomendedSipltToParts = 30;
+                        }
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 500) {
+                            $recomendedSipltToParts = 100;
+                        }
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 600) {
+                            $recomendedSipltToParts = 200;
+                        }
+                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 1000) {
+                            $recomendedSipltToParts = 500;
+                        }
+                        @endphp
                         <select class="form-control" id="feed_parts" wire:model="import_feed.split_to_parts">
                             <option value="1">1 part(s)</option>
                             <option value="2">2 part(s)</option>
@@ -146,12 +168,12 @@
                             <option value="7">7 part(s)</option>
                             <option value="8">8 part(s)</option>
                             <option value="9">9 part(s)</option>
-                            <option value="10">10 part(s)</option>
-                            <option value="20">20 part(s)</option>
-                            <option value="30">30 part(s)</option>
-                            <option value="100">100 part(s)</option>
-                            <option value="200">200 part(s)</option>
-                            <option value="500">500 part(s)</option>
+                            <option value="10">10 part(s)  @if($recomendedSipltToParts == 10) (Recommended) @endif</option>
+                            <option value="20">20 part(s) @if($recomendedSipltToParts == 20) (Recommended) @endif</option>
+                            <option value="30">30 part(s) @if($recomendedSipltToParts == 30) (Recommended) @endif</option>
+                            <option value="100">100 part(s) @if($recomendedSipltToParts == 100) (Recommended) @endif</option>
+                            <option value="200">200 part(s) @if($recomendedSipltToParts == 200) (Recommended) @endif</option>
+                            <option value="500">500 part(s) @if($recomendedSipltToParts == 500) (Recommended) @endif</option>
                         </select>
 
                     </td>
