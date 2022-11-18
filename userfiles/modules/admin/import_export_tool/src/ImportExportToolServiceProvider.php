@@ -36,7 +36,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
      *
      * @var boolean
      */
-    protected $defer = true;
+//    protected $defer = true;
 
 
     public function provides()
@@ -53,6 +53,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
         $this->loadViewsFrom( __DIR__. '/resources/views/components', 'import_export_tool');
 
         Livewire::component('import_export_tool::import_wizard', ImportWizard::class);
@@ -69,8 +70,9 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
+      //  $this->loadMigrationsFrom(normalize_path((__DIR__) . '/migrations/'));
         $this->loadRoutesFrom((__DIR__) . '/routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
         View::addNamespace('import_export_tool', normalize_path((__DIR__) . '/resources/views'));
     }

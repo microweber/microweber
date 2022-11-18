@@ -1,1 +1,3 @@
-@livewire($component)
+<div>
+    @livewire($component)
+</div>

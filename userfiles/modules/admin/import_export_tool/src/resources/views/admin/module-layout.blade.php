@@ -27,7 +27,9 @@
                     </li>
                 </ul>
 
-                @yield('module-content')
+                <div>
+                    @yield('module-content')
+                </div>
             </div>
         </div>
     </div>

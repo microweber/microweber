@@ -261,7 +261,6 @@ if ($results) {
 
 
         }
-      //  dd($cats);
 
 //        if(is_array($cats)){
 //            // prepare categories for template

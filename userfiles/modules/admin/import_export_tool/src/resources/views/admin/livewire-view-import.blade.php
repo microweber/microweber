@@ -3,7 +3,6 @@
 @section('module-content')
     <div>
 
-
 <style>
     #xml_url_result {
         width: 24px;

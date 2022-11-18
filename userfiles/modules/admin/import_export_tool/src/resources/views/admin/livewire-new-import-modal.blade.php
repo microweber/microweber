@@ -1,4 +1,4 @@
-<form wire:submit.prevent="save">
+<div><form wire:submit.prevent="save">
     <div class="modal-header">
         <h5 class="modal-title">Add new feed import</h5>
         <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
@@ -13,3 +13,4 @@
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
+</div>

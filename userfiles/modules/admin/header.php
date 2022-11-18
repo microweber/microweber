@@ -113,8 +113,11 @@
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
-@livewire('livewire-ui-modal')
-
+<div>
+    <div>
+        @livewire('livewire-ui-modal')
+    </div>
+</div>
 
 
 <?php

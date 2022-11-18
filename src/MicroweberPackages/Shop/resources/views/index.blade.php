@@ -1,5 +1,9 @@
 {!! $products->scripts() !!}
 
+@php
+$filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
+@endphp
+
 <section class="section container-fluid">
     <div class="row">
         <div class="col-lg-3">
@@ -7,13 +11,31 @@
 
                 {!! $products->filtersActive() !!}
 
-                {!! $products->search() !!}
+                @if(!empty($filtersSort))
+                    @foreach($filtersSort as $filterSort)
 
-                {!! $products->categories() !!}
+                        @if($filterSort == 'search')
+                            {!! $products->search() !!}
+                        @endif
 
-                {!! $products->tags() !!}
+                        @if($filterSort == 'categories')
+                            {!! $products->categories() !!}
+                        @endif
 
-                {!! $products->filters() !!}
+                        @if($filterSort == 'tags')
+                            {!! $products->tags() !!}
+                        @endif
+
+                        @if($filterSort == 'filters')
+                            {!! $products->filters() !!}
+                        @endif
+                    @endforeach
+                @else
+                    {!! $products->search() !!}
+                    {!! $products->categories() !!}
+                    {!! $products->tags() !!}
+                    {!! $products->filters() !!}
+                @endif
 
             </div>
         </div>
