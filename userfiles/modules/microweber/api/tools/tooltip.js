@@ -86,6 +86,7 @@
                 scope.settings.element = target;
             }
             var el = mw.$(scope.settings.element);
+
             if (el.length === 0) {
                 return false;
             }
@@ -189,9 +190,13 @@
         };
 
         var init = function () {
+            console.log(1)
             create();
+            console.log(2)
             scope.position();
+            console.log(3)
             scope.show();
+            console.log(4)
         };
 
         init();
