@@ -30,7 +30,8 @@ class StartImportingModal extends ModalComponent
     public $import_feed;
 
     public $listeners = [
-        'importExportToolNextStep'=>'nextStep'
+        'importExportToolNextStep'=>'nextStep',
+        'viewReportAndCloseModal'=>'viewReportAndCloseModal',
     ];
 
     public function nextStep()
@@ -66,7 +67,7 @@ class StartImportingModal extends ModalComponent
         return [];
     }
 
-    public function viewReport()
+    public function viewReportAndCloseModal()
     {
         $this->closeModal();
         $this->emit('importingFinished');
