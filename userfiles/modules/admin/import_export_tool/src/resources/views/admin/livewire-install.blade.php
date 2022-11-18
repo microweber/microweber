@@ -10,26 +10,28 @@
            <i class="fa fa-rocket"></i> Install
         </button>
 
-        <div class="progress mt-2" style="width:500px;margin:0 auto;">
-            <div class="progress-bar" role="progressbar" aria-label="Install..."
-                 style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-        </div>
+        @if($this->showInstaller)
+             <div class="progress mt-2" style="width:500px;margin:0 auto;">
+                <div class="progress-bar" role="progressbar" aria-label="Install..."
+                     style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
 
-        <script>
-            $(document).ready(function() {
-                var progress = 0;
-                var progressInterval = setInterval(function () {
-                    if (progress > 99) {
-                        clearInterval(progressInterval);
-                        return;
-                    }
-                    progress++;
-                    $('.progress-bar').css('width', progress+'%');
-                    $('.progress-bar').attr('aria-valuenow', progress);
-                    $('.progress-bar').html(progress + '%');
-                }, 40);
-            });
-        </script>
+            <script>
+                $(document).ready(function() {
+                    var progress = 0;
+                    var progressInterval = setInterval(function () {
+                        if (progress > 99) {
+                            clearInterval(progressInterval);
+                            return;
+                        }
+                        progress++;
+                        $('.progress-bar').css('width', progress+'%');
+                        $('.progress-bar').attr('aria-valuenow', progress);
+                        $('.progress-bar').html(progress + '%');
+                    }, 40);
+                });
+            </script>
+        @endif
 
     </div>
 </div>
