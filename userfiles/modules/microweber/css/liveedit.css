@@ -1788,12 +1788,12 @@ img[_moz_resizing], table[_moz_resizing] {
 
 
 
+
 .isTypingStill #mw-handle-item-element,
 .isTypingStill .mw-padding-ctrl,
 .isTypingStill .mw-layout-plus,
 .isTypingStill .mw-handle-item,
 .isTypingStill .mw-selector,
-
 .isTyping .mw-padding-ctrl,
 .isTyping .mw-layout-plus,
 .isTyping .mw-handle-item,
@@ -5096,3 +5096,23 @@ body.dragStart picture img{
     opacity: .57;
 }
 
+
+
+/* vertical handles */
+
+#mw-handle-item-element .mw-handle-handler{
+    white-space: normal;
+    height: auto;
+    overflow: hidden;
+}
+#mw-handle-item-element .mw-handle-buttons{
+    display: block;
+}
+#mw-handle-item-element .mw-handle-handler-icon{
+    width: 44px;
+}
+#mw-handle-item-element{
+    margin-left: -50px;
+    padding-right: 10px;
+    margin-top: 40px;
+}

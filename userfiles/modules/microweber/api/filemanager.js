@@ -685,6 +685,8 @@
                     if(scope.settings.selectableRow) {
                         row.on('click', function(e){
                             scope[check.input.get(0).checked ? 'unselect' : 'select'](item);
+                            _selectedUI();
+                            scope.dispatch('selectionChanged', scope.getSelected());
                         });
                     }
                     check.input.on('change', function () {
