@@ -41,11 +41,6 @@ class ImportFeed extends Model
         'custom_content_data_fields' => 'array',
     ];
 
-    public static function getRecomendedSipltToParts($itemsCount)
-    {
-
-    }
-
     public function readContentFromFile(string $filename, $fileType = false)
     {
         if ($fileType == 'xlsx' || $fileType == 'xls') {
@@ -110,6 +105,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = $countOfContents;
+        $this->split_to_parts = SessionStepper::recomendedSteps($countOfContents);
         $this->mapped_tags = [];
         $this->mapped_content = [];
 
@@ -129,6 +125,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
+        $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
         $this->mapped_tags = [];
         $this->mapped_content = [];
         $this->content_tag = $contentTag;
@@ -171,6 +168,7 @@ class ImportFeed extends Model
             $this->count_of_contents = 0;
             if (is_array($repeatableData)) {
                 $this->count_of_contents = count($repeatableData);
+                $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
             }
 
             $this->mapped_tags = [];
