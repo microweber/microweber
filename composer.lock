@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f97be5dbfbc66a6acf6d30d959c4e12",
+    "content-hash": "6e89391a837c3b9cc3385a6878c3003b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -6117,17 +6117,17 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "3.9",
+            "version": "4.0",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater.git",
-                "reference": "6b1c51a5899d3a0fce892617aba1dd9f464b377d"
+                "reference": "43290ce847bdda3f541f385f3a1e32122a67ea41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-modules/standalone-updater/zipball/6b1c51a5899d3a0fce892617aba1dd9f464b377d",
-                "reference": "6b1c51a5899d3a0fce892617aba1dd9f464b377d",
+                "url": "https://api.github.com/repos/microweber-modules/standalone-updater/zipball/43290ce847bdda3f541f385f3a1e32122a67ea41",
+                "reference": "43290ce847bdda3f541f385f3a1e32122a67ea41",
                 "shasum": ""
             },
             "type": "microweber-module",
@@ -6148,9 +6148,9 @@
             ],
             "support": {
                 "issues": "https://github.com/microweber-modules/standalone-updater/issues",
-                "source": "https://github.com/microweber-modules/standalone-updater/tree/3.9"
+                "source": "https://github.com/microweber-modules/standalone-updater/tree/4.0"
             },
-            "time": "2022-08-08T10:40:05+00:00"
+            "time": "2022-11-18T07:44:29+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
