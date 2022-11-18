@@ -53,6 +53,16 @@ class ExportWizard extends Component
         $this->tab = $tab;
     }
 
+    public function updatedExportFeed()
+    {
+        $findExportFeed = ExportFeed::where('id', $this->export_feed['id'])->first();
+        if ($findExportFeed) {
+            $findExportFeed->split_to_parts = $this->export_feed['split_to_parts'];
+            $findExportFeed->is_draft = 0;
+            $findExportFeed->save();
+        }
+    }
+
     public function mount()
     {
         $exportFeedId = request()->get('exportFeedId');
