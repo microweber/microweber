@@ -13,7 +13,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlT
 class ExportFeed extends Model
 {
     public $fillable = [
+      'name',
       'is_draft',
+      'split_to_parts',
       'export_format',
       'export_type',
     ];

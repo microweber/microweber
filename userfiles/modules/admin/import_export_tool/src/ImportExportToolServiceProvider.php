@@ -63,6 +63,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
         Livewire::component('import_export_tool::feed_report', FeedReport::class);
         Livewire::component('import_export_tool::new_import_modal', NewImportModal::class);
         Livewire::component('import_export_tool::start_importing_modal', StartImportingModal::class);
+        Livewire::component('import_export_tool::start_exporting_modal', StartExportingModal::class);
         Livewire::component('import_export_tool::view_import', ViewImport::class);
         Livewire::component('import_export_tool::dropdown_mapping_preview', DropdownMappingPreview::class);
         Livewire::component('import-export-tool::dropdown_mapping', DropdownMapping::class);
