@@ -1,5 +1,5 @@
 <div>
-<form wire:submit.prevent="save">
+
     <div class="modal-header">
         <h5 class="modal-title">Feed importing</h5>
         <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
@@ -26,6 +26,8 @@
                 </div>
                 @else
                     <h3>Done!</h3>
+                    <br />
+                    <button type="button" wire:click="$emit('viewReportAndCloseModal')" class="btn btn-outline-success">View Report</button>
                 @endif
 
             @endif
@@ -44,6 +46,5 @@
 
     <div class="modal-footer">
     </div>
-</form>
 
 </div>

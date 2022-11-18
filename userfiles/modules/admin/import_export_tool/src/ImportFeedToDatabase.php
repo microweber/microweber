@@ -61,6 +61,7 @@ class ImportFeedToDatabase
         $multilanguageEnabled = MultilanguageHelpers::multilanguageIsEnabled();
         $defaultLang = default_lang();
         $savedIds = array();
+        $failedIds = array();
 
         $getItems = $this->getItems();
 
@@ -77,7 +78,7 @@ class ImportFeedToDatabase
             $this->importFeed->save();
         }
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
         foreach($getItems['items'] as $item) {
 
             if ($multilanguageEnabled) {
@@ -203,32 +204,47 @@ class ImportFeedToDatabase
 
                 if ($updateProductId > 0) {
 
-                    $findProductById = Product::where('id', $updateProductId)->first();
-                    $findProductById->fill($item);
-                    $findProductById->save();
+                    try {
+                        $findProductById = Product::where('id', $updateProductId)->first();
+                        $findProductById->fill($item);
+                        $findProductById->save();
+                    } catch (\Exception $e) {
+                        $failedIds[] = [
+                          'id'=>  $updateProductId,
+                            'message'=>$e->getMessage()
+                        ];
+                    }
 
                     $savedIds[] = $findProductById->id;
                 }
 
                 if ($insertNewProduct) {
 
-                    $newProduct = new Product();
-                    if (isset($item['id'])) {
-                        $newProduct->id = $item['id'];
+                    try {
+                        $newProduct = new Product();
+                        if (isset($item['id'])) {
+                            $newProduct->id = $item['id'];
+                        }
+                        $newProduct->fill($item);
+                        $newProduct->save();
+                    } catch (\Exception $e) {
+                        $newItemId = 0;
+                        if (isset($item['id'])) {
+                            $newItemId = $item['id'];
+                        }
+                        $failedIds[] = [
+                            'id'=>  $newItemId,
+                            'message'=>$e->getMessage()
+                        ];
                     }
-                    $newProduct->fill($item);
-                    $newProduct->save();
-
                     $savedIds[] = $newProduct->id;
                 }
 
             }
 
-            //dd($item);
-            //break;
         }
 
-        //DB::commit();
+        DB::commit();
 
         $importedContentIds = [];
         if (is_array($this->importFeed->imported_content_ids)) {

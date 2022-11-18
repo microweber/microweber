@@ -234,7 +234,7 @@ mw.Handle = function(options) {
                 e.preventDefault();
                 data.action.call(scope, e, this, data);
                 scope.hide();
-            })
+            });
         }
         return btn;
     };
@@ -400,111 +400,115 @@ mw._initHandles = {
             id: 'mw-handle-item-element',
             className: 'mw-handle-type-default',
             buttons: [
-                    {
-                        title: mw.lang('Insert'),
-                        icon: 'mdi-plus',
-                        className: 'mw-handle-insert-button',
-                        hover: [
-                            function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
-                            function (e){  handleInsertTargetDisplay('hide')  }
-                        ],
-                        action: function (el) {
-                             if (!mw.tools.hasClass(el, 'active')) {
-                                mw.tools.addClass(el, 'active');
-                                mw.drag.plus.locked = true;
-                                mw.$('.mw-tooltip-insert-module').remove();
-                                mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-
-                                var tooltip = new mw.ToolTip({
-                                    content: document.getElementById('plus-modules-list').innerHTML,
-                                    element: el,
-                                    position: mw.drag.plus.tipPosition(this.currentNode),
-                                    template: 'mw-tooltip-default mw-tooltip-insert-module',
-                                    id: 'mw-plus-tooltip-selector',
-                                    overlay: true
-                                });
-                                 tooltip.on('removed', function () {
-                                     mw.drag.plus.locked = false;
-                                 });
-                                 mw._initHandles.hideAll();
-                                 var tip = tooltip.tooltip.get(0);
-                                setTimeout(function (){
-                                    $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
-                                }, 10);
-                                mw.tabs({
-                                    nav: tip.querySelectorAll('.mw-ui-btn'),
-                                    tabs: tip.querySelectorAll('.module-bubble-tab'),
-                                });
-
-                                mw.$('.mw-ui-searchfield', tip).on('input', function () {
-                                    var resultsLength = mw.drag.plus.search(this.value, tip);
-                                    if (resultsLength === 0) {
-                                        mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
-                                    }
-                                    else {
-                                        mw.$(".module-bubble-tab-not-found-message").hide();
-                                    }
-                                });
-                                mw.$('#mw-plus-tooltip-selector li').each(function () {
-                                    this.onclick = function () {
-                                        var name = mw.$(this).attr('data-module-name');
-                                        var conf = { class: this.className };
-                                        if(name === 'layout') {
-                                            conf.template = mw.$(this).attr('template');
-                                        }
-                                        mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
-                                        mw.wysiwyg.change(mw._activeElementOver)
-                                        tooltip.remove();
-                                    };
-                                });
-                                 var getIcon = function (url) {
-                                     return new Promise(function (resolve){
-                                         if(mw._xhrIcons && mw._xhrIcons[url]) {
-                                             resolve(mw._xhrIcons[url])
-                                         } else {
-                                             fetch(url, {cache: "force-cache"})
-                                                 .then(function (data){
-                                                     return data.text();
-                                                 }).then(function (data){
-                                                 mw._xhrIcons[url] = data;
-                                                 resolve(mw._xhrIcons[url])
-                                             })
-                                         }
-                                     })
-                                 }
-
-                                 $('[data-module-icon]').each(function (){
-
-                                     var src = this.dataset.moduleIcon.trim();
-                                     delete this.dataset.moduleIcon;
-                                     var img = this;
-                                     if(src.includes('.svg') && src.includes(location.origin)) {
-                                         var el = document.createElement('div');
-                                         el.className = img.className;
-                                         //var shadow = el.attachShadow({mode: 'open'});
-                                         var shadow = el;
-                                         getIcon(src).then(function (data){
-                                             var shImg = document.createElement('div');
-                                             shImg.innerHTML = data;
-                                             shImg.part = 'mw-module-icon';
-                                             if(shImg.querySelector('svg') !== null) {
-                                                 shImg.querySelector('svg').part = 'mw-module-icon-svg';
-                                                 Array.from(shImg.querySelectorAll('style')).forEach(function (style) {
-                                                     style.remove()
-                                                 })
-                                                 shadow.appendChild(shImg);
-                                                 img.parentNode.replaceChild(el, img);
-                                             }
-                                         })
-                                     } else {
-                                         this.src = src;
-                                     }
-                                 })
-                        }
-                    }
-                }
             ],
             menu: [
+                {
+                    title: mw.lang('Insert'),
+                    icon: 'mdi-plus',
+                    className: 'mw-handle-insert-button',
+                    hover: [
+                        function (e){  handleInsertTargetDisplay(mw._activeElementOver, mw.handleElement.positionedAt)  },
+                        function (e){  handleInsertTargetDisplay('hide')  }
+                    ],
+                    action: function (el) {
+                        if(el.target) {
+                            el = el.target
+                        }
+ 
+                            mw.tools.addClass(el, 'active');
+                            mw.drag.plus.locked = true;
+                            mw.$('.mw-tooltip-insert-module').remove();
+                            mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
+                            console.log(7)
+                            var tooltip = new mw.ToolTip({
+                                content: document.getElementById('plus-modules-list').innerHTML,
+                                element: el,
+                                position: mw.drag.plus.tipPosition(this.currentNode),
+                                template: 'mw-tooltip-default mw-tooltip-insert-module',
+                                id: 'mw-plus-tooltip-selector',
+                                overlay: true
+                            });
+                            console.log(8)
+                            tooltip.on('removed', function () {
+                                mw.drag.plus.locked = false;
+                            });
+                            mw._initHandles.hideAll();
+                            var tip = tooltip.tooltip.get(0);
+                            setTimeout(function (){
+                                $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
+                            }, 10);
+                            mw.tabs({
+                                nav: tip.querySelectorAll('.mw-ui-btn'),
+                                tabs: tip.querySelectorAll('.module-bubble-tab'),
+                            });
+
+                            mw.$('.mw-ui-searchfield', tip).on('input', function () {
+                                var resultsLength = mw.drag.plus.search(this.value, tip);
+                                if (resultsLength === 0) {
+                                    mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+                                }
+                                else {
+                                    mw.$(".module-bubble-tab-not-found-message").hide();
+                                }
+                            });
+                            mw.$('#mw-plus-tooltip-selector li').each(function () {
+                                this.onclick = function () {
+                                    var name = mw.$(this).attr('data-module-name');
+                                    var conf = { class: this.className };
+                                    if(name === 'layout') {
+                                        conf.template = mw.$(this).attr('template');
+                                    }
+                                    mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+                                    mw.wysiwyg.change(mw._activeElementOver)
+                                    tooltip.remove();
+                                };
+                            });
+                            var getIcon = function (url) {
+                                return new Promise(function (resolve){
+                                    if(mw._xhrIcons && mw._xhrIcons[url]) {
+                                        resolve(mw._xhrIcons[url])
+                                    } else {
+                                        fetch(url, {cache: "force-cache"})
+                                            .then(function (data){
+                                                return data.text();
+                                            }).then(function (data){
+                                            mw._xhrIcons[url] = data;
+                                            resolve(mw._xhrIcons[url])
+                                        })
+                                    }
+                                })
+                            }
+
+                            $('[data-module-icon]').each(function (){
+
+                                var src = this.dataset.moduleIcon.trim();
+                                delete this.dataset.moduleIcon;
+                                var img = this;
+                                if(src.includes('.svg') && src.includes(location.origin)) {
+                                    var el = document.createElement('div');
+                                    el.className = img.className;
+                                    //var shadow = el.attachShadow({mode: 'open'});
+                                    var shadow = el;
+                                    getIcon(src).then(function (data){
+                                        var shImg = document.createElement('div');
+                                        shImg.innerHTML = data;
+                                        shImg.part = 'mw-module-icon';
+                                        if(shImg.querySelector('svg') !== null) {
+                                            shImg.querySelector('svg').part = 'mw-module-icon-svg';
+                                            Array.from(shImg.querySelectorAll('style')).forEach(function (style) {
+                                                style.remove()
+                                            })
+                                            shadow.appendChild(shImg);
+                                            img.parentNode.replaceChild(el, img);
+                                        }
+                                    })
+                                } else {
+                                    this.src = src;
+                                }
+                            })
+
+                    }
+                },
                 {
                     title: 'Edit HTML',
                     icon: 'mw-icon-code',

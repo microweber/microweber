@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
+use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
@@ -105,6 +106,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = $countOfContents;
+        $this->split_to_parts = SessionStepper::recomendedSteps($countOfContents);
         $this->mapped_tags = [];
         $this->mapped_content = [];
 
@@ -124,6 +126,7 @@ class ImportFeed extends Model
         $this->source_content = $sourceContent;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
+        $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
         $this->mapped_tags = [];
         $this->mapped_content = [];
         $this->content_tag = $contentTag;
@@ -166,6 +169,7 @@ class ImportFeed extends Model
             $this->count_of_contents = 0;
             if (is_array($repeatableData)) {
                 $this->count_of_contents = count($repeatableData);
+                $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
             }
 
             $this->mapped_tags = [];

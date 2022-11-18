@@ -187,17 +187,18 @@ mw.require('tempcss.js');
         };
 
         this.eventsHandlers = function() {
-            mw.on('moduleOver ModuleClick', function(e, el){
+            // mw.on('moduleOver ModuleClick', function(e, el){
+            $(document).on('mousemove touchmove', function(e){
+                var el = e.target;
                 if(!scope._working){
                     var targetIsLayout = mw.tools.firstMatchesOnNodeOrParent(el, scope.selectors);
+
                     if(targetIsLayout){
                         if(mw.tools.hasClass(targetIsLayout, 'module')){
                             var child = mw.$(targetIsLayout).children(scope.selectors.join(','))[0];
                             targetIsLayout = child || targetIsLayout;
                         }
                         scope.position(targetIsLayout);
-                    } else {
-
                     }
                 }
             });
