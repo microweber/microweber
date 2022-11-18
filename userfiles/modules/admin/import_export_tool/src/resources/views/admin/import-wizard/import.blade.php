@@ -139,23 +139,8 @@
                     <td>
                         @php
                         $recomendedSipltToParts = 10;
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 100) {
-                            $recomendedSipltToParts = 10;
-                        }
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 200) {
-                            $recomendedSipltToParts = 20;
-                        }
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 300) {
-                            $recomendedSipltToParts = 30;
-                        }
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 500) {
-                            $recomendedSipltToParts = 100;
-                        }
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 600) {
-                            $recomendedSipltToParts = 200;
-                        }
-                        if(isset($import_feed['count_of_contents']) && $import_feed['count_of_contents'] > 1000) {
-                            $recomendedSipltToParts = 500;
+                        if (isset($import_feed['count_of_contents'])) {
+                            $recomendedSipltToParts = \MicroweberPackages\Export\SessionStepper::recomendedSteps($import_feed['count_of_contents']);
                         }
                         @endphp
                         <select class="form-control" id="feed_parts" wire:model="import_feed.split_to_parts">

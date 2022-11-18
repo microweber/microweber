@@ -41,6 +41,11 @@ class ImportFeed extends Model
         'custom_content_data_fields' => 'array',
     ];
 
+    public static function getRecomendedSipltToParts($itemsCount)
+    {
+
+    }
+
     public function readContentFromFile(string $filename, $fileType = false)
     {
         if ($fileType == 'xlsx' || $fileType == 'xls') {
