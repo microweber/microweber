@@ -19,22 +19,22 @@ use MicroweberPackages\Product\Models\Product;
 class ExportFeedFromDatabase
 {
     public $exportFeedId;
+    public $splitToParts = 0;
     public $batchStep = 0;
-    public $batchExporting = false;
 
-    public function setExportFeedId($id)
+    public function setSplitToParts($parts)
     {
-        $this->exportFeedId = $id;
-    }
-
-    public function setBatchExporting($export)
-    {
-        $this->batchExporting = $export;
+        $this->splitToParts = $parts;
     }
 
     public function setBatchStep($step)
     {
         $this->batchStep = $step;
+    }
+
+    public function setExportFeedId($id)
+    {
+        $this->exportFeedId = $id;
     }
 
     public function start()
@@ -73,7 +73,13 @@ class ExportFeedFromDatabase
             }
         }
 
-        dump($exportData); 
+        if ($exportData['currentPage'] == $exportData['lastPage']) {
+            return ['finished'=> true];
+        }
+
+        return ['finished'=> false];
+
+        dump($exportData);
 
        /* if ($findExportFeed->export_format == 'csv') {
 
@@ -110,7 +116,7 @@ class ExportFeedFromDatabase
     {
         $exportData = [];
 
-        $getAllCategories = Category::all();
+        $getAllCategories = Category::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
         if ($getAllCategories->count() > 0) {
             foreach ($getAllCategories as $category) {
                 $appendCategory = [];
@@ -126,17 +132,22 @@ class ExportFeedFromDatabase
                 $appendCategory['category_meta_description'] = $category->category_meta_description;
 
                 if (isset($category->multilanguage)) {
-                    foreach ($category->multilanguage as $locale=>$mlFields) {
-                        foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
-                            $appendCategory[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                    foreach ($category->multilanguage as $locale => $mlFields) {
+                        foreach ($mlFields as $mlFieldKey => $mlFieldValue) {
+                            $appendCategory[$mlFieldKey . '_' . strtolower($locale)] = $mlFieldValue;
                         }
                     }
                 }
 
                 $exportData[] = $appendCategory;
             }
+        }
 
-        return $exportData;
+        return [
+            'data'=>$exportData,
+            'currentPage'=>$getAllCategories->currentPage(),
+            'lastPage'=>$getAllCategories->lastPage()
+        ];
     }
 
     public function exportCategoriesPlainOneLevelArray()
@@ -155,14 +166,16 @@ class ExportFeedFromDatabase
             $exportData['categories'] = $categoriesPlain;
         }
 
-        return $exportData;
+        return [
+            'data'=>$exportData
+        ];
     }
 
     public function exportPostsOneLevelArray()
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
-        $getAllPosts = Post::all();
+        $getAllPosts = Post::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPosts as $post) {
 
@@ -242,13 +255,17 @@ class ExportFeedFromDatabase
             $exportData[] = $appendPost;
         }
 
-        return $exportData;
+        return [
+            'data'=>$exportData,
+            'currentPage'=>$getAllPosts->currentPage(),
+            'lastPage'=>$getAllPosts->lastPage()
+        ];
     }
 
     public function exportPagesOneLevelArray()
     {
         $exportData = [];
-        $getAllPages = Page::all();
+        $getAllPages = Page::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPages as $page) {
 
@@ -304,14 +321,18 @@ class ExportFeedFromDatabase
             $exportData[] = $appendPage;
         }
 
-        return $exportData;
+        return [
+            'data'=>$exportData,
+            'currentPage'=>$getAllPages->currentPage(),
+            'lastPage'=>$getAllPages->lastPage()
+        ];
     }
 
     public function exportProductOneLevelArray()
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
-        $getAllProducts = Product::all();
+        $getAllProducts = Product::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllProducts as $product) {
 
@@ -409,6 +430,10 @@ class ExportFeedFromDatabase
             $exportData[] = $appendProduct;
         }
 
-        return $exportData;
+        return [
+            'data'=>$exportData,
+            'currentPage'=>$getAllProducts->currentPage(),
+            'lastPage'=>$getAllProducts->lastPage()
+        ];
     }
 }
