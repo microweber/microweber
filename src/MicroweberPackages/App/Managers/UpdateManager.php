@@ -205,7 +205,7 @@ class UpdateManager
             } catch (\Exception $e) {
                 $this->log_msg('Error on DB migrations' . $e->getMessage());
 
-             }
+            }
 
 
 
@@ -227,8 +227,8 @@ class UpdateManager
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
-          //  scan_for_modules(['no_cache'=>true]);
-         //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+            //  scan_for_modules(['no_cache'=>true]);
+            //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 
 
             scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
@@ -474,9 +474,9 @@ class UpdateManager
                 $newSystemLicense->registered_name = $licenseDetails['registeredname'];
             }
 
-         /*   if (isset($licenseDetails['registeredname'])) {
-                $newSystemLicense->company_name = $licenseDetails['registeredname'];
-            }*/
+            /*   if (isset($licenseDetails['registeredname'])) {
+                   $newSystemLicense->company_name = $licenseDetails['registeredname'];
+               }*/
 
             if (isset($licenseDetails['validdomain'])) {
                 $newSystemLicense->domains = $licenseDetails['validdomain'];
@@ -519,6 +519,25 @@ class UpdateManager
         return array('is_invalid'=>true, 'warning' => _e('License key is not valid', true));
     }
 
+    private function install_from_remote($url)
+    {
+        $fname = basename($url);
+        $dir_c = mw_cache_path() . 'downloads' . DS;
+        if (!is_dir($dir_c)) {
+            mkdir_recursive($dir_c);
+        }
+        $dl_file = $dir_c . $fname;
+        if (!is_file($dl_file)) {
+            $get = $this->app->url_manager->download($url, $post_params = false, $save_to_file = $dl_file);
+        }
+        if (is_file($dl_file)) {
+            $unzip = new \MicroweberPackages\Utils\Unzip();
+            $target_dir = MW_ROOTPATH;
+            $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = true);
+
+            return $result;
+        }
+    }
 
     public $log_messages = array();
     public $log_filename = 'install_item_log.txt';
@@ -563,6 +582,76 @@ class UpdateManager
         }
     }
 
+    public function composer_search_packages($params = false)
+    {
+        $params = parse_params($params);
+        $cache_id = false;
+        if (isset($params['cache']) and $params['cache']) {
+            $cache_id = 'composer_search_packages-' . md5(json_encode($params));
+        }
+
+        if ($cache_id) {
+            $results = cache_get($cache_id, 'composer', 600);
+
+            if ($results) {
+                if ($results == 'noresults') {
+                    return array();
+                }
+                return $results;
+            }
+        }
+
+
+        $keyword = '';
+        $search_params = array();
+        if (isset($params['keyword'])) {
+            $params['require_name'] = $keyword;
+        }
+
+        $results = $this->composer_update->searchPackages($params);
+
+        if (!$results) {
+            $results = 'noresults';
+        }
+
+        if ($results) {
+            cache_save($results, $cache_id, 'composer', 60);
+        }
+        if ($results == 'noresults') {
+            return array();
+        }
+
+        return $results;
+    }
+
+
+    public function composer_install_package_by_name($params)
+    {
+        /* try {
+             return $this->composer_update->installPackageByName($params);
+         }catch (\Exception $e) {
+             return array(
+                 'error' => $e->getMessage(),
+                 'file' => $e->getFile(),
+                 'line' => $e->getLine(),
+                 'trace' => $e->getTrace()
+             );
+         }*/
+        $mw = new MicroweberComposerClient();
+        return $mw->requestInstall($params);
+    }
+
+    public function composer_merge($composer_patch_path)
+    {
+        $this->log_msg('Merging composer files');
+
+        $this->composer_update->merge($composer_patch_path);
+    }
+
+    public function composer_get_required()
+    {
+        return $this->composer_update->getRequire();
+    }
 
 
     private function _set_time_limit()
@@ -589,3 +678,4 @@ class UpdateManager
         return dirname(storage_path()) . '/';
     }
 }
+
