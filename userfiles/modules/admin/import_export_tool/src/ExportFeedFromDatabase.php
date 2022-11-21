@@ -96,8 +96,8 @@ class ExportFeedFromDatabase
 
                 $export = new CsvExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
-                $export->setExportFilename('export-feed-' . $findExportFeed->id);
-                
+                $export->setExportFilename('Export-'.ucfirst($findExportFeed->export_type).'-Feed-' . $findExportFeed->id);
+
                 $file = $export->start();
 
                 $downloadLink = $file['files'][0]['download'];
@@ -111,7 +111,7 @@ class ExportFeedFromDatabase
 
                 $export = new XmlExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
-                $export->setExportFilename('export-feed-' . $findExportFeed->id);
+                $export->setExportFilename('Export-'.ucfirst($findExportFeed->export_type).'-Feed-' . $findExportFeed->id);
 
                 $file = $export->start();
 
@@ -126,9 +126,9 @@ class ExportFeedFromDatabase
 
                 $export = new XlsxExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
-                $export->setExportFilename('export-feed-' . $findExportFeed->id);
+                $export->setExportFilename('Export-'.ucfirst($findExportFeed->export_type).'-Feed-' . $findExportFeed->id);
 
-                $file = $export->start();
+                $file = $export->start(); 
 
                 $downloadLink = $file['files'][0]['download'];
                 $findExportFeed->download_link = $downloadLink;
