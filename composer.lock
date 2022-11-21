@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66041575c346d421a66ba5a40fe3cd97",
+    "content-hash": "c9bc695a221b060b3753f9f2cf6d6eac",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -6117,23 +6117,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "4.1",
+            "version": "4.2",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "5b07ba087560e525f5cdee82e5cab99c2fb0b0f7"
+                "reference": "6249630c3d605b5fe229fa74231961defd4b06e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.1-0b68c7.zip",
-                "reference": "5b07ba087560e525f5cdee82e5cab99c2fb0b0f7",
-                "shasum": "a8302a336ef2865eaddb914a9b8fc396d17b5da2"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.2-9b0755.zip",
+                "reference": "6249630c3d605b5fe229fa74231961defd4b06e0",
+                "shasum": "c8be65008492c6b8169dd1628f973c18f477de8d"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/41/README.md"
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/42/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6154,7 +6154,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2022-11-18T16:04:09+00:00"
+            "time": "2022-11-21T08:39:54+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
