@@ -458,10 +458,8 @@ var MWEditor = function (options) {
             },
 
         });
-        this.area.node.contentEditable = true;
-        this.area.node.oninput = function() {
-            scope.registerChange();
-        };
+        this.area.get(0).contentEditable = true;
+
         this.wrapper.appendChild(this.area.node);
         scope.$editArea = this.area.$node;
         scope.editArea = this.area.get(0);
@@ -734,6 +732,12 @@ var MWEditor = function (options) {
                 range.collapse();
                 scope.lastRange = range;
             }
+
+            scope.$editArea.on('paste input', function() {
+                mw.wysiwyg.normalizeBase64Images(this.parentNode, function (){
+                    scope.registerChange();
+                });
+            });
 
         });
     };

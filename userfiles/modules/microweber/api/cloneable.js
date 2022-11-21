@@ -9,8 +9,8 @@ mw.drag.onCloneableControl = function(target, isOverControl){
         html += '<span class="mw-cloneable-control-item mw-cloneable-control-next tip" data-tip="Move forward"></span>';
         this._onCloneableControl.innerHTML = html;
 
-        document.body.appendChild(this._onCloneableControl);
-        $('.mw-cloneable-control-plus', this._onCloneableControl).on('click', function(){
+        // document.body.appendChild(this._onCloneableControl);
+        $('.mw-cloneable-control-plus').on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent()
             mw.liveEditState.record({
                 target: $t[0],
@@ -29,7 +29,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
             mw.wysiwyg.change(mw.drag._onCloneableControl.__target);
             mw.drag.onCloneableControl('hide');
         });
-        $('.mw-cloneable-control-minus', this._onCloneableControl).on('click', function(){
+        $('.mw-cloneable-control-minus').on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
             mw.liveEditState.record({
                 target: $t[0],
@@ -45,7 +45,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
             });
             mw.drag.onCloneableControl('hide');
         });
-        $('.mw-cloneable-control-next', this._onCloneableControl).on('click', function(){
+        $('.mw-cloneable-control-next').on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
             mw.liveEditState.record({
                 target: $t[0],
@@ -59,7 +59,7 @@ mw.drag.onCloneableControl = function(target, isOverControl){
             mw.wysiwyg.change(mw.drag._onCloneableControl.__target);
             mw.drag.onCloneableControl('hide');
         });
-        $('.mw-cloneable-control-prev', this._onCloneableControl).on('click', function(){
+        $('.mw-cloneable-control-prev').on('click', function(){
             var $t = $(mw.drag._onCloneableControl.__target).parent();
             mw.liveEditState.record({
                 target: $t[0],
