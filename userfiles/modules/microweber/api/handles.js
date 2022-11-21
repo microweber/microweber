@@ -412,14 +412,13 @@ mw._initHandles = {
                     ],
                     action: function (el) {
                         if(el.target) {
-                            el = el.target
+                            el = el.target;
                         }
- 
+
                             mw.tools.addClass(el, 'active');
                             mw.drag.plus.locked = true;
                             mw.$('.mw-tooltip-insert-module').remove();
                             mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-                            console.log(7)
                             var tooltip = new mw.ToolTip({
                                 content: document.getElementById('plus-modules-list').innerHTML,
                                 element: el,
@@ -428,7 +427,6 @@ mw._initHandles = {
                                 id: 'mw-plus-tooltip-selector',
                                 overlay: true
                             });
-                            console.log(8)
                             tooltip.on('removed', function () {
                                 mw.drag.plus.locked = false;
                             });
@@ -624,6 +622,7 @@ mw._initHandles = {
             var icon = '<span class="mw-handle-element-title-icon '+(isSafe ? 'tip' : '')+'"  '+(isSafe ? ' data-tip="Current element is protected \n  from accidental deletion" data-tipposition="top-left"' : '')+' >'+ _icon +'</span>';
 
             var title = '<i class="mdi mdi-cog mw-handle-handler-settings-icon"></i>';
+              title = '';
 
             mw.handleElement.setTitle(icon, title);
 
