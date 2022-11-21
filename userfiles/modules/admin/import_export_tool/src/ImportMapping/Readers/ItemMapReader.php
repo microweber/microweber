@@ -52,6 +52,7 @@ class ItemMapReader
         'parent' => 'Parent Id',
         'content_data.external_id' => 'External Id',
         'title' => 'Title',
+        'url' => 'Url',
         'content_body' => 'Content Body',
         'content_meta_title'=>'Meta Title',
         'content_meta_keywords'=>'Meta Keywords',
