@@ -27,7 +27,7 @@
                 @else
                     <h3>Done!</h3>
                     <br />
-                    <button type="button" wire:click="downloadFile" class="btn btn-outline-success"><i class="fa fa-download"></i> Download</button>
+                    <a href="{{$download_file}}" target="_new" class="btn btn-outline-success"><i class="fa fa-download"></i> Download</a>
                 @endif
 
             @endif
