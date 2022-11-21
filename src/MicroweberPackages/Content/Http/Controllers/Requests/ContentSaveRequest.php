@@ -2,9 +2,11 @@
 
 namespace MicroweberPackages\Content\Http\Controllers\Requests;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationRuleParser;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Multilanguage\Http\Controllers\Requests\Rules\MultilanguageUniqueContentSlugRule;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class ContentSaveRequest extends FormRequest
@@ -58,7 +60,17 @@ class ContentSaveRequest extends FormRequest
                                            $fieldRule = str_ireplace('|required', false, $fieldRule);
                                        }
                                    }
-                                   $newRules['multilanguage.' . $field . '.' . $supportedLocale['locale']] = $fieldRule;
+
+                                    if (is_string($fieldRule)) {
+                                        $fieldRuleExploded = explode('|', $fieldRule);
+                                    } else {
+                                        $fieldRuleExploded = $fieldRule;
+                                    }
+
+                                     //$fieldRuleExploded[] = (new \MicroweberPackages\Multilanguage\Http\Controllers\Requests\Rules\MultilanguageUniqueContentSlugRule()) ;
+                                     $fieldRuleExploded[] = Rule::dimensions()->maxWidth(1000)->maxHeight(500)->ratio(3 / 2) ;
+
+                                   $newRules['multilanguage.' . $field . '.' . $supportedLocale['locale']] = $fieldRuleExploded;
                                 }
                             } else {
                                 $newRules['multilanguage.' . $field . '.' . $defaultLocale] = $fieldRule;

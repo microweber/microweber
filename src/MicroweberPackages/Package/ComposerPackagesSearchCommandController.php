@@ -11,6 +11,8 @@ use MicroweberPackages\Package\PackageManagerException;
 
 use MicroweberPackages\Package\Helpers\CompositeRepository;
 
+// Deprecate this class
+
 class ComposerPackagesSearchCommandController extends ComposerAbstractController
 {
 
@@ -100,7 +102,7 @@ class ComposerPackagesSearchCommandController extends ComposerAbstractController
             );
 
             $results = $this->_trySearch($repositories, $tokens, $searchIn);
-            
+
             if ($results) {
                 $results_found = $results;
             }
