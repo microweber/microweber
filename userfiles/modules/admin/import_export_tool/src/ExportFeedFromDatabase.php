@@ -128,7 +128,7 @@ class ExportFeedFromDatabase
                 $export->setOverwrite(true);
                 $export->setExportFilename('Export-'.ucfirst($findExportFeed->export_type).'-Feed-' . $findExportFeed->id);
 
-                $file = $export->start(); 
+                $file = $export->start();
 
                 $downloadLink = $file['files'][0]['download'];
                 $findExportFeed->download_link = $downloadLink;
