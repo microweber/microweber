@@ -346,9 +346,9 @@ if (isset($filters['category'])) {
                 </td>
             @endif
             @if($showColumns['image'])
-            <td>
+            <td style="width:160px;">
                 @if($product->media()->first())
-                <img src="{{$product->thumbnail(100,100)}}" class="w-8 h-8 rounded-full">
+                <img src="{{$product->thumbnail(200,200)}}" class="rounded-full">
                 @else
                     <div class="img-circle-holder border-radius-0 border-0">
                         <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
