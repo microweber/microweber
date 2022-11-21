@@ -18,7 +18,9 @@ class BuildProductCategoryTree
         $productIds = [];
 
         foreach ($this->productCategories as $categoryItem) {
-            $productIds[] = $categoryItem['category']['id'];
+            if (isset($categoryItem['category'])) {
+                $productIds[] = $categoryItem['category']['id'];
+            }
         }
 
         $productCategoriesPlainText = [];

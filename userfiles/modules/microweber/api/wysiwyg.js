@@ -2675,7 +2675,7 @@ mw.wysiwyg = {
     },
     normalizeBase64Images: function (root, callback) {
         root = root || document.body;
-        var all = root.querySelectorAll(".edit img[src*='data:image/'], .edit [style*='data:image/'][style*='background-image']"),
+        var all = root.querySelectorAll(".edit img[src*='data:image/'], .edit [style*='data:image/'][style*='background-image'], .mw-editor-area img[src*='data:image/'], .mw-editor-area [style*='data:image/'][style*='background-image']"),
             l = all.length, i = 0, count = 0;
         if (l > 0) {
             var btn = document.getElementById('main-save-btn');

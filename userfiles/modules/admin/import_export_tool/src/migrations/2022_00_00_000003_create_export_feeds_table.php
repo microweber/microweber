@@ -18,6 +18,7 @@ class CreateExportFeedsTable extends Migration
                 $table->string('name')->nullable();
                 $table->string('export_type')->nullable();
                 $table->string('export_format')->nullable();
+                $table->string('download_link')->nullable();
                 $table->integer('split_to_parts')->nullable();
                 $table->integer('is_draft')->nullable();
                 $table->timestamps();

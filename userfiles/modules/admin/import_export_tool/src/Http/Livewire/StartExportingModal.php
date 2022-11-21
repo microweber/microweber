@@ -18,6 +18,7 @@ class StartExportingModal extends ModalComponent
     ];
     public $export_feed_session_id = false;
     public $export_feed;
+    public $download_file = '';
 
     public $listeners = [
         'exportToolNextStep'=>'nextStep'
@@ -32,10 +33,10 @@ class StartExportingModal extends ModalComponent
         $this->export_log['percentage'] = SessionStepper::percentage();
 
         $export = new ExportFeedFromDatabase();
-        $export->setBatchExporting(true);
 
-        $batchStep = ($this->export_log['current_step'] - 1);
-        $export->setBatchStep($batchStep);
+        $export->setBatchStep($this->export_log['current_step']);
+        $export->setSplitToParts($this->export_feed->split_to_parts);
+
         $export->setExportFeedId($this->export_feed->id);
 
         $exportStatus = $export->start();
@@ -46,6 +47,7 @@ class StartExportingModal extends ModalComponent
         }
 
         if (isset($exportStatus['finished']) && $exportStatus['finished']) {
+            $this->download_file = $exportStatus['file'];
             $this->done = true;
             return array("success"=>"Done! All steps are finished.");
         }
