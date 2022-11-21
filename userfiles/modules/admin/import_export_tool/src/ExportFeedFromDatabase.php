@@ -96,30 +96,45 @@ class ExportFeedFromDatabase
 
                 $export = new CsvExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
-
+                $export->setExportFilename('export-feed-' . $findExportFeed->id);
+                
                 $file = $export->start();
 
-                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+                $downloadLink = $file['files'][0]['download'];
+                $findExportFeed->download_link = $downloadLink;
+                $findExportFeed->save();
+
+                return ['finished'=> true, 'file'=>$downloadLink];
             }
 
             if ($findExportFeed->export_format == 'xml') {
 
                 $export = new XmlExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
+                $export->setExportFilename('export-feed-' . $findExportFeed->id);
 
                 $file = $export->start();
 
-                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+                $downloadLink = $file['files'][0]['download'];
+                $findExportFeed->download_link = $downloadLink;
+                $findExportFeed->save();
+
+                return ['finished'=> true, 'file'=>$downloadLink];
             }
 
             if ($findExportFeed->export_format == 'xlsx') {
 
                 $export = new XlsxExport([$findExportFeed->export_type => $saveArray]);
                 $export->setOverwrite(true);
+                $export->setExportFilename('export-feed-' . $findExportFeed->id);
 
                 $file = $export->start();
 
-                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+                $downloadLink = $file['files'][0]['download'];
+                $findExportFeed->download_link = $downloadLink;
+                $findExportFeed->save();
+
+                return ['finished'=> true, 'file'=>$downloadLink];
             }
 
         }

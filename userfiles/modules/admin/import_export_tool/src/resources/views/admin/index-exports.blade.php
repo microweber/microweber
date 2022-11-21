@@ -43,7 +43,7 @@
                                 View
                             </a>
 
-                            <a href="{{route('admin.import-export-tool.export-wizard-file', $feed->id)}}" class="btn btn-outline-success btn-sm">
+                            <a href="{{ $feed->download_link }}" target="_new" class="btn btn-outline-success btn-sm">
                                 <i class="fa fa-download"></i> Download
                             </a>
 
