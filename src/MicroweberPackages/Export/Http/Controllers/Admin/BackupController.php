@@ -184,7 +184,7 @@ class BackupController
     {
         $tables = array();
 
-        $export = new Export();
+        $export = new \MicroweberPackages\Export\Export();
 
         $items = $request->get('items', false);
         if ($items) {
