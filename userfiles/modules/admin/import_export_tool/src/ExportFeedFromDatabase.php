@@ -427,7 +427,9 @@ class ExportFeedFromDatabase
 
                 $productCategoryIds = [];
                 foreach ($productCategories as $productCategory) {
-                    $productCategoryIds[] = $productCategory['category']['id'];
+                    if (isset($productCategory['category'])) {
+                        $productCategoryIds[] = $productCategory['category']['id'];
+                    }
                 }
 
                 $appendProduct['category_ids'] = implode(',', $productCategoryIds);
