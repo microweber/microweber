@@ -77,6 +77,7 @@ trait MediaTrait
                     if (!empty($mediaUrls)) {
                         foreach ($mediaUrls as $url) {
                             save_media(array(
+                                'allow_remote_download' => 1,
                                 'rel_type' => 'content',
                                 'rel_id' => $model->id,
                                 'title' => 'Picture',
