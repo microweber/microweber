@@ -657,44 +657,7 @@ mw._initHandles = {
     },
     modules: function () {
         var handlesModulesButtons = function (targetFn){
-            return [
-                {
-                    title: mw.lang('Edit'),
-                    icon: 'mdi-pencil',
-                    action: function () {
-                        mw.drag.module_settings(targetFn(),"admin");
-                        mw.handleModule.hide();
-                    }
-                },
-                {
-                    title: mw.lang('Insert'),
-                    className: 'mw-handle-insert-button',
-                    icon: 'mdi-plus',
-                    hover: [
-                        function (e) {
-                            handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
-                        },
-                        function (e) {
-                            handleInsertTargetDisplay('hide');
-                        }
-                    ],
-                    action: function (node) {
-                        var isLayout = mw.handleModule.isLayout
-                        var target = targetFn();
-                        if(target && target.dataset.type === 'layouts') {
-                            isLayout = true;
-                        }
-                        if(isLayout) {
-                            mw.layoutPlus.showSelectorUI(node);
-                        } else {
-                            mw.drag.plus.rendModules(node);
-                        }
-
-
-
-                    }
-                },
-            ];
+            return [];
         };
 
         var getActiveModuleOver = function () {

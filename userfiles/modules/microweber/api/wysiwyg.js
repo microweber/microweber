@@ -583,6 +583,7 @@ mw.wysiwyg = {
 
                 var before = mw.$(node).clone()[0];
                 if (sel.rangeCount > 0 && mw.wysiwyg.execCommandFilter(a, b, c)) {
+                    console.log(999)
                     document.execCommand(a, b, c);
                 }
 
@@ -1889,7 +1890,7 @@ mw.wysiwyg = {
             .promise()
             .then(function (result){
                 mw.wysiwyg.restore_selection();
-                console.log(result)
+
                 mw.iframecallbacks.insert_link(result, (result.target ? '_blank' : '_self') , result.text);
                 var fc = mw.top().win.getSelection().focusNode;
                 if(fc.querySelector) {
@@ -2134,7 +2135,7 @@ mw.wysiwyg = {
         return final;
     },
     insertMedia: function (url, type) {
-        console.log(url, type)
+
         var ext = url.split('.').pop().toLowerCase().split('?')[0];
         var name = url.split('/').pop().split('?')[0]
         if(!type) {
@@ -2947,25 +2948,23 @@ $(window).on('load', function () {
                     e.preventDefault();
                 }
             }
-            if (e.ctrlKey) {
+
+             if (e.ctrlKey) {
                 var isPlain = mw.tools.firstParentOrCurrentWithClass(e.target, 'plain-text');
                 if (!isPlain) {
                     var code = e.keyCode;
-                    if (code === 66) {
 
+                    /*if (code === 66 || code === 98) {
                         mw.wysiwyg.execCommand('bold');
-                        e.preventDefault();
-                    }
+                     }
                     else if (code == 73) {
-
                         mw.wysiwyg.execCommand('italic');
                         e.preventDefault();
                     }
                     else if (code == 85) {
-
                         mw.wysiwyg.execCommand('underline');
                         e.preventDefault();
-                    }
+                    }*/
                 }
                 else {
                     if (e.keyCode != 65 && e.keyCode != 86) { // ctrl v || a
