@@ -73,46 +73,58 @@ class ExportFeedFromDatabase
             }
         }
 
+        $file = storage_path() . '/import_export_tool/'. md5($findExportFeed->id) . '.json';
 
-        dd($exportData);
+        if ($exportData['currentPage'] == 1) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+
+        $appendArray = [];
+        if (is_file($file)) {
+            $getOldFile = file_get_contents($file);
+            $appendArray = json_decode($getOldFile, true);
+        }
+
+        $saveArray = array_merge($appendArray, $exportData['data']);
+        file_put_contents($file, json_encode($saveArray, JSON_PRETTY_PRINT));
 
         if ($exportData['currentPage'] == $exportData['lastPage']) {
-            return ['finished'=> true];
+
+            if ($findExportFeed->export_format == 'csv') {
+
+                $export = new CsvExport([$findExportFeed->export_type => $saveArray]);
+                $export->setOverwrite(true);
+
+                $file = $export->start();
+
+                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+            }
+
+            if ($findExportFeed->export_format == 'xml') {
+
+                $export = new XmlExport([$findExportFeed->export_type => $saveArray]);
+                $export->setOverwrite(true);
+
+                $file = $export->start();
+
+                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+            }
+
+            if ($findExportFeed->export_format == 'xlsx') {
+
+                $export = new XlsxExport([$findExportFeed->export_type => $saveArray]);
+                $export->setOverwrite(true);
+
+                $file = $export->start();
+
+                return ['finished'=> true, 'file'=>$file['files'][0]['download']];
+            }
+
         }
 
         return ['finished'=> false];
-
-        dump($exportData);
-
-       /* if ($findExportFeed->export_format == 'csv') {
-
-            $export = new CsvExport([$findExportFeed->export_type => $exportData]);
-            $export->setOverwrite(true);
-
-            $file = $export->start();
-
-            return ['file'=>$file['files'][0]['download']];
-        }
-
-        if ($findExportFeed->export_format == 'xml') {
-
-            $export = new XmlExport([$findExportFeed->export_type => $exportData]);
-            $export->setOverwrite(true);
-
-            $file = $export->start();
-
-            return ['file'=>$file['files'][0]['download']];
-        }
-
-        if ($findExportFeed->export_format == 'xlsx') {
-
-            $export = new XlsxExport([$findExportFeed->export_type => $exportData]);
-            $export->setOverwrite(true);
-
-            $file = $export->start();
-
-            return ['file'=>$file['files'][0]['download']];
-        }*/
     }
 
     public function exportCategoriesOneLevelArray()
