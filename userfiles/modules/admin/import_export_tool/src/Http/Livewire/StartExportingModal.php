@@ -32,10 +32,10 @@ class StartExportingModal extends ModalComponent
         $this->export_log['percentage'] = SessionStepper::percentage();
 
         $export = new ExportFeedFromDatabase();
-        $export->setBatchExporting(true);
 
-        $batchStep = ($this->export_log['current_step'] - 1);
-        $export->setBatchStep($batchStep);
+        $export->setBatchStep($this->export_log['current_step']);
+        $export->setSplitToParts($this->export_feed->split_to_parts);
+
         $export->setExportFeedId($this->export_feed->id);
 
         $exportStatus = $export->start();
