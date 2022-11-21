@@ -38,7 +38,7 @@ class StartExportingModal extends ModalComponent
 
         $export->setExportFeedId($this->export_feed->id);
 
-        $exportStatus = $export->start(); 
+        $exportStatus = $export->start();
 
         if (isset($exportStatus['error'])) {
             $this->error = $exportStatus['error'];
@@ -65,7 +65,7 @@ class StartExportingModal extends ModalComponent
         $this->export_feed = ExportFeed::where('id', $exportFeedId)->first();
         if ($this->export_feed == null) {
             return redirect(route('admin.import-export-tool.index-export'));
-
+        }
 
         $this->export_log['total_steps'] = $this->export_feed->split_to_parts;
         $this->export_feed_session_id = SessionStepper::generateSessionId($this->export_feed->split_to_parts);

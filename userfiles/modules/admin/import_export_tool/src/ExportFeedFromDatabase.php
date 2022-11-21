@@ -73,6 +73,9 @@ class ExportFeedFromDatabase
             }
         }
 
+
+        dd($exportData);
+
         if ($exportData['currentPage'] == $exportData['lastPage']) {
             return ['finished'=> true];
         }
@@ -116,7 +119,10 @@ class ExportFeedFromDatabase
     {
         $exportData = [];
 
-        $getAllCategories = Category::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
+        $getAllCategoriesCount = Category::count();
+        $categoriesPerPage = (int) round($getAllCategoriesCount / $this->splitToParts);
+        $getAllCategories = Category::paginate($categoriesPerPage, ['*'], 'page', $this->batchStep);
+
         if ($getAllCategories->count() > 0) {
             foreach ($getAllCategories as $category) {
                 $appendCategory = [];
@@ -175,7 +181,10 @@ class ExportFeedFromDatabase
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
-        $getAllPosts = Post::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
+
+        $getAllPostsCount = Post::count();
+        $postsPerPage = (int) round($getAllPostsCount / $this->splitToParts);
+        $getAllPosts = Post::paginate($postsPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPosts as $post) {
 
@@ -265,7 +274,10 @@ class ExportFeedFromDatabase
     public function exportPagesOneLevelArray()
     {
         $exportData = [];
-        $getAllPages = Page::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
+
+        $getAllPagesCount = Page::count();
+        $pagesPerPage = (int) round($getAllPagesCount / $this->splitToParts);
+        $getAllPages = Page::paginate($pagesPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPages as $page) {
 
@@ -332,7 +344,10 @@ class ExportFeedFromDatabase
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
-        $getAllProducts = Product::paginate($this->splitToParts, ['*'], 'page', $this->batchStep);
+
+        $getAllProductsCount = Product::count();
+        $productsPerPage = (int) round($getAllProductsCount / $this->splitToParts);
+        $getAllProducts = Product::paginate($productsPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllProducts as $product) {
 
