@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e89391a837c3b9cc3385a6878c3003b",
+    "content-hash": "c9bc695a221b060b3753f9f2cf6d6eac",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -6117,21 +6117,29 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "4.0",
+            "version": "4.2",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-modules/standalone-updater.git",
-                "reference": "92f43f07f0d18868491c8e30c86c0efed0236722"
+                "url": "https://github.com/microweber-modules/standalone-updater",
+                "reference": "6249630c3d605b5fe229fa74231961defd4b06e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-modules/standalone-updater/zipball/92f43f07f0d18868491c8e30c86c0efed0236722",
-                "reference": "92f43f07f0d18868491c8e30c86c0efed0236722",
-                "shasum": ""
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.2-9b0755.zip",
+                "reference": "6249630c3d605b5fe229fa74231961defd4b06e0",
+                "shasum": "c8be65008492c6b8169dd1628f973c18f477de8d"
             },
             "type": "microweber-module",
-            "notification-url": "https://packagist.org/downloads/",
+            "extra": {
+                "_meta": {
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/42/README.md"
+                },
+                "whmcs": {
+                    "whmcs_url": "https://members.microweber.com"
+                }
+            },
+            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
             "license": [
                 "MIT"
             ],
@@ -6146,11 +6154,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "support": {
-                "issues": "https://github.com/microweber-modules/standalone-updater/issues",
-                "source": "https://github.com/microweber-modules/standalone-updater/tree/4.0"
-            },
-            "time": "2022-11-18T08:46:30+00:00"
+            "time": "2022-11-21T08:39:54+00:00"
         },
         {
             "name": "microweber-packages/composer-client",

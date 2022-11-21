@@ -14,6 +14,7 @@ use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
+use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
 
@@ -594,22 +595,26 @@ class AppServiceProvider extends ServiceProvider
 
         $router->middlewareGroup('public.web',[
             'xss',
+            TrimStrings::class,
             MultilanguageMiddleware::class,
             AuthenticateSessionForUser::class,
         ]);
 
         $router->middlewareGroup('api',[
             'xss',
+            TrimStrings::class,
            // 'throttle:1000,1',
            // 'api_auth'
         ]);
         $router->middlewareGroup('api.user',[
             'xss',
+            TrimStrings::class,
            // 'throttle:1000,1',
             'api_auth'
         ]);
         $router->middlewareGroup('api.public',[
             'xss',
+            TrimStrings::class,
          //   'throttle:1000,1'
         ]);
         $router->middlewareGroup('api.static',[

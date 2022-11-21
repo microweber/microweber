@@ -59,6 +59,7 @@ class MicroweberMigrator extends Migrator
             if (strpos($e->getMessage(), 'already exists') !== false) {
                 $this->repository->log($name, $batch);
             }
+            $this->note($e->getMessage());
         }
 
         $runTime = round(microtime(true) - $startTime, 2);

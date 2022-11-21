@@ -205,7 +205,7 @@ class UpdateManager
             } catch (\Exception $e) {
                 $this->log_msg('Error on DB migrations' . $e->getMessage());
 
-             }
+            }
 
 
 
@@ -227,8 +227,8 @@ class UpdateManager
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
             mw()->cache_manager->clear();
-          //  scan_for_modules(['no_cache'=>true]);
-         //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
+            //  scan_for_modules(['no_cache'=>true]);
+            //   scan_for_elements(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
 
 
             scan_for_modules(['no_cache'=>true,'reload_modules'=>true,'cleanup_db'=>true]);
@@ -474,9 +474,9 @@ class UpdateManager
                 $newSystemLicense->registered_name = $licenseDetails['registeredname'];
             }
 
-         /*   if (isset($licenseDetails['registeredname'])) {
-                $newSystemLicense->company_name = $licenseDetails['registeredname'];
-            }*/
+            /*   if (isset($licenseDetails['registeredname'])) {
+                   $newSystemLicense->company_name = $licenseDetails['registeredname'];
+               }*/
 
             if (isset($licenseDetails['validdomain'])) {
                 $newSystemLicense->domains = $licenseDetails['validdomain'];
@@ -627,16 +627,16 @@ class UpdateManager
 
     public function composer_install_package_by_name($params)
     {
-       /* try {
-            return $this->composer_update->installPackageByName($params);
-        }catch (\Exception $e) {
-            return array(
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTrace()
-            );
-        }*/
+        /* try {
+             return $this->composer_update->installPackageByName($params);
+         }catch (\Exception $e) {
+             return array(
+                 'error' => $e->getMessage(),
+                 'file' => $e->getFile(),
+                 'line' => $e->getLine(),
+                 'trace' => $e->getTrace()
+             );
+         }*/
         $mw = new MicroweberComposerClient();
         return $mw->requestInstall($params);
     }
@@ -678,3 +678,4 @@ class UpdateManager
         return dirname(storage_path()) . '/';
     }
 }
+
