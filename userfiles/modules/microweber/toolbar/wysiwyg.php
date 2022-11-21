@@ -234,7 +234,17 @@
     </div>
 
     <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> </div>
-    <div class="wysiwyg-cell"><span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word"><span class="ed-ico"></span></span></div>
+      <div class="wysiwyg-cell">
+        <span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word">
+            <span class="ed-ico"></span>
+        </span>
+      </div>
+      <div class="wysiwyg-cell">
+          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward" ></span>
+          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>
+          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>
+          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-next" title="Move forward"></span>
+      </div>
 
 
 

@@ -4300,6 +4300,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     padding: 0 8px;
     cursor: pointer;
 }
+.mw-handle-buttons:empty{
+    display: none !important;
+}
 .mw-handle-buttons{
     display: inline-block;
     font-size: 17px;
@@ -5105,6 +5108,9 @@ body.dragStart picture img{
     height: auto;
     overflow: hidden;
 }
+#mw-handle-item-element .mw-handle-handler-title{
+    border-left: 1px solid #eee;
+}
 #mw-handle-item-element .mw-handle-buttons{
     display: block;
 }
@@ -5112,7 +5118,7 @@ body.dragStart picture img{
     width: 44px;
 }
 #mw-handle-item-element{
-    margin-left: -50px;
+    margin-left: -70px;
     padding-right: 10px;
     margin-top: 40px;
 }

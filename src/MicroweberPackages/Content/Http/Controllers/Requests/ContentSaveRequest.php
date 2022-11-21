@@ -68,7 +68,7 @@ class ContentSaveRequest extends FormRequest
                                     }
 
                                      //$fieldRuleExploded[] = (new \MicroweberPackages\Multilanguage\Http\Controllers\Requests\Rules\MultilanguageUniqueContentSlugRule()) ;
-                                     $fieldRuleExploded[] = Rule::dimensions()->maxWidth(1000)->maxHeight(500)->ratio(3 / 2) ;
+
 
                                    $newRules['multilanguage.' . $field . '.' . $supportedLocale['locale']] = $fieldRuleExploded;
                                 }
