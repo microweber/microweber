@@ -100,6 +100,10 @@ class ExportFeedFromDatabase
 
                 $file = $export->start();
 
+                if (isset($file['files']) && empty($file['files'])) {
+                    return ['finished'=> false, 'error'=> 'No content for export.'];
+                }
+
                 $downloadLink = $file['files'][0]['download'];
                 $findExportFeed->download_link = $downloadLink;
                 $findExportFeed->save();
@@ -115,6 +119,10 @@ class ExportFeedFromDatabase
 
                 $file = $export->start();
 
+                if (isset($file['files']) && empty($file['files'])) {
+                    return ['finished'=> false, 'error'=> 'No content for export.'];
+                }
+
                 $downloadLink = $file['files'][0]['download'];
                 $findExportFeed->download_link = $downloadLink;
                 $findExportFeed->save();
@@ -129,6 +137,10 @@ class ExportFeedFromDatabase
                 $export->setExportFilename('Export-'.ucfirst($findExportFeed->export_type).'-Feed-' . $findExportFeed->id);
 
                 $file = $export->start();
+
+                if (isset($file['files']) && empty($file['files'])) {
+                    return ['finished'=> false, 'error'=> 'No content for export.'];
+                }
 
                 $downloadLink = $file['files'][0]['download'];
                 $findExportFeed->download_link = $downloadLink;
