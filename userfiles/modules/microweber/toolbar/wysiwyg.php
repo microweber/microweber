@@ -240,6 +240,35 @@
         </span>
       </div>
       <div class="wysiwyg-cell">
+
+
+
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
+                  <span class="mw-dropdown-value">
+                      <span class="mw-dropdown-val">
+                        <?php _e("Columns"); ?>
+                      </span>
+                  </span>
+              <div class="mw-dropdown-content">
+                  <ul>
+                      <li><a>One column</a></li>
+                      <li><a>2 columns</a></li>
+                      <li><a>3 columns</a></li>
+                      <li><a>4 columns</a></li>
+                      <li><a>5 columns</a></li>
+                      <li><a>
+                        <span class="mw_editor_btn mw-icon-bin mw-handle-menu-item-icon"></span>
+                          Remove</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+
+
+
+
+      </div>
+      <div class="wysiwyg-cell">
           <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward" ></span>
           <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>
           <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>
