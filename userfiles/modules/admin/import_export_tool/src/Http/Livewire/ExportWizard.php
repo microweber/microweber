@@ -75,6 +75,7 @@ class ExportWizard extends Component
         if (!$findExportFeed) {
 
             $newDraftFeed = new ExportFeed();
+            $newDraftFeed->split_to_parts = 5;
             $newDraftFeed->is_draft = 1;
             $newDraftFeed->save();
 
