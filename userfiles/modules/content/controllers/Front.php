@@ -781,8 +781,17 @@ class Front
                     }
                 }
 
+                if (!isset($item['created_at']) or (isset($item['created_at']) and trim($item['created_at']) == '')) {
+                    // empty created_at date , so we set updated_at as created_at
+                    if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
+                        $item['created_at'] = $item['updated_at'];
+                    }
+                }
                 if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
                     $item['updated_at'] = date($date_format, strtotime($item['updated_at']));
+                }
+                if (isset($item['created_at']) and trim($item['created_at']) != '') {
+                    $item['created_at'] = date($date_format, strtotime($item['created_at']));
                 }
 
                 $item['link'] = content_link($item['id']);
@@ -875,10 +884,10 @@ class Front
                     if (!in_array('description', $show_fields)) {
                         $item['description'] = false;
                     }
-
-                    if (!in_array('created_at', $show_fields)) {
-                        $item['created_at'] = false;
-                    }
+//
+//                    if (!in_array('created_at', $show_fields)) {
+//                        $item['created_at'] = false;
+//                    }
                     if (!in_array('read_more', $show_fields)) {
                         $item['read_more'] = false;
                     }
