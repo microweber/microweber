@@ -156,6 +156,7 @@ class XSSClean
 
         $allow_attibutes = [
             'style',
+            'xlink:href',
         ];
         $antiXss->removeEvilAttributes($allow_attibutes);
 
