@@ -154,6 +154,18 @@ class XSSClean
         $antiXss->addEvilAttributes($cleanStrings);
         $antiXss->addNeverAllowedOnEventsAfterwards($cleanStrings);
 
+        $allow_attibutes = [
+            'style',
+        ];
+        $antiXss->removeEvilAttributes($allow_attibutes);
+
+        $allow_tags = [
+            'img',
+            'svg',
+        ];
+
+        $antiXss->removeEvilHtmlTags($allow_tags);
+
         $html = $antiXss->xss_clean($html);
 
 

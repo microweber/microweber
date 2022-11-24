@@ -1069,8 +1069,8 @@ class ContentManagerHelpers extends ContentManagerCrud
 //                        $antixss = new AntiXSS();
 //                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
 
-                  //      $xssClean = new XSSClean();
-                   //     $html_to_save = $content = $xssClean->clean($html_to_save);
+                        $xssClean = new XSSClean();
+                        $html_to_save = $content = $xssClean->clean($html_to_save);
 
 
 
