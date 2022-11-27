@@ -93,7 +93,7 @@ mw.wysiwyg.manageDeleteAndBackspaceInSafeMode = function (event, sel) {
         mw.wysiwyg._manageDeleteAndBackspaceInSafeMode.emptyNode(event, node, sel, range);
         return false;
     }
-    mw.wysiwyg._manageDeleteAndBackspaceInSafeMode.nodeBoundaries(event, node, sel, range);
+    // mw.wysiwyg._manageDeleteAndBackspaceInSafeMode.nodeBoundaries(event, node, sel, range);
     return true;
 };
 mw.wysiwyg.manageDeleteAndBackspace = function (event, sel) {
