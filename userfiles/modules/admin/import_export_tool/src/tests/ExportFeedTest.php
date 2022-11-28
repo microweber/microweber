@@ -24,6 +24,6 @@ class ExportFeedTest extends TestCase
 
         $this->assertTrue(ExportFeed::alL()->count() > 0);
 
-        
+
     }
 }
