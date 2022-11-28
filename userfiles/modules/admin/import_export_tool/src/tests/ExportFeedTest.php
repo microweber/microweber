@@ -18,12 +18,25 @@ class ExportFeedTest extends TestCase
 
     public function testExportWizard()
     {
-        Livewire::test(ExportWizard::class)
+        $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
             ->call('selectExportFormat', 'xlsx');
 
-        $this->assertTrue(ExportFeed::alL()->count() > 0);
+
+        $exportFeedId = $instance->export_feed['id'];
+        $findExportFeed = ExportFeed::where('id', $exportFeedId)->first();
+        $this->assertNotNull($findExportFeed);
 
 
+        $exportModal = Livewire::test(StartExportingModal::class, [$exportFeedId]);
+
+        $totalSteps = $exportModal->export_log['total_steps'];
+
+        for ($i=1; $i<=$totalSteps; $i++) {
+            $exportModal->call('nextStep');
+        }
+
+        $this->assertEquals($exportModal->export_log['current_step'],$totalSteps);
+        $this->assertEquals($exportModal->export_log['percentage'],100);
     }
 }
