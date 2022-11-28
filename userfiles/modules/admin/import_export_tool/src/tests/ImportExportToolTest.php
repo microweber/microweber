@@ -6,7 +6,13 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportExportToolTest extends TestCase
 {
-    public function testDataExampleOneXml()
+
+    public function testExportData()
+    {
+
+    }
+
+  /*  public function testDataExampleOneXml()
     {
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
@@ -28,11 +34,9 @@ class ImportExportToolTest extends TestCase
         $this->assertEquals($importFeed->count_of_contents, 6);
         $this->assertEquals($importFeed->content_tag, 'document.product');
         $this->assertEquals($importFeed->detected_content_tags, ['document.product' => []]);
-    }
+    }*/
 
-
-
-    public function testDataExampleOneCsv() {
+    /*public function testDataExampleOneCsv() {
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
@@ -56,26 +60,5 @@ class ImportExportToolTest extends TestCase
         $this->assertEquals($importFeed->count_of_contents, 6);
         $this->assertEquals($importFeed->content_tag, 'Data');
         $this->assertEquals($importFeed->detected_content_tags, ['Data' => []]);
-    }
-
-
-    public function testXCsv()
-    {
-
-
-      /*  $feedMapToArray = new FeedMapToArray();
-        $feedMapToArray->setImportFeedId($this->import_feed->id);
-        $preparedData = $feedMapToArray->toArray();
-
-        $dropdownMapping = new HtmlDropdownMappingRecursiveTable();
-        $dropdownMapping->setContent(['Data'=>$content]);
-        $dropdownMapping->setContentParentTags('Data');
-
-        $html = $dropdownMapping->render();
-
-
-        dd($html);*/
-
-
-    }
+    }*/
 }
