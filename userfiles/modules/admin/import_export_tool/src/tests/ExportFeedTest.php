@@ -7,6 +7,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Install;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
+use MicroweberPackages\Product\Models\Product;
 
 class ExportFeedTest extends TestCase
 {
@@ -18,10 +19,17 @@ class ExportFeedTest extends TestCase
 
     public function testExportWizard()
     {
+
+        for ($i=0; $i<=1000; $i++) {
+            $product = new Product();
+            $product->title = 'ExportFeedProduct-' . $i;
+            $product->price = $i;
+            $product->save();
+        }
+
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
             ->call('selectExportFormat', 'xlsx');
-
 
         $exportFeedId = $instance->export_feed['id'];
         $findExportFeed = ExportFeed::where('id', $exportFeedId)->first();
