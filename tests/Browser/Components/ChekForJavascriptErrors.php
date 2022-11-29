@@ -41,6 +41,14 @@ class ChekForJavascriptErrors extends BaseComponent
 
     public function validate(Browser $browser)
     {
+
+
+         $this->assertNotNull($browser->element('body'));
+         $this->assertNotNull($browser->element('html'));
+         $this->assertNotNull($browser->element('head'));
+
+
+
         $url = $browser->driver->getCurrentURL();
         $elements = $browser->elements('.module');
         foreach ($elements as $key => $elem) {
@@ -123,6 +131,7 @@ class ChekForJavascriptErrors extends BaseComponent
             }*/
             PHPUnit::assertFalse($output[0],'Module should not have .edit class on url: '.$url);
         }
+
 
         // this will catch broken javascripts on page
         $consoleLog = $browser->driver->manage()->getLog('browser');
