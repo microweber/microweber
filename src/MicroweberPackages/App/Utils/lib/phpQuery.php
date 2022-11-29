@@ -297,7 +297,7 @@ class DOMDocumentWrapper
         $this->document = new DOMDocument($version, $charset);
         $this->charset = $this->document->encoding;
         //		$this->document->encoding = $charset;
-        $this->document->formatOutput = true;
+        $this->document->formatOutput = false;
         $this->document->preserveWhiteSpace = true;
     }
 
