@@ -16,7 +16,7 @@
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
 
-	<?php if($page['content_type']=='product'){ ?>
+	<?php if($page and isset($page['content_type']) and $page['content_type']=='product'){ ?>
 	<script type="application/ld+json">
 	  { "@context":"http://schema.org/","@type":"Product","sku":"{product_sku}","image":"{content_image}","name":"{content_meta_title}","description":"{content_meta_description}","offers":{ "@type": "Offer","priceCurrency":"{product_currency}","price":"{product_price}" } }
 	</script>
