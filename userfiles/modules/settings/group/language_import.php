@@ -29,7 +29,7 @@ $(document).ready(function () {
 		$.post("<?php echo route('admin.language.import'); ?>", postData,
 			function(msg) {
 				if (msg.success) {
-			    	mw.reload_module('.js-language-edit-browse-<?php echo $_POST['namespaceMD5'];?>');
+			    	mw.reload_module('.js-language-edit-browse-<?php echo xss_clean($_POST['namespaceMD5']);?>');
 			    }
 				mw.notification.msg(msg);
 		});
