@@ -1251,7 +1251,6 @@ class FrontendController extends Controller
                     return app()->url_manager->redirect($redirect);
                 }
             }
-
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
                     $l = $this->liveEditToolbar($l);
