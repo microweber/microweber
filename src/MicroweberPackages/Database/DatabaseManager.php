@@ -618,7 +618,6 @@ class DatabaseManager extends DbUtils
 
         $criteria_orig = $data;
         $criteria = $this->map_array_to_table($table, $data);
-
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
         } else {

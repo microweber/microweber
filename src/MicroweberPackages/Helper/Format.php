@@ -630,6 +630,7 @@ class Format
 
     public function strip_unsafe($string, $img = false)
     {
+
         if (is_array($string)) {
             foreach ($string as $key => $val) {
                 $string[$key] = $this->strip_unsafe($val, $img);
@@ -641,10 +642,10 @@ class Format
             // Unsafe HTML tags that members may abuse
             $unsafe = array(
                 '/<iframe(.*?)<\/iframe>/is',
-                '/<title(.*?)<\/title>/is',
+               // '/<title(.*?)<\/title>/is',
                 //'/<pre(.*?)<\/pre>/is',
-                '/<audio(.*?)<\/audio>/is',
-                '/<video(.*?)<\/video>/is',
+              //  '/<audio(.*?)<\/audio>/is',
+             //   '/<video(.*?)<\/video>/is',
                 '/<frame(.*?)<\/frame>/is',
                 '/<frameset(.*?)<\/frameset>/is',
                 '/<object(.*?)<\/object>/is',
@@ -657,7 +658,7 @@ class Format
                 '/<style(.*?)<\/style>/is',
                 '/<body(.*?)>/is',
                 '/<\/body>/is',
-                '/<head(.*?)>/is',
+               // '/<head(.*?)>/is',
                 '/<\/head>/is',
                 '/onload="(.*?)"/is',
                 '/onunload="(.*?)"/is',

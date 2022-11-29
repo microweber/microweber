@@ -1065,15 +1065,14 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
 
-//  AntiXSS makes bug on save convertind comments to htmlentities
-//                        $antixss = new AntiXSS();
-//                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
+                        //\Log::info($html_to_save);
+
 
                         $xssClean = new XSSClean();
                         $html_to_save = $content = $xssClean->clean($html_to_save);
 
 
-
+                      //  \Log::info($html_to_save);
 
                         if ($save_module == false and $save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -1135,6 +1134,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_table_save[$field]=$html_to_save;
                                     }
                                 }
+
+
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
@@ -1371,6 +1372,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $table = $table_drafts;
         }
 
+
         $data = $this->app->format->strip_unsafe($data);
 
         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
@@ -1505,6 +1507,8 @@ class ContentManagerHelpers extends ContentManagerCrud
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
         }
+
+
 
         $save = $this->app->database_manager->save($data);
 

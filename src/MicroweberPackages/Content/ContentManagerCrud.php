@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Content;
 
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Database\Crud;
 use Illuminate\Support\Facades\DB;
 use function Opis\Closure\serialize as serializeClosure;

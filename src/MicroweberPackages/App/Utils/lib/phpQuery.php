@@ -221,7 +221,14 @@ class DOMDocumentWrapper
         }
         if ($loaded) {
             //			$this->document->formatOutput = true;
+            $this->document->formatOutput = false;
             $this->document->preserveWhiteSpace = true;
+
+            $this->document->validateOnParse=false;
+            $this->document->strictErrorChecking=false;
+            $this->document->recover=false;
+
+
             $this->xpath = new DOMXPath($this->document);
             $this->afterMarkupLoad();
 
@@ -294,11 +301,21 @@ class DOMDocumentWrapper
         if (!$version) {
             $version = '1.0';
         }
+
+        libxml_use_internal_errors(true);
+
         $this->document = new DOMDocument($version, $charset);
         $this->charset = $this->document->encoding;
         //		$this->document->encoding = $charset;
-        $this->document->formatOutput = true;
+       // $this->document->formatOutput = true;
+        $this->document->formatOutput = false;
+       // $this->document->standalone = true;
         $this->document->preserveWhiteSpace = true;
+
+
+        $this->document->validateOnParse=false;
+        $this->document->strictErrorChecking=false;
+        $this->document->recover=false;
     }
 
     protected function loadMarkupHTML($markup, $requestedCharset = null)
@@ -378,7 +395,15 @@ class DOMDocumentWrapper
               ? $this->document->loadHTML($markup)
               : @$this->document->loadHTML($markup); */
 
-            $return = @$this->document->loadHTML($markup);
+         // $return = @$this->document->loadHTML($markup);
+            $return = @$this->document->loadHTML($markup,
+                LIBXML_SCHEMA_CREATE |
+                LIBXML_HTML_NOIMPLIED |
+                LIBXML_HTML_NODEFDTD |
+                LIBXML_NOERROR |
+                LIBXML_NONET |
+                LIBXML_NOWARNING
+            );
 
             if ($return) {
                 $this->root = $this->document;
@@ -763,6 +788,10 @@ class DOMDocumentWrapper
                         .'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '
                         .'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
                         .'<fake xmlns="http://www.w3.org/1999/xhtml">'.$markup.'</fake>');
+
+/*                $fragment->loadMarkupXML('<?xml version="1.0" encoding="'.$charset.'"?>'*/
+//                       . phpQuery::$defaultDoctype.''
+//                        .'<fake xmlns="http://www.w3.org/1999/xhtml">'.$markup.'</fake>');
                 $fragment->root = $fragment->document->firstChild->nextSibling;
             } else {
                 $fragment->loadMarkupXML('<?xml version="1.0" encoding="'.$charset.'"?><fake>'.$markup.'</fake>');
@@ -5079,8 +5108,10 @@ abstract class phpQuery
      *
      * @var unknown_type
      */
-    public static $defaultDoctype = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    public static $defaultDoctype_old = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">';
+
+    public static $defaultDoctype = '<!doctype html>';
     public static $defaultCharset = 'UTF-8';
 
     /**

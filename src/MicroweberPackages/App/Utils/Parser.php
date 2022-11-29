@@ -135,10 +135,14 @@ class Parser
 
     public function make_tags($layout, $options = array())
     {
-
-        if ($layout == '') {
+         if ($layout == '') {
             return $layout;
         }
+
+        $layout = str_ireplace('{SITE_URL}','___mw-site-url-temp-replace-on-make-tags___', $layout);
+
+
+
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php';
 
         $pq = \phpQuery::newDocument($layout);
@@ -260,6 +264,10 @@ class Parser
                 }
             }
         }
+
+        $layout = str_ireplace('___mw-site-url-temp-replace-on-make-tags___','{SITE_URL}', $layout);
+
+
 
         return $layout;
     }
