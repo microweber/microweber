@@ -27,7 +27,6 @@ class ExportFeedTest extends TestCase
         $findExportFeed = ExportFeed::where('id', $exportFeedId)->first();
         $this->assertNotNull($findExportFeed);
 
-
         $exportModal = Livewire::test(StartExportingModal::class, [$exportFeedId]);
 
         $totalSteps = $exportModal->export_log['total_steps'];
@@ -38,5 +37,7 @@ class ExportFeedTest extends TestCase
 
         $this->assertEquals($exportModal->export_log['current_step'],$totalSteps);
         $this->assertEquals($exportModal->export_log['percentage'],100);
+        $this->assertTrue($exportModal->done);
+
     }
 }
