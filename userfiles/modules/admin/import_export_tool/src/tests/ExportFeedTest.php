@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Install;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
@@ -18,12 +19,9 @@ class ExportFeedTest extends TestCase
 
     public function testExportWizard()
     {
-        for ($i=0; $i<=100; $i++) {
-            $product = new Product();
-            $product->title = 'ExportFeedProduct-' . $i;
-            $product->price = $i;
-            $product->save();
-        }
+
+
+        
 
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
@@ -44,6 +42,13 @@ class ExportFeedTest extends TestCase
         $this->assertEquals($exportModal->export_log['current_step'],$totalSteps);
         $this->assertEquals($exportModal->export_log['percentage'],100);
         $this->assertTrue($exportModal->done);
+        $this->assertNotEmpty($exportModal->download_file);
+
+        $exportFeedFilename = backup_location() . $exportModal->export_feed_filename;
+        $read = new XlsxReader($exportFeedFilename);
+        $getProducts = $read->readData()['content'];
+        $this->assertNotEmpty($getProducts);
+
 
     }
 }

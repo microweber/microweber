@@ -108,10 +108,12 @@ class ExportFeedFromDatabase
                 }
 
                 $downloadLink = $file['files'][0]['download'];
+                $filename = $file['files'][0]['filename'];
+
                 $findExportFeed->download_link = $downloadLink;
                 $findExportFeed->save();
 
-                return ['finished'=> true, 'file'=>$downloadLink];
+                return ['finished'=> true, 'file'=>$downloadLink, 'filename'=>$filename];
             }
 
             if ($findExportFeed->export_format == 'xml') {
@@ -127,10 +129,12 @@ class ExportFeedFromDatabase
                 }
 
                 $downloadLink = $file['files'][0]['download'];
+                $filename = $file['files'][0]['filename'];
+
                 $findExportFeed->download_link = $downloadLink;
                 $findExportFeed->save();
 
-                return ['finished'=> true, 'file'=>$downloadLink];
+                return ['finished'=> true, 'file'=>$downloadLink, 'filename'=>$filename];
             }
 
             if ($findExportFeed->export_format == 'xlsx') {
@@ -146,10 +150,12 @@ class ExportFeedFromDatabase
                 }
 
                 $downloadLink = $file['files'][0]['download'];
+                $filename = $file['files'][0]['filename'];
+
                 $findExportFeed->download_link = $downloadLink;
                 $findExportFeed->save();
 
-                return ['finished'=> true, 'file'=>$downloadLink];
+                return ['finished'=> true, 'file'=>$downloadLink, 'filename'=>$filename];
             }
 
         }
