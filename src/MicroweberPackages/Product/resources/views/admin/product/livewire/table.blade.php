@@ -24,7 +24,7 @@ if (isset($filters['category'])) {
                 <strong class="d-md-flex d-none">
 
 
-                 <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('showFromCategory', false);return false;">{{_e('Products')}}</a>
+                 <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Products')}}</a>
 
 
 
@@ -52,7 +52,10 @@ if (isset($filters['category'])) {
 
 
                 @if($findCategory)
-                <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('showFromCategory', false);return false;">
+
+
+
+                <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
                     <i class="fa fa-times-circle"></i>
                 </a>
                 @endif

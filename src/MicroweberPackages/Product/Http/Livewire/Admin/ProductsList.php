@@ -74,6 +74,7 @@ class ProductsList extends Component
     {
         $this->checked = [];
         $this->selectAll = false;
+
     }
 
     public function updatedShowColumns($value)

@@ -8,6 +8,9 @@
         top: 70px;
         min-height: 200px;
     }
+    .main .tree {
+        display: block;
+    }
 </style>
 
 <div class="main pt-0">
@@ -171,7 +174,14 @@
         </script>
 
         <script>
+            Livewire.on('markCategorySelectedOnTheTree', function (id) {
 
+               // pagesTree.select(id, 'category', false);
+            });
+            Livewire.on('deselectAllCategories', function () {
+                pagesTree.unselectAll(false);
+                window.livewire.emit('showFromCategory', false);
+            });
             Livewire.on('selectCategoryFromTableList', function (id) {
                 pagesTree.unselectAll(false);
                 pagesTree.show(id, 'category');
