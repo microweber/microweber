@@ -18,6 +18,7 @@ class StartExportingModal extends ModalComponent
     ];
     public $export_feed_session_id = false;
     public $export_feed;
+    public $export_feed_filename = '';
     public $download_file = '';
 
     public $listeners = [
@@ -48,6 +49,7 @@ class StartExportingModal extends ModalComponent
 
         if (isset($exportStatus['finished']) && $exportStatus['finished']) {
             $this->download_file = $exportStatus['file'];
+            $this->export_feed_filename = $exportStatus['filename'];
             $this->done = true;
             return array("success"=>"Done! All steps are finished.");
         }
