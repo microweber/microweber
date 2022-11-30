@@ -31,9 +31,28 @@ class XlsxExport extends DefaultExport
                     }
                 }
 
+                $rowKeys = [];
+                foreach ($exportData as $exportItem) {
+                    foreach ($exportItem as $key=>$value) {
+                        $rowKeys[$key] = $key;
+                    }
+                }
+                $rowKeys = array_keys($rowKeys);
+
+                $exportDataFilled = [];
+                foreach ($exportData as $exportItem) {
+                    foreach ($rowKeys as $rowKey) {
+                        $exportItemFilled[$rowKey] = ' ';
+                    }
+                    foreach ($exportItem as $key=>$value) {
+                        $exportItemFilled[$key] = $value;
+                    }
+                    $exportDataFilled[] = $exportItemFilled;
+                }
+
 				$spreadsheet = SpreadsheetHelper::newSpreadsheet();
-				$spreadsheet->addRow(array_keys($exportData[0]));
-				$spreadsheet->addRows($exportData);
+				$spreadsheet->addRow($rowKeys);
+				$spreadsheet->addRows($exportDataFilled);
 				$spreadsheet->save($xlsxFileName['filepath']);
 
 				$exportedFiles[] = $xlsxFileName;
