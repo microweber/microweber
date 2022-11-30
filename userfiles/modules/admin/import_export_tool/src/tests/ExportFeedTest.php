@@ -14,12 +14,10 @@ class ExportFeedTest extends TestCase
     public function testInstall()
     {
         Livewire::test(Install::class)->call('startInstalling');
-
     }
 
     public function testExportWizard()
     {
-
         for ($i=0; $i<=100; $i++) {
             $product = new Product();
             $product->title = 'ExportFeedProduct-' . $i;

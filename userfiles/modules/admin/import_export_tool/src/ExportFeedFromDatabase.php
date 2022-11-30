@@ -74,6 +74,9 @@ class ExportFeedFromDatabase
         }
 
         $file = storage_path() . '/import_export_tool/'. md5($findExportFeed->id) . '.json';
+        if (!is_dir(dirname($file))) {
+            mkdir_recursive(dirname($file));
+        }
 
         if ($exportData['currentPage'] == 1) {
             if (is_file($file)) {
@@ -159,7 +162,7 @@ class ExportFeedFromDatabase
         $exportData = [];
 
         $getAllCategoriesCount = Category::count();
-        $categoriesPerPage = (int) round($getAllCategoriesCount / $this->splitToParts);
+        $categoriesPerPage = (int) ceil($getAllCategoriesCount / $this->splitToParts);
         $getAllCategories = Category::paginate($categoriesPerPage, ['*'], 'page', $this->batchStep);
 
         if ($getAllCategories->count() > 0) {
@@ -222,7 +225,7 @@ class ExportFeedFromDatabase
         $categoryTreeItems = app()->category_repository->tree();
 
         $getAllPostsCount = Post::count();
-        $postsPerPage = (int) round($getAllPostsCount / $this->splitToParts);
+        $postsPerPage = (int) ceil($getAllPostsCount / $this->splitToParts);
         $getAllPosts = Post::paginate($postsPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPosts as $post) {
@@ -315,7 +318,7 @@ class ExportFeedFromDatabase
         $exportData = [];
 
         $getAllPagesCount = Page::count();
-        $pagesPerPage = (int) round($getAllPagesCount / $this->splitToParts);
+        $pagesPerPage = (int) ceil($getAllPagesCount / $this->splitToParts);
         $getAllPages = Page::paginate($pagesPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllPages as $page) {
@@ -385,7 +388,7 @@ class ExportFeedFromDatabase
         $categoryTreeItems = app()->category_repository->tree();
 
         $getAllProductsCount = Product::count();
-        $productsPerPage = (int) round($getAllProductsCount / $this->splitToParts);
+        $productsPerPage = (int) ceil($getAllProductsCount / $this->splitToParts);
         $getAllProducts = Product::paginate($productsPerPage, ['*'], 'page', $this->batchStep);
 
         foreach ($getAllProducts as $product) {
