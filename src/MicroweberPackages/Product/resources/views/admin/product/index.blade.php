@@ -57,7 +57,7 @@
                 }
                 var treeTail = [
                     {
-                        title: '<?php _e("Trash") ?>',
+                        title: '<?php _ejs("Trash") ?>',
                         icon: 'mdi mdi-delete',
                         action: function () {
 
@@ -70,7 +70,7 @@
                 ];
                 var contextMenu =  [
                     {
-                        title: 'Open',
+                        title: '<?php _ejs("Select"); ?>',
                         icon: 'mdi mdi-open-in-new',
                         action: function (element, data) {
 
@@ -82,14 +82,14 @@
                         }
                     },
                     {
-                        title: 'Edit',
+                        title: '<?php _ejs("Edit"); ?>',
                         icon: 'mdi mdi-pencil',
                         action: function (element, data, menuitem) {
                             window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
                         }
                     },
                     {
-                        title: 'Delete',
+                        title: '<?php _ejs("Delete"); ?>',
                         icon: 'mdi mdi-delete',
                         action: function (element, data, menuitem) {
 
@@ -104,7 +104,7 @@
                             else {
                                 mw.content.deleteContent(data.id, function () {
                                     $(element).fadeOut();
-                                    mw.notification.success('<?php _e("Content deleted"); ?>');
+                                    mw.notification.success('<?php _ejs("Content deleted"); ?>');
                                 });
                             }
 
@@ -138,8 +138,7 @@
                     params: params
                 }, 'tree').then(function (res) {
                     pagesTree = res.tree;
-                    // todo: remove
-                    select(8, 'category');
+
 
                     var treeHolderSet = function (){
                         var treeHolder = mw.element('#admin-main-tree');
@@ -174,10 +173,7 @@
         </script>
 
         <script>
-            Livewire.on('markCategorySelectedOnTheTree', function (id) {
 
-               // pagesTree.select(id, 'category', false);
-            });
             Livewire.on('deselectAllCategories', function () {
                 pagesTree.unselectAll(false);
                 window.livewire.emit('showFromCategory', false);
