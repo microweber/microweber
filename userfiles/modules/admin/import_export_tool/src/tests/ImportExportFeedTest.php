@@ -5,31 +5,34 @@ use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Install;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Product\Models\Product;
 
-class ExportFeedTest extends TestCase
+class ImportExportFeedTest extends TestCase
 {
     public function testInstall()
     {
         Livewire::test(Install::class)->call('startInstalling');
     }
 
-    public function testExportWizard()
+    public function testImportExportWizard()
     {
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
-        $content = $zip->getFromName('data-example-1.xml');
+        $content = $zip->getFromName('mw-export-format-products.xlsx');
         $zip->close();
 
-        $tempName = tempnam(storage_path(),'xml');
+        $tempName = tempnam(storage_path(),'xlsx');
         file_put_contents($tempName, $content);
 
+        $instance = Livewire::test(ImportWizard::class)
+                ->call('selectImportTo', 'products');
 
-        dd($content);
 
+        die();
 
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
