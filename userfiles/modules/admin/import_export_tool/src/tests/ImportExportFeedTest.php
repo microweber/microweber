@@ -11,6 +11,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Install;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
@@ -63,13 +64,17 @@ class ImportExportFeedTest extends TestCase
                 ->set('import_feed.primary_key', 'id')
                 ->set('import_feed.parent_page', Page::where('is_shop',1)->first()->id);
 
-        // Lets import with modal
+        // Let's import with modal
+        $importModal = Livewire::test(StartImportingModal::class, [$instance->importFeedId]);
 
+        $totalSteps = $importModal->import_log['total_steps'];
 
-        
-        $importFeed = ImportFeed::where('id', $instance->importFeedId)->first()->toArray();
-        dd($importFeed);
-        die();
+        for ($i=1; $i<=$totalSteps; $i++) {
+            $importModal->call('nextStep');
+        }
+        $this->assertEquals($importModal->import_log['current_step'],$totalSteps);
+        $this->assertEquals($importModal->import_log['percentage'],100);
+
 
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
