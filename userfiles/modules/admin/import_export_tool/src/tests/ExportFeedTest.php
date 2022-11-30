@@ -19,9 +19,17 @@ class ExportFeedTest extends TestCase
 
     public function testExportWizard()
     {
+        $zip = new \ZipArchive();
+        $zip->open(__DIR__ . '/simple-data.zip');
+        $content = $zip->getFromName('data-example-1.xml');
+        $zip->close();
+
+        $tempName = tempnam(storage_path(),'xml');
+        file_put_contents($tempName, $content);
 
 
-        
+        dd($content);
+
 
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
