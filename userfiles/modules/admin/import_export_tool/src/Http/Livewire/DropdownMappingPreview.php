@@ -56,15 +56,13 @@ class DropdownMappingPreview extends Component
 
         $allFieldsFilled = [];
         if (isset($content[$contentParentTag])) {
-
             foreach ($content[$contentParentTag] as $contentItem) {
                 foreach ($contentItem as $contentItemKey=>$contentItemValue) {
-                    if (!empty(trim($contentItemValue))) {
+                    if (!empty(trim($contentItemValue)) && !isset($allFieldsFilled[$contentItemKey])) {
                         $allFieldsFilled[$contentItemKey] = $contentItemValue;
                     }
                 }
             }
-
             $allFieldsFilledReady = $allFieldsFilled;
             $allFieldsFilled = [];
             $allFieldsFilled[$contentParentTag][] = $allFieldsFilledReady;
