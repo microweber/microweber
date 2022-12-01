@@ -1,9 +1,7 @@
 <?php
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -15,7 +13,6 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImporti
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
 
 class ImportExportFeedTest extends TestCase
 {
