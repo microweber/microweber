@@ -7,13 +7,16 @@
         position: sticky;
         top: 70px;
         min-height: 200px;
+
     }
+
     .main .tree {
         display: block;
     }
+
 </style>
 
-<div class="main pt-0">
+<div class="pt-0">
     <div>
         <div class="tree-show-hide-nav">
 
@@ -189,10 +192,10 @@
 
 
     </div>
-    <main class="module-content">
+    <div class="module-content">
         <livewire:admin-products-list />
         <livewire:admin-content-bulk-options />
-    </main>
+    </div>
 </div>
 
 
