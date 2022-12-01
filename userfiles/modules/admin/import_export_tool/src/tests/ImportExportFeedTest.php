@@ -13,6 +13,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImporti
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 
 class ImportExportFeedTest extends TestCase
 {
@@ -23,6 +24,8 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
+        Product::truncate();
+
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xlsx');
@@ -72,7 +75,6 @@ class ImportExportFeedTest extends TestCase
         $this->assertEquals($importModal->import_log['current_step'],$totalSteps);
         $this->assertEquals($importModal->import_log['percentage'],100);
 
-
         $instance = Livewire::test(ExportWizard::class)
             ->call('selectExportType', 'products')
             ->call('selectExportFormat', 'xlsx');
@@ -94,11 +96,24 @@ class ImportExportFeedTest extends TestCase
         $this->assertTrue($exportModal->done);
         $this->assertNotEmpty($exportModal->download_file);
 
-        $exportFeedFilename = backup_location() . $exportModal->export_feed_filename;
-        $read = new XlsxReader($exportFeedFilename);
-        $getProducts = $read->readData()['content'];
-        $this->assertNotEmpty($getProducts);
 
+        // Read dry products
+        $dryProductsRead = new XlsxReader($importFeed['source_file_realpath']);
+        $getDryProducts = $dryProductsRead->readData()['content'];
+
+        // Read exported products
+        $exportFeedFilename = backup_location() . $exportModal->export_feed_filename;
+        $exportFeedRead = new XlsxReader($exportFeedFilename);
+        $getExportedProducts = [];
+        foreach ($exportFeedRead->readData()['content'] as $product) {
+            $getExportedProducts[$product['id']] = $product;
+        }
+
+        $this->assertNotEmpty($getExportedProducts);
+
+        foreach ($getDryProducts as $dryProduct) {
+            $exportedProduct = $getExportedProducts[$dryProduct['id']];
+        }
 
     }
 }
