@@ -54,11 +54,23 @@ class DropdownMappingPreview extends Component
         $contentParentTag = $this->import_feed['content_tag'];
         $content = $this->import_feed['source_content'];
 
-        $firstItem = data_get($content, $contentParentTag . '.0');
-        Arr::forget($content, $contentParentTag);
-        data_fill($content, $contentParentTag . '.0', $firstItem);
+        $allFieldsFilled = [];
+        if (isset($content[$contentParentTag])) {
 
-        $dropdowns = $this->arrayPreviewInHtmlRecursive($content, $contentParentTag);
+            foreach ($content[$contentParentTag] as $contentItem) {
+                foreach ($contentItem as $contentItemKey=>$contentItemValue) {
+                    if (!empty(trim($contentItemValue))) {
+                        $allFieldsFilled[$contentItemKey] = $contentItemValue;
+                    }
+                }
+            }
+
+            $allFieldsFilledReady = $allFieldsFilled;
+            $allFieldsFilled = [];
+            $allFieldsFilled[$contentParentTag][] = $allFieldsFilledReady;
+        }
+
+        $dropdowns = $this->arrayPreviewInHtmlRecursive($allFieldsFilled, $contentParentTag);
 
         if (empty($this->import_feed['mapped_tags'])) {
             $automaticSelected = $this->getAutomaticSelectedOptions();
