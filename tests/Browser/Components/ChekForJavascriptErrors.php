@@ -43,9 +43,10 @@ class ChekForJavascriptErrors extends BaseComponent
     {
 
 
-         $this->assertNotNull($browser->element('body'));
-         $this->assertNotNull($browser->element('html'));
-         $this->assertNotNull($browser->element('head'));
+         PHPUnit::assertFalse(!is_null($browser->element('body')));
+         PHPUnit::assertFalse(!is_null($browser->element('html')));
+         PHPUnit::assertFalse(!is_null($browser->element('head')));
+
 
 
 
