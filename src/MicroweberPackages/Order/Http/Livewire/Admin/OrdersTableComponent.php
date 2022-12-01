@@ -166,6 +166,12 @@ class OrdersTableComponent extends Component
 
     public function render()
     {
+
+
+        if ($this->orders and !empty($this->orders)) {
+            $this->orders->load('cart');
+        }
+
         return view('order::admin.orders.livewire.table', [
             'orders' => $this->orders,
             'showColumns' => $this->showColumns,

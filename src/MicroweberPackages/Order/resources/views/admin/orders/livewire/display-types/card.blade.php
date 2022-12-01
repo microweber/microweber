@@ -3,10 +3,23 @@
 @foreach ($orders as $order)
 
     @php
-        $carts = $order->cart()->with('products')->get();
+
+
+
+
+        if (empty($order->cart)) {
+            continue;
+        }
+
+        $carts = $order->cart ;
         if ($carts->count() == 0) {
             continue;
         }
+
+
+
+        $cart = $order->cart->first();
+        $cartProduct = $cart->products->first();
     @endphp
     <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver">
     <div class="card-body">
@@ -17,10 +30,7 @@
                     <div class="col item-image">
                         <div class="img-circle-holder">
 
-                            @php
-                                $cart = $order->cart()->with('products')->first();
-                                $cartProduct = $cart->products->first();
-                            @endphp
+
                             @if (isset($cartProduct) && $cartProduct != null)
                                 <a href="#">
                                     <img src="{{$cartProduct->thumbnail()}}" />
@@ -32,10 +42,8 @@
                     <div class="col item-id"><span class="text-primary">#{{$order->id}}</span></div>
                     <div class="col item-title">
                         <span class="text-primary text-break-line-2">
-                             @php
-                                 $carts = $order->cart()->with('products')->get();
-                             @endphp
-                            @foreach ($carts as $cart)
+
+                           @foreach ($carts as $cart)
                                 @php
                                     $cartProduct = $cart->products->first();
                                     if ($cartProduct == null) {
