@@ -55,10 +55,19 @@
     @foreach ($orders as $order)
 
         @php
-            $carts = $order->cart()->with('products')->get();
+            if (empty($order->cart)) {
+                continue;
+            }
+
+            $carts = $order->cart ;
             if ($carts->count() == 0) {
                 continue;
             }
+
+
+
+            $cart = $order->cart->first();
+            $cartProduct = $cart->products->first();
         @endphp
 
         <tr class="manage-post-item">
@@ -73,10 +82,6 @@
 
             @if($showColumns['image'])
                 <td>
-                    @php
-                        $cart = $order->cart()->with('products')->first();
-                        $cartProduct = $cart->products->first();
-                    @endphp
                     @if (isset($cartProduct) && $cartProduct != null)
                         <a href="#">
                             <div class="img-circle-holder">
@@ -89,9 +94,6 @@
 
             @if($showColumns['products'])
                 <td>
-                    @php
-                        $carts = $order->cart()->with('products')->get();
-                    @endphp
                     @foreach ($carts as $cart)
                         @php
                             $cartProduct = $cart->products->first();
