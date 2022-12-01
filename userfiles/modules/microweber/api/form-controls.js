@@ -805,6 +805,7 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root)
             var treeEl = document.createElement('div');
             treeEl.className = 'form-group';
+            treeEl.style.marginInline = '15px;';
             if (options.text) {
                 _linkText = mw.controlFields.field({
                     label: options.text.label,
@@ -835,7 +836,8 @@ mw.emitter = {
                     sortable: false,
                     selectable: true,
                     singleSelect: true,
-                    searchInput: false
+                    searchInputClassName: 'mw-ui-field mw-ui-field-small',
+                    searchInput: true
                 });
 
                 var dialog = mw.dialog.get(treeEl);

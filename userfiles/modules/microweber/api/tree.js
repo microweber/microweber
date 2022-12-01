@@ -139,6 +139,11 @@
             if(this.options.searchInput === true) {
                 this.options.searchInput = document.createElement('input');
                 this.options.searchInput.className = 'form-control form-control-sm';
+
+                if(this.options.searchInputClassName){
+                    this.options.searchInput.className = this.options.searchInputClassName;
+                }
+
                 this.options.searchInput.placeholder = this.options.searchInputPlaceholder || mw.lang('Search');
                  mw.$(this.options.searchInput).css({
                     position: 'sticky',
