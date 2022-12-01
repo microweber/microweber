@@ -1,4 +1,6 @@
-<table class="table table-responsive orders-table">
+<div class="table-responsive">
+
+    <table class="table orders-table">
     <thead>
     <tr>
         <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
@@ -177,3 +179,4 @@
     </tbody>
 
 </table>
+</div>
