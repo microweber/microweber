@@ -56,13 +56,15 @@ class ImportExportFeedTest extends TestCase
         mkdir_recursive(dirname($importFeed['source_file_realpath']));
         file_put_contents($importFeed['source_file_realpath'], $content);
 
+        $shopProductId = Page::where('is_shop',1)->first()->id;
+
         $instance->set('import_feed.content_tag', 'Worksheet')
                 ->call('changeContentTag')
                 ->assertEmitted('dropdownMappingPreviewRefresh')
                 ->assertSee('Feed is read successfully')
                 ->call('saveMapping')
                 ->set('import_feed.primary_key', 'id')
-                ->set('import_feed.parent_page', Page::where('is_shop',1)->first()->id);
+                ->set('import_feed.parent_page', $shopProductId);
 
         // Let's import with modal
         $importModal = Livewire::test(StartImportingModal::class, [$instance->importFeedId]);
@@ -112,7 +114,30 @@ class ImportExportFeedTest extends TestCase
         $this->assertNotEmpty($getExportedProducts);
 
         foreach ($getDryProducts as $dryProduct) {
+
             $exportedProduct = $getExportedProducts[$dryProduct['id']];
+
+           // $this->assertSame($exportedProduct['parent_id'], $shopProductId);
+            $this->assertSame($dryProduct['id'], $exportedProduct['id']);
+            $this->assertSame($dryProduct['title'], $exportedProduct['title']);
+            //$this->assertSame($dryProduct['url'], $exportedProduct['url']);
+            $this->assertSame($dryProduct['content_body'], $exportedProduct['content_body']);
+            $this->assertSame($dryProduct['content_meta_title'], $exportedProduct['content_meta_title']);
+            $this->assertSame($dryProduct['content_meta_keywords'], $exportedProduct['content_meta_keywords']);
+            $this->assertSame($dryProduct['price'], $exportedProduct['price']);
+            $this->assertSame($dryProduct['special_price'], $exportedProduct['special_price']);
+            $this->assertSame($dryProduct['qty'], $exportedProduct['qty']);
+            $this->assertSame($dryProduct['sku'], $exportedProduct['sku']);
+            $this->assertSame($dryProduct['barcode'], $exportedProduct['barcode']);
+            $this->assertSame($dryProduct['weight'], $exportedProduct['weight']);
+            $this->assertSame($dryProduct['weight_type'], $exportedProduct['weight_type']);
+            //$this->assertSame($dryProduct['free_shipping'], $exportedProduct['free_shipping']);
+            $this->assertSame($dryProduct['width'], $exportedProduct['width']);
+            $this->assertSame($dryProduct['height'], $exportedProduct['height']);
+            $this->assertSame($dryProduct['depth'], $exportedProduct['depth']);
+          //  $this->assertSame($dryProduct['tags'], $exportedProduct['tags']);
+
+            // dump($dryProduct);dd($exportedProduct);
         }
 
     }
