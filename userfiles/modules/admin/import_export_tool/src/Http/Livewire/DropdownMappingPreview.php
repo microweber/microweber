@@ -58,7 +58,7 @@ class DropdownMappingPreview extends Component
         if (isset($content[$contentParentTag])) {
             foreach ($content[$contentParentTag] as $contentItem) {
                 foreach ($contentItem as $contentItemKey=>$contentItemValue) {
-                    if (!empty(trim($contentItemValue)) && !isset($allFieldsFilled[$contentItemKey])) {
+                    if (!empty(trim(strip_tags($contentItemValue))) && !isset($allFieldsFilled[$contentItemKey])) {
                         $allFieldsFilled[$contentItemKey] = $contentItemValue;
                     }
                 }
