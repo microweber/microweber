@@ -36,10 +36,6 @@ class ImportExportFeedTest extends TestCase
             mkdir_recursive(storage_path().'/import-export-tool/');
         }
 
-        rmdir_recursive(backup_location());
-        DB::table('content')->truncate();
-        clearcache();
-
         $page = new Page();
         $page->title = 'Shop';
         $page->is_shop = 1;
@@ -107,7 +103,7 @@ class ImportExportFeedTest extends TestCase
         // Read dry products
         $dryProductsRead = new XlsxReader($importFeed['source_file_realpath']);
         $getDryProducts = $dryProductsRead->readData()['content'];
-
+        
         // Read exported products
         $exportFeedFilename = backup_location() . $exportModal->export_feed_filename;
         $exportFeedRead = new XlsxReader($exportFeedFilename);
