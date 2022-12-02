@@ -15,6 +15,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ImportExportFeedTest extends TestCase
 {
@@ -27,6 +28,8 @@ class ImportExportFeedTest extends TestCase
     {
         Content::truncate();
         clearcache();
+        \Config::set('microweber.disable_model_cache', 1);
+        AbstractRepository::disableCache();
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
