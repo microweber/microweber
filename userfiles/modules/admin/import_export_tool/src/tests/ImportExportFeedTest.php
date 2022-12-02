@@ -36,6 +36,7 @@ class ImportExportFeedTest extends TestCase
             mkdir_recursive(storage_path().'/import-export-tool/');
         }
 
+        rmdir_recursive(backup_location());
         DB::table('content')->truncate();
         clearcache();
 
