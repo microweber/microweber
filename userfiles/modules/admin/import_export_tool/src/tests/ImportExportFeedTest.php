@@ -25,8 +25,8 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
-        Content::truncate();
         clearcache();
+        Content::truncate();
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
