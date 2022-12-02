@@ -50,25 +50,25 @@ class ExportFeedFromDatabase
         $exportData = [];
 
         if ($findExportFeed->export_type == 'products') {
-            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                 $exportData = $this->exportProductOneLevelArray();
             }
         }
 
         if ($findExportFeed->export_type == 'categories') {
-            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                 $exportData = $this->exportCategoriesOneLevelArray();
             }
         }
 
         if ($findExportFeed->export_type == 'posts') {
-            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                 $exportData = $this->exportPostsOneLevelArray();
             }
         }
 
         if ($findExportFeed->export_type == 'pages') {
-            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
+            if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
                 $exportData = $this->exportPagesOneLevelArray();
             }
         }

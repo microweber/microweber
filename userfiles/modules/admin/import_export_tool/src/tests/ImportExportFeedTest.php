@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -15,6 +16,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ImportExportFeedTest extends TestCase
 {
@@ -25,9 +27,6 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
-        clearcache();
-        Content::truncate();
-
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xlsx');
@@ -119,27 +118,22 @@ class ImportExportFeedTest extends TestCase
 
             $exportedProduct = $getExportedProducts[$dryProduct['id']];
 
-           // $this->assertSame($exportedProduct['parent_id'], $shopProductId);
-            $this->assertSame($dryProduct['id'], $exportedProduct['id']);
-            $this->assertSame($dryProduct['title'], $exportedProduct['title']);
-            //$this->assertSame($dryProduct['url'], $exportedProduct['url']);
-            $this->assertSame($dryProduct['content_body'], $exportedProduct['content_body']);
-            $this->assertSame($dryProduct['content_meta_title'], $exportedProduct['content_meta_title']);
-            $this->assertSame($dryProduct['content_meta_keywords'], $exportedProduct['content_meta_keywords']);
-            $this->assertSame($dryProduct['price'], $exportedProduct['price']);
-            $this->assertSame($dryProduct['special_price'], $exportedProduct['special_price']);
-            $this->assertSame($dryProduct['qty'], $exportedProduct['qty']);
-            $this->assertSame($dryProduct['sku'], $exportedProduct['sku']);
-            $this->assertSame($dryProduct['barcode'], $exportedProduct['barcode']);
-            $this->assertSame($dryProduct['weight'], $exportedProduct['weight']);
-            $this->assertSame($dryProduct['weight_type'], $exportedProduct['weight_type']);
-            //$this->assertSame($dryProduct['free_shipping'], $exportedProduct['free_shipping']);
-            $this->assertSame($dryProduct['width'], $exportedProduct['width']);
-            $this->assertSame($dryProduct['height'], $exportedProduct['height']);
-            $this->assertSame($dryProduct['depth'], $exportedProduct['depth']);
-          //  $this->assertSame($dryProduct['tags'], $exportedProduct['tags']);
+            $this->assertEquals($dryProduct['id'], $exportedProduct['id']);
+            $this->assertEquals($dryProduct['title'], $exportedProduct['title']);
+            $this->assertEquals($dryProduct['content_body'], $exportedProduct['content_body']);
+            $this->assertEquals($dryProduct['content_meta_title'], $exportedProduct['content_meta_title']);
+            $this->assertEquals($dryProduct['content_meta_keywords'], $exportedProduct['content_meta_keywords']);
+            $this->assertEquals($dryProduct['price'], $exportedProduct['price']);
+            $this->assertEquals($dryProduct['special_price'], $exportedProduct['special_price']);
+            $this->assertEquals($dryProduct['qty'], $exportedProduct['qty']);
+            $this->assertEquals($dryProduct['sku'], $exportedProduct['sku']);
+            $this->assertEquals($dryProduct['barcode'], $exportedProduct['barcode']);
+            $this->assertEquals($dryProduct['weight'], $exportedProduct['weight']);
+            $this->assertEquals($dryProduct['weight_type'], $exportedProduct['weight_type']);
+            $this->assertEquals($dryProduct['width'], $exportedProduct['width']);
+            $this->assertEquals($dryProduct['height'], $exportedProduct['height']);
+            $this->assertEquals($dryProduct['depth'], $exportedProduct['depth']);
 
-            // dump($dryProduct);dd($exportedProduct);
         }
 
     }
