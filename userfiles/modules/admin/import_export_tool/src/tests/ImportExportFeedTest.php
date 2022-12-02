@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -26,11 +27,6 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
-        Content::truncate();
-        clearcache();
-        \Config::set('microweber.disable_model_cache', 1);
-        AbstractRepository::disableCache();
-
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
         $content = $zip->getFromName('mw-export-format-products.xlsx');
@@ -39,6 +35,9 @@ class ImportExportFeedTest extends TestCase
         if (!is_dir(storage_path().'/import-export-tool/')) {
             mkdir_recursive(storage_path().'/import-export-tool/');
         }
+
+        DB::table('content')->truncate();
+        clearcache();
 
         $page = new Page();
         $page->title = 'Shop';
@@ -120,7 +119,6 @@ class ImportExportFeedTest extends TestCase
 
         foreach ($getDryProducts as $dryProduct) {
 
-            $exportedProduct = [];
             $exportedProduct = $getExportedProducts[$dryProduct['id']];
 
             $this->assertEquals($dryProduct['id'], $exportedProduct['id']);
