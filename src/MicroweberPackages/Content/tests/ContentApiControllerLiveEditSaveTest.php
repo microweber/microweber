@@ -63,6 +63,12 @@ Call to action
 HTML;
 
 
+        $pq = \phpQuery::newDocument($contentFieldHtml);
+
+        $contentFieldHtml = $pq->htmlOuter();
+
+
+
         $fieldsData = [
             'field_data_0' => [
                 'attributes' => [
@@ -91,7 +97,6 @@ HTML;
 
         $fieldSaved = $response->decodeResponseJson();
 
-        return;
 
         $this->assertEquals(trim($fieldSaved[0]['content']), trim($contentFieldHtml));
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
@@ -285,6 +290,8 @@ HTML;
             }
 
             $contentFieldHtml = $string;
+
+
 
             $fieldsData = [
                 'field_data_0' => [
