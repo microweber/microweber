@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
 use Livewire\Livewire;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
@@ -24,7 +25,8 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
-        Product::truncate();
+        $content = Content::all();
+        $content->truncate();
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
