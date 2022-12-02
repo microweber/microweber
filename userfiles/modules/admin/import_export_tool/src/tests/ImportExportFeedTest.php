@@ -25,8 +25,8 @@ class ImportExportFeedTest extends TestCase
 
     public function testImportExportWizard()
     {
-        clearcache();
         Content::truncate();
+        clearcache();
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/simple-data.zip');
@@ -117,29 +117,25 @@ class ImportExportFeedTest extends TestCase
 
         foreach ($getDryProducts as $dryProduct) {
 
+            $exportedProduct = [];
             $exportedProduct = $getExportedProducts[$dryProduct['id']];
 
-           // $this->assertSame($exportedProduct['parent_id'], $shopProductId);
-            $this->assertSame($dryProduct['id'], $exportedProduct['id']);
-            $this->assertSame($dryProduct['title'], $exportedProduct['title']);
-            //$this->assertSame($dryProduct['url'], $exportedProduct['url']);
-            $this->assertSame($dryProduct['content_body'], $exportedProduct['content_body']);
-            $this->assertSame($dryProduct['content_meta_title'], $exportedProduct['content_meta_title']);
-            $this->assertSame($dryProduct['content_meta_keywords'], $exportedProduct['content_meta_keywords']);
-            $this->assertSame($dryProduct['price'], $exportedProduct['price']);
-            $this->assertSame($dryProduct['special_price'], $exportedProduct['special_price']);
-            $this->assertSame($dryProduct['qty'], $exportedProduct['qty']);
-            $this->assertSame($dryProduct['sku'], $exportedProduct['sku']);
-            $this->assertSame($dryProduct['barcode'], $exportedProduct['barcode']);
-            $this->assertSame($dryProduct['weight'], $exportedProduct['weight']);
-            $this->assertSame($dryProduct['weight_type'], $exportedProduct['weight_type']);
-            //$this->assertSame($dryProduct['free_shipping'], $exportedProduct['free_shipping']);
-            $this->assertSame($dryProduct['width'], $exportedProduct['width']);
-            $this->assertSame($dryProduct['height'], $exportedProduct['height']);
-            $this->assertSame($dryProduct['depth'], $exportedProduct['depth']);
-          //  $this->assertSame($dryProduct['tags'], $exportedProduct['tags']);
+            $this->assertEquals($dryProduct['id'], $exportedProduct['id']);
+            $this->assertEquals($dryProduct['title'], $exportedProduct['title']);
+            $this->assertEquals($dryProduct['content_body'], $exportedProduct['content_body']);
+            $this->assertEquals($dryProduct['content_meta_title'], $exportedProduct['content_meta_title']);
+            $this->assertEquals($dryProduct['content_meta_keywords'], $exportedProduct['content_meta_keywords']);
+            $this->assertEquals($dryProduct['price'], $exportedProduct['price']);
+            $this->assertEquals($dryProduct['special_price'], $exportedProduct['special_price']);
+            $this->assertEquals($dryProduct['qty'], $exportedProduct['qty']);
+            $this->assertEquals($dryProduct['sku'], $exportedProduct['sku']);
+            $this->assertEquals($dryProduct['barcode'], $exportedProduct['barcode']);
+            $this->assertEquals($dryProduct['weight'], $exportedProduct['weight']);
+            $this->assertEquals($dryProduct['weight_type'], $exportedProduct['weight_type']);
+            $this->assertEquals($dryProduct['width'], $exportedProduct['width']);
+            $this->assertEquals($dryProduct['height'], $exportedProduct['height']);
+            $this->assertEquals($dryProduct['depth'], $exportedProduct['depth']);
 
-            // dump($dryProduct);dd($exportedProduct);
         }
 
     }
