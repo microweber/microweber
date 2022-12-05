@@ -5,17 +5,25 @@ MWEditor.controllers = {
         this.buttons = [];
 
         var arr = [
-            {align: 'left', icon: 'left', action: 'justifyLeft'},
-            {align: 'center', icon: 'center', action: 'justifyCenter'},
-            {align: 'right', icon: 'right', action: 'justifyRight'},
-            {align: 'justify', icon: 'justify', action: 'justifyFull'}
+            {align: 'left', icon: '<svg  viewBox="0 0 24 24">\n' +
+                    '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" />\n' +
+                    '</svg>', action: 'justifyLeft'},
+            {align: 'center', icon: '<svg  viewBox="0 0 24 24">\n' +
+                    '    <path fill="currentColor" d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" />\n' +
+                    '</svg>', action: 'justifyCenter'},
+            {align: 'right', icon: '<svg  viewBox="0 0 24 24">\n' +
+                    '    <path fill="currentColor" d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />\n' +
+                    '</svg>', action: 'justifyRight'},
+            {align: 'justify', icon: '<svg   viewBox="0 0 24 24">\n' +
+                    '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" />\n' +
+                    '</svg>', action: 'justifyFull'}
         ];
         this.render = function () {
             var scope = this;
             arr.forEach(function (item) {
                 var el = MWEditor.core.button({
                     props: {
-                        className: 'mdi-format-align-' + item.icon
+                        innerHTML:  item.icon
                     }
                 });
                 el.on('mousedown touchstart', function (e) {
@@ -40,8 +48,11 @@ MWEditor.controllers = {
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-bold',
-                    tooltip: rootScope.lang('Bold')
+
+                    tooltip: rootScope.lang('Bold'),
+                    innerHTML: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n' +
+                        '<path d="m13.5 15.5h-3.5v-3h3.5a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5m-3.5-9h3a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-3m5.6 1.29c0.97-0.68 1.65-1.79 1.65-2.79 0-2.26-1.75-4-4-4h-6.25v14h7.04c2.1 0 3.71-1.7 3.71-3.79 0-1.52-0.86-2.82-2.15-3.42z" fill="currentColor"/>\n' +
+                        '</svg>'
                 }
             });
             el.on('mousedown touchstart', function (e) {
@@ -88,7 +99,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-italic',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Italic')
                 }
             });
@@ -111,7 +124,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-underline',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Underline')
                 }
             });
@@ -418,10 +433,10 @@ MWEditor.controllers = {
     undoRedo: function(scope, api, rootScope) {
         this.render = function () {
             this.root = MWEditor.core.element();
-            this.root.addClass('mw-ui-btn-nav mw-editor-state-component')
+            this.root.addClass('mw-ui-btn-nav mw-editor-state-component');
             var undo = MWEditor.core.button({
                 props: {
-                    className: 'mdi-undo',
+                    innnerHTML: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" /></svg>',
                     tooltip: rootScope.lang('Undo')
                 }
             });
@@ -432,7 +447,9 @@ MWEditor.controllers = {
 
             var redo = MWEditor.core.button({
                 props: {
-                    className: 'mdi-redo',
+                    innerHTML: '<svg viewBox="0 0 24 24">' +
+                        '<path fill="currentColor" d="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Redo')
                 }
             });
@@ -583,7 +600,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-clear',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />\n' +
+                        '</svg>',
                     tooltip: 'Remove Format'
                 }
             });
@@ -601,7 +620,10 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-link-off', tooltip: 'Unlink'
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.43 19.12,14.63 17.79,15L19.25,16.44C20.88,15.61 22,13.95 22,12A5,5 0 0,0 17,7M16,11H13.81L15.81,13H16V11M2,4.27L5.11,7.38C3.29,8.12 2,9.91 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12C3.9,10.41 5.11,9.1 6.66,8.93L8.73,11H8V13H10.73L13,15.27V17H14.73L18.74,21L20,19.74L3.27,3L2,4.27Z" />\n' +
+                        '</svg>',
+                    tooltip: 'Unlink'
                 }
             });
             el.on('mousedown touchstart', function (e) {

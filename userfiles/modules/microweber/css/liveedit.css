@@ -3509,31 +3509,6 @@ body.isTyping .mw-cloneable-control {
     /*height: 53px;*/
 }
 
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav {
-    margin: 10px 0 0 10px;
-
-    white-space: nowrap;
-}
-
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav > * {
-    float: none;
-}
-
-.wysiwyg-cell-undo-redo .mw_editor_btn {
-    margin-top: 14px;
-}
-
-.wysiwyg-cell-undo-redo {
-    padding-inline-start: 10px;
-    height: 54px;
-}
-
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo,
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo {
-    padding: 1px 4px 0px 4px;
-    border: 1px solid transparent;
-    height: auto;
-}
 
 
 

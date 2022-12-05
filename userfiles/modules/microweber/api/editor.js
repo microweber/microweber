@@ -95,11 +95,11 @@ var MWEditor = function (options) {
     var scope = this;
 
     if(!this.settings.selector && this.settings.element){
-        this.settings.selector = this.settings.element;
+        //this.settings.selector = this.settings.element;
     }
 
     if(!this.settings.selector && this.settings.mode === 'document'){
-        this.settings.selector = this.document.body;
+        //this.settings.selector = this.document.body;
     }
     if(!this.settings.selector){
         console.warn('MWEditor - selector not specified');
@@ -107,6 +107,7 @@ var MWEditor = function (options) {
     }
 
     this.settings.selectorNode = mw.$(this.settings.selector)[0];
+    console.log(this.settings.selectorNode)
 
     if (this.settings.selectorNode) {
         this.settings.selectorNode.__MWEditor = this;
@@ -524,7 +525,13 @@ var MWEditor = function (options) {
             }
         });
         if(group.icon) {
-            icon.prepend('<span class="' + group.icon + ' mw-editor-group-button-icon"></span>');
+            if(group.icon.includes('<')) {
+
+                icon.prepend('<span class="mw-editor-group-button-icon">' + group.icon + '</span>');
+            } else {
+                icon.prepend('<span class="' + group.icon + ' mw-editor-group-button-icon"></span>');
+            }
+
             icon.on('click', function () {
                 MWEditor.core._preSelect(this.parentNode);
                 this.parentNode.classList.toggle('active');
@@ -647,11 +654,20 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
-            if (scope.selection && !scope.selection.isCollapsed) {
+            console.log(1)
+            if (scope.selection/* && !scope.selection.isCollapsed*/) {
+                console.log(2)
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
+                    console.log(3)
+                    // var ctop =  scope.interactionData.pageY - scope.smallEditor.$node.height() - 20;
+                    var off = mw.element(e.target).offset();
+                    var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
+                    // var cleft =  scope.interactionData.pageX;
+                    var cleft =  off.left;
+
                     scope.smallEditor.css({
-                        top: scope.interactionData.pageY - scope.smallEditor.$node.height() - 20,
-                        left: scope.interactionData.pageX,
+                        top: ctop,
+                        left: cleft,
                         display: 'block'
                     });
                 }

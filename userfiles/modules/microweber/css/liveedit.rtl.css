@@ -4,9 +4,7 @@
 .toolbar-sections-tabs{
     flex-direction: row-reverse;
 }
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav, .toolbar-sections-tabs > ul{
-    direction: ltr;
-}
+
 
 .mw-handle-type-default .mw-handle-handler-title{
     border-radius: 30px 0 0 30px;

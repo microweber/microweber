@@ -53,13 +53,32 @@ mw.liveeditCSSEditor = function (config) {
     };
 
     var removeSheetRuleProperty = function (selector, property) {
-        var sheet = document.querySelector('link#mw-template-settings').sheet;
-        var i = 0, l = sheet.cssRules.length;
-        for ( ; i < l ; i++) {
-            if(sheet.cssRules[i].selectorText === selector) {
-                sheet.cssRules[i].style.removeProperty(property);
+        var css = document.querySelector('link#mw-template-settings');
+        var css2 = document.querySelector('#mw-liveedit-dynamic-temp-style');
+        var sheet1, sheet2;
+        if(css) {
+            sheet1= css.sheet;
+        }
+        if(css2) {
+            sheet2 = css2.sheet;
+        }
+        if(sheet1) {
+            let i = 0, l = sheet1.cssRules.length;
+            for ( ; i < l ; i++) {
+                if(sheet1.cssRules[i].selectorText === selector) {
+                    sheet1.cssRules[i].style.removeProperty(property);
+                }
             }
         }
+        if(sheet2) {
+            let i = 0, l = sheet2.cssRules.length;
+            for ( ; i < l ; i++) {
+                if(sheet2.cssRules[i].selectorText === selector) {
+                    sheet2.cssRules[i].style.removeProperty(property);
+                }
+            }
+        }
+
     };
 
     this.changed = false;

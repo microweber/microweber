@@ -361,37 +361,11 @@ mw.wysiwyg = {
             });
 
             if (!mw.wysiwyg.isSafeMode(target)) {
-                if (!mw.is.ie) { //Non IE browser
-                    var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
-                    mw.$('.safe-mode').each(function () {
-                        mw.wysiwyg.contentEditable(this, false);
-                    });
-                    mw.wysiwyg.contentEditable(target, orderValid);
-                }
-                else {   // IE browser
-                    mw.wysiwyg.removeEditable();
-                    var cls = target.className;
-                    if (!mw.tools.hasClass(cls, 'empty-element') && !mw.tools.hasClass(cls, 'ui-resizable-handle')) {
-                        if (mw.tools.hasParentsWithClass(el, 'module')) {
-                            mw.wysiwyg.contentEditable(target, true);
-                        }
-                        else {
-                            if (!mw.tools.hasParentsWithClass(target, "module")) {
-                                if (mw.isDragItem(target)) {
-                                    mw.wysiwyg.contentEditable(target, true);
-                                }
-                                else {
-                                    mw.tools.foreachParents(target, function (loop) {
-                                        if (mw.isDragItem(this)) {
-                                            mw.wysiwyg.contentEditable(target, true);
-                                            mw.tools.loop[loop] = false;
-                                        }
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
+                var orderValid = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(originalEvent.target, ['edit', 'module']);
+                mw.$('.safe-mode').each(function () {
+                    mw.wysiwyg.contentEditable(this, false);
+                });
+                mw.wysiwyg.contentEditable(target, orderValid);
             }
             else {
                 var firstBlock = target;
@@ -462,7 +436,7 @@ mw.wysiwyg = {
 
         Array.from(parent.querySelectorAll('[contenteditable]')).forEach(function (node) {
             node.removeAttribute('contenteditable')
-        })
+        });
         setTimeout(function(){
             if(!currParent) {
                 parent.removeAttribute('contenteditable')
@@ -1168,7 +1142,7 @@ mw.wysiwyg = {
                         mw.wysiwyg.insert_html('&nbsp;&nbsp;&nbsp;&nbsp;');
                         return false;
                     }
-                    return mw.wysiwyg.manageDeleteAndBackspace(event, sel);
+
                 }
 
 

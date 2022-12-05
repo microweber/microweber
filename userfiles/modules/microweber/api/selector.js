@@ -155,6 +155,13 @@ mw.Selector = function(options) {
         });
     };
 
+
+    var _e = {};
+
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
     this.setItem = function(e, item, select, extend){
         if(!e || !this.active()) return;
         var target = e.target && !e.nodeType ? e.target : e;
@@ -179,6 +186,7 @@ mw.Selector = function(options) {
                     this.selected = [target];
                 }
                 mw.$(this).trigger('select', [this.selected]);
+                this.dispatch('select', this.selected)
             }
         }
 
@@ -255,6 +263,7 @@ mw.Selector = function(options) {
         if(this._active !== state) {
             this._active = state;
             mw.$(this).trigger('stateChange', [state]);
+            this.dispatch('stateChange', state);
         }
     };
     this.selected = [];

@@ -173,34 +173,12 @@
     });
     mw.$liveEditState = mw.$(mw.liveEditState);
 
-    var ui = mw.$('<div class="mw-ui-btn-nav"></div>'),
-        undo = document.createElement('span'),
-        redo = document.createElement('span');
-    undo.className = 'mw-ui-btn mw-ui-btn-medium';
-    undo.innerHTML = '<span class="mw-icon-reply"></span>';
-    redo.className = 'mw-ui-btn mw-ui-btn-medium';
-    redo.innerHTML = '<span class="mw-icon-forward"></span>';
-
-    undo.onclick = function(){
-        mw.liveEditState.undo();
-    };
-    redo.onclick = function(){
-        mw.liveEditState.redo();
-    };
-
-    ui.append(undo);
-    ui.append(redo);
 
     mw.$(document).ready(function(){
         var idata = mw.liveEditState.eventData();
 
-        mw.$(undo)[!idata.hasNext?'addClass':'removeClass']('disabled');
-        mw.$(redo)[!idata.hasPrev?'addClass':'removeClass']('disabled');
 
-        /*undo.disabled = !idata.hasNext;
-        redo.disabled = !idata.hasPrev;*/
-
-        var edits = document.querySelectorAll('.edit'), editstime = null;
+        var edits = document.querySelectorAll('.edit');
 
         for ( var i = 0; i < edits.length; i++ ) {
             if(!mw.tools.hasParentsWithClass(this, 'edit')) {
@@ -227,10 +205,7 @@
             }
         }
 
-        mw.$liveEditState.on('stateRecord', function(e, data){
-            mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-            mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
-        });
+
         mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
 
             if(data.active) {
@@ -240,8 +215,7 @@
                 }
 
                 if(!data.active || (!target && !data.active.action)) {
-                    mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-                    mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+
                     return;
                 }
                 if(data.active.action) {
@@ -258,12 +232,10 @@
                 }
             }
             mw.drag.load_new_modules();
-            mw.$(undo)[!data.hasNext?'addClass':'removeClass']('disabled');
-            mw.$(redo)[!data.hasPrev?'addClass':'removeClass']('disabled');
+
         });
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
-        mw.$('.wysiwyg-cell-undo-redo').eq(0).prepend(ui);
 
         mw.element(document.body).on('keydown', function(e) {
             if( e.key )  {

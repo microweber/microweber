@@ -1,6 +1,106 @@
 
 
-<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
+<style>
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-default .mw-bar-row{
+        border: 0;
+    }
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-default{
+        border-radius: 0;
+        border: 0;
+        margin: 5px;
+    }
+    #mw-live-edit-editor{
+        border-bottom: none ;
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+    }
+
+
+    #mw_small_editor{
+        display: none;
+    }
+
+    .mw-small-editor{
+        z-index: 1001;
+    }
+
+
+
+</style>
+
+<script>
+    mw.require('editor.js');
+</script>
+<script>
+
+
+   ;(function (){
+       var initEditor = function () {
+           var holder = document.querySelector('#mw-live-edit-editor');
+           var liveEditor = mw.Editor({
+               element: holder,
+               mode: 'document',
+               regions: '.edit',
+               smallEditor: true,
+
+
+               minHeight: 250,
+               maxHeight: '70vh',
+               state: mw.liveEditState,
+               controls: [
+                   [
+                       'undoRedo', '|', 'image', '|',
+                       {
+                           group: {
+                               controller: 'bold',
+                               controls: ['italic', 'underline', 'strikeThrough']
+                           }
+                       },
+
+                       '|',
+                       {
+                           group: {
+                               icon: 'mdi mdi-format-align-left',
+                               controls: ['align']
+                           }
+                       },
+                       '|', 'format',
+                       {
+                           group: {
+                               icon: 'mdi mdi-format-list-bulleted-square',
+                               controls: ['ul', 'ol']
+                           }
+                       },
+                       '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
+                   ],
+               ]
+           });
+
+           console.log(liveEditor);
+
+           $(liveEditor).on('selectionchange', function (){
+               liveEditor.lastRange = liveEditor.getSelection().getRangeAt(0)
+           })
+
+           holder.innerHTML = '';
+           holder.appendChild(liveEditor.wrapper)
+
+       }
+
+       addEventListener('load', function (){
+            initEditor()
+       })
+   })();
+
+
+</script>
+
+
+<div  id="mw-live-edit-editor">
+
+</div>
+<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg" style="display: none">
   <div class="wysiwyg-table">
 
 
@@ -243,7 +343,7 @@
 
 
 
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="">
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg" >
                   <span class="mw-dropdown-value">
                       <span class="mw-dropdown-val">
                         <?php _e("Columns"); ?>
@@ -269,10 +369,25 @@
 
       </div>
       <div class="wysiwyg-cell">
-          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-prev" title="Move backward" ></span>
-          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-plus" title="Clone"></span>
-          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-minus" title="Remove"></span>
-          <span class="mw_editor_btn mw-cloneable-control-item mw-cloneable-control-next" title="Move forward"></span>
+
+
+
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg" >
+                  <span class="mw-dropdown-value">
+                      <span class="mw-dropdown-val">
+                        <?php _e("Cloneable"); ?>
+                      </span>
+                  </span>
+              <div class="mw-dropdown-content">
+                  <ul>
+                      <li><a>Move backward</a></li>
+                      <li><a>Clone</a></li>
+                      <li><a>Remove</a></li>
+                      <li><a>Move forward</a></li>
+                  </ul>
+              </div>
+          </div>
+
       </div>
 
 

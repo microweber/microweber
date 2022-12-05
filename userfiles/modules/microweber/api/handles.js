@@ -611,9 +611,8 @@ mw._initHandles = {
                 left_spacing = left_spacing + pleft;
 
             }
-            // Centered: left_spacing += (el.width()/2 - mw.handleElement.wrapper.offsetWidth/2);
-            if(left_spacing<0){
-                left_spacing = 0;
+            if(left_spacing < 50){
+                left_spacing = 50;
             }
             //todo: another icon
             var isSafe = false; // mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(element, ['safe-mode', 'regular-mode']);
@@ -634,10 +633,7 @@ mw._initHandles = {
             mw.handleElement.positionedAt = 'top';
             var posTop = o.top - 40;
             var elHeight = el.height();
-            /*if (originalEvent.pageY > (o.top + elHeight/2)) {
-                posTop = o.top + elHeight;
-                mw.handleElement.positionedAt = 'bottom';
-            }*/
+
 
             mw.$(mw.handleElement.wrapper).css({
                 top: posTop,

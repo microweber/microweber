@@ -8322,6 +8322,9 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon {
   vertical-align: middle;
 }
+.mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon svg {
+  width: 20px;
+}
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret {
   font-size: 16px;
   vertical-align: middle;

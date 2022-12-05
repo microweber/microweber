@@ -453,18 +453,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
                         <?php event_trigger('live_edit_toolbar_menu_end'); ?>
                     </ul>
-                    <div class="wysiwyg-undo-redo">
-                        <div class="wysiwyg-cell-undo-redo">
-            <span
-                    class="liveedit_wysiwyg_prev"
-                    id="liveedit_wysiwyg_main_prev"
-                    title="<?php _e("Previous"); ?>"
-                    onclick="mw.liveedit.toolbar.editor.slideLeft();"></span>
 
-
-
-                        </div>
-                    </div>
                 </div>
 
                 <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
