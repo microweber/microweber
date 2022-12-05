@@ -1244,11 +1244,18 @@ class FrontendController extends Controller
             }
 
 
-            if (isset($content['original_link']) and $content['original_link'] != '') {
+            if (isset($content['original_link']) and trim($content['original_link']) != '') {
                 $content['original_link'] = str_ireplace('{site_url}', app()->url_manager->site(), $content['original_link']);
                 $redirect = $this->app->format->prep_url($content['original_link']);
+
                 if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
-                    return app()->url_manager->redirect($redirect);
+                    $redirectUrl = $redirect;
+                    if (headers_sent()) {
+                        echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
+                    } else {
+                        return \Redirect::to($redirectUrl);
+                    }
+
                 }
             }
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
