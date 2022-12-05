@@ -43,7 +43,17 @@ class ImportFeed extends Model
         'custom_content_data_fields' => 'array',
     ];
 
-    protected $appends = ['source_content'];
+    protected $appends = ['source_content', 'mapped_content'];
+
+    public function getMappedContentAttribute()
+    {
+        $mappedContentFile = $this->getMappedContentRealpath($this->id);
+        if (is_file($mappedContentFile)) {
+            return json_decode(file_get_contents($mappedContentFile), TRUE);
+        }
+
+        return [];
+    }
 
     public function getSourceContentAttribute()
     {
@@ -55,9 +65,8 @@ class ImportFeed extends Model
         return [];
     }
 
-    public function getSourceContentRealpath($id)
+    public function getImportTempPath()
     {
-
         $environment = App::environment();
         $folder = storage_path('import_export_tool/') . ('default' . DIRECTORY_SEPARATOR);
 
@@ -69,7 +78,23 @@ class ImportFeed extends Model
             mkdir_recursive($folder);
         }
 
-        return $folder . '/source-content-' . $id.'.json';
+        return $folder;
+    }
+
+    public function getMappedContentRealpath($id)
+    {
+        return $this->getImportTempPath() . '/mapped-content-' . $id.'.json';
+    }
+
+    public function getSourceContentRealpath($id)
+    {
+        return $this->getImportTempPath() . '/source-content-' . $id.'.json';
+    }
+
+    public function saveMappedContent($content)
+    {
+        $mappedContentFile = $this->getMappedContentRealpath($this->id);
+        return file_put_contents($mappedContentFile, json_encode($content));
     }
 
     public function readContentFromFile(string $filename, $fileType = false)
@@ -141,7 +166,7 @@ class ImportFeed extends Model
         $this->count_of_contents = $countOfContents;
         $this->split_to_parts = SessionStepper::recomendedSteps($countOfContents);
         $this->mapped_tags = [];
-        $this->mapped_content = [];
+        $this->mapped_content_realpath = '';
 
         $this->save();
 
@@ -279,7 +304,7 @@ class ImportFeed extends Model
         $this->imported_content_ids = null;
         $this->detected_content_tags = [];
         $this->mapped_tags = [];
-        $this->mapped_content = [];
+        $this->mapped_content_realpath = null;
         $this->save();
     }
 }

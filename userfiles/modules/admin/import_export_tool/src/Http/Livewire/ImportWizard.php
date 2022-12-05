@@ -169,7 +169,7 @@ class ImportWizard extends Component
             $feedMapToArray->setImportFeedId($feed->id);
             $preparedData = $feedMapToArray->toArray();
 
-            $feed->mapped_content = $preparedData;
+            $feed->saveMappedContent($preparedData);
             $feed->save();
 
             $this->refreshImportFeedState($feed->toArray());
