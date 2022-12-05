@@ -933,6 +933,7 @@ class CategoryManager
     }
 
 
+
     public function get_category_childrens($cat_id)
     {
 
@@ -966,6 +967,12 @@ class CategoryManager
         if ($has_children) {
             if ($has_children) {
                 foreach ($has_children as $cat_sub_id) {
+
+                    if($cat_sub_id == $cat_id){
+                        // no loop
+                        continue;
+                    }
+
                     $cat_sub = get_category_by_id($cat_sub_id);
                     if ($cat_sub) {
                         $childrens[] = $cat_sub;
@@ -1024,7 +1031,7 @@ class CategoryManager
             foreach ($pages as $page) {
                 $item = array();
                 $item['id'] = $page['id'];
-                $item['type'] = 'page';
+                $item['type'] = $page['content_type'];
                 $item['parent_id'] = intval($page['parent']);
                 $item['parent_type'] = 'page';
                 $item['title'] = $page['title'];
