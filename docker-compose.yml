@@ -1,37 +1,52 @@
+# For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-#  composer_installation:
-#    container_name: composer_installation
-#    image: composer
-#    volumes:
-#      - ./:/app
-#    command: composer install
-  php-apache:
-    image: thecodingmachine/php:8.1-v4-apache-node16
-    ports:
-      - 80:80
-    volumes:
-     - ./:/var/www/html
-    links:
-      - 'mariadb'
-    environment:
-      APACHE_EXTENSION_DAV: 0
-      PHP_INI_MEMORY_LIMIT: 1g
-      PHP_INI_ERROR_REPORTING: E_ALL
-      PHP_EXTENSIONS: pgsql gettext imap sockets zip curl dom gd exif intl mbstring bcmath curl dom opcache mbstring soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
-      PECL_EXTENSION: sodium
-      STARTUP_COMMAND_1: composer install
-  mariadb:
-    image: mariadb:10.3
-    volumes:
-    - mariadb:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_USER: 'laravel'
-      MYSQL_PASSWORD: 'laravel'
-      MYSQL_DATABASE: 'laravel'
-    ports:
-      - 3306:3306
+    laravel.test:
+        build:
+            context: ./vendor/laravel/sail/runtimes/8.1
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.1/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+    mysql:
+        image: 'mysql/mysql-server:8.0'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'sail-mysql:/var/lib/mysql'
+            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+        networks:
+            - sail
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            retries: 3
+            timeout: 5s
+networks:
+    sail:
+        driver: bridge
 volumes:
-  mariadb:
+    sail-mysql:
+        driver: local
