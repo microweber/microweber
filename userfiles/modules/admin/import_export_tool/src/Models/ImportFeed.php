@@ -42,8 +42,15 @@ class ImportFeed extends Model
         'custom_content_data_fields' => 'array',
     ];
 
-    public function sourceContent()
+    protected $appends = ['source_content'];
+
+    public function getSourceContentAttribute()
     {
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
+        if (is_file($sourceContentFile)) {
+            return json_decode(file_get_contents($sourceContentFile), TRUE);
+        }
+
         return [];
     }
 
@@ -108,7 +115,7 @@ class ImportFeed extends Model
             $countOfContents = count($readedRows[$this->content_tag]);
         }
 
-        $sourceContentFile = storage_path('import_export_tool') . '/source-content-' . $this->id.'.json';
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
         file_put_contents($sourceContentFile, json_encode($sourceContent));
 
         $this->source_content_realpath = $sourceContentFile;
@@ -121,6 +128,11 @@ class ImportFeed extends Model
         $this->save();
 
         return true;
+    }
+
+    public function getSourceContentRealpath($id)
+    {
+        return storage_path('import_export_tool') . '/source-content-' . $id.'.json';
     }
 
     private function readContentFromCsv(string $filename)  {
