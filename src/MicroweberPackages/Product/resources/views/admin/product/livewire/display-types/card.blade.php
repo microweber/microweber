@@ -1,3 +1,7 @@
 <div>
-    ddd
+    @foreach ($products as $product)
+
+
+
+    @endforeach
 </div>
