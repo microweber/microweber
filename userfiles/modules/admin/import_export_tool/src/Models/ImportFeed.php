@@ -42,6 +42,11 @@ class ImportFeed extends Model
         'custom_content_data_fields' => 'array',
     ];
 
+    public function sourceContent()
+    {
+        return [];
+    }
+
     public function readContentFromFile(string $filename, $fileType = false)
     {
         if ($fileType == 'xlsx' || $fileType == 'xls') {
@@ -103,7 +108,10 @@ class ImportFeed extends Model
             $countOfContents = count($readedRows[$this->content_tag]);
         }
 
-        $this->source_content = $sourceContent;
+        $sourceContentFile = storage_path('import_export_tool') . '/source-content-' . $this->id.'.json';
+        file_put_contents($sourceContentFile, json_encode($sourceContent));
+
+        $this->source_content_realpath = $sourceContentFile;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = $countOfContents;
         $this->split_to_parts = SessionStepper::recomendedSteps($countOfContents);
