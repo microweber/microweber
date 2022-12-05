@@ -190,13 +190,9 @@
         };
 
         var init = function () {
-            console.log(1)
             create();
-            console.log(2)
             scope.position();
-            console.log(3)
             scope.show();
-            console.log(4)
         };
 
         init();

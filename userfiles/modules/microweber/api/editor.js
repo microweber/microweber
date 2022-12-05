@@ -107,7 +107,6 @@ var MWEditor = function (options) {
     }
 
     this.settings.selectorNode = mw.$(this.settings.selector)[0];
-    console.log(this.settings.selectorNode)
 
     if (this.settings.selectorNode) {
         this.settings.selectorNode.__MWEditor = this;

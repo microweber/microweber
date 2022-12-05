@@ -56,6 +56,18 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
+                var sel = api.getSelection();
+
+                if(sel.getRangeAt(0).collapsed) {
+                    var range = rootScope.document.createRange();
+                    var node = sel.focusNode;
+                    if(node.nodeType === 3) {
+                        node = node.parentElement;
+                    }
+                    range.selectNodeContents(node);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
                 api.execCommand('bold');
             });
             return el;
@@ -75,7 +87,9 @@ MWEditor.controllers = {
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-strikethrough',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M23,12V14H18.61C19.61,16.14 19.56,22 12.38,22C4.05,22.05 4.37,15.5 4.37,15.5L8.34,15.55C8.37,18.92 11.5,18.92 12.12,18.88C12.76,18.83 15.15,18.84 15.34,16.5C15.42,15.41 14.32,14.58 13.12,14H1V12H23M19.41,7.89L15.43,7.86C15.43,7.86 15.6,5.09 12.15,5.08C8.7,5.06 9,7.28 9,7.56C9.04,7.84 9.34,9.22 12,9.88H5.71C5.71,9.88 2.22,3.15 10.74,2C19.45,0.8 19.43,7.91 19.41,7.89Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Strike through')
                 }
             });
@@ -149,7 +163,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-folder-multiple-image',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M19,19H5V5H19M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M13.96,12.29L11.21,15.83L9.25,13.47L6.5,17H17.5L13.96,12.29Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Insert Image')
                 }
             });
@@ -199,7 +215,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-link',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />\n' +
+                        '</svg>',
                     tooltip: rootScope.lang('Insert link')
                 }
             });
@@ -436,7 +454,7 @@ MWEditor.controllers = {
             this.root.addClass('mw-ui-btn-nav mw-editor-state-component');
             var undo = MWEditor.core.button({
                 props: {
-                    innnerHTML: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" /></svg>',
+                    innerHTML: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" /></svg>',
                     tooltip: rootScope.lang('Undo')
                 }
             });
@@ -497,7 +515,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-list-bulleted'
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M3,4H7V8H3V4M9,5V7H21V5H9M3,10H7V14H3V10M9,11V13H21V11H9M3,16H7V20H3V16M9,17V19H21V17H9" />\n' +
+                        '</svg>'
                 }
             });
             el.on('mousedown touchstart', function (e) {
@@ -530,7 +550,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-format-list-numbered tip',
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M7,13V11H21V13H7M7,19V17H21V19H7M7,7V5H21V7H7M3,8V5H2V4H4V8H3M2,17V16H5V20H2V19H4V18.5H3V17.5H4V17H2M4.25,10A0.75,0.75 0 0,1 5,10.75C5,10.95 4.92,11.14 4.79,11.27L3.12,13H5V14H2V13.08L4,11H2V10H4.25Z" />\n' +
+                        '</svg>',
                     'data-tip': 'Ordered list'
                 }
             });
@@ -674,7 +696,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-table-large', tooltip: 'Insert Table'
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M12.35 20H10V17H12.09C12.21 16.28 12.46 15.61 12.81 15H10V12H14V13.54C14.58 13 15.25 12.61 16 12.35V12H20V12.35C20.75 12.61 21.42 13 22 13.54V5C22 3.9 21.1 3 20 3H4C2.9 3 2 3.9 2 5V20C2 21.1 2.9 22 4 22H13.54C13 21.42 12.61 20.75 12.35 20M16 7H20V10H16V7M10 7H14V10H10V7M8 20H4V17H8V20M8 15H4V12H8V15M8 10H4V7H8V10M17 14H19V17H22V19H19V22H17V19H14V17H17V14" />\n' +
+                        '</svg>', tooltip: 'Insert Table'
                 }
             });
             el.on('mousedown touchstart', function (e) {
@@ -694,7 +718,9 @@ MWEditor.controllers = {
         this.render = function () {
             var el = MWEditor.core.button({
                 props: {
-                    className: 'mdi-file-word', tooltip: 'Paste from Word'
+                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,20H13.8L12,13.2L10.2,20H8.8L6.6,11H8.1L9.5,17.8L11.3,11H12.6L14.4,17.8L15.8,11H17.3L15.2,20M13,9V3.5L18.5,9H13Z" />\n' +
+                        '</svg>', tooltip: 'Paste from Word'
                 }
             });
             el.on('mousedown touchstart', function (e) {
