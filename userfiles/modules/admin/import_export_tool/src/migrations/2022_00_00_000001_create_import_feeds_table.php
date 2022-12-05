@@ -30,7 +30,7 @@ class CreateImportFeedsTable extends Migration
                 $table->integer('download_images')->nullable();
                 $table->integer('split_to_parts')->nullable();
                 $table->longText('mapped_tags')->nullable();
-                $table->longText('mapped_content')->nullable();
+                $table->text('mapped_content_realpath')->nullable();
                 $table->longText('imported_content_ids')->nullable();
                 $table->string('detected_content_tags')->nullable();
                 $table->string('content_tag')->nullable();
