@@ -535,6 +535,50 @@ mw.lib.require('xss');
                 return _filterXSS(this._cleaner.innerHTML);
             },
             insertHTML: function(html) {
+                var node = scope.api.elementNode(scope.api.getSelection().focusNode);
+                var nodes = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
+                var index = nodes.indexOf(node.nodeName);
+                var sel = scope.api.getSelection();
+                var range = sel.getRangeAt(0);
+                if(index !== -1) {
+                    var newNode = document.createElement(nodes[index]);
+
+                    var cloneNode1, cloneNode2, cloneText, allContents, contentsBeforeCursor, contentsAfterCursor;
+                    var anchorOffset = sel.anchorOffset
+                    range.selectNode(sel.anchorNode);
+                    cloneNode1 = range.commonAncestorContainer.cloneNode();
+                    cloneNode2 = cloneNode1.cloneNode();
+                    cloneText = range.cloneContents();
+
+                    allContents = cloneText.textContent;
+                    contentsBeforeCursor = allContents.substring(0, anchorOffset);
+                    contentsAfterCursor = allContents.substring(anchorOffset, allContents.length);
+
+                    cloneNode1.textContent = contentsBeforeCursor;
+                    cloneNode2.textContent = contentsAfterCursor;
+
+                    for (var i = 0; i < cloneNode1.attributes.length; i++) {
+                        var attr = cloneNode1.attributes.item(i);
+                        newNode.setAttribute(attr.nodeName, attr.nodeValue);
+                    }
+
+
+                    range.selectNode(sel.anchorNode);
+                    range.deleteContents();
+                    range.insertNode(cloneNode1);
+                    range.setStartAfter(cloneNode1);
+                    range.insertNode(cloneNode2)
+
+                    range.setStartAfter(cloneNode1);
+                    range.insertNode(newNode);
+                    var textNode = document.createTextNode('\u00A0');
+                    range.setStart(newNode, 0);
+                    range.insertNode(textNode);
+                    sel.removeAllRanges();
+                    range.selectNodeContents(newNode);
+                    sel.addRange(range);
+                }
+
                 return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
             },
             insertImage: function (url) {
