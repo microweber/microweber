@@ -139,7 +139,7 @@ class ImportWizard extends Component
             'upload_file' => 'required|mimes:xlsx,xls,csv,xml',
         ]);
 
-        $uploadFilePath = $this->upload_file->store('import-export-tool');
+        $uploadFilePath = $this->upload_file->store('import_export_tool');
         $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
 
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();

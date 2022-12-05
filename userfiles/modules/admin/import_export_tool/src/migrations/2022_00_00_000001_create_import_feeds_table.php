@@ -23,7 +23,7 @@ class CreateImportFeedsTable extends Migration
                 $table->string('source_file')->nullable();
                 $table->string('source_file_realpath')->nullable();
                 $table->string('source_file_size')->nullable();
-                $table->longText('source_content')->nullable();
+                $table->string('source_content_realpath')->nullable();
                 $table->dateTime('last_import_start')->nullable();
                 $table->dateTime('last_import_end')->nullable();
                 $table->dateTime('last_downloaded_date')->nullable();
