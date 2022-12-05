@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
@@ -52,6 +53,23 @@ class ImportFeed extends Model
         }
 
         return [];
+    }
+
+    public function getSourceContentRealpath($id)
+    {
+
+        $environment = App::environment();
+        $folder = storage_path('import_export_tool/') . ('default' . DIRECTORY_SEPARATOR);
+
+        if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+            $folder = storage_path('import_export_tool/') . ($environment . DIRECTORY_SEPARATOR);
+        }
+
+        if (!is_dir($folder)) {
+            mkdir_recursive($folder);
+        }
+
+        return $folder . '/source-content-' . $id.'.json';
     }
 
     public function readContentFromFile(string $filename, $fileType = false)
@@ -130,11 +148,6 @@ class ImportFeed extends Model
         return true;
     }
 
-    public function getSourceContentRealpath($id)
-    {
-        return storage_path('import_export_tool') . '/source-content-' . $id.'.json';
-    }
-
     private function readContentFromCsv(string $filename)  {
 
         $reader = new CsvReader($filename);
@@ -143,7 +156,10 @@ class ImportFeed extends Model
         $repeatableTargetKeys = ['Data' => []];
         $repeatableData = $sourceContent['Data'];
 
-        $this->source_content = $sourceContent;
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
+        file_put_contents($sourceContentFile, json_encode($sourceContent));
+
+        $this->source_content_realpath = $sourceContentFile;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
         $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
@@ -192,9 +208,13 @@ class ImportFeed extends Model
                 $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
             }
 
+            $sourceContentFile = $this->getSourceContentRealpath($this->id);
+            file_put_contents($sourceContentFile, json_encode($content));
+
+            $this->source_content_realpath = $sourceContentFile;
+
             $this->mapped_tags = [];
             $this->mapped_content = [];
-            $this->source_content = $content;
             $this->save();
 
             return true;
@@ -251,7 +271,7 @@ class ImportFeed extends Model
 
     public function resetFeed()
     {
-        $this->source_content = [];
+        $this->source_content_realpath = null;
         $this->last_import_start = null;
         $this->last_import_end = null;
         $this->count_of_contents = null;
