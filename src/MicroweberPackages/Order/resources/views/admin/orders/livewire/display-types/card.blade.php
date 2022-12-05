@@ -3,23 +3,16 @@
 @foreach ($orders as $order)
 
     @php
-
-
-
-
+        $carts = [];
         if (empty($order->cart)) {
-            continue;
+           $carts = $order->cart;
         }
-
-        $carts = $order->cart ;
-        if ($carts->count() == 0) {
-            continue;
-        }
-
-
-
         $cart = $order->cart->first();
-        $cartProduct = $cart->products->first();
+
+        $cartProduct = [];
+        if (isset($cart->products)) {
+            $cartProduct = $cart->products->first();
+        }
     @endphp
     <div class="card mb-2 not-collapsed-border collapsed card-order-holder bg-silver">
     <div class="card-body">
