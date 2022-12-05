@@ -285,8 +285,7 @@ if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUES
     //$path = str_replace('%25252F','/',$path);
 
     $path = normalize_path($path, 0);
-
-    $path = str_replace('..', '', $path);
+    $path = sanitize_path($path);
     $path = str_replace($path_restirct, '', $path);
 
     // $target_path = userfiles_path() . DS . $path;
