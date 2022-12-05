@@ -16,7 +16,8 @@ class ItemMapCategoryReader extends ItemMapReader
         'category_meta_description' => ['category_meta_description'],
         'updated_at' => ['updated_date', 'published','updated_at'],
         'created_at' => ['publish_date', 'pubDate', 'updated','created_at'],
-        'is_hidden' => ['isEnable', 'isEnabled', 'isActive','is_deleted'],
+        'is_hidden' => ['is_hidden'],
+        'is_active' => ['is_active'],
     ];
 
     public static $itemTypes = [];
@@ -33,7 +34,8 @@ class ItemMapCategoryReader extends ItemMapReader
         'category_meta_description' => 'Meta Description',
         'updated_at' => 'Updated at',
         'created_at' => 'Created at',
-        'is_hidden' => 'Active',
+        'is_active' => 'Active',
+        'is_hidden' => 'Hidden',
     ];
 
     private static $itemGroups = [

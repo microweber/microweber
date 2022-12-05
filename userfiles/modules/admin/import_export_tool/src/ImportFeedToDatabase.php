@@ -86,17 +86,35 @@ class ImportFeedToDatabase
                     if (isset($item['multilanguage']['title'][$defaultLang])) {
                         $item['title'] = $item['multilanguage']['title'][$defaultLang];
                     }
+                }
+                if (!isset($item['description'])) {
                     if (isset($item['multilanguage']['description'][$defaultLang])) {
                         $item['description'] = $item['multilanguage']['description'][$defaultLang];
                     }
+                }
+                if (!isset($item['content_meta_title'])) {
                     if (isset($item['multilanguage']['content_meta_title'][$defaultLang])) {
                         $item['content_meta_title'] = $item['multilanguage']['content_meta_title'][$defaultLang];
                     }
+                }
+                if (!isset($item['content_meta_keywords'])) {
                     if (isset($item['multilanguage']['content_meta_keywords'][$defaultLang])) {
                         $item['content_meta_keywords'] = $item['multilanguage']['content_meta_keywords'][$defaultLang];
                     }
+                }
+                if (!isset($item['slug'])) {
                     if (isset($item['multilanguage']['slug'][$defaultLang])) {
                         $item['slug'] = $item['multilanguage']['slug'][$defaultLang];
+                    }
+                }
+
+                if (!isset($item['content_fields'])) {
+                    if (isset($item['multilanguage']['content_fields']) && !empty($item['multilanguage']['content_fields'])) {
+                        foreach ($item['multilanguage']['content_fields'] as $contentFieldKey=>$contentFieldLocale) {
+                            if (isset($contentFieldLocale[$defaultLang])) {
+                                $item['content_fields'][$contentFieldKey] = $contentFieldLocale[$defaultLang];
+                            }
+                        }
                     }
                 }
             }
