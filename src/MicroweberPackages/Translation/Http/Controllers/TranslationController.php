@@ -55,7 +55,7 @@ class TranslationController {
 
         $exportFileName = 'translation-global';
 
-        $namespace = str_replace('..', '', $namespace);
+        $namespace = sanitize_path($namespace);
         if ($namespace !== '*') {
             $exportFileName = 'translation-' . $namespace;
         }

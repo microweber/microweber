@@ -64,7 +64,7 @@ class BackupController
             return array('error' => 'You have not provided a file to import.');
         }
 
-        $fileId = str_replace('..', '', $fileId);
+        $fileId = sanitize_path($fileId);
 
         $backupLocation = backup_location();
         $filePath = $backupLocation . $fileId;
@@ -86,7 +86,7 @@ class BackupController
     {
         $fileId = $request->get('file');
 
-        $fileId = str_replace('..', '', $fileId);
+        $fileId = sanitize_path($fileId);
 
         // Check if the file has needed args
         if (! $fileId) {
@@ -99,7 +99,7 @@ class BackupController
 
         // Generate filename and set error variables
         $filename = $backupLocation . $fileId;
-        $filename = str_replace('..', '', $filename);
+        $filename = sanitize_path($filename);
 
         $allowedExt = ['json','zip','xlsx','csv','xml'];
         $fileExt = get_file_extension($filename);
@@ -228,8 +228,8 @@ class BackupController
         $backupLocation = backup_location();
         $filename = $backupLocation . $fileId;
 
-        $fileId = str_replace('..', '', $fileId);
-        $filename = str_replace('..', '', $filename);
+        $fileId = sanitize_path($fileId);
+        $filename = sanitize_path($filename);
 
         if (is_file($filename)) {
             unlink($filename);
@@ -250,7 +250,7 @@ class BackupController
 
     private function _readfileChunked($filename, $retbytes = true)
     {
-        $filename = str_replace('..', '', $filename);
+        $filename = sanitize_path($filename);
 
         $chunkSize = 1024 * 1024;
         $buffer = '';

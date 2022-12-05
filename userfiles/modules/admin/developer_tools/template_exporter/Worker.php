@@ -963,8 +963,8 @@ class Worker
         $filename = $here . $id;
 
 
-        $id = str_replace('..', '', $id);
-        $filename = str_replace('..', '', $filename);
+        $id = sanitize_path($id);
+        $filename = sanitize_path($filename);
 
         if (is_file($filename)) {
 
@@ -1002,7 +1002,7 @@ class Worker
         } else if (isset($_GET['file'])) {
             $id = $params['file'];
         }
-        $id = str_replace('..', '', $id);
+        $id = sanitize_path($id);
 
 
         // Check if the file has needed args
@@ -1016,7 +1016,7 @@ class Worker
         // Generate filename and set error variables
 
         $filename = $here . $id;
-        $filename = str_replace('..', '', $filename);
+        $filename = sanitize_path($filename);
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing filename to download.");
 

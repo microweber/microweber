@@ -6,7 +6,7 @@ if (!$module_template and isset($params['template'])) {
     $module_template = $params['template'];
 }
 
-$module_template = str_replace('..', '', $module_template);
+$module_template = sanitize_path($module_template);
 if (!$module_template OR $module_template == '') {
     $module_template = 'bxslider-skin-1';
 }

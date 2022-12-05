@@ -377,7 +377,7 @@ class CheckoutManager
             }
 
             if (isset($data['payment_gw']) and $data['payment_gw'] != '') {
-                $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+                $data['payment_gw'] = sanitize_path($data['payment_gw']);
             }
 
 
@@ -851,7 +851,7 @@ class CheckoutManager
 
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;
-                            $title = str_replace('..', '', $title);
+                            $title = sanitize_path($title);
 
                             $value['gw_file'] = $title;
                             $valid[] = $value;
@@ -1095,7 +1095,7 @@ class CheckoutManager
         }
 
 
-        $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+        $data['payment_gw'] = sanitize_path($data['payment_gw']);
 
         $should_mark_as_paid = false;
 
@@ -1129,7 +1129,7 @@ class CheckoutManager
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
 
-        $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
+        $data['payment_gw'] = sanitize_path($data['payment_gw']);
         $gw_process = modules_path() . $data['payment_gw'] . '_checkout_ipn.php';
         if (!is_file($gw_process)) {
             $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'checkout_ipn.php', false);

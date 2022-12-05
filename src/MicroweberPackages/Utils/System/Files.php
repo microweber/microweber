@@ -492,7 +492,7 @@ class Files
 
     private function _readfile_chunked($filename, $retbytes = true)
     {
-        $filename = str_replace('..', '', $filename);
+        $filename = sanitize_path($filename);
         $chunk_size = 1024 * 1024;
         $buffer = '';
         $cnt = 0;

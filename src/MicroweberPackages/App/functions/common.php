@@ -389,7 +389,7 @@ function clearcache()
     }
 
     $env = app()->environment();
-    $env = str_replace('..', '', $env);
+    $env = sanitize_path($env);
     //remove framework cache
     $empty_folder = storage_path() . DS . 'framework' . DS . 'cache' . DS .$env . DS;
     if (is_dir($empty_folder)) {

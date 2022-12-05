@@ -75,7 +75,7 @@ class ContentExport
 		$exportLocation = $this->getExportLocation();
 
 		$exportPath = $exportLocation . $filename;
-		$exportPath = str_replace('..', '', $exportPath);
+		$exportPath = sanitize_path($exportPath);
 
 		if (!is_file($exportPath)) {
 			return array('error' => 'You have not provided a existing filename to download.');

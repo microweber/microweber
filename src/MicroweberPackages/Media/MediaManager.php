@@ -481,7 +481,7 @@ class MediaManager
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])) {
-                $s['rel_type'] = str_replace('..', '', $s['rel_type']);
+                $s['rel_type'] = sanitize_path($s['rel_type']);
 
                 $move_uploaded_files_dir = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS;
                 $move_uploaded_files_dir_index = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS . 'index.php';
@@ -1005,7 +1005,7 @@ class MediaManager
         $media_url = trim($media_url);
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-        $src = str_replace('..', '', $src);
+        $src = sanitize_path($src);
 
         if (strstr($src, $surl) or strpos($src, $surl)) {
             $src = str_replace($surl . '/', $surl, $src);
@@ -1067,10 +1067,10 @@ class MediaManager
         // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
 
-        $cache = str_replace('..', '', $cache);
+        $cache = sanitize_path($cache);
 
         if (isset($cache_id)) {
-            $cache = str_replace('..', '', $cache_id);
+            $cache = sanitize_path($cache_id);
 
             // $cache = url_title($cache_id);
         }

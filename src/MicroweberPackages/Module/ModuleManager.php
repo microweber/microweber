@@ -705,7 +705,7 @@ class ModuleManager
         $module_name = trim($module_name);
         // prevent hack of the directory
         $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
+        $module_name = sanitize_path($module_name);
 
         $module_name = reduce_double_slashes($module_name);
         $module_in_template_dir = $template_dir . 'modules/' . $module_name . '';
@@ -976,7 +976,7 @@ class ModuleManager
 
                 return $module_name_l;
             } else {
-                $template_name = str_replace('..', '', $template_name);
+                $template_name = sanitize_path($template_name);
                 $template_name_orig = $template_name;
 
                 if ($get_settings_file == true) {

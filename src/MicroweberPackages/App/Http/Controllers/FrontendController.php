@@ -181,7 +181,7 @@ class FrontendController extends Controller
         } else {
             $is_custom_view = app()->url_manager->param('view');
             if ($is_custom_view and $is_custom_view != false) {
-                $is_custom_view = str_replace('..', '', $is_custom_view);
+                $is_custom_view = sanitize_path($is_custom_view);
                 $page_url = app()->url_manager->param_unset('view', $page_url);
             }
         }
@@ -617,7 +617,7 @@ class FrontendController extends Controller
                         }
 
                         if (($simply_a_file) != false) {
-                            $simply_a_file = str_replace('..', '', $simply_a_file);
+                            $simply_a_file = sanitize_path($simply_a_file);
                             $simply_a_file = normalize_path($simply_a_file, false);
                         }
                     }
@@ -795,7 +795,7 @@ class FrontendController extends Controller
 
         if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
-            $is_preview_template = str_replace('..', '', $is_preview_template);
+            $is_preview_template = sanitize_path($is_preview_template);
 
             $content['active_site_template'] = $is_preview_template;
         }

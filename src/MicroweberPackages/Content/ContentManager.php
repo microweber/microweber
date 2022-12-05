@@ -2161,7 +2161,7 @@ class ContentManager
         if (!isset($lang) or $lang == false) {
             $lang = 'en';
         }
-        $lang = str_replace('..', '', $lang);
+        $lang = sanitize_path($lang);
         if (!defined('MW_LANG') and isset($lang)) {
             define('MW_LANG', $lang);
         }
@@ -2180,7 +2180,7 @@ class ContentManager
      */
     public function lang_set($lang = 'en')
     {
-        $lang = str_replace('..', '', $lang);
+        $lang = sanitize_path($lang);
         setcookie('lang', $lang);
 
         return $lang;

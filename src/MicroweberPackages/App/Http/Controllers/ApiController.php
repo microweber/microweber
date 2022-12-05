@@ -72,7 +72,7 @@ class ApiController  extends FrontendController
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
 
-        $api_function_full = str_replace('..', '', $api_function_full);
+        $api_function_full = sanitize_path($api_function_full);
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
 
@@ -318,7 +318,7 @@ class ApiController  extends FrontendController
                 }
 
                 if ($mod_class_api == true and $mod_api_class != false) {
-                    $mod_api_class = str_replace('..', '', $mod_api_class);
+                    $mod_api_class = sanitize_path($mod_api_class);
 
                     $try_class = str_replace('/', '\\', $mod_api_class);
                     $try_class_full = str_replace('/', '\\', $api_function_full);
@@ -884,7 +884,7 @@ class ApiController  extends FrontendController
 
 
         if ($module_info and isset($request_data['module'])) {
-            $request_data['module'] = str_replace('..', '', $request_data['module']);
+            $request_data['module'] = sanitize_path($request_data['module']);
             $try_config_file = modules_path() . '' . $request_data['module'] . '_config.php';
             $try_config_file = normalize_path($try_config_file, false);
             if (is_file($try_config_file)) {
@@ -1003,7 +1003,7 @@ class ApiController  extends FrontendController
 
 
         if ($mod_n == 'element-from-template' && isset($data['template'])) {
-            $t = str_replace('..', '', $data['template']);
+            $t = sanitize_path($data['template']);
             $possible_layout = TEMPLATE_DIR . $t;
             $possible_layout = normalize_path($possible_layout, false);
             $opts['element_from_template'] = true;
@@ -1017,7 +1017,7 @@ class ApiController  extends FrontendController
         }
 
         if ($mod_n == 'module-' && isset($data['template'])) {
-            $t = str_replace('..', '', $data['template']);
+            $t = sanitize_path($data['template']);
             $possible_layout = templates_path() . $t;
             $possible_layout = normalize_path($possible_layout, false);
             if (is_file($possible_layout)) {
@@ -1238,7 +1238,7 @@ class ApiController  extends FrontendController
 
         // $params = $_REQUEST;
         $params = array_merge($_GET, $_POST);
-        $tool = str_replace('..', '', $tool);
+        $tool = sanitize_path($tool);
 
         $p_index = mw_includes_path() . 'toolbar/editor_tools/index.php';
         $p_index = normalize_path($p_index, false);

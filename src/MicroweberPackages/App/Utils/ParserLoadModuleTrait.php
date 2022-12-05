@@ -75,7 +75,7 @@ trait ParserLoadModuleTrait
             $custom_view = $attrs['view'];
             $custom_view = trim($custom_view);
             $custom_view = str_replace('\\', '/', $custom_view);
-            $attrs['view'] = $custom_view = str_replace('..', '', $custom_view);
+            $attrs['view'] = $custom_view = sanitize_path($custom_view);
         }
 
         /*   if ($custom_view != false and strtolower($custom_view) == 'admin') {
@@ -86,7 +86,7 @@ trait ParserLoadModuleTrait
 
         $module_name = trim($module_name);
         $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
+        $module_name = sanitize_path($module_name);
         // prevent hack of the directory
         $module_name = reduce_double_slashes($module_name);
 

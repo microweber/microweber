@@ -372,8 +372,7 @@ class TemplateCssParser
 
         $styleFilePathCss = normalize_path($templatePath . '/' . $cssfilepath, false);
 
-
-        $styleFilePath = str_replace('..', '', $styleFilePath);
+        $styleFilePath = sanitize_path($styleFilePath);
 
         return array(
             'lessFilePath' => $lessFilePath,

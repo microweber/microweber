@@ -293,7 +293,7 @@ class ModuleController extends Controller
 
         if ($module_info) {
             if ($_REQUEST['module']) {
-                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
+                $_REQUEST['module'] = sanitize_path($_REQUEST['module']);
                 $try_config_file = modules_path().''.$_REQUEST['module'].'_config.php';
                 $try_config_file = normalize_path($try_config_file, false);
                 if (is_file($try_config_file)) {
@@ -399,7 +399,7 @@ class ModuleController extends Controller
 
         if ($mod_n == 'layout') {
             if (isset($data['template'])) {
-                $t = str_replace('..', '', $data['template']);
+                $t = sanitize_path($data['template']);
                 $possible_layout = templates_path().$t;
                 $possible_layout = normalize_path($possible_layout, false);
                 if (is_file($possible_layout)) {
@@ -617,7 +617,7 @@ class ModuleController extends Controller
        // $params = $_REQUEST;
         $params = array_merge($_GET, $_POST);
 
-        $tool = str_replace('..', '', $tool);
+        $tool = sanitize_path($tool);
 
         $p_index = mw_includes_path().'toolbar/editor_tools/index.php';
         $p_index = normalize_path($p_index, false);

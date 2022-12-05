@@ -22,7 +22,9 @@ if ($mw_notif != false) {
     <?php $is_shop = 'y'; ?>
     <?php
     if ($active_action != false) {
-        $active_action = str_replace('..', '', $active_action);
+
+        $active_action = sanitize_path($active_action);
+
         $vf = $here . $active_action . '.php';
 
         if (is_file($vf)) {

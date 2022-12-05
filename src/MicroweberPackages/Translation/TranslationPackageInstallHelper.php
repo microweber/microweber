@@ -65,7 +65,7 @@ class TranslationPackageInstallHelper
 
     public static function installLanguage( string $locale)
     {
-        $locale = str_replace('..', '', $locale);
+        $locale = sanitize_path($locale);
         $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {

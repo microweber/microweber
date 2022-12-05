@@ -999,7 +999,7 @@ if (!function_exists('titlelize')) {
 
 function load_layout_block($block_name)
 {
-    $block_name = str_replace('..', '', $block_name);
+    $block_name = sanitize_path($block_name);
     $inc = false;
     $file = template_dir() . DS . 'modules/layouts/blocks/' . $block_name . '.php';
     $file2 = modules_path() . DS . 'layouts/blocks/' . $block_name . '.php';
@@ -1023,7 +1023,7 @@ function show_help($section = 'main')
 {
     $lang = current_lang();
 
-    $lang = str_replace('..', '', $lang);
+    $lang = sanitize_path($lang);
     if (trim($lang) == '') {
         $lang = 'en';
     }
@@ -1211,8 +1211,8 @@ if (!function_exists('mergeScreenshotParts')) {
         imagepng($targetImage, $outputFilename, 8);
     }
 }
-if (!function_exists('sanitize_path')) {
 
+if (!function_exists('sanitize_path')) {
     function sanitize_path($path)
     {
         $path = str_replace('..', '', $path);
@@ -1222,6 +1222,7 @@ if (!function_exists('sanitize_path')) {
         $path = str_replace('&&', '', $path);
         $path = str_replace('|', '', $path);
         $path = str_replace('>', '', $path);
+
         return $path;
     }
 }

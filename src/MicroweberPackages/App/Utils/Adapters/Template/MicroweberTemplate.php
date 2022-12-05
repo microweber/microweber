@@ -101,7 +101,7 @@
 //                $site_template_settings = 'default';
 //            }
 //            if ($site_template_settings != false) {
-//                $site_template_settings = str_replace('..', '', $site_template_settings);
+//                $site_template_settings = sanitize_path($site_template_settings);
 //                $site_template_settings_dir = TEMPLATES_DIR.$site_template_settings.DS;
 //                if (is_dir($site_template_settings_dir) != false) {
 //                    $page['active_site_template'] = $site_template_settings;
@@ -109,19 +109,19 @@
 //            }
 //        }
 //        if (isset($page['content_type'])) {
-//            $page['content_type'] = str_replace('..', '', $page['content_type']);
+//            $page['content_type'] = sanitize_path($page['content_type']);
 //        }
 //
 //        if (isset($page['subtype'])) {
-//            $page['subtype'] = str_replace('..', '', $page['subtype']);
+//            $page['subtype'] = sanitize_path($page['subtype']);
 //        }
 //        if (isset($page['layout_file'])) {
-//            $page['layout_file'] = str_replace('..', '', $page['layout_file']);
+//            $page['layout_file'] = sanitize_path($page['layout_file']);
 //
 //
 //        }
 //        if (isset($page['active_site_template'])) {
-//            $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
+//            $page['active_site_template'] = sanitize_path($page['active_site_template']);
 //        }
 //        if (is_array($override)) {
 //            foreach ($override as $resp) {
@@ -137,7 +137,7 @@
 //            if (isset($page['active_site_template']) and isset($page['layout_file'])) {
 //                $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
 //                $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
-//                $page['layout_file'] = str_replace('..', '', $page['layout_file']);
+//                $page['layout_file'] = sanitize_path($page['layout_file']);
 //
 //                $template_d = $page['active_site_template'];
 //                if ($template_d == 'mw_default') {
@@ -210,7 +210,7 @@
 //                    $get_layout_from_parent['active_site_template'] = 'default';
 //                }
 //                $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
-//                $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
+//                $get_layout_from_parent['layout_file'] = sanitize_path($get_layout_from_parent['layout_file']);
 //                $render_file_temp = TEMPLATES_DIR.$get_layout_from_parent['active_site_template'].DS.$get_layout_from_parent['layout_file'];
 //                $render_use_default = TEMPLATES_DIR.$get_layout_from_parent['active_site_template'].DS.'use_default_layouts.php';
 //                $render_file_temp = normalize_path($render_file_temp, false);
@@ -235,7 +235,7 @@
 //
 //        if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
 //            $test_file = str_replace('___', DS, $page['layout_file']);
-//            $test_file = str_replace('..', '', $test_file);
+//            $test_file = sanitize_path($test_file);
 //            $render_file_temp = $test_file;
 //            $render_file_temp = normalize_path($render_file_temp, false);
 //
@@ -246,7 +246,7 @@
 //
 //        if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit' and $page['layout_file'] != '') {
 //            $test_file = str_replace('___', DS, $page['layout_file']);
-//            $test_file = str_replace('..', '', $test_file);
+//            $test_file = sanitize_path($test_file);
 //
 //            $render_file_temp = TEMPLATES_DIR.$page['active_site_template'].DS.$test_file;
 //            $render_file_module_temp = modules_path().DS.$test_file;
@@ -265,7 +265,7 @@
 //             and isset($page['id'])  and $page['id'] == 0 ) {
 //            $url_file = $this->app->url_manager->string(1, 1);
 //            $test_file = str_replace('___', DS, $url_file);
-//            $test_file = str_replace('..', '', $test_file);
+//            $test_file = sanitize_path($test_file);
 //            $render_file_temp = ACTIVE_TEMPLATE_DIR.DS.$test_file.'.php';
 //            $render_file_temp2 = ACTIVE_TEMPLATE_DIR.DS.$test_file.'.php';
 //            $render_file_temp3 = ACTIVE_TEMPLATE_DIR.DS.'layouts'.DS.$test_file.'.php';
@@ -329,7 +329,7 @@
 //                            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 //                            $page['active_site_template'] = $par_c['active_site_template'];
 //
-//                            $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
+//                            $page['active_site_template'] = sanitize_path($page['active_site_template']);
 //                            if ($page['active_site_template'] == 'default') {
 //                                $page['active_site_template'] = $site_template_settings;
 //                            }
@@ -512,10 +512,10 @@
 //        }
 //
 //        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
-//            $page['active_site_template'] = trim(str_replace('..', '', $page['active_site_template']));
+//            $page['active_site_template'] = trim(sanitize_path($page['active_site_template']));
 //            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 //
-//            $page['layout_file'] = trim(urldecode(str_replace('..', '', $page['layout_file'])));
+//            $page['layout_file'] = trim(urldecode(sanitize_path($page['layout_file'])));
 //            $page['layout_file'] = (str_replace('\\', '/', $page['layout_file']));
 //
 //            $render_file_test = TEMPLATES_DIR.$page['active_site_template'].DS.$page['layout_file'];
@@ -601,7 +601,7 @@
 //        }
 //
 //        if ($render_file == false and ((!isset($page['layout_file'])) or $page['layout_file'] == false) and isset($page['url']) and $page['url'] != '') {
-//            $page['url'] = trim(str_replace('..', '', $page['url']));
+//            $page['url'] = trim(sanitize_path($page['url']));
 //            $template_view = ACTIVE_TEMPLATE_DIR.strtolower($page['url']).'.php';
 //            if (is_file($template_view) == true) {
 //                $render_file = $template_view;
@@ -609,7 +609,7 @@
 //        }
 //
 //        if ($render_file == false and isset($page['subtype']) and $page['subtype'] != '') {
-//            $page['subtype'] = trim(str_replace('..', '', $page['subtype']));
+//            $page['subtype'] = trim(sanitize_path($page['subtype']));
 //            $template_view = ACTIVE_TEMPLATE_DIR.strtolower($page['subtype']).'.php';
 //            if (is_file($template_view) == true) {
 //                $render_file = $template_view;
@@ -617,7 +617,7 @@
 //        }
 //
 //        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != '') {
-//            $page['content_type'] = trim(str_replace('..', '', $page['content_type']));
+//            $page['content_type'] = trim(sanitize_path($page['content_type']));
 //            $template_view = ACTIVE_TEMPLATE_DIR.strtolower($page['content_type']).'.php';
 //            if (is_file($template_view) == true) {
 //                $render_file = $template_view;
@@ -629,7 +629,7 @@
 //            if ($render_file == false and isset($page['active_site_template']) and isset($page['id'])) {
 //                if (isset($look_for_post) and $look_for_post != false) {
 //                    if (isset($look_for_post['content_type'])) {
-//                        $ct = str_replace('..', '', $look_for_post['content_type']);
+//                        $ct = sanitize_path($look_for_post['content_type']);
 //                        $template_view = ACTIVE_TEMPLATE_DIR.$ct.'.php';
 //                        if ($render_file == false and is_file($template_view) == true) {
 //                            $render_file = $template_view;
@@ -752,7 +752,7 @@
 //            $check_custom = dirname($render_file).DS;
 //            $check_custom_parent = dirname($render_file).DS;
 //            $cv = trim($page['custom_view']);
-//            $cv = str_replace('..', '', $cv);
+//            $cv = sanitize_path($cv);
 //            $cv = str_ireplace('.php', '', $cv);
 //            $check_custom_f = $check_custom.$cv.'.php';
 //

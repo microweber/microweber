@@ -62,7 +62,7 @@
         <?php else: ?>
             <?php
             $vf = __DIR__ . DS . $v . '.php';
-            $vf = str_replace('..', '', $vf);
+            $vf = sanitize_path($vf);
 
             if (is_file($vf)) {
                 include($vf);

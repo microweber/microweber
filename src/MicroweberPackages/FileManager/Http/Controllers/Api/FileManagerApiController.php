@@ -30,8 +30,7 @@ class FileManagerApiController extends Controller {
         $orderBy = $request->get('orderBy', 'filemtime');
         $path = urldecode($path);
 
-        $path = str_replace('./', '', $path);
-        $path = str_replace('..', '', $path);
+        $path = sanitize_path($path);
         $path = str_replace($pathRestirct, '', $path);
 
         $thumbnailSize = 150;
@@ -199,7 +198,7 @@ class FileManagerApiController extends Controller {
 
                     $path = urldecode($fnRemove);
                     $path = normalize_path($path, 0);
-                    $path = str_replace('..', '', $path);
+                    $path = sanitize_path($path);
                     $path = str_replace($pathRestirct, '', $path);
 
                     $targetPath = media_base_path() . DS . $path;
@@ -246,7 +245,7 @@ class FileManagerApiController extends Controller {
             }
 
             $fnPath = $targetPath . DS . $folderPath . DS;
-            $fnPath = str_replace('..', '', $fnPath);
+            $fnPath = sanitize_path($fnPath);
             $fnPath = normalize_path($fnPath, false);
 
             $targetPath = $fnPath;
@@ -263,7 +262,7 @@ class FileManagerApiController extends Controller {
                 return array('error' => 'Folder path is too long.');
             }
 
-            $fnNewFolderPath = str_replace('..', '', $fnNewFolderPath);
+            $fnNewFolderPath = sanitize_path($fnNewFolderPath);
             $fnNewFolderPath_new = $targetPath . DS . $fnNewFolderPath;
             $fnPath = normalize_path($fnNewFolderPath_new, false);
 
