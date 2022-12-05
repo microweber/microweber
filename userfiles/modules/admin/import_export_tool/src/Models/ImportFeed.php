@@ -94,6 +94,10 @@ class ImportFeed extends Model
     public function saveMappedContent($content)
     {
         $mappedContentFile = $this->getMappedContentRealpath($this->id);
+
+        $this->mapped_content_realpath = $mappedContentFile;
+        $this->save();
+
         return file_put_contents($mappedContentFile, json_encode($content));
     }
 
