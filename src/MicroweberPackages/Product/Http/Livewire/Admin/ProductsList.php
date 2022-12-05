@@ -48,6 +48,14 @@ class ProductsList extends Component
     public $checked = [];
     public $selectAll = false;
 
+    public $displayType = 'card';
+
+    public function setDisplayType($type)
+    {
+        $this->displayType = $type;
+        \Cookie::queue('orderDisplayType', $type);
+    }
+
     public function clearFilters()
     {
         $this->filters = [];
@@ -297,6 +305,11 @@ class ProductsList extends Component
 
     public function mount()
     {
+        $displayType = \Cookie::get('orderDisplayType');
+        if (!empty($displayType)) {
+            $this->displayType = $displayType;
+        }
+
         $columnsCookie = \Cookie::get('productShowColumns');
         if (!empty($columnsCookie)) {
             $this->showColumns = json_decode($columnsCookie, true);

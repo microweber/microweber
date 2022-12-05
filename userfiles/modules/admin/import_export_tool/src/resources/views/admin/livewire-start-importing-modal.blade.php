@@ -12,6 +12,10 @@
                 <h3>Error! Can't import this feed.</h3>
                 <p class="text-danger">{{$error}}</p>
 
+                <script>
+                    window.preventWindowClose = false;
+                </script>
+
                 @else
 
                 @if(!$done)
@@ -28,6 +32,9 @@
                     <h3>Done!</h3>
                     <br />
                     <button type="button" wire:click="$emit('viewReportAndCloseModal')" class="btn btn-outline-success">View Report</button>
+                    <script>
+                        window.preventWindowClose = false;
+                    </script>
                 @endif
 
             @endif
@@ -36,11 +43,23 @@
     </div>
     <script>
        setTimeout(function() {
+           window.preventWindowClose = true;
             window.Livewire.emit('importExportToolNextStep');
         }, 1000);
 
         window.addEventListener('nextStepCompleted', event => {
             window.Livewire.emit('importExportToolNextStep');
+        });
+    </script>
+
+    <script>
+        window.preventWindowClose = false;
+        window.addEventListener('beforeunload', function(e) {
+            if (!window.preventWindowClose) return;
+            // Cancel the event
+            e.preventDefault();
+            // Chrome requires returnValue to be set
+            e.returnValue = '';
         });
     </script>
 

@@ -57,19 +57,16 @@
     @foreach ($orders as $order)
 
         @php
+            $carts = [];
             if (empty($order->cart)) {
-                continue;
+               $carts = $order->cart;
             }
-
-            $carts = $order->cart ;
-            if ($carts->count() == 0) {
-                continue;
-            }
-
-
-
             $cart = $order->cart->first();
-            $cartProduct = $cart->products->first();
+
+            $cartProduct = [];
+            if (isset($cart->products)) {
+                $cartProduct = $cart->products->first();
+            }
         @endphp
 
         <tr class="manage-post-item">

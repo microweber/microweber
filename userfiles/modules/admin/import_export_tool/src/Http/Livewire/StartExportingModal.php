@@ -71,8 +71,9 @@ class StartExportingModal extends ModalComponent
             return redirect(route('admin.import-export-tool.index-export'));
         }
 
-        $this->export_log['total_steps'] = $this->export_feed->split_to_parts;
-        $this->export_feed_session_id = SessionStepper::generateSessionId($this->export_feed->split_to_parts);
+        $splitToParts = (int) $this->export_feed->split_to_parts;
+        $this->export_log['total_steps'] = $splitToParts;
+        $this->export_feed_session_id = SessionStepper::generateSessionId($splitToParts);
 
     }
 
