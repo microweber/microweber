@@ -1215,13 +1215,13 @@ if (!function_exists('mergeScreenshotParts')) {
 if (!function_exists('sanitize_path')) {
     function sanitize_path($path)
     {
-        $path = str_replace('..', '', $path);
-        $path = str_replace('./', '', $path);
-        $path = str_replace('.\\', '', $path);
-        $path = str_replace(';', '', $path);
-        $path = str_replace('&&', '', $path);
-        $path = str_replace('|', '', $path);
-        $path = str_replace('>', '', $path);
+        $path = str_replace('..', '-', $path);
+        $path = str_replace('./', '-', $path);
+        $path = str_replace('.\\', '-', $path);
+        $path = str_replace(';', '-', $path);
+        $path = str_replace('&&', '-', $path);
+        $path = str_replace('|', '-', $path);
+        $path = str_replace('>', '-', $path);
 
         return $path;
     }
