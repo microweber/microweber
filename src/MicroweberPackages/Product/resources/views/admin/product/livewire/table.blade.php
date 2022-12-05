@@ -37,6 +37,9 @@ if (isset($filters['category'])) {
                 @endif
             </h5>
             <div>
+             @if($findCategory)
+            <a href="{{category_link($findCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
+            @endif
             <a href="{{route('admin.product.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">{{_e('Add Product')}}</a>
             </div>
         </div>
