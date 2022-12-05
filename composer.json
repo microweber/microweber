@@ -95,10 +95,11 @@
     },
     "require-dev": {
         "fzaninotto/faker": "*",
+        "laravel/sail": "1.x-dev",
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
-        "phpunit/phpunit": "9.5.19",
         "orchestra/testbench": "*",
+        "phpunit/phpunit": "9.5.19",
         "spatie/laravel-ignition": "*"
     },
     "replace": {
