@@ -18,7 +18,6 @@ use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 class TranslationTest extends TestCase
 {
 
-
     public function testTheLangFunctionsTranslate()
     {
 
@@ -36,24 +35,54 @@ class TranslationTest extends TestCase
         $checkTexts[] =  __('testTheLangFunctionsTranslate1 - '.uniqid());
         $checkTexts[] = _e('testTheLangFunctionsTranslate1 - '.uniqid(), true);
 
+        $checkTexts[] = lang('This is my module text', 'modules/my-simple-module', true);
+
         $getNewKeys = app()->translator->getNewKeys();
 
         $this->assertNotEmpty($getNewKeys);
-        $this->assertTrue(count($getNewKeys) == 3);
+        $this->assertTrue(count($getNewKeys) == 4);
 
         $i = 0;
         foreach ($getNewKeys as $key) {
 
-            $this->assertTrue($key['translation_namespace'] == '*');
-            $this->assertTrue($key['translation_group'] == '*');
-            $this->assertSame($checkTexts[$i], $key['translation_key']);
+            if ($i == 3) {
+
+                $this->assertTrue($key['translation_namespace'] == 'modules-my-simple-module');
+                $this->assertTrue($key['translation_group'] == '*');
+                $this->assertSame($checkTexts[$i], $key['translation_key']);
+
+            } else {
+                $this->assertTrue($key['translation_namespace'] == '*');
+                $this->assertTrue($key['translation_group'] == '*');
+                $this->assertSame($checkTexts[$i], $key['translation_key']);
+            }
 
             $i++;
         }
 
     }
 
+    public function testTheLangFunctionsTranslateEmptyKeys()
+    {
 
+        // Clear old
+        app()->translator->clearNewKeys();
+
+        $checkTexts = [];
+        $checkTexts[] =  __('');
+        $checkTexts[] =  __(' ');
+        $checkTexts[] = _e('', true);
+        $checkTexts[] = _e(' ', true);
+
+        $checkTexts[] = lang('', 'modules/my-simple-module', true);
+        $checkTexts[] = lang(' ', 'modules/my-simple-module', true);
+
+        $getNewKeys = app()->translator->getNewKeys();
+
+
+        $this->assertEmpty($getNewKeys);
+        $this->assertTrue(count($getNewKeys) == 0);
+    }
 
     public function testImportLanguage()
     {
