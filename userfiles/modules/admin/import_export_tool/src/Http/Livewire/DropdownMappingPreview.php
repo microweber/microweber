@@ -261,10 +261,14 @@ class DropdownMappingPreview extends Component
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
+
                     $itemMapKey = mb_strtolower($itemMapKey);
-                    $mapKeyExp = explode('.',$mapKey);
-                    if (isset($mapKeyExp[1])) {
-                        if ($mapKeyExp[1] == $itemMapKey) {
+
+                    $mapKeyCleaned = str_replace($this->import_feed['content_tag'] . '.', '', $mapKey);
+                    $mapKeyCleaned = str_replace('.','_', $mapKeyCleaned);
+
+                    if (!empty($mapKeyCleaned)) {
+                        if ($mapKeyCleaned == $itemMapKey) {
                             $selected = true;
                             break;
                         }

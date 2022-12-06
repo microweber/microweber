@@ -31,9 +31,7 @@ class ImportFeed extends Model
         'download_images' => 'int',
         'update_items' => 'array',
         'imported_content_ids' => 'array',
-        'source_content' => 'array',
         'mapped_tags' => 'array',
-        'mapped_content' => 'array',
         'detected_content_tags' => 'array',
         'media_url_separators' => 'array',
         'category_separators' => 'array',
@@ -49,7 +47,7 @@ class ImportFeed extends Model
     {
         $mappedContentFile = $this->getMappedContentRealpath($this->id);
         if (is_file($mappedContentFile)) {
-            return json_decode(file_get_contents($mappedContentFile), TRUE);
+           return json_decode(file_get_contents($mappedContentFile), TRUE);
         }
 
         return [];
