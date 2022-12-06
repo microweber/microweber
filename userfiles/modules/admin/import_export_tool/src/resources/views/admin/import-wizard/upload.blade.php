@@ -22,7 +22,7 @@
                     </div>
                     <div>
                         <form enctype="multipart/form-data" wire:submit.prevent="upload">
-                            <div class="input-group mb-3 mt-2"> 
+                            <div class="input-group mb-3 mt-2">
                                 <input type="file" class="form-control" wire:model.defer="upload_file" style="line-height: 1.9;">
                                 <button type="submit" class="btn btn-outline-primary">
                                     <i class="fa fa-upload"></i>

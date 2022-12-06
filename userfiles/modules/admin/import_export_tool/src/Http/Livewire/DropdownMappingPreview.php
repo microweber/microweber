@@ -85,7 +85,7 @@ class DropdownMappingPreview extends Component
                 }
             }
         }
-        
+
         $allFieldsFilled = Arr::undot([$contentParentTag=>[$allFieldsFilled]]);
 
         $dropdowns = $this->arrayPreviewInHtmlRecursive($allFieldsFilled, $contentParentTag);
@@ -173,7 +173,7 @@ class DropdownMappingPreview extends Component
                             $value = mw()->format->limit($value, 50);
                         }
 
-                        $html .= "<table class='tag_key' style='width:100%'>";
+                        $html .= "<table class='tag_key' style='width:100%;margin-left:20px;'>";
                         $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";
                         $html .=  '<span class="value">'.$value.'</span>';
