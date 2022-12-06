@@ -822,6 +822,15 @@ Trait ParserEditFieldsTrait
         }
         return false;
     }
+
+    public function _is_native_category_table_field($field)
+    {
+        if($field == 'description' or
+            $field == 'title'){
+            return true;
+        }
+        return false;
+    }
     private function _str_clean_mod_id($mod_id)
     {
         $mod_id = str_replace(' ', '-', $mod_id);
@@ -921,7 +930,26 @@ Trait ParserEditFieldsTrait
             }
 
 
+        } elseif ($rel == 'category' or $rel == 'categories') {
+            $get_global = false;
+            if (!isset($data_id) or $data_id == false) {
+                $data_id = category_id();
+            }
+            if($data_id != 0){
+                $data = app()->category_repository->getById($data_id);
+            } else {
+                return false;
+            }
+
+
+            if (!$this->_is_native_category_table_field($field)) {
+                $data[$field] = app()->content_manager->edit_field("rel_type=categories&field={$field}&rel_id=" . $data_id);
+            }
+
+
+
         } elseif ($rel == 'inherit') {
+
             $get_global = false;
             if (!isset($data_id) or $data_id == false) {
                 $data_id = page_id();
