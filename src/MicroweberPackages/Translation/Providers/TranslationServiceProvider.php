@@ -72,10 +72,11 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
 
             // @todo fix the insert logic
-           return;
+           //return;
 
             $this->app->terminating(function () {
                 $getNewKeys = app()->translator->getNewKeys();
+
                 if (!empty($getNewKeys)) {
 
                     \Config::set('microweber.disable_model_cache', 1);

@@ -18,6 +18,43 @@ use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 class TranslationTest extends TestCase
 {
 
+
+    public function testTheLangFunctionsTranslate()
+    {
+
+        $translate1 = _e('Login', true);
+        $this->assertSame('Login',$translate1);
+
+        $checkTexts = [];
+
+        $simpleText1 = 'This is a new text-' . uniqid();
+        $translate1 = _e($simpleText1, true);
+        $this->assertSame($simpleText1, $translate1);
+
+        $checkTexts[] = $translate1;
+
+        $checkTexts[] =  __('testTheLangFunctionsTranslate1 - '.uniqid());
+        $checkTexts[] = _e('testTheLangFunctionsTranslate1 - '.uniqid(), true);
+
+        $getNewKeys = app()->translator->getNewKeys();
+
+        $this->assertNotEmpty($getNewKeys);
+        $this->assertTrue(count($getNewKeys) == 3);
+
+        $i = 0;
+        foreach ($getNewKeys as $key) {
+
+            $this->assertTrue($key['translation_namespace'] == '*');
+            $this->assertTrue($key['translation_group'] == '*');
+            $this->assertSame($checkTexts[$i], $key['translation_key']);
+
+            $i++;
+        }
+
+    }
+
+
+
     public function testImportLanguage()
     {
 
@@ -136,17 +173,4 @@ class TranslationTest extends TestCase
 
     }
 
-    public function testTheLangFunctionsTranslate()
-    {
-
-        $translate1 =  __('testTheLangFunctionsTranslate1 - '.uniqid());
-        $translate2 = _e('testTheLangFunctionsTranslate1 - '.uniqid());
-
-
-        $getNewKeys = app()->translator->getNewKeys();
-        dump($getNewKeys);
-
-
-
-    }
 }

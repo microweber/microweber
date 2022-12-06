@@ -41,6 +41,14 @@ class Translator extends \Illuminate\Translation\Translator
         if (! isset($line)) {
 
             [$namespace, $group, $item] = $this->parseKey($key);
+
+            // If laravel cannot parse the group
+            if ($group == $key) {
+                $group = '*';
+                $item = $key;
+            }
+
+
             if ($namespace and is_string($namespace) and $namespace != '*') {
                 $this->load($namespace, $group, $locale);
                 // load namespace translations
