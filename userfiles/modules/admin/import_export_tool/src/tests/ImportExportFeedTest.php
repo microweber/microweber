@@ -2,9 +2,7 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
@@ -15,10 +13,8 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImporti
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
-class ImportExportFeedTest extends TestCase
+class ImportExportFeedXlsxTest extends TestCase
 {
     public function testInstall()
     {
