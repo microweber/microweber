@@ -41,9 +41,21 @@ class Translator extends \Illuminate\Translation\Translator
         if (! isset($line)) {
 
             [$namespace, $group, $item] = $this->parseKey($key);
+            if ($namespace and is_string($namespace) and $namespace != '*') {
+                $this->load($namespace, $group, $locale);
+                // load namespace translations
+                $line2 = $this->loaded[$namespace][$group][$locale][$key] ?? null;
+                if ($line2) {
+                     $item = $line2;
+                }
+            }
+
+
+          //
 
             if (empty($item)) {
-                // echo 'This is without namespace, only key ->'.$key . '<br />';
+//            echo 'This is without namespace, only key ->'.$key . '<br />';
+//            exit;
                // self::$newKeys[md5($key . '**')] = [
                 self::$newKeys[md5('**' . $key)] = [
                     'translation_namespace' => '*',
@@ -70,7 +82,10 @@ class Translator extends \Illuminate\Translation\Translator
             if ($foundedLine) {
                 return $foundedLine;
             } else {
-                //echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
+
+
+         // exit( 'This is with namespace ->' . $namespace . $group . $item );
+
                 self::$newKeys[md5($namespace . $group . $item)] = [
                     'translation_namespace' => $namespace,
                     'translation_group' => $group,

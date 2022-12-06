@@ -18,7 +18,8 @@ use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 class TranslationTest extends TestCase
 {
 
-    public function testImportLanguage() {
+    public function testImportLanguage()
+    {
 
         // Truncate translation texts
         TranslationKey::truncate();
@@ -57,38 +58,38 @@ class TranslationTest extends TestCase
         $newTranslations = [];
 
         $newTranslations[] = [
-          'translation_namespace' =>'*',
-          'translation_group' =>'*',
-          'translation_key' =>'How are you?',
-          'translation_text' =>'Как си?',
-          'translation_locale' =>$newLocale,
+            'translation_namespace' => '*',
+            'translation_group' => '*',
+            'translation_key' => 'How are you?',
+            'translation_text' => 'Как си?',
+            'translation_locale' => $newLocale,
         ];
 
         $newTranslations[] = [
-          'translation_namespace' =>'*',
-          'translation_group' =>'*',
-          'translation_key' =>'Are you okay?',
-          'translation_text' =>'Добре ли си?',
-          'translation_locale' =>$newLocale,
+            'translation_namespace' => '*',
+            'translation_group' => '*',
+            'translation_key' => 'Are you okay?',
+            'translation_text' => 'Добре ли си?',
+            'translation_locale' => $newLocale,
         ];
 
         // Try to add the same text and key
         $newTranslations[] = [
-            'translation_namespace' =>'*',
-            'translation_group' =>'*',
-            'translation_key' =>'Are you okay?',
-            'translation_text' =>'Добре ли си?-презаписано',
-            'translation_locale' =>$newLocale,
+            'translation_namespace' => '*',
+            'translation_group' => '*',
+            'translation_key' => 'Are you okay?',
+            'translation_text' => 'Добре ли си?-презаписано',
+            'translation_locale' => $newLocale,
         ]; // This must be not broke the importing and dublicating on translation_texts table
 
 
         // Try to overwrite existing translation
         $newTranslations[] = [
-            'translation_namespace' =>'*',
-            'translation_group' =>'*',
-            'translation_key' =>'Comments',
-            'translation_text' =>'Клюки',
-            'translation_locale' =>$newLocale,
+            'translation_namespace' => '*',
+            'translation_group' => '*',
+            'translation_key' => 'Comments',
+            'translation_text' => 'Клюки',
+            'translation_locale' => $newLocale,
         ];
 
         $import = new TranslationImport();
@@ -115,22 +116,37 @@ class TranslationTest extends TestCase
 
     }
 
-    public function testImportSomeLanguages() {
+    public function testImportSomeLanguages()
+    {
 
         $availableTranslations = TranslationPackageInstallHelper::getAvailableTranslations();
 
         $this->assertNotEmpty($availableTranslations);
 
-        $i =0;
-        foreach($availableTranslations as $availableLocale=>$availableLanguage) {
+        $i = 0;
+        foreach ($availableTranslations as $availableLocale => $availableLanguage) {
             $i++;
-            if($i > 3){
+            if ($i > 3) {
                 continue;
             }
             $installResponse = TranslationPackageInstallHelper::installLanguage($availableLocale);
             $this->assertNotEmpty($installResponse);
             $this->assertArrayHasKey('success', $installResponse);
         }
+
+    }
+
+    public function testTheLangFunctionsTranslate()
+    {
+
+        $translate1 =  __('testTheLangFunctionsTranslate1 - '.uniqid());
+        $translate2 = _e('testTheLangFunctionsTranslate1 - '.uniqid());
+
+
+        $getNewKeys = app()->translator->getNewKeys();
+        dump($getNewKeys);
+
+
 
     }
 }
