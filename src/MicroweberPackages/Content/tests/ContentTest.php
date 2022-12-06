@@ -388,6 +388,19 @@ class ContentTest extends TestCase
     }
     public function testContentOriginalLinkRedirect()
     {
+        mw()->database_manager->extended_save_set_permission(true);
+
+        $params = array(
+            'title' => 'My test page testContentOriginalLinkRedirect',
+            'template' => 'new-world',
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'is_active' => 1,);
+
+        //saving
+        $parent_page_id = save_content($params);
+
+
         $title = 'title for testContentOriginalLinkRedirect' . uniqid();
         $description = 'description for testContentOriginalLinkRedirect' . uniqid() . '';
         $original_link = 'https://github.com/microweber/microweber/issues/963';
@@ -395,6 +408,7 @@ class ContentTest extends TestCase
             'title' => $title,
             'description' => $description,
             'content_type' => 'post',
+            'parent' => $parent_page_id,
             'original_link' => 'https://github.com/microweber/microweber/issues/963',
             'is_active' => 1,);
 
