@@ -83,12 +83,12 @@ class ImportFeed extends Model
 
     public function getMappedContentRealpath($id)
     {
-        return $this->getImportTempPath() . '/mapped-content-' . $id.'.json';
+        return $this->getImportTempPath() . 'mapped-content-' . $id.'.json';
     }
 
     public function getSourceContentRealpath($id)
     {
-        return $this->getImportTempPath() . '/source-content-' . $id.'.json';
+        return $this->getImportTempPath() . 'source-content-' . $id.'.json';
     }
 
     public function saveMappedContent($content)
@@ -210,7 +210,6 @@ class ImportFeed extends Model
             $repeatableData = [];
 
             if (empty($this->content_tag)) {
-
                 // Try to automatically detect content tag
 
                 $contentTag = false;
@@ -241,9 +240,7 @@ class ImportFeed extends Model
             file_put_contents($sourceContentFile, json_encode($content));
 
             $this->source_content_realpath = $sourceContentFile;
-
             $this->mapped_tags = [];
-            $this->mapped_content = [];
             $this->save();
 
             return true;

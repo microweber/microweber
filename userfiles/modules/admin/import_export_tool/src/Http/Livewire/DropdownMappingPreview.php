@@ -54,7 +54,7 @@ class DropdownMappingPreview extends Component
         $contentParentTag = $this->import_feed['content_tag'];
         $content = $this->import_feed['source_content'];
 
-        $allFieldsFilled = [];
+      /*  $allFieldsFilled = [];
         if (isset($content[$contentParentTag])) {
             foreach ($content[$contentParentTag] as $contentItem) {
                 foreach ($contentItem as $contentItemKey=>$contentItemValue) {
@@ -66,7 +66,27 @@ class DropdownMappingPreview extends Component
             $allFieldsFilledReady = $allFieldsFilled;
             $allFieldsFilled = [];
             $allFieldsFilled[$contentParentTag][] = $allFieldsFilledReady;
+        }*/
+
+        $allFieldsFilled = [];
+        $readContent = Arr::get($content, $contentParentTag);
+        if (!empty($readContent)) {
+            foreach ($readContent as $contentItem) {
+                foreach ($contentItem as $contentItemKey=>$contentItemValue) {
+                    if (is_string($contentItemValue)) {
+                        if (!empty(trim(strip_tags($contentItemValue))) && !isset($allFieldsFilled[$contentItemKey])) {
+                            $allFieldsFilled[$contentItemKey] = $contentItemValue;
+                        }
+                    } else if (is_array($contentItemValue)) {
+                        if (!empty($contentItemValue) && !isset($allFieldsFilled[$contentItemKey])) {
+                            $allFieldsFilled[$contentItemKey] = $contentItemValue;
+                        }
+                    }
+                }
+            }
         }
+        
+        $allFieldsFilled = Arr::undot([$contentParentTag=>[$allFieldsFilled]]);
 
         $dropdowns = $this->arrayPreviewInHtmlRecursive($allFieldsFilled, $contentParentTag);
 

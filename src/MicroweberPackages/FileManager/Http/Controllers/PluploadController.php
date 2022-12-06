@@ -2,15 +2,12 @@
 
 namespace MicroweberPackages\FileManager\Http\Controllers;
 
-class PluploadController as Con
+use App\Http\Controllers\Controller;
+
+class PluploadController extends Controller
 {
     public function upload()
     {
-
-
-        die(22);
-
-
         header('Content-Type: application/json');
 
         $files_utils = new \MicroweberPackages\Utils\System\Files();
