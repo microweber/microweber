@@ -137,27 +137,48 @@ class ImportFeedToDatabase
 
                 if ($updateCategoryId > 0) {
 
-                    $findCategoryById = Category::where('id', $updateCategoryId)->first();
-                    if (isset($item['media_urls'])) {
-                        unset($item['media_urls']);
-                    }
-                    $findCategoryById->fill($item);
-                    $findCategoryById->save();
+                    try {
+                        $findCategoryById = Category::where('id', $updateCategoryId)->first();
+                        if (isset($item['media_urls'])) {
+                            unset($item['media_urls']);
+                        }
+                        $findCategoryById->fill($item);
+                        $findCategoryById->save();
 
-                    $savedIds[] = $findCategoryById->id;
+                        $savedIds[] = $findCategoryById->id;
+                    } catch (\Exception $e) {
+                        $newItemId = 0;
+                        if (isset($item['id'])) {
+                            $newItemId = $item['id'];
+                        }
+                        $failedIds[] = [
+                            'id'=>  $newItemId,
+                            'message'=>$e->getMessage()
+                        ];
+                    }
                 }
 
                 if ($insertNewCategory) {
-                    $newCategory = new Category();
-                    if (isset($item['id'])) {
-                        $newCategory->id = $item['id'];
+                    try {
+                        $newCategory = new Category();
+                        if (isset($item['id'])) {
+                            $newCategory->id = $item['id'];
+                        }
+                        $newCategory->fill($item);
+                        $newCategory->save();
+
+                        $savedIds[] = $newCategory->id;
+                    } catch (\Exception $e) {
+                        $newItemId = 0;
+                        if (isset($item['id'])) {
+                            $newItemId = $item['id'];
+                        }
+                        $failedIds[] = [
+                            'id'=>  $newItemId,
+                            'message'=>$e->getMessage()
+                        ];
                     }
-                    $newCategory->fill($item);
-                    $newCategory->save();
-
-                    $savedIds[] = $newCategory->id;
                 }
-
 
             } else {
 
