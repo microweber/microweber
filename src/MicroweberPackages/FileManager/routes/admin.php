@@ -19,3 +19,5 @@ Route::name('api.')
   /*  Route::patch('file-manager/file', 'FileManagerApiController@rename')->name('file-manager.rename');*/
 
 });
+
+
