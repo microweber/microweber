@@ -78,6 +78,12 @@ class DropdownMappingPreview extends Component
                             $allFieldsFilled[$contentItemKey] = $contentItemValue;
                         }
                     } else if (is_array($contentItemValue)) {
+
+                        $contentItemValue = array_map_recursive(function($v){
+                            return trim(strip_tags($v));
+                        }, $contentItemValue);
+                        $contentItemValue = array_filter($contentItemValue);
+
                         if (!empty($contentItemValue) && !isset($allFieldsFilled[$contentItemKey])) {
                             $allFieldsFilled[$contentItemKey] = $contentItemValue;
                         }
@@ -173,7 +179,7 @@ class DropdownMappingPreview extends Component
                             $value = mw()->format->limit($value, 50);
                         }
 
-                        $html .= "<table class='tag_key' style='width:100%;margin-left:20px;'>";
+                        $html .= "<table class='table table-borderless table-hover tag_key' style='width:100%;margin-left:20px;'>";
                         $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";
                         $html .=  '<span class="value">'.$value.'</span>';
