@@ -59,6 +59,19 @@
                         selectionChange: function () {
                             //  document.querySelector('.btn-save').disabled = false;
                             mw.askusertostay = true;
+
+                            var selected = categorySelector.tree.getSelected();
+                            if(selected.length){
+                                var hasPage = selected.find(function (item){
+                                    return item.type === 'page';
+                                });
+
+                                if(typeof hasPage === 'undefined'){
+                                    var category = selected[0];
+                                    categorySelector.tree.select(category.parent_id, 'page', true);
+                                }
+                             }
+
                         }
                     }
                 });
@@ -69,6 +82,7 @@
                             categorySelector.tree.select(this, undefined, false)
                         })
                     } else {
+
                         $.each(selectedPages, function () {
                             categorySelector.tree.select(this, 'page', false);
 
