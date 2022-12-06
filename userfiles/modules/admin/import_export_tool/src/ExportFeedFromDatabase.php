@@ -51,7 +51,11 @@ class ExportFeedFromDatabase
 
         if ($findExportFeed->export_type == 'products') {
             if ($findExportFeed->export_format == 'xlsx' || $findExportFeed->export_format == 'xls' || $findExportFeed->export_format == 'csv' || $findExportFeed->export_format == 'xml') {
-                $exportData = $this->exportProductOneLevelArray();
+                $oneLevelArray = true;
+                if ($findExportFeed->export_format == 'xml') {
+                    $oneLevelArray = false;
+                }
+                $exportData = $this->exportProductsArray($oneLevelArray);
             }
         }
 
@@ -388,7 +392,7 @@ class ExportFeedFromDatabase
         ];
     }
 
-    public function exportProductOneLevelArray()
+    public function exportProductsArray($oneLevelArray = true)
     {
         $exportData = [];
         $categoryTreeItems = app()->category_repository->tree();
@@ -406,7 +410,11 @@ class ExportFeedFromDatabase
             if (isset($product->multilanguage)) {
                 foreach ($product->multilanguage as $locale=>$mlFields) {
                     foreach ($mlFields as $mlFieldKey=>$mlFieldValue) {
-                        $appendProduct[$mlFieldKey.'_'.strtolower($locale)] = $mlFieldValue;
+                        if ($oneLevelArray) {
+                            $appendProduct[$mlFieldKey . '_' . strtolower($locale)] = $mlFieldValue;
+                        } else {
+                            $appendProduct[$mlFieldKey][strtolower($locale)] = $mlFieldValue;
+                        }
                     }
                 }
             }  else {
@@ -428,8 +436,8 @@ class ExportFeedFromDatabase
             if ($contentField->count() > 0) {
                 foreach ($contentField as $contentFieldItem) {
                     if (isset($contentFieldItem->multilanguage)) {
-                        foreach ($contentFieldItem->multilanguage as $locale=>$mlFields) {
-                            $appendProduct[$contentFieldItem->field.'_'.strtolower($locale)] = $mlFields['value'];
+                        foreach ($contentFieldItem->multilanguage as $locale => $mlFields) {
+                            $appendProduct[$contentFieldItem->field . '_' . strtolower($locale)] = $mlFields['value'];
                         }
                     } else {
                         $appendProduct[$contentFieldItem->field] = $contentFieldItem->value;
@@ -450,25 +458,38 @@ class ExportFeedFromDatabase
 
             $tags = $product->tags->toArray();
             if (!empty($tags)) {
-                $tagsPlainText = [];
-                foreach ($tags as $tag) {
-                    $tagsPlainText[] = $tag['tag_name'];
+                if ($oneLevelArray) {
+                    $tagsPlainText = [];
+                    foreach ($tags as $tag) {
+                        $tagsPlainText[] = $tag['tag_name'];
+                    }
+                    $appendProduct['tags'] = implode(', ', $tagsPlainText);
+                } else {
+                    foreach ($tags as $tag) {
+                        $appendProduct['tags']['tag'][] = $tag['tag_name'];
+                    }
                 }
-                $appendProduct['tags'] = implode(', ',$tagsPlainText);
             }
 
             $productCategories = $product->categories->toArray();
 
             if (!empty($productCategories)) {
 
-                $productCategoryIds = [];
-                foreach ($productCategories as $productCategory) {
-                    if (isset($productCategory['category'])) {
-                        $productCategoryIds[] = $productCategory['category']['id'];
+                if ($oneLevelArray) {
+                    $productCategoryIds = [];
+                    foreach ($productCategories as $productCategory) {
+                        if (isset($productCategory['category'])) {
+                            $productCategoryIds[] = $productCategory['category']['id'];
+                        }
+                    }
+                    $appendProduct['category_ids'] = implode(',', $productCategoryIds);
+                } else {
+                    foreach ($productCategories as $productCategory) {
+                        if (isset($productCategory['category'])) {
+                            $appendProduct['category_ids']['id'] = $productCategory['category']['id'];
+                        }
                     }
                 }
-
-                $appendProduct['category_ids'] = implode(',', $productCategoryIds);
 
                 $tree = new BuildProductCategoryTree($categoryTreeItems, $productCategories);
                 $getTree = $tree->get();
@@ -476,7 +497,11 @@ class ExportFeedFromDatabase
                     $treeI = 0;
                     foreach ($getTree as $treeItem) {
                         if (isset($treeItem['plain'])) {
-                            $appendProduct['category_' . $treeI] = $treeItem['plain'];
+                            if ($oneLevelArray) {
+                                $appendProduct['category_' . $treeI] = $treeItem['plain'];
+                            } else {
+                                $appendProduct['categories']['tree'][] = $treeItem['plain'];
+                            }
                             $treeI++;
                         }
                     }
@@ -485,11 +510,17 @@ class ExportFeedFromDatabase
 
             $getProductMedia = $product->media()->get();
             if ($getProductMedia->count() > 0) {
-                $imageUrls = [];
-                foreach ($getProductMedia as $media) {
-                    $imageUrls[] = $media->filename;
+                if ($oneLevelArray) {
+                    $imageUrls = [];
+                    foreach ($getProductMedia as $media) {
+                        $imageUrls[] = $media->filename;
+                    }
+                    $appendProduct['media_urls'] = implode(',', $imageUrls);
+                } else {
+                    foreach ($getProductMedia as $media) {
+                        $appendProduct['media_urls']['url'] = $media->filename;
+                    }
                 }
-                $appendProduct['media_urls'] = implode(',', $imageUrls);
             }
 
             $exportData[] = $appendProduct;
