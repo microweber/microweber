@@ -28,7 +28,7 @@
                             @else
 
                                 @if(is_array($columnValue))
-                                      <pre>  {!! json_encode($columnValue, JSON_PRETTY_PRINT) !!} </pre>
+                                      <pre>  {!! json_encode($columnValue, JSON_UNESCAPED_UNICODE|JSON_HEX_QUOT|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT) !!} </pre>
                                 @endif
 
                             @endif
