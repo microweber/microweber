@@ -1,6 +1,9 @@
 <div>
 
     <style>
+        table {
+            width:100%;
+        }
         .tags {
             padding-left:5px;
         }
