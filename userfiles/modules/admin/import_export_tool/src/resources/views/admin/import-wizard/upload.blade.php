@@ -18,10 +18,11 @@
 
                 @if($this->import_feed['source_type'] == 'upload_file')
                     <div>
-                        <b>Upload content feed file</b>
+                        <h5 class="font-weight-bold"><?php _e('Upload your content feed file'); ?></h5>
                     </div>
+
                     <div>
-                        <form enctype="multipart/form-data" wire:submit.prevent="upload">
+                      {{--  <form enctype="multipart/form-data" wire:submit.prevent="upload">
                             <div class="input-group mb-3 mt-2">
                                 <input type="file" class="form-control" wire:model.defer="upload_file" style="line-height: 1.9;">
                                 <button type="submit" class="btn btn-outline-primary">
@@ -31,6 +32,58 @@
                             </div>
                         </form>
                         @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
+                        --}}
+
+                        <div class="mb-3 mt-2">
+                            <small class="text-muted d-block mb-3"><?php _e("Upload your feed file (allowed file format is xml, xls, xlsx or csv)"); ?></small>
+                            <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
+
+                            <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <script>
+                            mw.require("files.js");
+                            mw.require("uploader.js");
+
+                            $(document).ready(function () {
+
+                                var uploader = mw.upload({
+                                    url: route('admin.import-export-tool.upload-feed'),
+                                    filetypes: "zip",
+                                    multiple: false,
+                                    element:$("#mw_uploader")
+                                });
+
+                                $(uploader).bind("FileUploaded", function (obj, data) {
+
+                                    console.log(data);
+                                    console.log(data.src);
+
+                                    mw.$("#mw_uploader_loading").hide();
+                                    mw.$("#upload_file_info").html("");
+                                    mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+
+                                    mw.notification.success('File uploaded');
+                                });
+
+
+                                $(uploader).bind('progress', function (up, file) {
+                                    mw.$("#mw_uploader_loading").show();
+                                    $('#mw_uploader_loading .progress-bar').html('Uploading file...' + file.percent + "%");
+                                    mw.$("#mw_uploader_loading .progress-bar").css({'width': file.percent + "%"});
+                                });
+
+                                $(uploader).bind('error', function (up, file) {
+                                    mw.$("#mw_uploader_loading").hide();
+                                    mw.$("#upload_file_info").html("");
+                                    mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+                                    mw.notification.error("The backup must be sql or zip.");
+                                });
+                            });
+                        </script>
+
                     </div>
                 @endif
 

@@ -63,7 +63,7 @@ class ImportFeed extends Model
         return [];
     }
 
-    public function getImportTempPath()
+    public static function getImportTempPath()
     {
         $environment = App::environment();
         $folder = storage_path('import_export_tool/') . ('default' . DIRECTORY_SEPARATOR);
@@ -81,12 +81,12 @@ class ImportFeed extends Model
 
     public function getMappedContentRealpath($id)
     {
-        return $this->getImportTempPath() . 'mapped-content-' . $id.'.json';
+        return self::getImportTempPath() . 'mapped-content-' . $id.'.json';
     }
 
     public function getSourceContentRealpath($id)
     {
-        return $this->getImportTempPath() . 'source-content-' . $id.'.json';
+        return self::getImportTempPath() . 'source-content-' . $id.'.json';
     }
 
     public function saveMappedContent($content)

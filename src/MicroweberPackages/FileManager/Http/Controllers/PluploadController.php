@@ -6,6 +6,23 @@ use App\Http\Controllers\Controller;
 
 class PluploadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware([
+            \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+            \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
+            \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class
+        ]);
+    }
+
+    public function getUploadPath()
+    {
+        $target_path = media_uploads_path();
+        $target_path = normalize_path($target_path, 0);
+
+        return $target_path; 
+    }
+
     public function upload()
     {
         header('Content-Type: application/json');
@@ -275,8 +292,8 @@ class PluploadController extends Controller
 // Settings
 //$target_path = media_base_path() . DS;
 //$target_path = media_base_path() . DS . $host_dir . DS . 'uploaded' . DS;
-        $target_path = media_uploads_path();
-        $target_path = normalize_path($target_path, 0);
+
+        $target_path = $this->getUploadPath();
 
         $path_restirct = userfiles_path(); // the path the script should access
         if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '' and trim($_REQUEST['path']) != 'false') {
