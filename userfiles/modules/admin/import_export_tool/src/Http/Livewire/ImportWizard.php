@@ -48,7 +48,7 @@ class ImportWizard extends Component
 
         if ($tab == 'upload') {
             if ($this->import_feed['source_type'] == 'upload_file') {
-                $this->emit('initJsUploader');
+                $this->dispatchBrowserEvent('initJsUploader');
             }
         }
     }
