@@ -4,8 +4,6 @@
 
 @section('content')
 
-
-
     <div wire:ignore>
         <script>
 
@@ -47,16 +45,11 @@
                 });
             }
 
-            window.Livewire.on('initUploaderExec',function (){
-                alert('initUploader');
+            window.Livewire.on('initJsUploader',function (){
                 initUploader()
-            })
-
-
+            });
         </script>
     </div>
-
-
 
     <div class="row">
         <div class="mx-auto col-md-10">
@@ -77,23 +70,15 @@
                         <h5 class="font-weight-bold"><?php _e('Upload your content feed file'); ?></h5>
                     </div>
 
+                    <div class="mb-3 mt-2">
+                        <small class="text-muted d-block mb-3"><?php _e("Upload your feed file (allowed file format is xml, xls, xlsx or csv)"); ?></small>
+                        <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
 
+                        <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
 
-                    <div wire:ignore>
-
-                        <div class="mb-3 mt-2">
-                            <small class="text-muted d-block mb-3"><?php _e("Upload your feed file (allowed file format is xml, xls, xlsx or csv)"); ?></small>
-                            <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
-
-                            <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-
-                                </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 @endif
 

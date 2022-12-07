@@ -191,6 +191,11 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 
         if ($feed) {
+
+            if ($this->import_feed['source_type'] == 'upload_file') {
+                $this->emit('initJsUploader'); 
+            }
+
             $feed->primary_key = $this->import_feed['primary_key'];
             $feed->download_images = $this->import_feed['download_images'];
             $feed->split_to_parts = $this->import_feed['split_to_parts'];
