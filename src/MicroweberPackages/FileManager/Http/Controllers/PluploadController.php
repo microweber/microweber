@@ -11,11 +11,11 @@ class PluploadController extends Controller
 
     public function __construct()
     {
-        /*$this->middleware([
+        $this->middleware([
             \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
             \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
             \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class
-        ]);*/
+        ]);
     }
 
     public function getUploadPath()
@@ -28,7 +28,6 @@ class PluploadController extends Controller
 
     public function upload()
     {
-        header('Content-Type: application/json');
 
         $files_utils = new \MicroweberPackages\Utils\System\Files();
         $dangerous = $files_utils->get_dangerous_files_extentions();
@@ -46,7 +45,6 @@ class PluploadController extends Controller
         if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
             // //session_start();
         }
-
 
         $validate_token = false;
         if (!isset($_SERVER['HTTP_REFERER'])) {
@@ -726,34 +724,6 @@ class PluploadController extends Controller
             }
         }
 
-//$jsonResponse['ORIG_REQUEST'] = $_GET;
-
-
-        /*
-         * upload.php
-         *
-         * Copyright 2009, Moxiecode Systems AB
-         * Released under GPL License.
-         *
-         * License: http://www.plupload.com/license
-         * Contributing: http://www.plupload.com/contributing
-         */
-// HTTP headers for no cache etc
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Cache-Control: no-store, no-cache, must-revalidate');
-        header('Cache-Control: post-check=0, pre-check=0', false);
-        header('Pragma: no-cache');
-
-
-        echo json_encode($jsonResponse);
-
-        if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
-            // @//session_write_close();
-        }
-
-// Return JSON-RPC response
-//die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
-
+        return response()->json($jsonResponse, 200);
     }
 }
