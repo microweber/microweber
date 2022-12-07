@@ -59,8 +59,11 @@ Call to action
 <a class="mb-2" href=""><i class="mdi mdi-arrow-right"></i></a>
 <a class="mb-2" href="https://example.com"><i class="mdi mdi-arrow-up"></i>example link</a>
 <a class="mb-3" target="_blank" href="https://example.com/2"><i class="mdi mdi-arrow-left-bold-box"></i>link 2</a>
+ <!--a comment here to check -->
 </div>
 HTML;
+
+
 
 
         $pq = \phpQuery::newDocument($contentFieldHtml);
@@ -107,6 +110,7 @@ HTML;
         $this->assertTrue(str_contains($findPage->content, '<h2>Featured title</h2>'));
         $this->assertTrue(str_contains($findPage->content, '<a class="mb-2" href="https://example.com"><i class="mdi mdi-arrow-up"></i>example link</a>'));
         $this->assertTrue(str_contains($findPage->content, '<a class="mb-3" target="_blank" href="https://example.com/2"><i class="mdi mdi-arrow-left-bold-box"></i>link 2</a>'));
+        $this->assertTrue(str_contains($findPage->content, '<!--a comment here to check -->'));
 
 
     }
