@@ -21,7 +21,7 @@
 
                 $(uploader).bind("FileUploaded", function (obj, data) {
 
-                    window.Livewire.emit('uploadFeedFile', data.name);
+                    window.Livewire.emit('uploadFeedReadFile', data.name); 
 
                     mw.$("#mw_uploader_loading").hide();
                     mw.$("#upload_file_info").html("");

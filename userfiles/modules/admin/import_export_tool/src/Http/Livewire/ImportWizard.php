@@ -9,8 +9,6 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportWizard extends Component
 {
-    use WithFileUploads;
-
     protected $queryString = ['tab', 'importTo','importFeedId'];
 
     public $tab = 'type';
@@ -21,7 +19,7 @@ class ImportWizard extends Component
     public $import_feed_edit_name = 0;
 
     public $listeners = [
-        'uploadFeedFile'=>'upload',
+        'uploadFeedReadFile'=>'readUploadedFile',
         'refreshImportFeedStateById'=> 'refreshImportFeedStateById',
         'readFeedFile'=>'readFeedFile',
         'importingFinished'=>'importingFinished',
@@ -139,7 +137,7 @@ class ImportWizard extends Component
         }
     }
 
-    public function upload($filename)
+    public function readUploadedFile($filename)
     {
         if (empty(trim($filename))) {
             return;
