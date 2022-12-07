@@ -49,9 +49,25 @@
                 sortable: false,
                 selectable: true,
                 multiPageSelect: false
+
             });
             $(tree).on("selectionChange", function () {
                 btn.disabled = tree.getSelected().length === 0;
+
+                var selected = tree.getSelected();
+                if(selected.length){
+                    var hasPage = selected.find(function (item){
+                        return item.type === 'page';
+                    });
+
+                    if(typeof hasPage === 'undefined'){
+                        var category = selected[0];
+                        tree.select(category.parent_id, 'page', true);
+                    }
+                }
+
+
+
             });
             $(tree).on("ready", function () {
                 dialog.center();
