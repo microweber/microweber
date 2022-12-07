@@ -95,6 +95,32 @@ class ChekForJavascriptErrors extends BaseComponent
 
         }
 
+        $elements = $browser->elements('script');
+
+        foreach ($elements as $key => $elem) {
+            $output = $browser->script("
+            var scriptElement = $('script').eq(" . $key . ")[0];
+
+                var scriptElementValidation = false;
+                 if (!mw.tools.isEditable(scriptElement))
+                  {
+                     scriptElementValidation = true;
+                 } else {
+                    $('script').eq(" . $key . ").css('background', 'red');
+                    console.log($('script').eq(" . $key . "));
+                }
+
+               return scriptElementValidation;
+            ");
+
+
+
+            PHPUnit::assertTrue($output[0],'script elements should be outside .edit fields on url: '.$url);
+
+        }
+
+
+
         $elements = $browser->elements('.allow-drop');
         foreach ($elements as $key => $elem) {
             $output = $browser->script("
