@@ -22,18 +22,7 @@
                     </div>
 
                     <div>
-                      {{--  <form enctype="multipart/form-data" wire:submit.prevent="upload">
-                            <div class="input-group mb-3 mt-2">
-                                <input type="file" class="form-control" wire:model.defer="upload_file" style="line-height: 1.9;">
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fa fa-upload"></i>
-                                    Upload
-                                </button>
-                            </div>
-                        </form>
-                        @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
-                        --}}
-
+                        
                         <div class="mb-3 mt-2">
                             <small class="text-muted d-block mb-3"><?php _e("Upload your feed file (allowed file format is xml, xls, xlsx or csv)"); ?></small>
                             <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
