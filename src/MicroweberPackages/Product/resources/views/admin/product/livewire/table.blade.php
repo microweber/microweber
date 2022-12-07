@@ -145,110 +145,114 @@ if (isset($filters['category'])) {
             @include('product::admin.product.livewire.table-filters.updated-at')
         @endif
     </div>
+        <div class="row  mt-3">
+            @if(count($checked) > 0)
 
-    <div style="height: 60px" class="bulk-actions-show-columns">
-
-        @if(count($checked) > 0)
-
-            @if (count($checked) == count($products->items()))
-                <div class="col-md-10 mb-2">
-                    You have selected all {{ count($checked) }} items.
-                    <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
-                </div>
-            @else
-            <div>
-                You have selected {{ count($checked) }} items,
-                Do you want to Select All {{ count($products->items()) }}?
-                <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
-            </div>
+                @if (count($checked) == count($products->items()))
+                    <div class="col-md-10 mb-2">
+                        You have selected all {{ count($checked) }} items.
+                        <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
+                    </div>
+                @else
+                    <div>
+                        You have selected {{ count($checked) }} items,
+                        Do you want to Select All {{ count($products->items()) }}?
+                        <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
+                    </div>
+                @endif
             @endif
-        @endif
 
-        @if(count($checked) > 0)
-        <div class="pull-left">
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Bulk Actions
-                </button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
-                    <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
-                    <?php if($isInTrashed): ?>
+            @if(count($checked) > 0)
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bulk Actions
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
+                            <?php if($isInTrashed): ?>
 
-                    <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
 
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-        @endif
-
-
-
-        <div class="d-inline-block mx-1">
-            <span class="d-md-block d-none text-muted small"> Display as </span>
-            <div class="btn-group mb-4">
-                <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
-                    <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
-                <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
-                    <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
-            </div>
-        </div>
-
-        <div class="pull-right">
-
-            <div class="d-inline-block mx-1">
-
-                <span class="d-md-block d-none">Sort</span>
-                <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
-                    <option value="">Any</option>
-                    <option value="id,desc">Id Desc</option>
-                    <option value="id,asc">Id Asc</option>
-                    <option value="price,desc">Price Desc</option>
-                    <option value="price,asc">Price Asc</option>
-                    <option value="orders,desc">Orders Desc</option>
-                    <option value="orders,asc">Orders Asc</option>
-                </select>
-            </div>
-
-            <div class="d-inline-block mx-1">
-
-                <span class="d-md-block d-none">Limit</span>
-                <select class="form-control form-control-sm" wire:model="paginate">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="500">500</option>
-                </select>
-            </div>
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Show columns
-                </button>
-                <div class="dropdown-menu p-3">
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.price"> Price</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.orders"> Orders</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
-                   <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
                 </div>
+            @endif
+        </div>
+        <div class="row  mt-3">
+
+
+
+            <div style="height: 60px" class="bulk-actions-show-columns">
+
+                <div class="d-inline-block mx-1">
+                    <span class="d-md-block d-none text-muted small"> Display as </span>
+                    <div class="btn-group mb-4">
+                        <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
+                            <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
+                        <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
+                            <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
+                    </div>
+                </div>
+
+                <div class="pull-right">
+
+                    <div class="d-inline-block mx-1">
+
+                        <span class="d-md-block d-none">Sort</span>
+                        <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
+                            <option value="">Any</option>
+                            <option value="id,desc">Id Desc</option>
+                            <option value="id,asc">Id Asc</option>
+                            <option value="price,desc">Price Desc</option>
+                            <option value="price,asc">Price Asc</option>
+                            <option value="orders,desc">Orders Desc</option>
+                            <option value="orders,asc">Orders Asc</option>
+                        </select>
+                    </div>
+
+                    <div class="d-inline-block mx-1">
+
+                        <span class="d-md-block d-none">Limit</span>
+                        <select class="form-control form-control-sm" wire:model="paginate">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Show columns
+                        </button>
+                        <div class="dropdown-menu p-3">
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.price"> Price</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.stock"> Stock</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.orders"> Orders</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.quantity"> Quantity</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-loading" wire:loading>
+                    Loading...
+                </div>
+
             </div>
+
+
         </div>
-
-        <div class="page-loading" wire:loading>
-            Loading...
-        </div>
-
-    </div>
-
         @if($products->total() > 0)
 
 
