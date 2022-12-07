@@ -92,11 +92,14 @@ class PluploadController extends Controller
         $is_ext = get_file_extension($fileName_ext);
         $is_ext = strtolower($is_ext);
 
-        $is_allowed_file = $files_utils->is_allowed_file($fileName_ext);
+        if (!empty($this->allowedFileTypes)) {
+            $is_allowed_file = in_array($is_ext, $this->allowedFileTypes);
+        } else {
+            $is_allowed_file = $files_utils->is_allowed_file($fileName_ext);
+        }
 
         if ($is_allowed_file == false) {
             header("HTTP/1.1 401 Unauthorized");
-
             die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
         }
 
