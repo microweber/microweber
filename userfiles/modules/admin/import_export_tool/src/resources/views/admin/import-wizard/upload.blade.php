@@ -43,7 +43,8 @@
                             </div>
                         </div>
 
-                        <script>
+                        <script wire:ignore>
+
                             mw.require("files.js");
                             mw.require("uploader.js");
 
