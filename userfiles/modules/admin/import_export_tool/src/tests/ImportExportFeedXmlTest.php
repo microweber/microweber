@@ -41,18 +41,20 @@ class ImportExportFeedXmlTest extends TestCase
         $fakerFile = UploadedFile::fake()
             ->createWithContent('mw-export-format-products.xml', $content);
 
+        $fullFilePath = ImportFeed::getImportTempPath() . 'uploaded_files' . DS . $fakerFile->name;
+
+        mkdir_recursive(dirname($fullFilePath));
+        file_put_contents($fullFilePath, $content);
+
         $instance = Livewire::test(ImportWizard::class)
             ->call('selectImportTo', 'products')
             ->set('import_feed.source_type', 'upload_file')
-            ->set('upload_file', $fakerFile)
-            ->call('upload')
+            ->call('readUploadedFile', $fakerFile->name)
             ->assertDispatchedBrowserEvent('read-feed-from-file')
             ->assertSuccessful()
             ->assertSee('Feed is uploaded successfully');
 
         $importFeed = ImportFeed::where('id', $instance->importFeedId)->first()->toArray();
-        mkdir_recursive(dirname($importFeed['source_file_realpath']));
-        file_put_contents($importFeed['source_file_realpath'], $content);
 
         $shopProductId = Page::where('is_shop',1)->first()->id;
 

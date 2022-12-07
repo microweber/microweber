@@ -143,7 +143,7 @@ class ImportWizard extends Component
             return;
         }
 
-        $fullFilePath = ImportFeed::getImportTempPath() . 'uploaded_files'.DS.$filename;
+        $fullFilePath = ImportFeed::getImportTempPath() . 'uploaded_files' . DS . $filename;
         if (!is_file($fullFilePath)) {
             return;
         }
