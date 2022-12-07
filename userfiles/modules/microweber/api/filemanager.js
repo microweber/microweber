@@ -93,7 +93,7 @@
                         progress: function (val) {
                             scope.progress(val.percent);
                         },
-                        error: function () {
+                        fileUploadError: function () {
                             scope.progress(false);
                         }
                     }
@@ -447,7 +447,11 @@
 
         var _progress;
         this.progress = function (state) {
-            state = Number(state);
+
+            if(typeof state === 'string') {
+                state = Number(state);
+            }
+
             if(!_progress || !_progress.get(0).parentNode) {
                 _progress = mw.element({
                     props: {

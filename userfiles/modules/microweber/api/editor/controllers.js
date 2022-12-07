@@ -72,7 +72,8 @@ MWEditor.controllers = {
             });
             return el;
         };
-        this.checkSelection = function (opt) {
+        this.checkSelection = function (opt, ee, tt) {
+            console.log(opt,  ee, tt)
             if(opt.css.is().bold) {
                 rootScope.controllerActive(opt.controller.element.node, true);
             } else {

@@ -244,7 +244,8 @@ var MWEditor = function (options) {
                 return;
             }
             var range = scope.selection.getRangeAt(0);
-            var target = scope.api.elementNode( range.commonAncestorContainer );
+            var target = scope.api.elementNode( range.commonAncestorContainer ) || scope.area;
+
             var css = mw.CSSParser(target);
             var api = scope.api;
 
@@ -653,11 +654,11 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
-            console.log(1)
+
             if (scope.selection/* && !scope.selection.isCollapsed*/) {
-                console.log(2)
+
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
-                    console.log(3)
+
                     // var ctop =  scope.interactionData.pageY - scope.smallEditor.$node.height() - 20;
                     var off = mw.element(e.target).offset();
                     var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();

@@ -3,8 +3,15 @@
 
 
 mw.CSSParser = function(el){
-    if(!el || !el.nodeName) return false;
-    if(el.nodeName === '#text') return false;
+    if(el && el.get) {
+        el = el.get(0);
+    }
+    if(!el || !el.nodeName) {
+        return false;
+    }
+    if(el.nodeName === '#text') {
+        return false;
+    }
 
 
     try {
