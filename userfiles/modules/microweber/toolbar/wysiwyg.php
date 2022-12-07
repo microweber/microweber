@@ -51,6 +51,7 @@
                controls: [
                    [
                        'undoRedo', '|', 'image', '|',
+                       'textColor', '|', 'textBackgroundColor', '|',
                        {
                            group: {
                                controller: 'bold',

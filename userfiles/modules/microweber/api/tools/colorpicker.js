@@ -119,8 +119,7 @@
                 }
             }
 
-        }
-        else {
+        } else {
             var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
             colorPickers.push(tip)
             this.tip = tip;
@@ -191,8 +190,7 @@
                         mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
 
                     });
-                }
-            else {
+                } else {
                 $el.on('click', function (e) {
                     colorPickers.forEach(function (clpckr){
 
@@ -201,7 +199,7 @@
                         }
                     });
                     mw.$(tip).toggle();
-                    mw.tools.tooltip.setPosition(tip, $el[0], settings.position)
+                    mw.tools.tooltip.setPosition(tip, $el[0], settings.position);
                 });
             }
             var documents = [document];

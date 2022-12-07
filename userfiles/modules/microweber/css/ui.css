@@ -8074,11 +8074,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.mw-bar .mw-bar-row svg {
+  pointer-events: none;
+}
 .mw-small-editor {
   position: absolute;
   display: none;
-  z-index: 1;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  z-index: 1101;
 }
 .mw-small-editor .mw-bar .mw-bar-row {
   border: none !important;

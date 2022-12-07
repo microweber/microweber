@@ -24,23 +24,16 @@ MWEditor.core = {
         var settings = $.extend(true, {}, defaults, config);
 
         var el = MWEditor.core.button(settings);
-        el.addClass('mw-editor-color-picker')
-        var input = mw.element({
-            tag: 'input',
-            props: {
-                type: 'color',
-                className: 'mw-editor-color-picker-node'
+        el.addClass('mw-editor-color-picker');
+        mw.colorPicker({
+            element: el.get(0),
+            position: 'bottom-center',
+            onchange: function (color) {
+
+                el.trigger('change', color);
             }
         });
-        var time = null;
-        input.on('input', function (){
-            clearTimeout(time);
-            time = setTimeout(function (el, node){
-                console.log(node.value)
-                el.trigger('change', node.value);
-            }, 210, el, this);
-        });
-        el.append(input);
+
         return el;
     },
     element: function(config) {

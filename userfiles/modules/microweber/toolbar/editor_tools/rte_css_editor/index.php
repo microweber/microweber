@@ -598,9 +598,9 @@ var scColumns = function (property, value){
         tg.classList.add('col-lg-' + value)
     } else if(property === 'col-tablet') {
         for (var i = 1; i <= 12; i++) {
-            tg.classList.remove('col-md-' + i)
+            tg.classList.remove('col-md-' + i);
         }
-        tg.classList.add('col-md-' + value)
+        tg.classList.add('col-md-' + value);
     } else if(property === 'col-mobile') {
         for (var i = 1; i <= 12; i++) {
             tg.classList.remove('col-xs-' + i)

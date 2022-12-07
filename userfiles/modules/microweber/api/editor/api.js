@@ -535,6 +535,7 @@ mw.lib.require('xss');
                 return _filterXSS(this._cleaner.innerHTML);
             },
             insertHTML: function(html) {
+
                 var node = scope.api.elementNode(scope.api.getSelection().focusNode);
                 var nodes = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
                 var index = nodes.indexOf(node.nodeName);
@@ -544,11 +545,13 @@ mw.lib.require('xss');
                     var newNode = document.createElement(nodes[index]);
 
                     var cloneNode1, cloneNode2, cloneText, allContents, contentsBeforeCursor, contentsAfterCursor;
-                    var anchorOffset = sel.anchorOffset
+                    var anchorOffset = sel.anchorOffset;
                     range.selectNode(sel.anchorNode);
                     cloneNode1 = range.commonAncestorContainer.cloneNode();
                     cloneNode2 = cloneNode1.cloneNode();
                     cloneText = range.cloneContents();
+                    cloneNode1.id = ('element1-' + Date.now());
+                    cloneNode2.id = ('element2-' + Date.now());
 
                     allContents = cloneText.textContent;
                     contentsBeforeCursor = allContents.substring(0, anchorOffset);
