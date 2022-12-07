@@ -1,15 +1,14 @@
 <div>
 
-
     <div wire:ignore>
         <script>
-            function assign_selected_posts_to_category_exec() {
+            function assign_selected_posts_to_category_exec(selectedIds) {
                 mw.tools.confirm("Are you sure you want to move the selected data?", function () {
                     var dialog = mw.dialog.get('#pick-categories');
                     var tree = mw.tree.get('#pick-categories');
                     var selected = tree.getSelected();
                     var data = {
-                        content_ids: {!! json_encode($multipleMoveToCategoryIds) !!},
+                        content_ids: selectedIds,
                         categories: []
                     };
                     selected.forEach(function (item) {
@@ -27,14 +26,14 @@
                     });
                 });
             }
-            function assign_selected_posts_to_category_show_tree() {
+            function assign_selected_posts_to_category_show_tree(selectedIds) {
                 $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function (data) {
                     var btn = document.createElement('button');
                     btn.disabled = true;
                     btn.className = 'mw-ui-btn';
                     btn.innerHTML = mw.lang('Move posts');
                     btn.onclick = function (ev) {
-                        assign_selected_posts_to_category_exec();
+                        assign_selected_posts_to_category_exec(selectedIds);
                     };
                     var dialog = mw.dialog({
                         height: 'auto',
@@ -75,8 +74,8 @@
             </script>
 
         <script>
-            Livewire.on('multipleMoveToCategoryShowModalOpen', function () {
-                assign_selected_posts_to_category_show_tree()
+            Livewire.on('multipleMoveToCategoryShowModalOpen', function (selectedIds) {
+                assign_selected_posts_to_category_show_tree(selectedIds)
             })
         </script>
 

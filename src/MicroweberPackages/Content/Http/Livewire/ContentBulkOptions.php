@@ -33,11 +33,11 @@ class ContentBulkOptions extends Component
 
     public $multipleMoveToCategoryShowModal = false;
     public $multipleMoveToCategoryIds = [];
-    public function multipleMoveToCategoryShowModal($params)
+    public function multipleMoveToCategoryShowModal($selectedIds)
     {
-        $this->multipleMoveToCategoryIds = $params;
+        $this->multipleMoveToCategoryIds = $selectedIds;
         $this->multipleMoveToCategoryShowModal = true;
-        $this->emit('multipleMoveToCategoryShowModalOpen');
+        $this->emit('multipleMoveToCategoryShowModalOpen',$selectedIds);
 
     }
 
