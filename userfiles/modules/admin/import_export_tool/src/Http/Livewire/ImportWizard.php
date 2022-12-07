@@ -47,6 +47,12 @@ class ImportWizard extends Component
     public function showTab($tab)
     {
         $this->tab = $tab;
+
+        if ($tab == 'upload') {
+            if ($this->import_feed['source_type'] == 'upload_file') {
+                $this->emit('initJsUploader');
+            }
+        }
     }
 
     public function selectImportTo($importTo)
@@ -193,7 +199,7 @@ class ImportWizard extends Component
         if ($feed) {
 
             if ($this->import_feed['source_type'] == 'upload_file') {
-                $this->emit('initJsUploader'); 
+                $this->emit('initJsUploader');
             }
 
             $feed->primary_key = $this->import_feed['primary_key'];
