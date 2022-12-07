@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 
 class PluploadController extends Controller
 {
+    public $allowedFileTypes = [];
+    public $returnPathResponse = true;
+
     public function __construct()
     {
-        $this->middleware([
+        /*$this->middleware([
             \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
             \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
             \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class
-        ]);
+        ]);*/
     }
 
     public function getUploadPath()
@@ -703,23 +706,27 @@ class PluploadController extends Controller
                 }
             }
 
-
             mw()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
             mw()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
         }
+
         $f_name = explode(DS, $filePath);
         $f_name = end($f_name);
 
         $filePath = mw()->url_manager->link_to_file($filePath);
 
-        $rerturn['src'] = $filePath;
-        $rerturn['name'] = $f_name;
+        $jsonResponse['uploaded_success'] = true;
 
+        if ($this->returnPathResponse) {
+            $jsonResponse['src'] = $filePath;
+            $jsonResponse['name'] = $f_name;
 
-        if (isset($upl_size_log) and $upl_size_log > 0) {
-            $rerturn['bytes_uploaded'] = $upl_size_log;
+            if (isset($upl_size_log) and $upl_size_log > 0) {
+                $jsonResponse['bytes_uploaded'] = $upl_size_log;
+            }
         }
-//$rerturn['ORIG_REQUEST'] = $_GET;
+
+//$jsonResponse['ORIG_REQUEST'] = $_GET;
 
 
         /*
@@ -739,7 +746,8 @@ class PluploadController extends Controller
         header('Pragma: no-cache');
 
 
-        echo json_encode($rerturn);
+        echo json_encode($jsonResponse);
+
         if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
             // @//session_write_close();
         }
