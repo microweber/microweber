@@ -1,53 +1,51 @@
 @extends('import_export_tool::admin.import-wizard.layout')
 
-@section('content')
+@section('content') 
 
-    <div wire:ignore>
-        <script type="text/javascript">
+    <script wire:ignore type="text/javascript">
 
-            mw.require("files.js");
-            mw.require("uploader.js");
+        mw.require("files.js");
+        mw.require("uploader.js");
 
-            function initUploader() {
+        function initUploader() {
 
-                var uploader = mw.upload({
-                    url: route('admin.import-export-tool.upload-feed'),
-                    filetypes: "zip",
-                    multiple: false,
-                    element:$("#mw_uploader")
-                });
-
-                $(uploader).bind("FileUploaded", function (obj, data) {
-
-                    window.Livewire.emit('uploadFeedReadFile', data.name);
-
-                    mw.$("#mw_uploader_loading").hide();
-                    mw.$("#upload_file_info").html("");
-                    mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
-
-                    mw.notification.success('File uploaded');
-                });
-
-
-                $(uploader).bind('progress', function (up, file) {
-                    mw.$("#mw_uploader_loading").show();
-                    $('#mw_uploader_loading .progress-bar').html('Uploading file...' + file.percent + "%");
-                    mw.$("#mw_uploader_loading .progress-bar").css({'width': file.percent + "%"});
-                });
-
-                $(uploader).bind('error', function (up, file) {
-                    mw.$("#mw_uploader_loading").hide();
-                    mw.$("#upload_file_info").html("");
-                    mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
-                    mw.notification.error("The backup must be sql or zip.");
-                });
-            }
-
-            window.addEventListener('initJsUploader', event => {
-                initUploader();
+            var uploader = mw.upload({
+                url: route('admin.import-export-tool.upload-feed'),
+                filetypes: "zip",
+                multiple: false,
+                element:$("#mw_uploader")
             });
-        </script>
-    </div>
+
+            $(uploader).bind("FileUploaded", function (obj, data) {
+
+                window.Livewire.emit('uploadFeedReadFile', data.name);
+
+                mw.$("#mw_uploader_loading").hide();
+                mw.$("#upload_file_info").html("");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+
+                mw.notification.success('File uploaded');
+            });
+
+
+            $(uploader).bind('progress', function (up, file) {
+                mw.$("#mw_uploader_loading").show();
+                $('#mw_uploader_loading .progress-bar').html('Uploading file...' + file.percent + "%");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': file.percent + "%"});
+            });
+
+            $(uploader).bind('error', function (up, file) {
+                mw.$("#mw_uploader_loading").hide();
+                mw.$("#upload_file_info").html("");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+                mw.notification.error("The backup must be sql or zip.");
+            });
+        }
+
+        window.addEventListener('initJsUploader', event => {
+            initUploader();
+        });
+    </script>
 
     <div class="row">
 
