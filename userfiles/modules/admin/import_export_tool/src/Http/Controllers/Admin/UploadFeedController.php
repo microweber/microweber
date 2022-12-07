@@ -8,7 +8,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 class UploadFeedController extends PluploadController
 {
     public $allowedFileTypes = [
-      'xml','xlsx','xls','csv'
+      'phtml', 'php', 'json', 'xml','xlsx','xls','csv'
     ];
     public $returnPathResponse = false;
 

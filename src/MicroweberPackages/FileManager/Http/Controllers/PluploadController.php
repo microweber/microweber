@@ -20,7 +20,7 @@ class PluploadController extends Controller
         $target_path = media_uploads_path();
         $target_path = normalize_path($target_path, 0);
 
-        return $target_path; 
+        return $target_path;
     }
 
     public function upload()
@@ -30,6 +30,15 @@ class PluploadController extends Controller
         $files_utils = new \MicroweberPackages\Utils\System\Files();
         $dangerous = $files_utils->get_dangerous_files_extentions();
 
+        if (!empty($this->allowedFileTypes)) {
+            foreach ($this->allowedFileTypes as $fileType) {
+                foreach ($dangerous as $iDangerous=>$dangerousFileType) {
+                    if ($dangerousFileType == $fileType) {
+                        unset($dangerous[$iDangerous]);
+                    }
+                }
+            }
+        }
 
         if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
             // //session_start();
