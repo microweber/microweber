@@ -9,19 +9,17 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class ImportWizard extends Component
 {
-    use WithFileUploads;
-
     protected $queryString = ['tab', 'importTo','importFeedId'];
 
     public $tab = 'type';
     public $importTo = 'type';
     public $importFeedId;
 
-    public $upload_file;
     public $import_feed = [];
     public $import_feed_edit_name = 0;
 
     public $listeners = [
+        'uploadFeedReadFile'=>'readUploadedFile',
         'refreshImportFeedStateById'=> 'refreshImportFeedStateById',
         'readFeedFile'=>'readFeedFile',
         'importingFinished'=>'importingFinished',
@@ -47,6 +45,12 @@ class ImportWizard extends Component
     public function showTab($tab)
     {
         $this->tab = $tab;
+
+        if ($tab == 'upload') {
+            if ($this->import_feed['source_type'] == 'upload_file') {
+                $this->dispatchBrowserEvent('initJsUploader');
+            }
+        }
     }
 
     public function selectImportTo($importTo)
@@ -133,14 +137,18 @@ class ImportWizard extends Component
         }
     }
 
-    public function upload()
+    public function readUploadedFile($filename)
     {
-        $this->validate([
-            'upload_file' => 'required|mimes:xlsx,xls,csv,xml',
-        ]);
+        if (empty(trim($filename))) {
+            return;
+        }
 
-        $uploadFilePath = $this->upload_file->store('import-export-tool');
-        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+        $fullFilePath = ImportFeed::getImportTempPath() . 'uploaded_files' . DS . $filename;
+        if (!is_file($fullFilePath)) {
+            return;
+        }
+
+        $uploadFilePath = str_replace(storage_path(), '', $fullFilePath);
 
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 
@@ -169,7 +177,7 @@ class ImportWizard extends Component
             $feedMapToArray->setImportFeedId($feed->id);
             $preparedData = $feedMapToArray->toArray();
 
-            $feed->mapped_content = $preparedData;
+            $feed->saveMappedContent($preparedData);
             $feed->save();
 
             $this->refreshImportFeedState($feed->toArray());
@@ -187,6 +195,11 @@ class ImportWizard extends Component
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 
         if ($feed) {
+
+            if ($this->import_feed['source_type'] == 'upload_file') {
+                $this->emit('initJsUploader');
+            }
+
             $feed->primary_key = $this->import_feed['primary_key'];
             $feed->download_images = $this->import_feed['download_images'];
             $feed->split_to_parts = $this->import_feed['split_to_parts'];

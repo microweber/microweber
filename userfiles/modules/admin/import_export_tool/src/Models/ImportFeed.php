@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
@@ -30,9 +31,7 @@ class ImportFeed extends Model
         'download_images' => 'int',
         'update_items' => 'array',
         'imported_content_ids' => 'array',
-        'source_content' => 'array',
         'mapped_tags' => 'array',
-        'mapped_content' => 'array',
         'detected_content_tags' => 'array',
         'media_url_separators' => 'array',
         'category_separators' => 'array',
@@ -41,6 +40,64 @@ class ImportFeed extends Model
         'tags_separators' => 'array',
         'custom_content_data_fields' => 'array',
     ];
+
+    protected $appends = ['source_content', 'mapped_content'];
+
+    public function getMappedContentAttribute()
+    {
+        $mappedContentFile = $this->getMappedContentRealpath($this->id);
+        if (is_file($mappedContentFile)) {
+           return json_decode(file_get_contents($mappedContentFile), TRUE);
+        }
+
+        return [];
+    }
+
+    public function getSourceContentAttribute()
+    {
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
+        if (is_file($sourceContentFile)) {
+            return json_decode(file_get_contents($sourceContentFile), TRUE);
+        }
+
+        return [];
+    }
+
+    public static function getImportTempPath()
+    {
+        $environment = App::environment();
+        $folder = storage_path('import_export_tool/') . ('default' . DIRECTORY_SEPARATOR);
+
+        if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+            $folder = storage_path('import_export_tool/') . ($environment . DIRECTORY_SEPARATOR);
+        }
+
+        if (!is_dir($folder)) {
+            mkdir_recursive($folder);
+        }
+
+        return $folder;
+    }
+
+    public function getMappedContentRealpath($id)
+    {
+        return self::getImportTempPath() . 'mapped-content-' . $id.'.json';
+    }
+
+    public function getSourceContentRealpath($id)
+    {
+        return self::getImportTempPath() . 'source-content-' . $id.'.json';
+    }
+
+    public function saveMappedContent($content)
+    {
+        $mappedContentFile = $this->getMappedContentRealpath($this->id);
+
+        $this->mapped_content_realpath = $mappedContentFile;
+        $this->save();
+
+        return file_put_contents($mappedContentFile, json_encode($content));
+    }
 
     public function readContentFromFile(string $filename, $fileType = false)
     {
@@ -103,12 +160,15 @@ class ImportFeed extends Model
             $countOfContents = count($readedRows[$this->content_tag]);
         }
 
-        $this->source_content = $sourceContent;
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
+        file_put_contents($sourceContentFile, json_encode($sourceContent));
+
+        $this->source_content_realpath = $sourceContentFile;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = $countOfContents;
         $this->split_to_parts = SessionStepper::recomendedSteps($countOfContents);
         $this->mapped_tags = [];
-        $this->mapped_content = [];
+        $this->mapped_content_realpath = '';
 
         $this->save();
 
@@ -123,7 +183,10 @@ class ImportFeed extends Model
         $repeatableTargetKeys = ['Data' => []];
         $repeatableData = $sourceContent['Data'];
 
-        $this->source_content = $sourceContent;
+        $sourceContentFile = $this->getSourceContentRealpath($this->id);
+        file_put_contents($sourceContentFile, json_encode($sourceContent));
+
+        $this->source_content_realpath = $sourceContentFile;
         $this->detected_content_tags = $repeatableTargetKeys;
         $this->count_of_contents = count($repeatableData);
         $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
@@ -145,7 +208,6 @@ class ImportFeed extends Model
             $repeatableData = [];
 
             if (empty($this->content_tag)) {
-
                 // Try to automatically detect content tag
 
                 $contentTag = false;
@@ -172,9 +234,11 @@ class ImportFeed extends Model
                 $this->split_to_parts = SessionStepper::recomendedSteps(count($repeatableData));
             }
 
+            $sourceContentFile = $this->getSourceContentRealpath($this->id);
+            file_put_contents($sourceContentFile, json_encode($content));
+
+            $this->source_content_realpath = $sourceContentFile;
             $this->mapped_tags = [];
-            $this->mapped_content = [];
-            $this->source_content = $content;
             $this->save();
 
             return true;
@@ -231,7 +295,7 @@ class ImportFeed extends Model
 
     public function resetFeed()
     {
-        $this->source_content = [];
+        $this->source_content_realpath = null;
         $this->last_import_start = null;
         $this->last_import_end = null;
         $this->count_of_contents = null;
@@ -239,7 +303,7 @@ class ImportFeed extends Model
         $this->imported_content_ids = null;
         $this->detected_content_tags = [];
         $this->mapped_tags = [];
-        $this->mapped_content = [];
+        $this->mapped_content_realpath = null;
         $this->save();
     }
 }

@@ -86,17 +86,35 @@ class ImportFeedToDatabase
                     if (isset($item['multilanguage']['title'][$defaultLang])) {
                         $item['title'] = $item['multilanguage']['title'][$defaultLang];
                     }
+                }
+                if (!isset($item['description'])) {
                     if (isset($item['multilanguage']['description'][$defaultLang])) {
                         $item['description'] = $item['multilanguage']['description'][$defaultLang];
                     }
+                }
+                if (!isset($item['content_meta_title'])) {
                     if (isset($item['multilanguage']['content_meta_title'][$defaultLang])) {
                         $item['content_meta_title'] = $item['multilanguage']['content_meta_title'][$defaultLang];
                     }
+                }
+                if (!isset($item['content_meta_keywords'])) {
                     if (isset($item['multilanguage']['content_meta_keywords'][$defaultLang])) {
                         $item['content_meta_keywords'] = $item['multilanguage']['content_meta_keywords'][$defaultLang];
                     }
+                }
+                if (!isset($item['slug'])) {
                     if (isset($item['multilanguage']['slug'][$defaultLang])) {
                         $item['slug'] = $item['multilanguage']['slug'][$defaultLang];
+                    }
+                }
+
+                if (!isset($item['content_fields'])) {
+                    if (isset($item['multilanguage']['content_fields']) && !empty($item['multilanguage']['content_fields'])) {
+                        foreach ($item['multilanguage']['content_fields'] as $contentFieldKey=>$contentFieldLocale) {
+                            if (isset($contentFieldLocale[$defaultLang])) {
+                                $item['content_fields'][$contentFieldKey] = $contentFieldLocale[$defaultLang];
+                            }
+                        }
                     }
                 }
             }
@@ -119,27 +137,48 @@ class ImportFeedToDatabase
 
                 if ($updateCategoryId > 0) {
 
-                    $findCategoryById = Category::where('id', $updateCategoryId)->first();
-                    if (isset($item['media_urls'])) {
-                        unset($item['media_urls']);
-                    }
-                    $findCategoryById->fill($item);
-                    $findCategoryById->save();
+                    try {
+                        $findCategoryById = Category::where('id', $updateCategoryId)->first();
+                        if (isset($item['media_urls'])) {
+                            unset($item['media_urls']);
+                        }
+                        $findCategoryById->fill($item);
+                        $findCategoryById->save();
 
-                    $savedIds[] = $findCategoryById->id;
+                        $savedIds[] = $findCategoryById->id;
+                    } catch (\Exception $e) {
+                        $newItemId = 0;
+                        if (isset($item['id'])) {
+                            $newItemId = $item['id'];
+                        }
+                        $failedIds[] = [
+                            'id'=>  $newItemId,
+                            'message'=>$e->getMessage()
+                        ];
+                    }
                 }
 
                 if ($insertNewCategory) {
-                    $newCategory = new Category();
-                    if (isset($item['id'])) {
-                        $newCategory->id = $item['id'];
+                    try {
+                        $newCategory = new Category();
+                        if (isset($item['id'])) {
+                            $newCategory->id = $item['id'];
+                        }
+                        $newCategory->fill($item);
+                        $newCategory->save();
+
+                        $savedIds[] = $newCategory->id;
+                    } catch (\Exception $e) {
+                        $newItemId = 0;
+                        if (isset($item['id'])) {
+                            $newItemId = $item['id'];
+                        }
+                        $failedIds[] = [
+                            'id'=>  $newItemId,
+                            'message'=>$e->getMessage()
+                        ];
                     }
-                    $newCategory->fill($item);
-                    $newCategory->save();
-
-                    $savedIds[] = $newCategory->id;
                 }
-
 
             } else {
 

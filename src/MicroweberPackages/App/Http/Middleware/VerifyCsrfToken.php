@@ -39,15 +39,33 @@ class VerifyCsrfToken extends Middleware
         try {
             return parent::handle($request, $next);
         }  catch (TokenMismatchException $e) {
+
             $cookie = [];
             $cookie[] = \Cookie::forget('XSRF-TOKEN');
             $cookie[] =  \Cookie::forget('XSRF-TOKEN');
-            return response()->json(['error' => 'Invalid CSRF token 1.'], 400)->withCookies($cookie);
+
+            $response = response()->json(['error' => 'Invalid CSRF token 1.'], 400);
+
+            if (method_exists($response, 'withCookies')) {
+                return $response->withCookies($cookie);
+            } else {
+                return $response;
+            }
+
           } catch (DecryptException $e) {
+
             $cookie = [];
             $cookie[] = \Cookie::forget('XSRF-TOKEN');
             $cookie[] =  \Cookie::forget('XSRF-TOKEN');
-            return response()->json(['error' => 'Invalid CSRF token 2.'], 400)->withCookies($cookie);
+
+            $response =  response()->json(['error' => 'Invalid CSRF token 2.'], 400);
+
+            if (method_exists($response, 'withCookies')) {
+                return $response->withCookies($cookie);
+            } else {
+                return $response;
+            }
+
         }
 
      }

@@ -2,7 +2,53 @@
 
 @section('content')
 
+    <script wire:ignore type="text/javascript">
+
+        mw.require("files.js");
+        mw.require("uploader.js");
+
+        function initUploader() {
+
+            var uploader = mw.upload({
+                url: route('admin.import-export-tool.upload-feed'),
+                filetypes: "zip",
+                multiple: false,
+                element:$("#mw_uploader")
+            });
+
+            $(uploader).bind("FileUploaded", function (obj, data) {
+
+                window.Livewire.emit('uploadFeedReadFile', data.name);
+
+                mw.$("#mw_uploader_loading").hide();
+                mw.$("#upload_file_info").html("");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+
+                mw.notification.success('File uploaded');
+            });
+
+
+            $(uploader).bind('progress', function (up, file) {
+                mw.$("#mw_uploader_loading").show();
+                $('#mw_uploader_loading .progress-bar').html('Uploading file...' + file.percent + "%");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': file.percent + "%"});
+            });
+
+            $(uploader).bind('error', function (up, file) {
+                mw.$("#mw_uploader_loading").hide();
+                mw.$("#upload_file_info").html("");
+                mw.$("#mw_uploader_loading .progress-bar").css({'width': "0%"});
+                mw.notification.error("The backup must be sql or zip.");
+            });
+        }
+
+        window.addEventListener('initJsUploader', event => {
+            initUploader();
+        });
+    </script>
+
     <div class="row">
+
         <div class="mx-auto col-md-10">
             <div>
 
@@ -18,19 +64,18 @@
 
                 @if($this->import_feed['source_type'] == 'upload_file')
                     <div>
-                        <b>Upload content feed file</b>
+                        <h5 class="font-weight-bold"><?php _e('Upload your content feed file'); ?></h5>
                     </div>
-                    <div>
-                        <form enctype="multipart/form-data" wire:submit.prevent="upload">
-                            <div class="input-group mb-3 mt-2">
-                                <input type="file" class="form-control" wire:model="upload_file" style="line-height: 1.9;">
-                                <button type="submit" class="btn btn-outline-primary">
-                                    <i class="fa fa-upload"></i>
-                                    Upload
-                                </button>
+
+                    <div class="mb-3 mt-2">
+                        <small class="text-muted d-block mb-3"><?php _e("Upload your feed file (allowed file format is xml, xls, xlsx or csv)"); ?></small>
+                        <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Upload file"); ?></span>
+
+                        <div id="mw_uploader_loading" class="progress mb-3" style="display:none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+
                             </div>
-                        </form>
-                        @error('upload_file') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
                     </div>
                 @endif
 

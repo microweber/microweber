@@ -7,6 +7,11 @@ class Translator extends \Illuminate\Translation\Translator
 {
     public static $newKeys = [];
 
+    public function clearNewKeys()
+    {
+        self::$newKeys = [];
+    }
+
     /**
      * Get the translation for the given key.
      *
@@ -18,6 +23,7 @@ class Translator extends \Illuminate\Translation\Translator
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+
 //        $pairs = array(
 //            "\x03" => "",
 //            "\x05" => "",
@@ -42,8 +48,31 @@ class Translator extends \Illuminate\Translation\Translator
 
             [$namespace, $group, $item] = $this->parseKey($key);
 
+            // If laravel cannot parse the group
+            if ($group == $key) {
+                $group = '*';
+                $item = $key;
+            }
+
+            if (empty(trim($item))) {
+                return;
+            }
+
+            if ($namespace and is_string($namespace) and $namespace != '*') {
+                $this->load($namespace, $group, $locale);
+                // load namespace translations
+                $line2 = $this->loaded[$namespace][$group][$locale][$key] ?? null;
+                if ($line2) {
+                     $item = $line2;
+                }
+            }
+
+
+          //
+
             if (empty($item)) {
-                // echo 'This is without namespace, only key ->'.$key . '<br />';
+//            echo 'This is without namespace, only key ->'.$key . '<br />';
+//            exit;
                // self::$newKeys[md5($key . '**')] = [
                 self::$newKeys[md5('**' . $key)] = [
                     'translation_namespace' => '*',
@@ -70,7 +99,10 @@ class Translator extends \Illuminate\Translation\Translator
             if ($foundedLine) {
                 return $foundedLine;
             } else {
-                //echo 'This is with namespace ->' . $namespace . $group . $item .'<br />';
+
+
+         // exit( 'This is with namespace ->' . $namespace . $group . $item );
+
                 self::$newKeys[md5($namespace . $group . $item)] = [
                     'translation_namespace' => $namespace,
                     'translation_group' => $group,

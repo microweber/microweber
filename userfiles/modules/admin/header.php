@@ -76,7 +76,7 @@
     <!-- Livewire sortable -->
     <script src="//cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
 
-    <?php if (config('app.debug')) { ?>
+    <?php if (config('app.debug') and is_logged()) { ?>
 
         <script type="text/javascript">
             window.__onerror_alert_shown = false;

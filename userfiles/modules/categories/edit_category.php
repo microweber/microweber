@@ -349,6 +349,9 @@ if (isset($params['live_edit'])) {
                         }
                         ?>
 
+                        <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-link btn-sm  "><?php _e("View category"); ?></a>
+
+
                         <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
 
 

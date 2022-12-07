@@ -22,6 +22,7 @@ class CreateExportFeedsTable extends Migration
                 $table->integer('split_to_parts')->nullable();
                 $table->integer('is_draft')->nullable();
                 $table->timestamps();
+                
             });
         }
     }

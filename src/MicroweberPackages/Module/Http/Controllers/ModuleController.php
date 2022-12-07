@@ -538,14 +538,6 @@ class ModuleController extends Controller
         return $this->module();
     }
 
-    public function plupload()
-    {
-        $this->app->content_manager->define_constants();
-        $f = MW_PATH.'functions'.DIRECTORY_SEPARATOR.'plupload.php';
-        return require $f;
-       // exit();
-    }
-
     public function editor_tools()
     {
         if (!defined('IN_ADMIN')) {

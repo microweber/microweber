@@ -54,7 +54,7 @@ class DropdownMappingPreview extends Component
         $contentParentTag = $this->import_feed['content_tag'];
         $content = $this->import_feed['source_content'];
 
-        $allFieldsFilled = [];
+      /*  $allFieldsFilled = [];
         if (isset($content[$contentParentTag])) {
             foreach ($content[$contentParentTag] as $contentItem) {
                 foreach ($contentItem as $contentItemKey=>$contentItemValue) {
@@ -66,7 +66,33 @@ class DropdownMappingPreview extends Component
             $allFieldsFilledReady = $allFieldsFilled;
             $allFieldsFilled = [];
             $allFieldsFilled[$contentParentTag][] = $allFieldsFilledReady;
+        }*/
+
+        $allFieldsFilled = [];
+        $readContent = Arr::get($content, $contentParentTag);
+        if (!empty($readContent)) {
+            foreach ($readContent as $contentItem) {
+                foreach ($contentItem as $contentItemKey=>$contentItemValue) {
+                    if (is_string($contentItemValue)) {
+                        if (!empty(trim(strip_tags($contentItemValue))) && !isset($allFieldsFilled[$contentItemKey])) {
+                            $allFieldsFilled[$contentItemKey] = $contentItemValue;
+                        }
+                    } else if (is_array($contentItemValue)) {
+
+                        $contentItemValue = array_map_recursive(function($v){
+                            return trim(strip_tags($v));
+                        }, $contentItemValue);
+                        $contentItemValue = array_filter($contentItemValue);
+
+                        if (!empty($contentItemValue) && !isset($allFieldsFilled[$contentItemKey])) {
+                            $allFieldsFilled[$contentItemKey] = $contentItemValue;
+                        }
+                    }
+                }
+            }
         }
+
+        $allFieldsFilled = Arr::undot([$contentParentTag=>[$allFieldsFilled]]);
 
         $dropdowns = $this->arrayPreviewInHtmlRecursive($allFieldsFilled, $contentParentTag);
 
@@ -153,7 +179,7 @@ class DropdownMappingPreview extends Component
                             $value = mw()->format->limit($value, 50);
                         }
 
-                        $html .= "<table class='tag_key' style='width:100%'>";
+                        $html .= "<table class='table table-borderless table-hover tag_key' style='width:100%;margin-left:20px;'>";
                         $html .= "<tr class='tag_value_select_tr'>";
                         $html .= "<td class='tag_value'>&lt;$key&gt;";
                         $html .=  '<span class="value">'.$value.'</span>';
@@ -235,10 +261,14 @@ class DropdownMappingPreview extends Component
             $selected = false;
             if (isset($itemMapReaderMap[$key])) {
                 foreach ($itemMapReaderMap[$key] as $itemMapKey) {
+
                     $itemMapKey = mb_strtolower($itemMapKey);
-                    $mapKeyExp = explode('.',$mapKey);
-                    if (isset($mapKeyExp[1])) {
-                        if ($mapKeyExp[1] == $itemMapKey) {
+
+                    $mapKeyCleaned = str_replace($this->import_feed['content_tag'] . '.', '', $mapKey);
+                    $mapKeyCleaned = str_replace('.','_', $mapKeyCleaned);
+
+                    if (!empty($mapKeyCleaned)) {
+                        if ($mapKeyCleaned == $itemMapKey) {
                             $selected = true;
                             break;
                         }
