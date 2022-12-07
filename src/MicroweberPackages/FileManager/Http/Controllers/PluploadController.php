@@ -12,7 +12,7 @@ class PluploadController extends Controller
     public function __construct()
     {
         $this->middleware([
-           //  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+            \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
             \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
             \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class
         ]);
