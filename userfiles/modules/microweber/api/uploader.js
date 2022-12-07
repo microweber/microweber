@@ -390,9 +390,7 @@
                 },
                 dataType: 'json',
                 xhr: function () {
-                    var xhr = new XMLHttpRequest();
-
-
+                    var xhr = new XMLHttpRequest(); 
 
                     xhr.upload.addEventListener('progress', function (event) {
                         if (event.lengthComputable) {
@@ -403,8 +401,6 @@
                             $(scope).trigger('progressNative', [percent, event]);
                         }
                     });
-
-
 
                     return xhr;
                 }
