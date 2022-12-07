@@ -713,14 +713,12 @@ class PluploadController extends Controller
 
         $filePath = mw()->url_manager->link_to_file($filePath);
 
-        $jsonResponse['uploaded_success'] = true;
+        $jsonResponse['name'] = $f_name;
 
         if ($this->returnPathResponse) {
             $jsonResponse['src'] = $filePath;
-            $jsonResponse['name'] = $f_name;
-
             if (isset($upl_size_log) and $upl_size_log > 0) {
-                $jsonResponse['bytes_uploaded'] = $upl_size_log;
+                $jsonResponse['bytes_uploaded'] = $upl_size_log; 
             }
         }
 
