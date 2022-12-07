@@ -37,6 +37,8 @@ class ContentBulkOptions extends Component
     {
         $this->multipleMoveToCategoryIds = $params;
         $this->multipleMoveToCategoryShowModal = true;
+        $this->emit('multipleMoveToCategoryShowModalOpen');
+
     }
 
     public function multipleMoveToCategoryExecute()
