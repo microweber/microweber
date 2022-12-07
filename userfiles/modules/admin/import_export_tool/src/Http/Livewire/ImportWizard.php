@@ -17,11 +17,11 @@ class ImportWizard extends Component
     public $importTo = 'type';
     public $importFeedId;
 
-    public $upload_file;
     public $import_feed = [];
     public $import_feed_edit_name = 0;
 
     public $listeners = [
+        'uploadFeedFile'=>'upload',
         'refreshImportFeedStateById'=> 'refreshImportFeedStateById',
         'readFeedFile'=>'readFeedFile',
         'importingFinished'=>'importingFinished',
@@ -133,14 +133,18 @@ class ImportWizard extends Component
         }
     }
 
-    public function upload()
+    public function upload($filename)
     {
-        $this->validate([
-            'upload_file' => 'required|mimes:xlsx,xls,csv,xml',
-        ]);
+        if (empty(trim($filename))) {
+            return;
+        }
 
-        $uploadFilePath = $this->upload_file->store('import_export_tool');
-        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+        $fullFilePath = ImportFeed::getImportTempPath() . 'uploaded_files'.DS.$filename;
+        if (!is_file($fullFilePath)) {
+            return;
+        }
+
+        $uploadFilePath = str_replace(storage_path(), '', $fullFilePath);
 
         $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
 

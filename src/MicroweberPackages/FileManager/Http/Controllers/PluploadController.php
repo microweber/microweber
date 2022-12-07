@@ -718,7 +718,7 @@ class PluploadController extends Controller
         if ($this->returnPathResponse) {
             $jsonResponse['src'] = $filePath;
             if (isset($upl_size_log) and $upl_size_log > 0) {
-                $jsonResponse['bytes_uploaded'] = $upl_size_log; 
+                $jsonResponse['bytes_uploaded'] = $upl_size_log;
             }
         }
 
