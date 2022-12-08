@@ -1,7 +1,7 @@
-<div>
+<div id="content-results-table">
     @foreach ($products as $product)
 
-        <div class="card card-product-holder mb-2 post-has-image-true">
+        <div class="card card-product-holder mb-2 post-has-image-true manage-post-item">
             <div class="card-body">
                 <div class="row align-items-center flex-lg-box">
 
