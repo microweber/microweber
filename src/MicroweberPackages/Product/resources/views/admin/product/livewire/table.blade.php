@@ -270,11 +270,11 @@ if (isset($filters['category'])) {
 
 
     {{ $products->links() }}
-        @else
-            <?php
-            include (modules_path().'/content/views/no_results_found_products.php');
-            ?>
-        @endif
+    @else
+        <?php
+        include (modules_path().'/content/views/no_results_found_products.php');
+        ?>
+    @endif
 
 </div>
 </div>
