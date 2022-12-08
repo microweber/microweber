@@ -43,7 +43,7 @@
         }
 
         window.addEventListener('initJsUploader', event => {
-            initJsUploader(); 
+            initJsUploader();
         });
     </script>
 
