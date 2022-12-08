@@ -29,13 +29,39 @@
             <?php endif; ?>
 
 
-            <!--  <button type="button">Bulk Actions</button>-->
+           <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
+               Bulk Actions
+           </button>
 
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
 
                 selectedPages = [];
                 selectedCategories = [];
+                bulkOptionsOpened = false;
+
+                $(document).ready(function() {
+                    $('.js-show-checkboxes-on-tree').click(function() {
+
+                        if (!bulkOptionsOpened) {
+                            bulkOptionsOpened = true;
+
+                            $('#mw-admin-categories-tree-manager').empty();
+                            treeDataOpts.selectable = true;
+                            renderCategoryTree();
+                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '0');
+
+                        } else {
+                            bulkOptionsOpened = false;
+
+                            $('#mw-admin-categories-tree-manager').empty();
+                            treeDataOpts.selectable = false;
+                            renderCategoryTree();
+                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '1');
+                        }
+
+                    });
+                });
 
                 $('.js-delete-selected-categories').click(function() {
 
@@ -81,7 +107,6 @@
                         }
 
 
-
                     ]
                 };
                 <?php else: ?>
@@ -92,7 +117,7 @@
                     cantSelectTypes: ['page'],
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
-                    selectable: true,
+                    selectable: false,
                     singleSelect: false,
                     multiPageSelect: false,
                     allowPageSelect: false,
@@ -106,9 +131,9 @@
                             icon: 'mdi mdi-pencil',
                             action: function (element, data, menuitem) {
                                 if (data.type === 'category') {
-                                    self.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
                                 } else if (data.type === 'page') {
-                                    self.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
+                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                 }
                             },
                             filter: function (obj, node) {
@@ -135,24 +160,25 @@
                         }
 
 
-
                     ]
                 };
                 <?php endif; ?>
 
-                    categoryTree =   mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
+                function renderCategoryTree() {
+
+                    categoryTree = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: treeDataOpts,
                         params: {
                             no_limit: true,
                             <?php if(isset($params['is_shop'])): ?>
-                                is_shop: 1,
+                            is_shop: 1,
                             <?php endif; ?>
                         }
                     }).then(function (res) {
-                        $(res.tree).on('orderChange', function (e, obj){
+                        $(res.tree).on('orderChange', function (e, obj) {
                             var items = res.tree.getSameLevelObjects(obj).filter(function (obj) {
                                 return obj.type === 'category';
-                            }).map(function(obj){
+                            }).map(function (obj) {
                                 return obj.id;
                             });
                             $.post("<?php print api_link('category/reorder'); ?>", {ids: items}, function () {
@@ -160,8 +186,6 @@
                                 mw.parent().trigger('pagesTreeRefresh');
                             });
                         });
-
-
                         $(res.tree).on("selectionChange", function () {
 
                             res.tree.getSelected().length === 0 ? $('.js-hide-when-no-items-selected').hide() : $('.js-hide-when-no-items-selected').show();
@@ -184,10 +208,10 @@
                             });
 
                         });
-
-
                     });
+                }
 
+                renderCategoryTree();
 
             </script>
         </div>
