@@ -38,7 +38,10 @@ class Category extends Model
      */
     protected $attributes = [
         'data_type' => 'category',
-        'rel_type' => 'content'
+        'rel_type' => 'content',
+        'is_active' => '1',
+        'is_deleted' => '0',
+        'is_hidden' => '0',
     ];
 
     /* A list of fields that can be mass assigned. */
@@ -59,6 +62,9 @@ class Category extends Model
         "category_subtype",
         "category_meta_title",
         "category_meta_description",
+        "is_hidden",
+        "is_active",
+        "is_deleted",
         "is_hidden",
         "category_meta_keywords"
     ];
