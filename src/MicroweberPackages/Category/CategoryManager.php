@@ -992,6 +992,10 @@ class CategoryManager
 
     public function get_admin_js_tree_json($params)
     {
+
+       $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
+        return $tree->get();
+
         $json = array();
 
         //    $kw = false;
@@ -999,7 +1003,6 @@ class CategoryManager
         $pages_params = array();
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
-
 
         if (isset($params['from_content_id'])) {
             $pages_params['id'] = intval($params['from_content_id']);
@@ -1012,11 +1015,9 @@ class CategoryManager
             $pages_params['keyword'] = ($params['keyword']);
         }
 
-
         if (isset($params['exclude_ids'])) {
             $pages_params['exclude_ids'] = trim($params['exclude_ids']);
         }
-
 
         if (isset($params['content_type'])) {
             $pages_params['content_type'] = ($params['content_type']);
@@ -1052,8 +1053,6 @@ class CategoryManager
                 $item['position'] = intval($page['position']);
                 $json[] = $item;
 
-
-
                 if($show_cats) {
                     $cat_params = [];
                     $cat_params['parent_page'] = intval($page['id']);
@@ -1064,7 +1063,6 @@ class CategoryManager
                     }
                     $pages_cats = get_categories($cat_params);
                     if ($pages_cats) {
-
                         foreach ($pages_cats as $cat) {
 
                             $item = array();
