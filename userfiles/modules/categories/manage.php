@@ -14,7 +14,17 @@
                 </div>
             </div>
         </div>
-        <?php if(isset($params['show_add_post_to_category_button'])): ?>
+        <?php if(!isset($params['show_add_post_to_category_button'])): ?>
+
+
+        <div class="js-hide-when-no-items-selected" style="display:none;">
+
+            bulk actions
+
+
+            delete selected
+        </div>
+
         <?php endif; ?>
 
         <div class="card-body pt-3">
@@ -22,7 +32,7 @@
             <script>
 
                 <?php if(isset($params['show_add_post_to_category_button'])): ?>
-
+                // this is for the post manage categories
                 treeDataOpts = {
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
@@ -51,17 +61,20 @@
                     ]
                 };
                 <?php else: ?>
+
+                // this is for the main  manage categories page
+
                 treeDataOpts = {
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
-                    selectable: false,
-                    singleSelect: true,
+                    selectable: true,
+                    singleSelect: false,
+                    multiPageSelect: false,
+                    allowPageSelect: false,
                     saveState: true,
                     searchInput: true,
                     skin: 'category-manager',
                     contextMenu: [
-
-
 
                         {
                             title: mw.lang('Edit'),
@@ -102,7 +115,7 @@
                 };
                 <?php endif; ?>
 
-                      mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
+                    categoryTree =   mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: treeDataOpts,
                         params: {
                             no_limit: true,
@@ -122,7 +135,32 @@
                                 mw.parent().trigger('pagesTreeRefresh');
                             });
                         });
+
+                        $(res.tree).on("selectionChange", function () {
+
+                            res.tree.getSelected().length === 0 ? $('.js-hide-when-no-items-selected').hide() : $('.js-hide-when-no-items-selected').show();
+
+                            selectedPages = [];
+                            selectedCategories = [];
+
+                            $.each(res.tree.getSelected(), function (key, item) {
+                                if (item.type == 'category') {
+                                    selectedCategories.push(item.id);
+                                }
+                                if (item.type == 'page') {
+                                    selectedPages.push(item.id);
+                                }
+                            });
+
+
+                        });
+
+
                     });
+
+
+
+
             </script>
         </div>
     </div>
