@@ -269,8 +269,6 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($children_test[0]->parent_id, $category3->parent_id);
 
 
-
-
         $jsonTree= app()->category_manager->get_admin_js_tree_json(['from_content_id'=>$newBlogPage->id]);
 
         $this->assertEquals($jsonTree[0]['id'], $newBlogPage->id);
@@ -293,7 +291,6 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($jsonTree[3]['parent_type'], 'category');
         $this->assertEquals($jsonTree[3]['type'], 'category');
         $this->assertEquals($jsonTree[3]['parent_id'], $category2->id);
-
 
 
         $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>$newBlogPage->title]);

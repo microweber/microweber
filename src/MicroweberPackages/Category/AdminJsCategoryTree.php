@@ -9,14 +9,40 @@ class AdminJsCategoryTree
 {
     public $pages;
     public $categories;
+    public $filters = [];
 
-    public function __construct()
+    public function filters($filters)
     {
-        $getPages =  Page::orderBy('position', 'ASC')->get();
-        $getCategories =  Category::orderBy('position', 'ASC')->get();
+        $this->filters = $filters;
+    }
+
+    public function getPages()
+    {
+        $getPagesQuery =  Page::query();
+
+        if (!empty($this->filters)) {
+            if (isset($this->filters['from_content_id'])) {
+                $pageId = (int) $this->filters['from_content_id'];
+                $getPagesQuery->where('id', $pageId);
+            }
+        }
+
+        $getPagesQuery->orderBy('position', 'ASC');
+
+        $getPages = $getPagesQuery->get();
+
         if ($getPages) {
             $this->pages = $getPages->toArray();
         }
+    }
+
+    public function getCategories()
+    {
+        $getCategoriesQuery =  Category::query();
+        $getCategoriesQuery->orderBy('position', 'ASC');
+
+        $getCategories = $getCategoriesQuery->get();
+
         if ($getCategories) {
             $this->categories = $getCategories->toArray();
         }
@@ -24,6 +50,9 @@ class AdminJsCategoryTree
 
     public function get()
     {
+        $this->getPages();
+        $this->getCategories();
+
         $response = [];
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {

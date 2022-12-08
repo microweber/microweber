@@ -2,19 +2,23 @@
 
 namespace MicroweberPackages\Database\Traits;
 
-trait  MaxPositionTrait {
+trait  MaxPositionTrait
+{
 
     public function updateMaxPositionFieldOnModel()
     {
         $maxPosition = 0;
 
-        if(!isset($this->position) && isset($this->rel_id) && isset($this->rel_type)) {
+        if (!isset($this->position) && isset($this->rel_id) && isset($this->rel_type)) {
 
             $position = get_class($this)::where([
                 ['rel_id', '=', $this->rel_id],
                 ['rel_type', '=', $this->rel_type]
             ])->max('position');
 
+            $maxPosition = $position + 1;
+        } else {
+            $position = get_class($this)::query()->max('position');
             $maxPosition = $position + 1;
         }
 
@@ -46,9 +50,9 @@ trait  MaxPositionTrait {
         });
     }
 
-    public function savePositionFieldWithoutEvents(array $options=[])
+    public function savePositionFieldWithoutEvents(array $options = [])
     {
-        return static::withoutEvents(function() use ($options) {
+        return static::withoutEvents(function () use ($options) {
             return $this->save($options);
         });
     }
