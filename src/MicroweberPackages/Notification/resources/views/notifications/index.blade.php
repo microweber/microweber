@@ -42,8 +42,9 @@
     mw.notif_item_delete = function ($item_id) {
         mw.tools.confirm(mw.msg.del, function () {
             $.post("<?php echo route('admin.notification.delete') ?>", {ids:$item_id}, function () {
-                //mw.$('.mw-ui-admin-notif-item-'+$item_id).fadeOut();
-               // mw.reload_module('admin/notifications');
+                if ($item_id == 'all') {
+                    window.location.reload();
+                }
                 $('.mw-ui-admin-notif-item-' + $item_id).find('.card').addClass('card-danger');
                 $('.mw-ui-admin-notif-item-' + $item_id).effect( "blind", "slow" );
                 setTimeout(function () {
@@ -104,11 +105,10 @@
     }
 
     mw.notif_reset_all = function () {
-        $.post("<?php echo route('admin.notification.reset','') ?>", function () {
+        $.post("<?php echo route('admin.notification.reset') ?>", {ids: 'all'}, function () {
             window.location.href = window.location.href;
         });
     }
-
 
     mw.notif_reset_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
@@ -125,7 +125,7 @@
     }
 
     mw.notif_mark_all_as_read = function () {
-        $.post("<?php echo route('admin.notification.read') ?>", function () {
+        $.post("<?php echo route('admin.notification.read') ?>", {ids: 'all'}, function () {
             window.location.href = window.location.href;
         });
     }
@@ -275,7 +275,7 @@
                         <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                     </div>
 
-                    <div class="d-inline-flex"><strong>Calendar</strong>
+                    <div class="d-inline-flex">
                         <div class="js-show-options" style="display: none;">
                             <a href="javascript:mw.notif_read_selected();"
                                class="btn btn-outline-success btn-sm mr-1 mr-lg-2 btn-lg-only-icon  notif-read-selected"><i
@@ -290,17 +290,16 @@
                                         class="mdi mdi-delete"></i> <span
                                         class="d-none d-xl-block"><?php _e("Delete selected"); ?></span></a>
 
-
-                            <div>
-                                <?php if ($is_quick == true): ?>
-                                <a href="javascript:mw.notif_mark_all_as_read();"
-                                   class="mw-ui-link"><?php _e("Read all"); ?></a> /
-                                <a href="javascript:mw.notif_reset_all();"
-                                   class="mw-ui-link"><?php _e("Unread all"); ?></a> /
-                                <a href="javascript:mw.notif_item_delete('all');"
-                                   class="mw-ui-link"><?php _e("Delete all"); ?></a>
-                                <?php endif; ?>
-                            </div>
+                        </div>
+                        <div>
+                            <?php if ($is_quick == true): ?>
+                            <a href="javascript:mw.notif_mark_all_as_read();"
+                               class="mw-ui-link"><?php _e("Read all"); ?></a> /
+                            <a href="javascript:mw.notif_reset_all();"
+                               class="mw-ui-link"><?php _e("Unread all"); ?></a> /
+                            <a href="javascript:mw.notif_item_delete('all');"
+                               class="mw-ui-link"><?php _e("Delete all"); ?></a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

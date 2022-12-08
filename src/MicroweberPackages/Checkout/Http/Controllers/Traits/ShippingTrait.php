@@ -80,6 +80,7 @@ trait ShippingTrait {
                 return redirect(route('checkout.shipping_method'));
             }
         }
+
         // Success
         return redirect(route('checkout.payment_method'));
     }
@@ -87,6 +88,11 @@ trait ShippingTrait {
     private function _validateShippingMethod()
     {
         $checkout_session = session_get('checkout_v2');
+        if (empty($checkout_session['shipping_gw'])) {
+            return ['valid' => false, 'errors' => [
+                'payment_errors'=>['error'=>_e('Must select shipping method', true)]
+            ]];
+        }
 
         try {
             return app()->shipping_manager->driver($checkout_session['shipping_gw'])->validate($checkout_session);
