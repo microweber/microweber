@@ -50,12 +50,25 @@ class AdminJsCategoryTree
 
     public function get()
     {
+        $keyword = false;
+        if (!empty($this->filters)) {
+            if (isset($this->filters['keyword'])) {
+                $keyword = $this->filters['keyword'];
+            }
+        }
+
         $this->getPages();
         $this->getCategories();
 
         $response = [];
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {
+
+                if ($keyword) {
+                    if (!str_contains($page['title'], $keyword) !== false) {
+                        continue;
+                    }
+                }
 
                 $appendPage = [];
                 $appendPage['id'] = $page['id'];
@@ -79,6 +92,12 @@ class AdminJsCategoryTree
 
         if (!empty($this->categories)) {
             foreach ($this->categories as $category) {
+
+                if ($keyword) {
+                    if (!str_contains($category['title'], $keyword) !== false) {
+                        continue;
+                    }
+                }
 
                 $appendCategory = [];
                 $appendCategory['id'] = $category['id'];

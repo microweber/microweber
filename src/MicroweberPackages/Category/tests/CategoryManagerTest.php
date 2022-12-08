@@ -320,7 +320,6 @@ class CategoryManagerTest extends TestCase
         $this->assertEmpty($jsonTreeKw);
 
 
-
         $jsonTreeKw= get_content(['keyword'=>implode("\n", $xssList)]);
         $this->assertEmpty($jsonTreeKw);
 
