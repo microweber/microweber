@@ -721,7 +721,13 @@ class PluploadController extends Controller
                 $jsonResponse['bytes_uploaded'] = $upl_size_log;
             }
         }
+        $response =  response()->json($jsonResponse, 200);
 
-        return response()->json($jsonResponse, 200);
+        $request = request();
+        $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+        return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+
+
+       // return response()->json($jsonResponse, 200)->withCookie($cookie);;
     }
 }

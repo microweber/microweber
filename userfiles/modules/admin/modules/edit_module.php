@@ -98,7 +98,7 @@ if ($id != false) {
     ?>
 
     <div class="card mw-modules-module-holder p-1">
-        <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php echo module_admin_url($data['module']) ?>';"<?php endif; ?>>
+        <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print module_admin_url($data['module']) ?>';"<?php endif; ?>>
             <div class="text-start text-left pb-3">
             <?php echo $badge; ?>
             </div>
@@ -114,7 +114,7 @@ if ($id != false) {
                         <img data-module-icon="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
-                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php module_admin_url($data['module']); ?>'><?php endif; ?>
+                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print module_admin_url($data['module']); ?>'><?php endif; ?>
                         <div class="admin-modules-list-description mt-0">
                             <h6>
                                 <?php if (isset($data['name'])): ?>
