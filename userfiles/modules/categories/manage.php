@@ -14,26 +14,50 @@
                 </div>
             </div>
         </div>
-        <?php if(!isset($params['show_add_post_to_category_button'])): ?>
-
-
-        <div class="js-hide-when-no-items-selected" style="display:none;">
-
-            bulk actions
-
-
-            delete selected
-        </div>
-
-        <?php endif; ?>
 
         <div class="card-body pt-3">
+
+            <?php if(!isset($params['show_add_post_to_category_button'])): ?>
+                <div class="js-hide-when-no-items-selected mb-3" style="display:none;">
+                    <button type="button" class="btn btn-outline-danger js-delete-selected-categories">
+                      <i class="fa fa-trash"></i>
+                        <?php _e('Delete '); ?>&nbsp;<span class="js-count-selected-categories"></span>
+                    </button>
+               <!--     <button type="button" class="btn btn-outline-info"><?php /*_e('Publish'); */?></button>
+                    <button type="button" class="btn btn-outline-primary"><?php /*_e('Unpublish'); */?></button>-->
+                </div>
+            <?php endif; ?>
+
+
+            <!--  <button type="button">Bulk Actions</button>-->
+
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
+
+                selectedPages = [];
+                selectedCategories = [];
+
+                $('.js-delete-selected-categories').click(function() {
+
+                    if (confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>')) {
+                        $.ajax({
+                            url: route('api.category.delete-bulk'),
+                            type: 'DELETE',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are deleted."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    }
+
+                });
 
                 <?php if(isset($params['show_add_post_to_category_button'])): ?>
                 // this is for the post manage categories
                 treeDataOpts = {
+
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
                     selectable: false,
@@ -65,6 +89,7 @@
                 // this is for the main  manage categories page
 
                 treeDataOpts = {
+                    cantSelectTypes: ['page'],
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
                     selectable: true,
@@ -131,18 +156,24 @@
                                 return obj.id;
                             });
                             $.post("<?php print api_link('category/reorder'); ?>", {ids: items}, function () {
-                                mw.notification.success('<?php _e("All changes are saved"); ?>.');
+                                mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
                                 mw.parent().trigger('pagesTreeRefresh');
                             });
                         });
+
 
                         $(res.tree).on("selectionChange", function () {
 
                             res.tree.getSelected().length === 0 ? $('.js-hide-when-no-items-selected').hide() : $('.js-hide-when-no-items-selected').show();
 
-                            selectedPages = [];
-                            selectedCategories = [];
+                            if (res.tree.getSelected().length == 1) {
+                                $('.js-count-selected-categories').html(res.tree.getSelected().length + ' <?php _ejs('category'); ?>');
+                            }
+                            if (res.tree.getSelected().length > 1) {
+                                $('.js-count-selected-categories').html(res.tree.getSelected().length + ' <?php _ejs('categories'); ?>');
+                            }
 
+                            selectedCategories = [];
                             $.each(res.tree.getSelected(), function (key, item) {
                                 if (item.type == 'category') {
                                     selectedCategories.push(item.id);
@@ -152,13 +183,10 @@
                                 }
                             });
 
-
                         });
 
 
                     });
-
-
 
 
             </script>
