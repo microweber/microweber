@@ -40,7 +40,10 @@
                element: holder,
                mode: 'document',
                regions: '.edit',
-               smallEditor: true,
+               smallEditor: false,
+               interactionControls: [
+
+               ],
 
 
                minHeight: 250,
@@ -71,12 +74,12 @@
                                controls: ['ul', 'ol']
                            }
                        },
-                       '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
+                       '|', 'link', 'unlink', 'wordPaste',
                    ],
                ]
            });
 
-           console.log(liveEditor);
+
 
            $(liveEditor).on('selectionchange', function (){
                liveEditor.lastRange = liveEditor.getSelection().getRangeAt(0)
@@ -88,7 +91,7 @@
        }
 
        addEventListener('load', function (){
-            // initEditor()
+              initEditor()
        })
    })();
 
@@ -96,10 +99,10 @@
 </script>
 
 
-<div  id="mw-live-edit-editor" style="display: none">
+<div  id="mw-live-edit-editor"  >
 
 </div>
-<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg ">
+<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg " style="display: none">
   <div class="wysiwyg-table">
 
 
