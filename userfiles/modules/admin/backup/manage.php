@@ -1,5 +1,5 @@
 <?php if (!is_admin()) {
-    error("must be admin");
+    return("must be admin");
 }; ?>
 
 <div class="clearfix"></div>

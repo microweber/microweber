@@ -310,6 +310,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(QueueEventServiceProvider::class);
         $this->app->register(ContentFilterServiceProvider::class);
         $this->app->register(CommentServiceProvider::class);
+        $this->app->register(BlogServiceProvider::class);
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
