@@ -145,38 +145,38 @@ class CreateContentTable extends Migration
                 '$index' => ['rel_type', 'rel_id', 'media_type'],
             ],*/
 
-            'custom_fields' => [
-                'rel_type' => 'string',
-                'rel_id' => 'text',
-                'position' => 'integer',
-                'type' => 'string',
-                'name' => 'text',
-                'name_key' => 'text',
-                'placeholder' => 'text',
-                'error_text' => 'text',
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'session_id' => 'string',
-
-                'options' => 'longText',
-                'show_label' => 'integer',
-                'is_active' => 'integer',
-                'required' => 'integer',
-                'copy_of_field' => 'integer',
-
-                '$index' => ['rel_type', 'rel_id', 'type'],
-            ],
-
-            'custom_fields_values' => [
-                'custom_field_id' => 'integer',
-
-                'value' => 'text',
-                'position' => 'integer',
-
-                '$index' => ['custom_field_id', 'value'],
-            ],
+//            'custom_fields' => [
+//                'rel_type' => 'string',
+//                'rel_id' => 'text',
+//                'position' => 'integer',
+//                'type' => 'string',
+//                'name' => 'text',
+//                'name_key' => 'text',
+//                'placeholder' => 'text',
+//                'error_text' => 'text',
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'created_by' => 'integer',
+//                'edited_by' => 'integer',
+//                'session_id' => 'string',
+//
+//                'options' => 'longText',
+//                'show_label' => 'integer',
+//                'is_active' => 'integer',
+//                'required' => 'integer',
+//                'copy_of_field' => 'integer',
+//
+//                '$index' => ['rel_type', 'rel_id', 'type'],
+//            ],
+//
+//            'custom_fields_values' => [
+//                'custom_field_id' => 'integer',
+//
+//                'value' => 'text',
+//                'position' => 'integer',
+//
+//                '$index' => ['custom_field_id', 'value'],
+//            ],
 
 //            'menus' => [
 //                'title' => 'text',
