@@ -5,10 +5,10 @@ namespace MicroweberPackages\Content;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Content\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Content\TranslateTables\TranslateContent;
 use MicroweberPackages\Content\TranslateTables\TranslateContentFields;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-use MicroweberPackages\Content\Http\Livewire\ContentBulkOptions;
 
 /**
  * Class ConfigSaveServiceProvider

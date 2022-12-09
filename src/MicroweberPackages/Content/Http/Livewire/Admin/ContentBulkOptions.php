@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\Http\Livewire;
+namespace MicroweberPackages\Content\Http\Livewire\Admin;
 
 use Livewire\Component;
 use MicroweberPackages\Content\Models\Content;
