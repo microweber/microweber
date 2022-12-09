@@ -1250,11 +1250,13 @@ class FrontendController extends Controller
 
                 if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
                     $redirectUrl = $redirect;
-                    if (headers_sent()) {
-                        echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
-                    } else {
-                        return \Redirect::to($redirectUrl);
-                    }
+                    return \Redirect::to($redirectUrl);
+
+//                    if (headers_sent()) {
+//                        echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
+//                    } else {
+//                        return \Redirect::to($redirectUrl);
+//                    }
 
                 }
             }
