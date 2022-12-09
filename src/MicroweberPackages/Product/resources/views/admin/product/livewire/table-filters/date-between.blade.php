@@ -13,7 +13,7 @@
         'itemValueKey'=>'dateBetween',
         'showDropdown'=> session()->get('showFilterDateBetween'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

@@ -12,7 +12,7 @@
         'selectedItem'=>$selectedItem,
         'selectedItemKey'=>'updatedAt',
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

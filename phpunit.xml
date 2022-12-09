@@ -19,18 +19,34 @@
             <directory>./userfiles/templates/*/tests/</directory>
             <directory>./userfiles/templates/*/src/tests/</directory>
             <exclude>./userfiles/templates/*/src/tests/Browser/</exclude>
+            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
         <testsuite name="MicroweberCoreTests">
             <directory>./src/MicroweberPackages/*/tests/</directory>
-            <directory>./userfiles/modules/*/tests/</directory>
             <directory>./userfiles/modules/*/*/src/tests/</directory>
             <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
+            <exclude>./src/MicroweberPackages/Helper/tests/*</exclude>
+            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
         </testsuite>
         <testsuite name="MicroweberTestMultilanguage">
             <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>
         </testsuite>
         <testsuite name="MicroweberModuleListTests">
             <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
+        </testsuite>
+
+        <testsuite name="MicroweberSlowTests">
+            <directory>./src/MicroweberPackages/Helper/tests/*</directory>
+            <directory>./src/MicroweberPackages/App/tests/*</directory>
+        </testsuite>
+
+        <testsuite name="MicroweberModulesTests">
+            <directory>./userfiles/modules/*/tests/</directory>
+            <exclude>./userfiles/modules/admin/import_export_tool/src/tests/</exclude>
+        </testsuite>
+
+        <testsuite name="MicroweberModulesImportToolTests">
+            <directory>./userfiles/modules/admin/import_export_tool/src/tests/</directory>
         </testsuite>
     </testsuites>
     <php>

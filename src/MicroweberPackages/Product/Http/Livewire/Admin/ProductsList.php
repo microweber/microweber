@@ -18,9 +18,9 @@ class ProductsList extends Component
 
     public $filters = [];
     protected $listeners = [
-        'refreshProductsList' => '$refresh',
-        'refreshProductsListAndDeselectAll' => 'refreshProductsListAndDeselectAll',
-        'setFirstPageProductsList' => 'setPaginationFirstPage',
+        'refreshContentList' => '$refresh',
+        'refreshContentListAndDeselectAll' => 'refreshContentListAndDeselectAll',
+        'setFirstPageContentList' => 'setPaginationFirstPage',
         'autoCompleteSelectItem' => 'setFilter',
         'hideFilterItem' => 'hideFilter',
         'applyFilterItem' => 'applyFilterItem',
@@ -71,10 +71,10 @@ class ProductsList extends Component
         $this->filters[$key] = $value;
     }
 
-    public function refreshProductsListAndDeselectAll()
+    public function refreshContentListAndDeselectAll()
     {
         $this->deselectAll();
-        $this->emit('refreshProductsList');
+        $this->emit('refreshContentList');
 
 
     }
