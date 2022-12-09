@@ -20,6 +20,8 @@ class TranslationTest extends TestCase
 
     public function testTheLangFunctionsTranslate()
     {
+        // Clear old
+        app()->translator->clearNewKeys();
 
         $translate1 = _e('Login', true);
         $this->assertSame('Login',$translate1);
