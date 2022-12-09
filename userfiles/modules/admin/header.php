@@ -488,7 +488,7 @@ $user = get_user_by_id($user_id);
 
                             <?php if (user_can_view_module(['module' => 'order.index'])): ?>
                                 <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
-                                    <?php _e("Orders"); ?> 
+                                    <?php _e("Orders"); ?>
                                     <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
                                     <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
                                           data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
