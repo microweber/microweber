@@ -13,7 +13,7 @@
         'selectedItemKey'=>'createdAt',
         'showDropdown'=> session()->get('showFilterDate'),
         'onChangedEmitEvents' => [
-         'setFirstPageProductsList'
+         'setFirstPageContentList'
         ]
     ])
 

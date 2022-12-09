@@ -21,7 +21,7 @@
         'data'=>$data,
         'showDropdown'=> session()->get('showFilterVisible'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

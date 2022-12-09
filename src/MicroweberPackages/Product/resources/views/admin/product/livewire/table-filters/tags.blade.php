@@ -10,7 +10,7 @@
         'selectedItems'=>$selectedItems,
         'showDropdown'=> session()->get('showFilterTags'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

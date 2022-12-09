@@ -15,7 +15,7 @@
         'itemPageValue'=>$itemPageValue,
         'showDropdown'=> session()->get('showFilterCategory'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

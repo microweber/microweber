@@ -18,6 +18,7 @@
 
 <div class="pt-0">
     <div>
+
         <div class="tree-show-hide-nav">
 
             <div class="form-group">
@@ -27,7 +28,10 @@
                 </div>
             </div>
         </div>
-        <div id="js-page-tree"></div>
+
+        <div id="js-page-tree-wrapper" style="min-width:180px;">
+           <div id="js-page-tree" style="display:none;"></div>
+        </div>
 
         <script>
              pagesTree = null;
@@ -140,8 +144,10 @@
                     options: options,
                     params: params
                 }, 'tree').then(function (res) {
-                    pagesTree = res.tree;
 
+                    $('#js-page-tree').show();
+
+                    pagesTree = res.tree;
 
                     var treeHolderSet = function (){
                         var treeHolder = mw.element('#admin-main-tree');
@@ -166,7 +172,7 @@
                             if (item.type == 'page') {
                                 window.livewire.emit('showFromPage', item.id);
                             }
-                            window.livewire.emit('setFirstPageProductsList');
+                            window.livewire.emit('setFirstPageContentList');
 
                         });
                     });
