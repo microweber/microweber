@@ -273,7 +273,7 @@
                     }
                 }, function (req) {
                     if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
-                        mw.notification.warning(req.responseJSON.error.message);
+                        mw.notification.warning(req.responseJSON.error.message, 4000);
                     }
                     scope.removeFile(file);
                     reject(req)

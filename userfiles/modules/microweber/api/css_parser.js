@@ -48,9 +48,7 @@ mw.CSSParser = function(el){
     }
     f.alignNormalize = function(){
         if(!!css){
-        var a = css.textAlign;
-        var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
-        return final;
+        return css.textAlign.contains('left')?'left':css.textAlign.contains('center')?'center':css.textAlign.contains('justify')?'justify':css.textAlign.contains('right')?'right':'left';
       }
     }
     f.border = function(parse){
