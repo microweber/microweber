@@ -19,7 +19,7 @@ class ProductsList extends Component
 
     public $model = Product::class;
 
-    public $filters = []; 
+    public $filters = [];
     protected $listeners = [
         'refreshContentList' => '$refresh',
         'refreshContentListAndDeselectAll' => 'refreshContentListAndDeselectAll',

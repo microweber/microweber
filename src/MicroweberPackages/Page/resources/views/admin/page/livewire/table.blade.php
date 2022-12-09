@@ -223,9 +223,7 @@ if (isset($filters['category'])) {
             {{ $pages->links() }}
 
         @else
-            <?php
-            include (modules_path().'/content/views/no_results_found_products.php');
-            ?>
+            @include('page::admin.page.livewire.no-results')
         @endif
 
     </div>

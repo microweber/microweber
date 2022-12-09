@@ -11,6 +11,13 @@ class PagesList extends ProductsList
 {
     public $model = Page::class;
 
+    public $showColumns = [
+        'id' => true,
+        'image' => true,
+        'title' => true,
+        'author' => true
+    ];
+
     public function render()
     {
         return view('page::admin.page.livewire.table', [
