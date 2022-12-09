@@ -140,9 +140,7 @@ if (isset($filters['category'])) {
                             <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
                             <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
                             <?php if($isInTrashed): ?>
-
                             <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
-
                             <?php endif; ?>
                         </ul>
                     </div>
@@ -150,8 +148,6 @@ if (isset($filters['category'])) {
             @endif
         </div>
         <div class="row  mt-3">
-
-
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
@@ -224,9 +220,7 @@ if (isset($filters['category'])) {
                 </div>
             </div>
 
-
             {{ $pages->links() }}
-
 
         @else
             <?php

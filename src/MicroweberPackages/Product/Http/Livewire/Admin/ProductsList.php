@@ -13,10 +13,13 @@ class ProductsList extends Component
 {
     use WithPagination;
 
+    public $whitelistedEmptyKeys = ['inStock', 'orders', 'qty'];
     public $paginate = 10;
     protected $paginationTheme = 'bootstrap';
 
-    public $filters = [];
+    public $model = Product::class;
+
+    public $filters = []; 
     protected $listeners = [
         'refreshContentList' => '$refresh',
         'refreshContentListAndDeselectAll' => 'refreshContentListAndDeselectAll',
@@ -178,7 +181,7 @@ class ProductsList extends Component
 
     public function updatedChecked($value)
     {
-        if (count($this->checked) == count($this->products->items())) {
+        if (count($this->checked) == count($this->contents->items())) {
             $this->selectAll = true;
         } else {
             $this->selectAll = false;
@@ -202,7 +205,7 @@ class ProductsList extends Component
     public function selectAll()
     {
         $this->selectAll = true;
-        $this->checked = $this->products->pluck('id')->map(fn($item) => (string)$item)->toArray();
+        $this->checked = $this->contents->pluck('id')->map(fn($item) => (string)$item)->toArray();
     }
 
     public function multipleMoveToCategory()
@@ -242,14 +245,14 @@ class ProductsList extends Component
     public function render()
     {
         return view('product::admin.product.livewire.table', [
-            'products' => $this->products,
+            'products' => $this->contents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }
 
-    public function getProductsProperty()
+    public function getContentsProperty()
     {
-        return $this->productsQuery->paginate($this->paginate);
+        return $this->contentsQuery->paginate($this->paginate);
     }
 
     public function removeFilter($key)
@@ -270,18 +273,16 @@ class ProductsList extends Component
         $this->filters['orderBy'] = $value;
     }
 
-    public function getProductsQueryProperty()
+    public function getContentsQueryProperty()
     {
-        $query = Product::query();
+        $query = $this->model::query();
         $query->disableCache(true);
 
         $this->appliedFilters = [];
 
-        $whitelistedEmptyKeys = ['inStock', 'orders', 'qty'];
-
         foreach ($this->filters as $filterKey => $filterValue) {
 
-            if (!in_array($filterKey, $whitelistedEmptyKeys)) {
+            if (!in_array($filterKey, $this->whitelistedEmptyKeys)) {
                 if (empty($filterValue)) {
                     continue;
                 }
