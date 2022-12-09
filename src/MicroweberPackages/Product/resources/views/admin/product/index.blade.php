@@ -218,7 +218,7 @@
 
                     $('.js-page-tree-skeleton').remove();
                     $('#js-page-tree').show();
-                    $('.tree-show-hide-nav').show(); 
+                    $('.tree-show-hide-nav').show();
 
                     pagesTree = res.tree;
 
