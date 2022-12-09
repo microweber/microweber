@@ -82,7 +82,7 @@
             <directory>./src/MicroweberPackages/User/tests/</directory>
             <directory>./src/MicroweberPackages/Utils/tests/</directory>
             <directory>./src/MicroweberPackages/View/tests/</directory>
-            <directory>./userfiles/modules/*/tests/</directory>
+            <exclude>./userfiles/modules/*/tests/</exclude>
         </testsuite>
 
         <testsuite name="MicroweberTestMultilanguage">
@@ -90,6 +90,9 @@
         </testsuite>
         <testsuite name="MicroweberTestTranslation">
             <directory>./src/MicroweberPackages/Translation/tests/</directory>
+        </testsuite>
+        <testsuite name="MicroweberModules">
+            <directory>./userfiles/modules/*/tests/</directory>
         </testsuite>
     </testsuites>
     <php>
