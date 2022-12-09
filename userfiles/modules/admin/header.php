@@ -468,14 +468,33 @@ $user = get_user_by_id($user_id);
                                 <?php /*_e("Dashboard"); */?>
                             </a>-->
 
+                         <!--   <?php /*if (user_can_view_module(['module' => 'shop.products'])): */?>
+                                <a href="<?php /*print admin_url(); */?>view:shop/action:products" class="dropdown-item <?php /*if ($action == 'products'): */?> active <?php /*endif; */?>">
+                                    <?php /*_e("Products"); */?>
+                                    <span data-href="<?php /*print route('admin.product.create'); */?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php /*_e("Add new product") */?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            --><?php
+/*                            endif;
+                            */?>
+
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products_beta'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
                                     <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                             <?php
                             endif;
                             ?>
+
+                            <?php if (user_can_view_module(['module' => 'order.index'])): ?>
+                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
+                                    <?php _e("Orders"); ?>
+                                    <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
+                                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
+
 
                             <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
 
@@ -511,24 +530,6 @@ $user = get_user_by_id($user_id);
                             <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
-
-                            <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products_beta'): ?> active <?php endif; ?>">
-                                    <?php _e("Products"); ?> <span class="badge badge-secondary badge-sm">BETA</span>
-                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
-                                </a>
-                                <?php
-                            endif;
-                            ?>
-
-                            <?php if (user_can_view_module(['module' => 'order.index'])): ?>
-                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
-                                    <?php _e("Orders"); ?> <span class="badge badge-secondary badge-sm">BETA</span>
-                                    <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
-                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
-                                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
-                                </a>
-                            <?php endif; ?>
 
 
                         </div>
