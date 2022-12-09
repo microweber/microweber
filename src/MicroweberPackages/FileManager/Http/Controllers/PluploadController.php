@@ -722,6 +722,18 @@ class PluploadController extends Controller
             }
         }
 
-        return response()->json($jsonResponse, 200);
+
+//        print json_encode($jsonResponse);
+//        exit;
+
+        $response =  response()->json($jsonResponse, 200);
+
+        return $response;
+        $request = request();
+        $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+        return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+
+
+       // return response()->json($jsonResponse, 200)->withCookie($cookie);;
     }
 }

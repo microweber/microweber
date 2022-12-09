@@ -48,8 +48,6 @@
         @foreach ($products as $product)
             <tr class="manage-post-item manage-post-item-{{ $product->id }}">
                 <td>
-
-
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" value="{{ $product->id }}" id="products-{{ $product->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
                         <label for="products-{{ $product->id }}" class="custom-control-label"></label>
@@ -77,6 +75,7 @@
                 @endif
                 @if($showColumns['title'])
                     <td>
+
                         <div class="manage-item-main-top">
 
                             <a target="_self" href="{{route('admin.product.edit', $product->id)}}" class="btn btn-link p-0">
@@ -86,20 +85,17 @@
                             </a>
                             @if($product->categories->count() > 0)
                                 <span class="manage-post-item-cats-inline-list">
-                        @foreach($product->categories as $category)
-                                        @if($category->parent)
+                                @foreach($product->categories as $category)
+                                    @if($category->parent)
 
-                                            <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
-                                               class="btn btn-link p-0 text-muted">
-                                        {{$category->parent->title}}</a>
+                                    <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                                       class="btn btn-link p-0 text-muted">
+                                        {{$category->parent->title}}
+                                    </a>
 
-
-
-
-
-                                        @endif
-                                    @endforeach
-                         </span>
+                                    @endif
+                                @endforeach
+                             </span>
                             @endif
                             <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
                                href="{{$product->link()}}">
@@ -118,23 +114,6 @@
 
                             @endif
                         </div>
-
-
-
-
-                        <?php if($product->is_deleted): ?>
-
-
-              <?php
-                            $data = $product->toArray();
-
-                            include(modules_path() . 'content/views/content_delete_btns.php');
-
-                            ?>
-
-
-                <?php endif; ?>
-
 
                     </td>
                 @endif

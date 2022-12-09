@@ -14,16 +14,76 @@
                 </div>
             </div>
         </div>
-        <?php if(isset($params['show_add_post_to_category_button'])): ?>
-        <?php endif; ?>
 
         <div class="card-body pt-3">
+
+            <?php if(!isset($params['show_add_post_to_category_button'])): ?>
+                <div class="js-hide-when-no-items-selected mb-3" style="display:none;">
+                    <button type="button" class="btn btn-outline-danger js-delete-selected-categories">
+                      <i class="fa fa-trash"></i>
+                        <?php _e('Delete '); ?>&nbsp;<span class="js-count-selected-categories"></span>
+                    </button>
+               <!--     <button type="button" class="btn btn-outline-info"><?php /*_e('Publish'); */?></button>
+                    <button type="button" class="btn btn-outline-primary"><?php /*_e('Unpublish'); */?></button>-->
+                </div>
+            <?php endif; ?>
+
+
+           <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
+               Bulk Actions
+           </button>
+
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
 
-                <?php if(isset($params['show_add_post_to_category_button'])): ?>
+                selectedPages = [];
+                selectedCategories = [];
+                bulkOptionsOpened = false;
 
+                $(document).ready(function() {
+                    $('.js-show-checkboxes-on-tree').click(function() {
+
+                        if (!bulkOptionsOpened) {
+                            bulkOptionsOpened = true;
+
+                            $('#mw-admin-categories-tree-manager').empty();
+                            treeDataOpts.selectable = true;
+                            renderCategoryTree();
+                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '0');
+
+                        } else {
+                            bulkOptionsOpened = false;
+
+                            $('#mw-admin-categories-tree-manager').empty();
+                            treeDataOpts.selectable = false;
+                            renderCategoryTree();
+                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '1');
+                        }
+
+                    });
+                });
+
+                $('.js-delete-selected-categories').click(function() {
+
+                    if (confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>')) {
+                        $.ajax({
+                            url: route('api.category.delete-bulk'),
+                            type: 'DELETE',
+                            data: {ids: selectedCategories},
+                            success: function (data) {
+                                mw.reload_module('categories/manage');
+                                mw.notification.success('<?php _ejs("Categories are deleted."); ?>.');
+                                mw.parent().trigger('pagesTreeRefresh');
+                            }
+                        });
+                    }
+
+                });
+
+                <?php if(isset($params['show_add_post_to_category_button'])): ?>
+                // this is for the post manage categories
                 treeDataOpts = {
+
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
                     selectable: false,
@@ -47,30 +107,33 @@
                         }
 
 
-
                     ]
                 };
                 <?php else: ?>
+
+                // this is for the main  manage categories page
+
                 treeDataOpts = {
+                    cantSelectTypes: ['page'],
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
                     selectable: false,
-                    singleSelect: true,
+                    singleSelect: false,
+                    multiPageSelect: false,
+                    allowPageSelect: false,
                     saveState: true,
                     searchInput: true,
                     skin: 'category-manager',
                     contextMenu: [
-
-
 
                         {
                             title: mw.lang('Edit'),
                             icon: 'mdi mdi-pencil',
                             action: function (element, data, menuitem) {
                                 if (data.type === 'category') {
-                                    self.location.href  = "<?php print admin_url() ?>category/" + data.id + "/edit";
+                                    self.location.href = "<?php print admin_url() ?>category/" + data.id + "/edit";
                                 } else if (data.type === 'page') {
-                                    self.location.href  = "<?php print admin_url() ?>page/" + data.id + "/edit";
+                                    self.location.href = "<?php print admin_url() ?>page/" + data.id + "/edit";
                                 }
                             },
                             filter: function (obj, node) {
@@ -97,32 +160,59 @@
                         }
 
 
-
                     ]
                 };
                 <?php endif; ?>
 
-                      mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
+                function renderCategoryTree() {
+
+                    categoryTree = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: treeDataOpts,
                         params: {
                             no_limit: true,
                             <?php if(isset($params['is_shop'])): ?>
-                                is_shop: 1,
+                            is_shop: 1,
                             <?php endif; ?>
                         }
                     }).then(function (res) {
-                        $(res.tree).on('orderChange', function (e, obj){
+                        $(res.tree).on('orderChange', function (e, obj) {
                             var items = res.tree.getSameLevelObjects(obj).filter(function (obj) {
                                 return obj.type === 'category';
-                            }).map(function(obj){
+                            }).map(function (obj) {
                                 return obj.id;
                             });
                             $.post("<?php print api_link('category/reorder'); ?>", {ids: items}, function () {
-                                mw.notification.success('<?php _e("All changes are saved"); ?>.');
+                                mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
                                 mw.parent().trigger('pagesTreeRefresh');
                             });
                         });
+                        $(res.tree).on("selectionChange", function () {
+
+                            res.tree.getSelected().length === 0 ? $('.js-hide-when-no-items-selected').hide() : $('.js-hide-when-no-items-selected').show();
+
+                            if (res.tree.getSelected().length == 1) {
+                                $('.js-count-selected-categories').html(res.tree.getSelected().length + ' <?php _ejs('category'); ?>');
+                            }
+                            if (res.tree.getSelected().length > 1) {
+                                $('.js-count-selected-categories').html(res.tree.getSelected().length + ' <?php _ejs('categories'); ?>');
+                            }
+
+                            selectedCategories = [];
+                            $.each(res.tree.getSelected(), function (key, item) {
+                                if (item.type == 'category') {
+                                    selectedCategories.push(item.id);
+                                }
+                                if (item.type == 'page') {
+                                    selectedPages.push(item.id);
+                                }
+                            });
+
+                        });
                     });
+                }
+
+                renderCategoryTree();
+
             </script>
         </div>
     </div>

@@ -30,6 +30,8 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
 
         $this->app->translate_manager->addTranslateProvider(TranslateCategory::class);
 

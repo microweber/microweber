@@ -39,6 +39,10 @@ class ModuleRepository extends AbstractRepository
 
             })->toArray();
 
+            if(!empty($allModules)){
+            $allModules = app()->url_manager->replace_site_url_back($allModules);
+            }
+
             return $allModules;
 
         });

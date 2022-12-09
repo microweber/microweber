@@ -21,7 +21,6 @@ class NotificationController extends AdminController
 {
     public function index(Request $request)
     {
-
         $readyNotifications = [];
 
         $admin = Auth::user();
@@ -85,7 +84,7 @@ class NotificationController extends AdminController
         $idsPost = $request->post('ids');
         $admin = Auth::user();
 
-        if (empty($idsPost)) {
+        if (is_string($idsPost) && $idsPost = 'all') {
             Notification::where('notifiable_id', $admin->id)->update(['read_at' => date('Y-m-d H:i:s')]);
         } else {
 
@@ -113,7 +112,7 @@ class NotificationController extends AdminController
 
         $admin = Auth::user();
 
-        if (empty($idsPost)) {
+        if (is_string($idsPost) && $idsPost = 'all') {
             Notification::where('notifiable_id', $admin->id)->update(['read_at' => null]);
         } else {
 
@@ -140,7 +139,7 @@ class NotificationController extends AdminController
 
         $admin = Auth::user();
 
-        if (empty($idsPost)) {
+        if (is_string($idsPost) && $idsPost == 'all') {
             Notification::where('notifiable_id', $admin->id)->delete();
         } else {
 
@@ -151,8 +150,10 @@ class NotificationController extends AdminController
                 $ids = $idsPost;
             }
 
-            foreach ($ids as $id) {
-                Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+            if (!empty($ids)) {
+                foreach ($ids as $id) {
+                    Notification::where('notifiable_id', $admin->id)->where('id', $id)->delete();
+                }
             }
         }
     }

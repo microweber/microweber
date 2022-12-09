@@ -7,7 +7,7 @@
         mw.require("files.js");
         mw.require("uploader.js");
 
-        function initUploader() {
+        function initJsUploader() {
 
             var uploader = mw.upload({
                 url: route('admin.import-export-tool.upload-feed'),
@@ -43,7 +43,7 @@
         }
 
         window.addEventListener('initJsUploader', event => {
-            initUploader();
+            initJsUploader();
         });
     </script>
 

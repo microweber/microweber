@@ -4,7 +4,7 @@
 
     @php
         $carts = [];
-        if (empty($order->cart)) {
+        if (!empty($order->cart)) {
            $carts = $order->cart;
         }
         $cart = $order->cart->first();
