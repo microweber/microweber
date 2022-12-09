@@ -14,27 +14,10 @@
         display: block;
     }
 
-
     .skeleton-loading {
         background: #e8e8e8;
         border-radius: 5px;
-        background-size: 200% 100%;
-        -webkit-animation: 1.5s shine linear infinite;
-        animation: 1.5s shine linear infinite;
     }
-
-    @-webkit-keyframes shine {
-        to {
-            background-position-x: -200%;
-        }
-    }
-
-    @keyframes shine {
-        to {
-            background-position-x: -200%;
-        }
-    }
-
 </style>
 
 <div class="pt-0">
@@ -192,7 +175,7 @@
                 }, 'tree').then(function (res) {
 
                     $('.js-page-tree-skeleton').remove();
-                    
+
                     $('#js-page-tree').fadeIn();
                     $('.tree-show-hide-nav').fadeIn();
 
