@@ -308,7 +308,7 @@ class ContentList extends Component
         if (!empty($displayType)) {
             $this->displayType = $displayType;
         }
-        
+
         $columnsCookie = \Cookie::get($this->getComponentName() . 'ShowColumns');
         if (!empty($columnsCookie)) {
             $this->showColumns = json_decode($columnsCookie, true);
