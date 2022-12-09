@@ -82,7 +82,7 @@ use MicroweberPackages\Post\PostServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
-use MicroweberPackages\Tax\TaxManagerServiceProvider;
+use MicroweberPackages\Tax\LiveEditServiceProvider;
 
 use MicroweberPackages\Tag\TagsManagerServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
@@ -275,7 +275,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
-        $this->app->register(TaxManagerServiceProvider::class);
+        $this->app->register(LiveEditServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
         $this->app->register(OrderEventServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
