@@ -9,7 +9,7 @@
         'selectedItem'=>$selectedItem,
         'showDropdown'=> session()->get('showFilterAuthor'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 </div>

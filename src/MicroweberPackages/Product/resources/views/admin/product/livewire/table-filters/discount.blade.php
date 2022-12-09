@@ -19,7 +19,7 @@
         'data'=>$data,
         'showDropdown'=> session()->get('showFilterDiscount'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 </div>

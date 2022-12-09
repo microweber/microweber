@@ -13,7 +13,7 @@
         'itemValueKey'=>'sku',
         'showDropdown'=> session()->get('showFilterSku'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

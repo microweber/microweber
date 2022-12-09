@@ -21,7 +21,7 @@
                     $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                         mw.notification.msg(msg);
                         window.livewire.emit('multipleMoveToCategoryExecute');
-                        window.livewire.emit('refreshProductsListAndDeselectAll');
+                        window.livewire.emit('refreshContentListAndDeselectAll');
                         dialog.remove();
                     });
                 });

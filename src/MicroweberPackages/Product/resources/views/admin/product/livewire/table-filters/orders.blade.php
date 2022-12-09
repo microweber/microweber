@@ -19,7 +19,7 @@
         'itemOperatorValueKey'=>'ordersOperator',
         'showDropdown'=> session()->get('showFilterOrders'),
         'onChangedEmitEvents' => [
-          'setFirstPageProductsList'
+          'setFirstPageContentList'
         ]
     ])
 

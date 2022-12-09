@@ -13,7 +13,7 @@
         'itemValueKey'=>'priceBetween',
         'showDropdown'=> session()->get('showFilterPriceBetween'),
         'onChangedEmitEvents' => [
-            'setFirstPageProductsList'
+            'setFirstPageContentList'
         ]
     ])
 

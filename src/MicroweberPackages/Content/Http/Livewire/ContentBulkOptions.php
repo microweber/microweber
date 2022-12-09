@@ -43,7 +43,7 @@ class ContentBulkOptions extends Component
 
     public function multipleMoveToCategoryExecute()
     {
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multipleMoveToCategoryShowModal = false;
     }
 
@@ -70,7 +70,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multiplePublishShowModal = false;
     }
 
@@ -96,7 +96,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multipleUnpublishShowModal = false;
     }
 
@@ -128,7 +128,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multipleDeleteShowModal = false;
     }
 
@@ -164,7 +164,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multipleUndeleteShowModal = false;
     }
 
@@ -190,7 +190,7 @@ class ContentBulkOptions extends Component
             }
         }
 
-        $this->emit('refreshProductsListAndDeselectAll');
+        $this->emit('refreshContentListAndDeselectAll');
         $this->multipleDeleteForeverShowModal = false;
     }
 

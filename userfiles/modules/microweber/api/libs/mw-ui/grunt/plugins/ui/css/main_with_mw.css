@@ -20540,7 +20540,6 @@ header {
   .main .tree {
     display: none;
     float: left;
-    border: 1px solid #4592ff;
     transition: all 0.5s ease;
     margin-inline-start: 15px;
     padding: 15px 0;
