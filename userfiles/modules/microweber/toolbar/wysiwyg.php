@@ -40,7 +40,10 @@
                element: holder,
                mode: 'document',
                regions: '.edit',
-               smallEditor: true,
+               smallEditor: false,
+               interactionControls: [
+
+               ],
 
 
                minHeight: 250,
@@ -71,12 +74,12 @@
                                controls: ['ul', 'ol']
                            }
                        },
-                       '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
+                       '|', 'link', 'unlink', 'wordPaste',
                    ],
                ]
            });
 
-           console.log(liveEditor);
+
 
            $(liveEditor).on('selectionchange', function (){
                liveEditor.lastRange = liveEditor.getSelection().getRangeAt(0)
@@ -88,7 +91,7 @@
        }
 
        addEventListener('load', function (){
-            // initEditor()
+              initEditor()
        })
    })();
 
@@ -96,10 +99,10 @@
 </script>
 
 
-<div  id="mw-live-edit-editor" style="display: none>
+<div  id="mw-live-edit-editor"  >
 
 </div>
-<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg" ">
+<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg " style="display: none">
   <div class="wysiwyg-table">
 
 
@@ -147,42 +150,28 @@
               </ul>
           </div>
       </div>
-      <!--<div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php /*_e("Insert"); */?>">
+       <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php  _e("Insert"); ?>">
                   <span class="mw-dropdown-value">
                       <span class="mw-dropdown-val">
-                <?php /*_e("Insert"); */?>
+                <?php  _e("Insert"); ?>
                 </span> </span>
           <div class="mw-dropdown-content">
               <ul>
-                  <li value="table"><a href="javascript:;" style="font-size: 10px">
-                          <?php /*_e("Table"); */?>
-                      </a>
-                  </li>
+
                   <li value="hr"><a href="javascript:;" style="font-size: 10px">
-                          <?php /*_e("Horizontal Rule"); */?>
+                          <?php  _e("Horizontal Rule");  ?>
                       </a>
                   </li>
-                  <li value="pre"><a href="javascript:;" style="font-size: 10px">
-                          <?php /*_e("Pre formatted"); */?>
-                      </a>
-                  </li>
-                  <li value="code"><a href="javascript:;" style="font-size: 10px">
-                          <?php /*_e("Code format"); */?>
-                      </a>
-                  </li>
-                  <li value="quote"><a href="#" style="font-size: 10px"><?php /*_e("Quote"); */?></a></li>
-                  <li value="icon"><a href="#" style="font-size: 10px"><?php /*_e("Icon"); */?></a></li>
-                  <li value="insert_html"><a href="javascript:;" style="font-size: 10px">
-                          <?php /*_e("HTML"); */?>
-                      </a>
-                  </li>
+
+                  <li value="icon"><a href="#" style="font-size: 10px"><?php  _e("Icon");  ?></a></li>
+
 
 
 
 
                </ul>
           </div>
-      </div>-->
+      </div>
       </div>
       </div>
       </div>
@@ -337,56 +326,8 @@
             <span class="ed-ico"></span>
         </span>
       </div>
-      <div class="wysiwyg-cell">
 
 
-
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg" >
-                  <span class="mw-dropdown-value">
-                      <span class="mw-dropdown-val">
-                        <?php _e("Columns"); ?>
-                      </span>
-                  </span>
-              <div class="mw-dropdown-content">
-                  <ul>
-                      <li><a>One column</a></li>
-                      <li><a>2 columns</a></li>
-                      <li><a>3 columns</a></li>
-                      <li><a>4 columns</a></li>
-                      <li><a>5 columns</a></li>
-                      <li><a>
-                        <span class="mw_editor_btn mw-icon-bin mw-handle-menu-item-icon"></span>
-                          Remove</a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
-
-
-
-
-      </div>
-      <div class="wysiwyg-cell">
-
-
-
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg" >
-                  <span class="mw-dropdown-value">
-                      <span class="mw-dropdown-val">
-                        <?php _e("Cloneable"); ?>
-                      </span>
-                  </span>
-              <div class="mw-dropdown-content">
-                  <ul>
-                      <li><a>Move backward</a></li>
-                      <li><a>Clone</a></li>
-                      <li><a>Remove</a></li>
-                      <li><a>Move forward</a></li>
-                  </ul>
-              </div>
-          </div>
-
-      </div>
 
 
 
