@@ -14,22 +14,68 @@
         display: block;
     }
 
+
+    .skeleton-loading {
+        background: #e8e8e8;
+        border-radius: 5px;
+        background-size: 200% 100%;
+        -webkit-animation: 1.5s shine linear infinite;
+        animation: 1.5s shine linear infinite;
+    }
+
+    @-webkit-keyframes shine {
+        to {
+            background-position-x: -200%;
+        }
+    }
+
+    @keyframes shine {
+        to {
+            background-position-x: -200%;
+        }
+    }
+
 </style>
 
 <div class="pt-0">
     <div>
 
-        <div class="tree-show-hide-nav">
+        <div id="js-page-tree-wrapper" style="min-width:240px;">
 
-            <div class="form-group">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
-                    <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+            <div class="js-page-tree-skeleton">
+                <div class="d-flex">
+                    <div class="skeleton-loading" style="margin-top:10px;height:20px;width:40px;">
+                        &nbsp;
+                    </div>
+                    <div class="skeleton-loading" style="margin-left:10px;margin-top:10px;height:20px;width:60px">
+                        &nbsp;
+                    </div>
+                </div>
+
+                <div class="skeleton-loading" style="margin-top:10px;margin-left:10px;padding:10px 8px">
+                    <div style="width:80px;height:14px;background:#dbdbdb;border-radius:5px;"></div>
+                </div>
+
+                <?php for ($isk=1; $isk<=12; $isk++): $randWidth = rand(130, 160);  ?>
+
+                    <div class="skeleton-loading" style="width:<?php echo $randWidth; ?>px;margin-left:25px; margin-top:15px;padding:5px 8px">
+                        <div class="d-flex">
+                        <div style="width: 20px;height:20px;background:#dbdbdb;border-radius:5px;"></div>
+                        <div style="width:<?php echo ($randWidth-50); ?>px;height:10px;background:#dbdbdb;border-radius:5px;margin-left:5px;margin-top:5px;"></div>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+            </div>
+
+            <div class="tree-show-hide-nav" style="display:none">
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
+                        <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="js-page-tree-wrapper" style="min-width:180px;">
            <div id="js-page-tree" style="display:none;"></div>
         </div>
 
@@ -145,7 +191,10 @@
                     params: params
                 }, 'tree').then(function (res) {
 
-                    $('#js-page-tree').show();
+                    $('.js-page-tree-skeleton').remove();
+                    
+                    $('#js-page-tree').fadeIn();
+                    $('.tree-show-hide-nav').fadeIn();
 
                     pagesTree = res.tree;
 
