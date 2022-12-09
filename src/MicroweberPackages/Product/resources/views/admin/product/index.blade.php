@@ -14,9 +14,42 @@
         display: block;
     }
 
-    .skeleton-loading {
-        background: #e8e8e8;
+    .js-page-tree-skeleton .skeleton-loading {
+        background: #eeeeee;
         border-radius: 5px;
+    }
+    .js-page-tree-skeleton .skeleton-toggle-btn {
+        margin-top:10px;
+        height:20px;
+        width:40px;
+    }
+    .js-page-tree-skeleton .skeleton-toggle-label {
+        margin-left:10px;
+        margin-top:10px;
+        height:20px;
+        width:100px
+    }
+    .js-page-tree-skeleton .skeleton-search {
+        margin-top:10px;margin-left:10px;padding:10px 8px
+    }
+    .js-page-tree-skeleton .skeleton-search-label {
+        width:80px;height:10px;background:#e3e3e3;
+    }
+    .js-page-tree-skeleton .skeleton-item {
+        margin-top: 10px;
+        padding: 5px 8px;
+    }
+    .skeleton-icon {
+        width: 15px;
+        height:15px;
+        background:#e3e3e3;
+    }
+    .skeleton-label {
+        width:50px;
+        height:8px;
+        background:#e3e3e3;
+        margin-left:5px;
+        margin-top:5px;
     }
 </style>
 
@@ -27,24 +60,33 @@
 
             <div class="js-page-tree-skeleton">
                 <div class="d-flex">
-                    <div class="skeleton-loading" style="margin-top:10px;height:20px;width:40px;">
+                    <div class="skeleton-loading skeleton-toggle-btn">
                         &nbsp;
                     </div>
-                    <div class="skeleton-loading" style="margin-left:10px;margin-top:10px;height:20px;width:60px">
+                    <div class="skeleton-loading skeleton-toggle-label">
                         &nbsp;
                     </div>
                 </div>
 
-                <div class="skeleton-loading" style="margin-top:10px;margin-left:10px;padding:10px 8px">
-                    <div style="width:80px;height:14px;background:#dbdbdb;border-radius:5px;"></div>
+                <div class="skeleton-loading skeleton-search">
+                    <div class="skeleton-search-label"></div>
                 </div>
 
-                <?php for ($isk=1; $isk<=12; $isk++): $randWidth = rand(130, 160);  ?>
+                <?php for ($isk=1; $isk<=12; $isk++):
+                $marginLeft = 25;
+                $randWidth = rand(130, 160);
+                if ($isk>6) {
+                    $marginLeft = 50;
+                }
+                if ($isk>9) {
+                    $marginLeft = 25;
+                }
+                ?>
 
-                    <div class="skeleton-loading" style="width:<?php echo $randWidth; ?>px;margin-left:25px; margin-top:15px;padding:5px 8px">
+                    <div class="skeleton-loading skeleton-item" style="width:<?php echo $randWidth; ?>px;margin-left:<?php echo $marginLeft; ?>px;">
                         <div class="d-flex">
-                        <div style="width: 20px;height:20px;background:#dbdbdb;border-radius:5px;"></div>
-                        <div style="width:<?php echo ($randWidth-50); ?>px;height:10px;background:#dbdbdb;border-radius:5px;margin-left:5px;margin-top:5px;"></div>
+                            <div class="skeleton-icon"></div>
+                            <div class="skeleton-label" style="width:<?php echo ($randWidth-50); ?>px;"></div>
                         </div>
                     </div>
                 <?php endfor; ?>
@@ -175,9 +217,8 @@
                 }, 'tree').then(function (res) {
 
                     $('.js-page-tree-skeleton').remove();
-
-                    $('#js-page-tree').fadeIn();
-                    $('.tree-show-hide-nav').fadeIn();
+                    $('#js-page-tree').show();
+                    $('.tree-show-hide-nav').show(); 
 
                     pagesTree = res.tree;
 
