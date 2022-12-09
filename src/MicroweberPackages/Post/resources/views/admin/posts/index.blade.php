@@ -1,17 +1,13 @@
-<div class="card style-1 mb-3">
-    <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
+<div class="pt-0">
 
-        <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
-            <h5 class="mb-0 d-flex">
-                <i class="mdi mdi-text text-primary mr-md-3 mr-1 justify-contetn-center"></i>
-                <strong class="d-xl-flex d-none">{{_e('Posts')}}</strong>
-            </h5>
-            <a href="{{route('admin.post.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">{{_e('Add Post')}}</a>
-        </div>
+    @include('content::admin.content.index-page-category-tree')
 
-    </div>
+    <div class="module-content">
 
-    <div class="card-body pt-3">
-         todo finish post list admin ...
+        <livewire:admin-posts-list />
+        <livewire:admin-content-bulk-options />
+
     </div>
 </div>
+
+@include('content::admin.content.index-scripts')
