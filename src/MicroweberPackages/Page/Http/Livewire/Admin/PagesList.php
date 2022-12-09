@@ -2,10 +2,10 @@
 
 namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
+use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
 
-class PagesList extends ProductsList
+class PagesList extends ContentList
 {
     public $model = Page::class;
 
