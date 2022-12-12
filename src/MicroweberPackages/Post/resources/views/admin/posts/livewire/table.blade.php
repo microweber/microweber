@@ -18,7 +18,7 @@ if (isset($filters['category'])) {
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-md-flex d-none">
-                    <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Pages')}}</a>
+                    <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Posts')}}</a>
 
                     @if($findCategory)
                         <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
@@ -40,7 +40,7 @@ if (isset($filters['category'])) {
                 @if($findCategory)
                     <a href="{{category_link($findCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
                 @endif
-                <a href="{{route('admin.page.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">{{_e('Add Page')}}</a>
+                <a href="{{route('admin.post.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">{{_e('Add Post')}}</a>
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@ if (isset($filters['category'])) {
         <div class="row  mt-3">
             @if(count($checked) > 0)
 
-                @if (count($checked) == count($pages->items()))
+                @if (count($checked) == count($posts->items()))
                     <div class="col-md-10 mb-2">
                         You have selected all {{ count($checked) }} items.
                         <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
@@ -121,7 +121,7 @@ if (isset($filters['category'])) {
                 @else
                     <div>
                         You have selected {{ count($checked) }} items,
-                        Do you want to Select All {{ count($pages->items()) }}?
+                        Do you want to Select All {{ count($posts->items()) }}?
                         <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
                     </div>
                 @endif
@@ -206,24 +206,24 @@ if (isset($filters['category'])) {
 
 
         </div>
-        @if($pages->total() > 0)
+        @if($posts->total() > 0)
 
             <div class="row mt-3">
                 <div class="col-md-12">
                     @if($displayType == 'card')
-                        @include('page::admin.page.livewire.display-types.card')
+                        @include('post::admin.posts.livewire.display-types.card')
                     @endif
 
                     @if($displayType == 'table')
-                        @include('page::admin.page.livewire.display-types.table')
+                        @include('post::admin.posts.livewire.display-types.table')
                     @endif
                 </div>
             </div>
 
-            {{ $pages->links() }}
+            {{ $posts->links() }}
 
         @else
-            @include('page::admin.page.livewire.no-results')
+            @include('page::admin.posts.livewire.no-results')
         @endif
 
     </div>

@@ -1,13 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Page\Http\Livewire\Admin;
+namespace MicroweberPackages\Post\Http\Livewire\Admin;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 
-class PagesList extends ContentList
+class PostsList extends ContentList
 {
-    public $model = Page::class;
+    public $model = Post::class;
 
     public $showColumns = [
         'id' => true,
@@ -18,8 +18,8 @@ class PagesList extends ContentList
 
     public function render()
     {
-        return view('page::admin.page.livewire.table', [
-            'pages' => $this->contents,
+        return view('post::admin.posts.livewire.table', [
+            'posts' => $this->contents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }
