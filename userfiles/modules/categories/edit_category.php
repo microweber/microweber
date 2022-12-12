@@ -383,12 +383,12 @@ if (isset($params['live_edit'])) {
                 <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
+
                     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
                     <input name="rel_type" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
                     <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
                     <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
                     <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
-
 
                     <?php if ($data['id'] > 0): ?>
                         <input name="_method" type="hidden" value="PATCH">
