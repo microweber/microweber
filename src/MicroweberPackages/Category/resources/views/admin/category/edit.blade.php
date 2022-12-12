@@ -65,7 +65,7 @@
 
             <div id="js-page-tree" style="display:none;"></div>
         </div>
-       
+
         <script>
             var selectedCategories = [<?php echo $id; ?>];
             pagesTree = null;
@@ -200,8 +200,37 @@
 
 
     <div class="module-content">
+        <div class="row">
+            <div class="col-md-8">
+            <module type="categories/edit_category" category_id="{{$id}}"  @if(isset($isShop)) is_shop="1" @endif />
+            </div>
+            <div class="col-md-4">
 
-        <module type="categories/edit_category" category_id="{{$id}}"  @if(isset($isShop)) is_shop="1" @endif />
+                <div class="card style-1 mb-3">
+                    <div class="card-body pt-3 pb-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <strong>Visibility</strong>
+                            </div>
+                        </div>
 
+                        <div class="row my-3">
+                            <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="1"><div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="is_active_1" name="is_active" class="custom-control-input" value="1" checked=""><label class="custom-control-label" style="cursor:pointer" for="is_active_1">Published</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0"><label class="custom-control-label" style="cursor:pointer" for="is_active_0">Unpublished</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div></div></div>
+
+            </div>
+        </div>
     </div>
+
 </div>

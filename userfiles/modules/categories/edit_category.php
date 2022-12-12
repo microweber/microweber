@@ -379,7 +379,7 @@ if (isset($params['live_edit'])) {
         </div>
 
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-12">
                 <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
