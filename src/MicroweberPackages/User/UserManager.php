@@ -266,6 +266,10 @@ class UserManager
 
     public function logout($params = false)
     {
+        $cookie = [];
+        $cookie[] =  \Cookie::forget('XSRF-TOKEN');
+
+
         Auth::logout();
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
@@ -274,13 +278,13 @@ class UserManager
             $redirect_after = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : false;
         }
         if (isset($_COOKIE['editmode'])) {
-            setcookie('editmode');
+       //     setcookie('editmode');
         }
 
         $this->app->event_manager->trigger('mw.user.logout', $params);
         if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
-                return $this->app->url_manager->redirect($_SERVER['HTTP_REFERER']);
+                return $this->app->url_manager->redirect($_SERVER['HTTP_REFERER'],$cookie);
             }
         }
 
@@ -288,7 +292,7 @@ class UserManager
             $redir = $redirect_after;
 
             // $redir = site_url($redirect_after);
-            return $this->app->url_manager->redirect($redir);
+            return $this->app->url_manager->redirect($redir,$cookie);
         }
 
         return true;
