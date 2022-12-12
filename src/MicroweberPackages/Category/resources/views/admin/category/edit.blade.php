@@ -1,7 +1,7 @@
 <div class="pt-0">
 
     <script>
-        mw.require('content.js', true); 
+        mw.require('content.js', true);
     </script>
 
     <style>
@@ -194,9 +194,9 @@
 
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
-
-
-
+                            if (item.type == 'category') {
+                                window.location.href = route('admin.category.edit', item.id);
+                            }
                         });
                     });
 
