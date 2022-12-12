@@ -40,7 +40,46 @@
                element: holder,
                mode: 'document',
                regions: '.edit',
-               smallEditor: false,
+               smallEditor:  [
+                   [
+                       'bold',
+                       'italic',
+                       {
+                           group: {
+                               controller: 'underline',
+                               controls: [ 'strikeThrough']
+                           }
+                       },
+                       'align',
+
+
+                       {
+                           group: {
+                               controller: 'ul',
+                               controls: [ 'ol' ]
+                           }
+                       },
+
+                       'removeFormat',
+                       'image',
+                       {
+                           group: {
+                               controller: 'link',
+                               controls: [ 'unlink' ]
+                           }
+                       },
+                       {
+                           group: {
+                               controller: 'textColor',
+                               controls: [ 'textBackgroundColor' ]
+                           }
+                       },
+
+                   ]
+               ],
+               smallEditorPositionX: 'center',
+               smallEditorSkin: 'dark',
+
                interactionControls: [
 
                ],
@@ -49,34 +88,7 @@
                minHeight: 250,
                maxHeight: '70vh',
                state: mw.liveEditState,
-               controls: [
-                   [
-                       'undoRedo', '|', 'image', '|',
-                       'textColor', '|', 'textBackgroundColor', '|',
-                       {
-                           group: {
-                               controller: 'bold',
-                               controls: ['italic', 'underline', 'strikeThrough']
-                           }
-                       },
-
-                       '|',
-                       {
-                           group: {
-                               icon: 'mdi mdi-format-align-left',
-                               controls: ['align']
-                           }
-                       },
-                       '|', 'format',
-                       {
-                           group: {
-                               icon: 'mdi mdi-format-list-bulleted-square',
-                               controls: ['ul', 'ol']
-                           }
-                       },
-                       '|', 'link', 'unlink', 'wordPaste',
-                   ],
-               ]
+               controls: []
            });
 
 

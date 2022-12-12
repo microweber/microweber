@@ -45,11 +45,13 @@ var MWEditor = function (options) {
         mode: 'div', // iframe | div | document
         controls: 'default',
         smallEditor: false,
+        smallEditorPositionX: 'left',
         scripts: [],
         cssFiles: [],
         content: '',
         url: null,
         skin: 'default',
+        smallEditorSkin: 'default',
         state: null,
         iframeAreaSelector: null,
         activeClass: 'active-control',
@@ -634,11 +636,12 @@ var MWEditor = function (options) {
         }
         this.smallEditor = mw.element({
             props: {
-                className: 'mw-small-editor mw-small-editor-skin-' + this.settings.skin
+                className: 'mw-small-editor mw-small-editor-skin-' + (this.settings.smallEditorSkin || this.settings.skin)
             }
         });
 
         this.smallEditorBar = mw.bar();
+
 
         this.smallEditor.hide();
         this.smallEditor.append(this.smallEditorBar.bar);
@@ -664,6 +667,16 @@ var MWEditor = function (options) {
                     var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
                     // var cleft =  scope.interactionData.pageX;
                     var cleft =  off.left;
+                    scope.smallEditor.css({
+                        display: 'block'
+                    });
+                    if(scope.settings.smallEditorPositionX === 'left') {
+                        cleft =  off.left;
+                    } else if(scope.settings.smallEditorPositionX === 'center') {
+                        cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
+                    }  else if(scope.settings.smallEditorPositionX === 'right') {
+                        cleft = ((off.left + off.width))  - (scope.smallEditor.width());
+                    }
 
                     scope.smallEditor.css({
                         top: ctop,

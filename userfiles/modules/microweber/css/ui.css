@@ -8087,6 +8087,53 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   border: none !important;
   white-space: nowrap;
 }
+.mw-small-editor.mw-small-editor-skin-dark {
+  background-color: #404040;
+  color: white;
+  border-radius: 50px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-row {
+  padding-inline: 20px;
+  display: flex;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group-contents {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #404040;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item {
+  position: relative;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item.active .mw-bar-control-item-group-contents {
+  display: block;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-delimiter.mw-bar-control-item {
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 1px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-inline: 7px;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button {
+  color: white;
+  height: 40px;
+  min-width: 35px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: inline-flex;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button:hover,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button:focus {
+  background-color: #2b2b2b;
+}
 .mw-editor-frame-area,
 .mw-editor-area {
   background-color: #fff;
