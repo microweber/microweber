@@ -1,0 +1,37 @@
+.js-page-tree-skeleton .skeleton-loading {
+    background: #eeeeee;
+    border-radius: 5px;
+}
+.js-page-tree-skeleton .skeleton-toggle-btn {
+    margin-top:10px;
+    height:20px;
+    width:40px;
+}
+.js-page-tree-skeleton .skeleton-toggle-label {
+    margin-left:10px;
+    margin-top:10px;
+    height:20px;
+    width:100px
+}
+.js-page-tree-skeleton .skeleton-search {
+    margin-top:10px;margin-left:10px;padding:10px 8px
+}
+.js-page-tree-skeleton .skeleton-search-label {
+    width:80px;height:10px;background:#e3e3e3;
+}
+.js-page-tree-skeleton .skeleton-item {
+    margin-top: 10px;
+    padding: 5px 8px;
+}
+.skeleton-icon {
+    width: 15px;
+    height:15px;
+    background:#e3e3e3;
+}
+.skeleton-label {
+    width:50px;
+    height:8px;
+    background:#e3e3e3;
+    margin-left:5px;
+    margin-top:5px;
+}

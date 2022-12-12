@@ -1,5 +1,6 @@
 @import url("../api/libs/mw-ui/assets/ui/plugins/css/plugins.min.css");
 @import url("./ui.css");
+@import url("./category-tree-skeleton.css");
 @import url("./bootstrap-components.css");
 @import "../css/fonts/materialdesignicons/css/materialdesignicons.min.css";
 
