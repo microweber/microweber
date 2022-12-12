@@ -100,9 +100,6 @@
                         icon: 'mdi mdi-delete',
                         action: function () {
 
-
-
-
                         }
                     }
                 ];
