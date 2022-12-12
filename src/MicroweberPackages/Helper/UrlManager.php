@@ -94,7 +94,7 @@ class UrlManager
         return normalize_path($path, false);
     }
 
-    public function redirect($url)
+    public function redirect($url,$cookies=[])
     {
         if (trim($url) == '') {
             return false;
@@ -108,6 +108,14 @@ class UrlManager
 
         if (isset($parseUrl['host'])) {
             if(isset($parseUrl['user']) and $parseUrl['user']){
+                if($cookies){
+                    $redir = \Redirect::to(site_url());
+                    foreach ($cookies as  $cookie) {
+                        $redir->withCookie($cookie);
+                    }
+
+                    return  $redir;
+                }
                 return \Redirect::to(site_url());
             }
 
@@ -128,6 +136,15 @@ class UrlManager
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
         } else {
+            if($cookies){
+                $redir = \Redirect::to($redirectUrl);
+                foreach ($cookies as   $cookie) {
+                    $redir->withCookie($cookie);
+                }
+
+                return  $redir;
+
+             }
             return \Redirect::to($redirectUrl);
         }
     }

@@ -5,6 +5,7 @@ namespace MicroweberPackages\Content;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
@@ -236,8 +237,10 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (is_array($modules_ids) and !empty($modules_ids)) {
             foreach ($modules_ids as $modules_id) {
                 if ($modules_id) {
-                    \DB::table('options')->where('option_group', '=', $modules_id)->delete();
-                    \DB::table('media')->where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
+                    \MicroweberPackages\Option\Models\Option::where('option_group', '=', $modules_id)->delete();
+                    \MicroweberPackages\Media\Models\Media::where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
+                    CustomField::where('rel_type', '=', 'module')->where('rel_id', '=', $modules_id)->delete();
+
                 }
             }
             event_trigger('mw.reset_modules_settings', $modules_ids);
