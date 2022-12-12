@@ -65,7 +65,9 @@
 
             <div id="js-page-tree" style="display:none;"></div>
         </div>
+       
         <script>
+            var selectedCategories = [<?php echo $id; ?>];
             pagesTree = null;
             (function (){
                 var treeNode = document.getElementById('js-page-tree');
@@ -159,6 +161,14 @@
                     $('.tree-show-hide-nav').show();
 
                     pagesTree = res.tree;
+
+                    $(pagesTree).on("ready", function () {
+                        if (selectedCategories.length > 0) {
+                            $.each(selectedCategories, function (key, catId) {
+                                pagesTree.select(catId, 'category', false);
+                            });
+                        }
+                    });
 
                     var treeHolderSet = function (){
                         var treeHolder = mw.element('#admin-main-tree');
