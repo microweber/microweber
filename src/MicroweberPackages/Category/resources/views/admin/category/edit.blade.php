@@ -1,7 +1,7 @@
 <div class="pt-0">
 
     <script>
-        mw.require('content.js', true);
+        mw.require('content.js', true); 
     </script>
 
     <style>
@@ -100,8 +100,7 @@
                         icon: 'mdi mdi-delete',
                         action: function () {
 
-                            window.livewire.emit('resetFilter');
-                            window.livewire.emit('showTrashed', 1);
+
 
 
                         }
@@ -113,11 +112,8 @@
                         icon: 'mdi mdi-open-in-new',
                         action: function (element, data) {
 
-                            if (data.type === 'category') {
-                                window.livewire.emit('showFromCategory', data.id);
-                            }  else {
-                                window.livewire.emit('showFromPage', data.id);
-                            }
+
+
                         }
                     },
                     {
@@ -146,8 +142,6 @@
                                     mw.notification.success('<?php _ejs("Content deleted"); ?>');
                                 });
                             }
-
-
 
                         }
                     }
@@ -200,32 +194,14 @@
 
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
-                            if (item.type == 'category') {
-                                window.livewire.emit('showFromCategory', item.id);
-                            }
-                            if (item.type == 'page') {
-                                window.livewire.emit('showFromPage', item.id);
-                            }
-                            window.livewire.emit('setFirstPageContentList');
+
+
 
                         });
                     });
 
                 });
             })();
-        </script>
-        <script>
-
-            Livewire.on('deselectAllCategories', function () {
-                pagesTree.unselectAll(false);
-                window.livewire.emit('showFromCategory', false);
-            });
-            Livewire.on('selectCategoryFromTableList', function (id) {
-                pagesTree.unselectAll(false);
-                pagesTree.show(id, 'category');
-                pagesTree.select(id, 'category', true);
-                //    pagesTree.get(id, 'category').scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-            })
         </script>
     </div>
 
