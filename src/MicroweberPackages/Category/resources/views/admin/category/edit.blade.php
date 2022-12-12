@@ -107,15 +107,7 @@
                     }
                 ];
                 var contextMenu =  [
-                    {
-                        title: '<?php _ejs("Select"); ?>',
-                        icon: 'mdi mdi-open-in-new',
-                        action: function (element, data) {
 
-
-
-                        }
-                    },
                     {
                         title: '<?php _ejs("Edit"); ?>',
                         icon: 'mdi mdi-pencil',
@@ -134,12 +126,6 @@
                                 mw.content.deleteCategory(data.id, function () {
                                     $(element).fadeOut();
                                     mw.notification.success('<?php _e("Category deleted"); ?>');
-                                });
-                            }
-                            else {
-                                mw.content.deleteContent(data.id, function () {
-                                    $(element).fadeOut();
-                                    mw.notification.success('<?php _ejs("Content deleted"); ?>');
                                 });
                             }
 
@@ -195,7 +181,7 @@
                     pagesTree.on('selectionChange', function (items){
                         $.each(items, function (key, item) {
                             if (item.type == 'category') {
-                                window.location.href = route('admin.category.edit', item.id);
+                                window.location.href='<?php print admin_url('category'); ?>/'+item.id+'/edit';
                             }
                         });
                     });
