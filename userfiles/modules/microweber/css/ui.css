@@ -8083,6 +8083,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   z-index: 1101;
 }
+.mw-small-editor.pinned {
+  position: fixed;
+  top: 0 !important;
+  left: 50% !important;
+}
 .mw-small-editor .mw-bar .mw-bar-row {
   border: none !important;
   white-space: nowrap;
@@ -8119,6 +8124,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   display: inline-block;
   vertical-align: middle;
   margin-inline: 7px;
+}
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button svg {
+  width: auto;
+  height: 22px;
 }
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button {
   color: white;

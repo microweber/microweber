@@ -74,6 +74,9 @@
                                controls: [ 'textBackgroundColor' ]
                            }
                        },
+                       'clone',
+                       '|',
+                       'pin',
 
                    ]
                ],

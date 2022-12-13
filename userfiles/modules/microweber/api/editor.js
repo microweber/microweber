@@ -677,6 +677,13 @@ var MWEditor = function (options) {
                     }  else if(scope.settings.smallEditorPositionX === 'right') {
                         cleft = ((off.left + off.width))  - (scope.smallEditor.width());
                     }
+                    if(cleft < 0) {
+                        cleft = 0;
+                    }
+                    var max = (cleft + scope.smallEditor.width());
+                    if( max > scope.actionWindow.innerWidth) {
+                        cleft = max - scope.actionWindow.innerWidth;
+                    }
 
                     scope.smallEditor.css({
                         top: ctop,
