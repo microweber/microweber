@@ -2077,6 +2077,23 @@ class ContentManager
         }
     }
 
+    public function get_parents_as_text($id, $implodeSymbol = ' &rarr; ')
+    {
+        $parentTitles = [];
+        $parents = $this->get_parents($id);
+        if (!empty($parents)) {
+          foreach ($parents as $parentId) {
+              $parentTitles[] = $this->title($parentId);
+          }
+        }
+
+        if (!empty($parentTitles)) {
+          return implode($implodeSymbol, $parentTitles);
+        }
+
+        return '';
+    }
+
     public function get_parents($id = 0, $without_main_parrent = false)
     {
 
