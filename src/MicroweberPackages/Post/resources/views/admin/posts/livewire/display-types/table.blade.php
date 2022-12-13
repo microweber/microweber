@@ -48,7 +48,7 @@
                     </td>
                 @endif
                 @if($showColumns['image'])
-                    <td style="width:160px;">
+                    <td>
                         @if($post->media()->first())
                             <img src="{{$post->thumbnail(200,200)}}" class="rounded-full">
                         @else
