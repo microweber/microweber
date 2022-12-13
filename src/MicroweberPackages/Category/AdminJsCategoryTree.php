@@ -7,6 +7,7 @@ use MicroweberPackages\Page\Models\Page;
 
 class AdminJsCategoryTree
 {
+    public $output = [];
     public $pages;
     public $categories;
     public $filters = [];
@@ -16,7 +17,7 @@ class AdminJsCategoryTree
         $this->filters = $filters;
     }
 
-    public function getPages()
+    public function getPagesDatabase()
     {
         $getPagesQuery =  Page::query();
 
@@ -44,7 +45,7 @@ class AdminJsCategoryTree
         }
     }
 
-    public function getCategories()
+    public function getCategoriesDatabase()
     {
         $getCategoriesQuery =  Category::query();
         $getCategoriesQuery->orderBy('position', 'ASC');
@@ -58,15 +59,20 @@ class AdminJsCategoryTree
 
     public function get()
     {
+        $this->getPagesDatabase();
+        $this->getCategoriesDatabase();
+
+        return $this->build();
+    }
+
+    public function build() {
+
         $keyword = false;
         if (!empty($this->filters)) {
             if (isset($this->filters['keyword'])) {
                 $keyword = $this->filters['keyword'];
             }
         }
-
-        $this->getPages();
-        $this->getCategories();
 
         $response = [];
         if (!empty($this->pages)) {
@@ -93,7 +99,7 @@ class AdminJsCategoryTree
                 if ($page['is_shop'] == 1) {
                     $appendPage['icon'] = 'shop';
                 }
-                $response[] = $appendPage;
+               // $response[] = $appendPage;
             }
         }
 
@@ -119,8 +125,11 @@ class AdminJsCategoryTree
 
                 if ($category['parent_id'] == 0) {
                     if ($category['rel_type'] == 'content') {
+                        $appendCategory['main_category'] = true;
                         $appendCategory['parent_type'] = 'page';
                         $appendCategory['parent_id'] = $category['rel_id'];
+
+                        $appendCategory['children'] = $this->getChildren($category['id']);
                     }
                 }
 
@@ -130,4 +139,17 @@ class AdminJsCategoryTree
 
         return $response;
     }
+
+    public function getChildren($categoryId) {
+        $children = [];
+        foreach ($this->categories as $category) {
+            if ($category['parent_id'] == $categoryId) {
+                $newCategory = $category;
+                $newCategory['children'] = $this->getChildren($newCategory['id']);
+                $children[] = $newCategory;
+            }
+        }
+        return $children;
+    }
+
 }
