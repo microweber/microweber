@@ -395,9 +395,11 @@ $user = get_user_by_id($user_id);
             }
             if ($routeName == 'admin.post.index') {
                 $website_class = "active";
+                $action = 'posts';
             }
             if ($routeName == 'admin.page.index') {
                 $website_class = "active";
+                $action = 'pages';
             }
 
             $shop_class = '';

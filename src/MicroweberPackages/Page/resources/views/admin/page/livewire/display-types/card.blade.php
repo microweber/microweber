@@ -1,5 +1,5 @@
 <div id="content-results-table">
-    @foreach ($pages as $page) 
+    @foreach ($pages as $page)
 
         <div class="card card-product-holder mb-2 post-has-image-true manage-post-item">
             <div class="card-body">
