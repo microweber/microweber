@@ -1,6 +1,8 @@
 <div class="pt-0">
 
-    @include('content::admin.content.index-page-category-tree')
+    @include('content::admin.content.index-page-category-tree', [
+         'is_blog'=>1,
+     ])
 
     <div class="module-content">
 
