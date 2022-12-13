@@ -97,7 +97,6 @@ if (isset($filters['category'])) {
                 @include('product::admin.product.livewire.table-filters.author')
             @endif
 
-
             @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
                 @include('product::admin.product.livewire.table-filters.date-between')
             @endif

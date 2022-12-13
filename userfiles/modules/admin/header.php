@@ -393,6 +393,12 @@ $user = get_user_by_id($user_id);
             } else if ($view == 'content' and $action != false) {
                 $website_class = 'active';
             }
+            if ($routeName == 'admin.post.index') {
+                $website_class = "active";
+            }
+            if ($routeName == 'admin.page.index') {
+                $website_class = "active";
+            }
 
             $shop_class = '';
             if ($view == 'shop' and $action == false) {
@@ -428,18 +434,19 @@ $user = get_user_by_id($user_id);
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                     <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
-                        <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
+
+                        <a href="<?php echo route('admin.post.index'); ?>" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                             <i class="mdi mdi-earth"></i>
                             <span class="badge-holder"><?php _e("Website"); ?></span>
                         </a>
 
                         <div class="dropdown-menu">
-                            <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
+                            <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
                                 <?php _e("Pages"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
 
-                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
+                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php echo route('admin.post.index'); ?>">
                                 <?php _e("Posts"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print route('admin.post.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
