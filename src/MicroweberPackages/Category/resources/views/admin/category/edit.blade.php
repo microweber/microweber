@@ -115,6 +115,13 @@
                         }
                     },
                     {
+                        title: '<?php _ejs("Add subcategory"); ?>',
+                        icon: 'mdi mdi-pencil',
+                        action: function (element, data, menuitem) {
+                            window.location.href='<?php print admin_url('category'); ?>/create?addsubcategory='+data.id;
+                        }
+                    },
+                    {
                         title: '<?php _ejs("Delete"); ?>',
                         icon: 'mdi mdi-delete',
                         action: function (element, data, menuitem) {

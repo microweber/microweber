@@ -118,11 +118,19 @@
                         }
                     }
                 },
+
                 {
                     title: '<?php _ejs("Edit"); ?>',
                     icon: 'mdi mdi-pencil',
                     action: function (element, data, menuitem) {
                         window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
+                    }
+                },
+                {
+                    title: '<?php _ejs("Add subcategory"); ?>',
+                    icon: 'mdi mdi-pencil',
+                    action: function (element, data, menuitem) {
+                        window.location.href='<?php print admin_url('category'); ?>/create?addsubcategory='+data.id;
                     }
                 },
                 {
