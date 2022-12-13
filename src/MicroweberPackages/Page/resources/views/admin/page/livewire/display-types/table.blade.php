@@ -69,9 +69,15 @@
                                 </h5>
                             </a>
 
-                           <div class="text-muted">
-                                {!! app()->content_manager->get_parents_as_text($page->id) !!}
-                            </div>
+                            @php
+                            $getParentsAsText = app()->content_manager->get_parents_as_text($page->id)
+                            @endphp
+
+                            @if ($getParentsAsText)
+                               <div class="text-muted">
+                                    {!! $getParentsAsText !!}  &rarr;  {{$page->title}}
+                                </div>
+                            @endif
 
                             @if($page->categories->count() > 0)
                                 <span class="manage-post-item-cats-inline-list">

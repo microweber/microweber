@@ -2086,12 +2086,13 @@ class ContentManager
               $parentTitles[] = $this->title($parentId);
           }
         }
+        $parentTitles = array_reverse($parentTitles);
 
         if (!empty($parentTitles)) {
           return implode($implodeSymbol, $parentTitles);
         }
 
-        return '';
+        return false;
     }
 
     public function get_parents($id = 0, $without_main_parrent = false)
