@@ -657,8 +657,8 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
-
-            if (scope.selection/* && !scope.selection.isCollapsed*/) {
+ 
+            if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
 
