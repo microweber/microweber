@@ -25,6 +25,14 @@ class AdminJsCategoryTree
                 $pageId = (int) $this->filters['from_content_id'];
                 $getPagesQuery->where('id', $pageId);
             }
+            if (isset($this->filters['is_shop']) && $this->filters['is_shop']) {
+                $getPagesQuery->where('is_shop', 1);
+            }
+            if (isset($this->filters['is_blog']) && $this->filters['is_blog']) {
+                $getPagesQuery->where('is_shop', '=', 0);
+                $getPagesQuery->where('content_type','=', 'page');
+                $getPagesQuery->where('subtype','=', 'dynamic');
+            }
         }
 
         $getPagesQuery->orderBy('position', 'ASC');
@@ -85,7 +93,6 @@ class AdminJsCategoryTree
                 if ($page['is_shop'] == 1) {
                     $appendPage['icon'] = 'shop';
                 }
-
                 $response[] = $appendPage;
             }
         }

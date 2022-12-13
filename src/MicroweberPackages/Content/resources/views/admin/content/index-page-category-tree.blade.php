@@ -174,9 +174,15 @@
                 id: 'admin-main-tree',
             };
 
-            var params = {
-                is_shop: '1'
-            };
+            var params = {};
+
+            @if(isset($is_shop))
+                params.is_shop = 1;
+            @endif
+
+            @if(isset($is_blog))
+                params.is_blog = 1;
+            @endif
 
             mw.admin.tree(treeNode, {
                 options: options,

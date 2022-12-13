@@ -657,8 +657,8 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
-
-            if (scope.selection/* && !scope.selection.isCollapsed*/) {
+ 
+            if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
 
@@ -676,6 +676,13 @@ var MWEditor = function (options) {
                         cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
                     }  else if(scope.settings.smallEditorPositionX === 'right') {
                         cleft = ((off.left + off.width))  - (scope.smallEditor.width());
+                    }
+                    if(cleft < 0) {
+                        cleft = 0;
+                    }
+                    var max = (cleft + scope.smallEditor.width());
+                    if( max > scope.actionWindow.innerWidth) {
+                        cleft = max - scope.actionWindow.innerWidth;
                     }
 
                     scope.smallEditor.css({
