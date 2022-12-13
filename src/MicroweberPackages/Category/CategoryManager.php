@@ -993,10 +993,10 @@ class CategoryManager
     public function get_admin_js_tree_json($params)
     {
 
-       $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
+  /*     $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
        $tree->filters($params);
 
-       //return $tree->get();
+       //return $tree->get();*/
 
         $json = array();
 
