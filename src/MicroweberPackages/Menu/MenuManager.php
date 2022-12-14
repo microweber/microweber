@@ -683,7 +683,10 @@ class MenuManager
                 }
 
                 foreach ($item as $key => $value) {
-                    if ($value) {
+                    if(!is_string($value)){
+                        $value = strval($value);
+                    }
+                    if (is_string($value) and is_string($key) and $value) {
                         $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
                     }
                 }

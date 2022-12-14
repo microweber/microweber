@@ -10,6 +10,7 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 trait HasMultilanguageTrait
 {
     public $_enableMultilanguageRetrieving = true;
+    public $isMultiLanguage  = true;
     private array $_addMultilanguage = [];
 
     public function withoutMultilanguageRetrieving()
