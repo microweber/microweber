@@ -42,14 +42,6 @@ class AdminJsCategoryTree
     {
         $this->getPagesDatabase();
         $this->getCategoriesDatabase();
-
-       /* $this->keyword = false;
-        if (!empty($this->filters)) {
-            if (isset($this->filters['keyword'])) {
-                $this->keyword = $this->filters['keyword'];
-            }
-        }*/
-
         $this->buildPages();
 
         return $this->output;
