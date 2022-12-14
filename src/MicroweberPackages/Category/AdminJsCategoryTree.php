@@ -20,9 +20,10 @@ class AdminJsCategoryTree
 
     public function getPagesDatabase()
     {
-        $getPagesQuery =  Page::query();
+        $getPagesQuery = (new Page())->withoutMultilanguageRetriving()->newQuery();
         $getPagesQuery->orderBy('position', 'DESC');
         $getPages = $getPagesQuery->get();
+
         if ($getPages) {
             $this->pages = $getPages->toArray();
         }
@@ -30,7 +31,7 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-        $getCategoriesQuery =  Category::query();
+        $getCategoriesQuery =  (new Category())->withoutMultilanguageRetriving()->newQuery();
         $getCategoriesQuery->orderBy('position', 'ASC');
         $getCategories = $getCategoriesQuery->get();
         if ($getCategories) {

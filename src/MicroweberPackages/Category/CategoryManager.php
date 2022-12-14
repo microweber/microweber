@@ -996,7 +996,7 @@ class CategoryManager
         $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
         $tree->filters($params);
 
-        return $tree->get(); 
+        return $tree->get();
 
         $json = array();
 
