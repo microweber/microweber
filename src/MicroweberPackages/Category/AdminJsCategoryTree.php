@@ -37,7 +37,7 @@ class AdminJsCategoryTree
             }
         }*/
 
-        $getPagesQuery->orderBy('position', 'ASC');
+        $getPagesQuery->orderBy('position', 'DESC');
 
         $getPages = $getPagesQuery->get();
 
@@ -141,13 +141,19 @@ class AdminJsCategoryTree
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int) $page['position'];
-
+;
         $appendPage['icon'] = 'page';
+
+        if ($page['subtype'] == 'dynamic') {
+            $appendPage['icon'] = 'blog';
+        }
+
         if ($page['is_shop'] == 1) {
             $appendPage['icon'] = 'shop';
+        }
 
-            // todo alex
-            $appendPage['subtype'] = 'shop';
+        if ($page['is_home'] == 1) {
+            $appendPage['icon'] = 'home';
         }
 
         $this->output[] = $appendPage;
