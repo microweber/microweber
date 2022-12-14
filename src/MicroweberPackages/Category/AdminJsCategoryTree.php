@@ -20,24 +20,11 @@ class AdminJsCategoryTree
 
     public function getPagesDatabase()
     {
-        $getPagesQuery =  Page::query();
+        $getPagesQuery = app()->make(Page::class);
 
-      /*  if (!empty($this->filters)) {
-            if (isset($this->filters['from_content_id'])) {
-                $pageId = (int) $this->filters['from_content_id'];
-                $getPagesQuery->where('id', $pageId);
-            }
-            if (isset($this->filters['is_shop']) && $this->filters['is_shop']) {
-                $getPagesQuery->where('is_shop', 1);
-            }
-            if (isset($this->filters['is_blog']) && $this->filters['is_blog']) {
-                $getPagesQuery->where('is_shop', '=', 0);
-                $getPagesQuery->where('content_type','=', 'page');
-                $getPagesQuery->where('subtype','=', 'dynamic');
-            }
-        }*/
+        $getPagesQuery->withoutMultilanguageRetrieving();
+        $getPagesQuery->orderBy('position', 'DESC');
 
-        $getPagesQuery->orderBy('position', 'ASC');
 
         $getPages = $getPagesQuery->get();
 
@@ -48,11 +35,11 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-        $getCategoriesQuery =  Category::query();
+         $getCategoriesQuery = app()->make(Category::class);
+
+        $getCategoriesQuery->withoutMultilanguageRetrieving();
         $getCategoriesQuery->orderBy('position', 'ASC');
-
         $getCategories = $getCategoriesQuery->get();
-
         if ($getCategories) {
             $this->categories = $getCategories->toArray();
         }
@@ -62,14 +49,6 @@ class AdminJsCategoryTree
     {
         $this->getPagesDatabase();
         $this->getCategoriesDatabase();
-
-       /* $this->keyword = false;
-        if (!empty($this->filters)) {
-            if (isset($this->filters['keyword'])) {
-                $this->keyword = $this->filters['keyword'];
-            }
-        }*/
-
         $this->buildPages();
 
         return $this->output;
@@ -77,16 +56,54 @@ class AdminJsCategoryTree
 
     public function buildPages() {
 
+        $filterByPageId = false;
+        $filterByShop = false;
+        $filterByBlog = false;
+        $filterByKeyword = false;
+
+        if (!empty($this->filters)) {
+            if (isset($this->filters['from_content_id'])) {
+                $filterByPageId = (int)$this->filters['from_content_id'];
+            }
+            if (isset($this->filters['is_shop'])) {
+                $filterByShop = true;
+            }
+            if (isset($this->filters['is_blog'])) {
+                $filterByBlog = true;
+            }
+            if (isset($this->filters['keyword'])) {
+                $filterByKeyword = $this->filters['keyword'];
+            }
+        }
+
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {
 
-              /*  if ($keyword) {
-                    if (!str_contains($page['title'], $keyword) !== false) {
+                if ($filterByKeyword) {
+                    if (!str_contains($page['title'], $filterByKeyword) !== false) {
                         continue;
                     }
-                }*/
+                }
 
-                if ($page['parent'] > 0) {
+                if ($filterByBlog) {
+                    if ($page['subtype'] != 'dynamic' || $page['is_shop'] == 1) {
+                        continue;
+                    }
+                }
+
+                if ($filterByShop) {
+                    if ($page['is_shop'] != 1) {
+                        continue;
+                    }
+                }
+
+                if ($filterByPageId) {
+                    if ($page['id'] !== $filterByPageId) {
+                        continue;
+                    }
+                }
+
+                if (isset($page['parent']) && $page['parent'] > 0) {
                     $getPageChildren = $this->getPageChildren($page['parent']);
                     if (!empty($getPageChildren)) {
                         continue;
@@ -95,7 +112,18 @@ class AdminJsCategoryTree
 
                 // Add only main pages
                 $this->appendPage($page);
+                $this->getCategoryByRelId($page['id']);
 
+            }
+        }
+    }
+
+    public function getCategoryByRelId($parentId)
+    {
+        foreach ($this->categories as $category) {
+            if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
+                $this->appendCategory($category);
+                $getCategoryChildren = $this->getCategoryChildren($category['id']);
             }
         }
     }
@@ -105,13 +133,14 @@ class AdminJsCategoryTree
         $children = [];
         foreach ($this->pages as $page) {
             if ($page['parent'] == $pageId) {
+
+                $this->appendPage($page);
+                $this->getCategoryByRelId($page['id']);
+
                 $newPage = $page;
                 $newPage['children'] = $this->getPageChildren($newPage['id']);
                 $children[] = $newPage;
 
-                if (!empty($newPage['children'])) {
-                    $this->appendPage($newPage);
-                }
             }
         }
         return $children;
@@ -129,13 +158,19 @@ class AdminJsCategoryTree
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int) $page['position'];
-
+;
         $appendPage['icon'] = 'page';
+
+        if ($page['subtype'] == 'dynamic') {
+            $appendPage['icon'] = 'blog';
+        }
+
         if ($page['is_shop'] == 1) {
             $appendPage['icon'] = 'shop';
+        }
 
-            // todo alex
-            $appendPage['subtype'] = 'shop';
+        if ($page['is_home'] == 1) {
+            $appendPage['icon'] = 'home';
         }
 
         $this->output[] = $appendPage;
@@ -195,13 +230,16 @@ class AdminJsCategoryTree
         $this->output[] = $appendCategory;
     }
 
-    public function getChildren($categoryId) {
+    public function getCategoryChildren($categoryId) {
 
         $children = [];
         foreach ($this->categories as $category) {
             if ($category['parent_id'] == $categoryId) {
+
+                $this->appendCategory($category);
+
                 $newCategory = $category;
-                $newCategory['children'] = $this->getChildren($newCategory['id']);
+                $newCategory['children'] = $this->getCategoryChildren($newCategory['id']);
                 $children[] = $newCategory;
             }
         }

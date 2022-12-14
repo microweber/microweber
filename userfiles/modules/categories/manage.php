@@ -29,39 +29,40 @@
             <?php endif; ?>
 
 
-           <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
+   <!--        <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
                Bulk Actions
            </button>
-
+-->
             <div id="mw-admin-categories-tree-manager"></div>
             <script>
 
                 selectedPages = [];
                 selectedCategories = [];
-                bulkOptionsOpened = false;
+               // bulkOptionsOpened = true;
 
-                $(document).ready(function() {
-                    $('.js-show-checkboxes-on-tree').click(function() {
-
-                        if (!bulkOptionsOpened) {
-                            bulkOptionsOpened = true;
-
-                            $('#mw-admin-categories-tree-manager').empty();
-                            treeDataOpts.selectable = true;
-                            renderCategoryTree();
-                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '0');
-
-                        } else {
-                            bulkOptionsOpened = false;
-
-                            $('#mw-admin-categories-tree-manager').empty();
-                            treeDataOpts.selectable = false;
-                            renderCategoryTree();
-                            $('.js-show-checkboxes-on-tree').attr('bulk-opened', '1');
-                        }
-
-                    });
-                });
+                // $(document).ready(function() {
+                //     $('.js-show-checkboxes-on-tree').click(function() {
+                //
+                //         if (!bulkOptionsOpened) {
+                //             bulkOptionsOpened = true;
+                //
+                //             $('#mw-admin-categories-tree-manager').empty();
+                //             treeDataOpts.selectable = true;
+                //             treeDataOpts.rowSelect = false;
+                //             renderCategoryTree();
+                //             $('.js-show-checkboxes-on-tree').attr('bulk-opened', '0');
+                //
+                //         } else {
+                //             bulkOptionsOpened = false;
+                //
+                //             $('#mw-admin-categories-tree-manager').empty();
+                //             treeDataOpts.selectable = false;
+                //             renderCategoryTree();
+                //             $('.js-show-checkboxes-on-tree').attr('bulk-opened', '1');
+                //         }
+                //
+                //     });
+                // });
 
                 $('.js-delete-selected-categories').click(function() {
 
@@ -88,7 +89,7 @@
                     sortableHandle: '.mw-tree-item-content',
                     selectable: false,
                     singleSelect: true,
-                    saveState: true,
+                    saveState: false,
                     searchInput: true,
                     skin: 'category-manager',
                     contextMenu: [
@@ -117,11 +118,12 @@
                     cantSelectTypes: ['page'],
                     sortable: '>.type-category',
                     sortableHandle: '.mw-tree-item-content',
-                    selectable: false,
+                    selectable: true,
+                    rowSelect : false,
                     singleSelect: false,
                     multiPageSelect: false,
                     allowPageSelect: false,
-                    saveState: true,
+                    saveState: false,
                     searchInput: true,
                     skin: 'category-manager',
                     contextMenu: [
@@ -175,6 +177,7 @@
                             <?php endif; ?>
                         }
                     }).then(function (res) {
+                        res.tree.openAll();
                         $(res.tree).on('orderChange', function (e, obj) {
                             var items = res.tree.getSameLevelObjects(obj).filter(function (obj) {
                                 return obj.type === 'category';

@@ -9,10 +9,22 @@ use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 
 trait HasMultilanguageTrait
 {
+    public $_enableMultilanguageRetrieving = true;
     private array $_addMultilanguage = [];
 
-    /** @var array $fillable */
+    public function withoutMultilanguageRetrieving()
+    {
 
+        $this->_enableMultilanguageRetrieving = false;
+        return $this;
+    }
+
+    public function isEnabledMultilanguageRetriving()
+    {
+        return $this->_enableMultilanguageRetrieving;
+    }
+
+    /** @var array $fillable */
 
     public function initializeHasMultilanguageTrait()
     {
@@ -105,9 +117,13 @@ trait HasMultilanguageTrait
         });
 
         static::retrieved(function ($model) {
-            if (MultilanguageHelpers::multilanguageIsEnabled()) {
-                $mlobs = new MultilanguageObserver();
-                $mlobs->retrieved($model);
+
+
+            if ($model->isEnabledMultilanguageRetriving()) {
+                if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                    $mlobs = new MultilanguageObserver();
+                    $mlobs->retrieved($model);
+                }
             }
         });
 
