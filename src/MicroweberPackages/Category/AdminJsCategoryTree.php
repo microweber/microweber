@@ -95,7 +95,18 @@ class AdminJsCategoryTree
 
                 // Add only main pages
                 $this->appendPage($page);
+                $this->getCategoryByRelId($page['id']);
 
+            }
+        }
+    }
+
+    public function getCategoryByRelId($parentId)
+    {
+        foreach ($this->categories as $category) {
+            if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
+                $this->appendCategory($category);
+                $getCategoryChildren = $this->getCategoryChildren($category['id']);
             }
         }
     }
@@ -105,13 +116,14 @@ class AdminJsCategoryTree
         $children = [];
         foreach ($this->pages as $page) {
             if ($page['parent'] == $pageId) {
+
+                $this->appendPage($page);
+                $this->getCategoryByRelId($page['id']);
+
                 $newPage = $page;
                 $newPage['children'] = $this->getPageChildren($newPage['id']);
                 $children[] = $newPage;
 
-                if (!empty($newPage['children'])) {
-                    $this->appendPage($newPage);
-                }
             }
         }
         return $children;
@@ -195,13 +207,16 @@ class AdminJsCategoryTree
         $this->output[] = $appendCategory;
     }
 
-    public function getChildren($categoryId) {
+    public function getCategoryChildren($categoryId) {
 
         $children = [];
         foreach ($this->categories as $category) {
             if ($category['parent_id'] == $categoryId) {
+
+                $this->appendCategory($category);
+
                 $newCategory = $category;
-                $newCategory['children'] = $this->getChildren($newCategory['id']);
+                $newCategory['children'] = $this->getCategoryChildren($newCategory['id']);
                 $children[] = $newCategory;
             }
         }
