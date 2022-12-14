@@ -50,8 +50,14 @@
                                controls: [ 'strikeThrough']
                            }
                        },
-                       'align',
-
+'fontSelector',
+'fontSize',
+                       {
+                           group: {
+                               controller: 'alignLeft',
+                               controls: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ]
+                           }
+                       },
 
                        {
                            group: {

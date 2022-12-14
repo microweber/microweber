@@ -1,3 +1,27 @@
+class MWEditorButton extends HTMLButtonElement {
+
+    #isDisabled = false;
+    constructor() {
+        console.log(this);
+        super();
+    }
+
+    get disabled() {
+        console.log(this);
+        return this.#isDisabled;
+    }
+    set disabled(state) {
+        console.log(this);
+        this.#isDisabled = state;
+        this.setAttribute('disabled', state);
+    }
+}
+
+
+customElements.define("mw-editor-button", MWEditorButton, { extends: "button" });
+
+
+
 MWEditor.core = {
     button: function(config) {
         config = config || {};
@@ -5,7 +29,8 @@ MWEditor.core = {
             tag: 'mw-editor-button',
             props: {
                 className: 'mdi mw-editor-controller-component mw-editor-controller-button',
-                type: 'button'
+                type: 'button',
+                is: "mw-editor-button"
             }
         };
         if (config.props && config.props.className){

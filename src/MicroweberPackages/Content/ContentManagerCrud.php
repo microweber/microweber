@@ -1213,6 +1213,12 @@ class ContentManagerCrud extends Crud
         }
 
         $i = 1;
+        $ids_count= count($ids);
+        if (($ids_count - $maxpos) < 0) {
+            // if position will go to negative numbers
+            $maxpos = $maxpos + $ids_count;
+        }
+
         foreach ($ids as $id) {
             $id = intval($id);
             $this->app->cache_manager->delete('content/' . $id);

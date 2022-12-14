@@ -20,6 +20,7 @@
         left: 50% !important;
         z-index: 1103 !important;
         transform:translateX(-50%) !important;
+        margin-top: 0 !important;
     }
     &.mw-small-editor-skin-default{
 
@@ -34,17 +35,19 @@
 
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark{
+    margin-top: -10px;
     .mw-bar-row{
         padding-inline: 5px;
         display: flex;
     }
+
     .mw-bar-control-item-group-contents{
         display: none;
         position: absolute;
         top: 100%;
         left: 0%;
 
-        background-color: #404040;
+
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     }
     .mw-bar-control-item{
@@ -55,10 +58,32 @@
             display:  block;
         }
     }
-    background-color: #404040;
-    color: white;
+
+
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+
+    .mw-bar-control-item-group {
+        .mw-editor-group-button{
+            position: relative;
+            padding-inline:0 15px ;
+        }
+
+        .mw-editor-group-button-caret{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:hover{
+                background-color: rgba(204, 204, 204, 0.18);
+            }
+        }
+    }
 
     .mw-bar-delimiter.mw-bar-control-item{
         height: 20px;
@@ -70,9 +95,9 @@
         margin-inline: 7px;
     }
     .mw-editor-controller-button {
+        font-size: 15px;
         svg{
-            width: auto;
-            height: 22px;
+            width: 1.4em;
         }
     }
     .mw-bar-control-item-group,
@@ -84,7 +109,7 @@
         }
     }
     .mw-editor-controller-button{
-        color: white;
+
         height: 40px;
         min-width: 35px;
         text-align: center;
@@ -97,20 +122,40 @@
     }
 }
 
+.mw-small-editor.mw-small-editor-skin-dark{
+    background-color: #404040;
+    color: white;
+    .mw-editor-controller-button{
+        color: white;
+    }
+    .mw-bar-control-item-group-contents{background-color: #404040;}
+}
 .mw-small-editor.mw-small-editor-skin-lite{
     background-color: white;
+     color: #2b2b2b;
     .mw-bar-control-item-group-contents{
         background-color: white;
     }
-    .mw-editor-controller-button{
+    mw-editor-button.mw-editor-controller-button{
         color:  #2b2b2b;
 
         &.active-control{
             color: white;
+            background-color: #4592ff;
+            &:hover,
+            &:focus{
+                background-color: #4592ff;
+                color: white;
+            }
         }
         &:hover,
         &:focus{
             background-color:#efecec;
+        }
+    }
+    .mw-editor-control-group-media-matches.active {
+        .mw-editor-group-button{
+            background-color: #eee;
         }
     }
 }
@@ -348,16 +393,13 @@
             }
         }
         .mw-editor-group-button-caret{
-            font-size: 16px;
             vertical-align: middle;
             margin: 0;
-            color: #999;
             position: relative;
             top: -1px;
-            font-family: "Material Design Icons";
-            &:after{
-                content: "\F035D";
-
+            svg {
+                height: 16px;
+                border-left: 1px solid #ccc;
             }
         }
     }

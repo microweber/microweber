@@ -523,7 +523,7 @@ var MWEditor = function (options) {
             tag:'span',
             props: {
                 className: ' mw-editor-group-button',
-                innerHTML: '<span class="mw-editor-group-button-caret"></span>'
+                innerHTML: '<span class="mw-editor-group-button-caret"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7,10L12,15L17,10H7Z" /></svg></span>'
             }
         });
         if(group.icon) {
@@ -657,7 +657,7 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('mouseup touchend', function (e, data) {
- 
+
             if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
                 if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
