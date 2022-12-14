@@ -22,7 +22,7 @@ class AdminJsCategoryTree
     {
         $getPagesQuery = app()->make(Page::class);
 
-        $getPagesQuery->withoutMultilanguageRetrieving();
+     //   $getPagesQuery->withoutMultilanguageRetrieving();
         $getPagesQuery->orderBy('position', 'DESC');
 
 
@@ -37,7 +37,7 @@ class AdminJsCategoryTree
     {
          $getCategoriesQuery = app()->make(Category::class);
 
-        $getCategoriesQuery->withoutMultilanguageRetrieving();
+    //    $getCategoriesQuery->withoutMultilanguageRetrieving();
         $getCategoriesQuery->orderBy('position', 'ASC');
         $getCategories = $getCategoriesQuery->get();
         if ($getCategories) {
