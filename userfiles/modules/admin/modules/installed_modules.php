@@ -162,7 +162,7 @@
             _modulesSort();
         });
 
-        $('#module_keyword').on('change', function () {
+        $('#module_keyword').on('input', function () {
             if ($(this).val() == '') {
                 mw.url.windowHashParam('search', this.value)
             }
