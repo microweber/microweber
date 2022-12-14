@@ -17,16 +17,14 @@
 
                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
 
-                        <div class="mw-admin-product-item-icon text-muted">
+{{--                        <div class="mw-admin-product-item-icon text-muted">
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
-                        </div>
+                        </div>--}}
 
                         @if($page->media()->first())
                             <img src="{{$page->thumbnail(200,200)}}" class="rounded-full">
                         @else
-                            <div class="img-circle-holder border-radius-0 border-0">
-                                <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
-                            </div>
+                            @include('content::admin.content.livewire.components.icon', ['content'=>$page])
                         @endif
 
                     </div>
@@ -40,6 +38,17 @@
                                     {{$page->title}}
                                 </h5>
                             </a>
+
+                            @php
+                                $getParentsAsText = app()->content_manager->get_parents_as_text($page->id)
+                            @endphp
+
+                            @if ($getParentsAsText)
+                                <div class="text-muted">
+                                    {!! $getParentsAsText !!}  &rarr;  {{$page->title}}
+                                </div>
+                            @endif
+
                             @if($page->categories->count() > 0)
                                 <span class="manage-post-item-cats-inline-list">
                                 @foreach($page->categories as $category)
