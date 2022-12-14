@@ -1,13 +1,96 @@
 MWEditor.controllers = {
+    alignLeft: function (scope, api, rootScope) {
+        var el
+        this.render = function () {
+            var scope = this;
+            el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Align left'),
+                    innerHTML: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" /></svg>'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('justifyLeft');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+
+            rootScope.controllerActive(el.get(0), 'left' === opt.css.alignNormalize());
+        };
+        this.element = this.render();
+    },
+    alignCenter: function (scope, api, rootScope) {
+        var el
+        this.render = function () {
+            var scope = this;
+            el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Align center'),
+                    innerHTML: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" /></svg>'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('justifyCenter');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            rootScope.controllerActive(el.get(0), 'center' === opt.css.alignNormalize());
+        };
+        this.element = this.render();
+    },
+    alignRight: function (scope, api, rootScope) {
+        var el
+        this.render = function () {
+            var scope = this;
+            el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Align center'),
+                    innerHTML: '<svg  viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />\n' +
+                        '</svg>'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('justifyRight');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            rootScope.controllerActive(el.get(0), 'right' === opt.css.alignNormalize());
+        };
+        this.element = this.render();
+    },
+    alignJustify: function (scope, api, rootScope) {
+        var el
+        this.render = function () {
+            var scope = this;
+            el = MWEditor.core.button({
+                props: {
+                    tooltip: rootScope.lang('Justify'),
+                    innerHTML: '<svg   viewBox="0 0 24 24">\n' +
+                        '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" />\n' +
+                        '</svg>'
+                }
+            });
+            el.on('mousedown touchstart', function (e) {
+                api.execCommand('justifyFull');
+            });
+            return el;
+        };
+        this.checkSelection = function (opt) {
+            rootScope.controllerActive(el.get(0), 'justify' === opt.css.alignNormalize());
+        };
+        this.element = this.render();
+    },
     align: function (scope, api, rootScope) {
         this.root = MWEditor.core.element();
         this.root.$node.addClass('mw-editor-state-component mw-editor-state-component-align');
         this.buttons = [];
 
         var arr = [
-            {align: 'left', icon: '<svg  viewBox="0 0 24 24">\n' +
-                    '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" />\n' +
-                    '</svg>', action: 'justifyLeft'},
+            {align: 'left', icon: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" /></svg>', action: 'justifyLeft'},
             {align: 'center', icon: '<svg  viewBox="0 0 24 24">\n' +
                     '    <path fill="currentColor" d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" />\n' +
                     '</svg>', action: 'justifyCenter'},
@@ -59,16 +142,20 @@ MWEditor.controllers = {
                 var sel = api.getSelection();
 
                 if(sel.getRangeAt(0).collapsed) {
-                    var range = rootScope.document.createRange();
-                    var node = sel.focusNode;
-                    if(node.nodeType === 3) {
-                        node = node.parentElement;
-                    }
-                    range.selectNodeContents(node);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
+                    var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node)
+                    api.action(actionTarget, function () {
+                        var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
+                        if(isBold) {
+                            actionTarget.style.fontWeight = 400;
+                        } else {
+                            actionTarget.style.fontWeight = 700;
+                        }
+                    });
+                } else {
+                    api.execCommand('bold');
                 }
-                api.execCommand('bold');
+
             });
             return el;
         };
@@ -87,9 +174,7 @@ MWEditor.controllers = {
             var scope = this;
             var el = MWEditor.core.button({
                 props: {
-                    innerHTML: '<svg viewBox="0 0 24 24">\n' +
-                        '    <path fill="currentColor" d="M23,12V14H18.61C19.61,16.14 19.56,22 12.38,22C4.05,22.05 4.37,15.5 4.37,15.5L8.34,15.55C8.37,18.92 11.5,18.92 12.12,18.88C12.76,18.83 15.15,18.84 15.34,16.5C15.42,15.41 14.32,14.58 13.12,14H1V12H23M19.41,7.89L15.43,7.86C15.43,7.86 15.6,5.09 12.15,5.08C8.7,5.06 9,7.28 9,7.56C9.04,7.84 9.34,9.22 12,9.88H5.71C5.71,9.88 2.22,3.15 10.74,2C19.45,0.8 19.43,7.91 19.41,7.89Z" />\n' +
-                        '</svg>',
+                    innerHTML: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M23,12V14H18.61C19.61,16.14 19.56,22 12.38,22C4.05,22.05 4.37,15.5 4.37,15.5L8.34,15.55C8.37,18.92 11.5,18.92 12.12,18.88C12.76,18.83 15.15,18.84 15.34,16.5C15.42,15.41 14.32,14.58 13.12,14H1V12H23M19.41,7.89L15.43,7.86C15.43,7.86 15.6,5.09 12.15,5.08C8.7,5.06 9,7.28 9,7.56C9.04,7.84 9.34,9.22 12,9.88H5.71C5.71,9.88 2.22,3.15 10.74,2C19.45,0.8 19.43,7.91 19.41,7.89Z" /></svg>',
                     tooltip: rootScope.lang('Strike through')
                 }
             });
@@ -120,7 +205,24 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('italic');
+                var sel = api.getSelection();
+
+                if(sel.getRangeAt(0).collapsed) {
+
+
+                    var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node)
+                    api.action(actionTarget, function () {
+                        var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
+                        if(isItalic) {
+                            actionTarget.style.fontStyle = 'normal';
+                        } else {
+                            actionTarget.style.fontStyle = 'italic';
+                        }
+                    });
+                } else {
+                    api.execCommand('italic');
+                }
             });
             return el;
         };
@@ -145,7 +247,23 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('underline');
+                var sel = api.getSelection();
+                if(sel.getRangeAt(0).collapsed) {
+
+
+                    var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node)
+                    api.action(actionTarget, function () {
+                        var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecorationLine !== 'none';
+                        if(isUnderline) {
+                            actionTarget.style.textDecoration = 'none';
+                        } else {
+                            actionTarget.style.textDecoration = 'underline';
+                        }
+                    });
+                } else {
+                    api.execCommand('underline');
+                }
             });
             return el;
         };
@@ -654,7 +772,10 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            var sel = api.getSelection();
+            var isLink =  mw.tools.firstParentWithTag(sel.focusNode, 'a');
+            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection) || !isLink;
+            console.log(opt.controller.element.node.disabled)
         };
         this.element = this.render();
     },
