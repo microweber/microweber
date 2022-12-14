@@ -77,16 +77,54 @@ class AdminJsCategoryTree
 
     public function buildPages() {
 
+        $filterByPageId = false;
+        $filterByShop = false;
+        $filterByBlog = false;
+        $filterByKeyword = false;
+
+        if (!empty($this->filters)) {
+            if (isset($this->filters['from_content_id'])) {
+                $filterByPageId = (int)$this->filters['from_content_id'];
+            }
+            if (isset($this->filters['is_shop'])) {
+                $filterByShop = true;
+            }
+            if (isset($this->filters['is_blog'])) {
+                $filterByBlog = true;
+            }
+            if (isset($this->filters['keyword'])) {
+                $filterByKeyword = $this->filters['keyword'];
+            }
+        }
+
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {
 
-              /*  if ($keyword) {
-                    if (!str_contains($page['title'], $keyword) !== false) {
+                if ($filterByKeyword) {
+                    if (!str_contains($page['title'], $filterByKeyword) !== false) {
                         continue;
                     }
-                }*/
+                }
 
-                if ($page['parent'] > 0) {
+                if ($filterByBlog) {
+                    if ($page['subtype'] != 'dynamic' || $page['is_shop'] == 1) {
+                        continue;
+                    }
+                }
+
+                if ($filterByShop) {
+                    if ($page['is_shop'] != 1) {
+                        continue;
+                    }
+                }
+
+                if ($filterByPageId) {
+                    if ($page['id'] !== $filterByPageId) {
+                        continue;
+                    }
+                }
+
+                if (isset($page['parent']) && $page['parent'] > 0) {
                     $getPageChildren = $this->getPageChildren($page['parent']);
                     if (!empty($getPageChildren)) {
                         continue;
