@@ -141,7 +141,9 @@ class ItemMapCategoryReader extends ItemMapReader
                 foreach ($supportedLanguages as $language) {
 
                     $itemFields = [];
+
                     $itemFields[] = 'multilanguage.title.' . $language['locale'];
+                    $itemFields[] = 'multilanguage.url.' . $language['locale'];
                     $itemFields[] = 'multilanguage.description.' . $language['locale'];
                     $itemFields[] = 'multilanguage.category_meta_title.' . $language['locale'];
                     $itemFields[] = 'multilanguage.category_meta_keywords.' . $language['locale'];
