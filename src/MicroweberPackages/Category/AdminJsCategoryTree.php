@@ -7,6 +7,8 @@ use MicroweberPackages\Page\Models\Page;
 
 class AdminJsCategoryTree
 {
+    public $output = [];
+    public $outputPageIds = [];
     public $pages;
     public $categories;
     public $filters = [];
@@ -16,16 +18,24 @@ class AdminJsCategoryTree
         $this->filters = $filters;
     }
 
-    public function getPages()
+    public function getPagesDatabase()
     {
         $getPagesQuery =  Page::query();
 
-        if (!empty($this->filters)) {
+      /*  if (!empty($this->filters)) {
             if (isset($this->filters['from_content_id'])) {
                 $pageId = (int) $this->filters['from_content_id'];
                 $getPagesQuery->where('id', $pageId);
             }
-        }
+            if (isset($this->filters['is_shop']) && $this->filters['is_shop']) {
+                $getPagesQuery->where('is_shop', 1);
+            }
+            if (isset($this->filters['is_blog']) && $this->filters['is_blog']) {
+                $getPagesQuery->where('is_shop', '=', 0);
+                $getPagesQuery->where('content_type','=', 'page');
+                $getPagesQuery->where('subtype','=', 'dynamic');
+            }
+        }*/
 
         $getPagesQuery->orderBy('position', 'ASC');
 
@@ -36,7 +46,7 @@ class AdminJsCategoryTree
         }
     }
 
-    public function getCategories()
+    public function getCategoriesDatabase()
     {
         $getCategoriesQuery =  Category::query();
         $getCategoriesQuery->orderBy('position', 'ASC');
@@ -50,77 +60,152 @@ class AdminJsCategoryTree
 
     public function get()
     {
-        $keyword = false;
+        $this->getPagesDatabase();
+        $this->getCategoriesDatabase();
+
+       /* $this->keyword = false;
         if (!empty($this->filters)) {
             if (isset($this->filters['keyword'])) {
-                $keyword = $this->filters['keyword'];
+                $this->keyword = $this->filters['keyword'];
             }
-        }
+        }*/
 
-        $this->getPages();
-        $this->getCategories();
+        $this->buildPages();
 
-        $response = [];
+        return $this->output;
+    }
+
+    public function buildPages() {
+
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {
 
-                if ($keyword) {
+              /*  if ($keyword) {
                     if (!str_contains($page['title'], $keyword) !== false) {
+                        continue;
+                    }
+                }*/
+
+                if ($page['parent'] > 0) {
+                    $getPageChildren = $this->getPageChildren($page['parent']);
+                    if (!empty($getPageChildren)) {
                         continue;
                     }
                 }
 
-                $appendPage = [];
-                $appendPage['id'] = $page['id'];
-                $appendPage['type'] = 'page';
-                $appendPage['parent_id'] = $page['parent'];
-                $appendPage['parent_type'] = 'page';
-                $appendPage['title'] = $page['title'];
-                $appendPage['url'] = $page['url'];
-                $appendPage['is_active'] = $page['is_active'];
-                $appendPage['subtype'] = $page['subtype'];
-                $appendPage['position'] = (int) $page['position'];
+                // Add only main pages
+                $this->appendPage($page);
 
-                $appendPage['icon'] = 'page';
-                if ($page['is_shop'] == 1) {
-                    $appendPage['icon'] = 'shop';
-                }
-
-                $response[] = $appendPage;
             }
         }
+    }
+
+    public function getPageChildren($pageId) {
+
+        $children = [];
+        foreach ($this->pages as $page) {
+            if ($page['parent'] == $pageId) {
+                $newPage = $page;
+                $newPage['children'] = $this->getPageChildren($newPage['id']);
+                $children[] = $newPage;
+
+                if (!empty($newPage['children'])) {
+                    $this->appendPage($newPage);
+                }
+            }
+        }
+        return $children;
+    }
+
+    public function appendPage($page)
+    {
+        $appendPage = [];
+        $appendPage['id'] = $page['id'];
+        $appendPage['type'] = 'page';
+        $appendPage['parent_id'] = $page['parent'];
+        $appendPage['parent_type'] = 'page';
+        $appendPage['title'] = $page['title'];
+        $appendPage['url'] = $page['url'];
+        $appendPage['is_active'] = $page['is_active'];
+        $appendPage['subtype'] = $page['subtype'];
+        $appendPage['position'] = (int) $page['position'];
+
+        $appendPage['icon'] = 'page';
+        if ($page['is_shop'] == 1) {
+            $appendPage['icon'] = 'shop';
+
+            // todo alex
+            $appendPage['subtype'] = 'shop';
+        }
+
+        $this->output[] = $appendPage;
+    }
+
+    public function buildCategories() {
 
         if (!empty($this->categories)) {
             foreach ($this->categories as $category) {
 
-                if ($keyword) {
+               /* if ($keyword) {
                     if (!str_contains($category['title'], $keyword) !== false) {
+                        continue;
+                    }
+                }*/
+
+                $children = $this->getChildren($category['id']);
+                if (!empty($children)) {
+                    $this->appendCategory($category);
+                    continue;
+                }
+
+                if ($category['parent_id'] == 0) {
+                    if ($category['rel_type'] == 'content') {
+                        if (!in_array($category['rel_id'], $this->outputPageIds)) {
+                            continue;
+                        }
+                        $this->appendCategory($category);
                         continue;
                     }
                 }
 
-                $appendCategory = [];
-                $appendCategory['id'] = $category['id'];
-                $appendCategory['type'] = 'category';
-                $appendCategory['parent_id'] = $category['parent_id'];
-                $appendCategory['parent_type'] = 'category';
-                $appendCategory['title'] = $category['title'];
-                $appendCategory['subtype'] = 'category';
-                $appendCategory['position'] = $category['position'];
-                $appendCategory['url'] = $category['url'];
-                $appendCategory['is_active'] = 1;
+            }
+        }
+    }
 
-                if ($category['parent_id'] == 0) {
-                    if ($category['rel_type'] == 'content') {
-                        $appendCategory['parent_type'] = 'page';
-                        $appendCategory['parent_id'] = $category['rel_id'];
-                    }
-                }
+    public function appendCategory($category) {
 
-                $response[] = $appendCategory;
+        $appendCategory = [];
+        $appendCategory['id'] = $category['id'];
+        $appendCategory['type'] = 'category';
+        $appendCategory['parent_id'] = $category['parent_id'];
+        $appendCategory['parent_type'] = 'category';
+        $appendCategory['title'] = $category['title'];
+        $appendCategory['subtype'] = 'category';
+        $appendCategory['position'] = $category['position'];
+        $appendCategory['url'] = $category['url'];
+        $appendCategory['is_active'] = 1;
+
+        if ($category['parent_id'] == 0) {
+            if ($category['rel_type'] == 'content') {
+                $appendCategory['parent_type'] = 'page';
+                $appendCategory['parent_id'] = $category['rel_id'];
             }
         }
 
-        return $response;
+        $this->output[] = $appendCategory;
     }
+
+    public function getChildren($categoryId) {
+
+        $children = [];
+        foreach ($this->categories as $category) {
+            if ($category['parent_id'] == $categoryId) {
+                $newCategory = $category;
+                $newCategory['children'] = $this->getChildren($newCategory['id']);
+                $children[] = $newCategory;
+            }
+        }
+        return $children;
+    }
+
 }

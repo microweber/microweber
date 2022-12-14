@@ -2,7 +2,7 @@ MWEditor.core = {
     button: function(config) {
         config = config || {};
         var defaults = {
-            tag: 'button',
+            tag: 'mw-editor-button',
             props: {
                 className: 'mdi mw-editor-controller-component mw-editor-controller-button',
                 type: 'button'

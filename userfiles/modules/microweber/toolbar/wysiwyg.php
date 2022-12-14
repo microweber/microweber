@@ -74,11 +74,14 @@
                                controls: [ 'textBackgroundColor' ]
                            }
                        },
+                       'clone',
+                       '|',
+                       'pin',
 
                    ]
                ],
                smallEditorPositionX: 'center',
-               smallEditorSkin: 'dark',
+               smallEditorSkin: 'lite',
 
                interactionControls: [
 

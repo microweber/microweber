@@ -198,7 +198,7 @@ class ContentBulkOptions extends Component
 
     public function render()
     {
-        return view('content::admin.livewire.content-bulk-options');
+        return view('content::admin.content.livewire.content-bulk-options');
     }
 }
 
