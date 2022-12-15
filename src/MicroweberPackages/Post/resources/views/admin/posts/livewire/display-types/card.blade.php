@@ -21,11 +21,8 @@
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
                         </div>
 
-                        @if($post->media()->first())
-                            <img src="{{$post->thumbnail(200,200)}}" class="rounded-full">
-                        @else
-                            @include('content::admin.content.livewire.components.icon', ['content'=>$post])
-                        @endif
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$post])
+
 
                     </div>
 

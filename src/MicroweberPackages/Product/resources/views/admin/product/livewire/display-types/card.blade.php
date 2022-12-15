@@ -21,13 +21,8 @@
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
                         </div>
 
-                        @if($product->media()->first())
-                            <img src="{{$product->thumbnail(200,200)}}" class="rounded-full">
-                        @else
-                            <div class="img-circle-holder border-radius-0 border-0">
-                                <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
-                            </div>
-                        @endif
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$product])
+
 
                     </div>
 
