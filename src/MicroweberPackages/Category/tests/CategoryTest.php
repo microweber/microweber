@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Category\tests;
 
+use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Traits\CategoryTrait;
@@ -63,6 +64,7 @@ class CategoryTest extends TestCase
 
     public function testRecusriveRender()
     {
+
         Content::truncate();
         Category::truncate();
         CategoryItem::truncate();
@@ -70,7 +72,6 @@ class CategoryTest extends TestCase
 
         $categoryLink = category_link(0);
        //  $this->assertFalse($categoryLink);
-
 
         Content::truncate();
         Category::truncate();
@@ -121,11 +122,23 @@ class CategoryTest extends TestCase
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
 
+      /*  // Add google categories
+        $cc = file_get_contents(__DIR__ . '/taxonomy-with-ids.en-US.txt');
+        foreach (explode(PHP_EOL, $cc) as $row) {
+            if (Str::contains($row, 'Google_Product_Taxonomy_Version')) {
+                continue;
+            }
+            $expRow = explode(' - ', $row);
+            if (isset($expRow[1])) {
+                $categoriesToSave[] = $expRow[1];
+            }
+        }*/
+
         foreach ($categoriesToSave as $categoryTreePlain) {
             $categoriesToSave = stringToTree($categoryTreePlain);
             $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
         }
-
+        
     }
 
     public function testRender()
