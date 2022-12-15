@@ -24,6 +24,71 @@ class ContentTestModelForCategories extends Model
 
 class CategoryTest extends TestCase
 {
+
+    private function _addCategory($title, $parentId = 0)
+    {
+        $findOrNeCategoryQuery = Category::query();
+        $findOrNeCategoryQuery->where('title', $title);
+        if ($parentId > 0) {
+            $findOrNeCategoryQuery->where('parent_id', $parentId);
+        }
+        $findOrNeCategory = $findOrNeCategoryQuery->first();
+
+        if ($findOrNeCategory == null) {
+            $findOrNeCategory = new Category();
+        }
+
+        $findOrNeCategory->title = $title;
+
+        if ($parentId > 0) {
+            $findOrNeCategory->parent_id = $parentId;
+        }
+
+        $findOrNeCategory->save();
+
+        return $findOrNeCategory->id;
+    }
+
+    private function _addCategoryRecursive($array, $parentId = 0)
+    {
+        if (is_array($array)) {
+            foreach ($array as $categoryName=>$categoryParents) {
+                $parentId = $this->_addCategory($categoryName, $parentId);
+                if (!empty($categoryParents)) {
+                    $this->_addCategoryRecursive($categoryParents, $parentId);
+                }
+            }
+        }
+    }
+
+    public function testRecusriveRender()
+    {
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $categoryLink = category_link(0);
+        $this->assertFalse($categoryLink);
+
+        $categoriesToSave = [];
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Centura';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Centura';
+
+        $categoriesToSave = stringToTree($categoriesToSave);
+        $this->_addCategoryRecursive($categoriesToSave);
+
+        dd(Category::all()->toArray());
+
+
+    }
+
     public function testRender()
     {
         Content::truncate();
