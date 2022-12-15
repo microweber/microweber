@@ -97,17 +97,29 @@ class CategoryTest extends TestCase
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Centura';
-        
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Machine';
+
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Centura';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Machine';
 
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Qvor';
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Georgi Qnakiev';
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Asen II';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Centura';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
 
         foreach ($categoriesToSave as $categoryTreePlain) {
             $categoriesToSave = stringToTree($categoryTreePlain);
