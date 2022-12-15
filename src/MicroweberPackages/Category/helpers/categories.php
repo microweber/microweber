@@ -166,3 +166,42 @@ function get_category_items_count($category_id, $rel_type = false)
     return app()->category_manager->get_items_count($category_id, $rel_type);
 }
 
+/**
+ * Example:
+ * input:
+ *
+ Array(
+    "Courses",
+    "Courses > PHP",
+    "Courses > PHP > Array",
+    "Courses > PHP > Functions",
+    "Courses > JAVA",
+    "Courses > JAVA > String
+");
+ *
+ * @param $array
+ * @param $explodeSymbol
+ * @return void
+ */
+function stringToTree(string $string, string $explodeSymbol = '>')
+{
+    $result = array();
+
+    $itemParts = explode($explodeSymbol, $string);
+
+    $last = &$result;
+
+    for ($i = 0; $i < count($itemParts); $i++) {
+
+        $part = $itemParts[$i];
+        $part = trim($part);
+
+        if ($i + 1 < count($itemParts)) {
+            $last = &$last[$part];
+        } else {
+            $last[$part] = array();
+        }
+    }
+
+    return $result;
+}

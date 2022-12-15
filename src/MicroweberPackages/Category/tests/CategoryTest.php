@@ -1,7 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Media\tests;
+namespace MicroweberPackages\Category\tests;
 
+use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Traits\CategoryTrait;
@@ -24,6 +25,122 @@ class ContentTestModelForCategories extends Model
 
 class CategoryTest extends TestCase
 {
+
+    private function _addCategory($title, $parentId = 0)
+    {
+        $findOrNeCategoryQuery = Category::query();
+        $findOrNeCategoryQuery->where('title', $title);
+        if ($parentId > 0) {
+            $findOrNeCategoryQuery->where('parent_id', $parentId);
+        }
+        $findOrNeCategory = $findOrNeCategoryQuery->first();
+
+        if ($findOrNeCategory == null) {
+            $findOrNeCategory = new Category();
+        }
+
+        $findOrNeCategory->title = $title;
+
+        if ($parentId > 0) {
+            $findOrNeCategory->parent_id = $parentId;
+        }
+
+        $findOrNeCategory->save();
+
+        return $findOrNeCategory->id;
+    }
+
+    private function _addCategoryRecursive($array, $parentId = 0)
+    {
+        if (is_array($array)) {
+            foreach ($array as $categoryName=>$categoryChildren) {
+                $parentId = $this->_addCategory($categoryName, $parentId);
+                if (!empty($categoryChildren)) {
+                    $this->_addCategoryRecursive($categoryChildren, $parentId);
+                }
+            }
+        }
+    }
+
+    public function testRecusriveRender()
+    {
+
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $categoryLink = category_link(0);
+       //  $this->assertFalse($categoryLink);
+
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $page = new Page();
+        $page->title = 'Blog';
+        $page->content_type = 'page';
+        $page->url = 'blog';
+        $page->subtype = 'dynamic';
+        $page->save();
+        $blogId = $page->id;
+
+        $category = new Category();
+        $category->title = 'Categories';
+        $category->rel_type = 'content';
+        $category->rel_id = $page->id;
+        $category->parent_id = 0;
+        $category->save();
+        $mainCategoryId = $category->id;
+
+        $categoriesToSave = [];
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Machine';
+
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Machine';
+
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Qvor';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Georgi Qnakiev';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Asen II';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
+
+      /*  // Add google categories
+        $cc = file_get_contents(__DIR__ . '/taxonomy-with-ids.en-US.txt');
+        foreach (explode(PHP_EOL, $cc) as $row) {
+            if (Str::contains($row, 'Google_Product_Taxonomy_Version')) {
+                continue;
+            }
+            $expRow = explode(' - ', $row);
+            if (isset($expRow[1])) {
+                $categoriesToSave[] = $expRow[1];
+            }
+        }*/
+
+        foreach ($categoriesToSave as $categoryTreePlain) {
+            $categoriesToSave = stringToTree($categoryTreePlain);
+            $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
+        }
+        
+    }
+
     public function testRender()
     {
         Content::truncate();
