@@ -21,13 +21,9 @@ class AdminJsCategoryTree
     public function getPagesDatabase()
     {
         $getPagesQuery = app()->make(Page::class);
-
-     //   $getPagesQuery->withoutMultilanguageRetrieving();
         $getPagesQuery->orderBy('position', 'DESC');
 
-
         $getPages = $getPagesQuery->get();
-
         if ($getPages) {
             $this->pages = $getPages->toArray();
         }
@@ -35,10 +31,9 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-         $getCategoriesQuery = app()->make(Category::class);
-
-    //    $getCategoriesQuery->withoutMultilanguageRetrieving();
+        $getCategoriesQuery = app()->make(Category::class);
         $getCategoriesQuery->orderBy('position', 'ASC');
+
         $getCategories = $getCategoriesQuery->get();
         if ($getCategories) {
             $this->categories = $getCategories->toArray();
@@ -104,8 +99,8 @@ class AdminJsCategoryTree
                 }
 
                 if (isset($page['parent']) && $page['parent'] > 0) {
-                    $getPageChildren = $this->getPageChildren($page['parent']);
-                    if (!empty($getPageChildren)) {
+                    $getAndAppendPageChildren = $this->getAndAppendPageChildren($page['parent']);
+                    if (!empty($getAndAppendPageChildren)) {
                         continue;
                     }
                 }
@@ -123,12 +118,12 @@ class AdminJsCategoryTree
         foreach ($this->categories as $category) {
             if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
                 $this->appendCategory($category);
-                $getCategoryChildren = $this->getCategoryChildren($category['id']);
+                $getAndAppendCategoryChildren = $this->getAndAppendCategoryChildren($category['id']);
             }
         }
     }
 
-    public function getPageChildren($pageId) {
+    public function getAndAppendPageChildren($pageId) {
 
         $children = [];
         foreach ($this->pages as $page) {
@@ -138,7 +133,7 @@ class AdminJsCategoryTree
                 $this->getCategoryByRelId($page['id']);
 
                 $newPage = $page;
-                $newPage['children'] = $this->getPageChildren($newPage['id']);
+                $newPage['children'] = $this->getAndAppendPageChildren($newPage['id']);
                 $children[] = $newPage;
 
             }
@@ -180,13 +175,6 @@ class AdminJsCategoryTree
 
         if (!empty($this->categories)) {
             foreach ($this->categories as $category) {
-
-               /* if ($keyword) {
-                    if (!str_contains($category['title'], $keyword) !== false) {
-                        continue;
-                    }
-                }*/
-
                 $children = $this->getChildren($category['id']);
                 if (!empty($children)) {
                     $this->appendCategory($category);
@@ -230,7 +218,7 @@ class AdminJsCategoryTree
         $this->output[] = $appendCategory;
     }
 
-    public function getCategoryChildren($categoryId) {
+    public function getAndAppendCategoryChildren($categoryId) {
 
         $children = [];
         foreach ($this->categories as $category) {
@@ -239,7 +227,7 @@ class AdminJsCategoryTree
                 $this->appendCategory($category);
 
                 $newCategory = $category;
-                $newCategory['children'] = $this->getCategoryChildren($newCategory['id']);
+                $newCategory['children'] = $this->getAndAppendCategoryChildren($newCategory['id']);
                 $children[] = $newCategory;
             }
         }
