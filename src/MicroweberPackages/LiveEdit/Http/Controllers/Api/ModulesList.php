@@ -408,6 +408,9 @@ class ModulesList extends Controller
                             $module_item['template'] = '';
                         }
 
+                        if (!isset($module_item['categories'])) {
+                            $module_item['categories'] = [];
+                        }
 
                         $moduleDataItem = [
                             'module_id' => $module_id,
