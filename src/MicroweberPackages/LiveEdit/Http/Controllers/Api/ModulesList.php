@@ -412,6 +412,14 @@ class ModulesList extends Controller
                             $module_item['categories'] = [];
                         }
 
+                        if (!isset($module_item['settings'])) {
+                            $module_item['settings'] = [];
+                        }
+                        
+                        if (!isset($module_item['as_element'])) {
+                            $module_item['as_element'] = '';
+                        }
+
                         $moduleDataItem = [
                             'module_id' => $module_id,
                             'hidden' => false,
