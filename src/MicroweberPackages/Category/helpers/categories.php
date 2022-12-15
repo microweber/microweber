@@ -183,25 +183,23 @@ function get_category_items_count($category_id, $rel_type = false)
  * @param $explodeSymbol
  * @return void
  */
-function stringToTree(array $array, string $explodeSymbol = '>')
+function stringToTree(string $string, string $explodeSymbol = '>')
 {
     $result = array();
 
-    foreach ($array as $item) {
-        $itemParts = explode($explodeSymbol, $item);
+    $itemParts = explode($explodeSymbol, $string);
 
-        $last = &$result;
+    $last = &$result;
 
-        for ($i = 0; $i < count($itemParts); $i++) {
+    for ($i = 0; $i < count($itemParts); $i++) {
 
-            $part = $itemParts[$i];
-            $part = trim($part);
+        $part = $itemParts[$i];
+        $part = trim($part);
 
-            if ($i + 1 < count($itemParts))
-                $last = &$last[$part];
-            else
-                $last[$part] = array();
-
+        if ($i + 1 < count($itemParts)) {
+            $last = &$last[$part];
+        } else {
+            $last[$part] = array();
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Media\tests;
+namespace MicroweberPackages\Category\tests;
 
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
@@ -52,10 +52,10 @@ class CategoryTest extends TestCase
     private function _addCategoryRecursive($array, $parentId = 0)
     {
         if (is_array($array)) {
-            foreach ($array as $categoryName=>$categoryParents) {
+            foreach ($array as $categoryName=>$categoryChildren) {
                 $parentId = $this->_addCategory($categoryName, $parentId);
-                if (!empty($categoryParents)) {
-                    $this->_addCategoryRecursive($categoryParents, $parentId);
+                if (!empty($categoryChildren)) {
+                    $this->_addCategoryRecursive($categoryChildren, $parentId);
                 }
             }
         }
@@ -69,23 +69,50 @@ class CategoryTest extends TestCase
         clearcache();
 
         $categoryLink = category_link(0);
-        $this->assertFalse($categoryLink);
+       //  $this->assertFalse($categoryLink);
+
+
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $page = new Page();
+        $page->title = 'Blog';
+        $page->content_type = 'page';
+        $page->url = 'blog';
+        $page->subtype = 'dynamic';
+        $page->save();
+        $blogId = $page->id;
+
+        $category = new Category();
+        $category->title = 'Categories';
+        $category->rel_type = 'content';
+        $category->rel_id = $page->id;
+        $category->parent_id = 0;
+        $category->save();
+        $mainCategoryId = $category->id;
 
         $categoriesToSave = [];
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Centura';
+        
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
         $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Centura';
 
-        $categoriesToSave = stringToTree($categoriesToSave);
-        $this->_addCategoryRecursive($categoriesToSave);
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Qvor';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Georgi Qnakiev';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Asen II';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Centura';
 
-        dd(Category::all()->toArray());
-
+        foreach ($categoriesToSave as $categoryTreePlain) {
+            $categoriesToSave = stringToTree($categoryTreePlain);
+            $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
+        }
 
     }
 
