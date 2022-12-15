@@ -17,15 +17,8 @@
 
                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
 
-{{--                        <div class="mw-admin-product-item-icon text-muted">
-                            <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
-                        </div>--}}
 
-                        @if($page->media()->first())
-                            <img src="{{$page->thumbnail(200,200)}}" class="rounded-full">
-                        @else
-                            @include('content::admin.content.livewire.components.icon', ['content'=>$page])
-                        @endif
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$page])
 
                     </div>
 
