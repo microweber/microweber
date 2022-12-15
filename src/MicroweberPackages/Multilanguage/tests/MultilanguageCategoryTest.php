@@ -75,6 +75,7 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
             'POST',
             route('api.category.store', $apiCategoryStore)
         );
+
         $this->assertEquals(201, $response->status());
         $categorySaved = $response->getData()->data;
         $getCategory = Category::where('id', $categorySaved->id)->first();

@@ -10,14 +10,11 @@ namespace MicroweberPackages\Multilanguage\Observers;
 
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Database\Eloquent\Builder\MultilanguageCachedBuilder;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
-use MicroweberPackages\Multilanguage\Models\Traits\MultilanguageReplaceValuesTrait;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
 class MultilanguageObserver
 {
-    use MultilanguageReplaceValuesTrait;
     protected static $multipleTranslationsToSave = false;
     protected static $langToSave = false;
     protected static $fieldsToSave = [];
@@ -37,26 +34,53 @@ class MultilanguageObserver
                     $model->translatable = ['option_value'];
                 }
             }
-
         }
 
-        $locale = $this->getLocale();
-        $defaultLocale = $this->getDefaultLocale();
-
-
-
         if (!empty($model->translatable)) {
-             // replace values in model with multilanguage values
-            $findTranslations = app()->multilanguage_repository->getTranslationsByRelTypeAndRelId($model->getMorphClass(), $model->id);
-            if(!empty($findTranslations)){
-                $model = $this->replaceMultilanguageValues($model, $findTranslations, $locale, $defaultLocale);
+
+            $findTranslations = app()->multilanguage_repository->getTranslationsByRelTypeAndRelId($model->getTable(), $model->id);
+
+            foreach ($model->translatable as $fieldName) {
+
+                $modelAttributes = $model->getAttributes();
+
+                if (!$modelAttributes) {
+                    continue;
+                }
+                $found = false;
+                foreach ($modelAttributes as $attrCheckKey=>$attrCheck){
+                    if($attrCheckKey==$fieldName){
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    continue;
+                }
+
+                $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
+
+                if ($findTranslations !== null) {
+
+                    foreach ($findTranslations as $findedTranslation) {
+                        if ($findedTranslation['field_name'] == $fieldName) {
+
+                            $multilanguage[$findedTranslation['locale']][$fieldName] = $this->_decodeCastValue($model, $fieldName, $findedTranslation['field_value']);
+
+                            // Replace model fields if the default lang is different from current lang
+                            if ($this->getLocale() !== $this->getDefaultLocale()) {
+                                if (isset($multilanguage[$this->getLocale()][$fieldName])) {
+                                    $model->$fieldName = $multilanguage[$this->getLocale()][$fieldName];
+                                }
+                            }
+                        }
+                    }
+                }
             }
-         }
+        }
 
-
-    /*    if (isset($findTranslations)) {
-            $model->multilanguage_translations_count = count($findTranslations);
-        }*/
+        /*    if (isset($findTranslations)) {
+                $model->multilanguage_translations_count = count($findTranslations);
+            }*/
 
         $model->multilanguage = $multilanguage;
         $model->makeHidden(['multilanguage', 'translatable']);
@@ -143,9 +167,8 @@ class MultilanguageObserver
 
     }
     private function getTranslatableModuleOptions() {
-        $modules = get_modules_from_db();
         $translatableModuleOptions = [];
-        foreach ($modules as $module) {
+        foreach (get_modules_from_db() as $module) {
             if (isset($module['settings']['translatable_options'])) {
                 $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
             }
@@ -154,7 +177,37 @@ class MultilanguageObserver
     }
 
 
+    protected function getDefaultLocale()
+    {
+        return mw()->lang_helper->default_lang();
+    }
 
+    protected function getLocale()
+    {
+        return mw()->lang_helper->current_lang();
+    }
 
+    private function _catValue($model, $fieldName, $fieldValue, $type = 'encode')
+    {
+        if (isset($model->casts[$fieldName])) {
+            $castType = $model->casts[$fieldName];
+            if ($castType == 'json') {
+                if ($type == 'encode') {
+                    $fieldValue = json_encode($fieldValue );
+                } else {
+                    $fieldValue = json_decode($fieldValue, true);
+                }
+            }
+        }
 
+        return $fieldValue;
+    }
+
+    private function _encodeCastValue($model, $fieldName, $fieldValue) {
+        return $this->_catValue($model, $fieldName, $fieldValue, 'encode');
+    }
+
+    private function _decodeCastValue($model, $fieldName, $fieldValue) {
+        return $this->_catValue($model, $fieldName, $fieldValue, 'decode');
+    }
 }

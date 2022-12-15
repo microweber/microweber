@@ -86,27 +86,15 @@ class CategoryTest extends TestCase
 
     public function testAddcategoriesToModel()
     {
-
         $title = 'New cat for my custom model'.uniqid();
 
         $category = new Category();
         $category->title = $title;
         $category->save();
 
-
-
         $newPage = new ContentTestModelForCategories();
         $newPage->title = 'Content with cats ';
-
-         $newPage->category_ids = $category->id;
-
-//       $newPage->setCategories  (['kotka', 'horo']);
-//
-//        $newPage->setCategory([
-//              'title' => 'kotka',
-//              'url' => 'kotka-slug'
-//        ]);
-
+        $newPage->category_ids = $category->id;
         $newPage->save();
 
         $cat = $newPage->categories->first();
