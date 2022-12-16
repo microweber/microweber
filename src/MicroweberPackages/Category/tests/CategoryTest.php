@@ -36,7 +36,7 @@ class CategoryTest extends TestCase
         clearcache();
 
         $categoryLink = category_link(0);
-       //  $this->assertFalse($categoryLink);
+         $this->assertFalse($categoryLink);
 
         Content::truncate();
         Category::truncate();
@@ -89,6 +89,15 @@ class CategoryTest extends TestCase
 
         $newCategorySave = new PlainTextCategoriesSave();
         $newCategorySave->saveCategories($categoriesToSave, $mainCategoryId);
+
+        $findCategoryProperties = Category::where('title', 'Properties')->first();
+        $this->assertIsInt($findCategoryProperties->id);
+        $this->assertIsInt($findCategoryProperties->position);
+        $this->assertIsInt($findCategoryProperties->parent_id);
+        $this->assertIsInt($findCategoryProperties->is_active);
+        $this->assertEquals($findCategoryProperties->parent_id, $mainCategoryId);
+        $this->assertEquals($findCategoryProperties->is_active, 1);
+
 
 
     }
