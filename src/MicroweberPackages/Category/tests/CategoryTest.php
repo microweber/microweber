@@ -46,7 +46,7 @@ class CategoryTest extends TestCase
         Content::truncate();
         Category::truncate();
         CategoryItem::truncate();
-        clearcache();
+
 
         $categoryLink = category_link(0);
          $this->assertFalse($categoryLink);
@@ -54,7 +54,7 @@ class CategoryTest extends TestCase
         Content::truncate();
         Category::truncate();
         CategoryItem::truncate();
-        clearcache();
+
 
         $page = new Page();
         $page->title = 'Blog';
@@ -117,7 +117,7 @@ class CategoryTest extends TestCase
             $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);
         }
 
-        
+
 
     }
 
@@ -126,7 +126,7 @@ class CategoryTest extends TestCase
         Content::truncate();
         Category::truncate();
         CategoryItem::truncate();
-        clearcache();
+
 
         $categoryLink = category_link(0);
         $this->assertFalse($categoryLink);
