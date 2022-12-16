@@ -5,6 +5,7 @@ namespace MicroweberPackages\Category\tests;
 use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Category\PlainTextCategoriesSave;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -25,59 +26,6 @@ class ContentTestModelForCategories extends Model
 
 class CategoryTest extends TestCase
 {
-
-    private function _addCategory($title, $parentId = 0)
-    {
-        $findOrNeCategoryQuery = Category::query();
-        $findOrNeCategoryQuery->where('title', $title);
-        if ($parentId > 0) {
-            $findOrNeCategoryQuery->where('parent_id', $parentId);
-        }
-        $findOrNeCategory = $findOrNeCategoryQuery->first();
-
-        if ($findOrNeCategory == null) {
-            $findOrNeCategory = new Category();
-        }
-
-        $findOrNeCategory->title = $title;
-
-        if ($parentId > 0) {
-            $findOrNeCategory->parent_id = $parentId;
-        }
-
-        $findOrNeCategory->save();
-
-        return $findOrNeCategory->id;
-    }
-
-    private function _addCategoryRecursive($array, $parentId = 0)
-    {
-        if (is_array($array)) {
-            foreach ($array as $categoryName=>$categoryChildren) {
-                $parentId = $this->_addCategory($categoryName, $parentId);
-                if (!empty($categoryChildren)) {
-                    $this->_addCategoryRecursive($categoryChildren, $parentId);
-                }
-            }
-        }
-    }
-
-    private function parseGoogleTaxonomy($content)
-    {
-        // Add google categories
-        $categories = [];
-         foreach (explode(PHP_EOL, $content) as $row) {
-             if (Str::contains($row, 'Google_Product_Taxonomy_Version')) {
-                 continue;
-             }
-             $expRow = explode(' - ', $row);
-             if (isset($expRow[1])) {
-                 $categories[] = $expRow[1];
-             }
-         }
-         
-         return $categories;
-    }
 
     public function testRecusriveRender()
     {
@@ -139,10 +87,9 @@ class CategoryTest extends TestCase
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
 
-        foreach ($categoriesToSave as $categoryTreePlain) {
-            $categoriesToSave = stringToTree($categoryTreePlain);
-            $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
-        }
+        $newCategorySave = new PlainTextCategoriesSave();
+        $newCategorySave->saveCategories($categoriesToSave, $mainCategoryId);
+
 
     }
 
