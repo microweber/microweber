@@ -840,7 +840,7 @@
             li.dataset.id = item.id;
             li.dataset.parent_id = item.parent_id;
             var skip = this.skip(item);
-            li.className = 'type-' + item.type + ' subtype-'+ item.subtype + ' skip-' + (skip || 'none') + ' tree-item-active-' + (item.is_active !== 0);
+            li.className = 'type-' + item.type + ' subtype-'+ (item.icon || item.subtype) + ' skip-' + (skip || 'none') + ' tree-item-active-' + (item.is_active !== 0);
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             var titleNode = document.createElement('span');
