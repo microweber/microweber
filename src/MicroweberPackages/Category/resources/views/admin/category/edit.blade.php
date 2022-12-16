@@ -82,8 +82,12 @@
 
     <script>
 
+        categoryChangedFromPushState = false;
+
         window.addEventListener("popstate", function(e){
+            if(categoryChangedFromPushState){
             location.reload();
+            }
         });
 
 
@@ -133,7 +137,7 @@
                     action: function (element, data, menuitem) {
                         // window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
                         history.pushState(null, "", '<?php print admin_url('category'); ?>/'+data.id+'/edit');
-
+                        categoryChangedFromPushState = true;
                         $('#admin-category-edit').attr('data-category-id', data.id);
                         mw.reload_module('#admin-category-edit');
                     }
@@ -221,7 +225,7 @@
                         if (item.type == 'category') {
                             //  window.location.href='<?php print admin_url('category'); ?>/'+item.id+'/edit';
                             history.pushState(null, "", '<?php print admin_url('category'); ?>/'+item.id+'/edit');
-
+                            categoryChangedFromPushState = true;
                             $('#admin-category-edit').attr('data-category-id', item.id);
                             mw.reload_module('#admin-category-edit');
                         }
