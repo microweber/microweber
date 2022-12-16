@@ -27,6 +27,19 @@ class ContentTestModelForCategories extends Model
 class CategoryTest extends TestCase
 {
 
+    private function _assertCategoryRecursive($categoryTreeRendered, $array, $parentId = 0)
+    {
+        if (is_array($array)) {
+            foreach ($array as $categoryName=>$categoryChildren) {
+
+                $this->assertTrue(str_contains($categoryTreeRendered, $categoryName));
+
+                if (!empty($categoryChildren)) {
+                    $this->_assertCategoryRecursive($categoryTreeRendered, $categoryChildren, $parentId);
+                }
+            }
+        }
+    }
     public function testRecusriveRender()
     {
 
@@ -98,7 +111,13 @@ class CategoryTest extends TestCase
         $this->assertEquals($findCategoryProperties->parent_id, $mainCategoryId);
         $this->assertEquals($findCategoryProperties->is_active, 1);
 
+        $categoryTreeRendered = category_tree(['return_data'=>true]);
+        foreach ($categoriesToSave as $categoryTreePlain) {
+            $categoriesToSave = stringToTree($categoryTreePlain);
+            $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);
+        }
 
+        
 
     }
 
