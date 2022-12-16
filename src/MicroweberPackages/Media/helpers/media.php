@@ -16,7 +16,6 @@ api_expose('thumbnail_img');
 api_expose_admin('get_media');
 
 
-api_expose_admin('upload_progress_check');
 api_expose_admin('upload');
 api_expose_admin('reorder_media');
 api_expose_admin('save_media');
@@ -46,10 +45,6 @@ function get_media_by_id($media_id)
 }
 
 
-function upload_progress_check()
-{
-    return app()->media_manager->upload_progress_check();
-}
 
 
 function upload($data)
