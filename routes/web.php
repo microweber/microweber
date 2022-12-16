@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Content\Models\Content;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('test-cat', function () {
+
+
+    $test = new \MicroweberPackages\Category\tests\CategoryTest();
+    $test->testRecusriveRender();
+
+
+    category_tree();
+
+});
 
 Route::get('a', function () {
 

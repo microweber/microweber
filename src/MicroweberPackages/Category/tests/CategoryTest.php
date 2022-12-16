@@ -1,9 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Media\tests;
+namespace MicroweberPackages\Category\tests;
 
+use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Category\PlainTextCategoriesSave;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -24,6 +26,73 @@ class ContentTestModelForCategories extends Model
 
 class CategoryTest extends TestCase
 {
+
+    public function testRecusriveRender()
+    {
+
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $categoryLink = category_link(0);
+       //  $this->assertFalse($categoryLink);
+
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+        clearcache();
+
+        $page = new Page();
+        $page->title = 'Blog';
+        $page->content_type = 'page';
+        $page->url = 'blog';
+        $page->subtype = 'dynamic';
+        $page->save();
+        $blogId = $page->id;
+
+        $category = new Category();
+        $category->title = 'Categories';
+        $category->rel_type = 'content';
+        $category->rel_id = $page->id;
+        $category->parent_id = 0;
+        $category->save();
+        $mainCategoryId = $category->id;
+
+        $categoriesToSave = [];
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Machine';
+
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Machine';
+
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Qvor';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Georgi Qnakiev';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Asen II';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Shoes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clothes';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
+        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
+
+        $newCategorySave = new PlainTextCategoriesSave();
+        $newCategorySave->saveCategories($categoriesToSave, $mainCategoryId);
+
+
+    }
+
     public function testRender()
     {
         Content::truncate();
