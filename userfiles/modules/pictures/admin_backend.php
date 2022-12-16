@@ -59,6 +59,11 @@ if (isset($params['content_id'])) {
 }
 
 $for = mw()->database_manager->assoc_table_name($for);
+if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
+    $for = 'content';
+} elseif ($for == 'category' or $for == 'categories') {
+    $for = 'category';
+}
 
 if (isset($params['for-id'])) {
     $for_id = $params['for-id'];

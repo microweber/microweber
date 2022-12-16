@@ -40,7 +40,7 @@ class MediaManager
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
         } elseif ($for == 'category' or $for == 'categories') {
-            $for = 'categories';
+            $for = 'category';
         }
 
         $media = app()->media_repository->getPictureByRelIdAndRelType($content_id, $for);
@@ -97,42 +97,6 @@ class MediaManager
         return $content;
     }
 
-    public function upload_progress_check()
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            mw_error('not logged in as admin');
-        }
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_str = md5($_SERVER['HTTP_REFERER']);
-        } else {
-            $ref_str = 'no_HTTP_REFERER';
-        }
-        $ref_str = 'no_HTTP_REFERER';
-        $cache_id = 'upload_progress_' . $ref_str;
-        $cache_group = 'media/global';
-
-        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if ($cache_content != false) {
-            if (isset($cache_content['tmp_name']) != false) {
-                if (isset($cache_content['f']) != false) {
-                    $filename = $cache_content['tmp_name'];
-                    if (is_file($filename)) {
-                        $filesize = filesize($filename);
-                    }
-
-                    $filename = $cache_content['f'];
-
-                    if (is_file($filename)) {
-                        $filesize = filesize($filename);
-                    }
-
-                    $perc = $this->app->format->percent($filesize, $cache_content['size']);
-
-                    return $perc;
-                }
-            }
-        }
-    }
 
     public function upload($data)
     {
