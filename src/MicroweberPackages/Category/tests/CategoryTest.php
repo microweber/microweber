@@ -62,6 +62,23 @@ class CategoryTest extends TestCase
         }
     }
 
+    private function parseGoogleTaxonomy($content)
+    {
+        // Add google categories
+        $categories = [];
+         foreach (explode(PHP_EOL, $content) as $row) {
+             if (Str::contains($row, 'Google_Product_Taxonomy_Version')) {
+                 continue;
+             }
+             $expRow = explode(' - ', $row);
+             if (isset($expRow[1])) {
+                 $categories[] = $expRow[1];
+             }
+         }
+         
+         return $categories;
+    }
+
     public function testRecusriveRender()
     {
 
@@ -122,23 +139,11 @@ class CategoryTest extends TestCase
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
         $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
 
-      /*  // Add google categories
-        $cc = file_get_contents(__DIR__ . '/taxonomy-with-ids.en-US.txt');
-        foreach (explode(PHP_EOL, $cc) as $row) {
-            if (Str::contains($row, 'Google_Product_Taxonomy_Version')) {
-                continue;
-            }
-            $expRow = explode(' - ', $row);
-            if (isset($expRow[1])) {
-                $categoriesToSave[] = $expRow[1];
-            }
-        }*/
-
         foreach ($categoriesToSave as $categoryTreePlain) {
             $categoriesToSave = stringToTree($categoryTreePlain);
             $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
         }
-        
+
     }
 
     public function testRender()
