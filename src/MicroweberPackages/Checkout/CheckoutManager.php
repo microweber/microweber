@@ -557,10 +557,10 @@ class CheckoutManager
 
                     }
                     if ($payment_currency_rate != 0.00) {
-
+                        $amount = str_replace(',', '', $amount);
+                        $amount = floatval($amount);
                         $amount = $amount * $payment_currency_rate;
                         $place_order['payment_amount'] = $amount;
-
                     }
 
 
