@@ -10,6 +10,7 @@ namespace MicroweberPackages\Product\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductController extends AdminController
@@ -28,7 +29,13 @@ class ProductController extends AdminController
     }
 
     public function index(Request $request) {
-        return $this->view('product::admin.product.index');
+
+        $noProducts = true;
+        if (Product::where('is_active', 1)->count() > 0) {
+            $noProducts = false;
+        }
+
+        return $this->view('product::admin.product.index', compact('noProducts'));
     }
 
     public function create() {
