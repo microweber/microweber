@@ -31,7 +31,7 @@ class ProductController extends AdminController
     public function index(Request $request) {
 
         $noProducts = true;
-        if (Product::where('is_active', 1)->count() > 0) {
+        if (Product::active()->count() > 0) {
             $noProducts = false;
         }
 
