@@ -1,14 +1,15 @@
-<?php
-$isInTrashed  = false;
-if(isset($showFilters['trashed']) && $showFilters['trashed']){
-    $isInTrashed  = true;
-}
+@php
+    if ($countActiveProducts > 0) {
+    $isInTrashed  = false;
+    if(isset($showFilters['trashed']) && $showFilters['trashed']){
+        $isInTrashed  = true;
+    }
 
-$findCategory = false;
-if (isset($filters['category'])) {
-    $findCategory = get_category_by_id($filters['category']);
-}
-?>
+    $findCategory = false;
+    if (isset($filters['category'])) {
+        $findCategory = get_category_by_id($filters['category']);
+    }
+@endphp
 
 
 <div class="card style-1 mb-3">
@@ -271,21 +272,19 @@ if (isset($filters['category'])) {
 
     {{ $products->links() }}
     @else
-
-            <div class="no-items-found products">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
-                            <h4>{{ _e('No products') }}</h4>
-                            <p>{{ _e('No products found for this filters')}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        @include('product::admin.product.livewire.no-results-for-filters')
     @endif
 
 </div>
 </div>
 
+@php
+    } else {
+@endphp
+
+@include('product::admin.product.livewire.no-results')
+
+@php
+    }
+@endphp
 
