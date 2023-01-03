@@ -1,5 +1,5 @@
 @php
-if ($countActiveContents > 0) {
+if ($countActivePosts > 0) {
 $isInTrashed  = false;
 if(isset($showFilters['trashed']) && $showFilters['trashed']){
     $isInTrashed  = true;

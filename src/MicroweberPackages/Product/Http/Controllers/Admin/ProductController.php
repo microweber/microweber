@@ -29,13 +29,7 @@ class ProductController extends AdminController
     }
 
     public function index(Request $request) {
-
-        $noProducts = true;
-        if (Product::active()->count() > 0) {
-            $noProducts = false;
-        }
-
-        return $this->view('product::admin.product.index', compact('noProducts'));
+        return $this->view('product::admin.product.index');
     }
 
     public function create() {

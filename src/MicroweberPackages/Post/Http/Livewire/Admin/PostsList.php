@@ -18,11 +18,9 @@ class PostsList extends ContentList
 
     public function render()
     {
-        $countActiveContents = $this->model::select('id')->active()->count();
-
         return view('post::admin.posts.livewire.table', [
             'posts' => $this->contents,
-            'countActiveContents' => $countActiveContents,
+            'countActivePosts' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }
