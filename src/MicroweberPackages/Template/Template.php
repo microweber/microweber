@@ -224,6 +224,34 @@ class Template
         }
     }
 
+    public function get_data_field_title($field, $type = 'general')
+    {
+        $fieldTitle = '';
+        $dataFields = $this->get_data_fields($type);
+
+        foreach ($dataFields as $dataFieldKey=>$dataFieldTitle) {
+            if ($field == $dataFieldKey) {
+                $fieldTitle = $dataFieldTitle;
+                break;
+            }
+        }
+        return $fieldTitle;
+    }
+
+    public function get_data_fields($type = 'general')
+    {
+        $templateConfig = $this->get_config();
+
+        $dataFields = [];
+        if (isset($templateConfig['data-fields-'.$type]) && !empty($templateConfig['data-fields-'.$type])) {
+            foreach ($templateConfig['data-fields-'.$type] as $templateField) {
+                $dataFields[$templateField['name']] = $templateField['title'];
+            }
+        }
+
+        return $dataFields;
+    }
+
     public function get_edit_field_title($field, $type = 'general')
     {
         $fieldTitle = '';
