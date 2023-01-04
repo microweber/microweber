@@ -95,16 +95,7 @@ class ItemMapReader
 
     private static function getTemplateEditFields()
     {
-        $templateConfig = mw()->template->get_config();
-
-        $editFieldsProduct = [];
-        if (isset($templateConfig['edit-fields-product']) && !empty($templateConfig['edit-fields-product'])) {
-            foreach ($templateConfig['edit-fields-product'] as $templateField) {
-                $editFieldsProduct['content_fields.' . $templateField['name']] = $templateField['title'];
-            }
-        }
-
-        return $editFieldsProduct;
+        return mw()->template->get_edit_fields('product');
     }
 
     public static function getItemNames()

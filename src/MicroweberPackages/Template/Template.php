@@ -224,6 +224,20 @@ class Template
         }
     }
 
+    public function get_edit_fields($type = 'general')
+    {
+        $templateConfig = $this->get_config();
+
+        $editFields = [];
+        if (isset($templateConfig['edit-fields-' . $type]) && !empty($templateConfig['edit-fields-' . $type])) {
+            foreach ($templateConfig['edit-fields-' . $type] as $templateField) {
+                $editFields['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
+
+        return $editFields;
+    }
+
     public function url($add = false)
     {
         if (!defined('TEMPLATE_URL')) {
