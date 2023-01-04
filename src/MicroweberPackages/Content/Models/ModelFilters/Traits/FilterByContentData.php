@@ -23,7 +23,7 @@ trait FilterByContentData
         }
 
         foreach ($params as $key => $value) {
-            
+
             if (empty(trim($value))) {
                 continue;
             }
