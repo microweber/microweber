@@ -10,7 +10,7 @@
     @livewire('admin-filter-item-value', [
         'name'=> $fieldName,
         'itemValue'=>$itemValue,
-        'itemValueKey'=>'contentFields.'.$fieldKey,
+        'itemValueKey'=>['contentData'=>$fieldKey],
         'showDropdown'=> session()->get('showFilterContentFields'),
         'onChangedEmitEvents' => [
              'setFirstPageContentList'
