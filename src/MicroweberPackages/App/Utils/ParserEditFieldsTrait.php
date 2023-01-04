@@ -943,7 +943,7 @@ Trait ParserEditFieldsTrait
 
 
             if (!$this->_is_native_category_table_field($field)) {
-                $data[$field] = app()->content_manager->edit_field("rel_type=categories&field={$field}&rel_id=" . $data_id);
+                $data[$field] = app()->content_manager->edit_field("rel_type=category&field={$field}&rel_id=" . $data_id);
             }
 
 

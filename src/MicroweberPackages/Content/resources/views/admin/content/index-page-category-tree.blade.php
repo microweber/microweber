@@ -16,7 +16,7 @@
 </style>
 
 <div>
-    <div id="js-page-tree-wrapper" style="min-width:240px;">
+    <div id="js-page-tree-wrapper" >
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">

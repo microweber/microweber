@@ -10,6 +10,7 @@ namespace MicroweberPackages\Product\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
+use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Repositories\ProductRepository;
 
 class ProductController extends AdminController

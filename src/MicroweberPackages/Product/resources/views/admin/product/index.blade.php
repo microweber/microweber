@@ -5,8 +5,10 @@
    ])
 
     <div class="module-content">
+
         <livewire:admin-products-list />
         <livewire:admin-content-bulk-options />
+
     </div>
 </div>
 

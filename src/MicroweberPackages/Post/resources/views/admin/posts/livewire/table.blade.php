@@ -1,4 +1,5 @@
-<?php
+@php
+if ($countActivePosts > 0) {
 $isInTrashed  = false;
 if(isset($showFilters['trashed']) && $showFilters['trashed']){
     $isInTrashed  = true;
@@ -8,8 +9,7 @@ $findCategory = false;
 if (isset($filters['category'])) {
     $findCategory = get_category_by_id($filters['category']);
 }
-?>
-
+@endphp
 
 <div class="card style-1 mb-3">
 
@@ -18,7 +18,7 @@ if (isset($filters['category'])) {
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-md-flex d-none">
-                    <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Posts')}}</a>
+                    <a  class="@if($findCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Posts')}}</a>
 
                     @if($findCategory)
                         <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
@@ -46,6 +46,7 @@ if (isset($filters['category'])) {
     </div>
 
     <div class="card-body pt-3">
+
 
         @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
@@ -205,6 +206,7 @@ if (isset($filters['category'])) {
 
 
         </div>
+
         @if($posts->total() > 0)
 
             <div class="row mt-3">
@@ -222,10 +224,21 @@ if (isset($filters['category'])) {
             {{ $posts->links() }}
 
         @else
-            @include('page::admin.posts.livewire.no-results')
+            @include('post::admin.posts.livewire.no-results-for-filters')
         @endif
 
     </div>
 </div>
+@php
+} else {
+@endphp
 
+<div class="card style-1 mb-3">
+    <div class="card-body pt-3">
+        @include('post::admin.posts.livewire.no-results')
+    </div>
+</div>
 
+@php
+}
+@endphp

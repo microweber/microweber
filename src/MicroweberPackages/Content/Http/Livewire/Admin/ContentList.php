@@ -253,6 +253,11 @@ class ContentList extends Component
         return $this->contentsQuery->paginate($this->paginate);
     }
 
+    public function getCountActiveContentsProperty()
+    {
+        return $this->model::select('id')->active()->count();
+    }
+
     public function removeFilter($key)
     {
         if (isset($this->filters[$key])) {

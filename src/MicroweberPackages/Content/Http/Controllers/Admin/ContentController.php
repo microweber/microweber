@@ -27,6 +27,11 @@ class ContentController extends AdminController
         $this->repository = $repository;
     }
 
+    public function index(Request $request) {
+
+        return $this->view('content::admin.content.index');
+    }
+
     public function create() {
 
         return $this->view('content::admin.content.edit', [

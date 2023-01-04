@@ -26,6 +26,7 @@ class ProductsList extends ContentList
     {
         return view('product::admin.product.livewire.table', [
             'products' => $this->contents,
+            'countActiveProducts' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }

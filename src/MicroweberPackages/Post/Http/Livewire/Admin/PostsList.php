@@ -20,6 +20,7 @@ class PostsList extends ContentList
     {
         return view('post::admin.posts.livewire.table', [
             'posts' => $this->contents,
+            'countActivePosts' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }
