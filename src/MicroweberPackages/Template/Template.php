@@ -224,6 +224,19 @@ class Template
         }
     }
 
+    public function get_edit_field_title($field, $type = 'general')
+    {
+        $fieldTitle = '';
+        $editFields = $this->get_edit_fields($type);
+        foreach ($editFields as $editFieldKey=>$editFieldTitle) {
+            if ($field == $editFieldKey) {
+                $fieldTitle = $editFieldTitle;
+                break;
+            }
+        }
+        return $fieldTitle;
+    }
+
     public function get_edit_fields($type = 'general')
     {
         $templateConfig = $this->get_config();

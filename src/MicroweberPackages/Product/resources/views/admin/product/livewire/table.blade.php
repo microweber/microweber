@@ -75,7 +75,7 @@
 
                 @php
                 $templateFields = mw()->template->get_edit_fields('product');
-                if (!empty($templateFields)): 
+                if (!empty($templateFields)):
                 @endphp
                 <h6 class="dropdown-header">Template fields</h6>
                 @foreach($templateFields as $templateFieldKey=>$templateFieldName)
@@ -137,7 +137,12 @@
         @endif
 
         @if(isset($showFilters['contentFields']) && $showFilters['contentFields'])
-
+            @foreach($showFilters['contentFields'] as $contentFieldKey=>$contentFieldValue)
+                @include('product::admin.product.livewire.table-filters.content-field', [
+                    'fieldName'=>mw()->template->get_edit_field_title($contentFieldKey, 'product'),
+                    'fieldKey'=>$contentFieldKey,
+                ])
+            @endforeach
         @endif
 
         @if(isset($showFilters['visible']) && $showFilters['visible'])
