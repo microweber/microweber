@@ -41,7 +41,12 @@
         };
 
         this.create = function() {
-            var el = this.document.createElement(this.settings.tag);
+            var _options = {};
+            if(this.settings.is) {
+                _options.is = this.settings.is;
+            }
+
+            var el = this.document.createElement(this.settings.tag, _options);
             this.node = el;
 
             /*if (this.settings.encapsulate) {
@@ -307,7 +312,10 @@
             if (clean) {
                 val = this.document.createRange().createContextualFragment(val).textContent;
             }
-            this.node.innerHTML = val;
+            // this.node.innerHTML = val;
+            return this.each(function (){
+                this.textContent = val;
+            });
         };
 
         this._asdom = function (obj) {

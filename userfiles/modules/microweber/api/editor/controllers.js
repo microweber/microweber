@@ -63,7 +63,7 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     alignJustify: function (scope, api, rootScope) {
-        var el
+        var el;
         this.render = function () {
             var scope = this;
             el = MWEditor.core.button({
@@ -121,7 +121,7 @@ MWEditor.controllers = {
             var align = opt.css.alignNormalize();
             for (var i = 0; i< this.buttons.length; i++) {
                 var state = arr[i].align === align;
-                rootScope.controllerActive(this.buttons[i].node, state);
+                rootScope.controllerActive(this.buttons[i].get(0), state);
             }
         };
         this.element = this.render();
@@ -143,8 +143,8 @@ MWEditor.controllers = {
 
                 if(sel.getRangeAt(0).collapsed) {
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node)
-                    api.action(actionTarget, function () {
+                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    api.action(actionTarget.parentNode, function () {
                         var isBold = Number(rootScope.actionWindow.getComputedStyle(actionTarget).fontWeight) > 400;
                         if(isBold) {
                             actionTarget.style.fontWeight = 400;
@@ -161,11 +161,11 @@ MWEditor.controllers = {
         };
         this.checkSelection = function (opt, ee, tt) {
             if(opt.css.is().bold) {
-                rootScope.controllerActive(opt.controller.element.node, true);
+                rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {
-                rootScope.controllerActive(opt.controller.element.node, false);
+                rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -180,17 +180,34 @@ MWEditor.controllers = {
             });
 
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('strikeThrough');
+
+                var sel = api.getSelection();
+
+                if(sel.getRangeAt(0).collapsed) {
+                    var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    api.action(actionTarget.parentNode, function () {
+                        var isStrike =  (rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration).includes('line-through');
+
+                        if(isStrike) {
+                            actionTarget.style.textDecoration = 'none';
+                        } else {
+                            actionTarget.style.textDecoration = 'line-through';
+                        }
+                    });
+                } else {
+                    api.execCommand('strikeThrough');
+                }
             });
             return el;
         };
         this.checkSelection = function (opt) {
             if(opt.css.is().striked) {
-                rootScope.controllerActive(opt.controller.element.node, true);
+                rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {
-                rootScope.controllerActive(opt.controller.element.node, false);
+                rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -211,8 +228,8 @@ MWEditor.controllers = {
 
 
                     var node = api.elementNode(sel.focusNode);
-                    var actionTarget = mw.tools.firstBlockLevel(node)
-                    api.action(actionTarget, function () {
+                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    api.action(actionTarget.parentNode, function () {
                         var isItalic = rootScope.actionWindow.getComputedStyle(actionTarget).fontStyle !== 'normal';
                         if(isItalic) {
                             actionTarget.style.fontStyle = 'normal';
@@ -227,11 +244,11 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
             if(opt.css.is().italic) {
-                rootScope.controllerActive(opt.controller.element.node, true);
+                rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {
-                rootScope.controllerActive(opt.controller.element.node, false);
+                rootScope.controllerActive(opt.controller.element.get(0), false);
             }
         };
         this.element = this.render();
@@ -253,7 +270,7 @@ MWEditor.controllers = {
 
                     var node = api.elementNode(sel.focusNode);
                     var actionTarget = mw.tools.firstBlockLevel(node)
-                    api.action(actionTarget, function () {
+                    api.action(actionTarget.parentNode, function () {
                         var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecorationLine !== 'none';
                         if(isUnderline) {
                             actionTarget.style.textDecoration = 'none';
@@ -268,11 +285,11 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
             if(opt.css.is().underlined) {
-                rootScope.controllerActive(opt.controller.element.node, true);
+                rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {
-                rootScope.controllerActive(opt.controller.element.node, false);
+                rootScope.controllerActive(opt.controller.element.get(0), false);
             }
         };
         this.element = this.render();
@@ -324,7 +341,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -383,17 +400,18 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
+
     fontSize: function (scope, api, rootScope) {
         this.checkSelection = function (opt) {
             var css = opt.css;
             var font = css.font();
             var size = font.size;
             opt.controller.element.displayValue(size);
-            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -429,7 +447,7 @@ MWEditor.controllers = {
             var font = css.font();
             var size = font.height;
             opt.controller.element.displayValue(size);
-            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -463,12 +481,12 @@ MWEditor.controllers = {
     format: function (scope, api, rootScope) {
 
         this._availableTags = [
-            { label: '<h1>Title</h1>', value: 'h1' },
-            { label: '<h2>Title</h2>', value: 'h2' },
-            { label: '<h3>Title</h3>', value: 'h3' },
-            { label: '<h4>Title</h4>', value: 'h4' },
-            { label: '<h5>Title</h5>', value: 'h5' },
-            { label: '<h6>Title</h6>', value: 'h6' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Title</mw-editor-option>', value: 'h1' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Title</mw-editor-option>', value: 'h2' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Title</mw-editor-option>', value: 'h3' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Title</mw-editor-option>', value: 'h4' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Title</mw-editor-option>', value: 'h5' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Title</mw-editor-option>', value: 'h6' },
             { label: 'Paragraph', value: 'p' },
             { label: 'Block', value: 'div' },
             { label: 'Pre formated', value: 'pre' }
@@ -498,7 +516,7 @@ MWEditor.controllers = {
             var el = opt.api.elementNode(opt.selection.focusNode);
             var parentEl = mw.tools.firstParentOrCurrentWithTag(el, this.availableTags());
             opt.controller.element.displayValue(parentEl ? this.getTagDisplayName(parentEl.nodeName) : '');
-            opt.controller.element.disabled = !opt.api.isSelectionEditable();
+            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
@@ -538,6 +556,7 @@ MWEditor.controllers = {
     },
     fontSelector: function (scope, api, rootScope) {
         this.checkSelection = function (opt) {
+
             var css = opt.css;
                 var font = css.font();
                 var family_array = font.family.split(','), fam;
@@ -548,7 +567,7 @@ MWEditor.controllers = {
                 }
                 fam = fam.replace(/['"]+/g, '');
                 opt.controller.element.displayValue(fam);
-                opt.controller.element.disabled = !opt.api.isSelectionEditable();
+            rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
 
         };
         this.render = function () {
@@ -593,16 +612,17 @@ MWEditor.controllers = {
                 rootScope.state.redo();
                 rootScope._syncTextArea();
             });
-            this.root.node.appendChild(undo.node);
-            this.root.node.appendChild(redo.node);
+            this.root.get(0).appendChild(undo.get(0));
+            this.root.get(0).appendChild(redo.get(0));
             $(rootScope.state).on('stateRecord', function(e, data){
-                undo.node.disabled = !data.hasNext;
-                redo.node.disabled = !data.hasPrev;
+
+                rootScope.disabled(undo.get(0), !data.hasNext)
+                rootScope.disabled(redo.get(0), !data.hasPrev)
             })
             .on('stateUndo stateRedo', function(e, data){
                 if(!data.active || !data.active.target) {
-                    undo.node.disabled = !data.hasNext;
-                    redo.node.disabled = !data.hasPrev;
+                    rootScope.disabled(undo.get(0), !data.hasNext)
+                    rootScope.disabled(redo.get(0), !data.hasPrev)
                     return;
                 }
                 if(scope.actionWindow.document.body.contains(data.active.target)) {
@@ -616,14 +636,14 @@ MWEditor.controllers = {
                     mw.$(data.active.prev).html(data.active.prevValue);
                 }
                 // mw.drag.load_new_modules();
-                undo.node.disabled = !data.hasNext;
-                redo.node.disabled = !data.hasPrev;
+                rootScope.disabled(undo.get(0), !data.hasNext)
+                rootScope.disabled(redo.get(0), !data.hasPrev)
                 $(scope).trigger(e.type, [data]);
             });
             setTimeout(function () {
                 var data = rootScope.state.eventData();
-                undo.node.disabled = !data.hasNext;
-                redo.node.disabled = !data.hasPrev;
+                rootScope.disabled(undo.get(0), !data.hasNext)
+                rootScope.disabled(redo.get(0), !data.hasPrev)
             }, 78);
             return this.root;
         };
@@ -660,7 +680,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -696,7 +716,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -714,7 +734,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -732,7 +752,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -752,7 +772,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -774,9 +794,8 @@ MWEditor.controllers = {
         this.checkSelection = function (opt) {
             var sel = api.getSelection();
             var isLink =  mw.tools.firstParentWithTag(sel.focusNode, 'a');
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection) || !isLink;
-            console.log(opt.controller.element.node.disabled)
-        };
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection) || !isLink);
+         };
         this.element = this.render();
     },
     delete: function (scope, api, rootScope) {
@@ -794,7 +813,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -809,13 +828,18 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                rootScope.smallEditor.toggleClass('pinned')
-
+                e.preventDefault();
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                rootScope.smallEditor.toggleClass('pinned');
+                setTimeout(function (){
+                    rootScope.smallEditorInteract(node);
+                }, 500)
             });
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -851,7 +875,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -870,7 +894,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -889,7 +913,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -911,7 +935,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },
@@ -967,14 +991,14 @@ MWEditor.controllers = {
                 footer.append(cancel);
                 footer.append(ok);
                 dialog = mw.dialog({
-                    content: cleanEl.node,
-                    footer: footer.node
+                    content: cleanEl.get(0),
+                    footer: footer.get(0)
                 });
             });
             return el;
         };
         this.checkSelection = function (opt) {
-            opt.controller.element.node.disabled = !opt.api.isSelectionEditable(opt.selection);
+            rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
         };
         this.element = this.render();
     },

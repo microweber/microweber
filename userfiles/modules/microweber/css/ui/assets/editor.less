@@ -35,11 +35,20 @@
 
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark{
+
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif;
+
     margin-top: -10px;
     .mw-bar-row{
         padding-inline: 5px;
         display: flex;
     }
+    .mw-editor-option-dropdown-h1{ font-size: 30px }
+    .mw-editor-option-dropdown-h2{ font-size: 27px }
+    .mw-editor-option-dropdown-h3{ font-size: 25px }
+    .mw-editor-option-dropdown-h4{ font-size: 22px }
+    .mw-editor-option-dropdown-h5{ font-size: 20px }
+    .mw-editor-option-dropdown-h6{ font-size: 17px }
 
     .mw-bar-control-item-group-contents{
         display: none;
@@ -231,8 +240,13 @@
     }
 }
 
+.mw-editor-component-disabled {
+    pointer-events: none;
+    opacity: .55;
+}
+
 .mw-small-editor-skin-default, .mw-editor-default, .mw-editor-table-manager{
-    [disabled] {
+    [disabled], .mw-editor-component-disabled {
         pointer-events: none;
         opacity: .55;
     }
