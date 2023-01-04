@@ -72,6 +72,17 @@
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.orders"> Orders</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.qty"> Quantity</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.sku"> Sku</label>
+
+                @php
+                $templateFields = mw()->template->get_edit_fields('product');
+                if (!empty($templateFields)): 
+                @endphp
+                <h6 class="dropdown-header">Template fields</h6>
+                @foreach($templateFields as $templateFieldKey=>$templateFieldName)
+                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.contentFields.{{$templateFieldKey}}"> {{$templateFieldName}}</label>
+                @endforeach
+                @endif
+
                 <h6 class="dropdown-header">Other</h6>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> Author</label>
@@ -123,6 +134,10 @@
 
         @if(isset($showFilters['sku']) && $showFilters['sku'])
             @include('product::admin.product.livewire.table-filters.sku')
+        @endif
+
+        @if(isset($showFilters['contentFields']) && $showFilters['contentFields'])
+
         @endif
 
         @if(isset($showFilters['visible']) && $showFilters['visible'])

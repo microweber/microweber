@@ -46,7 +46,16 @@ class ItemMapCategoryReader extends ItemMapReader
 
     private static function getTemplateEditFields()
     {
-        return mw()->template->get_edit_fields('category');
+        $templateConfig = mw()->template->get_config();
+
+        $editFieldsCategory = [];
+        if (isset($templateConfig['edit-fields-category']) && !empty($templateConfig['edit-fields-category'])) {
+            foreach ($templateConfig['edit-fields-category'] as $templateField) {
+                $editFieldsCategory['content_fields.' . $templateField['name']] = $templateField['title'];
+            }
+        }
+
+        return $editFieldsCategory;
     }
 
     public static function getMap() {
