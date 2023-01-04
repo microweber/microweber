@@ -665,9 +665,7 @@ span.mw-powered-by {
 *        <module type=".....
 *    </div>
 */
-.mw-module-container {
-  display: flex;
-}
+
 .mw-module-container-center {
   display: flex;
   justify-content: center;

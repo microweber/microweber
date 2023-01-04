@@ -18,6 +18,10 @@
 
 
 
+    #mw_small_editor{
+        display: none !important;
+    }
+
 
     .mw-small-editor{
         z-index: 1001;
@@ -42,6 +46,9 @@
                regions: '.edit',
                smallEditor:  [
                    [
+
+                       'undoRedo',
+                       'format',
                        'bold',
                        'italic',
                        {
@@ -50,7 +57,7 @@
                                controls: [ 'strikeThrough']
                            }
                        },
-'fontSelector',
+/*'fontSelector',*/
 'fontSize',
                        {
                            group: {
@@ -80,8 +87,7 @@
                                controls: [ 'textBackgroundColor' ]
                            }
                        },
-                       'clone',
-                       '|',
+
                        'pin',
 
                    ]

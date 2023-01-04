@@ -8097,6 +8097,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
   margin-top: -10px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -8105,6 +8106,30 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-row {
   padding-inline: 5px;
   display: flex;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h1,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h1 {
+  font-size: 30px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h2,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h2 {
+  font-size: 27px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h3,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h3 {
+  font-size: 25px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h4,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h4 {
+  font-size: 22px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h5,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h5 {
+  font-size: 20px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-option-dropdown-h6,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-option-dropdown-h6 {
+  font-size: 17px;
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group-contents,
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group-contents {
@@ -8282,9 +8307,16 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-table-manager .mw-editor-dropdown-option {
   white-space: nowrap;
 }
+.mw-editor-component-disabled {
+  pointer-events: none;
+  opacity: 0.55;
+}
 .mw-small-editor-skin-default [disabled],
 .mw-editor-default [disabled],
-.mw-editor-table-manager [disabled] {
+.mw-editor-table-manager [disabled],
+.mw-small-editor-skin-default .mw-editor-component-disabled,
+.mw-editor-default .mw-editor-component-disabled,
+.mw-editor-table-manager .mw-editor-component-disabled {
   pointer-events: none;
   opacity: 0.55;
 }

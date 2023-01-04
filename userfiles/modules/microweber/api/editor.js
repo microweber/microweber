@@ -197,6 +197,20 @@ var MWEditor = function (options) {
         });
     };
 
+    this.disabled = function (target, state) {
+        var node = target.get ? target.get(0) : target;
+        if(typeof state === 'undefined') {
+            return node._$mwEditorDisabled === true;
+        }
+        node._$mwEditorDisabled = state;
+        if(state === true) {
+            node.classList.add('mw-editor-component-disabled');
+        } else {
+            node.classList.remove('mw-editor-component-disabled')
+        }
+        return this;
+    }
+
     var _observe = function(e){
         e = e || {type: 'action'};
         var max = 78;
@@ -317,7 +331,7 @@ var MWEditor = function (options) {
         });
         scope.state.on('redo', function (){
             var active = scope.state.active();
-            var target = active ? active.target : scope.getSelection().focusNode();
+            var target = active ? active.target : scope.getSelection().focusNode;
             setTimeout(function (){
                 _observe();
             }, 123);
@@ -656,47 +670,51 @@ var MWEditor = function (options) {
                 }
             }
         }
-        scope.$editArea.on('mouseup touchend', function (e, data) {
+        scope.$editArea.on('mouseup touchend', function (e) {
+            var target = mw.tools.firstParentOrCurrentWithTag(e.target, ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+            scope.smallEditorInteract(target);
 
-            if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
-
-                if(!mw.tools.hasParentsWithClass(e.target, 'mw-bar')){
-
-                    // var ctop =  scope.interactionData.pageY - scope.smallEditor.$node.height() - 20;
-                    var off = mw.element(e.target).offset();
-                    var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
-                    // var cleft =  scope.interactionData.pageX;
-                    var cleft =  off.left;
-                    scope.smallEditor.css({
-                        display: 'block'
-                    });
-                    if(scope.settings.smallEditorPositionX === 'left') {
-                        cleft =  off.left;
-                    } else if(scope.settings.smallEditorPositionX === 'center') {
-                        cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
-                    }  else if(scope.settings.smallEditorPositionX === 'right') {
-                        cleft = ((off.left + off.width))  - (scope.smallEditor.width());
-                    }
-                    if(cleft < 0) {
-                        cleft = 0;
-                    }
-                    var max = (cleft + scope.smallEditor.width());
-                    if( max > scope.actionWindow.innerWidth) {
-                        cleft = max - scope.actionWindow.innerWidth;
-                    }
-
-                    scope.smallEditor.css({
-                        top: ctop,
-                        left: cleft,
-                        display: 'block'
-                    });
-                }
-            } else {
-                scope.smallEditor.hide();
-            }
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
     };
+    this.smallEditorInteract = function (target) {
+        if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+
+            if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
+
+                // var ctop =  scope.interactionData.pageY - scope.smallEditor.$node.height() - 20;
+                var off = mw.element(target).offset();
+                var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
+                // var cleft =  scope.interactionData.pageX;
+                var cleft =  off.left;
+                scope.smallEditor.css({
+                    display: 'block'
+                });
+                if(scope.settings.smallEditorPositionX === 'left') {
+                    cleft =  off.left;
+                } else if(scope.settings.smallEditorPositionX === 'center') {
+                    cleft = (off.left + (off.width/2))  - (scope.smallEditor.width()/2);
+                }  else if(scope.settings.smallEditorPositionX === 'right') {
+                    cleft = ((off.left + off.width))  - (scope.smallEditor.width());
+                }
+                if(cleft < 0) {
+                    cleft = 0;
+                }
+                var max = (cleft + scope.smallEditor.width());
+                if( max > scope.actionWindow.innerWidth) {
+                    cleft = max - scope.actionWindow.innerWidth;
+                }
+
+                scope.smallEditor.css({
+                    top: ctop,
+                    left: cleft,
+                    display: 'block'
+                });
+            }
+        } else {
+            scope.smallEditor.hide();
+        }
+    }
     this.createBar = function () {
         this.bar = mw.settings.bar || mw.bar();
         for (var i1 = 0; i1 < this.settings.controls.length; i1++) {
@@ -769,7 +787,19 @@ var MWEditor = function (options) {
                 scope.lastRange = range;
             }
 
-            scope.$editArea.on('paste input', function() {
+            scope.$editArea.on('paste input', function(e) {
+                var clipboardData, pastedData;
+
+                // Stop data actually being pasted into div
+                e.stopPropagation();
+                e.preventDefault();
+
+                // Get pasted data via clipboard API
+                clipboardData = e.clipboardData || window.clipboardData;
+                if(clipboardData) {
+                    pastedData = clipboardData.getData('Text');
+                }
+
                 mw.wysiwyg.normalizeBase64Images(this.parentNode, function (){
                     scope.registerChange();
                 });

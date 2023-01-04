@@ -1694,8 +1694,8 @@ li.module-item.ui-draggable-dragging {
 }
 
 body.dragStart .element {
-    box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.46) inset,
-    0px 1px 0 rgba(0, 0, 0, 0.46) inset;
+    box-shadow: 0 -2px 0 rgb(187, 187, 187) inset,
+    0px 2px 0 rgb(187, 187, 187) inset;
 }
 
 .mw_modal .module-over:hover {
@@ -1766,24 +1766,15 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
 
 .edit .module_loading {
     transform: scale(0, 0);
-    -ms-transform: scale(0, 0);
-    -moz-transform: scale(0, 0);
-    -webkit-transform: scale(0, 0);
-    -o-transform: scale(0, 0);
+
 
 }
 
 .edit .module_activated {
     transition: transform 0.3s;
-    -moz-transition: -moz-transform 0.3s;
-    -webkit-transition: -webkit-transform 0.3s;
-    -o-transition: -o-transform 0.3s;
-    -ms-transition: -ms-transform 0.3s;
+
     transform: scale(1, 1);
-    -ms-transform: scale(1, 1);
-    -moz-transform: scale(1, 1);
-    -webkit-transform: scale(1, 1);
-    -o-transform: scale(1, 1);
+
 }
 
 img[_moz_resizing], table[_moz_resizing] {

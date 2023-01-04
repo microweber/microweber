@@ -467,7 +467,7 @@ mw.lib.require('xss');
                         val = val || false;
                         if (sel.rangeCount > 0) {
                             var node = scope.api.elementNode(sel.focusNode);
-                            scope.api.action(mw.tools.firstBlockLevel(node), function () {
+                            scope.api.action(mw.tools.firstBlockLevel(node).parentNode, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                                 mw.$(scope).trigger('execCommand');
