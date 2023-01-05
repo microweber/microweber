@@ -2,8 +2,8 @@
 
     @php
         $itemValue = '';
-        if (isset($filters['contentData'])) {
-            $itemValue = $filters['contentData'];
+        if (isset($filters['contentData'][$fieldKey])) {
+            $itemValue = $filters['contentData'][$fieldKey];
         }
     @endphp
 

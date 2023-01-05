@@ -79,7 +79,7 @@
                 @endphp
                 <h6 class="dropdown-header">Template settings</h6>
                 @foreach($templateFields as $templateFieldKey=>$templateFieldName)
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.contentFields.{{$templateFieldKey}}"> {{$templateFieldName}}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.contentData.{{$templateFieldKey}}"> {{$templateFieldName}}</label>
                 @endforeach
                 @endif
 
@@ -149,8 +149,8 @@
         @if(isset($showFilters['contentData']) && $showFilters['contentData'])
             @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue)
                 @include('product::admin.product.livewire.table-filters.content-data', [
-                    'fieldName'=>mw()->template->get_edit_field_title($contentDataKey, 'product'),
-                    'fieldKey'=>$contentDataKey,
+                    'fieldName'=>mw()->template->get_data_field_title($contentDataKey, 'product'),
+                    'fieldKey'=>$contentDataKey, 
                 ])
             @endforeach
         @endif
@@ -158,7 +158,7 @@
         @if(isset($showFilters['contentFields']) && $showFilters['contentFields'])
             @foreach($showFilters['contentFields'] as $contentFieldKey=>$contentFieldValue)
                 @include('product::admin.product.livewire.table-filters.content-field', [
-                    'fieldName'=>mw()->template->get_data_field_title($contentFieldKey, 'product'),
+                    'fieldName'=>mw()->template->get_edit_field_title($contentFieldKey, 'product'),
                     'fieldKey'=>$contentFieldKey,
                 ])
             @endforeach
