@@ -224,9 +224,7 @@
                 </div>
             @endif
         </div>
-        <div class="row  mt-3">
-
-
+        <div class="row mt-3">
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
