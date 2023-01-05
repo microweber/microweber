@@ -15,6 +15,6 @@
         'onChangedEmitEvents' => [
              'setFirstPageContentList'
         ]
-    ])
+    ], key($fieldKey)) 
 
 </div>
