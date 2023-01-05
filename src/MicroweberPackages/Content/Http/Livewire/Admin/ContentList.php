@@ -61,6 +61,13 @@ class ContentList extends Component
 
     public function setFilter($key, $value)
     {
+        if (is_array($key)) {
+            foreach ($key as $keyName=>$keyValue) {
+                $this->filters[$keyName][$keyValue] = $value;
+            }
+            return;
+        }
+
         if (is_array($value)) {
             $value = implode(',', $value);
         };
@@ -93,9 +100,22 @@ class ContentList extends Component
 
     public function hideFilter($key)
     {
+        if (is_array($key)) {
+            foreach ($key as $keyName=>$keyValue) {
+                if (isset($this->showFilters[$keyName][$keyValue])) {
+                    unset($this->showFilters[$keyName][$keyValue]);
+                }
+                if (isset($this->filters[$keyName][$keyValue])) {
+                    unset($this->filters[$keyName][$keyValue]);
+                }
+            }
+            return;
+        }
+
         if (isset($this->showFilters[$key])) {
             unset($this->showFilters[$key]);
         }
+
         if (isset($this->filters[$key])) {
             unset($this->filters[$key]);
         }

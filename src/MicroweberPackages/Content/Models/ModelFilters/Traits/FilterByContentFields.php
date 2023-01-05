@@ -10,9 +10,9 @@ namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait FilterByContentData
+trait FilterByContentFields
 {
-    public function contentData($params)
+    public function contentFields($params)
     {
         if (empty($params)) {
             return;
@@ -28,16 +28,16 @@ trait FilterByContentData
                 continue;
             }
 
-            $this->query->whereHas('contentData', function (Builder $query) use ($key, $value) {
-                $query->where('field_name', '=', $key);
+            $this->query->whereHas('contentField', function (Builder $query) use ($key, $value) {
+                $query->where('field', '=', $key);
                 if (is_array($value)) {
                     $query->where(function ($query) use ($value) {
                         foreach ($value as $v){
-                              $query->orWhere('field_value', '=', $v);
+                              $query->orWhere('value', '=', $v);
                         }
                     });
                 } else {
-                    $query->where('field_value', '=', $value);
+                    $query->where('value', '=', $value);
                 }
             });
         }

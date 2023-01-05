@@ -13,6 +13,7 @@ use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDate;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByOrdersTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
@@ -39,6 +40,7 @@ class ProductFilter extends ContentFilter
     use FilterByPriceTrait;
     use FilterByKeywordTrait;
     use FilterByContentData;
+    use FilterByContentFields;
     use FilterByStockTrait;
     use FilterByVisibleTrait;
     use FilterByVisibleTrait;
