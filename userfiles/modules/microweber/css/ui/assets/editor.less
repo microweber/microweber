@@ -258,6 +258,13 @@
 
     }
 
+    .mw-editor-option-dropdown-h1{ font-size: 30px }
+    .mw-editor-option-dropdown-h2{ font-size: 27px }
+    .mw-editor-option-dropdown-h3{ font-size: 25px }
+    .mw-editor-option-dropdown-h4{ font-size: 22px }
+    .mw-editor-option-dropdown-h5{ font-size: 20px }
+    .mw-editor-option-dropdown-h6{ font-size: 17px }
+
 
     .mw-editor-controller-component[data-tooltip]:after{
         position: absolute;
@@ -284,6 +291,12 @@
         bottom: 100%;
         transform: translateX(-50%) scale(1);
     }
+    .mw-editor-controller-button{
+        vertical-align: middle;
+        line-height: normal;
+        display: inline-flex;
+        align-items: center;
+    }
     .mw-bar-row {
         border-bottom:1px solid #DDDDDD;
         background-color: rgba(247,247,247, 1);
@@ -305,9 +318,7 @@
             .mw-editor-controller-component + .mw-editor-controller-component {
                 margin-inline-start: @editorSpacing;
             }
-            .mw-editor-controller-button{
-                vertical-align: top;
-            }
+
             &>.mw-editor-controller-button{
                 display: none;
             }

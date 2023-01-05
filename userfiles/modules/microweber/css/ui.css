@@ -8326,6 +8326,36 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   pointer-events: none;
   opacity: 0.55;
 }
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h1,
+.mw-editor-default .mw-editor-option-dropdown-h1,
+.mw-editor-table-manager .mw-editor-option-dropdown-h1 {
+  font-size: 30px;
+}
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h2,
+.mw-editor-default .mw-editor-option-dropdown-h2,
+.mw-editor-table-manager .mw-editor-option-dropdown-h2 {
+  font-size: 27px;
+}
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h3,
+.mw-editor-default .mw-editor-option-dropdown-h3,
+.mw-editor-table-manager .mw-editor-option-dropdown-h3 {
+  font-size: 25px;
+}
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h4,
+.mw-editor-default .mw-editor-option-dropdown-h4,
+.mw-editor-table-manager .mw-editor-option-dropdown-h4 {
+  font-size: 22px;
+}
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h5,
+.mw-editor-default .mw-editor-option-dropdown-h5,
+.mw-editor-table-manager .mw-editor-option-dropdown-h5 {
+  font-size: 20px;
+}
+.mw-small-editor-skin-default .mw-editor-option-dropdown-h6,
+.mw-editor-default .mw-editor-option-dropdown-h6,
+.mw-editor-table-manager .mw-editor-option-dropdown-h6 {
+  font-size: 17px;
+}
 .mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:after,
 .mw-editor-default .mw-editor-controller-component[data-tooltip]:after,
 .mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:after {
@@ -8356,6 +8386,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   margin-top: 0;
   bottom: 100%;
   transform: translateX(-50%) scale(1);
+}
+.mw-small-editor-skin-default .mw-editor-controller-button,
+.mw-editor-default .mw-editor-controller-button,
+.mw-editor-table-manager .mw-editor-controller-button {
+  vertical-align: middle;
+  line-height: normal;
+  display: inline-flex;
+  align-items: center;
 }
 .mw-small-editor-skin-default .mw-bar-row,
 .mw-editor-default .mw-bar-row,
@@ -8389,11 +8427,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component,
 .mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-component + .mw-editor-controller-component {
   margin-inline-start: 5px;
-}
-.mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,
-.mw-editor-default .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button,
-.mw-editor-table-manager .mw-bar-row .mw-bar-control-item-group .mw-editor-controller-button {
-  vertical-align: top;
 }
 .mw-small-editor-skin-default .mw-bar-row .mw-bar-control-item-group > .mw-editor-controller-button,
 .mw-editor-default .mw-bar-row .mw-bar-control-item-group > .mw-editor-controller-button,

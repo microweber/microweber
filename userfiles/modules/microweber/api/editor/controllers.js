@@ -524,7 +524,9 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Format')
             });
             dropdown.select.on('change', function (e, val) {
-                api.execCommand('formatBlock', false, e.detail.value);
+                if(e.detail) {
+                    api.execCommand('formatBlock', false, e.detail.value);
+                }
                 /*var sel = scope.getSelection();
                 var range = sel.getRangeAt(0);
                 var el = scope.actionWindow.document.createElement(val.value);

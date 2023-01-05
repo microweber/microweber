@@ -792,9 +792,7 @@ var MWEditor = function (options) {
 
                 // Stop data actually being pasted into div
                 e.stopPropagation();
-                e.preventDefault();
 
-                // Get pasted data via clipboard API
                 clipboardData = e.clipboardData || window.clipboardData;
                 if(clipboardData) {
                     pastedData = clipboardData.getData('Text');
