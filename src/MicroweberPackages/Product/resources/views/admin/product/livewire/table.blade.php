@@ -147,9 +147,9 @@
         @endif
 
         @if(isset($showFilters['contentData']) && $showFilters['contentData'])
-            @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue) 
+            @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue)
                 @include('product::admin.product.livewire.table-filters.content-data', [
-                    'fieldName'=>mw()->template->get_data_field_title($contentDataKey, 'product'),
+                    'fieldName'=>mw()->template->get_edit_field_title($contentDataKey, 'product'),
                     'fieldKey'=>$contentDataKey,
                 ])
             @endforeach
@@ -158,7 +158,7 @@
         @if(isset($showFilters['contentFields']) && $showFilters['contentFields'])
             @foreach($showFilters['contentFields'] as $contentFieldKey=>$contentFieldValue)
                 @include('product::admin.product.livewire.table-filters.content-field', [
-                    'fieldName'=>mw()->template->get_edit_field_title($contentFieldKey, 'product'),
+                    'fieldName'=>mw()->template->get_data_field_title($contentFieldKey, 'product'),
                     'fieldKey'=>$contentFieldKey,
                 ])
             @endforeach
@@ -230,6 +230,7 @@
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
+                @if($products->total() > 0)
                 <div class="d-inline-block mx-1">
                     <span class="d-md-block d-none text-muted small"> Display as </span>
                     <div class="btn-group mb-4">
@@ -284,6 +285,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <div class="page-loading" wire:loading>
                     Loading...

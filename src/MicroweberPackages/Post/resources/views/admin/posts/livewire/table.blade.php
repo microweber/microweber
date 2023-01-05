@@ -151,6 +151,7 @@ if (isset($filters['category'])) {
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
+                @if($posts->total() > 0)
                 <div class="d-inline-block mx-1">
                     <span class="d-md-block d-none text-muted small"> Display as </span>
                     <div class="btn-group mb-4">
@@ -197,6 +198,8 @@ if (isset($filters['category'])) {
                         </div>
                     </div>
                 </div>
+                @endif
+
 
                 <div class="page-loading" wire:loading>
                     Loading...
