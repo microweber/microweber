@@ -16,11 +16,16 @@
     z-index: 1101;
     &.pinned{
         position: fixed;
-        top: 0 !important;
+        top: 5px !important;
         left: 50% !important;
         z-index: 1103 !important;
         transform:translateX(-50%) !important;
         margin-top: 0 !important;
+        .mw-editor-button-pin{
+            svg{
+                transform: rotate(45deg);
+            }
+        }
     }
     &.mw-small-editor-skin-default{
 
@@ -71,12 +76,21 @@
 
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    .mw-editor-group-button{
+        & > mw-editor-button{
+            margin-inline: 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
 
+
+    }
 
     .mw-bar-control-item-group {
         .mw-editor-group-button{
             position: relative;
             padding-inline:0 15px ;
+
         }
 
         .mw-editor-group-button-caret{
@@ -119,14 +133,15 @@
     }
     .mw-editor-controller-button{
 
-        height: 40px;
-        min-width: 35px;
+        height: 35px;
+        min-width: 33px;
         text-align: center;
         cursor:pointer;
         border: none;
         outline: none;
         display: inline-flex;
-        border-radius: 0;
+        border-radius: 3px;
+        margin-inline: 1px;
 
     }
 }
@@ -141,7 +156,11 @@
 }
 .mw-small-editor.mw-small-editor-skin-lite{
     background-color: white;
+    padding: 5px 0;
      color: #2b2b2b;
+    .mw-editor-group-button{
+        margin-inline: 0;
+    }
     .mw-bar-control-item-group-contents{
         background-color: white;
     }
@@ -164,6 +183,7 @@
     }
     .mw-editor-control-group-media-matches.active {
         .mw-editor-group-button{
+
             background-color: #eee;
         }
     }
@@ -382,8 +402,7 @@
     color: #686868;
     border: 1px solid transparent;
     outline: 0;
-    transition: .3s;
-    white-space: nowrap;
+     white-space: nowrap;
     vertical-align: middle;
     background-color: transparent;
     font-size: 19px;
@@ -409,8 +428,14 @@
     }
     &.mw-editor-group-button{
         width: auto;
+        .mw-editor-controller-button{
+            height: 33px !important;
+        }
+
         padding: 0 5px;
         display: none;
+        border: 1px solid transparent !important;
+        border-radius: 5px;
         .mw-editor-group-button-icon{
             vertical-align: middle;
             svg{
@@ -423,8 +448,16 @@
             position: relative;
             top: -1px;
             svg {
-                height: 16px;
-                border-left: 1px solid #ccc;
+                height: 35px;
+                border-left: 1px solid transparent;
+            }
+        }
+        &:hover{
+            border-color: rgba(69, 146, 255, 0.51) !important;
+            .mw-editor-group-button-caret{
+                svg {
+                    border-left-color: rgba(69, 146, 255, 0.51);
+                }
             }
         }
     }
@@ -495,6 +528,18 @@
         }
         &+.mw-editor-dropdown-option{
             border-top: 1px solid #ccc;
+        }
+    }
+}
+
+.mw-editor-font-size-selector{
+    .mw-editor-controller-component-select-values-holder{
+        display: flex;
+        flex-wrap: wrap;
+        width: 200px;
+        .mw-editor-dropdown-option{
+            width: 25%;
+            border-width: 0;
         }
     }
 }

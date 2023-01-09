@@ -3339,6 +3339,12 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after {
   justify-content: space-between;
   width: 100%;
 }
+.mw-tree-nav-skin-category-manager .mw-tree-item-content.item-selectable-true {
+  padding-inline-start: 50px !important;
+}
+.mw-tree-nav-skin-category-manager .mw-tree-item-content.item-selectable-true .mw-ui-check {
+  margin-inline: -55px 25px;
+}
 .mw-tree-nav-skin-category-manager .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-content:before,
 .mw-tree-nav-skin-category-manager .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title {
   opacity: 0.5;
@@ -8085,11 +8091,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.pinned {
   position: fixed;
-  top: 0 !important;
+  top: 5px !important;
   left: 50% !important;
   z-index: 1103 !important;
   transform: translateX(-50%) !important;
   margin-top: 0 !important;
+}
+.mw-small-editor.pinned .mw-editor-button-pin svg {
+  transform: rotate(45deg);
 }
 .mw-small-editor .mw-bar .mw-bar-row {
   border: none !important;
@@ -8147,6 +8156,12 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item.active .mw-bar-control-item-group-contents {
   display: block;
 }
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-group-button > mw-editor-button,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-group-button > mw-editor-button {
+  margin-inline: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group .mw-editor-group-button,
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group .mw-editor-group-button {
   position: relative;
@@ -8201,14 +8216,15 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-button,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button {
-  height: 40px;
-  min-width: 35px;
+  height: 35px;
+  min-width: 33px;
   text-align: center;
   cursor: pointer;
   border: none;
   outline: none;
   display: inline-flex;
-  border-radius: 0;
+  border-radius: 3px;
+  margin-inline: 1px;
 }
 .mw-small-editor.mw-small-editor-skin-dark {
   background-color: #404040;
@@ -8222,7 +8238,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite {
   background-color: white;
+  padding: 5px 0;
   color: #2b2b2b;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-group-button {
+  margin-inline: 0;
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group-contents {
   background-color: white;
@@ -8493,7 +8513,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   color: #686868;
   border: 1px solid transparent;
   outline: 0;
-  transition: 0.3s;
   white-space: nowrap;
   vertical-align: middle;
   background-color: transparent;
@@ -8520,6 +8539,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   width: auto;
   padding: 0 5px;
   display: none;
+  border: 1px solid transparent !important;
+  border-radius: 5px;
+}
+.mw-editor-controller-button.mw-editor-group-button .mw-editor-controller-button {
+  height: 33px !important;
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon {
   vertical-align: middle;
@@ -8534,8 +8558,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   top: -1px;
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret svg {
-  height: 16px;
-  border-left: 1px solid #ccc;
+  height: 35px;
+  border-left: 1px solid transparent;
+}
+.mw-editor-controller-button.mw-editor-group-button:hover {
+  border-color: rgba(69, 146, 255, 0.51) !important;
+}
+.mw-editor-controller-button.mw-editor-group-button:hover .mw-editor-group-button-caret svg {
+  border-left-color: rgba(69, 146, 255, 0.51);
 }
 .mw-editor-controller-component-select .mw-editor-select-display-value {
   text-align: left;
@@ -8596,6 +8626,15 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-component-select .mw-editor-dropdown-option + .mw-editor-dropdown-option {
   border-top: 1px solid #ccc;
+}
+.mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder {
+  display: flex;
+  flex-wrap: wrap;
+  width: 200px;
+}
+.mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder .mw-editor-dropdown-option {
+  width: 25%;
+  border-width: 0;
 }
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;

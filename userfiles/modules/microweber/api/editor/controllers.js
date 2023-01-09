@@ -421,7 +421,7 @@ MWEditor.controllers = {
                     { label: '12px', value: 12 },
                     { label: '14px', value: 14 },
                     { label: '16px', value: 16 },
-                    { label: '18px', value: 18 },
+                    { label: '17px', value: 17 },
                     { label: '20px', value: 20 },
                     { label: '22px', value: 22 },
                     { label: '24px', value: 24 },
@@ -429,9 +429,13 @@ MWEditor.controllers = {
                     { label: '32px', value: 32 },
                     { label: '36px', value: 36 },
                     { label: '42px', value: 42 },
+                    { label: '52px', value: 52 },
+                    { label: '62px', value: 62 },
+                    { label: '72px', value: 72 },
                 ],
                 placeholder: rootScope.lang('Font Size')
             });
+            dropdown.root.addClass('mw-editor-font-size-selector');
             dropdown.select.on('change', function (e, val) {
                 if(val) {
                     api.fontSize(val.value);
@@ -481,12 +485,12 @@ MWEditor.controllers = {
     format: function (scope, api, rootScope) {
 
         this._availableTags = [
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Title</mw-editor-option>', value: 'h1' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Title</mw-editor-option>', value: 'h2' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Title</mw-editor-option>', value: 'h3' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Title</mw-editor-option>', value: 'h4' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Title</mw-editor-option>', value: 'h5' },
-            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Title</mw-editor-option>', value: 'h6' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h1">Heading 1</mw-editor-option>', value: 'h1' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h2">Heading 2</mw-editor-option>', value: 'h2' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h3">Heading 3</mw-editor-option>', value: 'h3' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h4">Heading 4</mw-editor-option>', value: 'h4' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h5">Heading 5</mw-editor-option>', value: 'h5' },
+            { label: '<mw-editor-option class="mw-editor-option-dropdown-h6">Heading 6</mw-editor-option>', value: 'h6' },
             { label: 'Paragraph', value: 'p' },
             { label: 'Block', value: 'div' },
             { label: 'Pre formated', value: 'pre' }
@@ -829,14 +833,13 @@ MWEditor.controllers = {
                     tooltip: 'Delete'
                 }
             });
+            el.addClass('mw-editor-button-pin');
             el.on('mousedown touchstart', function (e) {
                 e.preventDefault();
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
-                rootScope.smallEditor.toggleClass('pinned');
-                setTimeout(function (){
-                    rootScope.smallEditorInteract(node);
-                }, 500)
+                rootScope.smallEditorApi.toggle();
+
             });
             return el;
         };

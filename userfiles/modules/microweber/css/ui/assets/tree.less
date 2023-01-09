@@ -482,7 +482,15 @@ html[dir="rtl"]{
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        &.item-selectable-true{
+            padding-inline-start: 50px !important;
+            .mw-ui-check{
+                margin-inline: -55px 25px;
+            }
+        }
+
     }
+
 
     .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-content:before,
     .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title{
