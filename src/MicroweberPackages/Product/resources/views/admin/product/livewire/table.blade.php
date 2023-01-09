@@ -50,6 +50,21 @@
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
 
+    @php
+    $showFiltersUnsetCategory = $showFilters;
+    if (isset($showFiltersUnsetCategory['category'])) {
+        unset($showFiltersUnsetCategory['category']);
+    }
+
+    $displayFilters = true;
+    if ($products->total() == 0 && empty($showFiltersUnsetCategory)) {
+        $displayFilters = false;
+    }
+    @endphp
+
+
+    @if($displayFilters)
+
     <div class="d-flex">
 
        <?php if(!$isInTrashed): ?>
@@ -113,6 +128,8 @@
         @endif
     </div>
 
+    @endif
+
     <div class="d-flex flex-wrap mt-3">
       {{--  @if(isset($showFilters['category']) && $showFilters['category'])
             @include('product::admin.product.livewire.table-filters.category')
@@ -150,7 +167,7 @@
             @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue)
                 @include('product::admin.product.livewire.table-filters.content-data', [
                     'fieldName'=>mw()->template->get_data_field_title($contentDataKey, 'product'),
-                    'fieldKey'=>$contentDataKey, 
+                    'fieldKey'=>$contentDataKey,
                 ])
             @endforeach
         @endif
@@ -185,6 +202,8 @@
             @include('product::admin.product.livewire.table-filters.updated-at')
         @endif
     </div>
+
+
         <div class="row  mt-3">
             @if(count($checked) > 0)
 
@@ -293,7 +312,8 @@
 
 
         </div>
-        @if($products->total() > 0)
+
+    @if($products->total() > 0)
 
 
     <div class="row mt-3">
