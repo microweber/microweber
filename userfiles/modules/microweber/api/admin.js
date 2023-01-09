@@ -296,7 +296,8 @@ mw.contactForm = function () {
     mw.top().dialogIframe({
         url: 'https://microweber.org/go/feedback/',
         overlay: true,
-        height: 600
+        height: 1000,
+        width: 1000
     })
 };
 
