@@ -21,6 +21,9 @@ class AdminJsCategoryTree
     public function getPagesDatabase()
     {
         $getPagesQuery = app()->make(Page::class);
+        $getPagesQuery->where('is_active', 1);
+        $getPagesQuery->where('is_deleted', 0);
+
         $getPagesQuery->orderBy('position', 'DESC');
 
         $getPages = $getPagesQuery->get();
@@ -33,6 +36,8 @@ class AdminJsCategoryTree
     {
         $getCategoriesQuery = app()->make(Category::class);
         $getCategoriesQuery->orderBy('position', 'ASC');
+        $getCategoriesQuery->where('is_active', 1);
+        $getCategoriesQuery->where('is_deleted', 0);
 
         $getCategories = $getCategoriesQuery->get();
         if ($getCategories) {
