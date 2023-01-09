@@ -122,7 +122,11 @@
                     title: '<?php _ejs("Edit"); ?>',
                     icon: 'mdi mdi-pencil',
                     action: function (element, data, menuitem) {
-                        window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
+                        if (data.type === 'category') {
+                            window.location.href = '<?php print admin_url('category'); ?>/' + data.id + '/edit';
+                        } else {
+                            
+                        }
                     }
                 }
             ];
