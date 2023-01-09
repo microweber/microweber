@@ -4,11 +4,12 @@
 
 
         <div class="mb-2 text-center">
-            <b>{{count($importFeed['mapped_content'])}} products are imported</b>
+            <b>{{count($importFeed['mapped_content'])}} items are imported</b>
         </div>
 
         @foreach($mappedContent->items() as $content)
-            <table class="table table-bordered">
+            <div class="table-responsive">
+              <table class="table table-bordered">
                 <tbody>
                 @foreach($content as $columnKey=>$columnValue)
                     <tr>
@@ -38,6 +39,7 @@
                 @endforeach
                 </tbody>
             </table>
+            </div>
         @endforeach
 
      {{$mappedContent->links('livewire-tables::specific.bootstrap-4.pagination')}}
