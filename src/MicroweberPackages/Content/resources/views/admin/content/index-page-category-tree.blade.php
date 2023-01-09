@@ -134,18 +134,9 @@
                     window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
                 },
                 filter: function(data) {
-                    console.log(data);
-                    return false;
-                }
-            });
-
-            contextMenu.push({
-                title: '<?php _ejs("Add subpage"); ?>',
-                icon: 'mdi mdi-pencil',
-                action: function (element, data, menuitem) {
-                    window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
-                },
-                filter: function(data) {
+                    if (data.type === 'category') {
+                        return true;
+                    }
                     return false;
                 }
             });
