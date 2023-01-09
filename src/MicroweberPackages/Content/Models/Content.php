@@ -136,16 +136,17 @@ class Content extends Model
 
     public function editLink()
     {
+        $content = $this->toArray();
 
-        if ($this->content_type == 'product') {
+        if (isset($content['content_type']) && $content['content_type'] == 'product') {
             return route('admin.product.edit', $this->id);
         }
 
-        if ($this->content_type == 'post') {
+        if (isset($content['content_type']) && $content['content_type'] == 'post') {
             return route('admin.post.edit', $this->id);
         }
 
-        if ($this->content_type == 'page') {
+        if (isset($content['content_type']) && $content['content_type'] == 'page') {
             return route('admin.page.edit', $this->id);
         }
 
