@@ -48,8 +48,22 @@ if (isset($filters['category'])) {
     <div class="card-body pt-3">
 
 
-        @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
+        @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
+        @php
+            $showFiltersUnsetCategory = $showFilters;
+            if (isset($showFiltersUnsetCategory['category'])) {
+                unset($showFiltersUnsetCategory['category']);
+            }
+
+            $displayFilters = true;
+            if ($posts->total() == 0 && empty($showFiltersUnsetCategory)) {
+                $displayFilters = false;
+            }
+        @endphp
+
+
+        @if($displayFilters)
         <div class="d-flex">
 
             <?php if(!$isInTrashed): ?>
@@ -83,31 +97,32 @@ if (isset($filters['category'])) {
                 </div>
             @endif
         </div>
+        @endif
 
         <div class="d-flex flex-wrap mt-3">
 
             @if(isset($showFilters['tags']) && $showFilters['tags'])
-                @include('product::admin.product.livewire.table-filters.tags')
+                @include('content::admin.content.livewire.table-filters.tags')
             @endif
 
             @if(isset($showFilters['visible']) && $showFilters['visible'])
-                @include('product::admin.product.livewire.table-filters.visible')
+                @include('content::admin.content.livewire.table-filters.visible')
             @endif
 
             @if(isset($showFilters['userId']) && $showFilters['userId'])
-                @include('product::admin.product.livewire.table-filters.author')
+                @include('content::admin.content.livewire.table-filters.author')
             @endif
 
             @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
-                @include('product::admin.product.livewire.table-filters.date-between')
+                @include('content::admin.content.livewire.table-filters.date-between')
             @endif
 
             @if(isset($showFilters['createdAt']) && $showFilters['createdAt'])
-                @include('product::admin.product.livewire.table-filters.created-at')
+                @include('content::admin.content.livewire.table-filters.created-at')
             @endif
 
             @if(isset($showFilters['updatedAt']) && $showFilters['updatedAt'])
-                @include('product::admin.product.livewire.table-filters.updated-at')
+                @include('content::admin.content.livewire.table-filters.updated-at')
             @endif
         </div>
         <div class="row  mt-3">
