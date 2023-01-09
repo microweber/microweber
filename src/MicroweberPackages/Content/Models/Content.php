@@ -136,26 +136,12 @@ class Content extends Model
 
     public function editLink()
     {
-        $content = $this->toArray();
-
-        if (isset($content['content_type']) && $content['content_type'] == 'product') {
-            return route('admin.product.edit', $this->id);
-        }
-
-        if (isset($content['content_type']) && $content['content_type'] == 'post') {
-            return route('admin.post.edit', $this->id);
-        }
-
-        if (isset($content['content_type']) && $content['content_type'] == 'page') {
-            return route('admin.page.edit', $this->id);
-        }
-
-        return route('admin.content.edit', $this->id);
+        return content_edit_link($this->id);
     }
 
     public function liveEditLink()
     {
-        $this->editLink($this->id);
+        return content_edit_link($this->id);
     }
 
     public function getDescriptionAttribute($value)
