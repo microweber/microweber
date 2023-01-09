@@ -134,6 +134,28 @@ class Content extends Model
         return content_link($this->id);
     }
 
+    public function editLink()
+    {
+
+        if ($this->content_type == 'product') {
+            return route('admin.product.edit', $this->id);
+        }
+
+        if ($this->content_type == 'post') {
+            return route('admin.post.edit', $this->id);
+        }
+
+        if ($this->content_type == 'page') {
+            return route('admin.page.edit', $this->id);
+        }
+
+        return route('admin.content.edit', $this->id);
+    }
+
+    public function liveEditLink()
+    {
+        $this->editLink($this->id);
+    }
 
     public function getDescriptionAttribute($value)
     {
