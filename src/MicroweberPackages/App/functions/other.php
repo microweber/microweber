@@ -1071,7 +1071,11 @@ function special_unicode_to_utf8($str)
 function get_date_format()
 {
     return mw()->format->get_date_format();
+}
 
+function get_date_format_raw()
+{
+    return get_option('date_format', 'website');
 }
 
 function date_system_format($db_date)

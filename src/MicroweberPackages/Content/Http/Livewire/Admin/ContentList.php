@@ -264,6 +264,7 @@ class ContentList extends Component
     {
         return view('content::admin.content.livewire.table', [
             'contents' => $this->contents,
+            'countActiveContents' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
         ]);
     }

@@ -1,5 +1,4 @@
-@php
-if ($countActivePosts > 0) {
+<?php
 $isInTrashed  = false;
 if(isset($showFilters['trashed']) && $showFilters['trashed']){
     $isInTrashed  = true;
@@ -9,7 +8,8 @@ $findCategory = false;
 if (isset($filters['category'])) {
     $findCategory = get_category_by_id($filters['category']);
 }
-@endphp
+?>
+
 
 <div class="card style-1 mb-3">
 
@@ -18,7 +18,7 @@ if (isset($filters['category'])) {
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
                 <strong class="d-md-flex d-none">
-                    <a  class="@if($findCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Posts')}}</a>
+                    <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Website')}}</a>
 
                     @if($findCategory)
                         <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
@@ -40,13 +40,11 @@ if (isset($filters['category'])) {
                 @if($findCategory)
                     <a href="{{category_link($findCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
                 @endif
-                <a href="{{route('admin.post.create')}}" class="btn btn-outline-success btn-sm js-hide-when-no-items ms-md-4 card-header-add-button">{{_e('Add Post')}}</a>
             </div>
         </div>
     </div>
 
     <div class="card-body pt-3">
-
 
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
@@ -57,11 +55,10 @@ if (isset($filters['category'])) {
             }
 
             $displayFilters = true;
-            if ($posts->total() == 0 && empty($showFiltersUnsetCategory)) {
+            if ($contents->total() == 0 && empty($showFiltersUnsetCategory)) {
                 $displayFilters = false;
             }
         @endphp
-
 
         @if($displayFilters)
         <div class="d-flex">
@@ -113,6 +110,7 @@ if (isset($filters['category'])) {
                 @include('content::admin.content.livewire.table-filters.author')
             @endif
 
+
             @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
                 @include('content::admin.content.livewire.table-filters.date-between')
             @endif
@@ -128,7 +126,7 @@ if (isset($filters['category'])) {
         <div class="row  mt-3">
             @if(count($checked) > 0)
 
-                @if (count($checked) == count($posts->items()))
+                @if (count($checked) == count($contents->items()))
                     <div class="col-md-10 mb-2">
                         You have selected all {{ count($checked) }} items.
                         <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
@@ -136,7 +134,7 @@ if (isset($filters['category'])) {
                 @else
                     <div>
                         You have selected {{ count($checked) }} items,
-                        Do you want to Select All {{ count($posts->items()) }}?
+                        Do you want to Select All {{ count($contents->items()) }}?
                         <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
                     </div>
                 @endif
@@ -166,7 +164,7 @@ if (isset($filters['category'])) {
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
-                @if($posts->total() > 0)
+                @if($contents->total() > 0)
                 <div class="d-inline-block mx-1">
                     <span class="d-md-block d-none text-muted small"> Display as </span>
                     <div class="btn-group mb-4">
@@ -215,7 +213,6 @@ if (isset($filters['category'])) {
                 </div>
                 @endif
 
-
                 <div class="page-loading" wire:loading>
                     Loading...
                 </div>
@@ -224,39 +221,25 @@ if (isset($filters['category'])) {
 
 
         </div>
-
-        @if($posts->total() > 0)
+        @if($contents->total() > 0)
 
             <div class="row mt-3">
                 <div class="col-md-12">
                     @if($displayType == 'card')
-                        @include('post::admin.posts.livewire.display-types.card')
+                        @include('content::admin.content.livewire.display-types.card')
                     @endif
 
                     @if($displayType == 'table')
-                        @include('post::admin.posts.livewire.display-types.table')
+                        @include('content::admin.content.livewire.display-types.table')
                     @endif
                 </div>
             </div>
 
-            {{ $posts->links() }}
+            {{ $contents->links() }}
 
         @else
-            @include('post::admin.posts.livewire.no-results-for-filters')
+            @include('content::admin.content.livewire.no-results')
         @endif
 
     </div>
 </div>
-@php
-} else {
-@endphp
-
-<div class="card style-1 mb-3">
-    <div class="card-body pt-3">
-        @include('post::admin.posts.livewire.no-results')
-    </div>
-</div>
-
-@php
-}
-@endphp

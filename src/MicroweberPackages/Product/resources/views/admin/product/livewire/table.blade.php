@@ -50,6 +50,21 @@
     @include('product::admin.product.livewire.table-includes.table-tr-reoder-js')
 
 
+    @php
+    $showFiltersUnsetCategory = $showFilters;
+    if (isset($showFiltersUnsetCategory['category'])) {
+        unset($showFiltersUnsetCategory['category']);
+    }
+
+    $displayFilters = true;
+    if ($products->total() == 0 && empty($showFiltersUnsetCategory)) {
+        $displayFilters = false;
+    }
+    @endphp
+
+
+    @if($displayFilters)
+
     <div class="d-flex">
 
        <?php if(!$isInTrashed): ?>
@@ -79,7 +94,7 @@
                 @endphp
                 <h6 class="dropdown-header">Template settings</h6>
                 @foreach($templateFields as $templateFieldKey=>$templateFieldName)
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.contentFields.{{$templateFieldKey}}"> {{$templateFieldName}}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.contentData.{{$templateFieldKey}}"> {{$templateFieldName}}</label>
                 @endforeach
                 @endif
 
@@ -112,6 +127,8 @@
             </div>
         @endif
     </div>
+
+    @endif
 
     <div class="d-flex flex-wrap mt-3">
       {{--  @if(isset($showFilters['category']) && $showFilters['category'])
@@ -147,7 +164,7 @@
         @endif
 
         @if(isset($showFilters['contentData']) && $showFilters['contentData'])
-            @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue) 
+            @foreach($showFilters['contentData'] as $contentDataKey=>$contentDataValue)
                 @include('product::admin.product.livewire.table-filters.content-data', [
                     'fieldName'=>mw()->template->get_data_field_title($contentDataKey, 'product'),
                     'fieldKey'=>$contentDataKey,
@@ -185,6 +202,8 @@
             @include('product::admin.product.livewire.table-filters.updated-at')
         @endif
     </div>
+
+
         <div class="row  mt-3">
             @if(count($checked) > 0)
 
@@ -224,12 +243,11 @@
                 </div>
             @endif
         </div>
-        <div class="row  mt-3">
-
-
+        <div class="row mt-3">
 
             <div style="height: 60px" class="bulk-actions-show-columns">
 
+                @if($products->total() > 0)
                 <div class="d-inline-block mx-1">
                     <span class="d-md-block d-none text-muted small"> Display as </span>
                     <div class="btn-group mb-4">
@@ -284,6 +302,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <div class="page-loading" wire:loading>
                     Loading...
@@ -293,7 +312,8 @@
 
 
         </div>
-        @if($products->total() > 0)
+
+    @if($products->total() > 0)
 
 
     <div class="row mt-3">

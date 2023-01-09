@@ -401,6 +401,10 @@ $user = get_user_by_id($user_id);
                 $website_class = "active";
                 $action = 'pages';
             }
+            if ($routeName == 'admin.content.index') {
+                $website_class = "active";
+                $action = 'content';
+            }
 
             $shop_class = '';
             if ($view == 'shop' and $action == false) {
@@ -437,7 +441,7 @@ $user = get_user_by_id($user_id);
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                     <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
 
-                        <a href="<?php echo route('admin.post.index'); ?>" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
+                        <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                             <i class="mdi mdi-earth"></i>
                             <span class="badge-holder"><?php _e("Website"); ?></span>
                         </a>

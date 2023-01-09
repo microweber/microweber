@@ -2428,6 +2428,26 @@ class ContentManager
 
     }
 
+    public function edit_link($id = 0)
+    {
+        $content = $this->get_by_id($id);
+
+        if (isset($content['content_type']) && $content['content_type'] == 'product') {
+            return route('admin.product.edit', $id);
+        }
+
+        if (isset($content['content_type']) && $content['content_type'] == 'post') {
+            return route('admin.post.edit', $id);
+        }
+
+        if (isset($content['content_type']) && $content['content_type'] == 'page') {
+            return route('admin.page.edit', $id);
+        }
+
+        return route('admin.content.edit', $id);
+
+    }
+
     public function save_edit($post_data)
     {
         return $this->helpers->save_from_live_edit($post_data);
