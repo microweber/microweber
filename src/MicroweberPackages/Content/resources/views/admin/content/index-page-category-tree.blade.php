@@ -124,9 +124,14 @@
                     action: function (element, data, menuitem) {
                         if (data.type === 'category') {
                             window.location.href = '<?php print admin_url('category'); ?>/' + data.id + '/edit';
+                        } else  if (data.type === 'page') {
+                            window.location.href = '<?php print admin_url('page'); ?>/' + data.id + '/edit';
+                        } else  if (data.type === 'post') {
+                            window.location.href = '<?php print admin_url('post'); ?>/' + data.id + '/edit';
                         } else {
-                            
+                            window.location.href = '<?php print admin_url('content'); ?>/' + data.id + '/edit';
                         }
+
                     }
                 }
             ];
