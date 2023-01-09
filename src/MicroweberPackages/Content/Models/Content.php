@@ -134,6 +134,15 @@ class Content extends Model
         return content_link($this->id);
     }
 
+    public function editLink()
+    {
+        return content_edit_link($this->id);
+    }
+
+    public function liveEditLink()
+    {
+        return content_edit_link($this->id);
+    }
 
     public function getDescriptionAttribute($value)
     {

@@ -48,6 +48,19 @@ if (isset($filters['category'])) {
 
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
+        @php
+            $showFiltersUnsetCategory = $showFilters;
+            if (isset($showFiltersUnsetCategory['category'])) {
+                unset($showFiltersUnsetCategory['category']);
+            }
+
+            $displayFilters = true;
+            if ($contents->total() == 0 && empty($showFiltersUnsetCategory)) {
+                $displayFilters = false;
+            }
+        @endphp
+
+        @if($displayFilters)
         <div class="d-flex">
 
             <?php if(!$isInTrashed): ?>
@@ -81,6 +94,7 @@ if (isset($filters['category'])) {
                 </div>
             @endif
         </div>
+        @endif
 
         <div class="d-flex flex-wrap mt-3">
 

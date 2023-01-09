@@ -1,8 +1,6 @@
 <div class="pt-0">
 
-    @include('content::admin.content.index-page-category-tree', [
-       'is_shop'=>1,
-   ])
+    @include('content::admin.content.index-page-category-tree')
 
     <div class="module-content">
 
