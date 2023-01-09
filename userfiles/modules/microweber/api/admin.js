@@ -293,13 +293,11 @@ mw.admin.tree = function (target, opt, mode) {
 
 
 mw.contactForm = function () {
-    mw.top().dialogIframe({
-        url: 'https://microweber.org/go/feedback/',
-        overlay: true,
-        height: 1000,
-        width: 1000
-    })
+   window.open('https://templates.microweber.com/feedback/', '_blank');
+
+
 };
+
 
 
 if(typeof mw.admin.content === 'undefined'){
