@@ -294,7 +294,7 @@ mw.admin.tree = function (target, opt, mode) {
 
 mw.contactForm = function () {
     mw.top().dialogIframe({
-        url: 'https://microweber.com/contact-frame/',
+        url: 'https://microweber.org/go/feedback/',
         overlay: true,
         height: 600
     })
