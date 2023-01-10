@@ -302,6 +302,11 @@ class ContentList extends Component
         $query = $this->model::query();
         $query->disableCache(true);
 
+        if (get_option('shop_disabled', 'website') == 'y') {
+            $query->where('subtype', '!=', 'product');
+            $query->where('is_shop', '!=', '1');
+        }
+
         $this->appliedFilters = [];
 
         foreach ($this->filters as $filterKey => $filterValue) {
