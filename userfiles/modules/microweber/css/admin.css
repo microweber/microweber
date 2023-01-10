@@ -1185,3 +1185,8 @@ border-left: 0.3em solid transparent;
     margin: 0px 12px;
     font-size: 12px;
 }
+
+.mw-products-breadcrumb:hover {
+    text-decoration: underline!important;
+    
+}
