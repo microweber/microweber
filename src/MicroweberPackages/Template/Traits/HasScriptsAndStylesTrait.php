@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Template\Traits;
 
-trait HasSciptsAndStylesTrait
+trait HasScriptsAndStylesTrait
 {
     public array $scripts = [];
     public array $styles = [];
@@ -17,6 +17,17 @@ trait HasSciptsAndStylesTrait
         ];
     }
 
+    public function removeStyle($id): void
+    {
+        if ($this->styles) {
+            foreach ($this->styles as $key => $item) {
+                if ($item['id'] == $id) {
+                    unset($this->styles[$key]);
+                }
+            }
+        }
+    }
+
     public function addScript($id, $src, $attributes = []): void
     {
         $this->scripts[] = [
@@ -26,12 +37,23 @@ trait HasSciptsAndStylesTrait
         ];
     }
 
+    public function removeScript($id): void
+    {
+        if ($this->scripts) {
+            foreach ($this->scripts as $key => $item) {
+                if ($item['id'] == $id) {
+                    unset($this->scripts[$key]);
+                }
+            }
+        }
+    }
+
     public function addCustomHeadTag($html): void
     {
         $this->customHeadTags[] = $html;
     }
 
-    public function styles()
+    public function styles(): string
     {
         $ready = [];
 
@@ -43,7 +65,7 @@ trait HasSciptsAndStylesTrait
                     'href' => $script['src'],
                     'type' => 'text/css'
                 ];
-                if (isset($script['attributes']) and $script['attributes']) {
+                if (isset($script['attributes']) and is_array($script['attributes'])) {
                     $attrs = array_merge($attrs, $script['attributes']);
                 }
                 $attrsString = $this->buildAttributes($attrs);
@@ -51,12 +73,13 @@ trait HasSciptsAndStylesTrait
                 $ready[] = '<link ' . $attrsString . ' />';
             }
         }
-
-        return implode("\r\n", $ready);
-
+        if ($ready) {
+            return implode("\r\n", $ready);
+        }
+        return '';
     }
 
-    public function scripts()
+    public function scripts(): string
     {
         $ready = [];
         if ($this->scripts) {
@@ -65,7 +88,7 @@ trait HasSciptsAndStylesTrait
                     'id' => $script['id'],
                     'src' => $script['src'],
                 ];
-                if (isset($script['attributes']) and $script['attributes']) {
+                if (isset($script['attributes']) and is_array($script['attributes'])) {
                     $attrs = array_merge($attrs, $script['attributes']);
                 }
                 $attrsString = $this->buildAttributes($attrs);
@@ -74,11 +97,14 @@ trait HasSciptsAndStylesTrait
         }
 
 
-        return implode("\r\n", $ready);
+        if ($ready) {
+            return implode("\r\n", $ready);
+        }
+        return '';
     }
 
 
-    public function customHeadTags()
+    public function customHeadTags(): string
     {
         if ($this->customHeadTags) {
             return implode("\n", $this->customHeadTags);

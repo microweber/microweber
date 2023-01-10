@@ -2,11 +2,11 @@
 
 namespace MicroweberPackages\Admin;
 
-use MicroweberPackages\Template\Traits\HasSciptsAndStylesTrait;
+use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 class AdminManager
 {
-    use HasSciptsAndStylesTrait;
+    use HasScriptsAndStylesTrait;
 
     public function __construct()
     {
