@@ -66,7 +66,7 @@ $total = cart_total();
 
 
                     <div class="col-lg-1 col-4 checkout-v2-remove-icon">
-                        <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-center justify-content-md-end ms-2"></i></a>
+                        <a data-bs-toggle="tooltip" title="<?php _e("Remove"); ?>" onclick="return confirm(mw.lang('Are you sure you want yo delete this?'))" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"><i class="checkout-v2-remove-icon mdi mdi-delete-outline text-secondary d-flex justify-content-start"></i></a>
                     </div>
                 </div>
             <?php endforeach; ?>

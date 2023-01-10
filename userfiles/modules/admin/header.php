@@ -10,6 +10,9 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    ?>
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::styles();    ?>
+
     <script type="text/javascript">
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
@@ -74,7 +77,7 @@
     <!-- Alpine v3 -->
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
     <!-- Livewire sortable -->
-    <script src="//cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
+    <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
 
     <?php if (config('app.debug') and is_logged()) { ?>
 

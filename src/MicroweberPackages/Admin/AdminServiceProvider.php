@@ -38,6 +38,12 @@ class AdminServiceProvider extends ServiceProvider
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+
+        \App::bind('AdminManager',function() {
+            return new \MicroweberPackages\Admin\AdminManager();
+        });
+
+
     }
 
     public function boot()

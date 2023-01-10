@@ -3,6 +3,7 @@
 namespace MicroweberPackages\View;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Blade;
 
 class StringBlade
 {
@@ -53,6 +54,11 @@ class StringBlade
      */
     public function render($bladeString, $data = [])
     {
+
+        return Blade::render($bladeString, $data);
+
+
+
         // Put the php version of blade String to *.php temp file & returns the temp file path
         $bladePath = $this->getBlade($bladeString);
 

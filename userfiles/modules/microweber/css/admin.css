@@ -671,6 +671,15 @@ html[dir="rtl"] .mw-admin-edit-content-holder .card.style-1 .card-header .btn.bt
 
 }
 
+#content-results-table .card-body .js-move {
+    visibility: hidden;
+}
+
+#content-results-table .card-body:hover .js-move {
+    visibility: visible;
+}
+
+
 .manage-post-item .row {
     flex-wrap: nowrap;
 }
@@ -1184,4 +1193,9 @@ border-left: 0.3em solid transparent;
     padding: 5px 6px;
     margin: 0px 12px;
     font-size: 12px;
+}
+
+.mw-products-breadcrumb:hover {
+    text-decoration: underline!important;
+    color: #2b2b2b;
 }
