@@ -57,6 +57,8 @@ class AdminController extends Controller
     }
 
 
+
+
     public function render()
     {
 
@@ -110,7 +112,8 @@ class AdminController extends Controller
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
-        $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
+       $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
+     //  $view .= (!$hasNoAdmin ? 'create' : 'index_main') . '.php';
         $layout = new MicroweberView($view);
 
         if ($this->render_content) {
@@ -121,54 +124,10 @@ class AdminController extends Controller
         $layout = mw()->parser->process($layout);
         event_trigger('on_load');
 
-        $layout = mw()->template->add_csrf_token_meta_tags($layout);
-        $layout = execute_document_ready($layout);
 
         event_trigger('mw.admin.header');
-
-        // $apijs_loaded = mw()->template->get_apijs_url();
-        //  $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
-
-
-        $default_css_url = $this->app->template->get_default_system_ui_css_url();
-        $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
-
-
-        $main_css_url = $this->app->template->get_admin_system_ui_css_url();
-        $main_css_url = '<link rel="stylesheet" id="admin-main-css-style" href="' . $main_css_url . '" type="text/css" />';
-
-
-        //$default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
-        //  if (!stristr($layout, $apijs_loaded)) {
-        $rep = 0;
-
-        $layout = str_ireplace('<head>', '<head>' . $main_css_url, $layout, $rep);
-        $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
-
-
-        // }
-
-        $layout = $this->app->template->append_api_js_to_layout($layout);
-
-
-        $favicon_image = get_option('favicon_image', 'website');
-
-        if (!$favicon_image) {
-            $ui_favicon = mw()->ui->brand_favicon();
-            if ($ui_favicon and trim($ui_favicon) != '') {
-                $favicon_image = trim($ui_favicon);
-            }
-        }
-
-        if ($favicon_image) {
-            mw()->template->admin_head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
-        }
-
-        $template_headers_src = mw()->template->admin_head(true);
-        if ($template_headers_src != false and $template_headers_src != '') {
-            $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
-        }
-        return app(StringBlade::class)->render($layout, []);
+   //   return view('admin::layouts.app', ['content' => $layout])->render();;
+       return app(StringBlade::class)->render($layout, []);
     }
 
     private function hasNoAdmin()
@@ -229,9 +188,6 @@ class AdminController extends Controller
                 'option_key' => 'enable_user_microweber_registration',
                 'option_group' => 'users',
             ]);
-        } else {
-            // $reason = $response->getReasonPhrase();
-            // dd(__FILE__, $reason, $response->getStatusCode());
         }
     }
 
