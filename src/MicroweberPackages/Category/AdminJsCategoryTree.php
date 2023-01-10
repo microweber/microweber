@@ -21,9 +21,13 @@ class AdminJsCategoryTree
     public function getPagesDatabase()
     {
         $getPagesQuery = app()->make(Page::class);
+        $getPagesQuery->where('is_active', 1);
+        $getPagesQuery->where('is_deleted', 0);
+
         $getPagesQuery->orderBy('position', 'DESC');
 
         $getPages = $getPagesQuery->get();
+
         if ($getPages) {
             $this->pages = $getPages->toArray();
         }
@@ -33,6 +37,8 @@ class AdminJsCategoryTree
     {
         $getCategoriesQuery = app()->make(Category::class);
         $getCategoriesQuery->orderBy('position', 'ASC');
+        $getCategoriesQuery->where('is_active', 1);
+        $getCategoriesQuery->where('is_deleted', 0);
 
         $getCategories = $getCategoriesQuery->get();
         if ($getCategories) {
@@ -55,6 +61,11 @@ class AdminJsCategoryTree
         $filterByShop = false;
         $filterByBlog = false;
         $filterByKeyword = false;
+
+        $hideShop = false;
+        if (get_option('shop_disabled', 'website') == 'y') {
+            $hideShop = true;
+        }
 
         if (!empty($this->filters)) {
             if (isset($this->filters['from_content_id'])) {
@@ -82,6 +93,12 @@ class AdminJsCategoryTree
 
                 if ($filterByBlog) {
                     if ($page['subtype'] != 'dynamic' || $page['is_shop'] == 1) {
+                        continue;
+                    }
+                }
+
+                if ($hideShop) {
+                    if ($page['is_shop'] == 1) {
                         continue;
                     }
                 }

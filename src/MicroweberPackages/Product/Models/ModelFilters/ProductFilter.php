@@ -8,13 +8,11 @@
 
 namespace MicroweberPackages\Product\Models\ModelFilters;
 
-use EloquentFilter\ModelFilter;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDate;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByOrdersTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
@@ -42,7 +40,6 @@ class ProductFilter extends ContentFilter
     use FilterByContentData;
     use FilterByContentFields;
     use FilterByStockTrait;
-    use FilterByVisibleTrait;
     use FilterByVisibleTrait;
     use FilterByTrashedTrait;
 

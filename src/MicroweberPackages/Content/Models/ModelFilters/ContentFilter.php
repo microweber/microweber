@@ -10,13 +10,15 @@ namespace MicroweberPackages\Content\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByVisibleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
 
 class ContentFilter extends ModelFilter
@@ -24,11 +26,14 @@ class ContentFilter extends ModelFilter
     use OrderByTrait;
     use FilterByAuthor;
     use FilterByTitleTrait;
+    use FilterByTagsTrait;
+    use FilterByCategory;
     use FilterByUrlTrait;
     use FilterByKeywordTrait;
-    use FilterByTagsTrait;
+    use FilterByContentData;
+    use FilterByContentFields;
+    use FilterByVisibleTrait;
     use FilterByTrashedTrait;
-    use FilterByDateBetweenTrait;
 
     public function fields($fields)
     {

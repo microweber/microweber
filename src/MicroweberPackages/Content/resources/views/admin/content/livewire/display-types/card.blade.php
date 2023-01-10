@@ -1,5 +1,5 @@
 <div id="content-results-table">
-    @foreach ($contents as $page)
+    @foreach ($contents as $content)
 
         <div class="card card-product-holder mb-2 post-has-image-true manage-post-item">
             <div class="card-body">
@@ -7,8 +7,8 @@
 
                     <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" value="{{ $page->id }}" id="products-{{ $page->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
-                            <label for="products-{{ $page->id }}" class="custom-control-label"></label>
+                            <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input" wire:model="checked">
+                            <label for="products-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
                         <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
                             <i class="mdi mdi-cursor-move"></i>
@@ -18,7 +18,7 @@
                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
 
 
-                        @include('content::admin.content.livewire.components.picture', ['content'=>$page])
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$content])
 
                     </div>
 
@@ -26,25 +26,25 @@
 
                         <div class="manage-item-main-top">
 
-                            <a target="_self" href="{{route('admin.product.edit', $page->id)}}" class="btn btn-link p-0">
+                            <a target="_self" href="{{route('admin.product.edit', $content->id)}}" class="btn btn-link p-0">
                                 <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
-                                    {{$page->title}}
+                                    {{$content->title}}
                                 </h5>
                             </a>
 
                             @php
-                                $getParentsAsText = app()->content_manager->get_parents_as_text($page->id)
+                                $getParentsAsText = app()->content_manager->get_parents_as_text($content->id)
                             @endphp
 
                             @if ($getParentsAsText)
                                 <div class="text-muted">
-                                    {!! $getParentsAsText !!}  &rarr;  {{$page->title}}
+                                    {!! $getParentsAsText !!}  &rarr;  {{$content->title}}
                                 </div>
                             @endif
 
-                            @if($page->categories->count() > 0)
+                            @if($content->categories->count() > 0)
                                 <span class="manage-post-item-cats-inline-list">
-                                @foreach($page->categories as $category)
+                                @foreach($content->categories as $category)
                                         @if($category->parent)
 
                                             <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
@@ -57,27 +57,29 @@
                              </span>
                             @endif
                             <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
-                               href="{{$page->link()}}">
-                                <small class="text-muted">{{$page->link()}}</small>
+                               href="{{$content->link()}}">
+                                <small class="text-muted">{{$content->link()}}</small>
                             </a>
                         </div>
 
 
                         <div class="manage-post-item-links mt-3">
-                            <a href="{{route('admin.product.edit', $page->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
-                            <a href="{{route('admin.product.edit', $page->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
-                            <?php if(!$page->is_deleted): ?>
-                            <a href="javascript:mw.admin.content.delete('{{ $page->id }}');" class="btn btn-outline-danger btn-sm js-delete-content-btn-{{ $page->id }}">Delete</a>
+
+                            <a href="{{$content->editLink()}}" class="btn btn-outline-primary btn-sm">Edit</a>
+                            <a href="{{$content->editLink()}}" class="btn btn-outline-success btn-sm">Live Edit</a>
+
+                            <?php if(!$content->is_deleted): ?>
+                            <a href="javascript:mw.admin.content.delete('{{ $content->id }}');" class="btn btn-outline-danger btn-sm js-delete-content-btn-{{ $content->id }}">Delete</a>
                             <?php endif; ?>
-                            @if ($page->is_active < 1)
-                                <a href="javascript:mw.admin.content.publishContent('{{ $page->id }}');" class="mw-set-content-unpublish badge badge-warning font-weight-normal">Unpublished</a>
+                            @if ($content->is_active < 1)
+                                <a href="javascript:mw.admin.content.publishContent('{{ $content->id }}');" class="mw-set-content-unpublish badge badge-warning font-weight-normal">Unpublished</a>
 
                             @endif
                         </div>
 
                         <?php
-                        if ($page->is_deleted) {
-                            $data = $page->toArray();
+                        if ($content->is_deleted) {
+                            $data = $content->toArray();
                             include(modules_path() . 'content/views/content_delete_btns.php');
                         }
                         ?>
@@ -85,7 +87,7 @@
                     </div>
 
                     <div class="col item-author manage-post-item-col-4 d-xl-block d-none">
-                        <span class="text-muted" title="{{$page->authorName()}}">{{$page->authorName()}}</span>
+                        <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>
                     </div>
 
                 </div>

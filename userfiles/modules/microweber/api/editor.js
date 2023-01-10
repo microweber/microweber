@@ -62,6 +62,8 @@ var MWEditor = function (options) {
         rootPath: mw.settings.modules_url + 'microweber/api/editor',
         editMode: 'normal', // normal | liveedit
         bar: null,
+        storage: mw.storage,
+        id: null // for storage
     };
 
     this.actionWindow = window;
@@ -77,6 +79,7 @@ var MWEditor = function (options) {
         }
 
     }
+    this.storage = this.settings.storage;
 
 
 
@@ -527,6 +530,22 @@ var MWEditor = function (options) {
             }
         });
 
+        setTimeout(function () {
+            var doc = el.get(0).ownerDocument;
+            if(doc && !doc.body.__mwEditorGroupDownRegister) {
+                doc.body.__mwEditorGroupDownRegister = true;
+                doc.body.addEventListener('click', function (e){
+                    if (!mw.tools.hasParentsWithClass(e.target, 'mw-bar-control-item-group')) {
+                        mw.element('.mw-bar-control-item-group.active').each(function (){
+
+                                this.classList.remove('active');
+
+                        });
+                    }
+                });
+            }
+        }, 500);
+
         var groupel = mw.element({
                 props:{
                     className: 'mw-bar-control-item-group-contents'
@@ -558,7 +577,8 @@ var MWEditor = function (options) {
                 var ctrl = new scope.controllers[group.controller](scope, scope.api, scope);
                 scope.controls.push(ctrl);
                 icon.prepend(ctrl.element);
-                mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('click', function () {
+                mw.element(icon.get(0).querySelector('.mw-editor-group-button-caret')).on('mousedown touchstart', function (e) {
+                    e.preventDefault();
                     MWEditor.core._preSelect(this.parentNode.parentNode);
                     this.parentNode.parentNode.classList.toggle('active');
                 });
@@ -644,6 +664,65 @@ var MWEditor = function (options) {
         }
     };
 
+
+
+    var pinned;
+    function smallEditorPinned (state){
+        if(typeof state === 'undefined'){
+            var pinned;
+            if(scope.settings.id) {
+                pinned = scope.storage.get(scope.settings.id + '-small-editor-pinned');
+                if(typeof pinned === 'boolean'){
+                    return pinned;
+                } else {
+                    return false;
+                }
+            } else {
+                return pinned;
+            }
+        } else {
+            if(smallEditorPinned() !== state) {
+                if(scope.settings.id) {
+                    scope.storage.set(scope.settings.id + '-small-editor-pinned', state);
+                } else {
+                    pinned = state;
+                }
+            }
+        }
+    }
+
+    var _afterPin = function () {
+        setTimeout(function (){
+            if (scope.lastRange) {
+                scope.smallEditorInteract(scope.getActualTarget(scope.lastRange.commonAncestorContainer));
+            }
+        }, 178);
+    };
+
+    this.smallEditorApi = {
+        isPinned: function (){
+            return smallEditorPinned();
+        },
+        pin: function () {
+            smallEditorPinned(true);
+            scope.smallEditor.addClass('pinned');
+            _afterPin();
+        },
+        unPin: function () {
+            smallEditorPinned(false);
+            scope.smallEditor.removeClass('pinned');
+            _afterPin();
+        },
+        toggle: function () {
+            var api = scope.smallEditorApi;
+            api.isPinned() ? api.unPin() : api.pin();
+        },
+        _initFromMemory: function (){
+            var api = scope.smallEditorApi;
+            api.isPinned() ? api.pin() : api.unPin();
+        }
+    };
+
     this.createSmallEditor = function () {
         if (!this.settings.smallEditor) {
             return;
@@ -670,19 +749,26 @@ var MWEditor = function (options) {
                 }
             }
         }
-        scope.$editArea.on('mouseup touchend', function (e) {
-            var target = mw.tools.firstParentOrCurrentWithTag(e.target, ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
-            scope.smallEditorInteract(target);
+        scope.$editArea.on('click', function (e) {
+
+               var target = scope.getActualTarget(e.target);
+
+               scope.smallEditorInteract(target);
 
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
+        this.smallEditorApi._initFromMemory();
     };
+
+    scope.getActualTarget = function (target) {
+        return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+    };
+
     this.smallEditorInteract = function (target) {
-        if (scope.selection && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+
+        if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
             if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
-
-                // var ctop =  scope.interactionData.pageY - scope.smallEditor.$node.height() - 20;
                 var off = mw.element(target).offset();
                 var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
                 // var cleft =  scope.interactionData.pageX;

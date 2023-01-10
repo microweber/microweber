@@ -211,6 +211,11 @@ function content_link($id = false)
     return app()->content_manager->link($id);
 }
 
+function content_edit_link($id = false)
+{
+    return app()->content_manager->edit_link($id);
+}
+
 function content_title($id = false)
 {
     return app()->content_manager->title($id);

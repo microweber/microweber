@@ -40,7 +40,7 @@
    ;(function (){
        var initEditor = function () {
            var holder = document.querySelector('#mw-live-edit-editor');
-           var liveEditor = mw.Editor({
+           window.liveEditor = mw.Editor({
                element: holder,
                mode: 'document',
                regions: '.edit',
@@ -99,6 +99,7 @@
 
                ],
 
+               id: 'live-edit-wysiwyg-editor',
 
                minHeight: 250,
                maxHeight: '70vh',
@@ -113,7 +114,9 @@
            })
 
            holder.innerHTML = '';
-           holder.appendChild(liveEditor.wrapper)
+           holder.appendChild(liveEditor.wrapper);
+
+
 
        }
 

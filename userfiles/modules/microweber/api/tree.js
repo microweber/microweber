@@ -623,7 +623,9 @@
             if(_selectable){
                 mw.$(element.querySelector('.mw-tree-item-content')).prepend(this.checkBox(element))
             }
-            element.querySelector('.mw-tree-item-content').appendChild(this.contextMenu(element));
+            var cont = element.querySelector('.mw-tree-item-content');
+            cont.classList.add('item-selectable-' + _selectable);
+            cont.appendChild(this.contextMenu(element));
             this.sortable();
             this.nestedSortable();
         };
@@ -769,7 +771,7 @@
                 menuContent.className = 'mw-tree-context-menu-content';
                 menu.appendChild(menuButton);
                 menu.appendChild(menuContent);
-                $.each(this.options.contextMenu, function(){
+                    $.each(this.options.contextMenu, function(){
                     if(!this.filter || this.filter(element._data, element)){
                         var menuitem = scope.document.createElement('span');
                         var icon = scope.document.createElement('span');

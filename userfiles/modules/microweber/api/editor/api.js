@@ -623,6 +623,7 @@ mw.lib.require('xss');
                 }
                 else {
                     var link = mw.tools.firstParentOrCurrentWithTag(this.elementNode(sel.focusNode), 'a');
+                    console.log(link)
                     if (!!link) {
                         this.selectElement(link);
                         this.execCommand('unlink', null, null);

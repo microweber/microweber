@@ -107,57 +107,58 @@
             ];
             var contextMenu =  [
                 {
-                    title: '<?php _ejs("Select"); ?>',
-                    icon: 'mdi mdi-open-in-new',
-                    action: function (element, data) {
-
-                        if (data.type === 'category') {
-                            window.livewire.emit('showFromCategory', data.id);
-                        }  else {
-                            window.livewire.emit('showFromPage', data.id);
-                        }
-                    }
-                },
-
-                {
                     title: '<?php _ejs("Edit"); ?>',
                     icon: 'mdi mdi-pencil',
                     action: function (element, data, menuitem) {
-                        window.location.href='<?php print admin_url('category'); ?>/'+data.id+'/edit';
+                        if (data.type === 'category') {
+                            window.location.href = '<?php print admin_url('category'); ?>/' + data.id + '/edit';
+                        } else  if (data.type === 'page') {
+                            window.location.href = '<?php print admin_url('page'); ?>/' + data.id + '/edit';
+                        } else  if (data.type === 'post') {
+                            window.location.href = '<?php print admin_url('post'); ?>/' + data.id + '/edit';
+                        } else {
+                            window.location.href = '<?php print admin_url('content'); ?>/' + data.id + '/edit';
+                        }
+
                     }
+                }
+            ];
+
+            contextMenu.push({
+                title: '<?php _ejs("Add subcategory"); ?>',
+                icon: 'mdi mdi-pencil',
+                action: function (element, data, menuitem) {
+                    window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
                 },
-                {
-                    title: '<?php _ejs("Add subcategory"); ?>',
-                    icon: 'mdi mdi-pencil',
-                    action: function (element, data, menuitem) {
-                        window.location.href='<?php print admin_url('category'); ?>/create?addsubcategory='+data.id;
+                filter: function(data) {
+                    if (data.type === 'category') {
+                        return true;
                     }
-                },
-                {
+                    return false;
+                }
+            });
+
+            contextMenu.push({
                     title: '<?php _ejs("Delete"); ?>',
                     icon: 'mdi mdi-delete',
                     action: function (element, data, menuitem) {
 
-                        mw.spinner({element: element, size: 15, color: 'red',decorate: true});
+                        mw.spinner({element: element, size: 15, color: 'red', decorate: true});
 
                         if (data.type === 'category') {
                             mw.content.deleteCategory(data.id, function () {
                                 $(element).fadeOut();
                                 mw.notification.success('<?php _e("Category deleted"); ?>');
                             });
-                        }
-                        else {
+                        } else {
                             mw.content.deleteContent(data.id, function () {
                                 $(element).fadeOut();
                                 mw.notification.success('<?php _ejs("Content deleted"); ?>');
                             });
                         }
-
-
-
                     }
                 }
-            ];
+            );
 
             var options = {
                 sortable: false,

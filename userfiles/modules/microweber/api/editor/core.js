@@ -79,6 +79,24 @@
                     tooltip: options.placeholder || null
                 }
             });
+
+
+            setTimeout(function () {
+                var doc = lscope.select.get(0).ownerDocument;
+                if(doc && !doc.body.__mwEditorDropwdownRegister) {
+                    doc.body.__mwEditorDropwdownRegister = true;
+                    doc.body.addEventListener('click', function (e){
+                        if (!mw.tools.hasParentsWithClass(e.target, 'mw-editor-controller-component-select')) {
+                            mw.element('.mw-editor-controller-component-select.active').each(function (){
+                                this.classList.remove('active');
+                            });
+                        }
+                    });
+                }
+            }, 500);
+
+
+
             var displayValNode = MWEditor.core.button({
                 props: {
                     className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
