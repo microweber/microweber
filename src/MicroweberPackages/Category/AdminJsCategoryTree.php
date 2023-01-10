@@ -52,7 +52,24 @@ class AdminJsCategoryTree
         $this->getCategoriesDatabase();
         $this->buildPages();
 
+        $this->hidePagesWithoutCategories();
+
         return $this->output;
+    }
+
+    public function hidePagesWithoutCategories()
+    {
+        if (!empty($this->output)) {
+
+            $categories = [];
+            foreach($this->output as $content) {
+                if ($content['type'] == 'category') {
+                    $categories[] = $content;
+                }
+            }
+
+            dd($categories);
+        }
     }
 
     public function buildPages() {
