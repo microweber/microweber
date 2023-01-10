@@ -46,7 +46,7 @@ trait HasScriptsAndStylesTrait
      *
      * @param string $id The id of the script.
      * @param string $src The source of the script.
-     * @param string $attributes An array of attributes to add to the script tag.
+     * @param array $attributes An array of attributes to add to the script tag.
      */
     public function addScript(string $id, string $src, array $attributes = []): void
     {
