@@ -68,12 +68,14 @@
                             </a>
 
                             @php
-                            $getParentsAsText = app()->content_manager->get_parents_as_text($content->id)
+                                $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
+                                    'class'=>'btn btn-link p-0'
+                                ])
                             @endphp
 
-                            @if ($getParentsAsText)
-                               <div class="text-muted">
-                                    {!! $getParentsAsText !!}  &rarr;  {{$content->title}}
+                            @if ($getParentsAsLinks)
+                                <div class="text-muted">
+                                    {!! $getParentsAsLinks !!}
                                 </div>
                             @endif
 
