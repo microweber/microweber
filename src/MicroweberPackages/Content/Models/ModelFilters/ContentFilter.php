@@ -14,6 +14,7 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPage;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
@@ -27,6 +28,7 @@ class ContentFilter extends ModelFilter
     use FilterByAuthor;
     use FilterByTitleTrait;
     use FilterByTagsTrait;
+    use FilterByPage;
     use FilterByCategory;
     use FilterByUrlTrait;
     use FilterByKeywordTrait;
