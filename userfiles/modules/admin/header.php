@@ -10,6 +10,46 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
+
+    <?php
+    $default_css_url = app()->template->get_default_system_ui_css_url();
+    $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
+
+    print $default_css;
+
+    $main_css_url = app()->template->get_admin_system_ui_css_url();
+    $main_css_url = '<link rel="stylesheet" id="admin-main-css-style" href="' . $main_css_url . '" type="text/css" />';
+
+    print $main_css_url;
+
+
+    $apijs_combined_loaded = app()->template->get_apijs_combined_url();
+
+
+    print   "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
+
+
+    $favicon_image = get_option('favicon_image', 'website');
+
+    if (!$favicon_image) {
+        $ui_favicon = mw()->ui->brand_favicon();
+        if ($ui_favicon and trim($ui_favicon) != '') {
+            $favicon_image = trim($ui_favicon);
+        }
+    }
+
+    if ($favicon_image) {
+        print "\r\n" . '<link rel="shortcut icon" href="' . $favicon_image . '" />' . "\r\n";
+    }
+
+    $template_headers_src = mw()->template->admin_head(true);
+    if ($template_headers_src != false and $template_headers_src != '') {
+        print "\r\n" . $template_headers_src . "\r\n";
+    }
+
+
+    ?>
+
     <script type="text/javascript">
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
@@ -74,7 +114,7 @@
     <!-- Alpine v3 -->
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
     <!-- Livewire sortable -->
-    <script src="//cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
+    <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
 
     <?php if (config('app.debug') and is_logged()) { ?>
 

@@ -298,8 +298,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 if (callback) callback.call();
 
             });
-            edit_content_load_admin_spinner.remove()
-        }, time)
+            if(typeof edit_content_load_admin_spinner !== 'undefined'){
+                edit_content_load_admin_spinner.remove();
+            }
+         }, time)
 
 
     }
