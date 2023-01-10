@@ -8,7 +8,15 @@ trait HasScriptsAndStylesTrait
     public array $styles = [];
     public array $customHeadTags = [];
 
-    public function addStyle($id, $src, $attributes = []): void
+
+    /**
+     * Adds a CSS stylesheet url to the page
+     *
+     * @param string id The id of the style.
+     * @param string src The url of the stylesheet.
+     * @param array attributes An array of attributes to add to the script tag.
+     */
+    public function addStyle(string $id, string $src, array $attributes = []): void
     {
         $this->styles[] = [
             'id' => $id,
@@ -17,7 +25,12 @@ trait HasScriptsAndStylesTrait
         ];
     }
 
-    public function removeStyle($id): void
+    /**
+     * Removes a style from the styles array by id
+     *
+     * @param string id The id of the style you want to remove.
+     */
+    public function removeStyle(string $id): void
     {
         if ($this->styles) {
             foreach ($this->styles as $key => $item) {
@@ -28,7 +41,14 @@ trait HasScriptsAndStylesTrait
         }
     }
 
-    public function addScript($id, $src, $attributes = []): void
+    /**
+     * Adds a script to the scripts array
+     *
+     * @param string $id The id of the script.
+     * @param string $src The source of the script.
+     * @param string $attributes An array of attributes to add to the script tag.
+     */
+    public function addScript(string $id, string $src, array $attributes = []): void
     {
         $this->scripts[] = [
             'id' => $id,
@@ -37,7 +57,12 @@ trait HasScriptsAndStylesTrait
         ];
     }
 
-    public function removeScript($id): void
+    /**
+     * Removes a script from the scripts array
+     *
+     * @param string id The id of the script to remove.
+     */
+    public function removeScript(string $id): void
     {
         if ($this->scripts) {
             foreach ($this->scripts as $key => $item) {
@@ -48,11 +73,22 @@ trait HasScriptsAndStylesTrait
         }
     }
 
-    public function addCustomHeadTag($html): void
+    /**
+     * Adds a custom HTML tag to the head of the page
+     *
+     * @param string html The HTML to add to the head tag.
+     */
+    public function addCustomHeadTag(string $html): void
     {
         $this->customHeadTags[] = $html;
     }
 
+
+    /**
+     * It takes the array of stylesheets and builds the HTML for them
+     *
+     * @return string A string of HTML code.
+     */
     public function styles(): string
     {
         $ready = [];
@@ -79,6 +115,9 @@ trait HasScriptsAndStylesTrait
         return '';
     }
 
+    /**
+     * It takes an array of scripts and returns a string of HTML script tags
+     */
     public function scripts(): string
     {
         $ready = [];
@@ -104,6 +143,9 @@ trait HasScriptsAndStylesTrait
     }
 
 
+    /**
+     * It returns the custom head tags string.
+     */
     public function customHeadTags(): string
     {
         if ($this->customHeadTags) {
@@ -114,12 +156,23 @@ trait HasScriptsAndStylesTrait
     }
 
 
-    private function buildAttributes($attributes)
+    /**
+     * It takes an array of attributes and returns a string of HTML attributes
+     *
+     * @param array attributes An array of attributes to add to the tag.
+     *
+     * @return string A string of HTML attributes.
+     *
+     * @from  https://stackoverflow.com/a/48733854/731166
+     */
+    private function buildAttributes(array $attributes): string
     {
-        if (empty($attributes))
+        if (empty($attributes)) {
             return '';
-        if (!is_array($attributes))
+        }
+        if (!is_array($attributes)) {
             return $attributes;
+        }
 
         $attributePairs = [];
         foreach ($attributes as $key => $val) {
@@ -133,6 +186,5 @@ trait HasScriptsAndStylesTrait
 
         return join(' ', $attributePairs);
     }
-
 
 }
