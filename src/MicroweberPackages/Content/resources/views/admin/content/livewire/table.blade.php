@@ -26,7 +26,7 @@ if (isset($filters['category'])) {
                     @endif
 
                     @if($isInTrashed)
-                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></i><?php _e('Trash') ?>
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></{{ _e('Trash') }}
                     @endif
                 </strong>
 
@@ -65,22 +65,24 @@ if (isset($filters['category'])) {
 
             <?php if(!$isInTrashed): ?>
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
+                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 300px; height: 50px;">
             </div>
 
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-plus-circle"></i> Filters
+                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+
+                    {{ _e('Filters') }}
                 </button>
                 <div class="dropdown-menu p-3" style="width:263px">
-                    <h6 class="dropdown-header">Taxonomy</h6>
+                    <h6 class="dropdown-header">{{ _e('Taxonomy') }}'</h6>
                     {{--<label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>--}}
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> Visible</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> Author</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> Date Range</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> Created at</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> Updated at</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> {{ _e('Tags') }}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> {{ _e('Visible') }}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> {{ _e('Author') }}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> {{ _e('Date Range') }}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> {{ _e('Created at') }}</label>
+                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> {{ _e('Updated at') }}</label>
                 </div>
             </div>
 
@@ -89,7 +91,7 @@ if (isset($filters['category'])) {
             @if(!empty($appliedFiltersFriendlyNames))
                 <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                     <div class="btn-group">
-                        <button class="btn btn-outline-danger" wire:click="clearFilters">Clear</button>
+                        <button class="btn btn-outline-danger" wire:click="clearFilters">{{ _e('Clear') }}</button>
                     </div>
                 </div>
             @endif
@@ -129,13 +131,13 @@ if (isset($filters['category'])) {
                 @if (count($checked) == count($contents->items()))
                     <div class="col-md-10 mb-2">
                         You have selected all {{ count($checked) }} items.
-                        <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">Deselect All</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
                     </div>
                 @else
                     <div>
                         You have selected {{ count($checked) }} items,
                         Do you want to Select All {{ count($contents->items()) }}?
-                        <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">Select All</button>
+                        <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">{{ _e('Select All') }}</button>
                     </div>
                 @endif
             @endif
@@ -144,53 +146,56 @@ if (isset($filters['category'])) {
                 <div class="pull-left">
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Bulk Actions
+                            {{ _e('Bulk Actions') }}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">{{ _e('Move To Category') }}</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">{{ _e('Publish') }}</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">{{ _e('Unpublish') }}</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">{{ _e('Move to trash') }}</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">{{ _e('Delete Forever') }}</button></li>
                             <?php if($isInTrashed): ?>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">{{ _e('Restore from trash') }}</button></li>
                             <?php endif; ?>
                         </ul>
                     </div>
                 </div>
             @endif
         </div>
-        <div class="row  mt-3">
+        <div class="row mt-3">
 
-            <div style="height: 60px" class="bulk-actions-show-columns">
+            <div style="height: 60px" class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative">
 
                 @if($contents->total() > 0)
-                <div class="d-inline-block mx-1">
-                    <span class="d-md-block d-none text-muted small"> Display as </span>
+                <div class="col-sm-5 ps-0 d-flex align-items-center ">
+{{--                    <span class="d-md-block d-none mb-1"> Display as </span>--}}
                     <div class="btn-group mb-4">
-                        <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
-                            <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
-                        <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
-                            <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
+                        <a href="#" wire:click="setDisplayType('card')" class="btn mw-content-vision-tabs @if($displayType=='card') active @endif">
+                            <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        {{ _e('Card') }} </a>
+                        <a href="#" wire:click="setDisplayType('table')" class="btn mw-content-vision-tabs @if($displayType=='table') active @endif">
+                            <svg class="me-1" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M20.016 8.016v-4.031h-4.031v4.031h4.031zM20.016 14.016v-4.031h-4.031v4.031h4.031zM20.016 20.016v-4.031h-4.031v4.031h4.031zM14.016 8.016v-4.031h-4.031v4.031h4.031zM14.016 14.016v-4.031h-4.031v4.031h4.031zM14.016 20.016v-4.031h-4.031v4.031h4.031zM8.016 8.016v-4.031h-4.031v4.031h4.031zM8.016 14.016v-4.031h-4.031v4.031h4.031zM8.016 20.016v-4.031h-4.031v4.031h4.031zM20.016 2.016q0.797 0 1.383 0.586t0.586 1.383v16.031q0 0.797-0.586 1.383t-1.383 0.586h-16.031q-0.797 0-1.383-0.586t-0.586-1.383v-16.031q0-0.797 0.586-1.383t1.383-0.586h16.031z"></path>
+                            </svg> {{ _e('Table') }} </a>
                     </div>
                 </div>
 
-                <div class="pull-right">
+                <div class="col-sm-7 d-flex justify-content-end align-items-center pe-0">
 
-                    <div class="d-inline-block mx-1">
+                    <div class=" d-flex align-items-center ">
 
-                        <span class="d-md-block d-none">Sort</span>
-                        <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
-                            <option value="">Any</option>
-                            <option value="id,desc">Id Desc</option>
-                            <option value="id,asc">Id Asc</option>
+                        <label class="d-md-block d-none mx-2">{{ _e('Sort') }}</label>
+                        <select wire:model.stop="filters.orderBy" class="form-select form-select-sm mw-form-select-filters">
+                            <option value="">{{ _e('Any') }}</option>
+                            <option value="id,desc">{{ _e('Id Desc') }}</option>
+                            <option value="id,asc">{{ _e('Id Asc') }}</option>
                         </select>
                     </div>
 
-                    <div class="d-inline-block mx-1">
+                    <div class=" d-flex align-items-center  mx-1">
 
-                        <span class="d-md-block d-none">Limit</span>
-                        <select class="form-control form-control-sm" wire:model="paginate">
+                        <label class="d-md-block d-none mx-2">{{ _e('Limit') }}</label>
+                        <select class="form-select form-select-sm" wire:model="paginate">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -199,24 +204,37 @@ if (isset($filters['category'])) {
                         </select>
                     </div>
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Show columns
+                    <div class="">
+                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" style="padding: 10px;" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ _e('Columns') }}
                         </button>
                         <div class="dropdown-menu p-3">
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> Title</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> Author</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> {{ _e('Id') }}</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> {{ _e('Image') }}</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> {{ _e('Title') }}</label>
+                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> {{ _e('Author') }}</label>
                         </div>
                     </div>
                 </div>
                 @endif
 
-                <div class="page-loading" wire:loading>
-                    Loading...
-                </div>
 
+
+                    <script>
+                        mw.spinner({
+                            size: 30,
+                            element: ".mw-js-loading",
+                            decorate: true,
+
+                        });
+
+                        mw.spinner({
+                            size: 30,
+                            element: ".mw-js-loading",
+                            decorate: true,
+
+                        }).remove();
+                    </script>
             </div>
 
 
@@ -243,3 +261,5 @@ if (isset($filters['category'])) {
 
     </div>
 </div>
+
+

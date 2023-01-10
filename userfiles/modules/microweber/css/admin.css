@@ -1194,3 +1194,20 @@ border-left: 0.3em solid transparent;
     margin: 0px 12px;
     font-size: 12px;
 }
+
+.mw-products-breadcrumb:hover {
+    color: #2b2b2b !important;
+}
+
+.mw-content-vision-tabs svg{
+    color: #2b2b2b;
+}
+
+.mw-content-vision-tabs:hover, .mw-content-vision-tabs.active {
+    background-color: #f5f5f5!important;
+
+}
+
+.mw-form-select-filters option {
+    font-size: 13px;
+}

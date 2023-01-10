@@ -171,6 +171,7 @@
                     categoryTree = mw.admin.tree(document.getElementById('mw-admin-categories-tree-manager'), {
                         options: treeDataOpts,
                         params: {
+                            only_categories: 1,
                             no_limit: true,
                             <?php if(isset($params['is_shop'])): ?>
                             is_shop: 1,

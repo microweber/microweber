@@ -20,7 +20,7 @@ class AdminJsCategoryTree
 
     public function getPagesDatabase()
     {
-        $getPagesQuery = app()->make(Page::class);
+        $getPagesQuery = Page::query();
         $getPagesQuery->where('is_active', 1);
         $getPagesQuery->where('is_deleted', 0);
 
@@ -35,7 +35,7 @@ class AdminJsCategoryTree
 
     public function getCategoriesDatabase()
     {
-        $getCategoriesQuery = app()->make(Category::class);
+        $getCategoriesQuery = Category::query();
         $getCategoriesQuery->orderBy('position', 'ASC');
         $getCategoriesQuery->where('is_active', 1);
         $getCategoriesQuery->where('is_deleted', 0);
@@ -61,6 +61,7 @@ class AdminJsCategoryTree
         $filterByShop = false;
         $filterByBlog = false;
         $filterByKeyword = false;
+        $filterOnlyCategories = false;
 
         $hideShop = false;
         if (get_option('shop_disabled', 'website') == 'y') {
@@ -70,6 +71,9 @@ class AdminJsCategoryTree
         if (!empty($this->filters)) {
             if (isset($this->filters['from_content_id'])) {
                 $filterByPageId = (int)$this->filters['from_content_id'];
+            }
+            if (isset($this->filters['only_categories'])) {
+                $filterOnlyCategories = (int)$this->filters['only_categories'];
             }
             if (isset($this->filters['is_shop'])) {
                 $filterByShop = true;
@@ -123,21 +127,26 @@ class AdminJsCategoryTree
                 }
 
                 // Add only main pages
+                $foundedCategories = $this->getCategoryByRelId($page['id']);
+                if ($filterOnlyCategories && empty($foundedCategories)) {
+                    continue;
+                }
                 $this->appendPage($page);
-                $this->getCategoryByRelId($page['id']);
-
             }
         }
     }
 
     public function getCategoryByRelId($parentId)
     {
+        $foundedCategories = [];
         foreach ($this->categories as $category) {
             if ($category['rel_type'] == 'content' && $category['rel_id'] == $parentId) {
                 $this->appendCategory($category);
                 $getAndAppendCategoryChildren = $this->getAndAppendCategoryChildren($category['id']);
+                $foundedCategories[] = $category;
             }
         }
+        return $foundedCategories;
     }
 
     public function getAndAppendPageChildren($pageId) {
