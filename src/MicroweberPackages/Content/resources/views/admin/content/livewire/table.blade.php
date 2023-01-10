@@ -65,12 +65,14 @@ if (isset($filters['category'])) {
 
             <?php if(!$isInTrashed): ?>
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
+                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 300px; height: 50px;">
             </div>
 
             <div class="ms-0 ms-md-2 mb-3 mb-md-0">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-plus-circle"></i> Filters
+                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+
+                    Filters
                 </button>
                 <div class="dropdown-menu p-3" style="width:263px">
                     <h6 class="dropdown-header">Taxonomy</h6>
@@ -160,18 +162,21 @@ if (isset($filters['category'])) {
                 </div>
             @endif
         </div>
-        <div class="row  mt-3">
+        <div class="row mt-3">
 
-            <div style="height: 60px" class="bulk-actions-show-columns">
+            <div style="height: 60px" class="bulk-actions-show-columns mw-js-loading position-relative">
 
                 @if($contents->total() > 0)
                 <div class="d-inline-block mx-1">
-                    <span class="d-md-block d-none text-muted small"> Display as </span>
+                    <span class="d-md-block d-none mb-1"> Display as </span>
                     <div class="btn-group mb-4">
-                        <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
-                            <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
-                        <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
-                            <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
+                        <a href="#" wire:click="setDisplayType('card')" class="btn mw-content-vision-tabs @if($displayType=='card') active @endif">
+                            <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        <?php _e('Card') ?> </a>
+                        <a href="#" wire:click="setDisplayType('table')" class="btn mw-content-vision-tabs @if($displayType=='table') active @endif">
+                            <svg class="me-1" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M20.016 8.016v-4.031h-4.031v4.031h4.031zM20.016 14.016v-4.031h-4.031v4.031h4.031zM20.016 20.016v-4.031h-4.031v4.031h4.031zM14.016 8.016v-4.031h-4.031v4.031h4.031zM14.016 14.016v-4.031h-4.031v4.031h4.031zM14.016 20.016v-4.031h-4.031v4.031h4.031zM8.016 8.016v-4.031h-4.031v4.031h4.031zM8.016 14.016v-4.031h-4.031v4.031h4.031zM8.016 20.016v-4.031h-4.031v4.031h4.031zM20.016 2.016q0.797 0 1.383 0.586t0.586 1.383v16.031q0 0.797-0.586 1.383t-1.383 0.586h-16.031q-0.797 0-1.383-0.586t-0.586-1.383v-16.031q0-0.797 0.586-1.383t1.383-0.586h16.031z"></path>
+                            </svg> <?php _e('Table') ?> </a>
                     </div>
                 </div>
 
@@ -179,7 +184,7 @@ if (isset($filters['category'])) {
 
                     <div class="d-inline-block mx-1">
 
-                        <span class="d-md-block d-none">Sort</span>
+                        <span class="d-md-block d-none mb-2">Sort</span>
                         <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
                             <option value="">Any</option>
                             <option value="id,desc">Id Desc</option>
@@ -189,7 +194,7 @@ if (isset($filters['category'])) {
 
                     <div class="d-inline-block mx-1">
 
-                        <span class="d-md-block d-none">Limit</span>
+                        <span class="d-md-block d-none mb-2">Limit</span>
                         <select class="form-control form-control-sm" wire:model="paginate">
                             <option value="10">10</option>
                             <option value="25">25</option>
@@ -213,10 +218,23 @@ if (isset($filters['category'])) {
                 </div>
                 @endif
 
-                <div class="page-loading" wire:loading>
-                    Loading...
-                </div>
 
+
+                    <script>
+                        mw.spinner({
+                            size: 30,
+                            element: ".mw-js-loading",
+                            decorate: true,
+
+                        });
+
+                        mw.spinner({
+                            size: 30,
+                            element: ".mw-js-loading",
+                            decorate: true,
+
+                        }).remove();
+                    </script>
             </div>
 
 
@@ -243,3 +261,5 @@ if (isset($filters['category'])) {
 
     </div>
 </div>
+
+
