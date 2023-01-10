@@ -1197,5 +1197,5 @@ border-left: 0.3em solid transparent;
 
 .mw-products-breadcrumb:hover {
     text-decoration: underline!important;
-    color: #2b2b2b;
+    color: #2b2b2b !important;
 }
