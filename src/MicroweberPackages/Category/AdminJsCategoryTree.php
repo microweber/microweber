@@ -24,6 +24,10 @@ class AdminJsCategoryTree
         $getPagesQuery->where('is_active', 1);
         $getPagesQuery->where('is_deleted', 0);
 
+        if (get_option('shop_disabled', 'website') == 'y') {
+            $getPagesQuery->where('is_shop', 0);
+        }
+
         $getPagesQuery->orderBy('position', 'DESC');
 
         $getPages = $getPagesQuery->get();
