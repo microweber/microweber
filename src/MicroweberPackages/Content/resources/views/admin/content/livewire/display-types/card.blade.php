@@ -34,7 +34,8 @@
 
                             @php
                                 $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
-                                    'class'=>'btn btn-link p-0'
+                                      'class'=>'btn btn-link p-0 text-muted mw-products-breadcrumb',
+                                    'implode_symbol'=>' / ',
                                 ])
                             @endphp
 
@@ -53,7 +54,7 @@
                                    @if($category->parent)
 
                                         <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
-                                           class="btn btn-link p-0 text-muted">
+                                           class="btn btn-link btn-sm p-0">
                                     {{$category->parent->title}}
                                      </a>@php
                                             $iCategory++;
