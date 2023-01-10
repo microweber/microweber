@@ -10,45 +10,8 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
-
-    <?php
-    $default_css_url = app()->template->get_default_system_ui_css_url();
-    $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
-
-    print $default_css;
-
-    $main_css_url = app()->template->get_admin_system_ui_css_url();
-    $main_css_url = '<link rel="stylesheet" id="admin-main-css-style" href="' . $main_css_url . '" type="text/css" />';
-
-    print $main_css_url;
-
-
-    $apijs_combined_loaded = app()->template->get_apijs_combined_url();
-
-
-    print   "\r\n" . '<script src="' . $apijs_combined_loaded . '"></script>' . "\r\n";
-
-
-    $favicon_image = get_option('favicon_image', 'website');
-
-    if (!$favicon_image) {
-        $ui_favicon = mw()->ui->brand_favicon();
-        if ($ui_favicon and trim($ui_favicon) != '') {
-            $favicon_image = trim($ui_favicon);
-        }
-    }
-
-    if ($favicon_image) {
-        print "\r\n" . '<link rel="shortcut icon" href="' . $favicon_image . '" />' . "\r\n";
-    }
-
-    $template_headers_src = mw()->template->admin_head(true);
-    if ($template_headers_src != false and $template_headers_src != '') {
-        print "\r\n" . $template_headers_src . "\r\n";
-    }
-
-
-    ?>
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    ?>
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::styles();    ?>
 
     <script type="text/javascript">
         mw.lib.require('jqueryui');
