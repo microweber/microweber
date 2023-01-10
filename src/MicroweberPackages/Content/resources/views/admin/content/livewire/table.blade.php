@@ -16,7 +16,7 @@ if (isset($filters['category'])) {
     <div class="card-header d-flex align-items-center justify-content-between px-md-4">
         <div class="col d-flex justify-content-md-between justify-content-center align-items-center px-0">
             <h5 class="mb-0 d-flex">
-                <i class="mdi mdi-shopping text-primary mr-md-3 mr-1 justify-contetn-center"></i>
+                <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-content-center"></i>
                 <strong class="d-md-flex d-none">
                     <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Website')}}</a>
 
