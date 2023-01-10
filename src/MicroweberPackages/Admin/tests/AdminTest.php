@@ -26,5 +26,13 @@ class AdminTest extends TestCase
         $this->assertStringContainsString('<link rel="stylesheet" id="test-module-admin-css" href="test.css" type="text/css" test="2" />', $styles);
         $this->assertStringContainsString('<script>alert("ok")</script>', $custom);
 
+        $all = \MicroweberPackages\Admin\Facades\AdminManager::headTags();
+
+        $this->assertStringContainsString('<script id="test-my-module-admin-js" src="test.js" test="1"></script>', $all);
+        $this->assertStringContainsString('<link rel="stylesheet" id="test-module-admin-css" href="test.css" type="text/css" test="2" />', $all);
+        $this->assertStringContainsString('<script>alert("ok")</script>', $all);
+
+
+
     }
 }

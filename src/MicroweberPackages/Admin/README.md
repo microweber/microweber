@@ -28,5 +28,12 @@ print \MicroweberPackages\Admin\Facades\AdminManager::scripts();
 print \MicroweberPackages\Admin\Facades\AdminManager::styles();    
 ```
 
+
+## Printing all head tags 
+  
+ ```php
+print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    
+```
+
  
 
