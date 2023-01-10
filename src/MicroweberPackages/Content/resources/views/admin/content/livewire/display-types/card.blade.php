@@ -33,27 +33,37 @@
                             </a>
 
                             @php
-                                $getParentsAsText = app()->content_manager->get_parents_as_text($content->id)
+                                $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
+                                    'class'=>'btn btn-link p-0'
+                                ])
                             @endphp
 
-                            @if ($getParentsAsText)
+                            @if ($getParentsAsLinks)
                                 <div class="text-muted">
-                                    {!! $getParentsAsText !!}  &rarr;  {{$content->title}}
+                                    {!! $getParentsAsLinks !!}
                                 </div>
                             @endif
 
                             @if($content->categories->count() > 0)
                                 <span class="manage-post-item-cats-inline-list">
+                                @php
+                                $iCategory = 0;
+                                @endphp
                                 @foreach($content->categories as $category)
-                                        @if($category->parent)
+                                   @if($category->parent)
 
-                                            <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
-                                               class="btn btn-link p-0 text-muted">
-                                        {{$category->parent->title}}
-                                    </a>
+                                        <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                                           class="btn btn-link p-0 text-muted">
+                                    {{$category->parent->title}}
+                                     </a>@php
+                                            $iCategory++;
+                                            if ($content->categories->count() !== $iCategory) {
+                                                echo ", ";
+                                            }
+                                        @endphp
 
-                                        @endif
-                                    @endforeach
+                                    @endif
+                                @endforeach
                              </span>
                             @endif
                             <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"

@@ -2077,6 +2077,46 @@ class ContentManager
         }
     }
 
+    /***
+     * @param $id
+     * @param $params
+     * @return false|string
+     */
+    public function get_parents_as_links($id, $params = [])
+    {
+        $implodeSymbol = ' &rarr; ';
+
+        if (isset($params['implode_symbol'])) {
+            $implodeSymbol = $params['implode_symbol'];
+        }
+
+        $class = '';
+        if (isset($params['class'])) {
+            $class = $params['class'];
+        }
+
+        $parentTitles = [];
+        $parents = $this->get_parents($id);
+        if (!empty($parents)) {
+            foreach ($parents as $parentId) {
+                $editLink = content_edit_link($parentId);
+                $parentTitles[] = '<a href="'.$editLink.'" class="'.$class.'">' . $this->title($parentId) . '</a>';
+            }
+        }
+
+        $parentTitles = array_reverse($parentTitles);
+        if (!empty($parentTitles)) {
+            return implode($implodeSymbol, $parentTitles);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $id
+     * @param $implodeSymbol
+     * @return false|string
+     */
     public function get_parents_as_text($id, $implodeSymbol = ' &rarr; ')
     {
         $parentTitles = [];
@@ -2097,19 +2137,9 @@ class ContentManager
 
     public function get_parents($id = 0, $without_main_parrent = false)
     {
-
         if (intval($id) == 0) {
             return false;
         }
-
-
-     //   return app()->content_repository->getParents($id,$without_main_parrent);
-
-
-
-
-
-
 
         $ids = array();
         $get = array();
