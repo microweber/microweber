@@ -176,9 +176,9 @@ trait HasScriptsAndStylesTrait
 
         $attributePairs = [];
         foreach ($attributes as $key => $val) {
-            if (is_int($key))
+            if (is_int($key)) {
                 $attributePairs[] = $val;
-            else {
+            } else {
                 $val = htmlspecialchars($val, ENT_QUOTES);
                 $attributePairs[] = "{$key}=\"{$val}\"";
             }
