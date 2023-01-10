@@ -293,7 +293,7 @@ mw.admin.tree = function (target, opt, mode) {
 
 
 mw.contactForm = function () {
-   window.open('https://templates.microweber.com/feedback/', '_blank');
+   window.open('https://microweber.org/go/feedback/', '_blank');
 
 
 };
