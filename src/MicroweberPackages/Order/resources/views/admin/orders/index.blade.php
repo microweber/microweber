@@ -30,7 +30,7 @@
                             <h4>You don’t have any orders yet</h4>
                             <p>Here you can track your orders</p>
                             <br/>
-                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">Add order</a>
+                            <a href="javascript:mw_admin_add_order_popup()" class="btn btn-primary btn-rounded">{{_e('Add Order')}}</a>
                         </div>
                     </div>
                 </div>

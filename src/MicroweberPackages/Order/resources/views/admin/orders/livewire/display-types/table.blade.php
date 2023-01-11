@@ -9,47 +9,47 @@
         @endif
 
         @if($showColumns['image'])
-            <th scope="col">Image</th>
+            <th scope="col">{{ _e('Image') }}</th>
         @endif
 
         @if($showColumns['products'])
-            <th scope="col">Products</th>
+            <th scope="col">{{ _e('Products') }}</th>
         @endif
 
         @if($showColumns['customer'])
-            <th scope="col">Customer</th>
+            <th scope="col">{{ _e('Customer') }}</th>
         @endif
 
         @if($showColumns['shipping_method'])
-            <th scope="col">Shipping Method</th>
+            <th scope="col">{{ _e('Shipping Method') }}</th>
         @endif
 
         @if($showColumns['payment_method'])
-            <th scope="col">Payment Method</th>
+            <th scope="col">{{ _e('Payment Method') }}</th>
         @endif
 
         @if($showColumns['payment_status'])
-            <th scope="col">Payment Status</th>
+            <th scope="col">{{ _e('Payment Status') }}</th>
         @endif
 
 
         @if($showColumns['total_amount'])
-            <th scope="col">Total Amount</th>
+            <th scope="col">{{ _e('Total Amount') }}</th>
         @endif
 
         @if($showColumns['status'])
-            <th scope="col">Status</th>
+            <th scope="col">{{ _e('Status') }}</th>
         @endif
 
         @if($showColumns['created_at'])
-            <th scope="col">Created At</th>
+            <th scope="col">{{ _e('Created At') }}</th>
         @endif
         @if($showColumns['updated_at'])
-            <th scope="col">Updated At</th>
+            <th scope="col">{{ _e('Updated At') }}</th>
         @endif
 
         @if($showColumns['actions'])
-            <th scope="col">Actions</th>
+            <th scope="col">{{ _e('Actions') }}</th>
         @endif
     </tr>
     </thead>
@@ -124,9 +124,9 @@
             @if($showColumns['payment_status'])
                 <td style="text-align: center">
                     @if($order->is_paid == 1)
-                        <span class="badge badge-success">Paid</span>
+                        <span class="badge badge-success">{{ _e('Paid') }}</span>
                     @else
-                        <span class="badge badge-danger">Unpaid</span>
+                        <span class="badge badge-danger">{{ _e('Unpaid') }}</span>
                     @endif
                 </td>
             @endif
@@ -141,11 +141,11 @@
             @if($showColumns['status'])
                 <td style="text-align: center">
                     @if($order->order_status == 'pending')
-                        <span class="badge badge-warning text-white">Pending</span>
+                        <span class="badge badge-warning text-white">{{ _e('Pending') }}</span>
                     @elseif($order->order_status == 'new')
-                        <span class="badge badge-primary">New</span>
+                        <span class="badge badge-primary">{{ _e('New') }}</span>
                     @elseif($order->order_status == 'completed')
-                        <span class="badge badge-success">Completed</span>
+                        <span class="badge badge-success">{{ _e('Completed') }}</span>
                     @else
                         <span class="badge badge-primary">{{$order->order_status}}</span>
                     @endif
