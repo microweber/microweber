@@ -5,10 +5,7 @@
         <tr>
             <th scope="col">
 
-                <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" wire:model="selectAll" id="select-all-products" class="custom-control-input">
-                    <label for="select-all-products" class="custom-control-label"></label>
-                </div>
+                @include('content::admin.content.livewire.table-includes.select-all-checkbox')
 
             </th>
             @if($showColumns['id'])
@@ -54,8 +51,8 @@
                     </div>
 
                     <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
-                    <i class="mdi mdi-cursor-move"></i>
-                </span>
+                        <i class="mdi mdi-cursor-move"></i>
+                    </span>
                 </td>
                 @if($showColumns['id'])
                     <td>

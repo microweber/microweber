@@ -68,15 +68,15 @@
     <div class="d-flex">
 
        <?php if(!$isInTrashed): ?>
-        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 250px;">
-        </div>
+
+       @include('content::admin.content.livewire.components.keyword')
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-plus-circle"></i> Filters
-            </button>
+
+            @include('content::admin.content.livewire.components.button-filter')
+
             <div class="dropdown-menu p-3" style="width:263px">
+
                 <h6 class="dropdown-header">Taxonomy</h6>
                 {{--<label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>--}}
                 <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> Tags</label>
@@ -120,11 +120,7 @@
         <?php endif; ?>
 
         @if(!empty($appliedFiltersFriendlyNames))
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <div class="btn-group">
-                    <button class="btn btn-outline-danger" wire:click="clearFilters">Clear</button>
-                </div>
-            </div>
+           @include('content::admin.content.livewire.components.button-clear-filters')
         @endif
     </div>
 
@@ -248,15 +244,8 @@
             <div style="height: 60px" class="bulk-actions-show-columns">
 
                 @if($products->total() > 0)
-                <div class="d-inline-block mx-1">
-                    <span class="d-md-block d-none text-muted small"> Display as </span>
-                    <div class="btn-group mb-4">
-                        <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
-                            <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
-                        <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
-                            <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
-                    </div>
-                </div>
+
+                @include('content::admin.content.livewire.components.display-as')
 
                 <div class="pull-right">
 
