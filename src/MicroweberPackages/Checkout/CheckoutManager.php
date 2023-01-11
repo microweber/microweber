@@ -468,7 +468,11 @@ class CheckoutManager
                 return array('error' => $checkout_errors);
             }
 
-            $amount = number_format($amount, 2);
+
+            if ($amount) {
+                $amount = str_replace(',', '', $amount);
+                $amount = floatval($amount);
+            }
 
             $place_order['amount'] = $amount;
             $place_order['allow_html'] = true;
