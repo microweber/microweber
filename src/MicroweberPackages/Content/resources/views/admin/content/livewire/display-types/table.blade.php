@@ -2,20 +2,20 @@
     <table class="table table-responsive" id="content-results-table">
         <thead>
         <tr>
-            <th scope="col">
+            <th style="width:10px" scope="col">
                 <div class="custom-control custom-checkbox mb-0" style="margin-left: 11px;">
                     <input type="checkbox" wire:model="selectAll" id="select-all-products" class="custom-control-input">
                     <label for="select-all-products" class="custom-control-label"></label>
                 </div>
             </th>
             @if($showColumns['id'])
-                @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
+                @include('content::admin.content.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['image'])
-                <th scope="col">Image</th>
+                <th style="width: 130px" scope="col">Image</th>
             @endif
             @if($showColumns['title'])
-                <th scope="col" style="width:100%">Title</th>
+                <th scope="col">Title</th>
             @endif
             @if($showColumns['author'])
                 <th scope="col">Author</th>
@@ -48,12 +48,8 @@
                     </td>
                 @endif
                 @if($showColumns['image'])
-                    <td style="width:160px;">
-                        @if($content->media()->first())
-                            <img src="{{$content->thumbnail(200,200)}}" class="rounded-full">
-                        @else
-                            @include('content::admin.content.livewire.components.icon', ['content'=>$content])
-                        @endif
+                    <td>
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$content])
                     </td>
                 @endif
                 @if($showColumns['title'])
