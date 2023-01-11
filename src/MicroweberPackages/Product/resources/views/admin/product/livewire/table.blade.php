@@ -60,6 +60,9 @@
     if ($products->total() == 0 && empty($showFiltersUnsetCategory)) {
         $displayFilters = false;
     }
+    if (!empty($filters)) {
+        $displayFilters = true;
+    }
     @endphp
 
 
