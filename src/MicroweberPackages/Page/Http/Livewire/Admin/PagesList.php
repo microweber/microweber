@@ -16,12 +16,4 @@ class PagesList extends ContentList
         'author' => true
     ];
 
-    public function render()
-    {
-        return view('page::admin.page.livewire.table', [
-            'pages' => $this->contents,
-            'appliedFilters' => $this->appliedFilters
-        ]);
-    }
-
 }
