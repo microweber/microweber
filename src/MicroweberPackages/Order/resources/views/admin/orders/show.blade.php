@@ -18,10 +18,15 @@
 
         mw.$(".mw-order-is-paid-change").change(function () {
             var val = this.value;
+
+            if(typeof val === 'undefined'){
+                 return;
+            }
             obj.is_paid = val;
+
             $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
                 var upd_msg = "<?php _ejs("Order is marked as un-paid"); ?>"
-                if (obj.is_paid == 'y') {
+                if (obj.is_paid == 'y' || obj.is_paid == '1') {
                     var upd_msg = "<?php _ejs("Order is marked as paid"); ?>";
                 }
                 mw.notification.success(upd_msg);

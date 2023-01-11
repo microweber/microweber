@@ -53,7 +53,7 @@
             <div class="col-12 col-md-6">
                 <div class="row align-items-center">
 
-                    <div class="col-6 col-sm-4 col-md item-amount">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}<br />
+                    <div class="col-6 col-sm-4 col-md item-amount">{{$order->payment_amount}} {{$order->payment_currency}}<br />
                         @if($order->is_paid == 1)
                             <span class="text-muterd">Paid</span>
                         @else
@@ -99,7 +99,7 @@
 
                     <div>
                         <small class="text-muted">Amount:</small>
-                        <p>{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</p>
+                        <p>{{$order->payment_amount}} {{$order->payment_currency}}</p>
                     </div>
 
                     <div>
