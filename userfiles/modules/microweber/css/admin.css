@@ -1211,3 +1211,7 @@ border-left: 0.3em solid transparent;
 .mw-form-select-filters option {
     font-size: 13px;
 }
+
+#content-results-table thead tr th, .orders-table thead tr th {
+    border: none;
+}
