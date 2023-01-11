@@ -8631,10 +8631,12 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   display: flex;
   flex-wrap: wrap;
   width: 200px;
+  padding: 10px;
 }
 .mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder .mw-editor-dropdown-option {
-  width: 25%;
+  width: 33.333%;
   border-width: 0;
+  text-align: center;
 }
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;
