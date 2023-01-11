@@ -1207,3 +1207,11 @@ border-left: 0.3em solid transparent;
     background-color: #f5f5f5!important;
 
 }
+
+.mw-form-select-filters option {
+    font-size: 13px;
+}
+
+#content-results-table thead tr th, .orders-table thead tr th {
+    border: none;
+}

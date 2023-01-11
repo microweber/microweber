@@ -19,6 +19,12 @@ Your `id` must be uniquie, styles with the same id will be overwriten
 \MicroweberPackages\Admin\Facades\AdminManager::addStyle('my-module-admin-css', module_url() . 'my-module/css/admin.css');
 ```
 
+Adding custom tags
+
+```php
+\MicroweberPackages\Admin\Facades\AdminManager::addCustomHeadTag('<script>alert("ok")</script>');
+```
+
 ## Printing scripts in admin layout 
 
 For example in your layout you can print the scripts with the following code
@@ -26,6 +32,14 @@ For example in your layout you can print the scripts with the following code
  ```php
 print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    
 print \MicroweberPackages\Admin\Facades\AdminManager::styles();    
+print \MicroweberPackages\Admin\Facades\AdminManager::customHeadTags();    
+```
+
+
+## Printing all head tags 
+  
+ ```php
+print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    
 ```
 
  

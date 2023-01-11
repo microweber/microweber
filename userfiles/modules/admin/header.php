@@ -10,8 +10,7 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::scripts();    ?>
-    <?php print \MicroweberPackages\Admin\Facades\AdminManager::styles();    ?>
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
     <script type="text/javascript">
         mw.lib.require('jqueryui');

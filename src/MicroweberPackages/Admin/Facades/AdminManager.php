@@ -5,6 +5,7 @@ namespace MicroweberPackages\Admin\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @see \MicroweberPackages\Admin\AdminManager
  * @mixin \MicroweberPackages\Admin\AdminManager
  */
 class AdminManager extends Facade

@@ -2,23 +2,35 @@
 
 namespace MicroweberPackages\Admin;
 
+use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
+
 class AdminManager
 {
-    public $scripts = [];
-    public $styles = [];
+    use HasScriptsAndStylesTrait;
 
     public function __construct()
     {
         $this->addDefaultScripts();
         $this->addDefaultStyles();
+        $this->addDefaultCustomTags();
     }
+
+    public function headTags()
+    {
+        $tags = [];
+
+        $tags[] = $this->styles();
+        $tags[] = $this->scripts();
+        $tags[] = $this->customHeadTags();
+
+        return implode("\r\n", $tags);
+    }
+
 
     public function addDefaultScripts(): void
     {
-
         $apijs_combined_loaded = app()->template->get_apijs_combined_url();
         $this->addScript('mw-api-js', $apijs_combined_loaded);
-
     }
 
     public function addDefaultStyles(): void
@@ -29,42 +41,6 @@ class AdminManager
         $main_css_url = app()->template->get_admin_system_ui_css_url();
         $this->addStyle('mw-ui-css', $main_css_url);
 
-    }
-
-    public function addScript($id, $src)
-    {
-        $this->scripts[$id] = $src;
-
-    }
-
-    public function addStyle($id, $src)
-    {
-        $this->styles[$id] = $src;
-
-    }
-
-    public function styles()
-    {
-        $ready = [];
-
-        if ($this->styles) {
-            foreach ($this->styles as $key => $script) {
-                $ready[] = '<link rel="stylesheet" id="'.$key.'" href="'.$script.'" type="text/css">';
-            }
-        }
-
-        return implode("\r\n", $ready);
-
-    }
-
-    public function scripts()
-    {
-        $ready = [];
-        if ($this->scripts) {
-            foreach ($this->scripts as $key => $script) {
-                $ready[] = '<script id="' . $key . '" src="' . $script . '"></script>';
-            }
-        }
 
         $favicon_image = get_option('favicon_image', 'website');
 
@@ -76,15 +52,19 @@ class AdminManager
         }
 
         if ($favicon_image) {
-            $ready[] = '<link rel="shortcut icon" href="' . $favicon_image . '" />';
+            $this->addStyle('favicon', $favicon_image, ['rel' => 'shortcut icon']);
         }
 
+    }
+
+
+
+    public function addDefaultCustomTags(): void
+    {
         $template_headers_src = mw()->template->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
-            $ready[] = $template_headers_src;
+            $this->addCustomHeadTag($template_headers_src);
         }
-
-
-        return implode("\r\n", $ready);
     }
+
 }
