@@ -165,27 +165,8 @@ if (isset($filters['category'])) {
 
                 <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
-                    <div class=" d-flex align-items-center ">
-
-                        <label class="d-xl-block d-none mx-2">{{ _e('Sort') }}</label>
-                        <select wire:model.stop="filters.orderBy" class="form-select form-select-sm mw-form-select-filters">
-                            <option value="">{{ _e('Any') }}</option>
-                            <option value="id,desc">{{ _e('Id Desc') }}</option>
-                            <option value="id,asc">{{ _e('Id Asc') }}</option>
-                        </select>
-                    </div>
-
-                    <div class=" d-flex align-items-center  mx-1">
-
-                        <label class="d-xl-block d-none mx-2">{{ _e('Limit') }}</label>
-                        <select class="form-select form-select-sm" wire:model="paginate">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                        </select>
-                    </div>
+                    @include('content::admin.content.livewire.components.sort')
+                    @include('content::admin.content.livewire.components.limit')
 
                     <div class="">
                         <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" style="padding: 10px;" data-bs-toggle="dropdown" aria-expanded="false">

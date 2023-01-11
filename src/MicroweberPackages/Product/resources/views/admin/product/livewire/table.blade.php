@@ -241,39 +241,16 @@
         </div>
         <div class="row mt-3">
 
-            <div style="height: 60px" class="bulk-actions-show-columns">
+            <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
                 @if($products->total() > 0)
 
                 @include('content::admin.content.livewire.components.display-as')
 
-                <div class="pull-right">
+                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
-                    <div class="d-inline-block mx-1">
-
-                        <span class="d-md-block d-none">Sort</span>
-                        <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
-                            <option value="">Any</option>
-                            <option value="id,desc">Id Desc</option>
-                            <option value="id,asc">Id Asc</option>
-                            <option value="price,desc">Price Desc</option>
-                            <option value="price,asc">Price Asc</option>
-                            <option value="orders,desc">Orders Desc</option>
-                            <option value="orders,asc">Orders Asc</option>
-                        </select>
-                    </div>
-
-                    <div class="d-inline-block mx-1">
-
-                        <span class="d-md-block d-none">Limit</span>
-                        <select class="form-control form-control-sm" wire:model="paginate">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                        </select>
-                    </div>
+                    @include('content::admin.content.livewire.components.sort')
+                    @include('content::admin.content.livewire.components.limit')
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
