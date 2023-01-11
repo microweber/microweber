@@ -432,6 +432,8 @@ MWEditor.controllers = {
                     { label: '52', value: 52 },
                     { label: '62', value: 62 },
                     { label: '72', value: 72 },
+                    { label: '82', value: 82 },
+                    { label: '92', value: 92 },
                 ],
                 placeholder: rootScope.lang('Font Size')
             });
