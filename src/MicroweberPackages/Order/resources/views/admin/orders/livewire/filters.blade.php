@@ -2,7 +2,7 @@
 
     <div class="d-flex">
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.debounce.500ms="filters.keyword" type="text" placeholder="Search by keyword..."
+            <input wire:model.debounce.500ms="filters.keyword" type="search" placeholder="Search by keyword..."
                    class="form-control">
         </div>
 

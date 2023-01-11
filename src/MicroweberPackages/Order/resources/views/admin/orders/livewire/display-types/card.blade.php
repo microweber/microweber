@@ -25,7 +25,7 @@
 
 
                             @if (isset($cartProduct) && $cartProduct != null)
-                                <a href="#">
+                                <a href="{{route('admin.order.show', $order->id)}}">
                                     <img src="{{$cartProduct->thumbnail()}}" />
                                 </a>
                             @endif
@@ -43,10 +43,10 @@
                                         continue;
                                     }
                                 @endphp
-                                <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                                <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
                             @endforeach
                         </span>
-                        <small class="text-muted">Ordered by:  {{$order->customerName()}}</small>
+                        <small class="text-muted">{{ _e('Ordered by') }}:  {{$order->customerName()}}</small>
                     </div>
                 </div>
             </div>
@@ -55,9 +55,9 @@
 
                     <div class="col-6 col-sm-4 col-md item-amount">{{$order->payment_amount}} {{$order->payment_currency}}<br />
                         @if($order->is_paid == 1)
-                            <span class="text-muterd">Paid</span>
+                            <span class="text-muterd">{{ _e('Paid') }}</span>
                         @else
-                            <span class="text-danger">Unpaid</span>
+                            <span class="text-danger">{{ _e('Unpaid') }}</span>
                         @endif
                     </div>
                     <div class="col-6 col-sm-4 col-md item-date">  {{$order->created_at}}<br /> <br /><small class="text-muted"> {{mw()->format->ago($order->created_at)}}</small></div>
@@ -71,53 +71,53 @@
         <div class="collapse" id="collapse-order-card-{{$order->id}}">
             <div class="row mt-3">
                 <div class="col-12 text-center text-sm-left">
-                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-primary btn-sm btn-rounded">View order</a>
+                    <a href="{{route('admin.order.show', $order->id)}}" class="btn btn-primary btn-sm btn-rounded">{{ _e('View order') }}</a>
                 </div>
             </div>
             <hr class="thin" />
             <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Customer Information</strong></h6>
+                    <h6><strong>{{ _e('Customer Information') }} </strong></h6>
                     <div>
-                        <small class="text-muted">Client name:</small>
+                        <small class="text-muted">{{ _e('Client name') }}:</small>
                         <p> {{$order->customerName()}}</p>
                     </div>
 
                     <div>
-                        <small class="text-muted">E-mail:</small>
+                        <small class="text-muted">{{ _e('E-mail') }}:</small>
                         <p> {{$order->email}}</p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Phone:</small>
+                        <small class="text-muted">{{ _e('Phone') }}:</small>
                         <p>{{$order->phone}}</p>
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Payment Information</strong></h6>
+                    <h6><strong>{{ _e('Payment Information') }}</strong></h6>
 
                     <div>
-                        <small class="text-muted">Amount:</small>
+                        <small class="text-muted">{{ _e('Amount') }}:</small>
                         <p>{{$order->payment_amount}} {{$order->payment_currency}}</p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Payment method:</small>
+                        <small class="text-muted">{{ _e('Payment method') }}:</small>
                         <p>{{$order->paymentMethodName()}}</p>
                     </div>
                 </div>
 
                 <div class="col-sm-6 col-md-4">
-                    <h6><strong>Shipping Information</strong></h6>
+                    <h6><strong>{{ _e('Shipping Information') }}</strong></h6>
 
                     <div>
-                        <small class="text-muted">Shipping method:</small>
+                        <small class="text-muted">{{ _e('Shipping method') }}:</small>
                         <p>{{$order->shippingMethodName()}}</p>
                     </div>
 
                     <div>
-                        <small class="text-muted">Address:</small>
+                        <small class="text-muted">{{ _e('Address') }}:</small>
                         <p>{{$order->addressText()}}</p>
                     </div>
                 </div>
