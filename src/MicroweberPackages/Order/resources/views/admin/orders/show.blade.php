@@ -16,11 +16,14 @@
             id: "<?php print $order['id']; ?>"
         }
 
-        mw.$(".mw-order-is-paid-change").change(function () {
-            var val = this.value;
 
-            if(typeof val === 'undefined'){
-                 return;
+        mw.$(".mw-order-is-paid-change").on('change', function () {
+
+
+            var val = this.value;
+ 
+            if (typeof val === 'undefined') {
+                return;
             }
             obj.is_paid = val;
 
