@@ -15,7 +15,7 @@
                 @include('product::admin.product.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
             @endif
             @if($showColumns['image'])
-                <th style="width: 130px" scope="col">Image</th> 
+                <th style="width: 130px" scope="col">Image</th>
             @endif
             @if($showColumns['title'])
                 <th scope="col">Title</th>
