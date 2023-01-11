@@ -7,6 +7,8 @@ Route::name('admin.')
     ->namespace('\MicroweberPackages\Product\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('shop/product', 'ProductController',['except' => ['show']]);
+        Route::get('shop/dashboard', 'ProductController@dashboard')->name('shop.dashboard');
+
     });
 
 // front end

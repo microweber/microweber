@@ -11,9 +11,8 @@
     mw.lib.require('echarts');
 </script>
 
-Coming soon!
 
-{{--
+
 
 @livewire('admin-shop-dashboard-sales')
---}}
+

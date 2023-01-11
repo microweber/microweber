@@ -67,7 +67,11 @@
 
         <div class="mb-3 mb-md-0">
 
-            @livewire('admin-products-autocomplete', ['selectedItem'=>$selected_product_id])
+ 
+
+
+
+            @livewire('admin-filter-item-product', ['selectedItem'=>$selected_product_id])
         </div>
 
     </div>

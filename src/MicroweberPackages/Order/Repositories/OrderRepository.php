@@ -115,9 +115,12 @@ class OrderRepository extends AbstractRepository
             $orders->where('cart.rel_id', '=', $params['productId']);
         }
 
-        $orders->select('cart.rel_id as content_id',
-            DB::raw("count(cart.rel_id) as orders_count"),
-            DB::raw("sum(cart_orders.amount) as orders_amount")
+        $fullTableNameCart = app()->database_manager->real_table_name('cart');
+        $fullTableNameCartOrders = app()->database_manager->real_table_name('cart_orders');
+
+        $orders->select($fullTableNameCart.'rel_id as content_id',
+            DB::raw("count(".$fullTableNameCart.".rel_id) as orders_count"),
+            DB::raw("sum(".$fullTableNameCartOrders.".amount) as orders_amount")
         );
 
         $orders->groupBy('cart.rel_id');
@@ -242,17 +245,42 @@ class OrderRepository extends AbstractRepository
 
         $orders->orderBy('date', 'desc');
 
-        $data =  $orders->get([
-            DB::raw('sum( amount ) as amount'),
-            DB::raw('YEAR( created_at ) as date_year'),
-            DB::raw('MONTH( created_at ) as date_month'),
-            DB::raw('DATE( created_at ) as date'),
-            DB::raw("DATE_FORMAT(created_at, '%Y-%m') date_year_month"),
-            DB::raw("DATE_FORMAT(created_at, '%Y-%m-%u') date_year_month_week"),
-            DB::raw("DATE_FORMAT(created_at, '%Y %M Week %u') date_year_month_week_display"),
-            DB::raw('COUNT( * ) as "count"'),
 
-        ])->toArray();
+       // where extract(year from date_order) < 2015
+
+
+
+         $dbDriver = mw()->database_manager->get_sql_engine();
+
+
+        if($dbDriver == 'sqlite'){
+            $data =  $orders->get([
+                DB::raw('sum( amount ) as amount'),
+                DB::raw('strftime( \'%Y\',created_at ) as date_year'),
+                DB::raw('strftime( \'%m\',created_at ) as date_month'),
+                DB::raw('strftime( \'%Y-%m-%d\',created_at ) as date'),
+                DB::raw("strftime(created_at, '%Y-%m') date_year_month"),
+                DB::raw("strftime(created_at, '%Y-%m-%u') date_year_month_week"),
+                DB::raw("strftime(created_at, '%Y %M Week %u') date_year_month_week_display"),
+
+                DB::raw('COUNT( * ) as "count"'),
+
+            ])->toArray();
+        } else {
+            $data =  $orders->get([
+                DB::raw('sum( amount ) as amount'),
+                DB::raw('YEAR( created_at ) as date_year'),
+                DB::raw('MONTH( created_at ) as date_month'),
+                DB::raw('DATE( created_at ) as date'),
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') date_year_month"),
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m-%u') date_year_month_week"),
+                DB::raw("DATE_FORMAT(created_at, '%Y %M Week %u') date_year_month_week_display"),
+                DB::raw('COUNT( * ) as "count"'),
+
+            ])->toArray();
+        }
+
+
 
 //dump($orders->toSql(),$data);
 
