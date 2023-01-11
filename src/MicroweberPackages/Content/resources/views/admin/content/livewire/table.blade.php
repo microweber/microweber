@@ -64,16 +64,11 @@ if (isset($filters['category'])) {
         <div class="d-flex flex-wrap">
 
             <?php if(!$isInTrashed): ?>
-            <div class="col-xl-3 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
-                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style=" height: 50px;">
-            </div>
+
+            @include('content::admin.content.livewire.components.keyword')
 
             <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-
-                    {{ _e('Filters') }}
-                </button>
+                @include('content::admin.content.livewire.components.button-filter')
                 <div class="dropdown-menu p-3" style="width:263px">
                     <h6 class="dropdown-header">{{ _e('Taxonomy') }}'</h6>
                     {{--<label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>--}}
@@ -89,11 +84,7 @@ if (isset($filters['category'])) {
             <?php endif; ?>
 
             @if(!empty($appliedFiltersFriendlyNames))
-                <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-danger" wire:click="clearFilters">{{ _e('Clear') }}</button>
-                    </div>
-                </div>
+                @include('content::admin.content.livewire.components.button-clear-filters')
             @endif
         </div>
         @endif
@@ -167,18 +158,10 @@ if (isset($filters['category'])) {
             <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
                 @if($contents->total() > 0)
-                <div class="col-md-5 col-12 ps-0 d-flex align-items-center mb-md-0 mb-4">
-{{--                    <span class="d-md-block d-none mb-1"> Display as </span>--}}
-                    <div class="btn-group">
-                        <a href="#" wire:click="setDisplayType('card')" class="btn mw-content-vision-tabs @if($displayType=='card') active @endif">
-                            <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                        {{ _e('Card') }} </a>
-                        <a href="#" wire:click="setDisplayType('table')" class="btn mw-content-vision-tabs @if($displayType=='table') active @endif">
-                            <svg class="me-1" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M20.016 8.016v-4.031h-4.031v4.031h4.031zM20.016 14.016v-4.031h-4.031v4.031h4.031zM20.016 20.016v-4.031h-4.031v4.031h4.031zM14.016 8.016v-4.031h-4.031v4.031h4.031zM14.016 14.016v-4.031h-4.031v4.031h4.031zM14.016 20.016v-4.031h-4.031v4.031h4.031zM8.016 8.016v-4.031h-4.031v4.031h4.031zM8.016 14.016v-4.031h-4.031v4.031h4.031zM8.016 20.016v-4.031h-4.031v4.031h4.031zM20.016 2.016q0.797 0 1.383 0.586t0.586 1.383v16.031q0 0.797-0.586 1.383t-1.383 0.586h-16.031q-0.797 0-1.383-0.586t-0.586-1.383v-16.031q0-0.797 0.586-1.383t1.383-0.586h16.031z"></path>
-                            </svg> {{ _e('Table') }} </a>
-                    </div>
-                </div>
+
+
+                @include('content::admin.content.livewire.components.display-as')
+
 
                 <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
