@@ -61,14 +61,14 @@ if (isset($filters['category'])) {
         @endphp
 
         @if($displayFilters)
-        <div class="d-flex">
+        <div class="d-flex flex-wrap">
 
             <?php if(!$isInTrashed): ?>
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style="width: 300px; height: 50px;">
+            <div class="col-xl-3 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
+                <input wire:model.stop="filters.keyword" type="search" placeholder="Search by keyword..." class="form-control" style=" height: 50px;">
             </div>
 
-            <div class="ms-0 ms-md-2 mb-3 mb-md-0">
+            <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
 
@@ -164,12 +164,12 @@ if (isset($filters['category'])) {
         </div>
         <div class="row mt-3">
 
-            <div style="height: 60px" class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative">
+            <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
                 @if($contents->total() > 0)
-                <div class="col-sm-5 ps-0 d-flex align-items-center ">
+                <div class="col-md-5 col-12 ps-0 d-flex align-items-center mb-md-0 mb-4">
 {{--                    <span class="d-md-block d-none mb-1"> Display as </span>--}}
-                    <div class="btn-group mb-4">
+                    <div class="btn-group">
                         <a href="#" wire:click="setDisplayType('card')" class="btn mw-content-vision-tabs @if($displayType=='card') active @endif">
                             <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                         {{ _e('Card') }} </a>
@@ -180,11 +180,11 @@ if (isset($filters['category'])) {
                     </div>
                 </div>
 
-                <div class="col-sm-7 d-flex justify-content-end align-items-center pe-0">
+                <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
                     <div class=" d-flex align-items-center ">
 
-                        <label class="d-md-block d-none mx-2">{{ _e('Sort') }}</label>
+                        <label class="d-xl-block d-none mx-2">{{ _e('Sort') }}</label>
                         <select wire:model.stop="filters.orderBy" class="form-select form-select-sm mw-form-select-filters">
                             <option value="">{{ _e('Any') }}</option>
                             <option value="id,desc">{{ _e('Id Desc') }}</option>
@@ -194,7 +194,7 @@ if (isset($filters['category'])) {
 
                     <div class=" d-flex align-items-center  mx-1">
 
-                        <label class="d-md-block d-none mx-2">{{ _e('Limit') }}</label>
+                        <label class="d-xl-block d-none mx-2">{{ _e('Limit') }}</label>
                         <select class="form-select form-select-sm" wire:model="paginate">
                             <option value="10">10</option>
                             <option value="25">25</option>

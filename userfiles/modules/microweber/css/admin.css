@@ -1215,3 +1215,13 @@ border-left: 0.3em solid transparent;
 #content-results-table thead tr th, .orders-table thead tr th {
     border: none;
 }
+@media (max-width: 370px) {
+
+    .mw-filters-sorts-mobile {
+        display: block!important;
+    }
+
+    .mw-filters-sorts-mobile .form-select {
+        margin: 5px 0;
+    }
+}
