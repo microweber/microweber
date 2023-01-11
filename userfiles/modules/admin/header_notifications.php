@@ -8,28 +8,48 @@ only_admin_access();
 $order_notif_html = false;
 $new_orders_count = false;
 
+$font_size = 11;
 
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
     $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+    $font_size = 11;
 
+    if($new_orders_count  and $new_orders_count > 100){
+        $new_orders_count = '99+';
+        $font_size = 8;
+    }
+  
     if ($new_orders_count) {
-        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
     }
 }
 
 $comments_notif_html = false;
 $new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count('id');
 if ($new_comments_count) {
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+    $font_size = 11;
+
+    if($new_comments_count > 100){
+        $new_comments_count = '99+';
+        $font_size = 8;
+    }
+
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 }
 
 $notif_html = '';
 $notif_count = Auth::user()->unreadNotifications()->count('id');
 if ($notif_count > 0) {
-    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
+    $font_size = 11;
+    if($notif_count > 100){
+        $notif_count = '99+';
+        $font_size = 8;
+    }
+
+    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $notif_count . '</span>';
 }
 ?>
 
