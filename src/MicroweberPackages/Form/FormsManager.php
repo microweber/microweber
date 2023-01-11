@@ -225,27 +225,16 @@ class FormsManager
         }
 
         if ($dis_cap == false) {
-            if (!isset($params['captcha'])) {
+            $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
+            if (!$validate_captcha) {
                 return array(
-                    'error' => _e('Please enter the captcha answer!', true),
+                    'error' => _e('Invalid captcha answer!', true),
+                    'captcha_error' => true,
                     'form_data_required' => 'captcha',
                     'form_data_required_params' => array('captcha_parent_for_id' => $for_id),
                     'form_data_module' => 'captcha'
                 );
 
-            } else {
-
-                $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
-                if (!$validate_captcha) {
-                    return array(
-                        'error' => _e('Invalid captcha answer!', true),
-                        'captcha_error' => true,
-                        'form_data_required' => 'captcha',
-                        'form_data_required_params' => array('captcha_parent_for_id' => $for_id),
-                        'form_data_module' => 'captcha'
-                    );
-
-                }
             }
         }
 
@@ -256,9 +245,7 @@ class FormsManager
         if (isset($params['token'])) {
             unset($params['token']);
         }
-        if (isset($params['captcha'])) {
-            unset($params['captcha']);
-        }
+
         if (isset($params['id'])) {
             unset($params['id']);
         }
