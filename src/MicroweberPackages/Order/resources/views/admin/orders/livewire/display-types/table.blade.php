@@ -82,7 +82,7 @@
             @if($showColumns['image'])
                 <td>
                     @if (isset($cartProduct) && $cartProduct != null)
-                        <a href="#">
+                        <a href="{{route('admin.order.show', $order->id)}}">
                             <div class="img-circle-holder">
                                 <img src="{{$cartProduct->thumbnail()}}" />
                             </div>
@@ -100,7 +100,7 @@
                                 continue;
                             }
                         @endphp
-                        <a href="#">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
+                        <a href="{{route('admin.order.show', $order->id)}}">{{$cartProduct->title}}</a> <span class="text-muted">x{{$cart->qty}}</span> <br />
                     @endforeach
                 </td>
             @endif
@@ -134,7 +134,7 @@
 
             @if($showColumns['total_amount'])
                 <td>
-                    <span class="badge badge-success">{{number_format($order->payment_amount,2)}} {{$order->payment_currency}}</span>
+                    <span>{{$order->payment_amount}} {{$order->payment_currency}}</span>
                 </td>
             @endif
 
