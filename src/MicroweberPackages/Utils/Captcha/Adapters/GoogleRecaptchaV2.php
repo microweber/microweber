@@ -8,7 +8,6 @@ class GoogleRecaptchaV2
 {
     public function validate($key, $captcha_id = null, $unset_if_found = true)
     {
-
         $key = false;
 
         if (empty($key) && !empty(Request::post('g-recaptcha-response'))) {

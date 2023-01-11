@@ -733,6 +733,11 @@ var MWEditor = function (options) {
             }
         });
 
+        this.smallEditor.on('mousedown touchstart click', function (e){
+            e.preventDefault();
+            e.stopPropagation()
+        })
+
         this.smallEditorBar = mw.bar();
 
 
@@ -765,6 +770,9 @@ var MWEditor = function (options) {
     };
 
     this.smallEditorInteract = function (target) {
+       if(target && !target.isContentEditable && scope.lastRange.collapsed === false) {
+           target = scope.getActualTarget(scope.lastRange.commonAncestorContainer)
+       }
 
         if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
