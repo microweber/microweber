@@ -1,15 +1,15 @@
-<?php
-$isInTrashed  = false;
-if(isset($showFilters['trashed']) && $showFilters['trashed']){
-    $isInTrashed  = true;
-}
+@php
+    if ($countActiveContents > 0) {
+    $isInTrashed  = false;
+    if(isset($showFilters['trashed']) && $showFilters['trashed']){
+        $isInTrashed  = true;
+    }
 
-$findCategory = false;
-if (isset($filters['category'])) {
-    $findCategory = get_category_by_id($filters['category']);
-}
-?>
-
+    $findCategory = false;
+    if (isset($filters['category'])) {
+        $findCategory = get_category_by_id($filters['category']);
+    }
+@endphp
 
 <div class="card style-1 mb-3">
 
@@ -57,6 +57,9 @@ if (isset($filters['category'])) {
             $displayFilters = true;
             if ($contents->total() == 0 && empty($showFiltersUnsetCategory)) {
                 $displayFilters = false;
+            }
+            if (!empty($filters)) {
+                $displayFilters = true;
             }
         @endphp
 
@@ -220,10 +223,19 @@ if (isset($filters['category'])) {
             {{ $contents->links() }}
 
         @else
-            @include('content::admin.content.livewire.no-results')
+            @include('content::admin.content.livewire.no-results-for-filters')
         @endif
 
     </div>
 </div>
 
+@php
+    } else {
+@endphp
+
+@include('content::admin.content.livewire.no-results')
+
+@php
+    }
+@endphp
 
