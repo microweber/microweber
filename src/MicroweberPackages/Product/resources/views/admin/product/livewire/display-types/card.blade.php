@@ -28,52 +28,8 @@
 
                     <div class="col item-title manage-post-item-col-3 manage-post-main">
 
-                        <div class="manage-item-main-top">
-
-                            <a target="_self" href="{{route('admin.product.edit', $product->id)}}" class="btn btn-link p-0">
-                                <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
-                                    {{$product->title}}
-                                </h5>
-                            </a>
-                            @if($product->categories->count() > 0)
-                                <span class="manage-post-item-cats-inline-list">
-                                @foreach($product->categories as $category)
-                                        @if($category->parent)
-
-                                            <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
-                                               class="btn btn-link p-0 text-muted">
-                                        {{$category->parent->title}}
-                                    </a>
-
-                                        @endif
-                                    @endforeach
-                             </span>
-                            @endif
-                            <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
-                               href="{{$product->link()}}">
-                                <small class="text-muted">{{$product->link()}}</small>
-                            </a>
-                        </div>
-
-
-                        <div class="manage-post-item-links mt-3">
-                            <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-primary btn-sm">Edit</a>
-                            <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-outline-success btn-sm">Live Edit</a>
-                            <?php if(!$product->is_deleted): ?>
-                            <a href="javascript:mw.admin.content.delete('{{ $product->id }}');" class="btn btn-outline-danger btn-sm js-delete-content-btn-{{ $product->id }}">Delete</a>
-                            <?php endif; ?>
-                            @if ($product->is_active < 1)
-                                <a href="javascript:mw.admin.content.publishContent('{{ $product->id }}');" class="mw-set-content-unpublish badge badge-warning font-weight-normal">Unpublished</a>
-
-                            @endif
-                        </div>
-
-                        <?php
-                        if ($product->is_deleted) {
-                            $data = $product->toArray();
-                            include(modules_path() . 'content/views/content_delete_btns.php');
-                        }
-                        ?>
+                        @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$product])
+                        @include('content::admin.content.livewire.components.manage-links', ['content'=>$product])
 
                     </div>
 
