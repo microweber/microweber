@@ -58,7 +58,14 @@
             if ($contents->total() == 0 && empty($showFiltersUnsetCategory)) {
                 $displayFilters = false;
             }
-            if (!empty($filters)) {
+             $filtersUnsetCategory = $filters;
+            if (isset($filtersUnsetCategory['category'])) {
+                unset($filtersUnsetCategory['category']);
+            }
+            if (empty($filtersUnsetCategory)) {
+                $displayFilters = false;
+            }
+            if (!empty($filtersUnsetCategory)) {
                 $displayFilters = true;
             }
         @endphp
