@@ -225,8 +225,9 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 
 <div class="post-settings-holder">
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-        <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
-        <a class="btn btn-outline-secondary justify-content-center" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
+
+        <a class="btn btn-outline-secondary justify-content-center active" onclick="mw.manage_live_edit_content('<?php print $params['id'] ?>');" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Manage"); ?></a>
+        <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
          <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-bs-toggle="tab" href="#last-1"></a>
         <a class="btn btn-outline-secondary justify-content-center" style="display: none;" data-bs-toggle="tab" href="#last-2"></a>
@@ -235,11 +236,9 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     <div class="tab-content py-3">
 
 
-        <div class="tab-pane fade show active" id="settings">
-            <?php include($posts_mod); ?>
-        </div>
 
-        <div class="tab-pane fade" id="list">
+
+        <div class="tab-pane fade show active" id="list">
             <div class="text-end text-right">
                 <?php if (isset($params['global'])): ?>
                     <a href="<?php print route('admin.page.create'); ?>" class="btn btn-success btn-sm"   style="position: absolute;top: 12px;right: 12px;z-index: 2;"><i class="mdi mdi-<?php print trim($set_content_type_mod); ?>"></i>
@@ -252,6 +251,10 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             </div>
 
             <module type="content/manager" <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
+        </div>
+
+        <div class="tab-pane fade" id="settings">
+            <?php include($posts_mod); ?>
         </div>
 
         <div class="tab-pane fade" id="templates">

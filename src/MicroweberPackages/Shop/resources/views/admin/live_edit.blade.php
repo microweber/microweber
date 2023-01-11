@@ -12,13 +12,21 @@
     <div class="card-body pt-3">
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#products"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Products'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
 
-            <div class="tab-pane fade show active" id="settings">
+            <div class="tab-pane fade show active" id="products">
+                <div class="text-end text-right">
+                   <a href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                </div>
+                <module content_type="product" type="content/manager" no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
+            </div>
+
+            <div class="tab-pane fade" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
                     @if($pages->count() == 0)
                         <div class="alert alert-warning">
