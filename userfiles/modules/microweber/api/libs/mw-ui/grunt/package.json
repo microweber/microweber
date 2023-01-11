@@ -24,7 +24,9 @@
         "notifyjs-browser": "0.4.2",
         "owl-carousel": "1.0.0",
         "popper.js": "*",
-        "slick-carousel": "^1.8.1"
+        "slick-carousel": "^1.8.1",
+        "decode-uri-component": ">=0.2.1"
+
     },
     "dependencies": {
         "@mdi/font": "^5.4.55",
