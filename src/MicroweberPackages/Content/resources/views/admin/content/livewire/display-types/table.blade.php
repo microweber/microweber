@@ -3,10 +3,7 @@
         <thead>
         <tr>
             <th style="width:10px" scope="col">
-                <div class="custom-control custom-checkbox mb-0" style="margin-left: 11px;">
-                    <input type="checkbox" wire:model="selectAll" id="select-all-products" class="custom-control-input">
-                    <label for="select-all-products" class="custom-control-label"></label>
-                </div>
+                @include('content::admin.content.livewire.table-includes.select-all-checkbox')
             </th>
             @if($showColumns['id'])
                 @include('content::admin.content.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
@@ -34,8 +31,8 @@
             <tr class="manage-post-item manage-post-item-{{ $content->id }}">
                 <td>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
-                        <label for="products-{{ $content->id }}" class="custom-control-label"></label>
+                        <input type="checkbox" value="{{ $content->id }}" id="js-content-checkbox-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                        <label for="js-content-checkbox-{{ $content->id }}" class="custom-control-label"></label>
                     </div>
 
                     <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
