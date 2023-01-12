@@ -13,6 +13,7 @@ use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
+use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByOrdersTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPage;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
@@ -44,6 +45,7 @@ class ProductFilter extends ContentFilter
     use FilterByStockTrait;
     use FilterByVisibleTrait;
     use FilterByTrashedTrait;
+    use FilterByDateBetweenTrait;
 
     public function sku($sku)
     {
