@@ -46,68 +46,63 @@
                 </div>
             @endif
 
-            <div class="d-inline-block mx-1">
-                <span class="d-md-block d-none text-muted small"> Display as </span>
-                <div class="btn-group mb-4">
-                    <a href="#" wire:click="setDisplayType('card')" class="btn btn-sm btn-outline-primary @if($displayType=='card') active @endif">
-                        <i class="fa fa-id-card"></i> <?php _e('Card') ?> </a>
-                    <a href="#" wire:click="setDisplayType('table')" class="btn btn-sm btn-outline-primary @if($displayType=='table') active @endif">
-                        <i class="fa fa-list"></i> <?php _e('Table') ?> </a>
-                </div>
-            </div>
+            <div class="row mt-3">
+                <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
-            <div class="pull-right">
+                @include('content::admin.content.livewire.components.display-as')
 
-                <div class="d-inline-block mx-1">
+                <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
-                    <span class="d-md-block d-none text-muted small">Sort</span>
-                    <select wire:model.stop="filters.orderBy" class="form-control form-control-sm">
-                        <option value="">Any</option>
-                        <option value="id,desc">Id Desc</option>
-                        <option value="id,asc">Id Asc</option>
+                    <div class="d-flex align-items-center mx-1">
+                        <label class="d-xl-block d-none mx-2">Sort</label>
+                        <select class="form-control form-control-sm" wire:model.stop="filters.orderBy" >
+                            <option value="">Any</option>
+                            <option value="id,desc">Id Desc</option>
+                            <option value="id,asc">Id Asc</option>
 
-                        <option value="created_at,desc">Date Desc</option>
-                        <option value="created_at,asc">Date Asc</option>
-                    </select>
-                </div>
-
-                <div class="d-inline-block mx-1">
-
-                    <span class="d-md-block d-none text-muted small">Limit</span>
-                    <select class="form-control form-control-sm" wire:model="paginationLimit">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="500">500</option>
-                    </select>
-                </div>
-
-
-                @if($displayType=='table')
-
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Show columns
-                    </button>
-                    <div class="dropdown-menu p-3">
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_status"> Payment Status</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.created_at"> Created At</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.updated_at"> Updated At</label>
-                        <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.actions"> Actions</label>
+                            <option value="created_at,desc">Date Desc</option>
+                            <option value="created_at,asc">Date Asc</option>
+                        </select>
                     </div>
+
+                    <div class="d-flex align-items-center mx-1">
+                        <label class="d-xl-block d-none mx-2">Limit</label>
+                        <select class="form-control form-control-sm" wire:model="paginationLimit">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                        </select>
+                    </div>
+
+                    @if($displayType=='table')
+
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                Columns
+                            </button>
+                            <div class="dropdown-menu p-3">
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_status"> Payment Status</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.created_at"> Created At</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.updated_at"> Updated At</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.actions"> Actions</label>
+                            </div>
+                        </div>
+
+                    @endif
                 </div>
 
-                @endif
+              </div>
             </div>
 
         </div>
