@@ -4,9 +4,11 @@
            type="search"
            wire:model.debounce.500ms="query"
            wire:keydown.escape="resetProperties"
-           wire:keydown.enter="refreshQueryData"
            wire:click="refreshQueryData"
-           wire:blur="closeDropdown"
+           wire:blur="closeDropdown('{{$this->id}}')"
+
+           wire:keydown.enter="closeDropdown('{{$this->id}}')"
+           wire:click="showDropdown('{{$this->id}}')"
 
            placeholder="{{$placeholder}}">
 
