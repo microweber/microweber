@@ -11,3 +11,7 @@
 
     @endif
 </div>
+
+@if($isInTrashed)
+    @include('content::admin.content.livewire.components.trash-buttons')
+@endif
