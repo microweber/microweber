@@ -414,7 +414,7 @@ class ContentList extends Component
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];
-        
+
         $dropdownFilters[] = [
             'name' => 'Tags',
             'key' => 'tags'

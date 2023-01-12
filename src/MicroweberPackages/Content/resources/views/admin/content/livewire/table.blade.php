@@ -51,13 +51,27 @@
                         $skipDropdownFilter = true;
                     }
                     if (!$skipDropdownFilter) {
-                        if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                        $dropdownFilterKey = $dropdownFilter['key'];
+                        if (strpos($dropdownFilter['key'], '.') !== false) {
+                            $dropdownFilterKeyExp = explode('.', $dropdownFilter['key']);
+                            if (isset($dropdownFilterKeyExp[0])) {
+                                $dropdownFilterKey = $dropdownFilterKeyExp[0];
+                            }
+                        }
+                        $tableFilterParams = [];
+                        if (isset($dropdownFilter['name'])) {
+                            $tableFilterParams['fieldName'] = $dropdownFilter['name'];
+                        }
+                        if (isset($dropdownFilter['key'])) {
+                            $tableFilterParams['fieldKey'] = $dropdownFilter['key'];
+                        }
+                        if (isset($showFilters[$dropdownFilterKey]) && $showFilters[$dropdownFilterKey]) {
                          @endphp
 
                             @if (isset($dropdownFilter['viewNamespace']))
-                                @include($dropdownFilter['viewNamespace'])
+                                @include($dropdownFilter['viewNamespace'], $tableFilterParams)
                             @else
-                                @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
+                                @include('content::admin.content.livewire.table-filters.'.$dropdownFilterKey, $tableFilterParams)
                             @endif
 
                         @php
