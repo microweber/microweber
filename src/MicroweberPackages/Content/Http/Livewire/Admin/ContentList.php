@@ -253,6 +253,11 @@ class ContentList extends Component
 
     public function render()
     {
+        $currentCategory = false;
+        if (isset($this->filters['category'])) {
+            $currentCategory = get_category_by_id($this->filters['category']);
+        }
+
         $isInTrashed  = false;
         if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
             $isInTrashed  = true;
@@ -260,6 +265,7 @@ class ContentList extends Component
         if ($isInTrashed && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-content-in-trash',[
                 'isInTrashed' => $isInTrashed,
+                'currentCategory'=>$currentCategory,
             ]);
         }
 
@@ -273,14 +279,11 @@ class ContentList extends Component
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$this->contentType,
                 'isInTrashed' => $isInTrashed,
+                'currentCategory'=>$currentCategory,
             ]);
         }
 
 
-        $currentCategory = false;
-        if (isset($this->filters['category'])) {
-            $currentCategory = get_category_by_id($this->filters['category']);
-        }
 
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
