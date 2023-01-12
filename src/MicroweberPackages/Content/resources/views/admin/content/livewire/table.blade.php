@@ -178,7 +178,18 @@
                     @endif
                 </div>
             </div>
-            {{ $contents->links() }}
+
+            <div class="d-flex justify-content-center">
+
+                <div style="width: 100%">
+                    <span class="text-muted">{{ $contents->total() }} results found</span>
+                </div>
+
+                <div>
+                    {{ $contents->links() }}
+                </div>
+            </div>
+
         @else
             @include('content::admin.content.livewire.no-results-for-filters')
         @endif
