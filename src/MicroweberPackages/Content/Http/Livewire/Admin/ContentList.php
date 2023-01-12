@@ -288,7 +288,7 @@ class ContentList extends Component
             $currentCategory = get_category_by_id($this->filters['category']);
         }
 
-        if ($currentCategory && $this->contents->count() == 0) {
+        if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$this->contentType,
                 'currentCategory'=>$currentCategory,
