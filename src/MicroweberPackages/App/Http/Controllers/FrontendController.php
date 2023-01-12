@@ -1462,24 +1462,6 @@ class FrontendController extends Controller
     }
 
 
-    /**
-     * @deprecated 1.1.12 Moved to JsCompileController
-     */
-
-    public function apijs_settings()
-    {
-        return (new JsCompileController())->apijs_settings();
-    }
-
-
-    /**
-     * @deprecated 1.1.12 Moved to JsCompileController
-     */
-    public function apijs()
-    {
-        return (new JsCompileController())->apijs();
-    }
-
 
     public function robotstxt()
     {
