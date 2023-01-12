@@ -263,16 +263,34 @@ class ContentList extends Component
     public function render()
     {
         $displayFilters = true;
+        $showNoActiveContentsScreen = false;
+        if ($this->countActiveContents == 0) {
+            $showNoActiveContentsScreen = true;
+        }
 
+        $contentType = 'page';
+        if (strpos($this->model, 'Page') !== false) {
+            $contentType = 'page';
+        }
+        if (strpos($this->model, 'Post') !== false) {
+            $contentType = 'post';
+        }
+        if (strpos($this->model, 'Product') !== false) {
+            $contentType = 'product';
+        }
+
+        if ($showNoActiveContentsScreen) {
+            return view('content::admin.content.livewire.no-active-content', compact('contentType'));
+        }
 
         $isInTrashed  = false;
-        if(isset($showFilters['trashed']) && $showFilters['trashed']){
+        if(isset($this->showFilters['trashed']) && $this->showFilters['trashed']){
             $isInTrashed  = true;
         }
 
         $currentCategory = false;
-        if (isset($filters['category'])) {
-            $currentCategory = get_category_by_id($filters['category']);
+        if (isset($this->filters['category'])) {
+            $currentCategory = get_category_by_id($this->filters['category']);
         }
 
         return view('content::admin.content.livewire.table', [
