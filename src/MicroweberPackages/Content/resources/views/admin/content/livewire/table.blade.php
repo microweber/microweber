@@ -1,13 +1,15 @@
 @php
-    if ($countActiveContents > 0) {
+
+    $displayFilters = true;
+
     $isInTrashed  = false;
     if(isset($showFilters['trashed']) && $showFilters['trashed']){
         $isInTrashed  = true;
     }
 
-    $findCategory = false;
+    $currentCategory = false;
     if (isset($filters['category'])) {
-        $findCategory = get_category_by_id($filters['category']);
+        $currentCategory = get_category_by_id($filters['category']);
     }
 @endphp
 
@@ -18,27 +20,28 @@
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-content-center"></i>
                 <strong class="d-md-flex d-none">
-                    <a  class="<?php if($findCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Website')}}</a>
 
-                    @if($findCategory)
+                    <a class="<?php if($currentCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Website')}}</a>
+
+                    @if($currentCategory)
                         <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
-                        {{$findCategory['title']}}
+                        {{$currentCategory['title']}}
                     @endif
 
                     @if($isInTrashed)
-                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></{{ _e('Trash') }}
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
                     @endif
                 </strong>
 
-                @if($findCategory)
+                @if($currentCategory)
                     <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
                         <i class="fa fa-times-circle"></i>
                     </a>
                 @endif
             </h5>
             <div>
-                @if($findCategory)
-                    <a href="{{category_link($findCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
+                @if($currentCategory)
+                    <a href="{{category_link($currentCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
                 @endif
             </div>
         </div>
@@ -47,31 +50,6 @@
     <div class="card-body pt-3">
 
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
-
-        @php
-            $showFiltersUnsetCategory = $showFilters;
-            if (isset($showFiltersUnsetCategory['category'])) {
-                unset($showFiltersUnsetCategory['category']);
-            }
-
-            $displayFilters = true;
-            if ($contents->total() == 0 && empty($showFiltersUnsetCategory)) {
-                $displayFilters = false;
-            }
-             $filtersUnsetCategory = $filters;
-            if (isset($filtersUnsetCategory['category'])) {
-                unset($filtersUnsetCategory['category']);
-            }
-            if (empty($filtersUnsetCategory)) {
-                $displayFilters = false;
-            }
-            if (!empty($filtersUnsetCategory)) {
-                $displayFilters = true;
-            }
-             if ($contents->total() > 0) {
-                $displayFilters = true;
-            }
-        @endphp
 
         @if($displayFilters)
         <div class="d-flex flex-wrap">
@@ -115,7 +93,6 @@
             @if(isset($showFilters['userId']) && $showFilters['userId'])
                 @include('content::admin.content.livewire.table-filters.author')
             @endif
-
 
             @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
                 @include('content::admin.content.livewire.table-filters.date-between')
@@ -166,15 +143,13 @@
                 </div>
             @endif
         </div>
-        <div class="row mt-3">
 
+        <div class="row mt-3">
             <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
                 @if($contents->total() > 0)
 
-
                 @include('content::admin.content.livewire.components.display-as')
-
 
                 <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
@@ -195,16 +170,7 @@
                 </div>
                 @endif
 
-
-
-                    <script>
-                        mw.spinner({
-                            size: 30,
-                            element: ".mw-js-loading",
-                            decorate: true,
-
-                        });
-
+                <script>
                         mw.spinner({
                             size: 30,
                             element: ".mw-js-loading",
@@ -213,11 +179,9 @@
                         }).remove();
                     </script>
             </div>
-
-
         </div>
-        @if($contents->total() > 0)
 
+        @if($contents->total() > 0)
             <div class="row mt-3">
                 <div class="col-md-12">
                     @if($displayType == 'card')
@@ -229,23 +193,8 @@
                     @endif
                 </div>
             </div>
-
             {{ $contents->links() }}
-
-        @else
-            @include('content::admin.content.livewire.no-results-for-filters')
         @endif
 
     </div>
 </div>
-
-@php
-    } else {
-@endphp
-
-@include('content::admin.content.livewire.no-results')
-
-@php
-    }
-@endphp
-
