@@ -188,9 +188,6 @@ Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackag
     Route::any('api/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
     Route::any('api_html/{all}', array('as' => 'api_html', 'uses' => 'ApiController@api_html'))->where('all', '.*');
     Route::any('/api_html', 'ApiController@api_html');
-    //
-    Route::any('/editor_tools', 'ApiController@editor_tools');
-    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'ApiController@editor_tools'))->where('all', '.*');
 
 });
 

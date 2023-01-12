@@ -18,7 +18,8 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
   //  Route::any('/'.$admin_url.'/' . $live_edit_url, 'AdminLiveEditController@index')->name('admin.live-edit.index');
 
-
+    Route::any('/editor_tools', 'AdminEditorToolsController@index');
+    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'AdminEditorToolsController@index'))->where('all', '.*');
 
 
     Route::any($admin_url . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');

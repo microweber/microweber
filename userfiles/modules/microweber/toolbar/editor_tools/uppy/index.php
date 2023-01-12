@@ -1,6 +1,9 @@
 <?php
 $uid = uniqid();
 $here = mw_includes_url() . 'toolbar/editor_tools/uppy/';
+
+
+exit('deprecated');
 ?>
 
 <script>
