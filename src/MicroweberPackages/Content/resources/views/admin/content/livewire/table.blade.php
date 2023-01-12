@@ -133,44 +133,40 @@
             @endif
         </div>
 
-        <div class="row mt-3">
-            <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
+        @if($contents->total() > 0)
+            <div class="row mt-3">
+                <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
 
-                @if($contents->total() > 0)
+                    @include('content::admin.content.livewire.components.display-as')
 
-                @include('content::admin.content.livewire.components.display-as')
+                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
 
-                <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile">
+                        @include('content::admin.content.livewire.components.sort')
+                        @include('content::admin.content.livewire.components.limit')
 
-                    @include('content::admin.content.livewire.components.sort')
-                    @include('content::admin.content.livewire.components.limit')
-
-                    <div class="">
-                        <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" style="padding: 10px;" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ _e('Columns') }}
-                        </button>
-                        <div class="dropdown-menu p-3">
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> {{ _e('Id') }}</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> {{ _e('Image') }}</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> {{ _e('Title') }}</label>
-                            <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> {{ _e('Author') }}</label>
+                        <div class="">
+                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" style="padding: 10px;" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ _e('Columns') }}
+                            </button>
+                            <div class="dropdown-menu p-3">
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> {{ _e('Id') }}</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> {{ _e('Image') }}</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> {{ _e('Title') }}</label>
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> {{ _e('Author') }}</label>
+                            </div>
                         </div>
                     </div>
+
+                    <script>
+                            mw.spinner({
+                                size: 30,
+                                element: ".mw-js-loading",
+                                decorate: true,
+
+                            }).remove();
+                        </script>
                 </div>
-                @endif
-
-                <script>
-                        mw.spinner({
-                            size: 30,
-                            element: ".mw-js-loading",
-                            decorate: true,
-
-                        }).remove();
-                    </script>
             </div>
-        </div>
-
-        @if($contents->total() > 0)
             <div class="row mt-3">
                 <div class="col-md-12">
                     @if($displayType == 'card')
@@ -183,6 +179,8 @@
                 </div>
             </div>
             {{ $contents->links() }}
+        @else
+            @include('content::admin.content.livewire.no-results-for-filters')
         @endif
 
     </div>

@@ -262,10 +262,18 @@ class ContentList extends Component
 
     public function render()
     {
+        $isInTrashed  = false;
+        if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
+            $isInTrashed  = true;
+        }
+
         $displayFilters = true;
         $showNoActiveContentsScreen = false;
         if ($this->countActiveContents == 0) {
             $showNoActiveContentsScreen = true;
+        }
+        if ($isInTrashed) {
+            $showNoActiveContentsScreen = false;
         }
 
         $contentType = 'page';
@@ -281,11 +289,6 @@ class ContentList extends Component
 
         if ($showNoActiveContentsScreen) {
             return view('content::admin.content.livewire.no-active-content', compact('contentType'));
-        }
-
-        $isInTrashed  = false;
-        if(isset($this->showFilters['trashed']) && $this->showFilters['trashed']){
-            $isInTrashed  = true;
         }
 
         $currentCategory = false;
