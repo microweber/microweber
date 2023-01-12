@@ -410,4 +410,68 @@ class ContentList extends Component
             $this->showColumns = json_decode($columnsCookie, true);
         }
     }
+
+    public function getDropdownFiltersProperty()
+    {
+        $dropdownFilters = [];
+        
+        $dropdownFilters[] = [
+            'name' => 'Tags',
+            'key' => 'tags'
+        ];
+
+        $dropdownFilters[] = [
+            'name' => 'Visible',
+            'key' => 'visible',
+        ];
+        $dropdownFilters[] = [
+            'name' => 'Author',
+            'key' => 'userId',
+        ];
+
+        $dropdownFilters[] = [
+            'name' => 'Date Range',
+            'key' => 'dateBetween',
+        ];
+
+        $dropdownFilters[] = [
+            'name' => 'Created at',
+            'key' => 'createdAt',
+        ];
+
+        $dropdownFilters[] = [
+            'name' => 'Updated at',
+            'key' => 'updatedAt',
+        ];
+
+        $templateFields = mw()->template->get_data_fields('product');
+        if (!empty($templateFields)) {
+            $dropdownFilters[] = [
+                'name' => 'Template settings',
+                'type' => 'separator'
+            ];
+            foreach ($templateFields as $templateFieldKey => $templateFieldName) {
+                $dropdownFilters[] = [
+                    'name' => $templateFieldName,
+                    'key' => 'contentData.' . $templateFieldKey,
+                ];
+            }
+        }
+
+        $templateFields = mw()->template->get_edit_fields('product');
+        if (!empty($templateFields)) {
+            $dropdownFilters[] = [
+                'name' => 'Template fields',
+                'type' => 'separator'
+            ];
+            foreach ($templateFields as $templateFieldKey => $templateFieldName) {
+                $dropdownFilters[] = [
+                    'name' => $templateFieldName,
+                    'key' => 'contentFields.' . $templateFieldKey,
+                ];
+            }
+        }
+
+        return $dropdownFilters;
+    }
 }
