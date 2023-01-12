@@ -1,27 +1,15 @@
-@php
-
-    $displayFilters = true;
-
-    $isInTrashed  = false;
-    if(isset($showFilters['trashed']) && $showFilters['trashed']){
-        $isInTrashed  = true;
-    }
-
-    $currentCategory = false;
-    if (isset($filters['category'])) {
-        $currentCategory = get_category_by_id($filters['category']);
-    }
-@endphp
-
 <div class="card style-1 mb-3">
 
     <div class="card-header d-flex align-items-center justify-content-between px-md-4">
         <div class="col d-flex justify-content-md-between justify-content-center align-items-center px-0">
             <h5 class="mb-0 d-flex">
                 <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-content-center"></i>
+
                 <strong class="d-md-flex d-none">
 
-                    <a class="<?php if($currentCategory): ?> text-decoration-none <?php else: ?> text-decoration-none text-dark <?php endif; ?>" onclick="livewire.emit('deselectAllCategories');return false;">{{_e('Website')}}</a>
+                    <a class="@if($currentCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                        {{_e('Website')}}
+                    </a>
 
                     @if($currentCategory)
                         <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
@@ -29,8 +17,10 @@
                     @endif
 
                     @if($isInTrashed)
-                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>  <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
+                        <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
+                        <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
                     @endif
+
                 </strong>
 
                 @if($currentCategory)
@@ -62,7 +52,6 @@
                 @include('content::admin.content.livewire.components.button-filter')
                 <div class="dropdown-menu p-3" style="width:263px">
                     <h6 class="dropdown-header">{{ _e('Taxonomy') }}'</h6>
-                    {{--<label class="dropdown-item"><input type="checkbox" wire:model="showFilters.category"> Category</label>--}}
                     <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> {{ _e('Tags') }}</label>
                     <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> {{ _e('Visible') }}</label>
                     <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> {{ _e('Author') }}</label>

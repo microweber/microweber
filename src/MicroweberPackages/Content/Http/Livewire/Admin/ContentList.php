@@ -262,7 +262,23 @@ class ContentList extends Component
 
     public function render()
     {
+        $displayFilters = true;
+
+
+        $isInTrashed  = false;
+        if(isset($showFilters['trashed']) && $showFilters['trashed']){
+            $isInTrashed  = true;
+        }
+
+        $currentCategory = false;
+        if (isset($filters['category'])) {
+            $currentCategory = get_category_by_id($filters['category']);
+        }
+
         return view('content::admin.content.livewire.table', [
+            'displayFilters' => $displayFilters,
+            'currentCategory' => $currentCategory,
+            'isInTrashed' => $isInTrashed,
             'contents' => $this->contents,
             'countActiveContents' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
