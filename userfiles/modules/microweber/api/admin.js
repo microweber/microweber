@@ -353,8 +353,10 @@ mw.admin.content.publishContent = function (a, callback) {
     });
 }
 mw.admin.content.refreshContentListAfterAction = function () {
-    if(typeof window.livewire === 'function') {
-        window.livewire.emit('refreshProductsList');
+
+    if(typeof window.livewire !== 'undefined') {
+
+        window.livewire.emit('refreshContentList');
     }
 }
 
