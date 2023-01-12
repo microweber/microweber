@@ -82,6 +82,8 @@
                         <option value="500">500</option>
                     </select>
                 </div>
+
+
                 @if($displayType=='table')
 
 

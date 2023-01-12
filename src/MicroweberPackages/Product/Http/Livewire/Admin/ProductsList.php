@@ -22,13 +22,5 @@ class ProductsList extends ContentList
         'author' => false
     ];
 
-    public function render()
-    {
-        return view('product::admin.product.livewire.table', [
-            'products' => $this->contents,
-            'countActiveProducts' => $this->countActiveContents,
-            'appliedFilters' => $this->appliedFilters
-        ]);
-    }
 }
 
