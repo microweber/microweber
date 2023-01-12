@@ -21,7 +21,7 @@
 
             <div class="tab-pane fade show active" id="products">
                 <div class="text-end text-right">
-                   <a href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                   <a href="<?php print route('admin.product.create'); ?>" target="_blank" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
                 </div>
                 <module content_type="product" type="content/manager" no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
             </div>

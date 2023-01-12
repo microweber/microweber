@@ -25,6 +25,11 @@ trait FilterByKeywordTrait
 
         if (is_numeric($keyword)) {
             $this->query->where('id', intval($keyword));
+            $this->query->orWhere($table.'.title', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.description', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.content_body', 'LIKE', '%' . $keyword . '%');
+            $this->query->orWhere($table.'.content', 'LIKE', '%' . $keyword . '%');
+
             return;
         }
 
