@@ -16,13 +16,20 @@
             <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
                 @include('content::admin.content.livewire.components.button-filter')
                 <div class="dropdown-menu p-3" style="width:263px">
-                    <h6 class="dropdown-header">{{ _e('Taxonomy') }}'</h6>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.tags"> {{ _e('Tags') }}</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.visible"> {{ _e('Visible') }}</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.userId"> {{ _e('Author') }}</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.dateBetween"> {{ _e('Date Range') }}</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.createdAt"> {{ _e('Created at') }}</label>
-                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.updatedAt"> {{ _e('Updated at') }}</label>
+
+
+                    @if(!empty($dropdownFilters))
+
+                        @foreach($dropdownFilters as $dropdownFilter)
+                           @if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator')
+                                <h6 class="dropdown-header">{{ $dropdownFilter['name']  }}</h6>
+                           @else
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}</label>
+                           @endif
+                        @endforeach
+
+                    @endif
+
                 </div>
             </div>
 

@@ -309,6 +309,7 @@ class ContentList extends Component
         }
 
         return view('content::admin.content.livewire.table', [
+            'dropdownFilters' => $this->dropdownFilters,
             'displayFilters' => $displayFilters,
             'currentCategory' => $currentCategory,
             'isInTrashed' => $isInTrashed,
