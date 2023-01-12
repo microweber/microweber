@@ -1,15 +1,12 @@
 <div>
 
-    <div class="d-flex">
-        <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <input wire:model.debounce.500ms="filters.keyword" type="search" placeholder="Search by keyword..."
-                   class="form-control">
-        </div>
+    <div class="d-flex flex-wrap">
+
+        @include('content::admin.content.livewire.components.keyword')
 
         <div class="ms-0 ms-md-2 mb-3 mb-md-0">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-plus-circle"></i> Filters
-            </button>
+
+            @include('content::admin.content.livewire.components.button-filter')
 
             <div class="dropdown-menu p-3" style="max-height:300px;overflow-y: scroll;padding-bottom:10px">
                 <h6 class="dropdown-header">Order</h6>
