@@ -258,7 +258,9 @@ class ContentList extends Component
             $isInTrashed  = true;
         }
         if ($isInTrashed && $this->contents->count() == 0) {
-            return view('content::admin.content.livewire.no-content-in-trash');
+            return view('content::admin.content.livewire.no-content-in-trash',[
+                'isInTrashed' => $isInTrashed,
+            ]);
         }
 
         $displayFilters = true;
@@ -269,7 +271,8 @@ class ContentList extends Component
 
         if ($showNoActiveContentsScreen) {
             return view('content::admin.content.livewire.no-active-content', [
-                'contentType'=>$this->contentType
+                'contentType'=>$this->contentType,
+                'isInTrashed' => $isInTrashed,
             ]);
         }
 
@@ -283,7 +286,8 @@ class ContentList extends Component
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$this->contentType,
                 'currentCategory'=>$currentCategory,
-                'inCategory'=>true
+                'inCategory'=>true,
+                'isInTrashed' => $isInTrashed,
             ]);
         }
 
@@ -295,7 +299,9 @@ class ContentList extends Component
         if ($currentPage && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$this->contentType,
+                'currentCategory'=>$currentCategory,
                 'inPage'=>true,
+                'isInTrashed' => $isInTrashed,
             ]);
         }
 
