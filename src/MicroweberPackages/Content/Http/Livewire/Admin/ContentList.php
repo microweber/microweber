@@ -161,19 +161,10 @@ class ContentList extends Component
 
     public function showFromCategory($categoryId)
     {
-        $this->removeTrashedFilter();
         $this->deselectAll();
-        if (isset($this->filters['keyword'])) {
-            unset($this->filters['keyword']);
-        }
-        if (isset($this->filters['page'])) {
-            unset($this->filters['page']);
-        }
 
-        if (isset($this->showFilters['page'])) {
-            unset($this->showFilters['page']);
-        }
-
+        $this->filters = [];
+        $this->showFilters = [];
 
         $this->filters['category'] = $categoryId;
         $this->setPaginationFirstPage();
@@ -262,7 +253,56 @@ class ContentList extends Component
 
     public function render()
     {
+        $isInTrashed  = false;
+        if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
+            $isInTrashed  = true;
+        }
+        if ($isInTrashed && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-content-in-trash');
+        }
+
+        $displayFilters = true;
+        $showNoActiveContentsScreen = false;
+        if ($this->countActiveContents == 0) {
+            $showNoActiveContentsScreen = true;
+        }
+
+        if ($showNoActiveContentsScreen) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType
+            ]);
+        }
+
+
+        $currentCategory = false;
+        if (isset($this->filters['category'])) {
+            $currentCategory = get_category_by_id($this->filters['category']);
+        }
+
+        if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType,
+                'currentCategory'=>$currentCategory,
+                'inCategory'=>true
+            ]);
+        }
+
+        $currentPage = false;
+        if (isset($this->filters['page'])) {
+            $currentPage = $this->filters['page'];
+        }
+
+        if ($currentPage && (count($this->filters)==1) && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType,
+                'inPage'=>true,
+            ]);
+        }
+
         return view('content::admin.content.livewire.table', [
+            'displayFilters' => $displayFilters,
+            'currentCategory' => $currentCategory,
+            'isInTrashed' => $isInTrashed,
             'contents' => $this->contents,
             'countActiveContents' => $this->countActiveContents,
             'appliedFilters' => $this->appliedFilters
@@ -277,6 +317,21 @@ class ContentList extends Component
     public function getCountActiveContentsProperty()
     {
         return $this->model::select('id')->active()->count();
+    }
+
+    public function getContentTypeProperty()
+    {
+        $contentType = 'content';
+        if (strpos($this->model, 'Page') !== false) {
+            $contentType = 'page';
+        }
+        if (strpos($this->model, 'Post') !== false) {
+            $contentType = 'post';
+        }
+        if (strpos($this->model, 'Product') !== false) {
+            $contentType = 'product';
+        }
+        return $contentType;
     }
 
     public function removeFilter($key)

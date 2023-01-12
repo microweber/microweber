@@ -21,16 +21,16 @@
 
     @if($content->categories->count() > 0)
         <span class="manage-post-item-cats-inline-list">
-                                @php
-                                    $iCategory = 0;
-                                @endphp
+            @php
+                $iCategory = 0;
+            @endphp
             @foreach($content->categories as $category)
                 @if($category->parent)
 
                     <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
                        class="btn btn-link btn-sm p-0">
-                                                {{$category->parent->title}}
-                                             </a>
+                        {{$category->parent->title}}
+                     </a>
 
                     @php
                         $iCategory++;
@@ -41,7 +41,7 @@
 
                 @endif
             @endforeach
-                             </span>
+             </span>
     @endif
     <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
        href="{{$content->link()}}">
