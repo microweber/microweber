@@ -68,7 +68,7 @@
             if (!empty($filtersUnsetCategory)) {
                 $displayFilters = true;
             }
-             if ($products->total() > 0) {
+             if ($contents->total() > 0) {
                 $displayFilters = true;
             }
         @endphp
