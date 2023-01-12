@@ -291,6 +291,7 @@ class ContentList extends Component
         if ($currentCategory && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$this->contentType,
+                'currentCategory'=>$currentCategory,
                 'inCategory'=>true
             ]);
         }

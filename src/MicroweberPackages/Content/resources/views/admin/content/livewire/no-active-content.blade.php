@@ -30,22 +30,22 @@
                             @endif
                         @elseif (isset($inCategory))
                             @if($contentType == 'content')
-                                <h4><?php _e('You don’t have any content in this category'); ?></h4>
+                                <h4><?php _e('You don’t have any content in'); ?>  {{$currentCategory['title']}}</h4>
                                 <p><?php _e('Create your first content right now.');?></p>
                             @endif
 
                             @if($contentType == 'post')
-                                <h4><?php _e('You don’t have any post in this category'); ?></h4>
+                                <h4><?php _e('You don’t have any posts in'); ?>  {{$currentCategory['title']}}</h4>
                                 <p><?php _e('Create your first post right now.');?></p>
                             @endif
 
                             @if($contentType == 'product')
-                                <h4><?php _e('You don’t have any product in this category'); ?></h4>
+                                <h4><?php _e('You don’t have any products in'); ?>  {{$currentCategory['title']}}</h4>
                                 <p><?php _e('Create your first product right now.');?></p>
                             @endif
 
                             @if($contentType == 'page')
-                                <h4><?php _e('You don’t have any page in this category'); ?></h4>
+                                <h4><?php _e('You don’t have any pages in'); ?>  {{$currentCategory['title']}}</h4>
                                 <p><?php _e('Create your first page right now.');?></p>
                             @endif
                         @else
