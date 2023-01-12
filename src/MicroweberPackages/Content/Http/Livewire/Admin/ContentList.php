@@ -276,24 +276,35 @@ class ContentList extends Component
             $showNoActiveContentsScreen = false;
         }
 
-        $contentType = 'page';
-        if (strpos($this->model, 'Page') !== false) {
-            $contentType = 'page';
-        }
-        if (strpos($this->model, 'Post') !== false) {
-            $contentType = 'post';
-        }
-        if (strpos($this->model, 'Product') !== false) {
-            $contentType = 'product';
+        if ($showNoActiveContentsScreen) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType
+            ]);
         }
 
-        if ($showNoActiveContentsScreen) {
-            return view('content::admin.content.livewire.no-active-content', compact('contentType'));
-        }
 
         $currentCategory = false;
         if (isset($this->filters['category'])) {
             $currentCategory = get_category_by_id($this->filters['category']);
+        }
+
+        if ($currentCategory && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType,
+                'inCategory'=>true
+            ]);
+        }
+
+        $currentPage = false;
+        if (isset($this->filters['page'])) {
+            $currentPage = $this->filters['page'];
+        }
+
+        if ($currentPage && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-active-content', [
+                'contentType'=>$this->contentType,
+                'inPage'=>true,
+            ]);
         }
 
         return view('content::admin.content.livewire.table', [
@@ -314,6 +325,21 @@ class ContentList extends Component
     public function getCountActiveContentsProperty()
     {
         return $this->model::select('id')->active()->count();
+    }
+
+    public function getContentTypeProperty()
+    {
+        $contentType = 'content';
+        if (strpos($this->model, 'Page') !== false) {
+            $contentType = 'page';
+        }
+        if (strpos($this->model, 'Post') !== false) {
+            $contentType = 'post';
+        }
+        if (strpos($this->model, 'Product') !== false) {
+            $contentType = 'product';
+        }
+        return $contentType;
     }
 
     public function removeFilter($key)
