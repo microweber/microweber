@@ -266,14 +266,14 @@ class ContentList extends Component
         if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
             $isInTrashed  = true;
         }
+        if ($isInTrashed && $this->contents->count() == 0) {
+            return view('content::admin.content.livewire.no-content-in-trash');
+        }
 
         $displayFilters = true;
         $showNoActiveContentsScreen = false;
         if ($this->countActiveContents == 0) {
             $showNoActiveContentsScreen = true;
-        }
-        if ($isInTrashed) {
-            $showNoActiveContentsScreen = false;
         }
 
         if ($showNoActiveContentsScreen) {
