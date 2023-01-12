@@ -54,7 +54,8 @@
             }).data('datepicker');
 
             document.addEventListener('livewire:load', function () {
-                if (dateRangeElement) {
+                if (typeof dateRangeElement !== 'undefined') {
+
                     const dateRangeExp = dateRangeElement.value.split(",");
                     if (dateRangeExp && dateRangeExp[0] && dateRangeExp[1]) {
                         dateRangePickerInstance.selectDate([new Date(dateRangeExp[0]), new Date([dateRangeExp[1]])]);
