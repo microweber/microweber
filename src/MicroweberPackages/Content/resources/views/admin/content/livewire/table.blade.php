@@ -43,29 +43,30 @@
 
         <div class="d-flex flex-wrap mt-3">
 
-            @if(isset($showFilters['tags']) && $showFilters['tags'])
-                @include('content::admin.content.livewire.table-filters.tags')
-            @endif
+            @php
+            if(!empty($dropdownFilters)) {
+                foreach($dropdownFilters as $dropdownFilter) {
+                    $skipDropdownFilter = false;
+                    if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                        $skipDropdownFilter = true;
+                    }
+                    if (!$skipDropdownFilter) {
+                        if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                         @endphp
 
-            @if(isset($showFilters['visible']) && $showFilters['visible'])
-                @include('content::admin.content.livewire.table-filters.visible')
-            @endif
+                            @if (isset($dropdownFilter['viewNamespace']))
+                                @include($dropdownFilter['viewNamespace'])
+                            @else
+                                @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
+                            @endif
 
-            @if(isset($showFilters['userId']) && $showFilters['userId'])
-                @include('content::admin.content.livewire.table-filters.author')
-            @endif
+                        @php
+                        }
+                    }
+                }
+            }
+            @endphp
 
-            @if(isset($showFilters['dateBetween']) && $showFilters['dateBetween'])
-                @include('content::admin.content.livewire.table-filters.date-between')
-            @endif
-
-            @if(isset($showFilters['createdAt']) && $showFilters['createdAt'])
-                @include('content::admin.content.livewire.table-filters.created-at')
-            @endif
-
-            @if(isset($showFilters['updatedAt']) && $showFilters['updatedAt'])
-                @include('content::admin.content.livewire.table-filters.updated-at')
-            @endif
         </div>
         <div class="row  mt-3">
             @if(count($checked) > 0)

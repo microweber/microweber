@@ -44,31 +44,37 @@ class ProductsList extends ContentList
         $dropdownFilters[] = [
             'name' => 'Price Range',
             'key' => 'priceBetween',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.price-between'
         ];
 
         $dropdownFilters[] = [
             'name' => 'Stock Status',
             'key' => 'stockStatus',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.stock-status'
         ];
 
         $dropdownFilters[] = [
             'name' => 'Discount',
             'key' => 'discount',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.discount'
         ];
 
         $dropdownFilters[] = [
             'name' => 'Orders',
             'key' => 'orders',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.orders'
         ];
 
         $dropdownFilters[] = [
             'name' => 'Quantity',
             'key' => 'qty',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.quantity'
         ];
 
         $dropdownFilters[] = [
             'name' => 'Sku',
             'key' => 'sku',
+            'viewNamespace'=> 'product::admin.product.livewire.table-filters.sku'
         ];
 
         $templateFields = mw()->template->get_data_fields('product');
