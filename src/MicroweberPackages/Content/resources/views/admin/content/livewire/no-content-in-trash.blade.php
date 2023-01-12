@@ -1,4 +1,7 @@
 <div class="card style-1 mb-3">
+
+    @include('content::admin.content.livewire.card-header')
+
     <div class="card-body pt-3">
 
         <div class="no-items-found">
