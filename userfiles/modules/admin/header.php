@@ -195,7 +195,7 @@ if (!user_can_view_module(['module' => 'shop'])) {
         contentHolder.style.padding = '25px';
         var dlg = mw.dialog({
             content: contentHolder,
-            title: !!ord_id ? '<?php _e('Edit order'); ?>' : '<?php _e('Add order'); ?>',
+            title: !!ord_id ? '<?php _ejs('Edit order'); ?>' : '<?php _ejs('Add order'); ?>',
             width: 900
         });
         mw.spinner({element: contentHolder, size: 32})
