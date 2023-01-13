@@ -444,7 +444,19 @@ class ContentList extends Component
             'key' => 'updatedAt',
         ];
 
-        $templateFields = mw()->template->get_data_fields('product');
+        $templateFields = $this->getDropdownFiltersTemplateSettings();
+        $dropdownFilters = array_merge($dropdownFilters, $templateFields);
+
+        $templateFields = $this->getDropdownFiltersTemplateFields();
+        $dropdownFilters = array_merge($dropdownFilters, $templateFields);
+
+        return $dropdownFilters;
+    }
+
+    public function getDropdownFiltersTemplateSettings()
+    {
+        $dropdownFilters = [];
+        $templateFields = mw()->template->get_data_fields($this->contentType);
         if (!empty($templateFields)) {
             $dropdownFilters[] = [
                 'name' => 'Template settings',
@@ -457,8 +469,13 @@ class ContentList extends Component
                 ];
             }
         }
+        return $dropdownFilters;
+    }
 
-        $templateFields = mw()->template->get_edit_fields('product');
+    public function getDropdownFiltersTemplateFields()
+    {
+        $dropdownFilters = [];
+        $templateFields = mw()->template->get_edit_fields($this->contentType);
         if (!empty($templateFields)) {
             $dropdownFilters[] = [
                 'name' => 'Template fields',

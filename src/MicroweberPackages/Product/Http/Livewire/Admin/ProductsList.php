@@ -77,33 +77,11 @@ class ProductsList extends ContentList
             'viewNamespace'=> 'product::admin.product.livewire.table-filters.sku'
         ];
 
-        $templateFields = mw()->template->get_data_fields('product');
-        if (!empty($templateFields)) {
-            $dropdownFilters[] = [
-                'name' => 'Template settings',
-                'type' => 'separator'
-            ];
-            foreach ($templateFields as $templateFieldKey => $templateFieldName) {
-                $dropdownFilters[] = [
-                    'name' => $templateFieldName,
-                    'key' => 'contentData.' . $templateFieldKey,
-                ];
-            }
-        }
+        $templateFields = $this->getDropdownFiltersTemplateSettings();
+        $dropdownFilters = array_merge($dropdownFilters, $templateFields);
 
-        $templateFields = mw()->template->get_edit_fields('product');
-        if (!empty($templateFields)) {
-            $dropdownFilters[] = [
-                'name' => 'Template fields',
-                'type' => 'separator'
-            ];
-            foreach ($templateFields as $templateFieldKey => $templateFieldName) {
-                $dropdownFilters[] = [
-                    'name' => $templateFieldName,
-                    'key' => 'contentFields.' . $templateFieldKey,
-                ];
-            }
-        }
+        $templateFields = $this->getDropdownFiltersTemplateFields();
+        $dropdownFilters = array_merge($dropdownFilters, $templateFields);
 
         $dropdownFilters[] = [
             'name' => 'Other',

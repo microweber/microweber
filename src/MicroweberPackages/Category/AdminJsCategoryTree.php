@@ -24,7 +24,7 @@ class AdminJsCategoryTree
         $getPagesQuery->where('is_active', 1);
         $getPagesQuery->where('is_deleted', 0);
 
-        $getPagesQuery->orderBy('position', 'DESC');
+        $getPagesQuery->orderBy('position', 'ASC');
 
         $getPages = $getPagesQuery->get();
 
@@ -127,11 +127,17 @@ class AdminJsCategoryTree
                 }
 
                 // Add only main pages
-                $foundedCategories = $this->getCategoryByRelId($page['id']);
-                if ($filterOnlyCategories && empty($foundedCategories)) {
-                    continue;
+                if ($filterOnlyCategories) {
+                    $foundedCategories = $this->getCategoryByRelId($page['id']);
+                    if ($filterOnlyCategories && empty($foundedCategories)) {
+                        continue;
+                    }
+                    $this->appendPage($page);
+                } else {
+                    $this->appendPage($page);
+                    $this->getCategoryByRelId($page['id']);
                 }
-                $this->appendPage($page);
+
             }
         }
     }
