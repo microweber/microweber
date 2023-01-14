@@ -18,15 +18,15 @@ class LivewireManager extends BaseLivewireManager
         $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
         if (!is_file($livewireCachedFile)) {
             $livewireOriginalFile = __DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js';
-            copy($livewireOriginalFile, $livewireCachedFile);
+            @copy($livewireOriginalFile, $livewireCachedFile);
 
             $livewireOriginalFileMap = __DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js.map';
-            copy($livewireOriginalFileMap, $livewireCachedFileMap);
+            @copy($livewireOriginalFileMap, $livewireCachedFileMap);
 
 
             if (!is_file($livewireCachedFileManifest)) {
                 $livewireOriginalFileManifest = __DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json';
-                copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
+                @copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
             }
         }
     }
