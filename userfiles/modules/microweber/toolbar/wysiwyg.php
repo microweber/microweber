@@ -27,6 +27,12 @@
         z-index: 1001;
     }
 
+    @media(max-width: 1400px) {
+        .mw-small-editor.pinned{
+            top: 56px !important;
+        }
+    }
+
 
 
 </style>
