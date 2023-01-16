@@ -1557,10 +1557,12 @@ mw.wysiwyg = {
         document.execCommand("styleWithCSS", null, true);
 
         var el = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
-        mw.liveEditState.record({
-            target: el.parentNode,
-            value: el.parentNode.innerHTML
-        });
+        if(el.parentNode) {
+            mw.liveEditState.record({
+                target: el.parentNode,
+                value: el.parentNode.innerHTML
+            });
+        }
         if (range.collapsed) {
 
             mw.wysiwyg.select_all(el);
@@ -1572,10 +1574,12 @@ mw.wysiwyg = {
         }
 
         mw.wysiwyg.change(el)
-        mw.liveEditState.record({
-            target: el.parentNode,
-            value: el.parentNode.innerHTML
-        });
+        if(el.parentNode){
+            mw.liveEditState.record({
+                target: el.parentNode,
+                value: el.parentNode.innerHTML
+            });
+        }
 
     },
     nestingFixes: function (root) {  /*
