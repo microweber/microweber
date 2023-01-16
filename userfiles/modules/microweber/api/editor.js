@@ -142,6 +142,10 @@ var MWEditor = function (options) {
         });
     };
 
+    var _e = {};
+    this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+    this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
     this.lang = function (key) {
         if (MWEditor.i18n[this.settings.language] && MWEditor.i18n[this.settings.language][key]) {
             return  MWEditor.i18n[this.settings.language][key];
@@ -535,7 +539,7 @@ var MWEditor = function (options) {
             if(doc && !doc.body.__mwEditorGroupDownRegister) {
                 doc.body.__mwEditorGroupDownRegister = true;
                 doc.body.addEventListener('click', function (e){
-                    if (!mw.tools.hasParentsWithClass(e.target, 'mw-bar-control-item-group')) {
+                    if (e.target !== doc.body && !mw.tools.hasParentsWithClass(e.target, 'mw-bar-control-item-group')) {
                         mw.element('.mw-bar-control-item-group.active').each(function (){
 
                                 this.classList.remove('active');
@@ -724,6 +728,7 @@ var MWEditor = function (options) {
     };
 
     this.createSmallEditor = function () {
+
         if (!this.settings.smallEditor) {
             return;
         }
@@ -756,25 +761,40 @@ var MWEditor = function (options) {
         }
         scope.$editArea.on('click', function (e) {
 
-               var target = scope.getActualTarget(e.target);
+               var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
 
                scope.smallEditorInteract(target);
 
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
         this.smallEditorApi._initFromMemory();
+        setTimeout(function (){
+
+            scope.dispatch('smallEditorReady');
+        }, 78);
     };
 
     scope.getActualTarget = function (target) {
         return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
     };
 
-    this.smallEditorInteract = function (target) {
-       if(target && !target.isContentEditable && scope.lastRange.collapsed === false) {
-           target = scope.getActualTarget(scope.lastRange.commonAncestorContainer)
-       }
+    var _smallEditorExceptionClasses = [
+        'mw-tooltip',
+        'a-color-picker',
+    ];
 
-        if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+    this.smallEditorInteract = function (target) {
+
+
+
+       if(target && !target.isContentEditable && scope.lastRange.collapsed === false) {
+           target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
+       }
+        if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){
+            return
+        }
+
+        if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
             if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                 var off = mw.element(target).offset();
@@ -806,7 +826,10 @@ var MWEditor = function (options) {
                 });
             }
         } else {
-            scope.smallEditor.hide();
+            if(target !== scope.actionWindow.document.body ) {
+                scope.smallEditor.hide();
+            }
+
         }
     }
     this.createBar = function () {

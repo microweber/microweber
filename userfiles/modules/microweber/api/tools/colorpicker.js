@@ -121,6 +121,7 @@
 
         } else {
             var tip = mw.tooltip(settings), $tip = mw.$(tip).hide();
+
             colorPickers.push(tip)
             this.tip = tip;
 
@@ -217,16 +218,16 @@
                     mw.tools.tooltip.setPosition(this.tip, this.settings.element, this.settings.position)
                 };
                 this.hide = function () {
-                    mw.$(this.tip).hide()
+                    mw.$(this.tip).hide();
                 };
                 this.toggle = function () {
                     var tip = mw.$(this.tip);
                     if (tip.is(':visible')) {
-                        this.hide()
+                        this.hide();
                     }
                     else {
                         $el.focus();
-                        this.show()
+                        this.show();
                     }
                 }
             }

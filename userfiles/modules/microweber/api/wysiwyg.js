@@ -382,7 +382,7 @@ mw.wysiwyg = {
                         cls = cls.concat(blocks);
                         firstBlock = mw.tools.firstMatchesOnNodeOrParent(firstBlock, cls);
                     }
-                    mw.$("[contenteditable='true']").not(firstBlock).attr("contenteditable", "false");
+                    mw.$("[contenteditable='true']:where("+blocks.join(',')+")").not(firstBlock).attr("contenteditable", "false");
                     mw.wysiwyg.contentEditable(firstBlock, true);
                 }
 

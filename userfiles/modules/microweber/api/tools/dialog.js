@@ -210,6 +210,7 @@
                         $holder.removeClass('mw-dialog-drag-start');
                     },
                     containment: scope.options.containment,
+                    scroll: false,
                     iframeFix: true
                 });
             }

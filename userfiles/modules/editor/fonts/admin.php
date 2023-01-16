@@ -189,7 +189,12 @@ if ($is_load_more) {
                 }
                 $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
                 mw.reload_module_everywhere("settings/template")
-                mw.reload_module_everywhere("editor/fonts/select_option")
+                mw.reload_module_everywhere("editor/fonts/select_option" )
+                if(mw.top().win.fontFamilyProvider) {
+                    setTimeout(function(){
+                        mw.top().win.fontFamilyProvider.provide( checked_fonts_arr)
+                    }, 78)
+                }
                 //mw.reload_module_parent("editor/fonts")
                 //    window.mw.parent().wysiwyg.initExtendedFontFamilies(s)
 
