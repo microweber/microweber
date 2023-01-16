@@ -146,7 +146,7 @@ $(mwd).ready(function () {
     mw.$(".mw-ui-dropdown").on('touchstart mousedown', function(){
         mw.$(this).toggleClass('active')
     });
-    mw.$(document.body).on('touchend', function(e){
+    mw.$(document.body).on('touchend mouseup', function(e){
         if(!mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['mw-ui-dropdown'])){
             mw.$(".mw-ui-dropdown.active").removeClass('active')
         }
