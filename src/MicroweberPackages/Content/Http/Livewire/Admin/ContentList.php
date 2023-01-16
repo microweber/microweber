@@ -469,6 +469,7 @@ class ContentList extends Component
                 ];
             }
         }
+
         return $dropdownFilters;
     }
 
