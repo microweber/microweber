@@ -11,7 +11,7 @@
         {{--   @if($selectedItemText)
                <div class="action-dropdown-delete" wire:click="resetProperties"><i class="fa fa-times-circle"></i></div>
            @endif--}}
-           <div class="action-dropdown-delete" wire:click="hideFilterItem('{{$this->id}}')">
+           <div class="action-dropdown-delete" wire:click.stop="hideFilterItem('{{$this->id}}')">
                <i class="fa fa-times-circle"></i>
            </div>
        </div>
