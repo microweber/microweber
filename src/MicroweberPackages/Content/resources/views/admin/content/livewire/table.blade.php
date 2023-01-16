@@ -43,47 +43,43 @@
 
         <div class="d-flex flex-wrap mt-3">
 
-            @php
-            if(!empty($dropdownFilters)) {
-                foreach($dropdownFilters as $dropdownFilter) {
-                    $skipDropdownFilter = false;
-                    if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
-                        $skipDropdownFilter = true;
+        @php
+        if(!empty($dropdownFilters)) {
+            foreach($dropdownFilters as $dropdownFilter) {
+                $skipDropdownFilter = false;
+                if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                    $skipDropdownFilter = true;
+                }
+                if (!$skipDropdownFilter) {
+
+                    if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                            if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+                                @endphp
+                                     @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                                        'fieldName'=>$dropdownFilter['name'],
+                                        'fieldKey'=>$dropdownFilterExp[1],
+                                        'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                                       ])
+                                @php
+                            }
+                        continue;
                     }
-                    if (!$skipDropdownFilter) {
-
-                        if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                                $dropdownFilterExp = explode('.', $dropdownFilter['key']);
-                                if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
-                                    @endphp
-                                         @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
-                                            'fieldName'=>$dropdownFilter['name'],
-                                            'fieldKey'=>$dropdownFilterExp[1],
-                                            'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
-                                           ])
-                                    @php
-                                }
-                            continue;
-                        }
 
 
-                        if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
-                         @endphp
-                            @if (isset($dropdownFilter['viewNamespace']))
-                                @include($dropdownFilter['viewNamespace'])
-                            @else
-                                @include('content::admin.content.livewire.table-filters.'.$tableFilterKey)
-                            @endif
-                        @php
-                        }
+                    if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                     @endphp
+                        @if (isset($dropdownFilter['viewNamespace']))
+                            @include($dropdownFilter['viewNamespace'])
+                        @else
+                            @include('content::admin.content.livewire.table-filters.'.$tableFilterKey)
+                        @endif
+                    @php
                     }
                 }
             }
-            @endphp
-
-            @php
-
-            @endphp
+        }
+        @endphp
 
         </div>
         <div class="row  mt-3">
