@@ -262,7 +262,8 @@ class ContentList extends Component
         if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
             $isInTrashed  = true;
         }
-        if ($isInTrashed && $this->contents->count() == 0) {
+
+        if ($isInTrashed && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-content-in-trash',[
                 'isInTrashed' => $isInTrashed,
                 'currentCategory'=>$currentCategory,

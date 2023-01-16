@@ -9,31 +9,29 @@
         @if($displayFilters)
         <div class="d-flex flex-wrap">
 
-            <?php if(!$isInTrashed): ?>
-
             @include('content::admin.content.livewire.components.keyword')
 
             <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
                 @include('content::admin.content.livewire.components.button-filter')
-                <div class="dropdown-menu p-3" style="width:263px">
+                <div class="dropdown-menu p-3" style="width:463px">
 
 
                     @if(!empty($dropdownFilters))
-
+                        <div class="row">
                         @foreach($dropdownFilters as $dropdownFilter)
-                           @if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator')
-                                <h6 class="dropdown-header">{{ $dropdownFilter['name']  }}</h6>
-                           @else
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}</label>
-                           @endif
+                            <div class="col-md-6">
+                               @if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator')
+                                    <h6 class="dropdown-header">{{ $dropdownFilter['name']  }}</h6>
+                               @else
+                                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}</label>
+                               @endif
+                            </div>
                         @endforeach
-
+                        </div>
                     @endif
 
                 </div>
             </div>
-
-            <?php endif; ?>
 
             @if(!empty($appliedFiltersFriendlyNames))
                 @include('content::admin.content.livewire.components.button-clear-filters')
@@ -72,7 +70,7 @@
                         @if (isset($dropdownFilter['viewNamespace']))
                             @include($dropdownFilter['viewNamespace'])
                         @else
-                            @include('content::admin.content.livewire.table-filters.'.$tableFilterKey)
+                            @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
                         @endif
                     @php
                     }
