@@ -26,10 +26,10 @@ class ServeTestCommand extends ServeCommand
     public function handle()
     {
         $status = parent::handle();
-        $envArg = $this->option('env')  ;
-        if($envArg){
-           $_ENV['APP_ENV'] = $envArg;
-            putenv('APP_ENV='.$envArg);
+        $envArg = $this->option('env');
+        if ($envArg) {
+            $_ENV['APP_ENV'] = $envArg;
+            putenv('APP_ENV=' . $envArg);
 
         }
         app()->detectEnvironment(function () use ($envArg) {
@@ -37,6 +37,7 @@ class ServeTestCommand extends ServeCommand
         });
         return $status;
     }
+
     /**
      * Get the full server command.
      *
@@ -59,7 +60,7 @@ class ServeTestCommand extends ServeCommand
             '-d',
             'variables_order=EGPCS',
             '-S',
-            $this->host().':'.$this->port(),
+            $this->host() . ':' . $this->port(),
             base_path('server.php'),
         ];
         return $command;
@@ -77,7 +78,7 @@ class ServeTestCommand extends ServeCommand
         try {
             return Carbon::createFromFormat('D M d H:i:s Y', $matches[1]);
         } catch (\ErrorException $e) {
-            return Carbon::createFromFormat('D M d H:i:s Y', strtotime(now()));
+            return Carbon::now()->format('D M d H:i:s Y');
         }
 
     }
