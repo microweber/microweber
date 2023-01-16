@@ -1178,8 +1178,8 @@ border-left: 0.3em solid transparent;
     padding-left:8px;
 }
 
-.btn-secondary .action-dropdown-delete {
-    color: #ffffff91;
+.action-dropdown-delete {
+    color: var(--bs-danger) !important;
 }
 
 .btn-secondary .action-dropdown-delete:hover {
