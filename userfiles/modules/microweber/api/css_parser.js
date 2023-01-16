@@ -28,10 +28,11 @@ mw.CSSParser = function(el){
     };
 
     f.is = function(){
+
         return {
           bold: parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
           italic: css.fontStyle === 'italic'||css.fontStyle === 'oblique',
-          underlined: css.textDecoration === 'underline',
+          underlined: css.textDecoration.indexOf('underline') === 0,
           striked: css.textDecoration.indexOf('line-through') === 0,
         };
     };

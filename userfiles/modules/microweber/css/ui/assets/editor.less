@@ -60,7 +60,7 @@
         position: absolute;
         top: 100%;
         left: 0%;
-
+        padding: 5px;
 
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     }
@@ -448,15 +448,15 @@
             position: relative;
             top: -1px;
             svg {
-                height: 35px;
-                border-left: 1px solid transparent;
+                height: 15px;
+
             }
         }
         &:hover{
             border-color: rgba(69, 146, 255, 0.51) !important;
             .mw-editor-group-button-caret{
                 svg {
-                    border-left-color: rgba(69, 146, 255, 0.51);
+
                 }
             }
         }
@@ -464,9 +464,7 @@
 }
 
 .mw-editor-controller-component-select {
-.mw-editor-controller-button{
 
-}
 
     .mw-editor-select-display-value{
         text-align: left;
@@ -503,6 +501,8 @@
         cursor: pointer;
         min-width: 100%;
         overflow: auto;
+        max-height: calc(100vh - 200px);
+        min-height: 100px;
         &::-webkit-scrollbar {
             width: 7px;
         }

@@ -57,6 +57,8 @@
             return true;
         };
 
+
+
         this.record = function(item){
             if(this._activeIndex>-1) {
                 var i = 0;

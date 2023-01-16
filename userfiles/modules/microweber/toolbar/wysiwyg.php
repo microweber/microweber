@@ -40,6 +40,25 @@
    ;(function (){
        var initEditor = function () {
            var holder = document.querySelector('#mw-live-edit-editor');
+
+           var _fontFamilyProvider = function () {
+               var _e = {};
+               this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+               this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+               this.provide = function (fontsArray) {
+                   this.dispatch('change', fontsArray.map(function (font){
+                       return {
+                           label: font,
+                           value: font,
+                       }
+                   }))
+               }
+
+           };
+
+           window.fontFamilyProvider = new _fontFamilyProvider();
+
            window.liveEditor = mw.Editor({
                element: holder,
                mode: 'document',
@@ -57,8 +76,9 @@
                                controls: [ 'strikeThrough']
                            }
                        },
-/*'fontSelector',*/
-'fontSize',
+                       'fontSelector',
+                       'fontSize',
+                       'lineHeight',
                        {
                            group: {
                                controller: 'alignLeft',
@@ -104,11 +124,15 @@
                minHeight: 250,
                maxHeight: '70vh',
                state: mw.liveEditState,
-               controls: []
+               controls: [],
+               fontFamilyProvider: fontFamilyProvider
            });
 
 
 
+           liveEditor.on('smallEditorReady', function (){
+               fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
+           })
            $(liveEditor).on('selectionchange', function (){
                liveEditor.lastRange = liveEditor.getSelection().getRangeAt(0)
            })
@@ -116,12 +140,10 @@
            holder.innerHTML = '';
            holder.appendChild(liveEditor.wrapper);
 
-
-
        }
 
        addEventListener('load', function (){
-              initEditor()
+            initEditor();
        })
    })();
 

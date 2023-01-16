@@ -36,7 +36,8 @@
                 onchange: function (color) {
 
                     el.trigger('change', color);
-                }
+                },
+
             });
 
             return el;
@@ -119,20 +120,30 @@
                 displayValNode.text(val || options.placeholder || '');
             };
 
+            this.setData = function (data){
+                this.select.valueHolder.empty();
+
+                for (var i = 0; i < data.length; i++) {
+                    var dt = data[i];
+                    (function (dt){
+                        var opt = MWEditor.core._dropdownOption(dt);
+                        opt.on('click', function (){
+                            lscope.select.trigger('change', dt);
+                        });
+                        valueHolder.append(opt);
+                    })(dt);
+
+                }
+            }
+
             this.select.append(displayValNode);
             this.select.append(valueHolder);
             this.select.valueHolder = valueHolder;
-            for (var i = 0; i < options.data.length; i++) {
-                var dt = options.data[i];
-                (function (dt){
-                    var opt = MWEditor.core._dropdownOption(dt);
-                    opt.on('click', function (){
-                        lscope.select.trigger('change', dt);
-                    });
-                    valueHolder.append(opt);
-                })(dt);
 
-            }
+            this.setData(options.data)
+
+
+
             var curr = lscope.select.get(0);
             this.select.on('click', function (e) {
                 e.stopPropagation();

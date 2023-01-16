@@ -286,18 +286,25 @@ mw.lib.require('xss');
                 return cleanWord(content)
 
             },
-            action: function(targetParent, func) {
+            _actionTimeout: null,
+            _preactionTimeout: null,
+            action: function(targetParent, func, recordTimeout) {
+                if(recordTimeout) {
+                    clearTimeout( scope.api._actionTimeout )
+                }
+
+                scope.api._actionTimeout = setTimeout(function(){
                 scope.state.record({
                     target: targetParent,
                     value: targetParent.innerHTML
                 });
                 func.call();
-                setTimeout(function(){
+
                     scope.state.record({
                         target: targetParent,
                         value: targetParent.innerHTML
                     });
-                }, 78);
+                }, (recordTimeout ? 600 : 78));
             },
             elementNode: function (c) {
                 if( !c || !c.parentNode || c.parentNode === document.body ){
@@ -316,13 +323,15 @@ mw.lib.require('xss');
                 }
             },
             fontFamily: function (font_name, sel) {
+                console.log(font_name)
                 var range = (sel || scope.getSelection()).getRangeAt(0);
                 scope.api.execCommand("styleWithCSS", null, true);
                 if (range.collapsed) {
                     var el = scope.api.elementNode(range.commonAncestorContainer);
-                    scope.api.select_all(el);
-                    scope.api.execCommand('fontName', null, font_name);
-                    range.collapse();
+                    scope.api.action(mw.tools.firstBlockLevel(el), function () {
+                        el.style.fontFamily = (font_name)
+                    });
+
                 }
                 else {
                     scope.api.execCommand('fontName', null, font_name);
@@ -458,7 +467,7 @@ mw.lib.require('xss');
                 catch (e) {
                 }
             },
-            execCommand: function (cmd, def, val) {
+            execCommand: function (cmd, def, val, recordTimeout) {
                 scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
                 var sel = scope.getSelection();
                 try {  // 0x80004005
@@ -471,7 +480,7 @@ mw.lib.require('xss');
                                 scope.actionWindow.document.execCommand(cmd, def, val);
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                                 mw.$(scope).trigger('execCommand');
-                            });
+                            }, recordTimeout);
                         }
                     }
                 }
@@ -486,9 +495,10 @@ mw.lib.require('xss');
 
                 if (scope.api.isSelectionEditable()) {
                     var sel = scope.getSelection();
-                    var el = scope.api.elementNode(sel.focusNode)
-                    scope.api.action(mw.tools.firstBlockLevel(el), function () {
-                        el.style.lineHeight = size
+                    var el = scope.api.elementNode(sel.focusNode);
+                    var parent = mw.tools.firstBlockLevel(el)
+                    scope.api.action(parent.parentNode, function () {
+                        parent.style.lineHeight = size
                     });
                 }
 
@@ -496,8 +506,16 @@ mw.lib.require('xss');
             fontSize: function (size) {
                 var sel = scope.getSelection();
                 if (sel.isCollapsed) {
-                    scope.api.selectAll(scope.api.elementNode(sel.focusNode));
-                    sel = scope.getSelection();
+                   /* scope.api.selectAll(scope.api.elementNode(sel.focusNode));
+                    sel = scope.getSelection();*/
+
+                    var node = scope.api.elementNode(sel.focusNode);
+                    scope.api.action(node.parentNode, function () {
+                        node.style.fontSize = size + 'px';
+                    });
+
+
+                    return;
                 }
                 var range = sel.getRangeAt(0),
                     common = scope.api.elementNode(range.commonAncestorContainer);
@@ -536,61 +554,19 @@ mw.lib.require('xss');
             },
             insertHTML: function(html) {
 
-                var node = scope.api.elementNode(scope.api.getSelection().focusNode);
-                var nodes = ['P', 'SPAN', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
-                var index = nodes.indexOf(node.nodeName);
-                var sel = scope.api.getSelection();
-                var range = sel.getRangeAt(0);
-                if(index !== -1) {
-                    var newNode = document.createElement(nodes[index]);
 
-                    var cloneNode1, cloneNode2, cloneText, allContents, contentsBeforeCursor, contentsAfterCursor;
-                    var anchorOffset = sel.anchorOffset;
-                    range.selectNode(sel.anchorNode);
-                    cloneNode1 = range.commonAncestorContainer.cloneNode();
-                    cloneNode2 = cloneNode1.cloneNode();
-                    cloneText = range.cloneContents();
-                    cloneNode1.id = ('element1-' + Date.now());
-                    cloneNode2.id = ('element2-' + Date.now());
-
-                    allContents = cloneText.textContent;
-                    contentsBeforeCursor = allContents.substring(0, anchorOffset);
-                    contentsAfterCursor = allContents.substring(anchorOffset, allContents.length);
-
-                    cloneNode1.textContent = contentsBeforeCursor;
-                    cloneNode2.textContent = contentsAfterCursor;
-
-                    for (var i = 0; i < cloneNode1.attributes.length; i++) {
-                        var attr = cloneNode1.attributes.item(i);
-                        newNode.setAttribute(attr.nodeName, attr.nodeValue);
-                    }
-
-
-                    range.selectNode(sel.anchorNode);
-                    range.deleteContents();
-                    range.insertNode(cloneNode1);
-                    range.setStartAfter(cloneNode1);
-                    range.insertNode(cloneNode2)
-
-                    range.setStartAfter(cloneNode1);
-                    range.insertNode(newNode);
-                    var textNode = document.createTextNode('\u00A0');
-                    range.setStart(newNode, 0);
-                    range.insertNode(textNode);
-                    sel.removeAllRanges();
-                    range.selectNodeContents(newNode);
-                    sel.addRange(range);
-                }
 
                 return scope.api.execCommand('insertHTML', false, this.cleanHTML(html));
             },
             insertImage: function (url) {
-                var img = '<img alt="'+url+'" src="' + url + '" />';
+                var id = mw.id('mw-image-');
+                var img = '<img id="'+id+'" alt="'+url+'" src="' + url + '" />';
                 scope.api.insertHTML(img);
-                img = document.querySelector('[src="' + url + '"]');
-                img.removeAttribute("_moz_dirty");
-                img.setAttribute("contentEditable", false);
-                img.setAttribute("class", 'element');
+                setTimeout(function (){
+                    img = document.querySelector('#' + id);
+                    img.removeAttribute("_moz_dirty");
+                    img.classList.add( 'element');
+                }, 78)
                 return img[0];
             },
             link: function (result) {

@@ -1694,8 +1694,7 @@ li.module-item.ui-draggable-dragging {
 }
 
 body.dragStart .element {
-    box-shadow: 0 -2px 0 rgb(187, 187, 187) inset,
-    0px 2px 0 rgb(187, 187, 187) inset;
+
 }
 
 .mw_modal .module-over:hover {

@@ -271,7 +271,7 @@ MWEditor.controllers = {
                     var node = api.elementNode(sel.focusNode);
                     var actionTarget = mw.tools.firstBlockLevel(node)
                     api.action(actionTarget.parentNode, function () {
-                        var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecorationLine !== 'none';
+                        var isUnderline = rootScope.actionWindow.getComputedStyle(actionTarget).textDecoration.indexOf('underline') === 0;
                         if(isUnderline) {
                             actionTarget.style.textDecoration = 'none';
                         } else {
@@ -286,6 +286,7 @@ MWEditor.controllers = {
         };
         this.checkSelection = function (opt) {
             rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+
             if(opt.css.is().underlined) {
                 rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {
@@ -308,6 +309,7 @@ MWEditor.controllers = {
                 e.preventDefault();
                 api.saveSelection();
                 var dialog;
+
                 var picker = new mw.filePicker({
                     type: 'images',
                     label: false,
@@ -325,9 +327,16 @@ MWEditor.controllers = {
                             url = [url];
                         }
                         api.restoreSelection();
-                        url.forEach(function (src){
-                            api.insertImage(src.toString());
-                        });
+                        console.log(rootScope.activeNode)
+                        console.log(rootScope.activeNode)
+                        if(rootScope.activeNode && rootScope.activeNode.nodeName === 'IMG') {
+                            rootScope.activeNode.src = url[0].toString();
+                        } else {
+                            url.forEach(function (src){
+                                api.insertImage(src.toString());
+                            });
+                        }
+
                         dialog.remove();
                     }
                 });
@@ -401,6 +410,8 @@ MWEditor.controllers = {
         };
         this.checkSelection = function (opt) {
             rootScope.disabled(opt.controller.element.get(0), !opt.api.isSelectionEditable(opt.selection));
+            rootScope.controllerActive(opt.controller.element.get(0), !!mw.tools.firstParentOrCurrentWithTag(api.elementNode(api.getSelection().focusNode), 'a'));
+
         };
         this.element = this.render();
     },
@@ -478,7 +489,10 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Line height')
             });
             dropdown.select.on('change', function (e, val) {
-                api.lineHeight(val.value);
+                if(val) {
+                    api.lineHeight(val.value);
+                }
+
             });
             return dropdown.root;
         };
@@ -579,15 +593,38 @@ MWEditor.controllers = {
 
         };
         this.render = function () {
+
+            var defaultData = [
+                { label:'Arial', value: 'Arial' },
+                { label:'Tahoma', value: 'Tahoma' },
+                { label:'Verdana', value: 'Verdana' },
+                { label:'Georgia', value: 'Georgia' },
+                { label:'Times New Roman', value: 'Times New Roman' },
+
+            ];
             var dropdown = new MWEditor.core.dropdown({
-                data: [
-                    { label: 'Arial 1', value: 'Arial' },
-                    { label: 'Verdana 1', value: 'Verdana' },
-                ],
+                data: defaultData,
                 placeholder: rootScope.lang('Font')
             });
-            dropdown.select.on('change', function (e, val, b) {
-                api.fontFamily(val.value);
+
+
+
+            if(scope.settings.fontFamilyProvider) {
+                scope.settings.fontFamilyProvider.on('change', function (data){
+                    dropdown.setData([...defaultData, ...data, ...[{ label:'More...', value: '$more' }]])
+                });
+            }
+
+            dropdown.select.on('change', function (e, val) {
+
+                if(val) {
+                    if(val.value !== '$more') {
+                        api.fontFamily(val.value);
+                    } else {
+                        mw.top().drag.module_settings('#font_family_selector_main','admin');
+                    }
+                }
+
             });
             return dropdown.root;
         };
@@ -896,7 +933,16 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                api.execCommand('foreColor', false, val);
+                var sel = scope.getSelection();
+                if(sel.isCollapsed) {
+                    var el = scope.api.elementNode(sel.focusNode);
+                    scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
+                        el.style.color = val
+                    }, true);
+                } else {
+                    api.execCommand('foreColor', false, val, true);
+                }
+
             });
             return el;
         };
@@ -915,7 +961,17 @@ MWEditor.controllers = {
                 }
             });
             el.on('change', function (e, val) {
-                api.execCommand('backcolor', false, val);
+
+                var sel = scope.getSelection();
+                if(sel.isCollapsed) {
+                    var el = scope.api.elementNode(sel.focusNode);
+                    scope.api.action(mw.tools.firstBlockLevel(el.parentNode), function () {
+                        el.style.backgroundColor = val
+                    }, true);
+                } else {
+                    api.execCommand('backcolor', false, val, true);
+                }
+
             });
             return el;
         };
