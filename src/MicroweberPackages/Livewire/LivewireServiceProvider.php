@@ -27,7 +27,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
      *
      * @var boolean
      */
-    protected $defer = false;
+    protected $defer = true;
 
 
     public function provides() {
@@ -45,18 +45,11 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     {
         $this->app->singleton(LivewireManager::class);
         $this->app->alias(LivewireManager::class, 'livewire');
-    }
+     }
 
-    public function boot()
-    {
-        parent::boot();
-        \Illuminate\Support\Facades\Blade::directive('uppercase', function($expression) {
-            return "<?php echo strtoupper($expression); ?>";
-        });
-    }
+
     public function register()
     {
-        parent::register();
 
 
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
@@ -70,6 +63,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         // Load UI Modal
         app()->register(LivewireModalServiceProvider::class);
         $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
+        parent::register();
 
 
     }

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Console\Commands;
 
 use Illuminate\Foundation\Console\ServeCommand;
+use Illuminate\Support\Carbon;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class ServeTestCommand extends ServeCommand
@@ -62,6 +63,23 @@ class ServeTestCommand extends ServeCommand
             base_path('server.php'),
         ];
         return $command;
+    }
+
+
+    protected function getDateFromLine($line)
+    {
+        $regex = env('PHP_CLI_SERVER_WORKERS', 1) > 1
+            ? '/^\[\d+]\s\[(.*)]/'
+            : '/^\[([^\]]+)\]/';
+
+        preg_match($regex, $line, $matches);
+
+        try {
+            return Carbon::createFromFormat('D M d H:i:s Y', $matches[1]);
+        } catch (\ErrorException $e) {
+            return Carbon::createFromFormat('D M d H:i:s Y', strtotime(now()));
+        }
+
     }
 
 }

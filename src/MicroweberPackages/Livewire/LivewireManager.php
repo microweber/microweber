@@ -9,7 +9,7 @@ class LivewireManager extends BaseLivewireManager
     protected function copyAssets()
     {
         $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
-        $livewireCacheFolder = realpath($livewireCacheFolder);
+        $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
 
         if (!is_dir($livewireCacheFolder)) {
             mkdir_recursive($livewireCacheFolder);
@@ -18,6 +18,7 @@ class LivewireManager extends BaseLivewireManager
         $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
         $livewireCachedFileMap = $livewireCacheFolder . '/livewire.js.map';
         $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
+
         if (!is_file($livewireCachedFile)) {
 
             $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js');
