@@ -288,16 +288,24 @@ if (isset($params['live_edit'])) {
     ?>
 
     <?php if (!isset($params['no-toolbar'])): ?>
+
+    <?php
+
+        $headerText = (isset($data['id']) and intval($data['id']) != 0) ? _e('Edit category', true) : _e('Add category', true);
+    if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+        $headerText = _e('Add subcategory', true);
+     }
+
+    ?>
+
         <div class="card-header">
-            <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?>
+            <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong>
 
 
                    <?php
-                    if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
-                        _e('Subcategory');
-                    } else {
-                        _e('Category');
-                    }
+
+                      print  $headerText
+
                     ?>
 
 

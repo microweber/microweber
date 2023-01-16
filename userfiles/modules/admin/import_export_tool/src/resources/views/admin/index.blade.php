@@ -4,7 +4,7 @@
 <div class="m-3">
 
 <a href="{{route('admin.import-export-tool.import-wizard')}}" class="btn btn-outline-primary">
-   <i class="fa fa-file-import"></i> New import
+   <i class="fa fa-file-import"></i> <?php _e('New import'); ?>
 </a>
 
 @if($import_feeds->count() == 0)
