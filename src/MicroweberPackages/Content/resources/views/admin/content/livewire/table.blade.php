@@ -53,14 +53,14 @@
                     if (!$skipDropdownFilter) {
 
                         if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                $dropdownFilterExp = explode('.', $dropdownFilter['key']);
                                 if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
                                     @endphp
-                                       @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
-                                        'fieldName'=>$dropdownFilter['name'],
-                                        'fieldKey'=>$dropdownFilterExp[1],
-                                        'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
-                                       ])
+                                         @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                                            'fieldName'=>$dropdownFilter['name'],
+                                            'fieldKey'=>$dropdownFilterExp[1],
+                                            'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                                           ])
                                     @php
                                 }
                             continue;
