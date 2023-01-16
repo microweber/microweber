@@ -51,34 +51,38 @@
                         $skipDropdownFilter = true;
                     }
                     if (!$skipDropdownFilter) {
-                        $dropdownFilterKey = $dropdownFilter['key'];
-                        if (strpos($dropdownFilter['key'], '.') !== false) {
-                            $dropdownFilterKeyExp = explode('.', $dropdownFilter['key']);
-                            if (isset($dropdownFilterKeyExp[0])) {
-                                $dropdownFilterKey = $dropdownFilterKeyExp[0];
-                            }
+
+                        if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+                                    @endphp
+                                       @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                                        'fieldName'=>$dropdownFilter['name'],
+                                        'fieldKey'=>$dropdownFilterExp[1],
+                                        'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                                       ])
+                                    @php
+                                }
+                            continue;
                         }
-                        $tableFilterParams = [];
-                        if (isset($dropdownFilter['name'])) {
-                            $tableFilterParams['fieldName'] = $dropdownFilter['name'];
-                        }
-                        if (isset($dropdownFilter['key'])) {
-                            $tableFilterParams['fieldKey'] = $dropdownFilter['key'];
-                        }
-                        if (isset($showFilters[$dropdownFilterKey]) && $showFilters[$dropdownFilterKey]) {
+
+
+                        if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
                          @endphp
-
                             @if (isset($dropdownFilter['viewNamespace']))
-                                @include($dropdownFilter['viewNamespace'], $tableFilterParams)
+                                @include($dropdownFilter['viewNamespace'])
                             @else
-                                @include('content::admin.content.livewire.table-filters.'.$dropdownFilterKey, $tableFilterParams)
+                                @include('content::admin.content.livewire.table-filters.'.$tableFilterKey)
                             @endif
-
                         @php
                         }
                     }
                 }
             }
+            @endphp
+
+            @php
+
             @endphp
 
         </div>
