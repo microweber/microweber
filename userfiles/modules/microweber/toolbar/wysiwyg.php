@@ -84,6 +84,7 @@
                        },
                        'fontSelector',
                        'fontSize',
+                       'fontSize2',
                        'lineHeight',
                        {
                            group: {

@@ -3,6 +3,48 @@
 ;(function (){
 
     MWEditor.core = {
+        capsulatedField: function (options) {
+
+            var defaults = {
+                width: '55px',
+                height: '25px'
+            };
+
+            if(!options) {
+                options = {};
+            }
+
+            this.settings = Object.assign({}, defaults, options);
+
+            var scope = this;
+            this.frame = document.createElement('iframe');
+            this.field = document.createElement('input');
+
+            this.frame.style.width = this.settings.width;
+            this.frame.style.height = this.settings.height;
+
+            this.field.style.width = this.settings.width;
+            this.field.style.height = this.settings.height;
+
+            scope.frame.tabIndex = -1;
+            scope.frame.frameborder = 0;
+            this.setValue = function (val) {
+                scope.field.value = val || '';
+            };
+
+            this.getValue = function () {
+                return scope.field.value;
+            };
+
+            scope.frame.addEventListener('load', function (){
+                scope.frame.contentDocument.body.appendChild(scope.field);
+                scope.frame.contentDocument.body.style.margin = 0;
+                scope.frame.contentDocument.body.style.padding = 0;
+                scope.frame.contentDocument.documentElement.style.margin = 0;
+                scope.frame.contentDocument.documentElement.style.padding = 0;
+            });
+
+        },
         button: function(config) {
             config = config || {};
             var defaults = {

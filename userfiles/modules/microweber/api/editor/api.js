@@ -400,6 +400,31 @@ mw.lib.require('xss');
                 range.insertNode(frag)
             },
 
+            cleanApplier: function (){
+
+
+                scope.api.saveSelection();
+                var cl = () => {
+                    var all = document.querySelectorAll('.mw-richtext-cssApplier');
+                    for(var i = 0; i < all.length; i++) {
+                        var a = all[i];
+                        if(a.innerHTML === '') {
+                            a.remove();
+                            cl();
+                            break;
+                        } else if(a.parentNode.firstChild === a && a.parentNode.lastChild === a) {
+                            var p = a.parentNode;
+                            p.after(a);
+                            p.remove();
+                            cl();
+                            break;
+
+                        }
+                    }
+                }
+cl()
+                scope.api.restoreSelection();
+            },
             cssApplier: function (css) {
                 var styles = '';
                 if (typeof css === 'object') {
@@ -414,6 +439,7 @@ mw.lib.require('xss');
                 var range = sel.getRangeAt(0);
                 var frag = range.cloneContents();
                 var nodes = scope.api.getTextNodes(frag).filter(function (node){ return !!node });
+
                 nodes.forEach(function (node){
                     var el = scope.actionWindow.document.createElement('span');
                     el.className = 'mw-richtext-cssApplier';
@@ -423,6 +449,7 @@ mw.lib.require('xss');
                 });
                 range.deleteContents();
                 range.insertNode(frag);
+                scope.api.cleanApplier()
             },
             isSafeMode: function(el) {
                 if (!el) {

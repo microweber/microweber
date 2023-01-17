@@ -198,9 +198,13 @@ mw.wysiwyg = {
         }
     },
     init_editables: function (module) {
+        mw.$('.module').each(function () {
+            mw.wysiwyg.contentEditable(this, false);
+        });
         if (window['mwAdmin']) {
             if (typeof module !== 'undefined') {
                 mw.wysiwyg.contentEditable(module, false);
+
                 mw.$(module.querySelectorAll(".edit")).each(function () {
                     mw.wysiwyg.contentEditable(this, true);
                     mw.on.DOMChange(this, function () {
@@ -209,6 +213,7 @@ mw.wysiwyg = {
                 });
             }
             else {
+
                 var editables = document.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
                 for (; x < l; x++) {
                     mw.wysiwyg.contentEditable(editables[x], 'inherit');
@@ -244,6 +249,7 @@ mw.wysiwyg = {
                 })
             }
         }
+
     },
     modify: function (el, callback) {
         var curr = mw.askusertostay;

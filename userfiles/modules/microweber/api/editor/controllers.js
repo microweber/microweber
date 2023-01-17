@@ -458,6 +458,27 @@ MWEditor.controllers = {
         };
         this.element = this.render();
     },
+    fontSize2: function (scope, api, rootScope) {
+        this.checkSelection = function (opt) {
+            var css = opt.css;
+            var font = css.font();
+            var size = font.size;
+            // opt.controller.element.val(size);
+
+        };
+        this.render = function () {
+            var dropdown = new MWEditor.core.capsulatedField({
+
+            });
+             dropdown.field.addEventListener('input', function (e, val) {
+
+                    api.fontSize(dropdown.getValue());
+
+            });
+            return dropdown.frame;
+        };
+        this.element = this.render();
+    },
     lineHeight: function (scope, api, rootScope) {
         this.checkSelection = function (opt) {
             var css = opt.css;
