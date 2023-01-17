@@ -33,7 +33,57 @@
 
                     </div>
 
-                    <div class="col item-author manage-post-item-col-4 d-xl-block d-none">
+                    <div class="col">
+                        @php
+                            if ($content->hasSpecialPrice()) {
+                                $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';
+                                $price .= '<br /><span>'.currency_format($content->specialPrice).'</span>';
+                            } else {
+                                $price = '<span class="h5">'.currency_format($content->price).'</span>';
+                            }
+                        @endphp
+
+                        {!! $price !!}
+                    </div>
+
+                    <div class="col">
+                        @php
+                            if ($content->InStock) {
+                              $stock = '<span class="badge badge-success badge-sm">In stock</span>';
+                          } else {
+                              $stock = '<span class="badge badge-danger badge-sm">Out Of Stock</span>';
+                          }
+                        @endphp
+                        {!! $stock !!}
+                    </div>
+
+                    <div class="col">
+                        @php
+                            $ordersUrl = route('admin.order.index') . '?showFilters[productId]=1&filters[productId]='.$content->id;
+                            if ($content->ordersCount == 1) {
+                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$content->ordersCount.'</span></a>';
+                            } else if ($content->ordersCount > 1) {
+                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$content->ordersCount.'</span></a>';
+                            } else {
+                                $sales = '<span>'.$content->ordersCount.'</span>';
+                            }
+                        @endphp
+                       Sales: {!! $sales !!}
+                    </div>
+                    <div class="col">
+                        @php
+                            if ($content->qty == 'nolimit') {
+                                  $quantity = '<span><i class="fa fa-infinity" title="Unlimited Quantity"></i></span>';
+                              } else if ($content->qty == 0) {
+                                  $quantity = '<span class="text-small text-danger">0</span>';
+                              } else {
+                                  $quantity = $content->qty;
+                              }
+                        @endphp
+                        Qty: {!! $quantity !!}
+                    </div>
+
+                    <div class="col">
                         <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>
                     </div>
 
