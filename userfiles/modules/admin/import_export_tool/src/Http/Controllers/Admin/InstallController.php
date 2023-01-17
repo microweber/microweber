@@ -10,6 +10,6 @@ class InstallController extends \MicroweberPackages\Admin\Http\Controllers\Admin
 {
     public function index(Request $request)
     {
-        return $this->view('import_export_tool::admin.install');
+        return view('import_export_tool::admin.install');
     }
 }

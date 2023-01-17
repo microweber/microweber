@@ -1,7 +1,6 @@
 @extends('import_export_tool::admin.import-wizard.layout')
 
-@section('content')
-
+@section('ie_tool_content')
     <div>
         @if($tab == 'type')
             @include('import_export_tool::admin.import-wizard.import-type')

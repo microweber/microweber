@@ -1,3 +1,7 @@
-<div>
-    @livewire($component)
-</div>
+@extends('admin::layouts.app')
+
+@section('content')
+    <div>
+      @livewire($component)
+    </div>
+@endsection
