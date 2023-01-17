@@ -13,21 +13,17 @@
 
             <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
                 @include('content::admin.content.livewire.components.button-filter')
-                <div class="dropdown-menu p-3" style="width:463px">
-
+                <div class="dropdown-menu p-1" style="width:250px;max-height:400px;overflow:auto;overflow-x:hidden;">
 
                     @if(!empty($dropdownFilters))
-                        <div class="row">
-                        @foreach($dropdownFilters as $dropdownFilter)
-                            <div class="col-md-6">
-                               @if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator')
-                                    <h6 class="dropdown-header">{{ $dropdownFilter['name']  }}</h6>
-                               @else
+                        @foreach($dropdownFilters as $dropdownFilterGroup)
+                            <div>
+                                 <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
+                                @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
                                     <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}</label>
-                               @endif
+                                @endforeach
                             </div>
                         @endforeach
-                        </div>
                     @endif
 
                 </div>
@@ -43,36 +39,38 @@
 
         @php
         if(!empty($dropdownFilters)) {
-            foreach($dropdownFilters as $dropdownFilter) {
-                $skipDropdownFilter = false;
-                if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
-                    $skipDropdownFilter = true;
-                }
-                if (!$skipDropdownFilter) {
-
-                    if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
-                            if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
-                                @endphp
-                                     @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
-                                        'fieldName'=>$dropdownFilter['name'],
-                                        'fieldKey'=>$dropdownFilterExp[1],
-                                        'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
-                                       ])
-                                @php
-                            }
-                        continue;
+            foreach($dropdownFilters as $dropdownFilterGroup) {
+                foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
+                    $skipDropdownFilter = false;
+                    if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                        $skipDropdownFilter = true;
                     }
+                    if (!$skipDropdownFilter) {
+
+                        if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                                $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+                                    @endphp
+                                         @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                                            'fieldName'=>$dropdownFilter['name'],
+                                            'fieldKey'=>$dropdownFilterExp[1],
+                                            'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                                           ])
+                                    @php
+                                }
+                            continue;
+                        }
 
 
-                    if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
-                     @endphp
-                        @if (isset($dropdownFilter['viewNamespace']))
-                            @include($dropdownFilter['viewNamespace'])
-                        @else
-                            @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
-                        @endif
-                    @php
+                        if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                         @endphp
+                            @if (isset($dropdownFilter['viewNamespace']))
+                                @include($dropdownFilter['viewNamespace'])
+                            @else
+                                @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
+                            @endif
+                        @php
+                        }
                     }
                 }
             }
@@ -134,33 +132,34 @@
                                 {{ _e('Columns') }}
                             </button>
                             <div class="dropdown-menu p-3">
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> {{ _e('Id') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> {{ _e('Image') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> {{ _e('Title') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> {{ _e('Author') }}</label>
+                                @foreach($showColumns as $column=>$columnShow)
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
 
-                    <script>
-                            mw.spinner({
-                                size: 30,
-                                element: ".mw-js-loading",
-                                decorate: true,
-
-                            }).remove();
-                        </script>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
+
                     @if($displayType == 'card')
-                        @include('content::admin.content.livewire.display-types.card')
+                        @if(isset($this->displayTypesViews['card']))
+                            @include($this->displayTypesViews['card'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.card')
+                        @endif
                     @endif
 
                     @if($displayType == 'table')
-                        @include('content::admin.content.livewire.display-types.table')
+                        @if(isset($this->displayTypesViews['table']))
+                            @include($this->displayTypesViews['table'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.table')
+                        @endif
                     @endif
+
                 </div>
             </div>
 

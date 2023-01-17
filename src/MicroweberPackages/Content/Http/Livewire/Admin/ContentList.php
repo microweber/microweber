@@ -10,6 +10,7 @@ class ContentList extends Component
 {
     use WithPagination;
 
+    public $displayTypesViews = [];
     public $whitelistedEmptyKeys = [];
     public $paginate = 10;
     protected $paginationTheme = 'bootstrap';
@@ -310,6 +311,7 @@ class ContentList extends Component
         }
 
         return view('content::admin.content.livewire.table', [
+            'displayTypesViews' => $this->displayTypesViews,
             'dropdownFilters' => $this->dropdownFilters,
             'displayFilters' => $displayFilters,
             'currentCategory' => $currentCategory,
@@ -416,34 +418,14 @@ class ContentList extends Component
     {
         $dropdownFilters = [];
 
-        $dropdownFilters[] = [
-            'name' => 'Tags',
-            'key' => 'tags'
-        ];
+        $taxonomiesFields = $this->getDropdownFiltersTaxonomies();
+        $dropdownFilters = array_merge($dropdownFilters, $taxonomiesFields);
 
-        $dropdownFilters[] = [
-            'name' => 'Visible',
-            'key' => 'visible',
-        ];
-        $dropdownFilters[] = [
-            'name' => 'Author',
-            'key' => 'userId',
-        ];
+        $datesFields = $this->getDropdownFiltersDates();
+        $dropdownFilters = array_merge($dropdownFilters, $datesFields);
 
-        $dropdownFilters[] = [
-            'name' => 'Date Range',
-            'key' => 'dateBetween',
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Created at',
-            'key' => 'createdAt',
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Updated at',
-            'key' => 'updatedAt',
-        ];
+        $otherFields = $this->getDropdownFiltersOthers();
+        $dropdownFilters = array_merge($dropdownFilters, $otherFields);
 
         $templateFields = $this->getDropdownFiltersTemplateSettings();
         $dropdownFilters = array_merge($dropdownFilters, $templateFields);
@@ -454,21 +436,83 @@ class ContentList extends Component
         return $dropdownFilters;
     }
 
+    public function getDropdownFiltersOthers()
+    {
+        $dropdownFilters = [];
+        $dropdownFilters[] = [
+            'groupName' => 'Other',
+            'class'=> 'col-md-12',
+            'filters'=> [
+                [
+                    'name' => 'Visible',
+                    'key' => 'visible',
+                ],
+                [
+                    'name' => 'Author',
+                    'key' => 'userId',
+                ]
+            ]
+        ];
+        return $dropdownFilters;
+    }
+
+    public function getDropdownFiltersDates()
+    {
+        $dropdownFilters = [];
+        $dropdownFilters[] = [
+            'groupName' => 'Dates',
+            'class'=> 'col-md-12',
+            'filters'=> [
+                [
+                    'name' => 'Date Range',
+                    'key' => 'dateBetween',
+                ],
+                [
+                    'name' => 'Created at',
+                    'key' => 'createdAt',
+                ],
+                [
+                    'name' => 'Updated at',
+                    'key' => 'updatedAt',
+                ]
+            ]
+        ];
+        return $dropdownFilters;
+    }
+
+    public function getDropdownFiltersTaxonomies()
+    {
+        $dropdownFilters = [];
+        $dropdownFilters[] = [
+            'groupName' => 'Taxonomies',
+            'class'=> 'col-md-12',
+            'filters'=> [
+                [
+                    'name' => 'Tags',
+                    'key' => 'tags'
+                ]
+            ]
+        ];
+        return $dropdownFilters;
+    }
+
     public function getDropdownFiltersTemplateSettings()
     {
         $dropdownFilters = [];
         $templateFields = mw()->template->get_data_fields($this->contentType);
         if (!empty($templateFields)) {
-            $dropdownFilters[] = [
-                'name' => 'Template settings',
-                'type' => 'separator'
-            ];
+            $filters = [];
             foreach ($templateFields as $templateFieldKey => $templateFieldName) {
-                $dropdownFilters[] = [
+                $filters[] = [
                     'name' => $templateFieldName,
                     'key' => 'contentData.' . $templateFieldKey,
                 ];
             }
+            $dropdownFilters[] = [
+                'groupName' => 'Template settings',
+                'class'=>'col-md-12',
+                'filters'=>$filters
+            ];
         }
 
         return $dropdownFilters;
@@ -479,16 +523,18 @@ class ContentList extends Component
         $dropdownFilters = [];
         $templateFields = mw()->template->get_edit_fields($this->contentType);
         if (!empty($templateFields)) {
-            $dropdownFilters[] = [
-                'name' => 'Template fields',
-                'type' => 'separator'
-            ];
+            $filters = [];
             foreach ($templateFields as $templateFieldKey => $templateFieldName) {
-                $dropdownFilters[] = [
+                $filters[] = [
                     'name' => $templateFieldName,
                     'key' => 'contentFields.' . $templateFieldKey,
                 ];
             }
+            $dropdownFilters[] = [
+                'groupName' => 'Template fields',
+                'class'=>'col-md-12',
+                'filters'=>$filters
+            ];
         }
 
         return $dropdownFilters;

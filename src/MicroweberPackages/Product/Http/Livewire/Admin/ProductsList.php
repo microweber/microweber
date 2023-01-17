@@ -22,59 +22,53 @@ class ProductsList extends ContentList
         'author' => false
     ];
 
+    public $displayTypesViews = [
+          'card'=>'product::admin.product.livewire.display-types.card',
+          'table'=>'product::admin.product.livewire.display-types.table',
+    ];
+
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];
 
-        $dropdownFilters[] = [
-            'name' => 'Taxonomy',
-            'type' => 'separator'
-        ];
+        $dateFields = $this->getDropdownFiltersTaxonomies();
+        $dropdownFilters = array_merge($dropdownFilters, $dateFields);
 
         $dropdownFilters[] = [
-            'name' => 'Tags',
-            'key' => 'tags'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Shop',
-            'type' => 'separator'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Price Range',
-            'key' => 'priceBetween',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.price-between'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Stock Status',
-            'key' => 'stockStatus',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.stock-status'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Discount',
-            'key' => 'discount',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.discount'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Orders',
-            'key' => 'orders',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.orders'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Quantity',
-            'key' => 'qty',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.quantity'
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Sku',
-            'key' => 'sku',
-            'viewNamespace'=> 'product::admin.product.livewire.table-filters.sku'
+            'groupName' => 'Shop',
+            'class'=> 'col-md-6',
+            'filters'=> [
+                [
+                    'name' => 'Price Range',
+                    'key' => 'priceBetween',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.price-between'
+                ],
+                [
+                    'name' => 'Stock Status',
+                    'key' => 'stockStatus',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.stock-status'
+                ],
+                [
+                    'name' => 'Discount',
+                    'key' => 'discount',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.discount'
+                ],
+                [
+                    'name' => 'Orders',
+                    'key' => 'orders',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.orders'
+                ],
+                [
+                    'name' => 'Quantity',
+                    'key' => 'qty',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.quantity'
+                ],
+                [
+                    'name' => 'Sku',
+                    'key' => 'sku',
+                    'viewNamespace'=> 'product::admin.product.livewire.table-filters.sku'
+                ]
+            ]
         ];
 
         $templateFields = $this->getDropdownFiltersTemplateSettings();
@@ -83,34 +77,13 @@ class ProductsList extends ContentList
         $templateFields = $this->getDropdownFiltersTemplateFields();
         $dropdownFilters = array_merge($dropdownFilters, $templateFields);
 
-        $dropdownFilters[] = [
-            'name' => 'Other',
-            'type' => 'separator'
-        ];
+        $otherFields = $this->getDropdownFiltersOthers();
+        $dropdownFilters = array_merge($dropdownFilters, $otherFields);
 
-        $dropdownFilters[] = [
-            'name' => 'Visible',
-            'key' => 'visible',
-        ];
-        $dropdownFilters[] = [
-            'name' => 'Author',
-            'key' => 'userId',
-        ];
 
-        $dropdownFilters[] = [
-            'name' => 'Date Range',
-            'key' => 'dateBetween',
-        ];
+        $dateFields = $this->getDropdownFiltersDates();
+        $dropdownFilters = array_merge($dropdownFilters, $dateFields);
 
-        $dropdownFilters[] = [
-            'name' => 'Created at',
-            'key' => 'createdAt',
-        ];
-
-        $dropdownFilters[] = [
-            'name' => 'Updated at',
-            'key' => 'updatedAt',
-        ];
 
         return $dropdownFilters;
     }

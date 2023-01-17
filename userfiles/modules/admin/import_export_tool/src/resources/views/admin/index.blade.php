@@ -1,6 +1,6 @@
 @extends('import_export_tool::admin.module-layout')
 
-@section('module-content')
+@section('ie_tool_module_content')
 <div class="m-3">
 
 <a href="{{route('admin.import-export-tool.import-wizard')}}" class="btn btn-outline-primary">
