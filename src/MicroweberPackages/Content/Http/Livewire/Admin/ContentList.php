@@ -10,6 +10,7 @@ class ContentList extends Component
 {
     use WithPagination;
 
+    public $displayTypesViews = [];
     public $whitelistedEmptyKeys = [];
     public $paginate = 10;
     protected $paginationTheme = 'bootstrap';
@@ -310,6 +311,7 @@ class ContentList extends Component
         }
 
         return view('content::admin.content.livewire.table', [
+            'displayTypesViews' => $this->displayTypesViews,
             'dropdownFilters' => $this->dropdownFilters,
             'displayFilters' => $displayFilters,
             'currentCategory' => $currentCategory,

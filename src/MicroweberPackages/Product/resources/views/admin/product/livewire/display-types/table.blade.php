@@ -35,19 +35,19 @@
         </tr>
         </thead>
         <tbody>
-        @if (count($products)==0)
+        @if (count($contents)==0)
             <tr>
                 <td colspan="{{count($showColumns)}}">
                     {{_e('No items found')}}
                 </td>
             </tr>
         @endif
-        @foreach ($products as $product)
-            <tr class="manage-post-item manage-post-item-{{ $product->id }}">
+        @foreach ($contents as $content)
+            <tr class="manage-post-item manage-post-item-{{ $content->id }}">
                 <td>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" value="{{ $product->id }}" id="products-{{ $product->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
-                        <label for="products-{{ $product->id }}" class="custom-control-label"></label>
+                        <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                        <label for="products-{{ $content->id }}" class="custom-control-label"></label>
                     </div>
 
                     <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">
@@ -56,28 +56,28 @@
                 </td>
                 @if($showColumns['id'])
                     <td>
-                        {{ $product->id }}
+                        {{ $content->id }}
                     </td>
                 @endif
                 @if($showColumns['image'])
                     <td>
-                        @include('content::admin.content.livewire.components.picture', ['content'=>$product])
+                        @include('content::admin.content.livewire.components.picture', ['content'=>$content])
                     </td>
                 @endif
                 @if($showColumns['title'])
                     <td>
-                        @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$product])
-                        @include('content::admin.content.livewire.components.manage-links', ['content'=>$product])
+                        @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
+                        @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
                     </td>
                 @endif
                 @if($showColumns['price'])
                     <td>
                         @php
-                            if ($product->hasSpecialPrice()) {
-                                $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($product->price).'</span>';
-                                $price .= '<br /><span class="h5">'.currency_format($product->specialPrice).'</span>';
+                            if ($content->hasSpecialPrice()) {
+                                $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';
+                                $price .= '<br /><span class="h5">'.currency_format($content->specialPrice).'</span>';
                             } else {
-                                $price = '<span class="h5">'.currency_format($product->price).'</span>';
+                                $price = '<span class="h5">'.currency_format($content->price).'</span>';
                             }
                         @endphp
 
@@ -87,7 +87,7 @@
                 @if($showColumns['stock'])
                     <td>
                         @php
-                            if ($product->InStock) {
+                            if ($content->InStock) {
                               $stock = '<span class="badge badge-success badge-sm">In stock</span>';
                           } else {
                               $stock = '<span class="badge badge-danger badge-sm">Out Of Stock</span>';
@@ -99,13 +99,13 @@
                 @if($showColumns['orders'])
                     <td style="text-align: center">
                         @php
-                            $ordersUrl = route('admin.order.index') . '?showFilters[productId]=1&filters[productId]='.$product->id;
-                            if ($product->ordersCount == 1) {
-                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->ordersCount.'</span></a>';
-                            } else if ($product->ordersCount > 1) {
-                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$product->ordersCount.'</span></a>';
+                            $ordersUrl = route('admin.order.index') . '?showFilters[productId]=1&filters[productId]='.$content->id;
+                            if ($content->ordersCount == 1) {
+                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$content->ordersCount.'</span></a>';
+                            } else if ($content->ordersCount > 1) {
+                                $sales = '<a href="'.$ordersUrl.'"><span class="text-green">'.$content->ordersCount.'</span></a>';
                             } else {
-                                $sales = '<span>'.$product->ordersCount.'</span>';
+                                $sales = '<span>'.$content->ordersCount.'</span>';
                             }
                         @endphp
                         {!! $sales !!}
@@ -114,12 +114,12 @@
                 @if($showColumns['quantity'])
                     <td style="text-align: center">
                         @php
-                            if ($product->qty == 'nolimit') {
+                            if ($content->qty == 'nolimit') {
                                   $quantity = '<span><i class="fa fa-infinity" title="Unlimited Quantity"></i></span>';
-                              } else if ($product->qty == 0) {
+                              } else if ($content->qty == 0) {
                                   $quantity = '<span class="text-small text-danger">0</span>';
                               } else {
-                                  $quantity = $product->qty;
+                                  $quantity = $content->qty;
                               }
                         @endphp
                         {!! $quantity !!}
@@ -127,7 +127,7 @@
                 @endif
                 @if($showColumns['author'])
                     <td>
-                        {{$product->authorName()}}
+                        {{$content->authorName()}}
                     </td>
                 @endif
 

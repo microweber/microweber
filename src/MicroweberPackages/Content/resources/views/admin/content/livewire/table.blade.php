@@ -152,13 +152,23 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
+
                     @if($displayType == 'card')
-                        @include('content::admin.content.livewire.display-types.card')
+                        @if(isset($this->displayTypesViews['card']))
+                            @include($this->displayTypesViews['card'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.card')
+                        @endif
                     @endif
 
                     @if($displayType == 'table')
-                        @include('content::admin.content.livewire.display-types.table')
+                        @if(isset($this->displayTypesViews['table']))
+                            @include($this->displayTypesViews['table'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.table')
+                        @endif
                     @endif
+
                 </div>
             </div>
 

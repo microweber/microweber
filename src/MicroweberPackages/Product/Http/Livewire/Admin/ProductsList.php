@@ -22,6 +22,11 @@ class ProductsList extends ContentList
         'author' => false
     ];
 
+    public $displayTypesViews = [
+          'card'=>'product::admin.product.livewire.display-types.card',
+          'table'=>'product::admin.product.livewire.display-types.table',
+    ];
+
     public function getDropdownFiltersProperty()
     {
         $dropdownFilters = [];
