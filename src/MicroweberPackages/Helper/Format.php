@@ -1272,4 +1272,27 @@ class Format
 
         return $formats;
     }
+
+
+    public function arrayToHtmlAttributes(array $attributes): string
+    {
+        if (empty($attributes)) {
+            return '';
+        }
+        if (!is_array($attributes)) {
+            return $attributes;
+        }
+
+        $attributePairs = [];
+        foreach ($attributes as $key => $val) {
+            if (is_int($key)) {
+                $attributePairs[] = $val;
+            } else {
+                $val = htmlspecialchars($val, ENT_QUOTES);
+                $attributePairs[] = "{$key}=\"{$val}\"";
+            }
+        }
+
+        return join(' ', $attributePairs);
+    }
 }

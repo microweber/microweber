@@ -4,30 +4,27 @@ namespace MicroweberPackages\View;
 
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\DynamicComponent;
-use Illuminate\View\Engines\CompilerEngine;
+use Illuminate\Support\ServiceProvider;
+use Livewire\LivewireTagCompiler;
 
-
-class ViewServiceProvider extends  \Illuminate\View\ViewServiceProvider
+class ViewServiceProvider extends ServiceProvider
 {
 
-
-    public function  registerBladeEngine($resolver)
+    public function boot()
     {
-        $this->app->singleton('blade.compiler',  function () {
-            return new  MicroweberBladeCompiler(
-                $this->app['files'],
-                $this->app['config']['view.compiled'],
-            );
-        });
+        $this->registerTagCompiler();
 
-        $resolver->register('blade', function  () {
-            return new  CompilerEngine(
-                $this->app['blade.compiler']
-            );
-        });
-
+        Blade::directive('module', [MicroweberBladeDirectives::class, 'module']);
     }
+
+    protected function registerTagCompiler()
+    {
+        if (method_exists($this->app['blade.compiler'], 'precompiler')) {
+            $this->app['blade.compiler']->precompiler(function ($string) {
+                return app(MicroweberModuleTagCompiler::class)->compile($string);
+            });
+        }
+    }
+
 
 }

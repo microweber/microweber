@@ -91,6 +91,7 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
+use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 
@@ -228,6 +229,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
+        $this->app->register(ViewServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
 
