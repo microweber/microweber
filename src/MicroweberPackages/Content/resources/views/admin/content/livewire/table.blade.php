@@ -132,33 +132,34 @@
                                 {{ _e('Columns') }}
                             </button>
                             <div class="dropdown-menu p-3">
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> {{ _e('Id') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> {{ _e('Image') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.title"> {{ _e('Title') }}</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.author"> {{ _e('Author') }}</label>
+                                @foreach($showColumns as $column=>$columnShow)
+                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
 
-                    <script>
-                            mw.spinner({
-                                size: 30,
-                                element: ".mw-js-loading",
-                                decorate: true,
-
-                            }).remove();
-                        </script>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
+
                     @if($displayType == 'card')
-                        @include('content::admin.content.livewire.display-types.card')
+                        @if(isset($this->displayTypesViews['card']))
+                            @include($this->displayTypesViews['card'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.card')
+                        @endif
                     @endif
 
                     @if($displayType == 'table')
-                        @include('content::admin.content.livewire.display-types.table')
+                        @if(isset($this->displayTypesViews['table']))
+                            @include($this->displayTypesViews['table'])
+                        @else
+                            @include('content::admin.content.livewire.display-types.table')
+                        @endif
                     @endif
+
                 </div>
             </div>
 
