@@ -516,7 +516,6 @@ class AppServiceProvider extends ServiceProvider
         if (is_cli()) {
             $this->commands('MicroweberPackages\Console\Commands\ResetCommand');
         }
-        $this->app->register(AdminServiceProvider::class);
 
         // If installed load module functions and set locale
         if (mw_is_installed()) {
@@ -552,6 +551,7 @@ class AppServiceProvider extends ServiceProvider
             $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
         }
 
+        $this->app->register(AdminServiceProvider::class);
 
         if (class_exists(\App\Providers\AppServiceProvider::class)) {
             app()->register(\App\Providers\AppServiceProvider::class);

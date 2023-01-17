@@ -1,1 +1,6 @@
-<?php include modules_path().'admin/footer.php'  ?>
+</div>
+<!--  /.main.container -->
+</div>
+<!--  /#mw-admin-main-block -->
+</body>
+</html>

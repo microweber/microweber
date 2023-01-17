@@ -1,24 +1,8 @@
 @include('admin::layouts.partials.header')
 
-
-
-
-
-
-
-to do ..
-
-@section('sidebar')
-    to do ..
-@show
-@section('content')
-
-        {!! $content !!}
-
-@endsection
-<div class="container">
+@hasSection('content')
     @yield('content' )
-</div>
+@endif
 
 
 @include('admin::layouts.partials.footer')

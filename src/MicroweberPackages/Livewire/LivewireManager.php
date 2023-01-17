@@ -55,10 +55,10 @@ class LivewireManager extends BaseLivewireManager
 
         $assetsUrl = config('livewire.asset_url') ?: rtrim($options['asset_url'] ?? '', '/');
 
-        $appUrl = config('livewire.app_url')
-            ?: rtrim($options['app_url'] ?? '', '/')
-                ?: $assetsUrl;
-
+//        $appUrl = config('livewire.app_url')
+//            ?: rtrim($options['app_url'] ?? '', '/')
+//                ?: $assetsUrl;
+        $appUrl = rtrim(site_url(), '/\\');
         $jsLivewireToken = app()->has('session.store') ? "'" . csrf_token() . "'" : 'null';
 
         $jsonEncodedOptions = $options ? json_encode($options) : '';

@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php
+
+    // file is moved to src/MicroweberPackages/Admin/resources/views/layouts/partials/header.blade.php
+
+
+?><!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
