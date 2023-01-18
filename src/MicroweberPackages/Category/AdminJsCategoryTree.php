@@ -238,7 +238,17 @@ class AdminJsCategoryTree
         $appendCategory['subtype'] = 'category';
         $appendCategory['position'] = $category['position'];
         $appendCategory['url'] = $category['url'];
+
         $appendCategory['is_active'] = 1;
+
+
+        if(isset($category['is_hidden']) and $category['is_hidden'] == 1){
+            $appendCategory['is_active'] = 0;
+        }
+        if(isset($category['is_deleted']) and $category['is_deleted'] == 1){
+            $appendCategory['is_deleted'] = 0;
+        }
+
 
         if ($category['parent_id'] == 0) {
             if ($category['rel_type'] == 'content') {
