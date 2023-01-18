@@ -10,9 +10,10 @@
 @if($import_feeds->count() == 0)
     <livewire:import_export_tool::no_feeds />
 @else
-    <div class="mb-3 mt-3">
-<b>All imports</b>
-    </div>
+
+<div class="mb-3 mt-3">
+    <b>All imports</b>
+</div>
 
 <table class="table table-header-no-border">
     <thead>
@@ -50,10 +51,9 @@
             <td>
                 <a class="btn btn-outline-primary btn-sm" href="{{route('admin.import-export-tool.import-wizard')}}?importFeedId={{$feed->id}}">View</a>
 
-
-                <a href="{{route('admin.import-export-tool.import-delete', $feed->id)}}" class="btn btn-outline-danger btn-sm">
+                <button type="button" wire:click="deleteImport('{{$feed->id}}')" class="btn btn-outline-danger btn-sm">
                     <i class="fa fa-times"></i> Delete
-                </a>
+                </button>
 
             </td>
         </tr>
