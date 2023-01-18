@@ -189,11 +189,18 @@ class CategoryRepository extends AbstractRepository
      */
     public function hasProductsInStock($categoryId)
     {
+        
         $getChildrens = $this->getCategoryChildsTree($categoryId);
+        $count = $this->getCategoryProductsInStockCount($categoryId);
+        if ($count > 0) {
+            return true;
+        }
+
         $productsInStock = $this->_checkProductsInStockRecursive($getChildrens);
         if ($productsInStock) {
             return true;
         }
+
         return false;
     }
 
