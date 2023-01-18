@@ -67,17 +67,14 @@ if ($only_products_in_stock == 1) {
     $shop = get_content('single=1&content_type=page&is_shop=1');
     if ($shop) {
 
-
-
-      /*  $categories = get_categories('rel_id=' . $shop['id'] . '&is_deleted=0&is_hidden=0&order_by=position asc');
+        $categories = get_categories('rel_id=' . $shop['id'] . '&is_deleted=0&is_hidden=0&order_by=position asc');
         foreach ($categories as $k => $v) {
             $has_products = app()->category_repository->hasProductsInStock($v['id']);
             if (!$has_products) {
                 unset($categories[$k]);
             }
-        }*/
-
-        // $params['tree_data'] = $categories;
+        }
+        $params['tree_data'] = $categories;
     }
 }
 

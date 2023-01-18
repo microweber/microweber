@@ -9,6 +9,7 @@ use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use function Symfony\Component\Translation\t;
 
 class CategoryRepository extends AbstractRepository
 {
@@ -188,13 +189,28 @@ class CategoryRepository extends AbstractRepository
      */
     public function hasProductsInStock($categoryId)
     {
-        if($this->getCategoryProductsInStockCount($categoryId) > 0){
+        $getChildrens = $this->getCategoryChildsTree($categoryId);
+        $productsInStock = $this->_checkProductsInStockRecursive($getChildrens);
+        if ($productsInStock) {
             return true;
         }
         return false;
-
     }
 
+    private function _checkProductsInStockRecursive($categories)
+    {
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $count = $this->getCategoryProductsInStockCount($category['id']);
+                if ($count > 0) {
+                    return true;
+                }
+                if (isset($category['childs']) && !empty($category['childs'])) {
+                    return $this->_checkProductsInStockRecursive($category['childs']);
+                }
+            }
+        }
+    }
 
     public function getCategoryItemsCountAll()
     {
