@@ -17,13 +17,4 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
     }
 
-    public function importDelete($id)
-    {
-        $findImportFeed = ImportFeed::where('id', $id)->first();
-        if ($findImportFeed) {
-            $findImportFeed->delete();
-        }
-
-        return redirect(route('admin.import-export-tool.index'));
-    }
 }
