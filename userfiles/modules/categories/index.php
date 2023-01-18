@@ -60,10 +60,26 @@ if (intval($category_parent) > 0) {
             $params['parent'] = $category_parent;
         }
     }
-
-
 }
 
+$only_products_in_stock = get_option('only-products-in-stock', $params['id']);
+if ($only_products_in_stock == 1) {
+    $shop = get_content('single=1&content_type=page&is_shop=1');
+    if ($shop) {
+
+
+
+      /*  $categories = get_categories('rel_id=' . $shop['id'] . '&is_deleted=0&is_hidden=0&order_by=position asc');
+        foreach ($categories as $k => $v) {
+            $has_products = app()->category_repository->hasProductsInStock($v['id']);
+            if (!$has_products) {
+                unset($categories[$k]);
+            }
+        }*/
+
+        // $params['tree_data'] = $categories;
+    }
+}
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
