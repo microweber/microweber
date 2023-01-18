@@ -14,8 +14,7 @@ namespace MicroweberPackages\Admin;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use MicroweberPackages\Admin\Http\Livewire\AutoCompleteMultipleSelectComponent;
-use MicroweberPackages\Admin\Http\Livewire\DropdownComponent;
+
 use MicroweberPackages\Admin\Http\Livewire\FilterItemCateogry;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemDate;
@@ -27,17 +26,16 @@ use MicroweberPackages\Admin\Http\Livewire\FilterItemUser;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValueRange;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValueWithOperator;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValue;
-use MicroweberPackages\Admin\Http\Livewire\ProductsAutoComplete;
 use MicroweberPackages\Admin\Http\Livewire\TagsAutoComplete;
 use MicroweberPackages\Admin\Http\Livewire\UsersAutoComplete;
-use MicroweberPackages\Livewire\Http\Livewire\Admin\AutoCompleteComponent;
+
 
 class AdminServiceProvider extends ServiceProvider
 {
     public function register()
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+      //  $this->loadRoutesFrom(__DIR__ . '/routes/admin.php'); moved to AdminRouteServiceProvider
 
         \App::bind('AdminManager',function() {
             return new \MicroweberPackages\Admin\AdminManager();
