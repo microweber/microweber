@@ -15,6 +15,7 @@
                         </span>
                     </div>
 
+                    @if($showColumns['image'])
                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
 
                         <div class="mw-admin-product-item-icon text-muted">
@@ -23,16 +24,19 @@
 
                         @include('content::admin.content.livewire.components.picture', ['content'=>$content])
 
-
                     </div>
+                    @endif
 
+                    @if($showColumns['title'])
                     <div class="col item-title manage-post-item-col-3 manage-post-main">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
                         @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
 
                     </div>
+                    @endif
 
+                    @if($showColumns['price'])
                     <div class="col">
                         @php
                             if ($content->hasSpecialPrice()) {
@@ -45,7 +49,9 @@
 
                         {!! $price !!}
                     </div>
+                    @endif
 
+                    @if($showColumns['stock'])
                     <div class="col">
                         @php
                             if ($content->InStock) {
@@ -56,7 +62,9 @@
                         @endphp
                         {!! $stock !!}
                     </div>
+                    @endif
 
+                    @if($showColumns['orders'])
                     <div class="col">
                         @php
                             $ordersUrl = route('admin.order.index') . '?showFilters[productId]=1&filters[productId]='.$content->id;
@@ -70,6 +78,9 @@
                         @endphp
                        Sales: {!! $sales !!}
                     </div>
+                    @endif
+
+                    @if($showColumns['quantity'])
                     <div class="col">
                         @php
                             if ($content->qty == 'nolimit') {
@@ -82,11 +93,14 @@
                         @endphp
                         Qty: {!! $quantity !!}
                     </div>
+                    @endif
 
+                    @if($showColumns['author'])
                     <div class="col">
                         <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>
                     </div>
-
+                    @endif
+                    
                 </div>
             </div>
         </div>
