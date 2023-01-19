@@ -115,31 +115,38 @@ class ServeTestCommand extends ServeCommand
                 $this->requestsPool[$requestPort][1] = trim(explode('[200]: GET', $line)[1]);
             } elseif (str($line)->contains(' Closing')) {
                 $requestPort = $this->getRequestPortFromLine($line);
-                if (isset($this->requestsPool[$requestPort])) {
+                if (isset($this->requestsPool[$requestPort]) and $this->requestsPool[$requestPort]) {
 
 
                     $request = $this->requestsPool[$requestPort];
 
                     [$startDate, $file] = $request;
 
-                    $formattedStartedAt = $startDate->format('Y-m-d H:i:s');
 
-                    unset($this->requestsPool[$requestPort]);
 
-                    [$date, $time] = explode(' ', $formattedStartedAt);
+                    if(is_int($startDate)){
 
-                    $this->output->write("  <fg=gray>$date</> $time");
+                        $formattedStartedAt = $startDate->format('Y-m-d H:i:s');
 
-                    $runTime = $this->getDateFromLine($line)->diffInSeconds($startDate);
+                        unset($this->requestsPool[$requestPort]);
 
-                    if ($file) {
-                        $this->output->write($file = " $file");
+                        [$date, $time] = explode(' ', $formattedStartedAt);
+
+                        $this->output->write("  <fg=gray>$date</> $time");
+
+                        $runTime = $this->getDateFromLine($line)->diffInSeconds($startDate);
+
+                        if ($file) {
+                            $this->output->write($file = " $file");
+                        }
+
+                        $dots = max(terminal()->width() - mb_strlen($formattedStartedAt) - mb_strlen($file) - mb_strlen($runTime) - 9, 0);
+
+                        $this->output->write(' ' . str_repeat('<fg=gray>.</>', $dots));
+                        $this->output->writeln(" <fg=gray>~ {$runTime}s</>");
                     }
 
-                    $dots = max(terminal()->width() - mb_strlen($formattedStartedAt) - mb_strlen($file) - mb_strlen($runTime) - 9, 0);
 
-                    $this->output->write(' ' . str_repeat('<fg=gray>.</>', $dots));
-                    $this->output->writeln(" <fg=gray>~ {$runTime}s</>");
                 }
             } elseif (str($line)->contains(['Closed without sending a request'])) {
                 // ...
