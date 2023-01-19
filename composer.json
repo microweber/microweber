@@ -59,7 +59,7 @@
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
-        "livewire/livewire": "*",
+        "livewire/livewire": "v2.11.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-modules/standalone-updater": "4.2",
         "microweber-packages/composer-client": "2.0",
