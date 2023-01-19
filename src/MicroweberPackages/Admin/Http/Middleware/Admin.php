@@ -39,6 +39,9 @@ class Admin
 
         ServingMicroweber::dispatch();
 
+        event_trigger('mw.admin');
+        event_trigger('mw_backend');
+
         if (Auth::check() && intval(Auth::user()->is_admin) === 1) {
             return $next($request);
         }
