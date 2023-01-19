@@ -133,7 +133,7 @@
                             </button>
                             <div class="dropdown-menu p-3">
                                 @foreach($showColumns as $column=>$columnShow)
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
+                                <label wire:key="show-column-{{ $loop->index }}" class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
                                 @endforeach
                             </div>
                         </div>

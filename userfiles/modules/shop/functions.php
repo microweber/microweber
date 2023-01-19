@@ -4,9 +4,13 @@ event_bind('mw.front', function ($params = false) {
     return mw_add_admin_menu_buttons($params);
 });
 
-\MicroweberPackages\Admin\Facades\AdminManager::serving(function () {
+event_bind('mw.admin', function ($params = false) {
     return mw_add_admin_menu_buttons();
 });
+
+/*\MicroweberPackages\Admin\Facades\AdminManager::serving(function () {
+    return mw_add_admin_menu_buttons();
+});*/
 
 function mw_add_admin_menu_buttons($params = false)
 {

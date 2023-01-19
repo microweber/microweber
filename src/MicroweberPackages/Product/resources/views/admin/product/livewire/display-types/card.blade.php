@@ -100,7 +100,7 @@
                         <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>
                     </div>
                     @endif
-                    
+
                 </div>
             </div>
         </div>
