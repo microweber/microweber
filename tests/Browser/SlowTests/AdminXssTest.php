@@ -145,6 +145,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName());
                     }
 
+                    echo  'about to visit page url: ' . $visitPage . PHP_EOL;
                     $browser->visit($visitPage);
 
                     $browser->within(new InputFieldsXssTest(), function ($browser) {
