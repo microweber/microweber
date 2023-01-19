@@ -51,7 +51,7 @@
         "kirschbaum-development/eloquent-power-joins": "dev-master",
         "knplabs/knp-menu": "^3.2@dev",
         "laravel/dusk": "*",
-        "laravel/framework": "v9.37.0",
+        "laravel/framework": "v9.48.0",
         "laravel/passport": "*",
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
