@@ -188,7 +188,6 @@ class LiveEditTest extends DuskTestCase
 
             $randClass = 'js-rand-description-'.time().rand(1111,9999);
             $browser->script("$('.description').find('.edit').addClass('$randClass')");
-            $browser->pause(200000);
             $browser->pause(2000);
             $browser->click('.' . $randClass);
             $browser->keys('.' . $randClass, $productDescription);
