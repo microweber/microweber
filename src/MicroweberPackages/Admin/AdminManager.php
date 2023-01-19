@@ -69,7 +69,7 @@ class AdminManager
         }
     }
 
-    public function serving(Closure $callback): void
+    public function serving(\Closure $callback): void
     {
         Event::listen(ServingAdmin::class, $callback);
     }
