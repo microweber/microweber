@@ -8,10 +8,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
 class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminController
 {
-
-    public function index(Request $request) {
-
-        $importFeeds = ImportFeed::where('is_draft', 0)->get();
+    public function index(Request $request)
+    {
+        $importFeeds = ImportFeed::get();
 
         return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
     }
@@ -22,7 +21,6 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 
         return $this->view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
     }
-
 
     public function importDelete($id)
     {
