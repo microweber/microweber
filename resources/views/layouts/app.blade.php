@@ -1,0 +1,6 @@
+
+@livewireScripts
+
+@livewireStyles
+
+{{$slot}}

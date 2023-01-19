@@ -258,6 +258,6 @@ class ImportWizard extends Component
 
     public function render()
     {
-        return view('import_export_tool::admin.import-wizard.index')->extends('admin::layouts.app');
+        return view('import_export_tool::admin.import-wizard.index');
     }
 }

@@ -1,6 +1,6 @@
 @extends('import_export_tool::admin.import-wizard.layout')
 
-@section('ie_tool_content')
+@section('content')
 
     <script wire:ignore type="text/javascript">
 
