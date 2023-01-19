@@ -58,10 +58,6 @@ class ImportExportToolServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom( __DIR__. '/resources/views/components', 'import_export_tool');
 
-        Livewire::component('microweber-packages.modules.admin.import-export-tool.http.livewire.counter', Counter::class);
-
-        Livewire::
-
         Livewire::component('import_export_tool::install', Install::class);
         Livewire::component('import_export_tool::import_wizard', ImportWizard::class);
         Livewire::component('import_export_tool::export_wizard', ExportWizard::class);

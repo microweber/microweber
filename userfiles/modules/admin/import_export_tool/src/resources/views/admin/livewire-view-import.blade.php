@@ -1,6 +1,6 @@
 @extends('import_export_tool::admin.module-layout')
 
-@section('ie_tool_module_content')
+@section('module-content')
     <div>
 
 <style>

@@ -28,7 +28,7 @@
                 </ul>
 
                 <div>
-                    @yield('ie_tool_module_content')
+                    @yield('module-content')
                 </div>
             </div>
         </div>
