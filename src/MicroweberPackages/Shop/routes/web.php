@@ -1,13 +1,13 @@
 <?php
 
 
-Route::name('admin.')
+/*Route::name('admin.')
     ->prefix(ADMIN_PREFIX)
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers\Admin')
     ->group(function () {
         Route::get('shop/dashboard', 'DashboardShopController@dashboard')->name('shop.dashboard');
-    });
+    });*/
 
 Route::name('admin.shop.filter.')
     ->prefix(ADMIN_PREFIX. '/shop/filter')
