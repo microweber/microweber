@@ -5,7 +5,7 @@ namespace MicroweberPackages\Admin\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Admin\Events\ServingMicroweber;
+use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\User\Models\User;
 use function mw_is_installed;
 use function optional;
@@ -37,7 +37,7 @@ class Admin
             return redirect(site_url());
         }
 
-        ServingMicroweber::dispatch();
+        ServingAdmin::dispatch();
 
         event_trigger('mw.admin');
         event_trigger('mw_backend');

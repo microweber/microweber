@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Admin;
 
+use Illuminate\Support\Facades\Event;
+use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 class AdminManager
@@ -65,6 +67,11 @@ class AdminManager
         if ($template_headers_src != false and $template_headers_src != '') {
             $this->addCustomHeadTag($template_headers_src);
         }
+    }
+
+    public function serving(Closure $callback): void
+    {
+        Event::listen(ServingAdmin::class, $callback);
     }
 
 }

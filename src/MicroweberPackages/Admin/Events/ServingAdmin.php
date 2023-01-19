@@ -4,7 +4,7 @@ namespace MicroweberPackages\Admin\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 
-class ServingMicroweber
+class ServingAdmin
 {
     use Dispatchable;
 }
