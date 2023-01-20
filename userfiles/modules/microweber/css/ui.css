@@ -8676,6 +8676,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-controller-component {
   display: inline-block;
 }
+.a-color-picker-circle,
+.a-color-picker-palette-color {
+  border-width: 2px;
+}
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;
   margin: 0 6px;
