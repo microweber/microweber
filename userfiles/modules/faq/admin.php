@@ -41,14 +41,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <?php
                     $moduleOption = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', 'settings')
-                        ->where('option_group','faq')
+                        ->where('option_group',$params['id'])
                         ->first();
 
                     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
 
                     echo $formBuilder->mwModuleSettings('settings')
                         ->setModel($moduleOption)
-                        ->setGroupId('faq')
+                        ->setGroupId($params['id'])
                         ->schema([
                             [
                                 'interface' => 'text',

@@ -1,6 +1,6 @@
 @extends('import_export_tool::admin.import-wizard.layout')
 
-@section('ie_tool_content')
+@section('content')
 
     <div class="row">
         <div class="mx-auto col-md-10">

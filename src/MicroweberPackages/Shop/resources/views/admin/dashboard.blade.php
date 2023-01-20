@@ -10,9 +10,14 @@
 <script>
     mw.lib.require('echarts');
 </script>
+Todo: Add a dashboard to the shop module
+<?php
 
+/*
 
 
 
 @livewire('admin-shop-dashboard-sales')
 
+*/
+?>

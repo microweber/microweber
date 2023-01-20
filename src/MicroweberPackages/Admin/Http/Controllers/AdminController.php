@@ -99,8 +99,6 @@ class AdminController extends Controller
             app()->template_manager->boot_template();
         }
 
-        event_trigger('mw.admin');
-        event_trigger('mw_backend');
         $view = modules_path() . 'admin/';
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count('id');

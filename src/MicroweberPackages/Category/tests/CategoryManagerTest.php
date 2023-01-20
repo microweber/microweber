@@ -32,7 +32,6 @@ class CategoryManagerTest extends TestCase
             "fields" => 'title,id'
         ));
 
-        //dd($contentForCategories);
 
         $this->assertEquals($cont_title, $contentForCategories[0]['title']);
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
@@ -94,6 +93,12 @@ class CategoryManagerTest extends TestCase
         $category = new Category();
         $category->title = 'New cat for my Product to test filter';
         $category->save();
+
+        $sub_category = new Category();
+        $sub_category->title = 'Subcat filter';
+        $sub_category->parent_id = $category->id;
+        $sub_category->save();
+
 
 
         $cont_title = 'Product with cats to test filter';
@@ -181,6 +186,9 @@ class CategoryManagerTest extends TestCase
         $check  = app()->category_repository->hasProductsInStock($category->id);
         $this->assertFalse($check);
         $this->assertEquals($content_data['qty'],0);
+
+
+
 
 
 

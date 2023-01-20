@@ -47,6 +47,7 @@ trait FilterByKeywordTrait
             $antiXss = new \MicroweberPackages\Helper\HTMLClean();
             $keywordToSearch = $antiXss->clean($keywordToSearch);
             $keywordToSearch = mb_trim($keywordToSearch);
+            $keywordToSearch = e($keywordToSearch);
             if ($keywordToSearch != '') {
                 if (mb_strlen($keywordToSearch) > 1000) {
                     $keywordToSearch = mb_substr($keywordToSearch, 0, 1000);

@@ -25,23 +25,23 @@ class ProductController extends AdminController
     }
 
     public function dashboard(Request $request) {
-        return $this->view('product::admin.shop.dashboard');
+        return view('product::admin.shop.dashboard');
     }
 
     public function index(Request $request) {
-        return $this->view('product::admin.product.index');
+        return view('product::admin.product.index');
     }
 
     public function create() {
 
-        return $this->view('product::admin.product.edit', [
+        return view('product::admin.product.edit', [
             'content_id'=>0
         ]);
     }
 
     public function edit(Request $request, $id) {
 
-        return $this->view('product::admin.product.edit', [
+        return view('product::admin.product.edit', [
             'content_id'=>intval($id)
         ]);
     }

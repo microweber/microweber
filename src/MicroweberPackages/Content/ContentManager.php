@@ -2168,6 +2168,7 @@ class ContentManager
             }
         }
         if (!empty($ids)) {
+            $ids = array_filter($ids);
             $ids = array_unique($ids);
 
             return $ids;

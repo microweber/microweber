@@ -12,14 +12,14 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
     {
         $importFeeds = ImportFeed::get();
 
-        return view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
+        return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
     }
 
     public function exports()
     {
         $exportFeeds = ExportFeed::where('is_draft', 0)->get();
 
-        return view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
+        return $this->view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
     }
 
     public function importDelete($id)
@@ -35,7 +35,7 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 
     /*   public function import($id)
         {
-            return view('import_export_tool::admin.import', ['import_feed_id' => $id]);
+            return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
         }
 
         public function importWizard(Request $request)

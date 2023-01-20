@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -1288,9 +1289,17 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
+//            enable_blade
 
 
-            $l = mw()->template->add_csrf_token_meta_tags($l);
+            if(isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true){
+                $l =  app(StringBlade::class)->render($l);
+            }
+
+
+
+
+           // $l = mw()->template->add_csrf_token_meta_tags($l);
 
             $is_embed = app()->url_manager->param('embed');
 

@@ -1,8 +1,8 @@
 <?php
 
 
-$settings = get_module_option('settings', 'faq');
-//$settings = get_module_option('settings', $params['id']);
+//$settings = get_module_option('settings', 'faq');
+ $settings = get_module_option('settings', $params['id']);
 
 
 $defaults = array(

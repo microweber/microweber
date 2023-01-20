@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
+use MicroweberPackages\Admin\AdminRouteServiceProvider;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
@@ -91,6 +92,7 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
+use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 
@@ -228,8 +230,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
+        $this->app->register(ViewServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
+        $this->app->register(AdminServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
@@ -551,7 +555,7 @@ class AppServiceProvider extends ServiceProvider
             $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
         }
 
-        $this->app->register(AdminServiceProvider::class);
+        $this->app->register(AdminRouteServiceProvider::class);
 
         if (class_exists(\App\Providers\AppServiceProvider::class)) {
             app()->register(\App\Providers\AppServiceProvider::class);

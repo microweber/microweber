@@ -147,8 +147,8 @@ if (isset($params['for-content-id'])) {
                         </select>
                     </div>
                 <?php endif; ?>
-                <?php $selected_max_depth = get_option('data-max-depth', $params['id']); ?>
 
+                <?php $selected_max_depth = get_option('data-max-depth', $params['id']); ?>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Max depth"); ?></label>
                     <select name="data-max-depth" class="mw-ui-field mw_option_field mw-full-width"
@@ -159,6 +159,20 @@ if (isset($params['for-content-id'])) {
                         <?php endfor; ?>
                     </select>
                 </div>
+
+
+                <?php $only_products_in_stock = get_option('only-products-in-stock', $params['id']); ?>
+                <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label"><?php _e("Show only categories with products in-stock"); ?></label>
+                    <select name="only-products-in-stock" class="mw-ui-field mw_option_field mw-full-width"
+                            data-also-reload="<?php print  $config['the_module'] ?>">
+
+                        <option value="0">No</option>
+                        <option value="1" <?php if ($only_products_in_stock == 1): ?> selected="selected" <?php endif; ?>>Yes</option>
+
+                    </select>
+                </div>
+
             </div>
             <!-- Settings Content - End -->
         </div>

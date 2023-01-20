@@ -8,7 +8,7 @@ class ImportWizardController extends \MicroweberPackages\Admin\Http\Controllers\
 {
     public function index(Request $request)
     {
-        return view('import_export_tool::admin.render-livewire', [
+        return $this->view('import_export_tool::admin.render-livewire', [
             'component'=>'import_export_tool::import_wizard'
         ]);
     }

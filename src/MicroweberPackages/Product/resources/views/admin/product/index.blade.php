@@ -1,3 +1,6 @@
+@extends('admin::layouts.app')
+
+@section('content')
 <div class="pt-0">
 
     @include('content::admin.content.index-page-category-tree', [
@@ -13,3 +16,4 @@
 </div>
 
 @include('content::admin.content.index-scripts')
+@endsection

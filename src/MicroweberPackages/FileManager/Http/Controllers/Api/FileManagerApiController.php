@@ -82,6 +82,9 @@ class FileManagerApiController extends Controller {
 
                     $relativeDir = str_ireplace(media_base_path(), '', $dir);
 
+                    if(!is_dir($dir)){
+                        continue;
+                    }
                     $data[] = [
                         'type' => 'folder',
                         'mimeType' => mime_content_type($dir),
@@ -99,6 +102,9 @@ class FileManagerApiController extends Controller {
             foreach ($getData['files'] as $file) {
 
                 $thumbnail = false;
+                if(is_file(!$file)){
+                    continue;
+                }
 
                 $ext = strtolower(get_file_extension($file));
                 if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp') {
