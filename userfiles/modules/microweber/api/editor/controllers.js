@@ -1,6 +1,6 @@
 MWEditor.controllers = {
     alignLeft: function (scope, api, rootScope) {
-        var el
+        var el;
         this.render = function () {
             var scope = this;
             el = MWEditor.core.button({
@@ -327,8 +327,7 @@ MWEditor.controllers = {
                             url = [url];
                         }
                         api.restoreSelection();
-                        console.log(rootScope.activeNode)
-                        console.log(rootScope.activeNode)
+
                         if(rootScope.activeNode && rootScope.activeNode.nodeName === 'IMG') {
                             rootScope.activeNode.src = url[0].toString();
                         } else {
@@ -343,7 +342,8 @@ MWEditor.controllers = {
                 dialog = mw.top().dialog({
                     content: picker.root,
                     title: mw.lang('Select image'),
-                    footer: false
+                    footer: false,
+                    width: 740
                 });
 
             });
@@ -422,10 +422,13 @@ MWEditor.controllers = {
             var font = css.font();
             var size = font.size;
             opt.controller.element.displayValue(size);
+            opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
+            opt.controller.element.find('.mw-editor-dropdown-option.active').removeClass('active');
             rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
+                customValue: true,
                 data: [
                     { label: '8', value: 8 },
                     { label: '10', value: 10 },
@@ -450,32 +453,13 @@ MWEditor.controllers = {
             });
             dropdown.root.addClass('mw-editor-font-size-selector');
             dropdown.select.on('change', function (e, val) {
+
                 if(val) {
+
                     api.fontSize(val.value);
                 }
             });
             return dropdown.root;
-        };
-        this.element = this.render();
-    },
-    fontSize2: function (scope, api, rootScope) {
-        this.checkSelection = function (opt) {
-            var css = opt.css;
-            var font = css.font();
-            var size = font.size;
-            // opt.controller.element.val(size);
-
-        };
-        this.render = function () {
-            var dropdown = new MWEditor.core.capsulatedField({
-
-            });
-             dropdown.field.addEventListener('input', function (e, val) {
-
-                    api.fontSize(dropdown.getValue());
-
-            });
-            return dropdown.frame;
         };
         this.element = this.render();
     },
@@ -489,7 +473,6 @@ MWEditor.controllers = {
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
-                icon: 'format-line-spacing',
                 data: [
                     { label: 'normal', value: 'normal' },
                     { label: '14px', value:'14px' },
@@ -506,6 +489,9 @@ MWEditor.controllers = {
                     { label: '50px', value:'50px' },
                     { label: '55px', value:'55px' },
                     { label: '60px', value:'60px' },
+                    { label: '70px', value:'70px' },
+                    { label: '80px', value:'80px' },
+                    { label: '90px', value:'90px' },
                 ],
                 placeholder: rootScope.lang('Line height')
             });
@@ -625,7 +611,10 @@ MWEditor.controllers = {
             ];
             var dropdown = new MWEditor.core.dropdown({
                 data: defaultData,
-                placeholder: rootScope.lang('Font')
+                placeholder: rootScope.lang('Font'),
+                eachOption: function (obj, node){
+                    node.style.fontFamily = obj.value
+                }
             });
 
 
@@ -853,7 +842,20 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('unlink');
+                var sel = api.getSelection();
+                if(sel.isCollapsed) {
+                    var node = api.elementNode(sel.focusNode);
+                    node = mw.tools.firstParentOrCurrentWithTag(node, 'a');
+                    scope.api.action(node.parentNode, function () {
+                        while (node.firstChild) {
+                            node.parentNode.insertBefore(node.firstChild, node);
+                        }
+                        node.parentNode.removeChild(node);
+                    })
+                } else {
+                    api.execCommand('unlink');
+                }
+
             });
             return el;
         };
@@ -945,6 +947,7 @@ MWEditor.controllers = {
         this.element = this.render();
     },
     textColor: function (scope, api, rootScope) {
+
         this.render = function () {
             var el = MWEditor.core.colorPicker({
                 props: {

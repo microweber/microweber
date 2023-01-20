@@ -9,6 +9,10 @@
         border: 0;
         margin: 5px;
     }
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-wrapper-document-mode{
+        position: static;
+        transform: none;
+    }
     #mw-live-edit-editor{
         border-bottom: none ;
         background-color: transparent;
@@ -27,11 +31,7 @@
         z-index: 1001;
     }
 
-    @media(max-width: 1400px) {
-        .mw-small-editor.pinned{
-            top: 56px !important;
-        }
-    }
+
 
 
 
@@ -69,23 +69,30 @@
                element: holder,
                mode: 'document',
                regions: '.edit',
+               controls: [
+                   ['undoRedo',]
+               ],
                smallEditor:  [
                    [
 
-                       'undoRedo',
-                       'format',
-                       'bold',
-                       'italic',
                        {
                            group: {
-                               controller: 'underline',
-                               controls: [ 'strikeThrough']
+                               icon: 'mdi mdi-format-title',
+                               controls: ['format', 'fontSelector', 'lineHeight']
                            }
                        },
-                       'fontSelector',
+
+                       {
+                           group: {
+                               controller: 'bold',
+                               controls: [ 'italic', 'underline', 'strikeThrough', 'removeFormat']
+                           }
+                       },
+
+
                        'fontSize',
-                       'fontSize2',
-                       'lineHeight',
+
+
                        {
                            group: {
                                controller: 'alignLeft',
@@ -100,7 +107,7 @@
                            }
                        },
 
-                       'removeFormat',
+
                        'image',
                        {
                            group: {
@@ -131,7 +138,7 @@
                minHeight: 250,
                maxHeight: '70vh',
                state: mw.liveEditState,
-               controls: [],
+
                fontFamilyProvider: fontFamilyProvider
            });
 

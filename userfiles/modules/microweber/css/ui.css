@@ -8111,6 +8111,34 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component[data-tooltip]:after,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:after {
+  position: absolute;
+  content: attr(data-tooltip);
+  background: #505356;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 3px;
+  padding: 5px;
+  top: 86%;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: normal;
+  white-space: nowrap;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component[data-tooltip]:focus:after,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:focus:after {
+  opacity: 1;
+  margin-top: 0;
+  top: 100%;
+  transform: translateX(-50%) scale(1);
+}
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-row,
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-row {
   padding-inline: 5px;
@@ -8388,7 +8416,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   font-weight: bold;
   border-radius: 3px;
   padding: 5px;
-  bottom: 86%;
+  top: 86%;
   left: 50%;
   transform: translateX(-50%) scale(1);
   opacity: 0;
@@ -8405,7 +8433,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-table-manager .mw-editor-controller-component[data-tooltip]:focus:after {
   opacity: 1;
   margin-top: 0;
-  bottom: 100%;
+  top: 100%;
   transform: translateX(-50%) scale(1);
 }
 .mw-small-editor-skin-default .mw-editor-controller-button,
@@ -8636,6 +8664,18 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   width: 33.333%;
   border-width: 0;
   text-align: center;
+}
+.mw-editor-color-picker-dialog {
+  position: absolute;
+  display: none;
+  border-radius: 3px;
+  z-index: 1002;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  transform: translateX(-50%);
+}
+.mw-editor-controller-component {
+  display: inline-block;
 }
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;

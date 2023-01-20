@@ -7,24 +7,48 @@
 
             var defaults = {
                 width: '55px',
-                height: '25px'
+                height: '35px',
+                placeholder: '',
+                background: 'transparent',
+                color: '#333',
+                css: ''
             };
 
             if(!options) {
                 options = {};
             }
 
+
             this.settings = Object.assign({}, defaults, options);
+            var css
+            if(this.settings.css) {
+                css = document.createElement('style');
+                css.type = 'text/css';
+                css.innerHTML = 'input{' + this.settings.css + '}';
+            }
+
+
+
+
 
             var scope = this;
             this.frame = document.createElement('iframe');
             this.field = document.createElement('input');
+            this.field.placeholder = this.settings.placeholder;
+
 
             this.frame.style.width = this.settings.width;
             this.frame.style.height = this.settings.height;
+            this.frame.style.overflow = 'hidden';
+            this.frame.style.background = 'transparent';
 
             this.field.style.width = this.settings.width;
             this.field.style.height = this.settings.height;
+
+            this.field.style.outline = this.settings.outline || 'none';
+            this.field.style.border = this.settings.border || 'none';
+            this.field.style.background = this.settings.background;
+            this.field.style.color = this.settings.color;
 
             scope.frame.tabIndex = -1;
             scope.frame.frameborder = 0;
@@ -38,10 +62,17 @@
 
             scope.frame.addEventListener('load', function (){
                 scope.frame.contentDocument.body.appendChild(scope.field);
+                if(css) {
+                    scope.frame.contentDocument.body.appendChild(css);
+                }
                 scope.frame.contentDocument.body.style.margin = 0;
                 scope.frame.contentDocument.body.style.padding = 0;
+                scope.frame.contentDocument.body.style.overflow = 'hidden';
+                scope.frame.contentDocument.body.style.background = 'transparent';
                 scope.frame.contentDocument.documentElement.style.margin = 0;
                 scope.frame.contentDocument.documentElement.style.padding = 0;
+                scope.frame.contentDocument.documentElement.style.overflow = 'hidden';
+                scope.frame.contentDocument.documentElement.style.background = 'transparent';
             });
 
         },
@@ -62,6 +93,7 @@
             return mw.element(settings);
         },
         colorPicker: function(config) {
+
             config = config || {};
             var defaults = {
                 props: {
@@ -69,18 +101,84 @@
                 }
             };
             var settings = $.extend(true, {}, defaults, config);
+            var _opt = new Option();
+            var isColor = function(strColor)  {
+                _opt.style.color = strColor;
+                return _opt.style.color !== '';
+            };
 
             var el = MWEditor.core.button(settings);
-            el.addClass('mw-editor-color-picker');
-            mw.colorPicker({
-                element: el.get(0),
-                position: 'bottom-center',
-                onchange: function (color) {
 
+
+            el.addClass('mw-editor-color-picker');
+
+
+            var tip = mw.element({
+                props: {
+                    className: 'mw-editor-color-picker-dialog'
+                }
+            });
+            mw.element(document.body).append(tip).on('mousedown touchstart', function (e) {
+                if(!el.get(0).contains(e.target) && !tip.get(0).contains(e.target)){
+                    tip.hide()
+                }
+            });
+
+            el.on('click', function (e){
+                var off = el.offset();
+                tip.css({
+                    top: off.offsetTop + off.height,
+                    left: off.offsetLeft,
+
+                }).toggle();
+            });
+
+
+            var cf = new MWEditor.core.capsulatedField({
+                placeholder: '#efecec',
+                width: '100%',
+                color: 'white',
+                css: 'text-align: center;'
+            });
+
+            var _pauseSetValue = false;
+
+           var picker = mw.colorPicker({
+                element: tip.get(0),
+                // position: 'bottom-center',
+                method: 'inline',
+                showHEX: false,
+                onchange: function (color) {
                     el.trigger('change', color);
+                    if(!_pauseSetValue) {
+                        cf.field.value = color;
+                    }
+
                 },
 
             });
+
+
+
+
+
+           mw.element('.a-color-picker-row.a-color-picker-palette', tip.get(0)).before(cf.frame);
+
+            cf.field.addEventListener('input', function (e){
+                e.stopPropagation();
+                if(isColor(this.value)) {
+                    _pauseSetValue = true;
+                    picker.setColor(this.value);
+                    _pauseSetValue = false;
+                }
+            });
+
+            cf.field.addEventListener('mousedown', function (e){
+                e.stopPropagation();
+            })
+
+
+
 
             return el;
         },
@@ -99,18 +197,26 @@
             return el;
         },
 
-        _dropdownOption: function (data) {
+        _dropdownOption: function (data, eachOption) {
             // data: { label: string, value: any },
             var option = MWEditor.core.element({
                 props: {
                     className: 'mw-editor-dropdown-option',
-                    innerHTML: data.label
+                    innerHTML: data.label,
+                    dataset: {
+                        value: data.value,
+                        label: encodeURIComponent(data.label),
+                    }
                 }
             });
             option.on('mousedown touchstart', function (e) {
                 e.preventDefault();
             });
             option.value = data.value;
+
+            if(eachOption) {
+                eachOption.call(option, data, option.get(0))
+            }
             return option;
         },
         dropdown: function (options) {
@@ -138,14 +244,42 @@
                 }
             }, 500);
 
+            var displayValNode, displayValObj;
+
+            if(options.customValue) {
+                displayValObj = new MWEditor.core.capsulatedField({
+                    props: {
+                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
+                        innerHTML: options.placeholder || ''
+                    }
+                });
 
 
-            var displayValNode = MWEditor.core.button({
-                props: {
-                    className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                    innerHTML: options.placeholder || ''
-                }
-            });
+
+
+                displayValObj.field.addEventListener('input', function (){
+                    lscope._pauseDisplayValue = true;
+                    lscope.select.trigger('change', { label: this.value, value: this.value });
+                    setTimeout(function (){
+                        lscope._pauseDisplayValue = false;
+                    }, 78);
+                });
+                displayValNode = MWEditor.core.button({
+                    props: {
+                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
+                        // innerHTML: options.placeholder || ''
+                    }
+                });
+                displayValNode.append(displayValObj.frame);
+
+            } else {
+                displayValNode = MWEditor.core.button({
+                    props: {
+                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
+                        innerHTML: options.placeholder || ''
+                    }
+                });
+            }
 
             var valueHolder = MWEditor.core.element({
                 props: {
@@ -158,41 +292,44 @@
                 this.value(val.value);
             };
 
+            this._pauseDisplayValue = false;
             this.root.displayValue = function (val) {
-                displayValNode.text(val || options.placeholder || '');
+                if( !lscope._pauseDisplayValue) {
+                    if(options.customValue) {
+                        displayValObj.field.value = (val || options.placeholder || '');
+                    } else {
+                        displayValNode.text(val || options.placeholder || '');
+                    }
+                }
+
             };
 
             this.setData = function (data){
                 this.select.valueHolder.empty();
-
                 for (var i = 0; i < data.length; i++) {
-                    var dt = data[i];
                     (function (dt){
-                        var opt = MWEditor.core._dropdownOption(dt);
+                        var opt = MWEditor.core._dropdownOption(dt, options.eachOption);
                         opt.on('click', function (){
                             lscope.select.trigger('change', dt);
                         });
                         valueHolder.append(opt);
-                    })(dt);
-
+                    })(data[i]);
                 }
-            }
+            };
 
             this.select.append(displayValNode);
             this.select.append(valueHolder);
             this.select.valueHolder = valueHolder;
 
-            this.setData(options.data)
-
-
+            this.setData(options.data);
 
             var curr = lscope.select.get(0);
-            this.select.on('click', function (e) {
-                e.stopPropagation();
-                var wrapper = mw.tools.firstParentWithClass(this, 'mw-editor-wrapper');
+            var _handleClick = function (_this){
+
+                var wrapper = mw.tools.firstParentWithClass(_this, 'mw-editor-wrapper');
                 if (wrapper) {
                     var edOff = wrapper.getBoundingClientRect();
-                    var selOff = this.getBoundingClientRect();
+                    var selOff = _this.getBoundingClientRect();
                     lscope.select.valueHolder.css({
                         maxHeight: edOff.height - (selOff.top - edOff.top)
                     });
@@ -203,8 +340,17 @@
                         this.classList.remove('active');
                     }
                 });
-                mw.element(this).toggleClass('active');
+                mw.element(_this).toggleClass('active');
+            };
+            this.select.on('click', function (e) {
+                e.stopPropagation();
+                _handleClick(this);
             });
+            if(options.customValue) {
+                displayValObj.field.addEventListener('focus', function (){
+                    _handleClick(displayValObj.frame.parentNode);
+                });
+            }
             this.root.append(this.select);
         },
         _preSelect: function (node) {

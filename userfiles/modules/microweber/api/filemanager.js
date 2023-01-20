@@ -159,7 +159,7 @@
                 {title: 'Create folder', method: 'createFolder' },
             ],
             url: mw.settings.site_url + 'api/file-manager/list',
-            viewType: 'list' // 'list' | 'grid'
+            viewType: 'grid' // 'list' | 'grid'
         };
 
         var _e = {};
@@ -967,8 +967,9 @@
                 size: 'small',
                 placeholder: mw.lang('Display'),
                 data: [
-                    {title: mw.lang('List'), value: 'list'},
                     {title: mw.lang('Grid'), value: 'grid'},
+                    {title: mw.lang('List'), value: 'list'},
+
                 ]
             });
 

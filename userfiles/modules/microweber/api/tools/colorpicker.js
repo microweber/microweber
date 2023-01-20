@@ -17,6 +17,7 @@
 
     mw._colorPicker = function (options) {
         mw.lib.require('colorpicker');
+
         if (!mw.tools.colorPickerColors) {
             mw.tools.colorPickerColors = [];
 
@@ -95,6 +96,9 @@
             sett.showHSL = settings.showHSL
         }
         var frame;
+        this.setColor = function (color) {
+            frame.setColor(color)
+        };
         if (settings.method === 'inline') {
 
             sett.attachTo = $el[0];

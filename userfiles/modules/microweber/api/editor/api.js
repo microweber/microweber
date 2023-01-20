@@ -422,10 +422,32 @@ mw.lib.require('xss');
                         }
                     }
                 }
-cl()
+                cl()
                 scope.api.restoreSelection();
             },
             cssApplier: function (css) {
+                var styles = '';
+                if (typeof css === 'object') {
+                    for (var i in css) {
+                        styles += (i + ':' + css[i] + ';');
+                    }
+                } else if(typeof css === 'string') {
+                    styles = css;
+                }
+                rangy.init();
+                var clstemp = 'mw-font-size-' + mw.random();
+                var classApplier = rangy.createCssClassApplier("mw-richtext-cssApplier " + clstemp, true);
+                classApplier.applyToSelection();
+
+                var all = document.querySelectorAll('.' + clstemp),
+                    l = all.length,
+                    i = 0;
+                for ( ; i < l; i++ ) {
+                    all[i].setAttribute('style', styles);
+                    mw.tools.removeClass(all[i], clstemp);
+                }
+            },
+            cssApplier2: function (css) {
                 var styles = '';
                 if (typeof css === 'object') {
                     for (var i in css) {
@@ -531,6 +553,15 @@ cl()
 
             },
             fontSize: function (size) {
+                var unit = 'px';
+                if(typeof size === 'string') {
+                    var units =  ['px', '%', 'in', 'cm', 'mm', 'rem', 'em', 'ex', 'pt', 'pc','ex','ch','rem','lh','rlh','vw','vh','vmin','vmax','vb','vi','svw', 'svh','lvw', 'lvh','dvw', 'dvh']
+                    unit = size.replace(/[^A-Za-z]/g, '').trim().toLowerCase() || 'px';
+                    if(units.indexOf(unit) === -1) {
+                        unit = 'px';
+                    }
+                    size = parseFloat(size.replace( /^\D+/g, ''));
+                }
                 var sel = scope.getSelection();
                 if (sel.isCollapsed) {
                    /* scope.api.selectAll(scope.api.elementNode(sel.focusNode));
@@ -538,7 +569,7 @@ cl()
 
                     var node = scope.api.elementNode(sel.focusNode);
                     scope.api.action(node.parentNode, function () {
-                        node.style.fontSize = size + 'px';
+                        node.style.fontSize = size + unit;
                     });
 
 
@@ -548,7 +579,7 @@ cl()
                     common = scope.api.elementNode(range.commonAncestorContainer);
                 var nodrop_state = mw.tools.parentsOrCurrentOrderMatchOrOnlyFirstOrNone(common, ['allow-drop', 'nodrop']);
                 if (scope.api.isSelectionEditable() && nodrop_state) {
-                    scope.api._fontSize(size, 'px');
+                    scope.api._fontSize(size, unit);
                 }
             },
             saveSelection: function () {
