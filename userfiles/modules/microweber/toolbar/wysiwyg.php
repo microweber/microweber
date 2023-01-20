@@ -78,7 +78,7 @@
                        {
                            group: {
                                icon: 'mdi mdi-format-title',
-                               controls: ['format', 'fontSelector', 'lineHeight']
+                               controls: ['format', 'lineHeight']
                            }
                        },
 
@@ -88,7 +88,7 @@
                                controls: [ 'italic', 'underline', 'strikeThrough', 'removeFormat']
                            }
                        },
-
+                       'fontSelector',
 
                        'fontSize',
 

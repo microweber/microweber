@@ -8227,7 +8227,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-button svg,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button svg {
-  width: 1.4em;
+  width: 24px;
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group.active,
 .mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group.active,
@@ -8576,6 +8576,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon {
   vertical-align: middle;
+  font-size: 20px;
+  color: #2b2b2b;
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-icon svg {
   width: 20px;
@@ -8645,14 +8647,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   visibility: visible;
 }
 .mw-editor-controller-component-select .mw-editor-dropdown-option {
-  padding: 6px 10px;
+  padding: 10px 10px;
   transition: 0.3s;
 }
 .mw-editor-controller-component-select .mw-editor-dropdown-option:hover {
   background-color: #f7f7f7;
-}
-.mw-editor-controller-component-select .mw-editor-dropdown-option + .mw-editor-dropdown-option {
-  border-top: 1px solid #ccc;
 }
 .mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder {
   display: flex;
