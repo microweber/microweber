@@ -1,4 +1,6 @@
 <?php
+
+
 api_expose_admin('get_category_by_id');
 api_expose_admin('get_categories');
 
@@ -42,6 +44,7 @@ function get_categories($data)
 
 function save_category($data)
 {
+    // return app()->category_repository->save($data);
     return app()->category_manager->save($data);
 }
 

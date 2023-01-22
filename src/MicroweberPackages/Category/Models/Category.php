@@ -60,6 +60,7 @@ class Category extends Model
         "url",
         "users_can_create_content",
         "category_subtype",
+        "category_subtype_settings",
         "category_meta_title",
         "category_meta_description",
         "is_hidden",
@@ -67,6 +68,10 @@ class Category extends Model
         "is_deleted",
         "is_hidden",
         "category_meta_keywords"
+    ];
+
+    public $casts = [
+        'category_subtype_settings'=>'array'
     ];
 
     protected $searchable = [

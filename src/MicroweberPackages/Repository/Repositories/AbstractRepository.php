@@ -619,6 +619,39 @@ abstract class AbstractRepository
 
         return false;
     }
+    /**
+     *
+     * @param array $attributes
+     *
+     * @return int|bool
+     */
+    public function save($data)
+    {
+        $updateOrCreate = 'create';
+
+        if ($data and isset($data['id']) and $data['id'] == 0) {
+            unset($data['id']);
+        }
+
+        if ($data and isset($data['id']) and $data['id'] != 0) {
+            $entity = $this->findById($data['id']);
+
+            if ($entity) {
+                $updateOrCreate = 'update';
+            }
+        }
+
+        if ($updateOrCreate == 'create') {
+            $result = $this->create($data);
+        } else {
+            $result = $this->update($entity, $data);
+        }
+
+        if ($result and isset($result->id) and $result->id > 0) {
+            return $result->id;
+        }
+        return false;
+    }
 
     /**
      * Update an entity with the given attributes and persist it
@@ -633,7 +666,7 @@ abstract class AbstractRepository
         if ($entity->update($attributes)) {
             $this->clearCache();
 
-            return true;
+            return $entity;
         }
 
         return false;
@@ -1352,11 +1385,14 @@ abstract class AbstractRepository
             }
 
             $table = $this->getModel()->getTable();
-            $getItemById = \DB::table($table)->where('id', $id)->first();
+            //$getItemById = \DB::table($table)->where('id', $id)->first();
+            $getItemById = $this->getModel()->query()->where('id', $id)->first();
+
 
             if ($getItemById) {
 
-                $getItemById = (array)$getItemById;
+              //  $getItemById = (array)collection_to_array($getItemById);
+                $getItemById = $getItemById->toArray();
 
                 // hook
                 $hookParams = [];

@@ -8,6 +8,19 @@ trait  MaxPositionTrait
     public function updateMaxPositionFieldOnModel()
     {
         $maxPosition = 0;
+        if(isset($this->position)){
+            //do nothing
+            return $this;
+        }
+        if (isset($this->id) and $this->id) {
+
+            $wasCreated = $this->wasRecentlyCreated;
+            if (!$wasCreated) {
+                // do nothing on existing ids
+                return $this;
+            }
+        }
+
 
         if (!isset($this->position) && isset($this->rel_id) && isset($this->rel_type)) {
 

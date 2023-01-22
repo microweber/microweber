@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Category\tests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\User\Models\User;
 
 
 class ContentTestModelForCategories extends Model
@@ -30,7 +32,7 @@ class CategoryTest extends TestCase
     private function _assertCategoryRecursive($categoryTreeRendered, $array, $parentId = 0)
     {
         if (is_array($array)) {
-            foreach ($array as $categoryName=>$categoryChildren) {
+            foreach ($array as $categoryName => $categoryChildren) {
 
                 $this->assertTrue(str_contains($categoryTreeRendered, $categoryName));
 
@@ -40,6 +42,7 @@ class CategoryTest extends TestCase
             }
         }
     }
+
     public function testRecusriveRender()
     {
 
@@ -49,7 +52,7 @@ class CategoryTest extends TestCase
 
 
         $categoryLink = category_link(0);
-         $this->assertFalse($categoryLink);
+        $this->assertFalse($categoryLink);
 
         Content::truncate();
         Category::truncate();
@@ -111,12 +114,11 @@ class CategoryTest extends TestCase
         $this->assertEquals($findCategoryProperties->parent_id, $mainCategoryId);
         $this->assertEquals($findCategoryProperties->is_active, 1);
 
-        $categoryTreeRendered = category_tree(['return_data'=>true]);
+        $categoryTreeRendered = category_tree(['return_data' => true]);
         foreach ($categoriesToSave as $categoryTreePlain) {
             $categoriesToSave = app()->format->stringToTree($categoryTreePlain);
             $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);
         }
-
 
 
     }
@@ -131,7 +133,7 @@ class CategoryTest extends TestCase
         $categoryLink = category_link(0);
         $this->assertFalse($categoryLink);
 
-        $pageTitle = 'my-new-page-'.uniqid();
+        $pageTitle = 'my-new-page-' . uniqid();
         $page = new Page();
         $page->title = $pageTitle;
         $page->content_type = 'page';
@@ -155,7 +157,7 @@ class CategoryTest extends TestCase
         $categoryTitle = category_title($mainCategory->id);
         $this->assertEquals($mainCategory->title, $categoryTitle);
 
-        $postTitle = 'my-new-post-'.uniqid();
+        $postTitle = 'my-new-post-' . uniqid();
         $post = new Post();
         $post->title = $postTitle;
         $post->content_type = 'post';
@@ -181,8 +183,8 @@ class CategoryTest extends TestCase
         $options['return_data'] = 1;
         $categoryTree = category_tree($options);
 
-        $this->assertTrue(str_contains($categoryTree,'data-category-id'));
-        $this->assertTrue(str_contains($categoryTree,$mainCategory->title));
+        $this->assertTrue(str_contains($categoryTree, 'data-category-id'));
+        $this->assertTrue(str_contains($categoryTree, $mainCategory->title));
 
 
         $categoryItemsTestGetFalse = get_category_items(99999);
@@ -194,8 +196,8 @@ class CategoryTest extends TestCase
         $categoryItemsTestGet = get_category_items(false, 'content', $post->id);
         $this->assertEquals(2, count($categoryItemsTestGet));
 
-        $categoryItemsTestGet2 =app()->category_repository->getItems(false, 'content', $post->id);
-        $this->assertEquals($categoryItemsTestGet,$categoryItemsTestGet2);
+        $categoryItemsTestGet2 = app()->category_repository->getItems(false, 'content', $post->id);
+        $this->assertEquals($categoryItemsTestGet, $categoryItemsTestGet2);
 
         $this->assertIsArray($categoryItemsTestGet);
         $this->assertNotEmpty($categoryItemsTestGet);
@@ -218,12 +220,11 @@ class CategoryTest extends TestCase
         $this->assertTrue($foundSubCat);
 
 
-
     }
 
     public function testAddcategoriesToModel()
     {
-        $title = 'New cat for my custom model'.uniqid();
+        $title = 'New cat for my custom model' . uniqid();
 
         $category = new Category();
         $category->title = $title;
@@ -236,8 +237,115 @@ class CategoryTest extends TestCase
 
         $cat = $newPage->categories->first();
 
-        $this->assertNotEmpty($cat );
-        $this->assertEquals($cat->parent->title,$title );
+        $this->assertNotEmpty($cat);
+        $this->assertEquals($cat->parent->title, $title);
+
+    }
+
+    public function testCategoriesSameSlug()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+
+        $title = 'New cat for my slug test ' . uniqid();
+        $title2 = 'New cat for my slug 2 ' . uniqid();
+        $title3 = 'New cat for my slug 3 ' . uniqid();
+        $slug = str_slug($title);
+        $slug2 = str_slug($title2);
+        $slug3 = str_slug($title3);
+
+        $save = [];
+        $save['title'] = $title;
+        $save['url'] = $slug;
+
+        //   $save1Id = save_category($save );
+        $save1Id = app()->category_repository->save($save);
+        $save1Get = get_category_by_id($save1Id);
+
+        $this->assertNotNull($save1Get['updated_at']);
+        $this->assertNotNull($save1Get['created_at']);
+        $this->assertNotNull($save1Get['created_by']);
+        $this->assertNotNull($save1Get['edited_by']);
+        $this->assertNotNull($save1Get['title']);
+        $this->assertNotNull($save1Get['url']);
+        $this->assertEquals($save1Get['is_active'], 1);
+        $this->assertEquals($save1Get['is_deleted'], 0);
+        $this->assertEquals($save1Get['is_hidden'], 0);
+
+
+        $this->assertTrue(is_int($save1Id));
+
+        $save = [];
+        $save['id'] = $save1Id;
+        $save['url'] = $slug2;
+        // $save2Id = save_category($save );
+        $save2Id = app()->category_repository->save($save);
+        $save2Get = get_category_by_id($save2Id);
+
+
+        $this->assertEquals($save1Id, $save2Id);
+        $this->assertEquals($save1Get["position"], $save2Get["position"]);
+        $this->assertNotEquals($save1Get["url"], $save2Get["url"]);
+
+        $save = [];
+        $save['title'] = $title;
+        $save['url'] = $slug2;
+        $save3 = app()->category_repository->save($save);
+        $save3Get = get_category_by_id($save3);
+
+        $this->assertNotEquals($save3Get["url"], $save2Get["url"]);
+        $this->assertNotEquals($save3Get["position"], $save2Get["position"]);
+
+
+        // test if category_subtype_settings is saved as array
+        $save = [];
+        $save['title'] = $title3;
+        $save['url'] = $slug3;
+        $save['category_subtype_settings'] = ['test' => 'test'];
+        $save4 = app()->category_repository->save($save);
+        $save4Get = get_category_by_id($save4);
+        $this->assertIsArray($save4Get['category_subtype_settings']);
+        $this->assertEquals($save4Get['category_subtype_settings']['test'], 'test');
+
+
+    }
+
+    public function testCategoriesSameItemsIfSamePostIsSavedTwice()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+
+        $save = [];
+        $save['title'] = 'testCategoriesSameRelIdsIfSamePost-test';
+        $savedId = app()->category_repository->save($save);
+
+        $save = [];
+        $save['title'] = 'testCategoriesSameRelIdsIfSamePost-test2';
+        $savedId2 = app()->category_repository->save($save);
+
+        $unique = uniqid('testSaveContentOnPage');
+        $testPostData = [
+            'subtype' => 'post',
+            'content_type' => 'post',
+            'title' => 'testCategoriesSameRelIdsIfSamePost' . $unique,
+            'category_ids' => [$savedId,$savedId2],
+
+        ];
+        $newPostInCategoriesId = save_content($testPostData);
+
+        $catItems = get_category_items($savedId);
+
+        $testPostData['id'] = $newPostInCategoriesId;
+
+        // save again and check if the items array is the same as before
+        $newPostInCategoriesId2 = save_content($testPostData);
+
+        $catItems2 = get_category_items($savedId);
+        $this->assertEquals( $catItems,$catItems2);
+        $this->assertEquals(  $newPostInCategoriesId,$newPostInCategoriesId2);
+
 
     }
 
