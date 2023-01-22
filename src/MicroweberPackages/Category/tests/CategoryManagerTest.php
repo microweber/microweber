@@ -118,11 +118,11 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($content_data['qty'],1);
 
 
-        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
         $this->assertEquals($check,1);
 
 
-        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $check  = app()->category_repository->getItemsCount($category->id);
         $this->assertEquals($check,1);
 
 
@@ -130,10 +130,10 @@ class CategoryManagerTest extends TestCase
         $newProduct->is_active = 0;
         $newProduct->save();
 
-        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
         $this->assertEquals($check,0);
 
-        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $check  = app()->category_repository->getItemsCount($category->id);
         $this->assertEquals($check,0);
 
 
@@ -143,10 +143,10 @@ class CategoryManagerTest extends TestCase
         $newProduct->is_deleted = 1;
         $newProduct->save();
 
-        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
         $this->assertEquals($check,0);
 
-        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $check  = app()->category_repository->getItemsCount($category->id);
         $this->assertEquals($check,0);
 
         //make deleted, and unpublished
@@ -154,10 +154,10 @@ class CategoryManagerTest extends TestCase
         $newProduct->is_deleted = 0;
         $newProduct->save();
 
-        $check  = app()->category_repository->getCategoryProductsInStockCount($category->id);
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
         $this->assertEquals($check,0);
 
-        $check  = app()->category_repository->getCategoryContentItemsCount($category->id);
+        $check  = app()->category_repository->getItemsCount($category->id);
         $this->assertEquals($check,0);
 
 

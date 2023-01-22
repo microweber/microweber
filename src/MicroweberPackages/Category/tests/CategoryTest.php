@@ -146,6 +146,12 @@ class CategoryTest extends TestCase
         $mainCategory->title = 'Category level 1' . uniqid();
         $mainCategory->save();
 
+        $subCategory = new Category();
+        $subCategory->parent_id = $mainCategory->id;
+        $subCategory->title = 'Category level 2' . uniqid();
+        $subCategory->save();
+
+
         $categoryTitle = category_title($mainCategory->id);
         $this->assertEquals($mainCategory->title, $categoryTitle);
 
@@ -154,7 +160,7 @@ class CategoryTest extends TestCase
         $post->title = $postTitle;
         $post->content_type = 'post';
         $post->url = $postTitle;
-        $post->category_ids = $mainCategory->id;
+        $post->category_ids = [$mainCategory->id, $subCategory->id];
         $post->save();
 
         $categoryItems = get_category_items($mainCategory->id);
@@ -177,6 +183,40 @@ class CategoryTest extends TestCase
 
         $this->assertTrue(str_contains($categoryTree,'data-category-id'));
         $this->assertTrue(str_contains($categoryTree,$mainCategory->title));
+
+
+        $categoryItemsTestGetFalse = get_category_items(99999);
+        $this->assertFalse($categoryItemsTestGetFalse);
+
+
+        $foundCat = false;
+        $foundSubCat = false;
+        $categoryItemsTestGet = get_category_items(false, 'content', $post->id);
+        $this->assertEquals(2, count($categoryItemsTestGet));
+
+        $categoryItemsTestGet2 =app()->category_repository->getItems(false, 'content', $post->id);
+        $this->assertEquals($categoryItemsTestGet,$categoryItemsTestGet2);
+
+        $this->assertIsArray($categoryItemsTestGet);
+        $this->assertNotEmpty($categoryItemsTestGet);
+        foreach ($categoryItemsTestGet as $item) {
+            $this->assertIsArray($item);
+            $this->assertArrayHasKey('parent_id', $item);
+            $this->assertArrayHasKey('rel_id', $item);
+            $this->assertArrayHasKey('rel_type', $item);
+            $this->assertEquals($item['rel_id'], $post->id);
+
+            if ($item['parent_id'] == $mainCategory->id) {
+                $foundCat = true;
+            }
+            if ($item['parent_id'] == $subCategory->id) {
+                $foundSubCat = true;
+            }
+
+        }
+        $this->assertTrue($foundCat);
+        $this->assertTrue($foundSubCat);
+
 
 
     }

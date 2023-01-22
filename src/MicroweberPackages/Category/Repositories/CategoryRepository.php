@@ -91,14 +91,14 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $getCategory = \DB::table('categories')->where('data_type', 'category')->where('parent_id',0);
+            $getCategory = \DB::table('categories')->where('data_type', 'category')->where('parent_id', 0);
             $getCategory = $getCategory->get();
 
             if ($getCategory != null) {
 
                 $getCategory = collect($getCategory)->map(function ($item) {
 
-                    $item->childs = $this->getCategoryChildsTree($item->id);
+                    $item->childs = $this->getChildsTree($item->id);
 
                     return (array)$item;
                 })->toArray();
@@ -110,7 +110,7 @@ class CategoryRepository extends AbstractRepository
         });
     }
 
-    public function getCategoryChildsTree($categoryId)
+    public function getChildsTree($categoryId)
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
 
@@ -128,7 +128,7 @@ class CategoryRepository extends AbstractRepository
 
                 $getCategory = collect($getCategory)->map(function ($item) {
 
-                    $item->childs = $this->getCategoryChildsTree($item->id);
+                    $item->childs = $this->getChildsTree($item->id);
 
                     return (array)$item;
                 })->toArray();
@@ -190,12 +190,12 @@ class CategoryRepository extends AbstractRepository
     public function hasProductsInStock($categoryId)
     {
 
-        $count = $this->getCategoryProductsInStockCount($categoryId);
+        $count = $this->getProductsInStockCount($categoryId);
         if ($count > 0) {
             return true;
         }
 
-        $getChildrens = $this->getCategoryChildsTree($categoryId);
+        $getChildrens = $this->getChildsTree($categoryId);
 
         $productsInStock = $this->_checkProductsInStockRecursive($getChildrens);
         if ($productsInStock) {
@@ -209,7 +209,7 @@ class CategoryRepository extends AbstractRepository
     {
         if (!empty($categories)) {
             foreach ($categories as $category) {
-                $count = $this->getCategoryProductsInStockCount($category['id']);
+                $count = $this->getProductsInStockCount($category['id']);
                 if ($count > 0) {
                     return true;
                 }
@@ -220,7 +220,7 @@ class CategoryRepository extends AbstractRepository
         }
     }
 
-    public function getCategoryItemsCountAll()
+    public function getItemsCountAll()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
@@ -238,7 +238,7 @@ class CategoryRepository extends AbstractRepository
 
     }
 
-    public function getCategoryItemsInStockCountAll()
+    public function getItemsInStockCountAll()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
@@ -261,9 +261,9 @@ class CategoryRepository extends AbstractRepository
 
     }
 
-    public function getCategoryContentItemsCount($categoryId)
+    public function getItemsCount($categoryId)
     {
-        $categoryItemsCountGroupedByRelType = $this->getCategoryItemsCountAll();
+        $categoryItemsCountGroupedByRelType = $this->getItemsCountAll();
 
         if (isset($categoryItemsCountGroupedByRelType) and isset($categoryItemsCountGroupedByRelType[$categoryId])) {
             return $categoryItemsCountGroupedByRelType[$categoryId];
@@ -272,17 +272,40 @@ class CategoryRepository extends AbstractRepository
         return 0;
     }
 
-    public function getCategoryProductsInStockCount($categoryId)
+
+    public function getProductsInStockCount($categoryId)
     {
-        $categoryItemsCountGroupedByRelType = $this->getCategoryItemsInStockCountAll();
+        $categoryItemsCountGroupedByRelType = $this->getItemsInStockCountAll();
 
         if (isset($categoryItemsCountGroupedByRelType) and isset($categoryItemsCountGroupedByRelType[$categoryId])) {
             return $categoryItemsCountGroupedByRelType[$categoryId];
         }
 
         return 0;
-     }
+    }
 
+    public function getItems($categoryId, $relType = 'content', $relId = false)
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId, $relType, $relId) {
+            $model = (new CategoryItem())->newQuery();
+            if ($categoryId) {
+                $model->where('parent_id', $categoryId);
+            }
+            if ($relType) {
+                $model->where('rel_type', $relType);
+            }
+            if ($relId) {
+                $model->where('rel_id', $relId);
+            }
+            $data = $model->get();
+
+            if ($data and $data->count() > 0) {
+                return $data->toArray();
+            } else {
+                return false;
+            }
+        });
+    }
 
     private function getCategoryItemsCountQueryBuilder()
     {
@@ -294,7 +317,7 @@ class CategoryRepository extends AbstractRepository
                 ->where('content.is_deleted', '=', 0)
                 ->where('content.is_active', '=', 1);
         })
-            ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `'.$realTableName.'`.`id` ) as count')])
+            ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `' . $realTableName . '`.`id` ) as count')])
             ->where('categories_items.rel_type', 'content')
             ->groupBy('categories_items.parent_id');
 

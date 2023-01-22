@@ -156,12 +156,19 @@ function category_tree($params = false)
     return app()->category_manager->tree($params);
 }
 
-function get_category_items($category_id)
+/**
+ * @param $category_id int|bool
+ * @param $rel_type string
+ * @param $relId int|bool
+ * @return array|false
+ */
+function get_category_items($category_id, $rel_type = 'content', $relId = false)
 {
-    return app()->category_manager->get_items('parent_id=' . intval($category_id));
+          return app()->category_repository->getItems($category_id,$rel_type,$relId);
+ //   return app()->category_manager->get_items('parent_id=' . intval($category_id));
 }
 
-function get_category_items_count($category_id, $rel_type = false)
+function get_category_items_count($category_id)
 {
-    return app()->category_manager->get_items_count($category_id, $rel_type);
+    return app()->category_repository->getItemsCount($category_id);
 }
