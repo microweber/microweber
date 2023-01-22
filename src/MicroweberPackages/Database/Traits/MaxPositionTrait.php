@@ -29,10 +29,10 @@ trait  MaxPositionTrait
                 ['rel_type', '=', $this->rel_type]
             ])->max('position');
 
-            $maxPosition = $position + 1;
+            $maxPosition = intval($position) + 1;
         } else {
             $position = get_class($this)::query()->max('position');
-            $maxPosition = $position + 1;
+            $maxPosition = intval($position) + 1;
         }
 
         $this->position = $maxPosition;
