@@ -1293,7 +1293,7 @@ class FrontendController extends Controller
 
 
             if(isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true){
-                $l =  app(StringBlade::class)->render($l);
+                $l =  app(StringBlade::class)->render($l, ['data' => $page]);
             }
 
 
