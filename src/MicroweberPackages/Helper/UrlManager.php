@@ -10,6 +10,7 @@ if (!defined('MW_ROOTPATH')) {
 }
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use MicroweberPackages\Helper\URLify;
 
 class UrlManager
@@ -471,19 +472,25 @@ class UrlManager
 
     public function slug($text)
     {
-        // Swap out Non "Letters" with a -
+//        // Swap out Non "Letters" with a -
         $text = str_replace('&quot;', '-', $text);
         $text = str_replace('&#039;', '-', $text);
         $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
         // Trim out extra -'s
-        $text = trim($text, '-');
+       // $text = trim($text, '-');
         $text = str_replace('""', '-', $text);
         $text = str_replace("'", '-', $text);
+//        // Strip out anything we haven't been able to convert
+     //   $text = preg_replace('/[^-\w]+/', '', $text);
+       $text = str_replace(':', '-', $text);
+       //  $text = URLify::filter($text);
+       // $text = Str::slug($text,'-');
 
-        $text = URLify::filter($text);
-        // Strip out anything we haven't been able to convert
-        $text = preg_replace('/[^-\w]+/', '', $text);
-        $text = str_replace(':', '-', $text);
+        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+        // trim
+        $text = trim($text, '-');
 
         return $text;
     }

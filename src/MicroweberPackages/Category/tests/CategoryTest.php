@@ -311,6 +311,33 @@ class CategoryTest extends TestCase
 
     }
 
+    public function testCategoriesSlugToAcceptIdnChars()
+    {
+        Content::truncate();
+        Category::truncate();
+        CategoryItem::truncate();
+
+        $slugs = [
+            'category-1' => 'category-1',
+            'категория-на-бг' => 'категория-на-бг',
+            'категория-на-бг with spaces' => 'категория-на-бг-with-spaces',
+            '网址别名' => '网址别名',
+            'category with weird symbols !@#$%^&*()_+:?' => 'category-with-weird-symbols',
+        ];
+
+        foreach ($slugs as $slug => $expected) {
+            $save = [];
+            $save['title'] = $slug;
+            $save['url'] = $slug;
+            $saveId = app()->category_repository->save($save);
+            $saveGet = get_category_by_id($saveId);
+            $this->assertEquals($saveGet['url'], $expected);
+
+            $findCategoryBySlug = get_categories('url=' . $expected . '&single=1');
+            $this->assertEquals($saveGet['url'], $findCategoryBySlug['url']);
+            $this->assertEquals($saveGet['id'], $findCategoryBySlug['id']);
+        }
+    }
     public function testCategoriesSameItemsIfSamePostIsSavedTwice()
     {
         $user = User::where('is_admin', '=', '1')->first();

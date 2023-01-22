@@ -42,6 +42,7 @@ class Category extends Model
         'is_active' => '1',
         'is_deleted' => '0',
         'is_hidden' => '0',
+        'parent_id' => '0',
     ];
 
     /* A list of fields that can be mass assigned. */
@@ -71,7 +72,9 @@ class Category extends Model
     ];
 
     public $casts = [
-        'category_subtype_settings'=>'array'
+        'category_subtype_settings'=>'array',
+        'position'=>'integer',
+        'parent_id'=>'integer',
     ];
 
     protected $searchable = [

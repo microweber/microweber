@@ -44,8 +44,8 @@ function get_categories($data)
 
 function save_category($data)
 {
-    // return app()->category_repository->save($data);
-    return app()->category_manager->save($data);
+    return app()->category_repository->save($data);
+    // return app()->category_manager->save($data);
 }
 
 function delete_category($data)

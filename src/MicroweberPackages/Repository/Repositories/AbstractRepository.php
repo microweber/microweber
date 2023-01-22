@@ -627,6 +627,10 @@ abstract class AbstractRepository
      */
     public function save($data)
     {
+        $this->clearCache();
+        app()->database_manager->clearCache();
+
+
         $updateOrCreate = 'create';
 
         if ($data and isset($data['id']) and $data['id'] == 0) {

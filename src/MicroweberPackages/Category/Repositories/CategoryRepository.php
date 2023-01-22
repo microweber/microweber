@@ -326,4 +326,31 @@ class CategoryRepository extends AbstractRepository
 
     }
 
+    public function save($data)
+    {
+        app()->category_manager->useCache = false;
+
+
+        if (isset($data['parent']) and !isset($data['parent_id'])) {
+            $data['parent_id'] = $data['parent'];
+        }
+        if (isset($data['parent_page'])) {
+            $data['rel_type'] = 'content';
+            $data['rel_id'] = $data['parent_page'];
+        }
+        if (isset($data['content_id'])) {
+            $data['rel_type'] = 'content';
+            $data['rel_id'] = $data['content_id'];
+        }
+
+        if (isset($data['id']) and intval($data['id']) != 0 and isset($data['parent_id']) and intval($data['parent_id']) != 0) {
+            if ($data['id'] == $data['parent_id']) {
+                unset($data['parent_id']);
+            }
+        }
+
+
+        return parent::save($data);
+    }
+
 }
