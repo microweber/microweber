@@ -3,7 +3,7 @@
 
         <div class="card card-product-holder mb-2 post-has-image-true manage-post-item">
             <div class="card-body">
-                <div class="row align-items-center flex-lg-box">
+                <div class="d-flex flex-wrap align-items-center flex-lg-box">
 
                     <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
                         <div class="custom-control custom-checkbox">
@@ -16,7 +16,7 @@
                     </div>
 
                     @if($showColumns['image'])
-                    <div class="col manage-post-item-col-2" style="max-width: 120px;">
+                    <div class="col manage-post-item-col-2" style="min-width: 120px; max-width: 120px;">
 
                         <div class="mw-admin-product-item-icon text-muted">
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
@@ -36,6 +36,7 @@
                     </div>
                     @endif
 
+                    <div class="col d-flex flex-wrap my-md-0 my-3">
                     @if($showColumns['price'])
                     <div class="col">
                         @php
@@ -94,6 +95,8 @@
                         Qty: {!! $quantity !!}
                     </div>
                     @endif
+
+                    </div>
 
                     @if($showColumns['author'])
                     <div class="col">

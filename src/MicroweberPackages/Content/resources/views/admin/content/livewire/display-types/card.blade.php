@@ -3,7 +3,7 @@
 
         <div class="card card-product-holder mb-2 post-has-image-true manage-post-item">
             <div class="card-body">
-                <div class="row align-items-center flex-lg-box">
+                <div class="d-flex flex-wrap align-items-center flex-lg-box">
 
                     <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
                         <div class="custom-control custom-checkbox">
@@ -15,7 +15,7 @@
                         </span>
                     </div>
 
-                    <div class="col manage-post-item-col-2" style="max-width: 120px;">
+                    <div class="col manage-post-item-col-2" style="max-width: 120px; min-width: 120px;">
 
                         @include('content::admin.content.livewire.components.picture', ['content'=>$content])
 
