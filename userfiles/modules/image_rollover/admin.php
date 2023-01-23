@@ -36,11 +36,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
 
             .the-image, .the-image-rollover {
-                margin-right: 12px;
+
                 max-width: 100%;
                 max-height: 110px;
                 background-color: #eee;
-                margin: 0 auto;
+                margin: 0;
             }
 
             .the-image[src=''], .the-image-rollover[src=''] {
@@ -77,30 +77,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         ?>
 
         <script>
-            $(document).ready(function () {
-                UP = mw.uploader({
-                    element: document.getElementById('upload-image'),
-                    filetypes: 'images',
-                    multiple: false
-                });
-
-                $(UP).on('FileUploaded', function (a, b) {
-                    setNewImage(b.src);
-                    setAuto();
-                });
-
-                UPRollover = mw.uploader({
-                    element: document.getElementById('upload-image-rollover'),
-                    filetypes: 'images',
-                    multiple: false
-                });
-
-                $(UPRollover).on('FileUploaded', function (a, b) {
-                    setNewImageRollover(b.src);
-                    setAuto();
-                });
-
-            });
+            mw.require('filepicker.js')
 
             function setNewImage(s) {
                 mw.$("#default_image").val(s).trigger('change');
@@ -112,27 +89,42 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 mw.$(".the-image-rollover").show().attr('src', s);
             }
 
-            var imageRolloverUploadBrowseExisting = function (rollover) {
-
-                var dialog = mw.top().dialogIframe({
-                    url: '<?php print site_url() ?>module/?type=files/admin&live_edit=true&remeber_path=true&ui=basic&start_path=media_host_base&from_admin=true&file_types=images&id=mw_admin_image_rollover_upload_browse_existing_modal<?php print $params['id'] ?>&from_url=<?php print site_url() ?>',
-                    title: "Browse pictures",
-                    id: 'mw_admin_image_rollover_upload_browse_existing_modal<?php print $params['id'] ?>',
-                    onload: function () {
-                        this.iframe.contentWindow.mw.on.hashParam('select-file', function (pval) {
-                            dialog.remove();
-                            mw.notification.success('<?php _ejs('Image selected') ?>');
-                            if (rollover) {
-                                setNewImageRollover(pval);
-                            } else {
-                                setNewImage(pval);
-                            }
-                        })
-                        this.iframe.contentWindow.document.body.style.padding = '15px';
+            var chooseImage = function (rollover) {
+                var dialog;
+                var mwtarget = mw.top();
+                var picker = new mwtarget.filePicker({
+                    type: 'images',
+                    label: false,
+                    autoSelect: false,
+                    footer: true,
+                    _frameMaxHeight: true,
+                    fileUploaded: function (file) {
+                        handleResult(file.src);
+                        dialog.remove()
                     },
-                    height: 'auto'
+                    onResult: handleResult,
+                    cancel: function () {
+                        dialog.remove()
+                    }
+                });
+                dialog = mwtarget.dialog({
+                    content: picker.root,
+                    title: mw.lang('Select image'),
+                    footer: false,
+                    width: 1200
                 })
 
+                function handleResult (pval) {
+                    if(Array.isArray(pval)){
+                        pval = pval[0]
+                    }
+                    if (rollover) {
+                        setNewImageRollover(pval);
+                    } else {
+                        setNewImage(pval);
+                    }
+                    dialog.remove()
+                }
             }
 
             $(function () {
@@ -196,24 +188,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings  module-image-rollover-settings" id="module-image-rollover-settings">
                     <div class="row image-row">
-                        <div class="col-md-6 mb-4">
-                            <h6 class="font-weight-bold text-center"><?php _lang("Default image") ?></h6>
-                            <img src="<?php print $default_image; ?>" class="the-image mx-auto mt-3 d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                        <div class="col ">
+                        <div class="mw-ui-box mw-ui-box-content ">
+                            <h6 class="font-weight-bold"><?php _lang("Default image") ?></h6>
+                            <img src="<?php print $default_image; ?>" class="the-image d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image"><span class="mw-icon-upload"></span> &nbsp;<?php _lang('Upload Image', "modules/image_rollover"); ?></span>
-                                <a href="javascript:imageRolloverUploadBrowseExisting()" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _lang('Browse uploaded', "modules/image_rollover"); ?></a>
+                                <span class="mw-ui-btn" onclick="chooseImage()">Choose image</span>
                             </div>
                         </div>
+                        </div>
 
-                        <div class="col-md-6 mb-4">
-                            <h6 class="font-weight-bold text-center"><?php _lang("Rollover image") ?></h6>
-                            <img src="<?php print $rollover_image; ?>" class="the-image-rollover mx-auto mt-3 d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
+                        <div class="col ">
+                            <div class="mw-ui-box mw-ui-box-content ">
+                            <h6 class="font-weight-bold"><?php _lang("Rollover image") ?></h6>
+                            <img src="<?php print $rollover_image; ?>" class="the-image-rollover d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="btn btn-primary w-100 justify-content-center m-1" id="upload-image-rollover"><span class="mw-icon-upload"></span> &nbsp;<?php _lang('Upload Image', "modules/image_rollover"); ?></span>
-                                <a href="javascript:imageRolloverUploadBrowseExisting(true)" class="btn btn-outline-primary w-100 justify-content-center m-1"><?php _lang('Browse uploaded', "modules/image_rollover"); ?></a>
+                                <span class="mw-ui-btn" onclick="chooseImage(true)">Choose image</span>
                             </div>
+                        </div>
                         </div>
                     </div>
 
