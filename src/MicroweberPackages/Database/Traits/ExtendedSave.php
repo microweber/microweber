@@ -369,7 +369,7 @@ trait ExtendedSave
                                     $save_cat_item['rel_id'] = $data_to_save['id'];
                                 }
 
-                                $cat_id = $this->app->category_manager->save($save_cat_item);
+                                $cat_id = save_category($save_cat_item);
                             } else {
                                 $cat_id = $check['id'];
                             }
@@ -396,7 +396,7 @@ trait ExtendedSave
                                 }
                                 $check = $this->app->category_manager->get($save_cat_item);
                                 if ($check == false) {
-                                    $category['parent_id'] = $cat_id = $this->app->category_manager->save($save_cat_item);
+                                    $category['parent_id'] = $cat_id = save_category($save_cat_item);
                                 } elseif (isset($check['id'])) {
                                     $cat_id = $check['id'];
                                     $category['parent_id'] = $cat_id;
