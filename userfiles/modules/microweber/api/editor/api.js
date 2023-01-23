@@ -516,7 +516,35 @@ mw.lib.require('xss');
                 catch (e) {
                 }
             },
+            _execCommandWrongFormats:  null,
+            cleanNesting: function (target){
+                if(!scope.api._execCommandWrongFormats) {
+                    var global = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+                    var child = ['ul', 'ol'];
+                    var res = [];
+                    global.forEach(function (item) {
+                        global.forEach(function (citem) {
+                            res.push(item + ' ' + citem)
+                        });
+                        child.forEach(function (citem) {
+                            res.push(item + ' ' + citem)
+                        });
+                    })
+                    scope.api._execCommandWrongFormats = res.join(',');
+                }
+                var all = target.querySelectorAll(scope.api._execCommandWrongFormats);
+
+                while (all.length) {
+                    var parent = all[0].parentNode;
+                    parent.parentNode.insertBefore(all[0], parent);
+                    parent.remove();
+                    all = target.querySelectorAll(scope.api._execCommandWrongFormats);
+                }
+
+            },
             execCommand: function (cmd, def, val, recordTimeout) {
+
+
                 scope.actionWindow.document.execCommand('styleWithCss', 'false', false);
                 var sel = scope.getSelection();
                 try {  // 0x80004005
@@ -525,8 +553,10 @@ mw.lib.require('xss');
                         val = val || false;
                         if (sel.rangeCount > 0) {
                             var node = scope.api.elementNode(sel.focusNode);
-                            scope.api.action(mw.tools.firstBlockLevel(node).parentNode, function () {
+                            var parent = mw.tools.firstBlockLevel(node).parentNode.parentNode;
+                            scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
+                                scope.api.cleanNesting(parent)
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                                 mw.$(scope).trigger('execCommand');
                             }, recordTimeout);

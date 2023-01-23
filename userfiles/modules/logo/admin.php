@@ -442,7 +442,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         ]
                                     });
                                     $(editor).on('change', function (e, val){
-                                        console.log(val)
+
                                         var fs = $('[name="font_size"]');
                                         var area = this.$editArea.get(0);
                                         var curr = getComputedStyle(area).fontSize;

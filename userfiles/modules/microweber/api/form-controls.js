@@ -1075,7 +1075,19 @@ mw.emitter = {
 
 
             $(this.filepicker).on('Result', function (e, res) {
-                console.log(121212, res, scope.getValue())
+                // if(textField) textField.value = val.text || '';
+
+                if(textField && !textField.value) {
+                    var val = '';
+                    var press = res;
+                    if(Array.isArray(press)) {
+                        press = press[0]
+                    }
+                    if(typeof press === 'object') {
+                        press = press.name || press.src;
+                    }
+                    textField.value = press;
+                }
                 if(scope.valid()) {
                     scope._onChange.forEach(function (f){
                         f(scope.getValue());

@@ -465,33 +465,31 @@ MWEditor.controllers = {
     },
     lineHeight: function (scope, api, rootScope) {
         this.checkSelection = function (opt) {
+
+
             var css = opt.css;
             var font = css.font();
-            var size = font.height;
-            opt.controller.element.displayValue(size);
+            var val = Math.round((parseFloat(font.height) / parseFloat(font.size)) * 10) / 10;
+
+            opt.controller.element.displayValue(val);
             rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable())
         };
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: [
                     { label: 'normal', value: 'normal' },
-                    { label: '14px', value:'14px' },
-                    { label: '16px', value:'16px' },
-                    { label: '19px', value:'19px' },
-                    { label: '21px', value:'21px' },
-                    { label: '24px', value:'24px' },
-                    { label: '25px', value:'25px' },
-                    { label: '27px', value:'27px' },
-                    { label: '30px', value:'30px' },
-                    { label: '35px', value:'35px' },
-                    { label: '40px', value:'40px' },
-                    { label: '45px', value:'45px' },
-                    { label: '50px', value:'50px' },
-                    { label: '55px', value:'55px' },
-                    { label: '60px', value:'60px' },
-                    { label: '70px', value:'70px' },
-                    { label: '80px', value:'80px' },
-                    { label: '90px', value:'90px' },
+                    { label: '1', value:'1' },
+                    { label: '1.1', value:'1.1' },
+                    { label: '1.2', value:'1.2' },
+                    { label: '1.3', value:'1.3' },
+                    { label: '1.4', value:'1.4' },
+                    { label: '1.5', value:'1.5' },
+                    { label: '1.6', value:'1.6' },
+                    { label: '1.7', value:'1.7' },
+                    { label: '1.8', value:'1.8' },
+                    { label: '1.9', value:'1.9' },
+                    { label: '2', value:'2' },
+
                 ],
                 placeholder: rootScope.lang('Line height')
             });
@@ -552,32 +550,17 @@ MWEditor.controllers = {
             });
             dropdown.select.on('change', function (e, val) {
                 if(e.detail) {
+                    var el = api.elementNode(api.getSelection().focusNode);
+                    var parentul = mw.tools.firstParentOrCurrentWithTag(el, 'ul');
+                    var parentol = mw.tools.firstParentOrCurrentWithTag(el, 'ol');
+                    if(parentul) {
+                        api.execCommand('insertUnorderedList', false, e.detail.value);
+                    }
+                    if(parentol) {
+                        api.execCommand('insertOrderedList', false, e.detail.value);
+                    }
                     api.execCommand('formatBlock', false, e.detail.value);
                 }
-                /*var sel = scope.getSelection();
-                var range = sel.getRangeAt(0);
-                var el = scope.actionWindow.document.createElement(val.value);
-
-                var disableSelection = true;
-
-                if(sel.isCollapsed || disableSelection) {
-                    var selectionElement = api.elementNode(sel.focusNode);
-                    if(scope.$editArea[0] !== selectionElement) {
-                        mw.tools.setTag(selectionElement, val.value);
-                    } else {
-                        while (selectionElement.firstChild) {
-                            el.appendChild(selectionElement.firstChild);
-                        }
-                        selectionElement.appendChild(el);
-                    }
-                    var newRange = scope.actionWindow.document.createRange();
-                    newRange.setStart(sel.anchorNode, sel.anchorOffset);
-                    newRange.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                } else {
-                    range.surroundContents(el);
-                }*/
             });
             return dropdown.root;
         };
@@ -718,19 +701,11 @@ MWEditor.controllers = {
                 var node = api.elementNode(sel.focusNode);
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
                 if(paragraph) {
-                    scope.api.action(paragraph.parentNode, function () {
-                        var ul = scope.actionWindow.document.createElement('ul');
-                        var li = scope.actionWindow.document.createElement('li');
-                        ul.appendChild(li);
-                        while (paragraph.firstChild) {
-                            li.appendChild(node.firstChild);
-                        }
-                        paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
-                        paragraph.remove();
-                    });
-                } else {
-                    api.execCommand('insertUnorderedList');
+                    paragraph.contentEditable = 'inherit';
+                    paragraph.parentNode.contentEditable = true;
+                    mw.tools.setTag(paragraph, 'div');
                 }
+                api.execCommand('insertUnorderedList');
             });
             return el;
         };
@@ -753,20 +728,15 @@ MWEditor.controllers = {
                 var sel = api.getSelection();
                 var node = api.elementNode(sel.focusNode);
                 var paragraph = mw.tools.firstParentOrCurrentWithTag(node, 'p');
+
                 if(paragraph) {
-                    scope.api.action(paragraph.parentNode, function () {
-                        var ul = scope.actionWindow.document.createElement('ol');
-                        var li = scope.actionWindow.document.createElement('li');
-                        ul.appendChild(li);
-                        while (paragraph.firstChild) {
-                            li.appendChild(paragraph.firstChild);
-                        }
-                        paragraph.parentNode.insertBefore(ul, paragraph.nextSibling);
-                        paragraph.remove();
-                    });
-                } else {
-                    api.execCommand('insertOrderedList');
+                    paragraph.contentEditable = 'inherit';
+                    paragraph.parentNode.contentEditable = true;
+                    mw.tools.setTag(paragraph, 'div');
                 }
+
+                api.execCommand('insertOrderedList');
+
             });
             return el;
         };

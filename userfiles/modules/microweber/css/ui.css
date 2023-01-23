@@ -8334,6 +8334,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-wrapper .mw-editor-controller-component,
 .mw-editor-wrapper .mw-bar-control-item {
   display: inline-block;
+  position: relative;
 }
 .mw-editor-color-picker {
   position: relative;
