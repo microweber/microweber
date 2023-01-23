@@ -8,6 +8,19 @@ trait  MaxPositionTrait
     public function updateMaxPositionFieldOnModel()
     {
         $maxPosition = 0;
+        if(isset($this->position)){
+            //do nothing
+            return $this;
+        }
+        if (isset($this->id) and $this->id) {
+
+            $wasCreated = $this->wasRecentlyCreated;
+            if (!$wasCreated) {
+                // do nothing on existing ids
+                return $this;
+            }
+        }
+
 
         if (!isset($this->position) && isset($this->rel_id) && isset($this->rel_type)) {
 
@@ -16,10 +29,10 @@ trait  MaxPositionTrait
                 ['rel_type', '=', $this->rel_type]
             ])->max('position');
 
-            $maxPosition = $position + 1;
+            $maxPosition = intval($position) + 1;
         } else {
             $position = get_class($this)::query()->max('position');
-            $maxPosition = $position + 1;
+            $maxPosition = intval($position) + 1;
         }
 
         $this->position = $maxPosition;

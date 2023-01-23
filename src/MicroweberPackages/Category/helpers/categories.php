@@ -1,4 +1,6 @@
 <?php
+
+
 api_expose_admin('get_category_by_id');
 api_expose_admin('get_categories');
 
@@ -42,7 +44,8 @@ function get_categories($data)
 
 function save_category($data)
 {
-    return app()->category_manager->save($data);
+    return app()->category_repository->save($data);
+    // return app()->category_manager->save($data);
 }
 
 function delete_category($data)
@@ -156,52 +159,19 @@ function category_tree($params = false)
     return app()->category_manager->tree($params);
 }
 
-function get_category_items($category_id)
-{
-    return app()->category_manager->get_items('parent_id=' . intval($category_id));
-}
-
-function get_category_items_count($category_id, $rel_type = false)
-{
-    return app()->category_manager->get_items_count($category_id, $rel_type);
-}
-
 /**
- * Example:
- * input:
- *
- Array(
-    "Courses",
-    "Courses > PHP",
-    "Courses > PHP > Array",
-    "Courses > PHP > Functions",
-    "Courses > JAVA",
-    "Courses > JAVA > String
-");
- *
- * @param $array
- * @param $explodeSymbol
- * @return void
+ * @param $category_id int|bool
+ * @param $rel_type string
+ * @param $relId int|bool
+ * @return array|false
  */
-function stringToTree(string $string, string $explodeSymbol = '>')
+function get_category_items($category_id, $rel_type = 'content', $relId = false)
 {
-    $result = array();
+          return app()->category_repository->getItems($category_id,$rel_type,$relId);
+ //   return app()->category_manager->get_items('parent_id=' . intval($category_id));
+}
 
-    $itemParts = explode($explodeSymbol, $string);
-
-    $last = &$result;
-
-    for ($i = 0; $i < count($itemParts); $i++) {
-
-        $part = $itemParts[$i];
-        $part = trim($part);
-
-        if ($i + 1 < count($itemParts)) {
-            $last = &$last[$part];
-        } else {
-            $last[$part] = array();
-        }
-    }
-
-    return $result;
+function get_category_items_count($category_id)
+{
+    return app()->category_repository->getItemsCount($category_id);
 }

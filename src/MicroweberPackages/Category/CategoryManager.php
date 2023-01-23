@@ -337,52 +337,36 @@ class CategoryManager
      */
     public function get_items_count($id, $rel_type = false)
     {
-        if ($id == false) {
-            return false;
-        }
+        return app()->category_repository->getItemsCount($id);
 
-        $table_items = $this->tables['categories_items'];
-
-        $params = array();
-        $params['table'] = $table_items;
-        $params['parent_id'] = $id;
-        if ($rel_type != false) {
-            $params['rel_type'] = $rel_type;
-        }
-
-        $params['count'] = true;
-
-        $data = $this->app->database_manager->get($params);
-
-        return $data;
     }
 
-    /**
-     * Gets category items.
-     *
-     * @param mixed $params Array or string with parameters
-     * @param string $data_type
-     *
-     * @return array|bool
-     */
-    public function get_items($params, $data_type = 'categories')
-    {
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $table_items = $this->tables['categories_items'];
-        $data = $params;
-
-        $data['table'] = $table_items;
-        if (!isset($params['limit'])) {
-            $data['no_limit'] = true;
-        }
-
-        $data = $this->app->database_manager->get($data);
-
-        return $data;
-    }
+//    /**
+//     * Gets category items.
+//     *
+//     * @param mixed $params Array or string with parameters
+//     * @param string $data_type
+//     *
+//     * @return array|bool
+//     */
+//    public function get_items($params, $data_type = 'categories')
+//    {
+//        if (is_string($params)) {
+//            $params = parse_str($params, $params2);
+//            $params = $options = $params2;
+//        }
+//        $table_items = $this->tables['categories_items'];
+//        $data = $params;
+//
+//        $data['table'] = $table_items;
+//        if (!isset($params['limit'])) {
+//            $data['no_limit'] = true;
+//        }
+//
+//        $data = $this->app->database_manager->get($data);
+//
+//        return $data;
+//    }
 
     public function get($params)
     {

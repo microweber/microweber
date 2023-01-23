@@ -13,7 +13,7 @@ class PlainTextCategoriesSave
      *  $categoriesToSave = [];
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
         $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda'; 
+        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
      * @param array $categoriesToSave
      * @param $mainCategoryId
      * @return void
@@ -21,7 +21,7 @@ class PlainTextCategoriesSave
     public function saveCategories(array $categoriesToSave, $mainCategoryId)
     {
         foreach ($categoriesToSave as $categoryTreePlain) {
-            $categoriesToSave = stringToTree($categoryTreePlain);
+            $categoriesToSave = app()->format->stringToTree($categoryTreePlain);
             $this->_addCategoryRecursive($categoriesToSave, $mainCategoryId);
         }
     }

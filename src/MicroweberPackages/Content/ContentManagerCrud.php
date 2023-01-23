@@ -675,8 +675,12 @@ class ContentManagerCrud extends Crud
 
         }
 
+        if (isset($data['category_ids']) and !isset($data['categories'])) {
+            $data_to_save['categories'] = $data['category_ids'];
+            unset($data['category_ids']);
+        }
 
-        if (isset($data['category']) or isset($data['categories'])) {
+            if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
         }
         $table_cats = $this->tables['categories'];

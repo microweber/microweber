@@ -48,8 +48,8 @@ class PermalinkTest extends TestCase
         $subCategorySlug = 'подкатегория-писана-на-бг' . $time;
         $subCategoryName = 'Подкатегория писана на бг' . $time;
 
-        $subChildCategorySlug = 'дете-на-подкатегорията' . $time;
-        $subChildCategoryName = 'Дете на подкатегорията' . $time;
+        $subChildCategorySlug = 'дете-на-подкатегорията-бг' . $time;
+        $subChildCategoryName = 'Дете на подкатегорията бг' . $time;
 
         $postSlug = 'пост-писана-на-бг' . $time;
         $postName = 'пост писана на бг' . $time;
@@ -89,6 +89,8 @@ class PermalinkTest extends TestCase
 
         // Match the parse link category
         $getCategoryNameFromUrl = mw()->permalink_manager->slug($categoryUrl, 'category');
+
+
         $this->assertEquals($categorySlug, $getCategoryNameFromUrl);
 
         // Match the parse link page

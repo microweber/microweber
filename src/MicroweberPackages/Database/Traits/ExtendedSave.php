@@ -312,7 +312,9 @@ trait ExtendedSave
                     $save_cat_item['data_type'] = 'category';
                     $save_cat_item['no_cache'] = true;
 
-                    $check = $this->app->category_manager->get_items($save_cat_item);
+                  //  $check = $this->app->category_manager->get_items($save_cat_item);
+                    $check =get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+
                     if (is_array($check) and !empty($check)) {
                         foreach ($check as $item) {
                             if (!in_array($item['parent_id'], $categories) and !array_search($item['parent_id'], $categories)) {
@@ -337,7 +339,8 @@ trait ExtendedSave
                             $save_cat_item['parent_id'] = $category;
                             $save_cat_item['no_cache'] = true;
 
-                            $check = $this->app->category_manager->get_items($save_cat_item);
+                            //$check = $this->app->category_manager->get_items($save_cat_item);
+                            $check = get_category_items($category,$data_to_save['table'],$data_to_save['id']);
                             if ($check == false) {
                                 $saved_item_ids[] = $this->app->category_manager->save_item($save_cat_item);
                             }
@@ -411,12 +414,10 @@ trait ExtendedSave
                             } elseif ($cat_id) {
                                 $save_cat_item['parent_id'] = $cat_id;
                             }
-                            $check = $this->app->category_manager->get_items($save_cat_item);
-                            $check = false;
-                            if ($check == false) {
 
+                            $check =get_category_items($save_cat_item['parent_id'], $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+                             if ($check == false) {
                                 $saved_item_ids[] = $save_item = $this->app->category_manager->save_item($save_cat_item);
-
                             }
                         }
 
@@ -438,7 +439,8 @@ trait ExtendedSave
                 $save_cat_item['rel_type'] = $data_to_save['table'];
                 $save_cat_item['rel_id'] = $data_to_save['id'];
                 $save_cat_item['data_type'] = 'category';
-                $check = $this->app->category_manager->get_items($save_cat_item);
+                 $check =get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+
                 if (is_array($check) and !empty($check)) {
                     foreach ($check as $item) {
                         $this->app->category_manager->delete_item($item['id']);
