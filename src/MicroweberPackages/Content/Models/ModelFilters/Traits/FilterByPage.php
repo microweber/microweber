@@ -22,5 +22,11 @@ trait FilterByPage
             $this->query->where('parent', $pageId);
         }
     }
-
+    public function pageAndParent($pageId)
+    {
+        if ($pageId) {
+            $this->query->where('parent', $pageId);
+            $this->query->orWhere('id', $pageId);
+        }
+    }
 }
