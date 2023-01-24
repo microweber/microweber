@@ -272,8 +272,23 @@
                         resolve(file);
                     }
                 }, function (req) {
+
+                    if(req && req.status === 400){
+                        if(typeof mw.cookie !== 'undefined'){
+                            mw.cookie.delete('XSRF-TOKEN');
+                        }
+                    }
+
+                    var msg = false;
+
                     if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
-                        mw.notification.warning(req.responseJSON.error.message, 4000);
+                        msg = req.responseJSON.error.message;
+                    } else if (req.responseJSON && req.responseJSON.error && req.responseJSON.message) {
+                        msg = req.responseJSON.message;
+                    }
+
+                    if (msg) {
+                        mw.notification.warning(msg, 10000);
                     }
                     scope.removeFile(file);
                     reject(req)
