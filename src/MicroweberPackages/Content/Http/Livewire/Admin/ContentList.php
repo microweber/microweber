@@ -155,7 +155,8 @@ class ContentList extends Component
         if (isset($this->showFilters['category'])) {
             unset($this->showFilters['category']);
         }
-        $this->filters['page'] = $pageId;
+       // $this->filters['page'] = $pageId;
+        $this->filters['pageAndParent'] = $pageId;
         $this->setPaginationFirstPage();
     }
 
