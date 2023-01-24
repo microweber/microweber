@@ -144,6 +144,9 @@
 
 
 
+           liveEditor.on('action', function (){
+               mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
+           })
            liveEditor.on('smallEditorReady', function (){
                fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
            })

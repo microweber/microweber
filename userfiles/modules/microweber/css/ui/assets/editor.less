@@ -41,6 +41,11 @@
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark{
 
+    margin-top: -20px;
+
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif;
+
+
     .mw-editor-controller-component[data-tooltip]:after{
         position: absolute;
         content: attr(data-tooltip);
@@ -67,9 +72,8 @@
         transform: translateX(-50%) scale(1);
     }
 
-    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif;
 
-    margin-top: -10px;
+
     .mw-bar-row{
         padding-inline: 5px;
         display: flex;
@@ -588,7 +592,12 @@
     display: inline-block;
 }
 
-
 .a-color-picker-circle, .a-color-picker-palette-color{
     border-width: 2px;
+}
+
+.mw-editor-controller-component-format{
+    mw-editor-option{
+        white-space: nowrap;
+    }
 }

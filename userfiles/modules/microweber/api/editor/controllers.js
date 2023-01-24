@@ -548,9 +548,11 @@ MWEditor.controllers = {
                 data: this._availableTags,
                 placeholder: rootScope.lang('Format')
             });
+            dropdown.root.addClass('mw-editor-controller-component-format')
             dropdown.select.on('change', function (e, val) {
                 if(e.detail) {
                     var el = api.elementNode(api.getSelection().focusNode);
+                    var parent = el.parentNode;
                     var parentul = mw.tools.firstParentOrCurrentWithTag(el, 'ul');
                     var parentol = mw.tools.firstParentOrCurrentWithTag(el, 'ol');
                     if(parentul) {
@@ -559,7 +561,11 @@ MWEditor.controllers = {
                     if(parentol) {
                         api.execCommand('insertOrderedList', false, e.detail.value);
                     }
+                    if(api.isSafeMode(el)){
+                        parent.contentEditable = true;
+                    }
                     api.execCommand('formatBlock', false, e.detail.value);
+
                 }
             });
             return dropdown.root;
@@ -705,6 +711,10 @@ MWEditor.controllers = {
                     paragraph.parentNode.contentEditable = true;
                     mw.tools.setTag(paragraph, 'div');
                 }
+                var isSafeMode = api.isSafeMode(node);
+                if(isSafeMode) {
+                    node.parentNode.contentEditable = true;
+                }
                 api.execCommand('insertUnorderedList');
             });
             return el;
@@ -734,7 +744,10 @@ MWEditor.controllers = {
                     paragraph.parentNode.contentEditable = true;
                     mw.tools.setTag(paragraph, 'div');
                 }
-
+                var isSafeMode = api.isSafeMode(node);
+                if(isSafeMode) {
+                    node.parentNode.contentEditable = true;
+                }
                 api.execCommand('insertOrderedList');
 
             });

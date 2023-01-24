@@ -760,16 +760,12 @@ var MWEditor = function (options) {
             }
         }
         scope.$editArea.on('click', function (e) {
-
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
-
                scope.smallEditorInteract(target);
-
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
         this.smallEditorApi._initFromMemory();
         setTimeout(function (){
-
             scope.dispatch('smallEditorReady');
         }, 78);
     };

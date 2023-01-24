@@ -703,8 +703,9 @@ var populateSpecials = function (css) {
 }
 
 var output = function(property, value){
+    var mwTarget = mw.top();
     if(!ActiveNode) {
-        ActiveNode = mw.top().liveEditSelector.selected
+        ActiveNode = mwTarget.liveEditSelector.selected
     }
     if(ActiveNode.length) {
         ActiveNode = ActiveNode[0]
@@ -712,12 +713,17 @@ var output = function(property, value){
     if(ActiveNode) {
         if(!specialCases(property, value)) {
             //  ActiveNode.style[property] = value;
-            mw.top().liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
-            // ActiveNode.style.setProperty(property, value);
+            if(mwTarget.tools.isEditable(ActiveNode)) {
+                ActiveNode.style[property] = value;
+            } else {
+                mwTarget.liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
+
+            }
+
             ActiveNode.setAttribute('staticdesign', true);
         }
-        mw.top().wysiwyg.change(ActiveNode);
-        mw.top().liveEditSelector.positionSelected();
+        mwTarget.wysiwyg.change(ActiveNode);
+        mwTarget.liveEditSelector.positionSelected();
     }
 };
 

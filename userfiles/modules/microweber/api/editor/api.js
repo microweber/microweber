@@ -300,10 +300,11 @@ mw.lib.require('xss');
                 });
                 func.call();
 
-                    scope.state.record({
-                        target: targetParent,
-                        value: targetParent.innerHTML
-                    });
+                scope.state.record({
+                    target: targetParent,
+                    value: targetParent.innerHTML
+                });
+                    scope.dispatch('action');
                 }, (recordTimeout ? 600 : 78));
             },
             elementNode: function (c) {
