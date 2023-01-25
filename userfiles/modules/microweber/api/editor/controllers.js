@@ -713,7 +713,7 @@ MWEditor.controllers = {
                 }
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
-                    node.parentNode.contentEditable = true;
+                    node.parentNode.parentNode.contentEditable = true;
                 }
                 api.execCommand('insertUnorderedList');
             });
@@ -746,7 +746,7 @@ MWEditor.controllers = {
                 }
                 var isSafeMode = api.isSafeMode(node);
                 if(isSafeMode) {
-                    node.parentNode.contentEditable = true;
+                    node.parentNode.parentNode.contentEditable = true;
                 }
                 api.execCommand('insertOrderedList');
 

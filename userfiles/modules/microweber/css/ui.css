@@ -8173,7 +8173,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0%;
+  left: -4px;
   padding: 5px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
@@ -8680,6 +8680,9 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .a-color-picker-circle,
 .a-color-picker-palette-color {
   border-width: 2px;
+}
+.mw-editor-controller-component-format mw-editor-option {
+  white-space: nowrap;
 }
 .mw-social-icons-layout-list [class*='mw-icon-'] {
   font-size: 24px;
