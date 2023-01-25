@@ -375,7 +375,7 @@ $user = get_user_by_id($user_id);
                 $action = 'pages';
                 $view = 'content';
             }if ($routeName == 'admin.product.index' || $routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
-                $action = 'products_beta';
+                $action = 'products';
                 $view = 'shop';
             }
             if ($routeName == 'admin.shop.category.index' || $routeName == 'admin.shop.category.create' || $routeName == 'admin.shop.category.edit') {
@@ -464,6 +464,13 @@ $user = get_user_by_id($user_id);
                             <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                         </a>
 
+                        <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+                        <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                <?php _e("Products"); ?>
+                            <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                        </a>
+                        <?php endif; ?>
+
                         <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
                             <?php _e("Settings"); ?>
                         </a>
@@ -493,13 +500,11 @@ $user = get_user_by_id($user_id);
                                                     */?>
 
                         <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                        <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products_beta'): ?> active <?php endif; ?>">
+                        <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                             <?php _e("Products"); ?>
                             <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                         </a>
-                        <?php
-                        endif;
-                        ?>
+                        <?php endif; ?>
 
                         <?php if (user_can_view_module(['module' => 'order.index'])): ?>
                         <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
