@@ -288,12 +288,11 @@ class ContentList extends Component
 
         if (isset($this->filters['category'])) {
             $currentCategory = get_category_by_id($this->filters['category']);
-            if($currentCategory){
+            if ($currentPage === false and $currentCategory) {
                 $pageForCategory = get_page_for_category($currentCategory['id']);
-                if($pageForCategory){
+                if ($pageForCategory) {
                     $currentPage = $pageForCategory;
                 }
-
             }
         }
 

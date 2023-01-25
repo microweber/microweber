@@ -50,7 +50,7 @@ if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) a
 if ($edit_page_info['is_shop'] == 1) {
     $type = 'Shop';
 } elseif ($edit_page_info['subtype'] == 'dynamic') {
-    $type = 'Dynamic page';
+    $type = 'Blog';
 } elseif ($edit_page_info['subtype'] == 'post') {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
@@ -270,25 +270,35 @@ if (isset($params['quick_edit'])) {
         <?php
         $backToLink = '';
         $typeIcon = 'mdi-text';
+        $backToTypeText = 'Content';
         if ($type == 'Product') {
             $backToLink = route('admin.product.index');
             $typeIcon = 'mdi-shopping';
+            $backToTypeText = 'Products';
         } else if ($type == 'Product variant') {
             $backToLink = route('admin.product_variant.index');
             $typeIcon = 'mdi-shopping';
+            $backToTypeText = 'Product variants';
         } elseif ($type == 'Post') {
             $backToLink = route('admin.post.index');
             $typeIcon = 'mdi-text';
+        } elseif ($type == 'Blog') {
+            $backToLink = route('admin.post.index');
+            $typeIcon = 'mdi-text';
+            $backToTypeText = 'Blog';
+
         } elseif ($type == 'Page') {
             $backToLink = route('admin.page.index');
             $typeIcon = 'mdi-file-document';
+            $backToTypeText = 'Pages';
+
         }
         ?>
 
         <div class="position-relative">
             <div class="main-toolbar mw-modules-toolbar-back-button-holder">
                 <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
-                    <i class="mdi mdi-chevron-left"></i> Back to <?php echo $type; ?>s
+                    <i class="mdi mdi-chevron-left"></i> <?php _e('Back to'); ?> <?php _e($backToTypeText); ?>
                 </a>
             </div>
         </div>
