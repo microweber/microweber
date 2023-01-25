@@ -36,6 +36,10 @@ function get_category_by_id($id = 0)
 {
     return app()->category_manager->get_by_id($id);
 }
+function get_category_by_url($url)
+{
+    return  app()->category_repository->getByColumnNameAndColumnValue('url', $url);
+}
 
 function get_categories($data)
 {

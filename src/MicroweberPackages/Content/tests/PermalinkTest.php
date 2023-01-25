@@ -12,6 +12,7 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class PermalinkTest extends TestCase
 {
+    use TestHelpers;
     // Ids
     public static $pageId;
     public static $categoryId;
@@ -293,45 +294,5 @@ class PermalinkTest extends TestCase
         $this->assertEquals(self::$categoryId, CATEGORY_ID);
     }*/
 
-    private function _generateCategory($url, $title, $pageId)
-    {
 
-        $params = array(
-            'content_id' => $pageId,
-            'title' => $title,
-            'url' => $url,
-            'is_active' => 1,
-        );
-
-        return save_category($params);
-    }
-
-    private function _generatePost($url, $title, $pageId, $categoryIds = array())
-    {
-        $params = array(
-            'parent' => $pageId,
-            'categories' => $categoryIds,
-            'title' => $title,
-            'url' => $url,
-            'content_type' => 'post',
-            'subtype' => 'post',
-            'is_active' => 1,
-        );
-        $savePost = save_content($params);
-
-        return $savePost;
-    }
-
-    private function _generatePage($url, $title)
-    {
-
-        $params = array(
-            'title' => $title,
-            'url' => $url,
-            'content_type' => 'page',
-            'subtype' => 'dynamic',
-            'is_active' => 1,
-        );
-        return save_content($params);
-    }
 }
