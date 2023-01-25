@@ -21,30 +21,27 @@ class VerifyCsrfToken extends Middleware
     ];
 
 
-
-
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      *
      * @throws \Illuminate\Session\TokenMismatchException
      */
     public function handle($request, \Closure $next)
     {
-      // return parent::handle($request, $next);
-    $this->addHttpCookie = false;
-//$this->addHttpCookie = true;
+        $this->addHttpCookie = false;
+
         try {
             return parent::handle($request, $next);
-        }  catch (TokenMismatchException $e) {
+        } catch (TokenMismatchException $e) {
 
             $cookie = [];
-            $cookie[] =  \Cookie::forget('XSRF-TOKEN');
+            $cookie[] = \Cookie::forget('XSRF-TOKEN');
 
-            $response = response()->json(['error' => 'Invalid CSRF token 1.'], 400);
+            $response = response()->json(['error' => 'Invalid XSRF token', 'message' => 'Invalid XSRF token, please reload the page and try again'], 400);
 
             if (method_exists($response, 'withCookies')) {
                 return $response->withCookies($cookie);
@@ -52,12 +49,12 @@ class VerifyCsrfToken extends Middleware
                 return $response;
             }
 
-          } catch (DecryptException $e) {
+        } catch (DecryptException $e) {
 
             $cookie = [];
-            $cookie[] =  \Cookie::forget('XSRF-TOKEN');
+            $cookie[] = \Cookie::forget('XSRF-TOKEN');
 
-            $response =  response()->json(['error' => 'Invalid CSRF token 2.'], 400);
+            $response = response()->json(['error' => 'Invalid XSRF token', 'message' => 'Invalid XSRF token, please reload the page and try again'], 400);
 
             if (method_exists($response, 'withCookies')) {
                 return $response->withCookies($cookie);
@@ -67,8 +64,7 @@ class VerifyCsrfToken extends Middleware
 
         }
 
-     }
-
+    }
 
 
     /**
@@ -92,7 +88,6 @@ class VerifyCsrfToken extends Middleware
     {
         return $this->addCookieToResponse($request, $response);
     }
-
 
 
 }

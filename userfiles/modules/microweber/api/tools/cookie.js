@@ -10,6 +10,9 @@ mw.cookie = {
             }
         }
     },
+    delete: function (name) {
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    },
     set: function (name, value, expires, path, domain, secure) {
         var now = new Date();
         expires = expires || 365;
