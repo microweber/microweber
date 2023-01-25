@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="d-flex flex-wrap align-items-center flex-lg-box">
 
-                    <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
+                    <div class="col-1 text-center manage-post-item-col-1" style="max-width: 40px;">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
                             <label for="products-{{ $content->id }}" class="custom-control-label"></label>
@@ -16,7 +16,7 @@
                     </div>
 
                     @if($showColumns['image'])
-                    <div class="col manage-post-item-col-2" style="min-width: 120px; max-width: 120px;">
+                    <div class="col-2 manage-post-item-col-2" style="min-width: 120px; max-width: 120px;">
 
                         <div class="mw-admin-product-item-icon text-muted">
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
@@ -28,7 +28,7 @@
                     @endif
 
                     @if($showColumns['title'])
-                    <div class="col item-title manage-post-item-col-3 manage-post-main">
+                    <div class="col-5 item-title manage-post-item-col-3 manage-post-main">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
                         @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
@@ -36,7 +36,7 @@
                     </div>
                     @endif
 
-                    <div class="col d-flex flex-wrap my-xl-0 my-3">
+                    <div class="col-5 d-flex flex-wrap my-xl-0 my-3">
                     @if($showColumns['price'])
                     <div class="col">
                         @php
