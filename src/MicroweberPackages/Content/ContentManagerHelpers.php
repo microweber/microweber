@@ -265,13 +265,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if (isset($item['rel']) and ($item['rel'])) {
                     if (isset($item['field']) and ($item['field'])) {
 
-                        $del = \DB::table($this->tables['content_fields'])
+                        $del = \DB::table('content_fields')
                             ->where('rel_type', '=', $item['rel'])
-                            ->where('field', '=', $item['field']);
-
-
-                        $del = $del->delete();
-
+                            ->where('field', '=', $item['field'])->delete();
 
                     }
                 }
