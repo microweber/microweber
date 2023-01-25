@@ -861,18 +861,30 @@ class Front
                     $val1 = reset($vals2);
                     $item['price'] = $val1;
                     $item['original_price'] = false;
+                    $item['price_discount_percent'] = false;
 
                     if (isset($item['prices_data']) and is_array($item['prices_data']) and !empty($item['prices_data'])) {
                         $vals3 = array_values($item['prices_data']);
                         $val1 = reset($vals3);
                         if (isset($val1['original_value'])) {
                             $item['original_price'] = $val1['original_value'];
+
+                            $newFigure = floatval($item['original_price']);
+                            $oldFigure = floatval($item['price']);
+                            $percentChange = 0;
+                            if ($oldFigure < $newFigure) {
+                                $percentChange = (1 - $oldFigure / $newFigure) * 100;
+                            }
+                            if($percentChange > 0){
+                                $item['price_discount_percent'] = intval($percentChange);
+                            }
                         }
                     }
 
                 } else {
                     $item['price'] = false;
                     $item['original_price'] = false;
+                    $item['price_discount_percent'] = false;
 
                 }
 
