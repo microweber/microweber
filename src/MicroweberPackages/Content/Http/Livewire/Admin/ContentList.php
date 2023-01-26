@@ -334,7 +334,6 @@ class ContentList extends Component
             $contentTypeForAddButton = 'product';
         }
 
-
         if ($showNoActiveContentsScreen) {
             return view('content::admin.content.livewire.no-active-content', [
                 'contentType'=>$contentTypeForAddButton,
@@ -351,6 +350,7 @@ class ContentList extends Component
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
+                'contentType' => $contentTypeForAddButton,
 
                 'currentPageId' => $currentPageId,
                 'inCategory'=>true,
@@ -368,6 +368,7 @@ class ContentList extends Component
                 'contentType'=>$contentTypeForAddButton,
                 'currentCategoryId'=>$currentCategoryId,
                 'currentCategory' => $currentCategory,
+                'contentType' => $contentTypeForAddButton,
 
                 'currentPageId' => $currentPageId,
                 'inPage'=>true,
@@ -378,6 +379,8 @@ class ContentList extends Component
         return view('content::admin.content.livewire.table', [
             'displayTypesViews' => $this->displayTypesViews,
             'dropdownFilters' => $this->dropdownFilters,
+            'contentType' => $contentTypeForAddButton,
+
             'displayFilters' => $displayFilters,
             'currentCategoryId' => $currentCategoryId,
             'currentCategory' => $currentCategory,

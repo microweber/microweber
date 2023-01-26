@@ -36,7 +36,7 @@
                     </div>
                     @endif
 
-                    <div class="col-xl-4 col-6 d-flex flex-wrap my-xl-0 my-3">
+                    <div class="col-xl-4 col-sm-12 col-6 d-flex flex-wrap my-xl-0 my-3">
                     @if($showColumns['price'])
                     <div class="col">
                         @php

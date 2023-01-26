@@ -5,11 +5,11 @@
 
             <strong class="d-md-flex d-none">
 
-                <a class="@if($currentCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">
                     {{_e('Website')}}
                 </a>
 
-                @if($currentCategory)
+                @if(isset($currentCategory) and $currentCategory)
                     <span class="text-muted">&nbsp; &raquo; &nbsp;</span>
                     {{$currentCategory['title']}}
                 @endif
@@ -21,14 +21,20 @@
 
             </strong>
 
-            @if($currentCategory)
+            @if(isset($currentCategory) and $currentCategory)
                 <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
                     <i class="fa fa-times-circle"></i>
                 </a>
             @endif
         </h5>
         <div>
-            @if($currentCategory)
+
+            @if(isset($contentType))
+                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn-link btn-sm'])
+
+            @endif
+
+            @if(isset($currentCategory) and $currentCategory)
                 <a href="{{category_link($currentCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
             @endif
         </div>

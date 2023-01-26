@@ -30,14 +30,15 @@ if (isset($params['quick_edit']) and $params['quick_edit']) {
     }
 </style>
 <?php
-if (isset($data['content_type']) and $data['content_type'] == 'page') {
-    $parent_page_active = 0;
-    if ($data['parent'] != 0 and $data['id'] == 0) {
-        $data['parent'] = $recommended_parent = 0;
-    } elseif (isset($data['parent'])) {
-        $parent_page_active = $data['parent'];
-    }
-}
+
+//if (isset($data['content_type']) and $data['content_type'] == 'page' and !isset($data['parent'])) {
+//    $parent_page_active = 0;
+//    if ($data['parent'] != 0 and $data['id'] == 0) {
+//        $data['parent'] = $recommended_parent = 0;
+//    } elseif (isset($data['parent'])) {
+//        $parent_page_active = $data['parent'];
+//    }
+//}
 
 
 if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) and intval($data['parent']) != 0) {
