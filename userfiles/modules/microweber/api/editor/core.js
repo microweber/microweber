@@ -248,6 +248,7 @@
 
             if(options.customValue) {
                 displayValObj = new MWEditor.core.capsulatedField({
+                    width: '40px',
                     props: {
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                         innerHTML: options.placeholder || ''
@@ -276,7 +277,7 @@
                 displayValNode = MWEditor.core.button({
                     props: {
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                        innerHTML: options.placeholder || ''
+                        innerHTML: '<span class="mw-editor-select-display-value-content">' + (options.placeholder || '') + '</span>'
                     }
                 });
             }
@@ -290,22 +291,57 @@
             this.root.value = function (val){
                 this.displayValue(val.label);
                 this.value(val.value);
+                lscope.optionsNodes.forEach(function (opt){
+                    if(opt.value === val.value){
+                        opt.addClass('active')
+                    } else {
+                        opt.removeClass('active')
+                    }
+                });
             };
 
             this._pauseDisplayValue = false;
             this.root.displayValue = function (val) {
+
                 if( !lscope._pauseDisplayValue) {
                     if(options.customValue) {
                         displayValObj.field.value = (val || options.placeholder || '');
                     } else {
-                        displayValNode.text(val || options.placeholder || '');
+
+                        displayValNode.get(0).firstElementChild.textContent = (val || options.placeholder || '');
                     }
                 }
+                var num = parseFloat(val);
+                var isNumberLike = !isNaN(num);
+                lscope.optionsNodes.forEach(function (opt){
+
+                    var label = decodeURIComponent(opt.get(0).dataset.label);
+
+
+
+                    if(label === val){
+                        opt.addClass('mw-editor-dropdown-option-active');
+                    } else {
+                        if(isNumberLike && label == num) {
+                            opt.addClass('mw-editor-dropdown-option-active');
+
+                        } else {
+
+                            opt.removeClass('mw-editor-dropdown-option-active');
+
+                        }
+
+                    }
+
+                });
 
             };
 
+            this.optionsNodes = [];
+
             this.setData = function (data){
                 this.select.valueHolder.empty();
+                this.optionsNodes = [];
                 for (var i = 0; i < data.length; i++) {
                     (function (dt){
                         var opt = MWEditor.core._dropdownOption(dt, options.eachOption);
@@ -313,6 +349,7 @@
                             lscope.select.trigger('change', dt);
                         });
                         valueHolder.append(opt);
+                        lscope.optionsNodes.push(opt);
                     })(data[i]);
                 }
             };

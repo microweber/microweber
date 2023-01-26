@@ -783,7 +783,7 @@ var MWEditor = function (options) {
 
 
 
-       if(target && !target.isContentEditable && scope.lastRange.collapsed === false) {
+       if(target && !target.isContentEditable && scope.lastRange && scope.lastRange.collapsed === false) {
            target = scope.getActualTarget(scope.lastRange.commonAncestorContainer);
        }
         if(target && mw.tools.hasAnyOfClassesOnNodeOrParent(target, _smallEditorExceptionClasses)){

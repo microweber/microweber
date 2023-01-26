@@ -132,25 +132,30 @@ mw.Selector = function(options) {
         }
     };
     this.position = function(item, target){
-        var off = mw.$(target).offset();
+        var off = mw.element(target).offset();
+        var offWidth = target.offsetWidth;
+        var calcWidth = (off.offsetLeft + target.offsetWidth) + 22;
+        if(calcWidth > innerWidth) {
+            offWidth -= (calcWidth - innerWidth);
+        }
         mw.css(item.top, {
-            top:off.top,
-            left:off.left,
-            width:target.offsetWidth
+            top: off.offsetTop,
+            left: off.offsetLeft,
+            width: offWidth
         });
         mw.css(item.right, {
-            top:off.top,
-            left:off.left+target.offsetWidth,
+            top:off.offsetTop,
+            left:off.offsetLeft + offWidth,
             height:target.offsetHeight
         });
         mw.css(item.bottom, {
-            top:off.top+target.offsetHeight,
-            left:off.left,
-            width:target.offsetWidth
+            top: off.offsetTop + target.offsetHeight,
+            left: off.offsetLeft,
+            width: offWidth
         });
         mw.css(item.left, {
-            top:off.top,
-            left:off.left,
+            top: off.offsetTop,
+            left: off.offsetLeft,
             height:target.offsetHeight
         });
     };

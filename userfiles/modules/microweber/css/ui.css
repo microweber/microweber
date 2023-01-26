@@ -8100,6 +8100,14 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-small-editor.pinned .mw-editor-button-pin svg {
   transform: rotate(45deg);
 }
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:after {
+  top: 86%;
+  bottom: auto !important;
+}
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:hover:after,
+.mw-small-editor.pinned .mw-editor-controller-component[data-tooltip]:focus:after {
+  top: 100%;
+}
 .mw-small-editor .mw-bar .mw-bar-row {
   border: none !important;
   white-space: nowrap;
@@ -8121,7 +8129,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   font-weight: bold;
   border-radius: 3px;
   padding: 5px;
-  top: 86%;
+  bottom: 86%;
   left: 50%;
   transform: translateX(-50%) scale(1);
   opacity: 0;
@@ -8136,7 +8144,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:focus:after {
   opacity: 1;
   margin-top: 0;
-  top: 100%;
+  bottom: 100%;
   transform: translateX(-50%) scale(1);
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-row,
@@ -8254,6 +8262,15 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   display: inline-flex;
   border-radius: 3px;
   margin-inline: 1px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component-select .mw-editor-select-display-value-content,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component-select .mw-editor-select-display-value-content {
+  max-width: 80px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: normal;
 }
 .mw-small-editor.mw-small-editor-skin-dark {
   background-color: #404040;
@@ -8650,6 +8667,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-controller-component-select .mw-editor-dropdown-option {
   padding: 10px 10px;
   transition: 0.3s;
+}
+.mw-editor-controller-component-select .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
+.mw-editor-controller-component-select .mw-editor-dropdown-option.mw-editor-dropdown-option-active {
+  background-color: rgba(156, 217, 255, 0.66);
 }
 .mw-editor-controller-component-select .mw-editor-dropdown-option:hover {
   background-color: #f7f7f7;

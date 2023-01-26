@@ -151,7 +151,13 @@
                fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
            })
            $(liveEditor).on('selectionchange', function (){
-               liveEditor.lastRange = liveEditor.getSelection().getRangeAt(0)
+               var sel = liveEditor.getSelection();
+               if(sel.rangeCount) {
+                   liveEditor.lastRange =  sel.getRangeAt(0) ;
+               } else {
+                   liveEditor.lastRange = undefined;
+               }
+
            })
 
            holder.innerHTML = '';
