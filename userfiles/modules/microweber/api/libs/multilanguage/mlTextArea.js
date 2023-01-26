@@ -135,6 +135,9 @@
                 switchTabsToLanguage(mlCurrentLanguage);
             });
 
+
+
+
             if (mwEditor) {
                 $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
                     mw.Editor({
@@ -142,6 +145,7 @@
                         inputLanguage: this.lang,
                         mode: 'div',
                         smallEditor: false,
+                        onSave: settings.onSave,
                         minHeight: 250,
                         maxHeight: '70vh',
                         controls: [

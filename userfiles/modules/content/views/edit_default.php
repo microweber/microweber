@@ -514,6 +514,7 @@ if (isset($params['quick_edit'])) {
                                                 echo $formBuilder->mwEditor('content_body')
                                                     ->setModel($contentModel)
                                                     ->value($data['content_body'])
+                                                    ->onSaveCallback('mw.edit_content.handle_form_submit();')
                                                     ->autocomplete(false);
                                                 ?>
                                         <?php else: ?>
@@ -523,6 +524,7 @@ if (isset($params['quick_edit'])) {
                                             echo $formBuilder->mwEditor('content')
                                                 ->setModel($contentModel)
                                                 ->value($data['content'])
+                                                ->onSaveCallback('mw.edit_content.handle_form_submit();')
                                                 ->autocomplete(false);
                                             ?>
 
