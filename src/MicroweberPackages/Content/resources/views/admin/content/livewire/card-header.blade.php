@@ -30,13 +30,22 @@
         <div>
 
             @if(isset($contentType))
-                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn-link btn-sm'])
+                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn btn-link btn-sm'])
 
             @endif
 
-            @if(isset($currentCategory) and $currentCategory)
-                <a href="{{category_link($currentCategory['id'])}}" target="_blank" class="btn btn-link btn-sm js-hide-when-no-items ms-md-4">{{_e('View category')}}</a>
-            @endif
+
+
+
+            <?php
+            /*  @if(isset($currentCategory) and $currentCategory)
+            <a href="{{category_link($currentCategory['id'])}}" target="_blank" title="{{_e('View category')}}"><span class="fa fa-external-link-alt"></span></a>
+            @endif*/
+
+            ?>
+
+
+
         </div>
     </div>
 </div>

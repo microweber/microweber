@@ -39,9 +39,20 @@
 @endif
 
 @if($contentType == 'content')
-    <a href="{{route('admin.page.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Create a page'); ?></a>
-    <a href="{{route('admin.post.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Create a post'); ?></a>
-    <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-    <a href="{{route('admin.product.create')}}{{ $suffix }}" class="{{ $buttonClass }}"><?php _e('Create a product'); ?></a>
-    <?php endif; ?>
+
+
+
+    <div class="btn-group">
+        <button type="button" class="{{ $buttonClass }} dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <?php _e('Create content'); ?>
+        </button>
+        <ul class="dropdown-menu">
+            <a href="{{route('admin.page.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Create a page'); ?></a>
+            <a href="{{route('admin.post.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Create a post'); ?></a>
+                <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+            <a href="{{route('admin.product.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Create a product'); ?></a>
+            <?php endif; ?>
+        </ul>
+    </div>
+
 @endif

@@ -38,7 +38,7 @@
 
                     <div class="col-xl-4 col-sm-12 col-6 d-flex flex-wrap my-xl-0 my-3">
                     @if($showColumns['price'])
-                    <div class="col">
+                    <div class="col" style="white-space: nowrap">
                         @php
                             if ($content->hasSpecialPrice()) {
                                 $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';
