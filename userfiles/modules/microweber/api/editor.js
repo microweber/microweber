@@ -363,9 +363,8 @@ var MWEditor = function (options) {
             if (e.keyCode === ctrlKey || e.keyCode === 91) {
                 ctrlDown = true;
             }
-            if ((ctrlDown && e.keyCode === zKey) /*|| (ctrlDown && e.keyCode === vKey)*/ || (ctrlDown && e.keyCode === cKey)) {
-                e.preventDefault();
-                return false;
+            if(e.key === 's') {
+                scope.dispatch('save')
             }
         };
         node.onkeyup = function(e) {

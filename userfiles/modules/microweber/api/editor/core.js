@@ -308,7 +308,8 @@
                         displayValObj.field.value = (val || options.placeholder || '');
                     } else {
 
-                        displayValNode.get(0).firstElementChild.textContent = (val || options.placeholder || '');
+                        displayValNode.get(0).firstElementChild.innerHTML = (val || options.placeholder || '');
+                        displayValNode.get(0).firstElementChild.textContent = displayValNode.get(0).firstElementChild.textContent;
                     }
                 }
                 var num = parseFloat(val);

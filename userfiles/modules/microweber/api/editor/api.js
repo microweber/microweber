@@ -355,6 +355,9 @@ mw.lib.require('xss');
 
                 }
             },
+            targetSupportsFormatting: function (target) {
+                return !!target && !!target.classList && !target.classList.contains('edit');
+            },
             isSelectionEditable: function (sel) {
                 try {
                     var node = (sel || scope.getSelection()).focusNode;
