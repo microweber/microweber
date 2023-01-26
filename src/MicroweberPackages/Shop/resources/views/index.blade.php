@@ -59,7 +59,25 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                         ?>
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
                         <a href="{{content_link($product->id)}}">
-                            <div class="img-as-background square-75 h-350">
+                            <div class="img-as-background square-75 h-350 position-relative">
+
+                                <div @if($product->getLabelColor())
+                                         style="background-color: {{$product->getLabelColor()}} "
+                                    @endif >
+                                    @if($product->getLabelType() == 'percent')
+                                        <div class="discount-label">
+                                                <span class="discount-percentage">
+                                                      {{$product->getDiscountPercentage()}} %
+                                                </span>
+                                            <span class="discount-label-text"><?php _lang("Discount"); ?></span>
+                                        </div>
+
+                                    @endif
+                                    @if($product->getLabelType() == 'text')
+                                        <p>{{$product->getLabelText()}}  </p>
+                                    @endif
+                                </div>
+
                                 <img src="{{$product->thumbnail(1000,1000)}}" />
 
                             </div>
@@ -69,16 +87,7 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
                         <p>{{$product->content_text}}</p>
 
-                        <div @if($product->getLabelColor())
-                                 style="background-color: {{$product->getLabelColor()}} "
-                            @endif >
-                            @if($product->getLabelType() == 'percent')
-                                <p>{{$product->getDiscountPercentage()}} % </p>
-                            @endif
-                            @if($product->getLabelType() == 'text')
-                                <p>{{$product->getLabelText()}}  </p>
-                            @endif
-                        </div>
+
 
 
                         <div class="d-flex">
