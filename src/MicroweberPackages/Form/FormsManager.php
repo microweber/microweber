@@ -225,7 +225,13 @@ class FormsManager
         }
 
         if ($dis_cap == false) {
-            $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
+
+            if(!isset($params['captcha'])){
+                $validate_captcha = false;
+            } else {
+                $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
+            }
+
             if (!$validate_captcha) {
                 return array(
                     'error' => _e('Invalid captcha answer!', true),

@@ -86,6 +86,28 @@ function get_product_price($content_id = false)
     return mw()->shop_manager->get_product_price($content_id);
 }
 
+
+function get_product_discount_price($content_id = false)
+{
+      $product = \MicroweberPackages\Product\Models\Product::query()->where('id', $content_id)->first();
+      if($product){
+          return $product->getSpecialPriceAttribute();
+      } else {
+          return false;
+      }
+
+}
+function get_product_discount_percent($content_id = false)
+{
+    $product = \MicroweberPackages\Product\Models\Product::query()->where('id', $content_id)->first();
+    if($product){
+        return $product->getDiscountPercentage();
+    } else {
+        return false;
+    }
+}
+
+
 function checkout($data)
 {
     return mw()->shop_manager->checkout($data);
