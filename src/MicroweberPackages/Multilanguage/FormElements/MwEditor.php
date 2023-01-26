@@ -16,6 +16,18 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
         $this->randId = 'ml_editor_element_'.md5(str_random());
         $fieldName = $this->getAttribute('name');
 
+        $onSaveCallback = $this->getAttribute('onSaveCallback');
+        if($onSaveCallback){
+            $onSaveCallbackStr = 'function(){
+                return '.$onSaveCallback.'
+            }';
+        } else {
+            $onSaveCallbackStr = '';
+        }
+
+
+
+
         $fieldValue = '';
         if ($this->readValueFromField) {
             if (isset($this->model->{$this->readValueFromField})) {
@@ -72,14 +84,16 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
             mw.require('editor.js');
             mw.lib.require('multilanguage');
             $(document).ready(function () {
+
                 $('#$this->randId').mlTextArea({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
                     direction: '$textDir',
                     locales: $localesJson,
                     translations: $translationsJson,
+                    onSave: $onSaveCallbackStr,
                     mwEditor: true
-                });
+                })
             });
         </script>
         <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\" ".$this->renderAttributes().">$fieldValue</textarea>";
