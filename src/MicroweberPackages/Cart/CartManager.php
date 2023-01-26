@@ -672,6 +672,19 @@ class CartManager extends Crud
                         }
                     }
                 }
+
+                if ($content_custom_fields) {
+                    foreach ($content_custom_fields as $cf) {
+                        if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
+                            if ($k == $cf['name']) {
+                                $found = true;
+                            } else if ($k == $cf['name_key']) {
+                                $found = true;
+                            }
+                        }
+                    }
+                }
+
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
@@ -735,6 +748,7 @@ class CartManager extends Crud
             $cart['disable_triggers'] = 1;
             $cart['order_completed'] = 0;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+
             $cart['custom_fields_json'] = json_encode($add);
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);
