@@ -74,8 +74,10 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
                                     @endif
                                     @if($product->getContentDataByFieldName('label-type') == 'text' and $product->getContentDataByFieldName('label'))
-                                        dsasdfsd
-                                        <p>{{$product->getContentDataByFieldName('label')}}  </p>
+
+                                            <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
+                                                <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{$product->getContentDataByFieldName('label-color')}};">{{$product->getContentDataByFieldName('label')}}</div>
+                                            </div>
                                     @endif
                                 </div>
 
