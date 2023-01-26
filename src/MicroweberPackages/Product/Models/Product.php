@@ -196,6 +196,14 @@ class Product extends Content
         return false;
     }
 
+    public function hasLabel()
+    {
+        if($this->getLabelType()){
+            return true;
+        } else{
+            return false;
+        }
+    }
     public function getLabelType()
     {
         $labelType = $this->getContentDataByFieldName('label-type');
