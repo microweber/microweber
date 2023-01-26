@@ -1568,3 +1568,8 @@ header {
     display: block !important;
   }
 }
+
+
+.dropdown-toggle.hidden-arrow::after {
+    display:none;
+}

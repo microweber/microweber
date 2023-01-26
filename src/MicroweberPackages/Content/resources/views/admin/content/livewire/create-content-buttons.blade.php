@@ -43,7 +43,7 @@
 
 
     <div class="btn-group">
-        <button type="button" class="{{ $buttonClass }} dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="{{ $buttonClass }} dropdown-toggle hidden-arrow" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php _e('Create content'); ?>
         </button>
         <ul class="dropdown-menu">

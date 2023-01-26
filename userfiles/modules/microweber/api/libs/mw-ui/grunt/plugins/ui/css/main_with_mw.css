@@ -17064,3 +17064,6 @@ header {
   height: 40px; }
 .logo.svg path {
   display: block !important; }
+
+.dropdown-toggle.hidden-arrow::after {
+  display: none; }

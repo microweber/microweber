@@ -175,17 +175,19 @@ class AdminJsCategoryTree
 
     public function appendPage($page)
     {
+
         $appendPage = [];
         $appendPage['id'] = $page['id'];
         $appendPage['type'] = 'page';
-        $appendPage['parent_id'] = $page['parent'];
+        $appendPage['content_type'] = $page['content_type'];
         $appendPage['parent_type'] = 'page';
         $appendPage['title'] = $page['title'];
         $appendPage['url'] = $page['url'];
         $appendPage['is_active'] = $page['is_active'];
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int) $page['position'];
-;
+;       $appendPage['is_shop'] = (int) $page['is_shop'];
+
         $appendPage['icon'] = 'page';
 
         if ($page['subtype'] == 'dynamic') {
@@ -218,6 +220,7 @@ class AdminJsCategoryTree
                         if (!in_array($category['rel_id'], $this->outputPageIds)) {
                             continue;
                         }
+
                         $this->appendCategory($category);
                         continue;
                     }
@@ -254,7 +257,16 @@ class AdminJsCategoryTree
             if ($category['rel_type'] == 'content') {
                 $appendCategory['parent_type'] = 'page';
                 $appendCategory['parent_id'] = $category['rel_id'];
-            }
+
+
+                $parent_page = get_content_by_id($category['rel_id']);
+                if($parent_page){
+                    $parent_page = array_filter($parent_page, function($key) {
+                        return in_array($key, ['id', 'title', 'url', 'content_type', 'subtype', 'is_shop', 'is_home']);
+                    }, ARRAY_FILTER_USE_KEY);
+                    $appendCategory['parent_page'] = $parent_page;
+                }
+             }
         }
 
         $this->output[] = $appendCategory;
