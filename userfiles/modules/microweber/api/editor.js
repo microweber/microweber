@@ -367,7 +367,9 @@ var MWEditor = function (options) {
                 scope.dispatch('save');
                 if(typeof scope.settings.onSave === 'function') {
                     scope.settings.onSave.call(scope);
+                    e.preventDefault();
                 }
+                e.preventDefault();
             }
         };
         node.onkeyup = function(e) {
