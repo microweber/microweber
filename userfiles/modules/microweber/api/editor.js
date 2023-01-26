@@ -364,7 +364,10 @@ var MWEditor = function (options) {
                 ctrlDown = true;
             }
             if(e.key === 's') {
-                scope.dispatch('save')
+                scope.dispatch('save');
+                if(typeof scope.settings.onSave === 'function') {
+                    scope.settings.onSave.call(scope);
+                }
             }
         };
         node.onkeyup = function(e) {
