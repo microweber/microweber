@@ -189,7 +189,7 @@ class AdminJsCategoryTree
         $appendPage['icon'] = 'page';
 
         if ($page['subtype'] == 'dynamic') {
-            $appendPage['icon'] = 'blog';
+            $appendPage['icon'] = 'dynamic';
         }
 
         if ($page['is_shop'] == 1) {
