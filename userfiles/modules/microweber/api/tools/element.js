@@ -254,6 +254,14 @@
             return classes;
         }
 
+        this.hasClass = function (c) {
+            var active = this._active();
+            if(active) {
+                return active.classList.contains(c);
+            }
+            return false;
+        }
+
         this.addClass = function () {
             var classes = prepareClasses(arguments)
             return this.each(function (){

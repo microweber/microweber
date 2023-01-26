@@ -317,15 +317,11 @@ body.mw-column-resizing * {
 
 .mw-sorthandle-moveit {
     position: absolute;
-    z-index: 0;
     left: 0px;
     top: 0px;
     display: block;
     width: 100%;
     height: 19px;
-    cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
     cursor: grab;
     text-align: center;
     z-index: 1;

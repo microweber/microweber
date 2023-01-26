@@ -31,14 +31,17 @@ class CartTest extends TestCase
         self::$content_id = $saved_id;
 
         $add_to_cart = array(
-            'content_id' => self::$content_id,
+           'content_id' => self::$content_id,
+           'color' => 'Purple',
+           'non_existing' => 'must_not_be_added'
            // 'price' => 30,
         );
         $cart_add = update_cart($add_to_cart);
-
         $this->assertEquals(isset($cart_add['success']), true);
         $this->assertEquals(isset($cart_add['product']), true);
         $this->assertEquals($cart_add['product']['price'], 30);
+        $this->assertEquals($cart_add['product']['custom_fields_data']['color'], 'Purple');
+        $this->assertEquals(isset($cart_add['product']['custom_fields_data']['non_existing']), false);
 
         $cart_items = get_cart();
         $this->assertEquals($cart_items[0]['qty'], 1);

@@ -324,7 +324,6 @@ mw.lib.require('xss');
                 }
             },
             fontFamily: function (font_name, sel) {
-                console.log(font_name)
                 var range = (sel || scope.getSelection()).getRangeAt(0);
                 scope.api.execCommand("styleWithCSS", null, true);
                 if (range.collapsed) {
@@ -540,6 +539,21 @@ mw.lib.require('xss');
                     parent.parentNode.insertBefore(all[0], parent);
                     parent.remove();
                     all = target.querySelectorAll(scope.api._execCommandWrongFormats);
+                }
+
+                var lit = target.querySelectorAll('ul > *:not(li), ol > *:not(li)');
+                if(lit.length) {
+                     Array.from(lit).forEach(function (node){
+                         var cld = node.firstElementChild;
+                         if(cld.nodeName === 'li') {
+                             node.parentNode.insertBefore(cld, node);
+                             while (cld.firstChild) {
+                                 node.appendChild(cld.firstChild)
+                             }
+                             cld.appendChild(node)
+                         }
+                     })
+
                 }
 
             },
