@@ -61,10 +61,10 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                         <a href="{{content_link($product->id)}}">
                             <div class="img-as-background square-75 h-350 position-relative">
 
-                                <div @if($product->getLabelColor())
-                                         style="background-color: {{$product->getLabelColor()}} "
+                                <div @if($product->getContentDataByFieldName('label-color'))
+                                         style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
                                     @endif >
-                                    @if($product->getLabelType() == 'percent')
+                                    @if($product->getContentDataByFieldName('label-type') == 'percent')
                                         <div class="discount-label">
                                                 <span class="discount-percentage">
                                                       {{$product->getDiscountPercentage()}} %
@@ -73,8 +73,9 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                                         </div>
 
                                     @endif
-                                    @if($product->getLabelType() == 'text')
-                                        <p>{{$product->getLabelText()}}  </p>
+                                    @if($product->getContentDataByFieldName('label-type') == 'text' and $product->getContentDataByFieldName('label'))
+                                        dsasdfsd
+                                        <p>{{$product->getContentDataByFieldName('label')}}  </p>
                                     @endif
                                 </div>
 

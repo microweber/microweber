@@ -196,43 +196,6 @@ class Product extends Content
         return false;
     }
 
-    public function hasLabel()
-    {
-        if($this->getLabelType()){
-            return true;
-        } else{
-            return false;
-        }
-    }
-    public function getLabelType()
-    {
-        $labelType = $this->getContentDataByFieldName('label-type');
-        return $labelType;
-
-    }
-
-    public function getLabelText() : string
-    {
-        $labelType = $this->getLabelType();
-        if ($labelType == 'percent') {
-            return $this->getDiscountPercentage(). '%';
-         }
-
-        if ($labelType == 'text') {
-            return $this->getContentDataByFieldName('label');
-         }
-
-        return '';
-    }
-    public function getLabelColor() : string
-    {
-        $color = $this->getContentDataByFieldName('label-color');
-        if($color){
-            return $color;
-        }
-        return '';
-    }
-
     public function getDiscountPercentage() : int
     {
         $originalPrice = $this->getPriceAttribute();
