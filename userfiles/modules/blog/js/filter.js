@@ -293,17 +293,17 @@ class ContentFilter {
         // Categories
         $('body').on('click', '.js-filter-category-link', function(e) {
 
-            if (typeof $(this).attr('href') == "undefined") {
+            if (typeof $(this).attr('data-category-id') == "undefined") {
                 return;
             }
 
             e.preventDefault();
 
-            var targetPageNum = $(this).attr('href').split('category=')[1];
+            var categoryId = $(this).attr('data-category-id');
             var queryParams = [];
             queryParams.push({
                 key:'category',
-                value:targetPageNum
+                value:categoryId
             });
             filterInstance.replaceKeyValuesAndApplyFilters(queryParams);
 

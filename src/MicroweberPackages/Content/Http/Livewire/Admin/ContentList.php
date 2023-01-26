@@ -155,8 +155,28 @@ class ContentList extends Component
         if (isset($this->showFilters['category'])) {
             unset($this->showFilters['category']);
         }
-       // $this->filters['page'] = $pageId;
-        $this->filters['pageAndParent'] = $pageId;
+
+        $pageData = get_content_by_id($pageId);
+
+        $showFromPageAndParent = false;
+        if (isset($pageData['content_type']) && $pageData['content_type'] == 'page') {
+            if (isset($pageData['subtype']) && $pageData['subtype'] == 'static') {
+                $showFromPageAndParent = true;
+            }
+
+        }
+        if ($showFromPageAndParent) {
+            $this->filters['pageAndParent'] = $pageId;
+            if(isset($this->filters['page'])){
+                unset($this->filters['page']);
+            }
+         } else {
+            $this->filters['page'] = $pageId;
+             if(isset($this->filters['pageAndParent'])){
+                unset($this->filters['pageAndParent']);
+            }
+        }
+
         $this->setPaginationFirstPage();
     }
 
@@ -256,9 +276,26 @@ class ContentList extends Component
     public function render()
     {
         $currentCategory = false;
+
+
+        $currentPage = false;
+        if (isset($this->filters['page'])) {
+            $currentPage = get_content_by_id($this->filters['page']);
+        }
+        if (isset($this->filters['pageAndParent'])) {
+            $currentPage = get_content_by_id($this->filters['pageAndParent']);
+        }
+
         if (isset($this->filters['category'])) {
             $currentCategory = get_category_by_id($this->filters['category']);
+            if ($currentPage === false and $currentCategory) {
+                $pageForCategory = get_page_for_category($currentCategory['id']);
+                if ($pageForCategory) {
+                    $currentPage = $pageForCategory;
+                }
+            }
         }
+
 
         $isInTrashed  = false;
         if (isset($this->showFilters['trashed']) && $this->showFilters['trashed']) {
@@ -274,13 +311,25 @@ class ContentList extends Component
 
         $displayFilters = true;
         $showNoActiveContentsScreen = false;
+
+        $contentTypeForAddButton = $this->contentType;
+
         if ($this->countActiveContents == 0) {
             $showNoActiveContentsScreen = true;
         }
 
+
+        if($currentPage and isset($currentPage['subtype']) and $currentPage['subtype'] == 'dynamic'){
+            $contentTypeForAddButton = 'post';
+        }
+        if($currentPage and isset($currentPage['is_shop']) and $currentPage['is_shop']){
+            $contentTypeForAddButton = 'product';
+        }
+
+
         if ($showNoActiveContentsScreen) {
             return view('content::admin.content.livewire.no-active-content', [
-                'contentType'=>$this->contentType,
+                'contentType'=>$contentTypeForAddButton,
                 'isInTrashed' => $isInTrashed,
                 'currentCategory'=>$currentCategory,
             ]);
@@ -290,7 +339,7 @@ class ContentList extends Component
 
         if ($currentCategory && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
-                'contentType'=>$this->contentType,
+                'contentType'=>$contentTypeForAddButton,
                 'currentCategory'=>$currentCategory,
                 'inCategory'=>true,
                 'isInTrashed' => $isInTrashed,
@@ -304,7 +353,7 @@ class ContentList extends Component
 
         if ($currentPage && (count($this->filters)==1) && $this->contents->count() == 0) {
             return view('content::admin.content.livewire.no-active-content', [
-                'contentType'=>$this->contentType,
+                'contentType'=>$contentTypeForAddButton,
                 'currentCategory'=>$currentCategory,
                 'inPage'=>true,
                 'isInTrashed' => $isInTrashed,

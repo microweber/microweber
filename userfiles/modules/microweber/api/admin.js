@@ -309,16 +309,16 @@ mw.admin.content.delete = function (a, callback) {
 
         var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids: arr}
-
-        mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true});
-
+        if (typeof mw.spinner !== 'undefined') {
+            mw.spinner({element: '.js-delete-content-btn-' + arr[0], size: 32, decorate: true});
+        }
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
             mw.notification.warning("Content was sent to Trash");
             typeof callback === 'function' ? callback.call(data) : '';
             mw.admin.content.refreshContentListAfterAction();
-
+            if (typeof mw.spinner !== 'undefined') {
             mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true}).remove();
-
+            }
          });
     });
 }

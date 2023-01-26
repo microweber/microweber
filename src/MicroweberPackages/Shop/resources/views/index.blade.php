@@ -52,9 +52,35 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
             </div>
             <div class="row">
                 @foreach($products->results() as $product)
+
+                    <?php
+                        /* @var $product \MicroweberPackages\Product\Models\Product */
+
+                        ?>
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
                         <a href="{{content_link($product->id)}}">
-                            <div class="img-as-background square-75 h-350">
+                            <div class="img-as-background square-75 h-350 position-relative">
+
+                                <div @if($product->getContentDataByFieldName('label-color'))
+                                         style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
+                                    @endif >
+                                    @if($product->getContentDataByFieldName('label-type') == 'percent')
+                                        <div class="discount-label">
+                                                <span class="discount-percentage">
+                                                      {{$product->getDiscountPercentage()}} %
+                                                </span>
+                                            <span class="discount-label-text"><?php _lang("Discount"); ?></span>
+                                        </div>
+
+                                    @endif
+                                    @if($product->getContentDataByFieldName('label-type') == 'text' and $product->getContentDataByFieldName('label'))
+
+                                            <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
+                                                <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{$product->getContentDataByFieldName('label-color')}};">{{$product->getContentDataByFieldName('label')}}</div>
+                                            </div>
+                                    @endif
+                                </div>
+
                                 <img src="{{$product->thumbnail(1000,1000)}}" />
 
                             </div>
@@ -62,8 +88,10 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                         </a>
 
 
-
                         <p>{{$product->content_text}}</p>
+
+
+
 
                         <div class="d-flex">
                             <p class="col-6 mb-0">

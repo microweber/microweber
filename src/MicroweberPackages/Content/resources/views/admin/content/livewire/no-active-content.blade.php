@@ -31,7 +31,7 @@
                                 <h4><?php _e('You don’t have any sub pages in this page'); ?></h4>
                                 <p><?php _e('Create your first page right now.');?></p>
                             @endif
-                        @elseif (isset($inCategory))
+                        @elseif (isset($inCategory) and $currentCategory)
                             @if($contentType == 'content')
                                 <h4><?php _e('You don’t have any content in'); ?>  {{$currentCategory['title']}}</h4>
                                 <p><?php _e('Create your first content right now.');?></p>
