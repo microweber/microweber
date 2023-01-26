@@ -52,6 +52,11 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
             </div>
             <div class="row">
                 @foreach($products->results() as $product)
+
+                    <?php
+                        /* @var $product \MicroweberPackages\Product\Models\Product */
+
+                        ?>
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
                         <a href="{{content_link($product->id)}}">
                             <div class="img-as-background square-75 h-350">
@@ -62,8 +67,19 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                         </a>
 
 
-
                         <p>{{$product->content_text}}</p>
+
+                        <div @if($product->getLabelColor())
+                                 style="background-color: {{$product->getLabelColor()}} "
+                            @endif >
+                            @if($product->getLabelType() == 'percent')
+                                <p>{{$product->getDiscountPercentage()}} % </p>
+                            @endif
+                            @if($product->getLabelType() == 'text')
+                                <p>{{$product->getLabelText()}}  </p>
+                            @endif
+                        </div>
+
 
                         <div class="d-flex">
                             <p class="col-6 mb-0">
