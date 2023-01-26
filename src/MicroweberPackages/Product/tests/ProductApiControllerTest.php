@@ -249,4 +249,55 @@ class ProductApiControllerTest extends TestCase
 
         $this->assertNotEmpty($contentData);
     }
+
+
+
+    public function testProductDiscountLabelValues()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $title = 'Product with labels';
+
+        $contentData = [
+            'title' => $title,
+            'sku' => 'sku-test',
+            'label' => 'new',
+            'label-color' => 'green',
+            'label-type' => 'text',
+            'special_price' => 10,
+
+
+        ];
+
+        $response = $this->call(
+            'POST',
+            route('api.product.store'),
+            [
+                'title' => $title,
+                'price' => 100,
+
+                'content_data' => $contentData
+            ]
+        );
+        $saved = $response->getContent();
+
+        $contentData = content_data($response->getData()->data->id);
+
+        $this->assertEquals($contentData['label'], 'new');
+        $this->assertEquals($contentData['label-color'], 'green');
+        $this->assertEquals($contentData['label-type'], 'text');
+        $this->assertEquals($contentData['sku'], 'sku-test');
+
+
+        $price = get_product_price($response->getData()->data->id);
+        $this->assertEquals($price, 100);
+
+        $discount = get_product_discount_price($response->getData()->data->id);
+        $this->assertEquals($discount, 10);
+
+        $discountPercent = get_product_discount_percent($response->getData()->data->id);
+        $this->assertEquals($discountPercent, 90);
+
+    }
 }
