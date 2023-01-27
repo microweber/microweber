@@ -1463,7 +1463,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     text-decoration: none
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1060px) {
     .mw-toolbar-modules-open-ctrl > [class*='mw-icon-'] {
         margin: 0px;
     }
@@ -1472,6 +1472,9 @@ body.has-opened-sidebar #live_edit_toolbar {
         display: none;
     }
 
+    .mw-toolbar-add-new-content-ctrl i{
+        margin-inline: 0 !important;
+    }
     .mw-toolbar-add-new-content-ctrl span {
         display: none;
     }
@@ -5135,3 +5138,8 @@ body.dragStart picture img{
 }
 
 
+
+
+@media (max-width: 1000px) {
+
+}
