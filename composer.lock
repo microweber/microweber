@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "315d92f43967ce8f7bce9798d7da1c0e",
+    "content-hash": "e5f40b9ecb329044b5d4e0b4d976cf7c",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -6120,23 +6120,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "4.2",
+            "version": "4.3",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "9d10e292489a7db9ce8f02d0ee1522a0ac9b8eb6"
+                "reference": "d3e65850075af15be0ebde16babf102f5b7fa58a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.2-e90464.zip",
-                "reference": "9d10e292489a7db9ce8f02d0ee1522a0ac9b8eb6",
-                "shasum": "52579b86f3db9bb59c458457c0a388334b41f06e"
+                "url": "https://market.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.3-803718.zip",
+                "reference": "d3e65850075af15be0ebde16babf102f5b7fa58a",
+                "shasum": "105db64102a2a9fe3c8a1d3ace27e0f8c7ca3c2d"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/42/README.md"
+                    "readme": "https://market.microweberapi.com/meta/microweber-modules-standalone-updater/43/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6157,7 +6157,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2022-11-23T15:24:53+00:00"
+            "time": "2022-12-02T12:24:05+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -6309,25 +6309,25 @@
         },
         {
             "name": "microweber-templates/new-world",
-            "version": "5.6",
+            "version": "5.9",
             "target-dir": "new-world",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/new-world",
-                "reference": "670220f64728bc627db80fef19103c564d10432f"
+                "reference": "93f42b151ba47cec6f4b8df518324eb69047474a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.6-7684f9.zip",
-                "reference": "670220f64728bc627db80fef19103c564d10432f",
-                "shasum": "560b15b069dc7400b6f07aa3da41ea6943bc54b4"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.9-0235f7.zip",
+                "reference": "93f42b151ba47cec6f4b8df518324eb69047474a",
+                "shasum": "58dc7793635c015653a5d6db1d183f184a727ab9"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/56/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/56/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/59/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/59/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6351,29 +6351,29 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-09-20T08:17:43+00:00"
+            "time": "2023-01-05T13:45:10+00:00"
         },
         {
             "name": "microweber-templates/shopmag",
-            "version": "3.8",
+            "version": "4.1",
             "target-dir": "shopmag",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-templates/shopmag",
-                "reference": "db3699d8feb643553efae44e9037ca4b9be6ec69"
+                "reference": "f8408010bb4f7a69c9c2c60f3a00476e52078f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-3.8-67e6c7.zip",
-                "reference": "db3699d8feb643553efae44e9037ca4b9be6ec69",
-                "shasum": "ca55e1315aba92158d47210e2a077cb30469a127"
+                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.1-26da08.zip",
+                "reference": "f8408010bb4f7a69c9c2c60f3a00476e52078f2e",
+                "shasum": "d1984b586bb29ac91d686456b9e051075b5f0fd7"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/38/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/38/screenshot.jpg"
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/41/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/41/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -6396,7 +6396,7 @@
                 "ecommerce",
                 "microweber"
             ],
-            "time": "2022-09-20T08:16:38+00:00"
+            "time": "2023-01-05T14:00:11+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
