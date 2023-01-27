@@ -19,9 +19,9 @@ description: Skin 1
 
         <?php foreach ($data as $item): ?>
             <?php if (!($item['is_active'])): ?>
-                <a href="<?php print($item['url']); ?>"><?php print(_e($item['title'])); ?></a>
+                <a href="<?php print($item['url']); ?>"><?php print(($item['title'])); ?></a>
             <?php else: ?>
-                <span class="mw-breadcrumb-current"> <?php print(_e($item['title'])); ?> </span>
+                <span class="mw-breadcrumb-current"> <?php print($item['title']); ?> </span>
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
