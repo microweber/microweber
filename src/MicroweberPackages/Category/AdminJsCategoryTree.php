@@ -187,6 +187,7 @@ class AdminJsCategoryTree
         $appendPage['subtype'] = $page['subtype'];
         $appendPage['position'] = (int) $page['position'];
 ;       $appendPage['is_shop'] = (int) $page['is_shop'];
+;       $appendPage['parent_id'] = (int) $page['parent'];
 
         $appendPage['icon'] = 'page';
 

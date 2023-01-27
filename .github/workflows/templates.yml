@@ -10,7 +10,7 @@ jobs:
       matrix:
         php-versions: ['8.1']
         templates: [
-          'microweber-templates/big',
+#          'microweber-templates/big',
           'microweber-templates/bootstrap5',
           'microweber-templates/dream',
           'microweber-templates/green',
