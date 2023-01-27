@@ -34,6 +34,10 @@
                 if(el){
                     var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                     el.href = custom_fonts_stylesheet_restyled;
+                    el.crossorigin = "anonymous";
+                    el.referrerpolicy = "no-referrer";
+
+
                 }
                 mw.reload_module_everywhere('editor/fonts/select_option');
                 mw.reload_module_everywhere('settings/template');
