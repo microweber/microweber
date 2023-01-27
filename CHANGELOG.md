@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.2] - 2022-01-27
+- Big maintenance release
+- Improvements in live edit mode
+- Refactored the admin content list
+- Refactored the admin orders list
+- Refactored file browser
+- Fixed various bugs
+- Added Import and Export module to import content
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.3.1...1.3.2 "")
+
+
 ## [1.3.1] - 2022-08-11
 - Maintenance release 
 - Fix to add missing config files on update
