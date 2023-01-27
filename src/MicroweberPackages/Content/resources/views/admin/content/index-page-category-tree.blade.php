@@ -126,7 +126,7 @@
 
             contextMenu.push({
                 title: '<?php _ejs("Add post"); ?>',
-                icon: 'mdi mdi-pencil',
+                icon: 'mdi mdi-plus-circle-outline',
                 action: function (element, data, menuitem) {
 
                     if(data.parent_page &&  data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 0){
@@ -156,9 +156,10 @@
                 }
             });
 
+            <?php if(is_shop_module_enabled_for_user()): ?>
             contextMenu.push({
                 title: '<?php _ejs("Add product"); ?>',
-                icon: 'mdi mdi-pencil',
+                icon: 'mdi mdi-plus-circle-outline',
                 action: function (element, data, menuitem) {
                     if(data.parent_page && data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 1){
                         window.location.href = '<?php print admin_url('shop/product'); ?>/create?recommended_category_id=' + data.id + '&recommended_content_id=' + data.parent_page.id;
@@ -185,12 +186,12 @@
                     return false;
                 }
             });
-
+            <?php endif; ?>
 
 
             contextMenu.push({
                 title: '<?php _ejs("Add subcategory"); ?>',
-                icon: 'mdi mdi-pencil',
+                icon: 'mdi mdi-folder-plus',
                 action: function (element, data, menuitem) {
                     window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
                 },
@@ -207,7 +208,7 @@
 
             contextMenu.push({
                 title: '<?php _ejs("Add subpage"); ?>',
-                icon: 'mdi mdi-pencil',
+                icon: 'mdi mdi-plus-circle-outline',
                 action: function (element, data, menuitem) {
                     window.location.href = '<?php print admin_url('page'); ?>/create?recommended_content_id=' + data.id;
                 },
