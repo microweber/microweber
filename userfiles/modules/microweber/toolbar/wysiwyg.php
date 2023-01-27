@@ -163,6 +163,12 @@
            holder.innerHTML = '';
            holder.appendChild(liveEditor.wrapper);
 
+
+           var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
+           if(typeof memPin === 'undefined') {
+               liveEditor.smallEditorApi.pin()
+           }
+
        }
 
        addEventListener('load', function (){
