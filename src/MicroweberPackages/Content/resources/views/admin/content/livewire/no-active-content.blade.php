@@ -11,7 +11,7 @@
                     <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
 
 
-                        @if (isset($inPage))
+                        @if (isset($inPage) and $inPage)
                             @if($contentType == 'content')
                                 <h4><?php _e('You don’t have any content in this page'); ?></h4>
                                 <p><?php _e('Create your first content right now.');?></p>
@@ -78,22 +78,10 @@
 
                         <br/>
 
-                        @if($contentType == 'post')
-                            <a href="{{route('admin.post.create')}}" class="btn btn-primary btn-rounded"><?php _e('Create a post'); ?></a>
-                        @endif
+                        @include('content::admin.content.livewire.create-content-buttons')
 
-                        @if($contentType == 'product')
-                            <a href="{{route('admin.product.create')}}" class="btn btn-primary btn-rounded"><?php _e('Create a product'); ?></a>
-                        @endif
 
-                        @if($contentType == 'page')
-                            <a href="{{route('admin.page.create')}}" class="btn btn-primary btn-rounded"><?php _e('Create a page'); ?></a>
-                        @endif
 
-                        @if($contentType == 'content')
-                            <a href="{{route('admin.page.create')}}" class="btn btn-primary btn-rounded"><?php _e('Create a page'); ?></a>
-                            <a href="{{route('admin.post.create')}}" class="btn btn-primary btn-rounded"><?php _e('Create a post'); ?></a>
-                        @endif
                     </div>
                 </div>
             </div>

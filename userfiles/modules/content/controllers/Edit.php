@@ -198,8 +198,7 @@ class Edit
 
         }
         /* END OF SETTING PARENT AND ACTIVE CATEGORY  */
-
-        if ($recommended_parent != false and $data['parent'] == 0) {
+         if ($recommended_parent != false and $data['parent'] == 0) {
             $data['parent'] = $recommended_parent;
         }
 
@@ -249,6 +248,7 @@ class Edit
             }
 
         }
+
         if ($recommended_parent == false and intval($data['id']) == 0 and intval($data['parent']) == 0) {
             $parent_content_params = array();
             $parent_content_params['subtype'] = 'dynamic';

@@ -125,6 +125,70 @@
             ];
 
             contextMenu.push({
+                title: '<?php _ejs("Add post"); ?>',
+                icon: 'mdi mdi-pencil',
+                action: function (element, data, menuitem) {
+
+                    if(data.parent_page &&  data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 0){
+                        window.location.href = '<?php print admin_url('post'); ?>/create?recommended_category_id=' + data.id + '&recommended_content_id=' + data.parent_page.id;
+                    } else {
+                        window.location.href = '<?php print admin_url('post'); ?>/create?recommended_content_id=' + data.id;
+                    }
+
+
+                },
+                filter: function(data) {
+                    if (data.type === 'page' && data.subtype === 'dynamic' && data.is_shop === 0) {
+                        return true;
+                    }
+                    if (data.type === 'category'
+                        && data.parent_type
+                        && data.parent_type === 'page'
+                        && data.parent_id != 0
+                        && data.parent_page
+                        && data.parent_page.id
+                        && data.parent_page.subtype
+                        && data.parent_page.subtype === 'dynamic'
+                        && data.parent_page.is_shop === 0){
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            contextMenu.push({
+                title: '<?php _ejs("Add product"); ?>',
+                icon: 'mdi mdi-pencil',
+                action: function (element, data, menuitem) {
+                    if(data.parent_page && data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 1){
+                        window.location.href = '<?php print admin_url('shop/product'); ?>/create?recommended_category_id=' + data.id + '&recommended_content_id=' + data.parent_page.id;
+                    } else {
+                        window.location.href = '<?php print admin_url('shop/product'); ?>/create?recommended_content_id=' + data.id;
+                    }
+                },
+                filter: function(data) {
+                    if (data.type === 'page' && data.subtype === 'dynamic' && data.is_shop === 1) {
+                        return true;
+                    }
+                    if (data.type === 'category'
+                        && data.parent_type
+                        && data.parent_type === 'page'
+                        && data.parent_id != 0
+                        && data.parent_page
+                        && data.parent_page.id
+                        && data.parent_page.subtype
+                        && data.parent_page.subtype === 'dynamic'
+                        && data.parent_page.is_shop === 1){
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
+
+
+
+            contextMenu.push({
                 title: '<?php _ejs("Add subcategory"); ?>',
                 icon: 'mdi mdi-pencil',
                 action: function (element, data, menuitem) {
@@ -132,6 +196,23 @@
                 },
                 filter: function(data) {
                     if (data.type === 'category') {
+                        return true;
+                    }
+                    if (data.type === 'page' && data.subtype === 'dynamic') {
+                            return true;
+                    }
+                    return false;
+                }
+            });
+
+            contextMenu.push({
+                title: '<?php _ejs("Add subpage"); ?>',
+                icon: 'mdi mdi-pencil',
+                action: function (element, data, menuitem) {
+                    window.location.href = '<?php print admin_url('page'); ?>/create?recommended_content_id=' + data.id;
+                },
+                filter: function(data) {
+                    if (data.type === 'page') {
                         return true;
                     }
                     return false;

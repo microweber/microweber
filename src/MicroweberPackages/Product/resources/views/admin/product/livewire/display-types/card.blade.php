@@ -28,7 +28,7 @@
                     @endif
 
                     @if($showColumns['title'])
-                    <div class="col-5">
+                    <div class="col-xl-5 col-7">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
                         @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
@@ -36,9 +36,9 @@
                     </div>
                     @endif
 
-                    <div class="col-5 d-flex flex-wrap my-xl-0 my-3">
+                    <div class="col-xl-4 col-sm-12 col-6 d-flex flex-wrap my-xl-0 my-3">
                     @if($showColumns['price'])
-                    <div class="col">
+                    <div class="col" style="white-space: nowrap">
                         @php
                             if ($content->hasSpecialPrice()) {
                                 $price = '<span class="h6" style="text-decoration: line-through;">'.currency_format($content->price).'</span>';

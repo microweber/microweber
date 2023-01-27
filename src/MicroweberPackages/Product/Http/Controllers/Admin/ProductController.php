@@ -32,14 +32,25 @@ class ProductController extends AdminController
         return view('product::admin.product.index');
     }
 
-    public function create() {
+    public function create(Request $request)
+    {
+        $request_data = $request->all();
 
-        return view('product::admin.product.edit', [
-            'content_id'=>0
-        ]);
+        $data = [];
+        $data['content_id'] = 0;
+        $data['recommended_category_id'] = 0;
+        $data['recommended_content_id'] = 0;
+        if (isset($request_data['recommended_category_id'])) {
+            $data['recommended_category_id'] = intval($request_data['recommended_category_id']);
+        }
+        if (isset($request_data['recommended_content_id'])) {
+            $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
+        }
+        return view('product::admin.product.edit', $data);
     }
 
     public function edit(Request $request, $id) {
+
 
         return view('product::admin.product.edit', [
             'content_id'=>intval($id)
