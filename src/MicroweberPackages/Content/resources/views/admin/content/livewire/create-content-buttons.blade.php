@@ -49,7 +49,7 @@
         <ul class="dropdown-menu">
             <a href="{{route('admin.page.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add page'); ?></a>
             <a href="{{route('admin.post.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add post'); ?></a>
-                <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+            <?php if (is_shop_module_enabled_for_user()): ?>
             <a href="{{route('admin.product.create')}}{{ $suffix }}" class="dropdown-item {{ $buttonClass }}"><?php _e('Add product'); ?></a>
             <?php endif; ?>
         </ul>

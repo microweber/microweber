@@ -191,3 +191,22 @@ function mw_shop_recover_shopping_cart($sid = false)
 {
     return mw()->cart_manager->recover_cart($sid);
 }
+
+function is_shop_module_enabled_for_user()
+{
+    $shop_disabled = get_option('shop_disabled', 'website') == 'y';
+    if ($shop_disabled) {
+        return false;
+    }
+
+    if (!mw()->module_manager->is_installed('shop')) {
+        return false;
+    }
+
+
+    if (!user_can_view_module(['module' => 'shop'])) {
+        return false;
+    }
+
+    return true;
+}
