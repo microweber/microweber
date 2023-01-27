@@ -689,6 +689,35 @@ mw._initHandles = {
                     }
                 },
                 {
+                    title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
+                    icon: 'mdi-plus',
+                    hover: [
+                        function (e) {
+                            handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
+                        },
+                        function (e) {
+                            handleInsertTargetDisplay('hide');
+                        }
+                    ],
+                    action: function (e, node) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = getActiveModuleOver();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+
+                            mw.drag.plus.rendModules(node);
+                        }
+
+                        node.classList.remove('active')
+
+                    }
+                },
+                {
                     title: 'Move Up',
                     icon: 'mdi mdi-chevron-double-up',
                     className:'mw_handle_module_up',
@@ -712,7 +741,7 @@ mw._initHandles = {
                     className:'mw_handle_module_clone',
                     action: function () {
                         var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
-
+console.log(parent)
                         var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
                         mw.liveEditState.record({
                             target: pt,
@@ -779,6 +808,34 @@ mw._initHandles = {
                     action: function () {
                         mw.drag.module_settings(getActiveDragCurrent(),"admin");
                         $(mw.handleModuleActive.wrapper).removeClass('active');
+                    }
+                },
+                {
+                    title: mw.lang('Insert'),
+                    className: 'mw-handle-insert-button',
+                    icon: 'mdi-plus',
+                    hover: [
+                        function (e) {
+                            handleInsertTargetDisplay(targetFn(), mw.handleModule.positionedAt);
+                        },
+                        function (e) {
+                            handleInsertTargetDisplay('hide');
+                        }
+                    ],
+                    action: function (node) {
+                        var isLayout = mw.handleModule.isLayout
+                        var target = getActiveModuleOver();
+                        if(target && target.dataset.type === 'layouts') {
+                            isLayout = true;
+                        }
+                        if(isLayout) {
+                            mw.layoutPlus.showSelectorUI(node);
+                        } else {
+                            mw.drag.plus.rendModules(node);
+                        }
+
+
+
                     }
                 },
                 {

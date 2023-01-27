@@ -1578,6 +1578,13 @@ body.has-opened-sidebar #live_edit_toolbar {
     height: auto;
 }
 
+#default-layouts-holder{
+    padding-inline: 0 !important;
+    padding: 0;
+    margin: 0;
+    margin-inline: 0 !important;
+}
+
 
 .mw_module_image img {
     position: relative;

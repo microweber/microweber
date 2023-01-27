@@ -108,21 +108,29 @@ mw.drag.plus = {
             return 'right-top';
         }
     },
+
+    _rendModulesTip: null,
     rendModules: function (el) {
         var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
+        console.log(el)
+        if(mw.drag.plus._rendModulesTip) {
+            mw.drag.plus._rendModulesTip.remove()
+        }
          if (!mw.tools.hasClass(el, 'active')) {
+             console.log(2)
             mw.tools.addClass(el, 'active');
             mw.tools.removeClass(other, 'active');
             mw.drag.plus.locked = true;
             mw.$('.mw-tooltip-insert-module').remove();
             mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
 
-            var tip = new mw.tooltip({
+            var tip = mw.tooltip({
                 content: document.getElementById('plus-modules-list').innerHTML,
                 element: el,
                 position: mw.drag.plus.tipPosition(this.currentNode),
                 template: 'mw-tooltip-default mw-tooltip-insert-module',
-                id: 'mw-plus-tooltip-selector'
+                id: 'mw-plus-tooltip-selector',
+                overlay: true
             });
             setTimeout(function (){
                 $('#mw-plus-tooltip-selector').addClass('active').find('.mw-ui-searchfield').focus();
@@ -141,19 +149,22 @@ mw.drag.plus = {
                     mw.$(".module-bubble-tab-not-found-message").hide();
                 }
             });
-            mw.$('#plus-modules-list li').each(function () {
-                var name = mw.$(this).attr('data-module-name');
-                if(name === 'layout'){
-                    var template = mw.$(this).attr('template');
-                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className, template:"'+template+'"})');
-                } else {
-                    mw.$(this).attr('onclick', 'mw.insertModule("' + name + '", {class:this.className})');
-                }
+            mw.$('.modules-list li', tip).each(function () {
+                this.addEventListener('click', function (){
+                    var name = this.dataset.moduleName;
+                    if(name === 'layout'){
+                        var template = this.getAttribute('template');
+                        mw.insertModule( name  , {class: this.className, template: template });
+                    } else {
+                        mw.insertModule( name  , {class: this.className,});
+                    }
+                    el.classList.remove('active');
+                })
             });
              var getIcon = function (url) {
                  return new Promise(function (resolve){
                      if(mw._xhrIcons && mw._xhrIcons[url]) {
-                         resolve(mw._xhrIcons[url])
+                         resolve(mw._xhrIcons[url]);
                      } else {
                          fetch(url, {cache: "force-cache"})
                              .then(function (data){
@@ -161,10 +172,12 @@ mw.drag.plus = {
                              }).then(function (data){
                              mw._xhrIcons[url] = data;
                              resolve(mw._xhrIcons[url])
-                         })
+                         });
                      }
-                 })
-             }
+                 });
+             };
+
+
 
              $('[data-module-icon]').each(function (){
 
@@ -172,11 +185,13 @@ mw.drag.plus = {
                  delete this.dataset.moduleIcon;
                  var img = this;
                  if(src.includes('.svg') && src.includes(location.origin)) {
+
                      var el = document.createElement('div');
                      el.className = img.className;
                      // var shadow = el.attachShadow({mode: 'open'});
                      var shadow = el ;
                      getIcon(src).then(function (data){
+
                           var shImg = document.createElement('div');
                          shImg.innerHTML = data;
                          shImg.part = 'mw-module-icon';
@@ -272,6 +287,8 @@ var insertModule = function (target, module, config, pos) {
 mw.insertModule = function (module, cls) {
 
     var position = mw.drag.plusActive === 'top' ? 'top' : 'bottom';
+
+
 
     insertModule(mw.drag.plusTop.currentNode, module, cls, position).then(function (el) {
         mw.wysiwyg.change(el);
