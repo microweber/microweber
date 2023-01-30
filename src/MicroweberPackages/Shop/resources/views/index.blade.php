@@ -4,10 +4,18 @@
 $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 @endphp
 
-<section class="section container-fluid">
+<style>
+
+    .mw-shop-module-wrapper .card .card-header:after {
+        border: none!important;
+    }
+
+</style>
+
+<section class="section container-fluid mw-shop-module-wrapper">
     <div class="row">
         <div class="col-lg-3">
-            <div class="card border-0 text-dark bg-white">
+            <div class="card border-0 text-dark bg-white ">
 
                 {!! $products->filtersActive() !!}
 
