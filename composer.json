@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=8.1.0",
+        "php": "^8.0",
         "ext-bcmath": "*",
         "ext-gd": "*",
         "ext-intl": "*",
@@ -29,12 +29,11 @@
         "arcanedev/seo-helper": "*",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
-        "dompdf/dompdf": "2.0.1",
-
         "composer/composer": "*",
         "composer/installers": "1.9.0",
         "darkaonline/l5-swagger": "*",
         "doctrine/dbal": "3.3.3",
+        "dompdf/dompdf": "2.0.1",
         "enshrined/svg-sanitize": "0.15.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
@@ -50,6 +49,7 @@
         "jeremeamia/superclosure": "*",
         "kirschbaum-development/eloquent-power-joins": "dev-master",
         "knplabs/knp-menu": "^3.2@dev",
+        "laravel/cashier": "15.x-dev",
         "laravel/dusk": "*",
         "laravel/framework": "v9.48.0",
         "laravel/passport": "*",
@@ -64,7 +64,7 @@
         "microweber-modules/standalone-updater": "4.3",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
-        "microweber-templates/bootstrap5": "1.5",
+        "microweber-templates/bootstrap5": "^1.5",
         "microweber-templates/new-world": "5.9",
         "microweber-templates/shopmag": "4.1",
         "mtrajano/laravel-swagger": "0.6.4",
@@ -164,6 +164,7 @@
             "dont-discover": [
                 "laravel/passport",
                 "laravel/sanctum",
+                "laravel/cashier",
                 "livewire/livewire",
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
