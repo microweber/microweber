@@ -42,7 +42,7 @@ class TemplateInstaller
         return true;
     }
 
-    private function setDefaultTemplate($template_name)
+    public function setDefaultTemplate($template_name)
     {
         $this->log('Setting default template: ' . $template_name);
 
@@ -64,7 +64,7 @@ class TemplateInstaller
         app()->option_manager->clear_memory();
     }
 
-    private function installTemplateContent($template_name)
+    public function installTemplateContent($template_name)
     {
 
         $this->log('Installing default content for template: ' . $template_name);
