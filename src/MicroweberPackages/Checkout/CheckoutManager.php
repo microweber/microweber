@@ -469,7 +469,7 @@ class CheckoutManager
             }
 
 
-            if ($amount) {
+            if ($amount and is_numeric($amount) and is_float($amount) ) {
                 $amount = floatval($amount);
                 $amount = number_format($amount, 2, ".", "");;
             }
