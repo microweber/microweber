@@ -470,8 +470,8 @@ class CheckoutManager
 
 
             if ($amount) {
-                $amount = str_replace(',', '', $amount);
                 $amount = floatval($amount);
+                $amount = number_format($amount, 2, ".", "");;
             }
 
             $place_order['amount'] = $amount;
