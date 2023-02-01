@@ -296,6 +296,91 @@ class UserManager
         }
     }
 
+    /**
+     * Allows you to login a user into the system.
+     *
+     * It also sets user session when the user is logged. <br />
+     * On 5 unsuccessful logins, blocks the ip for few minutes <br />
+     *
+     *
+     * @param array|string $params You can pass parameter as string or as array.
+     * @param mixed|string $params ['email'] optional If you set  it will use this email for login
+     * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
+     *
+     * @example
+     * <code>
+     * //login with username
+     * $this->login('username=test&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login with email
+     * $this->login('email=my@email.com&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login hashed password
+     * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+     * </code>
+     *
+     * @return array|bool
+     *
+     * @category Users
+     *
+     * @uses     $this->hash_pass()
+     * @uses     parse_str()
+     * @uses     $this->get_all()
+     * @uses     $this->session_set()
+     * @uses     $this->app->log_manager->get()
+     * @uses     $this->app->log_manager->save()
+     * @uses     $this->login_set_failed_attempt()
+     * @uses     $this->update_last_login_time()
+     * @uses     $this->app->event_manager->trigger()
+     * @function $this->login()
+     * @deprecated this function is deprecated
+     * @see      _table() For the database table fields
+     */
+    public function codeLogin()
+    {
+        if (!function_exists('get_whitelabel_whmcs_settings')) {
+            return false;
+        }
+
+        $code = $_GET['code_login'];
+        $parse = parse_url(site_url());
+        if (!isset($parse['host'])) {
+            return redirect(admin_url());
+        }
+
+        $domain = $parse['host'];
+        $domain = str_replace('www.','', $domain);
+
+        $whmcsSettings = get_whitelabel_whmcs_settings();
+
+        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
+            return redirect(admin_url());
+        }
+
+        $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
+
+        $verifyCheck = @app()->http->url($verifyUrl)->get();
+        $verifyCheck = @json_decode($verifyCheck, true);
+
+        if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
+            $user = User::where('is_admin', '=', '1')->first();
+            if ($user !== null) {
+                \Illuminate\Support\Facades\Auth::login($user);
+
+                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
+                    return redirect($_GET['http_redirect']);
+                }
+            }
+
+            return redirect(admin_url());
+        }
+
+        return redirect(admin_url());
+    }
     public function attributes($user_id = false)
     {
         if (!$user_id) {
