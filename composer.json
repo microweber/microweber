@@ -33,7 +33,7 @@
         "composer/installers": "1.9.0",
         "darkaonline/l5-swagger": "*",
         "doctrine/dbal": "3.3.3",
-        "dompdf/dompdf": "2.0.1",
+        "dompdf/dompdf": "2.0.2",
         "enshrined/svg-sanitize": "0.15.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
