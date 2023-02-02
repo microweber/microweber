@@ -9,6 +9,7 @@ $gateway->setApiKey($api_key);
 
 
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
+include __DIR__.'/../lib/legacy_fields.php';
 
 if(!isset($data['stripeToken'])){
     $place_order['error'] = 'Stripe Token is required ';

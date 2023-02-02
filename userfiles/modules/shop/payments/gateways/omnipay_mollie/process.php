@@ -3,11 +3,12 @@ use Omnipay\Omnipay;
 
 $api_key = get_option('mollie_api_key', 'payments');
 
+include __DIR__.'/../lib/legacy_fields.php';
 
 $gateway = Omnipay::create('Mollie');
 $gateway->setApiKey($api_key);
 
- 
+
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 try {
     // Send purchase request
@@ -19,7 +20,7 @@ try {
 			'description' => $place_order['item_name'],
 			'transactionId' => $place_order['payment_verify_token'],
 
-			
+
 			'returnUrl' => $mw_return_url,
 			'notifyUrl' => $mw_ipn_url,
 			'cancelUrl' => $mw_cancel_url,
@@ -80,8 +81,8 @@ try {
 		$place_order['order_completed'] = 1;
 		$place_order['is_paid'] = 0;
 		$place_order['redirect'] = $response->getRedirectUrl();
-		
- 
+
+
        // return $response->redirect();
 
     } else {
