@@ -137,7 +137,7 @@ mw.live_edit.showSettings = function (a, opts) {
             dialog.show();
             return dialog;
         }
-        var nmodal = mw.dialogIframe({
+        var nmodal = mw.top().dialogIframe({
             url: src,
             width: 532,
             height: 'auto',

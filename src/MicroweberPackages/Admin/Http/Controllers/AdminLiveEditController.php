@@ -15,7 +15,7 @@ class AdminLiveEditController
 
         $l = view('admin::live_edit.iframe');
         $l = app()->template->append_api_js_to_layout($l);
-        $l = $this->liveEditToolbar($l);
+        // $l = $this->liveEditToolbar($l);
         return $l;
 
     }
