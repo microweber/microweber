@@ -76,6 +76,7 @@
     <script>
         mw.require('editor.js');
         mw.require('css_parser.js');
+        mw.require('le2/modules-list.js');
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -91,6 +92,22 @@
         var frame, frameHolder;
 
         addEventListener('load', () => {
+            fetch('http://localhost/mw3/api/live-edit/modules-list')
+                .then(function (data){
+                    return data.json();
+                }).then(function (data){
+
+                var modulesList = new ModulesList({
+                    data: data
+                });
+                console.log(modulesList.root)
+                mw.dialog({
+                    content: modulesList.root
+                })
+            })
+
+
+
 
             var initEditor = function () {
                 var holder = document.querySelector('#mw-live-edit-editor');

@@ -15,7 +15,10 @@ class ModulesList {
     }
     #data = null;
     #_e = {};
-    
+    selectedCategory = '';
+    #modulesNodes = [];
+    root = null;
+
     on(e, f){ this.#_e[e] ? this.#_e[e].push(f) : (this.#_e[e] = [f]) };
     dispatch(e, f){ this.#_e[e] ? this.#_e[e].forEach(c => { c.call(this, f); }) : ''; };
 
@@ -63,13 +66,13 @@ class ModulesList {
         this.rootShadow.appendChild(nav);
     }
 
-    selectedCategory = '';
+
     selectCategory(category = '') {
         this.selectedCategory = category;
         this.search(category)
         this.dispatch('categorySelect', category);
     }
-    #createRoot() {
+    createRoot() {
         this.root = this.document.crateElement('div');
         this.root.className = 'modules-list modules-list-' + this.settings.skin;
         this.rootShadow = this.root.attachShadow({mode: 'open'});
@@ -90,9 +93,9 @@ class ModulesList {
         return moduleItem;
     }
 
-    #modulesNodes = [];
-    
-    #renderModules() {
+
+
+    renderModules() {
         this.modulesList = this.document.crateElement('div');
         this.modulesList.className = 'modules-list-block'
         const data = this.getData();
@@ -116,7 +119,7 @@ class ModulesList {
         }
     }
 
-    #createSearchGUI() {
+    createSearchGUI() {
         this.searchBlock = this.document.createElement('div');
         this.searchField = this.document.createElement('input');
         this.searchBlock.className = 'modules-list-search-block';
@@ -125,7 +128,7 @@ class ModulesList {
         this.rootShadow.appendChild(this.searchBlock);
         this.searchField.addEventListener('input', e => this.search(this.searchField.value))
     }
-    
+
     async #searchLocal(category, keyword) {
         if(keyword) {
             keyword = keyword.trim();
@@ -156,10 +159,10 @@ class ModulesList {
 
     async render() {
         this.setData(this.settings.data);
-        this.#createRoot();
+        this.createRoot();
         this.createCategoriesMenu();
-        this.#renderModules();
-        this.#createSearchGUI();
+        this.renderModules();
+        this.createSearchGUI();
         return new Promise(resolve => {
             resolve(this)
         })
