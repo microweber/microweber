@@ -163,7 +163,6 @@ Route::post('/csrf-validate-token', function () {
     \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
     \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
     \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
-
 ])->name('csrf-validate-token');
 
 

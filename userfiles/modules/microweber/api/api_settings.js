@@ -516,7 +516,14 @@ mw.uploadGlobalSettings = {
                     }
                 }).fail(function(){
                     $.post(route('csrf'), function (res) {
-                        resolve();
+                        var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-XSRF-TOKEN': tokenFromCookie
+                            }
+                        });
+                       resolve();
                     });
                 })
             });
