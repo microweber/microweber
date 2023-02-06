@@ -506,3 +506,21 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 
 ?>
 
+mw.uploadGlobalSettings = {
+    on: {
+        beforeFileUpload: function (instance) {
+            return new Promise(function (resolve){
+                $.post(route('csrf-validate-token'), function (res) {
+                    if (res.ok) {
+                        resolve();
+                    } else {
+                        $.post(route('csrf'), function (res) {
+                            resolve();
+                        });
+                    }
+                })
+            });
+        }
+    }
+}
+
