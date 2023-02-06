@@ -150,6 +150,7 @@ $myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'pay
 //    }
 //}
 
+include __DIR__.'/../lib/legacy_fields.php';
 
 if (is_array($posted_fields)) {
     foreach ($posted_fields as $k => $value) {

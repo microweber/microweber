@@ -9,7 +9,7 @@ use MicroweberPackages\Order\Models\Order;
 
 class Customer extends Model
 {
-    public $table = 'customers';
+    protected $table = 'customers';
 
     use CacheableQueryBuilderTrait;
     public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users'];

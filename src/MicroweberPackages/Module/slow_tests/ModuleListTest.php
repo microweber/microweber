@@ -73,7 +73,8 @@ class ModuleListTest extends TestCase
 
                     // Looking for parser errors
                     foreach ($this->parserErrorStrings as $errorString) {
-                        PHPUnit::assertFalse(str_contains($moduleOutput, $errorString));
+
+                        PHPUnit::assertFalse(str_contains($moduleOutput, $errorString), 'Found module error: ' . $errorString. ' in module: ' . $module['module']);
                     }
 
                     $this->assertNotEmpty($moduleOutput);

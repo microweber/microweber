@@ -24,6 +24,7 @@ use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Order\Repositories\OrderRepository;
+use MicroweberPackages\Payment\PaymentManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\Translation\Translator;
@@ -85,6 +86,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
  * @property ShippingManager          $shipping_manager
+ * @property PaymentManager          $payment_manager
  * @property OptionManager                 $option_manager
  * @property OptionRepository                 $option_repository
  * @property CacheManager                  $cache_manager

@@ -120,6 +120,7 @@ class XSSClean
             'onauxclick',
             'onbeforecopy',
             'onbeforecut',
+            'onbeforeinput',
             'onblur',
             'onchange',
             'onclick',

@@ -669,9 +669,11 @@ class FrontendController extends Controller
                                 if (is_file($render_file_temp)) {
                                     $page['simply_a_file'] = $file1;
                                     $page['layout_file'] = $file1;
+                                    $show_404_to_non_admin = false;
                                 } else if (is_file($render_file_temp2)) {
                                     $page['simply_a_file'] = $file2;
                                     $page['layout_file'] = $file2;
+                                    $show_404_to_non_admin = false;
                                 } elseif ($found_mod) {
                                     $page['id'] = 0;
                                     $page['content_type'] = 'page';

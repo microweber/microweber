@@ -193,8 +193,8 @@ Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackag
 
 
 Route::group(['middleware' => ['public.web' , \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
-    Route::any('/api_nosession', 'ApiController@api');
+    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*')->name('api_nosession.all');
+    Route::any('/api_nosession', 'ApiController@api')->name('api_nosession');
 });
 
 

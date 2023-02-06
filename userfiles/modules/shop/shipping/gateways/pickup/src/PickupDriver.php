@@ -25,7 +25,7 @@ class PickupDriver implements ShippingDriverInterface
     {
         $saveOption = [];
         $saveOption['option_key'] = 'shipping_gw_' . $this->module;
-        $saveOption['option_value'] = 'y';
+        $saveOption['option_value'] = 'n';
         $saveOption['option_group'] = 'shipping';
 
         return save_option($saveOption);

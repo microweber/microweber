@@ -39,6 +39,7 @@ use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
+use MicroweberPackages\Payment\PaymentManagerServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
@@ -281,6 +282,7 @@ class AppServiceProvider extends ServiceProvider
         // Shop
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
+        $this->app->register(PaymentManagerServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
         $this->app->register(OrderEventServiceProvider::class);

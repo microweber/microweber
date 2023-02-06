@@ -275,13 +275,19 @@ class CheckoutManager
                 $data['payment_gw'] = 'none';
             } else {
                 if ($mw_process_payment == true) {
-                    $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
-
-                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
-                        $gateway = $gw_check[0];
+                  //  $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
+                    $gw_check = app()->payment_manager->hasPaymentProvider($data['payment_gw']);
+                    if ($gw_check) {
+                        $gateway = app()->payment_manager->getPaymentProviderModule($data['payment_gw']);
                     } else {
                         $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
                     }
+
+//                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
+//                        $gateway = $gw_check[0];
+//                    } else {
+//                        $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
+//                    }
                 }
             }
 
@@ -391,38 +397,6 @@ class CheckoutManager
             $set_return_url_for_order_finish = false;
 
 
-//            if ($this->app->url_manager->is_ajax()) {
-//                $set_return_url_for_order_finish = $this->app->url_manager->current(true);
-//            } elseif (isset($_SERVER['HTTP_REFERER'])) {
-//                $set_return_url_for_order_finish = $_SERVER['HTTP_REFERER'];
-//            }
-           // $set_return_url_for_order_finish = route('checkout.finish',0);
-
-
-//            if ($set_return_url_for_order_finish) {
-//                $urlarray = explode('?', $set_return_url_for_order_finish);
-//                if (isset($urlarray[0]) and isset($urlarray[1])) {
-//                    parse_str($urlarray[1], $ref_params);
-//                    if (isset($ref_params['mw_payment_failure'])) {
-//                        unset($ref_params['mw_payment_failure']);
-//                    }
-//                    if (isset($ref_params['mw_payment_success'])) {
-//                        unset($ref_params['mw_payment_success']);
-//                    }
-//                    $rebuild = http_build_query($ref_params, '', '&amp;');
-//                    if ($rebuild) {
-//                        $set_return_url_for_order_finish = $urlarray[0] . '?' . $rebuild;
-//                    } else {
-//                        $set_return_url_for_order_finish = $urlarray[0];
-//                    }
-//                }
-//                $place_order['url'] = $set_return_url_for_order_finish;
-//                $return_url_after = '&return_to=' . urlencode($set_return_url_for_order_finish);
-//                $this->app->user_manager->session_set('checkout_return_to_url', $set_return_url_for_order_finish);
-//            } else {
-//                $place_order['url'] = $this->app->url_manager->current();
-//            }
-
             $place_order['session_id'] = $sid;
             $place_order['order_completed'] = 0;
             $items_count = 0;
@@ -469,9 +443,9 @@ class CheckoutManager
             }
 
 
-            if ($amount) {
-                $amount = str_replace(',', '', $amount);
+            if ($amount and is_numeric($amount) and is_float($amount) ) {
                 $amount = floatval($amount);
+                $amount = number_format($amount, 2, ".", "");;
             }
 
             $place_order['amount'] = $amount;
@@ -589,50 +563,70 @@ class CheckoutManager
                 $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
                 if ($data['payment_gw'] != 'none') {
-                    $place_order['payment_gw'] = $data['payment_gw'];
-                    $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
-                    if (!is_file($gw_process)) {
-                        $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
-                    }
+                    $place_order['posted_fields']  = $posted_fields;
 
                     $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
                     $vkey_data = array();
-                    // $vkey_data['payment_amount'] = $place_order['payment_amount'];
-                    // $vkey_data['payment_currency'] = $place_order['payment_currency'];
-                    $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
-                    //   $vkey_data['id'] = $place_order['id'];
-// dd($vkey_data);
-                    //  $enc_key_hash = md5($encrypter->encrypt(json_encode($vkey_data)));
 
-                    //  $enc_key_hash = md5(\Config::get('app.key').json_encode($vkey_data));
+                    $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
+
                     $enc_key_hash = md5(json_encode($vkey_data));
                     $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
                     $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    // $vkey_data_temp['url'] = $mw_return_url;
-                    //$mw_return_url .= '&_vkey_url=' . $enc_key_hash;
 
 
                     $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    // $vkey_data_temp['url'] = $mw_cancel_url;
-                    // $mw_cancel_url .= '&_vkey_url=' . $enc_key_hash;
 
 
                     $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
                     $vkey_data_temp = $vkey_data;
-                    //$vkey_data_temp['url'] = $mw_ipn_url;
-                    //$mw_ipn_url .= '&_vkey_url=' . $enc_key_hash;
 
 
-                    if (is_file($gw_process)) {
-                        require_once $gw_process;
-                    } else {
-                        $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
+                    $mw_payment_fields = array();
+                    $mw_payment_fields['enc_key_hash']  = $enc_key_hash;
+                    $mw_payment_fields['mw_return_url']  = $mw_return_url;
+                    $mw_payment_fields['mw_cancel_url']  = $mw_cancel_url;
+                    $mw_payment_fields['mw_ipn_url']  = $mw_ipn_url;
+
+                    $place_order['mw_payment_fields']  = $mw_payment_fields;
+                    $place_order['posted_data']  = $data;
+
+                    $paymentDriver = app()->payment_manager->driver($data['payment_gw']);
+                    $skipLegacy = false;
+                    if(method_exists($paymentDriver, 'process')){
+                        $skipLegacy = true;
+                        $place_order =  $paymentDriver->process($place_order);
                     }
 
+
+
+                    if ($skipLegacy == false) {
+                        $place_order['payment_gw'] = $data['payment_gw'];
+                        $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
+                        if (!is_file($gw_process)) {
+                            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
+                        }
+
+
+                        if (is_file($gw_process)) {
+                            require_once $gw_process;
+                        } else {
+                            $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
+                        }
+                    }
+
+                    if (isset($place_order['posted_fields'])) {
+                        unset($place_order['posted_fields']);
+                    }
+                    if (isset($place_order['mw_payment_fields'])) {
+                        unset($place_order['mw_payment_fields']);
+                    } if (isset($place_order['posted_data'])) {
+                        unset($place_order['posted_data']);
+                    }
 
                 } else {
                     $place_order['order_completed'] = 1;
