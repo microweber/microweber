@@ -513,11 +513,11 @@ mw.uploadGlobalSettings = {
                 $.post(route('csrf-validate-token'), function (res) {
                     if (res.ok) {
                         resolve();
-                    } else {
-                        $.post(route('csrf'), function (res) {
-                            resolve();
-                        });
                     }
+                }).fail(function(){
+                    $.post(route('csrf'), function (res) {
+                        resolve();
+                    });
                 })
             });
         }
