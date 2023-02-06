@@ -510,22 +510,29 @@ mw.uploadGlobalSettings = {
     on: {
         beforeFileUpload: function (instance) {
             return new Promise(function (resolve){
-                $.post(route('csrf-validate-token'), function (res) {
-                    if (res.ok) {
+                var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                let xhr = new XMLHttpRequest()
+                xhr.open('POST', route('csrf-validate-token'), true)
+                xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+                xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
+                xhr.send('');
+                xhr.onload = function (res) {
+                   
+                    if(xhr.status === 400) {
+                        $.post(route('csrf'), function (res) {
+                            var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-XSRF-TOKEN': tokenFromCookie
+                                }
+                            });
+                            resolve();
+                        });
+                    } else {
                         resolve();
                     }
-                }).fail(function(){
-                    $.post(route('csrf'), function (res) {
-                        var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
-
-                        $.ajaxSetup({
-                            headers: {
-                                'X-XSRF-TOKEN': tokenFromCookie
-                            }
-                        });
-                       resolve();
-                    });
-                })
+                }
             });
         }
     }

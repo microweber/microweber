@@ -157,6 +157,18 @@ Route::post('/csrf-validate-token', function () {
             'time' => time()
         ], 200, $headers
     );
+
+    $request = request();
+    $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+    return $middleware->forceAddAddXsrfTokenCookie($request, $response);
+
+    $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
+    $response = response()->json(
+        [
+            'ok' => true,
+            'time' => time()
+        ], 200, $headers
+    );
     return $response;
 })->middleware([
     \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
