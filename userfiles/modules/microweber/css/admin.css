@@ -946,6 +946,10 @@ hr {
 
 /*todo:*/
 
+#admin-logo{
+    margin-inline-end: 20px;
+}
+
 #admin-logo a{
     display: block;
 }

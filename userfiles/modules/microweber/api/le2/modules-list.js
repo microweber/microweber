@@ -1,5 +1,6 @@
 
 
+
 class ModulesList {
     constructor( options = {} ) {
         const defaults = {
@@ -57,7 +58,7 @@ class ModulesList {
     createCategoriesMenu() {
         const nav = this.document.createElement('ul');
         this.prepareCategories();
-        nav.innerHTML = this.categories.map(c => '<li data-category="${c}">${c}</li>').join('');
+        nav.innerHTML = this.categories.map(c => `<li data-category="${c}">${c}</li>`).join('');
         nav.addEventListener('click', e => {
             if (e.target.nodeName === 'LI') {
                 this.selectCategory(e.target.dataset.category);
@@ -73,15 +74,19 @@ class ModulesList {
         this.dispatch('categorySelect', category);
     }
     createRoot() {
-        this.root = this.document.crateElement('div');
+        this.root = this.document.createElement('div');
         this.root.className = 'modules-list modules-list-' + this.settings.skin;
         this.rootShadow = this.root.attachShadow({mode: 'open'});
+        let style = document.createElement("style");
+
+        style.textContent = ``;
+        this.rootShadow.appendChild(style);
     }
     #renderModule(data) {
-        const moduleItem = this.document.crateElement('div');
+        const moduleItem = this.document.createElement('div');
         moduleItem.className = 'modules-list-block-item';
         moduleItem.innerHTML = `
-            <div class="modules-list-block-item-picture" style="background-image: ${data.icon}"></div>
+            <div class="modules-list-block-item-picture" style="background-image: (${data.icon})"></div>
             <div class="modules-list-block-item-title">${data.name || data.title}</div>
             <div class="modules-list-block-item-description">${data.description}</div>
         `;
@@ -96,7 +101,7 @@ class ModulesList {
 
 
     renderModules() {
-        this.modulesList = this.document.crateElement('div');
+        this.modulesList = this.document.createElement('div');
         this.modulesList.className = 'modules-list-block'
         const data = this.getData();
         let i = 0, length = data.length;
@@ -157,7 +162,7 @@ class ModulesList {
         }
     }
 
-    async render() {
+    async create() {
         this.setData(this.settings.data);
         this.createRoot();
         this.createCategoriesMenu();
@@ -167,4 +172,6 @@ class ModulesList {
             resolve(this)
         })
     }
+
+
 }
