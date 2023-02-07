@@ -89,5 +89,13 @@ description: Default
 
     <?php } ?>
 
+    <?php if ($skype_enabled) { ?>
+        <li>
+            <a href="skype:<?php print $skype_url; ?>?chat" target="_blank" data-toggle="tooltip" data-placement="top" title="Skype">
+                <i class="fa fa-skype"></i>
+            </a>
+        </li>
+    <?php } ?>
+
 
 </div>

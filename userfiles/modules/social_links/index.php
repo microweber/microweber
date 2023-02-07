@@ -32,6 +32,7 @@ $social_links_options['mixcloud_url'] = '';
 $social_links_options['medium_url'] = '';
 $social_links_options['discord_url'] = '';
 $social_links_options['discord_enabled'] = '';
+$social_links_options['skype_enabled'] = '';
 
 $website_social_links_options = $social_links_options;
 
@@ -63,6 +64,7 @@ $soundcloud_enabled_option = $social_links_options['soundcloud_enabled'];
 $mixcloud_enabled_option = $social_links_options['mixcloud_enabled'];
 $medium_enabled_option = $social_links_options['medium_enabled'];
 $discord_enabled_option = $social_links_options['discord_enabled'];
+$skype_enabled_option = $social_links_options['skype_enabled'];
 
 $facebook_enabled = $facebook_enabled_option == 'y';
 $twitter_enabled = $twitter_enabled_option == 'y';
@@ -78,6 +80,7 @@ $soundcloud_enabled = $soundcloud_enabled_option == 'y';
 $mixcloud_enabled = $mixcloud_enabled_option == 'y';
 $medium_enabled = $medium_enabled_option == 'y';
 $discord_enabled = $discord_enabled_option == 'y';
+$skype_enabled = $skype_enabled_option == 'y';
 
 
 if (isset($params['show-icons'])) {
@@ -110,6 +113,8 @@ if (isset($params['show-icons'])) {
             $medium_enabled = true;
         } else if (strpos($icon, 'discord') !== false and $discord_enabled_option == false) {
             $discord_enabled = true;
+        } else if (strpos($icon, 'skype') !== false and $skype_enabled_option == false) {
+            $skype_enabled = true;
         }
     }
 }
@@ -191,6 +196,12 @@ $discord_url = $social_links_options['discord_url'];
 
 if ($discord_url == false) {
     $discord_url = $website_social_links_options['discord_url'];
+}
+
+$skype_url = $social_links_options['skype_url'];
+
+if ($skype_url == false) {
+    $skype_url = $website_social_links_options['skype_url'];
 }
 
 
