@@ -88,7 +88,7 @@ description: Default
         <a href="//discord.gg/<?php print $discord_url; ?>" target="_blank"><span class="mw-icon-web-star"></span></a>
 
     <?php } ?>
-
+    
     <?php if ($skype_enabled) { ?>
         <li>
             <a href="skype:<?php print $skype_url; ?>?chat" target="_blank" data-toggle="tooltip" data-placement="top" title="Skype">

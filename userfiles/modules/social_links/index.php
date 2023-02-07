@@ -32,6 +32,8 @@ $social_links_options['mixcloud_url'] = '';
 $social_links_options['medium_url'] = '';
 $social_links_options['discord_url'] = '';
 $social_links_options['discord_enabled'] = '';
+
+$social_links_options['skype_url'] = '';
 $social_links_options['skype_enabled'] = '';
 
 $website_social_links_options = $social_links_options;
@@ -203,7 +205,6 @@ $skype_url = $social_links_options['skype_url'];
 if ($skype_url == false) {
     $skype_url = $website_social_links_options['skype_url'];
 }
-
 
 $social_links_has_enabled = false;
 
