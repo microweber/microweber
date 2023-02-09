@@ -8340,6 +8340,21 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-wrapper.mw-editor-default .mw-editor-area {
   border-radius: 0 0 5px 5px;
 }
+.mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option {
+  padding: 10px 10px;
+  transition: 0.3s;
+}
+.mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
+.mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option.mw-editor-dropdown-option-active {
+  background-color: rgba(156, 217, 255, 0.66);
+}
+.mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option:hover {
+  background-color: #f7f7f7;
+}
+.mw-editor-wrapper.mw-editor-default .mw-editor-controller-button:hover {
+  background-color: rgba(255, 255, 255, 0.77);
+  border-color: rgba(255, 255, 255, 0.87);
+}
 .mw-editor-wrapper .mw-editor-controller-component,
 .mw-editor-wrapper .mw-bar-control-item {
   display: inline-block;
@@ -8566,10 +8581,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   -ms-user-select: none;
   user-select: none;
 }
-.mw-editor-controller-button:hover {
-  background-color: rgba(255, 255, 255, 0.77);
-  border-color: rgba(255, 255, 255, 0.87);
-}
 .mw-editor-controller-button.active-control {
   background-color: #4592ff;
   color: #fff;
@@ -8655,17 +8666,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-controller-component-select.active .mw-editor-controller-component-select-values-holder {
   opacity: 1;
   visibility: visible;
-}
-.mw-editor-controller-component-select .mw-editor-dropdown-option {
-  padding: 10px 10px;
-  transition: 0.3s;
-}
-.mw-editor-controller-component-select .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
-.mw-editor-controller-component-select .mw-editor-dropdown-option.mw-editor-dropdown-option-active {
-  background-color: rgba(156, 217, 255, 0.66);
-}
-.mw-editor-controller-component-select .mw-editor-dropdown-option:hover {
-  background-color: #f7f7f7;
 }
 .mw-editor-font-size-selector .mw-editor-controller-component-select-values-holder {
   display: flex;

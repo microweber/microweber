@@ -83,7 +83,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
     $user = get_user();
 
-    ?>
+?>
 
 <div class="mw-helpinfo semi_hidden">
   <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">

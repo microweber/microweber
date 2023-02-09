@@ -252,8 +252,14 @@
                     props: {
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                         innerHTML: options.placeholder || ''
-                    }
+                    },
+                    color: 'red'
                 });
+
+                displayValObj.frame.addEventListener('load', function (){
+                    displayValObj.field.color = getComputedStyle(lscope.root.get(0)).color;
+                });
+                displayValObj.field.color = getComputedStyle(lscope.root.get(0)).color;
 
 
 
@@ -371,6 +377,7 @@
                     lscope.select.valueHolder.css({
                         maxHeight: edOff.height - (selOff.top - edOff.top)
                     });
+
                 }
 
                 mw.element('.mw-editor-controller-component-select').each(function (){
@@ -379,6 +386,7 @@
                     }
                 });
                 mw.element(_this).toggleClass('active');
+                mw.element('.mw-bar-control-item.active').removeClass('active')
             };
             this.select.on('click', function (e) {
                 e.stopPropagation();

@@ -574,7 +574,7 @@ mw.lib.require('xss');
                             var parent = mw.tools.firstBlockLevel(node).parentNode.parentNode;
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
-                                scope.api.cleanNesting(parent)
+                                scope.api.cleanNesting(parent);
                                 mw.$(scope.settings.iframeAreaSelector, scope.actionWindow.document).trigger('execCommand');
                                 mw.$(scope).trigger('execCommand');
                             }, recordTimeout);

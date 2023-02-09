@@ -42,6 +42,7 @@ var MWEditor = function (options) {
         regions: null,
         document: document,
         executionDocument: document,
+        actionWindow: window,
         mode: 'div', // iframe | div | document
         controls: 'default',
         smallEditor: false,
@@ -66,11 +67,14 @@ var MWEditor = function (options) {
         id: null // for storage
     };
 
-    this.actionWindow = window;
+
 
     options = options || {};
 
     this.settings = mw.object.extend({}, defaults, options);
+
+    this.actionWindow = this.settings.actionWindow;
+
     if(!this.settings.direction) {
         if(this.settings.inputLanguage) {
             this.settings.direction = MWEditor.rtlDetect.getLangDir(this.settings.inputLanguage);

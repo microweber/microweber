@@ -145,6 +145,7 @@
             }
             if(action !== false){
                 mw.$(this).trigger('change', [this.eventData()]);
+                this.dispatch('change');
             }
             return this;
         };
