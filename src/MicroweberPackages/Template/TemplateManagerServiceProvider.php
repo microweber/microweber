@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Template;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -46,5 +47,10 @@ class TemplateManagerServiceProvider extends ServiceProvider
         $this->app->singleton('template', function ($app) {
             return new Template();
         });
+    }
+    public function register()
+    {
+        View::addNamespace('template', __DIR__.'/resources/views');
+
     }
 }
