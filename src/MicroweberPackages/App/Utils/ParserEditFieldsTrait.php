@@ -124,7 +124,9 @@ Trait ParserEditFieldsTrait
                     if ($option_mod == false) {
                         $option_mod = pq($elem)->attr('type');
                     }
+                    if($name){
                     $name = trim($name);
+                    }
                     $get_global = false;
                     $field = $name;
                     $use_id_as_field = $name;
