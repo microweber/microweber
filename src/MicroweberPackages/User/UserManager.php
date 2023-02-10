@@ -1245,10 +1245,14 @@ class UserManager
             $this->socialite_config($provider);
             switch ($provider) {
                 case 'github':
-                    return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();
+                    return $this->socialite->with($provider)->scopes(['user:email'])->redirect();
+
+                case 'google':
+                case 'azure':
+                    return $this->socialite->with($provider)->with(["prompt" => "select_account"])->redirect();
             }
 
-            return $login = $this->socialite->with($provider)->redirect();
+            return $this->socialite->with($provider)->redirect();
         }
     }
 

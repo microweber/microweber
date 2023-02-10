@@ -9,7 +9,7 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
   SecFilterScanPOST Off
   SecFilterCheckURLEncoding Off
 </IfModule>
- 
+
 <IfModule mod_expires.c>
   ExpiresActive On
 
@@ -63,6 +63,17 @@ ForceType 'text/css; charset=UTF-8'
 
     RewriteRule ^.*\.(gif|jpe?g|png|svg|bmp|webp|ico)$ - [L]
 
+    RewriteRule ^app/(.*)?$ / [F,L]
+    RewriteRule ^vendor/(.*)?$ / [F,L]
+    RewriteRule ^src/(.*)?$ / [F,L]
+    RewriteRule ^storage/(.*)?$ / [F,L]
+    RewriteRule ^database/(.*)?$ / [F,L]
+    RewriteRule ^config/(.*)?$ / [F,L]
+    RewriteRule ^bootstrap/(.*)?$ / [F,L]
+    RewriteRule ^tests/(.*)?$ / [F,L]
+    RewriteRule ^composer\.(lock|json)$ / [F,L]
+
+
 
     RewriteCond %{REQUEST_URI} ^/userfiles/.*$ [NC,OR]
     RewriteCond %{REQUEST_URI} ^/userfiles/media/.*$ [NC]
@@ -96,4 +107,4 @@ ForceType 'text/css; charset=UTF-8'
   </IfModule>
 </FilesMatch>
 
-RedirectMatch 404 /(vendor|gulp|src|storage|database|config|bootstrap|tests)(/|$)
+#RedirectMatch 404 /(vendor|gulp|src|storage|database|config|bootstrap|tests)(/|$)

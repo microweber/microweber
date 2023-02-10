@@ -119,9 +119,9 @@
 
         </form>
 
-        <div style="width:200px;float:right;text-align:right; margin-top:5px;margin-bottom:15px;">
+        <div class="mb-3" >
             <label class="d-block mb-2"><?php _e("Sort By"); ?></label>
-            <select class="form-control" onchange="location = this.value;">
+            <select class="form-control" style="width: 200px" onchange="location = this.value;">
 
                 <option disabled="disabled"><?php _e("Select sorting"); ?></option>
 
@@ -151,6 +151,10 @@
                         <div class="img-circle-holder img-absolute w-60">
                             <img src="{{$user->avatar}}">
                         </div>
+                    </td>
+
+                    <td>
+                        {{$user->id}}
                     </td>
 
                     <td>

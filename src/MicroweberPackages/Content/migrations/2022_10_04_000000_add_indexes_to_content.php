@@ -25,7 +25,11 @@ class AddIndexesToContent  extends Migration
             foreach ($indexColumns as $indexColumn) {
                 $indexName = $this->makeIndexName($prefix, $table->getTable(), 'index', [$indexColumn]);
                 if (!$doctrineTable->hasIndex($indexName)) {
-                    $table->index($indexColumn, $indexName)->change();
+                    try {
+                        $table->index($indexColumn, $indexName)->change();
+                    } catch (\Exception $e) {
+                        //ignore
+                    }
                 }
             }
         });
