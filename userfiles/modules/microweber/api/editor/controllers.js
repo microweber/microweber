@@ -10,7 +10,12 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('justifyLeft');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var actionTarget = mw.tools.firstBlockLevel(node);
+                api.action(actionTarget.parentNode, function () {
+                    actionTarget.style.textAlign = 'left';
+                });
             });
             return el;
         };
@@ -32,7 +37,12 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('justifyCenter');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var actionTarget = mw.tools.firstBlockLevel(node);
+                api.action(actionTarget.parentNode, function () {
+                    actionTarget.style.textAlign = 'center';
+                });
             });
             return el;
         };
@@ -56,7 +66,12 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('justifyRight');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var actionTarget = mw.tools.firstBlockLevel(node);
+                api.action(actionTarget.parentNode, function () {
+                    actionTarget.style.textAlign = 'right';
+                });
             });
             return el;
         };
@@ -80,7 +95,12 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart', function (e) {
-                api.execCommand('justifyFull');
+                var sel = api.getSelection();
+                var node = api.elementNode(sel.focusNode);
+                var actionTarget = mw.tools.firstBlockLevel(node);
+                api.action(actionTarget.parentNode, function () {
+                    actionTarget.style.textAlign = 'justify';
+                });
             });
             return el;
         };
@@ -97,16 +117,16 @@ MWEditor.controllers = {
         this.buttons = [];
 
         var arr = [
-            {align: 'left', icon: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" /></svg>', action: 'justifyLeft'},
+            {align: 'left', icon: '<svg  viewBox="0 0 24 24"><path fill="currentColor" d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" /></svg>', action: 'left'},
             {align: 'center', icon: '<svg  viewBox="0 0 24 24">\n' +
                     '    <path fill="currentColor" d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" />\n' +
-                    '</svg>', action: 'justifyCenter'},
+                    '</svg>', action: 'center'},
             {align: 'right', icon: '<svg  viewBox="0 0 24 24">\n' +
                     '    <path fill="currentColor" d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" />\n' +
-                    '</svg>', action: 'justifyRight'},
+                    '</svg>', action: 'right'},
             {align: 'justify', icon: '<svg   viewBox="0 0 24 24">\n' +
                     '    <path fill="currentColor" d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" />\n' +
-                    '</svg>', action: 'justifyFull'}
+                    '</svg>', action: 'justify'}
         ];
         this.render = function () {
             var scope = this;
@@ -117,7 +137,12 @@ MWEditor.controllers = {
                     }
                 });
                 el.on('mousedown touchstart', function (e) {
-                    api.execCommand(item.action);
+                    var sel = api.getSelection();
+                    var node = api.elementNode(sel.focusNode);
+                    var actionTarget = mw.tools.firstBlockLevel(node);
+                    api.action(actionTarget.parentNode, function () {
+                        actionTarget.style.textAlign = item.action;
+                    });
                 });
                 scope.root.append(el);
                 scope.buttons.push(el);
@@ -436,8 +461,11 @@ MWEditor.controllers = {
             rootScope.disabled(opt.controller.element, !opt.api.isSelectionEditable()|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)))
         };
         this.render = function () {
+
+
             var dropdown = new MWEditor.core.dropdown({
                 customValue: true,
+                customValueColor: scope.settings.scopeColor,
                 data: [
                     { label: '8', value: 8 },
                     { label: '10', value: 10 },

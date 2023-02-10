@@ -919,7 +919,7 @@ var MWEditor = function (options) {
                     pastedData = clipboardData.getData('Text');
                 }
 
-                mw.wysiwyg.normalizeBase64Images(this.parentNode, function (){
+                scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function (){
                     scope.registerChange();
                 });
             });

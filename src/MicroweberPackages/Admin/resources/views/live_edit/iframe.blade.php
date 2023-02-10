@@ -15,7 +15,7 @@
         .mw-le-btn.disabled,
         .mw-le-btn[disabled]{
             pointer-events: none;
-            opacity: .8;
+            opacity: .7;
         }
         .mw-le-btn {
             display: inline-flex;
@@ -33,6 +33,9 @@
             cursor: pointer;
             font-size: 16px;
             background-color: #464646;
+            border: none;
+            box-shadow: none;
+
         }
         .mw-le-btn-sm{
             font-size:12px;
@@ -182,6 +185,11 @@
             overflow: hidden;
 
         }
+        @media (max-width: 1200px) {
+            #preview-nav{
+                display: none;
+            }
+        }
 
         #preview-nav span{
             display: inline-flex;
@@ -208,6 +216,9 @@
             flex-wrap: nowrap;
             gap: 5px;
             vertical-align: top;
+        }
+        .toolbar-nav:empty{
+            display: none;
         }
         .toolbar-nav-hover{
             background-color: transparent;
@@ -311,7 +322,36 @@
         /* Editor */
 
 
-
+        .mw-editor-le2 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret:hover{
+            background-color: rgba(0, 0, 0, 0.29);
+        }
+        .mw-editor-le2 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret{
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .mw-editor-le2 .mw-editor-controller-button.mw-editor-group-button{
+            margin: 0;
+            padding: 0;
+        }
+        .mw-editor-le2 .mw-bar-control-item-group{
+            padding: 0;
+        }
+        .mw-editor-le2 mw-editor-button, .mw-editor-le2 .mw-bar-control-item-group{
+            border-radius: 3px;
+        }
+        .mw-editor-le2 .mw-bar-control-item-group:hover,
+        .mw-editor-le2 mw-editor-button:hover{
+            background-color: rgba(0, 0, 0, 0.29);
+        }
+        .mw-editor-le2 .mw-editor-group-button mw-editor-button.mw-editor-controller-component{
+            border-right: 1px solid transparent;
+        }
+        .mw-editor-le2 .mw-editor-group-button mw-editor-button.mw-editor-controller-component:hover{
+            border-right-color: #eeeeee36;
+        }
         .mw-editor-le2 .mw-editor-controller-component, .mw-editor-le2 .mw-bar-control-item {
             display: inline-flex;
             position: relative;
@@ -350,6 +390,13 @@
             display: block;
 
         }
+        .mw-editor-le2 mw-editor-button{
+            cursor: pointer;
+            color: white;
+        }
+        .mw-editor-le2 {
+            color: white;
+        }
         .mw-editor-le2 iframe{
             border: none;
         }
@@ -369,6 +416,32 @@
         }
         .mw-editor-le2 .mw-editor-dropdown-option:hover{
             background-color: rgba(255,255,255, .1);
+        }
+
+        .mw-editor-le2 .mw-editor-controller-component[data-tooltip]:after{
+            position: absolute;
+            content: attr(data-tooltip);
+            background: rgba(80,83,86,1);
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 3px;
+            padding: 5px;
+            bottom: 86%;
+            left: 50%;
+            transform: translateX(-50%) scale(1);
+            opacity: 0;
+            pointer-events: none;
+            transition: .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            line-height: normal;
+            white-space: nowrap;
+        }
+        .mw-editor-le2 .mw-editor-controller-component[data-tooltip]:hover:after,
+        .mw-editor-le2 .mw-editor-controller-component[data-tooltip]:focus:after{
+            opacity: 1;
+            margin-top:0;
+            bottom: 100%;
+            transform: translateX(-50%) scale(1);
         }
 
         .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
@@ -404,6 +477,7 @@
              border-left: 2px solid #464646;
              transition: .4s;
              opacity: 0;
+             margin-left: -1px;
 
          }
         html.preview #preview-button:after{
@@ -412,6 +486,36 @@
         }
         html.preview #preview-button{
             box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+
+        #bubble-nav{
+            position: fixed;
+            top: calc(var(--toolbar-height) + 100px);
+            left: 30px;
+            z-index: 10;
+        }
+
+        #bubble-nav span{
+            cursor: pointer;
+            display: flex;
+            margin: 0 auto 5px;
+            width: 50px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            background-color: #2b2b2b;
+            transform: translateX(-100px);
+            box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+        }
+        #bubble-nav span:nth-child(1){ transition: .2s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(2){ transition: .3s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(3){ transition: .4s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(4){ transition: .5s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(5){ transition: .6s cubic-bezier(.41,.2,.21,1.37); }
+
+        body.loaded #bubble-nav span{
+            transform: translateX(0px);
         }
 
 
@@ -484,7 +588,9 @@
 
                 };
 
-                window.fontFamilyProvider = new _fontFamilyProvider();
+                var fontFamilyProvider = new _fontFamilyProvider();
+                window.fontFamilyProvider = fontFamilyProvider;
+                frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
 
                 window.liveEditor = mw.Editor({
                     document: frame.contentWindow.document,
@@ -495,6 +601,7 @@
                     regions: '.edit',
                     skin: 'le2',
                     editMode: 'liveedit',
+                    scopeColor: 'white',
                     controls:  [
                         [
 
@@ -570,13 +677,14 @@
                 var btnRedo = document.getElementById('toolbar-redo')
 
                 liveEditor.state.on('record', function (){
-                    btnUndo.disabled = !liveEditor.state.hasPrev;
-                    btnRedo.disabled = !liveEditor.state.hasNext;
+                    console.log(liveEditor.state)
+                    btnRedo.disabled = !liveEditor.state.hasPrev;
+                    btnUndo.disabled = !liveEditor.state.hasNext;
                 })
                 liveEditor.state.on('change', function (){
                     console.log(1)
-                    btnUndo.disabled = !liveEditor.state.hasPrev;
-                    btnRedo.disabled = !liveEditor.state.hasNext;
+                    btnRedo.disabled = !liveEditor.state.hasPrev;
+                    btnUndo.disabled = !liveEditor.state.hasNext;
                 })
 
                 btnUndo.addEventListener('click', function (){
@@ -721,6 +829,16 @@
 
 </head>
 <body>
+
+
+<div id="bubble-nav">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
 <?php
 $back_url = site_url() . 'admin/view:content';
 if (defined('CONTENT_ID')) {
@@ -817,7 +935,7 @@ $user = get_user();
                         </span>
                     </div>
                     <nav>
-                        <a href="">
+                        <a href="<?php print $back_url?>">
                             <svg viewBox="0 0 40 40"><path d="M20 27.3l2.1-2.1-3.7-3.7h9.1v-3h-9.1l3.7-3.7-2.1-2.1-7.3 7.3 7.3 7.3zM20 40c-2.73 0-5.32-.52-7.75-1.58-2.43-1.05-4.56-2.48-6.38-4.3s-3.25-3.94-4.3-6.38S0 22.73 0 20c0-2.77.53-5.37 1.57-7.8s2.48-4.55 4.3-6.35 3.94-3.22 6.38-4.28S17.27 0 20 0c2.77 0 5.37.53 7.8 1.57s4.55 2.48 6.35 4.28c1.8 1.8 3.23 3.92 4.28 6.35C39.48 14.63 40 17.23 40 20c0 2.73-.52 5.32-1.58 7.75-1.05 2.43-2.48 4.56-4.28 6.38-1.8 1.82-3.92 3.25-6.35 4.3C25.37 39.48 22.77 40 20 40zm0-3c4.73 0 8.75-1.66 12.05-4.97C35.35 28.71 37 24.7 37 20c0-4.73-1.65-8.75-4.95-12.05C28.75 4.65 24.73 3 20 3c-4.7 0-8.71 1.65-12.02 4.95S3 15.27 3 20c0 4.7 1.66 8.71 4.98 12.03C11.29 35.34 15.3 37 20 37z"/></svg>
                             Back to Admin
                         </a>
@@ -833,9 +951,9 @@ $user = get_user();
                             <svg viewBox="0 0 40 32.29"><path d="M40 3v26c0 .8-.3 1.5-.9 2.1-.6.6-1.3.9-2.1.9H3c-.8 0-1.5-.3-2.1-.9-.6-.6-.9-1.3-.9-2.1V3C0 2.2.3 1.5.9.9 1.5.3 2.2 0 3 0h34c.8 0 1.5.3 2.1.9.6.6.9 1.3.9 2.1zM3 8.45h34V3H3v5.45zm0 6.45V29h34V14.9H3zM3 29V3v26z"/></svg>
                             Plans and Payments
                         </a>
-                        <a href="">
+                        <a href="<?php print site_url('logout'); ?>">
                             <svg viewBox="0 0 36 36.1"><path d="M3 36.1c-.8 0-1.5-.3-2.1-.9-.6-.6-.9-1.3-.9-2.1V22.6h3v10.5h30V3H3v10.6H0V3C0 2.2.3 1.5.9.9S2.2 0 3 0h30c.8 0 1.5.3 2.1.9.6.6.9 1.3.9 2.1v30.1c0 .8-.3 1.5-.9 2.1-.6.6-1.3.9-2.1.9H3zm11.65-8.35L12.4 25.5l5.9-5.9H0v-3h18.3l-5.9-5.9 2.25-2.25 9.65 9.65-9.65 9.65z"/></svg>
-                            Logout
+                            Log out
                         </a>
                     </nav>
                 </div>

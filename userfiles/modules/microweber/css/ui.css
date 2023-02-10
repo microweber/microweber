@@ -8119,6 +8119,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-button.mw-editor-group-button:hover,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button.mw-editor-group-button:hover {
+  border-color: rgba(69, 146, 255, 0.51) !important;
+}
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component[data-tooltip]:after,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:after {
   position: absolute;
@@ -8611,9 +8615,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 }
 .mw-editor-controller-button.mw-editor-group-button .mw-editor-group-button-caret svg {
   height: 15px;
-}
-.mw-editor-controller-button.mw-editor-group-button:hover {
-  border-color: rgba(69, 146, 255, 0.51) !important;
 }
 .mw-editor-controller-component-select .mw-editor-select-display-value {
   text-align: left;

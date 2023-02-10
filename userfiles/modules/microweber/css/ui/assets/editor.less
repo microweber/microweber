@@ -55,6 +55,15 @@
 .mw-small-editor.mw-small-editor-skin-lite,
 .mw-small-editor.mw-small-editor-skin-dark{
 
+
+    .mw-editor-controller-button{
+        &.mw-editor-group-button{
+            &:hover{
+                border-color: rgba(69, 146, 255, 0.51) !important;
+            }
+        }
+    }
+
     margin-top: -20px;
 
     font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif;
@@ -468,7 +477,7 @@
     color: #686868;
     border: 1px solid transparent;
     outline: 0;
-     white-space: nowrap;
+    white-space: nowrap;
     vertical-align: middle;
     background-color: transparent;
     font-size: 19px;
@@ -516,16 +525,11 @@
 
             }
         }
-        &:hover{
-            border-color: rgba(69, 146, 255, 0.51) !important;
-            .mw-editor-group-button-caret{
-                svg {
 
-                }
-            }
-        }
     }
 }
+
+
 
 .mw-editor-controller-component-select {
 

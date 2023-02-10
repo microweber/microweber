@@ -41,6 +41,7 @@
             this.frame.style.height = this.settings.height;
             this.frame.style.overflow = 'hidden';
             this.frame.style.background = 'transparent';
+            this.frame.style.border = this.settings.frameBorder ||'none';
 
             this.field.style.width = this.settings.width;
             this.field.style.height = this.settings.height;
@@ -253,13 +254,10 @@
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                         innerHTML: options.placeholder || ''
                     },
-                    color: 'red'
+                    color: options.customValueColor
                 });
 
-                displayValObj.frame.addEventListener('load', function (){
-                    displayValObj.field.color = getComputedStyle(lscope.root.get(0)).color;
-                });
-                displayValObj.field.color = getComputedStyle(lscope.root.get(0)).color;
+
 
 
 
@@ -386,12 +384,18 @@
                     }
                 });
                 mw.element(_this).toggleClass('active');
-                mw.element('.mw-bar-control-item.active').removeClass('active')
+                mw.element('.mw-bar-control-item.active').each(function (){
+                    if(!this.contains(lscope.select.get(0))){
+                        mw.element(this).removeClass('active');
+                    }
+
+                })
             };
-            this.select.on('click', function (e) {
+            lscope.select.on('click', function (e) {
                 e.stopPropagation();
                 _handleClick(this);
             });
+
             if(options.customValue) {
                 displayValObj.field.addEventListener('focus', function (){
                     _handleClick(displayValObj.frame.parentNode);
