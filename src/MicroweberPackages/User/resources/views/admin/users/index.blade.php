@@ -154,6 +154,10 @@
                     </td>
 
                     <td>
+                        {{$user->id}}
+                    </td>
+
+                    <td>
                         <div class="text-outline-primary font-weight-bold">
                             {{$user->first_name}} {{$user->last_name}}
                             @if($user->is_admin)
