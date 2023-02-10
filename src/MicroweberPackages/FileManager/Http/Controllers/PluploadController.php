@@ -2,7 +2,8 @@
 
 namespace MicroweberPackages\FileManager\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+
+use MicroweberPackages\App\Http\Controllers\Controller;
 
 class PluploadController extends Controller
 {

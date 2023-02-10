@@ -37,6 +37,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $mixcloud_enabled = get_option('mixcloud_enabled', $option_group) == 'y';
         $medium_enabled = get_option('medium_enabled', $option_group) == 'y';
         $discord_enabled = get_option('discord_enabled', $option_group) == 'y';
+        $skype_enabled = get_option('skype_enabled', $option_group) == 'y';
 
         $instagram_url = get_option('instagram_url', $option_group);
         $facebook_url = get_option('facebook_url', $option_group);
@@ -50,6 +51,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         $mixcloud_url = get_option('mixcloud_url', $option_group);
         $medium_url = get_option('medium_url', $option_group);
         $discord_url = get_option('discord_url', $option_group);
+        $skype_url = get_option('skype_url', $option_group);
         ?>
 
         <style scoped="scoped">
@@ -117,6 +119,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <input type="checkbox" class="mw_option_field custom-control-input" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>>
                             <label class="custom-control-label mr-2 d-flex" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 mr-2"></i> instagram.com/</label>
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="instagram_url" value="<?php print $instagram_url; ?>"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox d-flex align-items-center">
+                            <input type="checkbox" class="mw_option_field custom-control-input" name="skype_enabled" id="skype_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($skype_enabled) print 'checked="checked"'; ?>>
+                            <label class="custom-control-label mr-2 d-flex" for="skype_enabled"><i class="mdi mdi-skype mdi-20px lh-1_0 mr-2"></i> skype.com/</label>
+                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="skype_url" value="<?php print $skype_url; ?>"/>
                         </div>
                     </div>
 
