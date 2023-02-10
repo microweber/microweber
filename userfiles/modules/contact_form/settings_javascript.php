@@ -19,7 +19,9 @@ if (!user_can_access('module.contact_form.index')) {
                 placeholder: rootScope.lang('Insert variable')
             });
             dropdown.select.on('change', function (e, val) {
-                api.insertHTML(val.value);
+                if(val) {
+                    api.insertHTML(val.value);
+                }
             });
             return dropdown.root;
         };

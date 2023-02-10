@@ -1014,7 +1014,9 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Font Size')
             });
             dropdown.select.on('change', function (e, val) {
-                api.fontSize(val.value);
+                if(val) {
+                    api.fontSize(val.value);
+                }
             });
             return dropdown.root;
         };
@@ -1051,7 +1053,9 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Line height')
             });
             dropdown.select.on('change', function (e, val) {
-                api.lineHeight(val.value);
+                if(val) {
+                    api.lineHeight(val.value);
+                }
             });
             return dropdown.root;
         };
@@ -1157,7 +1161,9 @@ MWEditor.controllers = {
                 placeholder: rootScope.lang('Font')
             });
             dropdown.select.on('change', function (e, val, b) {
-                api.fontFamily(val.value);
+                if(val) {
+                    api.fontFamily(val.value);
+                }
             });
             return dropdown.root;
         };
