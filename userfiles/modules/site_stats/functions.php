@@ -19,6 +19,12 @@ event_bind('mw.admin.dashboard.content', function ($params = false) {
 
 });
 
+event_bind('mw.admin.settings.seo', function ($params = false) {
+    if(user_can_access('site_stats.settings')) {
+        print '<module type="site_stats/tracking_settings" id="site_stats_tracking_settings" />';
+    }
+});
+
 
 event_bind('mw_admin_quick_stats_by_session', function ($params = false) {
     return mw_print_quick_stats_by_session($params);
@@ -36,6 +42,8 @@ event_bind('mw.pageview', function ($params = false) {
             return;
         }
 
+        $enableEvents = get_option('google-tag-manager-enable-events', 'website') == 1;
+        $hasGoogleAnalytics = get_option('google-analytics-id', 'website') ;
 
 //        $src_code = '$(document).ready(function () {
 //            setTimeout(function () {
@@ -106,6 +114,12 @@ event_bind('mw.pageview', function ($params = false) {
 
         //$traker_url = modules_url() . 'site_stats/ping.js';
         // return '<script async type="text/javascript" src="' . $traker_url . '"></script>';
+
+        if($hasGoogleAnalytics and $enableEvents){
+            $traker_url = modules_url() . 'site_stats/gtmEventListener.js';
+            $src .= '<script async type="text/javascript" src="' . $traker_url . '"></script>';
+        }
+
         return $src;
 
     });

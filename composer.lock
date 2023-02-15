@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff1fc6aa2ab1cc3c3e74694634d246dc",
+    "content-hash": "d23227e3d5aec4862378f93f2297172b",
     "packages": [
         {
             "name": "arcanedev/php-html",
@@ -67,16 +67,16 @@
         },
         {
             "name": "arcanedev/seo-helper",
-            "version": "dev-master",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/SEO-Helper.git",
-                "reference": "c84bf1e917252b46a5978c557eb8450e7b3644e5"
+                "reference": "251c98de3b849aaa5a414fad666b04441d12a205"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/SEO-Helper/zipball/c84bf1e917252b46a5978c557eb8450e7b3644e5",
-                "reference": "c84bf1e917252b46a5978c557eb8450e7b3644e5",
+                "url": "https://api.github.com/repos/ARCANEDEV/SEO-Helper/zipball/251c98de3b849aaa5a414fad666b04441d12a205",
+                "reference": "251c98de3b849aaa5a414fad666b04441d12a205",
                 "shasum": ""
             },
             "require": {
@@ -88,9 +88,8 @@
                 "ext-dom": "*",
                 "laravel/framework": "^9.0",
                 "orchestra/testbench-core": "^7.0",
-                "phpunit/phpunit": "^9.5.10"
+                "phpunit/phpunit": "^9.5.8"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -144,9 +143,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ARCANEDEV/SEO-Helper/issues",
-                "source": "https://github.com/ARCANEDEV/SEO-Helper/tree/master"
+                "source": "https://github.com/ARCANEDEV/SEO-Helper/tree/5.0.0"
             },
-            "time": "2022-03-06T18:34:01+00:00"
+            "time": "2022-03-06T18:31:22+00:00"
         },
         {
             "name": "arcanedev/support",
@@ -10226,6 +10225,75 @@
             "time": "2022-09-09T05:37:22+00:00"
         },
         {
+            "name": "spatie/laravel-googletagmanager",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-googletagmanager.git",
+                "reference": "faac69d664b1f59544b454c787330873129d3aec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-googletagmanager/zipball/faac69d664b1f59544b454c787330873129d3aec",
+                "reference": "faac69d664b1f59544b454c787330873129d3aec",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Spatie\\GoogleTagManager\\GoogleTagManagerServiceProvider"
+                    ],
+                    "aliases": {
+                        "GoogleTagManager": "Spatie\\GoogleTagManager\\GoogleTagManagerFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\GoogleTagManager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Google Tag Manager integration for Laravel",
+            "homepage": "https://github.com/spatie/laravel-googletagmanager",
+            "keywords": [
+                "Google Tag Manager",
+                "laravel",
+                "laravel-googletagmanager",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-googletagmanager/issues",
+                "source": "https://github.com/spatie/laravel-googletagmanager/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-14T20:29:51+00:00"
+        },
+        {
             "name": "spatie/laravel-package-tools",
             "version": "1.12.1",
             "source": {
@@ -16780,6 +16848,7 @@
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
         "predis/predis": 20,
+        "spatie/laravel-googletagmanager": 20,
         "wikimedia/composer-merge-plugin": 20,
         "laravel/sail": 20
     },
