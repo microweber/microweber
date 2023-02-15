@@ -518,7 +518,7 @@ mw.uploadGlobalSettings = {
                 xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
                 xhr.send('');
                 xhr.onload = function (res) {
-                   
+
                     if(xhr.status === 400) {
                         $.post(route('csrf'), function (res) {
                             var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
