@@ -230,7 +230,7 @@ function must_have_access($permission = '')
 {
     if (!user_can_access($permission)) {
         $file = debug_backtrace()[0]['file'];
-        mw_error('Permission denied! You dont have access to see this page. <br />File:' . $file);
+        mw_error('Permission denied! You dont have access to see this page.');
     }
 }
 

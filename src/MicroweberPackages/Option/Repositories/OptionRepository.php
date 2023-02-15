@@ -40,6 +40,8 @@ class OptionRepository extends AbstractRepository
             'pinterest-site-verification-code'=>'',
             'yandex-site-verification-code'=>'',
             'google-analytics-id'=>'',
+            'google-tag-manager-id'=>'',
+            'google-tag-manager-enable-events'=>'',
             'facebook-pixel-id'=>'',
             'robots_txt'=>'' ,
             'app_version'=>'' ,
