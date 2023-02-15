@@ -2808,12 +2808,27 @@ $(window).on('load', function () {
 
 
     mw.editorIconPicker.on('select', function (data){
+        mw.liveEditState.record({
+            target: mw.editorIconPicker.target,
+            value: mw.editorIconPicker.target.innerHTML
+        });
         data.render();
+        mw.liveEditState.record({
+            target: mw.editorIconPicker.target,
+            value: mw.editorIconPicker.target.innerHTML
+        });
         mw.wysiwyg.change(mw.editorIconPicker.target)
     });
     mw.editorIconPicker.on('sizeChange', function (size){
-        // mw.editorIconPicker.target.style.fontSize = size + 'px';
+        mw.liveEditState.record({
+            target: mw.editorIconPicker.target,
+            value: mw.editorIconPicker.target.innerHTML
+        });
         mw.editorIconPicker.target.style.setProperty('font-size', size + 'px', 'important');
+        mw.liveEditState.record({
+            target: mw.editorIconPicker.target,
+            value: mw.editorIconPicker.target.innerHTML
+        });
         mw.tools.tooltip.setPosition(mw.editorIconPicker._tooltip, mw.editorIconPicker.target, 'bottom-center');
         mw.wysiwyg.change(mw.editorIconPicker.target)
     })

@@ -495,6 +495,11 @@
             z-index: 10;
         }
 
+        #bubble-nav span svg{
+            max-width: 25px;
+            max-height: 25px;
+            display: block;
+        }
         #bubble-nav span{
             cursor: pointer;
             display: flex;
@@ -507,17 +512,378 @@
             background-color: #2b2b2b;
             transform: translateX(-100px);
             box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+            color: white;
         }
-        #bubble-nav span:nth-child(1){ transition: .2s cubic-bezier(.41,.2,.21,1.37); }
-        #bubble-nav span:nth-child(2){ transition: .3s cubic-bezier(.41,.2,.21,1.37); }
-        #bubble-nav span:nth-child(3){ transition: .4s cubic-bezier(.41,.2,.21,1.37); }
-        #bubble-nav span:nth-child(4){ transition: .5s cubic-bezier(.41,.2,.21,1.37); }
-        #bubble-nav span:nth-child(5){ transition: .6s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(1){ transition: .4s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(2){ transition: .6s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(3){ transition: .8s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(4){ transition: 1s cubic-bezier(.41,.2,.21,1.37); }
+        #bubble-nav span:nth-child(5){ transition: 1.2s cubic-bezier(.41,.2,.21,1.37); }
 
         body.loaded #bubble-nav span{
             transform: translateX(0px);
         }
 
+
+
+
+
+
+
+        .modules-list-block-item-is-locked-true:before{
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255,255,255,.7);
+            background-image: url("data:image/svg+xml,%3Csvg fill='%23c82c2c' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctitle%3Elock-outline%3C/title%3E%3Cpath d='M12,17C10.89,17 10,16.1 10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18,20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 24px auto;
+
+            z-index: 2;
+        }
+
+        /* layouts dialog */
+        .mw-le-layouts-dialog {
+
+            --layouts-dialog-height: calc(100vh - 50px);
+            --layouts-dialog-toolbar-height: 60px;
+        }
+
+
+        .mw-le-layouts-dialog .modules-list-categories{
+
+
+        }
+        .mw-le-layouts-dialog{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: calc(100vw - 60px) ;
+            height: calc(100vh - 60px) ;
+
+            width: 1650px;
+            background-color: #ececec;
+            z-index: 5;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+        }
+
+        .mw-le-layouts-dialog-row {
+            position: relative;
+            height: var(--layouts-dialog-height);
+        }
+        .mw-le-layouts-dialog-col:first-child{
+            width: 255px;
+            left:0;
+            top: 0;
+            position: absolute;
+            height: 100%;
+            background-color: #2b2b2b;
+        }
+        .mw-le-layouts-dialog-col:last-child{
+            height: 100%;
+            position: absolute;
+            left: 255px;
+            right:0;
+            top: 0
+        }
+        .mw-le-layouts-dialog .modules-list-block{
+            overflow: auto;
+        }
+        .mw-le-layouts-dialog-col{
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
+
+        }
+        .mw-le-layouts-dialog .modules-list-block-item:hover{
+            transform: scale(1.02) ;
+
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+        }
+        .mw-le-layouts-dialog .modules-list-block-item-description{
+            display: none;
+        }
+
+
+        .mw-le-layouts-dialog .modules-list-block-item-is-locked-true:before{
+
+            border: 3px solid #c82c2c;
+
+        }
+
+        .mw-le-layouts-dialog .modules-list-block-item:hover .modules-list-block-item-title{
+            transform: scale(1.4);
+        }
+        .mw-le-layouts-dialog .modules-list-block-item-title{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 3px 10px;
+            background-color: white;
+            font-size: 10px;
+            transition: .3s;
+            transform-origin: right bottom;
+        }
+        .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field{
+            height: var(--layouts-dialog-toolbar-height);
+            background-color: transparent;
+            border: none;
+            outline: none   ;
+            padding: 0 20px 0 55px;
+            font-size: 14px;
+            color:white;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff60' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 25px center;
+            background-size: 19px auto;
+        }
+        .mw-le-layouts-dialog .modules-list-block-item{
+            transition: .22s;
+            display: block;
+            position: relative;
+            width: 305px;
+            height: 160px;
+            cursor: pointer;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+
+
+        .mw-le-layouts-dialog .modules-list-block-item-picture{
+            width: 305px;
+            height: 160px;
+            background-color: white;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+
+
+        }
+        .mw-le-layouts-dialog .modules-list-block:after{
+            content: "";
+            flex: auto;
+
+        }
+        .mw-le-layouts-dialog .modules-list-block{
+            padding: 30px;
+            background-color: #ececec;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+            max-height: 100%;
+            overflow: auto;
+        }
+        .mw-le-layouts-dialog .modules-list-categories li:hover{
+            color: #5f85ff
+        }
+        .mw-le-layouts-dialog .modules-list-categories li.active{
+            color: #5f85ff
+        }
+        .mw-le-layouts-dialog .modules-list-categories li{
+            display: block;
+            cursor: pointer;
+            text-transform: capitalize;
+            padding: 10px 15px;
+
+
+
+        }
+        .mw-le-layouts-dialog .modules-list-categories{
+            font-size: 14px;
+            color: white;
+            list-style: none;
+            flex: 1;
+            margin: 0 10px;
+            padding-inline-start: 20px;
+        }
+        .mw-le-layouts-dialog .modules-list-search-block{
+            height: var(--layouts-dialog-toolbar-height);
+            background-color: #515151;
+        }
+
+        .modules-list-block-item-locked-badge{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 3px;
+            color:white;
+            background-color: #c82c2c;
+            min-width: 35px;
+            text-align: center;
+            font-size: 10px;
+            padding: 3px 6px;
+            z-index: 3;
+
+        }
+
+
+        .modules-list-block::-webkit-scrollbar,
+        .modules-list-categories::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        .modules-list-block::-webkit-scrollbar-thumb ,
+        .modules-list-categories::-webkit-scrollbar-thumb {
+            background-color: transparent;
+            outline: none;
+        }
+
+
+        .modules-list-block::-webkit-scrollbar-thumb ,
+        .modules-list-categories::-webkit-scrollbar-thumb {
+            background-image: linear-gradient(180deg, #8a8a8a 0%, #9f9f9f 99%);
+            border-radius: 100px;
+            width: 9px;
+        }
+        .modules-list-categories{
+            list-style: none;
+
+            overflow: auto;
+
+            color: white;
+        }
+        .mw-le-layouts-dialog-categories-title:after{
+            height: 2px;
+            background-color: white;
+            flex: 1;
+            content: '';
+            width: 100%;
+        }
+        .mw-le-layouts-dialog-categories-title{
+            font-size: 12px;
+            text-transform: uppercase;
+            color: white;
+            line-height: 50px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 29px;
+        }
+        /* /layouts dialog */
+
+
+
+        /* modules dialog */
+
+        .mw-le-modules-dialog {
+
+            --layouts-dialog-height: calc(100vh - 50px);
+            --layouts-dialog-toolbar-height: 60px;
+        }
+
+        .mw-le-modules-dialog{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: calc(100vw - 60px) ;
+            height: calc(100vh - 60px) ;
+
+            width: 430px;
+            background-color: #2b2b2b;
+            z-index: 5;
+            box-shadow: rgba(0, 0, 0, 0.1) 0 10px 50px;
+        }
+
+        .mw-le-modules-dialog .modules-list-defaultModules{
+            display: flex;
+            flex-direction: column;
+            max-height: 100% ;
+        }
+        .mw-le-modules-dialog .modules-list-block-item {
+            position: relative;
+            width: 120px;
+            height: 90px;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+        .mw-le-modules-dialog .modules-list-block-item:hover{
+            background-color: #fff;
+            transform: scale(1.05);
+        }
+
+        .mw-le-modules-dialog .modules-list-block-item-title{
+            white-space: nowrap;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            max-width: 100%;
+            padding: 0 10px;
+        }
+        .mw-le-modules-dialog .modules-list-block-item-description{
+            display: none;
+        }
+        .mw-le-modules-dialog .modules-list-block-category-section .modules-list-block-category-section-title{
+            width: 100%;
+            min-width: 100%;
+            text-align: center;
+            padding: 50px 0 10px;
+        }
+        .mw-le-modules-dialog .modules-list-block-category-section .modules-list-block-category-section-title h5{
+            display: inline-block;
+            color: white;
+            border-radius: 50px;
+            background-color: #464646;
+            font-weight: 300;
+            white-space: nowrap;
+            padding: 12px 30px;
+            text-transform: uppercase;
+        }
+        .mw-le-modules-dialog .modules-list-block{
+            max-height:100%;
+            overflow: auto;
+            padding: 8px;
+            margin: 8px;
+        }
+        .mw-le-modules-dialog .modules-list-block-category-section{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+
+        }
+        .mw-le-modules-dialog .modules-list-block-item-picture{
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+
+
+        }
+
+        .mw-le-modules-dialog .modules-list-search-block .modules-list-search-field{
+            height: var(--layouts-dialog-toolbar-height);
+            background-color: transparent;
+            border: none;
+            outline: none   ;
+            padding: 0 20px 0 55px;
+            font-size: 14px;
+            color:white;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff60' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 25px center;
+            background-size: 19px auto;
+        }
+
+        /* /modules dialog */
 
 
     </style>
@@ -534,6 +900,9 @@
 
 
 
+
+
+
         $.fn.reload_module  = function () {
 
         }
@@ -541,30 +910,112 @@
 
         var frame, frameHolder;
 
+        var command = {
+            insertModule: function () {
+                var modulesDialog = mw.element({
+                    props: {
+                        className: 'mw-le-modules-dialog'
+                    }
+                });
+                document.body.appendChild(modulesDialog.get(0))
+
+                /* demo */
+                fetch('http://localhost/mw3/api/live-edit/modules-list?layout_type=layout')
+                    .then(function (data){
+                        return data.json();
+                    }).then(function (data){
+
+                    var modulesList = new ModulesList({
+                        data: data
+                    });
+
+
+
+                    modulesList.createCategorized().then(function (){
+                        modulesDialog.append(modulesList.root)
+
+                    })
+
+                })
+            },
+            insertLayout: function () {
+
+                var layOutsDialog = mw.element({
+                    props: {
+                        className: 'mw-le-layouts-dialog'
+                    }
+                });
+
+                document.body.appendChild(layOutsDialog.get(0))
+
+                /* demo */
+                fetch('http://localhost/mw3/api/live-edit/modules-list?layout_type=layout')
+                    .then(function (data){
+                        return data.json();
+                    }).then(function (data){
+
+                    var modulesList = new ModulesList({
+                        data: data
+                    });
+
+
+
+                    modulesList.create().then(function (){
+                        var grid = mw.element({
+                            props: {
+                                className: 'mw-le-layouts-dialog-row'
+                            }
+                        });
+                        var colSidebar = mw.element({
+                            props: {
+                                className: 'mw-le-layouts-dialog-col'
+                            }
+                        });
+                        var colContent = mw.element({
+                            props: {
+                                className: 'mw-le-layouts-dialog-col'
+                            }
+                        });
+                        grid.append(colSidebar);
+                        grid.append(colContent);
+                        mw.element(modulesList.root).append(grid);
+                        colSidebar.append(modulesList.searchBlock);
+
+                        var categoriesTitle = mw.element({
+                            props: {
+                                innerHTML: 'Categories',
+                                className: 'mw-le-layouts-dialog-categories-title'
+                            }
+                        });
+                        colSidebar.append(categoriesTitle);
+                        colSidebar.append(modulesList.categoriesNavigation);
+                        colContent.append(modulesList.modulesList);
+
+                        layOutsDialog.append(modulesList.root);
+
+                    })
+
+                })
+            }
+        }
+
+
+
+
         addEventListener('load', () => {
+
+            mw.element('#bubble-nav [data-command]').on('click', function (){
+                if(command[this.dataset.command]) {
+                    command[this.dataset.command]()
+                }
+            })
 
             var userMenuWrapper = document.getElementById('user-menu-wrapper');
             document.getElementById('toolbar-user-menu-button').addEventListener('click', function () {
                 userMenuWrapper.classList.toggle('active')
             });
 
-            /* demo */
-            fetch('http://localhost/mw3/api/live-edit/modules-list')
-                .then(function (data){
-                    return data.json();
-                }).then(function (data){
 
-                var modulesList = new ModulesList({
-                    data: data
-                });
-                modulesList.create().then(function (){
-                    console.log(modulesList.root)
-                    /*mw.dialog({
-                        content: modulesList.root
-                    })*/
-                })
-
-            })
 
 
 
@@ -832,8 +1283,10 @@
 
 
 <div id="bubble-nav">
-    <span></span>
-    <span></span>
+    <span title="Insert layout" data-command="insertLayout">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13 15.6C13.3 15.8 13.7 15.8 14 15.6L19 12.7V13C19.7 13 20.4 13.1 21 13.4V11.6L22 11C22.5 10.7 22.6 10.1 22.4 9.6L20.9 7.1C20.8 6.9 20.7 6.7 20.5 6.6L12.6 2.2C12.4 2.1 12.2 2 12 2S11.6 2.1 11.4 2.2L3.6 6.6C3.4 6.7 3.2 6.8 3.1 7L1.6 9.6C1.3 10.1 1.5 10.7 2 11C2.3 11.2 2.7 11.2 3 11V16.5C3 16.9 3.2 17.2 3.5 17.4L11.4 21.8C11.6 21.9 11.8 22 12 22S12.4 21.9 12.6 21.8L13.5 21.3C13.2 20.7 13.1 20 13 19.3M11 19.3L5 15.9V9.2L11 12.6V19.3M20.1 9.7L13.8 13.3L13.2 12.3L19.5 8.7L20.1 9.7M12 10.8V4.2L18 7.5L12 10.8M20 15V18H23V20H20V23H18V20H15V18H18V15H20Z" /></svg>
+    </span>
+    <span title="Insert layout" data-command="insertModule"></span>
     <span></span>
     <span></span>
 </div>
@@ -969,8 +1422,8 @@ $user = get_user();
                 height="2000"
                 referrerpolicy="no-referrer"
                 frameborder="0"
-                src="<?php print site_url(); ?>?editmode=y"
-                xsrc="about:blank">
+                xsrc="<?php print site_url(); ?>?editmode=y"
+                src="about:blank">
         </iframe>
     </div>
 
