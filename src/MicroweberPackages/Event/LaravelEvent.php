@@ -22,15 +22,15 @@ class LaravelEvent
     }
 
     /**
-     * @param $api_function
+     * @param $event_name
      * @param mixed $data
      *
      * @return mixed
      */
-    public static function fire($api_function, $data = false)
+    public static function fire($event_name, $data = false)
     {
-        if (isset(self::$hooks[$api_function])) {
-            $fns = self::$hooks[$api_function];
+        if (isset(self::$hooks[$event_name])) {
+            $fns = self::$hooks[$event_name];
             if (is_array($fns)) {
                 $resp = array();
                 foreach ($fns as $fn) {
