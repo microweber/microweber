@@ -712,13 +712,10 @@ var output = function(property, value){
     }
     if(ActiveNode) {
         if(!specialCases(property, value)) {
-            //  ActiveNode.style[property] = value;
-            if(mwTarget.tools.isEditable(ActiveNode)) {
-                ActiveNode.style[property] = value;
-            } else {
-                mwTarget.liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value + '!important')
 
-            }
+
+
+            mwTarget.liveedit.cssEditor.temp(ActiveNode, property.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase(), value)
 
             ActiveNode.setAttribute('staticdesign', true);
         }
