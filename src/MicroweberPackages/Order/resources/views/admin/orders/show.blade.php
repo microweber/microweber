@@ -21,7 +21,7 @@
 
 
             var val = this.value;
- 
+
             if (typeof val === 'undefined') {
                 return;
             }
@@ -70,7 +70,7 @@
     <div class="card-body">
         <h5 class="font-weight-bold"><?php _e('Order Information'); ?></h5>
 
-        <module type="shop/orders/views/order_cart" order-id="<?php print $order['id']; ?>"/>
+        <module type="shop/orders/views/order_cart" order-id="{{ $order['id'] }}" />
 
     </div>
 </div>

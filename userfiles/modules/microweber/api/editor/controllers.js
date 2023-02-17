@@ -595,14 +595,14 @@ MWEditor.controllers = {
                     if(parentul) {
                         api.execCommand('insertUnorderedList', false, e.detail.value);
                     }
-                    if(parentol) {
+                    if (parentol) {
                         api.execCommand('insertOrderedList', false, e.detail.value);
                     }
-                    if(api.isSafeMode(el)){
-                        parent.contentEditable = true;
-                    }
-                    api.execCommand('formatBlock', false, e.detail.value);
 
+                    var block = mw.tools.firstBlockLevel(el);
+                    scope.api.action(block.parentNode.parentNode, function () {
+                        mw.tools.setTag(block, e.detail.value);
+                    });
                 }
             });
             return dropdown.root;
