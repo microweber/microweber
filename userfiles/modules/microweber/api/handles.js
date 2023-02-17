@@ -456,7 +456,8 @@ mw._initHandles = {
                                     if(name === 'layout') {
                                         conf.template = mw.$(this).attr('template');
                                     }
-                                    mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt);
+
+                                    mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt, mw.liveEditState);
                                     mw.wysiwyg.change(mw._activeElementOver)
                                     tooltip.remove();
                                 };

@@ -112,12 +112,12 @@ mw.drag.plus = {
     _rendModulesTip: null,
     rendModules: function (el) {
         var other = el === mw.drag.plusTop ? mw.drag.plusBottom : mw.drag.plusTop;
-        console.log(el)
+
         if(mw.drag.plus._rendModulesTip) {
             mw.drag.plus._rendModulesTip.remove()
         }
          if (!mw.tools.hasClass(el, 'active')) {
-             console.log(2)
+
             mw.tools.addClass(el, 'active');
             mw.tools.removeClass(other, 'active');
             mw.drag.plus.locked = true;

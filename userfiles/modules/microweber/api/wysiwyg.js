@@ -563,7 +563,7 @@ mw.wysiwyg = {
 
                 var before = mw.$(node).clone()[0];
                 if (sel.rangeCount > 0 && mw.wysiwyg.execCommandFilter(a, b, c)) {
-                    console.log(999)
+
                     document.execCommand(a, b, c);
                 }
 
@@ -2017,14 +2017,22 @@ mw.wysiwyg = {
                 if(action === 'editimage') {
                     if(mw.image.currentResizing) {
                         if (mw.image.currentResizing[0].nodeName === 'IMG') {
-                            mw.image.currentResizing.attr("src", url);
-                            mw.image.currentResizing.css('height', 'auto');
+                            liveEditor.api.action(mw.tools.firstBlockLevel(mw.image.currentResizing[0]), function () {
+                                mw.image.currentResizing.attr("src", url);
+                                mw.image.currentResizing.css('height', 'auto');
+                            });
+
+
                         }
                         else {
-                            mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
-                            if(mw.parent().image.currentResizing) {
-                                mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
-                            }
+
+                            liveEditor.api.action(mw.tools.firstBlockLevel(mw.image.currentResizing[0]), function () {
+                                mw.image.currentResizing.css("backgroundImage", 'url(' + mw.files.safeFilename(url) + ')');
+                                if(mw.parent().image.currentResizing) {
+                                    mw.wysiwyg.bgQuotesFix(mw.parent().image.currentResizing[0])
+                                }
+                            });
+
                         }
                         if(mw.image.currentResizing) {
                             mw.wysiwyg.change(mw.image.currentResizing[0]);

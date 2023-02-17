@@ -145,7 +145,7 @@ mw.askusertostay = false;
   };
 
   mw.module = {
-    insert: function(target, module, config, pos) {
+    insert: function(target, module, config, pos, stateManager) {
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;
@@ -163,8 +163,23 @@ mw.askusertostay = false;
                 action = 'append';
             }
         }
+        var parent = mw.$(target).parent().get(0);
+        alert(stateManager)
+        if(stateManager) {
+            stateManager.record({
+                target: parent,
+                value: parent.innerHTML
+            });
+        }
+
         mw.$(target)[action](el);
         mw.load_module(module, '#' + id, function () {
+            if(stateManager) {
+                stateManager.record({
+                    target: parent,
+                    value: parent.innerHTML
+                });
+            }
             resolve(this);
         }, config);
     });

@@ -63,33 +63,34 @@ mw.layoutPlus = {
             });
         });
         mw.$('.modules-list li', tip).on('click', function () {
+            var parent = mw.layoutPlus._active.parentElement;
+            mw.liveEditState.record({
+                target: parent,
+                value: parent.innerHTML
+            });
             var id = mw.id('mw-layout-'), el = '<div id="' + id + '"></div>';
             var $active = mw.$(mw.layoutPlus._active);
+
             $active[action](el);
 
-            var name = $active.attr('data-module-name');
             var template = $(this).attr('template');
 
             var conf = {};
             if(mw.layoutPlus._active){
             var conf = {class: mw.layoutPlus._active.className, template: template};
             }
-            /*mw.liveEditState.record({
-                action: function () {
-                    mw.$('#' + id).replaceWith('<div id="' + id + '"></div>');
-                }
-            });*/
+
 
             mw.load_module('layouts', '#' + id, function () {
                 mw.wysiwyg.change(document.getElementById(id));
                 mw.drag.fixes();
-                /*mw.liveEditState.record({
-                    action: function () {
-                        mw.load_module('layouts', '#' + id, undefined, conf);
-                    }
-                });*/
+
                 setTimeout(function () {
                     mw.drag.fix_placeholders();
+                    mw.liveEditState.record({
+                        target: parent,
+                        value: parent.innerHTML
+                    });
                 }, 40);
                 mw.dropable.hide();
                 mw.layoutPlus.mode === 'Dialog' ? mw.dialog.get(tip).remove()  : $(tip).remove();
