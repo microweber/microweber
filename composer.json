@@ -26,9 +26,10 @@
         "ext-openssl": "*",
         "ext-sodium": "*",
         "ext-zip": "*",
-        "arcanedev/seo-helper": " 5.0.0",
+        "arcanedev/seo-helper": "5.0.0",
         "barryvdh/laravel-debugbar": "*",
         "barryvdh/laravel-dompdf": "*",
+        "blade-ui-kit/blade-ui-kit": "0.x-dev",
         "composer/composer": "*",
         "composer/installers": "1.9.0",
         "darkaonline/l5-swagger": "*",
@@ -37,6 +38,7 @@
         "enshrined/svg-sanitize": "0.15.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
+        "filament/filament": "^2.0",
         "finlet/flexmail": "dev-master",
         "florianv/exchanger": "2.x-dev",
         "florianv/swap": "^4.3",
@@ -75,7 +77,7 @@
         "opis/closure": "^3.6@dev",
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
-        "predis/predis": "2.0.x-dev",
+        "predis/predis": "*",
         "rappasoft/laravel-livewire-tables": "v2.8.0",
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
@@ -95,8 +97,7 @@
         "wire-elements/modal": "1.0.7"
     },
     "require-dev": {
-        "fzaninotto/faker": "*",
-        "laravel/sail": "1.x-dev",
+        "laravel/sail": "*",
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
         "orchestra/testbench": "*",
@@ -141,6 +142,7 @@
         ],
         "sort-packages": true,
         "allow-plugins": {
+            "php-http/discovery": true,
             "composer/installers": true,
             "wikimedia/composer-merge-plugin": true
         }
@@ -163,6 +165,8 @@
         },
         "laravel": {
             "dont-discover": [
+                "filament/filament",
+
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
