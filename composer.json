@@ -99,7 +99,7 @@
     "require-dev": {
         "laravel/sail": "*",
         "mockery/mockery": "*",
-        "nunomaduro/collision": "*",
+        "nunomaduro/collision": "v6.4.0",
         "orchestra/testbench": "*",
         "spatie/laravel-ignition": "*"
     },
