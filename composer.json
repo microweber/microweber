@@ -101,7 +101,6 @@
         "mockery/mockery": "*",
         "nunomaduro/collision": "*",
         "orchestra/testbench": "*",
-        "phpunit/phpunit": "9.5.19",
         "spatie/laravel-ignition": "*"
     },
     "replace": {
