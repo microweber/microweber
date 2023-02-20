@@ -492,7 +492,7 @@
             position: fixed;
             top: calc(var(--toolbar-height) + 100px);
             left: 30px;
-            z-index: 10;
+            z-index: 4;
         }
 
         #bubble-nav span svg{
@@ -555,18 +555,31 @@
 
 
         }
-        .mw-le-layouts-dialog{
+
+        .mw-le-dialog-block.active{
+            opacity: 1;
+            visibility: visible;
+        }
+        .mw-le-dialog-block{
             position: fixed;
+            z-index: 5;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+            transition: .4s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .mw-le-layouts-dialog{
+
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: calc(100vw - 60px) ;
             height: calc(100vh - 60px) ;
-
+            min-height: 100px;
             width: 1650px;
             background-color: #ececec;
-            z-index: 5;
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+
         }
 
         .mw-le-layouts-dialog-row {
@@ -666,6 +679,12 @@
             content: "";
             flex: auto;
 
+        }
+        .mw-le-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            background-color: rgba(0,0,0,.2);
         }
         .mw-le-layouts-dialog .modules-list-block{
             padding: 30px;
@@ -780,15 +799,20 @@
         .mw-le-modules-dialog{
             position: fixed;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+
+            transform: translateY(-50%) scale(0.5);
             max-width: calc(100vw - 60px) ;
             height: calc(100vh - 60px) ;
-
+            left: -440px;
             width: 430px;
             background-color: #2b2b2b;
             z-index: 5;
             box-shadow: rgba(0, 0, 0, 0.1) 0 10px 50px;
+        }
+
+        .mw-le-modules-dialog.active{
+            left: 20px;
+            transform: translateY(-50%) scale(1);
         }
 
         .mw-le-modules-dialog .modules-list-defaultModules{
@@ -883,6 +907,29 @@
             background-size: 19px auto;
         }
 
+        .mw-le-dialog-close.active{
+            opacity: 1;
+            transform: scale(1);
+        }
+        .mw-le-dialog-close{
+            z-index: 6;
+            opacity: 0;
+            transform: scale(0);
+            transition: .2s;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background-color: rgba(255,255,255, 1);
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctitle%3Eclose%3C/title%3E%3Cpath d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+            background-size: contain;
+            border-radius: 40px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+
         /* /modules dialog */
 
 
@@ -910,91 +957,181 @@
 
         var frame, frameHolder;
 
-        var command = {
-            insertModule: function () {
-                var modulesDialog = mw.element({
+        var _CommandDialogs = [];
+        var CommandDialog = function (className){
+            _CommandDialogs.push(this);
+            this.dialog = mw.element({
+                props: {
+                    className: 'mw-le-dialog-block ' +  className
+                }
+            });
+            this.overlay = mw.element({
+                props: {
+                    className: 'mw-le-overlay'
+                }
+            });
+            this.open = function () {
+                this.dialog.addClass('active');
+                this.overlay.addClass('active');
+                this.closeButton.addClass('active');
+            }
+            this.close = function () {
+                this.dialog.removeClass('active');
+                this.overlay.removeClass('active');
+                this.closeButton.removeClass('active');
+            }
+            this.remove = function () {
+                this.close();
+                setTimeout(() => {
+                    this.dialog.remove();
+                    this.overlay.remove();
+                    this.closeButton.remove();
+                }, 400);
+            }
+            this.closeButton = mw.element({
+                props: {
+                    className: 'mw-le-dialog-close'
+                }
+            });
+            this.closeButton.on('click', e => {
+                this.remove()
+            })
+            mw.element(document.body).append(this.overlay);
+            mw.element(document.body).append(this.dialog);
+            mw.element(document.body).append(this.closeButton);
+            setTimeout(() => {
+                this.open();
+
+            }, 100);
+
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.key === 'Escape' || e.keyCode == 27) && _CommandDialogs.length > 0) {
+                _CommandDialogs[0].remove();
+                _CommandDialogs.splice(0 ,1);
+            }
+        }) ;
+
+
+        var _modulesCache, _layotsCache;
+
+        var _modulesDataLoader = function (modulesDialog) {
+            var modulesList = new ModulesList({
+                data: _modulesCache
+            });
+            modulesList.createCategorized().then(function (){
+                modulesDialog.append(modulesList.root)
+
+            })
+        }
+
+        var _layoutsDataLoader = function (cmmodulesDialog) {
+            var modulesList = new ModulesList({
+                data: _layotsCache
+            });
+
+
+
+            modulesList.create().then(function (){
+                var grid = mw.element({
                     props: {
-                        className: 'mw-le-modules-dialog'
+                        className: 'mw-le-layouts-dialog-row'
                     }
                 });
-                document.body.appendChild(modulesDialog.get(0))
+                var colSidebar = mw.element({
+                    props: {
+                        className: 'mw-le-layouts-dialog-col'
+                    }
+                });
+                var colContent = mw.element({
+                    props: {
+                        className: 'mw-le-layouts-dialog-col'
+                    }
+                });
+                grid.append(colSidebar);
+                grid.append(colContent);
+                mw.element(modulesList.root).append(grid);
+                colSidebar.append(modulesList.searchBlock);
 
-                /* demo */
-                fetch('http://localhost/mw3/api/live-edit/modules-list?layout_type=layout')
-                    .then(function (data){
-                        return data.json();
-                    }).then(function (data){
+                var categoriesTitle = mw.element({
+                    props: {
+                        innerHTML: 'Categories',
+                        className: 'mw-le-layouts-dialog-categories-title'
+                    }
+                });
+                colSidebar.append(categoriesTitle);
+                colSidebar.append(modulesList.categoriesNavigation);
+                colContent.append(modulesList.modulesList);
 
-                    var modulesList = new ModulesList({
-                        data: data
+                cmmodulesDialog.append(modulesList.root);
+
+
+
+            })
+        }
+
+        var command = {
+            insertModule: function () {
+                var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog')
+                var modulesDialog = cmmodulesDialog.dialog;
+
+
+                if(_modulesCache) {
+                    _modulesDataLoader(modulesDialog)
+                } else {
+                    mw.spinner({
+                        element: modulesDialog.get(0),
+                        decorate: true
                     });
-
-
-
-                    modulesList.createCategorized().then(function (){
-                        modulesDialog.append(modulesList.root)
-
+                    /* demo */
+                    fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout')
+                        .then(function (data){
+                            return data.json();
+                        }).then(function (data){
+                        _modulesCache = data;
+                        _modulesDataLoader(modulesDialog)
+                        mw.spinner({
+                            element: modulesDialog.get(0),
+                            decorate: true
+                        }).remove()
                     })
+                }
 
-                })
+
+
             },
             insertLayout: function () {
 
-                var layOutsDialog = mw.element({
-                    props: {
-                        className: 'mw-le-layouts-dialog'
-                    }
-                });
 
-                document.body.appendChild(layOutsDialog.get(0))
+
+                var cmmodulesDialog = new CommandDialog('mw-le-layouts-dialog')
+                var layOutsDialog = cmmodulesDialog.dialog;
+
+
+
+
+                if(_layotsCache){
+                    _layoutsDataLoader(layOutsDialog);
+                    return;
+                }
+
+                mw.spinner({
+                    element: layOutsDialog.get(0),
+                    decorate: true
+                })
 
                 /* demo */
-                fetch('http://localhost/mw3/api/live-edit/modules-list?layout_type=layout')
+                fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout')
                     .then(function (data){
                         return data.json();
                     }).then(function (data){
-
-                    var modulesList = new ModulesList({
-                        data: data
-                    });
-
-
-
-                    modulesList.create().then(function (){
-                        var grid = mw.element({
-                            props: {
-                                className: 'mw-le-layouts-dialog-row'
-                            }
-                        });
-                        var colSidebar = mw.element({
-                            props: {
-                                className: 'mw-le-layouts-dialog-col'
-                            }
-                        });
-                        var colContent = mw.element({
-                            props: {
-                                className: 'mw-le-layouts-dialog-col'
-                            }
-                        });
-                        grid.append(colSidebar);
-                        grid.append(colContent);
-                        mw.element(modulesList.root).append(grid);
-                        colSidebar.append(modulesList.searchBlock);
-
-                        var categoriesTitle = mw.element({
-                            props: {
-                                innerHTML: 'Categories',
-                                className: 'mw-le-layouts-dialog-categories-title'
-                            }
-                        });
-                        colSidebar.append(categoriesTitle);
-                        colSidebar.append(modulesList.categoriesNavigation);
-                        colContent.append(modulesList.modulesList);
-
-                        layOutsDialog.append(modulesList.root);
-
-                    })
-
+                    _layotsCache = data;
+                    _layoutsDataLoader(layOutsDialog)
+                    mw.spinner({
+                        element: layOutsDialog.get(0),
+                        decorate: true
+                    }).remove()
                 })
             }
         }
@@ -1422,8 +1559,8 @@ $user = get_user();
                 height="2000"
                 referrerpolicy="no-referrer"
                 frameborder="0"
-                xsrc="<?php print site_url(); ?>?editmode=y"
-                src="about:blank">
+                src="<?php print site_url(); ?>?editmode=n"
+                data-src="about:blank">
         </iframe>
     </div>
 
