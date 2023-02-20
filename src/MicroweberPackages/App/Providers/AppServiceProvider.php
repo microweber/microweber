@@ -2,9 +2,7 @@
 
 namespace MicroweberPackages\App\Providers;
 
-use Hamcrest\Core\Is;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -13,89 +11,85 @@ use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
 use Laravel\Dusk\DuskServiceProvider;
 use MicroweberPackages\Admin\AdminRouteServiceProvider;
-use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\Admin\AdminServiceProvider;
+use MicroweberPackages\App\Console\Commands\ServeTestCommand;
+use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
-use MicroweberPackages\App\Managers\Helpers\Lang;
 use MicroweberPackages\App\Utils\Parser;
-
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
+use MicroweberPackages\Cart\CartManagerServiceProvider;
+use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
+use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
+use MicroweberPackages\Category\Providers\CategoryServiceProvider;
+use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Comment\CommentServiceProvider;
+use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
+use MicroweberPackages\Content\ContentManagerServiceProvider;
+use MicroweberPackages\Content\ContentServiceProvider;
+use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
+use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
-use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
-use MicroweberPackages\Core\CoreServiceProvider;
+use MicroweberPackages\Country\CountryServiceProvider;
+use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
+use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
+use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
+use MicroweberPackages\Database\DatabaseManagerServiceProvider;
+use MicroweberPackages\Event\EventManagerServiceProvider;
+use MicroweberPackages\Filament\Providers\FilamentServiceProvider;
+use MicroweberPackages\FileManager\FileManagerServiceProvider;
+use MicroweberPackages\Form\Providers\FormServiceProvider;
+use MicroweberPackages\Helper\Format;
+use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
+use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\LiveEdit\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
+use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
+use MicroweberPackages\Menu\Providers\MenuServiceProvider;
+use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
+use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
+use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
+use MicroweberPackages\Order\Providers\OrderServiceProvider;
+use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Payment\PaymentManagerServiceProvider;
+use MicroweberPackages\Post\PostServiceProvider;
+use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
+use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shipping\ShippingManagerServiceProvider;
+use MicroweberPackages\Shop\ShopManagerServiceProvider;
+use MicroweberPackages\Tag\TagsManagerServiceProvider;
+use MicroweberPackages\Tax\TaxManagerServiceProvider;
+use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
-use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
-use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
-use MicroweberPackages\Category\Providers\CategoryServiceProvider;
-use MicroweberPackages\Config\ConfigSave;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Content\ContentManagerServiceProvider;
-use MicroweberPackages\Content\ContentServiceProvider;
-use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
-use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
-use MicroweberPackages\Country\CountryServiceProvider;
-use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
-use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
-use MicroweberPackages\Database\DatabaseManagerServiceProvider;
-use MicroweberPackages\Event\EventManagerServiceProvider;
-use MicroweberPackages\FileManager\FileManagerServiceProvider;
-use MicroweberPackages\Form\Providers\FormServiceProvider;
-use MicroweberPackages\Helper\Format;
-use MicroweberPackages\Helper\HelpersServiceProvider;
-use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\Media\MediaManagerServiceProvider;
-use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
-use MicroweberPackages\Menu\Providers\MenuServiceProvider;
-use MicroweberPackages\Module\ModuleServiceProvider;
-
-use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
-use MicroweberPackages\Option\Providers\OptionServiceProvider;
-
-// Shop
-use MicroweberPackages\Cart\CartManagerServiceProvider;
-use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
-use MicroweberPackages\Currency\CurrencyServiceProvider;
-use MicroweberPackages\Order\Providers\OrderServiceProvider;
-use MicroweberPackages\Page\PageServiceProvider;
-use MicroweberPackages\Post\PostServiceProvider;
-use MicroweberPackages\Product\ProductServiceProvider;
-use MicroweberPackages\Role\RoleServiceProvider;
-use MicroweberPackages\Shop\ShopManagerServiceProvider;
-use MicroweberPackages\Tax\TaxManagerServiceProvider;
-
-use MicroweberPackages\Tag\TagsManagerServiceProvider;
-use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
-use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
+
+// Shop
 
 if (!defined('MW_VERSION')) {
     include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php';
@@ -321,6 +315,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+         $this->app->register(FilamentServiceProvider::class);
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
