@@ -40,16 +40,149 @@
 <script>
     mw.require('editor.js');
 </script>
+
+
 <script>
 
 
-   ;(function (){
+    ;(function (){
+        var initEditor = function () {
+            var holder = document.querySelector('#mw-live-edit-editor');
 
-   })();
+            var _fontFamilyProvider = function () {
+                var _e = {};
+                this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+                this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+                this.provide = function (fontsArray) {
+                    this.dispatch('change', fontsArray.map(function (font){
+                        return {
+                            label: font,
+                            value: font,
+                        }
+                    }))
+                }
+
+            };
+
+            window.fontFamilyProvider = new _fontFamilyProvider();
+
+            window.liveEditor = mw.Editor({
+                element: holder,
+                mode: 'document',
+                regions: '.edit',
+                controls: [
+                    ['undoRedo',]
+                ],
+                smallEditor:  [
+                    [
+
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-title',
+                                controls: ['format', 'lineHeight']
+                            }
+                        },
+
+                        {
+                            group: {
+                                controller: 'bold',
+                                controls: [ 'italic', 'underline', 'strikeThrough', 'removeFormat']
+                            }
+                        },
+                        'fontSelector',
+
+                        'fontSize',
+
+
+                        {
+                            group: {
+                                controller: 'alignLeft',
+                                controls: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ]
+                            }
+                        },
+
+                        {
+                            group: {
+                                controller: 'ul',
+                                controls: [ 'ol' ]
+                            }
+                        },
+
+
+                        'image',
+                        {
+                            group: {
+                                controller: 'link',
+                                controls: [ 'unlink' ]
+                            }
+                        },
+                        {
+                            group: {
+                                controller: 'textColor',
+                                controls: [ 'textBackgroundColor' ]
+                            }
+                        },
+
+                        'pin',
+
+                    ]
+                ],
+                smallEditorPositionX: 'center',
+                smallEditorSkin: 'lite',
+
+                interactionControls: [
+
+                ],
+
+                id: 'live-edit-wysiwyg-editor',
+
+                minHeight: 250,
+                maxHeight: '70vh',
+                state: mw.liveEditState,
+
+                fontFamilyProvider: fontFamilyProvider
+            });
+
+
+
+            liveEditor.on('action', function (){
+                mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
+            })
+            liveEditor.on('smallEditorReady', function (){
+                fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
+            })
+            $(liveEditor).on('selectionchange', function (){
+                var sel = liveEditor.getSelection();
+                if(sel.rangeCount) {
+                    liveEditor.lastRange =  sel.getRangeAt(0) ;
+                } else {
+                    liveEditor.lastRange = undefined;
+                }
+
+            })
+
+            holder.innerHTML = '';
+            holder.appendChild(liveEditor.wrapper);
+
+
+            var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
+            if(typeof memPin === 'undefined') {
+                liveEditor.smallEditorApi.pin()
+            }
+
+        }
+
+        if(self === top){
+            addEventListener('load', function (){
+                initEditor();
+            })
+        }
+
+    })();
 
 
 </script>
-
 
 <div  id="mw-live-edit-editor"  >
 

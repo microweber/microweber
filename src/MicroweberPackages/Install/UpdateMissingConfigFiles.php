@@ -22,7 +22,8 @@ class UpdateMissingConfigFiles
             }
         }
         if ($files) {
-            $config_dir = __DIR__ . '/../../../config';
+            $config_dir = config_path();
+
             if(!is_dir($config_dir)){
                 // do nothing
                return;
