@@ -318,6 +318,7 @@ return [
     'middleware' => [
         'auth' => [
             MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+            DispatchServingFilamentEvent::class,
         ],
         'base' => [
             EncryptCookies::class,
