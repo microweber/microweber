@@ -53,7 +53,10 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot()
     {
         Filament::serving(function () {
-            Filament::registerViteTheme('resources/css/microweber-admin-filament.css');
+            Filament::registerViteTheme(
+                'resources/css/microweber-admin-filament.css',
+            'public/build'
+            );
         });
     }
 }
