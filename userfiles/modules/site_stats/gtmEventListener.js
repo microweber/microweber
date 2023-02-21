@@ -16,6 +16,25 @@ mw.on('trackEvent', function (dataLayerItem) {
     mwTrackEventPush(dataLayerItem);
 });
 
+//
+//
+// class EventManager {
+//     #_e = {};
+//     on(e, f) {
+//         this.#_e[e] ? this.#_e[e].push(f) : (this.#_e[e] = [f])
+//     };
+//     emit (e, f) {
+//
+//         this.#_e[e] ? this.#_e[e].forEach(function (c) {
+//             c.call(this, f);
+//         }) : '';
+//     };
+// }
+//
+//
+// export const eventBus =  new EventManager();
+
+
 
 //
 //
