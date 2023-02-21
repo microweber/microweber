@@ -14,7 +14,7 @@ return [
      |
      */
 
-    'enabled' =>    env('DEBUGBAR_ENABLED', false),
+    'enabled' =>    env('DEBUGBAR_ENABLED', 1),
   //  'enabled' =>    1,
     'except' => [
         'telescope*'
