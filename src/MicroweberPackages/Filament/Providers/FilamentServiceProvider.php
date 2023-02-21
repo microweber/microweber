@@ -34,15 +34,15 @@ class FilamentServiceProvider extends ServiceProvider
 
         $originalFolder = new \ReflectionClass(\Filament\FilamentServiceProvider::class);
         $originalFolder = dirname(dirname($originalFolder->getFileName()));
-        $originalViewsFolder = normalize_path($originalFolder.'/resources/views', true);
-        $originalLangFolder = normalize_path($originalFolder.'/resources/lang', true);
-        if(is_dir($originalViewsFolder)){
+        $originalViewsFolder = normalize_path($originalFolder . '/resources/views', true);
+        $originalLangFolder = normalize_path($originalFolder . '/resources/lang', true);
+        if (is_dir($originalViewsFolder)) {
             View::addNamespace('filament', $originalViewsFolder);
 
         }
 
-        if(is_dir($originalLangFolder)){
-           $this->loadTranslationsFrom($originalLangFolder, 'filament');
+        if (is_dir($originalLangFolder)) {
+            $this->loadTranslationsFrom($originalLangFolder, 'filament');
         }
 
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
@@ -53,9 +53,6 @@ class FilamentServiceProvider extends ServiceProvider
     public function boot()
     {
         Filament::serving(function () {
-
-            dd(2);
-
             // Using Vite
             Filament::registerViteTheme('resources/css/filament.css');
         });
