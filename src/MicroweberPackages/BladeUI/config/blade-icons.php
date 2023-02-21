@@ -30,7 +30,7 @@ return [
             |
             */
 
-            'path' => 'resources/svg',
+            'path' => 'resources/img/icons/svg',
 
             /*
             |-----------------------------------------------------------------

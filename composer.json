@@ -165,6 +165,8 @@
         "laravel": {
             "dont-discover": [
                 "filament/filament",
+                "blade-ui-kit/blade-ui-kit",
+                "blade-ui-kit/blade-icons",
 
                 "laravel/passport",
                 "laravel/sanctum",

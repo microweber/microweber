@@ -17,6 +17,7 @@ use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
+use MicroweberPackages\BladeUI\Providers\BladeUIServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
@@ -226,6 +227,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
         $this->app->register(ViewServiceProvider::class);
+        $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
