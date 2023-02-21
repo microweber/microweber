@@ -16,11 +16,13 @@ use Arcanedev\Support\Providers\ServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Illuminate\Support\Facades\View;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 
 
 class FilamentServiceProvider extends ServiceProvider
 {
 
+    use MergesConfig;
 
     public function register()
     {

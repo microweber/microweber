@@ -5,9 +5,11 @@ namespace MicroweberPackages\BladeUI\Providers;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 
 class BladeUIServiceProvider extends ServiceProvider
 {
+    use MergesConfig;
     public function register()
     {
 
