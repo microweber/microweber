@@ -13,6 +13,7 @@ namespace MicroweberPackages\Filament\Providers;
 
 
 use Arcanedev\Support\Providers\ServiceProvider;
+use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -44,11 +45,19 @@ class FilamentServiceProvider extends ServiceProvider
            $this->loadTranslationsFrom($originalLangFolder, 'filament');
         }
 
-
-
-
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
         $this->mergeConfigFrom(__DIR__ . '/../config/notifications.php', 'notifications');
     }
 
+
+    public function boot()
+    {
+        Filament::serving(function () {
+
+            dd(2);
+
+            // Using Vite
+            Filament::registerViteTheme('resources/css/filament.css');
+        });
+    }
 }
