@@ -9,6 +9,6 @@ $config['version'] = 1;
 $config['ui'] = true;
 $config['position'] = 100;
 $config['as_element'] = 1;
-$config['categories'] = "content, table, recommended";
+$config['categories'] = "miscellaneous";
 
 

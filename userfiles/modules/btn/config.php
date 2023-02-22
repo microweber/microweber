@@ -9,7 +9,7 @@ $config['ui_admin'] = false;
 $config['is_system'] = true;
 $config['position'] = 7;
 $config['version'] = 0.9;
-$config['categories'] = "navigation";
+$config['categories'] = "essentials";
 $config['settings'] = [];
 $config['settings']['translatable_options'] = [
     'button_action',

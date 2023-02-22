@@ -6,6 +6,6 @@ $config['description'] = "Navigation menu for pages and links.";
 $config['author'] = "Microweber";
 $config['ui'] = true;
 $config['ui_admin'] = true;
-$config['categories'] = "navigation";
+$config['categories'] = "essentials";
 $config['position'] = 27;
 $config['version'] = 0.5;
