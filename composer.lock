@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de2f45f2c649e1c384a1b2f591bdcd0e",
+    "content-hash": "b46d39aef6b869b031e837618db6af35",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7179,20 +7179,27 @@
             "target-dir": "new-world",
             "source": {
                 "type": "git",
-                "url": "https://github.com/microweber-templates/new-world.git",
+                "url": "https://github.com/microweber-templates/new-world",
                 "reference": "93f42b151ba47cec6f4b8df518324eb69047474a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/microweber-templates/new-world/zipball/93f42b151ba47cec6f4b8df518324eb69047474a",
+                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-5.9-0235f7.zip",
                 "reference": "93f42b151ba47cec6f4b8df518324eb69047474a",
-                "shasum": ""
+                "shasum": "8fe112712234aa1f36ca5e96159425f4a72ed02f"
             },
             "type": "microweber-template",
             "extra": {
-                "preview_url": "https://templates.microweber.com/new-world/"
+                "preview_url": "https://templates.microweber.com/new-world/",
+                "_meta": {
+                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/59/readme.md",
+                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/59/screenshot.jpg"
+                },
+                "whmcs": {
+                    "whmcs_url": "https://members.microweber.com"
+                }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
             "license": [
                 "MIT"
             ],
@@ -7210,10 +7217,6 @@
                 "ecommerce",
                 "microweber"
             ],
-            "support": {
-                "issues": "https://github.com/microweber-templates/new-world/issues",
-                "source": "https://github.com/microweber-templates/new-world/tree/5.9"
-            },
             "time": "2023-01-05T13:45:10+00:00"
         },
         {
