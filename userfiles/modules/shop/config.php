@@ -4,7 +4,7 @@ $config['name'] = "Online shop";
 $config['author'] = "Microweber";
 $config['ui_admin'] = true;
 $config['ui'] = true;
-$config['categories'] = "online shop";
+$config['categories'] = "store";
 $config['position'] = 200;
 $config['version'] = 0.4;
 
