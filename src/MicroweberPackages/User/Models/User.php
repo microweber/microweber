@@ -15,6 +15,7 @@ use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
+use MicroweberPackages\Database\Casts\StrToLowerTrimCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
@@ -30,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'username' => StripTagsCast::class,
+        'email' => StrToLowerTrimCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,
     ];
 
@@ -119,6 +121,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = (Hash::needsRehash($pass) ? Hash::make($pass) : $pass);
     }
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+    public function getEmailAttribute($value)
+    {
+        return strtolower($value);
+    }
     /**
      * Find the user instance for the given username.
      *
