@@ -74,6 +74,7 @@ class UserLoginController extends Controller
 
         if (isset($response->two_factor)) {
             return [
+                'success'=>true,
                 'redirect'=>route('two-factor.login')
             ];
         }
