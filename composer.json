@@ -168,15 +168,15 @@
                 "filament/filament",
                 "blade-ui-kit/blade-ui-kit",
                 "blade-ui-kit/blade-icons",
-
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
+                "laravel/fortify",
                 "livewire/livewire",
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "spatie/laravel-ignition",
-                "barryvdh/laravel-debugbar"
+                "barryvdh/laravel-debugbar",
             ]
         }
     }
