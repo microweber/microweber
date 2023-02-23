@@ -21,10 +21,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-        $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
-
-        $this->app->register(\Laravel\Fortify\FortifyServiceProvider::class);
+        parent::register();
     }
 
     /**
@@ -34,6 +31,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
+
+        $this->app->register(\Laravel\Fortify\FortifyServiceProvider::class);
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
