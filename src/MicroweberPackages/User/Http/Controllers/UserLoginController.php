@@ -8,7 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
@@ -60,6 +68,17 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
+
+        $response = $this->loginPipeline($request)->then(function ($request) {
+            return app(LoginResponse::class);
+        });
+
+        if (isset($response->getData()->two_factor)) {
+            return [
+                'form_data_required'=>'users/login/two_factor',
+                'form_data_module'=>'users/login/two_factor',
+            ];
+        }
 
         $requestLang = $request->post('lang');
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
@@ -202,6 +221,28 @@ class UserLoginController extends Controller
         app()->user_manager->login_set_failed_attempt($request);
 
         return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
+    }
+
+    protected function loginPipeline(LoginRequest $request)
+    {
+        if (Fortify::$authenticateThroughCallback) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                call_user_func(Fortify::$authenticateThroughCallback, $request)
+            ));
+        }
+
+        if (is_array(config('fortify.pipelines.login'))) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                config('fortify.pipelines.login')
+            ));
+        }
+
+        return (new Pipeline(app()))->send($request)->through(array_filter([
+            config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+            Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
+            AttemptToAuthenticate::class,
+            PrepareAuthenticatedSession::class,
+        ]));
     }
 
     public function loginFields($request)
