@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 // route moved to src/MicroweberPackages/App/routes/web.php  because if bug
 // Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
-
 Route::name('admin.')
     ->prefix(ADMIN_PREFIX)
     ->middleware([

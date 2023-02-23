@@ -70,10 +70,12 @@ class UserLoginController extends Controller
     {
         $response = $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
-        });
+        })->getData();
 
-        if (isset($response->getData()->two_factor)) {
-           return $response;
+        if (isset($response->two_factor)) {
+            return [
+                'redirect'=>route('two-factor.login')
+            ];
         }
 
         $requestLang = $request->post('lang');

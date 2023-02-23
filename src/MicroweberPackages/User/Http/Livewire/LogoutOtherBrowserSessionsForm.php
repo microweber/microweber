@@ -137,6 +137,6 @@ class LogoutOtherBrowserSessionsForm extends Component
      */
     public function render()
     {
-        return view('user::profile.logout-other-browser-sessions-form');
+        return view('user::livewire.profile.logout-other-browser-sessions-form');
     }
 }
