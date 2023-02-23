@@ -4,10 +4,11 @@
 function user_ip()
 {
     $ipaddress = '127.0.0.1';
+    $ipaddressDefault = '127.0.0.1';
 
     if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
         $ipaddress = $_SERVER['HTTP_CF_CONNECTING_IP'];
-    }  else if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+    } else if (isset($_SERVER['HTTP_CLIENT_IP'])) {
         $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
     } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -24,6 +25,15 @@ function user_ip()
     } else if (isset($_SERVER['REMOTE_ADDR'])) {
         $ipaddress = $_SERVER['REMOTE_ADDR'];
     }
+
+    $ipv4_validation_regex = "/^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/";
+    $ipv6_validation_regex = "/^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/";
+
+    if (!preg_match($ipv4_validation_regex, $ipaddress) and !preg_match($ipv6_validation_regex, $ipaddress)) {
+        //invalid ip is sent, so we return default ip
+        return $ipaddressDefault;
+    }
+
 
     return $ipaddress;
 }
@@ -241,7 +251,7 @@ function only_admin_access()
 
 function is_admin()
 {
-    if(app()->bound('user_manager')){
+    if (app()->bound('user_manager')) {
         return app()->user_manager->is_admin();
     }
 }
@@ -264,12 +274,12 @@ function is_live_edit()
         return true;
     }
 
-    $editModeParam2 = app()->url_manager->param('editmode',true);
+    $editModeParam2 = app()->url_manager->param('editmode', true);
     if ($editModeParam2 == 'y') {
         return true;
     }
 
-    if(defined('IN_EDIT') and IN_EDIT){
+    if (defined('IN_EDIT') and IN_EDIT) {
         return true;
     }
 
@@ -334,16 +344,16 @@ function get_users($params = false)
  *
  * get_user get the user info from the DB
  *
- * @category users
- *
- * @author   Microweber
- *
- * @link     http://microweber.com
- *
  * @param bool $id
  *
  *
  * @return array
+ * @link     http://microweber.com
+ *
+ * @category users
+ *
+ * @author   Microweber
+ *
  */
 function get_user($id = false)
 {
@@ -363,7 +373,7 @@ function user_can_access($permission)
     }
 
     return false;
-   // return $user->can($permission);
+    // return $user->can($permission);
 }
 
 function module_permissions($module)
@@ -374,7 +384,7 @@ function module_permissions($module)
 
 function user_can_destroy_module($module)
 {
- //   $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
+    //   $permissions = \MicroweberPackages\Role\Repositories\Permission::generateModulePermissionsSlugs($module);
 
     $user = \Illuminate\Support\Facades\Auth::user();
     if (!$user) {
@@ -385,9 +395,9 @@ function user_can_destroy_module($module)
         return true;
     }
 
-   /* if ($user->can($permissions['destroy'])) {
-        return true;
-    }*/
+    /* if ($user->can($permissions['destroy'])) {
+         return true;
+     }*/
 
     return false;
 }
@@ -406,17 +416,17 @@ function user_can_view_module($module)
         return true;
     }
 
- /*   if ($user->can($permissions['index'])) {
-        return true;
-    }*/
+    /*   if ($user->can($permissions['index'])) {
+           return true;
+       }*/
 
     return false;
 
 }
 
 
-
-function detect_user_id_from_params($params){
+function detect_user_id_from_params($params)
+{
 
     if (!empty($params)) {
         if (isset($params['username']) || isset($params['email'])) {
