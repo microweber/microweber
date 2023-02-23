@@ -61,12 +61,7 @@ class UserLoginController extends Controller
         return app()->parser->process($parsed);
     }
 
-    /**
-     * login api
-     *
-     * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
-     */
-    public function login(LoginRequest $request)
+    public function loginWithTwoFactory($request)
     {
         $response = $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
@@ -78,7 +73,15 @@ class UserLoginController extends Controller
                 'redirect'=>route('two-factor.login')
             ];
         }
+    }
 
+    /**
+     * login api
+     *
+     * @param \MicroweberPackages\User\Http\Requests\LoginRequest $request
+     */
+    public function login(LoginRequest $request)
+    {
         $requestLang = $request->post('lang');
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 
@@ -89,6 +92,7 @@ class UserLoginController extends Controller
         $is_logged_out = false;
         if (Auth::check()) {
             $user = Auth::user();
+
             if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
                 // logout user if its set inactive in database
                 Auth::logout();
@@ -139,8 +143,16 @@ class UserLoginController extends Controller
         }
 
          Session::flash('old_sid', Session::getId());
-        $loginData = $this->loginFields($request->only('username', 'email', 'password'));
+         $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
+         $checkUser = User::where('email', $loginData['username'])
+             ->orWhere('username', $loginData['username'])
+             ->first();
+        if (!empty($checkUser)) {
+            if (!empty($checkUser->two_factor_secret)) {
+               return $this->loginWithTwoFactory($request);
+            }
+        }
 
         $login = Auth::attempt($loginData,$remember = true);
         if ($login) {
@@ -212,7 +224,6 @@ class UserLoginController extends Controller
             }
 
             $response['data'] = auth()->user();
-
 
             return new  JsonResource($response);
         }
