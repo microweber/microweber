@@ -1,10 +1,11 @@
 module.exports = {
     theme: {
         screens: {
-            sm: '480px',
-            md: '768px',
-            lg: '976px',
-            xl: '1440px',
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
         },
         // colors: {
         //     'blue': '#1fb6ff',
@@ -85,9 +86,13 @@ module.exports = {
                 '144': '36rem',
             },
             borderRadius: {
-                '4xl': '2rem',
+                'none': '0',
+                'sm': '.125rem',
+                DEFAULT: '.25rem',
+                'lg': '.314rem',
+                'full': '999px',
             }
-        },
+        }
 
 
     }

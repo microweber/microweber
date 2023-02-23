@@ -1,6 +1,5 @@
 const colors = require("tailwindcss/colors");
 
-const mwTheme = require("./resources/css/mwTheme.js");
 
 
 
@@ -10,9 +9,14 @@ module.exports = {
         './vendor/filament/**/*.blade.php',
     ],
     darkMode: "class",
-    theme: mwTheme.theme,
+    presets: [
+        require('./resources/css/mwTheme.js')
+    ],
     plugins: [
         require("@tailwindcss/forms"),
         require("@tailwindcss/typography"),
+        require("@tailwindcss/aspect-ratio"),
+        require("@tailwindcss/line-clamp"),
+
     ],
 };
