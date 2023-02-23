@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
 use MicroweberPackages\Core\Models\HasSearchableTrait;
@@ -27,7 +28,16 @@ use carbon\carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, HasSearchableTrait, MustVerifyEmailTrait, CanResetPassword, CacheableQueryBuilderTrait;
+    use HasFactory,
+        Notifiable,
+        TwoFactorAuthenticatable,
+        HasRoles,
+        HasApiTokens,
+        Filterable,
+        HasSearchableTrait,
+        MustVerifyEmailTrait,
+        CanResetPassword,
+        CacheableQueryBuilderTrait;
 
     protected $casts = [
         'username' => StripTagsCast::class,
