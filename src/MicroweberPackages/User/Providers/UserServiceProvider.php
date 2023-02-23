@@ -12,9 +12,13 @@
 namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Passport\Passport;
+use Livewire\Livewire;
+use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\RSAKeys;
 use MicroweberPackages\User\UserManager;
 
@@ -30,16 +34,19 @@ class UserServiceProvider extends AuthServiceProvider
     public function register()
     {
          parent::register();
+
     }
 
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__. '/../routes/api.php');
+        $this->loadMigrationsFrom(__DIR__. '/../migrations/');
+        $this->loadViewsFrom( __DIR__ . '/../resources/views/components', 'user');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+        View::addNamespace('user', __DIR__ . '/../resources/views');
 
-        View::addNamespace('user', dirname(__DIR__) . '/resources/views');
+        Livewire::component('profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
 
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
