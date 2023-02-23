@@ -1379,6 +1379,13 @@ class UserManager
                 $existing['oauth_uid'] = $oauth_id;
                 $existing['oauth_provider'] = $auth_provider;
             }
+
+            if(empty($username) and !empty($oauth_id)){
+                $username = 'user_' . $oauth_id;
+            } else if(empty($username) and !empty($email)){
+                $username = 'user_' . md5($email);
+            }
+
             $save = $existing;
             $save['thumbnail'] = $avatar;
             $save['username'] = $username;
