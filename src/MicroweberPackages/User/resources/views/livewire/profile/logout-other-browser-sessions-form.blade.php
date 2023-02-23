@@ -1,6 +1,10 @@
-<div>
+<div class="mt-2 mb-2">
 
-    <div class="p-3 mt-4" style="border: 1px solid #cfcfcf;border-radius: 6px;background: #f2f2f2;">
+    <button type="button" class="btn btn-outline-primary" wire:click="showForm()">
+        Browser Sessions
+    </button>
+
+    <div class="p-3 mt-2" style="@if(!$showForm) display: none; @endif  border: 1px solid #cfcfcf;border-radius: 6px;background: #f2f2f2;">
 
     <div>
         {{ __('Browser Sessions') }}
