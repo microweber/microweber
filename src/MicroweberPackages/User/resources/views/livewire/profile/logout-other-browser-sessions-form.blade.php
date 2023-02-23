@@ -1,13 +1,16 @@
-<x-user::action-section>
-    <x-slot name="title">
+<div>
+
+    <div class="p-3 mt-4" style="border: 1px solid #cfcfcf;border-radius: 6px;background: #f2f2f2;">
+
+    <div>
         {{ __('Browser Sessions') }}
-    </x-slot>
+    </div>
 
-    <x-slot name="description">
+    <div>
         {{ __('Manage and log out your active sessions on other browsers and devices.') }}
-    </x-slot>
+    </div>
 
-    <x-slot name="content">
+    <div>
         <x-user::action-message on="loggedOut">
             {{ __('Done.') }}
         </x-user::action-message>
@@ -95,6 +98,6 @@
                 </x-user::button>
             </x-slot>
         </x-user::dialog-modal>
-    </x-slot>
-
-</x-user::action-section>
+    </div>
+</div>
+</div>
