@@ -8,7 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Features;
+use Laravel\Fortify\Fortify;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
@@ -53,6 +61,20 @@ class UserLoginController extends Controller
         return app()->parser->process($parsed);
     }
 
+    public function loginWithTwoFactory($request)
+    {
+        $response = $this->loginPipeline($request)->then(function ($request) {
+            return app(LoginResponse::class);
+        })->getData();
+
+        if (isset($response->two_factor)) {
+            return [
+                'success'=>true,
+                'redirect'=>route('two-factor.login')
+            ];
+        }
+    }
+
     /**
      * login api
      *
@@ -60,7 +82,6 @@ class UserLoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-
         $requestLang = $request->post('lang');
 		$redirectParams = $request->only('http_redirect', 'redirect', 'where_to');
 
@@ -71,6 +92,7 @@ class UserLoginController extends Controller
         $is_logged_out = false;
         if (Auth::check()) {
             $user = Auth::user();
+
             if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
                 // logout user if its set inactive in database
                 Auth::logout();
@@ -121,8 +143,16 @@ class UserLoginController extends Controller
         }
 
          Session::flash('old_sid', Session::getId());
-        $loginData = $this->loginFields($request->only('username', 'email', 'password'));
+         $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
+         $checkUser = User::where('email', $loginData['username'])
+             ->orWhere('username', $loginData['username'])
+             ->first();
+        if (!empty($checkUser)) {
+            if (!empty($checkUser->two_factor_secret)) {
+               return $this->loginWithTwoFactory($request);
+            }
+        }
 
         $login = Auth::attempt($loginData,$remember = true);
         if ($login) {
@@ -195,13 +225,34 @@ class UserLoginController extends Controller
 
             $response['data'] = auth()->user();
 
-
             return new  JsonResource($response);
         }
 
         app()->user_manager->login_set_failed_attempt($request);
 
         return response()->json(['error' =>_e( 'Wrong username or password.',true)], 401);
+    }
+
+    protected function loginPipeline(LoginRequest $request)
+    {
+        if (Fortify::$authenticateThroughCallback) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                call_user_func(Fortify::$authenticateThroughCallback, $request)
+            ));
+        }
+
+        if (is_array(config('fortify.pipelines.login'))) {
+            return (new Pipeline(app()))->send($request)->through(array_filter(
+                config('fortify.pipelines.login')
+            ));
+        }
+
+        return (new Pipeline(app()))->send($request)->through(array_filter([
+            config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+            Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
+            AttemptToAuthenticate::class,
+            PrepareAuthenticatedSession::class,
+        ]));
     }
 
     public function loginFields($request)

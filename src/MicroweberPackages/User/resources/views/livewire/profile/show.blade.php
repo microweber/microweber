@@ -19,12 +19,12 @@
         @endif
 
         @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-            @livewire('profile.two-factor-authentication-form')
+            @livewire('user::profile.two-factor-authentication-form')
 
             <x-user::section-border />
         @endif
 
-        @livewire('profile.logout-other-browser-sessions-form')
+        @livewire('user::profile.logout-other-browser-sessions-form')
 
         @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <x-user::section-border />

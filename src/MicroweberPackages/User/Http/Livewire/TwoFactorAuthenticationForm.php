@@ -16,6 +16,11 @@ class TwoFactorAuthenticationForm extends Component
     use ConfirmsPasswords;
 
     /**
+     * @var bool Indicates if the form should be shown.
+     */
+    public $showForm = false;
+
+    /**
      * Indicates if two factor authentication QR code is being displayed.
      *
      * @var bool
@@ -42,6 +47,11 @@ class TwoFactorAuthenticationForm extends Component
      * @var string|null
      */
     public $code;
+
+    public function showForm()
+    {
+        $this->showForm = !$this->showForm;
+    }
 
     /**
      * Mount the component.
@@ -175,6 +185,6 @@ class TwoFactorAuthenticationForm extends Component
      */
     public function render()
     {
-        return view('user::profile.two-factor-authentication-form');
+        return view('user::livewire.profile.two-factor-authentication-form');
     }
 }

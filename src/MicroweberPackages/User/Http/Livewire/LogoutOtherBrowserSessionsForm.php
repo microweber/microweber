@@ -14,6 +14,11 @@ use Livewire\Component;
 class LogoutOtherBrowserSessionsForm extends Component
 {
     /**
+     * @var bool Indicates if the form should be shown.
+     */
+    public $showForm = false;
+
+    /**
      * Indicates if logout is being confirmed.
      *
      * @var bool
@@ -39,6 +44,11 @@ class LogoutOtherBrowserSessionsForm extends Component
         $this->dispatchBrowserEvent('confirming-logout-other-browser-sessions');
 
         $this->confirmingLogout = true;
+    }
+
+    public function showForm()
+    {
+        $this->showForm = !$this->showForm;
     }
 
     /**
@@ -137,6 +147,6 @@ class LogoutOtherBrowserSessionsForm extends Component
      */
     public function render()
     {
-        return view('user::profile.logout-other-browser-sessions-form');
+        return view('user::livewire.profile.logout-other-browser-sessions-form');
     }
 }

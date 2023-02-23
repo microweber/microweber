@@ -14,6 +14,10 @@
                         mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
                         mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>'), '<?php print api_link('user_login'); ?>', function (a, b) {
 
+                            if (this.redirect) {
+                                window.location.href = this.redirect;
+                            }
+
                             // mw.response('#user_login_<?php print $params['id'] ?>',this);
 
                             if (typeof this.message === 'string') {
