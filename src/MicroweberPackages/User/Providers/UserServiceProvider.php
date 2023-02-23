@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Passport\Passport;
 use Livewire\Livewire;
+use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\RSAKeys;
 use MicroweberPackages\User\UserManager;
@@ -46,7 +47,8 @@ class UserServiceProvider extends AuthServiceProvider
 
         View::addNamespace('user', __DIR__ . '/../resources/views');
 
-        Livewire::component('profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
+        Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
+        Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
 
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
