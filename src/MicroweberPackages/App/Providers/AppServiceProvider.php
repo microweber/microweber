@@ -83,6 +83,7 @@ use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
+use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
@@ -229,6 +230,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
+        $this->app->register(FortifyServiceProvider::class);
         $this->app->register(InstallServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
 
