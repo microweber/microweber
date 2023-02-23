@@ -31,7 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
         $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
 
         $this->app->register(\Laravel\Fortify\FortifyServiceProvider::class);

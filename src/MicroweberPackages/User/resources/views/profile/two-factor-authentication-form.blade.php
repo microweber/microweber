@@ -1,5 +1,5 @@
 <div>
-<div class="p-2 bg-white border-1">
+    <div class="p-3" style="border: 1px solid #cfcfcf;border-radius: 6px;background: #f2f2f2;">
 
     {{ __('Two Factor Authentication') }}
     {{ __('Add additional security to your account using two factor authentication.') }}
