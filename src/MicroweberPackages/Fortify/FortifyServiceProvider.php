@@ -21,7 +21,9 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(\Laravel\Fortify\FortifyServiceProvider::class);
+
+        $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
     }
 
     /**

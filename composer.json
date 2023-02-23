@@ -176,7 +176,7 @@
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "spatie/laravel-ignition",
-                "barryvdh/laravel-debugbar",
+                "barryvdh/laravel-debugbar"
             ]
         }
     }
