@@ -1,8 +1,7 @@
 @extends('user::layout')
 
 @section('content')
-
-
+    
 <div>
 
     <b>
@@ -14,11 +13,6 @@
         <br />
         <br />
     </b>
-
-</div>
-
-    {{$errors->first('code')}}
-    {{$errors->first('recovery_code')}}
 
     <form method="POST" action="{{ route('two-factor.login') }}">
         @csrf
@@ -49,4 +43,5 @@
 
         </div>
     </form>
+</div>
 @endsection

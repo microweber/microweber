@@ -43,12 +43,12 @@ class FortifyServiceProvider extends ServiceProvider
 
         View::addNamespace('fortify', __DIR__.'/resources/views');
 
-        Fortify::createUsersUsing(CreateNewUser::class);
-        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+//        Fortify::createUsersUsing(CreateNewUser::class);
+//        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+//        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
+//        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        Fortify::twoFactorChallengeView(function() {
+        Fortify::twoFactorChallengeView(function () {
             return view('fortify::two-factor-challenge');
         });
 
@@ -61,7 +61,6 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
-
             return Limit::perMinute(5)->by($email.$request->ip());
         });
 
