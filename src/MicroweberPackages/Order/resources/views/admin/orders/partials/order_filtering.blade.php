@@ -1,6 +1,6 @@
 <script>
     function orderRedirection(val) {
-        alert(val);
+
     }
 
     $(document).ready(function () {

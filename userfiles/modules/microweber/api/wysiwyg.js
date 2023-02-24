@@ -2065,6 +2065,7 @@ mw.wysiwyg = {
                     dialog.remove()
                 }
             });
+            console.log(picker)
             dialog = mw.top().dialog({
                 content: picker.root,
                 title: mw.lang('Select image'),
