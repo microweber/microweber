@@ -1357,6 +1357,7 @@ class UserManager
         }
 
         $auth_provider = $_REQUEST['provider'];
+        $auth_provider = e($auth_provider);
         $this->socialite_config($auth_provider);
 
 
@@ -1380,9 +1381,9 @@ class UserManager
                 $existing['oauth_provider'] = $auth_provider;
             }
 
-            if(empty($username) and !empty($oauth_id)){
+            if (empty($username) and !empty($oauth_id)) {
                 $username = 'user_' . $oauth_id;
-            } else if(empty($username) and !empty($email)){
+            } else if (empty($username) and !empty($email)) {
                 $username = 'user_' . md5($email);
             }
 
@@ -1391,8 +1392,11 @@ class UserManager
             $save['username'] = $username;
             $save['is_active'] = 1;
             $save['is_admin'] = 0;
-            $save['first_name'] = '';
+            $save['first_name'] = $name;
             $save['last_name'] = '';
+            $save['oauth_uid'] = $oauth_id;
+            $save['oauth_provider'] = $auth_provider;
+
 
             if ($name != false) {
                 $names = explode(' ', $name);
@@ -1411,8 +1415,20 @@ class UserManager
                 define('MW_FORCE_USER_SAVE', true);
             }
 
-            if (isset($existing['id'])) {
-                if ($save['is_active'] != 1) {
+
+            if ($existing and isset($existing['id'])) {
+                if (!isset($existing['oauth_uid'])) {
+                    $existingUser = User::where('id', '=', $existing['id'])->first();
+
+                    if ($existingUser) {
+                        $existingUser->oauth_uid = $oauth_id;
+                        $existingUser->oauth_provider = $auth_provider;
+                        $existingUser->save();
+                    }
+                }
+
+
+                if ($existing['is_active'] != 1) {
                     return;
                 }
                 $this->make_logged($existing['id']);
