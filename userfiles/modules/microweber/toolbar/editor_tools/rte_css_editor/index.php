@@ -2,10 +2,7 @@
 <div id="domtree"></div>
 
 <style>
-    html,body{
-        overflow: hidden;
 
-    }
     #css-editor-root .mw-accordion-title svg{
         width:21px;
         height: 21px;
@@ -15,10 +12,10 @@
         font-weight: bold;
     }
 
-    #columns-edit .mw-field{
+    #css-editor-root #columns-edit .mw-field{
         padding-bottom: 15px;
     }
-    #columns-edit .mdi{
+    #css-editor-root #columns-edit .mdi{
         font-size: 19px;
         position: relative;
         top: 4px;
@@ -26,12 +23,12 @@
         margin-inline-start: 15px;
     }
 
-    .default-values-list > span{
+    #css-editor-root .default-values-list > span{
         display:block;
         padding:5px 10px;
         cursor: pointer;
     }
-    .default-values-list{
+    #css-editor-root .default-values-list{
         position: absolute;
         top:-100%;
         left:-100%;
@@ -41,16 +38,16 @@
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     }
-    .animation-clear-btn{
+    #css-editor-root .animation-clear-btn{
         float: right;
         margin: -30px 0 0 0;
     }
 
-    html[dir="rtl"] .animation-clear-btn{
+    html[dir="rtl"] #css-editor-root  .animation-clear-btn{
         float: left;
      }
 
-    .mw-field .mw-range + .mw-range{
+    #css-editor-root .mw-field .mw-range + .mw-range{
         display: none;
     }
 
@@ -58,7 +55,11 @@
 <script>mw.require('prop_editor.js')</script>
 <script>mw.require('module_settings.js')</script>
 <script>mw.lib.require('colorpicker')</script>
-<script type="text/javascript">
+<script>
+
+    var targetMw = mw.parent()
+
+
 
     // mw.parent().require("external_callbacks.js");
     mw.require("jquery-ui.js");
@@ -106,24 +107,25 @@
     $(window).on('load', function () {
 
        setTimeout(function() {
-            mw.top().liveEditDomTree = new mw.DomTree({
+           console.log(targetMw.win.document)
+            targetMw.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable:true,
-                targetDocument: mw.top().win.document,
+                targetDocument: targetMw.win.document,
                 canSelect: function (node, li) {
                     var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
                     return !cant;
                     // return mw.tools.isEditable(node) || node.classList.contains('edit');
                 },
                 onHover: function (e, target, node, element) {
-                    mw.top().liveEditSelector.setItem(node, mw.top().liveEditSelector.interactors, false);
+                    targetMw.liveEditSelector.setItem(node, targetMw.liveEditSelector.interactors, false);
                 },
                 onSelect: function (e, target, node, element) {
                      setTimeout(function () {
-                        mw.top().liveEditSelector.select(node);
+                        targetMw.liveEditSelector.select(node);
 
 
-                        mw.top().tools.scrollTo(node, undefined, (mw.top().$('#live_edit_toolbar').height() + 10))
+                        targetMw.tools.scrollTo(node, undefined, (targetMw.$('#live_edit_toolbar').height() + 10))
                     })
                 }
             });
@@ -206,13 +208,13 @@ var reset = function(){
         value: "reset"
     };
 
-    mw.top().$.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
+    targetMw.$.post(mw.settings.api_url + "current_template_save_custom_css", data, function(data){
         mw.notification.success('Element styles restored');
         mw.tools.refresh(top.document.querySelector('link[href*="live_edit.css"]'))
     }).fail(function(){
 
     });
-    mw.top().wysiwyg.change(ActiveNode)
+    targetMw.wysiwyg.change(ActiveNode)
 };
 
 
@@ -312,7 +314,7 @@ var activeTree = function(){
     $(_activeTree).on('selectionChange', function(e, data){
         _pauseActiveTree = true;
         if(data[0]){
-            mw.top().liveEditSelector.select(data[0].element);
+            targetMw.liveEditSelector.select(data[0].element);
         }
         setTimeout(function(){
             _pauseActiveTree = false;
@@ -576,7 +578,7 @@ var sccontainertype = function (value){
         cnt.classList.remove('container');
         cnt.classList.remove('container-fluid');
         cnt.classList.add(value);
-        mw.top().wysiwyg.change(cnt);
+        targetMw.wysiwyg.change(cnt);
     }
 }
 var scColumns = function (property, value){
@@ -619,11 +621,11 @@ var specialCases = function (property, value){
         return true;
     } else if(OverlayNode && property === 'overlay-color') {
         OverlayNode.style.backgroundColor = value;
-        mw.top().wysiwyg.change(OverlayNode);
+        targetMw.wysiwyg.change(OverlayNode);
         return true;
     }  else if(OverlayNode && property === 'overlay-blend-mode') {
         OverlayNode.style.mixBlendMode = value;
-        mw.top().wysiwyg.change(OverlayNode);
+        targetMw.wysiwyg.change(OverlayNode);
         return true;
     }
 
@@ -703,7 +705,7 @@ var populateSpecials = function (css) {
 }
 
 var output = function(property, value){
-    var mwTarget = mw.top();
+    var mwTarget = targetMw;
     if(!ActiveNode) {
         ActiveNode = mwTarget.liveEditSelector.selected
     }
@@ -722,6 +724,7 @@ var output = function(property, value){
         mwTarget.wysiwyg.change(ActiveNode);
         mwTarget.liveEditSelector.positionSelected();
     }
+
 };
 
 var _defaultValuesArray = ['auto', 'inherit', 'unset'];
@@ -875,7 +878,7 @@ var init = function(){
         };
         var options = {};
         var settings = Object.assign({}, defaults, options)
-        return mw.top().dialogIframe(settings);
+        return targetMw.dialogIframe(settings);
 
     });
     $("#background-select-item").on("click", function () {
@@ -898,7 +901,7 @@ var init = function(){
                 dialog.remove()
             }
         });
-        dialog = mw.top().dialog({
+        dialog = targetMw.dialog({
             content: picker.root,
             title: mw.lang('Select image'),
             footer: false,
@@ -925,13 +928,19 @@ var init = function(){
 
 
 
-mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
+targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
     if(nodes && nodes[0] && nodes[0].nodeType === 1){
         var css = mw.CSSParser(nodes[0]);
         populate(css);
         ActiveNode = nodes[0];
 
         populateSpecials(css);
+
+
+
+
+
+
 
         var clsdata = [];
         $.each(nodes[0].className.split(' '), function(){
@@ -959,7 +968,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
     $(document).ready(function(){
         mw.$('.mw-field input').attr('autocomplete', 'off')
-        mw.top().$(top.document.body).on('mousedown touchstart', function(e){
+        targetMw.$(top.document.body).on('mousedown touchstart', function(e){
             var node = mw.tools.firstMatchesOnNodeOrParent(e.target, ['.element', '.module']);
             if( !node && !mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-control-box', 'mw-defaults']) ){
                 ActiveNode = null;
@@ -990,8 +999,8 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
     });
 
     $(window).on('load', function () {
-        if(mw.top().liveEditSelector.selected[0]){
-            ActiveNode = mw.top().liveEditSelector.selected[0];
+        if(targetMw.liveEditSelector.selected[0]){
+            ActiveNode = targetMw.liveEditSelector.selected[0];
 
              if(ActiveNode){
                 var css = mw.CSSParser(ActiveNode);
@@ -1005,11 +1014,11 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
             }
             populateSpecials(css);
         }
-        mw.top().liveEditSelector.positionSelected();
+        targetMw.liveEditSelector.positionSelected();
         setTimeout(function(){
             $(document.body).trigger('click')
         }, 400)
-        mw.top().win.document.body.addEventListener('click', function (){
+        targetMw.win.document.body.addEventListener('click', function (){
             colorPickers.forEach(function (cp) {
                  if(cp.hide) {
                     cp.hide()
@@ -1022,7 +1031,6 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
     });
 </script>
-
 
 <style>
 
@@ -1072,7 +1080,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                         cls.push(this.title);
                     });
                     ActiveNode.setAttribute('class', cls.join(' '))
-                    mw.top().wysiwyg.change(ActiveNode);
+                    targetMw.wysiwyg.change(ActiveNode);
                 });
             }
             return window.classes;
@@ -1161,7 +1169,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                     } else {
                         output('color', '')
                     }
-                    mw.top().wysiwyg.change($node[0]);
+                    targetMw.wysiwyg.change($node[0]);
                 }
             </script>
             <div class="s-field-content">
@@ -1646,7 +1654,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
         <mw-accordion-item id="animations-accordion">
 
             <style>
-                #animations {
+                #css-editor-root #animations {
                     display: block;
                 }
             </style>
@@ -1720,14 +1728,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                 ;(function(){
                     var animationApi = {
                         preview: function (animation) {
-                            return mw.top().__animate(animation)
+                            return targetMw.__animate(animation)
                         },
                         remove: function (id) {
 
-                            var item = mw.top().__pageAnimations.find(function (item) {  return item.id === id });
+                            var item = targetMw.__pageAnimations.find(function (item) {  return item.id === id });
                             var citem = Object.assign({}, item)
-                            mw.top().__pageAnimations.splice(mw.top().__pageAnimations.indexOf(item), 1);
-                            Array.from(mw.top().doc.querySelectorAll(citem.selector)).forEach(function (node){
+                            targetMw.__pageAnimations.splice(targetMw.__pageAnimations.indexOf(item), 1);
+                            Array.from(targetMw.doc.querySelectorAll(citem.selector)).forEach(function (node){
                                 if(node.$$mwAnimations && node.$$mwAnimations.length) {
                                     var i = node.$$mwAnimations.findIndex(function(a){return a.id === id});
                                     if(i > -1) {
@@ -1755,7 +1763,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                             }
                             var config = Object.assign({selector: sel, id: id}, obj)
                             node.$$mwAnimations.push(config)
-                            mw.top().__pageAnimations.push(config)
+                            targetMw.__pageAnimations.push(config)
                             animationApi.preview(config)
 
                             return config;
@@ -1912,7 +1920,7 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                 if(curr) {
                                     curr.when = this.value;
                                 }
-                                mw.top().wysiwyg.change(ActiveNode)
+                                targetMw.wysiwyg.change(ActiveNode)
                             });
 
                             $('.mw-range', speed.get(0)).slider('value', parseFloat(anim.speed))
@@ -1925,14 +1933,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
 
 
                                 anim.animation = this.value;
-                                mw.top().__animate(anim)
+                                targetMw.__animate(anim)
                                 var curr = mw.__pageAnimations.find(function(a){
                                     return !!anim.id || a.id === anim.id
                                 });
                                 if(curr) {
                                     curr.animation = this.value;
                                 }
-                                mw.top().wysiwyg.change(ActiveNode)
+                                targetMw.wysiwyg.change(ActiveNode)
 
                             });
 
@@ -1940,14 +1948,14 @@ mw.top().$(mw.top().liveEditSelector).on('select', function(e, nodes){
                                  $('.mw-range', speed.get(0)).slider('value', parseFloat(this.value))
                                  var val = this.value + 's';
                                 anim.speed = val;
-                                mw.top().__animate(anim);
+                                targetMw.__animate(anim);
                                 var curr = mw.__pageAnimations.find(function(a){
                                     return !!anim.id || a.id === anim.id
                                 });
                                 if (curr) {
                                     curr.speed = val;
                                 }
-                                mw.top().wysiwyg.change(ActiveNode)
+                                targetMw.wysiwyg.change(ActiveNode)
                             });
 
                             mw.element('select', when).get(0).disabled = anim.animation === 'none';

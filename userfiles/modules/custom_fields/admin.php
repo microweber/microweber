@@ -294,6 +294,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </div>
         </div>
 
-        <module type="help/modal_with_button" for_module="custom_fields"/>
+
     </div>
 </div>

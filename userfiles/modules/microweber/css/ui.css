@@ -8119,6 +8119,23 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-dropdown-option,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option {
+  padding: 10px 10px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-dropdown-option:hover,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option:hover {
+  background-color: rgba(145, 145, 145, 0.47);
+}
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover {
+  background-color: #4592ff;
+  color: white;
+}
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-button.mw-editor-group-button:hover,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-button.mw-editor-group-button:hover {
   border-color: rgba(69, 146, 255, 0.51) !important;
@@ -8276,6 +8293,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   text-overflow: ellipsis;
   line-height: normal;
 }
+.mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component-select .mw-editor-group-button-caret svg,
+.mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component-select .mw-editor-group-button-caret svg {
+  width: 15px;
+}
 .mw-small-editor.mw-small-editor-skin-dark {
   background-color: #404040;
   color: white;
@@ -8344,13 +8365,16 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-wrapper.mw-editor-default .mw-editor-area {
   border-radius: 0 0 5px 5px;
 }
+.mw-editor-wrapper.mw-editor-default .mw-editor-controller-component-select .mw-editor-group-button-caret svg {
+  width: 15px;
+}
 .mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option {
   padding: 10px 10px;
   transition: 0.3s;
 }
 .mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover,
 .mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option.mw-editor-dropdown-option-active {
-  background-color: rgba(156, 217, 255, 0.66);
+  background-color: #9cd9ff;
 }
 .mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option:hover {
   background-color: #f7f7f7;
@@ -8363,6 +8387,19 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 .mw-editor-wrapper .mw-bar-control-item {
   display: inline-block;
   position: relative;
+}
+.mw-editor-wrapper .mw-editor-dropdown-option {
+  padding: 10px 10px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.mw-editor-wrapper .mw-editor-dropdown-option:hover {
+  background-color: rgba(183, 183, 183, 0.1);
+}
+.mw-editor-wrapper .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+.mw-editor-wrapper .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover {
+  background-color: #4592ff;
+  color: white;
 }
 .mw-editor-color-picker {
   position: relative;
@@ -8626,13 +8663,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   position: relative;
   top: 3px;
 }
-.mw-editor-controller-component-select .mw-editor-select-display-value:after {
-  content: "\F0140";
+.mw-editor-controller-component-select .mw-editor-group-button-caret {
   display: inline-block;
-  font: normal normal normal 24px/1 "Material Design Icons";
-  font-size: inherit;
-  text-rendering: auto;
-  line-height: inherit;
   position: relative;
   left: 5px;
 }

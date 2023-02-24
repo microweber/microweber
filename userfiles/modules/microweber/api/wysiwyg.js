@@ -2050,7 +2050,7 @@ mw.wysiwyg = {
             }
 
 
-            var picker = new mw.top().filePicker({
+            var picker = new (mw.top()).filePicker({
                 type: 'images',
                 label: false,
                 autoSelect: false,
