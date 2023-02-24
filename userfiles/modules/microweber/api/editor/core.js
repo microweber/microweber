@@ -226,7 +226,7 @@
             this.select = MWEditor.core.element({
                 props: {
                     className: 'mw-editor-controller-component mw-editor-controller-component-select',
-                    tooltip: options.placeholder || null
+
                 }
             });
 
@@ -271,8 +271,9 @@
                 });
                 displayValNode = MWEditor.core.button({
                     props: {
-                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                        // innerHTML: options.placeholder || ''
+                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + ' mw-editor-select-display-value',
+                        // innerHTML: options.placeholder || '',
+                        tooltip: options.placeholder || null
                     }
                 });
                 displayValNode.append(displayValObj.frame);
@@ -280,8 +281,9 @@
             } else {
                 displayValNode = MWEditor.core.button({
                     props: {
-                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
-                        innerHTML: '<span class="mw-editor-select-display-value-content">' + (options.placeholder || '') + '</span>'
+                        className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + ' mw-editor-select-display-value',
+                        innerHTML: '<span class="mw-editor-select-display-value-content">' + (options.placeholder || '') + '</span>',
+                        tooltip: options.placeholder || null
                     }
                 });
             }
@@ -312,8 +314,8 @@
                         displayValObj.field.value = (val || options.placeholder || '');
                     } else {
 
-                        displayValNode.get(0).firstElementChild.innerHTML = (val || options.placeholder || '');
-                        displayValNode.get(0).firstElementChild.textContent = displayValNode.get(0).firstElementChild.textContent;
+                        // displayValNode.get(0).firstElementChild.innerHTML = (val || options.placeholder || '');
+                        // displayValNode.get(0).firstElementChild.textContent = displayValNode.get(0).firstElementChild.textContent;
                     }
                 }
                 var num = parseFloat(val);
@@ -359,6 +361,15 @@
                 }
             };
 
+
+            var caret = MWEditor.core.element({
+                props: {
+                    className: 'mw-editor-group-button-caret',
+                    innerHTML: '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M7,10L12,15L17,10H7Z" /></svg>'
+                }
+            });
+
+            displayValNode.append(caret);
             this.select.append(displayValNode);
             this.select.append(valueHolder);
             this.select.valueHolder = valueHolder;

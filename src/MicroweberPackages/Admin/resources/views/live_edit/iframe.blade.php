@@ -148,11 +148,11 @@
             text-decoration: none;
             color: #2b2b2b;
         }
-        #live-edit-fram-holder{
+        #live-edit-frame-holder{
             position: fixed;
             top: var(--toolbar-height);
             left: 0;
-            width: 100%;
+            right: 0;
             height: calc(100% - var(--toolbar-height));
             bottom: 0;
             transition: var(--toolbar-height-animation-speed);
@@ -232,7 +232,7 @@
             stroke: white;
             stroke-width: 2px;
         }
-        #live-edit-fram-holder.has-mw-spinner:after{
+        #live-edit-frame-holder.has-mw-spinner:after{
             backdrop-filter: blur(10px);
         }
 
@@ -246,6 +246,7 @@
             align-items: center;
             justify-content: center;
             height: var(--toolbar-height);
+            transition: .4s;
         }
 
         #user-menu nav{
@@ -408,15 +409,21 @@
             white-space: nowrap;
             font-size: 14px;
         }
+        .mw-editor-le2 .mw-editor-dropdown-option:hover{
+            background-color: rgba(255,255,255, .1);
+        }
+        .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+        .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
+            background-color: #4592ff;
+        }
+
         .mw-editor-le2 .mw-editor-controller-component-select-values-holder{
             max-height: calc(100vh - 120px) !important;
         }
         .mw-editor-le2 .mw-bar-control-item{
             position: relative;
         }
-        .mw-editor-le2 .mw-editor-dropdown-option:hover{
-            background-color: rgba(255,255,255, .1);
-        }
+
 
         .mw-editor-le2 .mw-editor-controller-component[data-tooltip]:after{
             position: absolute;
@@ -444,10 +451,7 @@
             transform: translateX(-50%) scale(1);
         }
 
-        .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
-        .mw-editor-le2 .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
-            background-color: #4592ff;
-        }
+
 
         /* /editor*/
 
@@ -493,14 +497,23 @@
             top: calc(var(--toolbar-height) + 100px);
             left: 30px;
             z-index: 4;
+            transition: .4s;
         }
+
 
         #bubble-nav span svg{
             max-width: 25px;
             max-height: 25px;
             display: block;
         }
+        #bubble-nav span:hover{
+            background-color: white;
+            color:#2b2b2b
+        }
+
         #bubble-nav span{
+            pointer-events: none;
+            opacity: 0;
             cursor: pointer;
             display: flex;
             margin: 0 auto 5px;
@@ -513,6 +526,10 @@
             transform: translateX(-100px);
             box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
             color: white;
+        }
+        #bubble-nav.active span{
+            pointer-events: all;
+            opacity: 1;
         }
         #bubble-nav span:nth-child(1){ transition: .4s cubic-bezier(.41,.2,.21,1.37); }
         #bubble-nav span:nth-child(2){ transition: .6s cubic-bezier(.41,.2,.21,1.37); }
@@ -551,10 +568,7 @@
         }
 
 
-        .mw-le-layouts-dialog .modules-list-categories{
 
-
-        }
 
         .mw-le-dialog-block.active{
             opacity: 1;
@@ -563,7 +577,7 @@
         .mw-le-dialog-block{
             position: fixed;
             z-index: 5;
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
             transition: .4s;
             opacity: 0;
             visibility: hidden;
@@ -693,6 +707,7 @@
             flex-wrap: wrap;
             gap: 30px;
             justify-content: space-between;
+            justify-content: center;
             max-height: 100%;
             overflow: auto;
         }
@@ -740,11 +755,13 @@
         }
 
 
+        #css-editor-template::-webkit-scrollbar,
         .modules-list-block::-webkit-scrollbar,
         .modules-list-categories::-webkit-scrollbar {
             width: 9px;
         }
 
+        #css-editor-template::-webkit-scrollbar-thumb ,
         .modules-list-block::-webkit-scrollbar-thumb ,
         .modules-list-categories::-webkit-scrollbar-thumb {
             background-color: transparent;
@@ -752,6 +769,7 @@
         }
 
 
+        #css-editor-template::-webkit-scrollbar-thumb ,
         .modules-list-block::-webkit-scrollbar-thumb ,
         .modules-list-categories::-webkit-scrollbar-thumb {
             background-image: linear-gradient(180deg, #8a8a8a 0%, #9f9f9f 99%);
@@ -807,7 +825,7 @@
             width: 430px;
             background-color: #2b2b2b;
             z-index: 5;
-            box-shadow: rgba(0, 0, 0, 0.1) 0 10px 50px;
+
         }
 
         .mw-le-modules-dialog.active{
@@ -931,6 +949,33 @@
         }
 
         /* /modules dialog */
+
+
+        /* gui editor */
+
+
+
+        #css-editor-template{
+            position: fixed;
+            top: var(--toolbar-height);
+            bottom: 0;
+            right: -340px;
+            width: 330px;
+            z-index: 5;
+            transition: var(--toolbar-height-animation-speed);
+            overflow: auto;
+
+        }
+
+        #css-editor-template.active + #live-edit-frame-holder{
+            right: 330px;
+        }
+        #css-editor-template.active{
+            right: 0;
+
+        }
+
+        /* /gui editor */
 
 
     </style>
@@ -1071,10 +1116,30 @@
             })
         }
 
-        var command = {
-            insertModule: function () {
-                var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog')
+        window.command = {
+            cssEditor: function () {
+                document.getElementById('css-editor-template').classList.toggle('active')
+
+            },
+            insertModule: function (target) {
+                var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog');
                 var modulesDialog = cmmodulesDialog.dialog;
+
+                console.log(frame.contentWindow.mw._activeElementOver, frame.contentWindow.mw.handleElement.positionedAt)
+
+                mw.$('#mw-plus-tooltip-selector li').each(function () {
+                    this.onclick = function () {
+                        var name = mw.$(this).attr('data-module-name');
+                        var conf = { class: this.className };
+                        if(name === 'layout') {
+                            conf.template = mw.$(this).attr('template');
+                        }
+
+                        mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt, mw.liveEditState);
+                        mw.wysiwyg.change(mw._activeElementOver)
+                        tooltip.remove();
+                    };
+                });
 
 
                 if(_modulesCache) {
@@ -1142,8 +1207,8 @@
         addEventListener('load', () => {
 
             mw.element('#bubble-nav [data-command]').on('click', function (){
-                if(command[this.dataset.command]) {
-                    command[this.dataset.command]()
+                if (command[this.dataset.command]) {
+                    command[this.dataset.command]();
                 }
             })
 
@@ -1151,9 +1216,6 @@
             document.getElementById('toolbar-user-menu-button').addEventListener('click', function () {
                 userMenuWrapper.classList.toggle('active')
             });
-
-
-
 
 
 
@@ -1179,6 +1241,8 @@
                 var fontFamilyProvider = new _fontFamilyProvider();
                 window.fontFamilyProvider = fontFamilyProvider;
                 frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
+
+
 
                 window.liveEditor = mw.Editor({
                     document: frame.contentWindow.document,
@@ -1265,12 +1329,12 @@
                 var btnRedo = document.getElementById('toolbar-redo')
 
                 liveEditor.state.on('record', function (){
-                    console.log(liveEditor.state)
+
                     btnRedo.disabled = !liveEditor.state.hasPrev;
                     btnUndo.disabled = !liveEditor.state.hasNext;
                 })
                 liveEditor.state.on('change', function (){
-                    console.log(1)
+
                     btnRedo.disabled = !liveEditor.state.hasPrev;
                     btnUndo.disabled = !liveEditor.state.hasNext;
                 })
@@ -1350,7 +1414,10 @@
                 frame.contentWindow.mw.drag.save()
             })
 
+            Array.from(frame.contentWindow.document.querySelectorAll('a[href]')).forEach(function (a){
 
+                a.target = !a.target ? '_top' : a.target;
+            })
 
 
 
@@ -1366,6 +1433,9 @@
             document.documentElement.style.setProperty('--toolbar-height', '0px');
             frame.contentWindow.document.documentElement.classList.add('mw-le--page-preview');
             frame.contentWindow.document.body.classList.remove('mw-live-edit');
+            document.querySelector('#css-editor-template').classList.remove('active');
+            document.querySelector('#bubble-nav').classList.remove('active');
+            document.querySelector('#user-menu-wrapper').classList.remove('active');
         }
 
         var liveEditMode = function () {
@@ -1373,6 +1443,7 @@
             document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue( '--toolbar-static-height'));
             frame.contentWindow.document.documentElement.classList.remove('mw-le--page-preview');
             frame.contentWindow.document.body.classList.add('mw-live-edit');
+            document.querySelector('#bubble-nav').classList.add('active');
         }
 
         var pagePreviewToggle = function () {
@@ -1419,12 +1490,13 @@
 <body>
 
 
-<div id="bubble-nav">
+<div id="bubble-nav" class="active">
     <span title="Insert layout" data-command="insertLayout">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13 15.6C13.3 15.8 13.7 15.8 14 15.6L19 12.7V13C19.7 13 20.4 13.1 21 13.4V11.6L22 11C22.5 10.7 22.6 10.1 22.4 9.6L20.9 7.1C20.8 6.9 20.7 6.7 20.5 6.6L12.6 2.2C12.4 2.1 12.2 2 12 2S11.6 2.1 11.4 2.2L3.6 6.6C3.4 6.7 3.2 6.8 3.1 7L1.6 9.6C1.3 10.1 1.5 10.7 2 11C2.3 11.2 2.7 11.2 3 11V16.5C3 16.9 3.2 17.2 3.5 17.4L11.4 21.8C11.6 21.9 11.8 22 12 22S12.4 21.9 12.6 21.8L13.5 21.3C13.2 20.7 13.1 20 13 19.3M11 19.3L5 15.9V9.2L11 12.6V19.3M20.1 9.7L13.8 13.3L13.2 12.3L19.5 8.7L20.1 9.7M12 10.8V4.2L18 7.5L12 10.8M20 15V18H23V20H20V23H18V20H15V18H18V15H20Z" /></svg>
     </span>
-    <span title="Insert layout" data-command="insertModule"></span>
-    <span></span>
+    <span title="Insert module" data-command="insertModule"></span>
+    <span title="Edit styles" data-command="cssEditor"><svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 24 24"><title>brush-outline</title><path d="M7 16C7.55 16 8 16.45 8 17C8 18.1 7.1 19 6 19C5.83 19 5.67 19 5.5 18.95C5.81 18.4 6 17.74 6 17C6 16.45 6.45 16 7 16M18.67 3C18.41 3 18.16 3.1 17.96 3.29L9 12.25L11.75 15L20.71 6.04C21.1 5.65 21.1 5 20.71 4.63L19.37 3.29C19.17 3.09 18.92 3 18.67 3M7 14C5.34 14 4 15.34 4 17C4 18.31 2.84 19 2 19C2.92 20.22 4.5 21 6 21C8.21 21 10 19.21 10 17C10 15.34 8.66 14 7 14Z" /></svg></span>
+
     <span></span>
 </div>
 
@@ -1552,14 +1624,20 @@ $user = get_user();
 
 
     </div>
-    <div id="live-edit-fram-holder">
+
+
+    <div id="css-editor-template">
+        <?php include mw_includes_path() . 'toolbar' . DS . 'editor_tools' . DS . 'rte_css_editor' . DS . 'index.php'; ?>
+    </div>
+
+    <div id="live-edit-frame-holder">
         <iframe id="live-editor-frame"
                 title="Inline Frame Example"
                 width="100%"
                 height="2000"
                 referrerpolicy="no-referrer"
                 frameborder="0"
-                src="<?php print site_url(); ?>?editmode=n"
+                src="<?php print site_url(); ?>?editmode=n&_rand=<?php print rand(0, 99999) ?>"
                 data-src="about:blank">
         </iframe>
     </div>
@@ -1567,24 +1645,24 @@ $user = get_user();
 <script>
 
     frame = document.getElementById('live-editor-frame');
-    frameHolder = document.getElementById('live-edit-fram-holder');
+    frameHolder = document.getElementById('live-edit-frame-holder');
     mw.spinner({
         element: frameHolder, size: 52, decorate: true
     })
 
     frame.addEventListener('load', function () {
         var doc = frame.contentWindow.document;
-        /*var link = doc.createElement('link');
+         var link = doc.createElement('link');
         link.rel = 'stylesheet';
         link.href = 'https://unit.microweber.com/le2/live-edit2.css.css';
-        doc.body.appendChild(link);
+        doc.head.prepend(link);
 
         liveEdit = new LiveEdit({
             root: frame.contentWindow.document.body,
             strict: false,
             mode: 'auto',
             document: frame.contentWindow.document
-        })*/
+        })
 
         mw.spinner({
             element: frameHolder
@@ -1593,6 +1671,7 @@ $user = get_user();
     })
 
 </script>
+
 
 
 </body>
