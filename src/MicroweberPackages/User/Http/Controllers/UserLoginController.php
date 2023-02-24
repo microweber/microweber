@@ -147,19 +147,30 @@ class UserLoginController extends Controller
          Session::flash('old_sid', Session::getId());
          $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
-         $checkUser = User::select('email','username','two_factor_secret')
-             ->where('email', $loginData['username'])
-             ->orWhere('username', $loginData['username'])
-             ->first();
+         if (isset($loginData['username']) || isset($loginData['email'])) {
+             $checkAuthField = false;
+             if (isset($loginData['username'])) {
+                $checkAuthField = $loginData['username'];
+             }
+             if (isset($loginData['email'])) {
+                $checkAuthField = $loginData['email'];
+             }
+             if ($checkAuthField) {
+                 $checkUser = User::select('email', 'username', 'two_factor_secret')
+                     ->where('email', $checkAuthField)
+                     ->orWhere('username', $checkAuthField)
+                     ->first();
 
-        if (!empty($checkUser)) {
-            if (!empty($checkUser->two_factor_secret)) {
-               $response = $this->loginWithTwoFactory($request);
-               if (!empty($response)) {
-                   return $response;
-               }
-            }
-        }
+                 if (!empty($checkUser)) {
+                     if (!empty($checkUser->two_factor_secret)) {
+                         $response = $this->loginWithTwoFactory($request);
+                         if (!empty($response)) {
+                             return $response;
+                         }
+                     }
+                 }
+             }
+         }
 
         $login = Auth::attempt($loginData,$remember = true);
         if ($login) {
