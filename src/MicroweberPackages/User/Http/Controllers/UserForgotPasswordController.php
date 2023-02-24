@@ -114,9 +114,9 @@ class UserForgotPasswordController extends Controller
 
         if ($request->expectsJson()) {
             if ($status === Password::RESET_LINK_SENT) {
-                return response()->json(['message' => __($status)], 200);
+                return response()->json(['success'=>true, 'message' => __($status)], 200);
             } else {
-                return response()->json(['message' => __($status)], 422);
+                return response()->json(['success'=>true, 'message' => __($status)], 422);
             }
         }
 
