@@ -18,6 +18,8 @@ class XSS
             array_walk_recursive($input, function (&$input) use ($clean) {
                 if (is_string($input)) {
                     $input = $clean->clean($input);
+                    // clean also blade curly braces
+                    $input = str_replace(['{{', '}}'], ['&#123;&#123;', '&#125;&#125;'], $input);
                 }
             });
         }
