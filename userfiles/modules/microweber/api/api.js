@@ -164,7 +164,7 @@ mw.askusertostay = false;
             }
         }
         var parent = mw.$(target).parent().get(0);
-        alert(stateManager)
+
         if(stateManager) {
             stateManager.record({
                 target: parent,
