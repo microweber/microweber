@@ -147,7 +147,8 @@ class UserLoginController extends Controller
          Session::flash('old_sid', Session::getId());
          $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
-         $checkUser = User::select('email','username','two_factor_secret')->where('email', $loginData['username'])
+         $checkUser = User::select('email','username','two_factor_secret')
+             ->where('email', $loginData['username'])
              ->orWhere('username', $loginData['username'])
              ->first();
 
