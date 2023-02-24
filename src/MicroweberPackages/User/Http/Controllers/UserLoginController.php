@@ -73,6 +73,8 @@ class UserLoginController extends Controller
                 'redirect'=>route('two-factor.login')
             ];
         }
+
+        return false;
     }
 
     /**
@@ -145,12 +147,16 @@ class UserLoginController extends Controller
          Session::flash('old_sid', Session::getId());
          $loginData = $this->loginFields($request->only('username', 'email', 'password'));
 
-         $checkUser = User::where('email', $loginData['username'])
+         $checkUser = User::select('email','username','two_factor_secret')->where('email', $loginData['username'])
              ->orWhere('username', $loginData['username'])
              ->first();
+
         if (!empty($checkUser)) {
             if (!empty($checkUser->two_factor_secret)) {
-               return $this->loginWithTwoFactory($request);
+               $response = $this->loginWithTwoFactory($request);
+               if (!empty($response)) {
+                   return $response;
+               }
             }
         }
 
