@@ -804,7 +804,7 @@ console.log(parent)
             buttons: handlesModulesButtons(getActiveDragCurrent),
             menu: [
                 {
-                    title: 'Settings222',
+                    title: 'Settings',
                     icon: 'mw-icon-gear',
                     action: function () {
                         mw.drag.module_settings(getActiveDragCurrent(),"admin");
