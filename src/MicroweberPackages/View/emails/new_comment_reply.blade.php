@@ -8,7 +8,7 @@
 		<br>
 	</div>
 	<div>
-		SOMEBODY REPLY TO YOUR COMMENT<br>
+		SOMEBODY REPLIED TO YOUR COMMENT<br>
 	</div>
 	<div>
 		<br>

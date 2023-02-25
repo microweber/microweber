@@ -337,7 +337,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                             selected: [
                                                 {
                                                     id: <?php print $post_author_id ?>,
-                                                    display_name: '<?php print user_name($post_author_id) ?>'
+                                                    display_name: '<?php print e(user_name($post_author_id)) ?>'
                                                 }
                                             ]
                                         });
