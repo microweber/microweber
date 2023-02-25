@@ -2050,7 +2050,7 @@ mw.wysiwyg = {
             }
 
 
-            var picker = new mw.top().filePicker({
+            var picker = new (mw.top()).filePicker({
                 type: 'images',
                 label: false,
                 autoSelect: false,
@@ -2065,6 +2065,7 @@ mw.wysiwyg = {
                     dialog.remove()
                 }
             });
+            console.log(picker)
             dialog = mw.top().dialog({
                 content: picker.root,
                 title: mw.lang('Select image'),

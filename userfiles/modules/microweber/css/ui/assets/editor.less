@@ -56,6 +56,20 @@
 .mw-small-editor.mw-small-editor-skin-dark{
 
 
+    .mw-editor-dropdown-option{
+        padding: 10px 10px;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    .mw-editor-dropdown-option:hover{
+        background-color: rgba(145, 145, 145, 0.47);
+    }
+    .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+    .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
+        background-color: #4592ff;
+        color: white;
+    }
+
     .mw-editor-controller-button{
         &.mw-editor-group-button{
             &:hover{
@@ -208,6 +222,11 @@
             text-overflow: ellipsis;
             line-height: normal;
         }
+        .mw-editor-group-button-caret{
+            svg{
+                width: 15px;
+            }
+        }
     }
 }
 
@@ -284,13 +303,23 @@
             border-radius: 0 0 5px 5px;
         }
 
+        .mw-editor-controller-component-select{
+            .mw-editor-group-button-caret{
+                svg{
+                    width: 15px;
+                }
+            }
+        }
+
+
+
         .mw-editor-dropdown-option{
             padding: 10px 10px;
             transition: .3s;
 
             &.mw-editor-dropdown-option-active:hover,
             &.mw-editor-dropdown-option-active{
-                background-color: rgba(156, 217, 255, 0.66);
+                background-color: rgba(156, 217, 255, 1);
             }
             &:hover{
                 background-color: #f7f7f7;
@@ -308,6 +337,20 @@
     .mw-bar-control-item{
         display: inline-block;
         position: relative;
+    }
+
+    .mw-editor-dropdown-option{
+        padding: 10px 10px;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    .mw-editor-dropdown-option:hover{
+        background-color: rgba(183, 183, 183, 0.1);
+    }
+    .mw-editor-dropdown-option.mw-editor-dropdown-option-active,
+    .mw-editor-dropdown-option.mw-editor-dropdown-option-active:hover{
+        background-color: #4592ff;
+        color: white;
     }
 
 }
@@ -546,13 +589,10 @@
             }
         }
     }
-    .mw-editor-select-display-value:after{
-        content: "\F0140";
+    .mw-editor-group-button-caret{
+
         display: inline-block;
-        font: normal normal normal 24px/1 "Material Design Icons";
-        font-size: inherit;
-        text-rendering: auto;
-        line-height: inherit;
+
         position: relative;
         left: 5px;
     }

@@ -2,6 +2,21 @@
     <module type="users/forgot_password"/>
 <?php else: ?>
 
+
+    <?php
+    $goto = false;
+
+    if (isset($params['return'])) {
+
+        $goto = urldecode($params['return']);
+        $goto = mw()->format->clean_xss($goto);
+
+        if (stristr($goto, "http://") == false and stristr($goto, "https://") == false) {
+            $goto = site_url($goto);
+        }
+    }
+    ?>
+
     <script type="text/javascript">
         mw.require('forms.js', true);
     </script>
@@ -13,6 +28,14 @@
                     if (!subm.hasClass("disabled")) {
                         mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
                         mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>'), '<?php print api_link('user_login'); ?>', function (a, b) {
+
+
+                            <?php if(isset($params['return'])): ?>
+                                if (this.success) {
+                                    window.location.href = "<?php print $goto; ?>";
+                                    return;
+                                }
+                            <?php endif;  ?>
 
                             if (this.redirect) {
                                 window.location.href = this.redirect;
@@ -39,14 +62,6 @@
                                 <?php $params['return'] = $_REQUEST['return']; ?>
                                 <?php endif; ?>
                                 <?php if(isset($params['return'])): ?>
-                                <?php
-                                $goto = urldecode($params['return']);
-                                $goto = mw()->format->clean_xss($goto);
-
-                                if (stristr($goto, "http://") == false and stristr($goto, "https://") == false) {
-                                    $goto = site_url($goto);
-                                }
-                                ?>
                                 window.location.href = '<?php print $goto; ?>';
                                 return false;
                                 <?php else:  ?>

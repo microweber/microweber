@@ -1267,8 +1267,6 @@ class UserManager
             } else {
                 if (is_array($data)) {
 
-                    $user = User::find($user_id);
-
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
                     $user_session['user_id'] = $data['id'];
@@ -1431,7 +1429,9 @@ class UserManager
                 if ($existing['is_active'] != 1) {
                     return;
                 }
+
                 $this->make_logged($existing['id']);
+
             } else {
                 $save = array_filter($save);
 
