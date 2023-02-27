@@ -30,12 +30,25 @@ class ModuleServiceProvider extends ServiceProvider
 
 
 
-        $this->app->singleton('module_manager', function ($app) {
-            return new ModuleManager();
-        });
-
         $this->app->bind('module',function(){
             return new Module();
+        });
+
+        $aliasLoader = AliasLoader::getInstance();
+        $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
+
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register(){
+        $this->app->singleton('module_manager', function ($app) {
+            return new ModuleManager();
         });
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
@@ -51,13 +64,5 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind('module_repository', function () {
             return $this->app->repository_manager->driver(Module::class);;
         });
-
-
-
-        $aliasLoader = AliasLoader::getInstance();
-        $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
-
-        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
     }
 }

@@ -14,8 +14,6 @@ namespace MicroweberPackages\Database;
 use Illuminate\Support\ServiceProvider;
 
 
-
-
 class DatabaseManagerServiceProvider extends ServiceProvider
 {
     /**
@@ -25,12 +23,6 @@ class DatabaseManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Database\DatabaseManager    $database_manager
-         */
-        $this->app->singleton('database_manager', function ($app) {
-            return new DatabaseManager($app);
-        });
 
 
         \Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
@@ -39,4 +31,20 @@ class DatabaseManagerServiceProvider extends ServiceProvider
 
 
     }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register() : void
+    {
+        /**
+         * @property \MicroweberPackages\Database\DatabaseManager $database_manager
+         */
+        $this->app->singleton('database_manager', function ($app) {
+            return new DatabaseManager($app);
+        });
+    }
+
 }

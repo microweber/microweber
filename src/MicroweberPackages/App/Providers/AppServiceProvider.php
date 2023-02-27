@@ -319,7 +319,6 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
-         $this->app->register(FilamentServiceProvider::class);
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
@@ -332,6 +331,8 @@ class AppServiceProvider extends ServiceProvider
         if (is_cli()) {
             $this->app->register(DuskServiceProvider::class);
         }
+        load_all_service_providers_for_modules($this->app);
+        $this->app->register(FilamentServiceProvider::class);
 
     }
 

@@ -9,7 +9,17 @@ use Symfony\Component\Finder\SplFileInfo;
 trait RegisterComponentsFromDirectory
 
 {
-    public function registerComponentsFromDirectory(string $baseClass, array &$register, ?string $directory, ?string $namespace): void
+    public function registerResourcesFromDirectory(string $baseClass, ?string $directory, ?string $namespace): void
+    {
+        $this->registerComponentsFromDirectory(
+            $baseClass,
+            $this->resources,
+            $directory,
+            $namespace,
+        );
+    }
+
+    protected function registerComponentsFromDirectory(string $baseClass, array &$register, ?string $directory, ?string $namespace): void
     {
         if (blank($directory) || blank($namespace)) {
             return;
@@ -39,14 +49,22 @@ trait RegisterComponentsFromDirectory
                     if (is_string($variableNamespace)) {
                         $variableNamespace = (string)Str::of($variableNamespace)->before('\\');
                     }
-
+                    $variableNamespace = null;
                     return (string)$namespace
                         ->append('\\', $file->getRelativePathname())
                         ->replace('*', $variableNamespace)
                         ->replace(['/', '.php'], ['\\', '']);
                 })
-                ->filter(fn(string $class): bool => is_subclass_of($class, $baseClass) && (!(new ReflectionClass($class))->isAbstract()))
+                ->filter(function (string $class) use ($baseClass) {
+                    $isSubclass = is_subclass_of($class, $baseClass);
+                    $isNotAbstract = 1;
+                    dump($baseClass,$class,$isSubclass);
+                 //   $isNotAbstract = !(new \ReflectionClass($class))->isAbstract();
+                    return $isSubclass && $isNotAbstract;
+                })
                 ->all(),
         );
+
+
     }
 }

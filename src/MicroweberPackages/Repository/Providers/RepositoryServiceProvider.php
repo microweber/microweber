@@ -15,14 +15,26 @@ use MicroweberPackages\Repository\RepositoryManager;
 class RepositoryServiceProvider extends ServiceProvider
 {
 
-    public function register()
+    public function register() : void
     {
 //        $this->app->bind(
 //            ContentRepositoryInterface::class,
 //            ContentRepositoryApi::class
 //        );
 
+        AbstractRepository::setCacheInstance($this->app['cache']);
         $this->app->register(\Torann\LaravelRepository\RepositoryServiceProvider::class);
+
+        /**
+         * @property  RepositoryManager repository_manager
+         */
+
+        $this->app->singleton('repository_manager', function ($app) {
+            /**
+             * @var Application $app
+             */
+            return new RepositoryManager($app->make(Container::class));
+        });
 
     }
 
@@ -72,20 +84,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
 
 
-        AbstractRepository::setCacheInstance($this->app['cache']);
 
 
-
-        /**
-         * @property  RepositoryManager repository_manager
-         */
-
-        $this->app->singleton('repository_manager', function ($app) {
-            /**
-             * @var Application $app
-             */
-            return new RepositoryManager($app->make(Container::class));
-        });
 
      }
 
