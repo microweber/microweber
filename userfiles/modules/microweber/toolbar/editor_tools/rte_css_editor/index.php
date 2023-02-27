@@ -23,12 +23,12 @@
         margin-inline-start: 15px;
     }
 
-    #css-editor-root .default-values-list > span{
+     .default-values-list > span{
         display:block;
         padding:5px 10px;
         cursor: pointer;
     }
-    #css-editor-root .default-values-list{
+      .default-values-list{
         position: absolute;
         top:-100%;
         left:-100%;
