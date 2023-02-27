@@ -30,20 +30,6 @@ class ModuleResource extends Resource
 
     public static function table(Table $table): Table
     {
-        /*'name',
-        'module',
-        'type',
-        'as_element',
-        'installed',
-        'ui',
-        'ui_admin',
-        'ui_admin_iframe',
-        'is_system',
-        'categories',
-        'settings',
-        'parent_id',
-        'icon',
-        'description',*/
         return $table
             ->columns([
 
@@ -69,10 +55,10 @@ class ModuleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+               // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -87,8 +73,8 @@ class ModuleResource extends Resource
     {
         return [
             'index' => Pages\ListModules::route('/'),
-            'create' => Pages\CreateModule::route('/create'),
-            'edit' => Pages\EditModule::route('/{record}/edit'),
+          //  'create' => Pages\CreateModule::route('/create'),
+            //'edit' => Pages\EditModule::route('/{record}/edit'),
         ];
     }
 }
