@@ -986,7 +986,7 @@
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{--<script src="https://unit.microweber.com/le2/editor.js"></script>--}}
+    <script src="https://unit.microweber.com/le2/editor.js"></script>
     <script src="https://unit.microweber.com/le2/live-edit2.js"></script>
     <script>
 
