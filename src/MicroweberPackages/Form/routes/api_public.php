@@ -9,7 +9,7 @@
 
 Route::name('api.')
     ->prefix('api')
-   // ->middleware(['api'])
+ ->middleware(['api','xss'])
     ->namespace('\MicroweberPackages\Form\Http\Controllers\ApiPublic')
     ->group(function () {
         Route::post('post_form', 'FormController@post')->name('post.form');

@@ -110,8 +110,8 @@ class AdminController extends Controller
 
         $hasNoAdmin = User::where('is_admin', 1)->limit(1)->count();
 
-       $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
-     //  $view .= (!$hasNoAdmin ? 'create' : 'index_main') . '.php';
+    //   $view .= (!$hasNoAdmin ? 'create' : 'index') . '.php';
+     $view .= (!$hasNoAdmin ? 'create_main' : 'index_main') . '.php';
         $layout = new MicroweberView($view);
 
         if ($this->render_content) {
@@ -119,13 +119,17 @@ class AdminController extends Controller
         }
         $layout = $layout->__toString();
 
-        $layout = mw()->parser->process($layout);
+     //   $layout = app(StringBlade::class)->render($layout, []);
+
+       $layout = mw()->parser->process($layout);
         event_trigger('on_load');
 
 
-        event_trigger('mw.admin.header');
-   //   return view('admin::layouts.app', ['content' => $layout])->render();;
-       return app(StringBlade::class)->render($layout, []);
+        //event_trigger('mw.admin.header');
+
+      //  return $layout;
+     return view('admin::layouts.legacy',['content' => $layout]  )->render();;
+    //   return app(StringBlade::class)->render($layout, []);
     }
 
     private function hasNoAdmin()

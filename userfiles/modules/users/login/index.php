@@ -29,9 +29,12 @@
                         mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
                         mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>'), '<?php print api_link('user_login'); ?>', function (a, b) {
 
+
                             <?php if(isset($params['return'])): ?>
-                                window.location.href = "<?php print $goto; ?>";
-                                return;
+                                if (this.success) {
+                                    window.location.href = "<?php print $goto; ?>";
+                                    return;
+                                }
                             <?php endif;  ?>
 
                             if (this.redirect) {
