@@ -2,13 +2,15 @@
 
 namespace MicroweberPackages\Filament\Providers;
 
-use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Filament\Providers\Concerns\RegisterComponentsFromDirectory;
 
 class FilamentManager extends \Filament\FilamentManager
 {
-    public function getUserName(Model | Authenticatable $user): string
+    use RegisterComponentsFromDirectory;
+
+    public function getUserName(Model|Authenticatable $user): string
     {
         return user_name();
     }
