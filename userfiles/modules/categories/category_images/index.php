@@ -45,8 +45,8 @@ $cache_ttl = 3600;
 $cache_id = __CLASS__ . __FUNCTION__ .'category_images'. crc32(json_encode($params) . $hide_pages . $show_subcats . $cfg_filter_in_stock.$show_category_header . $show_only_for_parent . $selected_page . $parent . current_lang());
 $cache_group = 'categories';
 
-$results = cache_get($cache_id, $cache_group, $cache_ttl);
-//$results = false;
+ $results = cache_get($cache_id, $cache_group, $cache_ttl);
+// $results = false;
 if ($results) {
     $cats = $results;
 } else {
@@ -230,20 +230,28 @@ if ($results) {
                     $cont_params2['count'] = 1;
 
 
-                    //get_extra_data=true&order_by=position desc&limit=30&is_active=1&category=" . $cat['id']
-//
 
-                    $latest = get_content($cont_params);
-                    $latest_count = get_content($cont_params2);
+
+                  // $latest = get_content($cont_params);
+                     $latest = [];
+
+                    if($cfg_filter_in_stock){
+                         $latest_count = app()->category_repository->getProductsInStockCount($cat['id']);
+
+                    } else {
+                        $latest_count = app()->category_repository->getItemsCount($cat['id']);
+
+                    }
 
                     if (!$cat['picture'] and isset($latest[0])) {
                         $latest_product = $latest[0];
                         $cat['picture'] = get_picture($latest_product['id']);
                     }
                     if ($latest) {
-                        $cat['content_items'] = $latest;
-                        $cat['content_items_count'] = $latest_count;
+                       // $cat['content_items'] = $latest;
                     }
+                    $cat['content_items_count'] = $latest_count;
+
                 }
                // $cat['has_posts'] = get_content('count=1&is_active=1&category=' . $cat['id']);
                  $cats[$k] = $cat;
@@ -251,6 +259,18 @@ if ($results) {
 
 
         }
+
+//        if(is_array($cats)){
+//            // prepare categories for template
+//            $cat_ids = array_column($cats,'id');
+//
+//        //
+//
+//
+//
+//
+//
+//        }
     }
     cache_save($cats, $cache_id, $cache_group,$cache_ttl);
 

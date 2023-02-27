@@ -6,9 +6,7 @@ namespace MicroweberPackages\Content\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
-use MicroweberPackages\Content\ContentField;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 /**
@@ -56,6 +54,16 @@ class ContentRepository extends AbstractRepository
         });
     }
 
+    /**
+     * Build category tree for content
+     * @return void
+     */
+    public function categoryTree($id)
+    {
+        $allCategories = app()->category_repository->all();
+        $categoryContents = $this->content_repository->getCategories($id);
+
+    }
 
     /**
      * Find categories for content
@@ -98,7 +106,36 @@ class ContentRepository extends AbstractRepository
 
 
     }
+    public function getContentDataValues($id)
+    {
+        $id = intval($id);
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
 
+            $getContentData = DB::table('content_data')
+                ->select(['field_name', 'field_value', 'rel_type', 'rel_id'])
+                ->where('rel_type', 'content')
+                ->where('rel_id', $id)
+                ->get();
+
+            $get = collect($getContentData)->map(function ($item) {
+                return (array)$item;
+            })->toArray();
+
+            if (!empty($get)) {
+                $res = array();
+                foreach ($get as $item) {
+                    if (isset($item['field_name']) and isset($item['field_value'])) {
+                        $res[$item['field_name']] = $item['field_value'];
+                    }
+                }
+
+
+                return $res;
+            }
+
+            return [];
+        });
+    }
     /**
      * Find content by id.
      *
@@ -106,19 +143,25 @@ class ContentRepository extends AbstractRepository
      *
      * @return Model|Collection
      */
-    public function getContentData($id)
+    public function getContentData($relId)
     {
 //        $existingIds = $this->getIdsThatHaveRelation('content_data', 'content');
 //        if (!in_array($id, $existingIds)) {
 //            return [];
 //        }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $getContentData = DB::table('content_data')
-                ->where('rel_type', 'content')
-                ->where('rel_id', $id)
-                ->get();
+                ->where('rel_type', 'content');
+
+            if (is_array($relId)) {
+                $getContentData->whereIn('rel_id', $relId);
+            } else {
+                $getContentData->where('rel_id', $relId);
+            }
+
+            $getContentData = $getContentData->get();
 
             $contentData = collect($getContentData)->map(function ($item) {
                 return (array)$item;
@@ -131,23 +174,23 @@ class ContentRepository extends AbstractRepository
     /**
      * Find content by id.
      *
-     * @param mixed $id
+     * @param mixed $relId
      *
      * @return Model|Collection
      */
-    public function getCustomFields($id)
+    public function getCustomFields($relId)
     {
 //        $existingIds = $this->getIdsThatHaveRelation('custom_fields', 'content');
 //        if (!in_array($id, $existingIds)) {
 //            return [];
 //        }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $customFields = [];
             $getCustomFields = DB::table('custom_fields')
                 ->where('rel_type', 'content')
-                ->where('rel_id', $id)
+                ->where('rel_id', $relId)
                 ->get();
             foreach ($getCustomFields as $customField) {
                 $customField = (array)$customField;
@@ -178,9 +221,9 @@ class ContentRepository extends AbstractRepository
         });
     }
 
-    public function getCustomFieldsByType($id, $type)
+    public function getCustomFieldsByType($relId, $type)
     {
-        $fields = $this->getCustomFields($id);
+        $fields = $this->getCustomFields($relId);
         if ($fields) {
             foreach ($fields as $k => $field) {
                 if (isset($field['type']) and $field['type'] == $type) {

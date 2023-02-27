@@ -40,6 +40,8 @@ class OptionRepository extends AbstractRepository
             'pinterest-site-verification-code'=>'',
             'yandex-site-verification-code'=>'',
             'google-analytics-id'=>'',
+            'google-tag-manager-id'=>'',
+            'google-tag-manager-enable-events'=>'',
             'facebook-pixel-id'=>'',
             'robots_txt'=>'' ,
             'app_version'=>'' ,
@@ -74,7 +76,7 @@ class OptionRepository extends AbstractRepository
             return self::$_getAllExistingOptionGroups;
         }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+        $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
             $allOptions = [];
             $getAllOptions = \DB::table('options')
@@ -90,10 +92,11 @@ class OptionRepository extends AbstractRepository
                 $allOptions = array_flatten($getAllOptions);
             }
 
-            self::$_getAllExistingOptionGroups = $allOptions;
-
             return $allOptions;
         });
+
+        self::$_getAllExistingOptionGroups = $allOptions;
+
         return self::$_getAllExistingOptionGroups;
     }
 
@@ -125,7 +128,7 @@ class OptionRepository extends AbstractRepository
     public function getOptionsByGroup($optionGroup)
     {
 
-        if (isset(self::$_getOptionsByGroup[$optionGroup]) && !empty(self::$_getOptionsByGroup[$optionGroup])) {
+        if (isset(self::$_getOptionsByGroup[$optionGroup])  ) {
             return self::$_getOptionsByGroup[$optionGroup];
         }
 
@@ -134,18 +137,27 @@ class OptionRepository extends AbstractRepository
             return false;
         }
 
-        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
+        $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
 
-            $allOptions = \DB::table('options')->where('option_group', $optionGroup)->get();
-
+            $allOptions = \DB::table('options')
+                ->where('option_group', $optionGroup)
+                ->whereNotNull('option_value')
+                ->get();
+            if($allOptions === null){
+                return [];
+            }
             $allOptions = collect($allOptions)->map(function ($option) {
                 return (array)$option;
             })->toArray();
 
             $allOptions  = app()->url_manager->replace_site_url_back($allOptions);
-            self::$_getOptionsByGroup[$optionGroup] = $allOptions;
-
+            if($allOptions === null){
+                return [];
+            }
             return $allOptions;
         });
+        self::$_getOptionsByGroup[$optionGroup] = $allOptions;
+
+        return $allOptions;
     }
 }

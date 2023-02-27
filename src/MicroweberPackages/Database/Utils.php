@@ -606,7 +606,7 @@ class Utils
             $search = array(
                 '@<script[^>]*?>.*?</script>@si', // Strip out javascript
 
-                '@<![\s\S]*?--[ \t\n\r]*>@', // Strip multi-line comments
+          //      '@<![\s\S]*?--[ \t\n\r]*>@', // Strip multi-line comments
             );
             if (is_string($input)) {
                 $output = preg_replace($search, '', $input);

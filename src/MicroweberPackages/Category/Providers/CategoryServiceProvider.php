@@ -23,13 +23,22 @@ use MicroweberPackages\Category\TranslateTables\TranslateCategory;
 
 class CategoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    /**
+    public function register()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
+
+        parent::register();
+    }
+
+        /**
      * Bootstrap the application services.
      *
      * @return void
      */
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
 
         $this->app->translate_manager->addTranslateProvider(TranslateCategory::class);
 
@@ -44,7 +53,6 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
         CategoryItem::observe(BaseModelObserver::class);
 
         View::addNamespace('category', __DIR__ . '/../resources/views');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Category::class, function () {

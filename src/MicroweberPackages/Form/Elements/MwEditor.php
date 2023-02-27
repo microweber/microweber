@@ -8,6 +8,17 @@ class MwEditor extends TextArea
     {
         $mwEditorId = rand(1111,9999) . time();
 
+
+        $onSaveCallback = $this->getAttribute('onSaveCallback');
+        if($onSaveCallback){
+            $onSaveCallbackStr = 'function(){
+                return '.$onSaveCallback.'
+            }';
+        } else {
+            $onSaveCallbackStr = '';
+        }
+
+
         $html = "<script>
 
                     mw.require('editor.js');
@@ -16,9 +27,10 @@ class MwEditor extends TextArea
                         selector: document.getElementById('$mwEditorId'),
                         mode: 'div',
                         smallEditor: false,
+                        onSave: $onSaveCallbackStr,
                         minHeight: 250,
                         inputLanguage: '" . current_lang() .   "',
-                        maxHeight: '70vh',
+
                         controls: [
                                 [
                                     'undoRedo', '|', 'image', '|',

@@ -9,18 +9,13 @@
 
 <style>
     #quick-parent-selector-tree .mw-tree-nav{
-        padding: 12px 30px;
-        border: 1px solid #cfcfcf;
-        margin: 20px 0;
+        margin: 0;
+        padding: 10px 0 0 20px;
         border-radius: 3px;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+    }
 
-    }
-    .mw-ui-category-selector-abs li li .mw-tree-toggler{
-        margin-inline-start: -37px !important;
-    }
-    .mw-ui-category-selector-abs .mw-tree-toggler{
-        margin-inline-start: -22px !important;
-    }
 </style>
 
 <script>
@@ -64,6 +59,19 @@
                         selectionChange: function () {
                             //  document.querySelector('.btn-save').disabled = false;
                             mw.askusertostay = true;
+
+                            var selected = categorySelector.tree.getSelected();
+                            if(selected.length){
+                                var hasPage = selected.find(function (item){
+                                    return item.type === 'page';
+                                });
+
+                                if(typeof hasPage === 'undefined'){
+                                    var category = selected[0];
+                                    categorySelector.tree.select(category.parent_id, 'page', true);
+                                }
+                             }
+
                         }
                     }
                 });
@@ -71,16 +79,20 @@
                 $(categorySelector.tree).on('ready', function () {
                     if (window.pagesTree && pagesTree.selectedData.length) {
                         $.each(pagesTree.selectedData, function () {
-                            categorySelector.tree.select(this)
+                            categorySelector.tree.select(this, undefined, false)
                         })
                     } else {
+
                         $.each(selectedPages, function () {
-                            categorySelector.tree.select(this, 'page')
+                            categorySelector.tree.select(this, 'page', false);
+
                         });
                         $.each(selectedCategories, function () {
-                            categorySelector.tree.select(this, 'category')
+                            categorySelector.tree.select(this, 'category', false);
                         });
+
                     }
+                    categorySelector.tags.setData(categorySelector.tree.getSelected());
 
                     var atcmplt = mw.element('<div class="input-group mb-0 prepend-transparent"> <div class="input-group-prepend"> <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span> </div> <input type="text" class="form-control form-control-sm" placeholder= <?php _e("Search"); ?>> </div>');
 
@@ -102,7 +114,8 @@
                                 }
                             });
                         }
-                    })
+                    });
+                    $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
                 });
 
                 $(categorySelector.tags).on("tagClick", function (e, data) {
@@ -154,48 +167,13 @@
         </div>
     </div>
 
+    <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <?php
-    $showTags = true;
-    $showCategories = true;
-
-    if (isset($productVariant) && $productVariant !== null) {
-        $showTags = false;
-        $showCategories = false;
-
-        $product = \MicroweberPackages\Product\Models\Product::where('id', $productVariant->parent)->first();
-    }
-    ?>
-
-    <?php if(isset($product) && $product !== null): ?>
-
-        <div class="card style-1 mb-3 product-variants">
-        <div class="card-body pt-3 pb-1">
-            <div class="row">
-                <div class="col-12">
-                    <strong><?php _e("Variants"); ?></strong>
-
-                    <div class="mt-2 mb-2">
-                        <?php
-                        if (isset($product->variants)):
-                        $productVariants = $product->variants;
-                        foreach($productVariants as $variant): ?>
-                           <a href="<?php echo admin_url(); ?>view:content#action=editpage:<?php echo $variant->id; ?>" class="btn btn-outline-primary btn-sm mt-2"><?php echo $variant->title; ?> <i class="mdi mdi-pencil"></i> </a>
-                        <?php endforeach; endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <?php endif; ?>
-
-    <?php
-    if ($showCategories):
-        ?>
-        <div class="card style-1 mb-3 categories js-sidebar-categories-card">
+    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
             <div class="card-body pt-3 pb-1">
                 <div class="row">
+
+
                     <?php if ($data['content_type'] == 'page') : ?>
                         <div class="col-12">
                             <strong><?php _e("Select parent page"); ?></strong>
@@ -227,7 +205,7 @@
                                 }
                             </script>
 
-                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage"); ?></a>
+                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -329,12 +307,11 @@
                     <div class="row">
                         <div class="col-12">
                             <div id="show-categories-tree-wrapper" >
-                                <small class="text-muted"><?php _e('Want to add the'); ?> <?php echo $data['content_type']; ?> <?php _e('in more categories'); ?>?</small>
-                                <br/>
-                                <button type="button" class="btn btn-outline-primary btn-sm my-3 js-show-categories-tree-btn" data-bs-toggle="collapse" data-bs-target="#show-categories-tree"><?php _e('Add to'); ?></button>
-                                <br/>
 
-                                <div id="show-categories-tree" class="collapse">
+                                 <strong><?php _e('Select'); ?> <?php echo $data['content_type']; ?> <?php _e('categories'); ?></strong>
+
+
+                                <div id="show-categories-tree"  >
                                     <div class="mw-admin-edit-page-primary-settings content-category-selector">
                                         <div class="mw-ui-field-holder">
                                             <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>">
@@ -364,10 +341,6 @@
             </div>
         </div>
 
-    <?php
-    endif;
-    ?>
-
     <?php if ($data['content_type'] == 'page'): ?>
         <div class="card style-1 mb-3 menus">
             <div class="card-body pt-3">
@@ -384,10 +357,7 @@
         </div>
     <?php endif; ?>
 
-    <?php
-    if ($showTags):
-        ?>
-        <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
+    <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card style-1 mb-3">
             <div class="card-body pt-3">
                 <div class="row mb-3">
@@ -404,7 +374,6 @@
                 <?php endif; ?>
             </div>
         </div>
-    <?php endif; ?>
     <?php endif; ?>
 
 

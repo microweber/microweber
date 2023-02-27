@@ -488,12 +488,21 @@ class ContentManager
         return $this->app->data_fields_manager->get($params);
     }
 
-    public function data($content_id)
+    public function data($content_id,$field_name = false)
     {
         $data = array();
         $data['content_id'] = intval($content_id);
+        $values = $this->app->data_fields_manager->get_values($data);
 
-       return $this->app->data_fields_manager->get_values($data);
+        if ($field_name) {
+            if (isset($values[$field_name])) {
+                return $values[$field_name];
+            } else {
+                return false;
+            }
+        }
+
+        return $values;
     }
 
     public function tags($content_id = false, $return_full = false)
@@ -2068,21 +2077,69 @@ class ContentManager
         }
     }
 
+    /***
+     * @param $id
+     * @param $params
+     * @return false|string
+     */
+    public function get_parents_as_links($id, $params = [])
+    {
+        $implodeSymbol = ' &rarr; ';
+
+        if (isset($params['implode_symbol'])) {
+            $implodeSymbol = $params['implode_symbol'];
+        }
+
+        $class = '';
+        if (isset($params['class'])) {
+            $class = $params['class'];
+        }
+
+        $parentTitles = [];
+        $parents = $this->get_parents($id);
+        if (!empty($parents)) {
+            foreach ($parents as $parentId) {
+                $editLink = content_edit_link($parentId);
+                $parentTitles[] = '<a href="'.$editLink.'" class="'.$class.'">' . $this->title($parentId) . '</a>';
+            }
+        }
+
+        $parentTitles = array_reverse($parentTitles);
+        if (!empty($parentTitles)) {
+            return implode($implodeSymbol, $parentTitles);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $id
+     * @param $implodeSymbol
+     * @return false|string
+     */
+    public function get_parents_as_text($id, $implodeSymbol = ' &rarr; ')
+    {
+        $parentTitles = [];
+        $parents = $this->get_parents($id);
+        if (!empty($parents)) {
+          foreach ($parents as $parentId) {
+              $parentTitles[] = $this->title($parentId);
+          }
+        }
+        $parentTitles = array_reverse($parentTitles);
+
+        if (!empty($parentTitles)) {
+          return implode($implodeSymbol, $parentTitles);
+        }
+
+        return false;
+    }
+
     public function get_parents($id = 0, $without_main_parrent = false)
     {
-
         if (intval($id) == 0) {
             return false;
         }
-
-
-     //   return app()->content_repository->getParents($id,$without_main_parrent);
-
-
-
-
-
-
 
         $ids = array();
         $get = array();
@@ -2111,6 +2168,7 @@ class ContentManager
             }
         }
         if (!empty($ids)) {
+            $ids = array_filter($ids);
             $ids = array_unique($ids);
 
             return $ids;
@@ -2152,7 +2210,7 @@ class ContentManager
         if (!isset($lang) or $lang == false) {
             $lang = 'en';
         }
-        $lang = str_replace('..', '', $lang);
+        $lang = sanitize_path($lang);
         if (!defined('MW_LANG') and isset($lang)) {
             define('MW_LANG', $lang);
         }
@@ -2171,7 +2229,7 @@ class ContentManager
      */
     public function lang_set($lang = 'en')
     {
-        $lang = str_replace('..', '', $lang);
+        $lang = sanitize_path($lang);
         setcookie('lang', $lang);
 
         return $lang;
@@ -2398,6 +2456,26 @@ class ContentManager
             }
             return $link;
         }
+
+    }
+
+    public function edit_link($id = 0)
+    {
+        $content = $this->get_by_id($id);
+
+        if (isset($content['content_type']) && $content['content_type'] == 'product') {
+            return route('admin.product.edit', $id);
+        }
+
+        if (isset($content['content_type']) && $content['content_type'] == 'post') {
+            return route('admin.post.edit', $id);
+        }
+
+        if (isset($content['content_type']) && $content['content_type'] == 'page') {
+            return route('admin.page.edit', $id);
+        }
+
+        return route('admin.content.edit', $id);
 
     }
 

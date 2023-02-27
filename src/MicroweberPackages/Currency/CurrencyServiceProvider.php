@@ -11,11 +11,20 @@
 
 namespace MicroweberPackages\Currency;
 
-use Illuminate\Support\Facades\View;
+
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 
 class CurrencyServiceProvider extends ServiceProvider
 {
+    use MergesConfig;
+    public function register()
+    {
+
+        $this->mergeConfigFrom(__DIR__ . '/config/money.php', 'money');
+
+
+    }
     /**
      * Bootstrap the application services.
      *
@@ -26,4 +35,6 @@ class CurrencyServiceProvider extends ServiceProvider
         // $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
         $this->loadMigrationsFrom(__DIR__ . '/database/');
     }
+
+
 }

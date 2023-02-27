@@ -218,67 +218,94 @@
             }
         };
 
+        var beforeFileUpload = function () {
+            if(scope.settings.on.beforeFileUpload) {
+                return scope.settings.on.beforeFileUpload(this);
+            } else {
+                return new Promise(function (resolve){
+                    resolve();
+                });
+            }
+        };
+
         this.uploadFile = function (file, done, chunks, _all, _i) {
             return new Promise(function (resolve, reject) {
-                chunks = chunks || scope.sliceFile(file);
-                _all = _all || chunks.length;
-                _i = _i || 0;
-                var chunk = chunks.shift();
-                var data = {
-                    name: file.name,
-                    chunk: _i,
-                    chunks: _all,
-                    file: chunk,
-                };
-                _i++;
-                $(scope).trigger('uploadStart', [data]);
+                beforeFileUpload().then(function (){
+                        chunks = chunks || scope.sliceFile(file);
+                        _all = _all || chunks.length;
+                        _i = _i || 0;
+                        var chunk = chunks.shift();
+                        var data = {
+                            name: file.name,
+                            chunk: _i,
+                            chunks: _all,
+                            file: chunk,
+                        };
+                        _i++;
+                        $(scope).trigger('uploadStart', [data]);
 
-                scope.upload(data, function (res) {
-                    var dataProgress;
-                    if(chunks.length) {
-                        scope.uploadFile(file, done, chunks, _all, _i).then(function (){
-                            if (done) {
-                                done.call(file, res);
+                        scope.upload(data, function (res) {
+                            var dataProgress;
+                            if(chunks.length) {
+                                scope.uploadFile(file, done, chunks, _all, _i).then(function (){
+                                    if (done) {
+                                        done.call(file, res);
+                                    }
+                                    resolve(file);
+                                }, function (xhr){
+                                    if(scope.settings.on.fileUploadError) {
+                                        scope.settings.on.fileUploadError(xhr);
+                                    }
+                                });
+                                dataProgress = {
+                                    percent: ((100 * _i) / _all).toFixed()
+                                };
+                                $(scope).trigger('progress', [dataProgress, res]);
+                                if(scope.settings.on.progress) {
+                                    scope.settings.on.progress(dataProgress, res);
+                                }
+
+                            } else {
+                                dataProgress = {
+                                    percent: '100'
+                                };
+                                $(scope).trigger('progress', [dataProgress, res]);
+                                if(scope.settings.on.progress) {
+                                    scope.settings.on.progress(dataProgress, res);
+                                }
+                                $(scope).trigger('FileUploaded', [res]);
+                                if(scope.settings.on.fileUploaded) {
+                                    scope.settings.on.fileUploaded(res);
+                                }
+                                if (done) {
+                                    done.call(file, res);
+                                }
+                                resolve(file);
                             }
-                            resolve(file);
-                        }, function (xhr){
-                             if(scope.settings.on.fileUploadError) {
-                                scope.settings.on.fileUploadError(xhr);
+                        }, function (req) {
+
+                            if(req && req.status === 400){
+                                if(typeof mw.cookie !== 'undefined'){
+                                    mw.cookie.delete('XSRF-TOKEN');
+                                }
                             }
+
+                            var msg = false;
+
+                            if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
+                                msg = req.responseJSON.error.message;
+                            } else if (req.responseJSON && req.responseJSON.error && req.responseJSON.message) {
+                                msg = req.responseJSON.message;
+                            }
+
+                            if (msg) {
+                                mw.notification.warning(msg, 10000);
+                            }
+                            scope.removeFile(file);
+                            reject(req);
                         });
-                        dataProgress = {
-                            percent: ((100 * _i) / _all).toFixed()
-                        };
-                        $(scope).trigger('progress', [dataProgress, res]);
-                        if(scope.settings.on.progress) {
-                            scope.settings.on.progress(dataProgress, res);
-                        }
-
-                    } else {
-                        dataProgress = {
-                            percent: '100'
-                        };
-                        $(scope).trigger('progress', [dataProgress, res]);
-                        if(scope.settings.on.progress) {
-                            scope.settings.on.progress(dataProgress, res);
-                        }
-                        $(scope).trigger('FileUploaded', [res]);
-                        if(scope.settings.on.fileUploaded) {
-                            scope.settings.on.fileUploaded(res);
-                        }
-                        if (done) {
-                            done.call(file, res);
-                        }
-                        resolve(file);
-                    }
-                }, function (req) {
-                    if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
-                        mw.notification.warning(req.responseJSON.error.message);
-                    }
-                    scope.removeFile(file);
-                    reject(req)
+                    });
                 });
-            });
         };
 
         this.sliceFile = function(file) {
@@ -392,8 +419,6 @@
                 xhr: function () {
                     var xhr = new XMLHttpRequest();
 
-
-
                     xhr.upload.addEventListener('progress', function (event) {
                         if (event.lengthComputable) {
                             var percent = (event.loaded / event.total) * 100;
@@ -404,21 +429,19 @@
                         }
                     });
 
-
-
                     return xhr;
                 }
             };
 
-            var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
-            if (typeof tokenFromCookie !== 'undefined') {
-                $.ajaxSetup({
-                    headers: {
-                        'X-XSRF-TOKEN': tokenFromCookie
-                    }
-                });
-            }
-
+            // var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+            // if (typeof tokenFromCookie !== 'undefined') {
+            //     $.ajaxSetup({
+            //         headers: {
+            //             'X-XSRF-TOKEN': tokenFromCookie
+            //         }
+            //     });
+            // }
+            //
 
 
 
@@ -426,8 +449,16 @@
         };
     };
 
+    if(!mw.uploadGlobalSettings) {
+        mw.uploadGlobalSettings = {};
+    }
+
     mw.upload = function (options) {
-        return new Uploader(options);
+        if (!options) {
+            options = {};
+        }
+
+        return new Uploader($.extend(true, {}, mw.uploadGlobalSettings, options));
     };
 
 

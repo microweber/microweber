@@ -60,10 +60,7 @@
 .mw-tree-nav-skin-default li * {
   vertical-align: middle;
 }
-.mw-tree-nav-skin-default li .mdi-pencil {
-  color: #0e80e5;
-  opacity: 1;
-}
+
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root .mw-tree-item-title {
   color: #0e80e5;
   font-weight: bold;
@@ -72,6 +69,7 @@
   color: #0e80e5;
   font-weight: normal;
 }
+.mw-tree-nav-skin-default li.context-menu-active > .mw-tree-item-content-root,
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root,
 .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
   background: #fff;
@@ -144,17 +142,15 @@
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-item {
   font-size: 14px;
-  display: inline-block;
-  visibility: hidden;
+  display: block;
   position: relative;
-  height: 21px;
-  width: 21px;
   line-height: 17px;
-  text-align: center;
   border: 1px solid transparent;
   color: #3B3B3B;
-  opacity: 0.9;
   cursor: pointer;
+    white-space: nowrap;
+    padding: 5px 10px;
+    text-align: left;
 }
 .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu-item {
   visibility: visible;

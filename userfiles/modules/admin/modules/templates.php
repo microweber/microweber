@@ -56,7 +56,7 @@ if ($cur_template == false) {
         $cur_template = $_REQUEST['template'] . '.php';
     }
     if ($cur_template != false) {
-        $cur_template = str_replace('..', '', $cur_template);
+        $cur_template = sanitize_path($cur_template);
         $cur_template = str_replace('.php.php', '.php', $cur_template);
     }
 }

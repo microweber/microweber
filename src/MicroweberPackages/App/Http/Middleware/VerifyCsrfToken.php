@@ -21,32 +21,50 @@ class VerifyCsrfToken extends Middleware
     ];
 
 
-
-
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      *
      * @throws \Illuminate\Session\TokenMismatchException
      */
     public function handle($request, \Closure $next)
     {
+        $this->addHttpCookie = false;
 
         try {
             return parent::handle($request, $next);
-        }  catch (TokenMismatchException $e) {
-            $cookie = \Cookie::forget('XSRF-TOKEN');
-            return response()->json(['error' => 'Invalid CSRF token.'], 400)->withCookie($cookie);
-          } catch (DecryptException $e) {
-            $cookie = \Cookie::forget('XSRF-TOKEN');
-            return response()->json(['error' => 'Invalid CSRF token.'], 400)->withCookie($cookie);
+        } catch (TokenMismatchException $e) {
+
+            $cookie = [];
+            $cookie[] = \Cookie::forget('XSRF-TOKEN');
+
+            $response = response()->json(['error' => 'Invalid XSRF token', 'message' => 'Invalid XSRF token, please reload the page and try again'], 400);
+
+            if (method_exists($response, 'withCookies')) {
+                return $response->withCookies($cookie);
+            } else {
+                return $response;
+            }
+
+        } catch (DecryptException $e) {
+
+            $cookie = [];
+            $cookie[] = \Cookie::forget('XSRF-TOKEN');
+
+            $response = response()->json(['error' => 'Invalid XSRF token', 'message' => 'Invalid XSRF token, please reload the page and try again'], 400);
+
+            if (method_exists($response, 'withCookies')) {
+                return $response->withCookies($cookie);
+            } else {
+                return $response;
+            }
+
         }
 
-     }
-
+    }
 
 
     /**
@@ -70,7 +88,6 @@ class VerifyCsrfToken extends Middleware
     {
         return $this->addCookieToResponse($request, $response);
     }
-
 
 
 }

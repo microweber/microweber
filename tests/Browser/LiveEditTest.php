@@ -168,9 +168,9 @@ class LiveEditTest extends DuskTestCase
             $browser->visit($siteUrl . '/?editmode=y');
             $browser->pause(4000);
 
-           /* $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
-            });*/
+            });
 
             $productDescription =  'Product description live edit save ' . time().rand(1111,9999);
 
@@ -186,12 +186,11 @@ class LiveEditTest extends DuskTestCase
             $browser->waitForText('Sound Systems');
             $browser->pause(9000);
 
-            $randClass = 'js-rand-ml-'.time().rand(1111,9999);
-            $browser->script("$('.description .edit').addClass('$randClass')");
-
+            $randClass = 'js-rand-description-'.time().rand(1111,9999);
+            $browser->script("$('.description').find('.edit').addClass('$randClass')");
             $browser->pause(2000);
             $browser->click('.' . $randClass);
-            $browser->type('.' . $randClass, $productDescription);
+            $browser->keys('.' . $randClass, $productDescription);
             $browser->pause(3000);
 
             $currentUrl = $browser->driver->getCurrentURL();

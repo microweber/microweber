@@ -317,15 +317,11 @@ body.mw-column-resizing * {
 
 .mw-sorthandle-moveit {
     position: absolute;
-    z-index: 0;
     left: 0px;
     top: 0px;
     display: block;
     width: 100%;
     height: 19px;
-    cursor: move;
-    cursor: -webkit-grab;
-    cursor: -moz-grab;
     cursor: grab;
     text-align: center;
     z-index: 1;
@@ -411,7 +407,6 @@ body.mw-column-resizing * {
     background: #333;
     z-index: 997;
     visibility: visible;
-    transition: all .2s cubic-bezier(.73, 1.06, .58, .84);
 }
 
 .mw_dropable:before {
@@ -688,8 +683,8 @@ html.mw_pages #items_handle {
 #backtoadminindropdown {
     border-radius: 0;
     display: flex;
-    background-color: #0084D8;
-    color: #fff;
+    background-color: #fff;
+    color: #2b2b2b;
     padding: 10px;
 }
 
@@ -1456,7 +1451,7 @@ body.has-opened-sidebar #live_edit_toolbar {
     text-decoration: none
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1060px) {
     .mw-toolbar-modules-open-ctrl > [class*='mw-icon-'] {
         margin: 0px;
     }
@@ -1465,6 +1460,9 @@ body.has-opened-sidebar #live_edit_toolbar {
         display: none;
     }
 
+    .mw-toolbar-add-new-content-ctrl i{
+        margin-inline: 0 !important;
+    }
     .mw-toolbar-add-new-content-ctrl span {
         display: none;
     }
@@ -1569,6 +1567,13 @@ body.has-opened-sidebar #live_edit_toolbar {
 
 .mw-dialog #default-layouts-holder .mw_module_image{
     height: auto;
+}
+
+#default-layouts-holder{
+    padding-inline: 0 !important;
+    padding: 0;
+    margin: 0;
+    margin-inline: 0 !important;
 }
 
 
@@ -1682,6 +1687,10 @@ li.module-item.ui-draggable-dragging {
     box-shadow: inset 0 0 1px #fff;
 }
 
+body.dragStart .element {
+
+}
+
 .mw_modal .module-over:hover {
     outline: none
 }
@@ -1750,24 +1759,15 @@ body.dragStart .mw-col-container .mw-empty:hover, body.dragStart .mw-col-contain
 
 .edit .module_loading {
     transform: scale(0, 0);
-    -ms-transform: scale(0, 0);
-    -moz-transform: scale(0, 0);
-    -webkit-transform: scale(0, 0);
-    -o-transform: scale(0, 0);
+
 
 }
 
 .edit .module_activated {
     transition: transform 0.3s;
-    -moz-transition: -moz-transform 0.3s;
-    -webkit-transition: -webkit-transform 0.3s;
-    -o-transition: -o-transform 0.3s;
-    -ms-transition: -ms-transform 0.3s;
+
     transform: scale(1, 1);
-    -ms-transform: scale(1, 1);
-    -moz-transform: scale(1, 1);
-    -webkit-transform: scale(1, 1);
-    -o-transform: scale(1, 1);
+
 }
 
 img[_moz_resizing], table[_moz_resizing] {
@@ -1776,12 +1776,12 @@ img[_moz_resizing], table[_moz_resizing] {
 
 
 
+
 .isTypingStill #mw-handle-item-element,
 .isTypingStill .mw-padding-ctrl,
 .isTypingStill .mw-layout-plus,
 .isTypingStill .mw-handle-item,
 .isTypingStill .mw-selector,
-
 .isTyping .mw-padding-ctrl,
 .isTyping .mw-layout-plus,
 .isTyping .mw-handle-item,
@@ -3123,7 +3123,7 @@ div[id*='SSDIVEL'] {
     padding: 12px 20px 15px 12px;
     letter-spacing: 1px;
     font-weight: bold!important;
-    font-family: Milliard;
+    font-family: Arial, Verdana, Geneva, sans-serif;
 }
 
 
@@ -3497,31 +3497,6 @@ body.isTyping .mw-cloneable-control {
     /*height: 53px;*/
 }
 
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav {
-    margin: 10px 0 0 10px;
-
-    white-space: nowrap;
-}
-
-.wysiwyg-cell-undo-redo .mw-ui-btn-nav > * {
-    float: none;
-}
-
-.wysiwyg-cell-undo-redo .mw_editor_btn {
-    margin-top: 14px;
-}
-
-.wysiwyg-cell-undo-redo {
-    padding-inline-start: 10px;
-    height: 54px;
-}
-
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_undo,
-.wysiwyg-undo-redo .mw_editor_btn.mw_editor_redo {
-    padding: 1px 4px 0px 4px;
-    border: 1px solid transparent;
-    height: auto;
-}
 
 
 
@@ -4288,6 +4263,9 @@ body.dragStart .mw-handle-item.ui-draggable-dragging {
     padding: 0 8px;
     cursor: pointer;
 }
+.mw-handle-buttons:empty{
+    display: none !important;
+}
 .mw-handle-buttons{
     display: inline-block;
     font-size: 17px;
@@ -5005,10 +4983,6 @@ body.dragStart picture img{
     position: relative!important;
 }
 
-.a-color-picker{
-    border: 1px solid #eee;
-    box-shadow: none;
-}
 
 .mw-icon-selector-form-control-range {
     position: absolute;
@@ -5084,3 +5058,76 @@ body.dragStart picture img{
     opacity: .57;
 }
 
+
+
+/* vertical handles */
+
+/*#mw-handle-item-module-active .mw-handle-handler,
+#mw-handle-item-module .mw-handle-handler,*/
+#mw-handle-item-element .mw-handle-handler{
+    white-space: normal;
+    height: auto;
+    overflow: hidden;
+    line-height: 30px;
+}
+/*#mw-handle-item-module-active .mw-handle-handler-title,
+#mw-handle-item-module .mw-handle-handler-title,*/
+#mw-handle-item-element .mw-handle-handler-title{
+    border-left: 1px solid #eee;
+    padding-inline: 5px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 0;
+}
+/*#mw-handle-item-module-active .mw-handle-buttons,
+#mw-handle-item-module .mw-handle-buttons,*/
+#mw-handle-item-element .mw-handle-buttons{
+    display: block;
+}
+/*#mw-handle-item-module-active .mw-handle-handler-icon,
+#mw-handle-item-module .mw-handle-handler-icon,*/
+#mw-handle-item-element .mw-handle-handler-icon{
+    width: 30px;
+}
+/*#mw-handle-item-module-active,
+#mw-handle-item-module,*/
+#mw-handle-item-element{
+    margin-left: -50px;
+    padding-right: 10px;
+    margin-top: 40px;
+    padding-bottom: 100px;
+}
+#mw-handle-item-module-active,
+#mw-handle-item-module{
+    margin-top: 0;
+}
+/*#mw-handle-item-module-active .mw-handle-handler-title:after,
+#mw-handle-item-module .mw-handle-handler-title:after,*/
+#mw-handle-item-element .mw-handle-handler-title:after{
+    margin-inline-start: 1px;
+}
+
+/*#mw-handle-item-module-active  .mw_module_settings_sidebar_icon,
+#mw-handle-item-module .mw_module_settings_sidebar_icon,*/
+#mw-handle-item-element .mw_module_settings_sidebar_icon{
+    margin: 0 5px 0 0;
+}
+
+/*#mw-handle-item-module-active  .mw_module_settings_sidebar_icon:after,
+#mw-handle-item-module .mw_module_settings_sidebar_icon:after,*/
+#mw-handle-item-element .mw_module_settings_sidebar_icon:after{
+    line-height: 30px;
+}
+
+/*#mw-handle-item-module-active  .mw-handle-menu,
+#mw-handle-item-module .mw-handle-menu,*/
+#mw-handle-item-element .mw-handle-menu{
+    top: 30px;
+}
+
+
+
+
+@media (max-width: 1000px) {
+
+}

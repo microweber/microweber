@@ -15,8 +15,14 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $fieldName = $this->getAttribute('name');
 
         $fieldValue = '';
-        if (isset($this->model->{$fieldName})) {
-            $fieldValue = $this->model->{$fieldName};
+        if ($this->readValueFromField) {
+            if (isset($this->model->{$this->readValueFromField})) {
+                $fieldValue = $this->model->{$this->readValueFromField};
+            }
+        } else {
+            if (isset($this->model->{$fieldName})) {
+                $fieldValue = $this->model->{$fieldName};
+            }
         }
 
         $locales = [];
@@ -27,7 +33,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $localesJson = json_encode($locales);
 
         $modelTranslations = [];
-        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) { 
+        if ($this->model && method_exists($this->model, 'getTranslationsFormated')) {
             $modelTranslations = $this->model->getTranslationsFormated();
         }
 
@@ -37,17 +43,23 @@ class Text extends \MicroweberPackages\Form\Elements\Text
             $translations[$locale] = '';
         }
         // Fill the translations if available
+        $findTranslationsFromField = $fieldName;
+        if ($this->readValueFromField) {
+            $findTranslationsFromField = $this->readValueFromField;
+        }
+
         if (!empty($modelTranslations)) {
             foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
-                if (isset($modelTranslation[$fieldName])) {
-                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                if (isset($modelTranslation[$findTranslationsFromField])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$findTranslationsFromField];
                     if ($this->currentLanguage == $modelTranslationLocale) {
-                        $fieldValue = $modelTranslation[$fieldName];
+                        $fieldValue = $modelTranslation[$findTranslationsFromField];
                     }
                 }
             }
         }
         $translationsJson = json_encode($translations);
+        $attributes = json_encode($this->getAttributes());
 
         return "<script>
             mw.lib.require('multilanguage');
@@ -56,11 +68,13 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
                     locales: $localesJson,
+                    attributes: $attributes,
                     translations: $translationsJson,
                 });
             });
         </script>
-        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" />";
+
+        <input type=\"text\" name=\"$fieldName\" value=\"$fieldValue\" class=\"form-control\" id=\"$this->randId\" "." />";
 
     }
 }

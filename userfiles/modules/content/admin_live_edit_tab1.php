@@ -255,7 +255,51 @@ $rand = uniqid(); ?>
 
     <label class="control-label"><?php _e("Display on") . ' '; ?> <?php print ($set_content_type) ?>:</label>
 
-    <div class="">
+
+
+<script>
+
+    $( document ).ready(function() {
+        $('input[type=radio][name=showContentTypeRadioDefault]').change(function() {
+            if (this.value == 'default') {
+                $('#post_fields_show_toggle_fields').hide();
+
+                $('[type=checkbox][name=data-show]').prop("checked", false).trigger('change');
+
+            }
+            else if (this.value == 'custom') {
+                $('#post_fields_show_toggle_fields').show();
+            }
+        });
+    });
+
+
+
+</script>
+
+
+
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="showContentTypeRadioDefault" value="default" id="showContentTypeRadioDefault1" <?php if(empty($show_fields)): ?> checked <?php endif; ?> >
+        <label class="form-check-label" for="showContentTypeRadioDefault1">
+            <?php _e("Show default information from module skin"); ?>
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="showContentTypeRadioDefault" value="custom" id="showContentTypeRadioDefault2" <?php if(!empty($show_fields)): ?> checked <?php endif; ?>>
+        <label class="form-check-label" for="showContentTypeRadioDefault2">
+            <?php _e("Show custom information"); ?>
+        </label>
+    </div>
+
+
+
+
+
+
+
+    <div id="post_fields_show_toggle_fields" <?php if(empty($show_fields)): ?> style="display:none;" <?php endif; ?>>
         <div id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
@@ -384,5 +428,8 @@ $rand = uniqid(); ?>
                 </div>
             </div>
         </div>
+
+
+
     </div>
 <?php endif; ?>

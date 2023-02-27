@@ -34,6 +34,10 @@
                 if(el){
                     var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                     el.href = custom_fonts_stylesheet_restyled;
+                    el.crossorigin = "anonymous";
+                    el.referrerpolicy = "no-referrer";
+
+
                 }
                 mw.reload_module_everywhere('editor/fonts/select_option');
                 mw.reload_module_everywhere('settings/template');
@@ -118,7 +122,7 @@ if ($is_load_more) {
 
 ?>
 <?php if (isset($fonts['items'])): ?>
-    <?php $enabled_custom_fonts = get_option("enabled_custom_fonts", "template");
+    <?php $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
 
 
     $enabled_custom_fonts_array = array();
@@ -189,7 +193,12 @@ if ($is_load_more) {
                 }
                 $('#enabled_custom_fonts_arr_impode').val(s).trigger('change');
                 mw.reload_module_everywhere("settings/template")
-                mw.reload_module_everywhere("editor/fonts/select_option")
+                mw.reload_module_everywhere("editor/fonts/select_option" )
+                if(mw.top().win.fontFamilyProvider) {
+                    setTimeout(function(){
+                        mw.top().win.fontFamilyProvider.provide( checked_fonts_arr)
+                    }, 78)
+                }
                 //mw.reload_module_parent("editor/fonts")
                 //    window.mw.parent().wysiwyg.initExtendedFontFamilies(s)
 

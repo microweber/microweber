@@ -16,34 +16,12 @@ namespace MicroweberPackages\Template;
 
 class TemplateManager
 {
-    /**
-     * An instance of the Microweber Application class.
-     *
-     * @var
-     */
-    public $app;
-
-    public function __construct($app = null)
-    {
-        if (!is_object($this->app)) {
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = app();
-            }
-        }
-    }
-
-
-
-
-
 
     public $isBooted = false;
 
     public function boot_template()
     {
-        if(!mw_is_installed()){
+        if (!mw_is_installed()) {
             return;
         }
         if ($this->isBooted) {

@@ -5,6 +5,7 @@
             locales: [],
             currentLocale: false,
             translations: [],
+            attributes: [],
             mwEditor: false,
         }, options);
 
@@ -13,6 +14,7 @@
             var currentLocale = settings.currentLocale;
             var locales = settings.locales;
             var translations = settings.translations;
+            var attributes = settings.attributes;
             var mwEditor = settings.mwEditor;
 
             if (!name.length || !locales.length || !currentLocale.length) {
@@ -24,15 +26,25 @@
             $(obj).attr('value', translations[currentLocale]);
             $(obj).attr('lang', currentLocale);
 
+            var plainName = name;
+
+            // for multidimensional names
+            if (name.match(/\[[^\]]*]/g)) {
+                $.each($(obj).serializeAssoc(), function(key, values) {
+                    plainName = key+ '-'+Object.keys(values)[0];
+                });
+                plainName = plainName.replace('_','-');
+            }
+
             var outputHtml = '<div class="bs-component">';
 
-                var mwNavLocaleId = 'ml-nav-'+name;
+                var mwNavLocaleId = 'ml-nav-'+plainName;
                 outputHtml += '<nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" id="'+mwNavLocaleId+'">';
 
                 // tab buttons
                 for (var i = 0; i < locales.length; i++) {
-                    var mwBtnTabLocaleId = 'ml-tab-btn-'+name+'-'+i;
-                    var mwBtnTabContentLocaleId = 'ml-tab-content-'+name+'-'+i;
+                    var mwBtnTabLocaleId = 'ml-tab-btn-'+plainName+'-'+i;
+                    var mwBtnTabContentLocaleId = 'ml-tab-content-'+plainName+'-'+i;
 
                     var localeIcon = locales[i];
                     var localeIconSplit = localeIcon.split('_');
@@ -44,7 +56,7 @@
 
                     var localeUppercase = locales[i].toUpperCase();
 
-                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center js-ml-btn-tab-'+name+'" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="javascript:;" x-href="#'+mwBtnTabContentLocaleId+'"><i class="flag-icon flag-icon-'+localeIcon+'"></i>'+localeUppercase+'</a>';
+                    outputHtml += '<a class="btn btn-outline-secondary btn-sm justify-content-center js-ml-btn-tab-'+plainName+'" id="'+mwBtnTabLocaleId+'" lang="'+locales[i]+'" data-toggle="tab" href="javascript:;" x-href="#'+mwBtnTabContentLocaleId+'"><i class="flag-icon flag-icon-'+localeIcon+'"></i>'+localeUppercase+'</a>';
 
                     $('body').on('click','#' + mwBtnTabLocaleId, function (){
                         mw.trigger("mlChangedLanguage", $(this).attr('lang'));
@@ -53,13 +65,34 @@
                 outputHtml += '</nav>';
 
                 // tab contents
-                var mwTabContentLocaleId = 'ml-tab-content-'+name;
+                var mwTabContentLocaleId = 'ml-tab-content-'+plainName;
                 outputHtml += '<div id="'+mwTabContentLocaleId+'" class="tab-content py-3">';
                 for (var i = 0; i < locales.length; i++) {
-                    var mwTabPaneLocaleId = 'ml-tab-content-'+name+'-'+i;
+                    var mwTabPaneLocaleId = 'ml-tab-content-'+plainName+'-'+i;
+
+                    var mlInputName = 'multilanguage['+plainName+']['+locales[i]+']';
+
+                    // for multidimensional names
+                    if (name.match(/\[[^\]]*]/g)) {
+                        mlInputName = 'multilanguage'
+                        $.each($(obj).serializeAssoc(), function(key, values) {
+                            mlInputName += '['+key+']['+Object.keys(values)[0]+']';
+                        });
+                        mlInputName += '['+locales[i]+']';
+                    }
+
+                    var input  = $('<textarea class="form-control" name="'+mlInputName+'" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>');
+
+                    $.each(attributes, function(name, value) {
+                        if(!$(input).attr(name)){
+                            $(input).attr(name,value);
+                        }
+                    });
+
+                    var inputHtml =  input[0].outerHTML;
 
                     outputHtml += '<div class="tab-pane fade" id="'+mwTabPaneLocaleId+'" lang="'+locales[i]+'">';
-                    outputHtml += '<textarea class="form-control" name="multilanguage['+name+']['+locales[i]+']" lang="'+locales[i]+'">'+translations[locales[i]]+'</textarea>';
+                    outputHtml += inputHtml;
                     outputHtml += '</div>';
 
                     // If ml textarea is changed change and the value
@@ -102,6 +135,9 @@
                 switchTabsToLanguage(mlCurrentLanguage);
             });
 
+
+
+
             if (mwEditor) {
                 $('#'+mwTabContentLocaleId).find('.tab-pane textarea').each(function () {
                     mw.Editor({
@@ -109,6 +145,7 @@
                         inputLanguage: this.lang,
                         mode: 'div',
                         smallEditor: false,
+                        onSave: settings.onSave,
                         minHeight: 250,
                         maxHeight: '70vh',
                         controls: [

@@ -9,6 +9,8 @@ $config['help'] = "http://microweber.info/modules/audio";
 $config['version'] = 0.19;
 $config['ui'] = true;
 $config['position'] = 30;
+$config['categories'] = "media";
+
 
 
 $config['categories'] = "media";

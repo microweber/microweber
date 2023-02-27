@@ -1,6 +1,9 @@
 <?php
 use Omnipay\Omnipay;
 
+include __DIR__.'/../lib/legacy_fields.php';
+
+
 $merchantId = get_option('przelewy24_merchant_id', 'payments');
 
 $is_test = (get_option('przelewy24_testmode', 'payments')) == 'y';

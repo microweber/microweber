@@ -36,7 +36,7 @@ class BaseInstaller extends LibraryInstaller
             );
         }
 
-        $folder = str_replace('..', '', $folder);
+        $folder = sanitize_path($folder);
         return $this->folder_base . $folder;
     }
 

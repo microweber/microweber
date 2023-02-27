@@ -1,11 +1,4 @@
-body{
-    padding: 100px;
-}
 
-input,select{
-    font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
-}
 .mw-multiple-fields{
     position: relative;
 }

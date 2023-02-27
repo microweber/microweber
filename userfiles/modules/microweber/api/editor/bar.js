@@ -49,6 +49,9 @@ import {ElementManager} from "../classes/element";
                 this.rows[row].appendChild(what().node);
             } else {
                 var el = this.nativeElement(what);
+                if(el.get) {
+                    el = el.get(0)
+                }
                 if(el) {
                     el.classList.add('mw-bar-control-item')
                     this.rows[row].appendChild(el);

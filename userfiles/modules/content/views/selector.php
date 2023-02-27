@@ -27,35 +27,42 @@ if (isset($params['recommended-id']) and $params['recommended-id'] != false) {
 
 ?>
 
-<?php if (isset($params['change-field'])): ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            mw.$('#content_selector_<?php print $rand ?>').on('change', function (e) {
-                var val = $(this).val();
-                mw.$('#<?php print $params['change-field'] ?>').val(val).trigger("change");
-                mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");
+
+<?php $treeId = 'tree-item-selector-' . $rand; ?>
+
+<div id="<?php print $treeId; ?>"></div>
+
+<script>
+
+    ;(function (){
+        function tree() {
+            var selected = [];
+            mw.admin.tree('#<?php print $treeId; ?>', {
+                options: {
+                    disableSelectTypes: ['category']
+                },
+                params: {
+                    content_type: 'page',
+                    exclude_ids: '<?php print $params['remove_ids'] ?>'
+                }
+            }).then(function (res){
+                res.tree.select(<?php print $selected; ?>, 'page');
+                res.tree.on('selectionChange', function (res){
+                    <?php if (isset($params['change-field'])): ?>
+                    var val = res[0] ? res[0].id : '0';
+                    mw.$('#<?php print $params['change-field'] ?>').val(val).trigger("change");
+                    mw.$('[name="<?php print $params['change-field'] ?>"]').val(val).trigger("change");
+                    <?php endif; ?>
+                });
+                $('.mw-page-component-disabled').removeClass('mw-page-component-disabled');
             });
-        });
-    </script>
-<?php endif; ?>
-
-<select name="<?php print $field_name ?>" data-width="100%" class="selectpicker selector-<?php print $config['module_class'] ?>" id="content_selector_<?php print $rand ?>" title="<?php _e("Select a parent page"); ?>">
-    <?php if (isset($top_item) and is_array($top_item) and !empty($top_item)) : ?>
-        <option value="<?php print $top_item['id'] ?>">-- <?php print $top_item['title'] ?></option>
-    <?php endif; ?>
-
-    <option value="0" <?php if ((0 == intval($selected))): ?>   selected="selected"  <?php endif; ?>><?php print $no_parent_title ?></option>
-
-    <?php
-    $pt_opts = array();
-    $pt_opts['link'] = "{empty}{title}";
-    $pt_opts['list_tag'] = " ";
-    $pt_opts['list_item_tag'] = "option";
-    $pt_opts['active_ids'] = $selected;
-    if (isset($params['remove_ids'])) {
-        $pt_opts['remove_ids'] = $params['remove_ids'];
-    }
-    $pt_opts['active_code_tag'] = '   selected="selected"  ';
-    pages_tree($pt_opts);
-    ?>
-</select>
+        }
+        if (document.readyState !== 'loading') {
+            tree();
+        } else {
+            document.addEventListener('DOMContentLoaded', function () {
+                tree();
+            });
+        }
+    })();
+</script>

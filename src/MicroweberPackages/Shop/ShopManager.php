@@ -78,10 +78,6 @@ class ShopManager
         return $this->app->order_manager->place_order($place_order);
     }
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
-    {
-        return $this->app->checkout_manager->confirm_email_send($order_id, $to, $no_cache, $skip_enabled_check);
-    }
 
     public function get_order_by_id($id = false)
     {
@@ -204,8 +200,14 @@ class ShopManager
         if ($prices) {
             $return = array();
             foreach ($prices as $price_data) {
+                $i = 0;
                 if (isset($price_data['name']) and isset($price_data['value'])) {
-                    $return[$price_data['name']] = $price_data['value'];
+                    $i++ ;
+                    $name = $price_data['name'];
+                    if(isset($return[$name])){
+                        $name = $name . ' ' . $i;
+                    }
+                    $return[$name] = $price_data['value'];
                 }
             }
             return $return;
@@ -220,7 +222,8 @@ class ShopManager
         $prices = $this->get_product_prices($content_id);
         if ($prices and is_array($prices) and !empty($prices)) {
             $vals2 = array_values($prices);
-            $val1 = array_shift($vals2);
+            $val1 = reset($vals2);
+
             return $val1;
         } else {
             return false;

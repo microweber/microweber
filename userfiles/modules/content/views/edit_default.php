@@ -30,14 +30,15 @@ if (isset($params['quick_edit']) and $params['quick_edit']) {
     }
 </style>
 <?php
-if (isset($data['content_type']) and $data['content_type'] == 'page') {
-    $parent_page_active = 0;
-    if ($data['parent'] != 0 and $data['id'] == 0) {
-        $data['parent'] = $recommended_parent = 0;
-    } elseif (isset($data['parent'])) {
-        $parent_page_active = $data['parent'];
-    }
-}
+
+//if (isset($data['content_type']) and $data['content_type'] == 'page' and !isset($data['parent'])) {
+//    $parent_page_active = 0;
+//    if ($data['parent'] != 0 and $data['id'] == 0) {
+//        $data['parent'] = $recommended_parent = 0;
+//    } elseif (isset($data['parent'])) {
+//        $parent_page_active = $data['parent'];
+//    }
+//}
 
 
 if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) and intval($data['parent']) != 0) {
@@ -50,7 +51,7 @@ if (isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) a
 if ($edit_page_info['is_shop'] == 1) {
     $type = 'Shop';
 } elseif ($edit_page_info['subtype'] == 'dynamic') {
-    $type = 'Dynamic page';
+    $type = 'Blog';
 } elseif ($edit_page_info['subtype'] == 'post') {
     $type = 'Post';
 } elseif ($edit_page_info['content_type'] == 'product') {
@@ -93,6 +94,12 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
             });
 
 
+            $('.fade-window').on('scroll', function () {
+                var otop = $('.mw-iframe-editor').offset().top;
+                $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[otop <= 0 ? 'addClass' : 'removeClass']('scrolled').css({
+                    top: otop <= 0 ? Math.abs(otop) : 0
+                });
+            })
 
         });
     </script>
@@ -113,9 +120,43 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
     }
 
     $(document).ready(function () {
-        $('[name]').on('change input', function (){
-            contentChanged(true)
-        })
+        var all = $(window);
+        var header = document.querySelector('#mw-admin-container header');
+        var postHeader = mw.element(document.querySelector('#content-title-field-row .card-header'));
+        all.push(document)
+        all.on('scroll load resize', function () {
+            var stop = $(this).scrollTop(),
+                otop = $('.mw-iframe-editor').offset().top,
+                tbheight = $('.admin-toolbar').outerHeight(),
+                is = (stop + tbheight) >= otop;
+
+
+            $('#mw-admin-content-iframe-editor iframe').contents().find('#mw-admin-text-editor')[is ? 'addClass' : 'removeClass']('scrolled').css({
+                top: is ? Math.abs((stop + tbheight) - otop) : 0
+            });
+            var fixinheaderTime = null;
+            if (stop > $(".admin-toolbar").height()) {
+
+                $(".top-bar").addClass("fix-in-header").css('left', $('.window-holder').offset().left);
+                fixinheaderTime = setTimeout(function () {
+                    $(".top-bar").addClass("after-fix-in-header")
+                    // $("#create-content-btn").hide()
+                }, 10)
+            }
+            else {
+                $(".top-bar").removeClass("fix-in-header after-fix-in-header");
+                //$("#create-content-btn").show()
+                clearTimeout(fixinheaderTime)
+
+            }
+            var isFixed = (stop > (postHeader.get(0).offsetHeight + (header ? header.offsetHeight : 0) + $(postHeader).offset().top));
+            postHeader[ isFixed ? 'addClass' : 'removeClass' ]('fixed')
+            postHeader.width( isFixed ? postHeader.parent().width() : 'auto' )
+
+
+        });
+
+
 
 
 
@@ -172,6 +213,29 @@ if (isset($params['quick_edit'])) {
 
 
     ?>
+    <script>
+        slugFromUrlField = function (field) {
+            var val = $(field).val();
+            var slug = mw.slug.create(val);
+
+            if(val != slug){
+                $(field).val(slug);
+            }
+
+        }
+
+        slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
+        slugFromTitle = function () {
+            if (slugEdited === false) {
+                var slug = mw.slug.create($('#content-title-field').val());
+                $('.js-slug-base-url-changed').val(slug);
+                $('.js-slug-base-url').text(slug);
+            }
+        }
+
+    </script>
+
+
 
     <form method="post" <?php if ($just_saved != false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form <?php if($wrapper_class=='in-popup'){ ?> mw_admin_edit_content_form_in_popup <?php } ?> " action="<?php echo $formActionUrl; ?>" id="quickform-edit-content" autocomplete="off">
 
@@ -204,27 +268,61 @@ if (isset($params['quick_edit'])) {
         });
         </script>
 
+        <?php
+        $backToLink = '';
+        $typeIcon = 'mdi-text';
+        $backToTypeText = 'Content';
+        if ($type == 'Product') {
+            $backToLink = route('admin.product.index');
+            $typeIcon = 'mdi-shopping';
+            $backToTypeText = 'Products';
+        } else if ($type == 'Product variant') {
+            $backToLink = route('admin.product_variant.index');
+            $typeIcon = 'mdi-shopping';
+            $backToTypeText = 'Product variants';
+        } elseif ($type == 'Post') {
+            $backToLink = route('admin.post.index');
+            $typeIcon = 'mdi-text';
+        } elseif ($type == 'Blog') {
+            $backToLink = route('admin.post.index');
+            $typeIcon = 'mdi-text';
+            $backToTypeText = 'Blog';
+
+        } elseif ($type == 'Page') {
+            $backToLink = route('admin.page.index');
+            $typeIcon = 'mdi-file-document';
+            $backToTypeText = 'Pages';
+
+        }
+        ?>
+
+        <div class="position-relative">
+            <div class="main-toolbar mw-modules-toolbar-back-button-holder">
+                <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
+                    <i class="mdi mdi-chevron-left"></i> <?php _e('Back to'); ?> <?php _e($backToTypeText); ?>
+                </a>
+            </div>
+        </div>
+
+
         <div class="row">
             <div class="col-md-8 manage-content-body">
+
+
+
+                <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
+                    <?php include (__DIR__.'/content_delete_btns.php')?>
+                <?php endif; ?>
+
+
+
                 <div class="content-title-field-row card style-1 mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">
-                            <?php
-                            $type_icon = 'mdi-text';
-                            if ($type == 'Product') {
-                                $type_icon = 'mdi-shopping';
-                            } else if ($type == 'Product variant') {
-                                $type_icon = 'mdi-shopping';
-                            } elseif ($type == 'Post') {
-                                $type_icon = 'mdi-text';
-                            } elseif ($type == 'Page') {
-                                $type_icon = 'mdi-file-document';
-                            }
-                            ?>
-                            <h5><i class="mdi <?php echo $type_icon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
+                            <h5><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
-                            <div id="content-title-field-buttons">
+                            <div id="content-title-field-buttons" class="mw-page-component-disabled">
 
 
                                <?php
@@ -232,20 +330,20 @@ if (isset($params['quick_edit'])) {
                                 if($wrapper_class=='in-popup'){ ?>
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
                                         <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                            </i><span ><?php _e("Live Edit"); ?></span>
+                                            <i class="mdi mdi-eye-outline me-1"></i><span ><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
                                 <?php } else { ?>
 
                                     <?php if (isset($data['url']) and $data['id'] > 0) { ?>
                                         <a  title="<?php _ejs("Live Edit"); ?>" href="<?php print content_link($data['id']) ?>?editmode=y" class="btn   btn-outline-primary  btn-sm  btn-sm-only-icon mw-admin-go-live-now-btn mx-1">
-                                            </i><span><?php _e("Live Edit"); ?></span>
+                                            <i class="mdi mdi-eye-outline me-1"></i><span><?php _e("Live Edit"); ?></span>
                                         </a>
                                     <?php } ?>
 
                                 <?php } ?>
 
-                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><?php _e('Save'); ?></span></button>
+                                <button id="js-admin-save-content-main-btn" type="submit"   class="btn btn-sm btn-success btn-save js-bottom-save" form="quickform-edit-content"><span><i class="mdi mdi-content-save me-1"></i><?php _e('Save'); ?></span></button>
                             </div>
                         </div>
                     </div>
@@ -259,6 +357,7 @@ if (isset($params['quick_edit'])) {
                                 <?php
                                 $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
                                 $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
                                 ?>
 
                                 <?php
@@ -293,14 +392,7 @@ if (isset($params['quick_edit'])) {
                                     <input autocomplete="off" name="url" id="edit-content-url" class="js-slug-base-url-changed edit-post-slug" type="text" value="<?php print $data['url']; ?>"/>
 
                                     <script>
-                                        var slugEdited = !(mw.url.windowHashParam('action') || '').includes('new:');
-                                        slugFromTitle = function () {
-                                            if (slugEdited === false) {
-                                                var slug = mw.slug.create($('#content-title-field').val());
-                                                $('.js-slug-base-url-changed').val(slug);
-                                                $('.js-slug-base-url').text(slug);
-                                            }
-                                        }
+
 
                                         $('.js-slug-base-url').on('paste', function (e) {
                                             e.preventDefault();
@@ -314,7 +406,7 @@ if (isset($params['quick_edit'])) {
                                         })
                                         .on('keydown', function (e) {
                                             var sel = getSelection();
-                                            var fn = sel.focusNode.nodeType === 1 ? sel.focusNode : sel.focusNode.parentNode;
+                                            var fn = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
                                             var collapsedIn = fn === this && sel.isCollapsed;
                                             slugEdited = true;
                                             contentChanged(true)
@@ -364,6 +456,7 @@ if (isset($params['quick_edit'])) {
                                              </div>')
                                         ->value($data['url'])
                                         ->id('content-slug-field')
+                                        ->oninput('slugFromUrlField(this);')
                                         ->autocomplete(false);
                                     ?>
                                 </div>
@@ -422,6 +515,7 @@ if (isset($params['quick_edit'])) {
                                                 echo $formBuilder->mwEditor('content_body')
                                                     ->setModel($contentModel)
                                                     ->value($data['content_body'])
+                                                    ->onSaveCallback('mw.edit_content.handle_form_submit();')
                                                     ->autocomplete(false);
                                                 ?>
                                         <?php else: ?>
@@ -431,6 +525,7 @@ if (isset($params['quick_edit'])) {
                                             echo $formBuilder->mwEditor('content')
                                                 ->setModel($contentModel)
                                                 ->value($data['content'])
+                                                ->onSaveCallback('mw.edit_content.handle_form_submit();')
                                                 ->autocomplete(false);
                                             ?>
 
@@ -520,3 +615,11 @@ if (isset($params['quick_edit'])) {
         </div>
     </form>
 </div>
+
+<script>
+    addEventListener('load', function (){
+        mw.element('.mw_admin_edit_content_form [name]').on('input', function (){
+            contentChanged(true)
+        });
+    });
+</script>

@@ -13,6 +13,7 @@ namespace MicroweberPackages\Module;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 
 class ModuleServiceProvider extends ServiceProvider

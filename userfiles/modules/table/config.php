@@ -6,7 +6,7 @@ $config['description'] = "Table builder";
 $config['ui'] = false;
 $config['ui_admin'] = false;
 $config['is_system'] = false;
-$config['categories'] = "content";
+$config['categories'] = "essentials";
 $config['position'] = 99;
 $config['version'] = 0.2;
 

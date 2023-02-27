@@ -10,6 +10,7 @@ namespace MicroweberPackages\Translation;
 
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Translation\Locale\IntlLocale;
+use Symfony\Component\Intl\Exception\MissingResourceException;
 
 class TranslationPackageInstallHelper
 {
@@ -28,7 +29,17 @@ class TranslationPackageInstallHelper
         foreach (glob($langFolder . '*.'.$type) as $filename) {
             $item = basename($filename);
             $item = no_ext($item);
-            $translations[$item] = LanguageHelper::getDisplayLanguage($item);
+            $locale_name_sanitized = preg_replace('/^([a-z0-9\s\_\-]+)$/', '', $item);
+            if($item != $locale_name_sanitized){
+                continue;
+            }
+
+            try {
+                $translations[$item] = LanguageHelper::getDisplayLanguage($item);
+            } catch (MissingResourceException $e) {
+                continue;
+            }
+
         }
         if($translations){
            asort($translations);
@@ -52,8 +63,9 @@ class TranslationPackageInstallHelper
         return $translations;
     }
 
-    public static function installLanguage($locale)
+    public static function installLanguage( string $locale)
     {
+        $locale = sanitize_path($locale);
         $file = __DIR__ . '/resources/lang_xlsx/' . $locale . '.xlsx';
 
         if (is_file($file)) {

@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php
+
+    // file is moved to src/MicroweberPackages/Admin/resources/views/layouts/partials/header.blade.php
+
+
+?><!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +14,8 @@
         mwAdmin = true;
         admin_url = '<?php print admin_url(); ?>';
     </script>
+
+    <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
     <script type="text/javascript">
         mw.lib.require('jqueryui');
@@ -68,25 +75,56 @@
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
 
+    <?php print \Livewire\Livewire::scripts();    ?>
+    <?php print \Livewire\Livewire::styles();    ?>
 
     <!-- Alpine v3 -->
-    <?php   print \Livewire\Livewire::scripts();    ?>
-
-    <?php   print \Livewire\Livewire::styles();    ?>
-
-
-
     <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+    <!-- Livewire sortable -->
+    <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
+
+    <?php if (config('app.debug') and is_logged()) { ?>
+
+        <script type="text/javascript">
+            window.__onerror_alert_shown = false;
+            window.onerror = function (msg, url, lineNo, columnNo, error) {
+                if ((typeof(msg) != 'undefined')  && !window.__onerror_alert_shown) {
+                    var string = msg;
+                    var message = [
+                        'Message: ' + msg,
+                        'URL: ' + url,
+                        'Line: ' + lineNo,
+                        'Column: ' + columnNo,
+                        'Error object: ' + JSON.stringify(error)
+                    ].join(' \n ');
+
+                    console.log(message);
+                    mw.notification.error(msg,10000);
+
+                    return false;
+                }
+                window.__onerror_alert_shown = true;
+
+
+            };
+
+        </script>
+    <?php } ?>
+
+
+
 
 </head>
 
 
 
-
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
-@livewire('livewire-ui-modal')
-
+<div>
+    <div>
+        @livewire('livewire-ui-modal')
+    </div>
+</div>
 
 
 <?php
@@ -162,7 +200,7 @@ if (!user_can_view_module(['module' => 'shop'])) {
         contentHolder.style.padding = '25px';
         var dlg = mw.dialog({
             content: contentHolder,
-            title: !!ord_id ? '<?php _e('Edit order'); ?>' : '<?php _e('Add order'); ?>',
+            title: !!ord_id ? '<?php _ejs('Edit order'); ?>' : '<?php _ejs('Add order'); ?>',
             width: 900
         });
         mw.spinner({element: contentHolder, size: 32})
@@ -218,28 +256,34 @@ $user = get_user_by_id($user_id);
 ?>
 
 
+
+
 <div id="mw-admin-container">
     <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
 
-                <ul class="nav">
-                    <li class="mx-1 mobile-toggle">
-                        <button type="button" class="js-toggle-mobile-nav"><i class="mdi mdi-menu"></i></button>
+                <ul class="nav" id="admin-header-logo-nav">
+                    <li id="admin-logo-nav-toggle">
+                        <span class="js-toggle-mobile-nav">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
                     </li>
-
-                    <li class="mx-1 logo d-none d-lg-block">
+                    <li id="admin-logo">
+                        <?php
+                            if (mw()->ui->admin_logo != false):
+                                $logo = mw()->ui->admin_logo;
+                            elseif (mw()->ui->admin_logo_login() != false):
+                                $logo = mw()->ui->admin_logo_login();
+                            else:
+                                $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
+                            endif;
+                        ?>
                         <a href="<?php print admin_url('view:dashboard'); ?>">
-                            <h5 class="text-white mr-3 d-flex align-items-center h-100">
-                                <?php if (mw()->ui->admin_logo != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo ?>" class="logo svg" style="height: 40px;"/>
-                                <?php elseif (mw()->ui->admin_logo_login() != false): ?>
-                                    <img src="<?php print mw()->ui->admin_logo_login(); ?>" class="logo svg" style="height: 40px;"/>
-                                <?php else: ?>
-                                    <img src="<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/logo.svg" class="logo svg" style="height: 40px;"/>
-                                <?php endif; ?>
-                            </h5>
-                         </a>
+                            <img alt="" src="<?php print $logo; ?>">
+                        </a>
                     </li>
 
                     <?php
@@ -284,7 +328,6 @@ $user = get_user_by_id($user_id);
 
                 <ul class="nav">
                     <?php if (user_can_access('module.content.edit')): ?>
-
                         <li class="mx-1">
                             <a href="<?php print $past_page ?>?editmode=n" class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
                                 <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("Website"); ?></span>
@@ -336,8 +379,16 @@ $user = get_user_by_id($user_id);
             if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
                 $action = 'pages';
                 $view = 'content';
-            }if ($routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
+            }if ($routeName == 'admin.product.index' || $routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
                 $action = 'products';
+                $view = 'shop';
+            }
+            if ($routeName == 'admin.shop.category.index' || $routeName == 'admin.shop.category.create' || $routeName == 'admin.shop.category.edit') {
+                $action = 'shop_category';
+                $view = 'shop';
+            }
+            if ($routeName == 'admin.shop.dashboard') {
+                $action = 'dashboard';
                 $view = 'shop';
             }
             ?>
@@ -348,6 +399,18 @@ $user = get_user_by_id($user_id);
                 $website_class = 'active';
             } else if ($view == 'content' and $action != false) {
                 $website_class = 'active';
+            }
+            if ($routeName == 'admin.post.index') {
+                $website_class = "active";
+                $action = 'posts';
+            }
+            if ($routeName == 'admin.page.index') {
+                $website_class = "active";
+                $action = 'pages';
+            }
+            if ($routeName == 'admin.content.index') {
+                $website_class = "active";
+                $action = 'content';
             }
 
             $shop_class = '';
@@ -366,7 +429,12 @@ $user = get_user_by_id($user_id);
             } elseif ($view == 'order') {
                 $shop_class = "active";
             }
+            if ($routeName == 'admin.shop.dashboard') {
+                $shop_class = "active";
+            }
             ?>
+
+
 
             <ul class="nav flex-column" id="mw-admin-main-navigation">
                 <li class="nav-item">
@@ -379,18 +447,19 @@ $user = get_user_by_id($user_id);
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                     <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
-                        <a href="<?php print admin_url(); ?>view:content" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
+
+                        <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
                             <i class="mdi mdi-earth"></i>
                             <span class="badge-holder"><?php _e("Website"); ?></span>
                         </a>
 
                         <div class="dropdown-menu">
-                            <a href="<?php print admin_url(); ?>view:content/action:pages" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
+                            <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
                                 <?php _e("Pages"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
 
-                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:posts">
+                            <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php echo route('admin.post.index'); ?>">
                                 <?php _e("Posts"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print route('admin.post.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
@@ -399,7 +468,12 @@ $user = get_user_by_id($user_id);
                                 <?php _e("Categories"); ?>
                                 <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                             </a>
-
+                            <?php if (is_shop_module_enabled_for_user()): ?>
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            <?php endif; ?>
                             <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
                                 <?php _e("Settings"); ?>
                             </a>
@@ -409,17 +483,31 @@ $user = get_user_by_id($user_id);
 
                 <?php if ($shop_disabled == false AND mw()->module_manager->is_installed('shop') == true): ?>
                     <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-                        <a href="<?php print admin_url(); ?>view:shop" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
+                        <a href="<?php print route('admin.product.index'); ?>" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
                             <i class="mdi mdi-shopping"></i>
                             <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                         </a>
                         <div class="dropdown-menu">
+
+                           <!-- <a href="<?php /*print route('admin.shop.dashboard'); */?>" class="dropdown-item <?php /*if ($action == 'dashboard'): */?> active <?php /*endif; */?>">
+                                <?php /*_e("Dashboard"); */?>
+                            </a>-->
+
+                         <!--   <?php /*if (user_can_view_module(['module' => 'shop.products'])): */?>
+                                <a href="<?php /*print admin_url(); */?>view:shop/action:products" class="dropdown-item <?php /*if ($action == 'products'): */?> active <?php /*endif; */?>">
+                                    <?php /*_e("Products"); */?>
+                                    <span data-href="<?php /*print route('admin.product.create'); */?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php /*_e("Add new product") */?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                            --><?php
+/*                            endif;
+                            */?>
+
                             <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                                <a href="<?php print admin_url(); ?>view:shop/action:products" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
                                     <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
-                                <?php
+                            <?php
                             endif;
                             ?>
 
@@ -432,12 +520,24 @@ $user = get_user_by_id($user_id);
                                 </a>
                             <?php endif; ?>
 
-                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
-                            <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
-                                <?php  _e("Clients");   ?>
-                            </a>
+
+                            <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
+
+                                <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
+                                    <?php _e("Categories"); ?>
+                                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
 
                             <?php
+                            endif;
+                            ?>
+
+                            <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                                <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
+                                    <?php  _e("Clients");   ?>
+                                </a>
+
+                                <?php
 
                                 /*
                                 <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
@@ -447,14 +547,16 @@ $user = get_user_by_id($user_id);
                             <?php endif; ?>
 
                             <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
-                                    <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
-                                        <?php _e("Invoices"); ?>
-                                    </a>
+                                <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                    <?php _e("Invoices"); ?>
+                                </a>
                             <?php endif; ?>
 
                             <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                 <?php _e("Settings"); ?>
                             </a>
+
+
                         </div>
                     </li>
                 <?php endif; ?>

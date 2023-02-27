@@ -10,6 +10,6 @@ $config['version'] = 0.2;
 $config['ui'] = true;
 $config['position'] = 8;
 $config['as_element'] = 1;
-$config['categories'] = "content, recommended";
+$config['categories'] = "essentials";
 
 

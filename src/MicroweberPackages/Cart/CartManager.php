@@ -659,21 +659,10 @@ class CartManager extends Crud
                 $found = false;
                 foreach ($content_custom_fields as $cf) {
                     if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
-                        $key1 = str_replace('_', ' ', $cf['name']);
-                        $key2 = str_replace('_', ' ', $k);
-                        if (isset($cf['name']) and ($cf['name'] == $k or $key1 == $key2)) {
-                            $k = str_replace('_', ' ', $k);
-                            $found = true;
-                            if (is_array($cf['values'])) {
-                                if (in_array($item, $cf['values'])) {
-                                    $found = true;
-                                }
-                            }
-                            if ($found == false and $cf['value'] != $item) {
-                                unset($item);
-                            }
+                        if(isset($data[$cf['name_key']])){
+                            $cf['name'] = $data[$cf['name_key']];
                         }
-                    } elseif (isset($cf['type']) and $cf['type'] == 'price') {
+                   } elseif (isset($cf['type']) and $cf['type'] == 'price' and isset($cf['name']) and isset($cf['value'])) {
                         if ($cf['value'] != '') {
                             if (isset($product_prices[$cf['name']])) {
                                 $prices[$cf['name']] = $product_prices[$cf['name']];
@@ -683,6 +672,19 @@ class CartManager extends Crud
                         }
                     }
                 }
+
+                if ($content_custom_fields) {
+                    foreach ($content_custom_fields as $cf) {
+                        if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
+                            if ($k == $cf['name']) {
+                                $found = true;
+                            } else if ($k == $cf['name_key']) {
+                                $found = true;
+                            }
+                        }
+                    }
+                }
+
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
@@ -746,6 +748,7 @@ class CartManager extends Crud
             $cart['disable_triggers'] = 1;
             $cart['order_completed'] = 0;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
+
             $cart['custom_fields_json'] = json_encode($add);
             $cart['allow_html'] = 1;
             $cart['price'] = doubleval($found_price);

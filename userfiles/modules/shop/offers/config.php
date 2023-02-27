@@ -9,19 +9,14 @@
  * @copyright  2018 Microweber
  */
 
-
 $config = array();
 $config['name'] = "Offers";
-$config['author'] = "Nick Woolley";
+$config['author'] = "Microweber";
 $config['ui'] = false;
 $config['ui_admin'] = true;
 $config['categories'] = "online shop";
-$config['version'] = 1.0;
+$config['version'] = 1.1;
 $config['position'] = 27;
-//WAS $config['settings']['service_provider'] = [
-//    \MicroweberPackages\Shop\Offers\ShopOffersServiceProvider::class,
-//    \MicroweberPackages\Shop\Offers\ShopOffersEventServiceProvider::class,
-//];
 
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Offer\Providers\EventServiceProvider::class,

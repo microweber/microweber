@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
+use MicroweberPackages\Database\Casts\StrToLowerTrimCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\User\Models\ModelFilters\UserFilter;
 use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
@@ -26,10 +28,20 @@ use carbon\carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, HasRoles, Notifiable, HasApiTokens, Filterable, HasSearchableTrait, MustVerifyEmailTrait, CanResetPassword, CacheableQueryBuilderTrait;
+    use HasFactory,
+        Notifiable,
+        TwoFactorAuthenticatable,
+        HasRoles,
+        HasApiTokens,
+        Filterable,
+        HasSearchableTrait,
+        MustVerifyEmailTrait,
+        CanResetPassword,
+        CacheableQueryBuilderTrait;
 
     protected $casts = [
         'username' => StripTagsCast::class,
+        'email' => StrToLowerTrimCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,
     ];
 
@@ -119,6 +131,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = (Hash::needsRehash($pass) ? Hash::make($pass) : $pass);
     }
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+    public function getEmailAttribute($value)
+    {
+        return strtolower($value);
+    }
     /**
      * Find the user instance for the given username.
      *
@@ -197,5 +217,27 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function displayName()
+    {
+        if (!empty($this->first_name) || !empty($this->last_name)) {
+            $name = '';
+            if (!empty($this->first_name)) {
+                $name = $this->first_name;
+            }
+            if (!empty($this->last_name)) {
+                $name .= ' ' . $this->last_name;
+            }
+            return $name;
+        }
+
+        if (!empty($this->username)) {
+            return $this->username;
+        }
+        if (!empty($this->email)) {
+            return $this->email;
+        }
+
+        return "";
+    }
 
 }

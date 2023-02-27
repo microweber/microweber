@@ -38,6 +38,19 @@ if (!function_exists('site_hostname')) {
     }
 }
 
+
+if (!function_exists('shop_url')) {
+    function shop_url($add_string = false)
+    {
+        $shopPage = app()->content_repository->getFirstShopPage();
+        if (!empty($shopPage)) {
+            return content_link($shopPage['id']);
+        }
+
+        return site_url();
+    }
+}
+
 if (!function_exists('site_url')) {
     function site_url($add_string = false)
     {

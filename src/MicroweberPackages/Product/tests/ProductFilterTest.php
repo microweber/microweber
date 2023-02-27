@@ -65,7 +65,9 @@ class ProductFilterTest extends TestCase
             'priceBetween' => 1 . ',' . 999,
         ]);
         $results = $model->get();
-         $this->assertEquals(1, count($results));
+
+
+        $this->assertEquals(1, $results->count());
         $this->assertEquals($newProduct->id, $results[0]->id);
 
 
@@ -75,9 +77,9 @@ class ProductFilterTest extends TestCase
             'priceBetween' => 1000
         ]);
         $results = $model->get();
-        $this->assertEquals(1, count($results));
-        $this->assertEquals($newProduct2->id, $results[0]->id);
 
+        $this->assertEquals(1, $results->count());
+        $this->assertEquals($newProduct2->id, $results[0]->id);
 
 
         $model = \MicroweberPackages\Product\Models\Product::query();
@@ -162,6 +164,117 @@ class ProductFilterTest extends TestCase
         $results = $model->get();
 
         $this->assertEquals($newProduct3->id, $results[0]->id);
+    }
+
+    public function testProductFilterBySalesCount()
+    {
+        $clean = \MicroweberPackages\Cart\Models\Cart::truncate();
+        $clean = \MicroweberPackages\Order\Models\Order::truncate();
+
+
+
+        // add product and order it
+
+        $productPrice = rand(1, 9999);
+        $title = 'test Sales filter prod ordered once' . $productPrice;
+        $title2 = 'test Sales filter prod ordered many times' . $productPrice;
+
+        $params = array(
+
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+
+            ),
+            'is_active' => 1
+        );
+
+        $params['title'] = $title;
+
+        $saved_id = save_content($params);
+
+        $params['title'] = $title2;
+        $saved_id2 = save_content($params);
+
+        $get = get_content_by_id($saved_id);
+
+        $add_to_cart = array(
+            'content_id' => $saved_id,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+        $add_to_cart = array(
+            'content_id' => $saved_id2,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+
+
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'test@microweber.com';
+        $checkoutDetails['first_name'] = 'Client';
+        $checkoutDetails['last_name'] = 'Microweber';
+        $checkoutDetails['phone'] = '08812345678';
+        $checkoutDetails['address'] = 'Business Park, Mladost 4';
+        $checkoutDetails['city'] = 'Sofia';
+        $checkoutDetails['state'] = 'Sofia City';
+        $checkoutDetails['country'] = 'Bulgaria';
+        $checkoutDetails['zip'] = '1000';
+        $checkoutDetails['is_paid'] = 1;
+        $checkoutDetails['order_completed'] = 1;
+
+
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+
+        // order again to test
+        $cart_add = update_cart($add_to_cart);
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+
+        $count_orders = 2;
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'orders'=>$count_orders
+        ]);
+        $products = $productQuery->get();
+
+        foreach ($products as $product) {
+          $this->assertEquals($product->orders()->count(), $count_orders);
+        }
+
+
+
+
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'sortOrders'=>'asc'
+        ]);
+        $products = $productQuery->get();
+
+        $i = 1;
+        foreach ($products as $product) {
+           // $this->assertEquals($i, $product->orders()->count());
+            $i++;
+        }
+
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery->filter([
+            'sortOrders'=>'desc'
+        ]);
+        $products = $productQuery->get();
+        $i = 2;
+        foreach ($products as $product) {
+           // $this->assertEquals($i, $product->orders()->count());
+            $i--;
+        }
+
+
+
     }
 
 

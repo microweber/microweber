@@ -29,10 +29,10 @@
                         <?php $pic = get_picture($item['id']); ?>
                         <div class="card card-product-holder mb-2 post-has-image-<?php print ($pic == true ? 'true' : 'false'); ?> manage-post-item-type-<?php print $item['content_type']; ?> manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
                             <div class="card-body">
-                                <div class="row align-items-center flex-lg-nowrap">
-                                    <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox mx-1">
+                                <div class="row align-items-center flex-lg-box">
+                                                <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
+                                                    <div class="form-group">
+                                                        <div class="custom-control custom-checkbox custom-checkx-1">
                                                 <input type="checkbox" class="custom-control-input select_posts_for_action" name="select_posts_for_action" id="select-content-<?php print ($item['id']) ?>" value="<?php print ($item['id']) ?>">
                                                 <label class="custom-control-label" for="select-content-<?php print ($item['id']) ?>"></label>
                                             </div>
@@ -44,13 +44,13 @@
                                     <div class="col manage-post-item-col-2" style="max-width: 120px;">
                                         <?php
                                         $type = $item['content_type'];
-                                        $type_icon = 'mdi-text';
+                                        $typeIcon = 'mdi-text';
                                         if ($type == 'product') {
-                                            $type_icon = 'mdi-shopping';
+                                            $typeIcon = 'mdi-shopping';
                                         } elseif ($type == 'post') {
-                                            $type_icon = 'mdi-text';
+                                            $typeIcon = 'mdi-text';
                                         } elseif ($type == 'page') {
-                                            $type_icon = 'mdi-file-document';
+                                            $typeIcon = 'mdi-file-document';
                                         }
 
                                         $target = '_self';
@@ -64,7 +64,7 @@
 
                                         <?php if ($pic == true): ?>
                                             <div class="mw-admin-product-item-icon text-muted">
-                                                <i class="mdi <?php echo $type_icon; ?> mdi-18px" data-bs-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
+                                                <i class="mdi <?php echo $typeIcon; ?> mdi-18px" data-bs-toggle="tooltip" title="<?php ucfirst($type); ?>"></i>
                                             </div>
                                         <?php endif; ?>
 
@@ -75,7 +75,7 @@
                                                 </a>
                                             <?php else : ?>
                                                 <a href="javascript:;" onclick="mw.url.windowHashParam('action', 'editpage:<?php print ($item['id']) ?>');return false;">
-                                                    <i class="mdi <?php echo $type_icon; ?> mdi-48px text-muted text-opacity-5"></i>
+                                                    <i class="mdi <?php echo $typeIcon; ?> mdi-48px text-muted text-opacity-5"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </div>
@@ -242,46 +242,14 @@
 
     if ((isset($post_params['content_type']) and $post_params['content_type'] == 'product') or (isset($params['content_type']) and $params['content_type'] == 'product') or $page_is_shop) :
         ?>
-        <div class="no-items-found products">
-            <?php
-            /*  if (isset($post_params['category-id'])) {
-              $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
-              } elseif (isset($post_params['category'])) {
-              $url = "#action=new:product&amp;category_id=" . $post_params['category'];
-              } else if (isset($post_params['parent'])) {
-              $url = "#action=new:product&amp;parent_page=" . $post_params['parent'];
-              } else {
-              $url = "#action=new:product";
-              } */
-            $url = "#action=new:product";
-            ?>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">
-                        <h4><?php _e('You don’t have any products'); ?></h4>
-                        <p><?php _e('Create your first product right now.');?> <br/>
-                           <?php _e( 'You are able to do that in very easy way!'); ?></p>
-                        <br/>
-                        <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Product'); ?></a>
-                    </div>
-                </div>
-            </div>
+        <?php
+        include (__DIR__.'/no_results_found_products.php');
+
+        ?>
 
 
-            <script>
-                $(document).ready(function () {
-                    $('.js-hide-when-no-items').hide();
-                    //                    $('body > #mw-admin-container > .main').removeClass('show-sidebar-tree');
-                });
-            </script>
-            <script>
-                $(document).ready(function () {
-                    $('.manage-toobar').hide();
-                    $('.top-search').hide();
-                });
-            </script>
-        </div>
+
     <?php else: ?>
         <div class="no-items-found posts">
             <?php $url = "#action=new:post"; ?>
@@ -289,7 +257,7 @@
             <?php if (isset($post_params['content_type']) AND $post_params['content_type'] == 'page'): ?>
                 <div class="row">
                     <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_pages.svg');">
+                        <div class="no-items-box">
                             <h4><?php _e('You don’t have pages'); ?></h4>
                             <p><?php _e('Create your first page right now.'); ?><br/>
                                 <?php _e( 'You are able to do that in very easy way!'); ?></p>
@@ -301,7 +269,7 @@
             <?php else: ?>
                 <div class="row">
                     <div class="col-12">
-                        <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_content.svg'); ">
+                        <div class="no-items-box">
                             <h4><?php _e('You don’t have any posts yet'); ?></h4>
                             <p><?php _e('Create your first post right now.'); ?><br/>
                                 <?php _e('You are able to do that in very easy way!'); ?> </p>

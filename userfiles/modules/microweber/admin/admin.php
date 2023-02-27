@@ -43,7 +43,7 @@
 
 
         $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
-        $vf = str_replace('..', '', $vf);
+        $vf = sanitize_path($vf);
 
         if(is_file($vf)){
         //d($vf);

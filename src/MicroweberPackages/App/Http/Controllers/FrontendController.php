@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -181,7 +182,7 @@ class FrontendController extends Controller
         } else {
             $is_custom_view = app()->url_manager->param('view');
             if ($is_custom_view and $is_custom_view != false) {
-                $is_custom_view = str_replace('..', '', $is_custom_view);
+                $is_custom_view = sanitize_path($is_custom_view);
                 $page_url = app()->url_manager->param_unset('view', $page_url);
             }
         }
@@ -617,7 +618,7 @@ class FrontendController extends Controller
                         }
 
                         if (($simply_a_file) != false) {
-                            $simply_a_file = str_replace('..', '', $simply_a_file);
+                            $simply_a_file = sanitize_path($simply_a_file);
                             $simply_a_file = normalize_path($simply_a_file, false);
                         }
                     }
@@ -668,9 +669,11 @@ class FrontendController extends Controller
                                 if (is_file($render_file_temp)) {
                                     $page['simply_a_file'] = $file1;
                                     $page['layout_file'] = $file1;
+                                    $show_404_to_non_admin = false;
                                 } else if (is_file($render_file_temp2)) {
                                     $page['simply_a_file'] = $file2;
                                     $page['layout_file'] = $file2;
+                                    $show_404_to_non_admin = false;
                                 } elseif ($found_mod) {
                                     $page['id'] = 0;
                                     $page['content_type'] = 'page';
@@ -795,7 +798,7 @@ class FrontendController extends Controller
 
         if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
-            $is_preview_template = str_replace('..', '', $is_preview_template);
+            $is_preview_template = sanitize_path($is_preview_template);
 
             $content['active_site_template'] = $is_preview_template;
         }
@@ -1195,7 +1198,7 @@ class FrontendController extends Controller
             $liv_ed_css = false;
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
 
@@ -1203,12 +1206,12 @@ class FrontendController extends Controller
             $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
             if ($liv_ed_css_get_custom_css_content == false) {
                 if ($is_editmode) {
-                    $liv_ed_css = '<link rel="stylesheet"   id="mw-custom-user-css" type="text/css" />';
+                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-css" type="text/css" />';
                 }
             } else {
                 $liv_ed_css = $this->app->template->get_custom_css_url();
 
-                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
             }
 
             if ($liv_ed_css != false) {
@@ -1244,14 +1247,22 @@ class FrontendController extends Controller
             }
 
 
-            if (isset($content['original_link']) and $content['original_link'] != '') {
+            if (isset($content['original_link']) and trim($content['original_link']) != '') {
                 $content['original_link'] = str_ireplace('{site_url}', app()->url_manager->site(), $content['original_link']);
                 $redirect = $this->app->format->prep_url($content['original_link']);
+
                 if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
-                    return app()->url_manager->redirect($redirect);
+                    $redirectUrl = $redirect;
+                    return \Redirect::to($redirectUrl);
+
+//                    if (headers_sent()) {
+//                        echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
+//                    } else {
+//                        return \Redirect::to($redirectUrl);
+//                    }
+
                 }
             }
-
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
                     $l = $this->liveEditToolbar($l);
@@ -1280,9 +1291,17 @@ class FrontendController extends Controller
             $l = execute_document_ready($l);
 
             event_trigger('frontend');
+//            enable_blade
 
 
-            $l = mw()->template->add_csrf_token_meta_tags($l);
+            if(isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true){
+                $l =  app(StringBlade::class)->render($l, ['data' => $page]);
+            }
+
+
+
+
+           // $l = mw()->template->add_csrf_token_meta_tags($l);
 
             $is_embed = app()->url_manager->param('embed');
 
@@ -1453,24 +1472,6 @@ class FrontendController extends Controller
         }
     }
 
-
-    /**
-     * @deprecated 1.1.12 Moved to JsCompileController
-     */
-
-    public function apijs_settings()
-    {
-        return (new JsCompileController())->apijs_settings();
-    }
-
-
-    /**
-     * @deprecated 1.1.12 Moved to JsCompileController
-     */
-    public function apijs()
-    {
-        return (new JsCompileController())->apijs();
-    }
 
 
     public function robotstxt()

@@ -137,7 +137,6 @@ Route::group([
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
 
-
     Route::any('/favicon.ico', function () {
         return;
     });
@@ -146,9 +145,37 @@ Route::group([
 
 Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
-Route::group(['middleware' => 'static.api', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+Route::group(['middleware' => 'api.static', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/userfiles/{path}', ['uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles'])->where('path', '.*');
 });
+
+Route::post('/csrf-validate-token', function () {
+    $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
+    $response = response()->json(
+        [
+            'ok' => true,
+            'time' => time()
+        ], 200, $headers
+    );
+
+    $request = request();
+    $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+    return $middleware->forceAddAddXsrfTokenCookie($request, $response);
+
+    $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
+    $response = response()->json(
+        [
+            'ok' => true,
+            'time' => time()
+        ], 200, $headers
+    );
+    return $response;
+})->middleware([
+    \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
+    \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+    \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
+])->name('csrf-validate-token');
 
 
 Route::post('/csrf', function () {
@@ -156,12 +183,12 @@ Route::post('/csrf', function () {
         event_trigger('mw.csrf.ajax_request');
     }
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
-    $response =  response()->json(
-        ['time' =>time()], 200, $headers
+    $response = response()->json(
+        ['time' => time()], 200, $headers
     );
     $request = request();
     $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
-    return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+    return $middleware->forceAddAddXsrfTokenCookie($request, $response);
 
 
 })->middleware([
@@ -181,23 +208,20 @@ Route::group([
     Route::any('module/{all}', array('as' => 'module', 'uses' => '\MicroweberPackages\App\Http\Controllers\ApiController@module'))->where('all', '.*');
 });
 
-Route::group(['middleware' => ['public.web' ], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+Route::group(['middleware' => ['public.web'], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
     Route::any('/api', 'ApiController@api');
     Route::any('/api/{slug}', 'ApiController@api');
 
     Route::any('api/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
     Route::any('api_html/{all}', array('as' => 'api_html', 'uses' => 'ApiController@api_html'))->where('all', '.*');
     Route::any('/api_html', 'ApiController@api_html');
-    //
-    Route::any('/editor_tools', 'ApiController@editor_tools');
-    Route::any('editor_tools/{all}', array('as' => 'editor_tools', 'uses' => 'ApiController@editor_tools'))->where('all', '.*');
 
 });
 
 
-Route::group(['middleware' => ['public.web' , \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*');
-    Route::any('/api_nosession', 'ApiController@api');
+Route::group(['middleware' => ['public.web', \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class], 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
+    Route::any('api_nosession/{all}', array('as' => 'api', 'uses' => 'ApiController@api'))->where('all', '.*')->name('api_nosession.all');
+    Route::any('/api_nosession', 'ApiController@api')->name('api_nosession');
 });
 
 

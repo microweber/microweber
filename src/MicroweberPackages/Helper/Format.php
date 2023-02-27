@@ -630,6 +630,7 @@ class Format
 
     public function strip_unsafe($string, $img = false)
     {
+
         if (is_array($string)) {
             foreach ($string as $key => $val) {
                 $string[$key] = $this->strip_unsafe($val, $img);
@@ -641,10 +642,10 @@ class Format
             // Unsafe HTML tags that members may abuse
             $unsafe = array(
                 '/<iframe(.*?)<\/iframe>/is',
-                '/<title(.*?)<\/title>/is',
+               // '/<title(.*?)<\/title>/is',
                 //'/<pre(.*?)<\/pre>/is',
-                '/<audio(.*?)<\/audio>/is',
-                '/<video(.*?)<\/video>/is',
+              //  '/<audio(.*?)<\/audio>/is',
+             //   '/<video(.*?)<\/video>/is',
                 '/<frame(.*?)<\/frame>/is',
                 '/<frameset(.*?)<\/frameset>/is',
                 '/<object(.*?)<\/object>/is',
@@ -657,7 +658,7 @@ class Format
                 '/<style(.*?)<\/style>/is',
                 '/<body(.*?)>/is',
                 '/<\/body>/is',
-                '/<head(.*?)>/is',
+               // '/<head(.*?)>/is',
                 '/<\/head>/is',
                 '/onload="(.*?)"/is',
                 '/onunload="(.*?)"/is',
@@ -1271,4 +1272,70 @@ class Format
 
         return $formats;
     }
+
+
+    public function arrayToHtmlAttributes(array $attributes): string
+    {
+        if (empty($attributes)) {
+            return '';
+        }
+        if (!is_array($attributes)) {
+            return $attributes;
+        }
+
+        $attributePairs = [];
+        foreach ($attributes as $key => $val) {
+            if (is_int($key)) {
+                $attributePairs[] = $val;
+            } else {
+                $val = htmlspecialchars($val, ENT_QUOTES);
+                $attributePairs[] = "{$key}=\"{$val}\"";
+            }
+        }
+
+        return join(' ', $attributePairs);
+    }
+
+
+
+    /**
+     * Example:
+     * input:
+     *
+    Array(
+    "Courses",
+    "Courses > PHP",
+    "Courses > PHP > Array",
+    "Courses > PHP > Functions",
+    "Courses > JAVA",
+    "Courses > JAVA > String
+    ");
+     *
+     * @param $array
+     * @param $explodeSymbol
+     * @return void
+     */
+    function stringToTree(string $string, string $explodeSymbol = '>')
+    {
+        $result = array();
+
+        $itemParts = explode($explodeSymbol, $string);
+
+        $last = &$result;
+
+        for ($i = 0; $i < count($itemParts); $i++) {
+
+            $part = $itemParts[$i];
+            $part = trim($part);
+
+            if ($i + 1 < count($itemParts)) {
+                $last = &$last[$part];
+            } else {
+                $last[$part] = array();
+            }
+        }
+
+        return $result;
+    }
+
 }

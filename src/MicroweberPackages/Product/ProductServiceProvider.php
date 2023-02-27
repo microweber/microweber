@@ -4,11 +4,14 @@ namespace MicroweberPackages\Product;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
+use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
+use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
+use MicroweberPackages\Product\Http\Livewire\ProductsAutoComplete;
 use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Product\Observers\ProductObserver;
 use MicroweberPackages\Product\Validators\PriceValidator;
-use MicroweberPackages\Utils\Captcha\Validators\CaptchaValidator;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,9 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Livewire::component('admin-products-list', ProductsList::class);
+        Livewire::component('admin-products-autocomplete', ProductsAutoComplete::class);
+
         Product::observe(BaseModelObserver::class);
       //  Product::observe(ProductObserver::class); ->moved to CustomFieldsTrait
 

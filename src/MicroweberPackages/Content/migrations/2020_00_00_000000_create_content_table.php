@@ -66,19 +66,19 @@ class CreateContentTable extends Migration
 
                 '$index' => ['url' => 'title'],
             ],
-
-            'content_data' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'content_id' => 'string',
-                'field_name' => 'text',
-                'field_value' => 'longText',
-                'session_id' => 'string',
-                'rel_type' => 'string',
-                'rel_id' => 'string',
-            ],
+// moved to migration in MicroweberPackages\ContentData\migrations\2020_00_00_000000_create_content_data_table.php
+//            'content_data' => [
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'created_by' => 'integer',
+//                'edited_by' => 'integer',
+//                'content_id' => 'string',
+//                'field_name' => 'text',
+//                'field_value' => 'longText',
+//                'session_id' => 'string',
+//                'rel_type' => 'string',
+//                'rel_id' => 'string',
+//            ],
 
             'attributes' => [
                 'attribute_name' => 'text',
@@ -93,34 +93,35 @@ class CreateContentTable extends Migration
                 'edited_by' => 'integer',
             ],
 
-            'content_fields' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'rel_type' => 'string',
-
-                'rel_id' => 'string',
-                'field' => 'text',
-                'value' => 'longText',
-
-                '$index' => ['rel_type', 'rel_id'],
-            ],
-
-            'content_fields_drafts' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'created_by' => 'integer',
-                'edited_by' => 'integer',
-                'rel_type' => 'string',
-                'rel_id' => 'string',
-                'field' => 'text',
-                'value' => 'longText',
-                'session_id' => 'string',
-                'is_temp' => 'integer',
-                'url' => 'longText',
-                '$index' => ['rel_type', 'rel_id'],
-            ],
+// moved to migration in MicroweberPackages\ContentField\migrations\2022_00_00_000000_create_content_fields_table.php
+//            'content_fields' => [
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'created_by' => 'integer',
+//                'edited_by' => 'integer',
+//                'rel_type' => 'string',
+//
+//                'rel_id' => 'string',
+//                'field' => 'text',
+//                'value' => 'longText',
+//
+//                '$index' => ['rel_type', 'rel_id'],
+//            ],
+//
+//            'content_fields_drafts' => [
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'created_by' => 'integer',
+//                'edited_by' => 'integer',
+//                'rel_type' => 'string',
+//                'rel_id' => 'string',
+//                'field' => 'text',
+//                'value' => 'longText',
+//                'session_id' => 'string',
+//                'is_temp' => 'integer',
+//                'url' => 'longText',
+//                '$index' => ['rel_type', 'rel_id'],
+//            ],
 
             /*
              *  ITS MOVED TO MIGRATIONS TABLE ON MEDIA PACKAGE

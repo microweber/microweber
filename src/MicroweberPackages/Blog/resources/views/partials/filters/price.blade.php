@@ -12,7 +12,11 @@
 
                 $('.js-shop-products-price-between').val(ui.values[ 0 ] +','+ ui.values[ 1 ]);
 
-                $( "#amount" ).val( "{{$currencySymbol}}" + ui.values[ 0 ] + " - {{$currencySymbol}}" + ui.values[ 1 ] );
+                let maxValueText = ui.values[ 1 ];
+                if (ui.values[1] > 10000000000) {
+                    maxValueText = '∞';
+                }
+                $( "#amount" ).val( "{{$currencySymbol}}" + ui.values[ 0 ] + " - {{$currencySymbol}}" + maxValueText );
             }
         });
         $( "#amount" ).val( "{{$currencySymbol}}" + $( "#slider-range" ).slider( "values", 0 ) +

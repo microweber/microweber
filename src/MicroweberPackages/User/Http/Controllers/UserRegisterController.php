@@ -65,6 +65,10 @@ class UserRegisterController extends Controller
             }
         }
 
+        if (isset($userData['email']) and $userData['email']) {
+            $userData['email'] = strtolower($userData['email']);
+        }
+
         if (!isset($userData['username'])) {
             $userData['username'] = explode('@', $userData['email'])[0];
         }

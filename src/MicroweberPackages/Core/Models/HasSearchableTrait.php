@@ -10,4 +10,11 @@ trait HasSearchableTrait
     {
         return $this->searchable;
     }
+    public function getSearchableByKeyword()
+    {
+        if(isset($this->searchableByKeyword) and !empty($this->searchableByKeyword)){
+            return $this->searchableByKeyword;
+        }
+        return $this->searchable;
+    }
 }

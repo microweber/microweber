@@ -283,10 +283,30 @@ if (isset($params['live_edit'])) {
     ?>
 
     <?php if (!isset($params['no-toolbar'])): ?>
+
+    <?php
+
+        $headerText = (isset($data['id']) and intval($data['id']) != 0) ? _e('Edit category', true) : _e('Add category', true);
+    if(isset($_GET['addsubcategory']) and $_GET['addsubcategory']){
+        $headerText = _e('Add subcategory', true);
+     }
+
+    ?>
+
         <div class="card-header">
-            <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong><?php if ($data['id'] == 0): ?><?php _e('Add') ?><?php else: ?><?php _e('Edit') ?><?php endif; ?><?php echo ' '; ?><?php _e('category'); ?></strong></h5>
+            <h5><span class="mdi mdi-folder text-primary mr-3"></span><strong>
+
+
+                   <?php
+
+                      print  $headerText
+
+                    ?>
+
+
+                   </strong></h5>
             <div>
-                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><?php _e('Save') ?></button>
+                <button type="button" onclick="save_cat(this);" dusk="category-save" class="btn btn-success btn-sm btn-save" form="quickform-edit-content"><i class="mdi mdi-content-save me-1"></i> <?php _e('Save') ?></button>
             </div>
         </div>
     <?php endif; ?>
@@ -333,11 +353,19 @@ if (isset($params['live_edit'])) {
 
                         <?php
 
-                        $add_sub_cateory_link = route('admin.category.create') .'?addsubcategory='.$data['id'];
+                        if (isset($params['is_shop'])) {
+                            $add_sub_cateory_link = route('admin.shop.category.create') . '?addsubcategory=' . $data['id'];
+                        } else {
+                            $add_sub_cateory_link = route('admin.category.create') . '?addsubcategory=' . $data['id'];
+                        }
+
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
                             $add_sub_cateory_link = '#action=addsubcategory:'.$data['id'];
                         }
                         ?>
+
+                        <a href="<?php print category_link($data['id']) ?>" target="_blank" class="btn btn-link btn-sm  "><?php _e("View category"); ?></a>
+
 
                         <a href="<?php print $add_sub_cateory_link ?>" class="btn btn-sm btn-outline-primary"><?php _e("Add subcategory"); ?></a> &nbsp;
 
@@ -345,7 +373,8 @@ if (isset($params['live_edit'])) {
 
 
 
-                        <?php
+                    <?php
+                        /*    <?php
 
                         $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
                         if (isset($params['live_edit']) and $params['live_edit'] ) {
@@ -356,22 +385,25 @@ if (isset($params['live_edit'])) {
 
 
                         <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+*/
+                        ?>
+
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-12">
                 <p><?php _e('Please fill the fields to create or edit a new category') ?></p>
 
                 <form id="admin_edit_category_form" name="admin_edit_category_form" autocomplete="off" style="<?php if ($just_saved != false) { ?> display: none; <?php } ?>">
+
                     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id']) ?>"/>
                     <input name="rel_type" type="hidden" value="<?php print ($data['rel_type']) ?>"/>
                     <input name="rel_id" type="hidden" value="<?php print ($data['rel_id']) ?>" id="rel_id"/>
                     <input name="data_type" type="hidden" value="<?php print ($data['data_type']) ?>"/>
                     <input name="parent_id" type="hidden" value="<?php print ($data['parent_id']) ?>" id="parent_id"/>
-
 
                     <?php if ($data['id'] > 0): ?>
                         <input name="_method" type="hidden" value="PATCH">
@@ -513,7 +545,8 @@ if (isset($params['live_edit'])) {
                                         data: data,
                                         singleSelect: true,
                                         selectedData: selectedData,
-                                        skip: skip
+                                        skip: skip,
+                                        searchInput: true
                                     });
                                     if (selectedData.length) {
                                         if(categoryParentSelector.selectedData && categoryParentSelector.selectedData[0]) {
@@ -625,7 +658,7 @@ if (isset($params['live_edit'])) {
 
                         <?php if (isset($data['id'])): ?>
                             <div class="col-md-12">
-                                <module type="content/views/settings_from_template" content-type="category" category-id="<?php print $data['id'] ?>"/>
+                                <module type="content/views/settings_from_template" content-type="category" content-id="<?php print $data['id'] ?>" category-id="<?php print $data['id'] ?>"/>
                             </div>
                         <?php endif; ?>
 
@@ -661,7 +694,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label"><?php _e("Slug"); ?></label>
+                                            <label class="control-label"><?php _e("Category URL"); ?></label>
                                             <div class="mb-3">
                                                 <?php
                                                 $url = '';
@@ -744,34 +777,75 @@ if (isset($params['live_edit'])) {
 
 
 
+                                    <div class="col-md-12">
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
+                                            <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-group js-count-letters">
-                                            <div class="d-flex justify-content-between">
-                                                <label class="control-label"><?php _e("Meta Title"); ?></label>
-                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?></span>-->
-                                            </div>
-                                            <input type="text" class="form-control" name="category_meta_title" value="<?php (isset($data['category_meta_title'])) ? print ($data['category_meta_title']) : '' ?>">
+                                            <?php
+                                            echo $formBuilder->text('category_meta_title')
+                                                ->setModel($categoryModel)
+                                                ->value($data['category_meta_title'])
+
+                                                ->value($data['category_meta_title']) ->autocomplete(false) ;
+                                            ?>
                                         </div>
                                     </div>
+
+
+
+
+
+
 
                                     <div class="col-md-12">
-                                        <div class="form-group js-count-letters">
-                                            <div class="d-flex justify-content-between">
-                                                <label class="control-label"><?php _e("Meta descriptions"); ?></label>
-                                                <!--<span class="text-muted"><span class="js-typed-letters">0</span> <?php /*_e("of 70 characters used"); */?> </span>-->
-                                            </div>
-                                            <textarea class="form-control" name="category_meta_description"><?php (isset($data['category_meta_description'])) ? print ($data['category_meta_description']) : '' ?></textarea>
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta description"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+
+                                            <?php
+                                            echo $formBuilder->textArea('category_meta_description')
+                                                ->setModel($categoryModel)
+                                                ->value($data['category_meta_description'])
+                                                ->autocomplete(false);
+                                            ?>
                                         </div>
                                     </div>
 
+
+
+
+
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label"><?php _e("Meta Keywords"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("Separate keywords with a comma and space"); ?></small>
-                                            <textarea class="form-control" name="category_meta_keywords" placeholder="e.g. Summer, Ice cream, Beach"><?php (isset($data['category_meta_keywords'])) ? print ($data['category_meta_keywords']) : '' ?></textarea>
+                                        <div class="form-group ">
+                                            <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                                            <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
+                                            <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
+
+                                            <?php
+                                            echo $formBuilder->Text('category_meta_keywords')
+                                                ->setModel($categoryModel)
+                                                ->value($data['category_meta_keywords'])
+                                                ->autocomplete(false);
+                                            ?>
                                         </div>
+
+                                        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
+
                                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -800,9 +874,41 @@ if (isset($params['live_edit'])) {
                                         </div>
                                     </div>
 
+
                                 </div>
                             </div>
+
+
+
                         </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 mt-3">
+                            <?php if (intval($data['id']) != 0): ?>
+
+
+
+
+                                <?php
+
+                                $delete_category_link = "javascript:mw.content.deleteCategory('".$data['id']."');";
+                                if (isset($params['live_edit']) and $params['live_edit'] ) {
+                                    $delete_category_link = "javascript:mw.quick_cat_delete('".$data['id']."');";
+                                }
+                                ?>
+
+
+
+                                <a href="<?php print $delete_category_link ?>" class="btn btn-sm btn-outline-danger"><i class="mw-icon-bin "></i>&nbsp; <?php _e('Delete') ?></a>
+
+
+                            <?php endif; ?>
+
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -810,4 +916,5 @@ if (isset($params['live_edit'])) {
 
 
     </div>
+
 </div>

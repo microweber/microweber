@@ -8,6 +8,8 @@
 
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
+use Illuminate\Support\Facades\DB;
+
 trait OrderByTrait
 {
     public function orderBy($orderBy)
@@ -28,7 +30,30 @@ trait OrderByTrait
             $orderDirection = $this->input['orderDirection'];
         }
 
-         return $this->query->orderBy($orderColumn, $orderDirection);
+
+        switch ($orderColumn) {
+            case 'price':
+                 $this->query->whereHas('customFieldsPrices', function ($query) use ($orderColumn, $orderDirection) {
+                    return $query->orderBy('custom_fields_values.value', $orderDirection);
+                })->orderByPowerJoins('customFieldsPrices.value', $orderDirection);
+
+                break;
+            case 'orders':
+
+                $table = app()->database_manager->real_table_name('cart');
+                $this->query->orderByLeftPowerJoinsCount('cart.order')
+                    ->select(
+                        'content.*',
+                        DB::raw("count(" . $table . ".order_id) AS total_orders"))
+                    ->orderBy('total_orders', $orderDirection);
+
+                break;
+            default:
+                 $this->query->orderBy($this->query->getModel()->getTable().'.'.$orderColumn, $orderDirection);
+                break;
+        }
+
+         return $this->query;
     }
 
 

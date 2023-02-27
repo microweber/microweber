@@ -2,17 +2,32 @@
 
 namespace MicroweberPackages\Product\Models;
 
+use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Content\Scopes\ProductScope;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\ContentData\Models\ContentData;
+use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use MicroweberPackages\Offer\Models\Offer;
+use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
+use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
+use function Clue\StreamFilter\fun;
 
 class Product extends Content
 {
+
+//    protected $dispatchesEvents = [
+//        'updated' =>  ProductWasUpdated::class,
+//     //   'updating' =>  ProductWasUpdated::class,
+//      //  'updating' =>  ProductWasUpdated::class,
+//     //   'deleted' => ProductWasUpdated::class,
+//    ];
+
 
     /**
      * @method filter(array $filter)
@@ -144,11 +159,17 @@ class Product extends Content
 
     public function getPriceAttribute()
     {
-        return $this->fetchSingleAttributeByType('price');
+        $price = $this->fetchSingleAttributeByType('price');
+        if (is_numeric($price)) {
+            return $price;
+        }
+
+        return 0;
     }
 
     public function getPriceModelAttribute()
     {
+        // This must return only object model, DON'T CHANGE IT!
         return $this->fetchSingleAttributeByType('price', true);
     }
 
@@ -159,7 +180,11 @@ class Product extends Content
 
     public function getSkuAttribute()
     {
-        return $this->getContentDataByFieldName('sku');
+        $sku = $this->getContentDataByFieldName('sku');
+        if ($sku) {
+            return $sku;
+        }
+        return '';
     }
 
     public function hasSpecialPrice()
@@ -171,24 +196,74 @@ class Product extends Content
         return false;
     }
 
+    public function getDiscountPercentage() : int
+    {
+        $originalPrice = $this->getPriceAttribute();
+        $specialPrice = $this->getSpecialPriceAttribute();
+        if(!$originalPrice or !$specialPrice){
+            return 0;
+        }
+        $item = [];
+        $item['original_price'] = $originalPrice;
+        $item['price'] = $specialPrice;
+
+        $newFigure = floatval($item['original_price']);
+        $oldFigure = floatval($item['price']);
+        $percentChange = 0;
+        if ($oldFigure < $newFigure) {
+            $percentChange = (1 - $oldFigure / $newFigure) * 100;
+        }
+        if ($percentChange > 0) {
+            return intval($percentChange);
+        } else {
+            return 0;
+        }
+    }
+
+
     public function getSpecialPriceAttribute()
     {
         return $this->getContentDataByFieldName('special_price');
     }
 
-    public function getInStockAttribute()
+    public function getOrdersCountAttribute()
     {
 
+        $cartQuery = Cart::query();
+        $cartQuery->where('rel_type', 'content');
+        $cartQuery->where('rel_id', $this->getAttribute('id'));
+        $cartQuery->whereHas('order');
+        return $cartQuery->count();
+
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'rel_id', 'id');
+    }
+
+    public function offer()
+    {
+        return $this->hasOne(Offer::class, 'product_id', 'id');
+    }
+
+    public function getInStockAttribute()
+    {
         $sellWhenIsOos = $this->getContentDataByFieldName('sell_oos');
+        $qty = $this->getContentDataByFieldName('qty');
         if ($sellWhenIsOos == '1') {
             return true;
         }
 
-        if ($this->qty == 'nolimit') {
+        if ($qty === null) {
             return true;
         }
 
-        if ($this->qty > 0) {
+        if ($qty == 'nolimit') {
+            return true;
+        }
+
+        if ($qty > 0) {
             return true;
         }
 
@@ -202,62 +277,121 @@ class Product extends Content
 
     public function generateVariants()
     {
+        //   clearcache();
+        $getVariants = $this->variants()->get();
         $getCustomFields = $this->customField()->where('type', 'radio')->get();
 
-        $generatedProductVariants = [];
+        // Get all custom fields for variations
+        $productCustomFieldsMap = [];
         foreach ($getCustomFields as $customField) {
-
             $customFieldValues = [];
             $getCustomFieldValues = $customField->fieldValue()->get();
             foreach ($getCustomFieldValues as $getCustomFieldValue) {
                 $customFieldValues[] = $getCustomFieldValue->id;
             }
-            $generatedProductVariants[$customField->id] = $customFieldValues;
+            if (empty($customFieldValues)) {
+                continue;
+            }
+            $productCustomFieldsMap[$customField->id] = $customFieldValues;
         }
 
-        $updatedProductVariantIds = [];
-        $cartesianProduct = new CartesianProduct($generatedProductVariants);
-        foreach ($cartesianProduct->asArray() as $cartesianProduct) {
+        // Make combinations ofr custom fields
+        $cartesianProduct = new CartesianProduct($productCustomFieldsMap);
+        $cartesianProductDetailed = [];
+        foreach ($cartesianProduct->asArray() as $cartesianProductIndex => $cartesianProductCustomFields) {
+            foreach ($cartesianProductCustomFields as $customFieldId => $customFieldValueId) {
+                $contentDataVariant = [
+                    'custom_field_id' => $customFieldId,
+                    'custom_field_value_id' => $customFieldValueId,
+                ];
+                $cartesianProductDetailed[$cartesianProductIndex]['content_data_variant'][] = $contentDataVariant;
+            }
+        }
 
-            $productVariantContentData = [];
+        /*  // Match old variants with new cartesian variants
+          if ($getVariants->count() > 0) {
+              foreach ($getVariants as $variant) {
+                  $matchWithCartesian = [];
+                  $getContentDataVariant = $variant->contentDataVariant()->get();
+                  if ($getContentDataVariant->count() > 0) {
+                      foreach ($getContentDataVariant as $contentDataVariant) {
+                          foreach ($cartesianProductDetailed as $cartesianProduct) {
+                              foreach ($cartesianProduct['content_data_variant'] as $cartesianContentDataVariant) {
+                                  if ($cartesianContentDataVariant['custom_field_value_id'] == $contentDataVariant['custom_field_value_id']
+                                      && $cartesianContentDataVariant['custom_field_value_id'] == $contentDataVariant['custom_field_value_id']) {
+                                      $matchWithCartesian = $cartesianProduct;
+                                      break 2;
+                                  }
+                              }
+                          }
+                      }
+                  }
+                  if (!empty($matchWithCartesian)) {
+                   foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
+                         $findContentDataVariant = ContentDataVariant::where('rel_id', $variant->id)
+                             ->where('rel_type', 'content')
+                             ->where('custom_field_id', $contentDataVariant['custom_field_id'])
+                             ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
+                             ->first();
+                         if ($findContentDataVariant == null) {
+                             $findContentDataVariant = new ContentDataVariant();
+                             $findContentDataVariant->rel_id = $variant->id;
+                             $findContentDataVariant->rel_type = 'content';
+                             $findContentDataVariant->custom_field_id = $contentDataVariant['custom_field_id'];
+                             $findContentDataVariant->custom_field_value_id = $contentDataVariant['custom_field_value_id'];
+                             $findContentDataVariant->save();
+                         }
+                     }
+                  }
+              }
+          }*/
+
+        $updatedProductVariantIds = [];
+        foreach ($cartesianProductDetailed as $cartesianProduct) {
+
             $cartesianProductVariantValues = [];
-            foreach ($cartesianProduct as $customFieldId => $customFieldValueId) {
-                $getCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+            foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
+                $getCustomFieldValue = CustomFieldValue::where('id', $contentDataVariant['custom_field_value_id'])->first();
                 $cartesianProductVariantValues[] = $getCustomFieldValue->value;
-                $productVariantContentData['variant_cfi_' . $customFieldId] = $customFieldValueId;
             }
 
-
-            $productVariant = ProductVariant::where('parent', $this->id)->whereContentData($productVariantContentData)->first();
-          /*  if ($productVariant == null) {
-                 foreach ($productVariantContentData as $productVariantContentDataKey=>$productVariantContentDataValue) {
-                     $productVariant = ProductVariant::where('parent', $this->id)->whereContentData([$productVariantContentDataKey=>$productVariantContentDataValue])->first();
-                     if ($productVariant !== null) {
-                         break;
-                     }
-                 }
-            }*/ 
+            $productVariant = ProductVariant::where('parent', $this->id)->whereContentDataVariant($cartesianProduct['content_data_variant'])->first();
 
             if ($productVariant == null) {
                 $productVariant = new ProductVariant();
+                $productVariant->parent = $this->id;
             }
 
             $productVariantUrl = $this->url . '-' . str_slug(implode('-', $cartesianProductVariantValues));
-            $productVariant->title = 'id->'.$productVariant->id .'-'. $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
+            $productVariant->title = 'id->' . $productVariant->id . '-' . $this->title . ' - ' . implode(', ', $cartesianProductVariantValues);
             $productVariant->url = $productVariantUrl;
-            $productVariant->parent = $this->id;
-
-            $productVariant->setContentData($productVariantContentData);
             $productVariant->save();
+
+            foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
+
+                $findContentDataVariant = ContentDataVariant::where('rel_id', $productVariant->id)
+                    ->where('rel_type', 'content')
+                    ->where('custom_field_id', $contentDataVariant['custom_field_id'])
+                    ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
+                    ->first();
+                if ($findContentDataVariant == null) {
+                    $findContentDataVariant = new ContentDataVariant();
+                    $findContentDataVariant->rel_id = $productVariant->id;
+                    $findContentDataVariant->rel_type = 'content';
+                    $findContentDataVariant->custom_field_id = $contentDataVariant['custom_field_id'];
+                    $findContentDataVariant->custom_field_value_id = $contentDataVariant['custom_field_value_id'];
+                    $findContentDataVariant->save();
+                }
+            }
 
             $updatedProductVariantIds[] = $productVariant->id;
         }
 
         // Delete old variants
-        $getVariants = $this->variants()->get();
         if ($getVariants->count() > 0) {
             foreach ($getVariants as $productVariant) {
-                if (!in_array($productVariant->id,$updatedProductVariantIds)) {
+                if (!in_array($productVariant->id, $updatedProductVariantIds)) {
+                    $productVariant->contentDataVariant()->delete();
                     $productVariant->delete();
                 }
             }
@@ -284,5 +418,18 @@ class Product extends Content
         $filter->setParams($params);
 
         return $filter->apply();
+    }
+
+
+    public function orders()
+    {
+        return $this->hasManyThrough(
+            Order::class,
+            Cart::class,
+            'rel_id',
+            'id',
+            'id',
+            'order_id',
+        );
     }
 }

@@ -64,11 +64,23 @@ class TranslationKeyRepository extends AbstractRepository
             }
 
 
+    }
 
+    public function getImportedLocales($locale=false)
+    {
+        $translation_locales = \DB::table('translation_texts')
+            ->select('translation_locale')
+            ->groupBy('translation_locale');
+        
+        if($locale){
+            $translation_locales = $translation_locales->where('translation_locale', $locale);
+        }
 
-
-
-
+        $translation_locales = $translation_locales->get();
+        if($translation_locales){
+            $translation_locales = $translation_locales->toArray();
+            return $translation_locales;
+        }
     }
 
     public function getTranslatedStrings($locale, $group, $namespace)

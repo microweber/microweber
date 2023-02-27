@@ -19,8 +19,6 @@ jobs:
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
         tools: phpunit:9.5
         coverage: xdebug
-    - name: zstd act workaround
-      run: sudo apt install zstd
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"

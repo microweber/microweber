@@ -3,8 +3,15 @@
 
 
 mw.CSSParser = function(el){
-    if(!el || !el.nodeName) return false;
-    if(el.nodeName === '#text') return false;
+    if(el && el.get) {
+        el = el.get(0);
+    }
+    if(!el || !el.nodeName) {
+        return false;
+    }
+    if(el.nodeName === '#text') {
+        return false;
+    }
 
 
     try {
@@ -21,10 +28,11 @@ mw.CSSParser = function(el){
     };
 
     f.is = function(){
+
         return {
           bold: parseFloat(css.fontWeight)>600 || css.fontWeight === 'bold' || css.fontWeight === 'bolder',
           italic: css.fontStyle === 'italic'||css.fontStyle === 'oblique',
-          underlined: css.textDecoration === 'underline',
+          underlined: css.textDecoration.indexOf('underline') === 0,
           striked: css.textDecoration.indexOf('line-through') === 0,
         };
     };
@@ -41,9 +49,7 @@ mw.CSSParser = function(el){
     }
     f.alignNormalize = function(){
         if(!!css){
-        var a = css.textAlign;
-        var final = a.contains('left')?'left':a.contains('center')?'center':a.contains('justify')?'justify':a.contains('right')?'right':'left';
-        return final;
+        return css.textAlign.contains('left')?'left':css.textAlign.contains('center')?'center':css.textAlign.contains('justify')?'justify':css.textAlign.contains('right')?'right':'left';
       }
     }
     f.border = function(parse){

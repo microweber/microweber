@@ -86,6 +86,7 @@
                 scope.settings.element = target;
             }
             var el = mw.$(scope.settings.element);
+
             if (el.length === 0) {
                 return false;
             }

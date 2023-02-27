@@ -282,7 +282,7 @@
     opacity: 0.45;
     pointer-events: none;
 }
-.wysiwyg-cell-undo-redo .mw_editor_btn.disabled,
+
 .mw-active-element-is-in-safe-mode .mw_editor_element,
 .mw-active-element-is-in-safe-mode .mw_editor_outdent,
 .mw-active-element-is-in-safe-mode .mw_editor_indent,

@@ -80,7 +80,9 @@ class Tracker
                 $browser_id = false;
                 $language = false;
 
-                if (isset($item['language']) and $item['language']) {
+                $item = array_map('strip_tags', $item);
+                $item = array_map('e', $item);
+                 if (isset($item['language']) and $item['language']) {
                     $language = $item['language'];
                 }
                 if (isset($item['browser_agent']) and $item['browser_agent']) {
@@ -256,9 +258,11 @@ class Tracker
                 $ref = $_POST['referrer'];
             }
         }
-
+        $ref = e($ref);
 
         if ($last_page) {
+            $last_page = e($last_page);
+
             $last_page = rtrim($last_page, '?');
             $last_page = rtrim($last_page, '#');
         }

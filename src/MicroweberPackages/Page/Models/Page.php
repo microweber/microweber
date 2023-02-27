@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Page\Models;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Scopes\PageScope;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
@@ -37,9 +37,8 @@ class Page extends Content
         "is_active",
         "updated_at",
         "created_at",
+        "position",
     ];
-
-
 
     /**
      * The "booted" method of the model.

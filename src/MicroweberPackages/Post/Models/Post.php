@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Post\Models;
 
 use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
 
 class Post extends Content

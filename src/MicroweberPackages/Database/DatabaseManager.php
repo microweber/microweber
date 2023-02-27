@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Database\Utils as DbUtils;
@@ -618,7 +618,6 @@ class DatabaseManager extends DbUtils
 
         $criteria_orig = $data;
         $criteria = $this->map_array_to_table($table, $data);
-
         if ($allow_html == false) {
             $criteria = $this->app->format->clean_html($criteria);
         } else {
@@ -707,6 +706,7 @@ class DatabaseManager extends DbUtils
 
         $criteria_overwrite['id'] = $id_to_return;
         $this->app->event_manager->trigger('mw.database.' . $table . '.save.after', $criteria_overwrite);
+        $this->app->event_manager->trigger('mw.database.' . $table . '.save.after.data', $data);
 
         return $id_to_return;
     }
@@ -965,8 +965,8 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
-                $model = new Content($params);
-                 // $model = app()->make(Content::class);
+              //  $model = new Content($params);
+                 $model = app()->make(Content::class);
 
                 //    $model::boot();
             } else if ($table == 'categories') {

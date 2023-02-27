@@ -1,6 +1,193 @@
 
 
-<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
+<style>
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-default .mw-bar-row{
+        border: 0;
+    }
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-default{
+        border-radius: 0;
+        border: 0;
+        margin: 5px;
+    }
+    #mw-live-edit-editor .mw-editor-wrapper.mw-editor-wrapper-document-mode{
+        position: static;
+        transform: none;
+    }
+    #mw-live-edit-editor{
+        border-bottom: none ;
+        background-color: transparent;
+        padding: 0;
+        border-radius: 0;
+    }
+
+
+
+    #mw_small_editor{
+        display: none !important;
+    }
+
+
+    .mw-small-editor{
+        z-index: 1001;
+    }
+
+
+
+
+
+</style>
+
+<script>
+    mw.require('editor.js');
+</script>
+
+
+<script>
+
+
+    ;(function (){
+        var initEditor = function () {
+            var holder = document.querySelector('#mw-live-edit-editor');
+
+            var _fontFamilyProvider = function () {
+                var _e = {};
+                this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+                this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
+                this.provide = function (fontsArray) {
+                    this.dispatch('change', fontsArray.map(function (font){
+                        return {
+                            label: font,
+                            value: font,
+                        }
+                    }))
+                }
+
+            };
+
+            window.fontFamilyProvider = new _fontFamilyProvider();
+
+            window.liveEditor = mw.Editor({
+                element: holder,
+                mode: 'document',
+                regions: '.edit',
+                controls: [
+                    ['undoRedo',]
+                ],
+                smallEditor:  [
+                    [
+
+                        {
+                            group: {
+                                icon: 'mdi mdi-format-title',
+                                controls: ['format', 'lineHeight']
+                            }
+                        },
+
+                        {
+                            group: {
+                                controller: 'bold',
+                                controls: [ 'italic', 'underline', 'strikeThrough', 'removeFormat']
+                            }
+                        },
+                        'fontSelector',
+
+                        'fontSize',
+
+
+                        {
+                            group: {
+                                controller: 'alignLeft',
+                                controls: [ 'alignLeft', 'alignCenter', 'alignRight', 'alignJustify' ]
+                            }
+                        },
+
+                        {
+                            group: {
+                                controller: 'ul',
+                                controls: [ 'ol' ]
+                            }
+                        },
+
+
+                        'image',
+                        {
+                            group: {
+                                controller: 'link',
+                                controls: [ 'unlink' ]
+                            }
+                        },
+                        {
+                            group: {
+                                controller: 'textColor',
+                                controls: [ 'textBackgroundColor' ]
+                            }
+                        },
+
+                        'pin',
+
+                    ]
+                ],
+                smallEditorPositionX: 'center',
+                smallEditorSkin: 'lite',
+
+                interactionControls: [
+
+                ],
+
+                id: 'live-edit-wysiwyg-editor',
+
+                minHeight: 250,
+                maxHeight: '70vh',
+                state: mw.liveEditState,
+
+                fontFamilyProvider: fontFamilyProvider
+            });
+
+
+
+            liveEditor.on('action', function (){
+                mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
+            })
+            liveEditor.on('smallEditorReady', function (){
+                fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
+            })
+            $(liveEditor).on('selectionchange', function (){
+                var sel = liveEditor.getSelection();
+                if(sel.rangeCount) {
+                    liveEditor.lastRange =  sel.getRangeAt(0) ;
+                } else {
+                    liveEditor.lastRange = undefined;
+                }
+
+            })
+
+            holder.innerHTML = '';
+            holder.appendChild(liveEditor.wrapper);
+
+
+            var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
+            if(typeof memPin === 'undefined') {
+                liveEditor.smallEditorApi.pin()
+            }
+
+        }
+
+        if(self === top){
+            addEventListener('load', function (){
+                initEditor();
+            })
+        }
+
+    })();
+
+
+</script>
+
+<div  id="mw-live-edit-editor"  >
+
+</div>
+<div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg " style="display: none">
   <div class="wysiwyg-table">
 
 
@@ -48,41 +235,26 @@
               </ul>
           </div>
       </div>
-      <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
+       <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php  _e("Insert"); ?>">
                   <span class="mw-dropdown-value">
                       <span class="mw-dropdown-val">
-                <?php _e("Insert"); ?>
+                <?php  _e("Insert"); ?>
                 </span> </span>
           <div class="mw-dropdown-content">
               <ul>
-                  <li value="table"><a href="javascript:;" style="font-size: 10px">
-                          <?php _e("Table"); ?>
-                      </a>
-                  </li>
+
                   <li value="hr"><a href="javascript:;" style="font-size: 10px">
-                          <?php _e("Horizontal Rule"); ?>
+                          <?php  _e("Horizontal Rule");  ?>
                       </a>
                   </li>
-                  <li value="pre"><a href="javascript:;" style="font-size: 10px">
-                          <?php _e("Pre formatted"); ?>
-                      </a>
-                  </li>
-                  <li value="code"><a href="javascript:;" style="font-size: 10px">
-                          <?php _e("Code format"); ?>
-                      </a>
-                  </li>
-                  <li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>
-                  <li value="icon"><a href="#" style="font-size: 10px"><?php _e("Icon"); ?></a></li>
-                  <li value="insert_html"><a href="javascript:;" style="font-size: 10px">
-                          <?php _e("HTML"); ?>
-                      </a>
-                  </li>
+
+                  <li value="icon"><a href="#" style="font-size: 10px"><?php  _e("Icon");  ?></a></li>
 
 
 
 
-                  <?php /*<li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>*/ ?>
-              </ul>
+
+               </ul>
           </div>
       </div>
       </div>
@@ -234,7 +406,13 @@
     </div>
 
     <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> </div>
-    <div class="wysiwyg-cell"><span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word"><span class="ed-ico"></span></span></div>
+      <div class="wysiwyg-cell">
+        <span title="Paste from word" onclick="mw.wysiwyg.pasteFromWordUI();" class="mw_editor_btn mw_editor_paste_from_word">
+            <span class="ed-ico"></span>
+        </span>
+      </div>
+
+
 
 
 

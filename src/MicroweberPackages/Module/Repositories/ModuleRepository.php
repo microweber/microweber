@@ -5,7 +5,6 @@ namespace MicroweberPackages\Module\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Content;
 use MicroweberPackages\Module\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -39,6 +38,10 @@ class ModuleRepository extends AbstractRepository
                 return (array)$item;
 
             })->toArray();
+
+            if(!empty($allModules)){
+            $allModules = app()->url_manager->replace_site_url_back($allModules);
+            }
 
             return $allModules;
 
@@ -77,6 +80,27 @@ class ModuleRepository extends AbstractRepository
         return [];
 
     }
+
+    public function getSystemLicenses()
+    {
+        return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            $data = DB::table('system_licenses')->get();
+            if ($data === null) {
+                return [];
+            }
+            $data = collect($data)->map(function ($option) {
+                return (array)$option;
+            })->toArray();
+
+            if ($data === null) {
+                return [];
+            }
+            return $data;
+        });
+
+     }
+
+
 
     public function clearCache()
     {

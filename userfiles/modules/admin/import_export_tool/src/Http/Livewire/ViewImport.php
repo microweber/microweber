@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
@@ -21,7 +21,7 @@ class ViewImport extends Component
     public $import_feed_original = [];
     public $confirming_delete_id;
     public $delete_also_content = 0;
-    public $photo;
+    public $uploadFile;
 
     public function save()
     {
@@ -36,6 +36,8 @@ class ViewImport extends Component
         $feed->count_of_contents = $this->import_feed['count_of_contents'];
         $feed->old_content_action = $this->import_feed['old_content_action'];
         $feed->category_separator = $this->import_feed['category_separator'];
+        $feed->import_to = $this->import_feed['import_to'];
+        $feed->parent_page = $this->import_feed['parent_page'];
         $feed->save();
 
         session()->flash('message', 'Import feed is saved successfully.');
@@ -82,7 +84,24 @@ class ViewImport extends Component
 
     public function upload()
     {
+        $this->validate([
+            'uploadFile' => 'required|mimes:xlsx,xls,csv',
+        ]);
 
+        $uploadFilePath = $this->uploadFile->store('import-export-tool');
+        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+        $feed = ImportFeed::where('id', $this->import_feed_id)->first();
+
+        $feed->source_type = 'upload_file';
+        $feed->source_file = $uploadFilePath;
+        $feed->source_file_realpath = $fullFilePath;
+        $feed->last_downloaded_date = Carbon::now();
+        $feed->save();
+
+        $feed->readFeedFromFile($fullFilePath, $this->uploadFile->guessExtension());
+
+        session()->flash('message', 'Feed is uploaded successfully.');
+        return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
     }
 
     public function render()

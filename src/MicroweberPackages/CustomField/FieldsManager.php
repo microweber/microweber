@@ -245,7 +245,12 @@ class FieldsManager
                     if (isset($field['settings']['field_size'])) {
                         $field_size = $field['settings']['field_size'];
                     }
+                    $values = false;
+                    if (isset($field['settings']['value']) and $field['settings']['value']) {
+                        $values = $field['settings']['value'];
+                        $values = explode('|', $values);
 
+                    }
                     $existing['name'] = $field_name;
                     $existing['type'] = $field_type;
                     $existing['rel_type'] = $rel;
@@ -261,6 +266,9 @@ class FieldsManager
                         $make_field['name'] = ucfirst($field_name);
                         $make_field['show_label'] = $show_label;
                         $make_field['required'] = $required;
+                        if($values){
+                            $make_field['value'] = $values;
+                        }
 
                         $make_field['show_placeholder'] = $show_placeholder;
                         if ($show_placeholder) {
@@ -339,6 +347,15 @@ class FieldsManager
 
                 unset($fieldData['copy_of']);
 
+                $countDuplicates = CustomField::where('rel_type', $fieldData['rel_type'])
+                    ->where('rel_id', $fieldData['rel_id'])
+                    ->where('type', $fieldData['type'])
+                    ->count();
+
+                if ($countDuplicates > 0) {
+                    $fieldData['name'] = $fieldData['name'] . ' ('.($countDuplicates+1).')';
+                    $fieldData['name_key'] = $fieldData['name_key'] . '-'.($countDuplicates+1);
+                }
 
                 return $this->save($fieldData);
 
@@ -369,11 +386,32 @@ class FieldsManager
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
 
+
         if ($customField == null) {
+
+            if(!isset($fieldData['rel_type']) and isset($fieldData['content_id'])){
+                 $fieldData['rel_type'] = 'content';
+            }
+
+            if(!isset($fieldData['rel_id']) and isset($fieldData['content_id'])){
+                $fieldData['rel_id'] = $fieldData['content_id'];
+            }
+
+
             $customField = new CustomField();
             $customField->name = $this->getFieldNameByType($fieldData['type']);
+
             if (!isset($fieldData['value'])) {
                 $fieldData['value'] = $this->generateFieldNameValues($fieldData);
+            }
+
+            $countDuplicates = CustomField::where('rel_type', $fieldData['rel_type'])
+                ->where('rel_id', $fieldData['rel_id'])
+                ->where('type', $fieldData['type'])
+                ->count();
+
+            if ($countDuplicates > 0) {
+                $customField->name = $customField->name . ' ('.($countDuplicates+1).')';
             }
         }
 
@@ -418,10 +456,10 @@ class FieldsManager
         if (!empty($fieldData['is_active'])) {
             $customField->is_active = $fieldData['is_active'];
         }
-        if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
 
+        if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
             $customField->copy_of_field = $fieldData['set_copy_of'];
-            $customField->session_id =app()->user_manager->session_id();
+            $customField->session_id = app()->user_manager->session_id();
         }
 
 
@@ -545,7 +583,8 @@ class FieldsManager
         foreach ($data as $item) {
             if (isset($item['name']) and
                 ((strtolower($item['name']) == strtolower($field_name))
-                    or (strtolower($item['type']) == strtolower($item['type'])))
+                  /*  or (strtolower($item['type']) == strtolower($item['type'])) issue https://github.com/microweber/microweber/issues/975*/
+                )
             ) {
                 $val = $item['value'];
             }

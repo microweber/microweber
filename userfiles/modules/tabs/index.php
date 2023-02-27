@@ -18,37 +18,39 @@ if ($settings == false) {
         $json = json_decode($settings, true);
 
     } else {
-
-        $json[] = array(
-            'title' => 'Title 1',
-            'id' => 'tab-' .  $params['id']. '-1',
-            'icon' => '<i class="fa fa-home"></i>'
-        );
-
-
+        if (in_live_edit()) {
+            $json[] = array(
+                'title' => 'Title 1',
+                'id' => 'tab-' . $params['id'] . '-1',
+                'icon' => '<i class="fa fa-home"></i>'
+            );
+        }
     }
 } else {
     $json = json_decode($settings, true);
 }
 
 if(!$json){
-    $json[] = array(
-        'title' => 'Info',
-        'id' => 'tab-' .  $params['id']. '-1',
-        'icon' => '<i class="fa fa-home"></i>'
-    );
+    if (in_live_edit()) {
+        $json[] = array(
+            'title' => 'Info',
+            'id' => 'tab-' . $params['id'] . '-1',
+            'icon' => '<i class="fa fa-home"></i>'
+        );
+    }
 }
 
 $data = array();
 $count = 0;
-foreach ($json as $slide) {
-    $count++;
-    if (!isset($slide['id'])) {
-        $slide['id'] = 'tab-' .  $params['id']. '-'.$count;
+if($json) {
+    foreach ($json as $slide) {
+        $count++;
+        if (!isset($slide['id'])) {
+            $slide['id'] = 'tab-' . $params['id'] . '-' . $count;
+        }
+        array_push($data, $slide);
     }
-    array_push($data, $slide);
 }
-
 
 if (is_file($template_file)) {
     include($template_file);

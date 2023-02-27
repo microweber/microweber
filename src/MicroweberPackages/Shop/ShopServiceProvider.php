@@ -13,6 +13,8 @@ namespace MicroweberPackages\Shop;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\Shop\Http\Livewire\DashboardSalesComponent;
 
 class ShopServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,7 @@ class ShopServiceProvider extends ServiceProvider
 
         View::addNamespace('shop', normalize_path((__DIR__) . '/resources/views'));
 
+        Livewire::component('admin-shop-dashboard-sales', DashboardSalesComponent::class);
     }
 
     public function register()

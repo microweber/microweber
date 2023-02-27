@@ -20,7 +20,7 @@ class UserRegisteredListener
             if ($isRegisterEmailEnabled) {
                 $event->user->notifyNow($newRegEvent);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
         }
 
@@ -31,7 +31,7 @@ class UserRegisteredListener
             if ($registerEmailToAdminsEnabled) {
                 Notification::send($adminUser, $newRegEvent);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
         }
 

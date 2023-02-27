@@ -6,7 +6,7 @@
     var stripe_result_token_global = null;
 
     async function initStripeSetCardToken() {
-
+        stripe_form = $('#stripeRootStart').closest('form');
 
         var result = await stripe.createToken(card);
 
@@ -27,6 +27,7 @@
             hiddenInput.setAttribute('name', 'stripeToken');
             hiddenInput.setAttribute('id', 'stripeToken');
             hiddenInput.setAttribute('value', result.token.id);
+
             $(stripe_form)[0].appendChild(hiddenInput);
 
             stripe_form.submit();
@@ -78,6 +79,7 @@
 
                     if (stripe_form) {
                         stripe_form[0].addEventListener('submit', handleStripeForm);
+
                      }
 
                 } catch (error) {
@@ -91,7 +93,9 @@
 
         mw.on('mw.cart.paymentMethodChange', function () {
             stripe_form = $('#stripeRootStart').closest('form');
+            if(typeof stripe_form[0] !== 'undefined'){
             stripe_form[0].removeEventListener('submit', handleStripeForm);
+            }
         })
 
     }
@@ -104,18 +108,18 @@
 
 
 <div class="stripe-card-data">
-
+    <div class="form-group">
     <?php
 
     //include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'cc_form_fields.php');
 
     ?>
 
-    <div id="card-element">
+    <div id="card-element" class="form-control">
         <!-- A Stripe Element will be inserted here. -->
     </div>
 
     <!-- Used to display Element errors. -->
     <div id="card-errors" role="alert"></div>
-
+    </div>
 </div>

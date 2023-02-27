@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Core\DatabaseManager\tests;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class DbTest extends TestCase

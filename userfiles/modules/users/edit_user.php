@@ -310,6 +310,13 @@ $saveRoute = route('api.user.store');
                                 <input type="text" class="form-control" name="phone" value="<?php print $data['phone']; ?>">
                             </div>
 
+                            <div>
+                                @livewire('user::profile.two-factor-authentication-form')
+                            </div>
+                            <div>
+                                @livewire('user::profile.logout-other-browser-sessions-form')
+                            </div>
+
                             <div class="form-group mt-4 mb-4">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">

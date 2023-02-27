@@ -335,7 +335,7 @@ class OrderManager
             if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== 'content') {
                 continue;
             }
-            $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
+            $data_fields = $this->app->content_manager->data($item['rel_id']);
             if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
                 continue;
             }
@@ -354,6 +354,7 @@ class OrderManager
             }
 
             $res[] = $new_q;
+
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             if ($notify) {
                 $notifiables = User::whereIsAdmin(1)->get();

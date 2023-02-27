@@ -159,6 +159,9 @@ function microtime_float()
 if (!function_exists('character_limiter')) {
 function character_limiter($str, $n = 500, $end_char = '&#8230;')
 {
+    if(!is_string($str)){
+        return $str;
+    }
     if (strlen($str) < $n) {
         return $str;
     }
@@ -378,6 +381,33 @@ function clearcache()
         @mkdir_recursive($empty_folder);
     }
 
+
+    //remove blade cache
+    $empty_folder = storage_path() . DS . 'framework' . DS . 'views' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    $env = app()->environment();
+    $env = sanitize_path($env);
+    //remove framework cache
+    $empty_folder = storage_path() . DS . 'framework' . DS . 'cache' . DS .$env . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    //remove composer-download cache
+    $empty_folder = storage_path() . DS .  'cache' . DS . 'composer-download' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
+    //remove updates_temp cache
+    $empty_folder = storage_path() . DS .  'cache' . DS . 'updates_temp' . DS;
+    if (is_dir($empty_folder)) {
+        @rmdir_recursive($empty_folder, false);
+    }
+
     if (isset($_GET['redirect_to'])) {
         return app()->url_manager->redirect($_GET['redirect_to']);
     }
@@ -514,31 +544,6 @@ function str_replace_bulk($search, $replace, $subject, &$count = null)
 }
 
 
-/**
- * @param $money
- * @return formated_money
- */
-function format_money_pdf($money, $currency = null)
-{
-    if (!$currency) {
-        $currency = \MicroweberPackages\Invoice\Currency::findOrFail(\MicroweberPackages\Invoice\CompanySetting::getSetting('currency', 1));
-    }
-
-    $format_money = number_format(
-        $money,
-        $currency->precision,
-        $currency->decimal_separator,
-        $currency->thousand_separator
-    );
-
-    $currency_with_symbol = '';
-    if ($currency->swap_currency_symbol) {
-        $currency_with_symbol = $format_money.'<span style="font-family: DejaVu Sans;">'.$currency->symbol.'</span>';
-    } else {
-        $currency_with_symbol = '<span style="font-family: DejaVu Sans;">'.$currency->symbol.'</span>'.$format_money;
-    }
-    return $currency_with_symbol;
-}
 
 if (!function_exists('array_recursive_diff')) {
     function array_recursive_diff($aArray1, $aArray2) {

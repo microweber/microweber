@@ -14,6 +14,7 @@ namespace MicroweberPackages\Order\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
@@ -23,6 +24,7 @@ class Order extends Model
 {
     use Notifiable;
     use Filterable;
+    use PowerJoins;
 
     public $table = 'cart_orders';
     public $fillable = [
@@ -46,7 +48,6 @@ class Order extends Model
 
     protected $searchable = [
         'is_completed',
-
     ];
 
     public function modelFilter()
@@ -64,9 +65,97 @@ class Order extends Model
         return $this->hasOne(Customer::class);
     }
 
+    public function shippingMethodName()
+    {
+        if ($this->shipping_service == 'shop/shipping/gateways/pickup') {
+            return 'Pickup';
+        }
+        if ($this->shipping_service == 'shop/shipping/gateways/country') {
+            return 'Shipping to address';
+        }
+
+        return $this->shipping_service;
+    }
+
+    public function addressText()
+    {
+        if (empty(trim($this->address))) {
+            return 'No address';
+        }
+
+        return $this->address;
+    }
+
+    public function paymentMethodName()
+    {
+        if ($this->payment_gw == 'shop/payments/gateways/paypal') {
+            return 'PayPal';
+        } else {
+
+            $name = $this->payment_gw;
+            $name = str_replace('shop/payments/gateways/','', $name);
+            $name = str_replace('_', ' ', $name);
+
+            $name = ucwords($name);
+
+            return $name;
+        }
+
+        return '';
+    }
+
+    public function customerName()
+    {
+        $orderUser = $this->user()->first();
+        if ($orderUser != null) {
+            if ($this->customer_id > 0) {
+                $orderUser = \MicroweberPackages\Customer\Models\Customer::where('id', $this->customer_id)->first();
+            }
+            if ($orderUser->first_name) {
+                $fullName = $orderUser->first_name;
+                if ($orderUser->last_name) {
+                    $fullName .= ' ' . $orderUser->last_name;
+                }
+                return $fullName;
+            } else if ($orderUser) {
+                return $orderUser->username;
+            }
+        }
+
+        if (!empty($this->first_name) || !empty($this->last_name)) {
+            $name = '';
+            if (!empty($this->first_name)) {
+                $name = $this->first_name;
+            }
+            if (!empty($this->last_name)) {
+                $name .= ' ' . $this->last_name;
+            }
+            return $name;
+        }
+
+        return "";
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
+    public function getPaymentStatuses()
+    {
+        return [
+            'refunded'=>'Refunded',
+            'completed'=>'Completed',
+            'pending'=>'Pending',
+        ];
+    }
+
+    public static function getOrderStatuses()
+    {
+        return [
+            'new'=>'New',
+            'completed'=>'Completed',
+            'pending'=>'Pending',
+        ];
+    }
 }

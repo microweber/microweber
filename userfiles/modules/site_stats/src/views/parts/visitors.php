@@ -67,7 +67,7 @@ if (!$data) {
             <div class="visitor-name text-start text-left">
 
                 <?php print $item['user_ip']; ?>
-                <a rel="noreferrer noopener" href="https://www.ip2location.com/demo/<?php print $item['user_ip']; ?>" class="text-muted btn btn-link btn-rounded btn-icon btn-sm"  target="_blank"><i class="mdi  mdi-open-in-new"></i></a>
+                <a rel="noreferrer noopener" href="https://extreme-ip-lookup.com/<?php print $item['user_ip']; ?>" class="text-muted btn btn-link btn-rounded btn-icon btn-sm"  target="_blank"><i class="mdi  mdi-open-in-new"></i></a>
 
 
 

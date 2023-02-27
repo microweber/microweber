@@ -23,12 +23,27 @@ class PageController extends AdminController
         $this->repository = $repository;
     }
 
-    public function create() {
-
-        return $this->view('page::admin.page.edit', [
-            'content_id'=>0
-        ]);
+    public function index(Request $request) {
+        return $this->view('page::admin.page.index');
     }
+    public function create(Request $request)
+    {
+        $request_data = $request->all();
+
+        $data = [];
+        $data['content_id'] = 0;
+        $data['recommended_category_id'] = 0;
+        $data['recommended_content_id'] = 0;
+        if (isset($request_data['recommended_category_id'])) {
+            $data['recommended_category_id'] = intval($request_data['recommended_category_id']);
+        }
+        if (isset($request_data['recommended_content_id'])) {
+            $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
+        }
+        return  $this->view('page::admin.page.edit', $data);
+    }
+
+
 
     public function edit(Request $request, $id) {
 

@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Content;
 
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Database\Crud;
 use Illuminate\Support\Facades\DB;
 use function Opis\Closure\serialize as serializeClosure;
@@ -203,12 +204,24 @@ class ContentManagerCrud extends Crud
         }
 
          if (isset($params['filter-only-in-stock'])) {
-            $params['__query_get_only_in_stock'] = function ($query){
-                return $query->whereIn('content.id', function ($subQuery)  {
+            $params['__query_get_only_in_stock'] = function ($query) use ($params) {
+                return $query->whereIn('content.id', function ($subQuery) use ($params)  {
                     $subQuery->select('content_data.content_id');
                     $subQuery->from('content_data');
                     $subQuery->where('content_data.field_name', '=', 'qty');
-                    $subQuery->where('content_data.field_value', '!=','0');
+                    $subQuery->where('content_data.field_value', '<>','0');
+
+                    if(isset($params['category'])){
+                        $subQuery->whereIn('content_data.rel_id', function ($subQuery) use ($params)  {
+                            $subQuery->select('categories_items.rel_id');
+                            $subQuery->from('categories_items');
+                            if(is_array($params['category'])) {
+                                $subQuery->whereIn('categories_items.parent_id', array_map('intval', $params['category']));
+                            } else {
+                                $subQuery->where('categories_items.parent_id', intval($params['category']));
+                            }
+                         });
+                    }
                 });
               };
              unset($params['filter-only-in-stock']);
@@ -662,8 +675,12 @@ class ContentManagerCrud extends Crud
 
         }
 
+        if (isset($data['category_ids']) and !isset($data['categories'])) {
+            $data_to_save['categories'] = $data['category_ids'];
+            unset($data['category_ids']);
+        }
 
-        if (isset($data['category']) or isset($data['categories'])) {
+            if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
         }
         $table_cats = $this->tables['categories'];
@@ -1200,6 +1217,12 @@ class ContentManagerCrud extends Crud
         }
 
         $i = 1;
+        $ids_count= count($ids);
+        if (($ids_count - $maxpos) < 0) {
+            // if position will go to negative numbers
+            $maxpos = $maxpos + $ids_count;
+        }
+
         foreach ($ids as $id) {
             $id = intval($id);
             $this->app->cache_manager->delete('content/' . $id);

@@ -10,7 +10,10 @@ mw.content = mw.content || {
             });
         });
     },
-    deleteCategory: function (id, callback) {
+    deleteCategory: function (id, callback, reload) {
+        if(typeof reload === 'undefined') {
+            reload = true;
+        }
         mw.tools.confirm('Are you sure you want to delete this?', function () {
          $.ajax({
                 url: mw.settings.api_url + 'category/delete/' + id,
@@ -21,9 +24,11 @@ mw.content = mw.content || {
                     if (callback) {
                         callback.call(result, result);
                     }
-                    mw.reload_module_everywhere('content/manager');
-                    mw.reload_module_everywhere('categories');
-                    mw.url.windowDeleteHashParam('action');
+                    if(reload) {
+                        mw.reload_module_everywhere('content/manager');
+                        mw.reload_module_everywhere('categories');
+                        mw.url.windowDeleteHashParam('action');
+                    }
                 }
             });
 
@@ -33,7 +38,9 @@ mw.content = mw.content || {
         var master = {};
         master.id = $id;
         mw.$(document.body).addClass("loading");
-        mw.drag.save();
+        if(typeof mw.drag != 'undefined') {
+            mw.drag.save();
+        }
         $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/content/set_published',
@@ -63,7 +70,9 @@ mw.content = mw.content || {
         master.id = $id;
         mw.$(document.body).addClass("loading");
 
-        mw.drag.save();
+        if(typeof mw.drag != 'undefined') {
+            mw.drag.save();
+        }
         $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/content/set_unpublished',

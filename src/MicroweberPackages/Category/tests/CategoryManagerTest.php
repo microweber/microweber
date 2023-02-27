@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Category\tests;
 
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 use MicroweberPackages\Category\Models\Category;
@@ -32,7 +32,6 @@ class CategoryManagerTest extends TestCase
             "fields" => 'title,id'
         ));
 
-        //dd($contentForCategories);
 
         $this->assertEquals($cont_title, $contentForCategories[0]['title']);
         $this->assertEquals($newPage->id, $contentForCategories[0]['id']);
@@ -95,26 +94,71 @@ class CategoryManagerTest extends TestCase
         $category->title = 'New cat for my Product to test filter';
         $category->save();
 
+        $sub_category = new Category();
+        $sub_category->title = 'Subcat filter';
+        $sub_category->parent_id = $category->id;
+        $sub_category->save();
+
+
 
         $cont_title = 'Product with cats to test filter';
-        $newPage = new Product();
-        $newPage->title = $cont_title;
-        $newPage->is_active = 1;
-        $newPage->is_deleted = 0;
-        $newPage->content_type = 'product';
-        $newPage->subtype = 'product';
-        $newPage->setContentData(['qty'=>'1']);
-        $newPage->category_ids = $category->id;
-        $newPage->save();
-        $content_data = content_data($newPage->id);
+        $newProduct = new Product();
+        $newProduct->title = $cont_title;
+        $newProduct->is_active = 1;
+        $newProduct->is_deleted = 0;
+        $newProduct->content_type = 'product';
+        $newProduct->subtype = 'product';
+        $newProduct->setContentData(['qty'=>'1']);
+        $newProduct->category_ids = $category->id;
+        $newProduct->save();
+        $content_data = content_data($newProduct->id);
         $check  = app()->category_repository->hasProductsInStock($category->id);
 
         $this->assertTrue($check);
         $this->assertEquals($content_data['qty'],1);
 
 
-        $check  = app()->category_repository->countProductsInStock($category->id);
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
         $this->assertEquals($check,1);
+
+
+        $check  = app()->category_repository->getItemsCount($category->id);
+        $this->assertEquals($check,1);
+
+
+        //make unpublished
+        $newProduct->is_active = 0;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getItemsCount($category->id);
+        $this->assertEquals($check,0);
+
+
+
+        //make deleted, but published
+        $newProduct->is_active = 1;
+        $newProduct->is_deleted = 1;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getItemsCount($category->id);
+        $this->assertEquals($check,0);
+
+        //make deleted, and unpublished
+        $newProduct->is_active = 0;
+        $newProduct->is_deleted = 0;
+        $newProduct->save();
+
+        $check  = app()->category_repository->getProductsInStockCount($category->id);
+        $this->assertEquals($check,0);
+
+        $check  = app()->category_repository->getItemsCount($category->id);
+        $this->assertEquals($check,0);
 
 
 
@@ -142,6 +186,9 @@ class CategoryManagerTest extends TestCase
         $check  = app()->category_repository->hasProductsInStock($category->id);
         $this->assertFalse($check);
         $this->assertEquals($content_data['qty'],0);
+
+
+
 
 
 
@@ -230,8 +277,6 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($children_test[0]->parent_id, $category3->parent_id);
 
 
-
-
         $jsonTree= app()->category_manager->get_admin_js_tree_json(['from_content_id'=>$newBlogPage->id]);
 
         $this->assertEquals($jsonTree[0]['id'], $newBlogPage->id);
@@ -254,7 +299,6 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals($jsonTree[3]['parent_type'], 'category');
         $this->assertEquals($jsonTree[3]['type'], 'category');
         $this->assertEquals($jsonTree[3]['parent_id'], $category2->id);
-
 
 
         $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>$newBlogPage->title]);
@@ -282,7 +326,6 @@ class CategoryManagerTest extends TestCase
 
         $jsonTreeKw= app()->category_manager->get_admin_js_tree_json(['keyword'=>implode("\n", $xssList)]);
         $this->assertEmpty($jsonTreeKw);
-
 
 
         $jsonTreeKw= get_content(['keyword'=>implode("\n", $xssList)]);

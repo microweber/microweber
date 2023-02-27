@@ -76,10 +76,10 @@ $params_module = $params;
     };
 
     assign_selected_posts_to_category = function () {
-        $.get("<?php print  api_url('content/get_admin_js_tree_json'); ?>", function (data) {
+
             var btn = document.createElement('button');
             btn.disabled = true;
-            btn.className = 'mw-ui-btn';
+            btn.className = 'btn btn-primary';
             btn.innerHTML = mw.lang('Move posts');
             btn.onclick = function (ev) {
                 assign_selected_posts_to_category_exec();
@@ -91,26 +91,29 @@ $params_module = $params;
                 footer: btn,
                 title: mw.lang('Select categories')
             });
-            var tree = new mw.tree({
-                data: data,
-                element: dialog.dialogContainer,
-                sortable: false,
-                selectable: true,
-                multiPageSelect: false
+
+            mw.admin.tree(dialog.dialogContainer, {
+                options: {
+                    sortable: false,
+                    selectable: true,
+                    multiPageSelect: false
+                }
+            }, 'tree').then(function (res){
+                var tree = res.tree;
+                $(tree).on("selectionChange", function () {
+                    btn.disabled = tree.getSelected().length === 0;
+                });
+                $(tree).on("ready", function () {
+                    dialog.center();
+                });
             });
-            $(tree).on("selectionChange", function () {
-                btn.disabled = tree.getSelected().length === 0;
-            });
-            $(tree).on("ready", function () {
-                dialog.center();
-            })
-        });
+
+
     };
 
     mw.delete_single_post = function (id) {
         mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
-            var arr = id;
-            mw.post.del(arr, function () {
+            mw.post.del(id, function () {
                 mw.$(".manage-post-item-" + id).fadeOut(function () {
                     $(this).remove()
                 });
@@ -225,7 +228,7 @@ $params_module = $params;
         }
 
         if (isset($paging_links) and is_array($paging_links)): ?>
-            <ul class="mw-paging">
+            <ul class="pagination flex-wrap">
                 <?php $i = 1; ?>
                 <?php foreach ($paging_links as $item): ?>
                     <li class="page-item <?php if ($numactive == $i): ?> active <?php endif; ?>">

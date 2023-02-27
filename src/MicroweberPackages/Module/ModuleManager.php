@@ -35,8 +35,6 @@ class ModuleManager
             define('EMPTY_MOD_STR', "<div class='mw-empty-module '>{module_title} {type}</div>");
         }
 
-        /*  print '         1                  ';
-          dump(debug_backtrace(1));*/
 
         if (!is_object($this->app)) {
             if (is_object($app)) {
@@ -47,10 +45,11 @@ class ModuleManager
         }
         $this->set_table_names();
         if (mw_is_installed()) {
-            $getSystemLicense = SystemLicenses::get();
-            if ($getSystemLicense != null) {
-                $this->activeLicenses = $getSystemLicense->toArray();
-            }
+            $this->activeLicenses  = app()->module_repository->getSystemLicenses();
+//            $getSystemLicense = SystemLicenses::get();
+//            if ($getSystemLicense != null) {
+//                $this->activeLicenses = $getSystemLicense->toArray();
+//            }
         }
 
 
@@ -596,6 +595,9 @@ class ModuleManager
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
+        if(!is_array($params)){
+            $params = array();
+        }
         $params['table'] = $table;
         if (!isset($params['group_by'])) {
             $params['group_by'] = 'module';
@@ -703,7 +705,7 @@ class ModuleManager
         $module_name = trim($module_name);
         // prevent hack of the directory
         $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
+        $module_name = sanitize_path($module_name);
 
         $module_name = reduce_double_slashes($module_name);
         $module_in_template_dir = $template_dir . 'modules/' . $module_name . '';
@@ -888,7 +890,7 @@ class ModuleManager
             $module_name_l = normalize_path($module_name_l, 1);
             $replace_paths[] = $module_name_l;
         }
-
+        $module_name_l_theme = false;
         if (defined('ACTIVE_TEMPLATE_DIR')) {
             $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
             $module_name_l_theme = normalize_path($module_name_l_theme, 1);
@@ -974,7 +976,7 @@ class ModuleManager
 
                 return $module_name_l;
             } else {
-                $template_name = str_replace('..', '', $template_name);
+                $template_name = sanitize_path($template_name);
                 $template_name_orig = $template_name;
 
                 if ($get_settings_file == true) {

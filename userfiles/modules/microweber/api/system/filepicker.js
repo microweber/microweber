@@ -1,5 +1,22 @@
 
 mw.require('uploader.js');
+mw.require('filemanager.js');
+
+var fileUploadProgress = function (fileName, progress, target) {
+    if (!target) {
+        target = document.body;
+    }
+
+    var node = target.querySelector('[data-file="' + fileName + '"]');
+    if(!node) {
+        node = document.createElement('div');
+        node.dataset.file = fileName;
+        target.appendChild(node);
+    }
+
+    mw.progress({element: node, action: fileName}).set(progress);
+
+};
 
 
 mw.filePicker = function (options) {
@@ -66,39 +83,58 @@ mw.filePicker = function (options) {
 
             return $wrap[0];
         },
-        _setdesktopType: function () {
-            var $zone;
-            if(scope.settings.uploaderType === 'big') {
-                $zone = $('<div class="mw-file-drop-zone">' +
-                    '<div class="mw-file-drop-zone-holder">' +
-                    '<div class="mw-file-drop-zone-img"></div>' +
-                    '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
-                    '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
-                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
-                    '</div>' +
-                    '</div>');
-            } else if(scope.settings.uploaderType === 'small') {
-                $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+mw.lang('Add file')+'</span> ' +
-                    '<p>'+mw.lang('or drop files to upload')+'</p>' +
-                    '</div>' +
-                    '</div>')
-            }
-            var $el = $(scope.settings.element).eq(0);
-            $el.removeClass('mw-filepicker-desktop-type-big mw-filepicker-desktop-type-small');
-            $el.addClass('mw-filepicker-desktop-type-' + scope.settings.uploaderType);
-            scope.uploaderHolder.empty().append($zone);
+        desktop2: function () {
+            var progressBlock = function (files) {
+                var root = mw.element(`<div class=""></div>`);
+            };
+            var $zone = `
+            <div class="mw-file-drop-zone"><div class="mw-file-drop-zone-holder">
+                    <div class="mw-file-drop-zone-img"></div>
+                    <div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>
+                    <span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">${mw.lang('Add file')}</span>
+                    <p>${mw.lang('or drop files to upload')}</p>
+                </div>
+            </div>`;
+
+
+
         },
         desktop: function () {
+
+
+            var _setdesktopType = function () {
+                var $zone;
+                if(scope.settings.uploaderType === 'big') {
+                    $zone = $('<div class="mw-file-drop-zone">' +
+                        '<div class="mw-file-drop-zone-holder">' +
+                        '<div class="mw-file-drop-zone-img"></div>' +
+                        '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
+                        '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
+                        '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                        '</div>' +
+                        '</div>');
+                } else if(scope.settings.uploaderType === 'small') {
+                    $zone = $('<div class="mw-file-drop-zone mw-file-drop-zone-small mw-file-drop-square-zone"> <div class="mw-file-drop-zone-holder"> <span class="mw-ui-link">'+mw.lang('Add file')+'</span> ' +
+                        '<p>'+mw.lang('or drop files to upload')+'</p>' +
+                        '</div>' +
+                        '</div>')
+                }
+                var $el = $(scope.settings.element).eq(0);
+                $el.removeClass('mw-filepicker-desktop-type-big mw-filepicker-desktop-type-small');
+                $el.addClass('mw-filepicker-desktop-type-' + scope.settings.uploaderType);
+                scope.uploaderHolder.empty().append($zone);
+            };
+
             var $wrap = this._$inputWrapper(scope._getComponentObject('desktop').label);
             scope.uploaderHolder = mw.$('<div class="mw-uploader-type-holder"></div>');
-            this._setdesktopType();
+            _setdesktopType();
             $wrap.append(scope.uploaderHolder);
             scope.uploader = mw.upload({
                 element: $wrap[0],
                 multiple: scope.settings.multiple,
                 accept: scope.settings.accept,
                 on: {
-                    progress: function (prg) {
+                    progress: function (prg, obj, b) {
                         scope.uploaderHolder.find('.mw-ui-progress-bar').stop().animate({width: prg.percent + '%'}, 'fast');
                     },
                     fileUploadError: function (file) {
@@ -106,13 +142,12 @@ mw.filePicker = function (options) {
                     },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
-                        scope.uploaderHolder.find('.mw-ui-progress-bar').width('1%');
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
 
                         $(scope).trigger('FileUploaded', [file]);
-                        if (scope.settings.autoSelect) {
+                        if ( !scope.settings.disableFileAutoSelect ) {
                             scope.result();
                         }
                         if (scope.settings.fileUploaded) {
@@ -135,8 +170,35 @@ mw.filePicker = function (options) {
             }, {'filetype':'images'});*/
 
             $(scope).on('$firstOpen', function (e, el, type) {
-                var comp = scope._getComponentObject('server');
-                if (type === 'server') {
+                 if (type === 'server') {
+                     var fm = mw.FileManager({
+                         element:$wrap[0],
+                         canSelectFolder: false,
+                         selectable: true,
+                         multiselect: scope.settings.multiple,
+                         stickyHeader: true,
+                         selectableRow: true,
+                     });
+                     fm.on('selectionChanged', function (val){
+
+                         scope.setSectionValue(val.map(a=>a.url));
+                         if (scope.settings.autoSelect) {
+                             scope.result();
+                         }
+                     });
+                }
+            });
+
+            return $wrap[0];
+        },
+        server2: function () {
+            var $wrap = this._$inputWrapper(scope._getComponentObject('server').label);
+            /*mw.load_module('files/admin', $wrap, function () {
+
+            }, {'filetype':'images'});*/
+
+            $(scope).on('$firstOpen', function (e, el, type) {
+                 if (type === 'server') {
                     mw.tools.loading(el, true);
                     var fr = mw.tools.moduleFrame('files/admin', {'filetype':'images'});
                     if(scope.settings._frameMaxHeight) {
@@ -200,11 +262,6 @@ mw.filePicker = function (options) {
         mw.$('.mw-filepicker-component-section', this.$root).show();
     };
 
-    this.desktopUploaderType = function (type) {
-        if(!type) return this.settings.uploaderType;
-        this.settings.uploaderType = type;
-        this.components._setdesktopType();
-    };
 
     this.settings.components = this.settings.components.filter(function (item) {
         return !!scope.components[item.type];

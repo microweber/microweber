@@ -96,6 +96,26 @@
 </div>
 
 
+
+<script>mw.require('filemanager.js')</script>
+
+
+
+<script>
+    window.f = mw.FileManager({
+        element:'#fm',
+        canSelectFolder: true,
+        selectable: true,
+        multiselect: true,
+        stickyHeader: 60,
+        selectableFilter: function (node) {
+            return node.mimeType.indexOf('image/') === 0;
+        }
+
+    })
+</script>
+
+
 <br>
 <br>
 <br>
@@ -190,6 +210,10 @@
         </div>
 
 
+        <script>
+            mw.require('prop_editor.js');
+            mw.require('module_settings.js');
+        </script>
 
     </div>
 </div>

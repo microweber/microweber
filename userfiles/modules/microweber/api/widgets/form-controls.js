@@ -804,6 +804,7 @@ mw.emitter = {
             UIFormControllers._title(this.settings, root)
             var treeEl = document.createElement('div');
             treeEl.className = 'form-group';
+            treeEl.style.marginInline = '15px;';
             if (options.text) {
                 _linkText = mw.controlFields.field({
                     label: options.text.label,
@@ -825,6 +826,7 @@ mw.emitter = {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 
             }
+
             $.getJSON(url, function (res){
 
                 scope.tree = new mw.tree({
@@ -832,8 +834,11 @@ mw.emitter = {
                     element: treeEl,
                     sortable: false,
                     selectable: true,
-                    singleSelect: true
+                    singleSelect: true,
+                    searchInputClassName: 'mw-ui-field mw-ui-field-small',
+                    searchInput: true
                 });
+
                 var dialog = mw.dialog.get(treeEl);
                 if(dialog) {
                     dialog.center();
@@ -1033,6 +1038,10 @@ mw.emitter = {
                 var val = {};
                 if(textField) val.text = textField.value;
                 var url = this.filepicker.getValue();
+
+                if(Array.isArray(url)) {
+                    url = url[0]
+                }
                 val.url = typeof url === 'object' ? (url.src || url.url) : url;
                 val.data = (url.src || url.url || null);
                 if(targetField) val.target = targetField.checked;
@@ -1043,6 +1052,7 @@ mw.emitter = {
                 val = val || {};
                 if(textField) textField.value = val.text || '';
                 if(targetField) targetField.checked = !!val.target;
+
                 return val;
             };
 
@@ -1064,6 +1074,19 @@ mw.emitter = {
 
 
             $(this.filepicker).on('Result', function (e, res) {
+                // if(textField) textField.value = val.text || '';
+
+                if(textField && !textField.value) {
+                    var val = '';
+                    var press = res;
+                    if(Array.isArray(press)) {
+                        press = press[0]
+                    }
+                    if(typeof press === 'object') {
+                        press = press.name || press.src;
+                    }
+                    textField.value = press;
+                }
                 if(scope.valid()) {
                     scope._onChange.forEach(function (f){
                         f(scope.getValue());
@@ -1104,7 +1127,7 @@ mw.emitter = {
             var defaults = {
                 text: {
                     label: mw.lang('Link text'),
-                    description: mw.lang('Selected text for the link.'),
+                    description: mw.lang('Selected text for the link'),
                 },
                 link: {
                     label: mw.lang('Website URL'),

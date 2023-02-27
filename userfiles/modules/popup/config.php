@@ -7,6 +7,6 @@ $config['no_cache'] = false;
 $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['is_system'] = false;
-$config['categories'] = "other";
+$config['categories'] = "miscellaneous";
 $config['position'] = 36;
 $config['version'] = 1.1;

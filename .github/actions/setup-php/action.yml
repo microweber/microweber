@@ -12,6 +12,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: apt update
+      run: sudo apt-get update -y
+      shell: bash
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       env:
@@ -20,15 +23,11 @@ runs:
         php-version: ${{ inputs.php_version }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, bcmath, intl, sodium
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
-    - name: zstd act workaround
-      run: sudo apt install zstd
-      shell: bash
+#    - name: zstd act workaround
+#      run: sudo apt install zstd
+#      shell: bash
     - name: google-chrome install
       run: |
-        sleep 3
-        sudo apt-get install libxss1 libnss3 libappindicator1 libindicator7 libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
-        sudo apt-get install xvfb gtk2-engines-pixbuf
-        sudo apt-get install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
         sleep 3
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt-get install -f

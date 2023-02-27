@@ -89,7 +89,7 @@ class LayoutsManager
         }
 
 
-        $file = str_replace('..', '', $file);
+        $file = sanitize_path($file);
         $file_from_default = normalize_path(elements_path() . $file, false);
         $file_from_template = normalize_path(template_dir() . 'elements' . DS . $file, false);
         if (is_dir(template_dir() . 'elements') and is_file($file_from_template)) {

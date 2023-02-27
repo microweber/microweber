@@ -1,4 +1,8 @@
-<div>
+@extends('import_export_tool::admin.module-layout')
+
+@section('module-content')
+    <div>
+
 <style>
     #xml_url_result {
         width: 24px;
@@ -104,17 +108,10 @@
     </script>
 @endif
 
-<div class="card style-1 mb-3">
-
-    <div class="card-header">
-        <module type="admin/modules/info_module_title" for-module="admin/import_export_tool" />
-    </div>
-
-    <div class="card-body pt-3">
 <div id="import">
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home"
            aria-selected="true">
             <span class="number">1</span>
             <span class="tab-name">Import setup</span>
@@ -122,7 +119,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+        <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
            aria-controls="profile" aria-selected="false">
             <span class="number">2</span>
             <span class="tab-name">Data Mapping</span>
@@ -130,7 +127,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
            aria-controls="contact" aria-selected="false">
             <span class="number">3</span>
             <span class="tab-name">Import</span>
@@ -150,10 +147,44 @@
                         Main settings
                     </div>
                     <div class="card-body">
-
-                        <form wire:submit.prevent="submit">
                         <table class="table table-borderless">
                             <tbody>
+                            <tr>
+                                <td><label for="feed_import_to"><b>Import To</b></label><br>
+                                    <small>Select the import to</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_import_to" wire:model="import_feed.import_to">
+                                        <option value="products">Products</option>
+                                        <option value="pages">Pages</option>
+                                        <option value="posts">Posts</option>
+                                        <option value="categories">Categories</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="feed_parent_page"><b>Default Parent Page</b></label><br>
+                                    <small>Select the import to</small>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                                        <?php
+                                        $posts_parent_page = 0;
+                                        ?>
+                                        <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
+                                        <?php
+                                        $pt_opts = array();
+                                        $pt_opts['link'] = "{empty}{title}";
+                                        $pt_opts['list_tag'] = " ";
+                                        $pt_opts['list_item_tag'] = "option";
+                                        $pt_opts['active_ids'] = $posts_parent_page;
+                                        $pt_opts['active_code_tag'] = '   selected="selected"  ';
+
+                                        pages_tree($pt_opts);
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
                             <tr>
                                 <td><label for="feed_source_type"><b>Feed Source Type</b></label><br>
                                     <small>Select the type of source</small>
@@ -172,16 +203,11 @@
                                         <small>Upload content feed file</small>
                                     </td>
                                     <td>
-                                        <form wire:submit.prevent="save">
-                                            @if ($photo)
-                                                Photo Preview:
-                                                <img src="{{ $photo->temporaryUrl() }}">
-                                            @endif
-                                            <input type="file" wire:model="photo">
-                                            @error('photo') <span class="error">{{ $message }}</span> @enderror
-                                            <button type="submit">Upload Photo</button>
+                                        <form wire:submit.prevent="upload">
+                                            <input type="file" wire:model="uploadFile">
+                                            @error('uploadFile') <span class="error">{{ $message }}</span> @enderror
+                                            <button type="submit" class="btn btn-primary">Upload</button>
                                         </form>
-
                                     </td>
                                 </tr>
                             @endif
@@ -246,6 +272,8 @@
                                         <option value="20">20 part(s)</option>
                                         <option value="30">30 part(s)</option>
                                         <option value="100">100 part(s)</option>
+                                        <option value="200">200 part(s)</option>
+                                        <option value="500">500 part(s)</option>
                                     </select>
 
                                 </td>
@@ -374,7 +402,6 @@
                             </tr>
                             </tbody>
                         </table>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -383,7 +410,7 @@
                 <div class="card mt-4">
                     <div class="card-header">
                         Import Feeds
-                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool_new_import_modal')" id="addImport" value="Add new import">
+                        <input type="button" class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="$emit('openModal', 'import_export_tool::new_import_modal')" id="addImport" value="Add new import">
                     </div>
                     <div class="card-body">
 
@@ -452,16 +479,15 @@
     </div>
 
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <livewire:import_export_tool_html_dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
+        <livewire:import_export_tool::dropdown_mapping_preview importFeedId="{{$import_feed_id}}" />
     </div>
 
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
         <br />
-        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool_start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
+        <button class="btn btn-primary" wire:click="$emit('openModal', 'import_export_tool::start_importing_modal',{importFeedId:{{$import_feed_id}}})">Start Importing</button>
     </div>
 
 </div>
 </div>
 </div>
-</div>
-</div>
+@endsection

@@ -149,4 +149,35 @@ class SessionStepper
     {
         return (self::currentStep() == 1 ? true : false);
     }
+
+    public static function recomendedSteps($countOfContents)
+    {
+        $parts = 10;
+
+        if ($countOfContents > 100) {
+            $parts = 10;
+        }
+
+        if ($countOfContents > 200) {
+            $parts = 30;
+        }
+
+        if ($countOfContents > 300) {
+            $parts = 60;
+        }
+
+        if ($countOfContents > 500) {
+            $parts = 100;
+        }
+
+        if ($countOfContents > 600) {
+            $parts = 200;
+        }
+
+        if ($countOfContents > 1000) {
+            $parts = 500;
+        }
+
+        return $parts;
+    }
 }

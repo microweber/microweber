@@ -24,7 +24,9 @@ if (!function_exists('get_rel_id_by_multilanguage_url')) {
         $filter = array();
         $filter['field_name'] = 'url';
         $filter['field_value'] = $url;
+        $filter['limit'] = 1;
         $filter['single'] = 1;
+         $filter['fields'] = ['rel_id', 'field_name','field_value','rel_type'];;
         if ($relType) {
             $filter['rel_type'] = $relType;
         }
@@ -35,14 +37,15 @@ if (!function_exists('get_rel_id_by_multilanguage_url')) {
         }
 
         if ($relType == 'categories') {
-            $category = get_categories('url=' . $url . '&single=1');
+
+            $category = get_categories('fields=id,url&url=' . $url . '&single=1&limit=1');
             if ($category) {
                 return $category['id'];
             }
             return false;
         }
 
-        $content = get_content('url=' . $url . '&single=1');
+        $content = get_content('fields=id,url&url=' . $url . '&single=1&limit=1');
         if ($content) {
             return $content['id'];
         }
@@ -90,18 +93,27 @@ if (!function_exists('change_language_by_locale')) {
             $skip = false;
 
             $cookie = \Cookie::get('lang');
+
             if ($cookie and $cookie == $locale) {
                 $skip = true;
             }
+
             if (!$skip) {
 
 
                 $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
                 if ($multilanguageIsActive) {
+
                     $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                     if (!$localeSettings) {
+                        $localeSettings = app()->multilanguage_repository->getSupportedLocaleByDisplayLocale($locale);
+                    }
+
                 } else {
                     $localeSettings = ['locale' => $locale];
                 }
+
+
                 $applyCookieLang = true;
                 if ($localeSettings != null and isset($localeSettings['locale'])) {
                     if (isset($_COOKIE['lang']) && $_COOKIE['lang'] == $locale) {
@@ -110,6 +122,7 @@ if (!function_exists('change_language_by_locale')) {
                 }
 
                 if ($applyCookieLang) {
+
                     if ($localeSettings != null and isset($localeSettings['locale'])) {
 
                         setcookie('lang', $locale, time() + (86400 * 30), "/");

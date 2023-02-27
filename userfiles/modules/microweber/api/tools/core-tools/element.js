@@ -41,25 +41,37 @@
         };
 
         this.create = function() {
-            var el = this.document.createElement(this.settings.tag);
+            var _options = {};
+            if(this.settings.is) {
+                _options.is = this.settings.is;
+            }
+
+            var el = this.document.createElement(this.settings.tag, _options);
             this.node = el;
 
-            if (this.settings.encapsulate) {
+            /*if (this.settings.encapsulate) {
                 var mode = this.settings.encapsulate === true ? 'open' : this.settings.encapsulate;
                 el.attachShadow({
                     mode: mode
                 });
-            }
+            }*/
+
             this.nodes = [el];
             if (this.settings.content) {
                 if (Array.isArray(this.settings.content)) {
                     this.settings.content.forEach(function (el){
-                        scope.append(new MWElement(el));
+                        if(Object.getPrototypeOf(el) === Object.prototype) {
+                            scope.append(new MWElement(el));
+                        } else {
+                            scope.append(el);
+                        }
                     });
                 } else if(this.settings.content instanceof MWElement) {
                     this.append(this.settings.content);
-                }  else if(typeof this.settings.content === 'object') {
+                } else if(typeof this.settings.content === 'object') {
                     this.append(new MWElement(this.settings.content));
+                } else if(typeof this.settings.content === 'string') {
+                    this.get(0).innerHTML = (this.settings.content);
                 }
             }
             this.$node = $(el);
@@ -167,6 +179,11 @@
             return this;
         };
 
+        this.focus = function(){
+            this._active().focus()
+            return this;
+        };
+
         this.val = function(val){
             if(typeof val === 'undefined') {
                 return this._active().value;
@@ -179,6 +196,9 @@
 
         this.prop = function(prop, val){
             var active = this._active();
+            if(!active) {
+                return;
+            }
             if(typeof val === 'undefined') {
                 return active[prop];
             }
@@ -213,26 +233,62 @@
             return el;
         };
 
-        this.addClass = function (cls) {
-             cls = cls.trim().split(' ');
+        var prepareClasses = function () {
+            var classes = [];
+            Array.from(arguments).forEach(function (arg){
+                Array.from(arg).forEach(function (arg){
+                    var arr;
+                    if(Array.isArray(arg)) {
+                        arr = arg;
+                    } else {
+                        arr = arg.split(' ');
+                    }
+                    arr.forEach(function (cls){
+                        cls = cls.trim();
+                        if(!!cls) {
+                            classes.push(cls);
+                        }
+                    });
+                });
+            });
+            return classes;
+        }
+
+        this.hasClass = function (c) {
+            var active = this._active();
+            if(active) {
+                return active.classList.contains(c);
+            }
+            return false;
+        }
+
+        this.addClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
                 var node = this;
-                cls.forEach(function (singleClass){
-                    node.classList.add(singleClass);
+                classes.forEach(function (cls){
+                    node.classList.add(cls);
                 });
-
             });
         };
 
-        this.toggleClass = function (cls) {
+        this.toggleClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
-                this.classList.toggle(cls.trim());
+                var node = this;
+                classes.forEach(function (cls){
+                    node.classList.toggle(cls);
+                });
             });
         };
 
-        this.removeClass = function (cls) {
+        this.removeClass = function () {
+            var classes = prepareClasses(arguments)
             return this.each(function (){
-                this.classList.remove(cls.trim());
+                var node = this;
+                classes.forEach(function (cls){
+                    node.classList.remove(cls);
+                });
             });
         };
 
@@ -264,7 +320,10 @@
             if (clean) {
                 val = this.document.createRange().createContextualFragment(val).textContent;
             }
-            this.node.innerHTML = val;
+            // this.node.innerHTML = val;
+            return this.each(function (){
+                this.textContent = val;
+            });
         };
 
         this._asdom = function (obj) {
@@ -281,11 +340,13 @@
         };
 
         this.offset = function () {
-            var rect = this._active().getBoundingClientRect();
-            rect.offsetTop = rect.top + window.pageYOffset;
-            rect.offsetBottom = rect.bottom + window.pageYOffset;
-            rect.offsetLeft = rect.left + window.pageXOffset;
-            return rect;
+            if(this._active()) {
+                var rect = this._active().getBoundingClientRect();
+                rect.offsetTop = rect.top + window.pageYOffset;
+                rect.offsetBottom = rect.bottom + window.pageYOffset;
+                rect.offsetLeft = rect.left + window.pageXOffset;
+                return rect;
+            }
         };
 
 
@@ -321,7 +382,6 @@
             return res;
         };
         this.append = function (el) {
-
             if (el) {
                 this.each(function (){
                     this.append(scope._asdom(el));

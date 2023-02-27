@@ -4,7 +4,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 
 class RssController extends Controller
 {

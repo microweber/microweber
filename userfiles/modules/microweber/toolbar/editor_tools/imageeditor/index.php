@@ -359,6 +359,7 @@
                       mw.top().on('imageSrcChanged', function(e, node, url){
                         if(url !== $('#mwimagecurrent')[0].src){
                             $('#mwimagecurrent')[0].src = url;
+                            $('#mwimagecurrent').attr("crossorigin", "anonymous")
                         }
                       });
 
@@ -510,7 +511,9 @@
         var newimg = new Image();
         newimg.src = cropImage.attr('src');
         newimg.id = 'mwimagecurrent';
-        cropImage.replaceWith(newimg);
+        newimg.crossorigin = 'anonymous';
+
+      cropImage.replaceWith(newimg);
 
         $('.mw-ui-btn-nav.nav-actions').show();
         $('#edititems').show()
@@ -527,7 +530,7 @@
         var src = CurrSRC(),
             title = SelectedImage.title,
             alt = SelectedImage.alt;
-        mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
+        mw.$("#the-image-holder").html("<img crossorigin='anonymous' id='mwimagecurrent' src='" + src + "' /><span id='mwimagecurrentoverlay'></span>");
 
         if(isBG){
             mw.$('#background-properties')

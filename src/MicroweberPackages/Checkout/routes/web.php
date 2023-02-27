@@ -2,6 +2,7 @@
 
 // Private
 Route::name('checkout.')
+    ->prefix('checkout')
    // ->prefix(multilanguage_route_prefix('checkout'))
     ->middleware([
         \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
@@ -30,6 +31,7 @@ Route::name('checkout.')
 // Public
 Route::name('checkout.')
     //->prefix(multilanguage_route_prefix('checkout'))
+    ->prefix('checkout')
     ->namespace('\MicroweberPackages\Checkout\Http\Controllers')
     ->group(function () {
         Route::get('login', 'CheckoutController@login')->name('login');

@@ -7756,7 +7756,6 @@ header .mobile-toggle button {
   display: none;
   width: 170px;
   float: left;
-  border: 1px solid #4592FF;
   transition: all 0.5s ease;
   margin-inline-start: 15px;
   padding: 15px 0;

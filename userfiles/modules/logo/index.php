@@ -91,13 +91,13 @@ if ($text == false or $text == '') {
         $text = $params['text'];
     }
 }
-
-
+$font_family_safe = '';
+if($font_family){
 $font_family_safe = str_replace("+", " ", $font_family);
+}
 if ($font_family_safe == '') {
     $font_family_safe = 'inherit';
 }
-
 $size = $logo_options['size'];
 if ($size == false or $size == '') {
     if (isset($params['size'])) {

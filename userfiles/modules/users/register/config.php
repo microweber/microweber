@@ -9,7 +9,7 @@ $config['help'] = "http://microweber.info/modules/users/registration";
 $config['version'] = 0.2;
 $config['ui'] = true;
 $config['position'] = 33;
-$config['categories'] = "users";
+$config['categories'] = "signup";
 
 
 $options = array();

@@ -8,19 +8,36 @@ class LivewireManager extends BaseLivewireManager
 {
     protected function copyAssets()
     {
-        $livewireCacheFolder = 'userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
+        $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
+        $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
 
         if (!is_dir($livewireCacheFolder)) {
             mkdir_recursive($livewireCacheFolder);
         }
+
         $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
+        $livewireCachedFileMap = $livewireCacheFolder . '/livewire.js.map';
         $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
+
         if (!is_file($livewireCachedFile)) {
-            $livewireOriginalFile = __DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js';
+
+            $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js');
+            if (!is_file($livewireOriginalFile)) {
+                throw new \Exception('livewire.js not exist in vendor');
+            }
+
             copy($livewireOriginalFile, $livewireCachedFile);
 
+
+            $livewireOriginalFileMap = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js.map');
+            if (!is_file($livewireOriginalFileMap)) {
+                throw new \Exception('livewire.js.map not exist in vendor');
+            }
+
+            copy($livewireOriginalFileMap, $livewireCachedFileMap);
+
             if (!is_file($livewireCachedFileManifest)) {
-                $livewireOriginalFileManifest = __DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json';
+                $livewireOriginalFileManifest = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/manifest.json');
                 copy($livewireOriginalFileManifest, $livewireCachedFileManifest);
             }
         }
@@ -38,10 +55,10 @@ class LivewireManager extends BaseLivewireManager
 
         $assetsUrl = config('livewire.asset_url') ?: rtrim($options['asset_url'] ?? '', '/');
 
-        $appUrl = config('livewire.app_url')
-            ?: rtrim($options['app_url'] ?? '', '/')
-                ?: $assetsUrl;
-
+//        $appUrl = config('livewire.app_url')
+//            ?: rtrim($options['app_url'] ?? '', '/')
+//                ?: $assetsUrl;
+        $appUrl = rtrim(site_url(), '/\\');
         $jsLivewireToken = app()->has('session.store') ? "'" . csrf_token() . "'" : 'null';
 
         $jsonEncodedOptions = $options ? json_encode($options) : '';

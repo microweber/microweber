@@ -325,6 +325,12 @@
             'apexcharts.min.js',
             'apexcharts.css'
         ],
+        echarts: [
+            function () {
+                mw.require(mw.settings.libs_url + 'echarts' + '/echarts.min.js', true);
+                mw.require(mw.settings.libs_url + 'echarts' + '/theme/cool.js', true);
+            }
+        ],
         anchorific: [
             function () {
                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
@@ -338,7 +344,7 @@
         ],
         xss: [
             function () {
-                mw.require(mw.settings.libs_url + 'xss' + '/xss.min.js');
+                mw.require(mw.settings.libs_url + "xss/xss.min.js");
             }
         ],
         codemirror: [
@@ -499,4 +505,36 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
 
 
 ?>
+
+mw.uploadGlobalSettings = {
+    on: {
+        beforeFileUpload: function (instance) {
+            return new Promise(function (resolve){
+                var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                let xhr = new XMLHttpRequest()
+                xhr.open('POST', route('csrf-validate-token'), true)
+                xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+                xhr.setRequestHeader('X-XSRF-TOKEN', tokenFromCookie)
+                xhr.send('');
+                xhr.onload = function (res) {
+
+                    if(xhr.status === 400) {
+                        $.post(route('csrf'), function (res) {
+                            var tokenFromCookie = mw.cookie.get("XSRF-TOKEN");
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-XSRF-TOKEN': tokenFromCookie
+                                }
+                            });
+                            resolve();
+                        });
+                    } else {
+                        resolve();
+                    }
+                }
+            });
+        }
+    }
+}
 

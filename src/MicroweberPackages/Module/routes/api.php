@@ -19,11 +19,16 @@ Route::name('api.')
     ->group(function () {
 
         Route::any('clearcache', function () {
-            return clearcache(); 
+            return clearcache();
         });
 
         Route::any('mw_post_update', function () {
-            return mw_post_update();
+            $status = mw_post_update();
+
+            $cookie = \Cookie::forget('XSRF-TOKEN');
+
+            $response = response()->make('updated', 200)->withCookie($cookie);
+            return $response;
         });
 
         Route::any('mw_reload_modules', function () {

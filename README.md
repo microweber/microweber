@@ -70,6 +70,7 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
 * [Microweber Video](https://sitestatic.microweber.com/userfiles/templates/mw/videos/1.mp4)
 * [Deploy as DigitalOcean 1-Click App](https://marketplace.digitalocean.com/apps/microweber?action=deploy&refcode=83e0646738fe)
 * [Deploy as alwaysdata 1-Click App](https://www.alwaysdata.com/en/marketplace/microweber/)
+* [Plesk Extension](https://microweber.org/go/plesk_plugin/)
 
 
 ## Requirements  
@@ -81,6 +82,11 @@ The main focus of Microweber CMS is E-commerce. A rising number of people have g
   * `GD` PHP extension
   * `intl` PHP extension
   * `curl` PHP extension
+  * `json` PHP extension
+  * `openssl` PHP extension
+  * `sodium` PHP extension
+  * `mbstring` PHP extension
+  * `bcmath` PHP extension
   * `zip` PHP extension
   * `openssl` PHP extension
   * `bcmath` PHP extension
@@ -115,7 +121,6 @@ You can easily [import the `.htaccess` rewrite rules](http://www.iis.net/learn/e
 ### Database
 You have several choices for database engine: MySQL, SQLite, Microsoft SQL Server and PostgreSQL.
 For small websites we highly recommend SQLite.
-However, you can connect to more storage services (like [MongoDB](https://github.com/jenssegers/laravel-mongodb) or [Neo4j](https://github.com/Vinelab/NeoEloquent)) and take advantage of the Laravel framework.
 
 On the installation screen you can only choose from databases enabled in your PHP configuration.
 If you don't see your server of choice in the list you have to enable the corresponding [PDO](http://php.net/manual/en/book.pdo.php) extension for your database server. [An example for Microsoft SQL Server](http://php.net/manual/en/mssql.installation.php). PHP usually comes with PDO enabled by default but you might have to uncomment or add `extension` directives to your `php.ini`.

@@ -7,7 +7,10 @@ class UpdateMissingConfigFiles
     public function copyMissingConfigStubs()
     {
         $dir = __DIR__ . '/resources/stubs/config';
-
+        if(!is_dir($dir)){
+            // do nothing
+            return;
+        }
         $files = scandir($dir);
         $to_copy = array();
         if ($files) {
@@ -19,7 +22,8 @@ class UpdateMissingConfigFiles
             }
         }
         if ($files) {
-            $config_dir = __DIR__ . '/../../../config';
+            $config_dir = config_path();
+
             if(!is_dir($config_dir)){
                 // do nothing
                return;

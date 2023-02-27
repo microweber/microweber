@@ -1,4 +1,6 @@
 .mw-tree {
+    container-name: mw-tree-root;
+    container-type: inline-size;
   .mw-tree-nav-skin-default {
        padding-inline: 20px;
       padding-block: 10px 20px;
@@ -6,6 +8,9 @@
   * {
     vertical-align: middle;
   }
+    tree-label input{
+        pointer-events: none;
+    }
 }
 
 .mw-tree-nav {
@@ -26,6 +31,32 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  overflow: auto;
+
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title{
+        opacity: .7;
+        text-decoration: line-through;
+    }
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+
+    &::-webkit-scrollbar-thumb {
+        background: #d5d5d5;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+
   ul {
     display: none;
   }
@@ -33,6 +64,7 @@
     cursor: pointer;
   }
   .mw-tree-item-title {
+      flex: 1;
     padding-inline: 4px 0;
     padding-block: 0;
     display: inline-block;
@@ -63,10 +95,7 @@
     * {
       vertical-align: middle;
     }
-      .mdi-pencil{
-          color: #0e80e5;
-          opacity: 1;
-      }
+
     &.selected > .mw-tree-item-content-root .mw-tree-item-title {
       color: #0e80e5;
       font-weight: bold;
@@ -75,6 +104,7 @@
         font-weight: normal;
       }
     }
+    &.context-menu-active > .mw-tree-item-content-root,
     &.selected > .mw-tree-item-content-root,
     .mw-tree-item-content-root:hover  {
       background: #fff;
@@ -136,6 +166,59 @@
 
   }
 
+    .mw-tree-context-menu-content-button{
+            position: relative;
+            opacity: 0;
+            transition: .3s;
+            transform: scale(.7);
+            pointer-events: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px;
+            height: 25px;
+            background-color: rgba(183, 216, 255, 0.15);
+            margin-inline-end: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+           &:after{
+               position: absolute;
+               content: '';
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+               transition: .3s;
+               background-repeat: no-repeat;
+               background-position: center;
+               background-size: auto 12px;
+               background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z'%3E%3C/path%3E%3C/svg%3E");
+
+           }
+        &:hover{
+            background-color: rgba(183, 216, 255, 0.55);
+        }
+    }
+
+
+    .context-menu-active > .mw-tree-item-content-root,
+    .mw-tree-item-content-root:hover{
+        .mw-tree-context-menu-content-button{
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+    }
+    li.selected{
+        & > .mw-tree-item-content-root {
+            .mw-tree-context-menu-content-button{
+                opacity: 1;
+                pointer-events: all;
+                transform: scale(1);
+
+            }
+        }
+    }
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
 
@@ -161,21 +244,47 @@
     .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
       transform: rotate(180deg);
   }
+    .mw-tree-context-menu-content{
+        position: absolute;
+        background-color: #fff;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        top: calc(100% - 2px);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        z-index: 12;
+        transition: .3s;
 
-  .mw-tree-context-menu-item {
-    font-size: 14px;
-    display: inline-block;
-    visibility: hidden;
-    position: relative;
-    height: 21px;
-    width: 21px;
-    line-height: 17px;
-    text-align: center;
-    border: 1px solid transparent;
-    color: #3B3B3B;
-    opacity: 0.9;
-    cursor: pointer;
-  }
+    }
+
+
+    .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button{
+
+        &:after{
+            transform: rotate(-90deg);
+        }
+    }
+    .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content{
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .mw-tree-context-menu-item {
+        font-size: 14px;
+        display: block;
+        position: relative;
+        border: 1px solid transparent;
+        color: #3B3B3B;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 1px 10px;
+        &>.mdi,
+        &>[class*="icon"]{
+            margin-inline-end: 7px;
+        }
+    }
+
   .mw-tree-item-content:hover .mw-tree-context-menu-item {
     visibility: visible;
   }
@@ -192,12 +301,13 @@
   .mw-tree-item-content {
     color: #212121;
     padding: 0;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     position: relative;
     outline: none;
     background-repeat: no-repeat;
     line-height: 27px;
-      width: 100%;
+    width: 100%;
   }
 
     .mw-tree-toggler +   .mw-tree-item-content {
@@ -211,11 +321,13 @@
   }
 
   .mw-tree-context-menu {
-    display: inline-block;
+    display: inline-flex;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
+      align-items: center;
+      justify-content: center;
   }
     .mw-tree-item-content:hover {
         .mw-tree-context-menu {
@@ -272,6 +384,13 @@
   }
 }
 
+html[dir="ltr"] .mw-tree-context-menu-content{
+    right: 0;
+}
+html[dir="rtl"] .mw-tree-context-menu-content{
+    left: 0;
+}
+
 html[dir="rtl"]{
     /*.mw-tree-nav-skin-default{
         direction: ltr;
@@ -315,4 +434,194 @@ html[dir="rtl"]{
 
 }
 
+@treeMobile: {
+    .mw-tree-nav-skin-default{
+        & > li > .mw-tree-item-content-root .mw-tree-toggler {
+            margin-inline: -15px -23px;
+        }
+        & > li li .mw-tree-item-content-root .mw-tree-toggler {
+            margin-inline: -15px -39px;
+        }
+        li li{
+            padding-inline-start: 8px;
+            margin-inline-start: 5px;
+        }
+        li:before,
+        li:after{
+            display: none;
+        }
+        .mw-ui-check input + span{
+            width: 12px;
+            height: 12px;
+            margin-inline-start: 7px;
+        }
+    }
+
+}
+
+@supports (container-name: mw-tree-root) {
+    @container mw-tree-root (max-width: 300px) {
+        @treeMobile();
+    }
+}
+@supports not (container-name: mw-tree-root) {
+    @media (max-width: 1200px) {
+        @treeMobile();
+    }
+}
+
+
+.mw-tree-nav-skin-category-manager{
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    .mw-tree-item-content{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        &.item-selectable-true{
+            padding-inline-start: 50px !important;
+            .mw-ui-check{
+                margin-inline: -55px 25px;
+            }
+        }
+
+    }
+
+
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-content:before,
+    .tree-item-active-false > .mw-tree-item-content-root .mw-tree-item-title{
+        opacity: .5;
+        text-decoration: line-through;
+    }
+
+    span.mw-tree-context-menu{
+        margin-inline-start: auto !important;
+        .mw-tree-context-menu-content-button{
+            display: none;
+        }
+        .mw-tree-context-menu-content > * + *{
+            margin-inline-start: 10px;
+        }
+    }
+    ul,li{
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        ul{
+            margin-inline-start: 40px;
+        }
+    }
+    ul{
+        display: none;
+    }
+    .ui-sortable > li.ui-sortable-helper{
+        cursor: grabbing;
+    }
+    .ui-sortable > li{
+        cursor: grab;
+    }
+    li.mw-tree-item-hidden{
+        display: none;
+    }
+    li.opened{
+        & > ul{
+            display: block;
+        }
+        & > .mw-tree-item-content-root{
+            .mw-tree-toggler{
+                transform: translateY(-50%) rotate(90deg);
+            }
+        }
+    }
+    li{
+        list-style: none;
+    }
+    li[data-type="category"] {
+        & > .mw-tree-item-content-root {
+            .mw-tree-item-content{
+                background: #fcfcfc;
+                padding: 0.5rem 1rem;
+
+                overflow: hidden;
+                border-radius: 10px;
+                margin-bottom: 0.5rem;
+                &:hover{
+                    background: #fcfcfc;
+                    border-color: #eeeff1;
+
+                    box-shadow: -1px 1px 1px 0 rgba(0, 0, 0, .11);
+                }
+
+                &:before{
+                    content: "\F024B";
+
+                    font: normal normal normal 1.25em/1 "Material Design Icons";
+                    color: #868686;
+                    margin-inline-start: -10px;
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+
+
+    }
+    li[data-type="page"] {
+        padding-top: 10px;
+        & > .mw-tree-item-content-root {
+            .mw-tree-item-content{
+                padding: 15px 25px 10px 25px;
+                background-color: #fff;
+
+                border-bottom: 0;
+                position: relative;
+                overflow: hidden;
+                background-color: rgba(0, 0, 0, .03);
+                &:before{
+                    content: "\F0219";
+                    font: normal normal normal 1.25em/1 "Material Design Icons";
+                    color: #4592ff;
+                    margin-inline-start: -10px;
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+    }
+
+
+    .mw-tree-item-content-root{
+        position: relative;
+        padding-left: 24px;
+        display: block;
+
+        .mw-tree-toggler{
+            display: flex;
+
+            width: 25px;
+            height: 25px;
+            color: #bcbfc2;
+
+            border: none;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            font-size: 19px;
+            font-family: "Material Design Icons";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: .3s;
+            &:before{
+                content: "\F0142";
+            }
+        }
+    }
+}
 

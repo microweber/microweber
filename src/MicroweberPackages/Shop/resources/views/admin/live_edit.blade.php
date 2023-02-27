@@ -12,13 +12,21 @@
     <div class="card-body pt-3">
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#products"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Products'); ?></a>
+            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
 
-            <div class="tab-pane fade show active" id="settings">
+            <div class="tab-pane fade show active" id="products">
+                <div class="text-end text-right">
+                   <a href="<?php print route('admin.product.create'); ?>" target="_blank" class="btn btn-success btn-sm" ><i class="mdi mdi-shopping"></i> <?php _e("New Product"); ?></a>
+                </div>
+                <module content_type="product" type="content/manager" no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true"/>
+            </div>
+
+            <div class="tab-pane fade" id="settings">
                 <div class="module-live-edit-settings module-blog-settings">
                     @if($pages->count() == 0)
                         <div class="alert alert-warning">
@@ -123,17 +131,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-4 js-filtering-allow-search">
-                                <label class="control-label d-block"><?php echo _e("Allow search", true); ?></label>
-                                <span class="text-muted"><?php echo _e("Show search on the shop page", true); ?></span>
-                                <div class="custom-control custom-switch pl-0">
-                                    <label class="d-inline-block mr-5" for="disable_search"><?php _e('No'); ?></label>
-                                    <input class="mw_option_field custom-control-input" id="disable_search" type="checkbox"
-                                           autocomplete="off" name="disable_search" <?php if (!get_option('disable_search', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
-                                    <label class="custom-control-label" for="disable_search"><?php _e('Yes'); ?></label>
-                                </div>
-                            </div>
-
                             <div class="form-group col-4">
                                 <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Show filters on the shop page", true); ?></span>
@@ -173,22 +170,83 @@
                                     <div class="card-body">
                                         <strong><?php _e("Filtering the results"); ?></strong>
 
-                                        <div class="custom-control custom-checkbox mt-3 js-filtering-by-tags">
-                                            <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
-                                            <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
+
+                                        <script>
+                                            mw.manage_shop_filters_sort = function () {
+                                                if (!mw.$("#js-shop-filters-items").hasClass("ui-sortable")) {
+                                                    mw.$("#js-shop-filters-items").sortable({
+                                                        items: 'div.list-group-item',
+                                                        axis: 'y',
+                                                        handle: '.list-group-item-handle-sort',
+                                                        update: function () {
+                                                            var filters = [];
+                                                            $(document).find('.js-shop-filter-item-sort').each(function () {
+                                                                filters.push(this.attributes['data-filter-name'].nodeValue);
+                                                            });
+                                                            var data = {
+                                                                option_group: '{{$moduleId}}',
+                                                                option_key: 'filters-sort',
+                                                                option_value: JSON.stringify(filters)
+                                                            }
+                                                            mw.options.saveOption(data, function () {
+                                                                // Saved
+                                                            });
+                                                        },
+                                                        start: function (a, ui) {
+                                                            $(this).height($(this).outerHeight());
+                                                            $(ui.placeholder).height($(ui.item).outerHeight())
+                                                            $(ui.placeholder).width($(ui.item).outerWidth())
+                                                        },
+                                                        scroll: false
+                                                    });
+                                                }
+                                            }
+                                            $(document).ready(function () {
+                                                mw.manage_shop_filters_sort();
+                                            });
+                                        </script>
+
+                                        <div class="list-group mt-3" id="js-shop-filters-items">
+                                            <div data-filter-name="search" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+                                                <div class="mr-3 mt-1">
+                                                    <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
+                                                </div>
+                                                <div class="custom-control custom-checkbox mt-3 js-disable-search">
+                                                    <input type="checkbox" <?php if (!get_option('disable_search', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" data-value-checked="0" data-value-unchecked="1" name="disable_search" value="1" id="disable_search">
+                                                    <label class="custom-control-label" for="disable_search"><?php _e("Search"); ?></label>
+                                                </div>
+                                            </div>
+                                            <div data-filter-name="tags" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+                                                <div class="mr-3 mt-1">
+                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
+                                                </div>
+                                                <div class="custom-control custom-checkbox js-filtering-by-tags">
+                                                    <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
+                                                    <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
+                                                </div>
+                                            </div>
+                                            <div data-filter-name="categories" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+                                                <div class="mr-3 mt-1">
+                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
+                                                </div>
+                                                <div class="custom-control custom-checkbox js-filtering-by-categories">
+                                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
+                                                    <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
+                                                </div>
+                                            </div>
+                                            <div data-filter-name="custom_fields" class="js-shop-filter-item-sort d-flex align-items-center align-content-center list-group-item list-group-item-action" aria-current="true">
+                                                <div class="mr-3 mt-1">
+                                                <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
+                                                </div>
+                                                <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
+                                                    <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
+                                                    <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox js-filtering-by-categories">
-                                            <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
-                                            <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
-                                        </div>
 
-                                        <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
-                                            <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
-                                            <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
-                                        </div>
-
-                                        <div class="js-filterting-custom-fields-settings" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
+                                        <div class="js-filterting-custom-fields-settings mt-4" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
                                             <div class="card">
                                                 <div class="card-body">
 

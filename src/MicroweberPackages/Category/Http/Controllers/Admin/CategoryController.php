@@ -30,6 +30,12 @@ class CategoryController extends AdminController
         ]);
     }
 
+    public function show(Request $request, $id) {
+        return $this->view('category::admin.category.show', [
+            'id'=>$id
+        ]);
+    }
+
     public function edit(Request $request, $id) {
 
         return $this->view('category::admin.category.edit', [

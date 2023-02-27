@@ -36,6 +36,11 @@ if ($captcha_provider == 'google_recaptcha_v2'):
 
     <script type="text/javascript">
         $(document).ready(function () {
+
+            if ($('#js-mw-google-recaptcha-v2-<?php print $params['id'] ?>').find('iframe').length > 0) {
+                $('#js-mw-google-recaptcha-v2-<?php print $params['id'] ?>').first().remove();
+            }
+
             setTimeout(function () {
                 if (typeof (grecaptcha) !== 'undefined') {
                     try {

@@ -39,7 +39,7 @@ if (isset($data['active_site_template']) and $data['active_site_template'] == ''
 if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
 
 } else if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
-    $params['layout_file'] = str_replace('..', '', $params['layout_file']);
+    $params['layout_file'] = sanitize_path($params['layout_file']);
     $params['layout_file'] = str_replace('____', DS, $params['layout_file']);
     $params['layout_file'] = normalize_path($params['layout_file'], false);
     $data['layout_file'] = $params["layout_file"];

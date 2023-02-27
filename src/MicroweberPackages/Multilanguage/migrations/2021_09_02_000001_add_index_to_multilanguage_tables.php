@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class AddIndexToMultilanguageTables extends Migration
 {
@@ -14,6 +15,7 @@ class AddIndexToMultilanguageTables extends Migration
     {
         try {
             Schema::table('multilanguage_translations', function (Blueprint $table) {
+                $table->index('locale');
                 $table->index('rel_id');
                 $table->index('rel_type');
                 $table->index('field_name');

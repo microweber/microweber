@@ -16,9 +16,27 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
         $this->randId = 'ml_editor_element_'.md5(str_random());
         $fieldName = $this->getAttribute('name');
 
+        $onSaveCallback = $this->getAttribute('onSaveCallback');
+        if($onSaveCallback){
+            $onSaveCallbackStr = 'function(){
+                return '.$onSaveCallback.'
+            }';
+        } else {
+            $onSaveCallbackStr = '';
+        }
+
+
+
+
         $fieldValue = '';
-        if (isset($this->model->{$fieldName})) {
-            $fieldValue = $this->model->{$fieldName};
+        if ($this->readValueFromField) {
+            if (isset($this->model->{$this->readValueFromField})) {
+                $fieldValue = $this->model->{$this->readValueFromField};
+            }
+        } else {
+            if (isset($this->model->{$fieldName})) {
+                $fieldValue = $this->model->{$fieldName};
+            }
         }
 
         $locales = [];
@@ -39,16 +57,23 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
             $translations[$locale] = '';
         }
         // Fill the translations if available
+        $findTranslationsFromField = $fieldName;
+        if ($this->readValueFromField) {
+            $findTranslationsFromField = $this->readValueFromField;
+        }
+
+        // Fill the translations if available
         if (!empty($modelTranslations)) {
             foreach ($modelTranslations as $modelTranslationLocale=>$modelTranslation) {
-                if (isset($modelTranslation[$fieldName])) {
-                    $translations[$modelTranslationLocale] = $modelTranslation[$fieldName];
+                if (isset($modelTranslation[$findTranslationsFromField])) {
+                    $translations[$modelTranslationLocale] = $modelTranslation[$findTranslationsFromField];
                     if ($this->currentLanguage == $modelTranslationLocale) {
-                        $fieldValue = $modelTranslation[$fieldName];
+                        $fieldValue = $modelTranslation[$findTranslationsFromField];
                     }
                 }
             }
         }
+
         $translationsJson = json_encode($translations);
         $textDir = 'ltr';
         if(LanguageHelper::isRTL($this->currentLanguage)){
@@ -59,17 +84,19 @@ class MwEditor extends \MicroweberPackages\Form\Elements\Text
             mw.require('editor.js');
             mw.lib.require('multilanguage');
             $(document).ready(function () {
+
                 $('#$this->randId').mlTextArea({
                     name: '$fieldName',
                     currentLocale: '$this->currentLanguage',
                     direction: '$textDir',
                     locales: $localesJson,
                     translations: $translationsJson,
+                    onSave: $onSaveCallbackStr,
                     mwEditor: true
-                });
+                })
             });
         </script>
-        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\">$fieldValue</textarea>";
+        <textarea name=\"$fieldName\" class=\"form-control\" id=\"$this->randId\" ".$this->renderAttributes().">$fieldValue</textarea>";
 
     }
 }

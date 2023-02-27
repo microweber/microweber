@@ -9,25 +9,35 @@
 namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Config;
 
 trait FilterByPriceTrait
 {
+    public function discount($type = 1)
+    {
+        if ($type == 1 || $type == 'yes') {
+            $this->query->whereHas('offer');
+        } else if ($type == 'no') {
+            $this->query->doesntHave('offer');
+        }
+    }
 
-    protected $_minPriceFilter = false;
-    protected $_maxPriceFilter = false;
-
+    public function sortPrice($direction)
+    {
+       //  $this->query->orderBy('id', $direction);
+    }
 
     public function price($price)
     {
-
         return $this->query->whereHas('customField', function (Builder $query) use ($price) {
             $query->whereHas('fieldValuePrice', function ($query) use ($price) {
 
                 $query->where(function ($query2) use ($price) {
 
                     $price = intval($price);
-                     $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
+                    $query2->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
                     $query2->whereRaw("CAST(value as INTEGER) = {$price}");
+
                     return $query2;
                 });
 
@@ -49,21 +59,27 @@ trait FilterByPriceTrait
         $minPrice = intval($minPrice);
         $maxPrice = intval($maxPrice);
 
+        if ($maxPrice == 0) {
+           $maxPrice= 1000000000000;
+        }
 
-        $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice) {
-            $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice) {
-                $query2->where(function ($query3) use ($minPrice, $maxPrice) {
+        if($minPrice == 0 and $maxPrice == 0) {
+            return $this->query;
+        }
 
-                    if ($maxPrice) {
-                        //$query3->whereRaw("CAST(value as INTEGER) != 0");
-                        $query3->whereRaw("CAST(value as INTEGER) REGEXP '^[0-9]*$'");
-                        $query3->whereBetween(\DB::raw('CAST(value as INTEGER)'), [$minPrice, $maxPrice]);
-                    } else {
-                        $query3->whereRaw("value REGEXP '^[0-9]*$'");
-                    //    $query3->whereRaw("CAST(value as INTEGER) != 0");
+       // $dbDriver = Config::get('database.default');
+        $dbDriver = mw()->database_manager->get_sql_engine();
+
+        $sql = $this->query->whereHas('customField', function (Builder $query) use ($minPrice, $maxPrice,$dbDriver) {
+            $query->whereHas('fieldValuePrice', function ($query2) use ($minPrice, $maxPrice,$dbDriver) {
+                $query2->where(function ($query3) use ($minPrice, $maxPrice,$dbDriver) {
+
+                    if ($dbDriver == 'sqlite') {
                         $query3->whereRaw("CAST(value as INTEGER) >= {$minPrice}");
+                        $query3->whereRaw("CAST(value as INTEGER) <= {$maxPrice}");
+                    } else {
+                        $query3->whereBetween('value', [$minPrice, $maxPrice]);
                     }
-
 
                     return $query3;
                 });

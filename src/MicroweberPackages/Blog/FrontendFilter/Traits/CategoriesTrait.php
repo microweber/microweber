@@ -8,6 +8,7 @@ trait CategoriesTrait {
 
     public function appendFiltersActiveCategories()
     {
+
         $categories = $this->request->get('categories', false);
         if (is_array($categories) && !empty($categories)) {
             foreach($categories as $categoryId) {
@@ -27,7 +28,11 @@ trait CategoriesTrait {
         }
 
         $categoryId = $this->request->get('category', false);
-        if (!empty($categoryId)) {
+        if (empty($categoryId)) {
+            $categoryId = category_id();
+        }
+
+        if ($categoryId) {
             $category = Category::where('id', $categoryId)->first();
             if ($category != null) {
                 $filter = new \stdClass();
@@ -43,11 +48,15 @@ trait CategoriesTrait {
     public function applyQueryCategories()
     {
         // Categories
-        $category = $this->request->get('category');
-        if (!empty($category)) {
-            $this->queryParams['category'] = $category;
-            $this->query->whereHas('categoryItems', function ($query) use($category) {
-                $query->where('parent_id', '=', $category);
+        $categoryId = $this->request->get('category');
+        if (empty($categoryId)) {
+            $categoryId = category_id();
+        }
+
+        if ($categoryId) {
+            $this->queryParams['category'] = $categoryId;
+            $this->query->whereHas('categoryItems', function ($query) use($categoryId) {
+                $query->where('parent_id', '=', $categoryId);
             });
         }
 
@@ -73,7 +82,10 @@ trait CategoriesTrait {
         }
 
         $categoryId = $this->request->get('category', false);
-        if (!empty($categoryId)) {
+        if (empty($categoryId)) {
+            $categoryId = category_id();
+        }
+        if ($categoryId) {
             $categoriesActiveIds[] = $categoryId;
         }
 

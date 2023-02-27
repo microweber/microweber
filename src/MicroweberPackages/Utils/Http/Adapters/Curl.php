@@ -221,7 +221,7 @@ class Curl
             $dl = false;
             if ($save_to != false) {
                 $save_to = trim($save_to);
-                $save_to = str_replace('..', '', $save_to);
+                $save_to = sanitize_path($save_to);
 
                 $save_to = normalize_path($save_to, false);
 

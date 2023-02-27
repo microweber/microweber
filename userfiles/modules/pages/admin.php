@@ -25,6 +25,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php $posts_parent_page = get_option('data-parent', $params['id']); ?>
         <?php $posts_maxdepth = get_option('maxdepth', $params['id']); ?>
         <?php $include_categories = get_option('include_categories', $params['id']); ?>
+        <?php $include_parent = get_option('include_parent', $params['id']); ?>
 
         <div class="tab-content py-3">
 
@@ -58,6 +59,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <select name="include_categories" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
                             <option value="y" <?php if ('y' == $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
                             <option value="n" <?php if ('y' != $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"><?php _e("Include Parent"); ?></label>
+
+                        <select name="include_parent" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <option value="y" <?php if ('y' == $include_parent): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
+                            <option value="n" <?php if ('y' != $include_parent): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
                         </select>
                     </div>
 

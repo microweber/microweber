@@ -2,15 +2,17 @@
 
 namespace MicroweberPackages\Content;
 
-use Content;
-use ContentFields;
-use Illuminate\Support\Facades\Cache;
-use DB;
+
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Menu\Menu;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use voku\helper\AntiXSS;
+
+use MicroweberPackages\Content\Models\ContentRelated;
+
 
 class ContentManagerHelpers extends ContentManagerCrud
 {
@@ -235,8 +237,10 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (is_array($modules_ids) and !empty($modules_ids)) {
             foreach ($modules_ids as $modules_id) {
                 if ($modules_id) {
-                    \DB::table('options')->where('option_group', '=', $modules_id)->delete();
-                    \DB::table('media')->where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
+                    \MicroweberPackages\Option\Models\Option::where('option_group', '=', $modules_id)->delete();
+                    \MicroweberPackages\Media\Models\Media::where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
+                    CustomField::where('rel_type', '=', 'module')->where('rel_id', '=', $modules_id)->delete();
+
                 }
             }
             event_trigger('mw.reset_modules_settings', $modules_ids);
@@ -261,13 +265,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if (isset($item['rel']) and ($item['rel'])) {
                     if (isset($item['field']) and ($item['field'])) {
 
-                        $del = \DB::table($this->tables['content_fields'])
+                        $del = \DB::table('content_fields')
                             ->where('rel_type', '=', $item['rel'])
-                            ->where('field', '=', $item['field']);
-
-
-                        $del = $del->delete();
-
+                            ->where('field', '=', $item['field'])->delete();
 
                     }
                 }
@@ -650,6 +650,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                 $is_draft = 1;
             }
             $the_field_data_all = $post_data;
+            $this->app->event_manager->trigger('mw.content.save_edit.before', $the_field_data_all);
+
         } else {
             return array('error' => 'no POST?');
         }
@@ -857,7 +859,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     }
                                 }
 
- 
+
                                 $page_id = $this->app->content_manager->save_content_admin($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($should_redirect_to_new_url) {
@@ -947,12 +949,30 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
                         }
 
+                        $save_module = true;
+
                         if (isset($the_field_data['attributes']['rel_type'])
-                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
-                            $save_module = true;
-                        } else {
+                            and (trim($the_field_data['attributes']['rel_type']) == 'content'
+                                or trim($the_field_data['attributes']['rel_type']) == 'post'
+                                or trim($the_field_data['attributes']['rel_type']) == 'page'
+                                or trim($the_field_data['attributes']['rel_type']) == 'category'
+                                or trim($the_field_data['attributes']['rel_type']) == 'product')) {
                             $save_module = false;
+                            // this will set the rel_id
                         }
+
+
+
+
+
+//
+//
+//                        if (isset($the_field_data['attributes']['rel_type'])
+//                            and (trim($the_field_data['attributes']['rel_type']) == 'module')) {
+//                            $save_module = true;
+//                        } else {
+//                            $save_module = false;
+//                        }
 
 
                         if(!$save_module){
@@ -989,8 +1009,10 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $save_global = true;
                                     $save_module = true;
                                     break;
-                                case 'page':
+
                                 default:
+                                    $save_global = true;
+                                    $save_module = true;
                                     break;
                             }
                         }
@@ -1039,15 +1061,17 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
                         }
                         $html_to_save = $the_field_data['html'];
+
                         $html_to_save = $content =  $this->app->parser->make_tags($html_to_save);
 
-
-//  AntiXSS makes bug on save convertind comments to htmlentities
-//                        $antixss = new AntiXSS();
-//                        $html_to_save = $content = $antixss->xss_clean($html_to_save);
+                        //\Log::info($html_to_save);
 
 
+                        $xssClean = new XSSClean();
+                        $html_to_save = $content = $xssClean->clean($html_to_save);
 
+
+                      //  \Log::info($html_to_save);
 
                         if ($save_module == false and $save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -1109,6 +1133,8 @@ class ContentManagerHelpers extends ContentManagerCrud
                                         $cont_table_save[$field]=$html_to_save;
                                     }
                                 }
+
+
                                 $this->app->event_manager->trigger('mw.content.save_edit', $cont_field);
 
                                 $to_save = array();
@@ -1164,6 +1190,30 @@ class ContentManagerHelpers extends ContentManagerCrud
                             }
 
 
+                            if ($save_global and $save_module and isset($cont_field['rel_id']) and $cont_field['rel_id'] == 0 and isset($the_field_data['attributes']['field']) and isset($the_field_data['attributes']['rel_type'])) {
+                                // we check for existing fields with rel_id = 0 and remove them
+                                $getExisting = DB::table('content_fields')
+                                    ->where('field', $the_field_data['attributes']['field'])
+                                    ->where('rel_type', $the_field_data['attributes']['rel_type'])->get();
+                                if ($getExisting) {
+                                    //if we have more than one delete the other ones
+                                    $i = 1;
+                                    foreach ($getExisting as $existing) {
+                                        if($existing->rel_id != $cont_field['rel_id']){
+                                            DB::table('content_fields')->where('id', $existing->id)->delete();
+                                        }
+                                        if ($i > 1) {
+                                            DB::table('content_fields')->where('id', $existing->id)->delete();
+                                        }
+                                        $i++;
+                                    }
+                                }
+
+                            }
+
+
+
+
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
                                 $cont_field['url'] = $this->app->url_manager->string(true);
@@ -1173,6 +1223,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                                 $cont_field_new = $this->app->content_manager->save_content_field($cont_field);
                             }
+
 
                             if ($save_global == true and $save_layout == false) {
 
@@ -1189,6 +1240,9 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
         }
+        $this->app->event_manager->trigger('mw.content.save_edit.after', $json_print);
+
+
         if (isset($opts_saved)) {
             $this->app->cache_manager->delete('options');
         }
@@ -1198,7 +1252,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->cache_manager->delete('repositories');
         $this->app->content_repository->clearCache();
         $this->app->category_repository->clearCache();
-       $this->app->menu_repository->clearCache();
+        $this->app->menu_repository->clearCache();
 
         return $json_print;
     }
@@ -1302,7 +1356,7 @@ class ContentManagerHelpers extends ContentManagerCrud
     {
         $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
-     //    $table_drafts = $this->tables['content_fields_drafts'];
+        //    $table_drafts = $this->tables['content_fields_drafts'];
         $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
@@ -1316,6 +1370,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         if (isset($data['is_draft']) and $data['is_draft']) {
             $table = $table_drafts;
         }
+
 
         $data = $this->app->format->strip_unsafe($data);
 
@@ -1419,38 +1474,40 @@ class ContentManagerHelpers extends ContentManagerCrud
         $filter['one'] = 1;
         $filter['no_cache'] = true;
 
-         if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
+        if (isset($data['is_draft']) and $data['is_draft'] and isset($data['url'])) {
 
-          //   $find = $this->app->database_manager->get($table, $filter);
-
-
-             $find = false;
-             //delete old drafts
-             $old = \DB::table($table)
-                 ->where('rel_type', $data['rel_type'])
-                 ->where('rel_id', $data['rel_id'])
-                 ->where('field', $data['field'])
-                 ->where('url', $data['url'])
-                 ->take(1000)
-                 ->skip(1000)
-                 ->get();
-             if (!empty($old)){
-                 foreach ($old as $item) {
-                     \DB::table($table)->where('id', $item->id)->delete();
-                 }
-             }
-
-         }  else {
+            //   $find = $this->app->database_manager->get($table, $filter);
 
 
+            $find = false;
+            //delete old drafts
+            $old = \DB::table($table)
+                ->where('rel_type', $data['rel_type'])
+                ->where('rel_id', $data['rel_id'])
+                ->where('field', $data['field'])
+                ->where('url', $data['url'])
+                ->take(1000)
+                ->skip(1000)
+                ->get();
+            if (!empty($old)){
+                foreach ($old as $item) {
+                    \DB::table($table)->where('id', $item->id)->delete();
+                }
+            }
 
-              $find = $this->app->database_manager->get($table, $filter);
+        }  else {
 
-         }
+
+
+            $find = $this->app->database_manager->get($table, $filter);
+
+        }
 
         if ($find and isset($find['id'])) {
             $data['id'] = $find['id'];
         }
+
+
 
         $save = $this->app->database_manager->save($data);
 

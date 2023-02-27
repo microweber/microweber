@@ -38,6 +38,18 @@ $num = 1.00;
             </select>
         </div>
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#payment_currency_rate_val_sugg').on('keyup input paste', function() {
+                    this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+                });
+
+
+             });
+        </script>
+
+
+
         <div class="form-group">
             <label class="control-label"><?php _e('Convert rate'); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Convert rate from default currency to payment currency"); ?></small>

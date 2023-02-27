@@ -40,12 +40,10 @@ class AppMailChannel extends MailChannel
 //             \Log::error($e);
 //        } catch (Swift_TransportException $e) {
 //             \Log::error($e);
-        }catch (TransportException $e) {
-             \Log::error($e);
+        } catch (TransportException $e) {
+         //    \Log::error($e);
+        } catch (\Exception $e) {
+         //   \Log::error($e);
         }
-
-//        catch (\Exception $e) {
-//            \Log::error($e);
-//        }
     }
 }

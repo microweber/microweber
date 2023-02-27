@@ -34,6 +34,9 @@ class AdminAddCategoryTest extends DuskTestCase
             });
             $browser->pause(1000);
 
+            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                $browser->validate();
+            });
 
             $categoryTitle = 'This is the category title'.time();
             $categoryDescription = 'This is the category description'.time();

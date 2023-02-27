@@ -62,7 +62,9 @@ if (!empty($template_id)) {
                 placeholder: rootScope.lang('<?php _e("E-mail Values"); ?>')
             });
             dropdown.select.on('change', function (e, val) {
-                api.insertHTML(val.value);
+                if(val) {
+                    api.insertHTML(val.value);
+                }
             });
             return dropdown.root;
         };

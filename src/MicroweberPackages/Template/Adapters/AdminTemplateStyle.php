@@ -86,7 +86,7 @@ class AdminTemplateStyle
 
         $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
         $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
-        $theme = str_replace('..', '', $theme);
+        $theme = sanitize_path($theme);
         $vars_file = normalize_path($themes_dir . $theme . '/_variables.scss', false);
 
         if (is_file($vars_file)) {

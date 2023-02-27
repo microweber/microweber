@@ -4,8 +4,8 @@ use Omnipay\Omnipay;
 $authorize_net_apiLoginId = get_option('authorize_net_apiLoginId', 'payments');
 $authorize_net_transactionKey = get_option('authorize_net_transactionKey', 'payments');
 $authorize_net_developerMode = get_option('authorize_net_testMode', 'payments');
- 
- 
+
+
 
 $gateway = Omnipay::create('AuthorizeNet_AIM');
 $gateway->setApiLoginId($authorize_net_apiLoginId);
@@ -13,10 +13,11 @@ $gateway->setTransactionKey($authorize_net_transactionKey);
 if(intval($authorize_net_developerMode) != 0){
 $gateway->setDeveloperMode(true);
 }
- 
- 
- 
- 
+
+
+include __DIR__.'/../lib/legacy_fields.php';
+
+
 $formData = include(dirname(__DIR__).DS.'lib'.DS.'omnipay'.DS.'omnipay_populate_form_data.php');
 
 
@@ -54,4 +55,3 @@ try {
 
 
 }
- 

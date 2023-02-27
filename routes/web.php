@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Category\Models\CategoryItem;
+use MicroweberPackages\Content\Models\Content;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('product-variants', function() {
-
-    $getProduct = \MicroweberPackages\Product\Models\Product::where('id', 14)->first();
-    $getProduct->generateVariants();
-
-});

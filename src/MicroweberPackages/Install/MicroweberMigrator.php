@@ -59,6 +59,7 @@ class MicroweberMigrator extends Migrator
             if (strpos($e->getMessage(), 'already exists') !== false) {
                 $this->repository->log($name, $batch);
             }
+            $this->note($e->getMessage());
         }
 
         $runTime = round(microtime(true) - $startTime, 2);
@@ -108,6 +109,12 @@ class MicroweberMigrator extends Migrator
     public $logger = null;
 
     public function log($text)
+    {
+        if (is_object($this->logger) and method_exists($this->logger, 'log')) {
+            $this->logger->log($text);
+        }
+    }
+    public function note($text)
     {
         if (is_object($this->logger) and method_exists($this->logger, 'log')) {
             $this->logger->log($text);

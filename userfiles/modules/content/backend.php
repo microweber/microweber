@@ -13,7 +13,9 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 }
 
 ?>
-
+<script>
+    mw.require("content.js");
+</script>
 <script>
 
     mw.on.hashParam("search", function (pval) {
@@ -204,7 +206,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
         mw.$(".js-top-save").hide();
 
-        window.scrollTo(0, 0);
+
         mw.$("#pages_edit_container").stop();
         mw.$('#pages_edit_container').removeAttr('mw_select_trash');
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
@@ -277,18 +279,17 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
         var action = mw.url.windowHashParam('action');
         var holder = $('#pages_edit_container');
 
-
+        var time = 500;
         if (!action) {
             mw.$('.fade-window').removeClass('active');
         }
 
-         var edit_content_load_admin_spinner = mw.spinner({
+         edit_content_load_admin_spinner =  mw.spinner({
             element: '#mw-content-backend',
             size:40
         })
 
-        console.log(edit_content_load_admin_spinner)
-        console.log(edit_content_load_admin_spinner.remove)
+
         setTimeout(function () {
 
             mw.load_module(module, holder, function () {
@@ -297,9 +298,10 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
                 if (callback) callback.call();
 
             });
-            console.log(edit_content_load_admin_spinner)
-            edit_content_load_admin_spinner.remove()
-        }, 500)
+            if(typeof edit_content_load_admin_spinner !== 'undefined'){
+                edit_content_load_admin_spinner.remove();
+            }
+         }, time)
 
 
     }
@@ -644,6 +646,8 @@ if ($action == 'posts') {
                             </div>
                         </div>
 
+
+
                         <script>
                             $(document).ready(function () {
                                 $('.js-open-close-all-tree-elements').on('change', function () {
@@ -654,12 +658,10 @@ if ($action == 'posts') {
                                     }
                                 });
                             });
+
                         </script>
 
-                        <div class="input-group mb-0 prepend-transparent">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text bg-white px-2"><i class="mdi mdi-magnify"></i></span>
-                            </div>
+                        <div class="input-group mb-0">
                             <input type="text" class="form-control form-control-sm" aria-label="Search" id="main-tree-search" placeholder="<?php _e('Search'); ?>">
                         </div>
                     </div>
@@ -669,11 +671,20 @@ if ($action == 'posts') {
                             var pagesTree;
 
                             var pagesTreeRefresh = function () {
-
+                                mw.spinner({
+                                    element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                    decorate: true,
+                                    size: 30
+                                }).show()
                                 var request = new XMLHttpRequest();
                                 request.open('GET', '<?php print $tree_url_endpoint; ?>', true);
                                 request.send();
                                 request.onload = function() {
+                                    mw.spinner({
+                                        element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
+                                        decorate: true,
+                                        size: 40
+                                    }).hide()
                                     if (request.status >= 200 && request.status < 400) {
 
                                         var data = JSON.parse(request.responseText);
@@ -695,9 +706,11 @@ if ($action == 'posts') {
                                                 data: data,
                                                 element: $("#pages_tree_container_<?php print $my_tree_id; ?>")[0],
                                                 resizable: true,
-                                                sortable: false,
+                                                resizableOn: 'treeParent',
+                                                sortable: true,
                                                 selectable: false,
                                                 toggleSelect: false,
+                                                searchInputPlaceholder: '<?php _e('Search categories'); ?>',
                                                 id: 'admin-main-tree',
                                                 append: treeTail,
                                                 contextMenu: [
@@ -721,7 +734,7 @@ if ($action == 'posts') {
                                                     },
                                                     {
                                                         title: 'Move to trash',
-                                                        icon: 'mdi mdi-close',
+                                                        icon: 'mdi mdi-delete',
                                                         action: function (element, data, menuitem) {
                                                             if (data.type === 'category') {
                                                                 mw.content.deleteCategory(data.id, function () {
@@ -749,6 +762,7 @@ if ($action == 'posts') {
                                                 ]
                                             });
                                             mw.adminPagesTree = pagesTree;
+
 
                                             $(pagesTree).on("orderChange", function (e, item, data, old, local) {
                                                 var obj = {ids: local};
@@ -802,17 +816,30 @@ if ($action == 'posts') {
                                                         mw.url.windowHashParam("action", action + ":" + data.id);
                                                     }
                                                 });
-                                                mainTreeSetActiveItems()
+                                                mainTreeSetActiveItems();
+                                                setTimeout(function () {
 
-                                                $("#edit-content-row .tree-column").resizable({
-                                                    handles: "e",
-                                                    resize: function (e, ui) {
-                                                        var root = mw.$(ui.element);
-                                                        mw.$('.fixed-side-column', root).width(root.width())
-                                                    },
-                                                    minWidth: 200
-                                                })
-                                            })
+                                                        var treeHolderSet = function (){
+
+                                                            var treeHolder = mw.element('#admin-main-tree');
+                                                            if(treeHolder) {
+                                                                treeHolder.css({
+                                                                    'height': 'calc(100vh - ' + (treeHolder.offset().top) + 'px)',
+                                                                    'overflow': 'auto',
+                                                                    'minHeight': '200px',
+                                                                });
+                                                            }
+
+
+                                                        }
+                                                        addEventListener('load', treeHolderSet);
+                                                        addEventListener('resize', treeHolderSet);
+
+
+                                                    treeHolderSet();
+                                                }, 100)
+
+                                             })
                                     }
                                 };
 

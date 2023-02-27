@@ -412,7 +412,8 @@ var wroot = window.opener || mw.top().win;
             }
 
 
-            mw.tools.addClass(el, 'changed')
+            mw.tools.addClass(el, 'changed is-reset')
+           // mw.tools.removeClass(el, 'changed')
             mw.tools.foreachParents(el, function () {
                 if (mw.tools.hasClass(this, 'edit')) {
                     mw.tools.addClass(this, 'changed')

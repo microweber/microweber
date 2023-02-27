@@ -39,7 +39,8 @@ class Lang
     {
         $lang = str_replace('.', '', $lang);
         $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
-        $lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+        //$lang = filter_var($lang, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+        $lang = htmlspecialchars($lang);
         $this->clearCache();
 
         // must not clear options cache here
@@ -422,7 +423,7 @@ class Lang
             } else {
                 $namespace = trim($namespace);
                 $namespace = str_replace(' ', '', $namespace);
-                $namespace = str_replace('..', '', $namespace);
+                $namespace = sanitize_path($namespace);
                 $namespace = str_replace('\\', '/', $namespace);
                 if (!isset($mw_new_language_entries_ns[$namespace])) {
                     $mw_new_language_entries_ns[$namespace] = array();
@@ -487,7 +488,7 @@ class Lang
                 if ($dir and stristr($dir, $lang_files_dir) and is_dir($dir)) {
                     $dir = str_replace($lang_files_dir, '', $dir);
                     $namespace = str_replace(' ', '', $dir);
-                    $namespace = str_replace('..', '', $namespace);
+                    $namespace = sanitize_path($namespace);
                     $namespace = str_replace('\\', '/', $namespace);
                     $ns[] = $namespace;
 
@@ -563,7 +564,7 @@ class Lang
         global $mw_language_content_namespace;
         $namespace = trim($namespace);
         $namespace = str_replace(' ', '', $namespace);
-        $namespace = str_replace('..', '', $namespace);
+        $namespace = sanitize_path($namespace);
         $namespace = str_replace('\\', '/', $namespace);
         if (isset($mw_language_content_namespace[$lang][$namespace]) and !empty($mw_language_content_namespace[$lang][$namespace])) {
             return $mw_language_content_namespace[$lang][$namespace];

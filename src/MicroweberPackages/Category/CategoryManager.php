@@ -337,52 +337,36 @@ class CategoryManager
      */
     public function get_items_count($id, $rel_type = false)
     {
-        if ($id == false) {
-            return false;
-        }
+        return app()->category_repository->getItemsCount($id);
 
-        $table_items = $this->tables['categories_items'];
-
-        $params = array();
-        $params['table'] = $table_items;
-        $params['parent_id'] = $id;
-        if ($rel_type != false) {
-            $params['rel_type'] = $rel_type;
-        }
-
-        $params['count'] = true;
-
-        $data = $this->app->database_manager->get($params);
-
-        return $data;
     }
 
-    /**
-     * Gets category items.
-     *
-     * @param mixed $params Array or string with parameters
-     * @param string $data_type
-     *
-     * @return array|bool
-     */
-    public function get_items($params, $data_type = 'categories')
-    {
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $table_items = $this->tables['categories_items'];
-        $data = $params;
-
-        $data['table'] = $table_items;
-        if (!isset($params['limit'])) {
-            $data['no_limit'] = true;
-        }
-
-        $data = $this->app->database_manager->get($data);
-
-        return $data;
-    }
+//    /**
+//     * Gets category items.
+//     *
+//     * @param mixed $params Array or string with parameters
+//     * @param string $data_type
+//     *
+//     * @return array|bool
+//     */
+//    public function get_items($params, $data_type = 'categories')
+//    {
+//        if (is_string($params)) {
+//            $params = parse_str($params, $params2);
+//            $params = $options = $params2;
+//        }
+//        $table_items = $this->tables['categories_items'];
+//        $data = $params;
+//
+//        $data['table'] = $table_items;
+//        if (!isset($params['limit'])) {
+//            $data['no_limit'] = true;
+//        }
+//
+//        $data = $this->app->database_manager->get($data);
+//
+//        return $data;
+//    }
 
     public function get($params)
     {
@@ -732,6 +716,7 @@ class CategoryManager
         if (intval($save) == 0) {
             return false;
         }
+        return $save;
     }
 
     /**
@@ -870,8 +855,10 @@ class CategoryManager
         }
         if ($cat_url != false and !is_numeric($cat_url)) {
             $cat_url_by_slug = $this->get_by_url($cat_url);
+
             if (isset($cat_url_by_slug['id'])) {
                 $cat_id = $cat_url_by_slug['id'];
+                return $cat_id;
             }
         }
 
@@ -930,6 +917,7 @@ class CategoryManager
     }
 
 
+
     public function get_category_childrens($cat_id)
     {
 
@@ -963,6 +951,12 @@ class CategoryManager
         if ($has_children) {
             if ($has_children) {
                 foreach ($has_children as $cat_sub_id) {
+
+                    if($cat_sub_id == $cat_id){
+                        // no loop
+                        continue;
+                    }
+
                     $cat_sub = get_category_by_id($cat_sub_id);
                     if ($cat_sub) {
                         $childrens[] = $cat_sub;
@@ -982,6 +976,12 @@ class CategoryManager
 
     public function get_admin_js_tree_json($params)
     {
+
+        $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
+        $tree->filters($params);
+
+        return $tree->get();
+
         $json = array();
 
         //    $kw = false;
@@ -989,7 +989,6 @@ class CategoryManager
         $pages_params = array();
         $pages_params['no_limit'] = 1;
         $pages_params['order_by'] = 'position desc';
-
 
         if (isset($params['from_content_id'])) {
             $pages_params['id'] = intval($params['from_content_id']);
@@ -1002,17 +1001,29 @@ class CategoryManager
             $pages_params['keyword'] = ($params['keyword']);
         }
 
+        if (isset($params['exclude_ids'])) {
+            $pages_params['exclude_ids'] = trim($params['exclude_ids']);
+        }
+
+        if (isset($params['content_type'])) {
+            $pages_params['content_type'] = ($params['content_type']);
+        }
+        $show_cats = true;
+        if (isset($params['content_type'])) {
+            $show_cats = false;
+        }
 
         $pages = get_pages($pages_params);
         if ($pages) {
             foreach ($pages as $page) {
                 $item = array();
                 $item['id'] = $page['id'];
-                $item['type'] = 'page';
+                $item['type'] = $page['content_type'];
                 $item['parent_id'] = intval($page['parent']);
                 $item['parent_type'] = 'page';
                 $item['title'] = $page['title'];
                 $item['url'] = content_link($page['id']);
+                $item['is_active'] = intval($page['is_active']);
                 // $item['has_children'] = 0;
 
                 $item['subtype'] = $page['subtype'];
@@ -1028,37 +1039,46 @@ class CategoryManager
                 $item['position'] = intval($page['position']);
                 $json[] = $item;
 
+                if($show_cats) {
+                    $cat_params = [];
+                    $cat_params['parent_page'] = intval($page['id']);
+                    $cat_params['no_limit'] = 1;
+                    $cat_params['order_by'] = 'position asc';
+                    if (isset($params['keyword'])) {
+                        $cat_params['keyword'] = ($params['keyword']);
+                    }
+                    $pages_cats = get_categories($cat_params);
+                    if ($pages_cats) {
+                        foreach ($pages_cats as $cat) {
 
-                $cat_params = [];
-                $cat_params['parent_page'] = intval($page['id']);
-                $cat_params['no_limit'] = 1;
-                $cat_params['order_by'] = 'position asc';
-                if (isset($params['keyword'])) {
-                    $cat_params['keyword'] = ($params['keyword']);
-                }
-                $pages_cats = get_categories($cat_params);
-                if ($pages_cats) {
-                    foreach ($pages_cats as $cat) {
-
-                        $item = array();
-                        $item['id'] = intval($cat['id']);
-                        $item['type'] = 'category';
-                        $item['parent_id'] = intval($page['id']);
-                        $item['parent_type'] = 'page';
-                        $item['title'] = $cat['title'];
-                        $item['subtype'] = 'category';
-                        $item['position'] = intval($cat['position']);
-                        $item['url'] = category_link($cat['id']);
-
-                        $json[] = $item;
-
-                        $childrens = $this->get_category_childrens($cat['id']);
-                        if ($childrens) {
-                            foreach ($childrens as $children) {
-                                $json[] = $children;
+                            $item = array();
+                            $item['id'] = intval($cat['id']);
+                            $item['type'] = 'category';
+                            $item['parent_id'] = intval($page['id']);
+                            $item['parent_type'] = 'page';
+                            $item['title'] = $cat['title'];
+                            $item['subtype'] = 'category';
+                            $item['position'] = intval($cat['position']);
+                            $item['url'] = category_link($cat['id']);
+                            $item['is_active'] = 1;
+                            if (isset($cat['is_hidden']) and $cat['is_hidden'] == 1) {
+                                $item['is_active'] = 0;
                             }
-                        }
 
+                            $json[] = $item;
+
+                            $childrens = $this->get_category_childrens($cat['id']);
+                            if ($childrens) {
+                                foreach ($childrens as $children) {
+                                    $children['is_active'] = 1;
+                                    if (isset($children['is_hidden']) and $children['is_hidden'] == 1) {
+                                        $children['is_active'] = 0;
+                                    }
+                                    $json[] = $children;
+                                }
+                            }
+
+                        }
                     }
                 }
             }

@@ -6,46 +6,30 @@ mw.require('tags.js');
 mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 
+var _adm = {
 
-
-mw.admin = {
     language: function(language) {
-        if (typeof(mw.notification) != 'undefined') {
+        if (mw.notification) {
             mw.notification.success('Changing language...',10000);
         }
-        $.post(mw.settings.api_url + "multilanguage/change_language", {locale: language, is_admin: 1})
-        .done(function (data) {
-            if (typeof(mw.notification) != 'undefined') {
+        var url = mw.settings.api_url + 'multilanguage/change_language';
+        $.post(url, {locale: language, is_admin: 1}).done(function () {
+            if (mw.notification) {
                 mw.notification.success('Language changed! Reloading page...');
             }
-
-            location.reload();
+            setTimeout(function(){
+                location.reload();
+            }, 1000);
         });
     },
     editor: {
         set: function (frame) {
             mw.$(frame).width('100%');
-          /*
-            if (!!frame && frame !== null && !!frame.contentWindow) {
-                var width_mbar = mw.$('#main-bar').width(),
-                    tree = document.querySelector('.tree-column'),
-                    width_tbar = mw.$(tree).width(),
-                    ww = mw.$(window).width();
-                if (tree.style.display === 'none') {
-                    width_tbar = 0;
-                }
-                if (width_mbar > 200) {
-                    width_mbar = 0;
-                }
-                mw.$(frame)
-                    .width(ww - width_tbar - width_mbar - 35)
-                    .height(frame.contentWindow.document.body.offsetHeight);
-            }*/
         },
         init: function (area, params) {
             params = params || {};
             if (typeof params === 'object') {
-                if (typeof params.src != 'undefined') {
+                if (typeof params.src !== 'undefined') {
                     delete(params.src);
                 }
             }
@@ -54,7 +38,6 @@ mw.admin = {
             area = mw.$(area);
             var frame = document.createElement('iframe');
             frame.src = mw.external_tool('wysiwyg?' + params);
-            console.log(mw.external_tool('wysiwyg?' + params))
             frame.className = 'mw-iframe-editor';
             frame.scrolling = 'no';
             var name = 'mweditor' + mw.random();
@@ -87,7 +70,7 @@ mw.admin = {
     },
 
 
-        simpleRotator: function (rotator) {
+    simpleRotator: function (rotator) {
         if (rotator === null) {
             return undefined;
         }
@@ -102,9 +85,9 @@ mw.admin = {
                     method = method || 'animate';
                     mw.$(rotator).dataset('state', where);
                     mw.$(rotator.children).hide().eq(where).show()
-                        if (typeof callback === 'function') {
-                            callback.call(rotator);
-                        }
+                    if (typeof callback === 'function') {
+                        callback.call(rotator);
+                    }
 
                     if (rotator.ongoes.length > 0) {
                         var l = rotator.ongoes.length;
@@ -188,14 +171,195 @@ mw.admin = {
     }
 };
 
+if(mw.admin) {
+    Object.assign(_adm, mw.admin);
+} else {
+    mw.admin = _adm;
+}
+
+mw.admin.back = function () {
+    history.go(-1);
+    mw.element('#main-tree-search').val('');
+};
+
+mw.admin.tree = function (target, opt, mode) {
+
+
+    if(typeof target === "string") {
+        target = document.querySelector(target);
+    }
+    if(!target) {
+        return;
+    }
+    if(!mode) {
+        mode = 'treeTags';
+    }
+    if(!opt) {
+        opt = {};
+    }
+
+    mw.spinner({element: target, size: 32, decorate: true});
+
+    var tree;
+
+    var params = opt.params, options = opt.options;
+
+    var url = mw.settings.api_url + 'content/get_admin_js_tree_json';
+    var treeEl = document.createElement('div');
+    treeEl.className = 'mw--global-admin-tree';
+    if(options.id) {
+        treeEl.id = 'mw--parent-' + options.id;
+    }
+
+
+
+    if(!params) {
+        params = {};
+    }
+
+    if(!options) {
+        options = {};
+    }
+
+
+    var optionsDefaults;
+
+    function _getTree() {
+        return tree.tree || tree;
+    }
+
+    if(mode === 'tree') {
+        optionsDefaults = {
+            element: treeEl,
+            sortable: false,
+            selectable: true,
+            singleSelect: true,
+            searchInput: true
+        };
+    } else if(mode === 'treeTags') {
+        var tags = mw.element();
+
+        optionsDefaults = {
+            selectable: true,
+            multiPageSelect: false,
+            tagsHolder: tags.get(0),
+            treeHolder: treeEl,
+            color: 'primary',
+            size: 'sm',
+            outline: true,
+            saveState: false,
+            searchInput: true,
+            on: {
+                selectionChange: function () {
+                    mw.askusertostay = true;
+
+                }
+            }
+        };
+
+        target.appendChild(tags.get(0));
+    }
+
+    target.appendChild(treeEl);
+
+    var _serialize = function(obj) {
+        var str = [];
+        for (var p in obj){
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        }
+        return str.join("&");
+    };
+
+    var treeSettings = Object.assign({}, optionsDefaults, options);
+
+    url = url + '?' + _serialize(params);
+
+    return new Promise(function (resolve){
+        $.get(url, function (data) {
+            treeSettings.data = data;
+            tree = new mw[mode](treeSettings);
+            var res =  {
+                tree: mode === 'tree' ? tree : tree.tree,
+                tags: mode === 'tree' ? null : tree.tags,
+                treeTags: mode === 'tree' ? null : tree
+            };
+            resolve(res);
+            mw.spinner({element: target}).remove();
+        });
+    });
+};
+
 
 mw.contactForm = function () {
-    mw.top().dialogIframe({
-        url: 'https://microweber.com/contact-frame/',
-        overlay: true,
-        height: 600
-    })
+   window.open('https://microweber.org/go/feedback/', '_blank');
+
+
 };
+
+
+
+if(typeof mw.admin.content === 'undefined'){
+    mw.admin.content = {};
+}
+mw.admin.content.delete = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+
+
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr}
+        if (typeof mw.spinner !== 'undefined') {
+            mw.spinner({element: '.js-delete-content-btn-' + arr[0], size: 32, decorate: true});
+        }
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was sent to Trash");
+            typeof callback === 'function' ? callback.call(data) : '';
+            mw.admin.content.refreshContentListAfterAction();
+            if (typeof mw.spinner !== 'undefined') {
+            mw.spinner({element: '.js-delete-content-btn-'+arr[0], size: 32, decorate: true}).remove();
+            }
+         });
+    });
+}
+mw.admin.content.deleteForever = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr, forever: true}
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was deleted forever");
+            mw.admin.content.refreshContentListAfterAction();
+
+            typeof callback === 'function' ? callback.call(data) : '';
+         });
+    });
+}
+mw.admin.content.restoreFromTrash = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to restore this content from trash? ", function () {
+        var arr = (a.constructor === [].constructor) ? a : [a];
+        var obj = {ids: arr, undelete: true}
+        $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+            mw.notification.warning("Content was restored from Trash");
+            mw.admin.content.refreshContentListAfterAction();
+
+            typeof callback === 'function' ? callback.call(data) : '';
+         });
+    });
+}
+mw.admin.content.publishContent = function (a, callback) {
+    mw.tools.confirm("Are you sure you want to publish this content? ", function () {
+        mw.content.publish(a);
+        mw.admin.content.refreshContentListAfterAction();
+    });
+}
+mw.admin.content.refreshContentListAfterAction = function () {
+
+    if(typeof window.livewire !== 'undefined') {
+
+        window.livewire.emit('refreshContentList');
+    }
+}
+
 
 
 $(mwd).ready(function () {
@@ -257,23 +421,26 @@ $(mww).on('load', function () {
     });
 
     mw.$(".dr-item-table > table").click(function(){
-        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active')
+        mw.$(this).toggleClass('active').next().stop().slideToggle().parents('.dr-item').toggleClass('active');
     });
+
+    var nodes = mw.element('.main.container > aside,.main.container .tree');
+    var ol = mw.element('<i class="admin-mobile-navi-overlay"></i>');
+    nodes.after(ol);
+    var buttons = Array.from(document.querySelectorAll('.js-toggle-mobile-nav,.admin-mobile-navi-overlay'));
+    buttons.forEach(function (node){
+        node.addEventListener('click', function () {
+            buttons.forEach(function (node){
+                node.classList.toggle('opened');
+            });
+            nodes.toggleClass('opened');
+        });
+    });
+
 
 });
 
 
-QTABSArrow = function (el) {
-    el = mw.$(el);
-    if (el == null) {
-        return;
-    }
-    if (!el.length) {
-        return;
-    }
-    var left = el.offset().left - mw.$(document.getElementById('quick-add-post-options')).offset().left + (el[0].offsetWidth / 2) - 5;
-    mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-};
 
 
 ;(function (){
@@ -295,3 +462,49 @@ QTABSArrow = function (el) {
     mw.admin.rtlDetect = RtlDetect;
 
 })();
+
+$.fn.serializeAssoc = function() {
+    var data = {};
+    $.each( this.serializeArray(), function( key, obj ) {
+        var a = obj.name.match(/(.*?)\[(.*?)\]/);
+        if(a !== null)
+        {
+            var subName = a[1];
+            var subKey = a[2];
+
+            if( !data[subName] ) {
+                data[subName] = [ ];
+            }
+
+            if (!subKey.length) {
+                subKey = data[subName].length;
+            }
+
+            if( data[subName][subKey] ) {
+                if( $.isArray( data[subName][subKey] ) ) {
+                    data[subName][subKey].push( obj.value );
+                } else {
+                    data[subName][subKey] = [ ];
+                    data[subName][subKey].push( obj.value );
+                }
+            } else {
+                data[subName][subKey] = obj.value;
+            }
+        } else {
+            if( data[obj.name] ) {
+                if( $.isArray( data[obj.name] ) ) {
+                    data[obj.name].push( obj.value );
+                } else {
+                    data[obj.name] = [ ];
+                    data[obj.name].push( obj.value );
+                }
+            } else {
+                data[obj.name] = obj.value;
+            }
+        }
+    });
+    return data;
+};
+
+
+

@@ -7,6 +7,7 @@
  */
 namespace MicroweberPackages\Multilanguage;
 
+use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
@@ -51,7 +52,7 @@ class MultilanguageApi
 
                 TranslationText::where('translation_locale', $find['locale'])->delete();
 
-                clearcache(); 
+                clearcache();
                 return $delete;
             }
         }
@@ -97,16 +98,24 @@ class MultilanguageApi
             return;
         }
 
+
+
         $json = array();
         $locale = $params['locale'];
         if (!is_lang_correct($locale)) {
             return array('error' => _e('Locale is not supported', true));
         }
 
-        $mlPermalink = new MultilanguagePermalinkManager($locale);
+        if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+            $mlPermalink = new PermalinkManager();
+            change_language_by_locale($locale, true);
+        } else {
+            $mlPermalink = new MultilanguagePermalinkManager($locale);
+            change_language_by_locale($locale, true);
+            run_translate_manager();
+        }
 
-        change_language_by_locale($locale, true);
-        run_translate_manager();
+
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             mw()->event_manager->trigger('mw.admin.change_language');
@@ -121,11 +130,7 @@ class MultilanguageApi
             $contentId = mw()->content_manager->get_content_id_from_url($url);
             $contentCheck = get_content_by_id($contentId);
 
-   /*       dd([
-                'categoryId'=> $categoryId,
-                'contentId'=>$contentId,
-                'contentCheck'=>$contentCheck
-            ]);*/
+
 
             if ($contentCheck && isset($contentCheck['content_type'])) {
                 if ($categoryId && $contentCheck['content_type'] == 'page') {

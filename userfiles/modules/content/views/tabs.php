@@ -99,7 +99,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             <div class="card-header no-border">
 
                 <h6><strong><?php _e("Custom fields"); ?></strong></h6>
-                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-bs-toggle="collapse" data-bs-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; Custom fields</a>
+                <a href="javascript:;" class="btn btn-link btn-sm js-show-custom-fields" data-bs-toggle="collapse" data-bs-target="#custom-fields-settings"><span class="collapse-action-label"><?php _e('Show') ?></span> Custom fields</a>
 
             </div>
 
@@ -134,7 +134,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     <?php endif; ?>
 
     <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>" content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"/>
-    <?php event_trigger('content/views/advanced_settings', $data); ?>
+    <?php event_trigger('content.views.advanced_settings', $data); ?>
 
 
     <div class="mt-9">

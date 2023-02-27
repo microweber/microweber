@@ -193,7 +193,6 @@ mw.fileWindow = function (config) {
                 }
             });
             $(modal).on('Result', function (e, url, m) {
-                console.log(9999)
                 if (config.change) {
                     config.change.call(undefined, url);
                     modal.remove();

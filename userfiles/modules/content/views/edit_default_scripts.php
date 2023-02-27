@@ -108,16 +108,23 @@
         if (mw.notification != undefined) {
             mw.notification.success('<?php _ejs('Content saved!'); ?>');
         }
+
+
+
         if (parent !== self && !!parent.mw) {
 
-            mw.reload_module_parent('posts');
-            mw.reload_module_parent('shop/products');
-            mw.reload_module_parent('shop/cart_add');
-            mw.reload_module_parent('pages');
-            mw.reload_module_parent('content');
-            mw.reload_module_parent('custom_fields');
+            mw.reload_module_everywhere('content/views/edit_default_sidebar_variants');
+            mw.reload_module_everywhere('posts');
+            mw.reload_module_everywhere('shop/products');
+            mw.reload_module_everywhere('shop/cart_add');
+            mw.reload_module_everywhere('pages');
+            mw.reload_module_everywhere('content');
+            mw.reload_module_everywhere('custom_fields');
+            mw.reload_module_everywhere('content/manager');
+            mw.reload_module_everywhere('content/manager');
+            mw.reload_module_everywhere('shop');
+
             mw.tools.removeClass(document.getElementById('mw-quick-content'), 'loading');
-            mw.reload_module('pages');
             mw.parent().askusertostay = false;
         } else {
             mw.reload_module('[data-type="pages"]', function () {
@@ -524,7 +531,6 @@
                     var tabsnav = $(document.getElementById('quick-add-post-options'));
                     var off = tabsnav.offset();
                     $(tabs).show();
-                    QTABSArrow(this);
                     QTABMaxHeight();
                 }
                 else {

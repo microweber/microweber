@@ -153,6 +153,7 @@ api_expose_admin('shop/export_orders', function ($data) {
 
 \Illuminate\Support\Facades\Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 
+    $mediaId = str_replace('..', '', $mediaId);
     $check = \MicroweberPackages\Media\Models\MediaThumbnail::where('id', $mediaId)->first();
 
     if ($check) {

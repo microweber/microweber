@@ -40,7 +40,7 @@ class MediaManager
         if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
             $for = 'content';
         } elseif ($for == 'category' or $for == 'categories') {
-            $for = 'categories';
+            $for = 'category';
         }
 
         $media = app()->media_repository->getPictureByRelIdAndRelType($content_id, $for);
@@ -97,42 +97,6 @@ class MediaManager
         return $content;
     }
 
-    public function upload_progress_check()
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            mw_error('not logged in as admin');
-        }
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_str = md5($_SERVER['HTTP_REFERER']);
-        } else {
-            $ref_str = 'no_HTTP_REFERER';
-        }
-        $ref_str = 'no_HTTP_REFERER';
-        $cache_id = 'upload_progress_' . $ref_str;
-        $cache_group = 'media/global';
-
-        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if ($cache_content != false) {
-            if (isset($cache_content['tmp_name']) != false) {
-                if (isset($cache_content['f']) != false) {
-                    $filename = $cache_content['tmp_name'];
-                    if (is_file($filename)) {
-                        $filesize = filesize($filename);
-                    }
-
-                    $filename = $cache_content['f'];
-
-                    if (is_file($filename)) {
-                        $filesize = filesize($filename);
-                    }
-
-                    $perc = $this->app->format->percent($filesize, $cache_content['size']);
-
-                    return $perc;
-                }
-            }
-        }
-    }
 
     public function upload($data)
     {
@@ -481,7 +445,7 @@ class MediaManager
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel_type']) and isset($s['rel_id'])) {
-                $s['rel_type'] = str_replace('..', '', $s['rel_type']);
+                $s['rel_type'] = sanitize_path($s['rel_type']);
 
                 $move_uploaded_files_dir = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS;
                 $move_uploaded_files_dir_index = media_base_path() . 'downloaded' . DS . $s['rel_type'] . DS . 'index.php';
@@ -1005,7 +969,7 @@ class MediaManager
         $media_url = trim($media_url);
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-        $src = str_replace('..', '', $src);
+        $src = sanitize_path($src);
 
         if (strstr($src, $surl) or strpos($src, $surl)) {
             $src = str_replace($surl . '/', $surl, $src);
@@ -1067,10 +1031,10 @@ class MediaManager
         // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
 
-        $cache = str_replace('..', '', $cache);
+        $cache = sanitize_path($cache);
 
         if (isset($cache_id)) {
-            $cache = str_replace('..', '', $cache_id);
+            $cache = sanitize_path($cache_id);
 
             // $cache = url_title($cache_id);
         }
@@ -1185,120 +1149,8 @@ class MediaManager
         }
     }
 
-    function pathauto_cleanstring($string)
-    {
-        $url = $string;
-        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url); // substitutes anything but letters, numbers and '_' with separator
-        $url = trim($url, "-");
-
-        if (function_exists('iconv')) {
-            $url = iconv("utf-8", "us-ascii//TRANSLIT", $url); // TRANSLIT does the whole job
-        }
-
-        $url = strtolower($url);
-        $url = preg_replace('~[^-a-z0-9_]+~', '', $url); // keep only letters, numbers, '_' and separator
-
-        return $url;
-    }
-
-    public function create_media_dir($params)
-    {
-        $clean = new HTMLClean();
-        $_REQUEST = $clean->cleanArray($_REQUEST);
-
-        must_have_access();
-        $resp = array();
-        // $target_path = media_base_path() . 'uploaded' . DS;
-        $target_path = media_uploads_path();
-        $fn_path = media_base_path();
-        if (isset($_REQUEST['path']) and trim($_REQUEST['path']) != '') {
-
-            $_REQUEST['path'] = urldecode($_REQUEST['path']);
-            $_REQUEST['path'] = $this->pathauto_cleanstring($_REQUEST['path']);
-
-            if (Str::length($_REQUEST['path']) > 500) {
-                return array('error' => 'Folder path is too long.');
-            }
-
-            $fn_path = $target_path . DS . $_REQUEST['path'] . DS;
-            $fn_path = str_replace('..', '', $fn_path);
-            $fn_path = normalize_path($fn_path, false);
-
-            $target_path = $fn_path;
-        }
-        if (!isset($_REQUEST['name']) || empty($_REQUEST['name'])) {
-            $resp = array('error' => 'You must send new_folder parameter');
-        } else {
-            $fn_new_folder_path = $_REQUEST['name'];
-            $fn_new_folder_path = urldecode($fn_new_folder_path);
-
-            $fn_new_folder_path = $this->pathauto_cleanstring($fn_new_folder_path);
-
-            if (Str::length($fn_new_folder_path) > 500) {
-                return array('error' => 'Folder path is too long.');
-            }
-
-            $fn_new_folder_path = str_replace('..', '', $fn_new_folder_path);
-            $fn_new_folder_path_new = $target_path . DS . $fn_new_folder_path;
-            $fn_path = normalize_path($fn_new_folder_path_new, false);
-            if (!is_dir($fn_path)) {
-                mkdir_recursive($fn_path);
-                $resp = array('success' => 'Folder ' . $fn_path . ' is created');
-            } else {
-                $resp = array('error' => 'Folder ' . $fn_new_folder_path . ' already exists');
-            }
-        }
-
-        return $resp;
-    }
-
-    public function delete_media_file($params)
-    {
-        must_have_access();
-
-        // $target_path = media_base_path() . 'uploaded' . DS;
-        $target_path = media_uploads_path();
-        $target_path = normalize_path($target_path, 0);
-        $path_restirct = userfiles_path();
-
-        $fn_remove_path = $_REQUEST['path'];
-        $resp = array();
-        if ($fn_remove_path != false and is_array($fn_remove_path)) {
-            foreach ($fn_remove_path as $key => $value) {
-                $fn_remove = $this->app->url_manager->to_path($value);
-
-                if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
-                    $path = urldecode($fn_remove);
-                    $path = normalize_path($path, 0);
-                    $path = str_replace('..', '', $path);
-                    $path = str_replace($path_restirct, '', $path);
-                    $target_path = userfiles_path() . DS . $path;
-                    $target_path = normalize_path($target_path, false);
-
-                    //  if (stristr($target_path, media_base_path())) {
-                    if (stristr($target_path, media_uploads_path())) {
-                        if (is_dir($target_path)) {
-                            mw('MicroweberPackages\Utils\System\Files')->rmdir($target_path, false);
-                            $resp = array('success' => 'Directory ' . $target_path . ' is deleted');
-                        } elseif (is_file($target_path)) {
-                            unlink($target_path);
-                            $resp = array('success' => 'File ' . basename($target_path) . ' is deleted');
-                        } else {
-                            $resp = array('error' => 'Not valid file or folder ' . $target_path . ' ');
-                        }
-                    } else {
-                        $resp = array('error' => 'Not allowed to delete on ' . $target_path . ' ');
-                    }
-                }
-            }
-        }
-
-        return $resp;
-    }
-
     public function tn_cache_id($params)
     {
-
         $tnhash = crc32(json_encode($params));
         if (isset($params['src'])) {
             $src = basename($params['src']);

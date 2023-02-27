@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
@@ -15,8 +16,17 @@ use Tests\DuskTestCase;
 
 class AdminAddPostTest extends DuskTestCase
 {
+
+    use TestHelpers;
+
     public function testAddPost()
     {
+
+        $pageId = $this->_generatePage('shop', 'Shop');
+        $this->_generateCategory('clothes', 'Clothes', $pageId);
+        $this->_generateCategory('t-shirts', 'T-shirts', $pageId);
+        $this->_generateCategory('decor', 'Decor', $pageId);
+
         $this->browse(function (Browser $browser) {
 
             $browser->within(new AdminLogin, function ($browser) {
@@ -24,8 +34,8 @@ class AdminAddPostTest extends DuskTestCase
             });
 
 
-            $postTitle = 'This is the post title'.time();
-            $postDescription = 'This is the post description'.time();
+            $postTitle = 'This is the post title' . time();
+            $postDescription = 'This is the post description' . time();
 
             $browser->visit(route('admin.post.create'));
 
@@ -46,19 +56,19 @@ class AdminAddPostTest extends DuskTestCase
             $category4_2 = 'T-shirts';
             $category4_3 = 'Decor';
 
-            $browser->within(new AdminContentCategorySelect, function ($browser) use($category4,$category4_1,$category4_2,$category4_3) {
+            $browser->within(new AdminContentCategorySelect, function ($browser) use ($category4, $category4_1, $category4_2, $category4_3) {
                 $browser->selectCategory($category4);
-                $browser->selectSubCategory($category4,$category4_1);
-                $browser->selectSubCategory($category4,$category4_2);
-                $browser->selectSubCategory($category4,$category4_3);
+                $browser->selectSubCategory($category4, $category4_1);
+                $browser->selectSubCategory($category4, $category4_2);
+                $browser->selectSubCategory($category4, $category4_3);
             });
 
-            $tag1 = 'Tagdusk-'.time().rand(100,200);
-            $tag2 = 'Tagdusk-'.time().rand(200,300);
-            $tag3 = 'Tagdusk-'.time().rand(300,400);
-            $tag4 = 'Tagdusk-'.time().rand(400,500);
+            $tag1 = 'Tagdusk-' . time() . rand(100, 200);
+            $tag2 = 'Tagdusk-' . time() . rand(200, 300);
+            $tag3 = 'Tagdusk-' . time() . rand(300, 400);
+            $tag4 = 'Tagdusk-' . time() . rand(400, 500);
 
-            $browser->within(new AdminContentTagAdd, function ($browser) use($tag1, $tag2, $tag3, $tag4) {
+            $browser->within(new AdminContentTagAdd, function ($browser) use ($tag1, $tag2, $tag3, $tag4) {
                 $browser->addTag($tag1);
                 $browser->addTag($tag2);
                 $browser->addTag($tag3);
@@ -74,8 +84,8 @@ class AdminAddPostTest extends DuskTestCase
 
 
             $browser->within(new AdminContentCustomFieldAdd, function ($browser) {
-                $browser->addCustomField('dropdown','Dropdown');
-                $browser->addCustomField('text','Text Field');
+                $browser->addCustomField('dropdown', 'Dropdown');
+                $browser->addCustomField('text', 'Text Field');
             });
 
             $browser->pause(1000);
@@ -89,10 +99,10 @@ class AdminAddPostTest extends DuskTestCase
             $this->assertEquals($findPost->subtype, 'post');
 
             $tags = content_tags($findPost->id);
-            $this->assertTrue(in_array($tag1,$tags));
-            $this->assertTrue(in_array($tag2,$tags));
-            $this->assertTrue(in_array($tag3,$tags));
-            $this->assertTrue(in_array($tag4,$tags));
+            $this->assertTrue(in_array($tag1, $tags));
+            $this->assertTrue(in_array($tag2, $tags));
+            $this->assertTrue(in_array($tag3, $tags));
+            $this->assertTrue(in_array($tag4, $tags));
 
             $findedCategories = [];
             $categories = content_categories($findPost->id);
@@ -100,17 +110,17 @@ class AdminAddPostTest extends DuskTestCase
                 $findedCategories[] = $category['title'];
             }
 
-            $this->assertTrue(in_array('Decor',$findedCategories));
-            $this->assertTrue(in_array('Clothes',$findedCategories));
-            $this->assertTrue(in_array('T-shirts',$findedCategories));
+            $this->assertTrue(in_array('Decor', $findedCategories));
+            $this->assertTrue(in_array('Clothes', $findedCategories));
+            $this->assertTrue(in_array('T-shirts', $findedCategories));
 
             $findedCustomFields = [];
             $customFields = content_custom_fields($findPost->id);
             foreach ($customFields as $customField) {
                 $findedCustomFields[] = $customField['name'];
             }
-            $this->assertTrue(in_array('Dropdown',$findedCustomFields));
-            $this->assertTrue(in_array('Text Field',$findedCustomFields));
+            $this->assertTrue(in_array('Dropdown', $findedCustomFields));
+            $this->assertTrue(in_array('Text Field', $findedCustomFields));
 
             $description = content_description($findPost->id);
             $this->assertEquals($description, $postDescription);

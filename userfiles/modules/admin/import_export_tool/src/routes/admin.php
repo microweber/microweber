@@ -1,47 +1,31 @@
 <?php
 
 use MicroweberPackages\Import\Formats\CsvReader;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
+use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 
 Route::name('admin.import-export-tool.')
     ->prefix(ADMIN_PREFIX . '/import-export-tool')
-    ->middleware(['admin'])
+    ->middleware(['admin', \MicroweberPackages\Modules\Admin\ImportExportTool\Http\Middleware\InstallationMiddleware::class])
     ->namespace('MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin')
     ->group(function () {
 
+        Route::post('/upload-feed', 'UploadFeedController@upload')->name('upload-feed');
 
-       Route::get('waw', function () {
+        Route::get('/import-wizard', 'ImportWizardController@index')->name('import-wizard');
 
-          //  $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss.xml');
-            //$contentXml = file_get_contents('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/example.xml');
-           // $contentXml = file_get_contents('https://templates.microweber.com/import_test/example_feed_xml_rss2.xml');
-           // $contentXml = file_get_contents('https://templates.microweber.com/import_test/xml_feed_2.xml');
-          //  $contentXml = app()->http->url('https://detourcoffee.com/collections/tea.atom')->get();
-         //   $contentXml = app()->http->url('https://techcrunch.com/startups/feed/')->get();
-            //$contentXml = app()->http->url('https://raw.githubusercontent.com/bobimicroweber/laravel-dusk-screenshot-chrome-ext/main/small_fasardi.php.xml')->get();
-           // $newReader = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray();
-         //  $data = $newReader->readXml($contentXml);
+        Route::get('/export-wizard', 'ExportWizardController@index')->name('export-wizard');
+        Route::get('/export-wizard/file/{id}', 'ExportWizardController@file')->name('export-wizard-file');
+        Route::get('/delete-wizard/file/{id}', 'ExportWizardController@deleteFile')->name('delete-wizard-file');
 
-
-
-           $filename = 'https://raw.githubusercontent.com/bobimicroweber/all-imports/main/data-example-2.csv';
-           $reader = new CsvReader($filename);
-           $data = $reader->readData();
-
-           $dropdownMapping = new \MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable();
-           $dropdownMapping->setContent([
-               'Data'=>$data
-           ]);
-           $dropdownMapping->setContentParentTags('Data');
-
-            $html = $dropdownMapping->render();
-
-            echo $html;
-        });
-
-
-
+        Route::get('/', 'AdminController@index')->name('index.main');
+        Route::get('/install', 'InstallController@index')->name('install');
         Route::get('/index', 'AdminController@index')->name('index');
         Route::get('/import/{id}', 'AdminController@import')->name('import');
         Route::get('/import-start/{id}', 'AdminController@importStart')->name('import-start');
+        Route::get('/import-delete/{id}', 'AdminController@importDelete')->name('import-delete');
+
+
+        Route::get('/index-exports', 'AdminController@exports')->name('index-exports');
 
     });

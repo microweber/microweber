@@ -2,38 +2,55 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Import\DatabaseSave;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
+use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminDefaultController
+class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminController
 {
     public function index(Request $request)
     {
-        $importFeedNames = [];
-        $getImportFeeds = ImportFeed::all();
-        if ($getImportFeeds->count() > 0) {
-            foreach ($getImportFeeds as $importFeed) {
-                $importFeedNames[$importFeed->id] = $importFeed->name;
-            }
+        $importFeeds = ImportFeed::get();
+
+        return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
+    }
+
+    public function exports()
+    {
+        $exportFeeds = ExportFeed::where('is_draft', 0)->get();
+
+        return $this->view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
+    }
+
+    public function importDelete($id)
+    {
+        $findImportFeed = ImportFeed::where('id', $id)->first();
+        if ($findImportFeed) {
+            $findImportFeed->delete();
         }
 
-        return $this->view('import_export_tool::admin.index', ['import_feed_names' => $importFeedNames]);
+        return redirect(route('admin.import-export-tool.index'));
     }
 
-    public function import($id)
-    {
-        return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
-    }
 
-    public function importStart($id) {
+    /*   public function import($id)
+        {
+            return $this->view('import_export_tool::admin.import', ['import_feed_id' => $id]);
+        }
 
-        $feedMapToArray = new FeedMapToArray();
-        $feedMapToArray->setImportFeedId($id);
-        $array = $feedMapToArray->toArray();
+        public function importWizard(Request $request)
+        {
 
-       DatabaseSave::savePost($array[0]);
+        }
 
+        public function importStart($id) {
 
-    }
+            $feedMapToArray = new FeedMapToArray();
+            $feedMapToArray->setImportFeedId($id);
+            $array = $feedMapToArray->toArray();
+
+           DatabaseSave::savePost($array[0]);
+
+        }*/
+
 }

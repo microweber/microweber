@@ -152,7 +152,7 @@ mw.slug = {
   normalize:function(string){
       if(!string) return '';
       string = string.substring(0, mw.slug.max);
-      return string.replace(/[`~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
+      return string.replace(/[`\/~!@#$%^&№€§*()\=?'"<>\{\}\[\]\\]/g, '');
   },
   removeSpecials:function(string){
     string = mw.slug.normalize(string);

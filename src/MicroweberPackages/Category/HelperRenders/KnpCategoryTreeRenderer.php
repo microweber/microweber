@@ -428,7 +428,7 @@ class KnpCategoryTreeRenderer
                     }
 
                     foreach ($data as $item_k => $item_v) {
-                        if (is_string($item_k) and !is_array($item_v)) {
+                        if (is_string($item_k) and (is_string($item_v) or is_numeric($item_v))) {
                             $extra_attribute_value = str_replace('{' . $item_k . '}', $item_v, $extra_attribute_value);
                         }
                     }

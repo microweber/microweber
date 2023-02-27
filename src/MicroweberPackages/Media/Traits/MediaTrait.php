@@ -8,15 +8,13 @@ use MicroweberPackages\Media\Models\Media;
 
 trait MediaTrait
 {
-
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
     private $_newMediaToAssociateIds = [];
 
-
     public function initializeMediaTrait()
     {
-      //  $this->appends[] = 'media';
         $this->fillable[] = 'media_ids';
+        $this->fillable[] = 'media_urls';
     }
 
     public function media()
@@ -24,7 +22,7 @@ trait MediaTrait
         return $this->hasMany(Media::class, 'rel_id')->orderBy('position', 'asc');
     }
 
-    public function thumbnail($width = false, $height = false, $crop = false)
+    public function thumbnail($width = 100, $height = 100, $crop = false)
     {
         $media = $this->media()->first();
         if ($media) {
@@ -58,23 +56,40 @@ trait MediaTrait
 
     public function getMediaAttribute()
     {
-        /*if ($this->relationLoaded('media')) {
-            return $this->getRelation('media');
-        }
-
-        $relation = $this->media()->get();
-        $this->setRelation('media',$relation);
-
-        return $relation;*/
-
         return $this->media()->get();
     }
-
-
 
     public static function bootMediaTrait()
     {
         static::saving(function ($model) {
+
+            if (isset($model->media_urls)) {
+                if (!empty($model->media_urls)) {
+
+                    $mediaUrls = [];
+                    if (is_string($model->media_urls)) {
+                        $mediaUrls[] = $model->media_urls;
+                    }
+                    if (is_array($model->media_urls)) {
+                        $mediaUrls = $model->media_urls;
+                    }
+
+                    if (!empty($mediaUrls)) {
+                        foreach ($mediaUrls as $url) {
+                            save_media(array(
+                                'allow_remote_download' => 1,
+                                'rel_type' => 'content',
+                                'rel_id' => $model->id,
+                                'title' => 'Picture',
+                                'media_type' => 'picture',
+                                'src' => $url,
+                            ));
+                        }
+                    }
+
+                }
+                unset($model->media_urls);
+            }
 
             $mediaIds = [];
 

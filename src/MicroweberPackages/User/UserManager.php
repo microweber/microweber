@@ -2,20 +2,15 @@
 
 namespace MicroweberPackages\User;
 
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
-use Laravel\Socialite\SocialiteManager;
-use Illuminate\Support\Facades\Session;
 use Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\SocialiteManager;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
-use MicroweberPackages\User\Http\Controllers\UserLoginController;
-use MicroweberPackages\User\Http\Requests\LoginRequest;
-use MicroweberPackages\User\Http\Resources\UserResource;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
-use MicroweberPackages\Utils\ThirdPartyLibs\DisposableEmailChecker;
 
 
 class UserManager
@@ -89,6 +84,8 @@ class UserManager
      * @param mixed|string $params ['email'] optional If you set  it will use this email for login
      * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
      *
+     * @return array|bool
+     *
      * @example
      * <code>
      * //login with username
@@ -105,8 +102,6 @@ class UserManager
      * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
      * </code>
      *
-     * @return array|bool
-     *
      * @category Users
      *
      * @uses     $this->hash_pass()
@@ -122,48 +117,6 @@ class UserManager
      *
      * @see      _table() For the database table fields
      */
-
-    public function codeLogin()
-    {
-        if (!function_exists('get_whitelabel_whmcs_settings')) {
-            return false;
-        }
-
-        $code = $_GET['code_login'];
-        $parse = parse_url(site_url());
-        if (!isset($parse['host'])) {
-            return redirect(admin_url());
-        }
-
-        $domain = $parse['host'];
-        $domain = str_replace('www.','', $domain);
-
-        $whmcsSettings = get_whitelabel_whmcs_settings();
-
-        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
-            return redirect(admin_url());
-        }
-
-        $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code='.$code.'&domain='.$domain;
-
-        $verifyCheck = @app()->http->url($verifyUrl)->get();
-        $verifyCheck = @json_decode($verifyCheck, true);
-
-        if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
-            $user = User::where('is_admin', '=', '1')->first();
-            if ($user !== null) {
-                \Illuminate\Support\Facades\Auth::login($user);
-
-                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
-                    return redirect($_GET['http_redirect']);
-                }
-            }
-
-            return redirect(admin_url());
-        }
-
-        return redirect(admin_url());
-    }
 
     public function login($params)
     {
@@ -189,7 +142,6 @@ class UserManager
         }
 
 
-
         // check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
         if (isset($_SERVER['REMOTE_ADDR'])) {
             if (user_ip() != $_SERVER['REMOTE_ADDR']) {
@@ -198,12 +150,6 @@ class UserManager
                     return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
                 }
             }
-        }
-
-
-
-        if (isset($params['code_login'])) {
-            return $this->codeLogin($params['code_login']);
         }
 
         // So we use second parameter
@@ -215,24 +161,24 @@ class UserManager
             } else {
                 $params['username'] = @base62_decode($params['username_encoded']);
             }
-            unset($params['username_encoded'] );
+            unset($params['username_encoded']);
         }
         if (!isset($params['password']) and isset($params['password_encoded']) and $params['password_encoded']) {
             $params['password_encoded'] = rawurldecode($params['password_encoded']);
             $decoded_password = @base64_decode($params['password_encoded']);
-             if (!empty($decoded_password)) {
+            if (!empty($decoded_password)) {
                 $params['password'] = $decoded_password;
-             } else {
+            } else {
                 $params['password'] = @base62_decode($params['password_encoded']);
             }
-            unset($params['password_encoded'] );
+            unset($params['password_encoded']);
         }
 
         $override = $this->app->event_manager->trigger('mw.user.before_login', $params);
 
         $redirect_after = isset($params['http_redirect']) ? $params['http_redirect'] : false;
 
-        if(!$redirect_after){
+        if (!$redirect_after) {
             //legacy redirect param
             $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         }
@@ -244,7 +190,7 @@ class UserManager
                 if (isset($resp['error']) or isset($resp['success'])) {
                     if (isset($resp['success']) and isset($resp['http_redirect'])) {
                         $redirect_after = $resp['http_redirect'];
-                    } else  if (isset($resp['success']) and isset($resp['redirect'])) {
+                    } else if (isset($resp['success']) and isset($resp['redirect'])) {
                         $redirect_after = $resp['redirect'];
                     }
                     $return_resp = $resp;
@@ -259,13 +205,16 @@ class UserManager
         }
 
 
-
         $params['x-no-throttle'] = false; //allow throttle
         return RequestRoute::postJson(route('api.user.login'), $params);
     }
 
     public function logout($params = false)
     {
+        $cookie = [];
+        $cookie[] = \Cookie::forget('XSRF-TOKEN');
+
+
         Auth::logout();
         Session::flush();
         $aj = $this->app->url_manager->is_ajax();
@@ -274,13 +223,13 @@ class UserManager
             $redirect_after = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : false;
         }
         if (isset($_COOKIE['editmode'])) {
-            setcookie('editmode');
+            //     setcookie('editmode');
         }
 
         $this->app->event_manager->trigger('mw.user.logout', $params);
         if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
-                return $this->app->url_manager->redirect($_SERVER['HTTP_REFERER']);
+                return $this->app->url_manager->redirect($_SERVER['HTTP_REFERER'], $cookie);
             }
         }
 
@@ -288,7 +237,7 @@ class UserManager
             $redir = $redirect_after;
 
             // $redir = site_url($redirect_after);
-            return $this->app->url_manager->redirect($redir);
+            return $this->app->url_manager->redirect($redir, $cookie);
         }
 
         return true;
@@ -301,7 +250,7 @@ class UserManager
         }
 
         if (Auth::check()) {
-            $user =Auth::user();
+            $user = Auth::user();
             if ($user and isset($user->is_active) and intval($user->is_active) == 0) {
                 // logout user if its set inactive in database
                 $this->logout();
@@ -338,6 +287,92 @@ class UserManager
         if ($this->is_admin() == false) {
             exit('You must be logged as admin');
         }
+    }
+
+    /**
+     * Allows you to login a user into the system.
+     *
+     * It also sets user session when the user is logged. <br />
+     * On 5 unsuccessful logins, blocks the ip for few minutes <br />
+     *
+     *
+     * @param array|string $params You can pass parameter as string or as array.
+     * @param mixed|string $params ['email'] optional If you set  it will use this email for login
+     * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
+     *
+     * @return array|bool
+     *
+     * @example
+     * <code>
+     * //login with username
+     * $this->login('username=test&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login with email
+     * $this->login('email=my@email.com&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login hashed password
+     * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+     * </code>
+     *
+     * @category Users
+     *
+     * @uses     $this->hash_pass()
+     * @uses     parse_str()
+     * @uses     $this->get_all()
+     * @uses     $this->session_set()
+     * @uses     $this->app->log_manager->get()
+     * @uses     $this->app->log_manager->save()
+     * @uses     $this->login_set_failed_attempt()
+     * @uses     $this->update_last_login_time()
+     * @uses     $this->app->event_manager->trigger()
+     * @function $this->login()
+     * @deprecated this function is deprecated
+     * @see      _table() For the database table fields
+     */
+    public function codeLogin()
+    {
+        if (!function_exists('get_whitelabel_whmcs_settings')) {
+            return false;
+        }
+
+        $code = $_GET['code_login'];
+        $parse = parse_url(site_url());
+        if (!isset($parse['host'])) {
+            return redirect(admin_url());
+        }
+
+        $domain = $parse['host'];
+        $domain = str_replace('www.', '', $domain);
+
+        $whmcsSettings = get_whitelabel_whmcs_settings();
+
+        if (!isset($whmcsSettings['whmcs_url']) || empty($whmcsSettings['whmcs_url'])) {
+            return redirect(admin_url());
+        }
+
+        $verifyUrl = $whmcsSettings['whmcs_url'] . '/index.php?m=microweber_addon&function=verify_login_code&code=' . $code . '&domain=' . $domain;
+
+        $verifyCheck = @app()->http->url($verifyUrl)->get();
+        $verifyCheck = @json_decode($verifyCheck, true);
+
+        if (isset($verifyCheck['success']) && $verifyCheck['success'] == true && isset($verifyCheck['code']) && $verifyCheck['code'] == $code) {
+            $user = User::where('is_admin', '=', '1')->first();
+            if ($user !== null) {
+                \Illuminate\Support\Facades\Auth::login($user);
+
+                if (isset($_GET['http_redirect']) && !empty($_GET['http_redirect'])) {
+                    return redirect($_GET['http_redirect']);
+                }
+            }
+
+            return redirect(admin_url());
+        }
+
+        return redirect(admin_url());
     }
 
     public function attributes($user_id = false)
@@ -471,8 +506,8 @@ class UserManager
             $id = $this->id();
         }
 
-        if(isset($this->nice_name_cache[$mode.$id])){
-            return $this->nice_name_cache[$mode.$id];
+        if (isset($this->nice_name_cache[$mode . $id])) {
+            return $this->nice_name_cache[$mode . $id];
         }
 
         $user = $this->get_by_id($id);
@@ -550,7 +585,7 @@ class UserManager
                 $name = $name_from_email[0];
             }
         }
-        $this->nice_name_cache[$mode.$id] = $name;
+        $this->nice_name_cache[$mode . $id] = $name;
         return $name;
     }
 
@@ -615,13 +650,14 @@ class UserManager
         $this->app->notifications_manager->save($notif);
 
 
-
         $this->app->log_manager->save($notif);
         $this->register_email_send($user_id);
 
         $this->app->event_manager->trigger('mw.user.after_register', $data);
         if ($suppress_output == true) {
-            if (ob_get_length()) {ob_end_clean();}
+            if (ob_get_length()) {
+                ob_end_clean();
+            }
 
         }
     }
@@ -811,7 +847,7 @@ class UserManager
                 if ($data_to_save['email'] != $old_user_data['email']) {
 
                     $old_user_data_reset = User::where('id', $data_to_save['id'])->first();
-                    if($old_user_data_reset){
+                    if ($old_user_data_reset) {
                         $old_user_data_reset->password_reset_hash = null;
                         $old_user_data_reset->save();
                     }
@@ -904,7 +940,7 @@ class UserManager
                 if (isset($params['roles'][0])) {
                     if ($params['roles'][0] == 'Super Admin') {
                         $user->is_admin = 1;
-                    }  else  if ($params['roles'][0] == 'User') {
+                    } else if ($params['roles'][0] == 'User') {
                         $user->is_admin = 0;
                     } else {
                         $user->is_admin = 0;
@@ -913,7 +949,7 @@ class UserManager
                     }
                 }
                 if (isset($params['is_active'])) {
-                    $user->is_active =$params['is_active'];
+                    $user->is_active = $params['is_active'];
                 }
             }
 
@@ -1204,14 +1240,18 @@ class UserManager
             $this->socialite_config($provider);
             switch ($provider) {
                 case 'github':
-                    return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();
+                    return $this->socialite->with($provider)->scopes(['user:email'])->redirect();
+
+                case 'google':
+                case 'azure':
+                    return $this->socialite->with($provider)->with(["prompt" => "select_account"])->redirect();
             }
 
-            return $login = $this->socialite->with($provider)->redirect();
+            return $this->socialite->with($provider)->redirect();
         }
     }
 
-    public function make_logged($user_id,$remember = false)
+    public function make_logged($user_id, $remember = false)
     {
         if (is_array($user_id)) {
             if (isset($user_id['id'])) {
@@ -1220,15 +1260,12 @@ class UserManager
         }
 
 
-
         if (intval($user_id) > 0) {
             $data = $this->get_by_id($user_id);
             if ($data == false) {
                 return false;
             } else {
                 if (is_array($data)) {
-
-                    $user = User::find($user_id);
 
                     $user_session = array();
                     $user_session['is_logged'] = 'yes';
@@ -1239,7 +1276,7 @@ class UserManager
                     }
 
                     $old_sid = Session::getId();
-                    $this->session_set('old_sid',$old_sid);
+                    $this->session_set('old_sid', $old_sid);
 
                     $data['old_sid'] = $old_sid;
                     $user_session['old_session_id'] = $old_sid;
@@ -1318,6 +1355,7 @@ class UserManager
         }
 
         $auth_provider = $_REQUEST['provider'];
+        $auth_provider = e($auth_provider);
         $this->socialite_config($auth_provider);
 
 
@@ -1340,13 +1378,23 @@ class UserManager
                 $existing['oauth_uid'] = $oauth_id;
                 $existing['oauth_provider'] = $auth_provider;
             }
+
+            if (empty($username) and !empty($oauth_id)) {
+                $username = 'user_' . $oauth_id;
+            } else if (empty($username) and !empty($email)) {
+                $username = 'user_' . md5($email);
+            }
+
             $save = $existing;
             $save['thumbnail'] = $avatar;
             $save['username'] = $username;
             $save['is_active'] = 1;
             $save['is_admin'] = 0;
-            $save['first_name'] = '';
+            $save['first_name'] = $name;
             $save['last_name'] = '';
+            $save['oauth_uid'] = $oauth_id;
+            $save['oauth_provider'] = $auth_provider;
+
 
             if ($name != false) {
                 $names = explode(' ', $name);
@@ -1364,23 +1412,42 @@ class UserManager
             if (!defined('MW_FORCE_USER_SAVE')) {
                 define('MW_FORCE_USER_SAVE', true);
             }
-            if (isset($existing['id'])) {
-                if ($save['is_active'] != 1) {
+
+
+            if ($existing and isset($existing['id'])) {
+                if (!isset($existing['oauth_uid'])) {
+                    $existingUser = User::where('id', '=', $existing['id'])->first();
+
+                    if ($existingUser) {
+                        $existingUser->oauth_uid = $oauth_id;
+                        $existingUser->oauth_provider = $auth_provider;
+                        $existingUser->save();
+                    }
+                }
+
+
+                if ($existing['is_active'] != 1) {
                     return;
                 }
+
                 $this->make_logged($existing['id']);
+
             } else {
+                $save = array_filter($save);
 
-
-                $user = new User;
+                $user = new User();
                 $user->fill($save);
-                 $user->save($save);
-               // $new_user = $this->save($save);
-                 $new_user = $user->id;
+                //  $user->save($save);
 
-                $this->after_register($new_user);
 
-                $this->make_logged($new_user);
+                $new_user = $user->save($save);
+
+                $new_user_id = $user->id;
+
+                $this->after_register($new_user_id);
+                $this->make_logged($new_user_id);
+                $this->app->event_manager->trigger('mw.user.register', ['id' => $new_user_id]);
+
             }
         } catch (\Laravel\Socialite\Two\InvalidStateException $e) {
             //do nothing
@@ -1453,7 +1520,7 @@ class UserManager
 
         $data['table'] = $table;
         $data['exclude_shorthand'] = true;
-       // $data['no_cache'] = 1;
+        // $data['no_cache'] = 1;
 
         $get = $this->app->database_manager->get($data);
 

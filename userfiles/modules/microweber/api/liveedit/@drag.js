@@ -1071,6 +1071,10 @@ mw.drag = {
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
         mw.$('.disable-resize', doc).removeClass('disable-resize');
+        mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
+        mw.$('.ui-draggable', doc).removeClass('ui-draggable');
+        mw.$('.ui-draggable-handle', doc).removeClass('ui-draggable-handle');
+        mw.$('.mt-ready', doc).removeClass('mt-ready');
         mw.$('.mw-webkit-drag-hover-binded', doc).removeClass('mw-webkit-drag-hover-binded');
         mw.$('.module-cat-toggle-Modules', doc).removeClass('module-cat-toggle-Modules');
         mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');

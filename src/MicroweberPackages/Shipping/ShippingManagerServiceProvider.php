@@ -13,7 +13,7 @@ namespace MicroweberPackages\Shipping;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Application;
+use MicroweberPackages\App\Application;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
@@ -22,10 +22,10 @@ class ShippingManagerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         /**
-         * @property \MicroweberPackages\Shipping\ShippingManager $shipping_manager
+         * @property ShippingManager $shipping_manager
          */
 
         $this->app->singleton('shipping_manager', function ($app) {
@@ -35,22 +35,7 @@ class ShippingManagerServiceProvider extends ServiceProvider
             return new ShippingManager($app->make(Container::class));
         });
 
-
-        //add drivers
-
-      /*  $this->app->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
-
-            $shippingManager->extend('pickup', function () {
-                return new \MicroweberPackages\Shipping\Providers\PickupDriver();
-            });
-
-        });*/
-
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
-
-
-
-        //   $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
 }

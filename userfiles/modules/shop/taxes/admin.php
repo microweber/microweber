@@ -77,8 +77,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="d-flex justify-content-between">
             <div class="form-group">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field custom-control-input" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
+                <div class="custom-control custom-switch ps-3">
+                    <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field custom-control-input position-relative" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
                     <label class="custom-control-label" for="enable_taxes"><?php _e("Enable taxes support"); ?></label>
                 </div>
                 <small class="text-muted d-block"><?php _e('Setup different types of taxes and they will appear automatically in your cart'); ?></small>

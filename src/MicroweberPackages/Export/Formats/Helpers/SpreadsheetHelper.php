@@ -507,7 +507,7 @@ class SpreadsheetHelper
         $data = [];
         for ($col = $startColumn + 1; $col <= $columns; ++$col) {
             $cell = $worksheet->getCellByColumnAndRow($col, self::$_offsetRow);
-            $value = $cell->getValue();
+            $value = $cell->getCalculatedValue();
             // Timestamp option
             if ($options['timestamp'] && \PhpOffice\PhpSpreadsheet\Shared\Date::isDateTime($cell)) {
                 $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value);

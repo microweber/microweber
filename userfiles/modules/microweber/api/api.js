@@ -145,7 +145,7 @@ mw.askusertostay = false;
   };
 
   mw.module = {
-    insert: function(target, module, config, pos) {
+    insert: function(target, module, config, pos, stateManager) {
         return new Promise(function (resolve) {
             pos = pos || 'bottom';
             var action;
@@ -163,8 +163,23 @@ mw.askusertostay = false;
                 action = 'append';
             }
         }
+        var parent = mw.$(target).parent().get(0);
+
+        if(stateManager) {
+            stateManager.record({
+                target: parent,
+                value: parent.innerHTML
+            });
+        }
+
         mw.$(target)[action](el);
         mw.load_module(module, '#' + id, function () {
+            if(stateManager) {
+                stateManager.record({
+                    target: parent,
+                    value: parent.innerHTML
+                });
+            }
             resolve(this);
         }, config);
     });
@@ -208,22 +223,7 @@ mw.askusertostay = false;
       callback.call(this);
     }
   };
-    if (!Array.isArray) {
-        Array.isArray = function(arg) {
-            return Object.prototype.toString.call(arg) === '[object Array]';
-        };
-    }
-  if (Array.prototype.indexOf === undefined) {
-    Array.prototype.indexOf = function(obj) {
-      var i=0, l=this.length;
-      for ( ; i < l; i++) {
-        if (this[i] == obj) {
-          return i;
-        }
-      }
-      return -1;
-    }
-  }
+
 
 
   mw.required = typeof mw.required === 'undefined'?[]:mw.required;
@@ -390,9 +390,9 @@ mw.getScripts = function (array, callback) {
   }
   mw.getModule = function(name, params, callback){
     if( typeof params == 'function'){
-        var callback = params;
+        callback = params;
     }
-    var params = params || {};
+    params = params || {};
     var update_element = document.createElement('div');
     for(var x in params){
         update_element.setAttribute(x, params[x]);
@@ -404,7 +404,7 @@ mw.getScripts = function (array, callback) {
 
   mw.reload_module_intervals = {};
   mw.reload_module_interval = function(module_name, interval) {
-    var interval =  interval || 1000;
+    interval =  interval || 1000;
     var obj = {pause:false};
     if(!!mw.reload_module_intervals[module_name]){
         clearInterval(mw.reload_module_intervals[module_name]);
@@ -514,12 +514,12 @@ mw.getScripts = function (array, callback) {
         var module_name = module.toString();
         var refresh_modules_explode = module_name.split(",");
         for (var i = 0; i < refresh_modules_explode.length; i++) {
-          var module = refresh_modules_explode[i];
+          module = refresh_modules_explode[i];
           if (typeof module != 'undefined') {
-		    var module = module.replace(/##/g, '#');
+		    module = module.replace(/##/g, '#');
             var m = mw.$(".module[data-type='" + module + "']");
             if (m.length === 0) {
-                try { var m = $(module); }  catch(e) {};
+                try { m = $(module); }  catch(e) {};
             }
 
               (function(callback){

@@ -197,8 +197,11 @@ class Front
         }
 
         $posts_parent_category = $posts_parent_category_cfg = Option::fetchFromCollection($options, 'data-category-id');
+
         if ($posts_parent_category == '') {
             $posts_parent_category = false;
+        } else {
+            $post_params['category'] = $posts_parent_category;
         }
 
 
@@ -720,8 +723,6 @@ class Front
             $post_params['parent'] = PAGE_ID;
         }
 
-        //  d($post_params);
-        //  d($params);
 
         if ($is_search_global and isset($post_params['category'])) {
             unset($post_params['category']);
@@ -739,6 +740,8 @@ class Front
             unset($post_params['category']);
             $content = get_content($post_params);
         }
+
+
 
 
         $data = array();
@@ -766,9 +769,9 @@ class Front
                     $item['tn_image'] = false;
                 }
 
-
-                $item['content'] = htmlspecialchars_decode($item['content']);
-
+                if(isset($item['content']) and $item['content'] != false) {
+                    $item['content'] = htmlspecialchars_decode($item['content']);
+                }
 
                 if (isset($item['created_at']) and trim($item['created_at']) != '') {
                     $item['created_at'] = date($date_format, strtotime($item['created_at']));
@@ -778,8 +781,17 @@ class Front
                     }
                 }
 
+                if (!isset($item['created_at']) or (isset($item['created_at']) and trim($item['created_at']) == '')) {
+                    // empty created_at date , so we set updated_at as created_at
+                    if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
+                        $item['created_at'] = $item['updated_at'];
+                    }
+                }
                 if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
                     $item['updated_at'] = date($date_format, strtotime($item['updated_at']));
+                }
+                if (isset($item['created_at']) and trim($item['created_at']) != '') {
+                    $item['created_at'] = date($date_format, strtotime($item['created_at']));
                 }
 
                 $item['link'] = content_link($item['id']);
@@ -849,18 +861,30 @@ class Front
                     $val1 = reset($vals2);
                     $item['price'] = $val1;
                     $item['original_price'] = false;
+                    $item['price_discount_percent'] = false;
 
                     if (isset($item['prices_data']) and is_array($item['prices_data']) and !empty($item['prices_data'])) {
                         $vals3 = array_values($item['prices_data']);
                         $val1 = reset($vals3);
                         if (isset($val1['original_value'])) {
                             $item['original_price'] = $val1['original_value'];
+
+                            $newFigure = floatval($item['original_price']);
+                            $oldFigure = floatval($item['price']);
+                            $percentChange = 0;
+                            if ($oldFigure < $newFigure) {
+                                $percentChange = (1 - $oldFigure / $newFigure) * 100;
+                            }
+                            if($percentChange > 0){
+                                $item['price_discount_percent'] = intval($percentChange);
+                            }
                         }
                     }
 
                 } else {
                     $item['price'] = false;
                     $item['original_price'] = false;
+                    $item['price_discount_percent'] = false;
 
                 }
 
@@ -872,10 +896,10 @@ class Front
                     if (!in_array('description', $show_fields)) {
                         $item['description'] = false;
                     }
-
-                    if (!in_array('created_at', $show_fields)) {
-                        $item['created_at'] = false;
-                    }
+//
+//                    if (!in_array('created_at', $show_fields)) {
+//                        $item['created_at'] = false;
+//                    }
                     if (!in_array('read_more', $show_fields)) {
                         $item['read_more'] = false;
                     }

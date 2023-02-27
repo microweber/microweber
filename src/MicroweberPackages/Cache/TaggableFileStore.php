@@ -15,6 +15,7 @@ use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
 use MicroweberPackages\Cache\CacheFileHandler\MemoryCacheFileHandler;
+use MicroweberPackages\Cache\Events\CacheFlushed;
 
 class TaggableFileStore implements Store
 {
@@ -205,7 +206,8 @@ class TaggableFileStore implements Store
 
         // on php 8 crc32 is faster than md5 https://3v4l.org/2MAUr
 
-        $cacheKey = $key . (is_array($this->tags) ? md5(json_encode($this->tags)) : false);
+        //   $cacheKey = $key . (is_array($this->tags) ? md5(json_encode($this->tags)) : false);
+        $cacheKey = $key . (is_array($this->tags) ? 'crc32-' . crc32(json_encode($this->tags)) : false);
         return $cacheKey;
     }
 
@@ -645,6 +647,10 @@ class TaggableFileStore implements Store
                 if (isset($this->tags[$tag])) {
                     unset($this->tags[$tag]);
                 }
+            }
+
+            if ($this->emitEvents) {
+                event(new CacheFlushed('global',self::$flushedTags));
             }
         }
 

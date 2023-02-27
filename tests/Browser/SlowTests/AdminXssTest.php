@@ -6,7 +6,7 @@ namespace Tests\Browser\SlowTests;
 use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Content;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
@@ -21,7 +21,7 @@ use Tests\DuskTestCase;
 
 class AdminXssTest extends DuskTestCase
 {
-    public function testPages()
+    public function testPagesXss()
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
@@ -145,6 +145,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName());
                     }
 
+                    echo  'about to visit page url: ' . $visitPage . PHP_EOL;
                     $browser->visit($visitPage);
 
                     $browser->within(new InputFieldsXssTest(), function ($browser) {

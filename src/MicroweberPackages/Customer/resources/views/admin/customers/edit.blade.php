@@ -366,15 +366,10 @@
                                         $carts = $order->cart()->get();
                                         foreach ($carts as $cart):
                                         $product = \MicroweberPackages\Product\Models\Product::where('id', $cart['rel_id'])->first();
-                                        $productImage = $product->media()->first()->filename;
                                         ?>
                                         <tr>
                                             <td>
-                                                <?php if (!empty($productImage)): ?>
-                                                <img src="<?php echo thumbnail($productImage, 60, 60); ?>"/>
-                                                <?php else: ?>
-                                                <img src="<?php echo thumbnail(''); ?>"/>
-                                                <?php endif; ?>
+                                                <img src="<?php echo $product->thumbnail(); ?>"/>
                                             </td>
                                             <td><?php echo $product->title; ?></td>
                                             <td><?php echo $product->sku; ?></td>

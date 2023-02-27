@@ -34,7 +34,7 @@
     });
 
     var handleClientImg = function () {
-        mw.fileWindow({
+        mw.top().fileWindow({
             types: 'images',
             change: function (url) {
                 if(!url) return;
