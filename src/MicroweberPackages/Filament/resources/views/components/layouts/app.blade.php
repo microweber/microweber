@@ -3,7 +3,11 @@
 ])
 
 <x-filament::layouts.base :title="$title">
+
+    <x-filament::topbar />
+
     <div class="filament-app-layout flex h-full w-full overflow-x-clip">
+
         <div
             x-data="{}"
             x-cloak
@@ -12,6 +16,7 @@
             x-on:click="$store.sidebar.close()"
             class="filament-sidebar-close-overlay fixed inset-0 z-20 w-full h-full bg-gray-900/50 lg:hidden"
         ></div>
+
 
         <x-filament::layouts.app.sidebar />
 
@@ -30,7 +35,6 @@
                 'flex lg:pl-[var(--sidebar-width)] rtl:lg:pr-[var(--sidebar-width)]' => ! config('filament.layout.sidebar.is_collapsible_on_desktop'),
             ])
         >
-            <x-filament::topbar :breadcrumbs="$breadcrumbs" />
 
             <div @class([
                 'filament-main-content flex-1 w-full px-4 mx-auto md:px-6 lg:px-8',
@@ -46,6 +50,11 @@
                     default => $maxContentWidth,
                 },
             ])>
+
+                <div class="mt-4">
+                    <x-filament::layouts.app.topbar.breadcrumbs :breadcrumbs="$breadcrumbs" />
+                </div>
+
                 {{ \Filament\Facades\Filament::renderHook('content.start') }}
 
                 {{ $slot }}

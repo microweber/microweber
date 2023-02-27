@@ -39,8 +39,6 @@
             </div>
 
 
-            <x-filament::layouts.app.topbar.breadcrumbs :breadcrumbs="$breadcrumbs" />
-
             @livewire('filament.core.global-search')
 
             @livewire('filament.core.notifications')
