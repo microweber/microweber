@@ -8,7 +8,9 @@
 'url',
 ])
 
-<li @class(['filament-sidebar-item overflow-hidden', 'filament-sidebar-item-active shadow bg-white border-l-4 rounded-r border-primary-500' => $active])>
+<li @class(['filament-sidebar-item overflow-hidden border-l-4 rounded-r',
+ 'border-transparent'=>!$active,
+ 'filament-sidebar-item-active shadow bg-white border-primary-500' => $active])>
     <a
         href="{{ $url }}"
         {!! $shouldOpenUrlInNewTab ? 'target="_blank"' : '' !!}
@@ -31,15 +33,21 @@
         x-tooltip.html="tooltip"
         @endif
         @class([
-            'flex items-center justify-center gap-3 px-3 py-4 rounded-r-xl transition',
-            'hover:bg-gray-500/5 focus:bg-gray-500/5' => ! $active,
+            'flex items-center justify-center gap-3 px-3 py-4 rounded-r-xl font-bold transition',
+            'text-gray-500 hover:bg-gray-500/5 focus:bg-gray-500/5' => ! $active,
             'dark:text-gray-300 dark:hover:bg-gray-700' => (! $active) && config('filament.dark_mode'),
-            'font-bold text-black' => $active,
+            'text-black' => $active,
         ])
     >
         <x-dynamic-component
             :component="($active && $activeIcon) ? $activeIcon : $icon"
-            class="h-5 w-5 shrink-0 text-primary-500"
+
+            @class([
+                'h-5 w-5 shrink-0',
+                'text-gray-500'=>!$active,
+                'text-primary-500'=>$active,
+            ])
+
         />
 
         <div class="flex flex-1"

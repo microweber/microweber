@@ -95,7 +95,7 @@
                     <li>
                         <div @class([
                             'border-t -mr-6 rtl:-mr-auto rtl:-ml-6',
-                          
+
                         ])></div>
                     </li>
                 @endif
