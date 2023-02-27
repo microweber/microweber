@@ -10,12 +10,12 @@
     @class([
         'filament-sidebar fixed inset-y-0 left-0 rtl:left-auto rtl:right-0 z-20 flex flex-col h-screen overflow-hidden transition-all w-[var(--sidebar-width)] lg:z-0',
         'lg:translate-x-0' => ! config('filament.layout.sidebar.is_collapsible_on_desktop'),
-        'dark:bg-gray-800 dark:border-gray-700' => config('filament.dark_mode'),
+
     ])
 >
     <header @class([
         'filament-sidebar-header border-b h-[4rem] shrink-0 flex items-center justify-center relative',
-        'dark:border-gray-700' => config('filament.dark_mode'),
+
     ])>
         <div
             @class([
@@ -95,7 +95,7 @@
                     <li>
                         <div @class([
                             'border-t -mr-6 rtl:-mr-auto rtl:-ml-6',
-                            'dark:border-gray-700' => config('filament.dark_mode'),
+                          
                         ])></div>
                     </li>
                 @endif
