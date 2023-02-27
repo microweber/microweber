@@ -91,7 +91,7 @@ module.exports = {
                 DEFAULT: '.25rem',
                 'lg': '.314rem',
                 'full': '999px',
-            }
+            },
         }
 
 

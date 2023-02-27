@@ -36,12 +36,17 @@ class Module extends Model
         return $this->morphMany('Notifications', 'rel');
     }
 
+    public function icon()
+    {
+        $icon = $this->icon;
+        $icon = str_replace( '{SITE_URL}',site_url(), $icon);
+
+        return $icon;
+    }
 
     public function register($module)
     {
   //      return app()->module_manager->register('order/list', 'MicroweberPackages\Order\Http\Controllers\OrdersController');;
     }
-
-
 
 }

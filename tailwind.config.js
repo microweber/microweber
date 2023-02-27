@@ -1,8 +1,5 @@
 const colors = require("tailwindcss/colors");
 
-
-
-
 module.exports = {
     content: [
         './resources/**/*.blade.php',
@@ -17,6 +14,5 @@ module.exports = {
         require("@tailwindcss/typography"),
         require("@tailwindcss/aspect-ratio"),
         require("@tailwindcss/line-clamp"),
-
     ],
 };
