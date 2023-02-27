@@ -65,11 +65,13 @@ class LicenseResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_trial')
-                    ->sortable()
-                    ->searchable(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle'),
                 Tables\Columns\IconColumn::make('is_lifetime')
-                    ->sortable()
-                    ->searchable(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle'),
             ])
             ->filters([
                 //
