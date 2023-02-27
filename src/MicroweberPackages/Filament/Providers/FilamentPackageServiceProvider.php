@@ -19,6 +19,11 @@ class FilamentPackageServiceProvider extends \Filament\FilamentServiceProvider
     public function packageRegistered(): void
     {
         parent::packageRegistered();
+
+
+
+        /** @var \Filament\FilamentManager $filament */
+
         $this->app->scoped('filament', function (): FilamentManager {
             return new FilamentManager();
         });
