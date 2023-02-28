@@ -11,14 +11,18 @@ class ModulesList extends Controller
     {
         $modules_by_categories = array();
         $show_grouped_by_cats = false;
+        $is_elements = false;
         $hide_dynamic_layouts = false;
         $disable_elements = false;
         $template_config = mw()->template->get_config();
-
+        $params = $request->all();
         if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
             $disable_elements = true;
         }
 
+        if (isset($params['elements_mode']) and $params['elements_mode']) {
+            $is_elements = true;
+        }
         if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
             $hide_dynamic_layouts = true;
         }
@@ -35,7 +39,7 @@ class ModulesList extends Controller
             $hide_dynamic_layouts = false;
         }
 
-        if (isset($is_elements) and $is_elements == true) {
+         if (isset($is_elements) and $is_elements == true) {
 
             $el_params = array();
             if (isset($params['layout_type'])) {
@@ -48,6 +52,7 @@ class ModulesList extends Controller
             }
 
             $modules = mw()->layouts_manager->get($el_params);
+
             if ($modules == false) {
                 $el_params['no_cache'] = true;
                 mw()->module_manager->scan_for_elements($el_params);
@@ -415,7 +420,7 @@ class ModulesList extends Controller
                         if (!isset($module_item['settings'])) {
                             $module_item['settings'] = [];
                         }
-                        
+
                         if (!isset($module_item['as_element'])) {
                             $module_item['as_element'] = '';
                         }
