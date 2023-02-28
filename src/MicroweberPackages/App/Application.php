@@ -14,6 +14,7 @@ use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
+use MicroweberPackages\Filament\Providers\FilamentManager;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\Media\Repositories\MediaRepository;
@@ -114,8 +115,11 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
+ * @property FilamentManager       $filament
 
- */
+
+
+*/
 class Application
 {
     public static $instance;

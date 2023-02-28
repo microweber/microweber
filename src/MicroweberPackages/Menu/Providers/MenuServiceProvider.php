@@ -21,25 +21,18 @@ use MicroweberPackages\Multilanguage\TranslateTablesRegistrator;
 class MenuServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Register the application services.
      *
      * @return void
      */
-    public function boot()
+    public function register() : void
     {
-
-        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
-
         /**
          * @property \MicroweberPackages\Menu\MenuManager    $menu_manager
          */
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();
         });
-
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
-
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Menu::class, function () {
@@ -53,5 +46,24 @@ class MenuServiceProvider extends ServiceProvider
         $this->app->bind('menu_repository', function ($app) {
             return $this->app->repository_manager->driver(Menu::class);;
         });
+    }
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+
+        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
+
+
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
+
+
+
     }
 }

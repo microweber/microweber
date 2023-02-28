@@ -38,8 +38,10 @@ class FilamentServiceProvider extends ServiceProvider
         $originalLangFolder = normalize_path($originalFolder . '/resources/lang', true);
         if (is_dir($originalViewsFolder)) {
             View::addNamespace('filament', $originalViewsFolder);
-
         }
+
+        View::prependNamespace('filament', dirname(__DIR__).'/resources/views');
+        View::prependNamespace('filament', base_path() . '/resources/views');
 
         if (is_dir($originalLangFolder)) {
             $this->loadTranslationsFrom($originalLangFolder, 'filament');

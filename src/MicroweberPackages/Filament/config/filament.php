@@ -171,7 +171,7 @@ return [
     |
     */
 
-    'dark_mode' => false,
+    'dark_mode' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -250,7 +250,7 @@ return [
             'groups' => [
                 'are_collapsible' => true,
             ],
-            'width' => null,
+            'width' => '14rem',
             'collapsed_width' => null,
         ],
     ],

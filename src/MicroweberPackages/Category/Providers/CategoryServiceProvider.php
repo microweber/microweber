@@ -26,7 +26,18 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
     public function register()
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Category::class, function () {
+                return new CategoryRepository();
+            });
+        });
 
+        /**
+         * @property CategoryRepository   $category_repository
+         */
+        $this->app->bind('category_repository', function ($app) {
+            return $this->app->repository_manager->driver(Category::class);;
+        });
         parent::register();
     }
 
@@ -54,18 +65,7 @@ class CategoryServiceProvider extends ServiceProvider implements DeferrableProvi
 
         View::addNamespace('category', __DIR__ . '/../resources/views');
 
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Category::class, function () {
-                return new CategoryRepository();
-            });
-        });
 
-        /**
-         * @property CategoryRepository   $category_repository
-         */
-        $this->app->bind('category_repository', function ($app) {
-            return $this->app->repository_manager->driver(Category::class);;
-        });
     }
 
 

@@ -1,7 +1,37 @@
 <?php
 
+function load_all_service_providers_for_modules($app = null)
+{
 
-function load_all_functions_files_for_modules($app=null)
+
+    $is_installed = mw_is_installed();
+    if (!$is_installed) {
+
+        return;
+    }
+    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
+    $files = array();
+
+    if (!empty($modules)) {
+
+        // load service providers
+        // Register module service providers
+        if ($app and is_object($app)) {
+            foreach ($modules as $module) {
+
+
+                if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
+                    $app->module_manager->boot_module($module);
+
+                }
+            }
+        }
+
+        return $files;
+    }
+}
+
+function load_all_functions_files_for_modules($app = null)
 {
 
 
@@ -15,46 +45,12 @@ function load_all_functions_files_for_modules($app=null)
     if (!empty($modules)) {
         foreach ($modules as $module) {
             if (isset($module['module'])) {
-                $is_function = normalize_path(modules_path().$module['module'].DS.'functions.php', false);
+                $is_function = normalize_path(modules_path() . $module['module'] . DS . 'functions.php', false);
                 if (is_file($is_function)) {
                     include_once $is_function;
                     $files[] = ($is_function);
                 }
-//                $if_config = normalize_path(modules_path().$module['module'].DS.'config.php', false);
-//
-//
-//                if (is_file($if_config)) {
-//                    include_once $if_config;
-//                    if (isset($config) && isset($config['service_provider'])) {
-//                        $loadProviders = [];
-//                        if (is_array($config['service_provider'])) {
-//                            foreach ($config['service_provider'] as $serviceProvider) {
-//                                $loadProviders[] = $serviceProvider;
-//                            }
-//                        } else {
-//                            $loadProviders[] = $config['service_provider'];
-//                        }
-//                        foreach ($loadProviders as $loadProvider) {
-//                            if (class_exists($loadProvider)) {
-//                              //  app()->register($loadProvider);
-//                            }
-//                        }
-//                    }
-//                }
-            }
-        }
 
-
-        // load service providers
-        // Register module service providers
-        if($app and is_object($app)){
-            foreach ($modules as $module) {
-
-                if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-
-                    app()->module_manager->boot_module($module);
-
-                }
             }
         }
 
@@ -109,7 +105,7 @@ function module($params)
                 $v1 = mw()->format->array_to_base64($v);
                 $tags .= "{$k}=\"$v1\" ";
             } else {
-                $em = str_ireplace('{'.$k.'}', $v, $em);
+                $em = str_ireplace('{' . $k . '}', $v, $em);
 
                 $tags .= "{$k}=\"$v\" ";
             }
@@ -119,7 +115,7 @@ function module($params)
     $res = mw()->module_manager->load($module_name, $params);
     if (isset($params['wrap']) or isset($params['data-wrap'])) {
         $module_cl = module_css_class($module_name);
-        $res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>".$res.'</div>';
+        $res = "<div class='module {$module_cl}' {$tags} data-type='{$module_name}'>" . $res . '</div>';
     }
 
     return $res;

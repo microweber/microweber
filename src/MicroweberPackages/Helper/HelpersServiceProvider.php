@@ -13,9 +13,6 @@ namespace MicroweberPackages\Helper;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use function Clue\StreamFilter\fun;
-
-
 class HelpersServiceProvider extends ServiceProvider
 {
     /**
@@ -27,14 +24,14 @@ class HelpersServiceProvider extends ServiceProvider
     {
 
         /**
-         * @property \MicroweberPackages\Helper\Format    $format
+         * @property \MicroweberPackages\Helper\Format $format
          */
         $this->app->singleton('format', function () {
             return new Format();
         });
 
-		/**
-         * @property \MicroweberPackages\Helper\XSSSecurity    $xss_security
+        /**
+         * @property \MicroweberPackages\Helper\XSSSecurity $xss_security
          */
         $this->app->bind('xss_security', function () {
             return new XSSSecurity();
@@ -45,17 +42,26 @@ class HelpersServiceProvider extends ServiceProvider
         });
 
 
-        /**
-         * @property \MicroweberPackages\Helper\UrlManager    $url_manager
-         */
-        $this->app->singleton('url_manager', function () {
-            return new UrlManager();
-        });
-
         if (is_cli()) {
             Route::get('uri_test_details', function () {
                 return app()->url_manager->current();
             })->name('uri_test_details');
         }
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+
+        /**
+         * @property \MicroweberPackages\Helper\UrlManager $url_manager
+         */
+        $this->app->singleton('url_manager', function () {
+            return new UrlManager();
+        });
     }
 }

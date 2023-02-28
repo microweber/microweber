@@ -1603,6 +1603,7 @@ class ModuleManager
         if(!mw_is_installed()){
             return;
         }
+
         if (isset($module['settings']) and $module['settings'] and isset($module['settings']['autoload_namespace']) and is_array($module['settings']['autoload_namespace']) and !empty($module['settings']['autoload_namespace'])) {
             foreach ($module['settings']['autoload_namespace'] as $namespace_item) {
 
@@ -1617,13 +1618,6 @@ class ModuleManager
 
         }
 
-//        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and is_array($module['settings']['service_provider']) and !empty($module['settings']['service_provider'])) {
-//            foreach ($module['settings']['service_provider'] as $service_provider) {
-//                if (class_exists($service_provider)) {
-//                    app()->register($service_provider);
-//                }
-//            }
-//        }
 
         $loadProviders = [];
         if (is_array($module['settings']['service_provider'])) {
@@ -1635,6 +1629,7 @@ class ModuleManager
         }
         foreach ($loadProviders as $loadProvider) {
             if (class_exists($loadProvider)) {
+
                 app()->register($loadProvider);
             }
         }
