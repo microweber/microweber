@@ -1,6 +1,5 @@
-import {DomService} from './classes/dom';
-import {ElementManager} from "./classes/element";
-import {Tooltip} from "./tooltip";
+import {ElementManager} from "./classes/element.js";
+import {Tooltip} from "./tooltip.js";
 
 export const HandleMenu = function(options) {
 
@@ -169,10 +168,10 @@ export const HandleMenu = function(options) {
             })
         }
         return btn;
-    }
+    };
 
     this.init = function () {
-        this.create()
+        this.create();
         createTitle();
         this.setTitle(scope.options.title, scope.options.icon);
         this.buildButtons();

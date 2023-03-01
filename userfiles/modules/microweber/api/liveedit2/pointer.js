@@ -1,5 +1,5 @@
-import {ObjectService} from '../classes/object.service';
-import {DomService} from '../classes/dom';
+import {ObjectService} from './classes/object.service.js';
+import {DomService} from './classes/dom.js';
 
 export const GetPointerTargets = function(options)  {
 
@@ -35,9 +35,6 @@ export const GetPointerTargets = function(options)  {
     var validateNode = function (node) {
         return node.type === 1;
     };
-
-
-
 
     var round5 = function (x){
         return (x % 5) >= 2.5 ? (x / 5) * 5 + 5 : (x / 5) * 5;

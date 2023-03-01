@@ -1,6 +1,6 @@
-import {HandleMenu} from "../handle-menu";
-import {ElementManager} from "../../classes/element";
-import {Confirm} from "../../classes/dialog";
+import {HandleMenu} from "../handle-menu.js";
+import {ElementManager} from "../classes/element.js";
+import {Confirm} from "../classes/dialog.js";
 
 const _getModulesDataCache = {};
 

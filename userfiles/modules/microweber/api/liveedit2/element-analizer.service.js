@@ -1,5 +1,5 @@
 
-import {DomService} from '../classes/dom';
+import {DomService} from './classes/dom.js';
 
 export class ElementAnalyzerServiceBase {
 

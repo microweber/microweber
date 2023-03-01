@@ -48,17 +48,22 @@
 
 /*  Handles content  */
 
+$darkBG: #404040;
+$lightBG: #ffffff;
+
+$bg: $darkBG;
+
 $handleHeight: 42;
 
 .mw-le-handle-menu{
     position: absolute;
     height: #{$handleHeight}px;
-    border-radius: 3px;
+    border-radius: 100px;
     border: 1px solid #e5e5e5;
     padding: 3px 12px;
     display: inline-flex;
     align-items: center;
-    background-color: #fff;
+    background-color: $bg;
     pointer-events: all;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
     *{
@@ -97,6 +102,8 @@ $handleHeight: 42;
 }
 
 .mw-le-handle-menu-button-sub-menu{
+    display: flex;
+    flex-wrap: nowrap;
     padding: 10px 0;
     position: absolute;
     visibility: hidden;
@@ -107,7 +114,7 @@ $handleHeight: 42;
     top: 100%;
     left: 0;
     background-color: #fff;
-    box-shadow: rgb(17 17 26 / 10%) 0px 4px 16px, rgb(17 17 26 / 5%) 0px 8px 32px;
+    box-shadow: 0px 4px 16px rgba(17, 17, 26, .1), 0px 8px 32px rgba(17, 17, 26, .05) ;
     .mw-le-handle-menu-button{
         display: block;
         white-space: nowrap;

@@ -1,17 +1,17 @@
-import {Handle} from "./handle";
-import {GetPointerTargets} from "./pointer";
-import {ModeAuto} from "./mode-auto";
-import {Handles} from "./handles";
-import {ObjectService} from "../classes/object.service";
-import {DroppableElementAnalyzerService} from "./analizer";
-import {DropIndicator} from "./interact";
-import {ElementHandleContent} from "./handles-content/element";
-import {ModuleHandleContent} from "./handles-content/module";
-import {LayoutHandleContent} from "./handles-content/layout";
-import {ElementManager} from "../classes/element";
-import {lang} from "./i18n";
-import {Dialog} from "../classes/dialog";
-
+import {Handle} from "./handle.js";
+import {GetPointerTargets} from "./pointer.js";
+import {ModeAuto} from "./mode-auto.js";
+import {Handles} from "./handles.js";
+import {ObjectService} from "./classes/object.service.js";
+import {DroppableElementAnalyzerService} from "./analizer.js";
+import {DropIndicator} from "./interact.js";
+import {ElementHandleContent} from "./handles-content/element.js";
+import {ModuleHandleContent} from "./handles-content/module.js";
+import {LayoutHandleContent} from "./handles-content/layout.js";
+import {ElementManager} from "./classes/element.js";
+import {lang} from "./i18n.js";
+import {Dialog} from "./classes/dialog.js";
+import {Resizable} from "./classes/resizable.js";
 
 
 export class LiveEdit {
@@ -19,6 +19,7 @@ export class LiveEdit {
     constructor(options) {
 
         const scope = this;
+
         const _e = {};
         this.on = (e, f) => { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
         this.dispatch = (e, f) => { _e[e] ? _e[e].forEach( (c) => { c.call(this, f); }) : ''; };

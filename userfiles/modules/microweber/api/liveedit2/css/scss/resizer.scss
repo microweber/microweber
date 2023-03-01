@@ -1,0 +1,22 @@
+.mw-le-resizable {
+    position: relative;
+}
+.mw-le-resizer {
+    position: absolute;
+}
+
+.mw-le-resizer-r {
+    cursor: col-resize;
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 5px;
+}
+
+.mw-le-resizer-b {
+    bottom: 0;
+    cursor: row-resize;
+    height: 5px;
+    left: 0;
+    width: 100%;
+}

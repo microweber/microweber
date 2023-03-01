@@ -1,4 +1,4 @@
-import {ElementAnalyzerServiceBase} from './element-analizer.service'
+import {ElementAnalyzerServiceBase} from './element-analizer.service.js'
 
 export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase  {
 

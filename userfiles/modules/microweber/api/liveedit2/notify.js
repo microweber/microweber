@@ -1,4 +1,4 @@
-import {ElementManager} from "./element";
+import {ElementManager} from "./element.js";
 
 export class Notify {
     constructor(options) {

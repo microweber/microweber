@@ -983,11 +983,13 @@
         mw.require('editor.js');
         mw.require('css_parser.js');
         mw.require('le2/modules-list.js');
+
     </script>
 
+    <script type="module" src="<?php print site_url('userfiles/modules/microweber/api/liveedit2/@live.js'); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://unit.microweber.com/le2/editor.js"></script>
-    <script src="https://unit.microweber.com/le2/live-edit2.js"></script>
+
+
     <script>
 
 
@@ -1125,7 +1127,7 @@
                 var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog');
                 var modulesDialog = cmmodulesDialog.dialog;
 
-                console.log(frame.contentWindow.mw._activeElementOver, frame.contentWindow.mw.handleElement.positionedAt)
+
 
                 mw.$('#mw-plus-tooltip-selector li').each(function () {
                     this.onclick = function () {
@@ -1654,7 +1656,7 @@ $user = get_user();
         var doc = frame.contentWindow.document;
          var link = doc.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://unit.microweber.com/le2/live-edit2.css.css';
+        link.href = '<?php print site_url('userfiles/modules/microweber/api/liveedit2/css/dist.css'); ?>';
         doc.head.prepend(link);
 
         liveEdit = new LiveEdit({

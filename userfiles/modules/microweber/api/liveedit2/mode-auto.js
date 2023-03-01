@@ -1,6 +1,6 @@
 
-import {DroppableElementAnalyzerService} from "./analizer";
-import {DomService} from '../classes/dom';
+
+import {DomService} from './classes/dom.js';
 
 
 const isRowLike = function (node) {

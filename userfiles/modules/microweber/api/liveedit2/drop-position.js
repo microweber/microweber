@@ -1,4 +1,4 @@
-import {DomService} from '../classes/dom';
+import {DomService} from './classes/dom.js';
 
 
 let prevY = -1;

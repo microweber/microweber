@@ -1,4 +1,4 @@
-import {ObjectService} from "./object.service";
+import {ObjectService} from "./object.service.js";
 
 
 
