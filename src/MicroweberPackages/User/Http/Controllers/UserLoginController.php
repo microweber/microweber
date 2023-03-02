@@ -157,23 +157,9 @@ class UserLoginController extends Controller
              }
              if ($checkAuthField) {
                  $checkUser = User::select('email', 'username', 'two_factor_secret')
-                     ->where(
-                            function ($query) use ($checkAuthField) {
-                                $query->where('email', $checkAuthField)
-                                    ->orWhere('email', strtolower($checkAuthField));
-                            }
-                        )
+                     ->where('email', $checkAuthField)
+                     ->orWhere('username', $checkAuthField)
                      ->first();
-                 if(!$checkUser){
-                     $checkUser = User::select('email', 'username', 'two_factor_secret')
-                         ->where(
-                             function ($query) use ($checkAuthField) {
-                                 $query->where('username', $checkAuthField)
-                                     ->orWhere('username', strtolower($checkAuthField));
-                             }
-                         )
-                         ->first();
-                 }
 
                  if (!empty($checkUser)) {
                      if (!empty($checkUser->two_factor_secret)) {
