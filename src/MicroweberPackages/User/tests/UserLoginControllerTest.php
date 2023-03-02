@@ -57,7 +57,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
 
-        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $email = 'testusexr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
@@ -89,7 +89,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableEmailVerify();
         $this->_disableLoginCaptcha();
 
-        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $email = 'testusexcr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
@@ -123,7 +123,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableLoginCaptcha();
 
 
-        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $email = 'testusexr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
@@ -154,7 +154,7 @@ class UserLoginControllerTest extends TestCase
         $this->_enableLoginCaptcha();
 
 
-        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $email = 'testusexxr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
@@ -185,7 +185,7 @@ class UserLoginControllerTest extends TestCase
         $this->_disableLoginCaptcha();
 
 
-        $email = 'testusexXr_' . uniqid() . '@aa.bb';
+        $email = 'testusexxr_' . uniqid() . '@aa.bb';
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithEmail($email, $password);
