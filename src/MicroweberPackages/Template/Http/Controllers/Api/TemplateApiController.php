@@ -158,7 +158,7 @@ class TemplateApiController
             rmdir_recursive($cacheTemplateDir, false);
 
             return array(
-                'success' => "Template allready exists!"
+                'success' => "Template already exists!"
             );
         }
 

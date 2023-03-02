@@ -31,16 +31,7 @@
         </div>
 
         <?php if (isset($captcha_disabled) and $captcha_disabled == false): ?>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-auto">
-                    <img class="img-fluid" src="<?php print api_link('captcha') ?>?w=100&h=40" onclick="mw.tools.refresh_image(this);"/>
-                </div>
-                <div class="col">
-                    <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="form-control" name="captcha">
-                </div>
-            </div>
-        </div>
+       <module type="captcha" id="forgot-password-capcha"/>
         <?php endif; ?>
 
         <div class="form-group text-end text-right">

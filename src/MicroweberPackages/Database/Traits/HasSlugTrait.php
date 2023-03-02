@@ -43,8 +43,11 @@ trait HasSlugTrait
     {
         if (empty($this->url)) {
             if (!empty($this->title)) {
-
-                $slug = mw()->url_manager->slug($this->title);
+                $title = $this->title;
+                $title = trim($title);
+                $title = strip_tags($title);
+                $title = strtolower($title);
+                $slug = mw()->url_manager->slug($title);
                 if ($slug == '') {
                     $slug = date('Y-M-d-His');
                 }
@@ -56,7 +59,11 @@ trait HasSlugTrait
                 $this->url = $slug;
             }
         } else {
-            $slug = mw()->url_manager->slug($this->url);
+            $url = $this->url;
+            $url = trim($url);
+            $url = strip_tags($url);
+            $url = strtolower($url);
+            $slug = mw()->url_manager->slug($url);
             if ($this->checkSlugExists($slug)) {
                 $slug = $slug . date('YmdHis');
             }

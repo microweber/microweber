@@ -8,10 +8,10 @@
 
     <?php _e('This content is deleted and it is in trash bin') ?>
 
-    <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn"
+    <a class="btn btn-outline-danger btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn-<?php print ($content['id']) ?>"
        href="javascript:mw.del_current_page_forever('<?php print ($content['id']) ?>');"><?php _e("Delete Forever"); ?></a>
 
-    <a class="btn btn-warning btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn"
+    <a class="btn btn-warning btn-sm" id="mw-admin-content-edit-inner-delete-curent-content-btn-<?php print ($content['id']) ?>"
        href="javascript:mw.del_current_page_restore('<?php print ($content['id']) ?>');"><?php _e("Restore"); ?></a>
 
 </div>

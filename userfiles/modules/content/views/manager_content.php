@@ -274,7 +274,7 @@
                             <p><?php _e('Create your first post right now.'); ?><br/>
                                 <?php _e('You are able to do that in very easy way!'); ?> </p>
                             <br/>
-                            <a href="<?php print$url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Post'); ?></a>
+                            <a href="<?php print admin_url() . 'view:content'; ?><?php print $url; ?>" class="btn btn-primary btn-rounded"><?php _e('Create a Post'); ?></a>
                         </div>
                     </div>
                 </div>
