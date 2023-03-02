@@ -40,6 +40,7 @@ use Laravel\Fortify\Http\Responses\SimpleViewResponse;
 use Laravel\Fortify\Http\Responses\SuccessfulPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Http\Responses\TwoFactorLoginResponse;
 use Laravel\Fortify\Http\Responses\VerifyEmailResponse;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\Fortify\Actions\Fortify\CreateNewUser;
 use MicroweberPackages\Fortify\Actions\Fortify\ResetUserPassword;
 use MicroweberPackages\Fortify\Actions\Fortify\UpdateUserPassword;
@@ -49,6 +50,18 @@ use MicroweberPackages\User\Models\User;
 
 class FortifyServiceProvider extends \Laravel\Fortify\FortifyServiceProvider
 {
+use MergesConfig;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(){
+        parent::register();
+        $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
+
+    }
 
 
     /**
@@ -62,7 +75,6 @@ class FortifyServiceProvider extends \Laravel\Fortify\FortifyServiceProvider
         $this->configureRoutes();
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
-        $this->mergeConfigFrom(__DIR__ . '/config/fortify.php', 'fortify');
 
         View::addNamespace('fortify', __DIR__.'/resources/views');
 
@@ -103,7 +115,6 @@ class FortifyServiceProvider extends \Laravel\Fortify\FortifyServiceProvider
 
     protected function configureRoutes()
     {
-
         if (Fortify::$registersRoutes) {
             Route::group([
                 'namespace' => 'Laravel\Fortify\Http\Controllers',
