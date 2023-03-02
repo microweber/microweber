@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Form;
 
-use Arcanedev\Html\Elements\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -75,7 +74,7 @@ class FormsManager
                 }
                 if (empty($item['form_values'])) {
                     $fields = [];
-                    if ($findFormsDataValues->count()>0) {
+                    if ($findFormsDataValues->count() > 0) {
                         foreach ($findFormsDataValues as $formsDataValue) {
                             if (is_array($formsDataValue->field_value_json) && !empty($formsDataValue->field_value_json)) {
                                 $fields[$formsDataValue->field_key] = $formsDataValue->field_value_json;
@@ -131,7 +130,7 @@ class FormsManager
 
         }
 
-        return array('success' => 'List is updated', 'data'=>$params);
+        return array('success' => 'List is updated', 'data' => $params);
     }
 
     public function post($params)
@@ -226,7 +225,7 @@ class FormsManager
 
         if ($dis_cap == false) {
 
-            if(!isset($params['captcha'])){
+            if (!isset($params['captcha'])) {
                 $validate_captcha = false;
             } else {
                 $validate_captcha = $this->app->captcha_manager->validate($params['captcha'], $for_id);
@@ -380,7 +379,7 @@ class FormsManager
                     $customFieldType = 'text'; // custom field type
                     if (isset($item['options']['field_type'])) {
                         $customFieldType = $item['options']['field_type'];
-                    } else if(isset($item['type'])){
+                    } else if (isset($item['type'])) {
                         $customFieldType = $item['type'];
                     }
 
@@ -419,10 +418,10 @@ class FormsManager
             unset($formsDataClean['for_id']);
             unset($formsDataClean['module_name']);
             if (!empty($formsDataClean)) {
-                foreach ($formsDataClean as $formDataName=>$formDataValue) {
+                foreach ($formsDataClean as $formDataName => $formDataValue) {
 
                     $formDataKey = str_slug($formDataName);
-                    $formDataKey = str_replace('-','_', $formDataKey);
+                    $formDataKey = str_replace('-', '_', $formDataKey);
 
                     if (is_array($formDataValue) && !empty($formDataValue)) {
                         $fieldsData[] = [
@@ -452,8 +451,8 @@ class FormsManager
             if ($validator->fails()) {
                 $validatorMessages = false;
                 foreach ($validator->messages()->toArray() as $inputFieldErros) {
-                   // $validatorMessages = reset($inputFieldErros);
-                    $validatorMessages = implode("\n",$inputFieldErros);
+                    // $validatorMessages = reset($inputFieldErros);
+                    $validatorMessages = implode("\n", $inputFieldErros);
                     //$validatorMessages = app()->format->array_to_ul($inputFieldErros);
                 }
                 $validationErrorsReturn = array(
@@ -496,7 +495,7 @@ class FormsManager
 
                 if ((isset($field['required']) and $field['required']) or (isset($field['options']['required']) && $field['options']['required'] == 1)) {
                     $fieldRules[] = 'required';
-                  //  $_FILES[$field['name_key']] = true;
+                    //  $_FILES[$field['name_key']] = true;
                     $allowedFilesForSave[$field['name_key']] = true;
 
                 } else if (!isset($_FILES[$field['name_key']])) {
@@ -504,7 +503,7 @@ class FormsManager
                 }
 
                 $allowedFilesForSave[$field['name_key']] = true;
-             //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
+                //  $allowedFilesForSave[$field['name_key']] = $_FILES[$field['name_key']];
 
                 $mimeTypes = [];
                 if (isset($field['options']['file_types']) && !empty($field['options']['file_types'])) {
@@ -559,8 +558,8 @@ class FormsManager
                     'error' => $validatorMessages
                 );
 
-                if($validationErrorsReturn){
-                    $validationErrorsReturn = array_merge_recursive($validationErrorsReturn,$validationErrorsReturn_upload);
+                if ($validationErrorsReturn) {
+                    $validationErrorsReturn = array_merge_recursive($validationErrorsReturn, $validationErrorsReturn_upload);
                 } else {
                     $validationErrorsReturn = $validationErrorsReturn_upload;
                 }
@@ -583,16 +582,16 @@ class FormsManager
             if ($allowedFilesForSave and !empty($allowedFilesForSave)) {
                 foreach ($allowedFilesForSave as $fieldName => $file_up) {
 
-                    if(!isset($_FILES[$fieldName])){
+                    if (!isset($_FILES[$fieldName])) {
                         continue;
                     }
 
-                    $file =  $_FILES[$fieldName];
+                    $file = $_FILES[$fieldName];
 
-                    if(!is_array($file)){
+                    if (!is_array($file)) {
                         continue;
                     }
-                    if(!isset($file['name'])){
+                    if (!isset($file['name'])) {
                         continue;
                     }
 
@@ -621,7 +620,7 @@ class FormsManager
                                 'field_key' => $file['name'],
                                 'field_name' => $fieldName,
                                 'field_value' => false,
-                                'field_value_json'=> [
+                                'field_value_json' => [
                                     'url' => $mediaFileUrl,
                                     'file_name' => $file['name'],
                                     'file_extension' => $fileExtension,
@@ -638,7 +637,7 @@ class FormsManager
                     }
                 }
             }
-        } else  if($validationErrorsReturn)  {
+        } else if ($validationErrorsReturn) {
             return $validationErrorsReturn;
         }
 
@@ -666,7 +665,17 @@ class FormsManager
 
         $this->app->event_manager->trigger('mw.forms_manager.after_post', $event_params);
 
-        Notification::send(User::whereIsAdmin(1)->get(), new NewFormEntry($formModel));
+        if (Option::getValue('email_custom_receivers', $for_id)) {
+            $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
+        } else {
+            $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
+        }
+
+
+        $adminUsers = (User::whereIsAdmin(1)->get());
+        if ($adminUsers and $adminUsers->count() != 0) {
+            Notification::send($adminUsers, new NewFormEntry($formModel));
+        }
 
         if ($skip_saving_emails == 'y') {
             // Delete form data when skip saving
@@ -733,11 +742,7 @@ class FormsManager
 
                 if (!empty($userEmails)) {
 
-                    if (Option::getValue('email_custom_receivers', $for_id)) {
-                        $sendFormDataToReceivers = Option::getValue('email_to', $for_id);
-                    } else {
-                        $sendFormDataToReceivers = Option::getValue('email_to', 'contact_form_default');
-                    }
+
 
                     if (empty(!$sendFormDataToReceivers) and isset($formModel)) {
                         $receivers = $this->explodeMailsFromString($sendFormDataToReceivers);
@@ -959,10 +964,10 @@ class FormsManager
             }
 
             // First get all keys
-            $dataKeysMap = ['id','created_at','user_ip'];
+            $dataKeysMap = ['id', 'created_at', 'user_ip'];
             foreach ($data as $formItem) {
                 if (isset($formItem['custom_fields'])) {
-                    foreach ($formItem['custom_fields'] as $customFieldKey=>$customFieldData) {
+                    foreach ($formItem['custom_fields'] as $customFieldKey => $customFieldData) {
                         $customFieldKey = $this->app->format->no_dashes($customFieldKey);
                         $customFieldKey = str_slug($customFieldKey);
                         $dataKeysMap[] = $customFieldKey;
