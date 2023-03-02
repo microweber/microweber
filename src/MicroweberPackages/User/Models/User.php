@@ -41,7 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'username' => StripTagsCast::class,
-        'email' => StrToLowerTrimCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,
     ];
 
