@@ -34,12 +34,6 @@ class UserServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
-         parent::register();
-
-    }
-
-    public function boot()
-    {
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__. '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__. '/../migrations/');
@@ -49,6 +43,12 @@ class UserServiceProvider extends AuthServiceProvider
 
         Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
         Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
+
+    }
+
+    public function boot()
+    {
+
 
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager
