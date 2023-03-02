@@ -224,7 +224,7 @@ class MicroweberComposerClient extends Client
         return $files;
     }
 
-    public function  install($package)
+    public function install($package)
     {
         $type = 'microweber-module';
         if (isset($package['type'])) {
@@ -260,8 +260,14 @@ class MicroweberComposerClient extends Client
 
         $message = 'Success. You have installed: ' . $moduleName;
         if ($moduleLink) {
-            $message .= '<br /> <a href="'.$moduleLink.'">Visit the module</a>';
-            $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+            if ($type == 'microweber-template') {
+                $moduleLink = admin_url('view:settings#option_group=template');
+                $message .= '<br /> <a href="' . $moduleLink . '">Visit template settings</a>';
+                $response['redirect_to'] = $moduleLink;
+            } else {
+                $message .= '<br /> <a href="' . $moduleLink . '">Visit the module</a>';
+                $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+            }
         }
 
         $response['success'] = $message;
