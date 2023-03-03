@@ -27,7 +27,7 @@ class MarketplaceTest extends TestCase
             }
             if (strpos($latestVersion['name'], 'template') !== false) {
 
-                if (!isset($latestVersion['extra']['_meta']['screenshot'])) {
+                if (!isset($latestVersion['extra']['_meta']['screenshot'])) { 
                     throw new \Exception('Screenshot is empty for ' . $latestVersion['name']);
                 }
 
