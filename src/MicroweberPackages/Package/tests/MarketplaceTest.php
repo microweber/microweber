@@ -28,7 +28,7 @@ class MarketplaceTest extends TestCase
             if (strpos($latestVersion['name'], 'template') !== false) {
 
                 if (!isset($latestVersion['extra']['_meta']['screenshot'])) {
-                    dd($latestVersion);
+                    throw new \Exception('Screenshot is empty for ' . $latestVersion['name']);
                 }
 
                 $this->assertTrue(!empty($latestVersion['extra']['_meta']['screenshot']) , 'Screenshot is empty for ' . $latestVersion['name']);
