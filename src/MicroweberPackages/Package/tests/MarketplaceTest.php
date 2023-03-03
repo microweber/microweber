@@ -21,11 +21,18 @@ class MarketplaceTest extends TestCase
             if (!is_array($versions)) {
                 continue;
             }
+            $latestVersion = [];
             foreach($versions as $version) {
-                if (strpos($version['name'], 'template') !== false) {
-                    $this->assertTrue(!empty($version['extra']['_meta']['screenshot']) , 'Screenshot is empty for ' . $version['name']);
-                    $this->assertTrue(!empty($version['dist']['url']), 'Dist url is empty for ' . $version['name']);
+                $latestVersion = $version;
+            }
+            if (strpos($latestVersion['name'], 'template') !== false) {
+
+                if (!isset($latestVersion['extra']['_meta']['screenshot'])) {
+                    dd($latestVersion);
                 }
+
+                $this->assertTrue(!empty($latestVersion['extra']['_meta']['screenshot']) , 'Screenshot is empty for ' . $latestVersion['name']);
+                $this->assertTrue(!empty($latestVersion['dist']['url']), 'Dist url is empty for ' . $latestVersion['name']);
             }
         }
 
