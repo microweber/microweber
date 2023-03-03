@@ -6,6 +6,13 @@ $config['author'] = "Microweber";
 $config['position'] = 100;
 //$config['type'] = "mail_templates";
 
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Admin\\MailTemplates'
+    ],
+];
+
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Admin\MailTemplates\MailTemplatesServiceProvider::class
 ];

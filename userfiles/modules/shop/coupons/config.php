@@ -20,13 +20,13 @@ $config['categories'] = "online shop";
 $config['version'] = "0.3";
 $config['position'] = 26;
 
-/*
+
 $config['settings']['autoload_namespace'] = [
     [
-        'path' => _DIR_ . '/src/',
+        'path' => __DIR__ . '/src/',
         'namespace' => 'MicroweberPackages\\Modules\\Shop\\Coupons\\'
     ],
-];*/
+];
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Modules\Shop\Coupons\ShopCouponServiceProvider::class
 ];

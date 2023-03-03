@@ -1,6 +1,6 @@
 <?php
 
-autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Admin\\MailTemplates\\');
+//autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Admin\\MailTemplates\\');
 
 function get_mail_template_types()
 {

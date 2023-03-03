@@ -14,7 +14,6 @@
 namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\Database\Utils as DbUtils;
 
 class ModuleManager
@@ -45,7 +44,7 @@ class ModuleManager
         }
         $this->set_table_names();
         if (mw_is_installed()) {
-            $this->activeLicenses  = app()->module_repository->getSystemLicenses();
+            $this->activeLicenses = app()->module_repository->getSystemLicenses();
 //            $getSystemLicense = SystemLicenses::get();
 //            if ($getSystemLicense != null) {
 //                $this->activeLicenses = $getSystemLicense->toArray();
@@ -392,7 +391,7 @@ class ModuleManager
                         $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
                     } else if ($main_try_icon2 and is_file($main_try_icon2)) {
                         $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon2);
-                    }elseif (is_file($try_icon)) {
+                    } elseif (is_file($try_icon)) {
 
                         $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
@@ -595,7 +594,7 @@ class ModuleManager
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
-        if(!is_array($params)){
+        if (!is_array($params)) {
             $params = array();
         }
         $params['table'] = $table;
@@ -821,9 +820,9 @@ class ModuleManager
         $attr_value = str_replace(']', '&#93;', $attr_value);
         $attr_value = str_replace('[', '&#91;', $attr_value);
         $attr_value = str_replace('{', '&#123;', $attr_value);
-        $attr_value = str_replace('}',  '&#125;', $attr_value);
-        $attr_value = str_replace('`',   '&#96;', $attr_value);
-        $attr_value = str_replace(';',    '&#59;', $attr_value);
+        $attr_value = str_replace('}', '&#125;', $attr_value);
+        $attr_value = str_replace('`', '&#96;', $attr_value);
+        $attr_value = str_replace(';', '&#59;', $attr_value);
         return $attr_value;
     }
 
@@ -850,14 +849,14 @@ class ModuleManager
 
     public function license($module_name = false)
     {
-     //   $module_name = str_replace('\\', '/', $module_name);
+        //   $module_name = str_replace('\\', '/', $module_name);
         $licenses = $this->activeLicenses;
         $lic = [];
         if ($licenses) {
             foreach ($licenses as $license) {
-               /* if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
-                    $lic = $license;
-                }*/
+                /* if (isset($license["rel_type"]) and $license["rel_type"] == $module_name) {
+                     $lic = $license;
+                 }*/
                 $lic[] = $license;
             }
         }
@@ -1600,23 +1599,20 @@ class ModuleManager
 
     public function boot_module($module)
     {
-        if(!mw_is_installed()){
+        if (!mw_is_installed()) {
             return;
         }
 
         if (isset($module['settings']) and $module['settings'] and isset($module['settings']['autoload_namespace']) and is_array($module['settings']['autoload_namespace']) and !empty($module['settings']['autoload_namespace'])) {
             foreach ($module['settings']['autoload_namespace'] as $namespace_item) {
-
                 if (isset($namespace_item['path']) and isset($namespace_item['namespace'])) {
                     $path = normalize_path($namespace_item['path'], 1);
                     $namespace = $namespace_item['namespace'];
                     if ($path and is_dir($path)) {
-
                         autoload_add_namespace($path, $namespace);
                     }
                 }
             }
-
         }
 
 
@@ -1628,12 +1624,11 @@ class ModuleManager
         } else {
             $loadProviders[] = $module['settings']['service_provider'];
         }
+
         foreach ($loadProviders as $loadProvider) {
-
-           if (class_exists($loadProvider )) {
-
+            if (class_exists($loadProvider)) {
                 app()->register($loadProvider);
-             }
+            }
         }
     }
 

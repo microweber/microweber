@@ -10,7 +10,7 @@
  */
 include __DIR__ . DS . 'src/CouponClass.php';
 
-autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Modules\\Shop\\Coupons\\');
+//autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Modules\\Shop\\Coupons\\');
 
 function coupon_apply($params = array())
 {
