@@ -250,7 +250,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         //$this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
 
 
             //   $this->app->register(TaggableFileCacheServiceProvider::class);
@@ -324,6 +323,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+        $this->app->register(ModuleServiceProvider::class);
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

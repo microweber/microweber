@@ -18,6 +18,16 @@ class CheckoutCartTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
+
+        $save = array(
+            'option_key' => 'shipping_gw_shop/shipping/gateways/country',
+            'option_group' => 'shipping',
+            'option_value' => 'y'
+        );
+
+        save_option($save);
+
+
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
             $uniqueId = time();

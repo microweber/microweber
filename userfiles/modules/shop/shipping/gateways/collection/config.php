@@ -13,7 +13,15 @@ $config['settings']['checkout_position'] = 0;
 $config['settings']['icon_class'] = "mdi mdi-walk";
 $config['settings']['help_text'] = "Collect your order from our store";
 
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Shop\\Shipping\\Gateways\\Collection\\'
+    ],
+];
 $config['settings']['service_provider'] = [
     \MicroweberPackages\Shop\Shipping\Gateways\Collection\CollectionEventServiceProvider::class,
     \MicroweberPackages\Shop\Shipping\Gateways\Collection\CollectionServiceProvider::class,
 ];
+
+

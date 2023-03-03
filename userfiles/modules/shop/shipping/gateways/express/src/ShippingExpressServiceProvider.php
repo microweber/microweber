@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ShippingExpressServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         app()->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
             $shippingManager->extend('shop/shipping/gateways/express', function () {

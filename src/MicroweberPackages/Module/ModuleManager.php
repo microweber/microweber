@@ -1611,6 +1611,7 @@ class ModuleManager
                     $path = normalize_path($namespace_item['path'], 1);
                     $namespace = $namespace_item['namespace'];
                     if ($path and is_dir($path)) {
+
                         autoload_add_namespace($path, $namespace);
                     }
                 }
@@ -1628,10 +1629,11 @@ class ModuleManager
             $loadProviders[] = $module['settings']['service_provider'];
         }
         foreach ($loadProviders as $loadProvider) {
-            if (class_exists($loadProvider)) {
+
+           if (class_exists($loadProvider )) {
 
                 app()->register($loadProvider);
-            }
+             }
         }
     }
 
