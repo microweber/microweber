@@ -24,7 +24,7 @@ use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 
 
-class OptionServiceProvider extends ServiceProvider implements DeferrableProvider
+class OptionServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -33,6 +33,8 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function register()
     {
+        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
+
         $this->app->singleton('option_manager', function ($app) {
             return new OptionManager();
         });
@@ -68,7 +70,6 @@ class OptionServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
 
         $this->app->translate_manager->addTranslateProvider(TranslateOption::class);
 

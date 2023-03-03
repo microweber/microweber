@@ -243,6 +243,8 @@ class AppServiceProvider extends ServiceProvider
 
        $this->app->register(FortifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
+        $this->app->register(OptionServiceProvider::class);
+
         $this->app->register(InstallServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
 
@@ -299,7 +301,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
-        $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
       //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
