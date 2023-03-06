@@ -7297,16 +7297,16 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
                 "reference": "63f1cf4e0f9cf91689d80013a16e0462002c77e8",
-                "shasum": "1757c6bdaf3040fbbc129180effc27ba2d00bf74"
+                "shasum": "e547ede8b269476af2a71f1d159d1dc45466a4fb"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/bootstrap5/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7348,9 +7348,9 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
                 "reference": "8ea74843e8af583d15a1a3dbe77e58a425ffb7ff",
-                "shasum": "d621ebabcad804e2929d19251fcb11c45a9bc4ea"
+                "shasum": "fb0fb65a9f1dae65fa7769a669ce515efd8d66d3"
             },
             "type": "microweber-template",
             "extra": {
@@ -7373,8 +7373,8 @@
                 ],
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7411,16 +7411,16 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://market.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
                 "reference": "7b26f250e53e8d1cbdad82c26877f289f525f2c1",
-                "shasum": "9d380eb2a8a4fdc4af64339486902fd24d9392e0"
+                "shasum": "275d4d22a0efe0210ce36d36efb1c66c57542d56"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "readme": "https://market.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
-                    "screenshot": "https://market.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
