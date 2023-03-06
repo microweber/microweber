@@ -12,7 +12,7 @@
 */
 
 
-/*Route::prefix(ADMIN_PREFIX)->name('admin.')->middleware(['admin','api'])->namespace('\MicroweberPackages\Role\Http\Controllers\Admin')->group(function () {
+/*Route::prefix(mw_admin_prefix_url())->name('admin.')->middleware(['admin','api'])->namespace('\MicroweberPackages\Role\Http\Controllers\Admin')->group(function () {
 
     Route::resource('role', 'RolesController');
 

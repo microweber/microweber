@@ -3,7 +3,7 @@
 
 
 Route::name('api.comment.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(mw_admin_prefix_url())
     ->middleware([
         \MicroweberPackages\Comment\Http\Middleware\PostCommentMiddleware::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class
@@ -15,7 +15,7 @@ Route::name('api.comment.')
 
 
 Route::name('api.comment.admin.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(mw_admin_prefix_url())
     ->middleware([\MicroweberPackages\Comment\Http\Middleware\PostCommentMiddleware::class,'admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {
@@ -24,7 +24,7 @@ Route::name('api.comment.admin.')
 
 
 Route::name('admin.comment.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(mw_admin_prefix_url())
     ->middleware([\MicroweberPackages\Comment\Http\Middleware\PostCommentMiddleware::class,'admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {

@@ -229,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ConfigSaveServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
-            define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
+            define('ADMIN_PREFIX', mw_admin_prefix_url());
         }
 
         if (config::get('microweber.force_https') && !is_cli()) {
