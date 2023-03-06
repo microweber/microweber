@@ -59,7 +59,7 @@ class AdminContentMultilanguage extends BaseComponent
             $mustActivateMultilanguage = true;
 
             $output = $browser->script("
-            var moduleElement = $('input[name=is_active][checked]');
+            var moduleElement = $('input[id=is_active_quick][checked]');
             if (moduleElement.length > 0) {
               return true;
             }
