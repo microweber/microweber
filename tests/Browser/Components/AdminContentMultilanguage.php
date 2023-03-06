@@ -5,7 +5,6 @@ namespace Tests\Browser\Components;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class AdminContentMultilanguage extends BaseComponent
 {
@@ -54,8 +53,10 @@ class AdminContentMultilanguage extends BaseComponent
             $mustAddNewLang = false;
         }
 
-        if (!$browser->element('.module-multilanguage')) {
-            $mustActivateMultilanguage = true;
+        if (get_option('is_active', 'multilanguage_settings') !== 'y') {
+            if (!$browser->element('.module-multilanguage')) {
+                $mustActivateMultilanguage = true;
+            }
         }
 
         if ($goToMultilanguagePage) {
@@ -64,18 +65,18 @@ class AdminContentMultilanguage extends BaseComponent
 
         if ($mustActivateMultilanguage) {
             $browser->waitForText('Multilanguage is active');
-           // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
+            // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
             $browser->click('.module-switch-active-form .custom-control-label');
             $browser->waitForReload();
         }
 
         if ($mustAddNewLang) {
-            $browser->waitForText('Add new language',20);
+            $browser->waitForText('Add new language', 20);
             $browser->select('.js-dropdown-text-language', $locale);
             $browser->pause(3000);
             $browser->click('.js-add-language');
             $browser->pause(8000);
-            $browser->waitForText($locale,15);
+            $browser->waitForText($locale, 15);
         }
 
     }
@@ -126,7 +127,7 @@ class AdminContentMultilanguage extends BaseComponent
 
         $browser->within(new AdminMultilanguageFields, function ($browser) use ($title, $locale) {
             $browser->script("document.querySelector('[name=\"content_meta_title\"]').scrollIntoView({block: 'nearest', inline: 'nearest',behavior :'auto'});");
-             $browser->fillInput('content_meta_title', $title, $locale);
+            $browser->fillInput('content_meta_title', $title, $locale);
         });
     }
 
@@ -134,7 +135,7 @@ class AdminContentMultilanguage extends BaseComponent
     {
         $browser->scrollTo('.js-card-search-engine');
         if (!$browser->driver->findElement(WebDriverBy::cssSelector('#seo-settings'))->isDisplayed()) {
-          //  $browser->script('$(".js-card-search-engine a.btn").click();');
+            //  $browser->script('$(".js-card-search-engine a.btn").click();');
             $browser->click('.js-card-search-engine a.btn"');
 
             $browser->pause(1000);
