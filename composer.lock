@@ -7297,22 +7297,22 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
+                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
                 "reference": "63f1cf4e0f9cf91689d80013a16e0462002c77e8",
-                "shasum": "e547ede8b269476af2a71f1d159d1dc45466a4fb"
+                "shasum": "e60e406411f00b0541fbbe7fb89f04783b06c27c"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/bootstrap5/",
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
+                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
+                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
                 }
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "notification-url": "http://packages.microweberapi.com/packages/download-notify",
             "license": [
                 "MIT"
             ],
@@ -7348,9 +7348,9 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
+                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
                 "reference": "8ea74843e8af583d15a1a3dbe77e58a425ffb7ff",
-                "shasum": "fb0fb65a9f1dae65fa7769a669ce515efd8d66d3"
+                "shasum": "82c0a70f54a1915cd3c6e5eb0ed019d2fb0c6741"
             },
             "type": "microweber-template",
             "extra": {
@@ -7373,14 +7373,14 @@
                 ],
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
+                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
+                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
                 }
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "notification-url": "http://packages.microweberapi.com/packages/download-notify",
             "license": [
                 "MIT"
             ],
@@ -7411,22 +7411,22 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
+                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
                 "reference": "7b26f250e53e8d1cbdad82c26877f289f525f2c1",
-                "shasum": "275d4d22a0efe0210ce36d36efb1c66c57542d56"
+                "shasum": "f26a8d841e78038fac6fffd3867581adae9b520c"
             },
             "type": "microweber-template",
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
+                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
+                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
                 }
             },
-            "notification-url": "https://packages.microweberapi.com/packages/download-notify",
+            "notification-url": "http://packages.microweberapi.com/packages/download-notify",
             "license": [
                 "MIT"
             ],
