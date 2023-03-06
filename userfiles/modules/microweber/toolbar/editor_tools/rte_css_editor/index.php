@@ -999,7 +999,11 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
     });
 
     $(window).on('load', function () {
-        if(targetMw.liveEditSelector.selected[0]){
+        if(typeof(targetMw.liveEditSelector) === 'undefined' ){
+            mw.log('Live edit selector is not defined');
+            return;
+        }
+        if(targetMw.liveEditSelector && targetMw.liveEditSelector.selected[0]){
             ActiveNode = targetMw.liveEditSelector.selected[0];
 
              if(ActiveNode){
