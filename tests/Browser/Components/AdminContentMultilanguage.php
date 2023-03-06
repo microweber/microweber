@@ -5,6 +5,7 @@ namespace Tests\Browser\Components;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Component as BaseComponent;
+use PHPUnit\Framework\Assert as PHPUnit;
 
 class AdminContentMultilanguage extends BaseComponent
 {
@@ -53,21 +54,35 @@ class AdminContentMultilanguage extends BaseComponent
             $mustAddNewLang = false;
         }
 
-        if (get_option('is_active', 'multilanguage_settings') !== 'y') {
-            if (!$browser->element('.module-multilanguage')) {
-                $mustActivateMultilanguage = true;
+
+        if (!$browser->element('.module-multilanguage')) {
+            $mustActivateMultilanguage = true;
+
+            $output = $browser->script("
+            var moduleElement = $('input[name=is_active][checked]');
+            if (moduleElement.length > 0) {
+              return true;
             }
+            return false;
+            ");
+
+           if ($output[0]) {
+               $mustActivateMultilanguage = false;
+           }
         }
+
 
         if ($goToMultilanguagePage) {
             $browser->visit(route('admin.multilanguage.index'));
         }
 
         if ($mustActivateMultilanguage) {
+
             $browser->waitForText('Multilanguage is active');
             // $browser->script('$(".module-switch-active-form .custom-control-label").click();');
             $browser->click('.module-switch-active-form .custom-control-label');
             $browser->waitForReload();
+
         }
 
         if ($mustAddNewLang) {

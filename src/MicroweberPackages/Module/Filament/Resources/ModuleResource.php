@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Module\Filament\Resources;
 
-use App\Filament\Resources\ModuleResource\Pages;
-use App\Filament\Resources\ModuleResource\RelationManagers;
+
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
