@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\ModuleResource\Pages;
+namespace MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages;
 
-use App\Filament\Resources\ModuleResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
+use MicroweberPackages\Module\Filament\Resources\ModuleResource;
 
 class EditModule extends EditRecord
 {

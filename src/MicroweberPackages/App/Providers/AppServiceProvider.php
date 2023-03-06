@@ -227,19 +227,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new ConfigSave($this->app));
         $this->app->register(ConfigSaveServiceProvider::class);
-        $this->app->register(ViewServiceProvider::class);
-        $this->app->register(BladeUIServiceProvider::class);
-        $this->app->register(UserServiceProvider::class);
-        $this->app->register(FortifyServiceProvider::class);
-        $this->app->register(InstallServiceProvider::class);
-        $this->app->register(AdminServiceProvider::class);
-
-        $this->app->register(RepositoryServiceProvider::class);
-        $this->app->register(RepositoryEventServiceProvider::class);
-        $this->app->register(MediaManagerServiceProvider::class);
-        //$this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
-        $this->app->register(LivewireServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
@@ -248,6 +235,25 @@ class AppServiceProvider extends ServiceProvider
         if (config::get('microweber.force_https') && !is_cli()) {
             URL::forceScheme("https");
         }
+
+
+        $this->app->register(ViewServiceProvider::class);
+        $this->app->register(BladeUIServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
+
+       $this->app->register(FortifyServiceProvider::class);
+        $this->app->register(UserServiceProvider::class);
+        $this->app->register(OptionServiceProvider::class);
+
+        $this->app->register(InstallServiceProvider::class);
+        $this->app->register(AdminServiceProvider::class);
+
+        $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(RepositoryEventServiceProvider::class);
+        $this->app->register(MediaManagerServiceProvider::class);
+        //$this->app->register(DebugbarServiceProvider::class);
+
+
             //   $this->app->register(TaggableFileCacheServiceProvider::class);
         //$this->app->register(AlternativeCacheStoresServiceProvider::class);
 
@@ -295,7 +301,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
-        $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
       //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
@@ -319,6 +324,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+        $this->app->register(ModuleServiceProvider::class);
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

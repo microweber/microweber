@@ -11,5 +11,5 @@ $config['ui'] = true;
 $config['ui_admin'] = false;
 $config['is_system'] = false;
 $config['position'] = 31;
-$config['categories'] = "signup";
+$config['categories'] = "users";
 

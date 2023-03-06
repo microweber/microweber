@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
+    const HOME = '/';
+
     /**
      * Handle an incoming request.
      *
@@ -19,7 +21,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            return redirect(self::HOME);
         }
 
         return $next($request);

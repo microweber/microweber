@@ -572,6 +572,11 @@ mw.lib.require('xss');
                         if (sel.rangeCount > 0) {
                             var node = scope.api.elementNode(sel.focusNode);
                             var parent = mw.tools.firstBlockLevel(node).parentNode.parentNode;
+                            var area = parent.querySelector('.mw-editor-area');
+                            if(area) {
+                                parent = area;
+                            }
+
                             scope.api.action(parent, function () {
                                 scope.actionWindow.document.execCommand(cmd, def, val);
                                 scope.api.cleanNesting(parent);

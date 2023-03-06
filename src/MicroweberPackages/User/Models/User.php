@@ -41,7 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'username' => StripTagsCast::class,
-        'email' => StrToLowerTrimCast::class,
         'thumbnail' => ReplaceSiteUrlCast::class,
     ];
 
@@ -131,14 +130,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = (Hash::needsRehash($pass) ? Hash::make($pass) : $pass);
     }
 
-    public function setEmailAttribute($value)
-    {
-        $this->attributes['email'] = strtolower($value);
-    }
-    public function getEmailAttribute($value)
-    {
-        return strtolower($value);
-    }
+
     /**
      * Find the user instance for the given username.
      *
