@@ -25,7 +25,16 @@ class LanguageHelper
             return $locale;
         }
 
-        $locale = \Symfony\Component\Intl\Languages::getName($locale_name);
+        if($locale_name) {
+            try {
+                $locale = \Symfony\Component\Intl\Languages::getName($locale_name);
+            } catch (\Exception $e) {
+                $locale = false;
+            }
+            if ($locale) {
+                return $locale;
+            }
+        }
 
         if ($locale) {
             return $locale;
