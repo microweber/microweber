@@ -8,7 +8,7 @@
 
 
 
-    <link rel="stylesheet" href="http://localhost/mw3/userfiles/modules/microweber/css/ui.css">
+    <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
 
     <style>
