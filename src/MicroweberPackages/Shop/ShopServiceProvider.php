@@ -23,12 +23,14 @@ class ShopServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+
+
+    public function register()
     {
         // Allow to overwrite resource files for this module
         $checkForOverwrite = template_dir() . 'modules/shop/src/resources/views';
         $checkForOverwrite = normalize_path($checkForOverwrite);
-
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
         if (is_dir($checkForOverwrite)) {
             View::addNamespace('shop', $checkForOverwrite);
         }
@@ -36,10 +38,5 @@ class ShopServiceProvider extends ServiceProvider
         View::addNamespace('shop', normalize_path((__DIR__) . '/resources/views'));
 
         Livewire::component('admin-shop-dashboard-sales', DashboardSalesComponent::class);
-    }
-
-    public function register()
-    {
-        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
     }
 }
