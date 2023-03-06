@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\ModuleResource\Pages;
+namespace MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages;
 
-use App\Filament\Resources\ModuleResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use MicroweberPackages\Module\Filament\Resources\ModuleResource;
 
 class CreateModule extends CreateRecord
 {
