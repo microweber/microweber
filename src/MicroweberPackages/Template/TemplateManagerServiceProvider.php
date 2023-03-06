@@ -17,12 +17,8 @@ use Illuminate\Support\ServiceProvider;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
+
+    public function register()
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
@@ -47,9 +43,7 @@ class TemplateManagerServiceProvider extends ServiceProvider
         $this->app->singleton('template', function ($app) {
             return new Template();
         });
-    }
-    public function register()
-    {
+
         View::addNamespace('template', __DIR__.'/resources/views');
 
     }

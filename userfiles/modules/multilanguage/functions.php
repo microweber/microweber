@@ -8,7 +8,7 @@ if (defined('MW_DISABLE_MULTILANGUAGE')) {
     return;
 }
 
-require_once 'api_exposes.php';
+require_once (__DIR__.'/api_exposes.php');
 
 // Check multilanguage is active
 if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
@@ -16,7 +16,7 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
 }
 
 // Event binds must be only when multilanguage is active
-require_once 'event_binds_general.php';
+require_once (__DIR__.'/event_binds_general.php');
 
 
 $supportedLanguages = get_supported_languages();
