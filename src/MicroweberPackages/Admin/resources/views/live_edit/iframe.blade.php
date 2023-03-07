@@ -1367,7 +1367,7 @@
 
 
                 var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
-                if(typeof memPin === 'undefined') {
+                if(typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
                     liveEditor.smallEditorApi.pin()
                 }
 
