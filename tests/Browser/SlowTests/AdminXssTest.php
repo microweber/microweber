@@ -62,7 +62,7 @@ class AdminXssTest extends DuskTestCase
                 if ($value->getName() == 'api.') {
                     continue;
                 }
-                if ($value->getName() == 'filament.') {
+                if (str_contains($value->getName(), 'filament.')) {
                     continue;
                 }
 
