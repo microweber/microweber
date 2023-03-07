@@ -918,10 +918,11 @@ var MWEditor = function (options) {
                 if(clipboardData) {
                     pastedData = clipboardData.getData('Text');
                 }
-
-                scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function (){
-                    scope.registerChange();
-                });
+                if(typeof scope.actionWindow.mw.wysiwyg !== 'undefined') {
+                    scope.actionWindow.mw.wysiwyg.normalizeBase64Images(this.parentNode, function () {
+                        scope.registerChange();
+                    });
+                }
             });
 
         });
