@@ -102,7 +102,7 @@ if (!empty($template_id)) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table', 'mailTemplateFormDropdownVariables'
+                    '|', 'link', 'unlink', 'wordPaste', 'mailTemplateFormDropdownVariables'
                 ],
             ]
         });

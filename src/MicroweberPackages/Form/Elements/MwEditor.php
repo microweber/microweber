@@ -54,7 +54,7 @@ class MwEditor extends TextArea
                                         controls: ['ul', 'ol']
                                     }
                                 },
-                                '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat', 'editSource'
+                                '|', 'link', 'unlink', 'wordPaste',  'removeFormat', 'editSource'
                             ],
                         ]
                   });

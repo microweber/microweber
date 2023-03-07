@@ -8158,6 +8158,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: normal;
   white-space: nowrap;
+  z-index: 2;
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-editor-controller-component[data-tooltip]:hover:after,
 .mw-small-editor.mw-small-editor-skin-dark .mw-editor-controller-component[data-tooltip]:hover:after,
@@ -8225,8 +8226,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   position: relative;
   padding-inline: 0 15px ;
 }
-.mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group .mw-editor-group-button-caret,
-.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group .mw-editor-group-button-caret {
+.mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group .mw-editor-group-button .mw-editor-group-button-caret,
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group .mw-editor-group-button .mw-editor-group-button-caret {
   position: absolute;
   top: 0;
   right: 0;
@@ -8236,8 +8237,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   align-items: center;
   justify-content: center;
 }
-.mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group .mw-editor-group-button-caret:hover,
-.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group .mw-editor-group-button-caret:hover {
+.mw-small-editor.mw-small-editor-skin-lite .mw-bar-control-item-group .mw-editor-group-button .mw-editor-group-button-caret:hover,
+.mw-small-editor.mw-small-editor-skin-dark .mw-bar-control-item-group .mw-editor-group-button .mw-editor-group-button-caret:hover {
   background-color: rgba(204, 204, 204, 0.18);
 }
 .mw-small-editor.mw-small-editor-skin-lite .mw-bar-delimiter.mw-bar-control-item,
@@ -8490,6 +8491,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: normal;
   white-space: nowrap;
+  z-index: 2;
 }
 .mw-small-editor-skin-default .mw-editor-controller-component[data-tooltip]:hover:after,
 .mw-editor-default .mw-editor-controller-component[data-tooltip]:hover:after,
@@ -8662,11 +8664,6 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   margin: 0px 6px 0 0;
   position: relative;
   top: 3px;
-}
-.mw-editor-controller-component-select .mw-editor-group-button-caret {
-  display: inline-block;
-  position: relative;
-  left: 5px;
 }
 .mw-editor-controller-component-select .mw-editor-controller-component-select-values-holder {
   position: absolute;

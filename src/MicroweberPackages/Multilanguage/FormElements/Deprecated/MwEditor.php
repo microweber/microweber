@@ -122,7 +122,7 @@ class MwEditor extends \MicroweberPackages\Form\Elements\TextArea
                                                 controls: ['ul', 'ol']
                                             }
                                         },
-                                        '|', 'link', 'unlink', 'wordPaste', 'table', 'removeFormat'
+                                        '|', 'link', 'unlink', 'wordPaste', 'removeFormat'
                                     ],
                                 ]
                             });

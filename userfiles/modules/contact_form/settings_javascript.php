@@ -58,7 +58,7 @@ if (!user_can_access('module.contact_form.index')) {
                             controls: ['ul', 'ol']
                         }
                     },
-                    '|', 'link', 'unlink', 'wordPaste', 'table', 'contactFormInsertEmailVariable'
+                    '|', 'link', 'unlink', 'wordPaste',  'contactFormInsertEmailVariable'
                 ],
             ]
         });
