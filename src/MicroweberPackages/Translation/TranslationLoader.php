@@ -25,8 +25,12 @@ class TranslationLoader extends FileLoader
     {
         $translations  = [];
 
-        // Load translations from files
-        $fileTranslations = parent::load($locale, $group, $namespace);
+        if($namespace != '*'){
+            $fileTranslations = parent::loadNamespaced($locale, $group, $namespace);
+        } else {
+            $fileTranslations = parent::load($locale, $group, $namespace);
+        }
+
         if (is_array($fileTranslations) and !empty($fileTranslations)) {
             $translations  = $fileTranslations;
         }

@@ -32,6 +32,15 @@ class FilamentServiceProvider extends ServiceProvider
         $this->app->register(FilamentPackageServiceProvider::class);
 
 
+
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
+        $this->mergeConfigFrom(__DIR__ . '/../config/notifications.php', 'notifications');
+    }
+
+
+    public function boot()
+    {
         $originalFolder = new \ReflectionClass(\Filament\FilamentServiceProvider::class);
         $originalFolder = dirname(dirname($originalFolder->getFileName()));
         $originalViewsFolder = normalize_path($originalFolder . '/resources/views', true);
@@ -47,13 +56,6 @@ class FilamentServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($originalLangFolder, 'filament');
         }
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
-        $this->mergeConfigFrom(__DIR__ . '/../config/notifications.php', 'notifications');
-    }
-
-
-    public function boot()
-    {
         Filament::serving(function () {
             Filament::registerViteTheme(
                 'resources/css/microweber-admin-filament.css',
