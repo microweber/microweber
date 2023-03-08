@@ -1,5 +1,6 @@
 <?php
 
+
 \Route::name('api.')
 
     ->prefix('api')

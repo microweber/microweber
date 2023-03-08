@@ -18,6 +18,7 @@ class AdminRouteServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
     }
 }

@@ -33,13 +33,14 @@ class UserForgotPasswordController extends Controller
     public function send(Request $request)
     {
         $rules = [];
-        if (get_option('captcha_disabled', 'users') !== 'y') {
-            $rules['captcha'] = 'captcha';
-        }
+//        if (get_option('captcha_disabled', 'users') !== 'y') {
+//            $rules['captcha'] = 'captcha';
+//        }
         $inputs = $request->only(['captcha','email','username']);
         if (is_admin()) {
             unset($rules['captcha']);
         }
+
 
         if(!isset($inputs['email']) and isset($inputs['username'])){
 
@@ -79,9 +80,6 @@ class UserForgotPasswordController extends Controller
             }
         }
 
-
-
-
         $request->validate($rules);
 
         if(!$user_id){
@@ -89,6 +87,8 @@ class UserForgotPasswordController extends Controller
         }
 
         $user = User::where('id',$user_id)->first();
+
+
 
 //        $status = Password::sendResetLink(
 //            $request->only('email')
