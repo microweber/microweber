@@ -65,16 +65,18 @@ class UserLoginController extends Controller
     {
         $response = $this->loginPipeline($request)->then(function ($request) {
             return app(LoginResponse::class);
-        })->getData();
+        });
 
-        if (isset($response->two_factor)) {
-            return [
-                'success'=>true,
-                'redirect'=>route('two-factor.login')
-            ];
+        if (method_exists($response, 'getData')) {
+            if (isset($response->getData()->two_factor)) {
+                return [
+                    'success'=>true,
+                    'redirect'=>route('two-factor.login')
+                ];
+            }
         }
 
-        return false;
+        return $response;
     }
 
     /**
