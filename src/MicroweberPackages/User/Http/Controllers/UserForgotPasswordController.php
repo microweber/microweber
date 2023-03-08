@@ -33,9 +33,9 @@ class UserForgotPasswordController extends Controller
     public function send(Request $request)
     {
         $rules = [];
-//        if (get_option('captcha_disabled', 'users') !== 'y') {
-//            $rules['captcha'] = 'captcha';
-//        }
+        if (get_option('captcha_disabled', 'users') !== 'y') {
+            $rules['captcha'] = 'captcha';
+        }
         $inputs = $request->only(['captcha','email','username']);
         if (is_admin()) {
             unset($rules['captcha']);
@@ -80,14 +80,11 @@ class UserForgotPasswordController extends Controller
             }
         }
 
-        $request->validate($rules);
+       $validation = $request->validate($rules);
 
         if(!$user_id){
             return response()->json(['error'=>true,'message' => __('passwords.user')], 422);
         }
-
-        $user = User::where('id',$user_id)->first();
-
 
 
 //        $status = Password::sendResetLink(
@@ -112,12 +109,19 @@ class UserForgotPasswordController extends Controller
 
         );
 
+
         if ($request->expectsJson()) {
             if ($status === Password::RESET_LINK_SENT) {
                 return response()->json(['success'=>true, 'message' => __($status)], 200);
+            } else if ($status == 'passwords.throttled') {
+                return response()->json(['error'=>true,'message' => __('passwords.throttled')], 422);
             } else {
                 return response()->json(['success'=>true, 'message' => __($status)], 422);
             }
+        }
+
+        if ($status == 'passwords.throttled') {
+            return back()->withErrors(['email' => __($status)]);
         }
 
         return $status === Password::RESET_LINK_SENT
