@@ -10,7 +10,7 @@
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 
 Route::name('admin.import.')
-    ->prefix(ADMIN_PREFIX.'/import')
+    ->prefix(mw_admin_prefix_url().'/import')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Backup\Http\Controllers\Admin')
     ->group(function () {

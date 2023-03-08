@@ -691,6 +691,7 @@ mw.drag = {
                                     mw.liveEditDomTree.refresh(mw.ea.data.target.parentNode)
                                 }
                             }
+                            initResizables()
                         }, 40);
                         mw.dropable.hide();
 
@@ -1066,7 +1067,7 @@ mw.drag = {
         return xhr;
     },
     parseContent: function(root) {
-        var root = root || document.body;
+        root = root || document.body;
         var doc = mw.tools.parseHtml(root.innerHTML);
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
@@ -1120,6 +1121,7 @@ mw.drag = {
     collectData: function(edits) {
         mw.$(edits).each(function(){
             mw.$('meta', this).remove();
+            $('.mw-le-spacer', this).empty().removeAttr('data-resizable').removeAttr('style')
         });
 
         edits = this.htmlAttrValidate(edits);
@@ -1185,9 +1187,8 @@ mw.drag = {
     },
     getData: function(root) {
         var body = mw.drag.parseContent(root).body,
-            edits = body.querySelectorAll('.edit.changed'),
-            data = mw.drag.collectData(edits);
-        return data;
+            edits = body.querySelectorAll('.edit.changed');
+        return mw.drag.collectData(edits);
     },
 
     saveDisabled: false,

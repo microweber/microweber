@@ -5,7 +5,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 
 Route::name('admin.import-export-tool.')
-    ->prefix(ADMIN_PREFIX . '/import-export-tool')
+    ->prefix(mw_admin_prefix_url() . '/import-export-tool')
     ->middleware(['admin', \MicroweberPackages\Modules\Admin\ImportExportTool\Http\Middleware\InstallationMiddleware::class])
     ->namespace('MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin')
     ->group(function () {

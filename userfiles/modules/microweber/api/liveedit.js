@@ -9,7 +9,7 @@ mw.liveedit = {};
 $files = array();
 $files[] = 'wysiwyg.js';
 $files[] = 'handles.js';
-$files[] = 'padding.js';
+
 $files[] = 'source-edit.js';
 $files[] = 'control_box.js';
 $files[] = 'element_analyzer.js';
@@ -40,6 +40,7 @@ $files[] = 'liveedit/beforeleave.js';
 $files[] = 'liveedit/initload.js';
 $files[] = 'liveedit/recommend.js';
 $files[] = 'liveedit/layoutplus.js';
+$files[] = 'le2/spacer.js';
 
 
 

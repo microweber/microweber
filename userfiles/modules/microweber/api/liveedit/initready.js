@@ -1,3 +1,61 @@
+var initResizables = () => {
+    Array.from(document.querySelectorAll('.mw-le-spacer:not([data-resizable])')).forEach(node => {
+        node.innerHTML = '';
+        node.className = 'mw-le-spacer noedit nodrop';
+
+        var nodeInfo = document.createElement('span');
+        node.append(nodeInfo);
+        nodeInfo.className = 'mw-le-spacer-info';
+        node._$resizer = new Resizable({
+            element: node,
+            document: node.ownerDocument,
+            direction: 'vertical',
+            maxHeight: 220
+        });
+
+
+        node._$resizer.on('resize', data => {
+            nodeInfo.textContent = data.height + 'px';
+            node.classList.add('mw-le-spacer-resizing');
+            document.body.classList.add('isTyping');
+        });
+
+        ;(nodeInfo => {
+            node._$resizer.on('ready', data => {
+                console.log(data)
+                nodeInfo.textContent = data.height + 'px';
+            });
+        })(nodeInfo);
+
+
+
+        node._$resizer.on('resizeStop', data => {
+            node.classList.remove('mw-le-spacer-resizing');
+            mw.liveedit.cssEditor.temp(node, 'height', node.offsetHeight + 'px');
+            mw.wysiwyg.change(node);
+            mw.liveEditSelector.positionSelected();
+            node.style.height = '';
+            document.body.classList.remove('isTyping');
+        });
+
+        node._$resizer.mount()
+
+    });
+};
+
+addEventListener('load', function () {
+    initResizables();
+});
+
+$(window).on('moduleLoaded', function(){
+    setTimeout(function(){
+
+        initResizables();
+
+    }, 333)
+});
+
+
 mw.liveedit.initReady = function() {
     mw.liveedit.data.init();
     mw.liveEditSelector = new mw.Selector({
@@ -5,9 +63,11 @@ mw.liveedit.initReady = function() {
         autoSelect: false
     });
 
-    mw.paddingCTRL = new mw.paddingEditor({
+    initResizables();
 
-    });
+    mw.on.moduleReload(function () {
+        initResizables();
+    })
 
     mw.drag.create();
 

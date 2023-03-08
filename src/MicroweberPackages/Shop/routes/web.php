@@ -2,7 +2,7 @@
 
 
 Route::name('admin.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(mw_admin_prefix_url())
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers\Admin')
     ->group(function () {
@@ -10,7 +10,7 @@ Route::name('admin.')
     });
 
 Route::name('admin.shop.filter.')
-    ->prefix(ADMIN_PREFIX. '/shop/filter')
+    ->prefix(mw_admin_prefix_url(). '/shop/filter')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers')
     ->group(function () {

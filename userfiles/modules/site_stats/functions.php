@@ -19,11 +19,12 @@ event_bind('mw.admin.dashboard.content', function ($params = false) {
 
 });
 
-event_bind('mw.admin.settings.seo', function ($params = false) {
+/*
+ * event_bind('mw.admin.settings.seo', function ($params = false) {
     if(user_can_access('site_stats.settings')) {
         print '<module type="site_stats/tracking_settings" id="site_stats_tracking_settings" />';
     }
-});
+});*/
 
 
 event_bind('mw_admin_quick_stats_by_session', function ($params = false) {

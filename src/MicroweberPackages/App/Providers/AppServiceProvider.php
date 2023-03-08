@@ -229,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ConfigSaveServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
-            define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
+            define('ADMIN_PREFIX', mw_admin_prefix_url());
         }
 
         if (config::get('microweber.force_https') && !is_cli()) {
@@ -577,6 +577,7 @@ class AppServiceProvider extends ServiceProvider
 
         // >>> MW Kernel add
       //  $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \Illuminate\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);

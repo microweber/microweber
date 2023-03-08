@@ -19,6 +19,7 @@ class TemplateManager
 
     public $isBooted = false;
 
+
     public function boot_template()
     {
         if (!mw_is_installed()) {
@@ -35,11 +36,12 @@ class TemplateManager
             include_once $load_template_functions;
         }
 
-        $module = app()->template->get_config();
-
-        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-
-            app()->module_manager->boot_module($module);
-        }
+// //moved to load_all_service_providers_for_modules function
+//        $module = app()->template->get_config();
+//
+//        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
+//
+//            app()->module_manager->boot_module($module);
+//        }
     }
 }

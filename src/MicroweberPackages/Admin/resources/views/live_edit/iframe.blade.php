@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php
+
+return 'not ready yet';
+?><!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" <?php print lang_attributes(); ?>>
 <head>
     <title></title>
@@ -1369,7 +1372,7 @@
 
 
                 var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
-                if(typeof memPin === 'undefined') {
+                if(typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
                     liveEditor.smallEditorApi.pin()
                 }
 
