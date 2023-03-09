@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Admin\MailTemplates\Models;
+namespace MicroweberPackages\Admin\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

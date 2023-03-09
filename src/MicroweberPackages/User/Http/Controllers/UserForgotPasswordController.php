@@ -41,6 +41,7 @@ class UserForgotPasswordController extends Controller
             unset($rules['captcha']);
         }
 
+
         if(!isset($inputs['email']) and isset($inputs['username'])){
 
             $rules['username'] = 'required:min:1|max:255';
@@ -79,16 +80,12 @@ class UserForgotPasswordController extends Controller
             }
         }
 
-
-
-
-        $request->validate($rules);
+       $validation = $request->validate($rules);
 
         if(!$user_id){
             return response()->json(['error'=>true,'message' => __('passwords.user')], 422);
         }
 
-        $user = User::where('id',$user_id)->first();
 
 //        $status = Password::sendResetLink(
 //            $request->only('email')
@@ -112,12 +109,19 @@ class UserForgotPasswordController extends Controller
 
         );
 
+
         if ($request->expectsJson()) {
             if ($status === Password::RESET_LINK_SENT) {
                 return response()->json(['success'=>true, 'message' => __($status)], 200);
+            } else if ($status == 'passwords.throttled') {
+                return response()->json(['error'=>true,'message' => __('passwords.throttled')], 422);
             } else {
                 return response()->json(['success'=>true, 'message' => __($status)], 422);
             }
+        }
+
+        if ($status == 'passwords.throttled') {
+            return back()->withErrors(['email' => __($status)]);
         }
 
         return $status === Password::RESET_LINK_SENT
