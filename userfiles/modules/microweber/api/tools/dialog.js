@@ -310,7 +310,8 @@
 
             this.closeButton.$scope = this;
 
-            this.closeButton.onclick = function () {
+            this.closeButton.onclick = function (e) {
+                e.preventDefault();
                 this.$scope[this.$scope.options.closeButtonAction]();
                 $(this.$scope).trigger('closedByUser');
             };
