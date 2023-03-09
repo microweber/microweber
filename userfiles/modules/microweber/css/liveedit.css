@@ -5179,9 +5179,19 @@ body.dragStart picture img{
 .mw-le-spacer:hover .mw-le-spacer-info{
     opacity: 1;
     background-color: rgba(10, 83, 190, 0.25);
-    transition-delay: 0.62s;
+    transition-delay: 0.32s;
 }
 
+.mw-le-spacer-info-content{
+    border-radius: 50px;
+    display: inline-block;
+    padding: 5px 8px;
+    color: #ffffffdb;
+    background-color: rgba(0,0,0,.7);
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: normal;
+}
 .mw-le-spacer-info{
     position: absolute;
     bottom: 0;
@@ -5201,3 +5211,4 @@ body.dragStart picture img{
     box-sizing: border-box;
     color: #414141;
 }
+
