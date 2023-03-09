@@ -1,0 +1,52 @@
+@import "drop-indicator";
+@import "handles";
+@import "draggable";
+@import "dialog";
+@import "resizer";
+
+mw-le-element{
+    display: block;
+}
+mw-le-element{
+    line-height: normal;
+    font-weight: normal;
+    font-style: normal;
+    list-style: none;
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+.edit,
+.element,
+.module {
+    margin: 20px;
+    padding: 20px;
+    min-height: 100px;
+    &.mw-le-target-to-animate{
+        transition: transform .3s !important;
+    }
+}
+
+
+.le-selectable-items-list-image{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 120px;
+}
+
+
+.le-selectable-items-list-type-layouts{
+
+    .le-selectable-items-list-image{
+        background-size: cover;
+    }
+}
+
+

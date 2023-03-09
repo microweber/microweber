@@ -1,7 +1,4 @@
-<?php
-
-return 'not ready yet';
-?><!DOCTYPE html>
+ <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" <?php print lang_attributes(); ?>>
 <head>
     <title></title>
@@ -951,6 +948,10 @@ return 'not ready yet';
             box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         }
 
+        .mw-le-modules-dialog .modules-list-block-item-is-locked-true:before{
+            display: none;
+        }
+
         /* /modules dialog */
 
 
@@ -986,11 +987,13 @@ return 'not ready yet';
         mw.require('editor.js');
         mw.require('css_parser.js');
         mw.require('le2/modules-list.js');
+
     </script>
 
+    <script type="module" src="<?php print site_url('userfiles/modules/microweber/api/liveedit2/@live.js'); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{--<script src="https://unit.microweber.com/le2/editor.js"></script>--}}
-    <script src="https://unit.microweber.com/le2/live-edit2.js"></script>
+
+
     <script>
 
 
@@ -1128,7 +1131,7 @@ return 'not ready yet';
                 var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog');
                 var modulesDialog = cmmodulesDialog.dialog;
 
-                console.log(frame.contentWindow.mw._activeElementOver, frame.contentWindow.mw.handleElement.positionedAt)
+
 
                 mw.$('#mw-plus-tooltip-selector li').each(function () {
                     this.onclick = function () {
@@ -1189,8 +1192,9 @@ return 'not ready yet';
                     decorate: true
                 })
 
-                /* demo */
-                fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout')
+
+
+                    fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout&elements_mode=true&group_layouts_by_category=true')
                     .then(function (data){
                         return data.json();
                     }).then(function (data){
@@ -1657,7 +1661,7 @@ $user = get_user();
         var doc = frame.contentWindow.document;
          var link = doc.createElement('link');
         link.rel = 'stylesheet';
-        link.href = 'https://unit.microweber.com/le2/live-edit2.css.css';
+        link.href = '<?php print site_url('userfiles/modules/microweber/api/liveedit2/css/dist.css'); ?>';
         doc.head.prepend(link);
 
         liveEdit = new LiveEdit({
