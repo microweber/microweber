@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIndexToUserTable extends Migration
+class AddNameFieldToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,21 +15,14 @@ class AddIndexToUserTable extends Migration
     {
         try {
             Schema::table('users', function (Blueprint $table) {
-                $table->index('is_admin');
-                $table->string('username')->unique()->change();
+                if (!Schema::hasColumn('users', 'name')) {
+                    $table->string('name')->nullable();
+                }
             });
         } catch (Exception $e) {
 
         }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
 
-    }
 }
