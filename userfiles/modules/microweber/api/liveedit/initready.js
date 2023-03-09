@@ -6,6 +6,12 @@ var initResizables = () => {
         var nodeInfo = document.createElement('span');
         node.append(nodeInfo);
         nodeInfo.className = 'mw-le-spacer-info';
+
+        var nodeInfoContent = document.createElement('span');
+        nodeInfo.append(nodeInfoContent);
+        nodeInfoContent.className = 'mw-le-spacer-info-content';
+
+
         node._$resizer = new Resizable({
             element: node,
             document: node.ownerDocument,
@@ -15,17 +21,17 @@ var initResizables = () => {
 
 
         node._$resizer.on('resize', data => {
-            nodeInfo.textContent = data.height + 'px';
+            nodeInfoContent.textContent = data.height + 'px';
             node.classList.add('mw-le-spacer-resizing');
             document.body.classList.add('isTyping');
         });
 
-        ;(nodeInfo => {
+        ;(nodeInfoContent => {
             node._$resizer.on('ready', data => {
-                console.log(data)
-                nodeInfo.textContent = data.height + 'px';
+
+                nodeInfoContent.textContent = data.height + 'px';
             });
-        })(nodeInfo);
+        })(nodeInfoContent);
 
 
 
@@ -45,6 +51,9 @@ var initResizables = () => {
 
 addEventListener('load', function () {
     initResizables();
+    setTimeout(function(){
+        initResizables();
+    }, 2000);
 });
 
 $(window).on('moduleLoaded', function(){
