@@ -3,6 +3,7 @@
 
 
 
+mw.lib.require('rangy');
 mw.lib.require('xss');
 
 ;(function (){

@@ -1,7 +1,4 @@
-<?php
-
-return 'not ready yet';
-?><!DOCTYPE html>
+ <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" <?php print lang_attributes(); ?>>
 <head>
     <title></title>
@@ -951,6 +948,10 @@ return 'not ready yet';
             box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
         }
 
+        .mw-le-modules-dialog .modules-list-block-item-is-locked-true:before{
+            display: none;
+        }
+
         /* /modules dialog */
 
 
@@ -1191,8 +1192,9 @@ return 'not ready yet';
                     decorate: true
                 })
 
-                /* demo */
-                fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout')
+
+
+                    fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout&elements_mode=true&group_layouts_by_category=true')
                     .then(function (data){
                         return data.json();
                     }).then(function (data){
