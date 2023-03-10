@@ -1103,7 +1103,8 @@ if(isset($inline_scripts) and is_array($inline_scripts)){
             })
     };
     var animateCSS = function(options){
-        if(!options) {
+
+        if(!options || !options.animation || options.animation === 'none') {
             return;
         }
 

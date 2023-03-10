@@ -44,6 +44,7 @@
             this._timeout = setTimeout(function(scope, item){
                 scope.record(item);
             }, 333, this, item);
+            return this
         };
 
         var recentRecordIsEqual = function (item) {
@@ -58,8 +59,29 @@
         };
 
 
+        var _paused = false;
+
+        this.paused = function (state){
+            if(typeof state === 'undefined') {
+                return _paused;
+            }
+            _paused = state;
+            return this;
+        };
+
+        this.pause = function () {
+            this.paused(true);
+            return this;
+        };
+        this.unpause = function () {
+            this.paused(false);
+            return this;
+        };
 
         this.record = function(item){
+            if(this.paused()) {
+                return this;
+            }
             if(this._activeIndex>-1) {
                 var i = 0;
                 while ( i <  this._activeIndex) {
@@ -193,6 +215,26 @@
                             target: target,
                             value: target.innerHTML
                         });
+                    }
+                });
+                edits[i].addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.keyCode === 13) {
+                        var sel = getSelection();
+                        var target = mw.wysiwyg.validateCommonAncestorContainer(sel.focusNode);
+                        var parent = mw.tools.firstParentOrCurrentWithClass(target, 'edit');
+
+                        mw.liveEditState.record({
+                            target: parent,
+                            value: parent.innerHTML
+                        });
+                        mw.liveEditState.pause();
+                        setTimeout(function (){
+                            mw.liveEditState.unpause();
+                            mw.liveEditState.record({
+                                target: parent,
+                                value: parent.innerHTML
+                            });
+                        }, 10);
                     }
                 });
                 edits[i].addEventListener('input', function (e) {
