@@ -1,4 +1,4 @@
-<?php return; ?><!DOCTYPE html>
+<!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" <?php print lang_attributes(); ?>>
 <head>
     <title></title>
