@@ -48,7 +48,7 @@ class ModulesList {
         let i = 0, length = data.length;
         for( ; i < length; i++) {
             let item = data[i];
-            let cats = item.categories;
+            let cats = item.categories || '';
 
             let ic = 0, lengthc = cats.length;
             for( ; ic < lengthc; ic++) {

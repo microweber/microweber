@@ -57,7 +57,11 @@
 <script>mw.lib.require('colorpicker')</script>
 <script>
 
-    var targetMw = mw.parent()
+
+    var targetMw = mw.parent();
+    addEventListener('load', function (){
+        targetMw = window.frame.contentWindow.mw;
+    })
 
 
 
