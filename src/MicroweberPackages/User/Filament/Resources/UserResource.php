@@ -75,15 +75,22 @@ class UserResource extends Resource
 
 
                     Tables\Columns\ImageColumn::make('avatar')
+                        ->circular()
+                        ->size('60px')
                         ->url(fn($record) => $record->avatarUrl())
                     ->grow(false),
 
+                    TextColumn::make('id')
+                        ->sortable()->grow(false),
+
                     Tables\Columns\Layout\Stack::make([
+
                         TextColumn::make('full_name')
+                            ->weight('bold')
                             ->label('Full Name')
                             ->searchable(['first_name', 'last_name']),
 
-                        TextColumn::make('roleName'),
+                        TextColumn::make('roleName')->weight('bold'),
                     ]),
 
 
@@ -102,24 +109,20 @@ class UserResource extends Resource
                     IconColumn::make('is_active')
                         ->boolean()->sortable()->grow(false),
 
-                ])->visibleFrom('md'),
+                ]),
 
                 Tables\Columns\Layout\Panel::make([
                     Tables\Columns\Layout\Stack::make([
-
-                        TextColumn::make('id')
-                            ->label('ID')
-                            ->sortable(),
 
                         Tables\Columns\TextColumn::make('last_login')
                             ->label('Last Login')
                             ->sortable(),
 
                         Tables\Columns\TextColumn::make('created_at')
-                            ->label('Created At')
+                            ->description('Created At')
                             ->dateTime('M j, Y')->sortable(),
                         Tables\Columns\TextColumn::make('updated_at')
-                            ->label('Updated At')
+                            ->description('Updated At')
                             ->dateTime('M j, Y')->sortable(),
 
                     ])
