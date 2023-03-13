@@ -85,8 +85,16 @@ class UserResource extends Resource
                 BooleanColumn::make('is_active')->sortable(),
 
             ])
+            ->actions([
+                Tables\Actions\Action::make('Edit')
+                ->icon('heroicon-o-pencil')
+                ->button()
+                ->action(function ($record) {
+                    return redirect(admin_url('view:modules/load_module:users/edit-user:' . $record->id));
+                }),
+            ])
             ->bulkActions([
-                
+
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('is_admin')
