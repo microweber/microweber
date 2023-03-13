@@ -729,3 +729,8 @@ html[dir="rtl"] .mw-text-start{
 #to-top {
     bottom: 70px!important;
 }
+
+
+.mw-le-spacer {
+    min-height: 10px;
+}

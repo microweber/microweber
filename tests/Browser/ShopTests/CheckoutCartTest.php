@@ -18,6 +18,16 @@ class CheckoutCartTest extends DuskTestCase
     {
         $siteUrl = $this->siteUrl;
 
+
+        $save = array(
+            'option_key' => 'shipping_gw_shop/shipping/gateways/country',
+            'option_group' => 'shipping',
+            'option_value' => 'y'
+        );
+
+        save_option($save);
+
+
         $this->browse(function (Browser $browser) use ($siteUrl) {
 
             $uniqueId = time();
@@ -30,7 +40,8 @@ class CheckoutCartTest extends DuskTestCase
 
 
             $browser->pause(1000);
-
+            $browser->script("$('html, body').animate({ scrollTop: $('[value=\"shop/payments/gateways/bank_transfer\"]').first().offset().top - 60 }, 0);");
+            $browser->pause(1000);
             $browser->radio('payment_gw', 'shop/payments/gateways/bank_transfer');
 
             $browser->pause(3000);

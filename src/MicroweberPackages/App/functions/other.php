@@ -1,5 +1,11 @@
 <?php
 
+function mw_admin_prefix_url()
+{
+    return config('microweber.admin_url', 'admin');
+}
+
+
 /**
  *  Microweber common functions.
  */
@@ -269,8 +275,6 @@ function save_module_as_template($data_to_save)
 /**
  * Function modules list from the db or them the disk.
  *
- * @return mixed Array with modules or false
- *
  * @param array $params
  *
  *
@@ -285,6 +289,8 @@ function save_module_as_template($data_to_save)
  * $params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
  *
  * $data = scan_for_modules($params);
+ * @return mixed Array with modules or false
+ *
  */
 function scan_for_modules($options = false)
 {
@@ -561,18 +567,18 @@ function mw_send_anonymous_server_data($params)
 /**
  * Trims an entire array recursively.
  *
- * @category Arrays
- *
- * @author   Jonas John
- *
- * @version  0.2
- *
- * @link     http://www.jonasjohn.de/snippets/php/trim-array.htm
- *
  * @param array $Input
  *                     Input array
  *
  * @return array|string
+ * @version  0.2
+ *
+ * @link     http://www.jonasjohn.de/snippets/php/trim-array.htm
+ *
+ * @category Arrays
+ *
+ * @author   Jonas John
+ *
  */
 function array_trim($Input)
 {
@@ -597,11 +603,11 @@ $_mw_assoc_table_names = array();
 /**
  * Guess the cache group from a table name or a string.
  *
- * @uses       guess_table_name()
- *
  * @param bool|string $for Your table name
  *
  * @return string The cache group
+ *
+ * @uses       guess_table_name()
  *
  * @example
  * <code>
@@ -979,8 +985,6 @@ function mw_composer_replace_vendor_from_cache($params)
 }
 
 
-
-
 if (!function_exists('br2nl')) {
     function br2nl($string)
     {
@@ -1094,13 +1098,13 @@ function get_date_db_format($str_date)
 /**
  * Find Date in a String
  *
- * @author   Etienne Tremel
- * @license  http://creativecommons.org/licenses/by/3.0/ CC by 3.0
+ * @param string  find_date( ' some text 01/01/2012 some text' ) or find_date( ' some text October 5th 86 some text' )
+ * @return mixed  false if no date found else array: array( 'day' => 01, 'month' => 01, 'year' => 2012 )
  * @link     http://www.etiennetremel.net
  * @version  0.2.0
  *
- * @param string  find_date( ' some text 01/01/2012 some text' ) or find_date( ' some text October 5th 86 some text' )
- * @return mixed  false if no date found else array: array( 'day' => 01, 'month' => 01, 'year' => 2012 )
+ * @author   Etienne Tremel
+ * @license  http://creativecommons.org/licenses/by/3.0/ CC by 3.0
  */
 function find_date($string)
 {

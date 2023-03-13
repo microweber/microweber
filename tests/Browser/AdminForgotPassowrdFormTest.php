@@ -157,7 +157,9 @@ class AdminForgotPassowrdFormTest extends DuskTestCase
             });
 
             $browser->type('email', 'bobi@microweber.com');
-            $browser->click('@reset-password-button');
+            $browser->type('[name="captcha"]', '1234');
+
+             $browser->click('@reset-password-button');
             $browser->pause('4000');
 
             $browser->waitForText('Invalid captcha answer');

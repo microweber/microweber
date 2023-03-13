@@ -229,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ConfigSaveServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
-            define('ADMIN_PREFIX', config('microweber.admin_url', 'admin'));
+            define('ADMIN_PREFIX', mw_admin_prefix_url());
         }
 
         if (config::get('microweber.force_https') && !is_cli()) {
@@ -243,6 +243,8 @@ class AppServiceProvider extends ServiceProvider
 
        $this->app->register(FortifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
+        $this->app->register(OptionServiceProvider::class);
+
         $this->app->register(InstallServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
 
@@ -250,7 +252,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         //$this->app->register(DebugbarServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
 
 
             //   $this->app->register(TaggableFileCacheServiceProvider::class);
@@ -300,7 +301,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CartEventServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
-        $this->app->register(OptionServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
       //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
@@ -324,6 +324,7 @@ class AppServiceProvider extends ServiceProvider
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
         $this->app->register(CommentServiceProvider::class);
         $this->app->register(MultilanguageServiceProvider::class);
+        $this->app->register(ModuleServiceProvider::class);
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
@@ -576,6 +577,7 @@ class AppServiceProvider extends ServiceProvider
 
         // >>> MW Kernel add
       //  $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \Illuminate\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);

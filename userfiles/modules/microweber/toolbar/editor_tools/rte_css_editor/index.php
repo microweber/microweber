@@ -57,7 +57,14 @@
 <script>mw.lib.require('colorpicker')</script>
 <script>
 
-    var targetMw = mw.parent()
+
+    var targetMw = mw.parent();
+    addEventListener('load', function (){
+        if( window.frame && window.frame.contentWindow.mw) {
+            targetMw = window.frame.contentWindow.mw;
+        }
+
+    })
 
 
 
@@ -107,7 +114,7 @@
     $(window).on('load', function () {
 
        setTimeout(function() {
-           console.log(targetMw.win.document)
+
             targetMw.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable:true,
@@ -999,7 +1006,11 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
     });
 
     $(window).on('load', function () {
-        if(targetMw.liveEditSelector.selected[0]){
+        if(typeof(targetMw.liveEditSelector) === 'undefined' ){
+            mw.log('Live edit selector is not defined');
+            return;
+        }
+        if(targetMw.liveEditSelector && targetMw.liveEditSelector.selected[0]){
             ActiveNode = targetMw.liveEditSelector.selected[0];
 
              if(ActiveNode){

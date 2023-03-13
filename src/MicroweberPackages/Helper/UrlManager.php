@@ -1,17 +1,14 @@
 <?php
+
 namespace MicroweberPackages\Helper;
 
 if (!defined('MW_ROOTPATH')) {
-	if (function_exists('base_path')) {
-		define('MW_ROOTPATH', base_path() . DIRECTORY_SEPARATOR);
-	} else {
-		define('MW_ROOTPATH', DIRECTORY_SEPARATOR);
-	}
+    if (function_exists('base_path')) {
+        define('MW_ROOTPATH', base_path() . DIRECTORY_SEPARATOR);
+    } else {
+        define('MW_ROOTPATH', DIRECTORY_SEPARATOR);
+    }
 }
-
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use MicroweberPackages\Helper\URLify;
 
 class UrlManager
 {
@@ -34,7 +31,7 @@ class UrlManager
             }
         }
 
-        if(!$u1){
+        if (!$u1) {
             $u1 = 'localhost';
         }
 
@@ -95,7 +92,7 @@ class UrlManager
         return normalize_path($path, false);
     }
 
-    public function redirect($url,$cookies=[])
+    public function redirect($url, $cookies = [])
     {
         if (trim($url) == '') {
             return false;
@@ -108,19 +105,22 @@ class UrlManager
         $parseUrl = parse_url($url);
 
         if (isset($parseUrl['host'])) {
-            if(isset($parseUrl['user']) and $parseUrl['user']){
-                if($cookies){
+            if (isset($parseUrl['user']) and $parseUrl['user']) {
+                if ($cookies) {
                     $redir = \Redirect::to(site_url());
-                    foreach ($cookies as  $cookie) {
-                        $redir->withCookie($cookie);
-                    }
 
-                    return  $redir;
+                    if (method_exists($redir, 'withCookie')) {
+                        foreach ($cookies as $cookie) {
+
+                            $redir->withCookie($cookie);
+                        }
+                    }
+                    return $redir;
                 }
                 return \Redirect::to(site_url());
             }
 
-            if(isset($parseUrl['pass']) and $parseUrl['pass']){
+            if (isset($parseUrl['pass']) and $parseUrl['pass']) {
                 return \Redirect::to(site_url());
             }
             if ($parseUrl['host'] == site_hostname()) {
@@ -137,15 +137,16 @@ class UrlManager
         if (headers_sent()) {
             echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
         } else {
-            if($cookies){
+            if ($cookies) {
                 $redir = \Redirect::to($redirectUrl);
-                foreach ($cookies as   $cookie) {
-                    $redir->withCookie($cookie);
+                if (method_exists($redir, 'withCookie')) {
+                    foreach ($cookies as $cookie) {
+                        $redir->withCookie($cookie);
+                    }
                 }
+                return $redir;
 
-                return  $redir;
-
-             }
+            }
             return \Redirect::to($redirectUrl);
         }
     }
@@ -302,8 +303,8 @@ class UrlManager
 
         // clear request params must not be here because of performance issues,
         // please use middleware to clear request params
-       // $cleanParam = new HTMLClean();
-       // $u1 = $cleanParam->clean($u1);
+        // $cleanParam = new HTMLClean();
+        // $u1 = $cleanParam->clean($u1);
 
 
         return $u1;
@@ -366,7 +367,7 @@ class UrlManager
                 $u = $protocol . '://' . $_SERVER['HOSTNAME'] . $port . $serverrequri;
             } else {
                 if ($serverrequri) {
-                  $u = url()->current() . $serverrequri;
+                    $u = url()->current() . $serverrequri;
                 }
             }
 
@@ -415,13 +416,13 @@ class UrlManager
         }
 
         $site_url = $this->site_url();
-      //  $site_url = rtrim($site_url, '\\');
-       // $site_url = rtrim($site_url, '/');
+        //  $site_url = rtrim($site_url, '\\');
+        // $site_url = rtrim($site_url, '/');
         $site_url = reduce_double_slashes($site_url);
         $site_url = rawurldecode($site_url);
 
-       // $current_url = rtrim($current_url, '\\');
-       // $current_url = rtrim($current_url, '/');
+        // $current_url = rtrim($current_url, '\\');
+        // $current_url = rtrim($current_url, '/');
 
         $current_url = rawurldecode($current_url);
         $current_url = str_replace($site_url, '', $current_url);
@@ -430,7 +431,7 @@ class UrlManager
 
 
         if (!isset($u) or $u == false) {
-         //   $u = explode('/', mb_trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
+            //   $u = explode('/', mb_trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $current_url, 2))), '/'));
             $u = explode('/', current(explode('?', $current_url, 2)));
             if (isset($u[0])) {
                 //check for port
@@ -477,14 +478,14 @@ class UrlManager
         $text = str_replace('&#039;', '-', $text);
         $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
         // Trim out extra -'s
-       // $text = trim($text, '-');
+        // $text = trim($text, '-');
         $text = str_replace('""', '-', $text);
         $text = str_replace("'", '-', $text);
 //        // Strip out anything we haven't been able to convert
-     //   $text = preg_replace('/[^-\w]+/', '', $text);
-       $text = str_replace(':', '-', $text);
-       //  $text = URLify::filter($text);
-       // $text = Str::slug($text,'-');
+        //   $text = preg_replace('/[^-\w]+/', '', $text);
+        $text = str_replace(':', '-', $text);
+        //  $text = URLify::filter($text);
+        // $text = Str::slug($text,'-');
 
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         // replace non letter or digits by -
@@ -579,7 +580,7 @@ class UrlManager
         if (is_array($arr) and !empty($arr)) {
             $ret = array();
             foreach ($arr as $k => $v) {
-                if (is_array($v) ) {
+                if (is_array($v)) {
                     $v = $this->replace_site_url_back($v);
                 } elseif (is_string($v) and $v !== '0') {
                     $v = $this->replace_site_url_back($v);
@@ -626,12 +627,9 @@ class UrlManager
 
         if ($wrappers and $url_str) {
             foreach ($wrappers as $item) {
-                if(is_string($item)){
-              //  if($item != 'http'){
-              // dd($url_str);
+                if (is_string($item)) {
                     $url_str = str_ireplace($item . '://', '//', $url_str);
                 }
-              //  }
             }
         }
         return $url_str;

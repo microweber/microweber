@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ShippingFirstClassServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         app()->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
             $shippingManager->extend('shop/shipping/gateways/firstclass', function () {

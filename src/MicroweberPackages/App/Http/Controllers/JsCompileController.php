@@ -3,14 +3,9 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Tightenco\Ziggy\Ziggy;
 
 
 class JsCompileController extends Controller
@@ -37,8 +32,8 @@ class JsCompileController extends Controller
             $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
         }
 
-      // $this->_should_compile_assets = false; //@todo remove before release
-     }
+        // $this->_should_compile_assets = false; //@todo remove before release
+    }
 
 
     public function apijs()
@@ -46,19 +41,19 @@ class JsCompileController extends Controller
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
-
+        $last_modified_time = 0;
 
         $file = mw_includes_path() . 'api' . DS . 'api.js';
-
-        $last_modified_time = $lastModified = filemtime($file);
-
-
-        if (defined('MW_VERSION')) {
-            $etag = md5(filemtime($file) . MW_VERSION);
-        } else {
-            $etag = filemtime($file);
+        if (is_file($file)) {
+            $last_modified_time = @filemtime($file);
         }
-
+        if ($last_modified_time) {
+            if (defined('MW_VERSION')) {
+                $etag = md5($last_modified_time . MW_VERSION);
+            } else {
+                $etag = $last_modified_time;
+            }
+        }
         $l = $this->_load_apijs();
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
@@ -94,8 +89,11 @@ class JsCompileController extends Controller
         $response->header('Content-Type', 'application/javascript');
         if (!$this->app->make('config')->get('app.debug')) {
             // enable caching if in not in debug mode
-            $response->header('Etag', $etag);
-            $response->header('Last-Modified', gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT');
+
+            if ($last_modified_time) {
+                $response->header('Etag', $etag);
+                $response->header('Last-Modified', gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT');
+            }
             $response->setTtl(30);
         }
 
@@ -117,7 +115,7 @@ class JsCompileController extends Controller
             $hash = $this->apijs_combined_get_hash();
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash . '.js';
 
             if (!is_file($userfiles_cache_filename)) {
                 if (!is_dir($userfiles_cache_dir)) {
@@ -153,22 +151,23 @@ class JsCompileController extends Controller
     public function apijs_combined_get_hash()
     {
         $suffix = 'public';
-        if(is_admin()){
+        if (is_admin()) {
             $suffix = 'admin';
-            if(defined('ADMIN_PREFIX')){
-                $suffix = 'admin_' . crc32(ADMIN_PREFIX);
+            if (defined('mw_admin_prefix_url()')) {
+                $suffix = 'admin_' . crc32(mw_admin_prefix_url());
             }
         }
-        $hash = crc32(site_url() . template_dir().current_lang()).'.'.$suffix.'.' . MW_VERSION ;
+        $hash = crc32(site_url() . template_dir() . current_lang()) . '.' . $suffix . '.' . MW_VERSION;
 
         return $hash;
     }
+
     public function apijs_combined()
     {
         $userfiles_dir = userfiles_path();
         $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash .  '.js';
+        $userfiles_cache_filename = $userfiles_cache_dir . 'api.combined.' . $hash . '.js';
 
 
         $layout = [];
@@ -236,7 +235,7 @@ class JsCompileController extends Controller
             $userfiles_dir = userfiles_path();
             $hash = $this->apijs_combined_get_hash();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash .   '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash . '.js';
             if (!is_file($userfiles_cache_filename)) {
                 if (!defined('MW_NO_OUTPUT_CACHE')) {
                     define('MW_NO_OUTPUT_CACHE', true);
@@ -283,9 +282,9 @@ class JsCompileController extends Controller
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);
             $hash = $this->apijs_combined_get_hash();
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash .   '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api.' . $hash . '.js';
             if (is_file($userfiles_cache_filename)) {
-                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash .   '.js';
+                $url = userfiles_url() . 'cache/apijs/' . 'api.' . $hash . '.js';
             }
         }
 
@@ -311,7 +310,7 @@ class JsCompileController extends Controller
 
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash. '.js';
+            $userfiles_cache_filename = $userfiles_cache_dir . 'api_settings.' . $hash . '.js';
 
 
             if (is_file($userfiles_cache_filename)) {
@@ -331,7 +330,7 @@ class JsCompileController extends Controller
         $userfiles_dir = userfiles_path();
         $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
-        $fn = 'api.combined.' . $hash .  '.js';
+        $fn = 'api.combined.' . $hash . '.js';
         $userfiles_cache_filename = $userfiles_cache_dir . $fn;
         if ($compile_assets and is_file($userfiles_cache_filename)) {
             $url = userfiles_url() . 'cache/apijs_combined/' . $fn;
@@ -396,7 +395,7 @@ class JsCompileController extends Controller
         $script = $generator->generate();
         $inline_scripts[] = $script;
 
-        $l->assign('inline_scripts',$inline_scripts);
+        $l->assign('inline_scripts', $inline_scripts);
 
         $l = $l->__toString();
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
@@ -449,13 +448,13 @@ class JsCompileController extends Controller
 
         $l = new View($file);
 
-        $except = ['_debugbar.*','ignition.*','dusk.*', 'horizon.*', 'l5-swagger.*'];
-        if(!is_admin()){
+        $except = ['_debugbar.*', 'ignition.*', 'dusk.*', 'horizon.*', 'l5-swagger.*'];
+        if (!is_admin()) {
             $except[] = 'admin.*';
             $except[] = 'api.*';
 
         }
-        config()->set('ziggy.except',$except);
+        config()->set('ziggy.except', $except);
 
         $ziggy = new ZiggyInlineJsRouteGenerator();
         $jsRoutes = $ziggy->generate();
@@ -463,7 +462,7 @@ class JsCompileController extends Controller
         $inline_scripts[] = $jsRoutes;
 
 
-        $l->assign('inline_scripts',$inline_scripts);
+        $l->assign('inline_scripts', $inline_scripts);
 
         $l = $l->__toString();
         return $l;

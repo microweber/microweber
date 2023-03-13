@@ -100,6 +100,7 @@
         transition: .2s cubic-bezier(0.4, 0.0, 0.2, 1);
         line-height: normal;
         white-space: nowrap;
+        z-index: 2;
     }
     .mw-editor-controller-component[data-tooltip]:hover:after,
     .mw-editor-controller-component[data-tooltip]:focus:after{
@@ -157,22 +158,23 @@
         .mw-editor-group-button{
             position: relative;
             padding-inline:0 15px ;
-
-        }
-
-        .mw-editor-group-button-caret{
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 15px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            &:hover{
-                background-color: rgba(204, 204, 204, 0.18);
+            .mw-editor-group-button-caret{
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 15px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:hover{
+                    background-color: rgba(204, 204, 204, 0.18);
+                }
             }
+
         }
+
+
     }
 
     .mw-bar-delimiter.mw-bar-control-item{
@@ -420,6 +422,7 @@
         transition: .2s cubic-bezier(0.4, 0.0, 0.2, 1);
         line-height: normal;
         white-space: nowrap;
+        z-index: 2;
     }
     .mw-editor-controller-component[data-tooltip]:hover:after,
     .mw-editor-controller-component[data-tooltip]:focus:after{
@@ -589,13 +592,7 @@
             }
         }
     }
-    .mw-editor-group-button-caret{
 
-        display: inline-block;
-
-        position: relative;
-        left: 5px;
-    }
     .mw-editor-controller-component-select-values-holder{
         position: absolute;
         top: 100%;

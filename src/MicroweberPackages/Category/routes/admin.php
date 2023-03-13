@@ -2,7 +2,7 @@
 
 // Blog and pages
 Route::name('admin.')
-    ->prefix(ADMIN_PREFIX)
+    ->prefix(mw_admin_prefix_url())
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
     ->group(function () {
@@ -12,7 +12,7 @@ Route::name('admin.')
 
 // Shop
 Route::name('admin.shop.')
-    ->prefix(ADMIN_PREFIX.'/shop')
+    ->prefix(mw_admin_prefix_url().'/shop')
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Category\Http\Controllers\Admin')
     ->group(function () {

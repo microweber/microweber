@@ -69,6 +69,7 @@
     </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
+    <?php event_trigger('mw.admin.header');; ?>
 
     <?php print \Livewire\Livewire::scripts();    ?>
     <?php print \Livewire\Livewire::styles();    ?>

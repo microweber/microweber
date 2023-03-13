@@ -1,11 +1,6 @@
 @include('admin::layouts.partials.header')
 
 
-@php
-    event_trigger('mw.admin.header');
-@endphp
-
-
 {!! $content !!}
 
 

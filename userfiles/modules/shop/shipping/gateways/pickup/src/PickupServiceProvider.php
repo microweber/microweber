@@ -12,6 +12,7 @@ class PickupServiceProvider extends ServiceProvider
     {
         app()->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
             $shippingManager->extend('shop/shipping/gateways/pickup', function () {
+
                 return new PickupDriver();
             });
         });

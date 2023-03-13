@@ -18,7 +18,6 @@ use Tests\Browser\Components\InputFieldsXssTest;
 use Tests\DuskTestCase;
 
 
-
 class AdminXssTest extends DuskTestCase
 {
     public function testPagesXss()
@@ -31,49 +30,39 @@ class AdminXssTest extends DuskTestCase
                 $browser->fillForm();
             });
 
-            // Test xss create post page
-            $browser->visit(route('admin.post.create'));
 
-           // $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
-            $browser->within(new InputFieldsXssTest(), function ($browser) {
-                $browser->fill();
-            });
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-            $browser->pause(4000);
+            $routesForTest = [];
+            $routesForTest[] = route('admin.live-edit.index');
+            $routesForTest[] = route('admin.page.create');
+            $routesForTest[] = route('admin.post.create');
+            $routesForTest[] = route('admin.product.create');
 
-            // Test xss create product page
-            $browser->visit(route('admin.product.create'));
-          //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
-            $browser->within(new InputFieldsXssTest(), function ($browser) {
-                $browser->fill();
-            });
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-            $browser->pause(4000);
+            foreach ($routesForTest as $route) {
 
-            // Test xss create page
-            $browser->visit(route('admin.page.create'));
-         //   $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
-            $browser->within(new InputFieldsXssTest(), function ($browser) {
-                $browser->fill();
-            });
-            $browser->within(new ChekForJavascriptErrors(), function ($browser) {
-                $browser->validate();
-            });
-            $browser->pause(4000);
+                // Test xss create product page
+                $browser->visit($route);
+                //  $browser->script('$( "[data-toggle=\'collapse\']").each(function() { if ($(this).hasClass(\'active\') == false) {$(this).click()} });');
+                $browser->within(new InputFieldsXssTest(), function ($browser) {
+                    $browser->fill();
+                });
+                $browser->within(new ChekForJavascriptErrors(), function ($browser) {
+                    $browser->validate();
+                });
+                $browser->pause(4000);
+            }
 
             // Check routers for errors
             $routeCollection = Route::getRoutes();
             foreach ($routeCollection as $value) {
 
-                if($value->methods()[0] !== 'GET') {
+                if ($value->methods()[0] !== 'GET') {
                     continue;
                 }
 
                 if ($value->getName() == 'api.') {
+                    continue;
+                }
+                if (str_contains($value->getName(), 'filament.')) {
                     continue;
                 }
 
@@ -81,7 +70,7 @@ class AdminXssTest extends DuskTestCase
 
                     $visitPage = false;
 
-                    if (strpos($value->uri(),'{page}') !== false) {
+                    if (strpos($value->uri(), '{page}') !== false) {
                         $findRoute = Page::first();
                         if ($findRoute == null) {
                             continue;
@@ -89,7 +78,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{post}') !== false) {
+                    if (strpos($value->uri(), '{post}') !== false) {
                         $findRoute = Post::first();
                         if ($findRoute == null) {
                             continue;
@@ -97,7 +86,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{product}') !== false) {
+                    if (strpos($value->uri(), '{product}') !== false) {
                         $findRoute = Product::first();
                         if ($findRoute == null) {
                             continue;
@@ -105,7 +94,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{customer}') !== false) {
+                    if (strpos($value->uri(), '{customer}') !== false) {
                         $findRoute = Customer::first();
                         if ($findRoute == null) {
                             continue;
@@ -113,7 +102,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{category}') !== false) {
+                    if (strpos($value->uri(), '{category}') !== false) {
                         $findRoute = Category::first();
                         if ($findRoute == null) {
                             continue;
@@ -121,7 +110,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{content}') !== false) {
+                    if (strpos($value->uri(), '{content}') !== false) {
                         $findRoute = Content::first();
                         if ($findRoute == null) {
                             continue;
@@ -129,7 +118,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{order}') !== false) {
+                    if (strpos($value->uri(), '{order}') !== false) {
                         $findRoute = Order::first();
                         if ($findRoute == null) {
                             continue;
@@ -137,7 +126,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName(), $findRoute->id);
                     }
 
-                    if (strpos($value->uri(),'{') !== false) {
+                    if (strpos($value->uri(), '{') !== false) {
                         continue;
                     }
 
@@ -145,7 +134,7 @@ class AdminXssTest extends DuskTestCase
                         $visitPage = route($value->getName());
                     }
 
-                    echo  'about to visit page url: ' . $visitPage . PHP_EOL;
+                    echo 'about to visit page url: ' . $visitPage . PHP_EOL;
                     $browser->visit($visitPage);
 
                     $browser->within(new InputFieldsXssTest(), function ($browser) {
@@ -156,7 +145,7 @@ class AdminXssTest extends DuskTestCase
                         $browser->validate();
                     });
 
-                    echo  'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
+                    echo 'page url: ' . $browser->driver->getCurrentURL() . PHP_EOL;
                     $browser->assertDontSee('There is some error');
 
                     $browser->pause(700);

@@ -14,7 +14,14 @@ $config['settings']['icon_class'] = "mdi mdi-truck-check-outline";
 $config['settings']['help_text'] = "The order will be delivered to your address";
 
 
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\\Shop\\Shipping\\Gateways\\Country\\'
+    ],
+];
+
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Shop\Shipping\Gateways\Country\ShippingToCountryEventServiceProvider::class,
-    \MicroweberPackages\Shop\Shipping\Gateways\Country\ShippingToCountryServiceProvider::class,
+    MicroweberPackages\Shop\Shipping\Gateways\Country\ShippingToCountryEventServiceProvider::class,
+    MicroweberPackages\Shop\Shipping\Gateways\Country\ShippingToCountryServiceProvider::class,
 ];
