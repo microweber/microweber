@@ -1,4 +1,7 @@
-<?php must_have_access(); ?>
+<?php must_have_access();
+// this file is deprecated and will be removed in the future
+return;
+?>
 <?php $parent_module = mw()->url_manager->param('parent-module'); ?>
 
 
