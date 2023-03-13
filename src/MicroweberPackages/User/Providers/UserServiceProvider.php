@@ -45,7 +45,6 @@ class UserServiceProvider extends AuthServiceProvider
         Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
         Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
 
-        $this->app->register(UserFilamentServiceProvider::class);
     }
 
     public function boot()
@@ -72,6 +71,8 @@ class UserServiceProvider extends AuthServiceProvider
 
         $this->app->register(\Laravel\Passport\PassportServiceProvider::class);
         $this->app->register(\Laravel\Sanctum\SanctumServiceProvider::class);
+
+        $this->app->register(UserFilamentServiceProvider::class);
 
         Passport::ignoreMigrations();
 

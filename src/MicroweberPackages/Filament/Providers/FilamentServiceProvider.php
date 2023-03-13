@@ -31,9 +31,6 @@ class FilamentServiceProvider extends ServiceProvider
         $this->app->register(FormsServiceProvider::class);
         $this->app->register(FilamentPackageServiceProvider::class);
 
-
-
-
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
         $this->mergeConfigFrom(__DIR__ . '/../config/notifications.php', 'notifications');
     }

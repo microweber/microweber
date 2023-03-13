@@ -27,11 +27,16 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
+
     public static function form(Form $form): Form
     {
         $rows = [
-            TextInput::make('first_name')->required(),
-            TextInput::make('last_name')->required(),
+            Forms\Components\Card::make([
+                TextInput::make('first_name')->required(),
+                TextInput::make('last_name')->required(),
+            ])->columnSpanFull()->columns(2),
+
+            Forms\Components\Card::make([
             TextInput::make('username')->required(),
             TextInput::make('email')->email()->required(),
             Forms\Components\TextInput::make('password')
@@ -47,6 +52,7 @@ class UserResource extends Resource
                         return $user->password;
                     }
                 }),
+            ])->columnSpanFull()->columns(2),
         ];
 
         $form->schema($rows);
