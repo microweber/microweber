@@ -60,7 +60,10 @@
 
     var targetMw = mw.parent();
     addEventListener('load', function (){
-        targetMw = window.frame.contentWindow.mw;
+        if( window.frame && window.frame.contentWindow.mw) {
+            targetMw = window.frame.contentWindow.mw;
+        }
+
     })
 
 
@@ -111,7 +114,7 @@
     $(window).on('load', function () {
 
        setTimeout(function() {
-           console.log(targetMw.win.document)
+
             targetMw.liveEditDomTree = new mw.DomTree({
                 element: '#domtree',
                 resizable:true,

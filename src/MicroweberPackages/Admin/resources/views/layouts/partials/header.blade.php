@@ -69,14 +69,26 @@
     </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
+    <?php event_trigger('mw.admin.header');; ?>
 
-    <?php print \Livewire\Livewire::scripts();    ?>
-    <?php print \Livewire\Livewire::styles();    ?>
+    <?php
+    $enableLivewireScripts = true;
+    if (isset($disableLivewireScripts) && $disableLivewireScripts) {
+        $enableLivewireScripts = false;
+    }
+    ?>
 
-<!-- Alpine v3 -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
-    <!-- Livewire sortable -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
+    <?php if ($enableLivewireScripts) { ?>
+
+        <?php print \Livewire\Livewire::scripts(); ?>
+        <?php print \Livewire\Livewire::styles(); ?>
+
+        <!-- Alpine v3 -->
+        <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+        <!-- Livewire sortable -->
+        <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
+
+    <?php } ?>
 
     <?php if (config('app.debug') and is_logged()) { ?>
 
@@ -115,11 +127,13 @@
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
+<?php if ($enableLivewireScripts) { ?>
 <div>
     <div>
         @livewire('livewire-ui-modal')
     </div>
 </div>
+<?php } ?>
 
 
 <?php
@@ -292,8 +306,9 @@ $user = get_user_by_id($user_id);
                     if (user_can_access('module.content.edit')):
                     ?>
                     <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon " data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
+                        <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon " data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-plus"></i>
+                            <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                         </button>
                         <div class="dropdown-menu ">
                             <?php $custom_view = url_param('view'); ?>

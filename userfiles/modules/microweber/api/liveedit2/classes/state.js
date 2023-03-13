@@ -55,7 +55,29 @@ export const State = function(options){
         return true;
     };
 
+    var _paused = false;
+
+    this.paused = function (state){
+        if(typeof state === 'undefined') {
+            return _paused;
+        }
+        _paused = state;
+        return this;
+    };
+
+    this.pause = function () {
+        this.paused(true);
+        return this;
+    };
+    this.unpause = function () {
+        this.paused(false);
+        return this;
+    };
+
     this.record = function(item){
+        if(this.paused()) {
+            return this;
+        }
         if(this._activeIndex>-1) {
             var i = 0;
             while ( i <  this._activeIndex) {

@@ -58,7 +58,7 @@
     $change_template = false;
     if(isset($_GET['template'])){
         $change_template = true;
-        $selected_template = $_GET['template'];
+        $selected_template = e($_GET['template']);
     }
     $selected_template = xss_clean($selected_template);
     ?>

@@ -31,7 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory,
         Notifiable,
         TwoFactorAuthenticatable,
-        HasRoles,
+       // HasRoles,
         HasApiTokens,
         Filterable,
         HasSearchableTrait,
@@ -107,6 +107,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     private $validator;
+
 
 
     public static function boot()
@@ -208,6 +209,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return true;
     }
 
+    public function avatarUrl()
+    {
+        return user_picture($this->id);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function displayName()
     {

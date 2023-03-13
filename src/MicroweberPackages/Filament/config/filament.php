@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', mw_admin_prefix_url().'/filament'),
+    'path' => env('FILAMENT_PATH', mw_admin_prefix_url().'/v2'),
 
     /*
     |--------------------------------------------------------------------------

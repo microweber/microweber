@@ -251,6 +251,10 @@ class FormsManager
             unset($params['token']);
         }
 
+        if (isset($params['captcha'])) {
+            unset($params['captcha']);
+        }
+
         if (isset($params['id'])) {
             unset($params['id']);
         }
