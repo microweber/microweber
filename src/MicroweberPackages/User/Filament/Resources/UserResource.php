@@ -69,7 +69,7 @@ class UserResource extends Resource
         $table
             ->defaultSort('id', 'desc')
             ->columns([
-                
+
                 Tables\Columns\Layout\Split::make([
 
                     Tables\Columns\ImageColumn::make('avatar')
