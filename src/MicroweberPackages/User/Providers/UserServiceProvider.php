@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Passport\Passport;
 use Livewire\Livewire;
+use MicroweberPackages\Billing\Providers\BillingFilamentPluginServiceProvider;
 use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\RSAKeys;
@@ -44,11 +45,11 @@ class UserServiceProvider extends AuthServiceProvider
         Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
         Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
 
+        $this->app->register(UserFilamentServiceProvider::class);
     }
 
     public function boot()
     {
-
 
         /**
          * @property \MicroweberPackages\User\UserManager $user_manager

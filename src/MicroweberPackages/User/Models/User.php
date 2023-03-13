@@ -110,6 +110,7 @@ class User extends Authenticatable implements MustVerifyEmail
     private $validator;
 
 
+
     public static function boot()
     {
         parent::boot();
@@ -216,6 +217,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return true;
     }
 
+    public function avatarUrl()
+    {
+        return user_picture($this->id);
+    }
 
     public function displayName()
     {
