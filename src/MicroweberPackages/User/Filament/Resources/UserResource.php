@@ -27,7 +27,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
-
     public static function form(Form $form): Form
     {
         $rows = [
@@ -76,13 +75,20 @@ class UserResource extends Resource
 
                 TextColumn::make('full_name')->searchable(['first_name', 'last_name']),
 
-                TextColumn::make('username')->sortable()->searchable(),
-                TextColumn::make('email')->sortable()->searchable(),
+                TextColumn::make('username')
+                    ->limit(20)
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('email')
+                    ->limit(20)
+                    ->sortable()
+                    ->searchable(),
 
 //                Tables\Columns\TextColumn::make('created_at')->dateTime('M j, Y')->sortable(),
 //                Tables\Columns\TextColumn::make('updated_at')->dateTime('M j, Y')->sortable(),
 
-                BooleanColumn::make('is_active')->sortable(),
+               // BooleanColumn::make('is_active')->sortable(),
 
             ])
             ->actions([

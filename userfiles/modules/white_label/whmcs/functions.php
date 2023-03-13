@@ -93,7 +93,10 @@ if (!function_exists('get_whitelabel_whmcs_settings')) {
 
     $whitelabelSettings = get_whitelabel_whmcs_settings();
 
-    if (isset($whitelabelSettings['whmcs_url']) && !empty($whitelabelSettings['whmcs_url'])) {
+    if (isset($whitelabelSettings['whmcs_url'])
+        && !empty($whitelabelSettings['whmcs_url'])
+        && !empty($whitelabelSettings['whmcs_auth_type'])
+    ) {
 
         event_bind('mw.admin.sidebar.li.last', function () use ($whitelabelSettings) {
             echo '<li class="nav-item dropdown" style="margin-top:15px;">
