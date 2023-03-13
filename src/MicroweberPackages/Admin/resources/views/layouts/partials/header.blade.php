@@ -306,8 +306,9 @@ $user = get_user_by_id($user_id);
                     if (user_can_access('module.content.edit')):
                     ?>
                     <li class="mx-1 d-none d-md-block">
-                        <button type="button" class="btn btn-success btn-rounded btn-sm-only-icon " data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-plus"></i> <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
+                        <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon " data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-plus"></i>
+                            <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
                         </button>
                         <div class="dropdown-menu ">
                             <?php $custom_view = url_param('view'); ?>
