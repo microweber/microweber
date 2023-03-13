@@ -174,6 +174,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return user_picture($this->id);
     }
 
+    public function getRoleNameAttribute()
+    {
+        if ($this->isAdmin()) {
+            return 'Admin';
+        }
+
+        return 'User';
+    }
+
     public function getValidatorMessages()
     {
         return $this->validator->messages()->toArray();

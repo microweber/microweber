@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\IconColumn;
 use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -69,26 +70,61 @@ class UserResource extends Resource
             ->defaultSort('id', 'desc')
             ->columns([
 
-                Tables\Columns\ImageColumn::make('avatar')->url(fn($record) => $record->avatarUrl()),
 
-                TextColumn::make('id')->sortable(),
+                Tables\Columns\Layout\Split::make([
 
-                TextColumn::make('full_name')->searchable(['first_name', 'last_name']),
 
-                TextColumn::make('username')
-                    ->limit(20)
-                    ->sortable()
-                    ->searchable(),
+                    Tables\Columns\ImageColumn::make('avatar')
+                        ->url(fn($record) => $record->avatarUrl())
+                    ->grow(false),
 
-                TextColumn::make('email')
-                    ->limit(20)
-                    ->sortable()
-                    ->searchable(),
+                    Tables\Columns\Layout\Stack::make([
+                        TextColumn::make('full_name')
+                            ->label('Full Name')
+                            ->searchable(['first_name', 'last_name']),
 
-//                Tables\Columns\TextColumn::make('created_at')->dateTime('M j, Y')->sortable(),
-//                Tables\Columns\TextColumn::make('updated_at')->dateTime('M j, Y')->sortable(),
+                        TextColumn::make('roleName'),
+                    ]),
 
-               // BooleanColumn::make('is_active')->sortable(),
+
+                    TextColumn::make('username')
+                        ->description('Username', 'above')
+                        //->limit(20)
+                        ->sortable()
+                        ->searchable(),
+
+                    TextColumn::make('email')
+                        ->description('Email', 'above')
+                        //->limit(20)
+                        ->sortable()
+                        ->searchable(),
+
+                    IconColumn::make('is_active')
+                        ->boolean()->sortable()->grow(false),
+
+                ])->visibleFrom('md'),
+
+                Tables\Columns\Layout\Panel::make([
+                    Tables\Columns\Layout\Stack::make([
+
+                        TextColumn::make('id')
+                            ->label('ID')
+                            ->sortable(),
+
+                        Tables\Columns\TextColumn::make('last_login')
+                            ->label('Last Login')
+                            ->sortable(),
+
+                        Tables\Columns\TextColumn::make('created_at')
+                            ->label('Created At')
+                            ->dateTime('M j, Y')->sortable(),
+                        Tables\Columns\TextColumn::make('updated_at')
+                            ->label('Updated At')
+                            ->dateTime('M j, Y')->sortable(),
+
+                    ])
+                ])->collapsible(),
+
 
             ])
             ->actions([
