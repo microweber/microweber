@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User\Providers;
 
 use Filament\PluginServiceProvider;
+use MicroweberPackages\User\Filament\Pages\Profile;
 use MicroweberPackages\User\Filament\Resources\UserResource;
 use Spatie\LaravelPackageTools\Package;
 
@@ -35,6 +36,13 @@ class UserFilamentServiceProvider extends PluginServiceProvider
 
         return [
             UserResource::class,
+        ];
+    }
+
+    protected function getPages(): array
+    {
+        return [
+            Profile::class
         ];
     }
 

@@ -23,6 +23,8 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 9;
 
+    protected static ?string $navigationGroup = 'Users';
+
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
     public static function form(Form $form): Form
@@ -62,6 +64,7 @@ class UserResource extends Resource
                 TextColumn::make('username')->sortable()->searchable(),
                 TextColumn::make('first_name')->sortable()->searchable(),
                 TextColumn::make('last_name')->sortable()->searchable(),
+                BooleanColumn::make('is_active')->sortable(),
                 TextColumn::make('email')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('M j, Y')->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime('M j, Y')->sortable(),
