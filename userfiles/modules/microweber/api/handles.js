@@ -860,27 +860,27 @@ mw._initHandles = {
                     icon: 'mdi mdi-content-duplicate',
                     className:'mw_handle_module_clone',
                     action: function () {
-                        var parent = mw.tools.firstParentWithClass(mw._activeModuleOver, 'edit');
+                        var parent = mw.tools.firstParentWithClass(getActiveDragCurrent(), 'edit');
                         var pt = '[field="'+parent.getAttribute('field')+'"][rel="'+parent.getAttribute('rel')+'"]';
                         mw.liveEditState.record({
                             target: pt,
                             value: parent.innerHTML
                         });
-                        var html = mw._activeModuleOver.outerHTML;
+                        var html = getActiveDragCurrent().outerHTML;
                         var el = document.createElement('div');
                         el.innerHTML = html;
                         $('[id]', el).each(function(){
                             this.id = mw.id('mw-id-');
                             this.removeAttribute('parent-module-id');
                         });
-                        $(mw._activeModuleOver).after(el.innerHTML);
-                        var newEl = $(mw._activeModuleOver).next();
+                        $(getActiveDragCurrent()).after(el.innerHTML);
+                        var newEl = $(getActiveDragCurrent()).next();
                         mw.reload_module(newEl, function (){
                              mw.liveEditState.record({
                                 target: pt,
                                 value: parent.innerHTML
                             });
-                            var node = $(mw._activeModuleOver).next()[0]
+                            var node = $(getActiveDragCurrent()).next()[0]
                             node.scrollIntoView();
                             mw.wysiwyg.change(node)
                         });
@@ -900,9 +900,7 @@ mw._initHandles = {
                     icon: 'mw-icon-reload',
                     className:'mw-handle-remove',
                     action: function () {
-                        if(mw._activeModuleOver && mw._activeModuleOver.id){
-                            mw.tools.confirm_reset_module_by_id(mw._activeModuleOver.id)
-                        }
+                        mw.tools.confirm_reset_module_by_id(getActiveDragCurrent().id);
                     }
                 },
                 {
