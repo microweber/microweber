@@ -52,6 +52,10 @@ class UserResource extends Resource
                         return $user->password;
                     }
                 }),
+            Forms\Components\TextInput::make('password_confirmation')
+                ->password()
+                ->required(),
+
             ])->columnSpanFull()->columns(2),
         ];
 
@@ -65,25 +69,45 @@ class UserResource extends Resource
         $table
             ->defaultSort('id', 'desc')
             ->columns([
-                Tables\Columns\ImageColumn::make('avatar')->url(fn ($record) => $record->avatarUrl()),
+
+                Tables\Columns\ImageColumn::make('avatar')->url(fn($record) => $record->avatarUrl()),
+
                 TextColumn::make('id')->sortable(),
+
+                TextColumn::make('full_name')->searchable(['first_name', 'last_name']),
+
                 TextColumn::make('username')->sortable()->searchable(),
-                TextColumn::make('first_name')->sortable()->searchable(),
-                TextColumn::make('last_name')->sortable()->searchable(),
-                BooleanColumn::make('is_active')->sortable(),
                 TextColumn::make('email')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('created_at')->dateTime('M j, Y')->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')->dateTime('M j, Y')->sortable(),
+
+//                Tables\Columns\TextColumn::make('created_at')->dateTime('M j, Y')->sortable(),
+//                Tables\Columns\TextColumn::make('updated_at')->dateTime('M j, Y')->sortable(),
+
+                BooleanColumn::make('is_active')->sortable(),
+
+            ])
+            ->bulkActions([
+                
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('is_admin')
+                    ->label('Users Type')
+                    ->options(
+                    [
+                        '0' => 'Users',
+                        '1' => 'Admins',
+                    ]
+                ),
+
+                Tables\Filters\SelectFilter::make('is_active')
+                    ->label('Users Status')
+                    ->options(
+                    [
+                        '1' => 'Active',
+                        '0' => 'Inactive',
+                    ]
+                ),
 
             ]);
-
-//            ->filters([
-//
-//                Tables\Filters\Filter::make('verified')
-//                    ->query(fn (Builder $query): Builder => $query->whereNotNull('email_verified_at')),
-//                Tables\Filters\Filter::make('unverified')
-//                    ->query(fn (Builder $query): Builder => $query->whereNull('email_verified_at')),
-//            ]);
 
 
         return $table;
@@ -93,8 +117,8 @@ class UserResource extends Resource
     {
         return [
             'index' => ListUsers::route('/'),
-            'create' => CreateUser::route('/create'),
-            'edit' => EditUser::route('/{record}/edit'),
+            //'create' => CreateUser::route('/create'),
+            //'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 }
