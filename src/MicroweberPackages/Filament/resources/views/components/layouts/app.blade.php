@@ -62,8 +62,8 @@
                 {{ \Filament\Facades\Filament::renderHook('content.end') }}
             </div>
 
-            <div class="filament-main-footer py-4 shrink-0">
-                <x-filament::footer />
+            <div class="filament-main-footer py-4 shrink-0 text-gray-500 text-center">
+              Microweber - Drag & Drop Website Builder
             </div>
         </div>
     </div>
