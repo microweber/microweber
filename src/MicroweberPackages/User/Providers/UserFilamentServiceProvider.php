@@ -5,6 +5,7 @@ namespace MicroweberPackages\User\Providers;
 use Filament\PluginServiceProvider;
 use MicroweberPackages\User\Filament\Pages\Profile;
 use MicroweberPackages\User\Filament\Resources\UserResource;
+use MicroweberPackages\User\Filament\Widgets\UsersStatsWidget;
 use Spatie\LaravelPackageTools\Package;
 
 class UserFilamentServiceProvider extends PluginServiceProvider
@@ -27,8 +28,13 @@ class UserFilamentServiceProvider extends PluginServiceProvider
     public function packageBooted(): void
     {
         parent::packageBooted();
+    }
 
-
+    protected function getWidgets(): array
+    {
+        return [
+            UsersStatsWidget::class
+        ];
     }
 
     protected function getResources(): array

@@ -5,7 +5,7 @@
    {{-- FILAMENT SCRIPTS START --}}
 
         {{ \Filament\Facades\Filament::renderHook('head.start') }}
-    
+
         @foreach (\Filament\Facades\Filament::getMeta() as $tag)
             {{ $tag }}
         @endforeach
