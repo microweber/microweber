@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.3.3] - 2022-04-06
+## [1.3.3] - 2023-03-13
 - Added bindings for Filament admin panel
 - Added driver interface for payment modules
 - Added support fo 2FA for admin panel
@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - [see all changes....](https://github.com/microweber/microweber/compare/1.3.2...1.3.3 "")
 
 
-## [1.3.2] - 2022-01-27
+## [1.3.2] - 2023-01-27
 - Big maintenance release
 - Improvements in live edit mode
 - Refactored the admin content list
