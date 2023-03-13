@@ -71,13 +71,24 @@
     <?php event_trigger('admin_head'); ?>
     <?php event_trigger('mw.admin.header');; ?>
 
-    <?php print \Livewire\Livewire::scripts();    ?>
-    <?php print \Livewire\Livewire::styles();    ?>
+    <?php
+    $enableLivewireScripts = true;
+    if (isset($disableLivewireScripts) && $disableLivewireScripts) {
+        $enableLivewireScripts = false;
+    }
+    ?>
 
-<!-- Alpine v3 -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
-    <!-- Livewire sortable -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
+    <?php if ($enableLivewireScripts) { ?>
+
+        <?php print \Livewire\Livewire::scripts(); ?>
+        <?php print \Livewire\Livewire::styles(); ?>
+
+        <!-- Alpine v3 -->
+        <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+        <!-- Livewire sortable -->
+        <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
+
+    <?php } ?>
 
     <?php if (config('app.debug') and is_logged()) { ?>
 
@@ -116,11 +127,13 @@
 
 <body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 
+<?php if ($enableLivewireScripts) { ?>
 <div>
     <div>
         @livewire('livewire-ui-modal')
     </div>
 </div>
+<?php } ?>
 
 
 <?php

@@ -1,70 +1,126 @@
-@props([
-'maxContentWidth' => null,
+@include('admin::layouts.partials.header', [
+    'disableLivewireScripts' => true,
 ])
+<main class="module-main-holder">
+   {{-- FILAMENT SCRIPTS START --}}
 
-<x-filament::layouts.base :title="$title">
+        {{ \Filament\Facades\Filament::renderHook('head.start') }}
+    
+        @foreach (\Filament\Facades\Filament::getMeta() as $tag)
+            {{ $tag }}
+        @endforeach
 
-    <x-filament::topbar />
-
-    <div class="filament-app-layout flex h-full w-full overflow-x-clip">
-
-        <div
-            x-data="{}"
-            x-cloak
-            x-show="$store.sidebar.isOpen"
-            x-transition.opacity.500ms
-            x-on:click="$store.sidebar.close()"
-            class="filament-sidebar-close-overlay fixed inset-0 z-20 w-full h-full bg-gray-900/50 lg:hidden"
-        ></div>
+        {{ \Filament\Facades\Filament::renderHook('styles.start') }}
 
 
-        <x-filament::layouts.app.sidebar />
+        @livewireStyles
 
-        <div
-            @if (config('filament.layout.sidebar.is_collapsible_on_desktop'))
-            x-data="{}"
-            x-bind:class="{
-                    'lg:pl-[var(--collapsed-sidebar-width)] rtl:lg:pr-[var(--collapsed-sidebar-width)]': ! $store.sidebar.isOpen,
-                    'filament-main-sidebar-open lg:pl-[var(--sidebar-width)] rtl:lg:pr-[var(--sidebar-width)]': $store.sidebar.isOpen,
-                }"
-            x-bind:style="'display: flex'" {{-- Mimics `x-cloak`, as using `x-cloak` causes visual issues with chart widgets --}}
+
+        @foreach (\Filament\Facades\Filament::getStyles() as $name => $path)
+            @if (\Illuminate\Support\Str::of($path)->startsWith(['http://', 'https://']))
+                <link rel="stylesheet" href="{{ $path }}" />
+            @elseif (\Illuminate\Support\Str::of($path)->startsWith('<'))
+                {!! $path !!}
+            @else
+                <link rel="stylesheet" href="{{ route('filament.asset', [
+                    'file' => "{$name}.css",
+                ]) }}" />
             @endif
-            @class([
-                'filament-main flex-col gap-y-6 w-screen flex-1 rtl:lg:pl-0',
-                'hidden h-full transition-all' => config('filament.layout.sidebar.is_collapsible_on_desktop'),
-                'flex lg:pl-[var(--sidebar-width)] rtl:lg:pr-[var(--sidebar-width)]' => ! config('filament.layout.sidebar.is_collapsible_on_desktop'),
-            ])
-        >
+        @endforeach
 
-            <div @class([
-                'filament-main-content flex-1 w-full px-4 mx-auto md:px-6 lg:px-8',
-                match ($maxContentWidth ??= config('filament.layout.max_content_width')) {
-                    null, '7xl', '' => 'max-w-7xl',
-                    'xl' => 'max-w-xl',
-                    '2xl' => 'max-w-2xl',
-                    '3xl' => 'max-w-3xl',
-                    '4xl' => 'max-w-4xl',
-                    '5xl' => 'max-w-5xl',
-                    '6xl' => 'max-w-6xl',
-                    'full' => 'max-w-full',
-                    default => $maxContentWidth,
-                },
-            ])>
+        {{ \Filament\Facades\Filament::getThemeLink() }}
 
-                <div class="mt-4">
-                    <x-filament::layouts.app.topbar.breadcrumbs :breadcrumbs="$breadcrumbs" />
-                </div>
+        {{ \Filament\Facades\Filament::renderHook('styles.end') }}
 
-                {{ \Filament\Facades\Filament::renderHook('content.start') }}
+        @if (config('filament.dark_mode'))
+            <script>
+                const theme = localStorage.getItem('theme')
 
-                {{ $slot }}
+                if ((theme === 'dark') || (! theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark')
+                }
+            </script>
+        @endif
 
-                {{ \Filament\Facades\Filament::renderHook('content.end') }}
-            </div>
+        {{ \Filament\Facades\Filament::renderHook('head.end') }}
 
-            <div class="filament-main-footer py-4 shrink-0 text-gray-500 text-center">
-              Microweber - Drag & Drop Website Builder
-            </div>
-        </div>
+
+    {{ \Filament\Facades\Filament::renderHook('body.start') }}
+
+
+    <div>
+            {{ \Filament\Facades\Filament::renderHook('content.start') }}
+
+            {{ $slot }}
+
+            {{ \Filament\Facades\Filament::renderHook('content.end') }}
+
     </div>
-</x-filament::layouts.base>
+
+
+    {{ \Filament\Facades\Filament::renderHook('scripts.start') }}
+
+    @livewireScripts
+
+    <script>
+        window.filamentData = @json(\Filament\Facades\Filament::getScriptData());
+    </script>
+
+    @foreach (\Filament\Facades\Filament::getBeforeCoreScripts() as $name => $path)
+        @if (\Illuminate\Support\Str::of($path)->startsWith(['http://', 'https://']))
+            <script defer src="{{ $path }}"></script>
+        @elseif (\Illuminate\Support\Str::of($path)->startsWith('<'))
+            {!! $path !!}
+        @else
+            <script defer src="{{ route('filament.asset', [
+                    'file' => "{$name}.js",
+                ]) }}"></script>
+        @endif
+    @endforeach
+
+    @stack('beforeCoreScripts')
+
+    <script defer src="{{ route('filament.asset', [
+            'id' => Filament\get_asset_id('app.js'),
+            'file' => 'app.js',
+        ]) }}"></script>
+
+    @if (config('filament.broadcasting.echo'))
+        <script defer src="{{ route('filament.asset', [
+                'id' => Filament\get_asset_id('echo.js'),
+                'file' => 'echo.js',
+            ]) }}"></script>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                window.Echo = new window.EchoFactory(@js(config('filament.broadcasting.echo')))
+
+                window.dispatchEvent(new CustomEvent('EchoLoaded'))
+            })
+        </script>
+    @endif
+
+    @foreach (\Filament\Facades\Filament::getScripts() as $name => $path)
+        @if (\Illuminate\Support\Str::of($path)->startsWith(['http://', 'https://']))
+            <script defer src="{{ $path }}"></script>
+        @elseif (\Illuminate\Support\Str::of($path)->startsWith('<'))
+            {!! $path !!}
+        @else
+            <script defer src="{{ route('filament.asset', [
+                    'file' => "{$name}.js",
+                ]) }}"></script>
+        @endif
+    @endforeach
+
+    @stack('scripts')
+
+    {{ \Filament\Facades\Filament::renderHook('scripts.end') }}
+
+    {{ \Filament\Facades\Filament::renderHook('body.end') }}
+
+
+{{-- FILAMENT SCRIPTS END --}}
+</main>
+@include('admin::layouts.partials.footer')
+
+
