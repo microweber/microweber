@@ -27,7 +27,6 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
-
     public static function form(Form $form): Form
     {
         $rows = [
@@ -80,7 +79,7 @@ class UserResource extends Resource
                     ->limit(20)
                     ->sortable()
                     ->searchable(),
-                
+
                 TextColumn::make('email')
                     ->limit(20)
                     ->sortable()
