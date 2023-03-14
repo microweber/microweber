@@ -37,7 +37,7 @@ export class Dialog {
             document: document
         }
         this.settings = Object.assign({}, defaults, options);
-        console.log( this.settings );
+
         this.build();
         setTimeout(_ => this.open())
     }
@@ -76,10 +76,15 @@ export class Dialog {
         this.root.addClass('le-dialog-opened')
     }
     remove() {
-        this.root.remove()
-        if(this.overlay){
-            this.overlay.remove()
-        }
+
+        this.root.on('transitionend', () => {
+            this.root.remove();
+            if(this.overlay){
+                this.overlay.remove();
+            }
+        });
+        this.root.removeClass('le-dialog-opened');
+
     }
     overlay() {
         this.overlay = ElementManager({

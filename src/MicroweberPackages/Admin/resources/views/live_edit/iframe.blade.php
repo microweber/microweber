@@ -1679,6 +1679,12 @@ $user = get_user();
 
 </script>
 
+<script>
+    mw.quickSettings = {}
+</script>
+
+
+<script async defer src="<?php print site_url('userfiles/modules/btn/quick-settings.js'); ?>"></script>
 
 
 </body>

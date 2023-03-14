@@ -215,6 +215,9 @@
     max-width: 25px;
     max-height: 25px;
     display: inline-block; }
+  .mw-le-handle-menu-button-icon svg {
+    width: 25px;
+    height: 25px; }
   .mw-le-handle-menu-button-icon * {
     max-width: 31px;
     max-height: 31px; }
