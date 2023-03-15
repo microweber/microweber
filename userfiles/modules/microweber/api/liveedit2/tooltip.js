@@ -4,4 +4,6 @@ export const Tooltip = (node, content, position) => {
     node.dataset.tooltip = content;
     node.title = content;
     node.dataset.tooltipposition = position || 'top-center';
-}
+};
+
+
