@@ -486,9 +486,6 @@ table[class*='mw-wysiwyg-table'].valign td {
 .img-rounded {
   display: inline-block;
 }
-[class*="span"] {
-  margin-bottom: 20px;
-}
 /* /Tables */
 #mw-inline-tableControl {
   display: none;
