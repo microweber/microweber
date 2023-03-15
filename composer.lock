@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81b04771f8aadc06d5b94c22690aab4e",
+    "content-hash": "c0150d904687ff92826216f4c1ec22d6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7150,23 +7150,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "4.6",
+            "version": "4.7",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "b9b9490abb2248cd3261da61c18da85ef91ff695"
+                "reference": "43a0c21a6430f114ab03ba5b25ac971f6b6dd758"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.6-3a3b9a.zip",
-                "reference": "b9b9490abb2248cd3261da61c18da85ef91ff695",
-                "shasum": "bf0dbe87b3cf6fcba8f4b4265a781f138bc253cb"
+                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.7-f152bb.zip",
+                "reference": "43a0c21a6430f114ab03ba5b25ac971f6b6dd758",
+                "shasum": "575e1334ee9e3564f068547172e012e4383f582d"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/46/README.md"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/47/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7187,7 +7187,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2023-03-03T10:37:30+00:00"
+            "time": "2023-03-09T15:52:21+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -7297,7 +7297,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
                 "reference": "63f1cf4e0f9cf91689d80013a16e0462002c77e8",
                 "shasum": "e60e406411f00b0541fbbe7fb89f04783b06c27c"
             },
@@ -7305,8 +7305,8 @@
             "extra": {
                 "preview_url": "https://templates.microweber.com/bootstrap5/",
                 "_meta": {
-                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
-                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-bootstrap5/15/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7348,7 +7348,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
                 "reference": "8ea74843e8af583d15a1a3dbe77e58a425ffb7ff",
                 "shasum": "82c0a70f54a1915cd3c6e5eb0ed019d2fb0c6741"
             },
@@ -7373,8 +7373,8 @@
                 ],
                 "preview_url": "https://templates.microweber.com/new-world/",
                 "_meta": {
-                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
-                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-new-world/61/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7411,7 +7411,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://marketplace.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
+                "url": "https://packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
                 "reference": "7b26f250e53e8d1cbdad82c26877f289f525f2c1",
                 "shasum": "f26a8d841e78038fac6fffd3867581adae9b520c"
             },
@@ -7419,8 +7419,8 @@
             "extra": {
                 "preview_url": "https://templates.microweber.com/shopmag/",
                 "_meta": {
-                    "readme": "https://marketplace.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
-                    "screenshot": "https://marketplace.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/readme.md",
+                    "screenshot": "https://packages.microweberapi.com/meta/microweber-templates-shopmag/43/screenshot.jpg"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
