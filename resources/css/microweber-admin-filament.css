@@ -1,2 +1,5 @@
 @import '../../vendor/filament/filament/resources/css/app.css';
 
+.filament-header-heading {
+    font-size:15px;
+}
