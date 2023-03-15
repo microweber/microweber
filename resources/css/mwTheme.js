@@ -85,11 +85,13 @@ module.exports = {
                 '128': '32rem',
                 '144': '36rem',
             },
+
             borderRadius: {
                 'none': '0',
-                'sm': '.125rem',
+                'sm': '.25rem',
                 DEFAULT: '.25rem',
-                'lg': '.314rem',
+                'lg': '.25rem',
+                'xl': '.25rem',
                 'full': '999px',
             },
         }
