@@ -13,7 +13,7 @@ import {lang} from "./i18n.js";
 import {Dialog} from "./classes/dialog.js";
 import {Resizable} from "./classes/resizable.js";
 import {HandleMenu} from "./handle-menu.js";
-import {ToolTipController} from "./tooltip.js";
+
 import {Tooltip} from "./tooltip.js";
 
 
@@ -134,22 +134,20 @@ export class LiveEdit {
                 options = {}
             }
             var defaults = {
-                document: scope.document
+                document: scope.document,
+                position: 'target'
             };
-            return new Dialog(ObjectService.extend({}, defaults, options));
+            const _dlg = new Dialog(ObjectService.extend({}, defaults, options));
+            console.log( scope, options, e)
+
+            _dlg.root.css({
+
+            })
+
+            return _dlg;
         };
 
-        this.tooltip = function (options) {
-            if(!options){
-                options = {}
-            }
-            var defaults = {
-                document: scope.document,
-                element: document.body
-            };
-            console.log(this)
-            return new ToolTipController(ObjectService.extend({}, defaults, options));
-        };
+
 
         var elementHandle = new Handle({
             ...this.settings,

@@ -1,5 +1,5 @@
 import {ElementManager} from "./classes/element.js";
-import {Tooltip, ToolTipController} from "./tooltip.js";
+import {Tooltip} from "./tooltip.js";
 
 export const HandleMenu = function(options) {
 
