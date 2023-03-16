@@ -258,6 +258,8 @@ class ModulesListLiveEdit extends Controller
                         'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
                         'name' => $dynamic_layout['name'],
                         'icon' => $dynamic_layout['icon'],
+                        'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
+
                         'description_raw' => $dynamic_layout['description'],
                         'description' => addslashes($dynamic_layout['description']),
                         'title' => titlelize(_e($dynamic_layout['name'], true)),
@@ -358,7 +360,7 @@ class ModulesListLiveEdit extends Controller
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
                             'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
-
+                            'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
 
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),
