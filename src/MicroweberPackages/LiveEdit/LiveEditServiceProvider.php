@@ -11,11 +11,24 @@
 
 namespace MicroweberPackages\LiveEdit;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class LiveEditServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->app->singleton('live_edit', function (): LiveEditManager {
+            return new LiveEditManager();
+        });
+
+
+        \App::bind('LiveEditManager',function() {
+            return new LiveEditManager();
+        });
+
+
+    }
+
     /**
      * Bootstrap the application services.
      *
@@ -23,7 +36,6 @@ class LiveEditServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //$this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
 
         $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
         $this->loadRoutesFrom((__DIR__) . '/routes/web.php');

@@ -9,6 +9,18 @@ trait HasScriptsAndStylesTrait
     public array $customHeadTags = [];
 
 
+    public function headTags()
+    {
+        $tags = [];
+
+        $tags[] = $this->styles();
+        $tags[] = $this->scripts();
+        $tags[] = $this->customHeadTags();
+
+        return implode("\r\n", $tags);
+    }
+
+
     /**
      * Adds a CSS stylesheet url to the page
      *

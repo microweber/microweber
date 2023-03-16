@@ -17,16 +17,7 @@ class AdminManager
         $this->addDefaultCustomTags();
     }
 
-    public function headTags()
-    {
-        $tags = [];
 
-        $tags[] = $this->styles();
-        $tags[] = $this->scripts();
-        $tags[] = $this->customHeadTags();
-
-        return implode("\r\n", $tags);
-    }
 
 
     public function addDefaultScripts(): void
