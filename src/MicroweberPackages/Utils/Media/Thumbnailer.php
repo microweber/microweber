@@ -46,7 +46,11 @@ class Thumbnailer
 
         $magicianObj_mode = 'landscape';
         if ($crop) {
-            $magicianObj_mode = 'crop';
+            if (is_bool($crop)) {
+                $magicianObj_mode = 'crop';
+            } else {
+                $magicianObj_mode = 'crop-' . $crop;
+            }
         }
 
         $magicianObj->resizeImage($width, $height, $magicianObj_mode);
