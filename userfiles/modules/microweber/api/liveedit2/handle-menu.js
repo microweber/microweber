@@ -158,14 +158,17 @@ export const HandleMenu = function(options) {
                 }
             });
             btn.append(submenu);
-            scope.buildButtons(conf.menu, submenu)
+            scope.buildButtons(conf.menu, submenu);
             btn.on('click', function(){
                 this.classList.toggle('sub-menu-active');
-            })
+            });
         } else if(typeof conf.action === 'function') {
             btn.on('click', function(){
-                conf.action(scope.getTarget(), btn.get(0), scope.options.rootScope)
-            })
+                conf.action(scope.getTarget(), btn.get(0), {
+                    dialog: scope.options.rootScope.dialog,
+                    tooltip: scope.options.rootScope.tooltip,
+                });
+            });
         }
         return btn;
     };

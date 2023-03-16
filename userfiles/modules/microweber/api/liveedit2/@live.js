@@ -12,6 +12,9 @@ import {ElementManager} from "./classes/element.js";
 import {lang} from "./i18n.js";
 import {Dialog} from "./classes/dialog.js";
 import {Resizable} from "./classes/resizable.js";
+import {HandleMenu} from "./handle-menu.js";
+
+import {Tooltip} from "./tooltip.js";
 
 
 export class LiveEdit {
@@ -131,10 +134,20 @@ export class LiveEdit {
                 options = {}
             }
             var defaults = {
-                document: this.settings.document
-            }
-            return new Dialog(ObjectService.extend({}, defaults, options))
+                document: scope.document,
+                position: 'target'
+            };
+            const _dlg = new Dialog(ObjectService.extend({}, defaults, options));
+            console.log( scope, options, e)
+
+            _dlg.root.css({
+
+            })
+
+            return _dlg;
         };
+
+
 
         var elementHandle = new Handle({
             ...this.settings,
@@ -170,10 +183,35 @@ export class LiveEdit {
         });
 
 
+        this.getModuleQuickSettings = function (type) {
+            return new Promise(resolve => {
+                resolve(mw.quickSettings[type]);
+            });
+        };
+
 
         moduleHandle.on('targetChange', function (node){
-            moduleHandleContent.menu.setTitle(node.dataset.type);
-        })
+             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
+
+                moduleHandleContent.menu.root.remove();
+
+                moduleHandleContent.menu = new HandleMenu({
+                    id: 'mw-handle-item-element-menu',
+                    title: node.dataset.type,
+                    rootScope: scope,
+                    buttons: settings.mainMenu || [],
+                    data: {target: node}
+                });
+
+
+                 moduleHandleContent.menu.show();
+
+                 moduleHandleContent.root.append(moduleHandleContent.menu.root);
+
+
+            });
+
+        });
 
         var layoutHandle = new Handle({
             ...this.settings,

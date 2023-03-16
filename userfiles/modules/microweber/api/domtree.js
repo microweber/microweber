@@ -6,7 +6,7 @@ mw.DomTree = function (options) {
         if (mw.tools.hasClass(node, 'row')) {
             title = "Row";
             icon = '<span class="mdi mdi-table-row mdi-18px"></span>';
-        }  else if (mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
+        }  else if (node.ownerDocument.defaultView.mw.drag && mw.tools.hasAnyOfClasses(node, node.ownerDocument.defaultView.mw.drag.external_grids_col_classes)) {
             title = "Column";
             icon = '<span class="mdi mdi-table-column mdi-18px"></span>';
         } else if (node.nodeName === 'H1') {
@@ -58,6 +58,9 @@ mw.DomTree = function (options) {
                 },
                 {
                     label: function (node) {
+                        if(!node.ownerDocument.defaultView.mw.live_edit) {
+                            return ''
+                        }
                         var icon = node.ownerDocument.defaultView.mw.live_edit.getModuleIcon(node.getAttribute('data-type'));
                         return icon + ' ' + node.getAttribute('data-mw-title') || node.getAttribute('data-type');
                     },

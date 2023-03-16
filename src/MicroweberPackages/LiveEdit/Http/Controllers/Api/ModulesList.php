@@ -80,6 +80,7 @@ class ModulesList extends Controller
                 $module_layouts_skins = false;
             }
 
+
         } else {
 
             $modules = mw()->module_manager->get('installed=1&ui=1');
@@ -350,11 +351,15 @@ class ModulesList extends Controller
                             $dynamic_layout['description'] = '';
                         }
 
+
                         $moduleListJson[] = [
                             'group' => 'layouts',
                             'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
+                            'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
+
+
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),
                             'title' => titlelize(_e($dynamic_layout['name'], true)),

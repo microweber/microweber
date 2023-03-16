@@ -194,6 +194,7 @@ MWEditor.controllers = {
             return el;
         };
         this.checkSelection = function (opt, ee, tt) {
+
             if(opt.css.is().bold) {
                 rootScope.controllerActive(opt.controller.element.get(0), true);
             } else {

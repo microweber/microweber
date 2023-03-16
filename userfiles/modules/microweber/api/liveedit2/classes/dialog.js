@@ -34,18 +34,18 @@ export class Dialog {
         const defaults = {
             content: null,
             overlay: true,
-            document: document
-        }
+            document: document,
+            position: 'centered'
+        };
         this.settings = Object.assign({}, defaults, options);
-        console.log( this.settings );
+
         this.build();
         setTimeout(_ => this.open())
     }
     build() {
         this.root = ElementManager({
             props: {
-                className: 'le-dialog',
-
+                className: `le-dialog ${typeof this.settings.position === 'string' ? this.settings.position : ''}`,
             }
         });
         var closeBtn = ElementManager({
@@ -61,7 +61,7 @@ export class Dialog {
                 className: 'le-dialog-container'
             },
             content: this.settings.content
-        })
+        });
         this.root.append(closeBtn);
         this.root.append(this.container);
         if(this.settings.footer) {
@@ -69,17 +69,22 @@ export class Dialog {
         }
         this.settings.document.body.appendChild(this.root.get(0))
         if (this.settings.overlay) {
-            this.overlay()
+            this.overlay();
         }
     }
     open() {
         this.root.addClass('le-dialog-opened')
     }
     remove() {
-        this.root.remove()
-        if(this.overlay){
-            this.overlay.remove()
-        }
+
+        this.root.on('transitionend', () => {
+            this.root.remove();
+            if(this.overlay){
+                this.overlay.remove();
+            }
+        });
+        this.root.removeClass('le-dialog-opened');
+
     }
     overlay() {
         this.overlay = ElementManager({
@@ -96,14 +101,14 @@ export class Dialog {
 export const Confirm = function (content, c) {
     const footer = dialogFooter();
     const dialog = new Dialog({
-        content, footer
+        content, footer, position: 'centered'
     });
     footer.cancel.on('click', function (){
-        dialog.remove()
-    })
+        dialog.remove();
+    });
     footer.ok.on('click', function (){
         if(c){
-            c.call()
+            c.call();
         }
         dialog.remove()
     });
@@ -113,5 +118,5 @@ export const Confirm = function (content, c) {
 export const Alert = function (text) {
     return new Dialog({
         content: text
-    })
-}
+    });
+};
