@@ -1156,7 +1156,7 @@
                         decorate: true
                     });
                     /* demo */
-                    fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout')
+                    fetch('<?php print route('api.module.list'); ?>?layout_type=layout')
                         .then(function (data){
                             return data.json();
                         }).then(function (data){
@@ -1194,7 +1194,7 @@
 
 
 
-                    fetch('<?php print api_url();  ?>live-edit/modules-list?layout_type=layout&elements_mode=true&group_layouts_by_category=true')
+                    fetch('<?php print route('api.module.list'); ?>?layout_type=layout&elements_mode=true&group_layouts_by_category=true')
                     .then(function (data){
                         return data.json();
                     }).then(function (data){
