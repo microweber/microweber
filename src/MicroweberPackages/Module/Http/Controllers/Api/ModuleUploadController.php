@@ -5,8 +5,12 @@ namespace MicroweberPackages\Module\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use MicroweberPackages\Utils\Zip\Unzip;
 
-class ModuleApiController
+class ModuleUploadController
 {
+
+
+
+
     /**
      * Upload new module
      * @param Request $request
@@ -95,7 +99,7 @@ class ModuleApiController
             rmdir_recursive($cacheModuleDir, false);
 
             return array(
-                'success' => "Module allready exists!"
+                'success' => "Module already exists!"
             );
         }
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Admin\Http\Controllers;
+namespace MicroweberPackages\LiveEdit\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 
 
-class AdminLiveEditController
+
+class LiveEditIframeController
 {
     use LiveEditTrait;
 

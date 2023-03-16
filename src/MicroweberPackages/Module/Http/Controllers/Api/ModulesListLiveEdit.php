@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\LiveEdit\Http\Controllers\Api;
+namespace MicroweberPackages\Module\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
-class ModulesList extends Controller
+class ModulesListLiveEdit extends Controller
 {
     public function index(Request $request)
     {
