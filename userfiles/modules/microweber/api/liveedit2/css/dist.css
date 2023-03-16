@@ -308,7 +308,7 @@ html.le-dragging .mw-handle-item {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: scale(0.8) translate(-50%, -50%);
+  transform: scale(0.8);
   transform-origin: center center;
   z-index: 1024;
   transition: .3s;
@@ -316,11 +316,15 @@ html.le-dragging .mw-handle-item {
   opacity: 0;
   pointer-events: none;
   min-width: 320px; }
+  .le-dialog.le-dialog-centered {
+    transform: scale(0.8) translate(-50%, -50%); }
+    .le-dialog.le-dialog-centered.le-dialog-opened {
+      transform: scale(1) translate(-50%, -50%); }
   .le-dialog.le-dialog-opened {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    transform: scale(1) translate(-50%, -50%); }
+    transform: scale(1); }
   .le-dialog .le-dialog-container {
     padding: 20px;
     background-color: #fff;
@@ -383,5 +387,3 @@ mw-le-element, mw-le-element *, mw-le-element *:before, mw-le-element *:after {
 
 .le-selectable-items-list-type-layouts .le-selectable-items-list-image {
   background-size: cover; }
-
-/*# sourceMappingURL=dist.css.map */

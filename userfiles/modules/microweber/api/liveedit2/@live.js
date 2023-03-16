@@ -126,23 +126,26 @@ export class LiveEdit {
         this.dropIndicator = new DropIndicator(this.settings);
 
         const elementHandleContent = new ElementHandleContent(this);
-        const moduleHandleContent = new ModuleHandleContent(this);
+        window.moduleHandleContent = new ModuleHandleContent(this);
         const layoutHandleContent = new LayoutHandleContent(this);
 
         this.dialog = function (options) {
             if(!options){
-                options = {}
+                options = {};
             }
+
             var defaults = {
                 document: scope.document,
-                position: 'target'
+                position: moduleHandleContent.menu.getTarget(),
+                mode: 'absolute'
             };
+
+            scope.pause();
             const _dlg = new Dialog(ObjectService.extend({}, defaults, options));
-            console.log( scope, options, e)
 
-            _dlg.root.css({
-
-            })
+            _dlg.on('close', function () {
+                scope.play();
+            });
 
             return _dlg;
         };
@@ -191,7 +194,10 @@ export class LiveEdit {
 
 
         moduleHandle.on('targetChange', function (node){
-             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
+
+
+
+            scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
 
                 moduleHandleContent.menu.root.remove();
 
@@ -199,14 +205,15 @@ export class LiveEdit {
                     id: 'mw-handle-item-element-menu',
                     title: node.dataset.type,
                     rootScope: scope,
-                    buttons: settings.mainMenu || [],
+                    buttons: settings ? settings.mainMenu || [] : [],
                     data: {target: node}
                 });
+                moduleHandleContent.menu.setTarget(node);
 
 
-                 moduleHandleContent.menu.show();
+                moduleHandleContent.menu.show();
 
-                 moduleHandleContent.root.append(moduleHandleContent.menu.root);
+                moduleHandleContent.root.append(moduleHandleContent.menu.root);
 
 
             });
