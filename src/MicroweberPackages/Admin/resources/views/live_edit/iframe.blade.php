@@ -1573,7 +1573,6 @@
         }
     </script>
 
-    <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 
     <?php print event_trigger('mw.live_edit.head'); ?>
 
@@ -1795,6 +1794,7 @@ $user = get_user();
 
 
 
+<?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 
 
 
