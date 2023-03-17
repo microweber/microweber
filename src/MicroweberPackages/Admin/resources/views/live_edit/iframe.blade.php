@@ -1806,7 +1806,6 @@ $user = get_user();
     mw.on('LiveEdit::ready', function () {
         window.liveEditApp.modules.forEach(
             function (module) {
-                mw.log(module);
                 if (typeof module.ready === 'function') {
                     module.ready();
                 }
