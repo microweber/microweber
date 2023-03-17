@@ -1757,6 +1757,48 @@ $user = get_user();
             data-src="about:blank">
     </iframe>
 </div>
+<script>
+
+
+
+
+    class LiveEditContainer {
+        modules = [];
+        constructor(id) {
+            this.id = id;
+            this.modules = {};
+        }
+        call(moduleName, methodName) {
+            this.modules[moduleName][methodName]();
+        }
+        has(moduleName) {
+            if(this.modules[moduleName]) {
+                return true;
+            }
+        }
+        get(moduleName) {
+            if(this.modules[moduleName]) {
+                return this.modules[moduleName];
+            }
+        }
+        register(classInstance) {
+            this.modules[classInstance.name] = classInstance;
+            if(typeof classInstance.init === 'function'){
+            classInstance.init();
+            }
+        }
+
+    }
+
+
+    window.liveEditApp = new LiveEditContainer();
+
+    mw.on('LiveEdit::ready', function (){
+
+    });
+
+
+</script>
 
 <script>
 
@@ -1783,11 +1825,11 @@ $user = get_user();
         mw.spinner({
             element: frameHolder
         }).remove()
-
+        mw.trigger('LiveEdit::ready', liveEdit);
     })
 
 </script>
-
+F
 <script>
     mw.quickSettings = {}
 </script>
