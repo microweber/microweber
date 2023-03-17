@@ -1,4 +1,6 @@
-mw.quickSettings['btn'] = {
+import {Handle} from "../microweber/api/liveedit2/handle.js";
+
+var myBtnMenu = {
     mainMenu: [
         {
             title: 'Set background color',
@@ -28,7 +30,6 @@ mw.quickSettings['btn'] = {
                 var node = document.createElement('div');
 
 
-
                 api.dialog({
                     content: node,
                 });
@@ -46,7 +47,6 @@ mw.quickSettings['btn'] = {
             title: 'Link',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>',
             action: (target, button, api) => {
-
 
 
                 var linkEditor = new mw.LinkEditor({
@@ -72,3 +72,63 @@ mw.quickSettings['btn'] = {
 
     ]
 };
+
+
+//
+// class MyHandle {
+//
+//     name = 'liveEditHandle';
+//     instance = null;
+//
+//     getInstance(params) {
+//         return new Handle(params);
+//         if (this.instance === null) {
+//             this.instance = new Handle(params);
+//         }
+//         return this.instance;
+//     }
+// }
+class MyBtnModule {
+    name = 'BtnModule';
+    constructor() {
+
+
+    }
+
+    init() {
+
+
+    }
+    ready() {
+
+        var liveEdit = window.liveEditApp.get('liveEdit');
+        if(liveEdit.moduleHandle){
+
+            liveEdit.moduleHandle.on('targetChange', function (target) {
+                  alert(444);
+                  mw.log(target)
+              });
+
+         }
+
+        // handle.on('targetChange', function (target) {
+        //     alert(444);
+        // });
+    }
+
+    getMainMenu() {
+        return myBtnMenu.mainMenu;
+    }
+
+
+    onElementOver(element) {
+
+    }
+
+}
+
+
+//window.liveEditApp.register(new MyHandle());
+//window.liveEditApp.register(new MyBtnModule());
+
+

@@ -1760,41 +1760,58 @@ $user = get_user();
 <script>
 
 
-
-
     class LiveEditContainer {
         modules = [];
+
         constructor(id) {
             this.id = id;
-            this.modules = {};
+            this.modules = [];
         }
-        call(moduleName, methodName) {
-            this.modules[moduleName][methodName]();
+
+        register(classInstance) {
+            this.modules.push(classInstance);
+            if (typeof classInstance.init === 'function') {
+                classInstance.init();
+            }
         }
+
+        getInstance(moduleName) {
+           return this.modules.find(module => module.name === moduleName);
+        }
+
+        call(moduleName, methodName, params) {
+            var module = this.getInstance(moduleName) ;
+            if(module && module[methodName]) {
+                module [methodName](params);
+            }
+        }
+
         has(moduleName) {
-            if(this.modules[moduleName]) {
+            if (this.getInstance(moduleName)) {
                 return true;
             }
         }
-        get(moduleName) {
-            if(this.modules[moduleName]) {
-                return this.modules[moduleName];
-            }
-        }
-        register(classInstance) {
-            this.modules[classInstance.name] = classInstance;
-            if(typeof classInstance.init === 'function'){
-            classInstance.init();
-            }
-        }
 
+        get(moduleName) {
+            var module = this.getInstance(moduleName) ;
+            if (module) {
+                return module;
+            }
+        }
     }
 
 
     window.liveEditApp = new LiveEditContainer();
 
-    mw.on('LiveEdit::ready', function (){
-
+    mw.on('LiveEdit::ready', function () {
+        window.liveEditApp.modules.forEach(
+            function (module) {
+                mw.log(module);
+                if (typeof module.ready === 'function') {
+                    module.ready();
+                }
+            }
+        );
     });
 
 
@@ -1821,23 +1838,23 @@ $user = get_user();
             mode: 'auto',
             document: frame.contentWindow.document
         })
-
+        liveEdit.name = 'liveEdit';
         mw.spinner({
             element: frameHolder
         }).remove()
+
+        window.liveEditApp.register(liveEdit);
         mw.trigger('LiveEdit::ready', liveEdit);
     })
 
 </script>
-F
+
 <script>
     mw.quickSettings = {}
 </script>
 
 
-
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
-
 
 
 </body>
