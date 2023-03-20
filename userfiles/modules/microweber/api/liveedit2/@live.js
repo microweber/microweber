@@ -19,6 +19,7 @@ import {Tooltip} from "./tooltip.js";
 
 export class LiveEdit {
 
+
     constructor(options) {
 
         const scope = this;
@@ -176,7 +177,7 @@ export class LiveEdit {
             elementHandleContent.menu.setTitle(title);
         });
 
-        var moduleHandle = new Handle({
+        this.moduleHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: moduleHandleContent.root,
@@ -184,7 +185,7 @@ export class LiveEdit {
             document: this.settings.document,
             stateManager: this.settings.stateManager
         });
-
+        var moduleHandle = this.moduleHandle;
 
         this.getModuleQuickSettings = function (type) {
             return new Promise(resolve => {
@@ -220,7 +221,7 @@ export class LiveEdit {
 
         });
 
-        var layoutHandle = new Handle({
+        this.layoutHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: layoutHandleContent.root,
@@ -230,6 +231,7 @@ export class LiveEdit {
             type: 'layout'
         });
 
+        var layoutHandle = this.layoutHandle;
 
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)

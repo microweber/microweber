@@ -1757,6 +1757,64 @@ $user = get_user();
             data-src="about:blank">
     </iframe>
 </div>
+<script>
+
+
+    class LiveEditContainer {
+        modules = [];
+
+        constructor(id) {
+            this.id = id;
+            this.modules = [];
+        }
+
+        register(classInstance) {
+            this.modules.push(classInstance);
+            if (typeof classInstance.init === 'function') {
+                classInstance.init();
+            }
+        }
+
+        getInstance(moduleName) {
+           return this.modules.find(module => module.name === moduleName);
+        }
+
+        call(moduleName, methodName, params) {
+            var module = this.getInstance(moduleName) ;
+            if(module && module[methodName]) {
+                module [methodName](params);
+            }
+        }
+
+        has(moduleName) {
+            if (this.getInstance(moduleName)) {
+                return true;
+            }
+        }
+
+        get(moduleName) {
+            var module = this.getInstance(moduleName) ;
+            if (module) {
+                return module;
+            }
+        }
+    }
+
+
+    window.liveEditApp = new LiveEditContainer();
+
+    mw.on('LiveEdit::ready', function () {
+        window.liveEditApp.modules.forEach(
+            function (module) {
+                if (typeof module.ready === 'function') {
+                    module.ready();
+                }
+            }
+        );
+    });
+
+
+</script>
 
 <script>
 
@@ -1779,11 +1837,13 @@ $user = get_user();
             mode: 'auto',
             document: frame.contentWindow.document
         })
-
+        liveEdit.name = 'liveEdit';
         mw.spinner({
             element: frameHolder
         }).remove()
 
+        window.liveEditApp.register(liveEdit);
+        mw.trigger('LiveEdit::ready', liveEdit);
     })
 
 </script>
@@ -1793,9 +1853,7 @@ $user = get_user();
 </script>
 
 
-
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
-
 
 
 </body>
