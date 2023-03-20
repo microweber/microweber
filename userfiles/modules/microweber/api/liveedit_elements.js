@@ -249,7 +249,8 @@ mw.dropables = {
         }
     },
     cloneable: function () {
-        var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
+        // var cloneable = mw.tools.firstParentOrCurrentWithAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
+        var cloneable = mw.tools.hasAnyOfClasses(mw.mm_target, ['cloneable', 'mw-cloneable-control']);
 
         if(!!cloneable){
             if(mw.tools.hasClass(cloneable, 'mw-cloneable-control')){
