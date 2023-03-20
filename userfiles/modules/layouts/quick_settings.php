@@ -31,6 +31,9 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
 ?>
 
 <div class="mw-flex-row">
+
+
+    <?php if (isset($css_classes) and !empty($css_classes)): ?>
     <div class="mw-flex-col-xs-12 ">
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Padding Top"); ?></label>
@@ -59,6 +62,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
         </div>
     </div>
 
+    <?php endif; ?>
 
 
     <?php if($cur_template){ ?>
