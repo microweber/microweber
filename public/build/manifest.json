@@ -3,5 +3,17 @@
     "file": "assets/microweber-admin-filament-115ade20.css",
     "isEntry": true,
     "src": "resources/css/microweber-admin-filament.css"
+  },
+  "userfiles/modules/microweber/api/live-edit-app/app.css": {
+    "file": "assets/app-9745de16.css",
+    "src": "userfiles/modules/microweber/api/live-edit-app/app.css"
+  },
+  "userfiles/modules/microweber/api/live-edit-app/app.tsx": {
+    "css": [
+      "assets/app-9745de16.css"
+    ],
+    "file": "assets/app-81af35f4.js",
+    "isEntry": true,
+    "src": "userfiles/modules/microweber/api/live-edit-app/app.tsx"
   }
 }

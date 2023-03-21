@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -520,7 +521,27 @@ class AppServiceProvider extends ServiceProvider
     {
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
-        \App::instance('path.public', base_path());
+        \App::instance('path.public', base_path().'/public');
+
+        if (!config::get('app.asset_url')) {
+            $this->app->singleton('url', function ($app) {
+                $routes = $app['router']->getRoutes();
+
+                // The URL generator needs the route collection that exists on the router.
+                // Keep in mind this is an object, so we're passing by references here
+                // and all the registered routes will be available to the generator.
+                $app->instance('routes', $routes);
+
+                return new UrlGenerator(
+                    $routes, $app->rebinding(
+                    'request', function ($app, $request) {
+                    $app['url']->setRequest($request);
+                }
+                ), site_url('public')
+                );
+            });
+        }
+
 
         $this->app->database_manager->add_table_model('content', Content::class);
         $this->app->database_manager->add_table_model('media', Media::class);

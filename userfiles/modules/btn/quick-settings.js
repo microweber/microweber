@@ -101,13 +101,16 @@ class MyBtnModule {
     }
     ready() {
 
-        var liveEdit = window.liveEditApp.get('liveEdit');
-        if(liveEdit.moduleHandle){
+        var liveEdit = window.container.get('liveEdit');
+         if(liveEdit.moduleHandle){
 
             liveEdit.moduleHandle.on('targetChange', function (target) {
-                  alert(444);
-                  mw.log(target)
+                var handleContent = liveEdit.moduleHandle.getHandleContent();
+                handleContent.addMenu(this.getMainMenu());
+                liveEdit.floatinButtonsMenu.addMenu(this.getMainMenu());
+                liveEdit.styleEditor.addMenu(this.getMainMenu());
               });
+
 
          }
 
