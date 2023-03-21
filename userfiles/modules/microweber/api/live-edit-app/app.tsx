@@ -1,22 +1,15 @@
-
-import React, { useEffect, useRef , useContext} from 'react';
+import React, { useEffect, useRef , useContext, createContext} from 'react';
 import { createRoot } from 'react-dom/client'
-import  Game from './test'
-import  ServiceContainer from './components/ServiceContainer'
-import  LiveEditorFrame from './components/LiveEditorFrame'
 import  Test from './components/Test'
-
-import  './style.css'
-import LiveEditor from "./components/LiveEditorFrame";
+import './style.css'
 
 export default function LiveEditApp(){
 
     return(
         <>
-        <LiveEditor />
-
-        <Test />
+            <Test />
         </>
+
     );
 }
 

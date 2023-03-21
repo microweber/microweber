@@ -1,9 +1,8 @@
 import React, { useEffect, useRef,useState,createContext,useContext} from 'react';
 
-import  LiveEdit from '../../liveedit2/@live.js'
+import LiveEdit from '../../liveedit2/@live.js'
 
-
-function LiveEditor() {
+function LiveEditorFrame() {
     const frameRef = useRef(null);
     const frameUrl = useRef(null);
     const frameHolderRef = useRef(null);
@@ -37,17 +36,11 @@ function LiveEditor() {
             liveEdit.moduleHandle.on('targetChange', function (target) {
 
             });
-            const LiveEditContext = createContext(liveEdit);
 
-
-           // const theme = useContext(LiveEditContext);
-
-            liveEdit.name = 'liveEdit';
             mw.spinner({
                 element: frameHolder
             }).remove();
 
-         //window.liveEditApp.register(liveEdit);
             mw.trigger('LiveEdit::ready', liveEdit);
         });
 
@@ -66,4 +59,4 @@ function LiveEditor() {
 );
 }
 
-export default LiveEditor;
+export default LiveEditorFrame;
