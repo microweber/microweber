@@ -2,6 +2,7 @@
 
     if (window.mw) {
         console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
+        console.log(window.mw);
         return;
     }
 
