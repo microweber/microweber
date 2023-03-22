@@ -64,6 +64,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'oauth_token',
         'oauth_token_secret',
         'password_reset_hash',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'subscr_id',
+        'oauth_uid',
+        'oauth_provider',
+        'last_login_ip',
         'password',
         'is_admin',
     ];
