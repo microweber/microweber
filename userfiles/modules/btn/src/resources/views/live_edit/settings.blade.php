@@ -5,6 +5,8 @@
 
 @section('content')
 
-    btn module
+
+    @livewire('admin-live-edit-button-settings', ['moduleId' => $moduleId])
+
 
 @endsection

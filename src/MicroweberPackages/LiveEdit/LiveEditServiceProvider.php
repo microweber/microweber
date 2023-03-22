@@ -12,6 +12,8 @@
 namespace MicroweberPackages\LiveEdit;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
+use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
 
 class LiveEditServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,7 @@ class LiveEditServiceProvider extends ServiceProvider
         });
 
 
-        \App::bind('LiveEditManager',function() {
+        \App::bind('LiveEditManager', function () {
             return new LiveEditManager();
         });
 
@@ -36,6 +38,15 @@ class LiveEditServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $router = $this->app['router'];
+
+        $router->middlewareGroup('live_edit', [
+            DispatchServingLiveEdit::class,
+        ]);
+
+        $router->middlewareGroup('module_settings', [
+            DispatchServingModuleSettings::class,
+        ]);
 
         $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
         $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
