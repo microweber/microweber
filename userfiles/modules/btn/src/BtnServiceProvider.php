@@ -5,6 +5,7 @@ namespace MicroweberPackages\Modules\Btn;
 
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
 use Spatie\LaravelPackageTools\Package;
@@ -22,6 +23,8 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         parent::register();
         Event::listen(ServingLiveEdit::class, [$this, 'registerLiveEditAssets']);
+        $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
+        View::addNamespace('modules.btn', __DIR__ . '/resources/views');
     }
 
     public function registerLiveEditAssets(ServingLiveEdit $event): void

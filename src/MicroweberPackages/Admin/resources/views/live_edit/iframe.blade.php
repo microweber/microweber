@@ -1093,6 +1093,9 @@
 
 
 
+    @livewireScripts
+
+    @livewireStyles
 
 
     <script>
