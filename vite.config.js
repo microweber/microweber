@@ -9,7 +9,7 @@ export default defineConfig({
                // 'resources/css/app.css',
                // 'resources/js/app.js'
 
-                'userfiles/modules/microweber/api/live-edit-app/app.tsx',
+              //  'userfiles/modules/microweber/api/live-edit-app/app.tsx',
                 'resources/css/microweber-admin-filament.css',
             ],
             publicDirectory: "public",
