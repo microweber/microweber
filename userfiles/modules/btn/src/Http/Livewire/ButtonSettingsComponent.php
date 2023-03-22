@@ -6,11 +6,9 @@ use Livewire\Component;
 
 class ButtonSettingsComponent extends Component
 {
-    /**
-     * @var string
-     */
-    public $name = 'ButtonSettingsComponent';
-    public $moduleId = false;
+
+    public string $moduleId = '';
+
     public array $settings = [
         'button_style' => '',
         'button_size' => '',
@@ -38,8 +36,22 @@ class ButtonSettingsComponent extends Component
         'hoverborderColor' => '',
     ];
 
+    public $listeners = [
+        'showDropdown' => 'showDropdown',
+        'closeDropdown' => 'closeDropdown',
+    ];
     public function render()
     {
+
+
+        //$options = get_module_options($this->moduleId);
+
+       //  if($options){
+            foreach ($this->settings as $key=>$option){
+                $val = get_module_option($key, $this->moduleId);
+                $this->settings[$key] = $val;
+            }
+      //  }
 
         $style = get_module_option('button_style', $this->moduleId);
         $size = get_module_option('button_size', $this->moduleId);
@@ -94,5 +106,51 @@ class ButtonSettingsComponent extends Component
 
 
         return view('modules.btn::livewire.index');
+    }
+
+    public function updatedSettings($settings)
+    {
+      //  $this->settings = $settings;
+
+        if($this->settings){
+            foreach ($this->settings as $key=>$setting){
+
+              save_option($key, $setting, $this->moduleId);
+            }
+        }
+
+        $this->emit('updatedSettings', $this->settings);
+//
+//
+//
+//        $this->settings['text'] = $this->settings['text'];
+//        $this->settings['button_style'] = $this->settings['button_style'];
+//        $this->settings['button_size'] = $this->settings['button_size'];
+//        $this->settings['button_action'] = $this->settings['button_action'];
+//        $this->settings['align'] = $this->settings['align'];
+//        $this->settings['url'] = $this->settings['url'];
+//        $this->settings['url_to_content_id'] = $this->settings['url_to_content_id'];
+//        $this->settings['url_to_category_id'] = $this->settings['url_to_category_id'];
+//        $this->settings['popupcontent'] = $this->settings['popupcontent'];
+//        $this->settings['url_blank'] = $this->settings['url_blank'];
+//        $this->settings['icon'] = $this->settings['icon'];
+//        $this->settings['backgroundColor'] = $this->settings['backgroundColor'];
+//        $this->settings['color'] = $this->settings['color'];
+//        $this->settings['borderColor'] = $this->settings['borderColor'];
+//        $this->settings['borderWidth'] = $this->settings['borderWidth'];
+//        $this->settings['borderRadius'] = $this->settings['borderRadius'];
+//        $this->settings['padding'] = $this->settings['padding'];
+//        $this->settings['margin'] = $this->settings['margin'];
+//        $this->settings['fontSize'] = $this->settings['fontSize'];
+//        $this->settings['shadow'] = $this->settings['shadow'];
+//        $this->settings['customSize'] = $this->settings['customSize'];
+//        $this->settings['hoverbackgroundColor'] = $this->settings['hoverbackgroundColor'];
+//        $this->settings['hovercolor'] = $this->settings['hovercolor'];
+//        $this->settings['hoverborderColor'] = $this->settings['hoverborderColor'];
+
+
+      //  save_module_options($this->settings);
+
+    //    $this->emit('saved');
     }
 }

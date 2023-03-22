@@ -6,7 +6,7 @@
 @section('content')
 
 
-    @livewire('admin-live-edit-button-settings', ['moduleId' => $moduleId])
+     <livewire:admin-live-edit-button-settings :module-id="$moduleId" />
 
 
 @endsection
