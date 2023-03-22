@@ -132,5 +132,5 @@ Route::name('api.')
            'api'
         );;
 
-        Route::apiResource('user', 'UserApiController')->middleware(['admin']);
+        Route::apiResource('user', 'UserApiController')->middleware(['admin','xss']);
     });
