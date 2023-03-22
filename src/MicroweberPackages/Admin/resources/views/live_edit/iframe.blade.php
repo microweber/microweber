@@ -8,8 +8,7 @@
 
 
     <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
-    <script
-        src="<?php print site_url('userfiles/modules/microweber/api/liveedit2/@live.js'); ?>"></script>
+    <script  type="module"  src="<?php print site_url('userfiles/modules/microweber/api/liveedit2/@live.js'); ?>"></script>
 
     <style>
         .mw-le-btn.disabled,

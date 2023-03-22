@@ -17,7 +17,7 @@ import {HandleMenu} from "./handle-menu.js";
 import {Tooltip} from "./tooltip.js";
 
 
-export default class LiveEdit {
+class LiveEdit {
 
 
     constructor(options) {
