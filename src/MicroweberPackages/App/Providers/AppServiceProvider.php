@@ -521,7 +521,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
-        \App::instance('path.public', base_path().'/public');
+        \App::instance('path.public', base_path() );
 
         if (!config::get('app.asset_url')) {
             $this->app->singleton('url', function ($app) {

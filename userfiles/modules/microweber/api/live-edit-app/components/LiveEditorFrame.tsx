@@ -1,17 +1,19 @@
 import React, { useEffect, useRef,useState,createContext,useContext} from 'react';
 
 import LiveEdit from '../../liveedit2/@live.js'
+import {LiveEditContext} from "./contexts/live-edit-context";
 
 function LiveEditorFrame() {
     const frameRef = useRef(null);
     const frameUrl = useRef(null);
     const frameHolderRef = useRef(null);
     const [frameSrc, setFrameSrc] = useState(null);
+    const ebasi2 = LiveEditContext;
 
     useEffect(() => {
         const frame = frameRef.current;
         const frameHolder = frameHolderRef.current;
-
+        mw.log(ebasi2);
         setFrameSrc(mw.settings.site_url + '/?editmode=n');
         mw.spinner({
             element: frameHolder,
