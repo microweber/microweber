@@ -390,11 +390,6 @@
                 frame.contentWindow.mw.drag.save()
             })
 
-            Array.from(frame.contentWindow.document.querySelectorAll('a[href]')).forEach(function (a) {
-
-                a.target = !a.target ? '_top' : a.target;
-            })
-
 
         });
 
