@@ -44,6 +44,9 @@ if ($stylesheet_settings) {
         width: 100%;
         display: block;
         line-height: 34px;
+        padding: 7px 0;
+        border-bottom: 1px solid #ececec;
+        font-size: 13px;
     }
 
     .theme-color-selector:after {
@@ -54,14 +57,15 @@ if ($stylesheet_settings) {
     }
 
     .theme-color-selector button {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
         background: #425cbb;
-        margin: 3px;
+        margin: 7px;
         outline: none !important;
-        border: 1px solid #000000;
+        border: 1px solid #F5F5F5;
         float: left;
         margin-right: 10px;
+        border-radius: 50%;
     }
 
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
