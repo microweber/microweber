@@ -15,7 +15,8 @@ mw.quickSettings['btn'] = {
                     url:route('live_edit.modules.settings.btn')+'?id='+moduleId,
                     width: 300,
                     height: 500,
-                    title: 'Module settings',
+                    template:'mw_modal_simple',
+                    title: 'Button settings',
                     id: 'btn-quick-setting-dialog-'+moduleId
                 });
             }
