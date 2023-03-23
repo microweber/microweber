@@ -13,15 +13,15 @@
 
 
 
-    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>"
-    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/index.css'); ?>"
+    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
+    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/index.css'); ?>">
 
 
 
 
-    @livewireScripts;
+    @livewireScripts
 
-    @livewireStyles;
+    @livewireStyles
 
 
     <script>
