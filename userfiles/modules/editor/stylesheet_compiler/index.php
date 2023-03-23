@@ -62,7 +62,7 @@ if ($stylesheet_settings) {
         background: #425cbb;
         margin: 7px;
         outline: none !important;
-        border: 1px solid #cccccc;
+        border: 1px solid #F5F5F5;
         float: right;
         margin-right: 10px;
         border-radius: 50%;
@@ -203,7 +203,7 @@ if ($stylesheet_settings) {
                                 mw.colorPicker({
                                     element: '#<?php echo $key; ?>',
                                     value: $('input[name="<?php echo $key; ?>"]').val(),
-                                    position: 'bottom-left',
+                                    position: 'bottom-right',
                                     onchange: function (color) {
                                         $('#<?php echo $key; ?>').css('background', color);
                                         $('input[name="<?php echo $key; ?>"]').val(color);
