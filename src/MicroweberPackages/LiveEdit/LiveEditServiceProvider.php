@@ -24,7 +24,7 @@ class LiveEditServiceProvider extends ServiceProvider
         });
 
 
-        \App::bind('LiveEditManager', function () {
+        \App::singleton('LiveEditManager', function () {
             return new LiveEditManager();
         });
 
