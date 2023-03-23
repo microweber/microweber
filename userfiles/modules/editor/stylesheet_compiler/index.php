@@ -44,6 +44,9 @@ if ($stylesheet_settings) {
         width: 100%;
         display: block;
         line-height: 34px;
+        padding: 7px 0;
+        border-bottom: 1px solid #ececec;
+        font-size: 13px;
     }
 
     .theme-color-selector:after {
@@ -54,14 +57,15 @@ if ($stylesheet_settings) {
     }
 
     .theme-color-selector button {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
         background: #425cbb;
-        margin: 3px;
+        margin: 7px;
         outline: none !important;
-        border: 1px solid #000000;
-        float: left;
+        border: 1px solid #cccccc;
+        float: right;
         margin-right: 10px;
+        border-radius: 50%;
     }
 
     .bootstrap3ns .checkbox label, .bootstrap3ns .radio label {
@@ -188,9 +192,10 @@ if ($stylesheet_settings) {
                 <?php elseif ($setting['type'] == 'color'): ?>
                     <div class="form-group" style="margin-bottom:5px;">
                         <div class="theme-color-selector">
-                            <button style="background: <?php echo $$key ?>;" id="<?php echo $key; ?>"></button>
                             <input class="mw-ui-field mw_option_field hidden" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default color: <?php echo $setting['default']; ?>">
                             <?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?>
+                            <button style="background: <?php echo $$key ?>;" id="<?php echo $key; ?>"></button>
+
                         </div>
 
                         <script>
