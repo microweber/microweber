@@ -1,8 +1,9 @@
 <div>
     <script>
-        Livewire.on('updatedSettings', $data => {
-            mw.top().reload_module_everywhere('#<?php print $moduleId ?>')
-        })
+
+        Livewire.on('settingsChanged', $data => {
+            mw.top().trigger('live_edit.modules.settings.btn.changed', $data);
+         })
     </script>
     <div>
         <input type="text" wire:model.debounce.100ms="settings.text"/>

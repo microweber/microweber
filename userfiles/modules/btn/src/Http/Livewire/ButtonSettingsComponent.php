@@ -110,47 +110,13 @@ class ButtonSettingsComponent extends Component
 
     public function updatedSettings($settings)
     {
-      //  $this->settings = $settings;
 
         if($this->settings){
             foreach ($this->settings as $key=>$setting){
-
               save_option($key, $setting, $this->moduleId);
             }
         }
+        $this->emit('settingsChanged', ['moduleId' => $this->moduleId,'settings' => $this->settings]);
 
-        $this->emit('updatedSettings', $this->settings);
-//
-//
-//
-//        $this->settings['text'] = $this->settings['text'];
-//        $this->settings['button_style'] = $this->settings['button_style'];
-//        $this->settings['button_size'] = $this->settings['button_size'];
-//        $this->settings['button_action'] = $this->settings['button_action'];
-//        $this->settings['align'] = $this->settings['align'];
-//        $this->settings['url'] = $this->settings['url'];
-//        $this->settings['url_to_content_id'] = $this->settings['url_to_content_id'];
-//        $this->settings['url_to_category_id'] = $this->settings['url_to_category_id'];
-//        $this->settings['popupcontent'] = $this->settings['popupcontent'];
-//        $this->settings['url_blank'] = $this->settings['url_blank'];
-//        $this->settings['icon'] = $this->settings['icon'];
-//        $this->settings['backgroundColor'] = $this->settings['backgroundColor'];
-//        $this->settings['color'] = $this->settings['color'];
-//        $this->settings['borderColor'] = $this->settings['borderColor'];
-//        $this->settings['borderWidth'] = $this->settings['borderWidth'];
-//        $this->settings['borderRadius'] = $this->settings['borderRadius'];
-//        $this->settings['padding'] = $this->settings['padding'];
-//        $this->settings['margin'] = $this->settings['margin'];
-//        $this->settings['fontSize'] = $this->settings['fontSize'];
-//        $this->settings['shadow'] = $this->settings['shadow'];
-//        $this->settings['customSize'] = $this->settings['customSize'];
-//        $this->settings['hoverbackgroundColor'] = $this->settings['hoverbackgroundColor'];
-//        $this->settings['hovercolor'] = $this->settings['hovercolor'];
-//        $this->settings['hoverborderColor'] = $this->settings['hoverborderColor'];
-
-
-      //  save_module_options($this->settings);
-
-    //    $this->emit('saved');
     }
 }
