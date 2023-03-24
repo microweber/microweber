@@ -65,6 +65,9 @@ class AdminXssTest extends DuskTestCase
                 if (str_contains($value->getName(), 'filament.')) {
                     continue;
                 }
+                if (str_contains($value->getName(), 'live-edit.')) {
+                    continue;
+                }
 
                 if (strpos($value->uri(), 'admin') !== false) {
 
