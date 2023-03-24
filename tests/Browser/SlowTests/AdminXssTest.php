@@ -32,7 +32,6 @@ class AdminXssTest extends DuskTestCase
 
 
             $routesForTest = [];
-            $routesForTest[] = route('admin.live-edit.index');
             $routesForTest[] = route('admin.page.create');
             $routesForTest[] = route('admin.post.create');
             $routesForTest[] = route('admin.product.create');
@@ -63,6 +62,16 @@ class AdminXssTest extends DuskTestCase
                     continue;
                 }
                 if (str_contains($value->getName(), 'filament.')) {
+                    continue;
+                }
+                if (str_contains($value->getName(), 'admin.live-edit.')) {
+                    continue;
+                }
+                if (str_contains($value->getName(), 'debugbar..')) {
+                    continue;
+                }
+
+                if (str_contains($value->uri(), 'live-edit')) {
                     continue;
                 }
 

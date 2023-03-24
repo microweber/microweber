@@ -11,6 +11,11 @@ mw.quickSettings['btn'] = {
 
                 var moduleId = $(target).attr('id');
 
+                // var settings = api.moduleSettings.dialog()
+                // var settings = api.moduleSettings.sidebar()
+
+
+
                 mw.dialogIframe({
                     url:route('live_edit.modules.settings.btn')+'?id='+moduleId,
                     width: 300,
@@ -19,6 +24,8 @@ mw.quickSettings['btn'] = {
                     title: 'Button settings',
                     id: 'btn-quick-setting-dialog-'+moduleId
                 });
+
+
             }
         },
         {
@@ -100,6 +107,17 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+
+
+
+
+
+
+
+
 /*
 class MyBtnModule {
     name = 'BtnModule';
