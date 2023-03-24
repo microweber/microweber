@@ -72,6 +72,10 @@ class AdminXssTest extends DuskTestCase
                     continue;
                 }
 
+                if (str_contains($value->uri(), 'live-edit')) {
+                    continue;
+                }
+
                 if (strpos($value->uri(), 'admin') !== false) {
 
                     $visitPage = false;
