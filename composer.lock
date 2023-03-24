@@ -7299,7 +7299,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/bootstrap5/microweber-templates-bootstrap5-1.5-fdd004.zip",
                 "reference": "63f1cf4e0f9cf91689d80013a16e0462002c77e8",
-                "shasum": "e60e406411f00b0541fbbe7fb89f04783b06c27c"
+                "shasum": "d9072c69c561381eb6228638d8bed335b85b34ce"
             },
             "type": "microweber-template",
             "extra": {
@@ -7350,7 +7350,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/new-world/microweber-templates-new-world-6.1-7d39e9.zip",
                 "reference": "8ea74843e8af583d15a1a3dbe77e58a425ffb7ff",
-                "shasum": "82c0a70f54a1915cd3c6e5eb0ed019d2fb0c6741"
+                "shasum": "84ff92597cee098beaafd488f5c6d9663fb78d30"
             },
             "type": "microweber-template",
             "extra": {
@@ -7413,7 +7413,7 @@
                 "type": "zip",
                 "url": "https://packages.microweberapi.com/dist/microweber-templates/shopmag/microweber-templates-shopmag-4.3-104633.zip",
                 "reference": "7b26f250e53e8d1cbdad82c26877f289f525f2c1",
-                "shasum": "f26a8d841e78038fac6fffd3867581adae9b520c"
+                "shasum": "dc19e6eb62ea07e2380f4b5b3b7a5169d34ea74d"
             },
             "type": "microweber-template",
             "extra": {
