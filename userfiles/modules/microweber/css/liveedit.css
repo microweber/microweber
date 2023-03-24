@@ -5212,3 +5212,13 @@ body.dragStart picture img{
     color: #414141;
 }
 
+
+
+.module.module-editor-stylesheet-compiler label.control-label {
+    font-weight: normal;
+}
+
+.mw-ui-box-header.mw-accordion-title.active {
+     background: #f5f5f5;
+}
+
