@@ -19,7 +19,7 @@ class BtnServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('btn');
+        $package->name('microweber-module-btn');
     }
 
     public function register(): void
