@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## [1.3.4] - 2023-03-24
+- Added artisan command for update `php artisan microweber:update`
+- Security fixes
+- Other fixes
+- [see all changes....](https://github.com/microweber/microweber/compare/1.3.3...1.3.4 "")
+
+
 ## [1.3.3] - 2023-03-13
 - Added bindings for Filament admin panel
 - Added driver interface for payment modules

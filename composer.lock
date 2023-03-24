@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a40daa168ede7c3e2df97bd051a5e76",
+    "content-hash": "f05dbf9358a19384761a112701291dc6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2863,26 +2863,26 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.15.0",
+            "version": "0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0"
+                "reference": "239e257605e2141265b429e40987b2ee51bba4b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/17e12ba9c2881caa6b167d0fbea555c11207fbb0",
-                "reference": "17e12ba9c2881caa6b167d0fbea555c11207fbb0",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/239e257605e2141265b429e40987b2ee51bba4b4",
+                "reference": "239e257605e2141265b429e40987b2ee51bba4b4",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
-                "php": "^7.0 || ^8.0"
+                "ezyang/htmlpurifier": "^4.16",
+                "php": "^5.6 || ^7.0 || ^8.0"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "^0.1.2",
-                "phpunit/phpunit": "^6.5 || ^8.5"
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^8.5"
             },
             "type": "library",
             "autoload": {
@@ -2903,9 +2903,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.15.0"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.16.0"
             },
-            "time": "2022-02-13T00:42:56+00:00"
+            "time": "2023-03-20T10:51:12+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -3746,33 +3746,32 @@
         },
         {
             "name": "graham-campbell/markdown",
-            "version": "14.0.x-dev",
+            "version": "v15.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "36dc081ad00ee5abedff939cfccbfc5008eed8eb"
+                "reference": "3c0bcf904ec02acb1afd0e23e7c170ac5199fc14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/36dc081ad00ee5abedff939cfccbfc5008eed8eb",
-                "reference": "36dc081ad00ee5abedff939cfccbfc5008eed8eb",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/3c0bcf904ec02acb1afd0e23e7c170ac5199fc14",
+                "reference": "3c0bcf904ec02acb1afd0e23e7c170ac5199fc14",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^8.75 || ^9.0",
-                "illuminate/filesystem": "^8.75 || ^9.0",
-                "illuminate/support": "^8.75 || ^9.0",
-                "illuminate/view": "^8.75 || ^9.0",
-                "league/commonmark": "^2.3.1",
+                "illuminate/contracts": "^8.75 || ^9.0 || ^10.0",
+                "illuminate/filesystem": "^8.75 || ^9.0 || ^10.0",
+                "illuminate/support": "^8.75 || ^9.0 || ^10.0",
+                "illuminate/view": "^8.75 || ^9.0 || ^10.0",
+                "league/commonmark": "^2.3.9",
                 "php": "^7.4.15 || ^8.0.2"
             },
             "require-dev": {
-                "graham-campbell/analyzer": "^3.1",
-                "graham-campbell/testbench": "^5.7",
-                "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^9.5"
+                "graham-campbell/analyzer": "^4.0",
+                "graham-campbell/testbench": "^6.0",
+                "mockery/mockery": "^1.5.1",
+                "phpunit/phpunit": "^9.6.3 || ^10.0.12"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -3811,7 +3810,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Laravel-Markdown/issues",
-                "source": "https://github.com/GrahamCampbell/Laravel-Markdown/tree/v14.0.0"
+                "source": "https://github.com/GrahamCampbell/Laravel-Markdown/tree/v15.0.0"
             },
             "funding": [
                 {
@@ -3823,7 +3822,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-30T21:37:30+00:00"
+            "time": "2023-02-26T14:22:13+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -3890,26 +3889,26 @@
         },
         {
             "name": "graham-campbell/security-core",
-            "version": "3.3.x-dev",
+            "version": "4.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Security-Core.git",
-                "reference": "0012863029d18a553429cb7bdfd678da925f4ff2"
+                "reference": "5e4ad097700b2cb6438fbd5f085b937b06a18876"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Security-Core/zipball/0012863029d18a553429cb7bdfd678da925f4ff2",
-                "reference": "0012863029d18a553429cb7bdfd678da925f4ff2",
+                "url": "https://api.github.com/repos/GrahamCampbell/Security-Core/zipball/5e4ad097700b2cb6438fbd5f085b937b06a18876",
+                "reference": "5e4ad097700b2cb6438fbd5f085b937b06a18876",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4.15 || ^8.0.2",
-                "voku/anti-xss": "~4.1.39",
-                "voku/portable-utf8": "^6.0.4"
+                "php": "^8.0.2",
+                "voku/anti-xss": "~4.1.41",
+                "voku/portable-utf8": "^6.0.12"
             },
             "require-dev": {
-                "graham-campbell/analyzer": "^3.1",
-                "phpunit/phpunit": "^9.5"
+                "graham-campbell/analyzer": "^4.0",
+                "phpunit/phpunit": "^9.6.3 || ^10.0.12"
             },
             "default-branch": true,
             "type": "library",
@@ -3943,7 +3942,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Security-Core/issues",
-                "source": "https://github.com/GrahamCampbell/Security-Core/tree/v3.3.0"
+                "source": "https://github.com/GrahamCampbell/Security-Core/tree/4.0"
             },
             "funding": [
                 {
@@ -3955,7 +3954,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-30T21:03:52+00:00"
+            "time": "2023-02-26T14:07:53+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4558,29 +4557,28 @@
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
-            "version": "dev-master",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kirschbaum-development/eloquent-power-joins.git",
-                "reference": "9db3de5c4be225d9fd19676c4219ec39c4d0e003"
+                "reference": "b9aa4c2364e2776e5aacca49160d4b519ae82768"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kirschbaum-development/eloquent-power-joins/zipball/9db3de5c4be225d9fd19676c4219ec39c4d0e003",
-                "reference": "9db3de5c4be225d9fd19676c4219ec39c4d0e003",
+                "url": "https://api.github.com/repos/kirschbaum-development/eloquent-power-joins/zipball/b9aa4c2364e2776e5aacca49160d4b519ae82768",
+                "reference": "b9aa4c2364e2776e5aacca49160d4b519ae82768",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^6.0|^7.0|^8.0|^9.0|^10.0",
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
-                "php": "^7.1|^8.0"
+                "illuminate/database": "^8.0|^9.0|^10.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^8.0"
             },
             "require-dev": {
                 "laravel/legacy-factories": "^1.0@dev",
                 "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
                 "phpunit/phpunit": "^8.0|^9.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -4615,9 +4613,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kirschbaum-development/eloquent-power-joins/issues",
-                "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/2.7.2"
+                "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/3.0.2"
             },
-            "time": "2023-02-08T10:57:50+00:00"
+            "time": "2023-03-16T14:41:20+00:00"
         },
         {
             "name": "knplabs/knp-menu",
@@ -7155,13 +7153,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "fbc5649a10652541afbbd48306d104df001cd083"
+                "reference": "5b8b3831a7bf2cbdc1da40ada407b350548bbdec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.8-527490.zip",
-                "reference": "fbc5649a10652541afbbd48306d104df001cd083",
-                "shasum": "71bc40c2a06d4084edb941945f5bb16ec0bb7b16"
+                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-4.8-25bf9f.zip",
+                "reference": "5b8b3831a7bf2cbdc1da40ada407b350548bbdec",
+                "shasum": "1a046b7a68e9f1768e3f266b1ab36c274976f21f"
             },
             "type": "microweber-module",
             "extra": {
@@ -7187,7 +7185,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2023-03-24T10:56:07+00:00"
+            "time": "2023-03-24T13:14:50+00:00"
         },
         {
             "name": "microweber-packages/composer-client",
@@ -14940,12 +14938,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/anti-xss.git",
-                "reference": "550cf3cbcf024b6eed7cf1c7454ea519408e924c"
+                "reference": "84afa35a06f37a3fb32e422716bd6d186ec61d8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/anti-xss/zipball/550cf3cbcf024b6eed7cf1c7454ea519408e924c",
-                "reference": "550cf3cbcf024b6eed7cf1c7454ea519408e924c",
+                "url": "https://api.github.com/repos/voku/anti-xss/zipball/84afa35a06f37a3fb32e422716bd6d186ec61d8a",
+                "reference": "84afa35a06f37a3fb32e422716bd6d186ec61d8a",
                 "shasum": ""
             },
             "require": {
@@ -15016,7 +15014,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-12T18:30:18+00:00"
+            "time": "2023-03-13T11:36:51+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -15094,16 +15092,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.0.12",
+            "version": "6.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "db0583727bb17666bbd2ba238c85babb973fd165"
+                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/db0583727bb17666bbd2ba238c85babb973fd165",
-                "reference": "db0583727bb17666bbd2ba238c85babb973fd165",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
+                "reference": "b8ce36bf26593e5c2e81b1850ef0ffb299d2043f",
                 "shasum": ""
             },
             "require": {
@@ -15169,7 +15167,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.0.12"
+                "source": "https://github.com/voku/portable-utf8/tree/6.0.13"
             },
             "funding": [
                 {
@@ -15193,7 +15191,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-11T12:26:16+00:00"
+            "time": "2023-03-08T08:35:38+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -18666,8 +18664,8 @@
     "stability-flags": {
         "finlet/flexmail": 20,
         "florianv/exchanger": 20,
+        "graham-campbell/security-core": 20,
         "jenssegers/agent": 20,
-        "kirschbaum-development/eloquent-power-joins": 20,
         "knplabs/knp-menu": 20,
         "laravel/cashier": 20,
         "laravel/fortify": 20,
