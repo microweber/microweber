@@ -25,8 +25,7 @@
 
 
     <script>
-        mw.require('editor.js');
-        mw.require('css_parser.js');
+
         mw.require('le2/modules-list.js');
 
     </script>
@@ -41,11 +40,6 @@
         $.fn.reload_module = function () {
 
         }
-
-
-        var frame, frameHolder;
-
-
 
 
 
@@ -200,167 +194,7 @@
             });
 
 
-            var initEditor = function () {
-                var holder = document.querySelector('#mw-live-edit-editor');
 
-                var _fontFamilyProvider = function () {
-                    var _e = {};
-                    this.on = function (e, f) {
-                        _e[e] ? _e[e].push(f) : (_e[e] = [f])
-                    };
-                    this.dispatch = function (e, f) {
-                        _e[e] ? _e[e].forEach(function (c) {
-                            c.call(this, f);
-                        }) : '';
-                    };
-
-                    this.provide = function (fontsArray) {
-                        this.dispatch('change', fontsArray.map(function (font) {
-                            return {
-                                label: font,
-                                value: font,
-                            }
-                        }))
-                    }
-
-                };
-
-                var fontFamilyProvider = new _fontFamilyProvider();
-                window.fontFamilyProvider = fontFamilyProvider;
-                frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
-
-
-                window.liveEditor = mw.Editor({
-                    document: frame.contentWindow.document,
-                    executionDocument: frame.contentWindow.document,
-                    actionWindow: frame.contentWindow,
-                    element: holder,
-                    mode: 'document',
-                    regions: '.edit',
-                    skin: 'le2',
-                    editMode: 'liveedit',
-                    scopeColor: 'white',
-                    controls: [
-                        [
-
-                            {
-                                group: {
-                                    icon: 'mdi mdi-format-title',
-                                    controls: ['format', 'lineHeight']
-                                }
-                            },
-
-                            {
-                                group: {
-                                    controller: 'bold',
-                                    controls: ['italic', 'underline', 'strikeThrough', 'removeFormat']
-                                }
-                            },
-                            'fontSelector',
-
-                            'fontSize',
-
-
-                            {
-                                group: {
-                                    controller: 'alignLeft',
-                                    controls: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify']
-                                }
-                            },
-
-                            {
-                                group: {
-                                    controller: 'ul',
-                                    controls: ['ol']
-                                }
-                            },
-
-
-                            'image',
-                            {
-                                group: {
-                                    controller: 'link',
-                                    controls: ['unlink']
-                                }
-                            },
-                            {
-                                group: {
-                                    controller: 'textColor',
-                                    controls: ['textBackgroundColor']
-                                }
-                            },
-
-
-                        ]
-                    ],
-                    smallEditorPositionX: 'center',
-                    smallEditorSkin: 'lite',
-
-                    interactionControls: [],
-
-                    id: 'live-edit-wysiwyg-editor',
-
-                    minHeight: 250,
-                    maxHeight: '70vh',
-                    state: mw.liveEditState,
-
-                    fontFamilyProvider: fontFamilyProvider
-                });
-
-
-
-                var btnUndo = document.getElementById('toolbar-undo')
-                var btnRedo = document.getElementById('toolbar-redo')
-
-                liveEditor.state.on('record', function () {
-
-                    btnRedo.disabled = !liveEditor.state.hasPrev;
-                    btnUndo.disabled = !liveEditor.state.hasNext;
-                })
-                liveEditor.state.on('change', function () {
-
-                    btnRedo.disabled = !liveEditor.state.hasPrev;
-                    btnUndo.disabled = !liveEditor.state.hasNext;
-                })
-
-                btnUndo.addEventListener('click', function () {
-                    liveEditor.state.undo()
-                });
-                btnRedo.addEventListener('click', function () {
-                    liveEditor.state.redo()
-                });
-
-                /*                liveEditor.on('action', function (){
-                                    mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
-                                })
-                                liveEditor.on('smallEditorReady', function (){
-                                    fontFamilyProvider.provide(mw.top().wysiwyg.fontFamiliesExtended);
-                                })
-                                $(liveEditor).on('selectionchange', function (){
-                                    var sel = liveEditor.getSelection();
-                                    if(sel.rangeCount) {
-                                        liveEditor.lastRange =  sel.getRangeAt(0) ;
-                                    } else {
-                                        liveEditor.lastRange = undefined;
-                                    }
-
-                                })*/
-
-                holder.innerHTML = '';
-                holder.appendChild(liveEditor.wrapper);
-
-
-                var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
-                if (typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
-                    liveEditor.smallEditorApi.pin()
-                }
-                mw.liveEditApi.add('richTextEditor', liveEditor);
-
-                mw.liveEditApi.set('richTextEditorAPI', liveEditor.api);
-            }
-
-
-            initEditor()
 
 
             var _reTypes = {
@@ -373,7 +207,7 @@
                 if (typeof width === 'number') {
                     width = width + 'px'
                 }
-                frame.style.width = width;
+                mw.liveEditServices.canvas.getFrame().style.width = width;
 
                 mw.element('[data-preview]').removeClass('active')
                 mw.element('[data-preview="' + key + '"]').addClass('active')
@@ -387,71 +221,16 @@
             });
 
             document.getElementById('save-button').addEventListener('click', function () {
-                frame.contentWindow.mw.drag.save()
+                mw.liveEditServices.canvas.getWindow().mw.drag.save()
             })
 
 
         });
 
 
-        var _hascss, isPreview = true;
 
 
-        var previewMode = function () {
-            document.documentElement.classList.add('preview');
-            document.documentElement.style.setProperty('--toolbar-height', '0px');
-            frame.contentWindow.document.documentElement.classList.add('mw-le--page-preview');
-            frame.contentWindow.document.body.classList.remove('mw-live-edit');
-            document.querySelector('#css-editor-template').classList.remove('active');
-            document.querySelector('#bubble-nav').classList.remove('active');
-            document.querySelector('#user-menu-wrapper').classList.remove('active');
-        }
 
-        var liveEditMode = function () {
-            document.documentElement.classList.remove('preview');
-            document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue('--toolbar-static-height'));
-            frame.contentWindow.document.documentElement.classList.remove('mw-le--page-preview');
-            frame.contentWindow.document.body.classList.add('mw-live-edit');
-            document.querySelector('#bubble-nav').classList.add('active');
-        }
-
-        var pagePreviewToggle = function () {
-            isPreview = !isPreview;
-            if (!isPreview) {
-                previewMode();
-            } else {
-                liveEditMode()
-            }
-
-
-            if (!_hascss) {
-                _hascss = true;
-                var css = `
-                html.mw-le--page-preview body{
-                    padding-top: 0 !important
-                }
-                html.mw-le--page-preview .mw_image_resizer,
-                html.mw-le--page-preview #live_edit_toolbar_holder,
-                html.mw-le--page-preview .mw-handle-item,
-                html.mw-le--page-preview .mw-selector,
-                html.mw-le--page-preview .mw_dropable,
-                html.mw-le--page-preview .mw-padding-ctrl,
-                html.mw-le--page-preview .mw-control-box,
-                html.mw-le--page-preview .mw-control-box,
-                html.mw-le--page-preview .mw-cloneable-control,
-                html.mw-le--page-preview #live_edit_toolbar_holder
-                {
-                    display: none !important
-                }
-            `
-
-                var node = frame.contentWindow.document.createElement('style');
-                node.textContent = css;
-                frame.contentWindow.document.body.appendChild(node)
-            }
-
-
-        }
     </script>
 
 
@@ -552,7 +331,7 @@ $user = get_user();
                 </svg>
             </button>
             <button class="mw-le-btn mw-le-btn-icon" id="toolbar-redo" disabled>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>redo</title>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
                         d="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z"/>
                 </svg>
@@ -631,185 +410,16 @@ $user = get_user();
     <?php include mw_includes_path() . 'toolbar' . DS . 'editor_tools' . DS . 'rte_css_editor' . DS . 'index.php'; ?>
 </div>
 <div id="root"></div>
-<div id="live-edit-frame-holder">
-    <iframe id="live-editor-frame"
-            title="Inline Frame Example"
-            width="100%"
-            height="2000"
-            referrerpolicy="no-referrer"
-            frameborder="0"
-            src="<?php print site_url(); ?>?editmode=n&_rand=<?php print rand(0, 99999) ?>"
-            data-src="about:blank">
-    </iframe>
-</div>
 
 
-<script>
+<mw-live-edit-canvas></mw-live-edit-canvas>
 
-    class MWServiceProvider {
-        #services = {};
-
-        #reserved = ['add', 'get', 'set'];
-
-        get(name) {
-            return this.#services[name];
-        }
-
-        #_setService(name, service) {
-            if(this.#reserved.indexOf(name) === -1) {
-                this.#services[name] = service;
-                this[name] = service;
-                if(typeof service.onAdd === 'function') {
-                    service.onAdd()
-                }
-            }
-        }
-        add(name, service) {
-            if(!!name && !!service && !this.get(name)) {
-                this.#_setService(name, service)
-            }
-        }
-        set(name, service) {
-            if(!!name && !!service) {
-                this.#_setService(name, service)
-            }
-        }
-        register(name, service){
-            return this.set(name, service);
-        }
-    }
-
-    class MWClassContainer {
-        #modules = [];
-
-        #isAsync(func) {
-            return typeof func === 'function' && func.constructor.name === 'AsyncFunction';
-        }
-        #run(method, instance, data) {
-            return new Promise(async resolve => {
-                if(!method || !instance || !instance[method])  {
-                    resolve(null)
-                }
-                method = instance[method];
-                let res;
-                if (this.#isAsync(method)) {
-                    res = await method(data);
-                } else {
-                    res = method(data);
-                }
-                resolve(res);
-            });
-        }
-
-        call(method, data){
-            let i = 0, l = this.#modules.length;
-            for( ; i < l; i++) {
-                if (this.#modules[i][method]) {
-                    this.#run(method, this.#modules[i], data);
-                }
-            }
-        }
-        getInstanceByName(name){
-            let i = 0, l = this.#modules.length;
-            for( ; i < l; i++) {
-                if (this.#modules[i].name === name || this.#modules[i].constructor.name === name) {
-                    return this.#modules[i];
-                }
-            }
-        }
-
-        getModules() {
-            return this.#modules;
-        }
-
-        async register(classRef) {
-            const instance = new classRef();
-            this.#modules.push(instance);
-            await this.#run('onRegister', instance);
-        }
-
-        async remove(instance) {
-            if(typeof instance === 'string') {
-                instance = this.getInstanceByName(instance);
-            }
-            if(!instance) {
-                return;
-            }
-            const index = this.#modules.indexOf(instance);
-            if (index === -1) {
-                return;
-            }
-            this.#modules.splice(index, 1);
-            await this.#run('onDestroy', instance);
-        }
-    }
-
-    frame = document.getElementById('live-editor-frame');
-    frameHolder = document.getElementById('live-edit-frame-holder');
-    mw.spinner({
-        element: frameHolder,
-        size: 52,
-        decorate: true
-    })
-
-
-
-</script>
 
 <script>
     mw.quickSettings = {}
 </script>
 
-<script>
 
-
-
-    mw.liveEditApp = new MWClassContainer();
-    mw.liveEditApi = new MWServiceProvider();
-
-
-    setTimeout(function (){
-         mw.liveEditApp.remove('HyperExtender');
-    }, 2222)
-
-
-    frame.addEventListener('load', function () {
-        var doc = frame.contentWindow.document;
-        var link = doc.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '<?php print site_url('userfiles/modules/microweber/api/liveedit2/css/dist.css'); ?>';
-        doc.head.prepend(link);
-
-        liveEdit = new LiveEdit({
-            root: frame.contentWindow.document.body,
-            strict: false,
-            mode: 'auto',
-            document: frame.contentWindow.document
-        })
-
-
-        mw.liveEditApp.call('onLiveEditReady')
-
-        mw.liveEditApi.add('liveEdit', liveEdit);
-        mw.liveEditApi.add('state', mw.liveEditState);
-
-
-
-
-
-        mw.spinner({
-            element: frameHolder
-        }).remove();
-
-
-
-
-
-    });
-
-
-
-</script>
 
 
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
