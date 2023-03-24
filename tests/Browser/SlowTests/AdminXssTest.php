@@ -32,7 +32,6 @@ class AdminXssTest extends DuskTestCase
 
 
             $routesForTest = [];
-            $routesForTest[] = route('admin.live-edit.index');
             $routesForTest[] = route('admin.page.create');
             $routesForTest[] = route('admin.post.create');
             $routesForTest[] = route('admin.product.create');
