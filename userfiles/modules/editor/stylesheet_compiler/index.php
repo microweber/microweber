@@ -146,6 +146,9 @@ if ($stylesheet_settings) {
                             </select>
                         </div>
                     </div>
+                <?php elseif ($setting['type'] == 'custom'): ?>
+                    <?php echo $setting['value']; ?>
+
                 <?php elseif ($setting['type'] == 'dropdown_background_image_x'): ?>
                     <style>
                         .background-x-option .background-option {
