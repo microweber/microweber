@@ -1,8 +1,8 @@
-class LogoSettings {
-    onModuleOver() {
-        alert(1)
-    }
-}
-
-
-mw.app.register(LogoSettings);
+// class LogoSettings {
+//     onModuleOver() {
+//         alert(1)
+//     }
+// }
+//
+//
+// mw.app.register(LogoSettings);
