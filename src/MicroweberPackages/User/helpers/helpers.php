@@ -337,7 +337,7 @@ function get_username_short()
         if (!empty($user['first_name']) && !empty($user['last_name'])) {
             $displayName = mb_substr($user['first_name'], 0,1) . mb_substr($user['last_name'],0,1);
         }
-        return $displayName;
+        return mb_strtoupper($displayName);
     } else {
         return $user['username'];
     }
