@@ -333,7 +333,7 @@ function get_username_short()
 {
     $user = get_user();
     if(isset($user['first_name']) and $user['first_name'] != ''){
-        $displayName = $user['first_name'];
+        $displayName = mb_substr($user['first_name'], 0,2);
         if (!empty($user['first_name']) && !empty($user['last_name'])) {
             $displayName = mb_substr($user['first_name'], 0,1) . mb_substr($user['last_name'],0,1);
         }
