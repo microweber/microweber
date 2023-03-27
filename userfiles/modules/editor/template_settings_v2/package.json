@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "dev":   "vue-cli-service build --watch --mode development --hmr --target lib --inline-vue",
+        "build": "vue-cli-service build --target lib --inline-vue"
+    },
+    "devDependencies": {
+        "@vue/cli-service": "^5.0.8"
+    },
+    "dependencies": {
+        "@vue/cli": "^5.0.8"
+    }
+}
