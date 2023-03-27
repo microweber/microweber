@@ -11,7 +11,7 @@
 
     <script  type="module"  src="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/index.js'); ?>"></script>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="//unpkg.com/vue@3"></script>
 
 
     <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
