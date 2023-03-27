@@ -165,7 +165,7 @@ export class LiveEdit {
 
         var elementHandle = elementHandle;
 
-        
+
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
             var title = '';
