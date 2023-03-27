@@ -942,4 +942,26 @@ body.loaded #bubble-nav span {
 
 }
 
+
+#general-theme-settings {
+    position: fixed;
+    top: var(--toolbar-height);
+    bottom: 0;
+    right: -340px;
+    width: 340px;
+    z-index: 6;
+    transition: var(--toolbar-height-animation-speed);
+    overflow: auto;
+    background-color: #FFFFFF;
+
+}
+
+#general-theme-settings.active + #live-edit-frame-holder {
+    right: 330px;
+}
+
+#general-theme-settings.active {
+    right: 0;
+}
+
 /* /gui editor */
