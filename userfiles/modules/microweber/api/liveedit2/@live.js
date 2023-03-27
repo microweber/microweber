@@ -154,7 +154,7 @@ export class LiveEdit {
 
 
 
-        this.elementHandle = new Handle({
+        var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
@@ -162,9 +162,6 @@ export class LiveEdit {
             document: this.settings.document,
             stateManager: this.settings.stateManager
         });
-
-        var elementHandle = elementHandle;
-
 
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
