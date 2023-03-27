@@ -8,6 +8,6 @@ Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveE
 
     Route::any('/' . $admin_url . '/' . $live_edit_url, 'LiveEditIframeController@index')
         ->name('admin.live-edit.index')
-        ->middleware(\MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit::class);
+        ->middleware(['live_edit']);
 
 });

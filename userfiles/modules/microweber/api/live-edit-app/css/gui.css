@@ -1,0 +1,127 @@
+.mw-le-btn.disabled,
+.mw-le-btn[disabled] {
+    pointer-events: none;
+    opacity: .7;
+}
+
+.mw-le-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    line-height: 40px;
+    min-height: 40px;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 20px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #464646;
+    border: none;
+    box-shadow: none;
+
+}
+
+.mw-le-btn-sm {
+    font-size: 12px;
+    line-height: 25px;
+    min-height: 25px;
+}
+
+.mw-le-btn-primary {
+    background-color: #39b54a;
+}
+
+.mw-le-btn-primary2 {
+    background-color: #0078ff;
+}
+
+.mw-le-btn-icon svg * {
+    fill: white;
+}
+
+.mw-le-btn-icon svg {
+    fill: white;
+    width: 20px;
+}
+
+.mw-le-btn-icon {
+    width: 40px;
+    padding: 0;
+}
+
+.mw-le-nav-box {
+    display: block;
+
+    background-color: white;
+    position: relative;
+    box-shadow: 0 0 32px rgba(0, 0, 0, .17);
+    border-radius: 10px;
+}
+
+.mw-le-nav-box-content {
+    padding: 25px;
+}
+
+.mw-le-nav-box .mw-le-nav-box-content + .mw-le-nav-box-content {
+    padding-top: 0;
+}
+
+.mw-le-nav-box nav a:hover {
+    background-color: #eee;
+}
+
+.mw-le-nav-box nav a {
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    color: #2b2b2b;
+    padding: 15px 0 15px 65px;
+    position: relative;
+    transition: background-color .2s;
+}
+
+.mw-le-nav-box nav a > svg:first-child,
+.mw-le-nav-box nav a > img:first-child {
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 25px;
+    max-height: 25px;
+}
+
+
+.mw-le-hamburger span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+
+    transition: .4s cubic-bezier(0.4, 0.0, 0.2, 1);;
+    background-color: white;
+    user-select: none;
+}
+
+.mw-le-hamburger span + span {
+    top: 7px;
+}
+
+.mw-le-hamburger span + span + span {
+    top: 14px;
+}
+
+.mw-le-hamburger {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 24px;
+    height: 17px;
+    cursor: pointer;
+    transition: .4s cubic-bezier(0.4, 0.0, 0.2, 1);;
+}

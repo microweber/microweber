@@ -24,16 +24,21 @@ class UserProfileController extends Controller
 
     public function update(Request $request) {
 
+        $userId = Auth::id();
+        if(!$userId){
+            return response()->json(['error' => 'You are not logged in.'], 401);
+        }
+
         $name = $request->post('name');
         $firstName = $request->post('first_name');
         $lastName = $request->post('last_name');
         $email = $request->post('email');
         $phone = $request->post('phone');
 
-        $findCustomer = Customer::where('user_id', Auth::id())->first();
+        $findCustomer = Customer::where('user_id',$userId)->first();
         if ($findCustomer == null) {
             $findCustomer = new Customer();
-            $findCustomer->user_id = Auth::id();
+            $findCustomer->user_id = $userId;
         }
 
         $findCustomer->name = $name;

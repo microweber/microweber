@@ -136,7 +136,8 @@ export class LiveEdit {
             }
 
             var defaults = {
-                document: scope.document,
+                // document: scope.document,
+                document: window.top.document,
                 position: moduleHandleContent.menu.getTarget(),
                 mode: 'absolute'
             };
@@ -166,13 +167,13 @@ export class LiveEdit {
             elementHandleContent.menu.setTarget(target);
             var title = '';
             if(target.nodeName === 'P') {
-                title = scope.lang('Paragraph')
+                title = scope.lang('Paragraph');
             } else if(/(H[1-6])/.test(target.nodeName)) {
                 title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
             } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
                 title = scope.lang('Image');
             } else {
-                title = scope.lang('Text')
+                title = scope.lang('Text');
             }
             elementHandleContent.menu.setTitle(title);
         });
@@ -187,9 +188,10 @@ export class LiveEdit {
         });
         var moduleHandle = this.moduleHandle;
 
-        this.getModuleQuickSettings = function (type) {
+        this.getModuleQuickSettings = type => {
             return new Promise(resolve => {
                 resolve(mw.quickSettings[type]);
+               this.dispatch('moduleQuickSettings', {module: type});
             });
         };
 

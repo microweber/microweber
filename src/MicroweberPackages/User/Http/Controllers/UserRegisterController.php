@@ -31,7 +31,7 @@ class UserRegisterController extends Controller
         'thumbnail',
         'parent_id',
         'user_information',
-        'subscr_id',
+      //  'subscr_id',
         'profile_url',
         'website_url',
         'phone'

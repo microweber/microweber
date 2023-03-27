@@ -7,8 +7,6 @@ mw.quickSettings['btn'] = {
             action: (target, button, api) => {
                 var node = document.createElement('div');
 
-
-
                 api.dialog({
                     content: node,
                 });

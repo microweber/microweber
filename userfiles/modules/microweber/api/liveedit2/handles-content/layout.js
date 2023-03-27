@@ -267,7 +267,7 @@ export const LayoutHandleContent = function (rootScope) {
 
                 var dialog = rootScope.dialog({
                     content: content,
-                    document: rootScope.settings.document,
+                    // document: rootScope.settings.document,
                 });
                 ElementManager('.le-selectable-items-list-item', content).on('click', function (){
                     loadModule(this.__data, rootScope.settings.loadModulesURL).then(function (data){
