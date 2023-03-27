@@ -329,6 +329,19 @@ function get_user($id = false)
     return app()->user_manager->get($id);
 }
 
+function get_username_short()
+{
+    $user = get_user();
+    if(isset($user['first_name']) and $user['first_name'] != ''){
+        $displayName = mb_substr($user['first_name'], 0,2);
+        if (!empty($user['first_name']) && !empty($user['last_name'])) {
+            $displayName = mb_substr($user['first_name'], 0,1) . mb_substr($user['last_name'],0,1);
+        }
+        return mb_strtoupper($displayName);
+    } else {
+        return $user['username'];
+    }
+}
 
 function user_can_access($permission)
 {
