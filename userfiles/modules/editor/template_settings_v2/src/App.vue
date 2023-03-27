@@ -23,16 +23,18 @@ export default {
         console.log('Component mounted.');
 
 
+        const appInstance = this;
+
         setTimeout(function() {
 
-            liveEdit.moduleHandle.on('targetChange', function (target) {
+            mw.app.editor.liveEdit.moduleHandle.on('targetChange', function (target) {
 
-                console.log('targetChange', target); 
-                this.greeting = target;
+                console.log('targetChange', target);
+                appInstance.greeting = target.innerHTML;
 
             });
 
-        }, 3000);
+        }, 8000);
 
     },
     data() {
