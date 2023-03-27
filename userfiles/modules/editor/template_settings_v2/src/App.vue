@@ -3,6 +3,7 @@
     <div>
         <p class="greeting">{{ greeting }}</p>
         <button type="button" v-on:click="updateText">Update Text</button>
+        <button type="button" v-on:click="updateFontSize">Make Red Color</button>
     </div>
 </template>
 
@@ -17,6 +18,10 @@ export default {
     methods: {
         updateText() {
             this.greeting = 'Hello Microweber! This is the first vue component in live-edit.'
+        },
+        updateFontSize()
+        {
+            mw.app.editor.richTextEditorAPI.fontSize(74);
         }
     },
     mounted() {
@@ -27,14 +32,12 @@ export default {
 
         setTimeout(function() {
 
-            mw.app.editor.liveEdit.moduleHandle.on('targetChange', function (target) {
+            // mw.app.editor.liveEdit.elementHandle.on('targetChange', function (target) {
+            //     console.log('targetChange', target);
+            //     appInstance.greeting = target.innerHTML;
+            // });
 
-                console.log('targetChange', target);
-                appInstance.greeting = target.innerHTML;
-
-            });
-
-        }, 8000);
+        }, 7000);
 
     },
     data() {

@@ -7,7 +7,7 @@
     </div>
 
     <script>
-        new Vue({
+        window.TemplatesSettingsV2 = new Vue({
             components: {
                 'run-module': TemplatesSettingsV2
             }
