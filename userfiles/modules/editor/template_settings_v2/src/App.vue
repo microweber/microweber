@@ -1,7 +1,10 @@
 
 <template>
     <div>
-        <div v-for="setting in settings" class="p-3">
+        <div v-if="settings.length === 0" class="text-center">
+            Loading...
+        </div>
+        <div v-else v-for="setting in settings" class="p-3">
 
             <div v-if="setting.type === 'title'" class="mt-3">
                 <div>{{ setting.label }}</div>
