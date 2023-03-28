@@ -154,7 +154,7 @@ export class LiveEdit {
 
 
 
-        var elementHandle = new Handle({
+        var elementHandle = this.elementHandle = new Handle({
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,

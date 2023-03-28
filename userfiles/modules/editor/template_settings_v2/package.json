@@ -1,0 +1,15 @@
+{
+    "name": "TemplatesSettingsV2",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "dev": "vue-cli-service build --watch --mode development --hmr --target lib --inline-vue --formats umd-min",
+        "build": "vue-cli-service build --target lib --inline-vue --formats umd-min"
+    },
+    "devDependencies": {
+        "@vue/cli-service": "^5.0.8"
+    },
+    "dependencies": {
+        "@vue/cli": "^5.0.8",
+        "axios": "^1.3.4"
+    }
+}
