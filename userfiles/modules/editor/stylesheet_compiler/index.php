@@ -62,7 +62,7 @@ if ($stylesheet_settings) {
         background: #425cbb;
         margin: 7px;
         outline: none !important;
-        border: 1px solid #F5F5F5;
+        border: 1px solid #cccccc;
         float: right;
         margin-right: 10px;
         border-radius: 50%;

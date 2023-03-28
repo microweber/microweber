@@ -1,4 +1,4 @@
-import {LiveEditCanvasService} from "../../services/live-edit-canvas.service.js";
+
 
 mw.require('editor.js');
 mw.require('css_parser.js');
@@ -31,7 +31,7 @@ export const EditorComponent = function () {
 
     var fontFamilyProvider = new _fontFamilyProvider();
     window.fontFamilyProvider = fontFamilyProvider;
-    const frame = LiveEditCanvasService.getFrame();
+    const frame = mw.app.get('canvas').getFrame();
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
 
 
@@ -148,7 +148,7 @@ export const EditorComponent = function () {
                         } else {
                             liveEditor.lastRange = undefined;
                         }
-
+ 
                     })*/
 
     holder.innerHTML = '';
@@ -159,9 +159,9 @@ export const EditorComponent = function () {
     if (typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
         liveEditor.smallEditorApi.pin()
     }
-    mw.liveEditApi.add('richTextEditor', liveEditor);
+    mw.app.register('richTextEditor', liveEditor);
 
-    mw.liveEditApi.set('richTextEditorAPI', liveEditor.api);
+    mw.app.register('richTextEditorAPI', liveEditor.api);
 };
 
 

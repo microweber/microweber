@@ -1,11 +1,11 @@
 import {LiveEdit} from '../../../liveedit2/@live.js';
-import {LiveEditCanvasService} from "../../services/live-edit-canvas.service.js";
-import {LiveEditCanvas} from "../../components/live-edit-canvas/live-edit-canvas.js";
+
+
 
 export const liveEditComponent = () => {
-    const frame = LiveEditCanvasService.getFrame();
+    const frame = mw.app.get('canvas').getFrame();
     const frameHolder = frame.parentElement;
-    const doc = LiveEditCanvasService.getDocument();
+    const doc = mw.app.get('canvas').getDocument();
     const link = doc.createElement('link');
     link.rel = 'stylesheet';
     link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
@@ -19,14 +19,10 @@ export const liveEditComponent = () => {
     });
 
 
-    mw.liveEditApp.call('onLiveEditReady');
 
-    mw.liveEditApi.add('liveEdit', liveEdit);
-    mw.liveEditApi.add('state', mw.liveEditState);
+    mw.app.call('onLiveEditReady');
 
-
-
-
-
+    mw.app.register('liveEdit', liveEdit);
+    mw.app.register('state', mw.liveEditState);
 
 }

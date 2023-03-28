@@ -1,4 +1,4 @@
-class EventManager {
+class MicroweberBaseClass {
     #events = {};
     on(e, f) {
         this.#events[e] ? this.#events[e].push(f) : (this.#events[e] = [f])
@@ -17,6 +17,7 @@ class EventManager {
             this.#events[e] = [];
         }
     };
+
     dispatch (e, f) {
         this.#events[e] ? this.#events[e].forEach(function (c) {
             c.call(this, f);
@@ -24,4 +25,4 @@ class EventManager {
     };
 }
 
-export const eventManager = new EventManager();
+export default MicroweberBaseClass;

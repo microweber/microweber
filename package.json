@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.6.0",
+        "@vitejs/plugin-vue": "^4.1.0",
         "aos": "^2.3.4",
         "axios": "^0.21.1",
         "bootstrap": "^4.6.0",
@@ -35,6 +36,8 @@
         "ion-rangeslider": "^2.3.1",
         "jquery": "^3.6.0",
         "jquery-ui": "^1.12.1",
-        "popper.js": "^1.16.1"
+        "popper.js": "^1.16.1",
+        "vue": "^3.2.36",
+        "vue-loader": "^17.0.1"
     }
 }

@@ -1,38 +1,26 @@
 
 import {EditorComponent} from './components/editor/editor.js';
-import {MWClassContainer} from "./containers/class.container.js";
-import {MWServiceProvider} from "./containers/service-provider.js";
+import { LiveEditCanvas } from './components/live-edit-canvas/live-edit-canvas.js';
 import {liveEditComponent} from "./components/live-edit/live-edit.js";
-import {eventManager} from "./services/events.service.js";
-import {LiveEditCanvasService} from "./services/live-edit-canvas.service.js";
+
+import {MWUniversalContainer} from "./containers/container.js";
 
 ;(() => {
 
-    mw.liveEditApp = new MWClassContainer();
-    mw.liveEditApi = new MWServiceProvider();
+    mw.app = new MWUniversalContainer();
 
-    mw.liveEditServices = new MWServiceProvider();
+    const canvas = new LiveEditCanvas();
+    const canvasHolder = document.getElementById('live-edit-frame-holder');
 
-
-    mw.app = {
-        container: new MWClassContainer(),
-        editor: mw.liveEditApi,
-        services: mw.liveEditServices,
-
-    };
-
-
-
-    mw.liveEditServices.register('canvas', LiveEditCanvasService);
-    mw.liveEditServices.register('event', eventManager);
-
-    mw.liveEditServices.event.on('liveEditCanvasLoaded', () => {
+    canvas.mount(canvasHolder);
+    mw.app.register('canvas', canvas);
+    canvas.on('liveEditCanvasLoaded', () => {
 
         new EditorComponent();
         liveEditComponent();
-
-
-
     });
+
+
+
 
 })();
