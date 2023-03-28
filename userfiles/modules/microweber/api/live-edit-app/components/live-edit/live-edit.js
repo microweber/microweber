@@ -1,6 +1,6 @@
 import {LiveEdit} from '../../../liveedit2/@live.js';
 
- 
+
 
 export const liveEditComponent = () => {
     const frame = mw.app.get('canvas').getFrame();
@@ -18,12 +18,9 @@ export const liveEditComponent = () => {
         document: doc
     });
 
-    const canvas = LiveEditCanvas();
-
-    canvas.render()
 
 
-    mw.app.container.call('onLiveEditReady');
+    mw.app.call('onLiveEditReady');
 
     mw.app.register('liveEdit', liveEdit);
     mw.app.register('state', mw.liveEditState);

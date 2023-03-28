@@ -2,7 +2,7 @@
 import {EditorComponent} from './components/editor/editor.js';
 import { LiveEditCanvas } from './components/live-edit-canvas/live-edit-canvas.js';
 import {liveEditComponent} from "./components/live-edit/live-edit.js";
- 
+
 import {MWUniversalContainer} from "./containers/container.js";
 
 ;(() => {
@@ -15,12 +15,12 @@ import {MWUniversalContainer} from "./containers/container.js";
     canvas.mount(canvasHolder);
     mw.app.register('canvas', canvas);
     canvas.on('liveEditCanvasLoaded', () => {
-        
+
         new EditorComponent();
         liveEditComponent();
     });
 
-    
+
 
 
 })();
