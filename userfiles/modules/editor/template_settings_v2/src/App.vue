@@ -3,6 +3,9 @@
     <div>
         <div v-for="setting in settings" class="p-3">
 
+            <div v-if="setting.type === 'title'" class="mt-3">
+                <div>{{ setting.label }}</div>
+            </div>
 
             <div v-if="setting.type === 'dropdown_image'" class="mt-3">
                 <div>{{ setting.label }}</div>

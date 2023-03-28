@@ -8,12 +8,17 @@ class EditorTemplateSettingsV2Controller extends Controller
 {
     public function getSettings()
     {
-        $template_settings_config = mw()->template->get_config();
-        $template_settings = [];
-        if (isset($template_settings_config['template_settings'])) {
-            $template_settings = $template_settings_config['template_settings'];
+        $getTemplateConfig = mw()->template->get_config();
+        $settings = [];
+        if (isset($getTemplateConfig['template_settings'])) {
+            foreach ($getTemplateConfig['template_settings'] as $key => $value) {
+                if (is_numeric($key)) {
+                    $key = $value['type'] . '_' . $key;
+                }
+                $settings[$key] = $value;
+            }
         }
 
-        return response()->json($template_settings);
+        return response()->json($settings);
     }
 }
