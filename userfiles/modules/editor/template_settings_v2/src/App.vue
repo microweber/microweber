@@ -5,6 +5,15 @@
         </div>
         <div v-else v-for="(setting,settingKey) in settings">
 
+
+            <div v-if="setting.type === 'delimited'" class="mt-3">
+                <hr />
+            </div>
+
+            <div v-if="setting.type === 'color'" class="mt-3">
+                <b>{{ setting.label }}</b>
+            </div>
+
             <div v-if="setting.type === 'title'" class="mt-3">
                 <div class="text-uppercase">
                     <b>{{ setting.label }}</b>
