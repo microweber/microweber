@@ -207,7 +207,7 @@
                 if (typeof width === 'number') {
                     width = width + 'px'
                 }
-                mw.liveEditServices.canvas.getFrame().style.width = width;
+                mw.app.services.canvas.getFrame().style.width = width;
 
                 mw.element('[data-preview]').removeClass('active')
                 mw.element('[data-preview="' + key + '"]').addClass('active')
@@ -221,7 +221,7 @@
             });
 
             document.getElementById('save-button').addEventListener('click', function () {
-                mw.liveEditServices.canvas.getWindow().mw.drag.save()
+                mw.app.services.canvas.getWindow().mw.drag.save()
             })
 
 
@@ -412,7 +412,7 @@ $user = get_user();
 <div id="root"></div>
 
 
-<mw-live-edit-canvas></mw-live-edit-canvas>
+<div id="live-edit-frame-holder"></div>
 
 
 <script>

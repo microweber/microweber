@@ -1,37 +1,62 @@
-import {eventManager} from "../../services/events.service.js";
+import  MicroweberBaseClass  from "../../containers/base-class.js";
 
 
-export class LiveEditCanvas extends HTMLElement {
-    template = `
-        <div id="live-edit-frame-holder">
-            <iframe id="live-editor-frame"
-                    referrerpolicy="no-referrer"
-                    frameborder="0"
-                    src="${mw.settings.site_url}?editmode=n"
-                    data-src="about:blank">
-            </iframe>
-        </div>
-`;
+export class LiveEditCanvas extends MicroweberBaseClass {
+
     constructor() {
         super();
-        this.innerHTML = this.template;
+    }
+
+    #canvas = null;
+
+    go(url) {
+        if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.contentWindow) {
+            this.#canvas.src = url;
+        }
+    }
+
+    refresh() {
+        if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.contentWindow) {
+            this.#canvas.contentWindow.location.reload();
+        }
+    }
+
+    getFrame(){
+        if(this.#canvas && this.#canvas.ownerDocument) {
+            return this.#canvas;
+        }
+    }
+
+    getWindow(){
+        if(this.#canvas && this.#canvas.ownerDocument) {
+            return this.#canvas.contentWindow;
+        }
+    }
+    getDocument() {
+        if(this.#canvas && this.#canvas.ownerDocument) {
+            return this.#canvas.contentWindow.document;
+        }
+    }
+
+    mount(target) {
         mw.spinner({
-            element: this,
+            element: target,
             size: 52,
             decorate: true
         });
-        this.querySelector('iframe').addEventListener('load', e => {
-            eventManager.dispatch('liveEditCanvasLoaded');
+        const frame = document.createElement('iframe');
+        frame.src = `${mw.settings.site_url}?editmode=n`;
+        frame.frameBorder = 0;
+        frame.id="live-editor-frame";
+        frame.referrerPolicy = "no-referrer";
+        this.#canvas = frame;
+        target.innerHTML = '';
+        target.appendChild(frame);
+        frame.addEventListener('load', e => {
+            this.dispatch('liveEditCanvasLoaded');
             mw.spinner({
-                element: this,
-
+                element: target,
             }).remove()
         });
     }
 }
-
-customElements.define(
-    "mw-live-edit-canvas",
-    LiveEditCanvas
-);
-
