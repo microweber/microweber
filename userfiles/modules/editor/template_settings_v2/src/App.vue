@@ -3,7 +3,7 @@
         <div v-if="settings.length === 0" class="text-center">
             Loading...
         </div>
-        <div v-else v-for="setting in settings">
+        <div v-else v-for="(setting,settingKey) in settings">
 
             <div v-if="setting.type === 'title'" class="mt-3">
                 <div class="text-uppercase">
@@ -13,7 +13,7 @@
 
             <div v-if="setting.type === 'dropdown_image'" class="mt-3">
                 <div>{{ setting.label }}</div>
-                <select class="form-control">
+                <select class="form-control" v-on:change="updateSettings($event, settingKey)" :name="settingKey">
                     <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
                         {{ optionValue }}
                     </option>
@@ -22,7 +22,7 @@
 
             <div v-if="setting.type === 'dropdown'" class="mt-3">
                 <div>{{ setting.label }}</div>
-                <select class="form-control">
+                <select class="form-control" v-on:change="updateSettings($event, settingKey)" :name="settingKey">
                     <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
                         {{ optionValue }}
                     </option>
@@ -49,6 +49,19 @@ import axios from 'axios';
 
 export default {
     methods: {
+        updateSettings(event, settingKey) {
+            let value = event.target.value;
+            let appInstance = this;
+            axios.post('/api/save_option', {
+                'option_group': this.optionGroup,
+                'option_key': settingKey,
+                'option_value': value,
+            }).then(function (response) {
+                if (response.data) {
+                    // saved
+                }
+            });
+        },
         resetTemplateSettings() {
             mw.tools.confirm_reset_module_by_id(this.optionGroup, function (){
                 // Reset template settings

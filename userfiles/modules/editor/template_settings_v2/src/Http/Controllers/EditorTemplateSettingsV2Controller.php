@@ -19,7 +19,7 @@ class EditorTemplateSettingsV2Controller extends Controller
             }
         }
 
-        $optionGroup = 'mw-template-' . mw()->template->folder_name() . '-settings';
+        $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
 
         return response()->json([
             'settings' => $settings,
