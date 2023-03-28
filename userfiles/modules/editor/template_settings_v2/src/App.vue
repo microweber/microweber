@@ -1,9 +1,28 @@
 
 <template>
     <div>
-        <p class="greeting">{{ greeting }}</p>
-        <button type="button" v-on:click="updateText">Update Text</button>
-        <button type="button" v-on:click="updateFontSize">Make Red Color</button>
+        <div v-for="setting in settings" class="p-3">
+
+
+            <div v-if="setting.type === 'dropdown_image'" class="mt-3">
+                <div>{{ setting.label }}</div>
+                <select class="form-control">
+                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                        {{ optionValue }}
+                    </option>
+                </select>
+            </div>
+
+            <div v-if="setting.type === 'dropdown'" class="mt-3">
+                <div>{{ setting.label }}</div>
+                <select class="form-control">
+                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                        {{ optionValue }}
+                    </option>
+                </select>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -14,35 +33,23 @@
 </style>
 
 <script>
+import axios from 'axios';
+
 export default {
     methods: {
-        updateText() {
-            this.greeting = 'Hello Microweber! This is the first vue component in live-edit.'
-        },
-        updateFontSize()
-        {
-            mw.app.editor.richTextEditorAPI.fontSize(74);
-        }
+
     },
     mounted() {
-        console.log('Component mounted.');
-
-
-        const appInstance = this;
-
-        setTimeout(function() {
-
-            // mw.app.editor.liveEdit.elementHandle.on('targetChange', function (target) {
-            //     console.log('targetChange', target);
-            //     appInstance.greeting = target.innerHTML;
-            // });
-
-        }, 7000);
-
+        let appInstance = this;
+        axios.get('/api/editor/template_settings_v2/list').then(function (response) {
+            if (response.data) {
+                appInstance.settings = response.data;
+            }
+        });
     },
     data() {
         return {
-            greeting: 'Hello World!'
+            settings: []
         }
     }
 }
