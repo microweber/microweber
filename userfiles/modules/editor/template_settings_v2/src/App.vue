@@ -16,10 +16,10 @@
             <div style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
              <div class="accordion accordion-flush" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-                <div v-for="(settingGroupInside,settingGroupInsideName) in settings" class="accordion-item"  style="background: #dfffff">
+                <div v-for="(settingGroupInside,settingGroupInsideName) in settings" class="accordion-item">
 
                     <h2 class="accordion-header" :id="'flush-heading-' + stringToId(settingGroupInsideName)">
-                        <button style="background: #b6b6b6" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#flush-collapse-' + stringToId(settingGroupInsideName)" aria-expanded="false" :aria-controls="'flush-collapse-' + stringToId(settingGroupInsideName)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#flush-collapse-' + stringToId(settingGroupInsideName)" aria-expanded="false" :aria-controls="'flush-collapse-' + stringToId(settingGroupInsideName)">
                             {{settingGroupInsideName}}
                         </button>
                     </h2>
@@ -31,11 +31,11 @@
                         :data-bs-parent="'#accordionFlush' + stringToId(settingGroupKey)">
 
                           <div class="accordion-body">
-                        <div v-if="setting.type === 'delimited'" class="mt-3">
-                            <hr/>
-                        </div>
+                            <div v-if="setting.type === 'delimited'">
+                                <hr/>
+                            </div>
 
-                        <div v-if="setting.type === 'color'" class="mt-3">
+                        <div v-if="setting.type === 'color'">
                             <div class="d-flex justify-content-between">
                                 <div class="mr-4">{{ setting.label }}</div>
                                 <div>
@@ -45,13 +45,13 @@
                             </div>
                         </div>
 
-                        <div v-if="setting.type === 'title'" class="mt-3">
+                        <div v-if="setting.type === 'title'">
                             <div class="text-uppercase">
                                 <span>{{ setting.label }}</span>
                             </div>
                         </div>
 
-                        <div v-if="setting.type === 'dropdown_image'" class="mt-3">
+                        <div v-if="setting.type === 'dropdown_image'">
                             <div>{{ setting.label }}</div>
                             <select class="form-control" v-on:change="updateSettings($event, settingKey)"
                                     :name="settingKey">
@@ -61,7 +61,7 @@
                             </select>
                         </div>
 
-                        <div v-if="setting.type === 'dropdown'" class="mt-3">
+                        <div v-if="setting.type === 'dropdown'">
                             <div>{{ setting.label }}</div>
                             <select class="form-control" v-on:change="updateSettings($event, settingKey)"
                                     :name="settingKey">
