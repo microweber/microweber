@@ -145,7 +145,7 @@ export default {
         updateSettings(event, settingKey, optionGroup) {
             let value = event.target.value;
             let appInstance = this;
-            axios.post('/api/save_option', {
+            axios.post(mw.settings.api_url + 'save_option', {
                 'option_group': optionGroup,
                 'option_key': settingKey,
                 'option_value': value,
@@ -167,7 +167,7 @@ export default {
     },
     mounted() {
         let appInstance = this;
-        axios.get('/api/editor/template_settings_v2/list').then(function (response) {
+        axios.get(mw.settings.api_url + 'editor/template_settings_v2/list').then(function (response) {
             if (response.data) {
                 appInstance.settingsGroups = response.data.settingsGroups;
                 appInstance.optionGroup = response.data.optionGroup;
