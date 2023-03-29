@@ -1,7 +1,4 @@
-
-
-
-class ModulesList {
+export class ModulesList {
     constructor( options = {} ) {
         const defaults = {
             mode: 'local',
@@ -110,7 +107,7 @@ class ModulesList {
         moduleItem.className = 'modules-list-block-item modules-list-block-item-is-locked-' + data.locked;
         moduleItem.__$data = data;
         moduleItem.innerHTML = `
-            <div class="modules-list-block-item-picture" style="background-image: url(${data.icon})"></div>
+            <div class="modules-list-block-item-picture" style="background-image: url(${data.icon || data.screenshot || data.image})"></div>
             <div class="modules-list-block-item-title">${data.name || data.title}</div>
             <div class="modules-list-block-item-description">${data.description}</div>
             ${data.locked ? '<span class="modules-list-block-item-locked-badge">PRO</span>' : ''}

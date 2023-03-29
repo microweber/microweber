@@ -37,6 +37,7 @@ export class MWUniversalContainer extends MicroweberBaseClass {
         }
 
         this.#modules[name] = instance;
+        this[name] = instance;
         this.#run('onRegister', instance);
         this.dispatch('$moduleRegistered');
     }
@@ -57,6 +58,7 @@ export class MWUniversalContainer extends MicroweberBaseClass {
             }
         }
         delete this.#modules[name];
+        delete this[name];
         this.#run('onDestroy', instance);
         this.dispatch('$moduleRemoved');
     }
