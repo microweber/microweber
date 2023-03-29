@@ -9,6 +9,11 @@
     <script type="module">
         import {MWUniversalContainer} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/containers/container.js'); ?>";
         mw.app = new MWUniversalContainer();
+
+        console.log(mw.app)
+        setTimeout(() => {
+            console.log(mw.app)
+        }, 2222);
     </script>
 
 
@@ -304,20 +309,21 @@ $user = get_user();
 
 
 <script type="module">
+    
+
+    import {EditorComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/editor/editor.js') ?>";
+    import { LiveEditCanvas } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit-canvas/live-edit-canvas.js') ?>";
+    import {liveEditComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit/live-edit.js') ?>";
+    import { Commands } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/services/commands.js') ?>";
+
     mw.app.dispatch('init');
-
-import {EditorComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/editor/editor.js') ?>";
-import { LiveEditCanvas } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit-canvas/live-edit-canvas.js') ?>";
-import {liveEditComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit/live-edit.js') ?>";
-
-
-import { Commands } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/services/commands.js') ?>";
 
     const canvas = new LiveEditCanvas();
     const canvasHolder = document.getElementById('live-edit-frame-holder');
 
     canvas.mount(canvasHolder);
     mw.app.register('canvas', canvas);
+    mw.app.register('commands', Commands);
     mw.app.register('commands', Commands);
 
     mw.app.dispatch('init');
