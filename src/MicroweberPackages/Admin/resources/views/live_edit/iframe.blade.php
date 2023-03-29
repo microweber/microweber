@@ -100,6 +100,8 @@
     </script>
 
 
+    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
+
     <?php print event_trigger('mw.live_edit.head'); ?>
 
 </head>
