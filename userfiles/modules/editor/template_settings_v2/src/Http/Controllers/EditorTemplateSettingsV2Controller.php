@@ -3,12 +3,14 @@
 namespace MicroweberPackages\Editor\TemplateSettingsV2\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use MicroweberPackages\Option\Models\Option;
 
 class EditorTemplateSettingsV2Controller extends Controller
 {
     public function getSettings()
     {
         $getTemplateConfig = mw()->template->get_config();
+        $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
 
         $settingGroups = [];
 
@@ -30,6 +32,8 @@ class EditorTemplateSettingsV2Controller extends Controller
                     continue;
                 }
 
+                $value['value'] = get_option($key, $optionGroup);
+
                 $settingGroups[$mainGroup][$valuesGroup][$key] = $value;
             }
         }
@@ -45,12 +49,12 @@ class EditorTemplateSettingsV2Controller extends Controller
                     continue;
                 }
 
+                $value['value'] = get_option($key, $optionGroup);
+
                 $settingGroups['Template Settings'][$valuesGroup][$key] = $value;
             }
         }
 
-        $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
-        
         return response()->json([
             'settingsGroups' => $settingGroups,
             'optionGroup'=> $optionGroup
