@@ -318,7 +318,7 @@ $user = get_user();
 
 
         mw.app.on('ready', function () {
-            alert('ready')
+
         });
 
 
