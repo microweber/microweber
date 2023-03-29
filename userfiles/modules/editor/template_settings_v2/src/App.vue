@@ -39,7 +39,9 @@
                             <div class="d-flex justify-content-between">
                                 <div class="mr-4">{{ setting.label }}</div>
                                 <div>
-                                <input type="color" class="w-10px" v-on:change="updateSettings($event, settingKey)"
+                                <input type="color" class="w-10px"
+                                       :value="setting.value"
+                                       v-on:change="updateSettings($event, settingKey)"
                                        :name="settingKey">
                                 </div>
                             </div>
