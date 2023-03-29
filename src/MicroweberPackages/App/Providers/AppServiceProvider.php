@@ -238,6 +238,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
+
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
@@ -288,7 +289,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(ShopManagerServiceProvider::class);
         $this->app->register(TaxManagerServiceProvider::class);
         $this->app->register(PaymentManagerServiceProvider::class);
-        $this->app->register(LiveEditServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
         $this->app->register(OrderEventServiceProvider::class);
         $this->app->register(CurrencyServiceProvider::class);
@@ -300,6 +300,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(FormServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
+
+        // Others
+        $this->app->register(LiveEditServiceProvider::class);
+
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
@@ -522,6 +526,9 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
         \App::instance('path.public', base_path() );
+
+        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
+
 
 //        if (!config::get('app.asset_url')) {
 //            $this->app->singleton('url', function ($app) {
