@@ -96,10 +96,25 @@ if ($stylesheet_settings) {
 
     function deleteCompiledCSS() {
         if (confirm("Are you sure you want to reset stylesheet ?")) {
-            $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>&delete_options=true", function () {
-                reloadTemplate();
-                window.location.reload(false);
+            $.ajax({
+                type: "POST",
+                // dataType: "json",
+                //processData: false,
+                url: mw.settings.api_url + "content/reset_modules_settings",
+                data: {
+                    modules_ids: ['<?php print $option_group; ?>'],
+                },
+                success: function(){
+
+                    $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>&delete_options=true", function () {
+                        reloadTemplate();
+                        window.location.reload(false);
+                    });
+
+                },
             });
+
+
         }
     }
 </script>

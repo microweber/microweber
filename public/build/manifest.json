@@ -1,19 +1,12 @@
 {
   "resources/css/microweber-admin-filament.css": {
-    "file": "assets/microweber-admin-filament-115ade20.css",
+    "file": "assets/microweber-admin-filament-ce5ffc69.css",
     "isEntry": true,
     "src": "resources/css/microweber-admin-filament.css"
   },
-  "userfiles/modules/microweber/api/live-edit-app/app.css": {
-    "file": "assets/app-a1413273.css",
-    "src": "userfiles/modules/microweber/api/live-edit-app/app.css"
-  },
-  "userfiles/modules/microweber/api/live-edit-app/app.tsx": {
-    "css": [
-      "assets/app-a1413273.css"
-    ],
-    "file": "assets/app-eea12453.js",
+  "userfiles/modules/microweber/api/live-edit-app/app.js": {
+    "file": "assets/app-a9303ede.js",
     "isEntry": true,
-    "src": "userfiles/modules/microweber/api/live-edit-app/app.tsx"
+    "src": "userfiles/modules/microweber/api/live-edit-app/app.js"
   }
 }

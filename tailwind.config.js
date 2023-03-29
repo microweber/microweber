@@ -4,8 +4,20 @@ module.exports = {
     content: [
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+        './src/**/*.blade.php',
+        './userfiles/**/*.blade.php',
+        './vendor/filament/packages/admin/resources/**/*.blade.php',
+        './vendor/filament/packages/forms/resources/**/*.blade.php',
+        './vendor/filament/packages/notifications/resources/**/*.blade.php',
+        './vendor/filament/packages/support/resources/**/*.blade.php',
+        './vendor/filament/packages/tables/resources/**/*.blade.php',
     ],
     darkMode: "class",
+    // safelist: [
+    //     {
+    //         pattern: /./, // the "." means "everything"
+    //     },
+    // ],
     presets: [
         require('./resources/css/mwTheme.js')
     ],
