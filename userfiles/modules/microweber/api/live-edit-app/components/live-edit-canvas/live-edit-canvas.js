@@ -39,6 +39,9 @@ export class LiveEditCanvas extends MicroweberBaseClass {
     }
 
     mount(target) {
+
+        this.dispatch('liveEditBeforeLoaded');
+
         mw.spinner({
             element: target,
             size: 52,

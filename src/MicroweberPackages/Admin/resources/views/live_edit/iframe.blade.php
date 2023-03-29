@@ -6,20 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <script type="module">
-        import {MWUniversalContainer} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/containers/container.js'); ?>";
-        mw.app = new MWUniversalContainer();
 
-        console.log(mw.app)
-        setTimeout(() => {
-            console.log(mw.app)
-        }, 2222);
-    </script>
 
 
     <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
-    <script  type="module"  src="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/index.js'); ?>"></script>
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
@@ -28,19 +19,20 @@
     <script src="//unpkg.com/vue@2"></script>
 
 
-    <link rel="stylesheet" ref="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
+    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
     <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/index.css'); ?>">
 
-
+    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
 
 
     @livewireScripts
 
     @livewireStyles
- 
+
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
     <script>
@@ -104,8 +96,6 @@
 
     </script>
 
-
-    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
 
     <?php print event_trigger('mw.live_edit.head'); ?>
 
@@ -309,33 +299,33 @@ $user = get_user();
 
 
 <script type="module">
-    
 
-    import {EditorComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/editor/editor.js') ?>";
-    import { LiveEditCanvas } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit-canvas/live-edit-canvas.js') ?>";
-    import {liveEditComponent} from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/components/live-edit/live-edit.js') ?>";
-    import { Commands } from "<?php print site_url('userfiles/modules/microweber/api/live-edit-app/services/commands.js') ?>";
 
-    mw.app.dispatch('init');
-
-    const canvas = new LiveEditCanvas();
-    const canvasHolder = document.getElementById('live-edit-frame-holder');
-
-    canvas.mount(canvasHolder);
-    mw.app.register('canvas', canvas);
-    mw.app.register('commands', Commands);
-    mw.app.register('commands', Commands);
-
-    mw.app.dispatch('init');
-    
-    mw.app.canvas.on('liveEditCanvasLoaded', () => {
-        new EditorComponent();
-        liveEditComponent();
-        mw.app.dispatch('ready');
-    });
+   // mw.app.dispatch('init');
 
 </script>
 
+<script>
+    $( document ).ready(function() {
 
+        mw.app.canvas.on('liveEditBeforeLoaded', function () {
+            mw.app.dispatch('init');
+        });
+
+        mw.app.canvas.on('liveEditCanvasLoaded', function () {
+            mw.app.dispatch('ready');
+        });
+
+
+        mw.app.on('ready', function () {
+            alert('ready')
+        });
+
+
+    })
+
+
+
+</script>
 </body>
 </html>
