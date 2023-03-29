@@ -35,16 +35,22 @@ class EditorTemplateSettingsV2Controller extends Controller
         }
 
         if (isset($getTemplateConfig['template_settings'])) {
+            $valuesGroup = 'Other';
             foreach ($getTemplateConfig['template_settings'] as $key => $value) {
-                if (is_numeric($key)) {
-                    $key = $value['type'] . '_' . $key;
+                if ($value['type'] == 'delimiter') {
+                    continue;
                 }
-                $settingGroups['Template Settings'][$key] = $value;
+                if ($value['type'] == 'title') {
+                    $valuesGroup = $value['label'];
+                    continue;
+                }
+
+                $settingGroups['Template Settings'][$valuesGroup][$key] = $value;
             }
         }
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
-
+        
         return response()->json([
             'settingsGroups' => $settingGroups,
             'optionGroup'=> $optionGroup
