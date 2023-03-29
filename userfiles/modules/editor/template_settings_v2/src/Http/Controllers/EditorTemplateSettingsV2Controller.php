@@ -10,7 +10,9 @@ class EditorTemplateSettingsV2Controller extends Controller
     public function getSettings()
     {
         $getTemplateConfig = mw()->template->get_config();
+
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
+        $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
 
         $settingGroups = [];
 
@@ -32,7 +34,8 @@ class EditorTemplateSettingsV2Controller extends Controller
                     continue;
                 }
 
-                $value['value'] = get_option($key, $optionGroup);
+                $value['optionGroup'] = $optionGroupLess;
+                $value['value'] = get_option($key, $optionGroupLess);
 
                 $settingGroups[$mainGroup][$valuesGroup][$key] = $value;
             }
@@ -49,17 +52,17 @@ class EditorTemplateSettingsV2Controller extends Controller
                     continue;
                 }
 
+                $value['optionGroup'] = $optionGroup;
                 $value['value'] = get_option($key, $optionGroup);
 
                 $settingGroups['Template Settings'][$valuesGroup][$key] = $value;
             }
         }
 
-       // dd($settingGroups);
-
         return response()->json([
             'settingsGroups' => $settingGroups,
-            'optionGroup'=> $optionGroup
+            'optionGroup'=> $optionGroup,
+            'optionGroupLess'=> $optionGroupLess,
         ]);
     }
 }

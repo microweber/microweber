@@ -43,7 +43,7 @@
                                         <div>
                                             <input type="text" class="form-control"
                                                    :value="[setting.value ? setting.value : setting.default]"
-                                                   v-on:change="updateSettings($event, settingKey)"
+                                                   v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                    :name="settingKey"/>
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                             <div>
                                                 <input type="color" class="w-10px"
                                                        :value="[setting.value ? setting.value : setting.default]"
-                                                       v-on:change="updateSettings($event, settingKey)"
+                                                       v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                        :name="settingKey">
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                     <div v-if="setting.type === 'dropdown_image'">
                                         <div>{{ setting.label }}</div>
                                         <select class="form-control"
-                                                v-on:change="updateSettings($event, settingKey)"
+                                                v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                 :name="settingKey"
                                                 :value="[setting.value ? setting.value : setting.default]">
                                             <option v-for="(optionValue,optionKey) in setting.options"
@@ -82,7 +82,7 @@
                                     <div v-if="setting.type === 'dropdown'">
                                         <div>{{ setting.label }}</div>
                                         <select class="form-control"
-                                                v-on:change="updateSettings($event, settingKey)"
+                                                v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                 :name="settingKey"
                                                 :value="[setting.value ? setting.value : setting.default]">
                                             <option v-for="(optionValue,optionKey) in setting.options"
@@ -95,7 +95,7 @@
                                     <div v-if="setting.type === 'font_selector'">
                                         <div>{{ setting.label }}</div>
                                         <select class="form-control"
-                                                v-on:change="updateSettings($event, settingKey)"
+                                                v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                 :name="settingKey"
                                                 :value="[setting.value ? setting.value : setting.default]">
                                             <option value="Arial">Arial</option>
@@ -142,11 +142,11 @@ export default {
                 el.style.display = 'none';
             }
         },
-        updateSettings(event, settingKey) {
+        updateSettings(event, settingKey, optionGroup) {
             let value = event.target.value;
             let appInstance = this;
             axios.post('/api/save_option', {
-                'option_group': this.optionGroup,
+                'option_group': optionGroup,
                 'option_key': settingKey,
                 'option_value': value,
             }).then(function (response) {
@@ -159,6 +159,10 @@ export default {
             mw.tools.confirm_reset_module_by_id(this.optionGroup, function () {
                 // Reset template settings
             });
+
+            mw.tools.confirm_reset_module_by_id(this.optionGroupLess, function () {
+                // Reset template settings
+            });
         }
     },
     mounted() {
@@ -167,13 +171,15 @@ export default {
             if (response.data) {
                 appInstance.settingsGroups = response.data.settingsGroups;
                 appInstance.optionGroup = response.data.optionGroup;
+                appInstance.optionGroupLess = response.data.optionGroupLess;
             }
         });
     },
     data() {
         return {
             settingsGroups: [],
-            optionGroup: ''
+            optionGroup: '',
+            optionGroupLess: ''
         }
     }
 }
