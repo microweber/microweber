@@ -1,0 +1,12 @@
+{
+  "resources/css/microweber-admin-filament.css": {
+    "file": "assets/microweber-admin-filament-ed8571fb.css",
+    "isEntry": true,
+    "src": "resources/css/microweber-admin-filament.css"
+  },
+  "userfiles/modules/microweber/api/live-edit-app/app.js": {
+    "file": "assets/app-ec3b123b.js",
+    "isEntry": true,
+    "src": "userfiles/modules/microweber/api/live-edit-app/app.js"
+  }
+}
