@@ -128,12 +128,16 @@ export const EditorComponent = function () {
         btnUndo.disabled = !liveEditor.state.hasNext;
     })
 
-    btnUndo.addEventListener('click', function () {
-        liveEditor.state.undo()
-    });
-    btnRedo.addEventListener('click', function () {
-        liveEditor.state.redo()
-    });
+    if (btnUndo) {
+        btnUndo.addEventListener('click', function () {
+            liveEditor.state.undo()
+        });
+    }
+    if (btnRedo) {
+        btnRedo.addEventListener('click', function () {
+            liveEditor.state.redo()
+        });
+    }
 
     /*                liveEditor.on('action', function (){
                         mw.wysiwyg.change(liveEditor.api.elementNode(liveEditor.api.getSelection().focusNode))
@@ -148,7 +152,7 @@ export const EditorComponent = function () {
                         } else {
                             liveEditor.lastRange = undefined;
                         }
- 
+
                     })*/
 
     holder.innerHTML = '';
