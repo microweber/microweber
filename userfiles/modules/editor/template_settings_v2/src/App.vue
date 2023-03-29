@@ -31,52 +31,50 @@
                         :data-bs-parent="'#accordionFlush' + stringToId(settingGroupKey)">
 
                           <div class="accordion-body">
-                            <div v-if="setting.type === 'delimited'">
-                                <hr/>
-                            </div>
-
-                        <div v-if="setting.type === 'color'">
-                            <div class="d-flex justify-content-between">
-                                <div class="mr-4">{{ setting.label }}</div>
-                                <div>
-                                <input type="color" class="w-10px"
-                                       :value="setting.value"
-                                       v-on:change="updateSettings($event, settingKey)"
-                                       :name="settingKey">
+                            <div v-if="setting.type === 'color'">
+                                <div class="d-flex justify-content-between">
+                                    <div class="mr-4">{{ setting.label }}</div>
+                                    <div>
+                                    <input type="color" class="w-10px"
+                                           :value="[setting.value ? setting.value : setting.default]"
+                                           v-on:change="updateSettings($event, settingKey)"
+                                           :name="settingKey">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div v-if="setting.type === 'title'">
-                            <div class="text-uppercase">
-                                <span>{{ setting.label }}</span>
+                            <div v-if="setting.type === 'title'">
+                                <div class="text-uppercase">
+                                    <span>{{ setting.label }}</span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div v-if="setting.type === 'dropdown_image'">
-                            <div>{{ setting.label }}</div>
-                            <select class="form-control" v-on:change="updateSettings($event, settingKey)"
-                                    :name="settingKey">
-                                <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
-                                    {{ optionValue }}
-                                </option>
-                            </select>
-                        </div>
+                            <div v-if="setting.type === 'dropdown_image'">
+                                <div>{{ setting.label }}</div>
+                                <select class="form-control"
+                                        v-on:change="updateSettings($event, settingKey)"
+                                        :name="settingKey"
+                                        :value="[setting.value ? setting.value : setting.default]">
+                                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                                        {{ optionValue }}
+                                    </option>
+                                </select>
+                            </div>
 
-                        <div v-if="setting.type === 'dropdown'">
-                            <div>{{ setting.label }}</div>
-                            <select class="form-control" v-on:change="updateSettings($event, settingKey)"
-                                    :name="settingKey">
-                                <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
-                                    {{ optionValue }}
-                                </option>
-                            </select>
-                        </div>
+                            <div v-if="setting.type === 'dropdown'">
+                                <div>{{ setting.label }}</div>
+                                <select class="form-control"
+                                        v-on:change="updateSettings($event, settingKey)"
+                                        :name="settingKey"
+                                        :value="[setting.value ? setting.value : setting.default]">
+                                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                                        {{ optionValue }}
+                                    </option>
+                                </select>
+                            </div>
+                          </div>
                    </div>
-                   </div>
-
                 </div>
-
             </div>
             </div>
         </div>
