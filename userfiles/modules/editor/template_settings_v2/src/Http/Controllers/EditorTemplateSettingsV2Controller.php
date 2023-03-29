@@ -55,6 +55,8 @@ class EditorTemplateSettingsV2Controller extends Controller
             }
         }
 
+       // dd($settingGroups);
+
         return response()->json([
             'settingsGroups' => $settingGroups,
             'optionGroup'=> $optionGroup
