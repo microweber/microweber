@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 
+
+
     <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
-    <script  type="module"  src="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/index.js'); ?>"></script>
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
@@ -18,10 +19,10 @@
     <script src="//unpkg.com/vue@2"></script>
 
 
-    <link rel="stylesheet" ref="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
+    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
     <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/index.css'); ?>">
 
-
+    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
 
 
     @livewireScripts
@@ -29,14 +30,9 @@
     @livewireStyles
 
 
-    <script>
-
-        mw.require('le2/modules-list.js');
-
-    </script>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
     <script>
@@ -47,154 +43,11 @@
         }
 
 
-
-
-        var _modulesCache, _layotsCache;
-
-        var _modulesDataLoader = function (modulesDialog) {
-            var modulesList = new ModulesList({
-                data: _modulesCache
-            });
-            modulesList.createCategorized().then(function () {
-                modulesDialog.append(modulesList.root)
-
-            })
-        }
-
-        var _layoutsDataLoader = function (cmmodulesDialog) {
-            var modulesList = new ModulesList({
-                data: _layotsCache
-            });
-
-
-            modulesList.create().then(function () {
-                var grid = mw.element({
-                    props: {
-                        className: 'mw-le-layouts-dialog-row'
-                    }
-                });
-                var colSidebar = mw.element({
-                    props: {
-                        className: 'mw-le-layouts-dialog-col'
-                    }
-                });
-                var colContent = mw.element({
-                    props: {
-                        className: 'mw-le-layouts-dialog-col'
-                    }
-                });
-                grid.append(colSidebar);
-                grid.append(colContent);
-                mw.element(modulesList.root).append(grid);
-                colSidebar.append(modulesList.searchBlock);
-
-                var categoriesTitle = mw.element({
-                    props: {
-                        innerHTML: 'Categories',
-                        className: 'mw-le-layouts-dialog-categories-title'
-                    }
-                });
-                colSidebar.append(categoriesTitle);
-                colSidebar.append(modulesList.categoriesNavigation);
-                colContent.append(modulesList.modulesList);
-
-                cmmodulesDialog.append(modulesList.root);
-
-
-            })
-        }
-
-        window.command = {
-            cssEditor: function () {
-                document.getElementById('css-editor-template').classList.toggle('active')
-
-            },
-
-            themeEditor: function () {
-                document.getElementById('general-theme-settings').classList.toggle('active')
-
-            },
-            insertModule: function (target) {
-                var cmmodulesDialog = new CommandDialog('mw-le-modules-dialog');
-                var modulesDialog = cmmodulesDialog.dialog;
-
-
-                mw.$('#mw-plus-tooltip-selector li').each(function () {
-                    this.onclick = function () {
-                        var name = mw.$(this).attr('data-module-name');
-                        var conf = {class: this.className};
-                        if (name === 'layout') {
-                            conf.template = mw.$(this).attr('template');
-                        }
-
-                        mw.module.insert(mw._activeElementOver, name, conf, mw.handleElement.positionedAt, mw.liveEditState);
-                        mw.wysiwyg.change(mw._activeElementOver)
-                        tooltip.remove();
-                    };
-                });
-
-
-                if (_modulesCache) {
-                    _modulesDataLoader(modulesDialog)
-                } else {
-                    mw.spinner({
-                        element: modulesDialog.get(0),
-                        decorate: true
-                    });
-                    /* demo */
-                    fetch('<?php print route('api.module.list'); ?>?layout_type=layout')
-                        .then(function (data) {
-                            return data.json();
-                        }).then(function (data) {
-                        _modulesCache = data;
-                        _modulesDataLoader(modulesDialog)
-                        mw.spinner({
-                            element: modulesDialog.get(0),
-                            decorate: true
-                        }).remove()
-                    })
-                }
-
-
-            },
-            insertLayout: function () {
-
-
-                var cmmodulesDialog = new CommandDialog('mw-le-layouts-dialog')
-                var layOutsDialog = cmmodulesDialog.dialog;
-
-
-                if (_layotsCache) {
-                    _layoutsDataLoader(layOutsDialog);
-                    return;
-                }
-
-                mw.spinner({
-                    element: layOutsDialog.get(0),
-                    decorate: true
-                })
-
-
-                fetch('<?php print route('api.module.list'); ?>?layout_type=layout&elements_mode=true&group_layouts_by_category=true')
-                    .then(function (data) {
-                        return data.json();
-                    }).then(function (data) {
-                    _layotsCache = data;
-                    _layoutsDataLoader(layOutsDialog)
-                    mw.spinner({
-                        element: layOutsDialog.get(0),
-                        decorate: true
-                    }).remove()
-                })
-            }
-        }
-
-
         addEventListener('load', () => {
 
             mw.element('#bubble-nav [data-command]').on('click', function () {
-                if (command[this.dataset.command]) {
-                    command[this.dataset.command]();
+                if (this.dataset.command) {
+                    mw.app.get('commands')[this.dataset.command]();
                 }
             })
 
@@ -243,8 +96,6 @@
 
     </script>
 
-
-    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
 
     <?php print event_trigger('mw.live_edit.head'); ?>
 
@@ -447,5 +298,34 @@ $user = get_user();
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 
 
+<script type="module">
+
+
+   // mw.app.dispatch('init');
+
+</script>
+
+<script>
+    $( document ).ready(function() {
+
+        mw.app.canvas.on('liveEditBeforeLoaded', function () {
+            mw.app.dispatch('init');
+        });
+
+        mw.app.canvas.on('liveEditCanvasLoaded', function () {
+            mw.app.dispatch('ready');
+        });
+
+
+        mw.app.on('ready', function () {
+
+        });
+
+
+    })
+
+
+
+</script>
 </body>
 </html>

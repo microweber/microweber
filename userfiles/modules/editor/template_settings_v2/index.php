@@ -7,11 +7,12 @@
     </div>
 
     <script>
-        window.TemplatesSettingsV2 = new Vue({
-            components: {
-                'run-module': TemplatesSettingsV2
-            }
-        }).$mount('#js-template-settings-v2')
+        // $( document ).ready(function() {
+        //    setTimeout(function(){
+        //        window.TemplatesSettingsV2 =   Vue.createApp(TemplatesSettingsV2).mount('#js-template-settings-v2')
+        //    }, 5000);
+        // });
+
     </script>
 
 </div>
