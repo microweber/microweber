@@ -1,56 +1,95 @@
 <template>
     <div class="p-3">
-        <div v-if="settings.length === 0" class="text-center">
+
+        <div v-if="settingsGroups.length === 0" class="text-center">
             Loading...
         </div>
-        <div v-else v-for="(setting,settingKey) in settings">
 
+        <div v-else v-for="(settings,settingGroupKey) in settingsGroups" class="mb-3">
 
-            <div v-if="setting.type === 'delimited'" class="mt-3">
-                <hr />
+            <div>
+                <span v-on:click="showSettingsGroup(settingGroupKey)" class="border-bottom pt-1 pb-1 settings-main-group">
+                    {{ settingGroupKey }}
+                </span>
             </div>
 
-            <div v-if="setting.type === 'color'" class="mt-3">
-                <b>{{ setting.label }}</b>
-            </div>
+            <div style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
+             <div class="accordion accordion-flush" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-            <div v-if="setting.type === 'title'" class="mt-3">
-                <div class="text-uppercase">
-                    <b>{{ setting.label }}</b>
+                <div v-for="(settingGroupInside,settingGroupInsideName) in settings" class="accordion-item"  style="background: #dfffff">
+
+                    <h2 class="accordion-header" :id="'flush-heading-' + stringToId(settingGroupInsideName)">
+                        <button style="background: #b6b6b6" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#flush-collapse-' + stringToId(settingGroupInsideName)" aria-expanded="false" :aria-controls="'flush-collapse-' + stringToId(settingGroupInsideName)">
+                            {{settingGroupInsideName}}
+                        </button>
+                    </h2>
+                    <div
+                        v-for="(setting,settingKey) in settingGroupInside"
+                        :id="'flush-collapse-' + stringToId(settingGroupInsideName)"
+                        class="accordion-collapse collapse"
+                        :aria-labelledby="'flush-heading-' + stringToId(settingGroupInsideName)"
+                        :data-bs-parent="'#accordionFlush' + stringToId(settingGroupKey)">
+
+                          <div class="accordion-body">
+                        <div v-if="setting.type === 'delimited'" class="mt-3">
+                            <hr/>
+                        </div>
+
+                        <div v-if="setting.type === 'color'" class="mt-3">
+                            <div class="d-flex justify-content-between">
+                                <div class="mr-4">{{ setting.label }}</div>
+                                <div>
+                                <input type="color" class="w-10px" v-on:change="updateSettings($event, settingKey)"
+                                       :name="settingKey">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="setting.type === 'title'" class="mt-3">
+                            <div class="text-uppercase">
+                                <span>{{ setting.label }}</span>
+                            </div>
+                        </div>
+
+                        <div v-if="setting.type === 'dropdown_image'" class="mt-3">
+                            <div>{{ setting.label }}</div>
+                            <select class="form-control" v-on:change="updateSettings($event, settingKey)"
+                                    :name="settingKey">
+                                <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                                    {{ optionValue }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div v-if="setting.type === 'dropdown'" class="mt-3">
+                            <div>{{ setting.label }}</div>
+                            <select class="form-control" v-on:change="updateSettings($event, settingKey)"
+                                    :name="settingKey">
+                                <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
+                                    {{ optionValue }}
+                                </option>
+                            </select>
+                        </div>
+                   </div>
+                   </div>
+
                 </div>
-            </div>
 
-            <div v-if="setting.type === 'dropdown_image'" class="mt-3">
-                <div>{{ setting.label }}</div>
-                <select class="form-control" v-on:change="updateSettings($event, settingKey)" :name="settingKey">
-                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
-                        {{ optionValue }}
-                    </option>
-                </select>
             </div>
-
-            <div v-if="setting.type === 'dropdown'" class="mt-3">
-                <div>{{ setting.label }}</div>
-                <select class="form-control" v-on:change="updateSettings($event, settingKey)" :name="settingKey">
-                    <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
-                        {{ optionValue }}
-                    </option>
-                </select>
             </div>
-
         </div>
 
         <div class="mt-2">
             <button v-on:click="resetTemplateSettings"
-                    class="btn btn-primary btn-block">Reset Template Settings
+                    class="btn btn-primary btn-sm btn-block">Reset Template Settings
             </button>
         </div>
     </div>
 </template>
 
 <style>
-.greeting {
-    color: red;
+.settings-main-group {
+    cursor: pointer;
 }
 </style>
 <script>
@@ -58,6 +97,18 @@ import axios from 'axios';
 
 export default {
     methods: {
+        stringToId(str) {
+            return str.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        },
+        showSettingsGroup(settingGroupKey) {
+            let id = 'settings-group-' + this.stringToId(settingGroupKey);
+            let el = document.getElementById(id);
+            if (el.style.display === 'none') {
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        },
         updateSettings(event, settingKey) {
             let value = event.target.value;
             let appInstance = this;
@@ -72,7 +123,7 @@ export default {
             });
         },
         resetTemplateSettings() {
-            mw.tools.confirm_reset_module_by_id(this.optionGroup, function (){
+            mw.tools.confirm_reset_module_by_id(this.optionGroup, function () {
                 // Reset template settings
             });
         }
@@ -81,14 +132,14 @@ export default {
         let appInstance = this;
         axios.get('/api/editor/template_settings_v2/list').then(function (response) {
             if (response.data) {
-                appInstance.settings = response.data.settings;
+                appInstance.settingsGroups = response.data.settingsGroups;
                 appInstance.optionGroup = response.data.optionGroup;
             }
         });
     },
     data() {
         return {
-            settings: [],
+            settingsGroups: [],
             optionGroup: ''
         }
     }

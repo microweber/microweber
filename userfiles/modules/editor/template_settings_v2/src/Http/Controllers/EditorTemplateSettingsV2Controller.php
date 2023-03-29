@@ -39,14 +39,14 @@ class EditorTemplateSettingsV2Controller extends Controller
                 if (is_numeric($key)) {
                     $key = $value['type'] . '_' . $key;
                 }
-                $settings[$key] = $value;
+                $settingGroups['Template Settings'][$key] = $value;
             }
         }
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
 
         return response()->json([
-            'settings' => $settings,
+            'settingsGroups' => $settingGroups,
             'optionGroup'=> $optionGroup
         ]);
     }
