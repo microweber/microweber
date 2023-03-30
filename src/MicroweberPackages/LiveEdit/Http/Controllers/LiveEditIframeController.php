@@ -22,6 +22,9 @@ class LiveEditIframeController
 
     public function devPreview()
     {
-        return view('live_edit::iframe-dev-preview');
+        $l = view('live_edit::iframe-dev-preview');
+        $l = app()->template->append_api_js_to_layout($l);
+
+        return $l;
     }
 }
