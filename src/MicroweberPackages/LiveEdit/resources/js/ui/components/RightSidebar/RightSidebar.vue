@@ -28,13 +28,22 @@ export default {
         TemplateSettings
     },
     mounted() {
+        const instance = this;
+
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'template-settings') {
-                if (this.showSidebar == false) {
-                    this.showSidebar = true;
+                if (instance.showSidebar == false) {
+                    instance.showSidebar = true;
                 } else {
-                    this.showSidebar = false;
+                    instance.showSidebar = false;
                 }
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keyup', function (evt) {
+            if (evt.keyCode === 27) {
+                instance.showSidebar = false;
             }
         });
     },
