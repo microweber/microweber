@@ -14,9 +14,21 @@
 
 
             <div class="modules-list modules-list-defaultModules">
-                <div class="modules-list-search-block"><input type="text" placeholder="Type to Search..."
-                                                              class="modules-list-search-field"></div>
+                <div class="modules-list-search-block">
+
+                    <input type="text"
+                           placeholder="Type to Search..."
+                           class="modules-list-search-field">
+
+                    <div v-if="showModal" v-on:click="showModal = false">
+                        <span style="color:#fff;font-size:15px;">
+                            Close
+                        </span>
+                    </div>
+
+                </div>
                 <div class="modules-list-block">
+
                     <div class="modules-list-block-category-section">
                         <div class="modules-list-block-category-section-title"><h5>miscellaneous</h5></div>
                         <div class="modules-list-block-item modules-list-block-item-is-locked-false">
@@ -430,8 +442,6 @@
 
         </div>
     </Transition>
-
-    <div v-if="showModal" v-on:click="showModal = false" class="mw-le-dialog-close active"></div>
 
 </template>
 

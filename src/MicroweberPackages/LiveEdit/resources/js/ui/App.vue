@@ -13,7 +13,7 @@
 
 <style>
 #live-edit-frame-holder {
-    border: 3px solid #0a53be;
+    
 }
 </style>
 
