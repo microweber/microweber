@@ -2,13 +2,24 @@
 <script>
 export default {
     methods: {
-
+        getLayoutsList()
+        {
+             return mw.app.modules.list();
+        }
     },
     components: {
 
     },
+    mounted() {
+        mw.app.on('ready', () => {
+            this.getLayoutsList().then(function(data) {
+                this.modulesList = data;
+            });
+        });
+    },
     data() {
         return {
+            modulesList: [],
             showModal: false
         }
     }
