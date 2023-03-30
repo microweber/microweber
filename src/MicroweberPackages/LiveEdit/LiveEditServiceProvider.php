@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\LiveEdit;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
@@ -19,6 +20,9 @@ class LiveEditServiceProvider extends ServiceProvider
 {
     public function register()
     {
+
+        View::addNamespace('live_edit', __DIR__.'/resources/views');
+
         $this->app->singleton('live_edit', function (): LiveEditManager {
             return new LiveEditManager();
         });

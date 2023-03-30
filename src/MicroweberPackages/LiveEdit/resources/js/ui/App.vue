@@ -1,30 +1,17 @@
 <template>
-    <h1> Hello, Vuejs with Laravel </h1>
+
+    <div>
+        <Toolbar></Toolbar>
+        <LeftSidebar></LeftSidebar>
+        <div id="live-edit-frame-holder"></div>
+    </div>
+
 </template>
-<script>
-
-
-export default {
-    setup() {
-
-
-     mw.app.canvas.on('liveEditCanvasLoaded', () => {
-            new EditorComponent();
-            liveEditComponent();
-            const editor = {
-                handle: {
-                    module:  new ModuleHandleAdapter(),
-                    element: new ElementHandleAdapter(),
-                },
-            };
-            mw.app.register('editor', editor);
-
-            mw.app.dispatch('ready');
-        });
-        
- 
-
-
-    }
+<style>
+#live-edit-frame-holder {
+    border: 3px solid #0a53be;
 }
-</script>
+</style>
+<script setup>
+import Toolbar from "./components/Toolbar/Toolbar.vue";
+import LeftSidebar from "./components/LeftSidebar/LeftSidebar.vue";</script>
