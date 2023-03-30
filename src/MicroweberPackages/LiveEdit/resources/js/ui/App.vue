@@ -3,8 +3,8 @@
     <div>
         <Toolbar></Toolbar>
         <LeftSidebar></LeftSidebar>
-        <RightSidebar></RightSidebar>
         <div id="live-edit-frame-holder"></div>
+        <RightSidebar></RightSidebar>
     </div>
 
 </template>

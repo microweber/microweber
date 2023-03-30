@@ -10,6 +10,9 @@ export default {
 
 <template>
     <div>
-        <TemplateSettings></TemplateSettings>
+
+        <div id="general-theme-settings">
+            <TemplateSettings></TemplateSettings>
+        </div>
     </div>
 </template>
