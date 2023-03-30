@@ -9,11 +9,10 @@
 
 </template>
 <script>
-import { EventBus } from '../../event-bus.js';
 export default {
     methods: {
         show: function (name) {
-            EventBus.$emit('liveEditUiShow', name);
+           // EventBus.$emit('liveEditUiShow', name);
         }
     },
     components: {
