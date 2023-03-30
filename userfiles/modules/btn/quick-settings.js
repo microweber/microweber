@@ -13,11 +13,15 @@ mw.quickSettings['btn'] = {
 
                 // var settings = api.moduleSettings.dialog()
                 // var settings = api.moduleSettings.sidebar()
+                api.dialog({});
+                console.log(api)
+
+                return
 
 
 
                 mw.dialogIframe({
-                    url:route('live_edit.modules.settings.btn')+'?id='+moduleId,
+                    url: route('live_edit.modules.settings.btn')+'?id='+moduleId,
                     width: 300,
                     height: 500,
                     template:'mw_modal_simple',
