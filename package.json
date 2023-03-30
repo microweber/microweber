@@ -27,6 +27,7 @@
         "vite": "^4.2.1"
     },
     "dependencies": {
+        "@heroicons/vue": "^1.0.6",
         "@popperjs/core": "^2.6.0",
         "@vitejs/plugin-vue": "^4.1.0",
         "aos": "^2.3.4",
