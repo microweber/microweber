@@ -4,10 +4,13 @@
     <div v-if="showModal" class="mw-le-overlay active"></div>
 
     <Transition
-        enter-active-class="animate__animated animate__zoomInLeft"
-        leave-active-class="animate__animated animate__zoomOutLeft"
+        enter-active-class="animate__animated animate__backInLeft"
+        leave-active-class="animate__animated animate__backOutLeft"
     >
-    <div v-if="showModal" class="mw-le-dialog-block mw-le-layouts-dialog active">
+    <div v-if="showModal"
+         class="mw-le-dialog-block mw-le-layouts-dialog active"
+         style="inset:20px;transform:none;"
+    >
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
                 <div class="mw-le-layouts-dialog-col">
