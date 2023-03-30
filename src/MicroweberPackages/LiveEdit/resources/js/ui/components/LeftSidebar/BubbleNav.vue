@@ -5,6 +5,12 @@
         <span v-on:click="show('template-settings')">
            TS
         </span>
+        <span v-on:click="show('show-modules')">
+           Mod
+        </span>
+        <span v-on:click="show('show-layouts')">
+           Layo
+        </span>
     </div>
 
 </template>
@@ -12,7 +18,7 @@
 export default {
     methods: {
         show: function (name) {
-            this.$emit('liveEditUiShow', name);
+            this.emitter.emit('live-edit-ui-show', name);
         }
     },
     components: {
