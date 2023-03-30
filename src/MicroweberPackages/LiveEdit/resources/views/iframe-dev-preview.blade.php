@@ -11,13 +11,19 @@
     @livewireScripts
 
     @livewireStyles
+    <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
-
+<script>
+    mw.lib.require('microweber_ui');
+    mw.lib.require('mwui_init');
+</script>
 
 </head>
 <body>
-
 @vite(['src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js'])
+<script>
+    mw.quickSettings = {}
+</script>
 
 
 <div id="live-edit-app">
@@ -26,6 +32,7 @@
 
 
 
+<?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 
 </body>
 </html>

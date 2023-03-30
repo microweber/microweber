@@ -1,8 +1,9 @@
 <script>
 import ResolutionSwitch from "./ResolutionSwitch.vue";
+import Editor from "./Editor.vue";
 
 export default {
-    components: {ResolutionSwitch},
+    components: {Editor, ResolutionSwitch},
     data() {
 
     }
@@ -21,9 +22,9 @@ export default {
         </div>
 
         <ResolutionSwitch></ResolutionSwitch>
+        <Editor></Editor>
 
 
-        <div class="toolbar-nav" id="mw-live-edit-editor"></div>
         <div class="toolbar-col">
             <div class="toolbar-nav toolbar-nav-hover">
                 <button class="mw-le-btn mw-le-btn-icon" id="toolbar-undo" disabled>

@@ -2,13 +2,19 @@ import {LiveEdit} from '../../../core/@live.js';
 
 
 
+import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
+
+
 
 export const liveEditComponent = () => {
     const frame = mw.app.get('canvas').getFrame();
     const frameHolder = frame.parentElement;
     const doc = mw.app.get('canvas').getDocument();
-    const link = doc.createElement('link');
-    link.rel = 'stylesheet';
+    const link = doc.createElement('style');
+    link.textContent = liveeditCssDist;
+
+   // alert(liveeditCssDist)
+   // link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
    // link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
     doc.head.prepend(link);
 
