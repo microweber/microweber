@@ -6,8 +6,9 @@
         <div id="live-edit-frame-holder"></div>
         <RightSidebar></RightSidebar>
 
-<!--        <ListLayouts></ListLayouts>
-        <ListModules></ListModules>-->
+        <ListLayouts></ListLayouts>
+
+<!--        <ListModules></ListModules>-->
 
     </div>
 

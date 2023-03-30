@@ -1,4 +1,27 @@
+
+<script>
+export default {
+    methods: {
+
+    },
+    components: {
+
+    },
+    data() {
+        return {
+            showModal: false
+        }
+    }
+}
+</script>
+
+
 <template>
+
+    <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
+    <div v-if="showModal" class="mw-le-overlay active"></div>
+
+    <div v-if="showModal" class="mw-le-dialog-block mw-le-layouts-dialog active">
     <div class="modules-list modules-list-defaultModules"><div class="mw-le-layouts-dialog-row"><div class="mw-le-layouts-dialog-col"><div class="modules-list-search-block"><input type="text" placeholder="Type to Search..." class="modules-list-search-field"></div><div class="mw-le-layouts-dialog-categories-title">Categories</div><ul class="modules-list-categories"><li data-category="">All categories</li> <li data-category=""></li><li data-category="Animated Backgrounds">Animated Backgrounds</li><li data-category="Blog">Blog</li><li data-category="Call to Action">Call to Action</li><li data-category="Contact Us">Contact Us</li><li data-category="Content">Content</li><li data-category="Ecommerce">Ecommerce</li><li data-category="Features">Features</li><li data-category="Footers">Footers</li><li data-category="Gallery">Gallery</li><li data-category="Grids">Grids</li><li data-category="Header">Header</li><li data-category="Menu">Menu</li><li data-category="Misc">Misc</li><li data-category="Price Lists">Price Lists</li><li data-category="Team">Team</li><li data-category="Testimonials">Testimonials</li><li data-category="Text block">Text block</li><li data-category="Titles">Titles</li><li data-category="Video">Video</li><li data-category="blog">blog</li><li data-category="tony">tony</li></ul></div><div class="mw-le-layouts-dialog-col"><div class="modules-list-block"><div class="modules-list-block-item modules-list-block-item-is-locked-false">
         <div class="modules-list-block-item-picture" style="background-image: url(http://127.0.0.1:8000/userfiles/templates/template-big/modules/layouts/templates/titles/skin-1.jpg)"></div>
         <div class="modules-list-block-item-title">Titles 1</div>
@@ -2090,4 +2113,6 @@
         <div class="modules-list-block-item-description"></div>
 
     </div><div class="modules-list-block-no-results" style="display: none;">Nothing found...</div></div></div></div></div>
+    </div>
+
 </template>
