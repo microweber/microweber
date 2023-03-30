@@ -11,8 +11,6 @@
              class="mw-le-dialog-block mw-le-modules-dialog active"
              style="inset:20px;transform:none;"
         >
-
-
             <div class="modules-list modules-list-defaultModules">
                 <div class="modules-list-search-block">
 
@@ -20,10 +18,10 @@
                            placeholder="Type to Search..."
                            class="modules-list-search-field">
 
-                    <div v-if="showModal" v-on:click="showModal = false">
-                        <span style="color:#fff;font-size:15px;">
-                            Close
-                        </span>
+                    <div v-if="showModal">
+                        <button v-on:click="showModal = false" type="button" class="btn btn-danger">
+                            Close Modal
+                        </button>
                     </div>
 
                 </div>
@@ -465,11 +463,18 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'show-modules') {
-                if (this.showModal == false) {
-                    this.showModal = true;
+                if (instance.showModal == false) {
+                    instance.showModal = true;
                 } else {
-                    this.showModal = false;
+                    instance.showModal = false;
                 }
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keyup', function (evt) {
+            if (evt.keyCode === 27) {
+                instance.showModal = false;
             }
         });
     },

@@ -84,11 +84,18 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'show-layouts') {
-                if (this.showModal == false) {
-                    this.showModal = true;
+                if (instance.showModal == false) {
+                    instance.showModal = true;
                 } else {
-                    this.showModal = false;
+                    instance.showModal = false;
                 }
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keyup', function (evt) {
+            if (evt.keyCode === 27) {
+                instance.showModal = false;
             }
         });
     },
