@@ -1,7 +1,6 @@
 <template>
 
     <div id="bubble-nav" class="active">
-        <span>wow!</span>
         <span v-on:click="show('template-settings')">
            TS
         </span>
