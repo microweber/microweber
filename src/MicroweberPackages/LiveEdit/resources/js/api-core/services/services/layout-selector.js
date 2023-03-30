@@ -1,4 +1,4 @@
-import { ModulesList } from "../../le2/modules-list.js";
+import { ModulesList } from "./../../core/le2/modules-list.js";
 import { CommandDialog } from "./commands-dialog.js";
 
 var _layotsCache;
@@ -48,7 +48,7 @@ var _layoutsDataLoader = function (cmmodulesDialog) {
 }
 
 export const layoutSelector = () => {
-    
+
     var cmmodulesDialog = new CommandDialog('mw-le-layouts-dialog')
     var layOutsDialog = cmmodulesDialog.dialog;
 

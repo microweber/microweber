@@ -22,18 +22,18 @@ mw.app.register('canvas', canvas);
 mw.app.register('commands', Commands);
 mw.app.register('commands', Commands);
 
-
-mw.app.canvas.on('liveEditCanvasLoaded', () => {
-    new EditorComponent();
-    liveEditComponent();
-    //mw.app.dispatch('ready');
-});
-
-
-
-
-console.log(mw.app)
-setTimeout(() => {
-    console.log(mw.app)
-}, 2222);
-
+//
+// mw.app.canvas.on('liveEditCanvasLoaded', () => {
+//     new EditorComponent();
+//     liveEditComponent();
+//     //mw.app.dispatch('ready');
+// });
+//
+//
+//
+//
+// console.log(mw.app)
+// setTimeout(() => {
+//     console.log(mw.app)
+// }, 2222);
+//

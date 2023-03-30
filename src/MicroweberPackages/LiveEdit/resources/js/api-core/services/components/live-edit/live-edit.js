@@ -1,4 +1,5 @@
-import {LiveEdit} from '../../../liveedit2/@live.js';
+import {LiveEdit} from '../../../core/@live.js';
+
 
 
 
@@ -8,7 +9,7 @@ export const liveEditComponent = () => {
     const doc = mw.app.get('canvas').getDocument();
     const link = doc.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
+   // link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
     doc.head.prepend(link);
 
     const liveEdit = new LiveEdit({

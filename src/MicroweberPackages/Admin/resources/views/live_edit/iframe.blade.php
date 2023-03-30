@@ -19,11 +19,6 @@
     <script src="//unpkg.com/vue@2"></script>
 
 
-    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/gui.css'); ?>">
-    <link rel="stylesheet" href="<?php print site_url('userfiles/modules/microweber/api/live-edit-app/css/index.css'); ?>">
-
-    @vite(['userfiles/modules/microweber/api/live-edit-app/app.js'])
-
 
     @livewireScripts
 
@@ -283,6 +278,7 @@ $user = get_user();
     <?php include modules_path() . 'editor' . DS . 'template_settings_v2' . DS .  'index.php'; ?>
 </div>
 <div id="root"></div>
+<div id="live-edit-app"></div>
 
 
 <div id="live-edit-frame-holder"></div>
@@ -306,26 +302,30 @@ $user = get_user();
 </script>
 
 <script>
-    $( document ).ready(function() {
-
-        mw.app.canvas.on('liveEditBeforeLoaded', function () {
-            mw.app.dispatch('init');
-        });
-
-        mw.app.canvas.on('liveEditCanvasLoaded', function () {
-            mw.app.dispatch('ready');
-        });
-
-
-        mw.app.on('ready', function () {
-
-        });
-
-
-    })
+    // $( document ).ready(function() {
+    //
+    //     mw.app.canvas.on('liveEditBeforeLoaded', function () {
+    //         mw.app.dispatch('init');
+    //     });
+    //
+    //     mw.app.canvas.on('liveEditCanvasLoaded', function () {
+    //         mw.app.dispatch('ready');
+    //     });
+    //
+    //
+    //     mw.app.on('ready', function () {
+    //
+    //     });
+    //
+    //
+    // })
 
 
 
 </script>
+
+@vite(['src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js'])
+
+
 </body>
 </html>
