@@ -8,21 +8,21 @@ export default {
     setup() {
 
 
-        // mw.app.canvas.on('liveEditCanvasLoaded', () => {
-        //     new EditorComponent();
-        //     liveEditComponent();
-        //     //mw.app.dispatch('ready');
-        // });
-        //
+     mw.app.canvas.on('liveEditCanvasLoaded', () => {
+            new EditorComponent();
+            liveEditComponent();
+            const editor = {
+                handle: {
+                    module:  new ModuleHandleAdapter(),
+                    element: new ElementHandleAdapter(),
+                },
+            };
+            mw.app.register('editor', editor);
 
-        console.log(mw.app)
-        setTimeout(() => {
-
-            console.log(mw.app)
-
-
-
-        }, 2222);
+            mw.app.dispatch('ready');
+        });
+        
+ 
 
 
     }

@@ -127,8 +127,12 @@ export class LiveEdit {
         this.dropIndicator = new DropIndicator(this.settings);
 
         const elementHandleContent = new ElementHandleContent(this);
-        window.moduleHandleContent = new ModuleHandleContent(this);
+        const moduleHandleContent = new ModuleHandleContent(this);
         const layoutHandleContent = new LayoutHandleContent(this);
+
+        this.elementHandleContent = elementHandleContent;
+        this.moduleHandleContent = moduleHandleContent;
+        this.layoutHandleContent = layoutHandleContent;
 
         this.dialog = function (options) {
             if(!options){
