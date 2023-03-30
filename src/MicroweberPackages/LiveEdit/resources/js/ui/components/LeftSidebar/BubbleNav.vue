@@ -1,5 +1,6 @@
 <template>
 
+
     <div id="bubble-nav" class="active">
         <span v-on:click="show('template-settings')">
            TS

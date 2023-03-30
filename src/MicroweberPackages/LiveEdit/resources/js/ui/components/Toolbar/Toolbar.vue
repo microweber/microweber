@@ -24,7 +24,6 @@ export default {
         <ResolutionSwitch></ResolutionSwitch>
         <Editor></Editor>
 
-
         <div class="toolbar-col">
             <div class="toolbar-nav toolbar-nav-hover">
                 <button class="mw-le-btn mw-le-btn-icon" id="toolbar-undo" disabled>

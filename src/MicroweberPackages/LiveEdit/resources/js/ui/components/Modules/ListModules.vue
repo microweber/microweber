@@ -457,8 +457,11 @@ export default {
     components: {},
     mounted() {
         const instance = this;
-        this.getLayoutsList().then(function (data) {
-            instance.layoutsList = data;
+
+        mw.app.on('ready', () => {
+            this.getLayoutsList().then(function (data) {
+                instance.layoutsList = data;
+            });
         });
 
         this.emitter.on("live-edit-ui-show", show => {

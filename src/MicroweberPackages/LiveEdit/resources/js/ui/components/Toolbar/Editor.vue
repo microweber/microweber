@@ -8,8 +8,10 @@ export default {
 
     },
     mounted() {
-        new EditorComponent();
-        liveEditComponent();
+        mw.app.on('ready', () => {
+            new EditorComponent();
+            liveEditComponent();
+        });
     }
 }
 </script>
