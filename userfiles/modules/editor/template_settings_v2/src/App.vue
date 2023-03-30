@@ -17,7 +17,7 @@
             <div style="display:none" :id="'settings-group-' + stringToId(settingGroupKey)">
                 <div class="accordion accordion-flush" :id="'accordionFlush' + stringToId(settingGroupKey)">
 
-                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings" class="accordion-item">
+                    <div v-for="(settingGroupInside,settingGroupInsideName) in settings.values" class="accordion-item">
 
                         <h2 class="accordion-header"
                             :id="'flush-heading-' + stringToId(settingGroupKey +'-'+ settingGroupInsideName)">
@@ -109,14 +109,24 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="mt-2 mr-2" v-if="settings.type == 'stylesheet'">
+                    <button v-on:click="resetStylesheetSettings"
+                            style="border-radius: 20px"
+                            class="btn btn-primary btn-sm btn-block">Reset Stylesheet Settings
+                    </button>
+                </div>
+
+                <div class="mt-2 mr-2" v-if="settings.type == 'template'">
+                    <button v-on:click="resetTemplateSettings"
+                            style="border-radius: 20px"
+                            class="btn btn-primary btn-sm btn-block">Reset Template Settings
+                    </button>
+                </div>
+
             </div>
         </div>
 
-        <div class="mt-2">
-            <button v-on:click="resetTemplateSettings"
-                    class="btn btn-primary btn-sm btn-block">Reset Template Settings
-            </button>
-        </div>
     </div>
 </template>
 
@@ -159,7 +169,8 @@ export default {
             mw.tools.confirm_reset_module_by_id(this.optionGroup, function () {
                 // Reset template settings
             });
-
+        },
+        resetStylesheetSettings() {
             mw.tools.confirm_reset_module_by_id(this.optionGroupLess, function () {
                 // Reset template settings
             });
