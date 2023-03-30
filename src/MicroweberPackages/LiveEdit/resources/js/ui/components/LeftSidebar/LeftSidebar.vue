@@ -15,5 +15,4 @@ export default {
         <BubbleNav></BubbleNav>
     </div>
 
-
 </template>

@@ -5,6 +5,12 @@
         <span v-on:click="show('template-settings')">
            TS
         </span>
+        <span v-on:click="show('show-modules')">
+           Mod
+        </span>
+        <span v-on:click="show('show-layouts')">
+           Layo
+        </span>
     </div>
 
 </template>
