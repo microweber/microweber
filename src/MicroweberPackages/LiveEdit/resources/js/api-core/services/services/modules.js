@@ -16,6 +16,7 @@ export const Modules = {
         });
 
         return this.modulesListData;
+
     }
 
 }
