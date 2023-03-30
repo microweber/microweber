@@ -15,6 +15,8 @@ import './css/app.sass';
 import  './css/gui.css';
 import  './css/index.css';
 
-const app = createApp(App);
-app.config.globalProperties.emitter = emitter;
-app.mount('#live-edit-app');
+mw.app.on('ready', () => {
+    const app = createApp(App);
+    app.config.globalProperties.emitter = emitter;
+    app.mount('#live-edit-app');
+});

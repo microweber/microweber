@@ -11,15 +11,14 @@ export default {
 
     },
     mounted() {
-        mw.app.on('ready', () => {
-            this.getLayoutsList().then(function(data) {
-                this.modulesList = data;
-            });
+        const instance = this;
+        this.getLayoutsList().then(function(data) {
+            instance.layoutsList = data;
         });
     },
     data() {
         return {
-            modulesList: [],
+            layoutsList: null,
             showModal: false
         }
     }

@@ -30,6 +30,10 @@
     Loading...
 </div>
 
+<div id="live-edit-frame-holder">
+
+</div>
+
 
 
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>

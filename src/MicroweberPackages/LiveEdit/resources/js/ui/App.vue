@@ -3,7 +3,6 @@
     <div>
         <Toolbar></Toolbar>
         <LeftSidebar></LeftSidebar>
-        <div id="live-edit-frame-holder"></div>
         <RightSidebar></RightSidebar>
 
         <ListLayouts></ListLayouts>

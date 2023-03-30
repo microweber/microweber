@@ -8,11 +8,8 @@ export default {
 
     },
     mounted() {
-        mw.app.on('ready', () => {
-             new EditorComponent();
-             liveEditComponent();
-         //   mw.app.dispatch('ready');
-        });
+        new EditorComponent();
+        liveEditComponent();
     }
 }
 </script>
@@ -20,6 +17,5 @@ export default {
 <template>
     <div>
     <div class="toolbar-nav" id="mw-live-edit-editor"></div>
-
     </div>
 </template>
