@@ -21,14 +21,14 @@ setTimeout(function() {
 //mw.app.register('commands', Commands);
 
     canvas.mount(canvasHolder);
-    
+
     mw.app.canvas.on('liveEditBeforeLoaded', function () {
         mw.app.dispatch('init');
     });
 
     mw.app.canvas.on('liveEditCanvasLoaded', () => {
-        new EditorComponent();
-        liveEditComponent();
+        // new EditorComponent();
+        // liveEditComponent();
         mw.app.dispatch('ready');
     });
 
