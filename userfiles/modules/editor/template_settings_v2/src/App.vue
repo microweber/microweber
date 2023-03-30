@@ -109,27 +109,21 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="mt-2" v-if="settings.type == 'Template Settings'">
-                <button v-on:click="resetTemplateSettings"
-                        style="border-radius: 20px"
-                        class="btn btn-primary btn-sm btn-block">Reset Template Settings
-                </button>
-            </div>
+                <div class="mt-2 mr-2" v-if="settings.type == 'stylesheet'">
+                    <button v-on:click="resetStylesheetSettings"
+                            style="border-radius: 20px"
+                            class="btn btn-primary btn-sm btn-block">Reset Stylesheet Settings
+                    </button>
+                </div>
 
-            <div class="mt-2" v-if="settings.type == 'stylesheet'">
-                <button v-on:click="resetStylesheetSettings"
-                        style="border-radius: 20px"
-                        class="btn btn-primary btn-sm btn-block">Reset Stylesheet Settings
-                </button>
-            </div>
+                <div class="mt-2 mr-2" v-if="settings.type == 'template'">
+                    <button v-on:click="resetTemplateSettings"
+                            style="border-radius: 20px"
+                            class="btn btn-primary btn-sm btn-block">Reset Template Settings
+                    </button>
+                </div>
 
-            <div class="mt-2" v-if="settings.type == 'template'">
-                <button v-on:click="resetTemplateSettings"
-                        style="border-radius: 20px"
-                        class="btn btn-primary btn-sm btn-block">Reset Template Settings
-                </button>
             </div>
         </div>
 
