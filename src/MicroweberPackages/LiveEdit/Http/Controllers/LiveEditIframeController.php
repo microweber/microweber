@@ -19,4 +19,9 @@ class LiveEditIframeController
         return $l;
 
     }
+
+    public function devPreview()
+    {
+        return view('live_edit::iframe-dev-preview');
+    }
 }

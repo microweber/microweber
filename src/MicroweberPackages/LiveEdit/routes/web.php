@@ -10,4 +10,9 @@ Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveE
         ->name('admin.live-edit.index')
         ->middleware(['live_edit']);
 
+
+    Route::any('/admin/live-edit-dev-preview', 'LiveEditIframeController@devPreview')
+        ->name('admin.live-edit.dev-preview')
+        ->middleware(['live_edit']);
+
 });
