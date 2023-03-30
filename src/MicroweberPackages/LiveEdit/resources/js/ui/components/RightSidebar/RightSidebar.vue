@@ -4,6 +4,14 @@ export default {
     components: {
         TemplateSettings
     },
+    emits: {
+        liveEditUiShow: function (name) {
+           alert(name);
+        }
+    },
+    mounted() {
+
+    },
     data() {
         return {
             showSidebar: true
