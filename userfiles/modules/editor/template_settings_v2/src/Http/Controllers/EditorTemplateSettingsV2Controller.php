@@ -18,7 +18,7 @@ class EditorTemplateSettingsV2Controller extends Controller
 
         if (isset($getTemplateConfig['stylesheet_compiler']['settings'])) {
 
-            $mainGroup = 'Other';
+            $mainGroup = 'Styles';
             $valuesGroup = 'Other';
             foreach ($getTemplateConfig['stylesheet_compiler']['settings'] as $key => $value) {
 
@@ -37,7 +37,8 @@ class EditorTemplateSettingsV2Controller extends Controller
                 $value['optionGroup'] = $optionGroupLess;
                 $value['value'] = get_option($key, $optionGroupLess);
 
-                $settingGroups[$mainGroup][$valuesGroup][$key] = $value;
+                $settingGroups[$mainGroup]['type'] = 'stylesheet';
+                $settingGroups[$mainGroup]['values'][$valuesGroup][$key] = $value;
             }
         }
 
@@ -55,7 +56,8 @@ class EditorTemplateSettingsV2Controller extends Controller
                 $value['optionGroup'] = $optionGroup;
                 $value['value'] = get_option($key, $optionGroup);
 
-                $settingGroups['Template Settings'][$valuesGroup][$key] = $value;
+                $settingGroups['Template Settings']['type'] = 'template';
+                $settingGroups['Template Settings']['values'][$valuesGroup][$key] = $value;
             }
         }
 
