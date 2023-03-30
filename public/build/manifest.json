@@ -12,7 +12,7 @@
     "css": [
       "assets/live-edit-app-05f41dca.css"
     ],
-    "file": "assets/live-edit-app-9a519b46.js",
+    "file": "assets/live-edit-app-9f9c58b2.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   }

@@ -1,13 +1,14 @@
 <template>
 
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
-    <div v-if="showModal" class="mw-le-overlay active"></div>
+    <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
     <Transition
         enter-active-class="animate__animated animate__backInLeft"
         leave-active-class="animate__animated animate__backOutLeft"
     >
         <div v-if="showModal"
+
              class="mw-le-dialog-block mw-le-modules-dialog active"
              style="inset:20px;transform:none;"
         >
