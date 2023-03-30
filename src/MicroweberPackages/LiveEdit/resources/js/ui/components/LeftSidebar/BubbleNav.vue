@@ -12,7 +12,7 @@
 export default {
     methods: {
         show: function (name) {
-           // EventBus.$emit('liveEditUiShow', name);
+            this.emitter.emit('live-edit-ui-show', name);
         }
     },
     components: {

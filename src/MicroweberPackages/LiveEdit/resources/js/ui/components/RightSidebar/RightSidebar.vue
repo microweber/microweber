@@ -4,17 +4,20 @@ export default {
     components: {
         TemplateSettings
     },
-    emits: {
-        liveEditUiShow: function (name) {
-           alert(name);
-        }
-    },
     mounted() {
-
+        this.emitter.on("live-edit-ui-show", show => {
+            if (show == 'template-settings') {
+                if (this.showSidebar == false) {
+                    this.showSidebar = true;
+                } else {
+                    this.showSidebar = false;
+                }
+            }
+        });
     },
     data() {
         return {
-            showSidebar: true
+            showSidebar: false
         }
     }
 }
