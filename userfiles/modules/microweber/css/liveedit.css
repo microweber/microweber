@@ -5141,9 +5141,14 @@ body.dragStart picture img{
 /*  Spacer */
 
 
+.mw-le-spacer,
+.mw-le-spacer *{
+    pointer-events: all !important;
+}
 
 .mw-le-spacer .mw-le-resizer-b{
     height: 100% !important;
+    min-height: 10px;
 }
 
 .mw-le-resizable {
