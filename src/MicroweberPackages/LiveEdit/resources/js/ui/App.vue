@@ -5,8 +5,7 @@
         <LeftSidebar></LeftSidebar>
         <RightSidebar></RightSidebar>
         <ListLayouts></ListLayouts>
-
-<!--        <ListModules></ListModules>-->
+        <ListModules></ListModules>
 
     </div>
 

@@ -11,6 +11,7 @@
          class="mw-le-dialog-block mw-le-layouts-dialog active"
          style="inset:20px;transform:none;"
     >
+
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
                 <div class="mw-le-layouts-dialog-col">
@@ -53,6 +54,9 @@
                 </div>
             </div>
         </div>
+
+
+
     </div>
     </Transition>
 
