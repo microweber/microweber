@@ -4,8 +4,8 @@
     <div v-if="showModal" class="mw-le-overlay active"></div>
 
     <Transition
-        enter-active-class="animate__animated animate__jello"
-        leave-active-class="animate__animated animate__bounceOutLeft"
+        enter-active-class="animate__animated animate__zoomInLeft"
+        leave-active-class="animate__animated animate__zoomOutLeft"
     >
     <div v-if="showModal" class="mw-le-dialog-block mw-le-layouts-dialog active">
         <div class="modules-list modules-list-defaultModules">
