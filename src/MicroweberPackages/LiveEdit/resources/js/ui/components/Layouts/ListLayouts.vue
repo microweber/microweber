@@ -69,11 +69,10 @@
                         </div>
                     </div>
 
-
                     <LazyList
                         v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
-                        :itemsPerRender="30"
+                        :itemsPerRender="9"
                         containerClasses="modules-list-block"
                         defaultLoadingColor="#222"
                     >
@@ -90,29 +89,6 @@
                             </div>
                         </template>
                     </LazyList>
-
-
-                    <!--                       <TransitionGroup-->
-                    <!--                            v-if="layoutsListTypePreview == 'list'"-->
-                    <!--                            enter-active-class="animate__animated animate__backInLeft"-->
-                    <!--                            leave-active-class="animate__animated animate__backOutLeft"-->
-                    <!--                        >-->
-                    <!--                             <div-->
-
-                    <!--                                 class="modules-list-block-item modules-list-block-item-is-locked-false"-->
-                    <!--                                 v-on:click="insertLayout(layout.template)"-->
-                    <!--                                 v-for="(layout,index) in layoutsListFiltered"-->
-                    <!--                                  :key="index"-->
-                    <!--                                  :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"-->
-                    <!--                                  >-->
-                    <!--                                <div class="modules-list-block-item-picture"-->
-                    <!--                                     :style="'background-image: url('+layout.screenshot+')'"></div>-->
-                    <!--                                <div class="modules-list-block-item-title">{{layout.title}}</div>-->
-                    <!--                                <div class="modules-list-block-item-description">-->
-                    <!--                                    {{layout.description}}-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </TransitionGroup>-->
 
                     <div v-if="layoutsListTypePreview == 'masonry'" class="modules-list-block">
                             <MasonryWall :items="layoutsListFiltered"
