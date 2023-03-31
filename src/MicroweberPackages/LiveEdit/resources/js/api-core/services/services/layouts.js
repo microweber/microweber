@@ -18,6 +18,24 @@ export const Layouts = {
 
         return this.layoutsListData;
 
+    },
+
+    layoutSkinsData: [],
+    getSkins: async function () {
+        var module = 'layouts';
+        if (this.layoutSkinsData[module]) {
+            return this.layoutSkinsData[module];
+        }
+
+        await axios.get(route('api.module.getSkins') + '?module=' + module)
+            .then((response) => {
+                this.layoutSkinsData[module] = response.data;
+            });
+
+        if (this.layoutSkinsData[module]) {
+            return this.layoutSkinsData[module];
+        }
+
     }
 
 }

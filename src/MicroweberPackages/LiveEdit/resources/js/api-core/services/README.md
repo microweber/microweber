@@ -142,5 +142,27 @@ mw.app.keyboard.on('ctrl+y', function () {
 //     mw.app.editor.handle.module.addButton();
 // }); 
 ```
+### Modules and Layouts
+
+```js
+// List all modules and layouts
+mw.app.layouts.list().then(function (modules) {
+    console.log(modules);
+});
+mw.app.modules.list().then(function (modules) {
+    console.log(modules);
+});
+
+//Getting skins for layouts
+mw.app.layouts.getSkins().then(function (skins) {
+    console.log(skins);
+});
+
+//Getting skins for module
+mw.app.modules.getSkins('btn').then(function (skins) {
+    console.log(skins);
+});
+
+```
 
 

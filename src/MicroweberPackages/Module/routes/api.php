@@ -6,7 +6,8 @@ Route::name('api.module.')
     ->group(function () {
 
         Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
-            Route::get('list', 'ModulesListLiveEdit@index')->name('list');
+            Route::get('list', 'ModulesApiLiveEdit@index')->name('list');
+            Route::get('getSkins', 'ModulesApiLiveEdit@getSkins')->name('getSkins');
         });
         if (config('microweber.allow_php_files_upload')) {
             Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
