@@ -46,11 +46,15 @@
                     <div class="modules-list-block">
 
                         <TransitionGroup
-
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
                         >
-                             <div v-for="(layout,index) in layoutsListFiltered" :key="index + 1" :style="{ transitionDelay: 0.02 * index + 's' }" class="modules-list-block-item modules-list-block-item-is-locked-false">
+                             <div
+                                 class="modules-list-block-item modules-list-block-item-is-locked-false"
+                                 v-for="(layout,index) in layoutsListFiltered"
+                                  :key="index"
+                                  :style="{ transitionDelay: 0.02 * index + 's' }"
+                                  >
                                 <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+layout.screenshot+')'"></div>
                                 <div class="modules-list-block-item-title">{{layout.title}}</div>
