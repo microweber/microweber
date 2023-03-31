@@ -24,7 +24,7 @@
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
                     <ul class="modules-list-categories pb-5">
                         <li v-on:click="filterCategorySubmit('')">All categories</li>
-                        <li></li>
+                        <li></li> 
                         <li
                             v-if="layoutsList.categories"
                             :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"

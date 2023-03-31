@@ -7,24 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
 
-
     @livewireScripts
-
     @livewireStyles
+
     <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
-<script>
-    mw.lib.require('microweber_ui');
-    mw.lib.require('mwui_init');
-</script>
 
+    <script>
+        mw.lib.require('microweber_ui');
+        mw.lib.require('mwui_init');
+    </script>
+
+    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
 </head>
 <body>
-@vite(['src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js'])
+
 <script>
     mw.quickSettings = {}
 </script>
-
 
 <div id="live-edit-app">
     Loading...
@@ -33,8 +33,6 @@
 <div id="live-edit-frame-holder">
 
 </div>
-
-
 
 <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
 
