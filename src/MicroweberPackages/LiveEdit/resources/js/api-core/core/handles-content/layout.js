@@ -262,27 +262,9 @@ export const LayoutHandleContent = function (rootScope) {
  
         var plusLabel = 'Add Layout';
 
-        var handlePlus = function (which) {
-            getModulesData(rootScope.settings.layouts).then(data => {
-                const content = modulesDataRender(data, 'layouts');
-
-                var dialog = rootScope.dialog({
-                    content: content,
-                    // document: rootScope.settings.document,
-                });
-                ElementManager('.le-selectable-items-list-item', content).on('click', function (){
-                    loadModule(this.__data, rootScope.settings.loadModulesURL).then(function (data){
-                        var action;
-                        if(which === 'top') {
-                            action = 'before';
-                        } else if(which === 'bottom') {
-                            action = 'after';
-                        }
-                        ElementManager(scope.handle.getTarget())[action](data);
-                    })
-                    dialog.remove()
-                });
-            });
+        var handlePlus = which => {
+            this.dispatch('insertLayoutRequest')
+            this.dispatch('insertLayoutRequestOn' + which.charAt(0).toUpperCase() + which.slice(1))
         }
 
         this.plusTop = ElementManager({
