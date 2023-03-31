@@ -45,17 +45,6 @@
 
                     <div class="modules-list-block">
 
-
-                        <masonry-wall :items="items" :ssr-columns="1" :column-width="300" :gap="16">
-                            <template #default="{ item, index }">
-                                <div :style="{ height: `${index * 100}px` }">
-                                    <h1>{{ item.title }}</h1>
-                                    <span>{{ item.description }}</span>
-                                </div>
-                            </template>
-                        </masonry-wall>
-
-
                         <TransitionGroup
 
                             enter-active-class="animate__animated animate__backInLeft"
@@ -146,6 +135,7 @@ export default {
         mw.app.on('ready', () => {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
+                instance.layoutsListFiltered = data.layouts;
             });
         });
 
@@ -168,7 +158,7 @@ export default {
     },
     data() {
         return {
-            items:items, 
+            items:items,
             filterKeyword: '',
             filterCategory: '',
             layoutsList: [],

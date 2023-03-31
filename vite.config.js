@@ -7,7 +7,14 @@ export default defineConfig({
         outDir: './public/build'
     },
     plugins: [
-        vue(),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
         laravel({
             input: [
                // 'resources/css/app.css',
