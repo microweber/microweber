@@ -1,17 +1,13 @@
+import axios from "axios";
 import { ElementManager } from "../../core/classes/element";
+ 
 
-const getModule = (module, options = {}) => {
-    return axios.post(`${mw.settings.site_url}module`, options)
-}
-
-export const insertModule = (target = null, module, options = {}) => {
-
-    if(!target || !module) {
+export const insertModule = (target = null, module, options = {}, docu) => {
+    if (!target || !module) {
         return;
     }
     return new Promise(async resolve => {
-        const data = await getModule(module, options);
-        ElementManager(target).before(data);
-        resolve()
+        await target.ownerDocument.defaultView.mw.module.insert(target, module, options, 'top', mw.liveEditState)
+        resolve();
     });
 }
