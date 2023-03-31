@@ -255,7 +255,7 @@ class ModulesApiLiveEdit extends Controller
 
                     $moduleListJson['layouts'][] = [
                         //'group' => 'layouts',
-                        'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
+                        'template' => $dynamic_layout['layout_file'],
                         'name' => $dynamic_layout['name'],
                         'icon' => $dynamic_layout['icon'],
                         'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
@@ -357,7 +357,7 @@ class ModulesApiLiveEdit extends Controller
                         }
                         $moduleListJson['layouts'][] = [
                             // 'group' => 'layouts',
-                            'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
+                            'template' => $dynamic_layout['layout_file'],
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
                             'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
