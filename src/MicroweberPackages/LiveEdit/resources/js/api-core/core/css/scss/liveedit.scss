@@ -22,16 +22,16 @@ mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
     box-sizing: border-box;
 }
 
-.edit,
-.element,
-.module {
-    margin: 20px;
-    padding: 20px;
-    min-height: 100px;
-    &.mw-le-target-to-animate{
-        transition: transform .3s !important;
-    }
-}
+//.edit,
+//.element,
+//.module {
+//    margin: 20px;
+//    padding: 20px;
+//    min-height: 100px;
+//    &.mw-le-target-to-animate{
+//        transition: transform .3s !important;
+//    }
+//}
 
 
 .le-selectable-items-list-image{

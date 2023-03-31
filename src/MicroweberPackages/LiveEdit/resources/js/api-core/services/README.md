@@ -15,10 +15,10 @@ mw.app.on('ready',function(app){
 
 ```js
 
-mw.app.editor.on('insertLayoutRequest',function(element){
+mw.app.editor.handle.layout.on('insertLayoutRequest',function(element){
  // mw.app.editor.insertModule('btn',options);
 });
-mw.app.editor.on('insertModuleRequest',function(element){
+mw.app.editor.handle.module.on('insertModuleRequest',function(element){
 
 });
 mw.app.editor.insertModule('btn',options);
@@ -166,3 +166,8 @@ mw.app.modules.getSkins('btn').then(function (skins) {
 ```
 
 
+### Saving editor content
+
+```js
+
+```
