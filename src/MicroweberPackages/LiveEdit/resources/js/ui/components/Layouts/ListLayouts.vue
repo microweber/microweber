@@ -69,49 +69,52 @@
                         </div>
                     </div>
 
-                    <div class="modules-list-block">
 
-<!--                        <LazyList-->
-<!--                            v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"-->
-<!--                            :data="layoutsListFiltered"-->
-<!--                            :itemsPerRender="15"-->
-<!--                            containerClasses="modules-list-block-item modules-list-block-item-is-locked-false"-->
-<!--                            defaultLoadingColor="#222"-->
-<!--                        >-->
-<!--                            <template v-slot="{item}" :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }">-->
-<!--                                <div class="modules-list-block-item-picture"-->
-<!--                                     :style="'background-image: url('+item.screenshot+')'"></div>-->
-<!--                                <div class="modules-list-block-item-title">{{item.title}}</div>-->
-<!--                                <div class="modules-list-block-item-description">-->
-<!--                                    {{item.description}}-->
-<!--                                </div>-->
-<!--                            </template>-->
-<!--                        </LazyList>-->
-
-
-                       <TransitionGroup
-                            v-if="layoutsListTypePreview == 'list'"
-                            enter-active-class="animate__animated animate__backInLeft"
-                            leave-active-class="animate__animated animate__backOutLeft"
-                        >
-                             <div
-
-                                 class="modules-list-block-item modules-list-block-item-is-locked-false"
-                                 v-on:click="insertLayout(layout.template)"
-                                 v-for="(layout,index) in layoutsListFiltered"
-                                  :key="index"
-                                  :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
-                                  >
+                    <LazyList
+                        v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
+                        :data="layoutsListFiltered"
+                        :itemsPerRender="30"
+                        containerClasses="modules-list-block"
+                        defaultLoadingColor="#222"
+                    >
+                        <template
+                            v-slot="{item}">
+                            <div :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
+                                  class="modules-list-block-item modules-list-block-item-is-locked-false">
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+layout.screenshot+')'"></div>
-                                <div class="modules-list-block-item-title">{{layout.title}}</div>
+                                     :style="'background-image: url('+item.screenshot+')'"></div>
+                                <div class="modules-list-block-item-title">{{item.title}}</div>
                                 <div class="modules-list-block-item-description">
-                                    {{layout.description}}
+                                    {{item.description}}
                                 </div>
                             </div>
-                        </TransitionGroup>
+                        </template>
+                    </LazyList>
 
-                        <div v-if="layoutsListTypePreview == 'masonry'">
+
+                    <!--                       <TransitionGroup-->
+                    <!--                            v-if="layoutsListTypePreview == 'list'"-->
+                    <!--                            enter-active-class="animate__animated animate__backInLeft"-->
+                    <!--                            leave-active-class="animate__animated animate__backOutLeft"-->
+                    <!--                        >-->
+                    <!--                             <div-->
+
+                    <!--                                 class="modules-list-block-item modules-list-block-item-is-locked-false"-->
+                    <!--                                 v-on:click="insertLayout(layout.template)"-->
+                    <!--                                 v-for="(layout,index) in layoutsListFiltered"-->
+                    <!--                                  :key="index"-->
+                    <!--                                  :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"-->
+                    <!--                                  >-->
+                    <!--                                <div class="modules-list-block-item-picture"-->
+                    <!--                                     :style="'background-image: url('+layout.screenshot+')'"></div>-->
+                    <!--                                <div class="modules-list-block-item-title">{{layout.title}}</div>-->
+                    <!--                                <div class="modules-list-block-item-description">-->
+                    <!--                                    {{layout.description}}-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </TransitionGroup>-->
+
+                    <div v-if="layoutsListTypePreview == 'masonry'" class="modules-list-block">
                             <MasonryWall :items="layoutsListFiltered"
                                          :ssr-columns="1"
                                          :column-width="300"
@@ -124,10 +127,9 @@
                                     </div>
                                 </template>
                             </MasonryWall>
-                        </div>
-
+                    </div>
+                    <div v-if="layoutsListTypePreview == 'full'" class="modules-list-block">
                         <TransitionGroup
-                            v-if="layoutsListTypePreview == 'full'"
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
                         >
@@ -146,11 +148,14 @@
                                 </div>
                             </div>
                         </TransitionGroup>
+                    </div>
 
-                        <div v-if="!layoutsListFiltered" class="modules-list-block-no-results">
+                    <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
+                        <div class="modules-list-block-no-results">
                             Nothing found...
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
