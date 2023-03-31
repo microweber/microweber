@@ -20,6 +20,12 @@ class ModulesApiLiveEdit extends Controller
             $disable_elements = true;
         }
 
+        $template_composer = [];
+        $template_composer_file = template_dir() . '/composer.json';
+        if (is_file($template_composer_file)) {
+            $template_composer = json_decode(file_get_contents($template_composer_file), true);
+        }
+
         if (isset($params['elements_mode']) and $params['elements_mode']) {
             $is_elements = true;
         }
@@ -252,9 +258,17 @@ class ModulesApiLiveEdit extends Controller
 
                 if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])) {
 
+                    $dynamic_layout['locked'] = false;
+                    if (isset($template_composer['extra']['premium_layouts'])) {
+                        if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
+                            $dynamic_layout['icon'] = 'fa fa-lock';
+                            $dynamic_layout['locked'] = true;
+                        }
+                    }
 
                     $moduleListJson['layouts'][] = [
                         //'group' => 'layouts',
+                        'locked' => $dynamic_layout['locked'],
                         'template' => $dynamic_layout['layout_file'],
                         'name' => $dynamic_layout['name'],
                         'icon' => $dynamic_layout['icon'],
@@ -355,9 +369,20 @@ class ModulesApiLiveEdit extends Controller
                         if (isset($dynamic_layout['categories'])) {
                             $moduleListJson['categories'][$dynamic_layout['categories']] = true;
                         }
+
+                        $dynamic_layout['locked'] = false;
+
+                        if (isset($template_composer['extra']['premium_layouts'])) {
+                            if (in_array('layouts/templates/' . $dynamic_layout['layout_file'], $template_composer['extra']['premium_layouts'])) {
+                                $dynamic_layout['icon'] = 'fa fa-lock';
+                                $dynamic_layout['locked'] = true;
+                            }
+                        }
+
                         $moduleListJson['layouts'][] = [
                             // 'group' => 'layouts',
                             'template' => $dynamic_layout['layout_file'],
+                            'locked' => $dynamic_layout['locked'],
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
                             'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
@@ -492,7 +517,6 @@ class ModulesApiLiveEdit extends Controller
                 ];
             }
         }
-
 
         return $ready;
 

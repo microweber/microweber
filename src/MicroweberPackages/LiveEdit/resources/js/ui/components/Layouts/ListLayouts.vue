@@ -79,7 +79,7 @@
                         <template
                             v-slot="{item}">
                             <div :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
-                                  class="modules-list-block-item modules-list-block-item-is-locked-false">
+                                  :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
                                 <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+item.screenshot+')'"></div>
                                 <div class="modules-list-block-item-title">{{item.title}}</div>
@@ -97,7 +97,7 @@
                                          :padding="16"
                                          :gap="16">
                                 <template #default="{ item, index }">
-                                    <div class="modules-list-block-item modules-list-block-item-is-locked-false">
+                                    <div :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
                                         <img :src="item.screenshot" :alt="item.title" />
                                         <div class="modules-list-block-item-title">{{item.title}}</div>
                                     </div>
@@ -110,8 +110,7 @@
                             leave-active-class="animate__animated animate__backOutLeft"
                         >
                             <div
-
-                                class="modules-list-block-item modules-list-block-item-is-locked-false"
+                                :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
                                 v-for="(layout,index) in layoutsListFiltered"
                                 :key="index"
                                 :style="{  width: '100%', height: '360px', transitionDelay: 0.02 * index + 's' }"
