@@ -71,22 +71,25 @@
 
                     <div class="modules-list-block">
 
-                        <div v-if="layoutsListTypePreview == 'masonry'">
-                            <MasonryWall :items="layoutsListFiltered"
-                                         :ssr-columns="1"
-                                         :column-width="300"
-                                         :padding="16"
-                                        :gap="16">
-                                <template #default="{ item, index }">
-                                 <div class="modules-list-block-item modules-list-block-item-is-locked-false">
-                                     <img :src="item.screenshot" :alt="item.title" />
-                                     <div class="modules-list-block-item-title">{{item.title}}</div>
-                                 </div>
-                                </template>
-                            </MasonryWall>
-                        </div>
+                        <LazyList
+                            v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
+                            :data="layoutsListFiltered"
+                            :itemsPerRender="15"
+                            containerClasses="modules-list-block-item modules-list-block-item-is-locked-false"
+                            defaultLoadingColor="#222"
+                        >
+                            <template v-slot="{item}" :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }">
+                                <div class="modules-list-block-item-picture"
+                                     :style="'background-image: url('+item.screenshot+')'"></div>
+                                <div class="modules-list-block-item-title">{{item.title}}</div>
+                                <div class="modules-list-block-item-description">
+                                    {{item.description}}
+                                </div>
+                            </template>
+                        </LazyList>
 
-                       <TransitionGroup
+
+<!--                       <TransitionGroup
                             v-if="layoutsListTypePreview == 'list'"
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
@@ -105,8 +108,22 @@
                                     {{layout.description}}
                                 </div>
                             </div>
-                        </TransitionGroup>
+                        </TransitionGroup>-->
 
+                        <div v-if="layoutsListTypePreview == 'masonry'">
+                            <MasonryWall :items="layoutsListFiltered"
+                                         :ssr-columns="1"
+                                         :column-width="300"
+                                         :padding="16"
+                                         :gap="16">
+                                <template #default="{ item, index }">
+                                    <div class="modules-list-block-item modules-list-block-item-is-locked-false">
+                                        <img :src="item.screenshot" :alt="item.title" />
+                                        <div class="modules-list-block-item-title">{{item.title}}</div>
+                                    </div>
+                                </template>
+                            </MasonryWall>
+                        </div>
 
                         <TransitionGroup
                             v-if="layoutsListTypePreview == 'full'"
@@ -149,13 +166,14 @@
 </style>
 
 <script>
+import LazyList from 'lazy-load-list/vue';
 import MasonryWall from '@yeger/vue-masonry-wall'
-
 import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
         MasonryWall,
+        LazyList,
     },
     methods: {
         getLayoutsListFromService() {
@@ -196,6 +214,10 @@ export default {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListFiltered = data.layouts;
+            });
+            mw.app.editor.handle.layout.on('insertLayoutRequest',function(element){
+                instance.showModal = true;
+                console.log(element);
             });
         });
 
