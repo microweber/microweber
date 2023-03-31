@@ -2,12 +2,51 @@ import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
 import {Confirm} from "../classes/dialog.js";
 
- 
+const _getModulesDataCache = {};
 
- 
- 
+export const getModulesData = (u) => {
+    return new Promise(resolve => {
+       if(Array.isArray(u)) {
+           resolve(u)
+       } else if(typeof u === 'string') {
+           if(_getModulesDataCache[u]) {
+               resolve(_getModulesDataCache[u])
+           } else {
+               fetch(u, {mode: 'cors'}).then(res => res.json()).then(res => {
+                   _getModulesDataCache[u] = res;
+                   resolve( res )
+               })
+           }
+       }
+    });
+}
 
- 
+const singleModuleItemRender = (data, type) => {
+    const el = ElementManager({
+        props: {
+            className: 'le-selectable-items-list-item',
+            moduleId: data.id,
+        },
+        content: [
+            {
+                props: { className: 'le-selectable-items-list-image', style: { backgroundImage: 'url(' + (data.icon || data.screenshot) + ')' }},
+
+            },
+            {
+                props: {
+                    className: 'le-selectable-items-list-title',
+                    innerHTML: data.name,
+                }
+            }
+        ]
+    });
+
+    el.get(0).__data = data
+
+    return el;
+}
+
+const _loadModuleCache = {}
 
 export const loadModule = (obj, endpoint) => {
     return new Promise(resolve => {
@@ -43,7 +82,24 @@ export const loadModule = (obj, endpoint) => {
     })
 }
 
- 
+export const modulesDataRender = (data, type) => {
+    const el = ElementManager({
+        props: {
+            className: 'le-selectable-items-list le-selectable-items-list-type-' + type
+        }
+    });
+    var cats = ElementManager({
+        props: {
+            className: 'le-selectable-items-list le-selectable-items-list-type-' + type
+        }
+    })
+
+    data.forEach(function (item){
+        el.append(singleModuleItemRender(item))
+    })
+
+    return el;
+}
 
 export const LayoutHandleContent = function (rootScope) {
     var scope = this;
@@ -203,14 +259,30 @@ export const LayoutHandleContent = function (rootScope) {
     });
 
     this.addButtons = function (){
-        if(!rootScope.settings.layouts) {
-            return;
-        }
+ 
         var plusLabel = 'Add Layout';
 
-        var handlePlus = which => {
-            this.dispatch('insertLayoutRequest')
-            this.dispatch('insertLayoutRequestOn' + which.charAt(0).toUpperCase() + which.slice(1))
+        var handlePlus = function (which) {
+            getModulesData(rootScope.settings.layouts).then(data => {
+                const content = modulesDataRender(data, 'layouts');
+
+                var dialog = rootScope.dialog({
+                    content: content,
+                    // document: rootScope.settings.document,
+                });
+                ElementManager('.le-selectable-items-list-item', content).on('click', function (){
+                    loadModule(this.__data, rootScope.settings.loadModulesURL).then(function (data){
+                        var action;
+                        if(which === 'top') {
+                            action = 'before';
+                        } else if(which === 'bottom') {
+                            action = 'after';
+                        }
+                        ElementManager(scope.handle.getTarget())[action](data);
+                    })
+                    dialog.remove()
+                });
+            });
         }
 
         this.plusTop = ElementManager({
