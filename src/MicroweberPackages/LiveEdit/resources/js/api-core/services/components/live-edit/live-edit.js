@@ -12,10 +12,7 @@ export const liveEditComponent = () => {
     const doc = mw.app.get('canvas').getDocument();
     const link = doc.createElement('style');
     link.textContent = liveeditCssDist;
-
-   // alert(liveeditCssDist)
-   // link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
-   // link.href = `${mw.settings.site_url}userfiles/modules/microweber/api/liveedit2/css/dist.css`;
+ 
     doc.head.prepend(link);
 
     const liveEdit = new LiveEdit({
@@ -25,8 +22,12 @@ export const liveEditComponent = () => {
         document: doc
     });
 
+    liveEdit.on('insertLayoutRequest', function(){
+        mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
+    });
 
-
+   
+ 
     mw.app.call('onLiveEditReady');
 
     mw.app.register('liveEdit', liveEdit);
