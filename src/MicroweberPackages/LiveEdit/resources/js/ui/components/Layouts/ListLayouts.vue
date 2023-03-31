@@ -43,19 +43,85 @@
                         </span>
                     </div>
 
+                    <div class="pl-4 mb-3 mt-3">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button
+                                type="button"
+                                v-on:click="layoutsListTypePreview = 'list'"
+                                :class="['btn', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
+                            >
+                                List
+                            </button>
+                            <button
+                                type="button"
+                                v-on:click="layoutsListTypePreview = 'masonry'"
+                                :class="['btn', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
+                            >
+                                Masonry
+                            </button>
+                            <button
+                                type="button"
+
+                                v-on:click="layoutsListTypePreview = 'full'"
+                                :class="['btn', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-outline-primary']"
+                            >
+                                Full
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="modules-list-block">
 
-                        <TransitionGroup
+                        <div v-if="layoutsListTypePreview == 'masonry'">
+                            <MasonryWall :items="layoutsListFiltered"
+                                         :ssr-columns="1"
+                                         :column-width="300"
+                                         :padding="16"
+                                        :gap="16">
+                                <template #default="{ item, index }">
+                                 <div class="modules-list-block-item modules-list-block-item-is-locked-false">
+                                     <img :src="item.screenshot" :alt="item.title" />
+                                     <div class="modules-list-block-item-title">{{item.title}}</div>
+                                 </div>
+                                </template>
+                            </MasonryWall>
+                        </div>
+
+                       <TransitionGroup
+                            v-if="layoutsListTypePreview == 'list'"
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
                         >
                              <div
+
                                  class="modules-list-block-item modules-list-block-item-is-locked-false"
                                  v-for="(layout,index) in layoutsListFiltered"
                                   :key="index"
-                                  :style="{ transitionDelay: 0.02 * index + 's' }"
+                                  :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
                                   >
                                 <div class="modules-list-block-item-picture"
+                                     :style="'background-image: url('+layout.screenshot+')'"></div>
+                                <div class="modules-list-block-item-title">{{layout.title}}</div>
+                                <div class="modules-list-block-item-description">
+                                    {{layout.description}}
+                                </div>
+                            </div>
+                        </TransitionGroup>
+
+
+                        <TransitionGroup
+                            v-if="layoutsListTypePreview == 'full'"
+                            enter-active-class="animate__animated animate__backInLeft"
+                            leave-active-class="animate__animated animate__backOutLeft"
+                        >
+                            <div
+
+                                class="modules-list-block-item modules-list-block-item-is-locked-false"
+                                v-for="(layout,index) in layoutsListFiltered"
+                                :key="index"
+                                :style="{  width: '100%', height: '360px', transitionDelay: 0.02 * index + 's' }"
+                            >
+                                <div class="modules-list-block-item-picture" 
                                      :style="'background-image: url('+layout.screenshot+')'"></div>
                                 <div class="modules-list-block-item-title">{{layout.title}}</div>
                                 <div class="modules-list-block-item-description">
@@ -86,18 +152,12 @@
 <script>
 import MasonryWall from '@yeger/vue-masonry-wall'
 
-const items = [
-    {
-        title: 'First',
-        description: 'The first item.',
-    },
-    {
-        title: 'Second',
-        description: 'The second item.',
-    },
-]
+import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
+    components: {
+        MasonryWall,
+    },
     methods: {
         getLayoutsListFromService() {
             return mw.app.layouts.list();
@@ -130,7 +190,6 @@ export default {
             this.layoutsListFiltered = layoutsFiltered;
         }
     },
-    components: {},
     mounted() {
         const instance = this;
 
@@ -160,9 +219,13 @@ export default {
     },
     data() {
         return {
-            items:items,
+            items: [
+                { title: 'First', description: 'The first item.' },
+                { title: 'Second', description: 'The second item.'},
+            ],
             filterKeyword: '',
             filterCategory: '',
+            layoutsListTypePreview: 'list',
             layoutsList: [],
             layoutsListFiltered: [],
             showModal: false
