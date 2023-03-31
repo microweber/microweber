@@ -1,5 +1,4 @@
 <template>
-
     <button class="mw-le-btn mw-le-btn-icon" id="toolbar-undo" disabled>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path

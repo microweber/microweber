@@ -2,9 +2,10 @@
 import ResolutionSwitch from "./ResolutionSwitch.vue";
 import Editor from "./Editor.vue";
 import UndoRedo from "./UndoRedo.vue";
+import SaveButton from "./SaveButton.vue";
 
 export default {
-    components: {UndoRedo, Editor, ResolutionSwitch},
+    components: {SaveButton, UndoRedo, Editor, ResolutionSwitch},
     data() {
 
     }
@@ -28,9 +29,7 @@ export default {
         <div class="toolbar-col">
             <div class="toolbar-nav toolbar-nav-hover">
                 <UndoRedo></UndoRedo>
-                <span class="mw-le-btn mw-le-btn-primary" id="save-button">
-                    Save
-                </span>
+                <SaveButton></SaveButton>
             </div>
             <span style="width: 50px"></span>
             <span class="mw-le-btn mw-le-btn-icon" id="preview-button" onclick="pagePreviewToggle()">
