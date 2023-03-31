@@ -94,23 +94,23 @@ export default {
         filterLayouts() {
             let layoutsFiltered = this.layoutsList.layouts;
 
-            // if (this.filterKeyword != '' && this.filterKeyword) {
-            //     layoutsFiltered = layoutsFiltered.filter((item) => {
-            //         return item.title
-            //             .toUpperCase()
-            //             .includes(this.filterKeyword.toUpperCase())
-            //     });
-            // }
-            //
-            // if (this.filterCategory != '' && this.filterCategory) {
-            //     layoutsFiltered = layoutsFiltered.filter((item) => {
-            //         if (item.categories) {
-            //             return item.categories
-            //                 .toUpperCase()
-            //                 .includes(this.filterCategory.toUpperCase());
-            //         }
-            //     });
-            // }
+            if (this.filterKeyword != '' && this.filterKeyword) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
+                    return item.title
+                        .toUpperCase()
+                        .includes(this.filterKeyword.toUpperCase())
+                });
+            }
+
+            if (this.filterCategory != '' && this.filterCategory) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
+                    if (item.categories) {
+                        return item.categories
+                            .toUpperCase()
+                            .includes(this.filterCategory.toUpperCase());
+                    }
+                });
+            }
 
             this.layoutsListFiltered = layoutsFiltered;
         }
@@ -144,7 +144,7 @@ export default {
     },
     data() {
         return {
-            fitlerKeyword: '',
+            filterKeyword: '',
             filterCategory: '',
             layoutsList: [],
             layoutsListFiltered: [],
