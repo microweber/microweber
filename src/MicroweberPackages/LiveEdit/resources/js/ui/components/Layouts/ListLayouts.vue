@@ -24,7 +24,7 @@
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
                     <ul class="modules-list-categories pb-5">
                         <li v-on:click="filterCategorySubmit('')">All categories</li>
-                        <li></li> 
+                        <li></li>
                         <li
                             v-if="layoutsList.categories"
                             :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
@@ -50,7 +50,7 @@
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
                         >
-                             <div v-for="layout in layoutsListFiltered" class="modules-list-block-item modules-list-block-item-is-locked-false">
+                             <div v-for="(layout,index) in layoutsListFiltered" :key="index + 1" :style="{ transitionDelay: 0.02 * index + 's' }" class="modules-list-block-item modules-list-block-item-is-locked-false">
                                 <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+layout.screenshot+')'"></div>
                                 <div class="modules-list-block-item-title">{{layout.title}}</div>
@@ -67,8 +67,6 @@
                 </div>
             </div>
         </div>
-
-
 
     </div>
     </Transition>
