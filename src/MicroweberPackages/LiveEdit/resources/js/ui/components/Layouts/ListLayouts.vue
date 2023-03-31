@@ -44,18 +44,18 @@
                     </div>
 
                     <div class="pl-4 mb-3 mt-3">
-                        <div class="btn-group" role="group" aria-label="Basic example">
+                        <div>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'list'"
-                                :class="['btn', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn mr-3', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
                             >
                                 List
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn mr-3', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
                             >
                                 Masonry
                             </button>
@@ -121,7 +121,7 @@
                                 :key="index"
                                 :style="{  width: '100%', height: '360px', transitionDelay: 0.02 * index + 's' }"
                             >
-                                <div class="modules-list-block-item-picture" 
+                                <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+layout.screenshot+')'"></div>
                                 <div class="modules-list-block-item-title">{{layout.title}}</div>
                                 <div class="modules-list-block-item-description">
