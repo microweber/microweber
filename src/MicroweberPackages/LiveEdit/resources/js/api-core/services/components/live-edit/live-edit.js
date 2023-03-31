@@ -30,7 +30,6 @@ export const liveEditComponent = () => {
         mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
     });
 
-   
  
     mw.app.call('onLiveEditReady');
 

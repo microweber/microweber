@@ -33,23 +33,28 @@ class LayoutHandleAdapter extends BaseComponent {
 } 
 
 
-export const EditorHandles = {
-    handle: {
+export class EditorHandles {
+
+    handle = {
         module:  new ModuleHandleAdapter(),
         element: new ElementHandleAdapter(),
         layout: new LayoutHandleAdapter(),
-    },
+    }
+
+    insertModule(module, options){
+        const target = mw.app.get('liveEdit').handles.get('module').getTarget()
+        return insertModule(target, module, options)
+    };
+
+    insertLayout(options){
+        const target = mw.app.get('liveEdit').handles.get('layout').getTarget()
+        return insertModule(target, 'layouts', options)
+    };
+    
 
 };
 
-EditorHandles.insertModule = (module, options) => {
-    const target = mw.app.get('liveEdit').handles.get('module').getTarget()
-    return insertModule(target, module, options)
-};
+ 
 
-EditorHandles.insertLayout = (options) => {
-    const target = mw.app.get('liveEdit').handles.get('layout').getTarget()
-    return insertModule(target, 'layouts', options)
-};
-
+ 
  
