@@ -33,7 +33,7 @@ class LayoutHandleAdapter extends BaseComponent {
 } 
 
 
-export class EditorHandles {
+export class EditorHandles extends BaseComponent {
 
     handle = {
         module:  new ModuleHandleAdapter(),

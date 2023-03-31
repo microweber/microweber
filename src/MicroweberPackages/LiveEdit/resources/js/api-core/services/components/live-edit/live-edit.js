@@ -25,6 +25,7 @@ export const liveEditComponent = () => {
         document: doc
     });
     
+ 
 
     liveEdit.on('insertLayoutRequest', function(){
         mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
