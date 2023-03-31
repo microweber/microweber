@@ -1,3 +1,4 @@
+import EditorHandles from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 
 
@@ -21,6 +22,7 @@ export const liveEditComponent = () => {
         mode: 'auto',
         document: doc
     });
+    
 
     liveEdit.on('insertLayoutRequest', function(){
         mw.app.editor.dispatch('insertLayoutRequest', mw.app.get('liveEdit').handles.get('layout').getTarget());
@@ -32,5 +34,7 @@ export const liveEditComponent = () => {
 
     mw.app.register('liveEdit', liveEdit);
     mw.app.register('state', mw.liveEditState);
+
+    mw.app.register('editor', EditorHandles);
 
 }
