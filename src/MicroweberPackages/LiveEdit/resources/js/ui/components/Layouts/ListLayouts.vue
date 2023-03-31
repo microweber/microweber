@@ -48,22 +48,21 @@
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'list'"
-                                :class="['btn mr-3', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
                             >
                                 List
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn mr-3', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
                             >
                                 Masonry
                             </button>
                             <button
                                 type="button"
-
                                 v-on:click="layoutsListTypePreview = 'full'"
-                                :class="['btn', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-outline-primary']"
                             >
                                 Full
                             </button>
