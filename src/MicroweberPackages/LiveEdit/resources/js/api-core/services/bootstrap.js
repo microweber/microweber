@@ -9,6 +9,7 @@ import {liveEditComponent} from "./components/live-edit/live-edit.js";
 import {Commands} from "./services/commands.js";
 import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
+import {KeyboardEvents} from  "./services/keyboard-events.js";
 
 
 mw.app = new MWUniversalContainer();
@@ -22,6 +23,7 @@ setTimeout(function() {
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
     mw.app.register('layouts', Layouts);
+    mw.app.register('keyboard', KeyboardEvents);
 //mw.app.register('commands', Commands);
 
     canvas.mount(canvasHolder);
