@@ -23,6 +23,11 @@ class MicroweberBaseClass {
             c.call(this, f);
         }) : '';
     };
+
+    emit (e, f) {
+        return this.dispatch(e, f)
+    };
+    
 }
 
 export default MicroweberBaseClass;
