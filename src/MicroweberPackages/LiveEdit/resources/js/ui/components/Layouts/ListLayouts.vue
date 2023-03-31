@@ -45,6 +45,17 @@
 
                     <div class="modules-list-block">
 
+
+                        <masonry-wall :items="items" :ssr-columns="1" :column-width="300" :gap="16">
+                            <template #default="{ item, index }">
+                                <div :style="{ height: `${index * 100}px` }">
+                                    <h1>{{ item.title }}</h1>
+                                    <span>{{ item.description }}</span>
+                                </div>
+                            </template>
+                        </masonry-wall>
+
+
                         <TransitionGroup
 
                             enter-active-class="animate__animated animate__backInLeft"
@@ -82,6 +93,19 @@
 </style>
 
 <script>
+import MasonryWall from '@yeger/vue-masonry-wall'
+
+const items = [
+    {
+        title: 'First',
+        description: 'The first item.',
+    },
+    {
+        title: 'Second',
+        description: 'The second item.',
+    },
+]
+
 export default {
     methods: {
         getLayoutsListFromService() {
@@ -94,23 +118,23 @@ export default {
         filterLayouts() {
             let layoutsFiltered = this.layoutsList.layouts;
 
-            // if (this.filterKeyword != '' && this.filterKeyword) {
-            //     layoutsFiltered = layoutsFiltered.filter((item) => {
-            //         return item.title
-            //             .toUpperCase()
-            //             .includes(this.filterKeyword.toUpperCase())
-            //     });
-            // }
-            //
-            // if (this.filterCategory != '' && this.filterCategory) {
-            //     layoutsFiltered = layoutsFiltered.filter((item) => {
-            //         if (item.categories) {
-            //             return item.categories
-            //                 .toUpperCase()
-            //                 .includes(this.filterCategory.toUpperCase());
-            //         }
-            //     });
-            // }
+            if (this.filterKeyword != '' && this.filterKeyword) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
+                    return item.title
+                        .toUpperCase()
+                        .includes(this.filterKeyword.toUpperCase())
+                });
+            }
+
+            if (this.filterCategory != '' && this.filterCategory) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
+                    if (item.categories) {
+                        return item.categories
+                            .toUpperCase()
+                            .includes(this.filterCategory.toUpperCase());
+                    }
+                });
+            }
 
             this.layoutsListFiltered = layoutsFiltered;
         }
@@ -144,7 +168,8 @@ export default {
     },
     data() {
         return {
-            fitlerKeyword: '',
+            items:items, 
+            filterKeyword: '',
             filterCategory: '',
             layoutsList: [],
             layoutsListFiltered: [],
