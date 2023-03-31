@@ -71,25 +71,25 @@
 
                     <div class="modules-list-block">
 
-                        <LazyList
-                            v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
-                            :data="layoutsListFiltered"
-                            :itemsPerRender="15"
-                            containerClasses="modules-list-block-item modules-list-block-item-is-locked-false"
-                            defaultLoadingColor="#222"
-                        >
-                            <template v-slot="{item}" :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }">
-                                <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+')'"></div>
-                                <div class="modules-list-block-item-title">{{item.title}}</div>
-                                <div class="modules-list-block-item-description">
-                                    {{item.description}}
-                                </div>
-                            </template>
-                        </LazyList>
+<!--                        <LazyList-->
+<!--                            v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"-->
+<!--                            :data="layoutsListFiltered"-->
+<!--                            :itemsPerRender="15"-->
+<!--                            containerClasses="modules-list-block-item modules-list-block-item-is-locked-false"-->
+<!--                            defaultLoadingColor="#222"-->
+<!--                        >-->
+<!--                            <template v-slot="{item}" :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }">-->
+<!--                                <div class="modules-list-block-item-picture"-->
+<!--                                     :style="'background-image: url('+item.screenshot+')'"></div>-->
+<!--                                <div class="modules-list-block-item-title">{{item.title}}</div>-->
+<!--                                <div class="modules-list-block-item-description">-->
+<!--                                    {{item.description}}-->
+<!--                                </div>-->
+<!--                            </template>-->
+<!--                        </LazyList>-->
 
 
-<!--                       <TransitionGroup
+                       <TransitionGroup
                             v-if="layoutsListTypePreview == 'list'"
                             enter-active-class="animate__animated animate__backInLeft"
                             leave-active-class="animate__animated animate__backOutLeft"
@@ -97,6 +97,7 @@
                              <div
 
                                  class="modules-list-block-item modules-list-block-item-is-locked-false"
+                                 v-on:click="insertLayout(layout.template)"
                                  v-for="(layout,index) in layoutsListFiltered"
                                   :key="index"
                                   :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
@@ -108,7 +109,7 @@
                                     {{layout.description}}
                                 </div>
                             </div>
-                        </TransitionGroup>-->
+                        </TransitionGroup>
 
                         <div v-if="layoutsListTypePreview == 'masonry'">
                             <MasonryWall :items="layoutsListFiltered"
@@ -176,6 +177,10 @@ export default {
         LazyList,
     },
     methods: {
+        insertLayout(template) {
+            mw.app.editor.insertLayout({'template':template});
+            this.showModal = false;
+        },
         getLayoutsListFromService() {
             return mw.app.layouts.list();
         },
@@ -215,9 +220,8 @@ export default {
                 instance.layoutsList = data;
                 instance.layoutsListFiltered = data.layouts;
             });
-            mw.app.editor.handle.layout.on('insertLayoutRequest',function(element){
+            mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
-                console.log(element);
             });
         });
 
