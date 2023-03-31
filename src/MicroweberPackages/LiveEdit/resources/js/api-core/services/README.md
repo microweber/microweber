@@ -120,11 +120,21 @@ mw.app.tools.prompt([
 ### Keyboard Shortcuts
 
 ```js
-
-mw.app.keyboardEvents.on('enter',function(element,handle){
-
-});
-mw.app.keyboardEvents.on('ctrl+s',function(element,handle){
+mw.app.keyboardEvents.on('enter', function () {
 
 });
+mw.app.keyboardEvents.on('esc', function () {
+
+});
+mw.app.keyboardEvents.on('ctrl+s', function () {
+  //  mw.app.editor.save()
+});
+mw.app.keyboardEvents.on('ctrl+z', function () {
+  //  mw.app.editor.undo()
+});
+
+mw.app.keyboardEvents.on('ctrl+y', function () {
+  //  mw.app.editor.redo()
+});
+
 ```
