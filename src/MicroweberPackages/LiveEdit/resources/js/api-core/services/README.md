@@ -10,15 +10,35 @@ mw.app.on('ready',function(app){
 });
 ```
 
-### Selector
+
+### Inserting Modules
 
 ```js
 
+mw.app.editor.on('insertLayoutRequest',function(element){
+ // mw.app.editor.insertModule('btn',options);
+});
+mw.app.editor.on('insertModuleRequest',function(element){
+
+});
+mw.app.editor.insertModule('btn',options);
+mw.app.editor.insertModule('layouts',[
+    {
+        skin:'my-skin',
+    }
+]);
+  
+```
+
+### Selector
+
+```js
 mw.app.editor.selector.on('onSelect',function(element){
     mw.app.editor.handle.module.addButton();
 }); 
 ```
  
+
 
 ### Module Handle 
 
@@ -27,7 +47,7 @@ mw.app.editor.selector.on('onSelect',function(element){
 mw.app.editor.handle.module.on('onAppear',function(element,handle){
 
 });
- 
+
 ```
 
 
@@ -92,4 +112,19 @@ mw.app.tools.prompt([
         }
     }
 ] );
+```
+
+
+
+
+### Keyboard Shortcuts
+
+```js
+
+mw.app.keyboardEvents.on('enter',function(element,handle){
+
+});
+mw.app.keyboardEvents.on('ctrl+s',function(element,handle){
+
+});
 ```
