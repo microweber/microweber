@@ -30,24 +30,21 @@ mw.app.editor.insertModule('layouts',[
   
 ```
 
-### Selector
-
-```js
-mw.app.editor.selector.on('onSelect',function(element){
-    mw.app.editor.handle.module.addButton();
-}); 
-```
- 
 
 
-### Module Handle 
+### Module Handle Events
 
 ```js
 
-mw.app.editor.handle.module.on('onAppear',function(element,handle){
+mw.app.editor.on('onModuleHandleAppear',function(element,handle){
 
 });
+mw.app.editor.on('onElementHandleAppear',function(element,handle){
 
+});
+mw.app.editor.on('onLayoutHandleAppear',function(element,handle){
+
+});
 ```
 
 
@@ -71,6 +68,7 @@ mw.app.moduleSettings.modal([
 
 ## Tools
 ```js
+
 mw.app.tools.modal([
     {
         title:'My Settings',
@@ -111,10 +109,8 @@ mw.app.tools.prompt([
 
         }
     }
-] );
+]);
 ```
-
-
 
 
 ### Keyboard Shortcuts
@@ -138,3 +134,13 @@ mw.app.keyboardEvents.on('ctrl+y', function () {
 });
 
 ```
+
+### Selector
+
+```js
+// mw.app.editor.selector.on('onSelect',function(element){
+//     mw.app.editor.handle.module.addButton();
+// }); 
+```
+
+

@@ -1,9 +1,15 @@
+/**
+ * @deprecated The method should not be used
+ */
+
 import { ModulesList } from "./../../core/le2/modules-list.js";
 import { CommandDialog } from "./commands-dialog.js";
 
 var _layotsCache;
 
-
+/**
+ * @deprecated The method should not be used
+ */
 var _layoutsDataLoader = function (cmmodulesDialog) {
     var modulesList = new ModulesList({
         data: _layotsCache
