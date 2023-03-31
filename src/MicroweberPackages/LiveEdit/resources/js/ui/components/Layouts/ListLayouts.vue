@@ -16,13 +16,12 @@
             <div class="mw-le-layouts-dialog-row">
                 <div class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block">
-                        <input v-model="keyword" type="text" placeholder="Type to Search..." class="modules-list-search-field">
+                        <input v-model="keyword" v-on:change="searchResult" type="text" placeholder="Type to Search..." class="modules-list-search-field">
                     </div>
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
                     <ul class="modules-list-categories">
                         <li>All categories</li>
                         <li></li>
-                        <li>Qkoooo</li>
                     </ul>
                 </div>
                 <div class="mw-le-layouts-dialog-col">
@@ -33,23 +32,18 @@
 
                     <div class="modules-list-block">
 
-                        <div class="modules-list-block-item modules-list-block-item-is-locked-false">
+                        <div v-for="layout in getLayoutsList()" class="modules-list-block-item modules-list-block-item-is-locked-false">
                             <div class="modules-list-block-item-picture"
-                                 style="background-image: url(http://127.0.0.1:8000/userfiles/templates/template-big/modules/layouts/templates/titles/skin-2.jpg)"></div>
-                            <div class="modules-list-block-item-title">Titles 2</div>
-                            <div class="modules-list-block-item-description"></div>
-
+                                 :style="'background-image: url('+layout.screenshot+')'"></div>
+                            <div class="modules-list-block-item-title">{{layout.title}}</div>
+                            <div class="modules-list-block-item-description">
+                                {{layout.description}}
+                            </div>
                         </div>
 
-                        <div class="modules-list-block-item modules-list-block-item-is-locked-false">
-                            <div class="modules-list-block-item-picture"
-                                 style="background-image: url(http://127.0.0.1:8000/userfiles/templates/template-big/modules/layouts/templates/titles/skin-3.jpg)"></div>
-                            <div class="modules-list-block-item-title">Titles 3</div>
-                            <div class="modules-list-block-item-description"></div>
-
+                        <div v-if="!getLayoutsList()" class="modules-list-block-no-results">
+                            Nothing found...
                         </div>
-
-                        <div class="modules-list-block-no-results" style="display: none;">Nothing found...</div>
                     </div>
                 </div>
             </div>
@@ -71,8 +65,21 @@
 <script>
 export default {
     methods: {
+        getLayoutsListFromService() {
+            return mw.app.layouts.list();
+        },
         getLayoutsList() {
-            return mw.app.modules.list();
+            let tempLayoutsList = this.layoutsList;
+
+            if (this.keyword != '' && this.keyword) {
+                tempLayoutsList = tempLayoutsList.filter((item) => {
+                    return item.title
+                        .toUpperCase()
+                        .includes(this.keyword.toUpperCase())
+                });
+            }
+
+            return tempLayoutsList;
         }
     },
     components: {},
@@ -80,7 +87,7 @@ export default {
         const instance = this;
 
         mw.app.on('ready', () => {
-            this.getLayoutsList().then(function (data) {
+            this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
             });
         });

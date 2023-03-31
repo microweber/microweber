@@ -1,14 +1,22 @@
+import axios from 'axios';
+
 export const Layouts = {
 
-    list:  function () {
+    layoutsListData: null,
 
-        return new Promise(function (resolve, reject) {
+    list: async function () {
 
-         fetch(`${mw.settings.site_url}api/module/list?layout_type=layout&elements_mode=true&group_layouts_by_category=true`)
-            .then(function (data) {
-                resolve( data.json());
+        if (this.layoutsListData) {
+            return this.layoutsListData;
+        }
+
+        await axios.get(`${mw.settings.site_url}api/module/list?layout_type=layout&elements_mode=true&group_layouts_by_category=true`)
+            .then((response) => {
+                this.layoutsListData = response.data;
             });
-        });
+
+        return this.layoutsListData;
+
     }
 
 }

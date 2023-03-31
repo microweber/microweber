@@ -253,13 +253,12 @@ class ModulesListLiveEdit extends Controller
                 if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])) {
 
 
-                    $moduleListJson[] = [
-                        'group' => 'layouts',
+                    $moduleListJson['layouts'][] = [
+                        //'group' => 'layouts',
                         'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
                         'name' => $dynamic_layout['name'],
                         'icon' => $dynamic_layout['icon'],
                         'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
-
                         'description_raw' => $dynamic_layout['description'],
                         'description' => addslashes($dynamic_layout['description']),
                         'title' => titlelize(_e($dynamic_layout['name'], true)),
@@ -353,15 +352,16 @@ class ModulesListLiveEdit extends Controller
                             $dynamic_layout['description'] = '';
                         }
 
-
-                        $moduleListJson[] = [
-                            'group' => 'layouts',
+                        if (isset($dynamic_layout['categories'])) {
+                            $moduleListJson['categories'][$dynamic_layout['categories']] = true;
+                        }
+                        $moduleListJson['layouts'][] = [
+                           // 'group' => 'layouts',
                             'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
                             'categories' => isset($dynamic_layout['categories']) ? $dynamic_layout['categories'] : '',
                             'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
-
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),
                             'title' => titlelize(_e($dynamic_layout['name'], true)),
@@ -453,10 +453,19 @@ class ModulesListLiveEdit extends Controller
                             $moduleDataItem['hidden'] = $hide_from_display_list;
                         }
 
-                        $moduleListJson[] = $moduleDataItem;
+                        $moduleListJson['modules'][] = $moduleDataItem;
                     }
                 }
             }
+        }
+
+        if (isset($moduleListJson['categories'])
+            && !empty($moduleListJson['categories'])
+            && is_array($moduleListJson['categories'])) {
+            
+            $moduleListJson['categories'] = array_keys($moduleListJson['categories']);
+        } else {
+            $moduleListJson['categories'] = [];
         }
 
         return $moduleListJson;
