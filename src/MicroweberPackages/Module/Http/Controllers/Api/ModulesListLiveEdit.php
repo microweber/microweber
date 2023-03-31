@@ -297,22 +297,22 @@ class ModulesListLiveEdit extends Controller
             }
 
             $module_layouts_skins_grouped_ordered_positions = [
-                'titles',
-                'text block',
+                'header',
                 'content',
                 'features',
                 'gallery',
+                'testimonials',
+                'ecommerce',
+                'contact us',
                 'call to action',
                 'blog',
                 'team',
-                'testimonials',
-                'contact us',
                 'grids',
                 'misc',
                 'price lists',
+                'titles',
+                'text block',
                 'video',
-                'ecommerce',
-                'header',
                 'menu',
                 'footers',
                 'other',
@@ -462,7 +462,7 @@ class ModulesListLiveEdit extends Controller
         if (isset($moduleListJson['categories'])
             && !empty($moduleListJson['categories'])
             && is_array($moduleListJson['categories'])) {
-            
+
             $moduleListJson['categories'] = array_keys($moduleListJson['categories']);
         } else {
             $moduleListJson['categories'] = [];

@@ -1,3 +1,5 @@
+ import BaseComponent from "../../api-core/services/containers/base-class.js";
+ import { insertModule } from "../../api-core/services/services/insert-module";
 
 class ModuleHandleAdapter extends BaseComponent {
     constructor() {
@@ -31,7 +33,7 @@ class LayoutHandleAdapter extends BaseComponent {
 } 
 
 
-const editor = {
+export const EditorHandles = {
     handle: {
         module:  new ModuleHandleAdapter(),
         element: new ElementHandleAdapter(),
@@ -40,4 +42,14 @@ const editor = {
 
 };
 
-mw.app.register('editor', editor);
+EditorHandles.insertModule = (module, options) => {
+    const target = mw.app.get('liveEdit').handles.get('module').getTarget()
+    return insertModule(target, module, options)
+};
+
+EditorHandles.insertLayout = (options) => {
+    const target = mw.app.get('liveEdit').handles.get('layout').getTarget()
+    return insertModule(target, 'layouts', options)
+};
+
+ 
