@@ -18,9 +18,20 @@ export const Modules = {
         return this.modulesListData;
 
     },
-
+    modulesSkinsData: [],
     getSkins: async function (module) {
+        if (this.modulesSkinsData[module]) {
+            return this.modulesSkinsData[module];
+        }
 
+        await axios.get(route('api.module.getSkins') + '?module=' + module)
+            .then((response) => {
+                this.modulesSkinsData[module] = response.data;
+            });
+
+        if (this.modulesSkinsData[module]) {
+            return this.modulesSkinsData[module];
+        }
 
     }
 
