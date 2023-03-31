@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
-
     <script>
         mw.lib.require('microweber_ui');
         mw.lib.require('mwui_init');
