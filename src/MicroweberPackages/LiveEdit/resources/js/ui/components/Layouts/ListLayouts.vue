@@ -18,7 +18,7 @@
                     <div class="modules-list-search-block">
                         <input
                             v-model="filterKeyword"
-                            v-on:change="filterLayouts()"
+                            v-on:keydown="filterLayouts()"
                             type="text" placeholder="Type to Search..." class="modules-list-search-field">
                     </div>
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
@@ -94,23 +94,23 @@ export default {
         filterLayouts() {
             let layoutsFiltered = this.layoutsList.layouts;
 
-            if (this.keyword != '' && this.filterKeyword) {
-                layoutsFiltered = layoutsFiltered.filter((item) => {
-                    return item.title
-                        .toUpperCase()
-                        .includes(this.filterKeyword.toUpperCase())
-                });
-            }
-
-            if (this.filterCategory != '' && this.filterCategory) {
-                layoutsFiltered = layoutsFiltered.filter((item) => {
-                    if (item.categories) {
-                        return item.categories
-                            .toUpperCase()
-                            .includes(this.filterCategory.toUpperCase());
-                    }
-                });
-            }
+            // if (this.filterKeyword != '' && this.filterKeyword) {
+            //     layoutsFiltered = layoutsFiltered.filter((item) => {
+            //         return item.title
+            //             .toUpperCase()
+            //             .includes(this.filterKeyword.toUpperCase())
+            //     });
+            // }
+            //
+            // if (this.filterCategory != '' && this.filterCategory) {
+            //     layoutsFiltered = layoutsFiltered.filter((item) => {
+            //         if (item.categories) {
+            //             return item.categories
+            //                 .toUpperCase()
+            //                 .includes(this.filterCategory.toUpperCase());
+            //         }
+            //     });
+            // }
 
             this.layoutsListFiltered = layoutsFiltered;
         }
