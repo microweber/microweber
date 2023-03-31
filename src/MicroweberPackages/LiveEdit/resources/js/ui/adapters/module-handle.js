@@ -1,5 +1,5 @@
-import BaseComponent from "bootstrap/js/dist/base-component";
-import { insertModule } from "../../api-core/services/services/insert-module";
+ import BaseComponent from "../../api-core/services/containers/base-class.js";
+ import { insertModule } from "../../api-core/services/services/insert-module";
 
 class ModuleHandleAdapter extends BaseComponent {
     constructor() {
@@ -33,7 +33,7 @@ class LayoutHandleAdapter extends BaseComponent {
 } 
 
 
-const EditorHandles = {
+export const EditorHandles = {
     handle: {
         module:  new ModuleHandleAdapter(),
         element: new ElementHandleAdapter(),
@@ -52,4 +52,4 @@ EditorHandles.insertLayout = (options) => {
     return insertModule(target, 'layouts', options)
 };
 
-export default EditorHandles;
+ 

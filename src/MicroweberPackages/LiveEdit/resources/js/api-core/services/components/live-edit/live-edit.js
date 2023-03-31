@@ -1,4 +1,6 @@
-import EditorHandles from '../../../../ui/adapters/module-handle.js';
+ 
+ 
+import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 
 
@@ -35,6 +37,6 @@ export const liveEditComponent = () => {
     mw.app.register('liveEdit', liveEdit);
     mw.app.register('state', mw.liveEditState);
 
-    mw.app.register('editor', EditorHandles);
+    mw.app.register('editor', EditorHandles );
 
 }
