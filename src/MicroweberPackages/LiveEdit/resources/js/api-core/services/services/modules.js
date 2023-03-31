@@ -10,12 +10,28 @@ export const Modules = {
             return this.modulesListData;
         }
 
-        await axios.get(`${mw.settings.site_url}api/module/list?layout_type=module`)
+        await axios.get(route('api.module.list') + '?layout_type=module')
             .then((response) => {
-            this.modulesListData = response.data;
-        });
+                this.modulesListData = response.data;
+            });
 
         return this.modulesListData;
+
+    },
+    modulesSkinsData: [],
+    getSkins: async function (module) {
+        if (this.modulesSkinsData[module]) {
+            return this.modulesSkinsData[module];
+        }
+
+        await axios.get(route('api.module.getSkins') + '?module=' + module)
+            .then((response) => {
+                this.modulesSkinsData[module] = response.data;
+            });
+
+        if (this.modulesSkinsData[module]) {
+            return this.modulesSkinsData[module];
+        }
 
     }
 

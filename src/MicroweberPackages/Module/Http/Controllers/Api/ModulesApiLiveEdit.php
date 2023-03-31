@@ -5,7 +5,7 @@ namespace MicroweberPackages\Module\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
-class ModulesListLiveEdit extends Controller
+class ModulesApiLiveEdit extends Controller
 {
     public function index(Request $request)
     {
@@ -39,7 +39,7 @@ class ModulesListLiveEdit extends Controller
             $hide_dynamic_layouts = false;
         }
 
-         if (isset($is_elements) and $is_elements == true) {
+        if (isset($is_elements) and $is_elements == true) {
 
             $el_params = array();
             if (isset($params['layout_type'])) {
@@ -356,7 +356,7 @@ class ModulesListLiveEdit extends Controller
                             $moduleListJson['categories'][$dynamic_layout['categories']] = true;
                         }
                         $moduleListJson['layouts'][] = [
-                           // 'group' => 'layouts',
+                            // 'group' => 'layouts',
                             'template' => $dynamic_layout['template_dir'] . '/' . $dynamic_layout['layout_file'],
                             'name' => $dynamic_layout['name'],
                             'icon' => $dynamic_layout['icon'],
@@ -469,5 +469,32 @@ class ModulesListLiveEdit extends Controller
         }
 
         return $moduleListJson;
+    }
+
+
+    public function getSkins(Request $request)
+    {
+        $module = $request->get('module');
+
+        $module = str_replace('__', '/', $module);
+        $module_templates = module_templates($module);
+
+        $ready = [];
+
+        if ($module_templates) {
+            foreach ($module_templates as $item) {
+                $ready[] = [
+                    'name' => $item['name'] ?? '',
+                    'description' => $item['description'] ?? '',
+                    'template' => $item['layout_file'] ?? '',
+                    'category' => $item['category'] ?? '',
+                    'position' => $item['position'] ?? '',
+                ];
+            }
+        }
+
+
+        return $ready;
+
     }
 }
