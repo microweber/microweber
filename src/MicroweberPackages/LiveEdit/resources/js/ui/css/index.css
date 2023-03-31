@@ -543,7 +543,7 @@ body.loaded #bubble-nav span {
     top: 0;
     position: absolute;
     height: 100%;
-    background-color: #2b2b2b;
+    background-color: #FFFFFF;
 }
 
 .mw-le-layouts-dialog-col:last-child {
@@ -605,8 +605,8 @@ body.loaded #bubble-nav span {
     outline: none;
     padding: 0 20px 0 55px;
     font-size: 14px;
-    color: white;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff60' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
+    color: #737373;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%239c9c9c' viewBox='0 0 24 24'%3E%3Ctitle%3Emagnify%3C/title%3E%3Cpath d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' /%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: 25px center;
     background-size: 19px auto;
@@ -624,14 +624,12 @@ body.loaded #bubble-nav span {
 
 
 .mw-le-layouts-dialog .modules-list-block-item-picture {
-    width: 305px;
-    height: 160px;
+    width:100%;
+    height:100%;
     background-color: white;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
-
-
+    background-size: cover;
 }
 
 .mw-le-layouts-dialog .modules-list-block:after {
@@ -649,7 +647,6 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-block {
     padding: 30px;
-    background-color: #ececec;
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -660,11 +657,12 @@ body.loaded #bubble-nav span {
 }
 
 .mw-le-layouts-dialog .modules-list-categories li:hover {
-    color: #5f85ff
+    color: #000000;
 }
 
 .mw-le-layouts-dialog .modules-list-categories li.active {
-    color: #5f85ff
+    color: #000000;
+    background:#f2f2f2;
 }
 
 .mw-le-layouts-dialog .modules-list-categories li {
@@ -672,13 +670,11 @@ body.loaded #bubble-nav span {
     cursor: pointer;
     text-transform: capitalize;
     padding: 10px 15px;
-
-
 }
 
 .mw-le-layouts-dialog .modules-list-categories {
     font-size: 14px;
-    color: white;
+    color: #232323;
     list-style: none;
     flex: 1;
     margin: 0 10px;
@@ -687,7 +683,7 @@ body.loaded #bubble-nav span {
 
 .mw-le-layouts-dialog .modules-list-search-block {
     height: var(--layouts-dialog-toolbar-height);
-    background-color: #515151;
+    background-color: #f4f4f4;
 }
 
 .modules-list-block-item-locked-badge {
@@ -730,15 +726,13 @@ body.loaded #bubble-nav span {
 
 .modules-list-categories {
     list-style: none;
-
     overflow: auto;
-
-    color: white;
+    color: #000000;
 }
 
 .mw-le-layouts-dialog-categories-title:after {
     height: 2px;
-    background-color: white;
+    background-color: #000000;
     flex: 1;
     content: '';
     width: 100%;
@@ -747,7 +741,7 @@ body.loaded #bubble-nav span {
 .mw-le-layouts-dialog-categories-title {
     font-size: 12px;
     text-transform: uppercase;
-    color: white;
+    color: #000000;
     line-height: 50px;
     position: relative;
     display: flex;

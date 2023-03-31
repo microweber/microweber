@@ -16,32 +16,51 @@
             <div class="mw-le-layouts-dialog-row">
                 <div class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block">
-                        <input v-model="keyword" v-on:change="searchResult" type="text" placeholder="Type to Search..." class="modules-list-search-field">
+                        <input
+                            v-model="filterKeyword"
+                            v-on:change="filterLayouts()"
+                            type="text" placeholder="Type to Search..." class="modules-list-search-field">
                     </div>
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
-                    <ul class="modules-list-categories">
-                        <li>All categories</li>
+                    <ul class="modules-list-categories pb-5">
+                        <li v-on:click="filterCategorySubmit('')">All categories</li>
                         <li></li>
+                        <li
+                            v-if="layoutsList.categories"
+                            :class="[categoryName == filterCategory ? 'active animate__animated animate__pulse': '']"
+                            v-for="categoryName in layoutsList.categories"
+                            v-on:click="filterCategorySubmit(categoryName)">
+                            {{categoryName}}
+                        </li>
                     </ul>
                 </div>
                 <div class="mw-le-layouts-dialog-col">
 
-                    <div v-if="keyword" class="pl-4 mb-3 mt-3">
-                        Looking for {{keyword}}
+                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
+                        Looking for {{filterKeyword}}
+                        <span v-if="filterCategory">
+                            in {{filterCategory}}
+                        </span>
                     </div>
 
                     <div class="modules-list-block">
 
-                        <div v-for="layout in getLayoutsList()" class="modules-list-block-item modules-list-block-item-is-locked-false">
-                            <div class="modules-list-block-item-picture"
-                                 :style="'background-image: url('+layout.screenshot+')'"></div>
-                            <div class="modules-list-block-item-title">{{layout.title}}</div>
-                            <div class="modules-list-block-item-description">
-                                {{layout.description}}
-                            </div>
-                        </div>
+                        <TransitionGroup
 
-                        <div v-if="!getLayoutsList()" class="modules-list-block-no-results">
+                            enter-active-class="animate__animated animate__backInLeft"
+                            leave-active-class="animate__animated animate__backOutLeft"
+                        >
+                             <div v-for="layout in layoutsListFiltered" class="modules-list-block-item modules-list-block-item-is-locked-false">
+                                <div class="modules-list-block-item-picture"
+                                     :style="'background-image: url('+layout.screenshot+')'"></div>
+                                <div class="modules-list-block-item-title">{{layout.title}}</div>
+                                <div class="modules-list-block-item-description">
+                                    {{layout.description}}
+                                </div>
+                            </div>
+                        </TransitionGroup>
+
+                        <div v-if="!layoutsListFiltered" class="modules-list-block-no-results">
                             Nothing found...
                         </div>
                     </div>
@@ -68,18 +87,32 @@ export default {
         getLayoutsListFromService() {
             return mw.app.layouts.list();
         },
-        getLayoutsList() {
-            let tempLayoutsList = this.layoutsList;
+        filterCategorySubmit(category) {
+            this.filterCategory = category;
+            this.filterLayouts();
+        },
+        filterLayouts() {
+            let layoutsFiltered = this.layoutsList.layouts;
 
-            if (this.keyword != '' && this.keyword) {
-                tempLayoutsList = tempLayoutsList.filter((item) => {
+            if (this.keyword != '' && this.filterKeyword) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
                     return item.title
                         .toUpperCase()
-                        .includes(this.keyword.toUpperCase())
+                        .includes(this.filterKeyword.toUpperCase())
                 });
             }
 
-            return tempLayoutsList;
+            if (this.filterCategory != '' && this.filterCategory) {
+                layoutsFiltered = layoutsFiltered.filter((item) => {
+                    if (item.categories) {
+                        return item.categories
+                            .toUpperCase()
+                            .includes(this.filterCategory.toUpperCase());
+                    }
+                });
+            }
+
+            this.layoutsListFiltered = layoutsFiltered;
         }
     },
     components: {},
@@ -111,9 +144,10 @@ export default {
     },
     data() {
         return {
-            keyword: '',
-            category: '',
-            layoutsList: null,
+            fitlerKeyword: '',
+            filterCategory: '',
+            layoutsList: [],
+            layoutsListFiltered: [],
             showModal: false
         }
     }
