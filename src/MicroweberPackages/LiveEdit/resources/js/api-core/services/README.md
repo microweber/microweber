@@ -15,10 +15,10 @@ mw.app.on('ready',function(app){
 
 ```js
 
-mw.app.editor.handle.layout.on('insertLayoutRequest',function(element){
+mw.app.editor.on('insertLayoutRequest',function(element){
  // mw.app.editor.insertModule('btn',options);
 });
-mw.app.editor.handle.module.on('insertModuleRequest',function(element){
+mw.app.editor.on('insertModuleRequest',function(element){
 
 });
 mw.app.editor.insertModule('btn',options);
@@ -35,6 +35,9 @@ mw.app.editor.insertModule('layouts',
 ### Module Handle Events
 
 ```js
+mw.app.editor.on('onModuleSettingsRequest',function(element){
+
+});
 
 mw.app.editor.on('onModuleHandleAppear',function(element,handle){
 
