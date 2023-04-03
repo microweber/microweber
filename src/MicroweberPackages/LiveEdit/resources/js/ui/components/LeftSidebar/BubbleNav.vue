@@ -3,13 +3,13 @@
 
     <div id="bubble-nav" class="active">
         <span v-on:click="show('template-settings')">
-            <CogIcon class="h-6 w-6 text-blue-500"/>
+            <DesignSettingsIcon />
         </span>
         <span v-on:click="show('show-modules')">
-            <PlayIcon class="h-6 w-6 text-blue-500"/>
+            <ModulesIcon />
         </span>
         <span v-on:click="show('show-layouts')">
-            <LayoutsIcon class="h-6 w-6" />
+            <LayoutsIcon />
         </span>
     </div>
 
@@ -18,6 +18,8 @@
 import { PencilIcon, PlayIcon, CogIcon, LightBulbIcon } from '@heroicons/vue/outline'
 import LayoutsIcon from "../Icons/LayoutsIcon.vue";
 import ListIcon from "../Icons/ListIcon.vue";
+import ModulesIcon from "../Icons/ModulesIcon.vue";
+import DesignSettingsIcon from "../Icons/DesignSettingsIcon.vue";
 
 export default {
     methods: {
@@ -26,7 +28,9 @@ export default {
         }
     },
     components: {
+        DesignSettingsIcon,
         LayoutsIcon,
+        ModulesIcon,
         PencilIcon,
         PlayIcon,
         CogIcon

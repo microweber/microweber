@@ -427,14 +427,9 @@ html.preview #preview-button {
 
 
 #bubble-nav span svg {
-    max-width: 25px;
-    max-height: 25px;
+    width: 25px;
+    height: 25px;
     display: block;
-}
-
-#bubble-nav span:hover {
-    background-color: white;
-    color: #2b2b2b
 }
 
 #bubble-nav span {
@@ -448,10 +443,15 @@ html.preview #preview-button {
     align-items: center;
     justify-content: center;
     border-radius: 50px;
-    background-color: #2b2b2b;
+    background-color: #FFFFFF;
     transform: translateX(-100px);
     box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
     color: white;
+}
+
+#bubble-nav span:hover {
+    background-color: #000000;
+    color: #2b2b2b
 }
 
 #bubble-nav.active span {
