@@ -734,3 +734,21 @@ html[dir="rtl"] .mw-text-start{
 .mw-le-spacer {
     min-height: auto !important;
 }
+
+
+.mw-le-layout-block, .mw-le-layout-block-content{
+    position: relative;
+}
+.mw-le-layout-background-overlay,
+.mw-le-layout-background{
+    position: absolute;
+    inset: 0;
+}
+
+.mw-le-layout-background > *{
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
