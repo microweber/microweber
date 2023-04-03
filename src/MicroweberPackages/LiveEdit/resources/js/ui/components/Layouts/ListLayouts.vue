@@ -78,11 +78,18 @@
                     >
                         <template
                             v-slot="{item}">
-                            <div :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
+                            <div
+                                  v-on:click="insertLayout(item.template)"
+                                  :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
                                   :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+')'"></div>
+                                     :style="'background-image: url('+item.screenshot+')'">
+
+                                </div>
+
                                 <div class="modules-list-block-item-title">{{item.title}}</div>
+
                                 <div class="modules-list-block-item-description">
                                     {{item.description}}
                                 </div>
@@ -97,9 +104,14 @@
                                          :padding="16"
                                          :gap="16">
                                 <template #default="{ item, index }">
-                                    <div :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+                                    <div
+                                        v-on:click="insertLayout(item.template)"
+                                        :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+
                                         <img :src="item.screenshot" :alt="item.title" />
+
                                         <div class="modules-list-block-item-title">{{item.title}}</div>
+
                                     </div>
                                 </template>
                             </MasonryWall>
