@@ -84,14 +84,17 @@ if (!function_exists('site_url')) {
             } elseif (isset($_SERVER['HOSTNAME'])) {
                 $pageURL .= $_SERVER['HOSTNAME'];
             }
+
             $pageURL_host = $pageURL;
             $pageURL .= $subdir_append;
             $d = '';
-            if (isset($_SERVER['SCRIPT_NAME'])) {
-                $d = dirname($_SERVER['SCRIPT_NAME']);
-                $d = trim($d, DIRECTORY_SEPARATOR);
-            }
+            if (php_sapi_name() !== 'cli-server') {
 
+                if (isset($_SERVER['SCRIPT_NAME'])) {
+                    $d = dirname($_SERVER['SCRIPT_NAME']);
+                    $d = trim($d, DIRECTORY_SEPARATOR);
+                }
+            }
             if (isset($_SERVER['argv']) and isset($_SERVER['argv'][0]) and is_string($_SERVER['argv'][0])) {
                 $is_phpunit = $_SERVER['argv'][0];
                 if (str_contains($is_phpunit,'phpunit')) {
@@ -144,6 +147,7 @@ if (!function_exists('site_url')) {
             //$site_url = 'http://localhost/';
              $site_url = config('app.url');
         }
+
         return $site_url . $add_string;
     }
 }
