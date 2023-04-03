@@ -1,10 +1,7 @@
 class BtnModuleSettings {
 
-
     onRegister() {
-        mw.on('live_edit.modules.settings.btn.changed', (data) => {
-          console.log(data)
-        });
+
         mw.app.editor.on('onModuleSettingsRequest', (module) => {
 
             var moduleId = module.id;
@@ -12,6 +9,7 @@ class BtnModuleSettings {
                 if (moduleType !== 'btn') {
                     return;
                 }
+
                 mw.dialogIframe({
                     url: route('live_edit.modules.settings.btn') + '?id=' + moduleId,
                     width: 300,
@@ -25,9 +23,7 @@ class BtnModuleSettings {
             }
         );
 
-
     }
-
 
 }
 
