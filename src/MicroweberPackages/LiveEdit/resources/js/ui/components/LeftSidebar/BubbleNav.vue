@@ -9,14 +9,15 @@
             <PlayIcon class="h-6 w-6 text-blue-500"/>
         </span>
         <span v-on:click="show('show-layouts')">
-           <PencilIcon class="h-6 w-6 text-blue-500"/>
+            <LayoutsIcon class="h-6 w-6" />
         </span>
     </div>
 
 </template>
 <script>
-import { ViewListIcon } from '@heroicons/vue/solid'
-import { PencilIcon, PlayIcon, CogIcon } from '@heroicons/vue/outline'
+import { PencilIcon, PlayIcon, CogIcon, LightBulbIcon } from '@heroicons/vue/outline'
+import LayoutsIcon from "../Icons/LayoutsIcon.vue";
+import ListIcon from "../Icons/ListIcon.vue";
 
 export default {
     methods: {
@@ -25,6 +26,7 @@ export default {
         }
     },
     components: {
+        LayoutsIcon,
         PencilIcon,
         PlayIcon,
         CogIcon

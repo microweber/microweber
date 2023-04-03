@@ -43,28 +43,28 @@
                         </span>
                     </div>
 
-                    <div class="pl-4 mb-3 mt-3">
-                        <div>
+                    <div class="pr-4 mt-3">
+                        <div class="d-flex justify-content-end pr-4">
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'list'"
-                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-dark']"
                             >
-                                List
+                                <GridIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
                             >
-                                Masonry
+                                <MasonryIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'full'"
-                                :class="['btn btn-sm', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
                             >
-                                Full
+                                <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
                         </div>
                     </div>
@@ -139,14 +139,20 @@
 </style>
 
 <script>
+import GridIcon from "../Icons/GridIcon.vue";
+import ListIcon from '../Icons/ListIcon.vue';
+import MasonryIcon from "../Icons/MasonryIcon.vue";
 import LazyList from '../Optimizations/LazyLoadList/LazyList.vue';
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
+        GridIcon,
+        MasonryIcon,
         MasonryWall,
         LazyList,
+        ListIcon
     },
     methods: {
         insertLayout(template) {
