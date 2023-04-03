@@ -68,17 +68,17 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <LazyList
-                        v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
-                        :itemsPerRender="9"
+                        :itemsPerRender="18"
                         containerClasses="modules-list-block"
                         defaultLoadingColor="#222"
                     >
                         <template
                             v-slot="{item}">
-                            <div :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
+                            <div :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
                                   :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
                                 <div class="modules-list-block-item-picture"
                                      :style="'background-image: url('+item.screenshot+')'"></div>
@@ -90,7 +90,7 @@
                         </template>
                     </LazyList>
 
-                    <div v-if="layoutsListTypePreview == 'masonry'" class="modules-list-block">
+                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
                             <MasonryWall :items="layoutsListFiltered"
                                          :ssr-columns="1"
                                          :column-width="300"
@@ -103,26 +103,6 @@
                                     </div>
                                 </template>
                             </MasonryWall>
-                    </div>
-                    <div v-if="layoutsListTypePreview == 'full'" class="modules-list-block">
-                        <TransitionGroup
-                            enter-active-class="animate__animated animate__backInLeft"
-                            leave-active-class="animate__animated animate__backOutLeft"
-                        >
-                            <div
-                                :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
-                                v-for="(layout,index) in layoutsListFiltered"
-                                :key="index"
-                                :style="{  width: '100%', height: '360px', transitionDelay: 0.02 * index + 's' }"
-                            >
-                                <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+layout.screenshot+')'"></div>
-                                <div class="modules-list-block-item-title">{{layout.title}}</div>
-                                <div class="modules-list-block-item-description">
-                                    {{layout.description}}
-                                </div>
-                            </div>
-                        </TransitionGroup>
                     </div>
 
                     <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
@@ -169,6 +149,8 @@ export default {
             this.filterLayouts();
         },
         filterLayouts() {
+
+            this.layoutsListLoaded = false;
             let layoutsFiltered = this.layoutsList.layouts;
 
             if (this.filterKeyword != '' && this.filterKeyword) {
@@ -189,6 +171,7 @@ export default {
                 });
             }
 
+            this.layoutsListLoaded = true;
             this.layoutsListFiltered = layoutsFiltered;
         }
     },
@@ -199,6 +182,7 @@ export default {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListFiltered = data.layouts;
+                instance.layoutsListLoaded = true;
             });
             mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
@@ -233,6 +217,7 @@ export default {
             layoutsListTypePreview: 'list',
             layoutsList: [],
             layoutsListFiltered: [],
+            layoutsListLoaded: false,
             showModal: false
         }
     }

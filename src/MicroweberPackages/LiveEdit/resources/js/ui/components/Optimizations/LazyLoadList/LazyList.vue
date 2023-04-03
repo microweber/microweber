@@ -15,7 +15,7 @@
       <div v-if="defaultLoading" id="loading-wrapper">
           <Loading :color="defaultLoadingColor"/>
       </div>
-      <div  v-else id="loading-wrapper">
+      <div v-else id="loading-wrapper">
         <slot name="loading"></slot>
       </div>
     </template>
@@ -100,6 +100,9 @@
             this.loading = true
             this.page++
             setTimeout(() => {
+                if (this.items[this.page] === undefined) {
+                    this.page = 0;
+                }
                 this.itemsToDisplay = [...this.itemsToDisplay, ...this.items[this.page]]
                 this.loading = false
                 this.loadItems()
