@@ -10,6 +10,7 @@ import {Commands} from "./services/commands.js";
 import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
 import {KeyboardEvents} from  "./services/keyboard-events.js";
+import {ModuleSettings} from "./services/module-settings";
 
 
 mw.app = new MWUniversalContainer();
@@ -22,6 +23,7 @@ mw.app = new MWUniversalContainer();
     mw.app.register('canvas', canvas);
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
+
     mw.app.register('layouts', Layouts);
     mw.app.register('keyboard', KeyboardEvents);
 //mw.app.register('commands', Commands);

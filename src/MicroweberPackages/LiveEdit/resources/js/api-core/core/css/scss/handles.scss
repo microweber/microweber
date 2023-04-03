@@ -94,6 +94,7 @@ $handleHeight: 42;
 
 .mw-le-handle-menu-buttons {
     display: inline-block;
+    white-space: nowrap;
 
     & > .mw-le-handle-menu-button {
         display: inline-flex;

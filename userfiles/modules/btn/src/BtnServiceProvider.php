@@ -36,8 +36,8 @@ class BtnServiceProvider extends PackageServiceProvider
 
     public function registerLiveEditAssets(ServingLiveEdit $event): void
     {
-        $scriptUrl = modules_url() . 'btn/quick-settings.js';
-        LiveEditManager::addScript('mw-module-btn-quick-settings', $scriptUrl, ['type' => 'module']);
+      //  $scriptUrl = modules_url() . 'btn/quick-settings.js';
+       // LiveEditManager::addScript('mw-module-btn-quick-settings', $scriptUrl, ['type' => 'module']);
      }
 
      public function registerLivewireComponents(ServingModuleSettings $event): void

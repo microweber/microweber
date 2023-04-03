@@ -119,4 +119,13 @@ class ButtonSettingsComponent extends Component
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId,'settings' => $this->settings]);
 
     }
+
+    public function setAlign($align)
+    {
+        $this->settings['align'] = $align;
+        $this->updatedSettings($this->settings);
+
+
+
+    }
 }
