@@ -451,7 +451,8 @@ html.preview #preview-button {
 
 #bubble-nav span:hover {
     background-color: #000000;
-    color: #2b2b2b
+    color: #FFFFFF;
+    fill: #FFFFFF;
 }
 
 #bubble-nav.active span {

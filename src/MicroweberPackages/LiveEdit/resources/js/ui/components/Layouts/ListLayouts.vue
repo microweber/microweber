@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="pr-4 mt-3">
-                        <div class="d-flex justify-content-end pr-4">
+                        <div class="d-flex justify-content-end pr-4 layout-list-buttons">
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
@@ -143,6 +143,9 @@
 
 <style>
 @import "//cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
+.layout-list-buttons svg {
+    fill:#FFFFFF;
+}
 </style>
 
 <script>
