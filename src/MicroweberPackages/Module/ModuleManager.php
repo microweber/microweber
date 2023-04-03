@@ -1057,7 +1057,7 @@ class ModuleManager
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id.site_url());
 
         $cache_group = 'modules/global';
 
@@ -1081,6 +1081,7 @@ class ModuleManager
                 $checked[$module_name] = false;
             }
         }
+
         $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
         if ($secure_connection == true) {
             $checked[$module_name] = str_ireplace('http://', 'https://', $checked[$module_name]);
