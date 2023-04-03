@@ -15,6 +15,7 @@
     <script>
         mw.lib.require('microweber_ui');
         mw.lib.require('mwui_init');
+        mw.lib.require('jqueryui');
     </script>
 
     @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')

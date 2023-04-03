@@ -2,8 +2,9 @@
     <script>
 
         Livewire.on('settingsChanged', $data => {
-            mw.top().trigger('live_edit.modules.settings.btn.changed', $data);
-         })
+            mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
+                //mw.top().trigger('live_edit.modules.settings.btn.changed',  $data);
+        })
     </script>
     <div>
         <input type="text" wire:model.debounce.100ms="settings.text"/>
@@ -17,5 +18,13 @@
 
     </div>
 
+
+
+    <div class="btn-group" role="group" aria-label="Button Align">
+        <button wire:click="setAlign('none')"  type="button" class="btn btn-primary @if($settings['align'] == 'none'): active @endif">None</button>
+        <button wire:click="setAlign('left')"  type="button" class="btn btn-primary @if($settings['align'] == 'left'): active @endif">Left</button>
+        <button wire:click="setAlign('center')" type="button" class="btn btn-primary @if($settings['align'] == 'center'): active @endif">Middle</button>
+        <button wire:click="setAlign('right')" type="button" class="btn btn-primary @if($settings['align'] == 'right'): active @endif">Right</button>
+    </div>
 
 </div>

@@ -19,7 +19,7 @@ class LiveEditManager
                 if (is_file($modFile)) {
                     $scriptUrl = module_url($module['module']) . 'live_edit.js';
 
-                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl);
+                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl );
                 }
             }
         }
