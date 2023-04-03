@@ -18,5 +18,6 @@ if ($template_file == false) {
 $template_file = module_templates($config['module'], 'default');
 }
 if ($template_file != false and is_file($template_file)) {
-include($template_file);
+include __DIR__ . '/template_wrapper.php';
+//include($template_file);
 }
