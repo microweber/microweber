@@ -54,17 +54,17 @@
                             </button>
                             <button
                                 type="button"
-                                v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
-                            >
-                                <MasonryIcon style="max-width:23px;max-height:23px;" />
-                            </button>
-                            <button
-                                type="button"
                                 v-on:click="layoutsListTypePreview = 'full'"
                                 :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
+                            </button>
+                            <button
+                                type="button"
+                                v-on:click="layoutsListTypePreview = 'masonry'"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
+                            >
+                                <MasonryIcon style="max-width:23px;max-height:23px;" />
                             </button>
                         </div>
                     </div>
