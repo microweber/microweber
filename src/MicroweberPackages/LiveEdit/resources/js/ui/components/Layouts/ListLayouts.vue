@@ -23,7 +23,13 @@
                     </div>
                     <div class="mw-le-layouts-dialog-categories-title">Categories</div>
                     <ul class="modules-list-categories pb-5">
-                        <li v-on:click="filterCategorySubmit('')">All categories</li>
+                        <li
+                            v-on:click="filterCategorySubmit('')"
+                            :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']"
+                        >
+                            All categories
+                        </li>
+
                         <li></li>
                         <li
                             v-if="layoutsList.categories"
@@ -43,87 +49,80 @@
                         </span>
                     </div>
 
-                    <div class="pl-4 mb-3 mt-3">
-                        <div>
-                            <button
-                                type="button"
-                                v-on:click="layoutsListTypePreview = 'list'"
-                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-outline-primary']"
-                            >
-                                List
-                            </button>
+                    <div class="pr-4 mt-3">
+                        <div class="d-flex justify-content-end pr-4">
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn btn-sm mr-3', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
                             >
-                                Masonry
+                                <MasonryIcon style="max-width:23px;max-height:23px;" />
+                            </button>
+                            <button
+                                type="button"
+                                v-on:click="layoutsListTypePreview = 'list'"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-dark']"
+                            >
+                                <GridIcon style="max-width:23px;max-height:23px;" />
                             </button>
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'full'"
-                                :class="['btn btn-sm', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-outline-primary']"
+                                :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
                             >
-                                Full
+                                <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
                         </div>
                     </div>
-                    
+
+
+                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
+                        <MasonryWall :items="layoutsListFiltered"
+                                     :ssr-columns="1"
+                                     :column-width="200"
+                                     :padding="22"
+                                     :gap="22">
+                            <template #default="{ item, index }">
+                                <div
+                                    v-on:click="insertLayout(item.template)"
+                                    :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+
+                                    <img :src="item.screenshot" :alt="item.title" />
+
+                                    <div class="modules-list-block-item-title">{{item.title}}</div>
+
+                                </div>
+                            </template>
+                        </MasonryWall>
+                    </div>
+
                     <LazyList
-                        v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
-                        :itemsPerRender="9"
+                        :itemsPerRender="18"
                         containerClasses="modules-list-block"
                         defaultLoadingColor="#222"
                     >
                         <template
                             v-slot="{item}">
-                            <div :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
+                            <div
+                                  v-on:click="insertLayout(item.template)"
+                                  :style="[layoutsListTypePreview == 'full' ? 'width:100%;height:300px': 'width:300px;height:160px']"
                                   :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+item.screenshot+')'"></div>
+                                     :style="'background-image: url('+item.screenshot+')'">
+
+                                </div>
+
                                 <div class="modules-list-block-item-title">{{item.title}}</div>
+
                                 <div class="modules-list-block-item-description">
                                     {{item.description}}
                                 </div>
                             </div>
                         </template>
                     </LazyList>
-
-                    <div v-if="layoutsListTypePreview == 'masonry'" class="modules-list-block">
-                            <MasonryWall :items="layoutsListFiltered"
-                                         :ssr-columns="1"
-                                         :column-width="300"
-                                         :padding="16"
-                                         :gap="16">
-                                <template #default="{ item, index }">
-                                    <div :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
-                                        <img :src="item.screenshot" :alt="item.title" />
-                                        <div class="modules-list-block-item-title">{{item.title}}</div>
-                                    </div>
-                                </template>
-                            </MasonryWall>
-                    </div>
-                    <div v-if="layoutsListTypePreview == 'full'" class="modules-list-block">
-                        <TransitionGroup
-                            enter-active-class="animate__animated animate__backInLeft"
-                            leave-active-class="animate__animated animate__backOutLeft"
-                        >
-                            <div
-                                :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']"
-                                v-for="(layout,index) in layoutsListFiltered"
-                                :key="index"
-                                :style="{  width: '100%', height: '360px', transitionDelay: 0.02 * index + 's' }"
-                            >
-                                <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+layout.screenshot+')'"></div>
-                                <div class="modules-list-block-item-title">{{layout.title}}</div>
-                                <div class="modules-list-block-item-description">
-                                    {{layout.description}}
-                                </div>
-                            </div>
-                        </TransitionGroup>
-                    </div>
 
                     <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
                         <div class="modules-list-block-no-results">
@@ -147,14 +146,20 @@
 </style>
 
 <script>
+import GridIcon from "../Icons/GridIcon.vue";
+import ListIcon from '../Icons/ListIcon.vue';
+import MasonryIcon from "../Icons/MasonryIcon.vue";
 import LazyList from '../Optimizations/LazyLoadList/LazyList.vue';
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { HomeIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
+        GridIcon,
+        MasonryIcon,
         MasonryWall,
         LazyList,
+        ListIcon
     },
     methods: {
         insertLayout(template) {
@@ -169,6 +174,8 @@ export default {
             this.filterLayouts();
         },
         filterLayouts() {
+
+            this.layoutsListLoaded = false;
             let layoutsFiltered = this.layoutsList.layouts;
 
             if (this.filterKeyword != '' && this.filterKeyword) {
@@ -189,6 +196,7 @@ export default {
                 });
             }
 
+            this.layoutsListLoaded = true;
             this.layoutsListFiltered = layoutsFiltered;
         }
     },
@@ -199,6 +207,7 @@ export default {
             this.getLayoutsListFromService().then(function (data) {
                 instance.layoutsList = data;
                 instance.layoutsListFiltered = data.layouts;
+                instance.layoutsListLoaded = true;
             });
             mw.app.editor.on('insertLayoutRequest',function(element){
                 instance.showModal = true;
@@ -230,9 +239,10 @@ export default {
             ],
             filterKeyword: '',
             filterCategory: '',
-            layoutsListTypePreview: 'list',
+            layoutsListTypePreview: 'masonry',
             layoutsList: [],
             layoutsListFiltered: [],
+            layoutsListLoaded: false,
             showModal: false
         }
     }
