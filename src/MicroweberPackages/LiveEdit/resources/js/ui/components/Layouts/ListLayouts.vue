@@ -53,6 +53,13 @@
                         <div class="d-flex justify-content-end pr-4">
                             <button
                                 type="button"
+                                v-on:click="layoutsListTypePreview = 'masonry'"
+                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
+                            >
+                                <MasonryIcon style="max-width:23px;max-height:23px;" />
+                            </button>
+                            <button
+                                type="button"
                                 v-on:click="layoutsListTypePreview = 'list'"
                                 :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'list'? 'btn-primary': 'btn-dark']"
                             >
@@ -61,18 +68,32 @@
                             <button
                                 type="button"
                                 v-on:click="layoutsListTypePreview = 'full'"
-                                :class="['btn btn-sm btn-rounded mr-1', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
+                                :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'full'? 'btn-primary': 'btn-dark']"
                             >
                                 <ListIcon style="max-width:23px;max-height:23px;" />
                             </button>
-                            <button
-                                type="button"
-                                v-on:click="layoutsListTypePreview = 'masonry'"
-                                :class="['btn btn-sm btn-rounded', layoutsListTypePreview == 'masonry'? 'btn-primary': 'btn-dark']"
-                            >
-                                <MasonryIcon style="max-width:23px;max-height:23px;" />
-                            </button>
                         </div>
+                    </div>
+
+
+                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
+                        <MasonryWall :items="layoutsListFiltered"
+                                     :ssr-columns="1"
+                                     :column-width="200"
+                                     :padding="22"
+                                     :gap="22">
+                            <template #default="{ item, index }">
+                                <div
+                                    v-on:click="insertLayout(item.template)"
+                                    :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
+
+                                    <img :src="item.screenshot" :alt="item.title" />
+
+                                    <div class="modules-list-block-item-title">{{item.title}}</div>
+
+                                </div>
+                            </template>
+                        </MasonryWall>
                     </div>
 
                     <LazyList
@@ -102,26 +123,6 @@
                             </div>
                         </template>
                     </LazyList>
-
-                    <div v-if="layoutsListLoaded && layoutsListTypePreview == 'masonry'" class="modules-list-block">
-                            <MasonryWall :items="layoutsListFiltered"
-                                         :ssr-columns="1"
-                                         :column-width="300"
-                                         :padding="16"
-                                         :gap="16">
-                                <template #default="{ item, index }">
-                                    <div
-                                        v-on:click="insertLayout(item.template)"
-                                        :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
-
-                                        <img :src="item.screenshot" :alt="item.title" />
-
-                                        <div class="modules-list-block-item-title">{{item.title}}</div>
-
-                                    </div>
-                                </template>
-                            </MasonryWall>
-                    </div>
 
                     <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
                         <div class="modules-list-block-no-results">
@@ -238,7 +239,7 @@ export default {
             ],
             filterKeyword: '',
             filterCategory: '',
-            layoutsListTypePreview: 'list',
+            layoutsListTypePreview: 'masonry',
             layoutsList: [],
             layoutsListFiltered: [],
             layoutsListLoaded: false,
