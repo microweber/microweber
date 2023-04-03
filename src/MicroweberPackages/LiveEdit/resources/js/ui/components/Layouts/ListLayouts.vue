@@ -68,10 +68,7 @@
                             </button>
                         </div>
                     </div>
-
-
-                    {{layoutsListFiltered}}
-
+                    
                     <LazyList
                         v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
