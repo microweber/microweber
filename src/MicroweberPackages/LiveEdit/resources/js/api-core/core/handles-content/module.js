@@ -8,38 +8,41 @@ export const ModuleHandleContent = function (rootScope) {
             contentEditable: false,
         }
     });
+
+
+ 
+
+    var staticMenu = new HandleMenu({
+        id: 'mw-handle-item-element-menu-default',
+        title: 'Module',
+        rootScope: rootScope,
+        buttons: [
+            {
+                "title": "Settings",
+                "icon": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>',
+                action: (target) => {
+                    mw.app.editor.dispatch('onModuleSettingsRequest', target);
+                    var type = target.dataset.type || target.getAttribute('type');
+                    type = type.trim();
+                    mw.app.editor.dispatch('onModuleSettingsRequest@' + type, target);
+                }
+            }
+        ],
+    })
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
         title: 'Module',
         rootScope: rootScope,
         buttons: [
-            {
-                title: rootScope.lang('Clone1111'),
-                text: '',
-                icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>',
-                className: 'mw-handle-insert-button',
-                action: function (target, selfNode, rootScope) {
-                    var el = document.createElement('div');
-                    el.innerHTML = target.outerHTML;
-                    ElementManager('[id]', el).each(function(){
-                        this.id = 'le-id-' + new Date().getTime();
-                    });
-                    ElementManager(target).after(el.innerHTML);
-                    var newEl = target.nextElementSibling;
-                    mw.reload_module(newEl, function(){
-                        rootScope.statemanager.record({
-                            target: mw.tools.firstParentWithClass(target, 'edit'),
-                            value: parent.innerHTML
-                        });
-                    });
-                }
-            },
+             
         ],
     });
 
     this.menu.show();
+    staticMenu.show();
 
     this.root.append(this.menu.root);
+    this.root.append(staticMenu.root);
 
 };
 

@@ -132,10 +132,12 @@ export class LiveEdit {
                 title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
             } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
                 title = scope.lang('Image');
-            } else {
+            }  else if(['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(target.nodeName)) {
+                title = scope.lang('Title ' + target.nodeName.replace('H', ''));
+            }  else {
                 title = scope.lang('Text');
             }
-            elementHandleContent.menu.setTitle(title);
+             elementHandleContent.menu.setTitle(title);
         });
 
         this.moduleHandle = new Handle({
@@ -159,23 +161,12 @@ export class LiveEdit {
         moduleHandle.on('targetChange', function (node){
 
 
-
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
 
                 moduleHandleContent.menu.root.remove();
                 
 
-                // todo: global
-                if(!settings) {
-                    settings = {mainMenu: []}
-                }
-                settings.mainMenu.unshift({
-                    "title": "Settings",
-                    "icon": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>',
-                    action: (target) => {
-                        mw.app.editor.dispatch('onModuleSettingsRequest', target);
-                    }
-                })
+                
 
                 moduleHandleContent.menu = new HandleMenu({
                     id: 'mw-handle-item-element-menu',
@@ -226,6 +217,8 @@ export class LiveEdit {
         moduleHandleContent.handle = moduleHandle;
         elementHandleContent.handle = elementHandle;
 
+        this.hoverHandle = 
+
         this.handles = new Handles({
             element: elementHandle,
             module: moduleHandle,
@@ -249,23 +242,43 @@ export class LiveEdit {
             ModeAuto(this);
         }
 
-         ElementManager(this.root).on('mousemove touchmove', (e) => {
-                if (!this.paused && e.pageX % 2 === 0) {
-                    const elements = this.observe.fromEvent(e);
-                    const first = elements[0];
-                    if(first) {
-                       const type = this.elementAnalyzer.getType(first);
-                       if(type && type !== 'edit') {
-                            this.handles.set(type, elements[0])
-                           if(type === 'element') {
-                               this.handles.hide('module')
-                           } else if(type === 'module') {
-                               this.handles.hide('element')
-                           }
-                       }
-                    }
+
+        const _eventsHandle = (e) => {
+            const elements = this.observe.fromEvent(e);
+            const first = elements[0];
+            if(first) {
+               const type = this.elementAnalyzer.getType(first);
+               if(type && type !== 'edit') {
+                    this.handles.set(type, elements[0])
+                   if(type === 'element') {
+                       this.handles.hide('module')
+                   } else if(type === 'module') {
+                       this.handles.hide('element')
+                   }
+               }
+            }
+        }
+
+        const interactionMode = 'click'; // click || hover;
+
+        let events;
+        if(interactionMode === 'click') {
+            events = 'click';
+            ElementManager(this.root).on(events, (e) => {
+                if ( !this.paused  ) {
+                    _eventsHandle(e)
                 }
          });
+        } else if (interactionMode === 'hover') {
+            events = 'mousemove touchmove';
+            ElementManager(this.root).on(events, (e) => {
+                if ( !this.paused && e.pageX % 2 === 0) {
+                    _eventsHandle(e)
+                }
+         });
+        }
+ 
+         
     };
 }
 

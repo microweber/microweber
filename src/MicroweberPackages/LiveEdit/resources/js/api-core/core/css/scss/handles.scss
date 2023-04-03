@@ -4,7 +4,7 @@
     cursor: default;
     -webkit-user-select: none;
     user-select: none;
-    border: 1px solid #0078ff;
+    border: 3px solid #0078ff;
     transition: opacity .2s;
     pointer-events: none;
 
@@ -55,22 +55,29 @@
 $darkBG: #404040;
 $lightBG: #ffffff;
 
-$bg: $darkBG;
+$bg: $lightBG;
 
 $handleHeight: 42;
 
 .mw-le-handle-menu {
+    .mw-le-handle-menu-buttons{
+        
+        height: #{$handleHeight}px;
+        border-radius: 7px;
+        border: 1px solid transparent;
+        padding: 3px 12px;
+        display: inline-flex;
+        align-items: center;
+        background-color: $bg;
+        pointer-events: all;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
+        position: absolute;  
+        top: -#{$handleHeight + 23}px;
+        left: -2px;   
+    }
     position: absolute;
-    height: #{$handleHeight}px;
-    border-radius: 100px;
-    border: 1px solid #e5e5e5;
-    padding: 3px 12px;
-    display: inline-flex;
-    align-items: center;
-    background-color: $bg;
-    pointer-events: all;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-    color: white;
+
+    color: $darkBG;
 
     * {
         vertical-align: middle;
@@ -78,7 +85,7 @@ $handleHeight: 42;
 }
 
 #mw-handle-item-element-menu {
-    top: -#{$handleHeight}px;
+    top: -#{$handleHeight + 23}px;
     left: -2px;
 }
 
@@ -168,12 +175,13 @@ $handleHeight: 42;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 6px 0 0;
-    font-size: 12px;
+    padding: 5px;;
     -webkit-user-select: none;
     user-select: none;
-    height: #{$handleHeight}px;
+    height: auto;
     cursor: grab;
+    background-color: #0078ff;
+    color: white;
 }
 
 .mw-le-handle-menu-button-icon {
@@ -200,7 +208,7 @@ $handleHeight: 42;
 }
 
 .mw-le-handle-menu-title-text {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .mw-handle-item-layout-plus {
