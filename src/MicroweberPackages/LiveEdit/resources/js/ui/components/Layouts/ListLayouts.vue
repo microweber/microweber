@@ -69,28 +69,29 @@
                         </div>
                     </div>
 
-                    <div v-if="layoutsListTypePreview == 'list'" class="modules-list-block">
-                       <TransitionGroup
-                            enter-active-class="animate__animated animate__backInLeft"
-                            leave-active-class="animate__animated animate__backOutLeft"
-                        >
-                             <div
 
-                                 class="modules-list-block-item modules-list-block-item-is-locked-false"
-                                 v-on:click="insertLayout(layout.template)"
-                                 v-for="(layout,index) in layoutsListFiltered"
-                                  :key="index"
-                                  :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
-                                  >
+                    {{layoutsListFiltered}}
+
+                    <LazyList
+                        v-if="layoutsListTypePreview == 'list' && layoutsListFiltered.length > 0"
+                        :data="layoutsListFiltered"
+                        :itemsPerRender="9"
+                        containerClasses="modules-list-block"
+                        defaultLoadingColor="#222"
+                    >
+                        <template
+                            v-slot="{item}">
+                            <div :style="{  width: '300px', height: '160px', transitionDelay: 0.02 * index + 's' }"
+                                  :class="['modules-list-block-item', item.locked ? 'modules-list-block-item-is-locked-true' : 'modules-list-block-item-is-locked-false']">
                                 <div class="modules-list-block-item-picture"
-                                     :style="'background-image: url('+layout.screenshot+')'"></div>
-                                <div class="modules-list-block-item-title">{{layout.title}}</div>
+                                     :style="'background-image: url('+item.screenshot+')'"></div>
+                                <div class="modules-list-block-item-title">{{item.title}}</div>
                                 <div class="modules-list-block-item-description">
-                                    {{layout.description}}
+                                    {{item.description}}
                                 </div>
                             </div>
-                        </TransitionGroup>
-                    </div>
+                        </template>
+                    </LazyList>
 
                     <div v-if="layoutsListTypePreview == 'masonry'" class="modules-list-block">
                             <MasonryWall :items="layoutsListFiltered"
@@ -149,7 +150,7 @@
 </style>
 
 <script>
-import LazyList from 'lazy-load-list/vue';
+import LazyList from '../Optimizations/LazyLoadList/LazyList.vue';
 import MasonryWall from '@yeger/vue-masonry-wall'
 import { HomeIcon } from '@heroicons/vue/outline'
 
