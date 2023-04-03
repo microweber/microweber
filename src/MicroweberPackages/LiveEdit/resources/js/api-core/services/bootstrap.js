@@ -15,7 +15,7 @@ import {KeyboardEvents} from  "./services/keyboard-events.js";
 mw.app = new MWUniversalContainer();
 
 
-setTimeout(function() {
+//setTimeout(function() {
     const canvas = new LiveEditCanvas();
     const canvasHolder = document.getElementById('live-edit-frame-holder');
 
@@ -29,6 +29,7 @@ setTimeout(function() {
     canvas.mount(canvasHolder);
 
     mw.app.canvas.on('liveEditBeforeLoaded', function () {
+
         mw.app.dispatch('init');
     });
 
@@ -38,4 +39,4 @@ setTimeout(function() {
         mw.app.dispatch('ready');
     });
 
-}, 300);
+//}, 300);
