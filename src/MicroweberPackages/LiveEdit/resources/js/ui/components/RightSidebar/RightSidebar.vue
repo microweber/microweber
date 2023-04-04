@@ -4,7 +4,7 @@
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
 
             <div v-if="showSidebar">
-                <button v-on:click="showSidebar = false" type="button" class="btn btn-danger">
+                <button v-on:click="closeSidebar" type="button" class="btn btn-danger">
                     Close Sidebar
                 </button>
             </div>
@@ -27,15 +27,27 @@ export default {
     components: {
         TemplateSettings
     },
+    methods: {
+        closeSidebar() {
+            this.showSidebar = false;
+            document.getElementById('live-edit-frame-holder')
+                .removeAttribute('style');
+        },
+        openSidebar() {
+            this.showSidebar = true;
+            document.getElementById('live-edit-frame-holder')
+                .setAttribute('style', 'margin-right: 301px;');
+        }
+    },
     mounted() {
         const instance = this;
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'template-settings') {
                 if (instance.showSidebar == false) {
-                    instance.showSidebar = true;
+                   instance.openSidebar();
                 } else {
-                    instance.showSidebar = false;
+                   instance.closeSidebar();
                 }
             }
         });
