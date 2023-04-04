@@ -106,6 +106,9 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
 
 .main aside > ul > li.nav-item > a.active, .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
     border-color: $black !important;
+    border-bottom: 1px solid;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .btn.btn-success {

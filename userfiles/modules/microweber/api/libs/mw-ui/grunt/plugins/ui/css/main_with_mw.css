@@ -7873,7 +7873,10 @@ a.text-dark:hover, a.text-dark:focus {
       fill: #ffffff !important; }
 
 .main aside > ul > li.nav-item > a.active, .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
-  border-color: black !important; }
+  border-color: black !important;
+  border-bottom: 1px solid;
+  box-shadow: none;
+  border-radius: 0; }
 
 .btn.btn-success {
   background-color: black;
