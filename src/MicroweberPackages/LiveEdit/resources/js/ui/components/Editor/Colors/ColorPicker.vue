@@ -8,6 +8,11 @@
                 theme="light"
                      v-if="showPicker"
                      :value="color"
+                     :sucker-hide="false"
+                     :sucker-canvas="suckerCanvas"
+                     :sucker-area="suckerArea"
+                     @openSucker="openSucker"
+
                      @changeColor="changeColor"
                      @close="togglePicker" />
     </div>
@@ -56,11 +61,24 @@ export default {
     data() {
         return {
             showPicker: false,
+
+            suckerCanvas: null,
+            suckerArea: [],
+            isSucking: false,
         }
     },
     methods: {
         changeColor(color) {
             this.$props.color = color.hex;
+        },
+        openSucker(isOpen) {
+            if (isOpen) {
+                // ... canvas be created
+                // this.suckerCanvas = canvas
+                // this.suckerArea = [x1, y1, x2, y2]
+            } else {
+               //  this.suckerCanvas && this.suckerCanvas.remove
+            }
         },
         togglePicker() {
             this.showPicker = !this.showPicker;
