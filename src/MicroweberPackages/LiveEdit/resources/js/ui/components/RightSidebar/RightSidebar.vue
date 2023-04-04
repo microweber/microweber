@@ -8,8 +8,8 @@
                     Close Sidebar
                 </button>
             </div>
-
             <TemplateSettings></TemplateSettings>
+            <RangeSlider></RangeSlider>
         </div>
 
     </div>
@@ -23,8 +23,11 @@
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
+import RangeSlider from "../Editor/Forms/RangeSlider.vue";
+
 export default {
     components: {
+        RangeSlider,
         TemplateSettings
     },
     methods: {
@@ -36,7 +39,7 @@ export default {
         openSidebar() {
             this.showSidebar = true;
             document.getElementById('live-edit-frame-holder')
-                .setAttribute('style', 'margin-right: 301px;');
+                .setAttribute('style', 'margin-right: 303px;');
         }
     },
     mounted() {
@@ -61,7 +64,7 @@ export default {
     },
     data() {
         return {
-            showSidebar: false
+            showSidebar: true
         }
     }
 }

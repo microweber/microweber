@@ -138,9 +138,9 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                     <div class="row text-center">
                         <div class="col-sm-12 d-md-flex align-items-center justify-content-between">
-                            <a href="<?php print site_url() ?>" class="btn btn-link btn-sm"><i class="mdi mdi-arrow-left"></i> <?php _e("Back to My WebSite"); ?></a>
+                            <a href="<?php print site_url() ?>" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered"><i class="mdi mdi-arrow-left"></i> <?php _e("Back to My WebSite"); ?></a>
 
-                            <a href="javascript:;" dusk="forgot-password-link" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="btn btn-link btn-sm"><?php _e("Forgot my password"); ?>?</a>
+                            <a href="javascript:;" dusk="forgot-password-link" onClick="mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered"><?php _e("Forgot my password"); ?>?</a>
                         </div>
                     </div>
                 </div>

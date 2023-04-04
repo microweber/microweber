@@ -107,8 +107,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-end text-right">
-                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)"><?php _e('Select All'); ?></button>
-                                    <button type="button" class="btn btn-link btn-sm" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)"><?php _e('Unselect All'); ?></button>
+                                    <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', true)"><?php _e('Select All'); ?></button>
+                                    <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" onclick="checkEverythingFromThisGroup('{{$permissionGroupHash}}', false)"><?php _e('Unselect All'); ?></button>
                                 </div>
                             </div>
 

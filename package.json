@@ -30,6 +30,7 @@
         "@heroicons/vue": "^1.0.6",
         "@popperjs/core": "^2.6.0",
         "@vitejs/plugin-vue": "^4.1.0",
+        "@vueform/slider": "^2.1.7",
         "@yeger/vue-masonry-wall": "^3.4.4",
         "aos": "^2.3.4",
         "axios": "^0.21.1",
@@ -41,6 +42,8 @@
         "mitt": "^3.0.0",
         "popper.js": "^1.16.1",
         "vue": "^3.2.36",
-        "vue-loader": "^17.0.1"
+        "vue-color-kit": "^1.0.5",
+        "vue-loader": "^17.0.1",
+        "vue3-click-away": "^1.2.4"
     }
 }

@@ -90,7 +90,7 @@
                     <div>
                         You have selected {{ count($checked) }} items,
                         Do you want to Select All {{ count($contents->items()) }}?
-                        <button type="button" class="btn btn-link btn-sm" wire:click="selectAll">{{ _e('Select All') }}</button>
+                        <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" wire:click="selectAll">{{ _e('Select All') }}</button>
                     </div>
                 @endif
             @endif

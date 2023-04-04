@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Modules\Btn;
+namespace MicroweberPackages\Modules\GoogleMaps;
 
 
 use Illuminate\Support\Facades\Event;
@@ -9,17 +9,16 @@ use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Events\ServingModuleSettings;
-use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
+use MicroweberPackages\Modules\GoogleMaps\Http\Livewire\GoogleMapsSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 
-class BtnServiceProvider extends PackageServiceProvider
+class GoogleMapsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-module-btn');
+        $package->name('microweber-module-google-maps');
     }
 
     public function register(): void
@@ -28,20 +27,20 @@ class BtnServiceProvider extends PackageServiceProvider
         Event::listen(ServingLiveEdit::class, [$this, 'registerLiveEditAssets']);
         Event::listen(ServingModuleSettings::class, [$this, 'registerLivewireComponents']);
 
-        Livewire::component('live-edit::btn', ButtonSettingsComponent::class);
+        Livewire::component('live-edit::google_maps', GoogleMapsSettingsComponent::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
-        View::addNamespace('modules.btn', __DIR__ . '/resources/views');
+        // $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
+        View::addNamespace('modules.google_maps', __DIR__ . '/resources/views');
     }
 
     public function registerLiveEditAssets(ServingLiveEdit $event): void
     {
-        //  $scriptUrl = modules_url() . 'btn/quick-settings.js';
-        // LiveEditManager::addScript('mw-module-btn-quick-settings', $scriptUrl, ['type' => 'module']);
+
     }
 
     public function registerLivewireComponents(ServingModuleSettings $event): void
     {
 
     }
+
 }
