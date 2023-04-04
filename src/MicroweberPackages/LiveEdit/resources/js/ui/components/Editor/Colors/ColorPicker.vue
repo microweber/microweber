@@ -70,6 +70,7 @@ export default {
     methods: {
         changeColor(color) {
             this.$props.color = color.hex;
+            this.$emit('change', color.hex);
         },
         openSucker(isOpen) {
             if (isOpen) {

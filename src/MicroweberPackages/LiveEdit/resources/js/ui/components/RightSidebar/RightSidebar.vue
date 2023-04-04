@@ -8,7 +8,9 @@
                     Close Sidebar
                 </button>
             </div>
+
             <TemplateSettings></TemplateSettings>
+
         </div>
 
     </div>
@@ -22,6 +24,7 @@
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
+
 export default {
     components: {
         TemplateSettings
@@ -60,8 +63,7 @@ export default {
     },
     data() {
         return {
-            color: "#ff0000",
-            showSidebar: false
+            showSidebar: true
         }
     }
 }
