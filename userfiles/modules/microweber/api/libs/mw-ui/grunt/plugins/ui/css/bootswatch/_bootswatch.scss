@@ -413,11 +413,11 @@ a.active i {
 }
 
 i.mdi.active, i.mdi:hover {
-    color: $primary;
+    color: $black !important;
 }
 
 i.mdi {
-    color: $black!important;
+    color: $muted!important;
 }
 
 .quick-links span:hover {
@@ -576,6 +576,10 @@ tspan {
         color: $secondary!important;
 
     }
+}
+
+.mw-tree-item-title {
+    color: $muted!important;
 }
 
 .custom-fields-add-buttons {
@@ -781,16 +785,36 @@ input, .custom-select {
 
 .btn-hover-style-3 .btn.btn-outline-secondary.active {
      color: $secondary!important;
+
+    border-bottom: 4px solid $black !important;
+
+}
+
+.dropdown-menu {
+    border-radius: 0;
+    border-color: $textGray !important;
+
+    a:hover {
+
+        background-color: $black !important;
+        color: $white !important;
+
+    }
+}
+
+.btn-hover-style-3 {
+    border-bottom: none !important;
 }
 
 .btn-hover-style-3 .btn:hover, #mw-packages-browser-nav-tabs-nav .btn:hover {
-    color: $secondary !important;
-    background-color: $primary!important;
+    color: $white !important;
+    background-color: $black!important;
 
     i {
-        color: $secondary !important;
+        color: $white !important;
     }
 }
+
 
 .btn-outline-success {
     &:hover {
@@ -1026,12 +1050,30 @@ input, .custom-select {
     }
 }
 a.btn-link {
-    color: $primary!important;
+    color: $black!important;
+    &:hover {
+        i {
+            color: $muted !important;
+
+        }
+        color: $muted !important;
+    }
 
     small {
-        color: $primary!important;
+        color: $black!important;
+        &:hover {
+            i {
+                color: $muted !important;
+
+            }
+            color: $muted !important;
+        }
 
     }
+}
+
+.text-silver, #slug-base-url.text-silver {
+    color: $muted!important;
 }
 
 .mw-editor-controller-component-select-values-holder, .mw-bar-control-item-group-contents {
@@ -1063,7 +1105,7 @@ a.btn-link {
 
 .reset-field:hover {
    i.mdi {
-        color: $primary !important;
+        color: $muted !important;
    }
 }
 
@@ -1121,7 +1163,7 @@ a.btn-link {
 }
 
 .input-group-text, .mw-ui-btn  {
-    border-color: $primary!important;
+    border-color: $textGray!important;
     background-color: transparent!important;
     color: $secondary !important;
 

@@ -270,7 +270,6 @@ if ($params['period']) {
                     <div class="line"></div>
                 </div>
             </div>
-            <hr class="thin">
             <div class="stats_box_footer">
                 <div class="row d-flex justify-content-between">
                     <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">

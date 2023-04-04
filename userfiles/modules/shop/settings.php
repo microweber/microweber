@@ -57,7 +57,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+
         <div class="card style-1 mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
@@ -105,5 +105,5 @@ if (isset($_GET['group']) and $_GET['group']) {
                 </div>
             </div>
         </div>
-    </div>
+
 </div>
