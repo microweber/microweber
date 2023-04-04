@@ -42,6 +42,7 @@
         "popper.js": "^1.16.1",
         "vue": "^3.2.36",
         "vue-color-kit": "^1.0.5",
-        "vue-loader": "^17.0.1"
+        "vue-loader": "^17.0.1",
+        "vue3-click-away": "^1.2.4"
     }
 }

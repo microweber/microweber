@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-click-away="closePicker">
         <div class="color-picker-badge"
                 @click="togglePicker"
              :style="{background: color}"></div>
@@ -46,7 +46,7 @@ import 'vue-color-kit/dist/vue-color-kit.css'
 
 export default {
     components: {
-        ColorPicker
+        ColorPicker,
     },
     props: {
         color: {
@@ -79,6 +79,9 @@ export default {
             } else {
                //  this.suckerCanvas && this.suckerCanvas.remove
             }
+        },
+        closePicker() {
+            this.showPicker = false;
         },
         togglePicker() {
             this.showPicker = !this.showPicker;
