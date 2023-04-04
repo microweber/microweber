@@ -105,7 +105,16 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
     }
 }
 
-.text-muted, .form-group .text-muted, .card-body .text-muted {
+.badge, .input-group-text, .progress {
+    border-radius: 0 !important;
+}
+
+.custom-file label.custom-file-label {
+    border-color: $black !important;
+    border-radius: 0 !important;
+}
+
+.text-muted, .form-group .text-muted, .card-body .text-muted, .copyright .text-muted {
     color: $muted !important;
 }
 #select-post-author .mw-ui-field {
@@ -122,6 +131,7 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
         padding: 10px;
     }
 }
+
 
 .btn:not(.btn-link, .add-new, .dropdown-toggle), .btn.btn-primary,.btn-outline-primary, .btn.btn-info, .btn.btn-success:not(.add-new), .btn.btn-warning, .btn.btn-danger, .js-standalone-updater-update-button, .card.style-1 .card-header.js-add-custom-field.bg-primary {
     color: $secondary!important;

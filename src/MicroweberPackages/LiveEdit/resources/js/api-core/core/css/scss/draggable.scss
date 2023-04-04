@@ -7,3 +7,67 @@ html.le-dragging{
         opacity:0 !important;
     }
 }
+
+.mw-handle-item.mw-le-resizable {
+
+    .mw-le-resizer:before,
+    .mw-le-resizer:after{
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background-color: white;
+        border: 2px solid #2a84fb;
+        content: '';
+    }
+    .mw-le-resizer-l {
+        &:before,
+        &:after{
+            left: -6px;
+        }
+        &:before{
+            top: -6px;
+        }
+        &:after{
+            top: calc(50% - 6px);
+        }
+    }
+ 
+    .mw-le-resizer-r {
+        &:before,
+        &:after{
+            left: 2px;
+        }
+        &:before{
+            bottom: -6px;
+        }
+        &:after{
+            bottom: calc(50% - 6px);
+        }
+    }
+    .mw-le-resizer-b {
+        &:before,
+        &:after{
+ 
+            top: 2px;
+        }
+        &:before{
+            left: -6px;
+        }
+        &:after{
+            left: calc(50% - 6px);
+        }
+    }
+    .mw-le-resizer-t {
+        &:before,
+        &:after{
+ 
+            top: -6px;
+        }
+        &:before{
+            right: -6px;
+        }
+        &:after{
+            right: calc(50% - 6px);
+        }
+    }
+}

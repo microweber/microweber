@@ -1,4 +1,4 @@
-class Resizable  {
+export class Resizable  {
 
     constructor(options = {}) {
 

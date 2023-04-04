@@ -120,7 +120,8 @@ export class LiveEdit {
             content: elementHandleContent.root,
             handle: elementHandleContent.menu.title,
             document: this.settings.document,
-            stateManager: this.settings.stateManager
+            stateManager: this.settings.stateManager,
+            resizable: true
         });
 
         elementHandle.on('targetChange', function (target){
@@ -244,8 +245,13 @@ export class LiveEdit {
 
 
         const _eventsHandle = (e) => {
+            if(this.handles.targetIsOrInsideHandle(e)) {
+                return
+            }
             const elements = this.observe.fromEvent(e);
+            
             const first = elements[0];
+            this.handles.hide()
             if(first) {
                const type = this.elementAnalyzer.getType(first);
                if(type && type !== 'edit') {
@@ -254,6 +260,8 @@ export class LiveEdit {
                        this.handles.hide('module')
                    } else if(type === 'module') {
                        this.handles.hide('element')
+                   } else {
+                        this.handles.hide()
                    }
                }
             }
@@ -263,7 +271,7 @@ export class LiveEdit {
 
         let events;
         if(interactionMode === 'click') {
-            events = 'click';
+            events = 'mousedown touchstart';
             ElementManager(this.root).on(events, (e) => {
                 if ( !this.paused  ) {
                     _eventsHandle(e)

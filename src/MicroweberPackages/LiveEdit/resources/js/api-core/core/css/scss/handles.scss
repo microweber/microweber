@@ -1,4 +1,7 @@
 .mw-handle-item {
+    &.mw-le-resizable{
+        position: absolute;
+    }
     position: absolute;
     z-index: 9;
     cursor: default;
@@ -6,7 +9,7 @@
     user-select: none;
     border: 3px solid #0078ff;
     transition: opacity .2s;
-    pointer-events: none;
+    pointer-events: all;
 
     &.mw-handle-item-dragging {
         border-color: transparent;
@@ -21,23 +24,7 @@
         visibility: hidden;
     }
 
-    /*    .mw-handle-item-handle{
-            &:after{
-                content: '|||';
-                display: block;
-                color: #fff;
-                padding: 5px;
-            }
-            width: 30px;
-            height: 30px;
-            background: #1a73b4;
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: grab;
-            pointer-events: all;
-        }*/
+ 
     .mw-handlemenu-item {
         pointer-events: all;
     }

@@ -40,7 +40,7 @@ $files[] = 'liveedit/beforeleave.js';
 $files[] = 'liveedit/initload.js';
 $files[] = 'liveedit/recommend.js';
 $files[] = 'liveedit/layoutplus.js';
-$files[] = 'le2/spacer.js';
+$files[] = 'le2/resize.js';
 
 
 

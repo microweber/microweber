@@ -5,30 +5,57 @@ export class Resizable  {
         const defaults = {
             element: null,
             document: document,
+            maxHeight: null,
+            maxWidth: null,
         };
 
         this.settings = Object.assign({}, defaults, options);
         this.element = this.settings.element;
-        this.mount();
+        this.document = this.settings.document;
+        this.element.classList.add('mw-le-resizable');
 
     };
 
-     x = 0;
-     y = 0;
-     w = 0;
-     h = 0;
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+
+    listeners = {}
+
+    #_e = {};
+
+    on(e, f){ this.#_e[e] ? this.#_e[e].push(f) : (this.#_e[e] = [f]) };
+    dispatch(e, f){ this.#_e[e] ? this.#_e[e].forEach(c => { c.call(this, f); }) : ''; };
 
     mouseMoveHandler (e) {
-        const dx = e.clientX - x;
-        const dy = e.clientY - y;
-        this.element.style.width = `${this.w + dx}px`;
-        this.element.style.height = `${this.h + dy}px`;
+        const dx = e.clientX - this.x;
+        const dy = e.clientY - this.y;
+        let calcH = this.h + dy;
+        let calcW = this.w + dx;
+
+        if(this.settings.maxWidth) {
+            calcW = Math.min(calcW, this.settings.maxWidth)
+        }
+        if(this.settings.maxHeight) {
+            calcH = Math.min(calcH, this.settings.maxHeight)
+        }
+         this.element.style.width = `${calcW}px`;
+
+
+
+        this.element.style.height = `${calcH}px`;
+        e.preventDefault();
+        this.dispatch('resize', { height: this.element.offsetHeight, width: this.element.offsetWidth });
+
     }
 
     mouseUpHandler () {
-
-        this.document.removeEventListener('mousemove', this.mouseMoveHandler);
-        this.document.removeEventListener('mouseup', this.mouseUpHandler);
+        for (const l in this.listeners) {
+            this.document.removeEventListener(l, this.listeners[l]);
+        }
+        this.listeners = {}
+        this.dispatch('resizeStop')
     };
 
     mouseDownHandler (e) {
@@ -41,27 +68,47 @@ export class Resizable  {
         this.h = parseInt(styles.height, 10);
 
 
-        this.document.addEventListener('mousemove', this.mouseMoveHandler);
-        this.document.addEventListener('mouseup', this.mouseUpHandler);
+
+        this.listeners.mousemove = e => this.mouseMoveHandler(e)
+        this.listeners.mouseup = e => this.mouseUpHandler(e)
+
+        for (const l in this.listeners) {
+            this.document.addEventListener(l, this.listeners[l]);
+        }
+
     };
 
     build() {
-        const nodeR = document.createElement('span');
-        const nodeB = document.createElement('span');
+        const nodeT = this.document.createElement('span');
+        const nodeR = this.document.createElement('span');
+        const nodeB = this.document.createElement('span');
+        const nodeL = this.document.createElement('span');
+        nodeT.className = 'mw-le-resizer mw-le-resizer-t';
         nodeR.className = 'mw-le-resizer mw-le-resizer-r';
+        nodeL.className = 'mw-le-resizer mw-le-resizer-l';
         nodeB.className = 'mw-le-resizer mw-le-resizer-b';
+        this.element.appendChild(nodeT);
         this.element.appendChild(nodeR);
         this.element.appendChild(nodeB);
+        this.element.appendChild(nodeL);
     }
 
     mount() {
-        if(!this.element) { return; }
+        if(!this.element) { return this; }
+        if(this.element.dataset.resizable) { return this; }
+        this.element.dataset.resizable = true;
         this.build();
-        const resizers = ele.querySelectorAll('.mw-le-resizable');
+        const resizers = this.element.querySelectorAll('.mw-le-resizer');
 
-        [].forEach.call(resizers, resizer => {
-            resizer.addEventListener('mousedown', this.mouseDownHandler);
+        Array.from(resizers).forEach(resizer => {
+            resizer.addEventListener('mousedown', e => {
+                this.mouseDownHandler(e)
+            });
         });
+        this.dispatch('ready', { height: this.element.offsetHeight, width: this.element.offsetWidth });
+        return this;
     }
 
 }
+
+globalThis.Resizable = Resizable
