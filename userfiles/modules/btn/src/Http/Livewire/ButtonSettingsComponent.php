@@ -2,12 +2,10 @@
 
 namespace MicroweberPackages\Modules\Btn\Http\Livewire;
 
-use Livewire\Component;
+use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
-class ButtonSettingsComponent extends Component
+class ButtonSettingsComponent extends ModuleSettingsComponent
 {
-
-    public string $moduleId = '';
 
     public array $settings = [
         'button_style' => '',
@@ -36,22 +34,18 @@ class ButtonSettingsComponent extends Component
         'hoverborderColor' => '',
     ];
 
-    public $listeners = [
-        'showDropdown' => 'showDropdown',
-        'closeDropdown' => 'closeDropdown',
-    ];
     public function render()
     {
 
 
         //$options = get_module_options($this->moduleId);
 
-       //  if($options){
-            foreach ($this->settings as $key=>$option){
-                $val = get_module_option($key, $this->moduleId);
-                $this->settings[$key] = $val;
-            }
-      //  }
+        //  if($options){
+        foreach ($this->settings as $key => $option) {
+            $val = get_module_option($key, $this->moduleId);
+            $this->settings[$key] = $val;
+        }
+        //  }
 
         $style = get_module_option('button_style', $this->moduleId);
         $size = get_module_option('button_size', $this->moduleId);
@@ -108,24 +102,11 @@ class ButtonSettingsComponent extends Component
         return view('modules.btn::livewire.index');
     }
 
-    public function updatedSettings($settings)
-    {
-
-        if($this->settings){
-            foreach ($this->settings as $key=>$setting){
-              save_option($key, $setting, $this->moduleId);
-            }
-        }
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId,'settings' => $this->settings]);
-
-    }
 
     public function setAlign($align)
     {
         $this->settings['align'] = $align;
         $this->updatedSettings($this->settings);
-
-
 
     }
 }
