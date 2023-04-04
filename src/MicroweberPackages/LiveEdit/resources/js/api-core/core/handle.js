@@ -3,6 +3,7 @@ import {Draggable} from "./draggable.js";
 
 import {ElementManager} from "./classes/element.js";
 import {DomService} from "./classes/dom.js";
+import {Resizable} from "./classes/resizable.js";
 
 export const Handle = function (options) {
 
@@ -101,6 +102,27 @@ export const Handle = function (options) {
         }
     }
 
+    this.resizable = function() {
+        if(!this.settings.resizable) {
+            return;
+        }
+
+       this.resizer = new Resizable({
+            element: this.wrapper.get(0),
+            document: this.settings.document,
+        });
+
+        this.resizer.mount();
+        this.resizer.on('resize',  data => {
+            const target = this.getTarget();
+            if(target) {
+                target.style.minHeight = data.height + 'px';
+                target.style.width = data.width + 'px';
+                 
+            }
+        });
+    }
+
     this.createWrapper = function() {
         this.wrapper = ElementManager({
             tag: 'div',
@@ -129,4 +151,5 @@ export const Handle = function (options) {
         this.setContent(this.settings.content);
     }
     this.hide()
+    this.resizable()
 };

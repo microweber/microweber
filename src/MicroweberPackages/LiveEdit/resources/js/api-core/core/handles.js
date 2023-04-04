@@ -47,6 +47,19 @@ export const Handles = function (handles) {
             c.call(scope, i, this.handles[i]);
         }
     };
+    this.targetIsOrInsideHandle = function(target) {
+        if(!target) {
+            return;
+        }
+        target = target.target || target;
+        var i;
+        for (i in this.handles) {
+             if(this.handles[i].wrapper.get(0) === target || this.handles[i].wrapper.get(0).contains(target)) {
+                return true
+             }
+        }
+        return false;
+    }
 
     this.init = function (){
         this.each(function (name, handle){

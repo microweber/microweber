@@ -13,8 +13,24 @@
     width: 5px;
 }
 
+.mw-le-resizer-l {
+    cursor: col-resize;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 5px;
+}
+
 .mw-le-resizer-b {
     bottom: 0;
+    cursor: row-resize;
+    height: 5px;
+    left: 0;
+    width: 100%;
+}
+
+.mw-le-resizer-t {
+    top: 0;
     cursor: row-resize;
     height: 5px;
     left: 0;
