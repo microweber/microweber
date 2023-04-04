@@ -1,0 +1,70 @@
+<template>
+    <div>
+        <div class="color-picker-badge"
+                @click="togglePicker"
+             :style="{background: color}"></div>
+
+        <ColorPicker
+                theme="light"
+                     v-if="showPicker"
+                     :value="color"
+                     @changeColor="changeColor"
+                     @close="togglePicker" />
+    </div>
+</template>
+
+<style>
+.hu-color-picker {
+    width: 217px!important;
+    right: 47px;
+    position: fixed;
+    margin-top: 2px;
+}
+.color-picker-badge {
+    width: 30px;
+    height: 30px;
+    background: #ddd;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 100%;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+}
+</style>
+
+<script>
+import axios from 'axios';
+
+import { ColorPicker } from 'vue-color-kit'
+import 'vue-color-kit/dist/vue-color-kit.css'
+
+export default {
+    components: {
+        ColorPicker
+    },
+    props: {
+        color: {
+            type: String,
+            default: '#000000'
+        },
+        name: {
+            type: String,
+            default: 'color'
+        }
+    },
+    data() {
+        return {
+            showPicker: false,
+        }
+    },
+    methods: {
+        changeColor(color) {
+            this.$props.color = color.hex;
+        },
+        togglePicker() {
+            this.showPicker = !this.showPicker;
+        }
+    }
+}
+</script>

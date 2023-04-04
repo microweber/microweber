@@ -52,10 +52,13 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="mr-4">{{ setting.label }}</div>
                                             <div>
-                                                <input type="color" class="w-10px"
-                                                       :value="[setting.value ? setting.value : setting.default]"
-                                                       v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                       :name="settingKey">
+
+                                                 <ColorPicker
+                                                     :key="settingKey"
+                                                     :value="[setting.value ? setting.value : setting.default]"
+                                                      v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
+                                                      :name="settingKey" />
+
                                             </div>
                                         </div>
                                     </div>
@@ -138,8 +141,12 @@
 
 <script>
 import axios from 'axios';
+import ColorPicker from '/src/MicroweberPackages/LiveEdit/resources/js/ui/components/Editor/Colors/ColorPicker.vue';
 
 export default {
+    components: {
+        ColorPicker
+    },
     methods: {
         stringToId(str) {
             return str.replace(/[^a-z0-9]/gi, '-').toLowerCase();
