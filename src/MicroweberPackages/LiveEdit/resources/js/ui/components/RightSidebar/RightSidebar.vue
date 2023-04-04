@@ -8,7 +8,6 @@
                     Close Sidebar
                 </button>
             </div>
-
             <TemplateSettings></TemplateSettings>
         </div>
 
@@ -36,7 +35,7 @@ export default {
         openSidebar() {
             this.showSidebar = true;
             document.getElementById('live-edit-frame-holder')
-                .setAttribute('style', 'margin-right: 301px;');
+                .setAttribute('style', 'margin-right: 303px;');
         }
     },
     mounted() {
@@ -61,6 +60,7 @@ export default {
     },
     data() {
         return {
+            color: "#ff0000",
             showSidebar: false
         }
     }
