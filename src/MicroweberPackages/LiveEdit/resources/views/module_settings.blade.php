@@ -31,6 +31,9 @@
         } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
             $hasError = true;
             $output = $e->getMessage();
+        }catch (\Exception $e) {
+            $hasError = true;
+            $output = $e->getMessage();
         }
 
         if ($hasError) {
