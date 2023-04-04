@@ -61,7 +61,14 @@ $textLight:#d1d1d1 !default;*/
 .mw-main-module-backend-users-profile-my-profile-admin a:hover {
   background-color: black !important; }
 
-.text-muted, .form-group .text-muted, .card-body .text-muted {
+.badge, .input-group-text, .progress {
+  border-radius: 0 !important; }
+
+.custom-file label.custom-file-label {
+  border-color: black !important;
+  border-radius: 0 !important; }
+
+.text-muted, .form-group .text-muted, .card-body .text-muted, .copyright .text-muted {
   color: #2b2b2b !important; }
 
 #select-post-author .mw-ui-field {
