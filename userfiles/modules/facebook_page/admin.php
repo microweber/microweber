@@ -63,7 +63,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings module-facebook-page-settings">
             <div class="form-group">
                 <label class="control-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
-                <input name="fb-page" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="<?php _e('Example: https://www.facebook.com/Microweber/"'); ?>/>
+                <input name="fb-page" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="<?php _e('Example: https://www.facebook.com/Microweber/"'); ?>"/>
             </div>
 
             <div class="row">
