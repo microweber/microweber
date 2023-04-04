@@ -1,12 +1,5 @@
 <div>
-    <script>
-
-        Livewire.on('settingsChanged', $data => {
-            mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
-                //mw.top().trigger('live_edit.modules.settings.btn.changed',  $data);
-        })
-    </script>
-    <div>
+      <div>
         <input type="text" wire:model.debounce.100ms="settings.text"/>
 
         <select wire:model.debounce.100ms="settings.align">

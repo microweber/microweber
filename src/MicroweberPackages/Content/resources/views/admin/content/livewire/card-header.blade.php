@@ -30,7 +30,7 @@
         <div>
 
             @if(isset($contentType))
-                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn btn-link btn-sm'])
+                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn btn-outline-primary btn-sm'])
 
             @endif
 

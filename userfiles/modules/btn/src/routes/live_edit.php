@@ -4,7 +4,7 @@
 
 
 
-
+/*
 
 \Route::prefix('api/live_edit')
     ->middleware(['api', 'admin','module_settings'])
@@ -13,7 +13,7 @@
             , MicroweberPackages\Modules\Btn\Http\Controllers\BtnLiveEditSettingsController::class.'@index')
             ->name('live_edit.modules.settings.btn');
 
-    });
+    });*/
 
 
 

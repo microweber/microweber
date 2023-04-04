@@ -28,7 +28,7 @@ class BtnServiceProvider extends PackageServiceProvider
         Event::listen(ServingLiveEdit::class, [$this, 'registerLiveEditAssets']);
         Event::listen(ServingModuleSettings::class, [$this, 'registerLivewireComponents']);
 
-        Livewire::component('admin-live-edit-button-settings', ButtonSettingsComponent::class);
+        Livewire::component('live-edit::btn', ButtonSettingsComponent::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
         View::addNamespace('modules.btn', __DIR__ . '/resources/views');

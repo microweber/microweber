@@ -16,6 +16,7 @@ import 'https://cdn.interactjs.io/v1.9.20/actions/resize/index.js'
 import 'https://cdn.interactjs.io/v1.9.20/modifiers/index.js'
 import 'https://cdn.interactjs.io/v1.9.20/dev-tools/index.js'
 import interact from 'https://cdn.interactjs.io/v1.9.20/interactjs/index.js'
+import {TemplateSettings} from "../../services/template-settings";
 
 
 
@@ -50,9 +51,9 @@ export const liveEditComponent = () => {
     mw.app.register('state', mw.liveEditState);
 
     mw.app.register('editor', EditorHandles );
-    mw.app.register('module_settings', ModuleSettings);
 
- 
+    mw.app.register('moduleSettings', ModuleSettings);
+    mw.app.register('templateSettings', TemplateSettings);
 
 
 

@@ -72,12 +72,69 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
     }
 }
 
-.btn.btn-primary, .btn.btn-info, .btn.btn-success, .btn.btn-warning, .btn.btn-danger, .js-standalone-updater-update-button {
-    color: $secondary!important;
+.text-muted {
+    color: $muted !important;
+}
 
+.btn:not(.btn-link, .add-new), .btn.btn-primary,.btn-outline-primary, .btn.btn-info, .btn.btn-success:not(.add-new), .btn.btn-warning, .btn.btn-danger, .js-standalone-updater-update-button {
+    color: $secondary!important;
+    border-radius: 0 !important;
+    border-color: $textGray !important;
+    background-color: $white !important;
+    text-transform: uppercase;
     span {
         color: $secondary!important;
 
+    }
+
+    &:hover {
+
+        span {
+            color: $white!important;
+
+        }
+        background-color: $black!important;
+        border-color: $black !important;
+        color: $white !important;
+
+        i, svg {
+            color: $white !important;
+            fill: $white !important;
+        }
+    }
+}
+
+.main aside > ul > li.nav-item > a.active, .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
+    border-color: $black !important;
+}
+
+.btn.btn-success {
+    background-color: $black;
+    border-color: $black;
+
+    i.mdi-plus {
+        color: $white !important;
+    }
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: $green !important;
+    background-color: $green !important;
+}
+
+.custom-control-input ~ .custom-control-label::before {
+    border-color: #6e6e6e !important;
+    background-color: #6e6e6e !important;
+}
+
+.btn.mw-content-vision-tabs.active {
+    background-color: $black!important;
+    border-color: $black !important;
+    color: $white !important;
+
+    i, svg {
+        color: $white !important;
+        fill: $white !important;
     }
 }
 // Typography ==================================================================
@@ -161,13 +218,14 @@ input,
   }
 
     .page-item.active .page-link {
-        background-color: $primary!important;
+        background-color: $black!important;
+        color: $white !important;
     }
     .page-link {
-        border-color: $primary!important;
+        border-color: $black!important;
         background-color: $white!important;
         color: $secondary!important;
-
+        border-radius: 0 !important;
 
         &:hover, &:active {
             background-color: $primary!important;
@@ -305,17 +363,36 @@ input,
     border-color: $body-bg!important;
 }
 
-.card-body, .card {
+.card-body, .card, .card-header {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background-color: $body-bg!important;
     a , a.btn, a.text-dark:hover, a.text-dark:focus {
         color: $secondary!important;
     }
 
+
 }
 
+.card-body {
+    border-top:    none !important;
+    border-right:  none !important;
+    border-left:   none !important;
+    border-bottom: 1px solid $border-bottom !important;
+}
 
+.card-header:after {
+    border: none !important;
+}
 
 .card.card-product-holder {
     background-color: $body-bg;
+
+    &:hover {
+        background-color: $textGray!important;
+
+    }
 }
 
 .module-white-label-admin-colors {
@@ -327,16 +404,6 @@ input,
     color: $secondary!important;
 
 }
-.btn-outline-secondary:hover, .btn.btn-outline-secondary.active
-{
-    background-color: transparent!important;
-    color: $primary!important;
-    border-color: $primary;
-
-    .mdi {
-        color: $primary!important;
-    }
-}
 
 a.active i {
     color: $primary;
@@ -347,24 +414,11 @@ i.mdi.active, i.mdi:hover {
 }
 
 i.mdi {
-    color: $silver!important;
+    color: $black!important;
 }
 
-//.card-header, .card-body .row a, .comments-holder .card-body .row{
-//    &:hover {
-//            strong, i {
-//            color: $primary!important;
-//        }
-//
-//        .mdi.mdi-magnify {
-//            color: $secondary!important;
-//        }
-//
-//    }
-//}
-
 .quick-links span:hover {
-    color: $primary!important;
+    color: $black!important;
 }
 
 .card-header i.mdi {
@@ -372,10 +426,10 @@ i.mdi {
 }
 
 .main aside > ul > li.nav-item > a {
-    color: $secondary!important;
+    color: $black!important;
 
     &:hover {
-        background-color: $primary!important;
+        background-color: $textGray!important;
         color: $secondary!important;
     }
 }
@@ -389,27 +443,26 @@ i.mdi {
 .dropdown-item {
     color: $secondary !important;
 
-    &:active {
-        .mdi .mdi-plus{
-            color: $secondary!important;
-        }
-    }
 }
 
 
 
-h1,h2,h3,h4,h5,h6, label, div, a span, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
-    color: $secondary;
+h1,h2,h3,h4,h5,h6, label, a span, small, small a.btn, button, .form-control, span.text-dark, small.text-dark {
+    color: $black;
 }
 
 button, textarea, .form-control {
-    border-color: $primary!important;
+    border-color: $textGray!important;
 }
 
 .btn.btn-text {
     border: none!important;
 }
 
+.form-select-sm.form-control-sm {
+    font-size: 10px;
+    padding: 0;
+}
 
 small, small.bg-secondary {
     background-color: transparent!important;
@@ -466,9 +519,9 @@ small, small.bg-secondary {
     color: $secondary!important;
 
     &:hover, &:focus, &:active {
-        color: $secondary!important;
+        color: $black!important;
         text-decoration: none;
-        background-color: $primary!important;
+        background-color: $textGray!important;
     }
 
 
@@ -481,23 +534,6 @@ small, small.bg-secondary {
     &:hover {
 
         background-color: $primary!important;
-    }
-}
-
-svg {
-    fill: $primary;
-}
-
-
-
-.add-new {
-    background-color: $primary!important;
-    border-color: $primary!important;
-    &:hover, &:active, &:focus {
-        i {
-
-            color: $secondary!important;
-        }
     }
 }
 
@@ -552,7 +588,7 @@ tspan {
 }
 
 .mw-tree-nav-skin-default li.selected > .mw-tree-item-content-root, .mw-tree-nav-skin-default li .mw-tree-item-content-root:hover {
-    background-color: $primary!important;
+    background-color: $textGray!important;
 
 }
 
@@ -706,8 +742,9 @@ table {
 }
 
 input, .custom-select {
-    background-color: $black!important;
-    border-color: $primary!important;
+    background-color: $white!important;
+    border-color: $black!important;
+    border-radius: 0 !important;
 }
 
 .muted-cards .card:hover {
@@ -781,7 +818,7 @@ input, .custom-select {
 }
 
 .mw-ui-box-header, .card-header, .mw-ui-box-header {
-    background-color: $black!important;
+    background-color: $white!important;
 }
 
  .mw-accordion-title.mw-ui-box-header {
@@ -1112,7 +1149,7 @@ a.btn-link {
 }
 
 .mw-socials-viber-color {
-    color: $silver!important;
+    color: $black!important;
 }
 
 a.text-dark:hover, a.text-dark:focus {
@@ -1210,6 +1247,7 @@ a.text-dark:hover, a.text-dark:focus {
     }
 }
 
+
 .card.not-collapsed-border.card-success {
     background-color: $body-bg!important;
 }
@@ -1219,15 +1257,15 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .mw-standalone-text h4, h6 {
-    color: $primary!important;
+    color: $black!important;
 
     a {
-        color: $primary!important;
+        color: $black!important;
     }
 }
 
 .rte_css_editor_svg.svg, .mw-ui-box-header.mw-accordion-title svg {
-    fill: $silver!important;
+    fill: $black!important;
     opacity: 0.5;
 
     &:hover, &:active {

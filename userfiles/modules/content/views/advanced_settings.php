@@ -180,7 +180,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse js-card-search-engine">
         <div class="card-header no-border">
             <h6><strong><?php _e('Search engine'); ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
+            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
         </div>
         <div class="card-body py-0">
             <div class="collapse" id="seo-settings">
@@ -276,7 +276,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     <div class="card style-1 mb-3 card-collapse">
         <div class="card-header no-border">
             <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
+            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
         </div>
 
         <div class="card-body py-0">
