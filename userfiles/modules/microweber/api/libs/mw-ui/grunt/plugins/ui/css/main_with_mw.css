@@ -34,7 +34,7 @@ $border-radius-sm:            .2rem !default;*/
   --red: #ff4f52;
   --orange: #fd7e14;
   --yellow: #ffc107;
-  --green: #3dc47e;
+  --green: #4da974;
   --teal: #20c997;
   --cyan: #e1f1fd;
   --white: #ffffff;
@@ -7872,11 +7872,22 @@ a.text-dark:hover, a.text-dark:focus {
       color: #ffffff !important;
       fill: #ffffff !important; }
 
+.main aside > ul > li.nav-item > a.active, .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
+  border-color: black !important; }
+
 .btn.btn-success {
   background-color: black;
   border-color: black; }
   .btn.btn-success i.mdi-plus {
     color: #ffffff !important; }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #4da974 !important;
+  background-color: #4da974 !important; }
+
+.custom-control-input ~ .custom-control-label::before {
+  border-color: #6e6e6e !important;
+  background-color: #6e6e6e !important; }
 
 .btn.mw-content-vision-tabs.active {
   background-color: black !important;

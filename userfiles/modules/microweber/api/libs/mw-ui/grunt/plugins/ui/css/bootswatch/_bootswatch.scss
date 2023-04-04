@@ -104,6 +104,10 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
     }
 }
 
+.main aside > ul > li.nav-item > a.active, .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
+    border-color: $black !important;
+}
+
 .btn.btn-success {
     background-color: $black;
     border-color: $black;
@@ -111,6 +115,16 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
     i.mdi-plus {
         color: $white !important;
     }
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: $green !important;
+    background-color: $green !important;
+}
+
+.custom-control-input ~ .custom-control-label::before {
+    border-color: #6e6e6e !important;
+    background-color: #6e6e6e !important;
 }
 
 .btn.mw-content-vision-tabs.active {
