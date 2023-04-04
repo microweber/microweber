@@ -9,6 +9,7 @@
                 </button>
             </div>
             <TemplateSettings></TemplateSettings>
+            <RangeSlider></RangeSlider>
         </div>
 
     </div>
@@ -22,8 +23,11 @@
 
 <script>
 import TemplateSettings from "./TemplateSettings/TemplateSettings.vue";
+import RangeSlider from "../Editor/Forms/RangeSlider.vue";
+
 export default {
     components: {
+        RangeSlider,
         TemplateSettings
     },
     methods: {
@@ -60,8 +64,7 @@ export default {
     },
     data() {
         return {
-            color: "#ff0000",
-            showSidebar: false
+            showSidebar: true
         }
     }
 }
