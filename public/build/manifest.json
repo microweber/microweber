@@ -5,14 +5,14 @@
     "src": "resources/css/microweber-admin-filament.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app-46e70eef.css",
+    "file": "assets/live-edit-app-f451c703.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js": {
     "css": [
-      "assets/live-edit-app-46e70eef.css"
+      "assets/live-edit-app-f451c703.css"
     ],
-    "file": "assets/live-edit-app-0a23bfa4.js",
+    "file": "assets/live-edit-app-e3832efb.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   }
