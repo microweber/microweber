@@ -49,11 +49,11 @@
                     <td>{{ $row->name }}</td>
                     <td class="text-center">{{ $row->users->count() }}</td>
                     <td style="width:300px;" class="text-center">
-                        <a href="{{route('roles.edit',$row->id)}}" class="btn btn-link btn-sm">Edit</a>
+                        <a href="{{route('roles.edit',$row->id)}}" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered">Edit</a>
 
                         <form method="post" action="{{ route('roles.clone') }}" class="d-inline">
                             <input type="hidden" value="{{ $row->id }}" name="id">
-                            <button type="submit" class="btn btn-link btn-sm">Dublicate</button>
+                            <button type="submit" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered">Dublicate</button>
                         </form>
 
                         <form id="delete_form" method="POST" action="{{ route('roles.destroy',$row->id) }}" class="d-inline">

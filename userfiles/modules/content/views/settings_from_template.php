@@ -56,7 +56,7 @@ if (!empty($template_config)) {
     <div class="card style-1 mb-3 fields">
         <div class="card-header no-border">
             <label class="control-label"><?php _e("Template settings"); ?></label>
-            <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#template-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template settings') ?></a>
+            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template settings') ?></a>
         </div>
         <div class="card-body py-0">
             <div class="collapse" id="template-settings">
@@ -204,7 +204,7 @@ if (!empty($template_config)) {
 <div class="card style-1 mb-3 fields">
     <div class="card-header no-border">
         <label class="control-label"><?php _e("Template Edit Fields"); ?></label>
-        <a href="javascript:;" class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template Edit Fields') ?></a>
+        <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template Edit Fields') ?></a>
     </div>
     <div class="card-body pb-4">
         <div class="collapse" id="template-edit-fields">
