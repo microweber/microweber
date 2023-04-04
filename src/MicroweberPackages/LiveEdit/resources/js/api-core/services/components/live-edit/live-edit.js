@@ -7,11 +7,7 @@ import {LiveEdit} from '../../../core/@live.js';
 
 import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
-
-
-
- 
-
+import {TemplateSettings} from "../../services/template-settings";
 
 
 export const liveEditComponent = () => {
@@ -45,11 +41,7 @@ export const liveEditComponent = () => {
     mw.app.register('editor', EditorHandles );
 
     mw.app.register('moduleSettings', ModuleSettings);
-    // mw.app.register('templateSettings', TemplateSettings);
 
-
-
- 
-
+    mw.app.register('templateSettings', TemplateSettings);// don't remove this
 
 }
