@@ -1,6 +1,6 @@
 class BtnModuleSettings {
 
-    onRegister() {
+    /*onRegister() {
 
         mw.app.editor.on('onModuleSettingsRequest', (module) => {
 
@@ -23,10 +23,10 @@ class BtnModuleSettings {
             }
         );
 
-    }
+    }*/
 
 }
 
 mw.app.on('ready', () => {
-    mw.app.register('btn_module_settings', BtnModuleSettings);
+   // mw.app.register('btn_module_settings', BtnModuleSettings);
 });

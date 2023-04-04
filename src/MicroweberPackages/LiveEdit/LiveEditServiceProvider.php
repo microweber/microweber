@@ -54,6 +54,7 @@ class LiveEditServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
         $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
+        $this->loadRoutesFrom((__DIR__) . '/routes/live_edit.php');
     }
 
 }
