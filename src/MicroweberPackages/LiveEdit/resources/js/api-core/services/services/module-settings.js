@@ -17,10 +17,10 @@ export class ModuleSettings extends MicroweberBaseClass {
         });
         mw.app.editor.on('onModuleSettingsRequest', (module) => {
 
-            console.log(module)
 
-            var moduleId = module.id;
-            var moduleType = module.getAttribute('data-type');
+
+             var moduleId = module.id;
+             var moduleType = module.getAttribute('data-type');
 
 
             mw.dialogIframe({
@@ -29,7 +29,7 @@ export class ModuleSettings extends MicroweberBaseClass {
                 height: 500,
                 draggable: true,
                 template: 'mw_modal_simple',
-                title: 'Button settings',
+                title: 'Module settings',
                 id: 'btn-quick-setting-dialog-' + moduleId
             });
 
