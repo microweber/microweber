@@ -1,11 +1,13 @@
 <template>
     <div>
         <Slider v-on:click="sliderUpdate"
-                :min="0"
-                :max="5"
+                :min="8"
+                :max="96"
                 v-model="value"
                 :merge="1"
-                :tooltips="false" />
+                :tooltips="false"
+                :tooltipPosition="'right'"
+        />
     </div>
 </template>
 
@@ -20,12 +22,12 @@ export default {
     },
     methods: {
         sliderUpdate() {
-            console.log(this.value);
+            this.$emit('change', this.value);
         }
     },
     data() {
         return {
-            value: 4
+            value: 10
         }
     }
 }
