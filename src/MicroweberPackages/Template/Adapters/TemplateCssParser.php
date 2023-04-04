@@ -123,7 +123,13 @@ class TemplateCssParser
 
         @unlink($compileFile);
 
-        return 1;
+        $newFile = mw()->template->get_stylesheet($options['path'], false, false);
+
+        return [
+            'success' => true,
+            'message' => 'Compiled file deleted',
+            'new_file' => $newFile
+        ];
     }
 
     public function compileSass($params)
