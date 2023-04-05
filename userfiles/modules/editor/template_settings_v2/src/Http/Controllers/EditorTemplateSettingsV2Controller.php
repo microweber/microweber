@@ -37,7 +37,7 @@ class EditorTemplateSettingsV2Controller extends Controller
 
                 $value['optionGroup'] = $optionGroupLess;
                 $value['value'] = get_option($key, $optionGroupLess);
-                $options[$optionGroup][$key] = $value['value'];
+                $options[$optionGroupLess][$key] = $value['value'];
 
                 $settingGroups[$mainGroup]['type'] = 'stylesheet';
                 $settingGroups[$mainGroup]['values'][$valuesGroup][$key] = $value;
