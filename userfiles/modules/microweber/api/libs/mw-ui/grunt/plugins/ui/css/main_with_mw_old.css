@@ -15976,9 +15976,6 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
-body {
-  background-color: whitesmoke; }
-
 .container {
   width: 1920px;
   max-width: 90%; }
@@ -16193,7 +16190,7 @@ header {
     transition: all 0.5s ease;
     margin-inline-start: 15px;
     padding: 15px 0;
-    background: whitesmoke; }
+    background: var(--tblr-body-bg); }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;

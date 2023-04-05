@@ -8067,7 +8067,7 @@ html[dir=rtl] .mw-select .mw-select-value:after {
   text-align: center;
   font-size: 12px;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(54, 51, 51, 0.24) 0px 3px 8px;
 }
 
 .mw-notification-lite {
@@ -10113,10 +10113,6 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
-body {
-  background-color: #f1f5f9;
-}
-
 .container {
   width: 1920px;
   max-width: 90%;
@@ -10392,7 +10388,7 @@ header .language-selector .btn {
   -webkit-margin-start: 15px;
           margin-inline-start: 15px;
   padding: 15px 0;
-  background: #f1f5f9;
+  background: var(--tblr-body-bg);
 }
 @media screen and (max-width: 991px) {
   .main .tree {
