@@ -7,7 +7,7 @@
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 */
 @charset "UTF-8";
-@import url("https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"); /*
+/*
  * Microweber - Framework
  *
  * Default styles
@@ -1648,7 +1648,7 @@ html.mw-loading:after {
 *****************************/
 @font-face {
   font-family: "Microweber";
-  src: url("fonts/font.ttf?mwv=v06") format("truetype");
+  src: url("./fonts/font.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

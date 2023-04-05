@@ -7,7 +7,7 @@
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 */
 @charset "UTF-8";
-@import url("https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"); /*
+/*
  * Microweber - Framework
  *
  * Default styles
@@ -1648,7 +1648,7 @@ html.mw-loading:after {
 *****************************/
 @font-face {
   font-family: "Microweber";
-  src: url("fonts/font.ttf?mwv=v06") format("truetype");
+  src: url("./fonts/font.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -12148,7 +12148,7 @@ header .language-selector .btn {
 }
 
 .ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
-  border-left: 1px solid white;
+  border-left: 1px solid #e7e7e7;
   margin-left: 5px;
 }
 .ts-wrapper.plugin-remove_button:not(.rtl) .item.active .remove {
@@ -12159,7 +12159,7 @@ header .language-selector .btn {
 }
 
 .ts-wrapper.plugin-remove_button.rtl .item .remove {
-  border-right: 1px solid white;
+  border-right: 1px solid #e7e7e7;
   margin-right: 5px;
 }
 .ts-wrapper.plugin-remove_button.rtl .item.active .remove {
@@ -12224,7 +12224,7 @@ header .language-selector .btn {
   padding: 1px 5px;
   background: #efefef;
   color: #1d273b;
-  border: 0px solid white;
+  border: 0px solid #e7e7e7;
 }
 .ts-wrapper.multi .ts-control > div.active {
   background: #2893ff;
@@ -12468,7 +12468,7 @@ header .language-selector .btn {
 .ts-wrapper.is-invalid.single,
 .was-validated .invalid.single,
 .was-validated :invalid + .ts-wrapper.single {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f83b3e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f83b3e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
   background-position: right 0.75rem center, center right 2.25rem;
   background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
   background-repeat: no-repeat;
@@ -12496,7 +12496,7 @@ header .language-selector .btn {
 .ts-wrapper.is-valid.single,
 .was-validated .valid.single,
 .was-validated :valid + .ts-wrapper.single {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2333a86b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2333a86b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
   background-position: right 0.75rem center, center right 2.25rem;
   background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
   background-repeat: no-repeat;
@@ -12549,7 +12549,7 @@ header .language-selector .btn {
   background: none;
 }
 .ts-wrapper:not(.form-control):not(.form-select).single .ts-control {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 16px 12px;
