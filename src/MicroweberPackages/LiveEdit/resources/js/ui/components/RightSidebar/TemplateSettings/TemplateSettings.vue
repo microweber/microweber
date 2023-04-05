@@ -79,7 +79,7 @@
                                              <Slider
                                                  :min="[setting.range.min ? setting.range.min : 0]"
                                                  :max="[setting.range.max ? setting.range.max : 100]"
-                                                 :step="[setting.range.step ? setting.range.step : 100]"
+                                                 :step="[setting.range.step ? setting.range.step : 1]"
                                                  v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                  v-model="options[setting.optionGroup][settingKey]"
                                                  :merge="1"
