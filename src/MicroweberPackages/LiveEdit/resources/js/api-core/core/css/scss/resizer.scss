@@ -6,7 +6,7 @@
 }
 
 .mw-le-resizer-r {
-    cursor: col-resize;
+    cursor: e-resize;
     height: 100%;
     right: 0;
     top: 0;
@@ -14,7 +14,7 @@
 }
 
 .mw-le-resizer-l {
-    cursor: col-resize;
+    cursor: e-resize;
     height: 100%;
     left: 0;
     top: 0;
@@ -23,7 +23,7 @@
 
 .mw-le-resizer-b {
     bottom: 0;
-    cursor: row-resize;
+    cursor: n-resize;
     height: 5px;
     left: 0;
     width: 100%;
@@ -31,7 +31,7 @@
 
 .mw-le-resizer-t {
     top: 0;
-    cursor: row-resize;
+    cursor: n-resize;
     height: 5px;
     left: 0;
     width: 100%;

@@ -7,6 +7,7 @@ export const ElementHandleContent = function (proto) {
             id: 'mw-handle-item-element-root'
         }
     });
+    
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
         title: 'Element',
