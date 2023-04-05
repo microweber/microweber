@@ -116,10 +116,10 @@
 
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <div class="row align-items-stretch align-items-md-center">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav flex-wrap">
 
                         <?php foreach ($ready as $item): ?>
-                        <li class="nav-item">
+                        <li class="nav-item border m-1">
                             <a class="nav-link" href="#anchor-<?php  print  ($item['file']) ?>">
 
                                 <span class="nav-link-title">
