@@ -2,4 +2,7 @@
 :root {
   --tblr-body-bg: white; }
 
+.hidden {
+  display: none; }
+
 /*# sourceMappingURL=admin_v2.css.map */
