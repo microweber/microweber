@@ -68,7 +68,7 @@
                                     </div>
 
                                      <div v-if="setting.type === 'range'">
-                                         <label class="mr-4">{{ setting.label }} - {{setting.value}}px</label>
+                                         <label class="mr-4">{{ setting.label }} - {{options[setting.optionGroup][settingKey]}}px</label>
                                          <div>
                                               <RangeSlider v-on:change="updateSettings($event, settingKey, setting.optionGroup)" />
                                          </div>
@@ -174,7 +174,7 @@ export default {
                 value = event.target.value;
             }
 
-          ///  this.options[optionGroup][settingKey] = value;
+            this.options[optionGroup][settingKey] = value;
 
             let appInstance = this;
             axios.post(mw.settings.api_url + 'save_option', {
