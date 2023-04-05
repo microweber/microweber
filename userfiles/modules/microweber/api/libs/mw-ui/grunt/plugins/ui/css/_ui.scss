@@ -1,3 +1,4 @@
+$dark: #2b2b2b;
 $textDark: $dark;
 $textGray: #7e7e7e;
 $textLight: $white;
@@ -683,9 +684,9 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
       li a span.check-mark {
         width: 20px;
         height: 20px;
-        -webkit-border-radius: $custom-checkbox-indicator-border-radius;
-        -moz-border-radius: $custom-checkbox-indicator-border-radius;
-        border-radius: $custom-checkbox-indicator-border-radius;
+        //-webkit-border-radius: $custom-checkbox-indicator-border-radius;
+        //-moz-border-radius: $custom-checkbox-indicator-border-radius;
+        //border-radius: $custom-checkbox-indicator-border-radius;
         border: 1px solid $primary;
 
         display: inline-block !important;

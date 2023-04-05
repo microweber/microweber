@@ -52,13 +52,11 @@
                                         <div class="d-flex justify-content-between">
                                             <div class="mr-4">{{ setting.label }}</div>
                                             <div>
-
                                                  <ColorPicker
                                                      :key="settingKey"
-                                                     :value="[setting.value ? setting.value : setting.default]"
+                                                     :color="[setting.value ? setting.value : setting.default]"
                                                       v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                       :name="settingKey" />
-
                                             </div>
                                         </div>
                                     </div>
@@ -67,6 +65,19 @@
                                         <div class="text-uppercase">
                                             <span>{{ setting.label }}</span>
                                         </div>
+                                    </div>
+
+                                     <div v-if="setting.type === 'range'">
+                                         <label class="mr-4">{{ setting.label }} - {{options[setting.optionGroup][settingKey]}}</label>
+                                         <div>
+                                             <Slider
+                                                 v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
+                                                 v-model="options[setting.optionGroup][settingKey]"
+                                                 :merge="1"
+                                                 :tooltips="false"
+                                                 :tooltipPosition="'right'"
+                                             />
+                                         </div>
                                     </div>
 
                                     <div v-if="setting.type === 'dropdown_image'">
@@ -86,10 +97,9 @@
                                         <div>{{ setting.label }}</div>
                                         <select class="form-control"
                                                 v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                :name="settingKey"
-                                                :value="[setting.value ? setting.value : setting.default]">
-                                            <option v-for="(optionValue,optionKey) in setting.options"
-                                                    :value="optionKey">
+                                                v-model="options[setting.optionGroup][settingKey]">
+
+                                            <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
                                                 {{ optionValue }}
                                             </option>
                                         </select>
@@ -139,13 +149,17 @@
 }
 </style>
 
+
+<style src="@vueform/slider/themes/default.css"></style>
 <script>
 import axios from 'axios';
-import ColorPicker from '/src/MicroweberPackages/LiveEdit/resources/js/ui/components/Editor/Colors/ColorPicker.vue';
+import ColorPicker from '../../Editor/Colors/ColorPicker.vue';
+import Slider from '@vueform/slider'
 
 export default {
     components: {
-        ColorPicker
+        ColorPicker,
+        Slider
     },
     methods: {
         stringToId(str) {
@@ -161,7 +175,14 @@ export default {
             }
         },
         updateSettings(event, settingKey, optionGroup) {
-            let value = event.target.value;
+
+            let value = event;
+            if (event.target) {
+                value = event.target.value;
+            }
+
+            this.options[optionGroup][settingKey] = value;
+
             let appInstance = this;
             axios.post(mw.settings.api_url + 'save_option', {
                 'option_group': optionGroup,
@@ -170,6 +191,9 @@ export default {
             }).then(function (response) {
                 if (response.data) {
                     // saved
+                    if (appInstance.styleSheetSourceFile) {
+                        mw.app.templateSettings.reloadStylesheet(appInstance.styleSheetSourceFile, appInstance.optionGroupLess);
+                    }
                 }
             });
         },
@@ -189,16 +213,20 @@ export default {
         axios.get(mw.settings.api_url + 'editor/template_settings_v2/list').then(function (response) {
             if (response.data) {
                 appInstance.settingsGroups = response.data.settingsGroups;
+                appInstance.options = response.data.options;
                 appInstance.optionGroup = response.data.optionGroup;
                 appInstance.optionGroupLess = response.data.optionGroupLess;
+                appInstance.styleSheetSourceFile = response.data.styleSheetSourceFile;
             }
         });
     },
     data() {
         return {
             settingsGroups: [],
+            options: {},
             optionGroup: '',
-            optionGroupLess: ''
+            optionGroupLess: '',
+            styleSheetSourceFile: false
         }
     }
 }

@@ -14,6 +14,7 @@ class EditorTemplateSettingsV2Controller extends Controller
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
         $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
 
+        $options = [];
         $settingGroups = [];
 
         if (isset($getTemplateConfig['stylesheet_compiler']['settings'])) {
@@ -36,6 +37,11 @@ class EditorTemplateSettingsV2Controller extends Controller
 
                 $value['optionGroup'] = $optionGroupLess;
                 $value['value'] = get_option($key, $optionGroupLess);
+                if (empty($value['value']) && isset($value['default'])) {
+                    $value['value'] = $value['default'];
+                }
+
+                $options[$optionGroupLess][$key] = $value['value'];
 
                 $settingGroups[$mainGroup]['type'] = 'stylesheet';
                 $settingGroups[$mainGroup]['values'][$valuesGroup][$key] = $value;
@@ -55,14 +61,27 @@ class EditorTemplateSettingsV2Controller extends Controller
 
                 $value['optionGroup'] = $optionGroup;
                 $value['value'] = get_option($key, $optionGroup);
+                if (empty($value['value']) && isset($value['default'])) {
+                    $value['value'] = $value['default'];
+                }
+
+                $options[$optionGroup][$key] = $value['value'];
 
                 $settingGroups['Template Settings']['type'] = 'template';
                 $settingGroups['Template Settings']['values'][$valuesGroup][$key] = $value;
             }
         }
 
+
+        $styleSheetSourceFile = false;
+        if (isset($getTemplateConfig['stylesheet_compiler']['source_file'])) {
+            $styleSheetSourceFile = $getTemplateConfig['stylesheet_compiler']['source_file'];
+        }
+
         return response()->json([
+            'styleSheetSourceFile' => $styleSheetSourceFile,
             'settingsGroups' => $settingGroups,
+            'options'=> $options,
             'optionGroup'=> $optionGroup,
             'optionGroupLess'=> $optionGroupLess,
         ]);

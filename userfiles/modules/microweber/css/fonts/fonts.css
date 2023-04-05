@@ -1,0 +1,9 @@
+@import url('./materialdesignicons/css/materialdesignicons.min.css');
+@import url('./tabler-icons/webfont/tabler-icons.min.css');
+
+@font-face {
+    font-family: 'Microweber';
+    src: url('./font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

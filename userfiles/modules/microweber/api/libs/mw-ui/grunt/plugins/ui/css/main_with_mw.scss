@@ -8,5 +8,12 @@
 @import 'bootswatch/themes/mw-ui2/_bootswatch';
 
 //UI
-@import 'main';
+//@import 'main';
+$prefix: 'mw-ui-';
+{$prefix}primary-rgb: 'mw-ui-';
+
+@import '../../tabler-ui/scss/variables';
+@import '../../tabler-ui/scss/tabler';
+//UI
+@import '_ui';
 @import '_mw';

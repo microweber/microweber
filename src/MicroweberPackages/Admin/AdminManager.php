@@ -28,11 +28,16 @@ class AdminManager
 
     public function addDefaultStyles(): void
     {
-        $default_css_url = app()->template->get_default_system_ui_css_url();
-        $this->addStyle('mw-default-css', $default_css_url);
+       // $default_css_url = app()->template->get_default_system_ui_css_url();
+     //   $this->addStyle('mw-default-css', $default_css_url);
 
         $main_css_url = app()->template->get_admin_system_ui_css_url();
         $this->addStyle('mw-ui-css', $main_css_url);
+
+
+        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/tabler-ui/dist/js/tabler.min.js';
+        $this->addScript('mw-tabler-js', $url);
+
 
 
         $favicon_image = get_option('favicon_image', 'website');

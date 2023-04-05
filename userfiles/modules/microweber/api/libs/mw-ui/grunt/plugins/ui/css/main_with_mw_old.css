@@ -15160,9 +15160,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 .bootstrap-select.show-tick .dropdown-menu li a span.check-mark {
   width: 20px;
   height: 20px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   border: 1px solid #4592ff;
   display: inline-block !important;
   position: absolute !important;
@@ -15979,9 +15976,6 @@ $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
-body {
-  background-color: whitesmoke; }
-
 .container {
   width: 1920px;
   max-width: 90%; }
@@ -16193,11 +16187,10 @@ header {
   .main .tree {
     display: none;
     float: left;
-    border: 1px solid #4592ff;
     transition: all 0.5s ease;
     margin-inline-start: 15px;
     padding: 15px 0;
-    background: whitesmoke; }
+    background: var(--tblr-body-bg); }
     @media screen and (max-width: 991px) {
       .main .tree {
         z-index: 9;

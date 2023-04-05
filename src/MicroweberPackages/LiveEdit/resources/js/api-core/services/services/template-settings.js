@@ -1,31 +1,27 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 
+import axios from 'axios';
 
 export class TemplateSettings extends MicroweberBaseClass {
 
-    constructor() {
-        super();
+    reloadStylesheet(source_file, option_group) {
+
+        axios.get(mw.settings.api_url + "template/delete_compiled_css?path="+source_file+"&option_group=" + option_group)
+            .then(function (response){
+
+            mw.top().notification.success("Reloading styles", 7000);
+
+            var canvasWindow = mw.app.canvas.getWindow();
+            var stylesheet = canvasWindow.document.getElementById('theme-style');
+
+            if (stylesheet) {
+                stylesheet.setAttribute('href', response.data.new_file + '&t=' + mw.random());
+            }
+
+        });
     }
 
-    onRegister() {
-
-
-    }
-    reloadStylesheet() {
-        alert('reloadStylesheet todo');
-       /* $.get(mw.settings.api_url + "template/delete_compiled_css?path=<?php print $template_settings['stylesheet_compiler']['source_file']; ?>&option_group=<?php print $option_group; ?>", function () {
-            mw.top().notification.success("<?php _ejs("Reloading styles"); ?>.",7000);
-
-            mw.parent().$("#theme-style").attr('href', '<?php print mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], false, false); ?>&t=' + mw.random());
-            mw.tools.refresh(parent.$("#theme-style"));
-        });*/
-
-    }
-
-
-
-}
-
+};
 
 
 
