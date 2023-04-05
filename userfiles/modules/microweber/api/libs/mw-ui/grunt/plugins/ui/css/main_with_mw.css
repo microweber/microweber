@@ -1,6 +1,6 @@
 /*
 Error: Invalid CSS after "$prefix: 'mw-ui-';": expected selector or at-rule, was "{$prefix}primar..."
-        on line 13 of D:\xampp\htdocs\git\microweber-dev-dusk\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss
+        on line 13 of C:\xampp\htdocs\microweber\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss
 
 8: @import 'bootswatch/themes/mw-ui2/_bootswatch';
 9: 
@@ -15,7 +15,7 @@ Error: Invalid CSS after "$prefix: 'mw-ui-';": expected selector or at-rule, was
 18: @import '_ui';
 
 Backtrace:
-D:\xampp\htdocs\git\microweber-dev-dusk\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss:13
+C:\xampp\htdocs\microweber\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss:13
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1278:in `expected'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:1208:in `expected'
 C:/Program Files (x86)/Koala/rubygems/gems/sass-3.5.2/lib/sass/scss/parser.rb:42:in `parse'
@@ -33,4 +33,4 @@ C:/Program Files (x86)/Koala/bin/sass:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Invalid CSS after \"$prefix: 'mw-ui-';\": expected selector or at-rule, was \"{$prefix}primar...\"\A         on line 13 of D:\xampp\htdocs\git\microweber-dev-dusk\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss\A \A 8: @import 'bootswatch/themes/mw-ui2/_bootswatch';\A 9: \A 10: //UI\A 11: //@import 'main';\A 12: $prefix: 'mw-ui-';\A 13: {$prefix}primary-rgb: 'mw-ui-';\A 14: \A 15: @import '../../tabler-ui/scss/variables';\A 16: @import '../../tabler-ui/scss/tabler';\A 17: //UI\A 18: @import '_ui';"; }
+  content: "Error: Invalid CSS after \"$prefix: 'mw-ui-';\": expected selector or at-rule, was \"{$prefix}primar...\"\A         on line 13 of C:\xampp\htdocs\microweber\userfiles\modules\microweber\api\libs\mw-ui\grunt\plugins\ui\css\main_with_mw.scss\A \A 8: @import 'bootswatch/themes/mw-ui2/_bootswatch';\A 9: \A 10: //UI\A 11: //@import 'main';\A 12: $prefix: 'mw-ui-';\A 13: {$prefix}primary-rgb: 'mw-ui-';\A 14: \A 15: @import '../../tabler-ui/scss/variables';\A 16: @import '../../tabler-ui/scss/tabler';\A 17: //UI\A 18: @import '_ui';"; }

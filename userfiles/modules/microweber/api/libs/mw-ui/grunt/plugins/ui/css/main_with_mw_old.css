@@ -15160,9 +15160,6 @@ body .bootstrap-select > select.mobile-device:focus + .dropdown-toggle {
 .bootstrap-select.show-tick .dropdown-menu li a span.check-mark {
   width: 20px;
   height: 20px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   border: 1px solid #4592ff;
   display: inline-block !important;
   position: absolute !important;
@@ -16193,7 +16190,6 @@ header {
   .main .tree {
     display: none;
     float: left;
-    border: 1px solid #4592ff;
     transition: all 0.5s ease;
     margin-inline-start: 15px;
     padding: 15px 0;

@@ -1,4 +1,5 @@
-@import "../css/../../tabler-ui/dist/css/tabler.min.css";
+@import url("../css/../../tabler-ui/dist/css/tabler.min.css");
 :root {
-    --tblr-font-sans-serif: 'Inter';
-}
+  --tblr-body-bg: white; }
+
+/*# sourceMappingURL=admin_v2.css.map */
