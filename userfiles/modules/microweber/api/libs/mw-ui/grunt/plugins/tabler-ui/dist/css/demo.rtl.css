@@ -10120,7 +10120,7 @@ $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
 body {
-  background-color: #f1f5f9;
+  background-color: #ffffff;
 }
 
 .container {
@@ -10399,7 +10399,7 @@ header .language-selector .btn {
   -webkit-margin-start: 15px;
           margin-inline-start: 15px;
   padding: 15px 0;
-  background: #f1f5f9;
+  background: #ffffff;
 }
 @media screen and (max-width: 991px) {
   .main .tree {
@@ -10715,10 +10715,10 @@ header .language-selector .btn {
     > .card-header {
       background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
     }*/
-  background-color: #f8fafc !important;
+  background-color: white !important;
 }
 .card.bg-light > .card-header {
-  background-color: #f8fafc !important;
+  background-color: white !important;
 }
 
 .card.bg-none {
@@ -11600,7 +11600,7 @@ pre.highlight::-webkit-scrollbar-corner,
 .example-content {
   font-size: 0.875rem;
   line-height: 1.4285714286;
-  color: #1d273b;
+  color: #ffffff;
   flex: 1;
   max-width: 100%;
 }
@@ -11609,7 +11609,7 @@ pre.highlight::-webkit-scrollbar-corner,
 }
 
 .example-bg {
-  background: #f1f5f9;
+  background: #ffffff;
 }
 
 .example-code {
