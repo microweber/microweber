@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
 
-     
+
         mw.require("<?php print mw_includes_url(); ?>css/fonts/fonts.css", true);
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
