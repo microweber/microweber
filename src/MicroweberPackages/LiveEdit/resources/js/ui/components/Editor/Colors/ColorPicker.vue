@@ -11,8 +11,8 @@
                      :sucker-hide="false"
                      :sucker-canvas="suckerCanvas"
                      :sucker-area="suckerArea"
+                     @click="triggerChange"
                      @openSucker="openSucker"
-
                      @changeColor="changeColor"
                      @close="togglePicker" />
     </div>
@@ -39,8 +39,6 @@
 </style>
 
 <script>
-import axios from 'axios';
-
 import { ColorPicker } from 'vue-color-kit'
 import 'vue-color-kit/dist/vue-color-kit.css'
 
@@ -61,7 +59,6 @@ export default {
     data() {
         return {
             showPicker: false,
-
             suckerCanvas: null,
             suckerArea: [],
             isSucking: false,
@@ -70,7 +67,9 @@ export default {
     methods: {
         changeColor(color) {
             this.$props.color = color.hex;
-            this.$emit('change', color.hex);
+        },
+        triggerChange(){
+            this.$emit('change', this.$props.color);
         },
         openSucker(isOpen) {
             if (isOpen) {
