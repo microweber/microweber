@@ -35,7 +35,7 @@
         mw.lib.require('mwui');
         mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+       //  mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
