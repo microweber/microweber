@@ -1,0 +1,560 @@
+/*!
+* Tabler v1.0.0-beta16 (https://tabler.io)
+* @version 1.0.0-beta16
+* @link https://tabler.io
+* Copyright 2018-2023 The Tabler Authors
+* Copyright 2018-2023 codecalm.net Paweł Kuna
+* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
+*/
+@charset "UTF-8";
+/* MW */
+/*$border-radius:               .25rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            .2rem !default;*/
+/*$custom-file-padding-y:             $input-btn-padding-y !default;*/
+/*$custom-file-line-height:           1 !default;*/
+body {
+  background-color: #f1f5f9;
+}
+
+.container {
+  width: 1920px;
+  max-width: 90%;
+}
+@media screen and (max-width: 1600px) {
+  .container {
+    max-width: 90%;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .container {
+    max-width: calc(100% - 30px);
+  }
+}
+@media screen and (max-width: 991px) {
+  .container {
+    max-width: calc(100% - 30px);
+  }
+}
+
+header {
+  padding: 10px 0;
+  border-bottom: 1px solid whitesmoke;
+}
+@media screen and (max-width: 767px) {
+  header {
+    padding: 10px 10px;
+  }
+}
+@media screen and (max-width: 767px) {
+  header .container {
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+  }
+}
+header .logo img {
+  height: 45px;
+}
+header .logo h1, header .logo h2, header .logo h3, header .logo h4, header .logo h5, header .logo h6 {
+  margin-bottom: 0;
+}
+
+.main {
+  display: flex;
+  overflow: hidden;
+  padding-top: 55px;
+  margin-top: 0 !important;
+}
+.main aside {
+  width: 190px;
+  float: right;
+  transition: all 0.5s ease;
+}
+@media screen and (max-width: 991px) {
+  .main aside {
+    background: #ffffff;
+    z-index: 9;
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: -100%;
+    height: 100%;
+    width: 190px;
+    float: none;
+    padding-top: 95px;
+    -webkit-padding-end: 15px;
+            padding-inline-end: 15px;
+    border-left: 1px solid whitesmoke;
+    overflow-y: auto;
+  }
+  .main aside.opened {
+    right: 0;
+  }
+}
+.main aside > ul > li.nav-item {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border: 1px solid transparent;
+  margin: 0px 0;
+  /*overflow: hidden;*/
+}
+.main aside > ul > li.nav-item.show {
+  border-radius: 10px;
+}
+.main aside > ul > li.nav-item .active {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  box-shadow: 0 4px 2px -2px rgba(188, 191, 194, 0.5);
+}
+.main aside > ul > li.nav-item > a {
+  border-right: 5px solid transparent;
+  padding: 15px 15px 15px 10px;
+  margin: 4px 0;
+  color: #7e7e7e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.main aside > ul > li.nav-item > a:hover {
+  color: #1d273b;
+}
+.main aside > ul > li.nav-item > a:hover > i {
+  color: #206bc4;
+}
+.main aside > ul > li.nav-item > a > i {
+  -webkit-margin-end: 10px;
+          margin-inline-end: 10px;
+  float: right;
+  font-size: 1.5em;
+  line-height: 1;
+  color: #bcbfc2;
+  -webkit-margin-start: -3px;
+          margin-inline-start: -3px;
+}
+.main aside > ul > li.nav-item > a:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+.main aside > ul > li.nav-item > a.active {
+  background: #ffffff;
+  border-right: 5px solid #206bc4;
+  color: #1d273b;
+}
+.main aside > ul > li.nav-item > a.active > i {
+  color: #206bc4;
+}
+ .main aside > ul > li.nav-item.dropdown.show {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+ .main aside > ul > li.nav-item.dropdown.show > a {
+  color: #1d273b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ .main aside > ul > li.nav-item.dropdown.show > a > i {
+  color: #206bc4;
+}
+.main aside > ul > li.nav-item .dropdown-menu {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background: transparent !important;
+}
+.main aside > ul > li.nav-item .dropdown-menu .dropdown-item {
+  /*padding-inline-start: 47px;*/
+  margin: 4px 0;
+  -webkit-padding-start: 15px;
+          padding-inline-start: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #1d273b;
+  border-right: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
+}
+.main aside > ul > li.nav-item .dropdown-menu .dropdown-item:active {
+  color: #ffffff;
+}
+.main aside > ul > li.nav-item .dropdown-menu .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: #1d273b;
+}
+.main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
+  color: #1d273b;
+  background: #ffffff;
+  border-right: 5px solid #206bc4;
+}
+.main aside > ul .dropdown .dropdown-menu.show {
+  position: relative;
+}
+.main aside > ul .dropdown .dropdown-toggle {
+  display: flex;
+}
+.main aside > ul .dropdown .dropdown-toggle::after {
+  float: left;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' /%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' /%3E%3C/svg%3E");
+  background-color: #7e7e7e;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  border: 0 !important;
+  margin-top: 1px;
+}
+.main aside > ul .dropdown .dropdown-toggle.active::after {
+  transform: rotate(-90deg);
+  background: #206bc4;
+}
+.main aside > ul .dropdown.show .dropdown-toggle::after {
+  transform: rotate(-90deg);
+}
+.main .tree {
+  display: none;
+  float: right;
+  border: 1px solid #206bc4;
+  transition: all 0.5s ease;
+  -webkit-margin-start: 15px;
+          margin-inline-start: 15px;
+  padding: 15px 0;
+  background: #f1f5f9;
+}
+@media screen and (max-width: 991px) {
+  .main .tree {
+    z-index: 9;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100%;
+    padding-top: 95px;
+    -webkit-margin-start: 0;
+            margin-inline-start: 0;
+    -webkit-padding-start: 10px;
+            padding-inline-start: 10px;
+    -webkit-padding-end: 10px;
+            padding-inline-end: 10px;
+  }
+  .main .tree.opened {
+    right: 190px;
+  }
+}
+.main main {
+  width: calc(100% - 215px);
+  float: right;
+  -webkit-margin-start: 25px;
+          margin-inline-start: 25px;
+}
+@media screen and (max-width: 991px) {
+  .main main {
+    -webkit-margin-start: 0;
+            margin-inline-start: 0;
+    width: 100%;
+    float: none;
+  }
+}
+
+.timeline .timeline-event .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  padding: 0;
+  margin: 0 13.5px;
+}
+
+@media screen and (min-width: 1440px) {
+  /*    .manage-content-body{
+          width: 75%;
+          max-width: 75%;
+      }
+
+      .manage-content-sidebar{
+          width: 25%;
+          max-width: 25%;
+      }*/
+}
+
+.card.bg-light {
+  /*  background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+    > .card-header {
+      background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
+    }*/
+  background-color: #f8fafc !important;
+}
+.card.bg-light > .card-header {
+  background-color: #f8fafc !important;
+}
+
+/* Stats */
+
+/* Tabs */
+
+/************************************
+        Custom Fields Icons
+*************************************/
+.logo.svg path {
+  display: block !important;
+}
+
+/* Functional styling;
+ * These styles are required for noUiSlider to function.
+ * You don't need to change these rules to apply your design.
+ */
+
+/* Wrapper for all connect elements.
+ */
+
+/* Offset direction
+ */
+
+/* Give origins 0 height/width so they don't interfere with clicking the
+ * connect elements.
+ */
+
+/* Slider size and handle placement;
+ */
+
+/* Styling;
+ * Giving the connect element a border radius causes issues with using transform: scale
+ */
+
+/* Handles and cursors;
+ */
+
+/* Handle stripes;
+ */
+
+/* Disabled state;
+ */
+
+/* Base;
+ *
+ */
+
+/* Values;
+ *
+ */
+
+/* Markings;
+ *
+ */
+
+/* Horizontal layout;
+ *
+ */
+
+/* Vertical layout;
+ *
+ */
+
+.litepicker {
+  --litepicker-month-weekday-color: var(--tblr-muted);
+  --litepicker-button-prev-month-color: var(--tblr-muted);
+  --litepicker-button-next-month-color: var(--tblr-muted);
+  --litepicker-button-prev-month-color-hover: var(--tblr-primary);
+  --litepicker-button-next-month-color-hover: var(--tblr-primary);
+  --litepicker-day-color: var(--tblr-body-color);
+  --litepicker-day-color-hover: var(--tblr-primary);
+  --litepicker-is-end-color-bg: var(--tblr-primary);
+  --litepicker-is-today-color: var(--tblr-primary);
+  --litepicker-month-header-color: var(--tblr-body-color);
+  --litepicker-container-months-color-bg: var(--tblr-bg-surface);
+  font: inherit;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.litepicker svg {
+  fill: none !important;
+}
+
+/**
+ * Tom Select bootstrap 5
+ */
+/**
+ * tom-select.css (v//@@version)
+ * Copyright (c) contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ */
+:root {
+  --ts-pr-clear-button:	0;
+  --ts-pr-caret:	0;
+  --ts-pr-min:	.75rem;
+}
+
+.ts-dropdown {
+  color: #1d273b;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.4285714286;
+  font-smoothing: inherit;
+}
+
+.ts-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+  border: 1px solid #d0d0d0;
+  background: #ffffff;
+  margin: 0.25rem 0 0 0;
+  border-top: 0 none;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 var(--tblr-border-radius) var(--tblr-border-radius);
+}
+.ts-dropdown .option,
+.ts-dropdown .create {
+  padding: 3px 0.75rem;
+}
+.ts-dropdown .option {
+  cursor: inherit;
+  opacity: 0.5;
+}
+.ts-dropdown .active {
+  background-color: rgba(var(--tblr-muted-rgb), 0.04);
+  color: inherit;
+}
+.ts-dropdown .active.create {
+  color: inherit;
+}
+.ts-dropdown .create {
+  color: rgba(29, 39, 59, 0.5);
+}
+.ts-dropdown .spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 3px 0.75rem;
+}
+.ts-dropdown .spinner:after {
+  content: " ";
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 3px;
+  border-radius: 50%;
+  border: 5px solid #d0d0d0;
+  border-color: #d0d0d0 transparent #d0d0d0 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.ts-dropdown,
+.ts-dropdown.form-control,
+.ts-dropdown.form-select {
+  height: auto;
+  padding: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border: 1px solid var(--tblr-border-color-translucent);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.ts-dropdown .optgroup:first-child:before {
+  display: none;
+}
+.ts-dropdown .optgroup:before {
+  content: " ";
+  display: block;
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid var(--tblr-border-color-translucent);
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+.ts-dropdown .create {
+  padding-right: 0.75rem;
+}
+
+
+.was-validated .invalid {
+  border-color: #d63939;
+}
+
+.was-validated .invalid:not(.single) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d63939' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  background-position: left calc(0.3571428572em + 0.21875rem) center;
+  background-size: calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
+  background-repeat: no-repeat;
+}
+
+.was-validated .invalid.single {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a5a9b1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d63939' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  background-position: left 0.75rem center, center left 2.25rem;
+  background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
+  background-repeat: no-repeat;
+}
+
+
+.was-validated .valid {
+  border-color: #2fb344;
+}
+
+.was-validated .valid:not(.single) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232fb344' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-position: left calc(0.3571428572em + 0.21875rem) center;
+  background-size: calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
+  background-repeat: no-repeat;
+}
+
+.was-validated .valid.single {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a5a9b1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232fb344' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-position: left 0.75rem center, center left 2.25rem;
+  background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
+  background-repeat: no-repeat;
+}
+
+svg {
+  touch-action: none;
+}
+
+image, text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+@keyframes jvm-line-animation {
+  from {
+    stroke-dashoffset: 250;
+  }
+}
+
+.dropzone {
+  border: 1px dashed var(--tblr-border-color);
+  color: var(--tblr-muted);
+  padding: 1rem;
+}
+
+body {
+  --plyr-color-main: var(--tblr-primary);
+}

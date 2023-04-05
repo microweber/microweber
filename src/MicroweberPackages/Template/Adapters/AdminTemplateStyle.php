@@ -365,6 +365,11 @@ class AdminTemplateStyle
         }
 
 
+        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/tabler-ui/dist/css/tabler.css';
+
+        return $url;
+
+
         $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/ui/css/main_with_mw.css';
         $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
         $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
