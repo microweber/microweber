@@ -269,7 +269,7 @@ $user = get_user_by_id($user_id);
     </script>
     <?php endif; ?>
 
-    <div class="<?php if ($enableNavBar) { ?> main container  my-3 <?php } ?>">
+    <div class="<?php if ($enableNavBar) { ?> main d-flex container  my-3 <?php } ?>">
     <?php if ($enableNavBar) { ?>
           @include('admin::layouts.partials.navbar')
     <?php } ?>
