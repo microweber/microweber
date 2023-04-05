@@ -11,6 +11,11 @@
     transition: opacity .2s;
     pointer-events: all;
 
+    &.mw-handle-item-interaction-handle{
+        pointer-events: none;
+
+    }
+
     &.mw-handle-item-dragging {
         border-color: transparent;
 
@@ -59,8 +64,11 @@ $handleHeight: 42;
         pointer-events: all;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;   
         position: absolute;  
-        top: -#{$handleHeight + 23}px;
-        left: -2px;   
+        top: -40px;
+        left: -3px;   
+        &:empty{
+            display: none !important;
+        }
     }
     position: absolute;
 
@@ -72,8 +80,8 @@ $handleHeight: 42;
 }
 
 #mw-handle-item-element-menu {
-    top: -#{$handleHeight + 23}px;
-    left: -2px;
+    top: -22px;
+    left: -3px;
 }
 
 #mw-handle-item-layout-menu {
@@ -150,7 +158,6 @@ $handleHeight: 42;
     display: inline-flex;
     white-space: nowrap;
     flex-wrap: nowrap;
-
     .mw-le-handle-menu-button-text {
         font-size: 14px;
     }
@@ -159,16 +166,19 @@ $handleHeight: 42;
 }
 
 .mw-le-handle-menu-title {
-    display: inline-flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    padding: 5px;;
+    padding: 0 5px;
+    height: 20px;
     -webkit-user-select: none;
     user-select: none;
-    height: auto;
     cursor: grab;
     background-color: #0078ff;
     color: white;
+}
+.mw-handle-item-interaction-handle .mw-le-handle-menu-title{
+    display: inline-flex;
 }
 
 .mw-le-handle-menu-button-icon {

@@ -118,7 +118,6 @@ export const Handle = function (options) {
             if(target) {
                 target.style.minHeight = data.height + 'px';
                 target.style.width = data.width + 'px';
-                 
             }
         });
     }

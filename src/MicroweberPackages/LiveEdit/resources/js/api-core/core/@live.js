@@ -15,6 +15,7 @@ import {Resizable} from "./classes/resizable.js";
 import {HandleMenu} from "./handle-menu.js";
 
 import {Tooltip} from "./tooltip.js";
+import { InteractionHandleContent } from "./handles-content/interaction.js";
 
 
 export class LiveEdit {
@@ -126,19 +127,7 @@ export class LiveEdit {
 
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
-            var title = '';
-            if(target.nodeName === 'P') {
-                title = scope.lang('Paragraph');
-            } else if(/(H[1-6])/.test(target.nodeName)) {
-                title = scope.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
-            } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
-                title = scope.lang('Image');
-            }  else if(['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(target.nodeName)) {
-                title = scope.lang('Title ' + target.nodeName.replace('H', ''));
-            }  else {
-                title = scope.lang('Text');
-            }
-             elementHandleContent.menu.setTitle(title);
+
         });
 
         this.moduleHandle = new Handle({
@@ -218,12 +207,28 @@ export class LiveEdit {
         moduleHandleContent.handle = moduleHandle;
         elementHandleContent.handle = elementHandle;
 
-        this.hoverHandle = 
+        const interactionHandleContent = new InteractionHandleContent(this);
+
+ 
+
+        this.interactionHandle = new Handle({
+            ...this.settings,
+   
+            content: interactionHandleContent.root,
+         
+            document: this.settings.document,
+            
+            resizable: false,
+            className: 'mw-handle-item-interaction-handle'
+        });
+        this.interactionHandle.menu = interactionHandleContent.menu;
+         
 
         this.handles = new Handles({
             element: elementHandle,
             module: moduleHandle,
-            layout: layoutHandle
+            layout: layoutHandle,
+            interactionHandle: this.interactionHandle,
         });
         this.observe = new GetPointerTargets(this.settings);
         this.init();
@@ -242,7 +247,6 @@ export class LiveEdit {
         if(this.settings.mode === 'auto') {
             ModeAuto(this);
         }
-
 
         const _eventsHandle = (e) => {
             if(this.handles.targetIsOrInsideHandle(e)) {
@@ -272,11 +276,41 @@ export class LiveEdit {
         let events;
         if(interactionMode === 'click') {
             events = 'mousedown touchstart';
+            ElementManager(this.root).on('mousemove', (e) => {
+                if(this.handles.targetIsOrInsideHandle(e)) {
+                    return
+                }
+                const elements = this.observe.fromEvent(e);
+                
+                const target = elements[0];
+                if(target) {
+                    var title = '';
+                    if(target.nodeName === 'P') {
+                        title = this.lang('Paragraph');
+                    } else if(/(H[1-6])/.test(target.nodeName)) {
+                        title = this.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
+                    } else if(target.nodeName === 'IMG' || target.nodeName === 'IMAGE') {
+                        title = this.lang('Image');
+                    }  else if(['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(target.nodeName)) {
+                        title = this.lang('Title ' + target.nodeName.replace('H', ''));
+                    }  else {
+                        title = this.lang('Text');
+                    }
+            
+
+                    this.interactionHandle.menu.setTitle(title);
+                    this.interactionHandle.show();
+                    this.interactionHandle.set(target);
+                } else {
+                    this.interactionHandle.hide();
+                }
+                 
+            })
             ElementManager(this.root).on(events, (e) => {
                 if ( !this.paused  ) {
                     _eventsHandle(e)
                 }
-         });
+            });
         } else if (interactionMode === 'hover') {
             events = 'mousemove touchmove';
             ElementManager(this.root).on(events, (e) => {
