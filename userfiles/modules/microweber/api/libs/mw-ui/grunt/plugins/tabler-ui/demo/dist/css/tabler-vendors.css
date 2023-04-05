@@ -1646,12 +1646,6 @@ html.mw-loading:after {
 /****************************
            Icons
 *****************************/
-@font-face {
-  font-family: "Microweber";
-  src: url("./fonts/font.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 [class*=mwi-], [class*=mw-icon-] {
   line-height: 1;
 }
@@ -10120,7 +10114,7 @@ $border-radius-sm:            .2rem !default;*/
 /*$custom-file-padding-y:             $input-btn-padding-y !default;*/
 /*$custom-file-line-height:           1 !default;*/
 body {
-  background-color: #ffffff;
+  background-color: #f1f5f9;
 }
 
 .container {
@@ -10394,12 +10388,11 @@ header .language-selector .btn {
 .main .tree {
   display: none;
   float: left;
-  border: 1px solid #2893ff;
   transition: all 0.5s ease;
   -webkit-margin-start: 15px;
           margin-inline-start: 15px;
   padding: 15px 0;
-  background: #ffffff;
+  background: #f1f5f9;
 }
 @media screen and (max-width: 991px) {
   .main .tree {
@@ -10715,10 +10708,10 @@ header .language-selector .btn {
     > .card-header {
       background-color: rgba(red($body-bg), green($body-bg), blue($body-bg), .3) !important;
     }*/
-  background-color: white !important;
+  background-color: #f8fafc !important;
 }
 .card.bg-light > .card-header {
-  background-color: white !important;
+  background-color: #f8fafc !important;
 }
 
 .card.bg-none {
@@ -11897,7 +11890,7 @@ header .language-selector .btn {
   margin: 1px 1px 0 0;
 }
 .noUi-handle.noUi-active, .noUi-handle:focus {
-  box-shadow: 0 0 0 1px #ffffff, 0 0 0 0.25rem rgba(40, 147, 255, 0.25);
+  box-shadow: 0 0 0 1px #f1f5f9, 0 0 0 0.25rem rgba(40, 147, 255, 0.25);
 }
 
 .noUi-connect {
@@ -12148,7 +12141,7 @@ header .language-selector .btn {
 }
 
 .ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
-  border-left: 1px solid #e7e7e7;
+  border-left: 1px solid #e6e7e9;
   margin-left: 5px;
 }
 .ts-wrapper.plugin-remove_button:not(.rtl) .item.active .remove {
@@ -12159,7 +12152,7 @@ header .language-selector .btn {
 }
 
 .ts-wrapper.plugin-remove_button.rtl .item .remove {
-  border-right: 1px solid #e7e7e7;
+  border-right: 1px solid #e6e7e9;
   margin-right: 5px;
 }
 .ts-wrapper.plugin-remove_button.rtl .item.active .remove {
@@ -12224,7 +12217,7 @@ header .language-selector .btn {
   padding: 1px 5px;
   background: #efefef;
   color: #1d273b;
-  border: 0px solid #e7e7e7;
+  border: 0px solid #e6e7e9;
 }
 .ts-wrapper.multi .ts-control > div.active {
   background: #2893ff;
@@ -12468,7 +12461,7 @@ header .language-selector .btn {
 .ts-wrapper.is-invalid.single,
 .was-validated .invalid.single,
 .was-validated :invalid + .ts-wrapper.single {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f83b3e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a5a9b1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23f83b3e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
   background-position: right 0.75rem center, center right 2.25rem;
   background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
   background-repeat: no-repeat;
@@ -12496,7 +12489,7 @@ header .language-selector .btn {
 .ts-wrapper.is-valid.single,
 .was-validated .valid.single,
 .was-validated :valid + .ts-wrapper.single {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2333a86b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a5a9b1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2333a86b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
   background-position: right 0.75rem center, center right 2.25rem;
   background-size: 16px 12px, calc(0.7142857143em + 0.4375rem) calc(0.7142857143em + 0.4375rem);
   background-repeat: no-repeat;
@@ -12549,7 +12542,7 @@ header .language-selector .btn {
   background: none;
 }
 .ts-wrapper:not(.form-control):not(.form-select).single .ts-control {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a5a9b1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 16px 12px;

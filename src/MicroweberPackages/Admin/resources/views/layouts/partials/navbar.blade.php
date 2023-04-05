@@ -230,7 +230,7 @@
                                                            <?php
                                                        if ($countNewUpdates > 0):
                                                            ?>
-                <span class="badge-holder">
+                <span class="badge-holder ms-auto">
                                     <span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;"><?php echo $countNewUpdates; ?></span>
                                 </span>
                 <?php
