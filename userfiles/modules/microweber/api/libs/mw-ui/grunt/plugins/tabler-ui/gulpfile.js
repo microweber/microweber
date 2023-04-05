@@ -393,8 +393,9 @@ gulp.task('build-purgecss', (cb) => {
  * Watch JS and SCSS files
  */
 gulp.task('watch', (cb) => {
-	gulp.watch('./src/scss/**/*.scss', gulp.series('sass'))
-	gulp.watch('./src/js/**/*.js', gulp.parallel('js', 'mjs', gulp.parallel('js-demo', 'js-demo-theme')))
+	gulp.watch('./src/scss/**/*.scss', gulp.series('sass','build-core'))
+	gulp.watch('./../ui/css/**/*.scss', gulp.series('sass','build-core'))
+	gulp.watch('./src/js/**/*.js', gulp.parallel('js', 'mjs','clean', 'sass','build-core', gulp.parallel('js-demo', 'js-demo-theme')))
 	cb()
 })
 
