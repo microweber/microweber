@@ -35,6 +35,11 @@ class AdminManager
         $this->addStyle('mw-ui-css', $main_css_url);
 
 
+        $url = mw_includes_url() . 'api/libs/mw-ui/grunt/plugins/tabler-ui/dist/js/tabler.min.js';
+        $this->addScript('mw-tabler-js', $url);
+
+
+
         $favicon_image = get_option('favicon_image', 'website');
 
         if (!$favicon_image) {
