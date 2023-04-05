@@ -146,7 +146,7 @@
 
 <script>
 import axios from 'axios';
-import ColorPicker from '/src/MicroweberPackages/LiveEdit/resources/js/ui/components/Editor/Colors/ColorPicker.vue';
+import ColorPicker from '../../Editor/Colors/ColorPicker.vue';
 import RangeSlider from "../../Editor/Forms/RangeSlider.vue";
 
 export default {
