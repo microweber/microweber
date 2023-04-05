@@ -147,7 +147,7 @@ header .language-selector .btn {
   color: #1d273b;
 }
 .main aside > ul > li.nav-item > a:hover > i {
-  color: #206bc4;
+  color: #2893ff;
 }
 .main aside > ul > li.nav-item > a > i {
   -webkit-margin-end: 10px;
@@ -164,11 +164,11 @@ header .language-selector .btn {
 }
 .main aside > ul > li.nav-item > a.active {
   background: #ffffff;
-  border-left: 5px solid #206bc4;
+  border-left: 5px solid #2893ff;
   color: #1d273b;
 }
 .main aside > ul > li.nav-item > a.active > i {
-  color: #206bc4;
+  color: #2893ff;
 }
 .main aside > ul > li.nav-item.dropdown-no-js.show, .main aside > ul > li.nav-item.dropdown.show {
   background: #ffffff;
@@ -182,7 +182,7 @@ header .language-selector .btn {
   text-overflow: ellipsis;
 }
 .main aside > ul > li.nav-item.dropdown-no-js.show > a > i, .main aside > ul > li.nav-item.dropdown.show > a > i {
-  color: #206bc4;
+  color: #2893ff;
 }
 .main aside > ul > li.nav-item .dropdown-menu {
   border: 0;
@@ -243,7 +243,7 @@ header .language-selector .btn {
 .main aside > ul > li.nav-item .dropdown-menu .dropdown-item.active {
   color: #1d273b;
   background: #ffffff;
-  border-left: 5px solid #206bc4;
+  border-left: 5px solid #2893ff;
 }
 .main aside > ul .dropdown .dropdown-menu.show,
 .main aside > ul .dropdown-no-js .dropdown-menu.show {
@@ -279,7 +279,7 @@ header .language-selector .btn {
 .main aside > ul .dropdown .dropdown-toggle.active::after,
 .main aside > ul .dropdown-no-js .dropdown-toggle.active::after {
   transform: rotate(90deg);
-  background: #206bc4;
+  background: #2893ff;
 }
 .main aside > ul .dropdown.show .dropdown-toggle::after,
 .main aside > ul .dropdown-no-js.show .dropdown-toggle::after {
@@ -288,7 +288,7 @@ header .language-selector .btn {
 .main .tree {
   display: none;
   float: left;
-  border: 1px solid #206bc4;
+  border: 1px solid #2893ff;
   transition: all 0.5s ease;
   -webkit-margin-start: 15px;
           margin-inline-start: 15px;
@@ -409,7 +409,7 @@ header .language-selector .btn {
   width: 4px;
   height: 100%;
   position: absolute;
-  background: #206bc4;
+  background: #2893ff;
   -webkit-margin-end: 22px;
           margin-inline-end: 22px;
   right: auto;
@@ -418,7 +418,7 @@ header .language-selector .btn {
 }
 .timeline .timeline-event .timeline-line .btn-icon {
   background: #ffffff;
-  color: #206bc4;
+  color: #2893ff;
 }
 .timeline .timeline-event .timeline-line .custom-control {
   margin-bottom: 0;
@@ -584,7 +584,7 @@ header .language-selector .btn {
   border-bottom: 0;
 }
 .variants-select .variant:hover {
-  background-color: #206bc4;
+  background-color: #2893ff;
   color: #ffffff;
 }
 
@@ -593,7 +593,7 @@ header .language-selector .btn {
 }
 
 .table-primary-hover tbody tr:hover th, .table-primary-hover tbody tr:hover td {
-  background: #206bc4;
+  background: #2893ff;
   color: #ffffff;
 }
 .table-primary-hover tbody tr:hover th .text-muted, .table-primary-hover tbody tr:hover th a, .table-primary-hover tbody tr:hover th a.text-muted, .table-primary-hover tbody tr:hover td .text-muted, .table-primary-hover tbody tr:hover td a, .table-primary-hover tbody tr:hover td a.text-muted {
@@ -662,7 +662,7 @@ header .language-selector .btn {
   color: #bcbfc2;
 }
 .page-settings .select-settings a:hover .icon-holder {
-  background: #206bc4;
+  background: #2893ff;
 }
 .page-settings .select-settings a:hover .icon-holder i {
   color: #ffffff;
@@ -1106,12 +1106,12 @@ header .language-selector .btn {
 .module-icon-svg-fill {
   display: inline-block;
   height: 24px;
-  color: #206bc4;
+  color: #2893ff;
   -webkit-margin-end: 10px;
           margin-inline-end: 10px;
 }
 .module-icon-svg-fill path {
-  fill: #206bc4;
+  fill: #2893ff;
 }
 
 .card-in-live-edit {
@@ -1155,7 +1155,7 @@ header .language-selector .btn {
           margin-inline-end: 4px;
 }
 .table-permissions tr:not(.no-hover):hover td {
-  background: rgba(32, 107, 196, 0.1);
+  background: rgba(40, 147, 255, 0.1);
 }
 .table-permissions th {
   border-top: 0;
@@ -1170,17 +1170,17 @@ header .language-selector .btn {
 }
 .module-layouts-viewer .default-layout {
   position: absolute;
-  background: #206bc4;
+  background: #2893ff;
   color: #fff;
   padding: 5px;
   font-weight: bold;
   font-size: 10px;
 }
 .module-layouts-viewer .screenshot.active {
-  border: 1px solid #206bc4;
+  border: 1px solid #2893ff;
 }
 .module-layouts-viewer .screenshot.active .holder .title {
-  background: #206bc4;
+  background: #2893ff;
 }
 
 .module-layouts-viewer .screenshot,
