@@ -13,6 +13,9 @@
     <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
     <script type="text/javascript">
+
+
+        mw.require("<?php print mw_includes_url(); ?>css/fonts/fonts.css", true);
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         mw.require("liveadmin.js");
@@ -35,7 +38,8 @@
         mw.lib.require('mwui');
         mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+       //  mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
+
 
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>

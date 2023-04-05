@@ -1,0 +1,4 @@
+@import "../css/../../tabler-ui/dist/css/tabler.min.css";
+:root {
+    --tblr-font-sans-serif: 'Inter';
+}

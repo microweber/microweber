@@ -1,0 +1,86 @@
+@mixin subheader($include-color: true, $include-line-height: true) {
+  font-size: $h6-font-size;
+  font-weight: var(--#{$prefix}font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+
+  @if $include-line-height {
+    line-height: $h6-line-height;
+  }
+
+  @if ($include-color) {
+    color: var(--#{$prefix}muted);
+  }
+}
+
+@mixin scrollbar($color: var(--#{$prefix}body-color-rgb)) {
+  #{if(&, "&", "*")}::-webkit-scrollbar {
+    width: .5rem;
+    height: .5rem;
+    @include transition(background $transition-time);
+  }
+
+  #{if(&, "&", "*")}::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba($color, .16);
+  }
+
+  #{if(&, "&", "*")}::-webkit-scrollbar-track {
+    background: rgba($color, .06);
+  }
+
+  #{if(&, "&", "*")}:hover::-webkit-scrollbar-thumb {
+    background: rgba($color, .32);
+  }
+
+  #{if(&, "&", "*")}::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+
+@mixin autodark-image {
+  filter: brightness(0) invert(1);
+}
+
+@mixin dark-mode {
+  @if $enable-dark-mode {
+    $selector: &;
+
+    @media not print {
+      @if ($selector) {
+        .theme-dark & {
+          @content
+        }
+      } @else {
+        .theme-dark {
+          @content
+        }
+      }
+    }
+
+    @media not print {
+      @media (prefers-color-scheme: dark) {
+        @if ($selector) {
+          .theme-dark-auto & {
+            @content
+          }
+        } @else {
+          .theme-dark-auto {
+            @content
+          }
+        }
+      }
+    }
+  }
+}
+
+//
+// Elements list
+//
+@mixin elements-list($gap: .5rem) {
+  --#{$prefix}list-gap: #{$gap};
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--#{$prefix}list-gap);
+}
