@@ -68,9 +68,15 @@
                                     </div>
 
                                      <div v-if="setting.type === 'range'">
-                                         <label class="mr-4">{{ setting.label }} - {{options[setting.optionGroup][settingKey]}}px</label>
+                                         <label class="mr-4">{{ setting.label }} - {{options[setting.optionGroup][settingKey]}}</label>
                                          <div>
-                                              <RangeSlider v-on:change="updateSettings($event, settingKey, setting.optionGroup)" />
+                                             <Slider
+                                                 v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
+                                                 v-model="options[setting.optionGroup][settingKey]"
+                                                 :merge="1"
+                                                 :tooltips="false"
+                                                 :tooltipPosition="'right'"
+                                             />
                                          </div>
                                     </div>
 
@@ -91,10 +97,9 @@
                                         <div>{{ setting.label }}</div>
                                         <select class="form-control"
                                                 v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
-                                                :name="settingKey"
-                                                :value="[setting.value ? setting.value : setting.default]">
-                                            <option v-for="(optionValue,optionKey) in setting.options"
-                                                    :value="optionKey">
+                                                v-model="options[setting.optionGroup][settingKey]">
+
+                                            <option v-for="(optionValue,optionKey) in setting.options" :value="optionKey">
                                                 {{ optionValue }}
                                             </option>
                                         </select>
@@ -144,15 +149,17 @@
 }
 </style>
 
+
+<style src="@vueform/slider/themes/default.css"></style>
 <script>
 import axios from 'axios';
 import ColorPicker from '../../Editor/Colors/ColorPicker.vue';
-import RangeSlider from "../../Editor/Forms/RangeSlider.vue";
+import Slider from '@vueform/slider'
 
 export default {
     components: {
         ColorPicker,
-        RangeSlider
+        Slider
     },
     methods: {
         stringToId(str) {

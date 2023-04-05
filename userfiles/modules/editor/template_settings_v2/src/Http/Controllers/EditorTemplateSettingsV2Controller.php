@@ -37,6 +37,10 @@ class EditorTemplateSettingsV2Controller extends Controller
 
                 $value['optionGroup'] = $optionGroupLess;
                 $value['value'] = get_option($key, $optionGroupLess);
+                if (empty($value['value']) && isset($value['default'])) {
+                    $value['value'] = $value['default'];
+                }
+
                 $options[$optionGroupLess][$key] = $value['value'];
 
                 $settingGroups[$mainGroup]['type'] = 'stylesheet';
@@ -57,6 +61,10 @@ class EditorTemplateSettingsV2Controller extends Controller
 
                 $value['optionGroup'] = $optionGroup;
                 $value['value'] = get_option($key, $optionGroup);
+                if (empty($value['value']) && isset($value['default'])) {
+                    $value['value'] = $value['default'];
+                }
+
                 $options[$optionGroup][$key] = $value['value'];
 
                 $settingGroups['Template Settings']['type'] = 'template';

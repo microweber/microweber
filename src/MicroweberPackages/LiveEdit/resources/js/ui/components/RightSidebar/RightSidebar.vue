@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return {
-            showSidebar: false
+            showSidebar: true
         }
     }
 }
