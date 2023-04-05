@@ -395,7 +395,7 @@ gulp.task('build-purgecss', (cb) => {
 gulp.task('watch', (cb) => {
 	gulp.watch('./src/scss/**/*.scss', gulp.series('sass','build-core'))
 	gulp.watch('./../ui/css/**/*.scss', gulp.series('sass','build-core'))
-	gulp.watch('./src/js/**/*.js', gulp.parallel('js', 'mjs','clean', 'sass','build-core', gulp.parallel('js-demo', 'js-demo-theme')))
+	gulp.watch('./src/js/**/*.js', gulp.parallel( 'sass','build-core' ))
 	cb()
 })
 
