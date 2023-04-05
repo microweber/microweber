@@ -68,9 +68,17 @@
                                     </div>
 
                                      <div v-if="setting.type === 'range'">
-                                         <label class="mr-4">{{ setting.label }} - {{options[setting.optionGroup][settingKey]}}</label>
+                                         <label class="mr-4">
+                                             {{ setting.label }} -
+                                             {{options[setting.optionGroup][settingKey]}}
+                                             <span v-if="setting.range.unit">
+                                                    {{ setting.range.unit ? setting.range.unit : '' }}
+                                             </span>
+                                         </label>
                                          <div>
                                              <Slider
+                                                 :min="[setting.range.min ? setting.range.min : 0]"
+                                                 :max="[setting.range.max ? setting.range.max : 100]"
                                                  v-on:change="updateSettings($event, settingKey, setting.optionGroup)"
                                                  v-model="options[setting.optionGroup][settingKey]"
                                                  :merge="1"
