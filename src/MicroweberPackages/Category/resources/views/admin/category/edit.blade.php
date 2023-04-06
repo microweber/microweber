@@ -1,4 +1,8 @@
-<div class="d-flex">
+@extends('admin::layouts.app')
+
+@section('content')
+
+    <div class="d-flex">
 
     <script>
         mw.require('content.js', true);
@@ -238,3 +242,4 @@
 
 
 </div>
+@endsection
