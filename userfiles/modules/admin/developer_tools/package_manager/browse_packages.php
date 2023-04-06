@@ -143,7 +143,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 <ul class="navbar-nav mx-auto m-md-0 m-2">
                     <li class="nav-item active d-xl-flex">
                         <?php if ($is_update_mode) { ?>
-                            <a href="<?php print admin_url() ?>view:packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
+                            <a href="<?php print admin_url() ?>module/view?type=admin/modules/packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
                         <?php } else { ?>
                             <a href="<?php print admin_url() ?>settings?group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
                         <?php } ?>

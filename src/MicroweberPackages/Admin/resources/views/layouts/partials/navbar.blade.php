@@ -375,7 +375,7 @@
                 ?>
 
                 <li class="nav-item">
-                    <a href="<?php print admin_url(); ?>view:packages" class="nav-link py-3 fs-3 <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                    <a href="<?php print admin_url(); ?>module/view?type=admin/modules/packages" class="nav-link py-3 fs-3 <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                         <i class="fs-1 me-2 mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
                         <?php
                         if ($countNewUpdates > 0):
