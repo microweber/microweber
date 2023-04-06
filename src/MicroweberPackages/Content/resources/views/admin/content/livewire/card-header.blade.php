@@ -1,11 +1,11 @@
-<div class="card-header d-flex align-items-center justify-content-between px-md-4">
+<div class="card-header">
     <div class="col d-flex justify-content-md-between justify-content-center align-items-center px-0">
-        <h5 class="mb-0 d-flex">
-            <i class="mdi mdi-earth text-primary mr-md-3 mr-1 justify-content-center"></i>
+        <div class="d-flex align-items-center">
+            <i class="mdi mdi-earth text-primary fs-2"></i>
 
-            <strong class="d-md-flex d-none">
+            <h1 class="d-md-flex d-none card-title">
 
-                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none text-dark @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none text-dark ms-1 @endif" onclick="livewire.emit('deselectAllCategories');return false;">
                     {{_e('Website')}}
                 </a>
 
@@ -19,14 +19,14 @@
                     <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
                 @endif
 
-            </strong>
+            </h1>
 
             @if(isset($currentCategory) and $currentCategory)
                 <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
                     <i class="fa fa-times-circle"></i>
                 </a>
             @endif
-        </h5>
+        </div>
         <div>
 
             @if(isset($contentType))
@@ -49,3 +49,4 @@
         </div>
     </div>
 </div>
+

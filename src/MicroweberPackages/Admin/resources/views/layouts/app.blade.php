@@ -1,9 +1,12 @@
 @include('admin::layouts.partials.header')
 
 @hasSection('content')
-    <main class="module-main-holder col-lg-7">
+    <main class="module-main-holder page-wrapper">
         @include('admin::layouts.partials.topbar2')
-    @yield('content' )
+
+       <div class="page-body">
+           @yield('content' )
+       </div>
     </main>
 @endif
 

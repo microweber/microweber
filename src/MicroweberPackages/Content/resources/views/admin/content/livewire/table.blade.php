@@ -7,7 +7,7 @@
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
         @if($displayFilters)
-        <div class="d-flex flex-wrap">
+        <div class="d-flex">
 
             @include('content::admin.content.livewire.components.keyword')
 

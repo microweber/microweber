@@ -1,10 +1,10 @@
-<div class="pt-0">
+<div class="d-flex">
 
     @include('content::admin.content.index-page-category-tree', [
          'is_blog'=>1,
      ])
 
-    <div class="module-content">
+    <div class="module-content w-75 pe-3">
 
         <livewire:admin-posts-list />
         <livewire:admin-content-bulk-options />

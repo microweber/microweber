@@ -267,7 +267,7 @@ $user = get_user_by_id($user_id);
     </script>
     <?php endif; ?>
 
-    <div class="<?php if ($enableNavBar) { ?> main page  container-fluid px-0 <?php } ?>">
+    <div class="<?php if ($enableNavBar) { ?> page <?php } ?>">
     <?php if ($enableNavBar) { ?>
           @include('admin::layouts.partials.navbar')
     <?php } ?>
