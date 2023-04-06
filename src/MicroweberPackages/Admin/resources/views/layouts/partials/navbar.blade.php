@@ -405,13 +405,13 @@
 
                 <?php /*
                 <li class="nav-item dropdown">
-                    <a class="nav-link py-3 fs-3 dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                    <a class="nav-link py-3 fs-3 dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=general">
                         <i class="fs-1 me-2 mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
                     <div class="dropdown-menu">
 
-                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=general">
                             <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                         </a>
 

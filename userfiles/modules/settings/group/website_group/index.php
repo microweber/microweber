@@ -53,7 +53,7 @@ if (isset($_GET['group']) and $_GET['group']) {
     <div class="row card-body">
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>settings?group=website" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=general" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('General'); ?></span><br/>
