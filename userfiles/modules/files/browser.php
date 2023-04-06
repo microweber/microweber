@@ -233,7 +233,7 @@ if (isset($params['viewsize'])) {
 
 </style>
 
-<div class="card-body pt-3 pb-0 px-0" >
+<div  class="card-body" >
     <div class="row">
 
         <div class="col-md-12">
