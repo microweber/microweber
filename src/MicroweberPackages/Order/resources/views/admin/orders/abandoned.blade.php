@@ -1,4 +1,8 @@
-<div id="manage-orders-menus">
+@extends('admin::layouts.app')
+
+@section('content')
+
+    <div id="manage-orders-menus">
     <div class="card style-1">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("List of orders"); ?></strong>
@@ -40,3 +44,6 @@
 </div>
 
 @include('order::admin.orders.partials.javascripts')
+
+
+@endsection

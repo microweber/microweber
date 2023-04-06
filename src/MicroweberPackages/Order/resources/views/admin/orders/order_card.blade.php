@@ -1,3 +1,6 @@
+@extends('admin::layouts.app')
+
+@section('content')
 <?php
 
 if (!$order) {
@@ -246,3 +249,4 @@ $item = $order->toArray();
         </div>
     </div>
 </div>
+@endsection

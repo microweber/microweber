@@ -1,4 +1,8 @@
-<?php $zoom = 10; ?>
+@extends('admin::layouts.app')
+
+@section('content')
+
+    <?php $zoom = 10; ?>
 <script>mw.lib.require('mwui_init');</script>
 
 <script type="text/javascript">
@@ -531,3 +535,5 @@
     </div>
 </div>
 <?php endif; ?>
+
+@endsection
