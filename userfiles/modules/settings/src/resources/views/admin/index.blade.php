@@ -1,3 +1,6 @@
+@extends('admin::layouts.app')
+
+@section('content')
 <div>
     <module type="settings/group/website_group" />
 
@@ -5,3 +8,4 @@
     <module type="shop/settings" />
     <?php } ?>
 </div>
+@endsection

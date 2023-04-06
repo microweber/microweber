@@ -4,11 +4,11 @@ namespace MicroweberPackages\Modules\Settings\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-class SettingsController extends \MicroweberPackages\Admin\Http\Controllers\AdminController
+class SettingsController
 {
     public function index(Request $request)
     {
-        return $this->view('modules.settings::admin.index',[
+        return view('modules.settings::admin.index',[
 
         ]);
     }
