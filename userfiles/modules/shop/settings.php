@@ -58,52 +58,47 @@ if (isset($_GET['group']) and $_GET['group']) {
     </div>
 
 
-        <div class="card-body mb-3">
-            <div class="card-body pt-3 px-5">
-                <div class="row select-settings">
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=shop/payments/currency" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px mdi-20px"></i></div>
-                            <div class="info-holder">
-                                <span class="text-outline-primary font-weight-bold"><?php _e("General"); ?></span><br/>
-                                <small class="text-muted"><?php _e("Basic store settings"); ?></small>
-                            </div>
-                        </a>
-                    </div>
-
-                    <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
-
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=shop/orders/settings/invoice_settings" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-cash-register mdi-20px"></i></div>
-                            <div class="info-holder">
-                                <span class="text-outline-primary font-weight-bold"><?php _e('Invoices'); ?></span><br/>
-                                <small class="text-muted"><?php _e("Invoice lists and accounting"); ?></small>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=shop/orders/settings/setup_emails_on_order" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-email-edit-outline mdi-20px"></i></div>
-                            <div class="info-holder">
-                                <span class="text-outline-primary font-weight-bold"><?php _e("Auto respond mail"); ?></span><br/>
-                                <small class="text-muted"><?php _e("Email and message settings"); ?></small>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="?group=shop/orders/settings/other" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
-                            <div class="info-holder">
-                                <span class="text-outline-primary font-weight-bold"><?php _e('Other settings'); ?></span><br/>
-                                <small class="text-muted"><?php _e("Other settings"); ?></small>
-                            </div>
-                        </a>
-                    </div>
+    <div class="row card-body">
+        <div class="card-header col-12 col-sm-6 col-lg-4">
+            <a href="?group=shop/payments/currency" class="d-flex my-3">
+                <div class="icon-holder"><i class="mdi mdi-cart-outline fs-1 fs-1"></i></div>
+                <div class="card-title info-holder">
+                    <span class="text-outline-primary font-weight-bold"><?php _e("General"); ?></span><br/>
+                    <small class="text-muted"><?php _e("Basic store settings"); ?></small>
                 </div>
-            </div>
+            </a>
         </div>
 
+        <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
+
+        <div class="card-header col-12 col-sm-6 col-lg-4">
+            <a href="?group=shop/orders/settings/invoice_settings" class="d-flex my-3">
+                <div class="icon-holder"><i class="mdi mdi-cash-register fs-1"></i></div>
+                <div class="card-title info-holder">
+                    <span class="text-outline-primary font-weight-bold"><?php _e('Invoices'); ?></span><br/>
+                    <small class="text-muted"><?php _e("Invoice lists and accounting"); ?></small>
+                </div>
+            </a>
+        </div>
+
+        <div class="card-header col-12 col-sm-6 col-lg-4">
+            <a href="?group=shop/orders/settings/setup_emails_on_order" class="d-flex my-3">
+                <div class="icon-holder"><i class="mdi mdi-email-edit-outline fs-1"></i></div>
+                <div class="card-title info-holder">
+                    <span class="text-outline-primary font-weight-bold"><?php _e("Auto respond mail"); ?></span><br/>
+                    <small class="text-muted"><?php _e("Email and message settings"); ?></small>
+                </div>
+            </a>
+        </div>
+
+        <div class="card-header col-12 col-sm-6 col-lg-4">
+            <a href="?group=shop/orders/settings/other" class="d-flex my-3">
+                <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1"></i></div>
+                <div class="card-title info-holder">
+                    <span class="text-outline-primary font-weight-bold"><?php _e('Other settings'); ?></span><br/>
+                    <small class="text-muted"><?php _e("Other settings"); ?></small>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
