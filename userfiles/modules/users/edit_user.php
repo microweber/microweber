@@ -67,7 +67,7 @@ $saveRoute = route('api.user.store');
             if (confirm("Are you sure you want to delete this user?")) {
                 $.post("<?php print api_link() ?>delete_user", {id: $user_id})
                     .done(function (data) {
-                        location.href = "<?php print admin_url('view:modules/load_module:users'); ?>";
+                        location.href = "<?php print admin_url('module/view?type=users'); ?>";
                     });
             }
         }
@@ -119,7 +119,7 @@ $saveRoute = route('api.user.store');
 
                 mw.notification.success(mw.lang('All changes saved'));
                 if (userId === 0) {
-                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + saveduserid;
+                    location.href = "<?php print admin_url('module/view?type=users/edit-user:'); ?>" + saveduserid;
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
@@ -469,7 +469,7 @@ $saveRoute = route('api.user.store');
             <hr class="thin"/>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
+                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('module/view?type=users'); ?>"><?php _e("Cancel"); ?></a>
                 <button id="user-save-button" class="btn btn-success btn-sm" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
             </div>
         </div>

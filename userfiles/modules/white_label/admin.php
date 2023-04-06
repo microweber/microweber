@@ -326,7 +326,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
       <div class="d-flex">
-          <a href="<?php print admin_url() ?>view:modules/load_module:white_label__admin_colors"  class="btn btn-primary mx-1" >Color schemes</a>
+          <a href="<?php print admin_url() ?>module/view?type=white_label__admin_colors"  class="btn btn-primary mx-1" >Color schemes</a>
 
           <a href="javascript:;" id="white_label-whmcs-admin-module-link" class="btn btn-outline-secondary mx-1" onclick="mw.show_white_label_whmcs_settings();">WHMCS settings</a>
           <script>

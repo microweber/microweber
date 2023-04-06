@@ -34,7 +34,7 @@ class ListUsers extends ListRecords
                 ->icon('heroicon-o-plus')
                 ->button()
                 ->action(function() {
-                    return redirect(admin_url('view:modules/load_module:users/edit-user:0'));
+                    return redirect(admin_url('module/view?type=users/edit-user:0'));
                 }),
 
         ];

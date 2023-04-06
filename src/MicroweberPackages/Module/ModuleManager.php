@@ -1231,7 +1231,7 @@ class ModuleManager
             $info = $data[0];
         }
         if ($link == true and $info != false) {
-            $href = admin_url() . 'view:modules/load_module:' . module_name_encode($info['module']);
+            $href = admin_url() . 'module/view?type=' . module_name_encode($info['module']);
         } else {
             $href = '#';
         }

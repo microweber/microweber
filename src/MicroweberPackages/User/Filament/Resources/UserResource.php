@@ -128,7 +128,7 @@ class UserResource extends Resource
                     ->icon('heroicon-o-pencil')
                     ->button()
                     ->action(function ($record) {
-                        return redirect(admin_url('view:modules/load_module:users/edit-user:' . $record->id));
+                        return redirect(admin_url('module/view?type=users/edit-user:' . $record->id));
                     }),
             ])
             ->bulkActions([

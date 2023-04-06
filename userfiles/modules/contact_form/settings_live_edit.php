@@ -39,7 +39,7 @@ if (isset($params['for_module_id'])) {
                 <?php _e('Use custom receivers settings for the current contact form.'); ?>
                 <br />
                 <?php _e('By default we will use contact form global settings.'); ?>
-                <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
+                <a href="<?php print admin_url('/module/view?type=contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
             </small>
         </div>
 
@@ -149,7 +149,7 @@ if (isset($params['for_module_id'])) {
                         <?php _e('Use custom sender settings for the current contact form.'); ?>
                         <br />
                         <?php _e('By default we will use contact form global settings.'); ?>
-                        <a href="<?php print admin_url('/view:modules/load_module:contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
+                        <a href="<?php print admin_url('/module/view?type=contact_form?tab=settings'); ?>" target="_blank"><?php _e('You can change the contact form global settings here.'); ?></a>
                     </small>
                 </div>
 

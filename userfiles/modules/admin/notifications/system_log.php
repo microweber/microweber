@@ -116,7 +116,7 @@ $data = mw()->log_manager->get($log_params);
 
                     </td>
                     <td style="max-width: 30%;"><?php if ($mod_info != false and isset($mod_info['name'])): ?>
-                            <a class="btn btn-link btn-sm p-0" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>"
+                            <a class="btn btn-link btn-sm p-0" href="<?php print admin_url() ?>module/view?type=<?php print module_name_encode($item['module']) ?>/mw_notif:log_<?php print $item['id'] ?>"
                                title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
                         <?php else : ?>
                             <?php print $item['title'] ?>
@@ -124,7 +124,7 @@ $data = mw()->log_manager->get($log_params);
 
                         <div class="logication_info">
                             <?php if (isset($item['content']) and $item['content'] != ''): ?>
-                                <?php if ($mod_info != false and isset($mod_info['name'])): ?><a href="<?php if ($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_log:<?php print  $item['id'] ?><?php endif; ?>" class="ellipsis"><?php endif; ?>
+                                <?php if ($mod_info != false and isset($mod_info['name'])): ?><a href="<?php if ($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>module/view?type=<?php print module_name_encode($item['module']) ?>/mw_log:<?php print  $item['id'] ?><?php endif; ?>" class="ellipsis"><?php endif; ?>
 
 
                                 <?php print html_entity_decode($item['content']); ?>

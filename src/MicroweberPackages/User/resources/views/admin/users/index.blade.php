@@ -44,7 +44,7 @@
                     <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse"
                        data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
 
-                    <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>"
+                    <a href="<?php print admin_url('module/view?type=users/edit-user:0'); ?>"
                        class="btn btn-primary" id="add-new-user-btn">
                         <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
                     </a>
@@ -190,7 +190,7 @@
                     <td>
 
                         <a class="btn btn-outline-primary btn-sm"
-                           href="{{admin_url()}}view:modules/load_module:users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
+                           href="{{admin_url()}}module/view?type=users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
                     </td>
                 </tr>
 
