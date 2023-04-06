@@ -13,27 +13,21 @@ class FilamentPluginServiceProvider extends PluginServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        $package->name(static::$name)
-            ->hasViews();
-
+        $package->name(static::$name)->hasViews();
     }
 
     public function packageRegistered(): void
     {
         parent::packageRegistered();
-
     }
 
     public function packageBooted(): void
     {
         parent::packageBooted();
-
-
     }
 
     protected function getResources(): array
     {
-
         return [
             ModuleResource::class,
         ];
