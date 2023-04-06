@@ -261,7 +261,7 @@ class MicroweberComposerClient extends Client
         $message = 'Success. You have installed: ' . $moduleName;
         if ($moduleLink) {
             if ($type == 'microweber-template') {
-                $moduleLink = admin_url('view:settings?group=template');
+                $moduleLink = admin_url('settings?group=template');
                 $message .= '<br /> <a href="' . $moduleLink . '">Visit template settings</a>';
                 $response['redirect_to'] = $moduleLink;
             } else {

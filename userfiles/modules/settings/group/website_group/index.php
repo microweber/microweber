@@ -53,7 +53,7 @@ if (isset($_GET['group']) and $_GET['group']) {
     <div class="row card-body">
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=website" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=website" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('General'); ?></span><br/>
@@ -65,7 +65,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <?php if (mw()->ui->disable_marketplace != true): ?>
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=updates" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=updates" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Updates'); ?></span><br/>
@@ -76,7 +76,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         <?php endif; ?>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=email" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=email" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-email-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('E-mail'); ?></span><br/>
@@ -86,7 +86,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=template" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=template" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Template'); ?></span><br/>
@@ -96,7 +96,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=advanced" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=advanced" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-keyboard-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Advanced'); ?></span><br/>
@@ -106,7 +106,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=files" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=files" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Files'); ?></span><br/>
@@ -116,7 +116,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=users" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=users" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-login fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Login & Register'); ?></span><br/>
@@ -126,7 +126,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=language" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=language" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-translate fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Language'); ?></span><br/>
@@ -136,7 +136,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
 
         <div class="card-header col-12 col-sm-6 col-lg-4">
-            <a href="<?php echo admin_url();?>view:settings?group=privacy" class="d-flex my-3 js-website-settings-link">
+            <a href="<?php echo admin_url();?>settings?group=privacy" class="d-flex my-3 js-website-settings-link">
                 <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <span class="text-outline-primary font-weight-bold"><?php _e('Privacy Policy'); ?></span><br/>

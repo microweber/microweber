@@ -311,10 +311,10 @@ function coupons_delete_session()
 
 
 event_bind('mw.admin.shop.settings.menu', function ($data) {
-    print '<div class="col-12 col-sm-6 col-lg-4">
+    print '<div class="card-header col-12 col-sm-6 col-lg-4">
                 <a href="?group=shop/coupons/admin" class="d-flex my-3">
-                    <div class="icon-holder"><i class="mdi mdi-scissors-cutting mdi-20px"></i></div>
-                    <div class="info-holder">
+                    <div class="icon-holder"><i class="mdi mdi-scissors-cutting fs-1 me-2"></i></div>
+                    <div class="card-title info-holder">
                         <span class="text-outline-primary font-weight-bold">' . _e('Coupons', true) . '</span><br/>
                         <small class="text-muted">' . _e('Creating and managing coupon codes', true) . '</small>
                     </div>

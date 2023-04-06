@@ -42,7 +42,7 @@ class AdminTemplate extends BaseComponent
     public function changeTemplate(Browser $browser, $name = false)
     {
 
-        $browser->visit(admin_url() . 'view:settings?group=template');
+        $browser->visit(admin_url() . 'settings?group=template');
         $browser->pause(1000);
         $browser->waitForText('Template name');
         $browser->pause(1000);

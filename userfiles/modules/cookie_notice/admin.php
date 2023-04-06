@@ -219,7 +219,7 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <a href="<?php echo admin_url('view:settings?group=advanced');?>" target="_blank">Check Google Analytics Code</a>
+                        <a href="<?php echo admin_url('settings?group=advanced');?>" target="_blank">Check Google Analytics Code</a>
 
                         <div class="col-md-6" style="display: none;">
                             <div class="form-group">
@@ -254,7 +254,7 @@ code:			'123456'
                             </div>
                         </div>
 
-                        <a href="<?php echo admin_url('view:settings?group=advanced');?>" target="_blank">Check Facebook Pixel Code</a>
+                        <a href="<?php echo admin_url('settings?group=advanced');?>" target="_blank">Check Facebook Pixel Code</a>
 
                         <div class="col-md-6" style="display: none;">
                             <div class="form-group">
