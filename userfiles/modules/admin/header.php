@@ -613,13 +613,13 @@ $user = get_user_by_id($user_id);
 
                 <?php /*
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings?group=website">
+                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings?group=general">
                         <i class="mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
                     <div class="dropdown-menu">
 
-                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>settings?group=website">
+                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>settings?group=general">
                             <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                         </a>
 
