@@ -1,4 +1,4 @@
-<aside class="navbar navbar-vertical navbar-expand-lg admin-dashboard-left-nav">
+<aside class="navbar navbar-vertical navbar-expand-lg admin-dashboard-left-nav p-3">
     <?php $view = url_param('view'); ?>
     <?php $action = url_param('action'); ?>
     <?php $load_module = url_param('load_module'); ?>
