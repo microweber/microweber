@@ -51,7 +51,7 @@
         </table>
     <?php else: ?>
 
-        <div class="icon-title">
+        <div class="icon-title d-flex">
             <i class="mdi mdi-harddisk"></i> <h5><?php _e('You don\'t have any backups'); ?></h5>
         </div>
     <?php endif; ?>
