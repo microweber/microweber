@@ -382,7 +382,7 @@
                 <?php endif; ?>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link py-3 fs-3  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                    <a class="nav-link py-3 fs-3  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings">
                         <i class="fs-1 me-2 mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
