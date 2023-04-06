@@ -222,6 +222,8 @@ var MWEditor = function (options) {
         return this;
     }
 
+    var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
+
     var _observe = function(e){
         e = e || {type: 'action'};
         var max = 78;
@@ -297,6 +299,14 @@ var MWEditor = function (options) {
                 isEditable: scope.api.isSelectionEditable(),
                 eventIsActionLike: eventIsActionLike,
             };
+
+            if(notEditableSelectors) {
+                const all = scope.editArea.querySelectorAll(notEditableSelectors);
+                let i = 0, l = all.length;
+                for( ; i < l; i++) {
+                    all[i].contentEditable = false;
+                }
+            }
 
             scope.interactionControlsRun(iterData);
 

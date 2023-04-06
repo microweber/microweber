@@ -9,7 +9,7 @@
     user-select: none;
     border: 3px solid #0078ff;
     transition: opacity .2s;
-    pointer-events: all;
+    pointer-events: none;
 
     &.mw-handle-item-interaction-handle{
         pointer-events: none;
@@ -85,9 +85,14 @@ $handleHeight: 42;
 }
 
 #mw-handle-item-layout-menu {
-    top: 7px;
-    right: 7px;
+    top: 5px;
+    right: 5px;
+    left: auto;
 
+    .mw-le-handle-menu-buttons{
+        left: auto;
+        right: 0;
+    }
     .mw-le-handle-menu-title {
         display: none;
     }
