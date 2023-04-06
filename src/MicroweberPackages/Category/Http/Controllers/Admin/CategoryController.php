@@ -25,7 +25,7 @@ class CategoryController extends AdminController
 
     public function create() {
 
-        return view('category::admin.category.edit', [
+        return $this->view('category::admin.category.edit', [
             'id'=>0
         ]);
     }
