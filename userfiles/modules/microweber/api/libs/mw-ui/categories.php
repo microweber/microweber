@@ -12,9 +12,9 @@
 </script>
 
 <main>
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Categories</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Categories</strong></h5>
             <div>
                 <div class="input-group mb-0 prepend-transparent">
                     <div class="input-group-prepend">
@@ -121,9 +121,9 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Add a category</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Add a category</strong></h5>
             <div>
                 <button type="button" class="btn btn-success btn-sm">Save</button>
                 <button type="button" class="btn btn-success btn-sm icon-left" disabled=""><i class="spinner-border spinner-border-sm mr-2"></i> Please wait...</button>

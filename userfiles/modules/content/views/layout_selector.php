@@ -481,7 +481,7 @@ if (!empty($recomended_layouts)) {
     <div class="layouts_box_holder">
         <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-header">
-                <h5><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
+                <h5 class="card-title"><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
 
                     <?php if (!$showAllowSelectTemplate): ?>
                         <strong><?php _e("Template"); ?></strong> - <?php echo $templateName ?>

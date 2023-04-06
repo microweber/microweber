@@ -16,15 +16,15 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Websites</a>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-header px-0">
-                <h5><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
                 <div>
 
                 </div>
             </div>
 
-                <div class="card style-1 mb-3">
+                <div class="card-body mb-3">
                     <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
                             <div class="col-12 col-sm-6 col-lg-4">
@@ -120,12 +120,12 @@
                     </div>
                 </div>
 
-                <div class="card style-1 mb-3">
+                <div class="card-body mb-3">
                     <div class="card-body pt-3 px-5">
                         <div class="row select-settings">
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <a href="#" class="d-flex my-3">
-                                    <div class="icon-holder"><i class="mdi mdi-cart-outline px-2 mdi-20px mdi-20px"></i></div>
+                                    <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px mdi-20px"></i></div>
                                     <div class="info-holder">
                                         <span class="text-outline-primary font-weight-bold">General</span><br/>
                                         <small class="text-muted">Basic store settings</small>

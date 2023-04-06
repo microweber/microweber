@@ -2,9 +2,9 @@
 
 <main>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
             <!--<div><a href="#" class="btn btn-primary btn-sm"><span class="badge badge-success badge-pill mr-2 absolute-left">4</span> New orders</a> <a href="#" class="btn btn-outline-secondary btn-sm">Add new order</a></div>-->
         </div>
         <div class="card-body">

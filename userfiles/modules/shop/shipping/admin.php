@@ -97,7 +97,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
     });
 </script>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -116,7 +116,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                         }
                         ?>
 
-                        <div class="dragable-item card style-1 mb-3 <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
+                        <div class="dragable-item card-body mb-3 <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
                             <div class="card-body py-3">
                                 <div class="row d-flex align-items-center">
                                     <div class="col cursor-move-holder" style="max-width: 80px;">

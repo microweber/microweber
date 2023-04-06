@@ -1,9 +1,9 @@
 <?php include('partials/header.php'); ?>
 
 <main>
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
             <div>
                 <nav class="nav btn-hover-style-2">
                     <a class="btn btn-outline-secondary btn-sm justify-content-center active" data-bs-toggle="tab" href="#stat-daily">Daily</a>
@@ -65,9 +65,9 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Recent orders</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Recent orders</strong></h5>
             <div><a href="#" class="btn btn-primary btn-sm"><span class="badge badge-success badge-pill mr-2 absolute-left">4</span> New orders</a> <a href="#" class="btn btn-outline-secondary btn-sm">Add new order</a></div>
         </div>
         <div class="card-body">
@@ -422,9 +422,9 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-comment-account text-primary mr-3"></i> <strong>Last comments</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-comment-account text-primary mr-3"></i> <strong>Last comments</strong></h5>
             <div><a href="#" class="btn btn-primary btn-sm">View all</a></div>
         </div>
         <div class="card-body">
@@ -516,9 +516,9 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3 card-message-holder">
+    <div class="card-body mb-3 card-message-holder">
         <div class="card-header">
-            <h5><i class="mdi mdi-email-check text-primary mr-3"></i> <strong>Recent Messages</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-email-check text-primary mr-3"></i> <strong>Recent Messages</strong></h5>
             <div><a href="#" class="btn btn-outline-secondary btn-sm">View all</a></div>
         </div>
         <div class="card-body">
@@ -581,7 +581,7 @@
 
     <div class="card style-1">
         <div class="card-header">
-            <h5><i class="mdi mdi-link text-primary mr-3"></i> <strong>Quick links</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-link text-primary mr-3"></i> <strong>Quick links</strong></h5>
         </div>
         <div class="card-body">
             <div class="row quick-links">

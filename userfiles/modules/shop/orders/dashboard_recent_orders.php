@@ -21,9 +21,9 @@ $orders = get_orders('limit=5');
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 ?>
 <?php if (!$shop_disabled): ?>
-    <div class="card style-1 mb-3 dashboard-recent">
+    <div class="card-body mb-3 dashboard-recent">
         <div class="card-header">
-            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Recent Orders") ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Recent Orders") ?></strong></h5>
             <div>
                 <?php $new_orders_count = mw()->order_manager->get_count_of_new_orders(); ?>
                 <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-primary btn-sm">

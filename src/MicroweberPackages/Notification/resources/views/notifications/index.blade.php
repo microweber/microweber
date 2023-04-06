@@ -251,9 +251,9 @@
     }
 </style>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong><?php _e("Notifications"); ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-bell text-primary mr-3"></i> <strong><?php _e("Notifications"); ?></strong></h5>
     </div>
 
     <div class="card-body" id="">

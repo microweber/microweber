@@ -209,7 +209,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
 }
 ?>
 <div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-header px-0">
+    <div class="card-header">
         <h5>
             <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Modules"); ?></strong>
         </h5>

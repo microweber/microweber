@@ -28,7 +28,7 @@
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-header px-0">
+        <div class="card-header">
             <h5 class="w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php _e('General'); ?></strong></h5>
             <div class="d-block w-100">
                 <nav class="anchorific"></nav>

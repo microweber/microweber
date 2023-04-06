@@ -141,7 +141,7 @@
 </script>
 
 <div class="col-md-4 manage-content-sidebar">
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-body pt-3 pb-0">
             <div class="row">
                 <div class="col-12">
@@ -169,7 +169,7 @@
 
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
-    <div class="card style-1 mb-3 categories js-sidebar-categories-card">
+    <div class="card-body mb-3 categories js-sidebar-categories-card">
             <div class="card-body pt-3 pb-1">
                 <div class="row">
 
@@ -342,7 +342,7 @@
         </div>
 
     <?php if ($data['content_type'] == 'page'): ?>
-        <div class="card style-1 mb-3 menus">
+        <div class="card-body mb-3 menus">
             <div class="card-body pt-3">
                 <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
 
@@ -358,7 +358,7 @@
     <?php endif; ?>
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
-        <div class="card style-1 mb-3">
+        <div class="card-body mb-3">
             <div class="card-body pt-3">
                 <div class="row mb-3">
                     <div class="col-12">
@@ -377,7 +377,7 @@
     <?php endif; ?>
 
 
-    <div class="card style-1 mb-3 d-none">
+    <div class="card-body mb-3 d-none">
         <div class="card-body">
             <div id="content-title-field-buttons">
                 <?php if ($is_live_edit == false) : ?>

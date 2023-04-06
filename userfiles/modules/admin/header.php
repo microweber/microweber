@@ -258,7 +258,7 @@ $user = get_user_by_id($user_id);
 
 
 
-<div id="mw-admin-container">
+<div id="mw-admin-container col-xl-7">
     <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">

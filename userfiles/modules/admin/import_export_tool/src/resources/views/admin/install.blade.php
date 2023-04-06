@@ -8,7 +8,7 @@
             </h5>
         </div>
 
-        <div class="card style-1 mb-3 mt-3">
+        <div class="card-body mb-3 mt-3">
             <div class="card-body pt-3">
 
                 <livewire:import_export_tool::install />

@@ -14,7 +14,7 @@
     }
     ?>
 
-    <main class="module-<?php print  $holder_cls ?>">
+    <main class="module-<?php print  $holder_cls ?> col-lg-7 ms-3">
 
         <?php if (isset($render_content) != false and $render_content): ?>
             <?php print $render_content ?>

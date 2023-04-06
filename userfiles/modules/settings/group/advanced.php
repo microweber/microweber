@@ -28,8 +28,8 @@
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-header px-0">
-            <h5><i class="mdi mdi-cog text-primary mr-3"></i> <strong><?php _e("Advanced"); ?></strong></h5>
+        <div class="card-header">
+            <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong><?php _e("Advanced"); ?></strong></h5>
             <div>
 
             </div>

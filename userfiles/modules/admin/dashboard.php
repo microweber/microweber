@@ -8,7 +8,7 @@
 
 <div class="card style-1">
     <div class="card-header">
-        <h5><i class="mdi mdi-link text-primary mr-3"></i> <strong><?php _e("Quick Links"); ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-link text-primary mr-3"></i> <strong><?php _e("Quick Links"); ?></strong></h5>
     </div>
 
     <div class="card-body">

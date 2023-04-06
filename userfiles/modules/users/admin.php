@@ -178,9 +178,9 @@ mw()->notifications_manager->mark_as_read('users');
         ?>
 
         <?php if ($user_params['id'] != 0): ?>
-            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Edit User"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Edit User"); ?></strong></h5>
         <?php else: ?>
-            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
         <?php endif; ?>
     </div>
 

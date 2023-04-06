@@ -1,4 +1,4 @@
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Media"); ?></strong></h6>
         <div>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6>1<?php _e("media selected"); ?> </h6>
         <div>

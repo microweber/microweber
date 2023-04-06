@@ -1,8 +1,8 @@
 <?php include('partials/header.php'); ?>
     <main>
-        <div class="card style-1 mb-3">
+        <div class="card-body mb-3">
             <div class="card-header">
-                <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
                 <div>
 
                 </div>

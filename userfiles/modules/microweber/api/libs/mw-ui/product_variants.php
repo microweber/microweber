@@ -26,7 +26,7 @@
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-body pt-3">
                                     <div class="row">
                                         <div class="col-4 px-0">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Variants"); ?></strong></h6>
                                     <div>
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Options"); ?></strong></h6>
                                     <div>
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Pricing"); ?></strong></h6>
                                 </div>
@@ -194,7 +194,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Inventory"); ?></strong></h6>
                                 </div>
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Shipping"); ?></strong></h6>
                                 </div>

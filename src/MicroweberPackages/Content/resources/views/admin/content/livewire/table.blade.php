@@ -1,4 +1,4 @@
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
 
     @include('content::admin.content.livewire.card-header')
 

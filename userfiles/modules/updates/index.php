@@ -15,7 +15,7 @@ if (mw()->ui->disable_marketplace) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>

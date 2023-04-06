@@ -252,11 +252,9 @@ $user = get_user_by_id($user_id);
 
 <div id="mw-admin-container">
 
-    <?php if ($enableTopBar) { ?>
-    @include('admin::layouts.partials.topbar')
-    <?php } ?>
-
-
+{{--    <?php if ($enableTopBar) { ?>--}}
+{{--    @include('admin::layouts.partials.topbar')--}}
+{{--    <?php } ?>--}}
 
     <?php if (url_param('view')): ?>
     <script>
@@ -269,7 +267,7 @@ $user = get_user_by_id($user_id);
     </script>
     <?php endif; ?>
 
-    <div class="<?php if ($enableNavBar) { ?> main d-flex container-fluid px-0 py-3 <?php } ?>">
+    <div class="<?php if ($enableNavBar) { ?> main page  container-fluid px-0 <?php } ?>">
     <?php if ($enableNavBar) { ?>
           @include('admin::layouts.partials.navbar')
     <?php } ?>

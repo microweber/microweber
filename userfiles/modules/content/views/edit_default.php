@@ -316,10 +316,10 @@ if (isset($params['quick_edit'])) {
 
 
 
-                <div class="content-title-field-row card style-1 mb-3 border-0" id="content-title-field-row">
+                <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
                     <div class="card-header-fix">
                         <div class="card-header">
-                            <h5><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
+                            <h5 class="card-title"><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
 
                             <div id="content-title-field-buttons" class="mw-page-component-disabled">

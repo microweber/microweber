@@ -49,21 +49,21 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<div class="card bg-none style-1 mb-0">
-    <div class="card-header px-0">
-        <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Shop settings"); ?></strong></h5>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Shop settings"); ?></strong></h5>
         <div>
 
         </div>
     </div>
 
 
-        <div class="card style-1 mb-3">
+        <div class="card-body mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="#option_group=shop/payments/currency" class="d-flex my-3">
-                            <div class="icon-holder"><i class="mdi mdi-cart-outline px-2 mdi-20px mdi-20px"></i></div>
+                            <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e("General"); ?></span><br/>
                                 <small class="text-muted"><?php _e("Basic store settings"); ?></small>

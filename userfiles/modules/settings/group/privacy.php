@@ -7,8 +7,8 @@
 </script>
 
 <div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-header px-0">
-        <h5><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
+    <div class="card-header">
+        <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
         <div>
 
         </div>

@@ -69,7 +69,7 @@ if (isset($params['live_edit'])) {
 
     }
 </style>
-<div class="card style-1 mb-3 <?php print $wrapper_class; ?>">
+<div class="card-body mb-3 <?php print $wrapper_class; ?>">
     <script type="text/javascript">
         mw.require('forms.js');
         mw.lib.require('mwui_init');

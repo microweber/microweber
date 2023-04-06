@@ -101,8 +101,8 @@ if ($registration_approval_required == false) {
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-header px-0">
-            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Login and register"); ?></strong></h5>
+        <div class="card-header">
+            <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Login and register"); ?></strong></h5>
             <div>
 
             </div>

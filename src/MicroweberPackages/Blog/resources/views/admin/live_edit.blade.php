@@ -1,7 +1,7 @@
 <script type="text/javascript">
     mw.top().dialog.get().resize(1000);
 </script>
-<div class="card style-1 mb-3 card-in-live-edit">
+<div class="card-body mb-3 card-in-live-edit">
     <div class="card-header">
         <?php $module_info = module_info('blog/admin'); ?>
         <h5>

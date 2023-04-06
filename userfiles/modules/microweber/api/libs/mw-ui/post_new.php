@@ -14,9 +14,9 @@
 <main>
     <div class="row">
         <div class="col-md-8">
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header">
-                    <h5><i class="mdi mdi-text text-primary mr-3"></i> <strong><?php _e("Add post"); ?></strong></h5>
+                    <h5 class="card-title"><i class="mdi mdi-text text-primary mr-3"></i> <strong><?php _e("Add post"); ?></strong></h5>
                     <div>
                         <button type="button" class="btn btn-sm btn-success"><?php _e("Save"); ?></button>
                     </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-12">

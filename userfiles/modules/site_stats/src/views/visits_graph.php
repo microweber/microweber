@@ -243,10 +243,10 @@ if ($params['period']) {
 
 
 <div id="stats">
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
 
-            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><span><?php _e("Statistics") ?></span></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><span><?php _e("Statistics") ?></span></strong></h5>
             <div id="stats_nav" class="nav btn-hover-style-2">
                 <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Daily"); ?></a>
                 <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="btn btn-outline-secondary btn-sm justify-content-center"><?php _e("Weekly"); ?></a>

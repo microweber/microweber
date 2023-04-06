@@ -117,7 +117,7 @@ if (!empty($template_id)) {
 <form id="edit-mail-template-form">
     <div class="card bg-light style-1 mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Mail Template"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Mail Template"); ?></strong></h5>
             <div>
 
             </div>

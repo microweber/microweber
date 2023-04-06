@@ -1,4 +1,4 @@
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Search engine"); ?></strong></h6>
         <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#seo-settings"><?php _e("Show SEO settings"); ?></a>
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Advanced settings"); ?></strong></h6>
         <a href="javascript:;" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#advenced-settings"><?php _e("Show advanced settings"); ?></a>

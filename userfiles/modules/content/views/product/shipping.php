@@ -41,7 +41,7 @@
     }
 </script>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Shipping"); ?></strong></h6>
     </div>

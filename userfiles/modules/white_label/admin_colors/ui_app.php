@@ -1598,7 +1598,7 @@ foreach ($files as $file) {
                                     </div>
                                 </div>
 
-                                <div class="card style-1 mb-3" style="max-width: 20rem;">
+                                <div class="card-body mb-3" style="max-width: 20rem;">
                                     <div class="card-body">
                                         <h4 class="card-title">Primary card title</h4>
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -2172,7 +2172,7 @@ foreach ($files as $file) {
 
     <div class="card bg-light style-1 mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
             <div>
                 <a href="#" class="btn btn-sm btn-outline-secondary">Edit order</a>
             </div>
@@ -2496,9 +2496,9 @@ foreach ($files as $file) {
 
 
 <main>
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Shop</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Shop</strong></h5>
             <div>
                 <div class="input-group mb-0 prepend-transparent">
                     <div class="input-group-prepend">
@@ -2698,7 +2698,7 @@ foreach ($files as $file) {
 <main>
     <div class="row">
         <div class="col-md-12">
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header">
                     <h5><strong>Size</strong> - edit option</h5>
                     <div>

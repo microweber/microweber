@@ -69,7 +69,7 @@ $is_orders = get_orders('count=1');
 
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Clients List"); ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Clients List"); ?></strong></h5>
     </div>
 
     <div class="card-body pt-3">

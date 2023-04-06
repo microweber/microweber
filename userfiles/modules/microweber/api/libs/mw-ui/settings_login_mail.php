@@ -18,7 +18,7 @@
 
         <div class="card bg-light style-1 mb-3" style="max-width: 600px; margin: 0 auto;">
             <div class="card-header">
-                <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
                 <div>
 
                 </div>

@@ -14,7 +14,7 @@
 <main>
     <div class="row">
         <div class="col-md-12">
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header">
                     <h5><strong>Size</strong> - edit option</h5>
                     <div>

@@ -16,9 +16,9 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> <?php _e("Settings"); ?></a>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-header px-0">
-                <h5><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e("Templates"); ?></strong></h5>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e("Templates"); ?></strong></h5>
                 <div>
 
                 </div>
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
+        <div class="card">
             <div class="card-body pt-3 px-0">
                 <hr class="thin mt-0 mb-4"/>
 
