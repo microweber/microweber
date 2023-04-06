@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAQ,6DAAqD;AAE7D,KAAM;EACF,cAAc,CAAC,MAAM;;AAKzB,OAAQ;EACJ,OAAO,EAAE,IAAI",
+"mappings": "AAAQ,6DAAqD;AAO7D,yBAA0B;EACtB,gBAAgB,EAAE,KAAK;;AAG3B,OAAQ;EACJ,OAAO,EAAE,IAAI",
 "sources": ["admin_v2.scss"],
 "names": [],
 "file": "admin_v2.css"

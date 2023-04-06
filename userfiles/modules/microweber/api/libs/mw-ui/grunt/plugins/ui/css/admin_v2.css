@@ -1,8 +1,9 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
-:root {
-  --tblr-body-bg: white; }
+.admin-dashboard-left-nav {
+  background-color: white; }
 
 .hidden {
   display: none; }
 
 /*# sourceMappingURL=admin_v2.css.map */
+

@@ -1,7 +1,7 @@
 @include('admin::layouts.partials.header')
 
 @hasSection('content')
-    <main class="module-main-holder">
+    <main class="module-main-holder col-lg-7">
     @yield('content' )
     </main>
 @endif

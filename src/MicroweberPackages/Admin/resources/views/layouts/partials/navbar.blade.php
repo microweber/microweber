@@ -1,4 +1,4 @@
-<aside>
+<aside class="admin-dashboard-left-nav col-lg-2 justify-content-center d-flex py-3">
     <?php $view = url_param('view'); ?>
     <?php $action = url_param('action'); ?>
     <?php $load_module = url_param('load_module'); ?>
@@ -79,8 +79,8 @@
 
     <ul class="nav flex-column" id="mw-admin-main-navigation">
         <li class="nav-item">
-            <a href="<?php print admin_url(); ?>" class="nav-link <?php if (!$view): ?> active <?php endif; ?>">
-                <i class="mdi mdi-view-dashboard"></i> <?php _e("Dashboard"); ?>
+            <a href="<?php print admin_url(); ?>" class="nav-link py-3 fs-3 <?php if (!$view): ?> active <?php endif; ?>">
+                <i class="fs-1 me-2 mdi mdi-view-dashboard"></i> <?php _e("Dashboard"); ?>
             </a>
         </li>
 
@@ -89,8 +89,8 @@
         <?php if (user_can_view_module(['module' => 'content'])): ?>
         <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
 
-            <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle  <?php echo $website_class; ?>">
-                <i class="mdi mdi-earth"></i>
+            <a href="<?php echo route('admin.content.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle  <?php echo $website_class; ?>">
+                <i class="fs-1 me-2 mdi mdi-earth"></i>
                 <span class="badge-holder"><?php _e("Website"); ?></span>
             </a>
 
@@ -113,7 +113,7 @@
                     <?php if (is_shop_module_enabled_for_user()): ?>
                 <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                         <?php _e("Products"); ?>
-                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
                 </a>
                 <?php endif; ?>
 
@@ -126,8 +126,8 @@
 
         <?php if (is_shop_module_enabled_for_user()): ?>
         <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-            <a href="<?php print route('admin.product.index'); ?>" class="nav-link dropdown-toggle <?php echo $shop_class; ?>">
-                <i class="mdi mdi-shopping"></i>
+            <a href="<?php print route('admin.product.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle <?php echo $shop_class; ?>">
+                <i class="fs-1 me-2 mdi mdi-shopping"></i>
                 <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
             </a>
             <div class="dropdown-menu">
@@ -139,7 +139,7 @@
                 <!--   <?php /*if (user_can_view_module(['module' => 'shop.products'])): */?>
                     <a href="<?php /*print admin_url(); */?>view:shop/action:products" class="dropdown-item <?php /*if ($action == 'products'): */?> active <?php /*endif; */?>">
                                     <?php /*_e("Products"); */?>
-                    <span data-href="<?php /*print route('admin.product.create'); */?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php /*_e("Add new product") */?>"><i class="mdi mdi-plus"></i></span>
+                    <span data-href="<?php /*print route('admin.product.create'); */?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php /*_e("Add new product") */?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
                                 </a>
                             --><?php
                                                                                                                                                                                                                                                          /*                            endif;
@@ -148,7 +148,7 @@
                                                                                                                                                                                                                                                          <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                 <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
                         <?php _e("Products"); ?>
-                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
                 </a>
                 <?php endif; ?>
 
@@ -157,7 +157,7 @@
                         <?php _e("Orders"); ?>
                         <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
                     <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
-                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
                 </a>
                 <?php endif; ?>
 
@@ -166,7 +166,7 @@
 
                 <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
                         <?php _e("Categories"); ?>
-                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="mdi mdi-plus"></i></span>
+                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
                 </a>
 
                 <?php
@@ -212,7 +212,7 @@
                     $modules_class = '';
                 }
                 ?>
-            <a href="<?php print admin_url(); ?>view:modules" class="nav-link <?php echo $modules_class; ?>"><i class="mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
+            <a href="<?php print admin_url(); ?>view:modules" class="nav-link py-3 fs-3 <?php echo $modules_class; ?>"><i class="fs-1 me-2 mdi mdi-view-grid-plus"></i> <?php _e("Modules"); ?> </a>
         </li>
         <?php endif; ?>
 
@@ -225,8 +225,8 @@
             ?>
 
         <li class="nav-item">
-            <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
-                <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
+            <a href="<?php print admin_url(); ?>view:packages" class="nav-link py-3 fs-3 <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                <i class="fs-1 me-2 mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
                                                            <?php
                                                        if ($countNewUpdates > 0):
                                                            ?>
@@ -242,8 +242,8 @@
         <?php endif; ?>
 
         <li class="nav-item dropdown">
-            <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
-                <i class="mdi mdi-cog"></i>
+            <a class="nav-link py-3 fs-3  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                <i class="fs-1 me-2 mdi mdi-cog"></i>
                 <span class="badge-holder"><?php _e("Settings"); ?></span>
             </a>
 
@@ -255,8 +255,8 @@
 
         <?php /*
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
-                        <i class="mdi mdi-cog"></i>
+                    <a class="nav-link py-3 fs-3 dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                        <i class="fs-1 me-2 mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
                     <div class="dropdown-menu">
@@ -309,8 +309,8 @@
 
         <?php $load_module = url_param('load_module'); ?>
         <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-            <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
-                <i class="mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
+            <a class="nav-link py-3 fs-3 <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
+                <i class="fs-1 me-2 mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
             </a>
 
             <?php if (mw()->ui->enable_service_links): ?>
@@ -323,7 +323,7 @@
                 <!--                    <a href="--><?php //print site_url(); ?><!--?editmode=y" class="go-live-edit-href-set dropdown-item">--><?php //_e("View Website"); ?><!--</a>-->
         </li>
 
-        <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link"><i class="mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
+        <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link py-3 fs-3"><i class="fs-1 me-2 mdi mdi-power"></i> <?php _e("Log out"); ?></a></li>
 
 
 

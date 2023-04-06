@@ -1,10 +1,13 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
 
 :root {
-    --tblr-body-bg: white;
+    //--tblr-body-bg: white;
 }
 
 
+.admin-dashboard-left-nav {
+    background-color: white;
+}
 
 .hidden {
     display: none;

@@ -357,7 +357,7 @@ $user = get_user_by_id($user_id);
     <?php endif; ?>
 
     <div class="main container my-3">
-        <aside>
+        <aside class="admin-dashboard-left-nav">
             <?php $view = url_param('view'); ?>
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
