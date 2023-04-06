@@ -24,13 +24,13 @@
                 </div>
             </div>
 
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-4 mt-3">
                         <h5 class="font-weight-bold"><?php _e("Settings"); ?></h5>
                         <small class="text-muted d-block mb-3"><?php _e("Choose a new template or browse the pages of the current one"); ?>.</small>
                         <br/>
-                        <label class="control-label"><?php _e("Want to upload template"); ?>?</label>
+                        <label class="form-label"><?php _e("Want to upload template"); ?>?</label>
                         <small class="text-muted d-block mb-3"><?php _e("Choose a new template or browse the pages of the current one"); ?>.</small>
 
                         <button class="btn btn-outline-primary mb-3"><?php _e("Upload new template"); ?></button>
@@ -43,20 +43,20 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
-                                            <label class="control-label"><?php _e("Template name"); ?></label>
+                                            <label class="form-label"><?php _e("Template name"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You are using this template. The change will be affected only on the current page"); ?>.</small>
                                             <div>
-                                                <select class="selectpicker" data-width="100%">
+                                                <select class="form-select" data-width="100%">
                                                     <option><?php _e("New world"); ?></option>
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label class="control-label"><?php _e("Choose Page Layout"); ?></label>
+                                            <label class="form-label"><?php _e("Choose Page Layout"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Choose a page from the current template"); ?></small>
                                             <div>
-                                                <select class="selectpicker" data-width="100%">
+                                                <select class="form-select" data-width="100%">
                                                     <option><?php _e("Home"); ?></option>
                                                 </select>
                                             </div>
@@ -71,7 +71,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-4"/>
 
                 <div class="row">

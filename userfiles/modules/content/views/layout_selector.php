@@ -502,7 +502,7 @@ if (!empty($recomended_layouts)) {
 
                             <?php if (config('microweber.allow_php_files_upload')): ?>
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <label class="control-label"><?php _e("Want to upload template"); ?>?</label>
+                                <label class="form-label"><?php _e("Want to upload template"); ?>?</label>
                                 <small class="text-muted d-block mb-3">.zip <?php _e("file format allowed"); ?></small>
 
                                 <module type="admin/templates/upload_button"/>
@@ -534,11 +534,11 @@ if (!empty($recomended_layouts)) {
                                         ?>
 
                                         <div class="form-group mb-3 js-template-selector">
-                                            <label class="control-label"><?php _e("Template name"); ?></label>
+                                            <label class="form-label"><?php _e("Template name"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You are using this template."); ?> &nbsp; <?php _e("The change will affect only the current page."); ?></small>
                                             <div>
                                                 <?php if ($templates != false and !empty($templates)): ?>
-                                                    <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="selectpicker mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
+                                                    <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="form-select mw-edit-page-template-selector" data-width="100%" data-live-search="true" data-size="7">
                                                         <?php foreach ($templates as $item): ?>
                                                             <?php
                                                             if ($global_template != 'default' and $item['dir_name'] == 'default') {
@@ -586,10 +586,10 @@ if (!empty($recomended_layouts)) {
                                         <?php endif; ?>
 
                                         <div class="form-group mb-3">
-                                            <label class="control-label"><?php _e("Choose Page Layout"); ?></label>
+                                            <label class="form-label"><?php _e("Choose Page Layout"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Select a page from the current template"); ?></small>
                                             <div>
-                                                <select name="preview_layout_file" class="selectpicker mw-edit-page-layout-selector" data-width="100%" data-live-search="true" data-size="7" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
+                                                <select name="preview_layout_file" class="form-select mw-edit-page-layout-selector" data-width="100%" data-live-search="true" data-size="7" id="active_site_layout_<?php print $rand; ?>" autocomplete="off">
                                                     <?php if (!empty($layouts)): ?>
                                                         <?php $i = 0;
                                                         $is_chosen = false;

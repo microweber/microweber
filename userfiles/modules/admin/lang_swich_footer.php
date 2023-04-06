@@ -40,7 +40,7 @@ if ($supportedLanguages) {
 
 <div class="form-group text-center">
      <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
-        <select
+        <select class="form-select"
             name="lang"
             id="lang_selector_admin_footer"
             data-width="100%"

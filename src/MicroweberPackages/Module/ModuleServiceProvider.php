@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Module;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
@@ -27,6 +28,9 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
+
+        View::addNamespace('module', __DIR__.'/resources/views');
 
         $this->app->register(\MicroweberPackages\Module\FilamentPluginServiceProvider::class);
 
@@ -57,7 +61,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
 
@@ -69,6 +72,7 @@ class ModuleServiceProvider extends ServiceProvider
         $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 }

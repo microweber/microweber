@@ -27,7 +27,7 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card mb-3">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong><?php _e("Advanced"); ?></strong></h5>
             <div>
@@ -105,13 +105,13 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Internal Settings"); ?></label>
+                                        <label class="form-label"><?php _e("Internal Settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Internal settings for developers'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Live Edit settings"); ?></label>
+                                        <label class="form-label"><?php _e("Live Edit settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
 
 
@@ -121,13 +121,13 @@
 
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Setup statistics"); ?></label>
+                                        <label class="form-label"><?php _e("Setup statistics"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Configure website statistics'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Other"); ?></label>
+                                        <label class="form-label"><?php _e("Other"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Other settings'); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
 
@@ -137,7 +137,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Experimental"); ?></label>
+                                        <label class="form-label"><?php _e("Experimental"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Experimental settings for developers"); ?></small>
                                         <a class="btn btn-outline-primary btn-sm" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
                                     </div>

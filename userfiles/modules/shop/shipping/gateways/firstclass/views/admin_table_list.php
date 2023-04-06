@@ -70,10 +70,10 @@
         <div class="col">
             <div class="form-group mb-0">
                 <?php if ($active_or_disabled == 'active'): ?>
-                    <label class="control-label"><?php _e('Allowed countries for shipping'); ?></label>
+                    <label class="form-label"><?php _e('Allowed countries for shipping'); ?></label>
                     <small class="text-muted d-block mb-0"> <?php _e('List of countries to which shipping is performed'); ?></small>
                 <?php else: ?>
-                    <label class="control-label"><?php _e('Denied countries for shipping'); ?></label>
+                    <label class="form-label"><?php _e('Denied countries for shipping'); ?></label>
                     <small class="text-muted d-block mb-0"><?php _e('List of countries where deliveries are not allowed'); ?></small>
                 <?php endif; ?>
             </div>

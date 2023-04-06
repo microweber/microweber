@@ -71,7 +71,7 @@
                     @csrf
 
                     <div class="form-group mx-auto" style="max-width: 385px">
-                        <label class="control-label"><?php _e('Role Name'); ?></label>
+                        <label class="form-label"><?php _e('Role Name'); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('What is the name of the role?'); ?></small>
                         <input type="text" class="form-control" name="name" value="@if(isset($role)){{$role->name}}@else{{old('name')}}@endif" required>
 
@@ -81,7 +81,7 @@
                     </div>
 
                     <div class="form-group mx-auto" style="max-width: 385px">
-                        <label class="control-label"><?php _e('Role Description'); ?></label>
+                        <label class="form-label"><?php _e('Role Description'); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('What is the description of the role?'); ?></small>
                         <textarea class="form-control" name="description">@if(isset($role)){{$role->description}}@else{{old('description')}}@endif</textarea>
 

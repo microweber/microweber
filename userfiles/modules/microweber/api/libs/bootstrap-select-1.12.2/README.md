@@ -42,7 +42,7 @@ Learn more about using MkDocs by reading its [documentation](http://www.mkdocs.o
 
 Create your `<select>` with the `.selectpicker` class.
 ```html
-<select class="selectpicker">
+<select class="form-select">
   <option>Mustard</option>
   <option>Ketchup</option>
   <option>Barbecue</option>

@@ -30,7 +30,7 @@
 
 <div class="custom-field-settings-values mt-3">
   <div class="mw-custom-field-group">
-    <label class="control-label" for="value<?php print $rand; ?>">
+    <label class="form-label" for="value<?php print $rand; ?>">
       <?php _e("Value"); ?>
     </label>
       <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the value of description');?></small>

@@ -117,20 +117,20 @@ if ($tag) {
 
 <form method="post" class="js-admin-tag-edit-form">
     <div class="form-group">
-        <label class="control-label"><?php _e('Tag Name');?></label>
+        <label class="form-label"><?php _e('Tag Name');?></label>
         <small class="text-muted mb-2 d-block"><?php _e('The name is how it appears on your site.');?></small>
         <input type="text" name="name" value="<?php echo $name; ?>" class="form-control js-admin-tag-edit-form-tag-name js-clear-after-save">
     </div>
 
     <div class="form-group" <?php if ($tag): ?> style="display: none;" <?php endif; ?>>
-        <label class="control-label"><?php _e('Tag Slug');?></label>
+        <label class="form-label"><?php _e('Tag Slug');?></label>
         <small class="text-muted mb-2 d-block"><?php _e('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.');?></small>
         <input type="text" name="slug" value="<?php echo $slug; ?>" class="form-control js-admin-tag-edit-form-tag-slug js-clear-after-save">
     </div>
 
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Tag Description'); ?></label>
+        <label class="form-label"><?php _e('Tag Description'); ?></label>
         <small class="text-muted mb-2 d-block"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></small>
         <textarea name="description" class="form-control js-admin-tag-edit-form-tag-description js-clear-after-save"><?php echo $description; ?></textarea>
     </div>

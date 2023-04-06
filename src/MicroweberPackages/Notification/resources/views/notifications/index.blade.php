@@ -319,7 +319,7 @@
                         });
                     </script>
 
-                    <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+                    <select class="form-select js-show-notif" data-style="btn-sm" data-width="auto">
 
                         <option value="?"><?php _e("All notifications"); ?></option>
 

@@ -24,7 +24,7 @@
     <small class="text-muted d-block mb-4"><?php _e("Select in which units the transport shipment will be calculated"); ?></small>
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Units for weight"); ?></label>
+        <label class="form-label d-block"><?php _e("Units for weight"); ?></label>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
             <input name="shipping_weight_units" class="mw_option_field custom-control-input" id="shipping_weight_units_1" data-option-group="orders" value="kg" type="radio" <?php if (get_option('shipping_weight_units', 'orders') == 'kg'): ?> checked="checked" <?php endif; ?> >
@@ -41,7 +41,7 @@
 
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Units for size"); ?></label>
+        <label class="form-label d-block"><?php _e("Units for size"); ?></label>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
             <input name="shipping_size_units" class="mw_option_field custom-control-input" id="shipping_size_units_1" data-option-group="orders" value="cm" type="radio" <?php if (get_option('shipping_size_units', 'orders') == 'cm'): ?> checked="checked" <?php endif; ?> >

@@ -1032,14 +1032,14 @@ foreach ($files as $file) {
                             <form class="bs-component">
                                 <div class="form-group">
                                     <fieldset disabled>
-                                        <label class="control-label" for="disabledInput">Disabled input</label>
+                                        <label class="form-label" for="disabledInput">Disabled input</label>
                                         <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input here..." disabled="">
                                     </fieldset>
                                 </div>
 
                                 <div class="form-group">
                                     <fieldset>
-                                        <label class="control-label" for="readOnlyInput">Readonly input</label>
+                                        <label class="form-label" for="readOnlyInput">Readonly input</label>
                                         <input class="form-control" id="readOnlyInput" type="text" placeholder="Readonly input here…" readonly>
                                     </fieldset>
                                 </div>
@@ -1193,7 +1193,7 @@ foreach ($files as $file) {
                         <div class="row">
                             <div class="col-lg-3 my-1">
                                 <label>Normal</label>
-                                <select class="selectpicker">
+                                <select class="form-select">
                                     <option>Mustard</option>
                                     <option>Ketchup</option>
                                     <option>Barbecue</option>
@@ -1205,7 +1205,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Groups</label>
-                                <select class="selectpicker">
+                                <select class="form-select">
                                     <optgroup label="Picnic">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
@@ -1222,7 +1222,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Multiple choise</label>
-                                <select class="selectpicker" multiple>
+                                <select class="form-select" multiple>
                                     <option>Mustard</option>
                                     <option>Ketchup</option>
                                     <option>Barbecue</option>
@@ -1234,7 +1234,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Live search</label>
-                                <select class="selectpicker" data-live-search="true">
+                                <select class="form-select" data-live-search="true">
                                     <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
                                     <option data-tokens="mustard">Burger, Shake and a Smile</option>
                                     <option data-tokens="frosting">Sugar, Spice and all things nice</option>
@@ -1243,7 +1243,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Titles</label>
-                                <select class="selectpicker">
+                                <select class="form-select">
                                     <option title="Combo 1">Hot Dog, Fries and a Soda</option>
                                     <option title="Combo 2">Burger, Shake and a Smile</option>
                                     <option title="Combo 3">Sugar, Spice and all things nice</option>
@@ -1252,7 +1252,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Count selects</label>
-                                <select class="selectpicker" multiple data-selected-text-format="count">
+                                <select class="form-select" multiple data-selected-text-format="count">
                                     <option>Mustard</option>
                                     <option>Ketchup</option>
                                     <option>Barbecue</option>
@@ -1264,7 +1264,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Icons</label>
-                                <select class="selectpicker">
+                                <select class="form-select">
                                     <option data-icon="mdi mdi-allergy">Mustard</option>
                                     <option data-icon="mdi mdi-airplane">Ketchup</option>
                                     <option data-icon="mdi mdi-air-horn">Barbecue</option>
@@ -1276,7 +1276,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Badges</label>
-                                <select class="selectpicker">
+                                <select class="form-select">
                                     <option data-content="<span class='badge badge-success'>Relish</span>">Relish</option>
                                     <option>Mustard</option>
                                     <option>Ketchup</option>
@@ -1289,7 +1289,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Actions</label>
-                                <select class="selectpicker" multiple data-actions-box="true">
+                                <select class="form-select" multiple data-actions-box="true">
                                     <option>Mustard</option>
                                     <option>Ketchup</option>
                                     <option>Relish</option>
@@ -1298,7 +1298,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Custom</label>
-                                <select class="selectpicker" data-live-search="true">
+                                <select class="form-select" data-live-search="true">
                                     <option data-content="<div class='select-products'><div class='image'><img src='https://cdn.tobi.com/product_images/lg/1/plum-maddie-asymmetrical-bodycon-dress.jpg' height='50' /></div><div class='info'><span class='title'>Pink dress</span><span class='price'>$35.99</span></div></div>"></option>
                                     <option data-content="<div class='select-products'><div class='image'><img src='https://cdn.tobi.com/product_images/lg/1/plum-maddie-asymmetrical-bodycon-dress.jpg' height='50' /></div><div class='info'><span class='title'>Pink dress dress dress dress dress</span><span class='price'>$35.99</span></div></div>"></option>
                                     <option data-content="<div class='select-products'><div class='image'><img src='https://cdn.tobi.com/product_images/lg/1/plum-maddie-asymmetrical-bodycon-dress.jpg' height='50' /></div><div class='info'><span class='title'>Pink dress</span><span class='price'>$35.99</span></div></div>"></option>
@@ -1309,7 +1309,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Custom</label>
-                                <select class="selectpicker js-change-color" data-style="btn-success">
+                                <select class="form-select js-change-color" data-style="btn-success">
                                     <option data-change-color="btn-success">Publish</option>
                                     <option data-change-color="btn-warning">Unpublish</option>
                                     <option data-change-color="btn-secondary">Mark as Spam</option>
@@ -1319,7 +1319,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>Small</label>
-                                <select class="selectpicker" data-style="btn-sm">
+                                <select class="form-select" data-style="btn-sm">
                                     <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
                                     <option data-tokens="mustard">Burger, Shake and a Smile</option>
                                     <option data-tokens="frosting">Sugar, Spice and all things nice</option>
@@ -1328,7 +1328,7 @@ foreach ($files as $file) {
 
                             <div class="col-lg-3 my-1">
                                 <label>As link</label>
-                                <select class="selectpicker as-link" data-style="btn-sm">
+                                <select class="form-select as-link" data-style="btn-sm">
                                     <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
                                     <option data-tokens="mustard">Burger, Shake and a Smile</option>
                                     <option data-tokens="frosting">Sugar, Spice and all things nice</option>
@@ -1346,7 +1346,7 @@ foreach ($files as $file) {
                             <div class="col-lg-3 my-1">
                                 <label>Dropdown as Link</label>
                                 <div>
-                                    <select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto">
+                                    <select class="form-select btn-as-link" data-style="btn-sm" data-width="auto">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
                                         <option>Barbecue</option>
@@ -1356,7 +1356,7 @@ foreach ($files as $file) {
                                     </select>
                                 </div>
                                 <div>
-                                    <select class="selectpicker btn-as-link" data-width="auto">
+                                    <select class="form-select btn-as-link" data-width="auto">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
                                         <option>Barbecue</option>
@@ -1366,7 +1366,7 @@ foreach ($files as $file) {
                                     </select>
                                 </div>
                                 <div>
-                                    <select class="selectpicker btn-as-link" data-style="btn-lg" data-width="auto">
+                                    <select class="form-select btn-as-link" data-style="btn-lg" data-width="auto">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
                                         <option>Barbecue</option>
@@ -1398,7 +1398,7 @@ foreach ($files as $file) {
                                         <input type="text" class="form-control" value="3.0">
                                         <div class="input-group-append">
                                                     <span style="width:70px;">
-                                                        <select class="selectpicker" data-width="100%">
+                                                        <select class="form-select" data-width="100%">
                                                             <option>kg</option>
                                                             <option>lb</option>
                                                             <option>oz</option>
@@ -2376,7 +2376,7 @@ foreach ($files as $file) {
                     <div class="mb-4">
                         <strong>Provider:</strong> ECONT Bulgaria
                         <div class="d-inline ml-3">
-                            <select class="selectpicker" data-style="btn-sm" data-width="150px">
+                            <select class="form-select" data-style="btn-sm" data-width="150px">
                                 <option>ECONT Bulgaria</option>
                                 <option>Speedy</option>
                             </select>
@@ -2420,7 +2420,7 @@ foreach ($files as $file) {
                         <strong>What is the status of this order?</strong>
                     </div>
                     <div class="mb-2">
-                        <select class="selectpicker" data-style="btn-sm" data-width="100%">
+                        <select class="form-select" data-style="btn-sm" data-width="100%">
                             <option>Pending
                                 <small class="text-muted">(the order is not finished yet)</small>
                             </option>
@@ -2445,7 +2445,7 @@ foreach ($files as $file) {
                     <div class="mb-3">
                         <strong>Is paid:</strong>
                         <div class="d-inline">
-                            <select class="selectpicker" data-style="btn-sm" data-width="100px">
+                            <select class="form-select" data-style="btn-sm" data-width="100px">
                                 <option>Yes</option>
                                 <option>No</option>
                             </select>
@@ -2517,7 +2517,7 @@ foreach ($files as $file) {
                     </div>
 
                     <div class="d-inline-block ml-3">
-                        <select class="selectpicker" title="Bulk actions" data-style="btn-sm" data-width="auto">
+                        <select class="form-select" title="Bulk actions" data-style="btn-sm" data-width="auto">
                             <option>Delete all</option>
                             <option>Other</option>
                         </select>
@@ -2726,14 +2726,14 @@ foreach ($files as $file) {
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Option 1 title</label>
+                                <label class="form-label">Option 1 title</label>
                                 <input type="text" class="form-control" value="Size">
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Placeholder</label>
+                                <label class="form-label">Placeholder</label>
                                 <input type="text" class="form-control" placeholder="Enter placeholder here">
                             </div>
 
@@ -2748,9 +2748,9 @@ foreach ($files as $file) {
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="control-label">Field type</label>
+                            <label class="form-label">Field type</label>
                             <div>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option>Dropdown</option>
                                     <option>Select</option>
                                 </select>
@@ -2759,9 +2759,9 @@ foreach ($files as $file) {
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Organize in columns</label>
+                                <label class="form-label">Organize in columns</label>
                                 <div>
-                                    <select class="selectpicker" data-width="100%">
+                                    <select class="form-select" data-width="100%">
                                         <option>col-12</option>
                                         <option>col-6</option>
                                     </select>

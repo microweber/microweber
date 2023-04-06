@@ -5,7 +5,7 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label d-block">Show message?</label>
+    <label class="form-label d-block">Show message?</label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
         <input type="radio" id="pay_on_delivery_show_msg1" name="pay_on_delivery_show_msg" class="mw_option_field custom-control-input" data-option-group="payments" value="y" <?php if (get_option('pay_on_delivery_show_msg', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
@@ -19,6 +19,6 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e('Message'); ?></label>
+    <label class="form-label d-block"><?php _e('Message'); ?></label>
     <textarea name="pay_on_delivery_msg" class="mw_option_field form-control" data-option-group="payments"><?php print get_option('pay_on_delivery_msg', 'payments') ?></textarea>
 </div>

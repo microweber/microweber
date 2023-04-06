@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label for="" class="form-label"><?php _e("Order Status"); ?></label>
                 <div class="input-group mb-0 d-flex">
-                    <select name="orderStatus" class="selectpicker" data-width="100%">
+                    <select name="orderStatus" class="form-select" data-width="100%">
 
                         <option value="" @if($orderStatus == '') selected="selected" @endif>
                             <?php _e('All'); ?>
@@ -193,7 +193,7 @@
                     <label for="" class="form-label"><?php _e("Payment Status"); ?></label>
                     <div class="input-group mb-0 d-flex">
 
-                        <select name="isPaid" class="selectpicker" data-width="100%">
+                        <select name="isPaid" class="form-select" data-width="100%">
 
                             <option value="" @if($isPaid == '') selected="selected" @endif>
                                 <?php _e('All'); ?>

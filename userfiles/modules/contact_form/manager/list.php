@@ -206,7 +206,7 @@ if (trim($load_list) == 'default') {
         <div class="col-sm-4 text-center text-sm-right">
             <div class="form-group" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
                 <form method="get">
-                    <select name="per_page" class="selectpicker" data-size="5" data-width="100px" data-style="btn-sm" onchange="this.form.submit()">
+                    <select name="per_page" class="form-select" data-size="5" data-width="100px" data-style="btn-sm" onchange="this.form.submit()">
                         <option value="">Select</option>
                         <option value="10" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
                         <option value="50" <?php if ($limit == 50): ?>  selected  <?php endif; ?>>50</option>

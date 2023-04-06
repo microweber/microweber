@@ -352,7 +352,7 @@ if (isset($params['quick_edit'])) {
                         <div class="card-body pt-3">
 
                             <div class="form-group" id="slug-field-holder">
-                                <label class="control-label"><?php _e($type) ?> <?php _e("title"); ?></label>
+                                <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>
 
                                 <?php
                                 $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
@@ -446,7 +446,7 @@ if (isset($params['quick_edit'])) {
                             if (\MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled()):
                                 ?>
                                 <div class="form-group">
-                                    <label class="control-label"><?php _e($type) ?> <?php _e("Url"); ?></label>
+                                    <label class="form-label"><?php _e($type) ?> <?php _e("Url"); ?></label>
 
                                     <?php
                                     echo $formBuilder->text('url')
@@ -510,7 +510,7 @@ if (isset($params['quick_edit'])) {
                                         <div class="form-group">
                                             <?php if (isset($data['content_type']) and ($data['content_type'] == 'product')): ?>
 
-                                                <label class="control-label" title="Content Body"><?php  _e("Description"); ?></label>
+                                                <label class="form-label" title="Content Body"><?php  _e("Description"); ?></label>
                                                 <?php
                                                 echo $formBuilder->mwEditor('content_body')
                                                     ->setModel($contentModel)
@@ -520,7 +520,7 @@ if (isset($params['quick_edit'])) {
                                                 ?>
                                         <?php else: ?>
 
-                                                <label class="control-label"><?php  _e("Content"); ?></label>
+                                                <label class="form-label"><?php  _e("Content"); ?></label>
                                             <?php
                                             echo $formBuilder->mwEditor('content')
                                                 ->setModel($contentModel)

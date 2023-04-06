@@ -62,7 +62,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="module-live-edit-settings module-social-links-settings">
             <div class="form-group">
-                <label class="control-label"><?php _e("Select socials networks you want to share"); ?></label>
+                <label class="form-label"><?php _e("Select socials networks you want to share"); ?></label>
             </div>
 
             <table class="table">

@@ -9,7 +9,7 @@
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="form-group">
-        <label class="control-label"><?php _e("Enable keyboard shortcuts"); ?></label>
+        <label class="form-label"><?php _e("Enable keyboard shortcuts"); ?></label>
         <?php $disable_keyboard_shortcuts = get_option('disable_keyboard_shortcuts', 'website'); ?>
 
         <select name="disable_keyboard_shortcuts" class="mw_option_field selectpicker" data-width="100%" option-group="website">

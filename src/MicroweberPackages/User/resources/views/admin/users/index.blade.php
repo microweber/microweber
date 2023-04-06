@@ -78,7 +78,7 @@
                                         <div>
                                             <label class="d-block mb-2"><?php _e("Role"); ?></label>
 
-                                            <select class="selectpicker" data-style="btn-md" name="isAdmin">
+                                            <select class="form-select" data-style="btn-md" name="isAdmin">
 
                                                 <option disabled="disabled"><?php _e("Select role"); ?></option>
 

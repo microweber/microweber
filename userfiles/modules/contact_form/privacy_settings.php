@@ -51,14 +51,14 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                             <div class="col-12">
 
                                 <div class="form-group mb-3">
-                                    <label class="control-label"><?php _e("Users must agree to the terms and conditions") ?></label>
+                                    <label class="form-label"><?php _e("Users must agree to the terms and conditions") ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e("If the user does not agree to the terms, he will not be able to use the contact form") ?></small>
                                 </div>
 
                                 <module type="users/terms/set_for_module" for_module="<?php echo $params['parent-module-id']; ?>"/>
 
                                 <div class="form-group mb-3">
-                                    <label class="control-label"><?php _e("Saving data and emails") ?></label>
+                                    <label class="form-label"><?php _e("Saving data and emails") ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e("Will you save the information from the emails in your database on the website?") ?></small>
                                 </div>
 
@@ -70,7 +70,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label class="control-label d-block"><?php _e("Want to view and edit the text and the page?") ?></label>
+                                    <label class="form-label d-block"><?php _e("Want to view and edit the text and the page?") ?></label>
                                     <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-bs-target="#contact-form-settings"><?php _e("Edit the text and URL") ?></button>
                                 </div>
 

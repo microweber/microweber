@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <h6 class="pb-1"><strong>Option 1</strong></h6>
                             <div>
-                                <select class="selectpicker" data-title="Option type" data-width="100%">
+                                <select class="form-select" data-title="Option type" data-width="100%">
                                     <option selected>Size</option>
                                     <option>Color</option>
                                     <option>Material</option>
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <h6 class="pb-1"><strong>Option 2</strong></h6>
                             <div>
-                                <select class="selectpicker" data-title="Option type" data-width="100%">
+                                <select class="form-select" data-title="Option type" data-width="100%">
                                     <option>Size</option>
                                     <option selected="">Color</option>
                                     <option>Material</option>

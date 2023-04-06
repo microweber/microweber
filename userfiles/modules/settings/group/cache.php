@@ -14,7 +14,7 @@
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="form-group" style="display: none">
-        <label class="control-label"><?php _e("Open module settings in sidebar on live edit"); ?></label>
+        <label class="form-label"><?php _e("Open module settings in sidebar on live edit"); ?></label>
         <?php
         $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
         ?>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Optimize assets loading"); ?></label>
+        <label class="form-label d-block"><?php _e("Optimize assets loading"); ?></label>
         <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
@@ -40,7 +40,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Enable full page cache"); ?></label>
+        <label class="form-label d-block"><?php _e("Enable full page cache"); ?></label>
         <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
@@ -58,7 +58,7 @@
 
     <script>mw.lib.require('mwui_init');</script>
     <div class="form-group">
-        <label class="control-label"><?php _e("Static files delivery method"); ?></label>
+        <label class="form-label"><?php _e("Static files delivery method"); ?></label>
         <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
 
         <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw_option_field selectpicker" data-width="100%" option-group="website">
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label">CDN Domain name</label>
+                <label class="form-label">CDN Domain name</label>
                 <?php $key_name = 'static_files_delivery_method_domain'; ?>
                 <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
             </div>

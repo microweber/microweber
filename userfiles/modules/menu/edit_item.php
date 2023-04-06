@@ -99,7 +99,7 @@ if ($id == 0) {
                 <div class="col">
 
                     <div class="form-group">
-                        <label class="control-label text-muted"><span class="font-weight-normal"><?php _e("Edit menu item"); ?></span></label>
+                        <label class="form-label text-muted"><span class="font-weight-normal"><?php _e("Edit menu item"); ?></span></label>
                         <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
                         <input type="hidden" id="item_categories_id" value="<?php  print $data['categories_id'] ?>">
                         <input type="hidden" id="item_content_id" value="<?php print $data['content_id'] ?>">
@@ -157,7 +157,7 @@ if ($id == 0) {
                     <?php endif; ?>
                 </div>
                 <div class="col-auto">
-                    <label class="control-label d-block">&nbsp;</label>
+                    <label class="form-label d-block">&nbsp;</label>
                     <button type="button" class="btn btn-outline-primary" onclick="mw.$('#menu-selector-<?php print $data['id'] ?>adv').toggle();"><?php _e("Advanced"); ?></button>
 
                 </div>
@@ -196,10 +196,10 @@ if ($id == 0) {
                             ?>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Target attribute"); ?></label>
+                                <label class="form-label"><?php _e("Target attribute"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Open the link in New window, Current window, Parent window or Top window"); ?></small>
 
-                                <select class="selectpicker" data-width="100%" data-size="4" name="url_target">
+                                <select class="form-select" data-width="100%" data-size="4" name="url_target">
                                     <?php
                                     $attributeValues = explode("|", "|_blank|_self|_parent|_top|framename");
                                     foreach ($attributeValues as $attributeValue):
@@ -212,7 +212,7 @@ if ($id == 0) {
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label d-block"><?php _e("Select image for menu item"); ?></label>
+                                <label class="form-label d-block"><?php _e("Select image for menu item"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Attach image for the item"); ?></small>
                                 <button class="btn btn-outline-primary btn-sm" onclick="toggle_menu_image_rollover_select<?php print $data['id'] ?>()"><?php _e("Select images"); ?></button>
                             </div>

@@ -52,7 +52,7 @@ $ Install-Package bootstrap-select
 Create your `<select>` with the `.selectpicker` class. The data-api will automatically theme these elements.
 
 ```html
-<select class="selectpicker">
+<select class="form-select">
   <option>Mustard</option>
   <option>Ketchup</option>
   <option>Relish</option>

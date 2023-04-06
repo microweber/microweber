@@ -51,7 +51,7 @@ use MicroweberPackages\View\View;
                     <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Enable First Class shipping"); ?></label>
+                        <label class="form-label"><?php _e("Enable First Class shipping"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('Enable or disable First Class shipping'); ?></small>
                         <div class="custom-control custom-switch pl-0">
                             <label class="d-inline-block mr-5" for="shipping_gw_<?php print $shipping_module['module'] ?>">No</label>

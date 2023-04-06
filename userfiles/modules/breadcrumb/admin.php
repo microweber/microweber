@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php $selected_start_depth = get_option('data-start-from', $params['id']); ?>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Root level"); ?></label>
+                        <label class="form-label"><?php _e("Root level"); ?></label>
                         <div>
                             <select name="data-start-from" class="mw_option_field selectpicker" data-width="100%">
                                 <option value='' <?php if ('' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>

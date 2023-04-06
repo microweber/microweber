@@ -36,7 +36,7 @@ $mail_template_type = $params['mail_template_type'];
 </script>
 
 <div class="form-group mb-3">
-    <label class="control-label"><?php _e("Select email template"); ?></label>
+    <label class="form-label"><?php _e("Select email template"); ?></label>
     <small class="text-muted d-flex justify-content-between align-items-center mb-2"><?php _e("Choose template to send for users"); ?>.
         <button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="btn btn-sm btn-outline-primary"><?php _e('Add new email template'); ?></button>
     </small>

@@ -416,7 +416,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-shopping"></i> <h5>You don't have any orders</h5>
             </div>
         </div>
@@ -462,7 +462,7 @@
                                     <div class="col">
                                         <div class="mb-1"><small class="text-muted">Status</small></div>
                                         <div>
-                                            <select class="selectpicker js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
+                                            <select class="form-select js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
                                                 <option data-change-color="btn-success">Publish</option>
                                                 <option data-change-color="btn-warning">Unpublish</option>
                                                 <option data-change-color="btn-secondary">Mark as Spam</option>
@@ -510,7 +510,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
             </div>
         </div>
@@ -572,7 +572,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-email-check"></i> <h5>You don't have any messages</h5>
             </div>
         </div>

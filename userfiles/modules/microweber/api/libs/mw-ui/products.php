@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="d-inline-block ml-3">
-                        <select class="selectpicker" title="Bulk actions" data-style="btn-sm" data-width="auto">
+                        <select class="form-select" title="Bulk actions" data-style="btn-sm" data-width="auto">
                             <option>Delete all</option>
                             <option>Other</option>
                         </select>

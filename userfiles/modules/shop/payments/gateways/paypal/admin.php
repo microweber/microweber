@@ -7,7 +7,7 @@
 <div class="clearfix"></div>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e("Test mode"); ?></label>
+    <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
         <input type="radio" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
@@ -21,6 +21,6 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Paypal username"); ?>: </label>
+    <label class="form-label"><?php _e("Paypal username"); ?>: </label>
     <input type="text" class="mw_option_field form-control" name="paypalexpress_username" placeholder="paypal@example.com" data-option-group="payments" value="<?php print get_option('paypalexpress_username', 'payments'); ?>">
 </div>

@@ -210,7 +210,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
     <div class="row d-flex justify-content-between">
         <div class="col-8">
             <div class="form-group">
-                <label class="control-label d-block"><?php _e('Add new language'); ?></label>
+                <label class="form-label d-block"><?php _e('Add new language'); ?></label>
 
                 <?php if ($languages) : ?>
                     <select autocomplete="off" class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
@@ -254,7 +254,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         <div class="col-4 text-right">
             <div class="form-group module-switch-active-form">
-                <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
+                <label class="form-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active_quick"><?php _e('No'); ?></label>
                     <input class="custom-control-input" id="is_active_quick"

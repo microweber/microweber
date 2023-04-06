@@ -28,7 +28,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="module-live-edit-settings module-embed-settings">
             <div id="mw_email_source_code_editor<?php print $rand_id ?>">
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Insert Embed Code"); ?></label>
+                    <label class="form-label"><?php _e("Insert Embed Code"); ?></label>
                     <textarea name="source_code" class="mw_option_field form-control" rows="10" data-refresh="embed"><?php print get_option('source_code', $params['id']) ?></textarea>
                 </div>
 

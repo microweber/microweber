@@ -228,7 +228,7 @@
                     <div class="mb-4">
                         <strong>Provider:</strong> ECONT Bulgaria
                         <div class="d-inline ml-3">
-                            <select class="selectpicker" data-style="btn-sm" data-width="150px">
+                            <select class="form-select" data-style="btn-sm" data-width="150px">
                                 <option>ECONT Bulgaria</option>
                                 <option>Speedy</option>
                             </select>
@@ -272,7 +272,7 @@
                         <?php _e("What is the status of this order?"); ?>
                     </div>
                     <div class="mb-2">
-                        <select name="order_status" class="selectpicker" data-style="btn-sm" data-width="100%">
+                        <select name="order_status" class="form-select" data-style="btn-sm" data-width="100%">
                             <option value="pending" <?php if ($ord['order_status'] == 'pending'): ?>selected<?php endif; ?>>Pending
                                 <small class="text-muted"><?php _e('(the order is not finished yet)'); ?></small>
                             </option>

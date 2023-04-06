@@ -117,7 +117,7 @@ mw.controlFields = {
 
         return  this._wrap(
             this._label(conf) +
-            '<select class="selectpicker" ' + multiple + '  ' + id + ' ' + name + ' ' + required + '>' +
+            '<select class="form-select" ' + multiple + '  ' + id + ' ' + name + ' ' + required + '>' +
             options +
             '</select>' );
     }
