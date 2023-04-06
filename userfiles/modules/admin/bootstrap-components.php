@@ -725,7 +725,7 @@
                 <h3 class="py-3">Normal</h3>
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
@@ -739,7 +739,7 @@
                 <h3 class="py-3">Body</h3>
 
 
-                <div class="card">
+                <div class="card my-3">
                     <div class="card-body">
                         This is some text within a card body.
                     </div>
@@ -750,7 +750,7 @@
                 <h3 class="py-3">Titles, text, and links</h3>
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
@@ -765,7 +765,7 @@
                 <h3 class="py-3">Images</h3>
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -777,7 +777,7 @@
                 <h3 class="py-3">List groups</h3>
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">An item</li>
                         <li class="list-group-item">A second item</li>
@@ -788,7 +788,7 @@
 
             <div class="col-12 my-5">
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <div class="card-header">
                         Featured
                     </div>
@@ -801,7 +801,7 @@
             </div>
 
             <div class="col-12 my-5">
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">An item</li>
                         <li class="list-group-item">A second item</li>
@@ -817,7 +817,7 @@
                 <h3 class="py-3">Kitchen sink</h3>
 
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
@@ -838,7 +838,7 @@
                 <h3 class="py-3">Header and footer</h3>
 
 
-                <div class="card">
+                <div class="card my-3">
                     <div class="card-header">
                         Featured
                     </div>
@@ -853,7 +853,7 @@
             <div class="col-12 my-5">
 
 
-                <div class="card">
+                <div class="card my-3">
                     <h5 class="card-header">Featured</h5>
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
@@ -864,7 +864,7 @@
             </div>
 
             <div class="col-12 my-5">
-                <div class="card">
+                <div class="card my-3">
                     <div class="card-header">
                         Quote
                     </div>
@@ -901,7 +901,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="card">
+                            <div class="card my-3">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -910,7 +910,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="card">
+                            <div class="card my-3">
                                 <div class="card-body">
                                     <h5 class="card-title">Special title treatment</h5>
                                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -944,7 +944,7 @@
             <div class="col-12 my-5">
                 <h3 class="py-3">Using custom CSS</h3>
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -956,7 +956,7 @@
             <div class="col-12 my-5">
                 <h3 class="py-3">Text alignment</h3>
 
-                <div class="card" style="width: 18rem;">
+                <div class="card my-3" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -1041,7 +1041,7 @@
                         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card my-3">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -1227,7 +1227,7 @@
                 <h3 class="py-3">Card groups</h3>
 
                 <div class="card-group">
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1236,7 +1236,7 @@
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1245,7 +1245,7 @@
                             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1261,7 +1261,7 @@
 
 
                 <div class="card-group">
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1272,7 +1272,7 @@
                             <small class="text-muted">Last updated 3 mins ago</small>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1283,7 +1283,7 @@
                             <small class="text-muted">Last updated 3 mins ago</small>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card my-3">
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                         <div class="card-body">
@@ -1303,7 +1303,7 @@
 
                 <div class="row row-cols-1 row-cols-md-2 g-4">
                     <div class="col">
-                        <div class="card">
+                        <div class="card my-3">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                             <div class="card-body">
@@ -1313,7 +1313,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card">
+                        <div class="card my-3">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                             <div class="card-body">
@@ -1323,7 +1323,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card">
+                        <div class="card my-3">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                             <div class="card-body">
@@ -1333,7 +1333,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card">
+                        <div class="card my-3">
                             <svg class="bd-placeholder-img card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="40%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
 
                             <div class="card-body">

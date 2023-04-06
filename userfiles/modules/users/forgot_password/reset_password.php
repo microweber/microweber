@@ -54,13 +54,13 @@
                         <input type="hidden" name="id" value="<?php print $data['id']; ?>"/>
 
                         <div class="control-group form-group mw-ui-field-holder">
-                            <!-- <label class="control-label">Enter new password</label>-->
+                            <!-- <label class="form-label">Enter new password</label>-->
                             <div class="controls">
                                 <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Choose a password"); ?>" name="pass1">
                             </div>
                         </div>
                         <div class="control-group form-group mw-ui-field-holder">
-                            <!--        <label class="control-label">Repeat new password</label>
+                            <!--        <label class="form-label">Repeat new password</label>
                             -->
                             <div class="controls">
                                 <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Repeat the password"); ?>" name="pass2">

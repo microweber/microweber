@@ -132,7 +132,7 @@ if ($screenshots) {
 
 
         <label class="form-group d-block">
-            <label class="control-label"><?php _e("Current Skin / Template"); ?></label>
+            <label class="form-label"><?php _e("Current Skin / Template"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e('Select different design'); ?></small>
             <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw_option_field selectpicker" data-width="100%" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>" data-size="5">
                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>
@@ -275,7 +275,7 @@ if ($screenshots) {
 
         <?php if (!isset($params['simple'])) { ?>
             <small class="text-umted d-block mt-3"><?php _e("Looking for more designs ?"); ?></small>
-            <a class="btn btn-link btn-sm p-0" target="_blank" href="<?php print admin_url(); ?>view:packages"><?php _e("Check in our Marketplace"); ?></a>
+            <a class="btn btn-link btn-sm p-0" target="_blank" href="<?php print admin_url(); ?>module/view?type=admin/modules/packages"><?php _e("Check in our Marketplace"); ?></a>
         <?php } ?>
     </div>
 <?php endif; ?>

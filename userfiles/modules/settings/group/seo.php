@@ -8,7 +8,7 @@
 </script>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Google site verification code"); ?> </label>
+    <label class="form-label"><?php _e("Google site verification code"); ?> </label>
     <small class="text-muted d-block mb-2"><?php _e("If you have a Google Tag Manager account, you can verify ownership of a site using your Google Tag Manager container snippet code. To verify ownership using Google Tag Manager: Choose Google Tag Manager in the verification details page for your site, and follow the instructions shown."); ?> <a href="https://support.google.com/webmasters/answer/9008080?hl=en#choose_method&zippy=%2Chtml-tag" target="_blank"><?php _e("Read the article here."); ?></a></small>
     <?php $key_name = 'google-site-verification-code'; ?>
     <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" title="google-site-verification" value="<?php print get_option($key_name, 'website'); ?>"/>
@@ -16,7 +16,7 @@
 
 
  <div class="form-group">
-    <label class="control-label"><?php _e("Google Analytics ID"); ?></label>
+    <label class="form-label"><?php _e("Google Analytics ID"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("Google Analytics' property ID is the identifier associated with your account and used by Google Analytics to collect the data."); ?> <a href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank"><?php _e("How to find it read here."); ?></a></small>
     <?php $key_name = 'google-analytics-id'; ?>
     <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>" placeholder="UA-12345678-9"/>
@@ -33,7 +33,7 @@
 
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Facebook pixel ID"); ?> </label>
+    <label class="form-label"><?php _e("Facebook pixel ID"); ?> </label>
     <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
     <?php $key_name = 'facebook-pixel-id'; ?>
     <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
@@ -56,28 +56,28 @@
 <div class="other-site-verification-codes-hidden-toggle" style="display: none">
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Bing"); ?> </label>
+        <label class="form-label"><?php _e("Bing"); ?> </label>
         <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
         <?php $key_name = 'bing-site-verification-code'; ?>
         <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Alexa"); ?> </label>
+        <label class="form-label"><?php _e("Alexa"); ?> </label>
         <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
         <?php $key_name = 'alexa-site-verification-code'; ?>
         <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Pinterest"); ?> </label>
+        <label class="form-label"><?php _e("Pinterest"); ?> </label>
         <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
         <?php $key_name = 'pinterest-site-verification-code'; ?>
         <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
     </div>
 
     <div class="form-group">
-        <label class="control-label">
+        <label class="form-label">
             <?php _e("Site verification code for"); ?> <?php _e("Yandex"); ?> </label>
         <small class="text-muted d-block mb-2"><?php _e("You can find a tutorials in internet where and how to find the code."); ?></small>
         <?php $key_name = 'yandex-site-verification-code'; ?>

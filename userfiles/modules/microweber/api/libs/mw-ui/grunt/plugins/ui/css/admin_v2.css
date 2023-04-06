@@ -1,5 +1,15 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-payments.min.css");
 :root {
-  --tblr-body-bg: white; }
+  --tblr-body-font-family: 'Inter'; }
+
+.admin-dashboard-left-nav {
+  background-color: white; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=admin_v2.css.map */

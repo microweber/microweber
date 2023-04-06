@@ -70,7 +70,7 @@ if (!isset($contentData['sell_oos'])) {
     }
 </script>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Inventory"); ?></strong></h6>
     </div>
@@ -170,11 +170,11 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
 
         <div class="js-track-quantity">
             <hr class="thin no-padding"/>
-            <label class="control-label my-3"><?php _e("Quantity"); ?></label>
+            <label class="form-label my-3"><?php _e("Quantity"); ?></label>
             <div class="row">
                 <div class="col-md-6 w-100">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Available"); ?></label>
+                        <label class="form-label"><?php _e("Available"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
 
                         <?php if(!$qty_selected_is_custom){ ?>
@@ -198,9 +198,9 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
 
                 <div class="col-md-6">
                     <div class="form-group w-100">
-                        <label class="control-label"><?php _e("Max quantity per order"); ?></label>
+                        <label class="form-label"><?php _e("Max quantity per order"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e("How many products can be ordered at once"); ?></small>
-                        <select name="content_data[max_qty_per_order]" class="selectpicker js-invertory-max-quantity-per-order" data-size="7">
+                        <select name="content_data[max_qty_per_order]" class="form-select js-invertory-max-quantity-per-order" data-size="7">
                             <option selected="selected" value="nolimit" <?php if($max_qty_per_order_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
 
                             <?php for ($i = 1; $i <= $dropdown_qty_max_per_order; $i++){  ?>

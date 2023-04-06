@@ -1,7 +1,7 @@
 <script type="text/javascript">
     mw.top().dialog.get().resize(1000);
 </script>
-<div class="card style-1 mb-3 card-in-live-edit">
+<div class="card-body mb-3 card-in-live-edit">
     <div class="card-header">
         <?php $module_info = module_info('shop/admin'); ?>
         <h5>
@@ -39,7 +39,7 @@
                     <div class="form-row row">
 
                         <div class="form-group col-12">
-                            <label class="control-label d-block"><?php echo _e("Display products from", true); ?></label>
+                            <label class="form-label d-block"><?php echo _e("Display products from", true); ?></label>
                             <select name="content_from_id" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control js-filtering-from-content-id" data-width="100%" data-size="5" data-live-search="true">
                                 <option value=""><?php echo _e("Select page", true); ?></option>
                                 <?php
@@ -92,7 +92,7 @@
                             </script>
 
                             <div class="form-group col-4">
-                                <label class="control-label d-block"><?php echo _e("Enable pagination", true); ?></label>
+                                <label class="form-label d-block"><?php echo _e("Enable pagination", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Show pagination on the page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
@@ -104,7 +104,7 @@
 
 
                             <div class="form-group col-4 js-filtering-allow-limit">
-                                <label class="control-label d-block"><?php echo _e("Enable limit", true); ?></label>
+                                <label class="form-label d-block"><?php echo _e("Enable limit", true); ?></label>
                                 <span class="text-muted"><?php echo _e("User can define number of products per page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_limit"><?php _e('No'); ?></label>
@@ -115,13 +115,13 @@
                             </div>
 
                             <div class="form-group col-4 js-filtering-products-per-page">
-                                <label class="control-label d-block"><?php echo _e("Products per page", true); ?></label>
+                                <label class="form-label d-block"><?php echo _e("Products per page", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Number of products per page", true); ?></span>
                                 <input type="text" name="items_per_page" value="<?php echo get_option('items_per_page', $moduleId) ?>" class="mw_option_field form-control" option-group="<?php echo $moduleId;?>" />
                             </div>
 
                             <div class="form-group col-4 js-filtering-allow-sort">
-                                <label class="control-label d-block"><?php echo _e("Enable product sort", true); ?></label>
+                                <label class="form-label d-block"><?php echo _e("Enable product sort", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Sort products by criteria", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
@@ -132,7 +132,7 @@
                             </div>
 
                             <div class="form-group col-4">
-                                <label class="control-label d-block"><?php echo _e("Filtering the results", true); ?></label>
+                                <label class="form-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Show filters on the shop page", true); ?></span>
                                 <div class="custom-control custom-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
@@ -166,7 +166,7 @@
 
                             <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?>style="display:none"<?php endif; ?>>
 
-                                <div class="card">
+                                <div class="card my-3">
                                     <div class="card-body">
                                         <strong><?php _e("Filtering the results"); ?></strong>
 
@@ -247,11 +247,11 @@
 
 
                                         <div class="js-filterting-custom-fields-settings mt-4" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
-                                            <div class="card">
+                                            <div class="card my-3">
                                                 <div class="card-body">
 
                                             <div class="form-group">
-                                                <label class="control-label d-block"><?php echo _e("Apply filter with", true); ?></label>
+                                                <label class="form-label d-block"><?php echo _e("Apply filter with", true); ?></label>
                                                 <select name="filtering_when" option-group="<?php echo $moduleId;?>" class="mw_option_field form-control">
                                                     <option <?php if (get_option('filtering_when', $moduleId) == 'automatically'): ?> selected="selected" <?php endif; ?> value="automatically">{{_e("Automatically")}}</option>
                                                     <option <?php if (get_option('filtering_when', $moduleId) == 'apply_button'): ?> selected="selected" <?php endif; ?> value="apply_button">{{_e("Apply Button")}}</option>

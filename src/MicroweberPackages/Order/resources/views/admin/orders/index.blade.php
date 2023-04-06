@@ -1,4 +1,8 @@
-<div class="card style-1 mb-3">
+@extends('admin::layouts.app')
+
+@section('content')
+
+<div class="card-body mb-3">
     <div class="card-header d-flex col-12 align-items-center justify-content-between px-md-4">
 
         <div class="col d-flex justify-content-md-start justify-content-center align-items-center px-0">
@@ -38,4 +42,6 @@
         @endif
     </div>
 </div>
+
+@endsection
 

@@ -15,7 +15,7 @@ if (mw()->ui->disable_marketplace) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
@@ -30,7 +30,7 @@ if (mw()->ui->disable_marketplace) {
         <?php
         if (is_module('standalone-updater')) {
         ?>
-            <a href="<?php echo admin_url('view:modules/load_module:standalone-updater');?>" class="btn btn-primary"><i class="fa fa-clock"></i> <?php _e('Check for system updates'); ?></a>
+            <a href="<?php echo admin_url('module/view?type=standalone-updater');?>" class="btn btn-primary"><i class="fa fa-clock"></i> <?php _e('Check for system updates'); ?></a>
         <?php
         } else {
         ?>
@@ -39,7 +39,7 @@ if (mw()->ui->disable_marketplace) {
             <script>
                 $(document).ready(function () {
                     mw.on('install_composer_package_success', function (e, data) {
-                        window.location.href = '<?php echo admin_url('view:modules/load_module:standalone-updater');?>';
+                        window.location.href = '<?php echo admin_url('module/view?type=standalone-updater');?>';
                     });
                 });
             </script>

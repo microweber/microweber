@@ -146,7 +146,7 @@ function module_admin_url($module_name = false)
         }
     }
 
-    return admin_url() . 'view:modules/load_module:' . module_name_encode(strtolower($module_name));
+    return admin_url() . 'module/view?type=' . module_name_encode(strtolower($module_name));
 }
 
 function module_url($module_name = false)

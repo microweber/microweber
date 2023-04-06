@@ -14,9 +14,9 @@
 <main>
     <div class="row">
         <div class="col-md-8 manage-content-body">
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header">
-                    <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Add product</strong></h5>
+                    <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Add product</strong></h5>
                     <div>
                         <button type="button" class="btn btn-sm btn-success">Save</button>
                     </div>
@@ -47,7 +47,7 @@
             </div>
             <?php include 'partials/new_content_media.php'; ?>
 
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header no-border">
                     <h6><strong>Pricing</strong></h6>
                 </div>
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header no-border">
                     <h6><strong>Inventory</strong></h6>
                 </div>
@@ -184,7 +184,7 @@
                 </div>
             </div>
 
-            <div class="card style-1 mb-3">
+            <div class="card-body mb-3">
                 <div class="card-header no-border">
                     <h6><strong>Shipping</strong></h6>
                 </div>
@@ -248,7 +248,7 @@
                                     <input type="text" class="form-control" value="3.0">
                                     <div class="input-group-append">
                                         <span style="width:70px;">
-                                            <select class="selectpicker" data-width="100%">
+                                            <select class="form-select" data-width="100%">
                                                 <option>kg</option>
                                                 <option>lb</option>
                                                 <option>oz</option>

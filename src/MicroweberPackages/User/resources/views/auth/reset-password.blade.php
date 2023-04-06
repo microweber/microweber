@@ -24,7 +24,7 @@
         <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
 
 
-            <div class="card">
+            <div class="card my-3">
                 <div class="card-body py-4">
 
                     @if (session('status'))
@@ -40,7 +40,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <input type="hidden" name="email" value="{{ $email }}">
 
-                        <label class="control-label">Email: {{$email}}</label>
+                        <label class="form-label">Email: {{$email}}</label>
 
 
 

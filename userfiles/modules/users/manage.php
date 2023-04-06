@@ -121,7 +121,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                             <span class="btn btn-outline-danger btn-sm del-row" title="<?php _e("Delete"); ?>" onclick="mw_admin_delete_user_by_id('<?php print $item['id']; ?>')"><?php _e("Delete"); ?></span>
                         <?php endif; ?>
 
-                        <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users/edit-user:' . $item['id']); ?>"><?php _e("Edit"); ?></a>
+                        <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('module/view?type=users/edit-user:' . $item['id']); ?>"><?php _e("Edit"); ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>

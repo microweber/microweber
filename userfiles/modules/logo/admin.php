@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -285,7 +285,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="logo-module-types">
                         <div class="form-group">
-                            <label class="control-label my-3"><?php _e("Choose Logo type"); ?></label>
+                            <label class="form-label my-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
@@ -315,7 +315,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="js-logo-image-holder">
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Main Logo"); ?></label>
+                            <label class="form-label"><?php _e("Main Logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("This logo image will appear every time"); ?></small>
                         </div>
 
@@ -350,7 +350,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <br/>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Alternative Logo"); ?></label>
+                                <label class="form-label"><?php _e("Alternative Logo"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("For example we are using the alternative logo when we have a sticky navigation"); ?></small>
                             </div>
 
@@ -382,7 +382,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Scale the logo image"); ?></label>
+                            <label class="form-label"><?php _e("Scale the logo image"); ?></label>
 
                             <div>
                                 <p class="mb-1"><?php _e('Image size'); ?> - <span id="imagesizeval"></span></p>
@@ -403,7 +403,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="js-logo-text-holder">
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Design your logo"); ?></label>
+                            <label class="form-label"><?php _e("Design your logo"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Choose font size for your logo"); ?></small>
 
 

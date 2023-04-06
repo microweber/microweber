@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -62,7 +62,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="module-live-edit-settings module-social-links-settings">
             <div class="form-group">
-                <label class="control-label"><?php _e("Select socials networks you want to share"); ?></label>
+                <label class="form-label"><?php _e("Select socials networks you want to share"); ?></label>
             </div>
 
             <table class="table">

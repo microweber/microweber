@@ -68,7 +68,7 @@
                             <?php if (!empty($checkout_session['address'])) { echo  ', ' .  $checkout_session['address']; } ?>
                             <?php if (!empty($checkout_session['zip'])) { echo  ',  ' .  $checkout_session['zip'] . '<br />'; } ?>
 
-                            <?php if (!empty($checkout_session['other_info'])) { echo '<div class="mt-2"><i class="mdi mdi-comment"></i> ' .  $checkout_session['other_info'] . '<br /></div>'; } ?>
+                            <?php if (!empty($checkout_session['other_info'])) { echo '<div class="mt-2"><i class="mdi mdi-comment me-2"></i> ' .  $checkout_session['other_info'] . '<br /></div>'; } ?>
 
                         <?php endif; ?>
                     </div>

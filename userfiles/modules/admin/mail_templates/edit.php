@@ -117,7 +117,7 @@ if (!empty($template_id)) {
 <form id="edit-mail-template-form">
     <div class="card bg-light style-1 mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Mail Template"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong><?php _e("Mail Template"); ?></strong></h5>
             <div>
 
             </div>
@@ -128,13 +128,13 @@ if (!empty($template_id)) {
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("Template Name"); ?></label>
+                        <label class="form-label"><?php _e("Template Name"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Name the email template so you can recognize it more easily"); ?></small>
                         <input type="text" name="name" value="<?php echo $template['name']; ?>" class="form-control">
                     </div>
 
                     <div class="form-group mb-3">
-                        <label class="control-label"><?php _e("Is this mail template Active?"); ?></label>
+                        <label class="form-label"><?php _e("Is this mail template Active?"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Тurn off or turn on auto-reply for this email template"); ?></small>
                     </div>
 
@@ -147,7 +147,7 @@ if (!empty($template_id)) {
                     </div>
 
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("Template type"); ?></label>
+                        <label class="form-label"><?php _e("Template type"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Name the email template so you can recognize it more easily"); ?></small>
                         <div>
                             <select name="type" class="js-template-type selectpicker" data-width="100%">
@@ -165,7 +165,7 @@ if (!empty($template_id)) {
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("From Name"); ?></label>
+                        <label class="form-label"><?php _e("From Name"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("On what behalf will the e-mail be sent"); ?>?</small>
                         <input type="text" name="from_name" value="<?php echo $template['from_name']; ?>" class="form-control">
                     </div>
@@ -173,7 +173,7 @@ if (!empty($template_id)) {
 
                 <div class="col-md-6">
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("From E-mail"); ?></label>
+                        <label class="form-label"><?php _e("From E-mail"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("From which email it will be sent"); ?>?</small>
                         <input type="text" name="from_email" value="<?php echo $template['from_email']; ?>" class="form-control" placeholder="Ex. your@mail.com">
                     </div>
@@ -181,7 +181,7 @@ if (!empty($template_id)) {
 
                 <div class="col-md-6">
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("Copy To"); ?></label>
+                        <label class="form-label"><?php _e("Copy To"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("To which email do you want to send a copy"); ?>?</small>
                         <input type="text" name="copy_to" class="form-control" value="<?php echo $template['copy_to']; ?>" placeholder="Ex. your@mail.com">
 
@@ -197,7 +197,7 @@ if (!empty($template_id)) {
             <div class="row">
                 <div class="col-12">
                     <div class="form-group mb-4">
-                        <label class="control-label"><?php _e("Subject"); ?></label>
+                        <label class="form-label"><?php _e("Subject"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Subject of your email"); ?></small>
                         <input type="text" name="subject" value="<?php echo $template['subject']; ?>" class="form-control">
                     </div>

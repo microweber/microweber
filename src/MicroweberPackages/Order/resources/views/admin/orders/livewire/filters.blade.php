@@ -1,6 +1,6 @@
 <div>
 
-    <div class="d-flex flex-wrap">
+    <div class="d-flex">
 
         @include('content::admin.content.livewire.components.keyword')
 

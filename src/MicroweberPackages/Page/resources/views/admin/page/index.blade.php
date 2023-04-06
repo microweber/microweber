@@ -1,13 +1,19 @@
-<div class="pt-0">
+@extends('admin::layouts.app')
 
-    @include('content::admin.content.index-page-category-tree')
+@section('content')
 
-    <div class="module-content">
+    <div class="d-flex">
 
-        <livewire:admin-pages-list />
-        <livewire:admin-content-bulk-options />
+        @include('content::admin.content.index-page-category-tree')
 
+        <div class="module-content w-75 pe-3">
+
+            <livewire:admin-pages-list />
+            <livewire:admin-content-bulk-options />
+
+        </div>
     </div>
-</div>
 
-@include('content::admin.content.index-scripts')
+    @include('content::admin.content.index-scripts')
+
+@endsection

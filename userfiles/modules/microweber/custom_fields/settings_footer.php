@@ -28,10 +28,10 @@ $fields = mw()->ui->custom_fields();
 ?>
 
 <div class="mw-custom-field-group">
-    <label class="control-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field type'); ?></label>
+    <label class="form-label" for="custom_field_width_type<?php print $rand; ?>"><?php _e('Field type'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose type of the fields');?></small>
 
-   <select class="selectpicker w-100" data-width="100%" data-size="5" name="type" onChange="$(this).addClass('mw-needs-reload');">
+   <select class="form-select w-100" data-width="100%" data-size="5" name="type" onChange="$(this).addClass('mw-needs-reload');">
         <?php foreach($fields as $fieldType=>$fieldName): ?>
            <?php if($fieldType=='breakline') { continue; } ?>
            <option <?php if($data['type'] == $fieldType):?>selected="selected"<?php endif; ?> value="<?php echo $fieldType; ?>"><?php echo $fieldName; ?></option>
@@ -42,13 +42,13 @@ $fields = mw()->ui->custom_fields();
 <?php
 if ($instanceField->hasResponsiveOptions):
 ?>
-<label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
+<label class="form-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Organize in columns on different resolutions'); ?></label>
 <small class="text-muted d-block mb-2"><?php _e('Used for templates based on bootstrap');?></small>
 
 <div class="d-flex">
   <div class="col-4 px-1">
-      <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Desktop'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_desktop]">
+      <label class="form-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Desktop'); ?></label>
+      <select class="form-select"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_desktop]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
               <option  data-icon="mdi mdi-monitor" <?php if(isset($settings['field_size_desktop']) && $settings['field_size_desktop'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
@@ -57,8 +57,8 @@ if ($instanceField->hasResponsiveOptions):
 
 
   <div class="col-4 px-1">
-      <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Tablet'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_tablet]">
+      <label class="form-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Tablet'); ?></label>
+      <select class="form-select"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_tablet]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
               <option  data-icon="mdi mdi-tablet" <?php if(isset($settings['field_size_tablet']) && $settings['field_size_tablet'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
@@ -66,8 +66,8 @@ if ($instanceField->hasResponsiveOptions):
   </div>
 
   <div class="col-4 px-1">
-      <label class="control-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Mobile'); ?></label>
-      <select class="selectpicker"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_mobile]">
+      <label class="form-label d-block" for="custom_field_width_size<?php print $rand; ?>"><?php _e('Mobile'); ?></label>
+      <select class="form-select"  data-live-search="true" data-width="100%" data-size="5" name="options[field_size_mobile]">
           <?php foreach(template_field_size_options() as $optionKey=>$optionValue): ?>
               <option data-icon="mdi mdi-cellphone" <?php if(isset($settings['field_size_mobile']) && $settings['field_size_mobile'] == $optionKey):?>selected="selected"<?php endif; ?> value="<?php echo $optionKey; ?>"><?php echo $optionValue; ?></option>
           <?php endforeach; ?>
@@ -82,7 +82,7 @@ endif;
 if ($instanceField->hasRequiredOptions):
 ?>
 <div class="mw-custom-field-group">
-    <label class="control-label mt-3" ><?php _e('Required'); ?></label>
+    <label class="form-label mt-3" ><?php _e('Required'); ?></label>
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
            <label class="mw-ui-check">
@@ -113,7 +113,7 @@ if ($data['required']) {
 if ($instanceField->hasErrorTextOptions):
 ?>
 <div class="mw-custom-field-group" id="required_checkbox" style="display: none;">
-    <label class="control-label" ><?php _e('Error text'); ?></label>
+    <label class="form-label" ><?php _e('Error text'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This error will be shown when fields are required but not filled');?></small>
     <div class="mw-custom-field-form-controls">
         <input type="text" name="error_text" class="form-control" value="<?php print ($data['error_text']) ?>"  id="custom_field_error_text<?php print $rand; ?>">

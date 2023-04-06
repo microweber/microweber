@@ -1,16 +1,16 @@
 
 <!--   <div class="form-group">
-            <label class="control-label">Company Name:</label>
+            <label class="form-label">Company Name:</label>
             <input type="text" class="form-control" value="<?php /*echo $billing_address['company_name'];*/?>" name="addresses[1][company_name]">
         </div>-->
 
 <!-- <div class="form-group">
-            <label class="control-label">Company ID:</label>
+            <label class="form-label">Company ID:</label>
             <input type="text" class="form-control" value="<?php /*echo $billing_address['company_id'];*/?>" name="addresses[1][company_id]">
         </div>-->
 
 <!--      <div class="form-group">
-            <label class="control-label">VAT number:</label>
+            <label class="form-label">VAT number:</label>
             <input type="text" class="form-control" value="<?php /*echo $billing_address['company_vat'];*/?>" name="addresses[1][company_vat]">
         </div>
 -->

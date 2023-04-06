@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -191,14 +191,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="text-start text-left">
                 <div class="row">
                     <div class="form-group col-6">
-                        <label class="control-label"><?php _e("Text"); ?></label>
+                        <label class="form-label"><?php _e("Text"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e('Change your button text.');?></small>
                         <input type="text" name="text" class="mw_option_field form-control" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
                     </div>
 
                     <?php if (!$onclick): ?>
                         <div class="form-group col-6">
-                            <label class="control-label d-block"><?php _e("Action"); ?></label>
+                            <label class="form-label d-block"><?php _e("Action"); ?></label>
                             <small class="text-muted d-block mb-3"><?php _e('Setup action from dropdown.');?></small>
                             <select class="mw_option_field selectpicker" data-width="100%" id="action" name="button_action">
                                 <option <?php if ($action == 'url' OR $action == ''): ?>selected<?php endif; ?> value="url"><?php _e("Go to link"); ?></option>
@@ -211,11 +211,11 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <?php if (!$onclick): ?>
                     <div id="editor_holder" class="form-group">
-                        <label class="control-label"><?php _e("Popup content"); ?></label>
+                        <label class="form-label"><?php _e("Popup content"); ?></label>
                         <textarea class="mw_option_field form-control" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
                     </div>
                 <?php endif; ?>
-                <label class="control-label"><?php _e("Align"); ?></label>
+                <label class="form-label"><?php _e("Align"); ?></label>
                 <div class="form-group">
 
                     <div class="btn-group btn-group-toggle" data-bs-toggle="buttons" dir="ltr">
@@ -235,7 +235,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div id="btn_url_holder">
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Edit url"); ?></label>
+                                <label class="form-label"><?php _e("Edit url"); ?></label>
                                 <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
 
                                 <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
@@ -395,7 +395,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
                         <div class="mw-accordion-content" >
                             <div class="mw-ui-box mw-ui-box-content">
-                                <label class="control-label"><?php _e("Design"); ?></label>
+                                <label class="form-label"><?php _e("Design"); ?></label>
 
                                 <div class="form-group">
                                     <div class="mw-ui-box mw-ui-box-content">
@@ -421,7 +421,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                                 })
 
                                             </script>
-                                            <label class="control-label"><?php _e('Color'); ?></label>
+                                            <label class="form-label"><?php _e('Color'); ?></label>
                                             <div class="row">
                                                 <div class="col-4">
                                                     <label><?php _e('Background'); ?></label>
@@ -463,7 +463,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                             <div id="hover-styles">
                                                 <br><br>
-                                                <label class="control-label"><?php _e('Hover Color'); ?></label>
+                                                <label class="form-label"><?php _e('Hover Color'); ?></label>
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <label><?php _e('Background'); ?></label>
@@ -506,7 +506,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                             <br>
                                             <br>
-                                            <label class="control-label"><?php _e('Size'); ?></label>
+                                            <label class="form-label"><?php _e('Size'); ?></label>
                                             <div class="row">
                                                 <div class="col-4">
                                                     <label><?php _e('Button size'); ?></label>
@@ -541,7 +541,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                             <br>
 
                                             <div class="form-group">
-                                                <label class="control-label"><?php _e('Shadow'); ?></label>
+                                                <label class="form-label"><?php _e('Shadow'); ?></label>
                                                 <div class=" shadow-selector">
                                                     <?php
                                                     $shadows = array(

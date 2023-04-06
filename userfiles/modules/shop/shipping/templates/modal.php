@@ -2,7 +2,7 @@
 <div class="mw-shipping-select">
 
     <div  class="my-4" <?php if(count($shipping_options) == 1): ?>style="display: none" <?php endif; ?>>
-        <label class="control-label"><?php _e("Choose shipping method"); ?></label>
+        <label class="form-label"><?php _e("Choose shipping method"); ?></label>
         <small class="text-muted d-block mb-2"> <?php _e("Please choose the right method for deliver your order."); ?></small>
         <select autocomplete="off" onchange="Gateway(this);" name="shipping_gw"
                 class="col-6 pl-0 selectpicker mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if (count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>">

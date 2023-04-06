@@ -26,7 +26,7 @@
                 <div class="card-body pt-3">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-body pt-3">
                                     <div class="row">
                                         <div class="col-4 px-0">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Variants"); ?></strong></h6>
                                     <div>
@@ -98,11 +98,11 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Options"); ?></strong></h6>
                                     <div>
-                                        <select class="selectpicker" data-title="Add media from" data-style="btn-sm" data-width="auto">
+                                        <select class="form-select" data-title="Add media from" data-style="btn-sm" data-width="auto">
                                             <option><?php _e("Add image from URL"); ?></option>
                                             <option><?php _e("Browse uploaded"); ?></option>
                                             <option><?php _e("Add file"); ?></option>
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Pricing"); ?></strong></h6>
                                 </div>
@@ -194,7 +194,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Inventory"); ?></strong></h6>
                                 </div>
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
 
-                            <div class="card style-1 mb-3">
+                            <div class="card-body mb-3">
                                 <div class="card-header no-border">
                                     <h6><strong><?php _e("Shipping"); ?></strong></h6>
                                 </div>
@@ -337,7 +337,7 @@
                                                     <input type="text" class="form-control" value="3.0">
                                                     <div class="input-group-append">
                                                         <div style="width:70px;">
-                                                            <select class="selectpicker" data-width="100%">
+                                                            <select class="form-select" data-width="100%">
                                                                 <option><?php _e("kg"); ?></option>
                                                                 <option><?php _e("lb"); ?></option>
                                                                 <option><?php _e("oz"); ?></option>

@@ -38,7 +38,7 @@ if (isset($params['for-content-id'])) {
         <!-- Settings Content -->
         <div class="module-live-edit-settings module-categories-settings">
             <div class="form-group">
-                <label class="control-label"><?php _e("Show Tags from"); ?></label>
+                <label class="form-label"><?php _e("Show Tags from"); ?></label>
                 <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>"/>
 
                 <div class="">

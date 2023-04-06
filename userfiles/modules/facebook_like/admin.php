@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -26,14 +26,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="module-live-edit-settings module-facebook-like-settings">
             <div class="form-group">
-                <label class="control-label"><?php _e("URL to like"); ?></label>
+                <label class="form-label"><?php _e("URL to like"); ?></label>
                 <input name="url" class="mw_option_field form-control" type="text" placeholder="<?php _e("Current URL or type your own"); ?>" value="<?php print $url_to_like; ?>"/>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Layout"); ?></label>
+                        <label class="form-label"><?php _e("Layout"); ?></label>
                         <select name="layout" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                             <option value="standard" <?php if ($layout == false or $layout == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Standard"); ?></option>
                             <option value="box_count" <?php if ($layout == 'box_count'): ?> selected="selected" <?php endif ?>><?php _e("Box count"); ?></option>
@@ -45,7 +45,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Color scheme"); ?></label>
+                        <label class="form-label"><?php _e("Color scheme"); ?></label>
                         <select name="color" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                             <option value="light" <?php if ($color == false or $color == 'standard'): ?> selected="selected" <?php endif ?>><?php _e("Light"); ?></option>
                             <option value="dark" <?php if ($color == 'dark'): ?> selected="selected" <?php endif ?>><?php _e("Dark"); ?></option>
@@ -55,7 +55,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Show faces"); ?></label>
+                        <label class="form-label"><?php _e("Show faces"); ?></label>
                         <select name="show_faces" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                             <option value="y" <?php if ($show_faces == false or $show_faces == 'y'): ?> selected="selected" <?php endif ?>><?php _e("Yes"); ?></option>
                             <option value="n" <?php if ($show_faces == 'n'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>

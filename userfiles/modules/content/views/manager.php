@@ -189,7 +189,7 @@ $params_module = $params;
         mw.reload_module('#<?php print $params['id']; ?>');
     });
 </script>
-<div class="card style-1 mb-3 <?php if (isset($params['no_toolbar']) AND $params['no_toolbar']): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if (isset($params['no_toolbar']) AND $params['no_toolbar']): ?>card-in-live-edit<?php endif; ?>">
     <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
         <?php print $toolbar; ?>
     <?php else: ?>

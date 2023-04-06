@@ -6,9 +6,9 @@
 <?php event_trigger('mw.admin.dashboard.content.2'); ?>
 <?php event_trigger('mw.admin.dashboard.content.3'); ?>
 
-<div class="card style-1">
+<div class="card">
     <div class="card-header">
-        <h5><i class="mdi mdi-link text-primary mr-3"></i> <strong><?php _e("Quick Links"); ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-link text-primary mr-3"></i> <strong><?php _e("Quick Links"); ?></strong></h5>
     </div>
 
     <div class="card-body">
@@ -27,7 +27,7 @@
                     <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                     <?php $text = $item['text']; ?>
                     <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                        <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -45,7 +45,7 @@
                     <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                     <?php $text = $item['text']; ?>
                     <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                        <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -73,7 +73,7 @@
                         <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                         <?php $text = $item['text']; ?>
                         <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                            <a href="<?php print $btnurl; ?>" class="btn btn-link"><i class="<?php print $icon; ?>"></i><span><?php print $text; ?></span></a>
+                            <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>

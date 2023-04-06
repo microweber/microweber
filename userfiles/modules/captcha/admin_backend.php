@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -67,7 +67,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div id="mw_index_captcha_form">
                 <div class="<?php print $config['module_class'] ?>">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Captcha provider"); ?></label>
+                        <label class="form-label"><?php _e("Captcha provider"); ?></label>
 
                         <select class="mw_option_field js-select-captcha-provider selectpicker" data-width="100%" name="provider" option-group="captcha">
                             <option value="microweber"><?php _e("Select"); ?></option>
@@ -79,29 +79,29 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="js-recaptcha-v2">
                         <div class="form-group">
-                            <label class="control-label">Google Recaptcha V2 Site Key</label>
+                            <label class="form-label">Google Recaptcha V2 Site Key</label>
                             <input type="text" name="recaptcha_v2_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_site_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Google ReCaptcha V2 Secret Key</label>
+                            <label class="form-label">Google ReCaptcha V2 Secret Key</label>
                             <input type="text" name="recaptcha_v2_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v2_secret_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
                     </div>
 
                     <div class="js-recaptcha-v3">
                         <div class="form-group">
-                            <label class="control-label">Google Recaptcha V3 Site Key</label>
+                            <label class="form-label">Google Recaptcha V3 Site Key</label>
                             <input type="text" name="recaptcha_v3_site_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_site_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Google ReCaptcha V3 Secret Key</label>
+                            <label class="form-label">Google ReCaptcha V3 Secret Key</label>
                             <input type="text" name="recaptcha_v3_secret_key" option-group="captcha" value="<?php echo get_option('recaptcha_v3_secret_key', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label">Google ReCaptcha V3 Score</label>
+                            <label class="form-label">Google ReCaptcha V3 Score</label>
                             <input type="text" placeholder="0.5" name="recaptcha_v3_score" option-group="captcha" value="<?php echo get_option('recaptcha_v3_score', 'captcha'); ?>" class="mw_option_field form-control"/>
                         </div>
                     </div>

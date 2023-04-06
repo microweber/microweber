@@ -9,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <h5>
             <i class="mdi mdi-email-edit-outline module-icon-svg-fill"></i> <strong><?php _e("Autorespond E-mail settings"); ?></strong>
@@ -34,7 +34,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <small class="text-muted d-block mb-2">
             <?php _e("You must have a working email setup in order to send emails"); ?>.
-            <a class="btn btn-outline-primary btn-sm ml-2" target="_blank" href="<?php print admin_url('view:settings#option_group=email'); ?>"><?php _e("check your e-mail settings"); ?></a>
+            <a class="btn btn-outline-primary btn-sm ml-2" target="_blank" href="<?php print admin_url('settings?group=email'); ?>"><?php _e("check your e-mail settings"); ?></a>
         </small>
 
         <hr class="thin" />
@@ -42,7 +42,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <?php $send_email_on_new_order = get_option('send_email_on_new_order', 'orders'); ?>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("Send email to"); ?></label>
+            <label class="form-label"><?php _e("Send email to"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e('Send the autorespond emails to'); ?></small>
             <select class="mw_option_field selectpicker" data-width="100%" data-option-group="orders" name="send_email_on_new_order">
                 <option value="" <?php if ($send_email_on_new_order == ''): ?>selected="selected"<?php endif; ?>><?php _e('Default (Admins & Client)'); ?></option>
@@ -52,7 +52,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
         <div class="form-group">
-            <label class="control-label d-block"><?php _e("Send email when"); ?></label>
+            <label class="form-label d-block"><?php _e("Send email when"); ?></label>
 
             <div class="custom-control custom-radio d-inline-block mr-3">
                 <input name="order_email_send_when" id="order_email_send_when_0" class="mw_option_field custom-control-input" data-option-group="orders" value="" type="radio" <?php if (get_option('order_email_send_when', 'orders') == ''): ?> checked="checked" <?php endif; ?> >
@@ -87,7 +87,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div id="test_ord_eml_toggle" style="display:none">
             <div class="form-group">
-                <label class="control-label"><?php _e("Send test email to"); ?></label>
+                <label class="form-label"><?php _e("Send test email to"); ?></label>
                 <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
             </div>
 

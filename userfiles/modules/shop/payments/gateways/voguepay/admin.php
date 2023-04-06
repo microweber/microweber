@@ -7,17 +7,17 @@
 <div class="clearfix"></div>
 
 <div class="form-group">
-    <label class="control-label">Developer Code: </label>
+    <label class="form-label">Developer Code: </label>
     <input type="text" class="mw_option_field form-control" name="voguepay_developer_code" placeholder="" data-option-group="payments" value="<?php print get_option('voguepay_developer_code', 'payments'); ?>">
 </div>
 
 <div class="form-group">
-    <label class="control-label">Merchant ID: </label>
+    <label class="form-label">Merchant ID: </label>
     <input type="text" class="mw_option_field form-control" name="voguepay_merchant_id" placeholder="" data-option-group="payments" value="<?php print get_option('voguepay_merchant_id', 'payments'); ?>">
 </div>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e("Test mode"); ?></label>
+    <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
         <input type="radio" id="voguepay_test_mode1" name="voguepay_test_mode" class="mw_option_field custom-control-input" data-option-group="payments" value="1" <?php if (get_option('voguepay_test_mode', 'payments') == 1): ?> checked="checked" <?php endif; ?>>

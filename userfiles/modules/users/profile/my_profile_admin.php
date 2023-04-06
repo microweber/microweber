@@ -40,7 +40,7 @@ if (isset($user['role'])) {
 
                 <h6 class="font-weight-bold mb-1"><?php _e('Working with users'); ?></h6>
                 <small class="text-muted d-block mb-2"><?php _e('Create and manage users'); ?></small>
-                <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>" class="btn btn-primary btn-sm"><i class="mdi mdi-account-plus"></i><?php _e('Add new user'); ?></a>
+                <a href="<?php print admin_url('module/view?type=users/edit-user:0'); ?>" class="btn btn-primary btn-sm"><i class="mdi mdi-account-plus"></i><?php _e('Add new user'); ?></a>
                 <a href="<?php echo route('filament.resources.users.index'); ?>" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-account-cog"></i><?php _e('Manage users'); ?></a>
                 <br/>
                 <br/>
@@ -72,7 +72,7 @@ if (isset($user['role'])) {
                     <small class="d-block text-dark"><?php echo $user_role; ?></small>
 
                     <a
-                        href="<?php print admin_url('view:modules/load_module:users/edit-user:' . $user['id']); ?>"
+                        href="<?php print admin_url('module/view?type=users/edit-user:' . $user['id']); ?>"
                         class="btn btn-outline-primary btn-sm mt-2"><?php _e('Edit profile'); ?></a>
                 </div>
             </div>

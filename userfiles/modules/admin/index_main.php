@@ -14,7 +14,7 @@
     }
     ?>
 
-    <main class="module-<?php print  $holder_cls ?>">
+    <main class="module-<?php print  $holder_cls ?> col-lg-7 ms-3">
 
         <?php if (isset($render_content) != false and $render_content): ?>
             <?php print $render_content ?>
@@ -51,9 +51,13 @@
                 }
                 ?>
 
+
+                <script>window.location.href = "<?php echo admin_url() . 'module/view?type=' . $v_mod; ?>";</script>
+
                 <?php
-                $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
-                print $mod;
+
+              //  $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
+               // print $mod;
             } else {
                 print "No module found {$v_mod}";
             }
@@ -74,9 +78,13 @@
                 if ($v_mod != '' and is_module($v_mod)) {
                     // $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
 
-                    $mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
+                  ?>
 
-                    print $mod;
+            <script>window.location.href = "<?php echo admin_url() . 'module/view?type=' . $v_mod; ?>";</script>
+
+<?php
+                    //$mod = '<module type="' . $v_mod . '" view="admin"  backend="true" id="mw-main-module-backend" />';
+                   // print $mod;
                 } else {
                     include(__DIR__ . DS . 'dashboard.php');
                 }

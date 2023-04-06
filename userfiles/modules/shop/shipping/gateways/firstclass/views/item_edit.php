@@ -226,7 +226,7 @@ if ($weight_units == false) {
             <input type="hidden" name="id" value="<?php print $item['id']; ?>" class="js-shipping-edit-item-id-value"/>
 
             <div class="form-group">
-                <label class="control-label">
+                <label class="form-label">
                     <?php if ($new == true): ?>
                         <?php _e("Add new"); ?>
                     <?php else : ?>
@@ -240,7 +240,7 @@ if ($weight_units == false) {
                     <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                 <?php endif; ?>
 
-                <select name="shipping_country" class="selectpicker" data-width="100%" data-size="5" onchange="SaveShippingForm();" <?php if (isset($item['id']) AND $item['id'] != 0): ?>disabled<?php endif; ?>>
+                <select name="shipping_country" class="form-select" data-width="100%" data-size="5" onchange="SaveShippingForm();" <?php if (isset($item['id']) AND $item['id'] != 0): ?>disabled<?php endif; ?>>
                     <?php if ($new == true): ?>
                         <option value="none"><?php _e("Choose country"); ?></option>
                     <?php endif; ?>
@@ -261,7 +261,7 @@ if ($weight_units == false) {
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Allow shipping to this country"); ?></label>
+                <label class="form-label"><?php _e("Allow shipping to this country"); ?></label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active"><?php _e("No"); ?></label>
                     <input onchange="ToggleShipping(event)" type="checkbox" name="is_active" id="is_active" class="custom-control-input" data-id="<?php print $item['id']; ?>" data-value-checked="1" data-value-unchecked="0" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>checked<?php endif; ?>>
@@ -273,7 +273,7 @@ if ($weight_units == false) {
                 <div class="row">
                     <div class="col-7">
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Choose shipping type and set price "); ?></label>
+                            <label class="form-label"><?php _e("Choose shipping type and set price "); ?></label>
 
                             <div class="form-group">
                                 <div class="custom-control custom-radio mb-4">
@@ -300,7 +300,7 @@ if ($weight_units == false) {
 
                     <div class="col-5">
                         <div class="form-group">
-                            <small class="control-label mb-2 d-block"><?php _e("Shipping cost"); ?></small>
+                            <small class="form-label mb-2 d-block"><?php _e("Shipping cost"); ?></small>
 
                             <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
@@ -312,7 +312,7 @@ if ($weight_units == false) {
 
                         <div class="shipping_dimensions" style="display: none">
                             <div class="form-group">
-                                <small class="control-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php _e("cubic"); ?> <?php print $size_units ?></small>
+                                <small class="form-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php _e("cubic"); ?> <?php print $size_units ?></small>
 
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
@@ -323,7 +323,7 @@ if ($weight_units == false) {
                             </div>
 
                             <div class="form-group">
-                                <small class="control-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php print $weight_units ?></small>
+                                <small class="form-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php print $weight_units ?></small>
 
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
@@ -336,7 +336,7 @@ if ($weight_units == false) {
 
                         <div class="shipping_per_item" style="display: none">
                             <div class="form-group">
-                                <small class="control-label mb-2 d-block"><?php _e("Cost for shipping each item"); ?></small>
+                                <small class="form-label mb-2 d-block"><?php _e("Cost for shipping each item"); ?></small>
 
                                 <div class="input-group input-group-sm mb-2">
                                     <div class="input-group-prepend">
@@ -360,7 +360,7 @@ if ($weight_units == false) {
 
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Order amount to activate special shipping price"); ?></label>
+                        <label class="form-label"><?php _e("Order amount to activate special shipping price"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Minimum amount in the shopping cart to activate special shipping price"); ?></small>
 
 
@@ -381,7 +381,7 @@ if ($weight_units == false) {
 
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Shipping cost"); ?></label>
+                        <label class="form-label"><?php _e("Shipping cost"); ?></label>
 
                         <small class="text-muted d-block mb-2"><?php _e("Enter the cost if the special shipping price is activated"); ?></small>
 

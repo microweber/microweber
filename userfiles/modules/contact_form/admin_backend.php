@@ -15,7 +15,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -82,8 +82,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class=" mb-3">
                         <div class="form-group">
-                            <label class="control-label d-block mb-2"><?php _e('Your form lists'); ?></label>
-                            <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="selectpicker" data-width="100%">
+                            <label class="form-label d-block mb-2"><?php _e('Your form lists'); ?></label>
+                            <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-select" data-width="100%">
                                 <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
                                 <option <?php if ($load_list === 'default') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:0"><?php _e('Default list'); ?>
                                     (<?php

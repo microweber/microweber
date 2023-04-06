@@ -88,7 +88,7 @@ $appendFiles = explode(",", get_option($option_key, $option_group));
 
 
 <div class="form-group mb-4">
-    <label class="control-label">
+    <label class="form-label">
         <?php
         if (isset($params['title'])) {
             echo $params['title'];

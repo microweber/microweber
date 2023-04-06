@@ -104,7 +104,7 @@ class AdminSettingsPagesAdvancedCheckTest extends DuskTestCase
 
 
 
-            $browser->visit(admin_url().'view:settings?group=advanced');
+            $browser->visit(admin_url().'settings?group=advanced');
             $browser->pause(5000);
             $browser->waitForText('Settings',30);
 

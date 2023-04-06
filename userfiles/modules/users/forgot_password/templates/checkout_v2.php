@@ -18,7 +18,7 @@
                     <!-- Email -->
                     <div class="form-group">
 
-                        <label class="control-label">
+                        <label class="form-label">
                         <?php if (!isset($form_title) or $form_title == false): ?>
                             <?php _lang("Enter your username or email", "templates/new-world"); ?>
                         <?php else: ?>

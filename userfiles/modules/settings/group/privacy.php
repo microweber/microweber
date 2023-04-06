@@ -6,15 +6,15 @@
     });
 </script>
 
-<div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-header px-0">
-        <h5><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
         <div>
 
         </div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+    <div class="card-body">
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e('Privacy policy settings'); ?></h5>
@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group mb-3">
-                                    <label class="control-label"><?php _e("Users must agree to the Terms and Conditions"); ?></label>
+                                    <label class="form-label"><?php _e("Users must agree to the Terms and Conditions"); ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e('Should your users agree to the terms of use of the website'); ?></small>
                                 </div>
 

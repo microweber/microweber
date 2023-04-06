@@ -9,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <?php $selected_start_depth = get_option('data-start-from', $params['id']); ?>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Root level"); ?></label>
+                        <label class="form-label"><?php _e("Root level"); ?></label>
                         <div>
                             <select name="data-start-from" class="mw_option_field selectpicker" data-width="100%">
                                 <option value='' <?php if ('' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>

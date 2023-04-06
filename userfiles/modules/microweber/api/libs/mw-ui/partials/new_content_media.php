@@ -1,8 +1,8 @@
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong><?php _e("Media"); ?></strong></h6>
         <div>
-            <select class="selectpicker" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto">
+            <select class="form-select" data-title="<?php _e("Add media from"); ?>" data-style="btn-sm" data-width="auto">
                 <option><?php _e("Add image from URL"); ?></option>
                 <option><?php _e("Browse uploaded"); ?></option>
                 <option><?php _e("Add file"); ?></option>
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6>1<?php _e("media selected"); ?> </h6>
         <div>

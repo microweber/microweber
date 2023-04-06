@@ -9,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5>
@@ -61,15 +61,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-carousel-grid-settings">
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Items per slide', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Items per slide', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="items_number" value="<?php print $items_number; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Minimum Row height', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Minimum Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="row_height" placeholder="120" value="<?php print $rowHeight; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Max Row height', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Max Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="max_row_height" placeholder="250" value="<?php print $maxRowHeight; ?>"/>
                     </div>
                 </div>

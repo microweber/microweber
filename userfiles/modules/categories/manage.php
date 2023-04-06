@@ -1,7 +1,7 @@
 <div class="mw-module-category-manager admin-side-content">
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
             <div class="js-hide-when-no-items">
                 <div class="d-flex">
                     <?php if (user_can_access('module.categories.edit')): ?>

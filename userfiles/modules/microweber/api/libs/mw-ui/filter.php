@@ -1,8 +1,8 @@
 <?php include('partials/header.php'); ?>
     <main>
-        <div class="card style-1 mb-3">
+        <div class="card-body mb-3">
             <div class="card-header">
-                <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Statistics</strong></h5>
                 <div>
 
                 </div>
@@ -54,7 +54,7 @@
                                 <div>
                                     <label class="d-block mb-2"><?php _e("Role"); ?></label>
 
-                                    <select class="selectpicker" data-style="btn-md">
+                                    <select class="form-select" data-style="btn-md">
                                         <option value="-1"><?php _e("All"); ?></option>
                                         <option value="0"><?php _e("User"); ?></option>
                                         <option value="1"><?php _e("Admin"); ?></option>
@@ -67,7 +67,7 @@
                                     <label class="d-block mb-2"><?php _e('Status'); ?></label>
 
 
-                                    <select class="selectpicker" data-style="btn-md">
+                                    <select class="form-select" data-style="btn-md">
                                         <option value="-1"><?php _e("All users"); ?></option>
                                         <option value="1"><?php _e("Active users"); ?></option>
                                         <option value="0"><?php _e("Disabled users"); ?></option>

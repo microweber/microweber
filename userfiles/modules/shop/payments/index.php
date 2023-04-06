@@ -11,7 +11,7 @@ if (count($payment_options) == 0) {
         <?php _e("There no payment methods available."); ?>
         <?php
         if (is_admin()) {
-            echo '<br /><a href="'.admin_url('view:shop/action:options#option_group=shop/payments/admin').'" target="_blank">' . _e("Setup payment methods", true). '</a>';
+            echo '<br /><a href="'.admin_url('view:shop/action:options?group=shop/payments/admin').'" target="_blank">' . _e("Setup payment methods", true). '</a>';
         }
         ?>
     </div>

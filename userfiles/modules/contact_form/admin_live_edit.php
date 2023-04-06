@@ -60,7 +60,7 @@ if (!user_can_access('module.contact_form.index')) {
             <hr class="thin"/>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Newsletter") ?></label>
+                <label class="form-label"><?php _e("Newsletter") ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Show the newsletter subscription checkbox?") ?></small>
 
                 <div class="custom-control custom-checkbox mb-4">
@@ -77,7 +77,7 @@ if (!user_can_access('module.contact_form.index')) {
                 <br/>
                 <div class="form-group">
                     <label class="control-label"><?php _e("Captcha settings") ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
+                    <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('module/view?type=captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
                 </div>
 
                 <div class="form-group">
@@ -88,7 +88,7 @@ if (!user_can_access('module.contact_form.index')) {
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Redirect URL"); ?></label>
+                    <label class="form-label"><?php _e("Redirect URL"); ?></label>
                     <small class="text-muted d-block mb-2"><?php _e("Redirect to URL after submit for example for “Thank you” page") ?></small>
                     <input name="email_redirect_after_submit" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_redirect_after_submit', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
                 </div>

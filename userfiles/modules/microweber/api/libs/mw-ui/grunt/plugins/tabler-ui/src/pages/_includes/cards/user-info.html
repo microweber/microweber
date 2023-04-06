@@ -1,7 +1,7 @@
 {% assign person-id = include.person-id | default: 25 | minus: 1 %}
 {% assign person = site.data.people[person-id] %}
 
-<div class="card">
+<div class="card my-3">
 	<div class="card-body">
 		<div class="card-title">{{ include.title | default: 'Basic info' }}</div>
 		<div class="mb-2">

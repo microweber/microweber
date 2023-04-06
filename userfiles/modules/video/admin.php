@@ -9,7 +9,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
@@ -149,7 +149,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Embed Video"); ?></label>
+                        <label class="form-label"><?php _e("Embed Video"); ?></label>
                         <small class="text-muted mb-2 d-block"><?php _e("Paste video URL or Embed Code"); ?></small>
                         <textarea name="embed_url" rows="5" id="emebed_video_field" class="form-control mw_option_field" data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
                     </div>
@@ -157,7 +157,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Upload Video"); ?></label>
+                        <label class="form-label"><?php _e("Upload Video"); ?></label>
                         <small class="text-muted mb-2 d-block"><?php _e("Upload Video from your computer. Allowed file format are .MP4 .WEBM"); ?></small>
                     </div>
 
@@ -170,7 +170,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-group mt-3 mb-2 js-video-preview-label" style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;">
-                        <label class="control-label"><?php _e("Preview"); ?></label>
+                        <label class="form-label"><?php _e("Preview"); ?></label>
                     </div>
 
                     <video style="display: <?php print !!$uploadedVideo ? 'block' : 'none' ?>;"<?php print 'src="' . $uploadedVideo . '"'; ?> width="100%" height="200px" id="video-preview" controls></video>
@@ -186,21 +186,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-video-settings">
                     <div class="form-group">
-                        <label class="control-label"><?php _e('Video settings'); ?></label>
+                        <label class="form-label"><?php _e('Video settings'); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('Set a width height in pixels'); ?></small>
                     </div>
 
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Width"); ?></label>
+                                <label class="form-label"><?php _e("Width"); ?></label>
                                 <input name="width" placeholder="Ex. 450" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('width', $params['id']) ?>"/>
                             </div>
                         </div>
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Height"); ?></label>
+                                <label class="form-label"><?php _e("Height"); ?></label>
                                 <input name="height" placeholder="Ex. 350" class="form-control mw_option_field" type="text" data-mod-name="<?php print $params['data-type'] ?>" value="<?php print get_option('height', $params['id']) ?>"/>
                             </div>
                         </div>
@@ -218,7 +218,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
+                        <label class="form-label"><?php _e("Upload Video Thumbnail from your computer"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional thumbnail image for use with uploaded or embedded videos. Required if Lazy Loading selected"); ?></small>
                     </div>
 
@@ -252,7 +252,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Video Lazy Loading for SEO"); ?></label>
+                        <label class="form-label"><?php _e("Video Lazy Loading for SEO"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Optional setting for use with embedded YouTube videos to defer the downloading of video scripts. Thumbnail image required, see Thumbnail Upload section"); ?></small>
 
                         <div class="custom-control custom-checkbox">

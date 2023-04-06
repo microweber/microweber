@@ -258,7 +258,7 @@ $user = get_user_by_id($user_id);
 
 
 
-<div id="mw-admin-container">
+<div id="mw-admin-container col-xl-7">
     <header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-1">
@@ -357,7 +357,7 @@ $user = get_user_by_id($user_id);
     <?php endif; ?>
 
     <div class="main container my-3">
-        <aside>
+        <aside class="admin-dashboard-left-nav">
             <?php $view = url_param('view'); ?>
             <?php $action = url_param('action'); ?>
             <?php $load_module = url_param('load_module'); ?>
@@ -583,7 +583,7 @@ $user = get_user_by_id($user_id);
                         ?>
 
                         <li class="nav-item">
-                            <a href="<?php print admin_url(); ?>view:packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                            <a href="<?php print admin_url(); ?>module/view?type=admin/modules/packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                                 <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
                                 <?php
                                 if ($countNewUpdates > 0):
@@ -600,7 +600,7 @@ $user = get_user_by_id($user_id);
                 <?php endif; ?>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings?group=all">
                         <i class="mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
@@ -613,25 +613,25 @@ $user = get_user_by_id($user_id);
 
                 <?php /*
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings?group=general">
                         <i class="mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
                     <div class="dropdown-menu">
 
-                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>settings?group=general">
                             <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                         </a>
 
-                        <a class="item-template dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                        <a class="item-template dropdown-item" href="<?php print admin_url(); ?>settings?group=template">
                             <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                         </a>
 
-                        <a class="item-users dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=users">
+                        <a class="item-users dropdown-item" href="<?php print admin_url(); ?>settings?group=users">
                             <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                         </a>
 
-                        <a class="item-email dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=email">
+                        <a class="item-email dropdown-item" href="<?php print admin_url(); ?>settings?group=email">
                             <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                         </a>
 
@@ -644,7 +644,7 @@ $user = get_user_by_id($user_id);
                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                 <?php if ($module != 'admin') { ?>
-                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="?group=<?php print $module ?>">
                                         <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
                                         <strong><?php print $title ?></strong>
                                     </a>
@@ -667,7 +667,7 @@ $user = get_user_by_id($user_id);
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                    <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('view:modules/load_module:users/action:profile'); ?>">
+                    <a class="nav-link <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('module/view?type=users/action:profile'); ?>">
                         <i class="mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
                     </a>
 

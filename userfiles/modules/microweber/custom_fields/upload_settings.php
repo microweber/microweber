@@ -1,7 +1,7 @@
 <?php include('settings_header.php'); ?>
 <div class="custom-field-settings-name">
     <div class="mw-custom-fields-upload-filetypes">
-        <label class="control-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
+        <label class="form-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
         <div class="mw-ui-field-holder">
             <label class="mw-ui-check">
                 <input type="checkbox"  name="options[file_types]" <?php if(isset($settings['options']) and isset($settings['options']['file_types']) and in_array('images',$settings['options']['file_types'])) : ?> checked <?php endif; ?> value="images"  />
@@ -27,7 +27,7 @@
         </div>
 
         <div class="mw-ui-field-holder">
-            <label class="control-label"><?php _e("Custom File Types"); ?></label>
+            <label class="form-label"><?php _e("Custom File Types"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e('Specifies the custom file type');?></small>
             <input type="text" class="form-control js-custom-field-types" value="<?php if(isset($settings['options']) and isset($settings['options']['file_types']) and is_array($settings['options']['file_types'])) : ?><?php
 

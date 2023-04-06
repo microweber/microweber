@@ -18,7 +18,7 @@
 
         <div class="card bg-light style-1 mb-3" style="max-width: 600px; margin: 0 auto;">
             <div class="card-header">
-                <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
                 <div>
 
                 </div>
@@ -29,13 +29,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group mb-4">
-                            <label class="control-label">Template Name</label>
+                            <label class="form-label">Template Name</label>
                             <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
                             <input type="text" class="form-control" placeholder="New user registration (default)"/>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="control-label">Is this mail template Active?</label>
+                            <label class="form-label">Is this mail template Active?</label>
                             <small class="text-muted d-block mb-2">Тurn off or turn on auto-reply for this email template</small>
                         </div>
 
@@ -48,10 +48,10 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <label class="control-label">Template type</label>
+                            <label class="form-label">Template type</label>
                             <small class="text-muted d-block mb-2">Name the email template so you can recognize it more easily</small>
                             <div>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option>new_user_register</option>
                                 </select>
                             </div>
@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group mb-4">
-                            <label class="control-label">From Name</label>
+                            <label class="form-label">From Name</label>
                             <small class="text-muted d-block mb-2">On what behalf will the e-mail be sent?</small>
                             <input type="text" class="form-control" placeholder="Ex. personal or company name"/>
                         </div>
@@ -72,7 +72,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group mb-4">
-                            <label class="control-label">From Email</label>
+                            <label class="form-label">From Email</label>
                             <small class="text-muted d-block mb-2">From which email it will be sent?</small>
                             <input type="text" class="form-control" placeholder="Ex. your@mail.com"/>
                         </div>
@@ -80,7 +80,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group mb-4">
-                            <label class="control-label">Copy To</label>
+                            <label class="form-label">Copy To</label>
                             <small class="text-muted d-block mb-2">To which email should you send a copy?</small>
                             <input type="text" class="form-control" placeholder="Ex. your@mail.com"/>
                         </div>
@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="form-group mb-4">
-                            <label class="control-label">Subject</label>
+                            <label class="form-label">Subject</label>
                             <small class="text-muted d-block mb-2">Subject of your email</small>
                             <input type="text" class="form-control" placeholder=""/>
                         </div>
@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <label class="control-label">E-mail attachments</label>
+                            <label class="form-label">E-mail attachments</label>
                             <small class="text-muted d-block mb-2">You can attach a file to the automatic email</small>
                             <a href="#" class="btn btn-sm btn-outline-primary">Add new email template</a>
                         </div>

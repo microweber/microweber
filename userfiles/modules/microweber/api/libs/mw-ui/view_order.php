@@ -7,7 +7,7 @@
 
         <div class="card bg-light style-1 mb-3">
             <div class="card-header">
-                <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
                 <div>
                     <a href="#" class="btn btn-sm btn-outline-secondary">Edit order</a>
                 </div>
@@ -211,7 +211,7 @@
                         <div class="mb-4">
                             <strong>Provider:</strong> ECONT Bulgaria
                             <div class="d-inline ml-3">
-                                <select class="selectpicker" data-style="btn-sm" data-width="150px">
+                                <select class="form-select" data-style="btn-sm" data-width="150px">
                                     <option>ECONT Bulgaria</option>
                                     <option>Speedy</option>
                                 </select>
@@ -255,7 +255,7 @@
                             <strong>What is the status of this order?</strong>
                         </div>
                         <div class="mb-2">
-                            <select class="selectpicker" data-style="btn-sm" data-width="100%">
+                            <select class="form-select" data-style="btn-sm" data-width="100%">
                                 <option>Pending
                                     <small class="text-muted">(the order is not finished yet)</small>
                                 </option>
@@ -280,7 +280,7 @@
                         <div class="mb-3">
                             <strong>Is paid:</strong>
                             <div class="d-inline">
-                                <select class="selectpicker" data-style="btn-sm" data-width="100px">
+                                <select class="form-select" data-style="btn-sm" data-width="100px">
                                     <option>Yes</option>
                                     <option>No</option>
                                 </select>

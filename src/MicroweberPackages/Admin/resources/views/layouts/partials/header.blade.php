@@ -34,9 +34,11 @@
         mw.require("content.js");
         mw.require("upgrades.js");
         mw.require("tree.js");
+        mw.lib.require("bootstrap_select");
 
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
+
+      //  mw.lib.require('mwui');
+      //  mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
        //  mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
@@ -252,11 +254,9 @@ $user = get_user_by_id($user_id);
 
 <div id="mw-admin-container">
 
-    <?php if ($enableTopBar) { ?>
-    @include('admin::layouts.partials.topbar')
-    <?php } ?>
-
-
+{{--    <?php if ($enableTopBar) { ?>--}}
+{{--    @include('admin::layouts.partials.topbar')--}}
+{{--    <?php } ?>--}}
 
     <?php if (url_param('view')): ?>
     <script>
@@ -269,7 +269,7 @@ $user = get_user_by_id($user_id);
     </script>
     <?php endif; ?>
 
-    <div class="<?php if ($enableNavBar) { ?> main container  my-3 <?php } ?>">
+    <div class="<?php if ($enableNavBar) { ?> page <?php } ?>">
     <?php if ($enableNavBar) { ?>
           @include('admin::layouts.partials.navbar')
     <?php } ?>

@@ -33,7 +33,7 @@ if (!$past_page) {
 }
 ?>
 
-<header class="position-sticky sticky-top bg-white admin-navigation-colorscheme">
+<header class="position-sticky sticky-top admin-navigation-colorscheme">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-1">
 

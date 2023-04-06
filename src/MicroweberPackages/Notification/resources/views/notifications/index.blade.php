@@ -163,7 +163,7 @@
             mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
 
         } else {
-            var redirectModuleUrl = '<?php echo admin_url(); ?>view:modules/load_module:' + module_name + '/mw_notif:' + notification_id;
+            var redirectModuleUrl = '<?php echo admin_url(); ?>module/view?type=' + module_name + '/mw_notif:' + notification_id;
             window.location.href = redirectModuleUrl;
             return;
         }
@@ -251,9 +251,9 @@
     }
 </style>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong><?php _e("Notifications"); ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-bell text-primary mr-3"></i> <strong><?php _e("Notifications"); ?></strong></h5>
     </div>
 
     <div class="card-body" id="">
@@ -319,7 +319,7 @@
                         });
                     </script>
 
-                    <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+                    <select class="form-select js-show-notif" data-style="btn-sm" data-width="auto">
 
                         <option value="?"><?php _e("All notifications"); ?></option>
 

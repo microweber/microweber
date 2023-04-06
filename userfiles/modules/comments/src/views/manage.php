@@ -50,10 +50,10 @@
         </div>
 
         <div class="text-center">
-            <a href="<?php print admin_url('view:modules/load_module:comments'); ?>#content_id=0" class="btn btn-link"><?php _e("See all comments"); ?></a>
+            <a href="<?php print admin_url('module/view?type=comments'); ?>#content_id=0" class="btn btn-link"><?php _e("See all comments"); ?></a>
         </div>
     <?php else: ?>
-        <div class="icon-title">
+        <div class="icon-title d-flex">
             <i class="mdi mdi-comment-account"></i> <h5><?php _e('You don\'t have any comments'); ?></h5>
         </div>
     <?php endif; ?>

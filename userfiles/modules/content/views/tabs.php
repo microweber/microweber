@@ -11,7 +11,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
 
 <div id="settings-tabs">
-    <div class="card style-1 mb-3 images">
+    <div class="card-body mb-3 images">
         <div class="card-header no-border" id="post-media-card-header">
             <h6><strong><?php _e('Pictures'); ?></strong></h6>
             <div class="post-media-type-holder">
@@ -95,7 +95,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             })
         })
     </script>
-        <div class="card style-1 mb-3 card-collapse fields js-custom-fields-card-tab">
+        <div class="card-body mb-3 card-collapse fields js-custom-fields-card-tab">
             <div class="card-header no-border">
 
                 <h6><strong><?php _e("Custom fields"); ?></strong></h6>
@@ -113,7 +113,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
     <?php endif; ?>
 
     <?php /*if (trim($data['content_type']) == 'product'):  */?><!--
-        <div class="card style-1 mb-3">
+        <div class="card-body mb-3">
             <div class="card-body pt-3">
                 <?php /*event_trigger('mw_edit_product_admin', $data); */?>
             </div>
@@ -127,7 +127,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
             <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
-            <div class="card style-1 mb-3 custom-tabs">
+            <div class="card-body mb-3 custom-tabs">
                 <div class="card-body pt-3"><?php print $html; ?></div>
             </div>
         <?php endforeach; ?>

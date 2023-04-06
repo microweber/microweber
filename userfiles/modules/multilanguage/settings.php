@@ -17,7 +17,7 @@
         <div class="col-md-6">
 
             <div class="form-group">
-                <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
+                <label class="form-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active"><?php _e('No'); ?></label>
                     <input class="mw_option_field custom-control-input" id="is_active" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
@@ -27,7 +27,7 @@
 
             <?php if ($langs): ?>
             <!--    <div class="form-group">
-                    <label class="control-label d-block"><?php /*_e("Default website language"); */?></label>
+                    <label class="form-label d-block"><?php /*_e("Default website language"); */?></label>
                     <small class="text-muted d-block mb-2"><?php /*_e("You can set the default language for your website."); */?></small>
                     <?php
 /*                    $def_language = get_option('language', 'website');
@@ -47,7 +47,7 @@
 
             <?php if ($langs): ?>
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _e("Homepage language"); ?></label>
+                    <label class="form-label d-block"><?php _e("Homepage language"); ?></label>
                     <small class="text-muted d-block mb-2"></small>
                     <?php
                     $def_language = get_option('homepage_language', 'website');
@@ -69,7 +69,7 @@
             <?php endif; ?>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Add prefix for all languages"); ?></label>
+                <label class="form-label"><?php _e("Add prefix for all languages"); ?></label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="add_prefix_for_all_languages"><?php _e("No"); ?></label>
                     <input class="mw_option_field custom-control-input" id="add_prefix_for_all_languages" type="checkbox" autocomplete="off" name="add_prefix_for_all_languages" <?php if (get_option('add_prefix_for_all_languages', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
@@ -80,7 +80,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label"><?php _e("Switch language by IP Geolocation"); ?></label>
+                <label class="form-label"><?php _e("Switch language by IP Geolocation"); ?></label>
                 <div class="custom-control custom-switch pl-0">
                     <label class="d-inline-block mr-5" for="use_geolocation"><?php _e("No"); ?></label>
                     <input class="mw_option_field custom-control-input" type="checkbox" id="use_geolocation" autocomplete="off" name="use_geolocation" <?php if (get_option('use_geolocation', 'multilanguage_settings') == 'y'): ?>checked="checked"<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
@@ -89,7 +89,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Geolocation Provider"); ?></label>
+                <label class="form-label"><?php _e("Geolocation Provider"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Choose your preferred geolocation IP detector"); ?></small>
                 <select name="geolocation_provider" class="mw_option_field js-geolocation-provider selectpicker" data-size="5" option-group="multilanguage_settings">
                     <option value="browser_detection"><?php _e("Browser Detection"); ?></option>
@@ -135,7 +135,7 @@
 
             <div class="js-ipstack-com mt-3" style="<?php echo $displayIstack; ?>">
                 <div class="form-group">
-                    <label class="control-label"><?php _e("IpStack.com API Access Key"); ?></label>
+                    <label class="form-label"><?php _e("IpStack.com API Access Key"); ?></label>
                     <input name="ipstack_api_access_key" option-group="multilanguage_settings" value="<?php echo get_option('ipstack_api_access_key', 'multilanguage_settings'); ?>" class="mw_option_field form-control mw-options-form-binded" type="text">
                 </div>
             </div>

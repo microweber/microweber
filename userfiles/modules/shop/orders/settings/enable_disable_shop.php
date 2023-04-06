@@ -7,7 +7,7 @@
 </script>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e("Online shop status"); ?></label>
+    <label class="form-label d-block"><?php _e("Online shop status"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("Choose the status of your online shop"); ?></small>
     <div class="custom-control custom-radio d-inline-block mr-2">
         <input name="shop_disabled" class="mw_option_field custom-control-input" id="shop_disabled_0" data-option-group="website" value="n" type="radio" <?php if (get_option('shop_disabled', 'website') != "y"): ?> checked="checked" <?php endif; ?> >

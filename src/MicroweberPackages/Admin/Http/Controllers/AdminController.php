@@ -49,6 +49,11 @@ class AdminController extends Controller
         return $this->render();
     }
 
+    public function dashboard(Request $request)
+    {
+        return view('admin::admin.dashboard');
+    }
+
     public function view($layout, $params = [])
     {
         $this->render_content = LaravelView::make($layout, $params)->render();

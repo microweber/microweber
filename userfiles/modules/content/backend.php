@@ -633,7 +633,7 @@ if ($action == 'posts') {
             });
         </script>
 
-        <div class="js-tree tree">
+        <div class="js-tree tree mx-3">
             <div class="tree-column-holder">
 
                 <div class="fixed-side-column">

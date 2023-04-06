@@ -12,9 +12,9 @@
 </script>
 
 <main>
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Categories</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Categories</strong></h5>
             <div>
                 <div class="input-group mb-0 prepend-transparent">
                     <div class="input-group-prepend">
@@ -121,9 +121,9 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Add a category</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong>Add a category</strong></h5>
             <div>
                 <button type="button" class="btn btn-success btn-sm">Save</button>
                 <button type="button" class="btn btn-success btn-sm icon-left" disabled=""><i class="spinner-border spinner-border-sm mr-2"></i> Please wait...</button>
@@ -137,7 +137,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="control-label">Category name</label>
+                                <label class="form-label">Category name</label>
                                 <div class="input-group mb-3 prepend-transparent">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="mdi mdi-folder text-silver"></i></span>
@@ -149,10 +149,10 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="control-label">Choose a parent</label>
+                                <label class="form-label">Choose a parent</label>
                                 <small class="text-muted d-block mb-2">Choose a parent page or category</small>
                                 <div>
-                                    <select class="selectpicker" data-width="100%" data-title="Select parent page or category">
+                                    <select class="form-select" data-width="100%" data-title="Select parent page or category">
                                         <option>Mustard</option>
                                         <option>Ketchup</option>
                                         <option>Barbecue</option>
@@ -166,7 +166,7 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="control-label" for="exampleTextarea">Description</label>
+                                <label class="form-label" for="exampleTextarea">Description</label>
                                 <small class="text-muted d-block mb-2">Type description of your category in the field</small>
                                 <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
                             </div>
@@ -174,7 +174,7 @@
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="control-label">Category Image</label>
+                                <label class="form-label">Category Image</label>
 
                                 <small class="text-muted d-block mb-2">Upload image to your category or select from <a href="#" class="text-primary">Browse uploaded</a> or from <a href="#" class="text-primary">Media library</a></small>
 
@@ -183,7 +183,7 @@
                         </div>
 
                         <div class="col-12">
-                            <label class="control-label">Other settings</label>
+                            <label class="form-label">Other settings</label>
                             <small class="text-muted d-block mb-2">Discover more advanced options</small>
 
                             <button class="btn btn-outline-secondary btn-sm btn-rounded" data-bs-toggle="collapse" data-bs-target="#show-more">Show more</button>
@@ -192,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label">Slug</label>
+                                            <label class="form-label">Slug</label>
                                             <div class="mb-3">
                                                 <input type="text" class="form-control">
                                             </div>
@@ -201,7 +201,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label class="control-label">Can users create content <span class="help-tooltip" data-bs-toggle="tooltip" title="Help tooltip"></span></label>
+                                            <label class="form-label">Can users create content <span class="help-tooltip" data-bs-toggle="tooltip" title="Help tooltip"></span></label>
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
@@ -218,10 +218,10 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label class="control-label">Category subtype <span class="help-tooltip" data-bs-toggle="tooltip" title="Help tooltip"></span></label>
+                                            <label class="form-label">Category subtype <span class="help-tooltip" data-bs-toggle="tooltip" title="Help tooltip"></span></label>
 
                                             <div>
-                                                <select class="selectpicker" data-width="100%">
+                                                <select class="form-select" data-width="100%">
                                                     <option>Default</option>
                                                     <option>Ketchup</option>
                                                     <option>Barbecue</option>

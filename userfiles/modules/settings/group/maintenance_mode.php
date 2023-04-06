@@ -14,7 +14,7 @@ $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
 ?>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e("Maintenance mode"); ?></label>
+    <label class="form-label d-block"><?php _e("Maintenance mode"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("Turn on Under construction mode of your site"); ?></small>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
@@ -36,7 +36,7 @@ $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
 </div>
 <?php if($maintenance_mode == 'y'){ ?>
 <div class="form-group mb-t">
-    <label class="control-label"><?php _e("Maintenance mode text"); ?></label>
+    <label class="form-label"><?php _e("Maintenance mode text"); ?></label>
     <textarea autocomplete="off" name="maintenance_mode_text" class="mw_option_field form-control" rows="3" type="text" option-group="website"><?php print $maintenance_mode_text ?></textarea>
 </div>
 <?php } ?>

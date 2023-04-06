@@ -12,9 +12,9 @@
 </script>
 
 <main>
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-header">
-            <h5><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Shop</strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>Shop</strong></h5>
             <div class="d-none">
                 <div class="input-group mb-0 prepend-transparent">
                     <div class="input-group-prepend">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="card-body pt-3">
             <div class="row">
                 <div class="col-12">
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-  
+
     <div class="row copyright mt-3">
         <div class="col-12">
             <p class="text-muted text-center small">Open-source website builder and CMS Microweber 2020. Version: 1.18</p>

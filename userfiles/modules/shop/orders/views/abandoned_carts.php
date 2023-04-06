@@ -113,12 +113,12 @@ if (!isset($orders) or !$orders) {
             <td class="p-20 d-flex">
                 <?php // event_trigger('mw_admin_quick_stats_by_session', $item['session_id']); ?>
                    <div class="col-6">
-                       <label class="control-label d-block">
+                       <label class="form-label d-block">
                            <?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span>
                        </label>
                        <small class="text-muted" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base . '?recart=' . $item['session_id']; ?></small>
                    </div>
-                <label class="control-label col-2 align-self-center">
+                <label class="form-label col-2 align-self-center">
                     <span class="mw-icon-lite-clock-outline" style="font-size: 16px;top:-1px;right:2px;"></span>
                     <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $item['updated_at'] ?>"><?php print mw('format')->ago($item['updated_at']); ?></span>
                 </label>

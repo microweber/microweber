@@ -31,7 +31,7 @@ class AbandonedOrderController extends AdminController
             ->appends($request->except('page'));
 
 
-        return $this->view('order::admin.orders.abandoned', [
+        return view('order::admin.orders.abandoned', [
             'abandoned'=>true,
             'priceBetween'=>$priceBetween,
             'orderBy'=>$orderBy,

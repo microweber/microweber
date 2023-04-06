@@ -46,7 +46,7 @@
 <?php if (is_array($lic) and !empty($lic)): ?>
     <div class="row p-2">
             <div class="col-12">
-                <label class="control-label mb-0"><?php _e('Check your license'); ?></label>
+                <label class="form-label mb-0"><?php _e('Check your license'); ?></label>
                 <small class="text-muted d-block"><?php _e('From this modal you can manipulate your licenses'); ?></small>
             </div>
         <div class="col-12 d-flex justify-content-center text-center p-3">

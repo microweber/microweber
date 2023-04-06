@@ -124,7 +124,7 @@ if(isset($packages_by_type_reorder['microweber-module'])){
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 ?>
 
-<div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5 class="mb-0">
@@ -143,9 +143,9 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                 <ul class="navbar-nav mx-auto m-md-0 m-2">
                     <li class="nav-item active d-xl-flex">
                         <?php if ($is_update_mode) { ?>
-                            <a href="<?php print admin_url() ?>view:packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
+                            <a href="<?php print admin_url() ?>module/view?type=admin/modules/packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
                         <?php } else { ?>
-                            <a href="<?php print admin_url() ?>view:settings#option_group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
+                            <a href="<?php print admin_url() ?>settings?group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
                         <?php } ?>
                         <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block  my-xl-0 my-1 my-md-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
                         <a href="javascript:;" class="btn btn-success btn-sm d-block my-xl-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></a>                    </li>

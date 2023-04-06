@@ -208,8 +208,8 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
     $show_by_categories = true;
 }
 ?>
-<div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-header px-0">
+<div class="card mb-3">
+    <div class="card-header">
         <h5>
             <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Modules"); ?></strong>
         </h5>
@@ -218,7 +218,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
         </div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+    <div class="card-body">
         <script>
             $(document).ready(function () {
                 $('.js-show-filter').on('click', function () {
@@ -281,7 +281,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                         <div>
                             <label class="d-block mb-2"><?php _e("Type"); ?></label>
 
-                            <select class="selectpicker js-modules-sort-types" data-width="100%">
+                            <select class="form-select js-modules-sort-types" data-width="100%">
                                 <option value="live_edit"><?php _e("Live edit modules"); ?></option>
                                 <option value="admin" selected><?php _e("Admin modules"); ?></option>
                                 <option value="advanced"><?php _e("All modules"); ?></option>
@@ -293,7 +293,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                         <div>
                             <label class="d-block mb-2"><?php _e("Status"); ?></label>
 
-                            <select class="selectpicker js-modules-sort-status" data-width="100%">
+                            <select class="form-select js-modules-sort-status" data-width="100%">
                                 <option value="1"><?php _e("Installed"); ?></option>
                                 <option value="0"><?php _e("Uninstalled"); ?></option>
                                 <!--                                <option value="2">--><?php //_e("All"); ?><!--</option>-->

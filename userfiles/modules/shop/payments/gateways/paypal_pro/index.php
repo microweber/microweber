@@ -3,15 +3,15 @@
 /*<div class="paypal-pro-gateway"><h5 class="alert alert-success"><?php _e("Your card payments are secured by PayPal"); ?></h5>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("First Name"); ?> </label>
+        <label class="form-label"><?php _e("First Name"); ?> </label>
         <input name="cc_first_name" type="text" class="form-control" value=""/>
     </div>
     <div class="form-group">
-        <label class="control-label"><?php _e("Last Name"); ?></label>
+        <label class="form-label"><?php _e("Last Name"); ?></label>
         <input name="cc_last_name" type="text" class="form-control" value=""/>
     </div>
     <div class="form-group">
-        <label class="control-label"><?php _e("Credit Card"); ?></label>
+        <label class="form-label"><?php _e("Credit Card"); ?></label>
         <select name="cc_type" class="form-control">
             <option value="Visa" selected><?php _e("Visa"); ?></option>
             <option value="MasterCard"><?php _e("MasterCard"); ?></option>
@@ -21,11 +21,11 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Credit Card Number"); ?></label>
+        <label class="form-label"><?php _e("Credit Card Number"); ?></label>
         <input name="cc_number" type="text" value="" class="form-control"/>
     </div>
     <div class="form-group">
-        <label class="control-label"><?php _e("Expiration Date"); ?></label>
+        <label class="form-label"><?php _e("Expiration Date"); ?></label>
         <div class="row m-t-0">
             <div class="col-xs-6">
                 <input name="cc_month" class="form-control" placeholder="<?php _e("Month"); ?>" type="text" value="" class="form-control"/>
@@ -38,7 +38,7 @@
 
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Verification Code"); ?></label>
+        <label class="form-label"><?php _e("Verification Code"); ?></label>
         <input name="cc_verification_value" type="text" value="" class="form-control"/>
         <div class="cc_process_error"></div>
     </div>

@@ -11,7 +11,7 @@ $mailProviders = get_modules('type=mail_provider');
 ?>
 <?php if (!empty($mailProviders)): ?>
     <div class="form-group mb-1">
-        <label class="control-label"><?php _e("Mail providers"); ?></label>
+        <label class="form-label"><?php _e("Mail providers"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Choose mail providers to save your contacts information data"); ?></small>
     </div>
 

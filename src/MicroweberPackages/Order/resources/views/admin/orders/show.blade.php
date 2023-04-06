@@ -1,4 +1,8 @@
-<?php $zoom = 10; ?>
+@extends('admin::layouts.app')
+
+@section('content')
+
+    <?php $zoom = 10; ?>
 <script>mw.lib.require('mwui_init');</script>
 
 <script type="text/javascript">
@@ -59,7 +63,7 @@
 
 <div class="card bg-light style-1 mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $order['id'] ?></strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Order"); ?> #<?php print $order['id'] ?></strong></h5>
        <div  data-bs-toggle="tooltip" title="<?php print mw()->format->ago($order['created_at']); ?>">
         <?php print date('M d, Y', strtotime($order['created_at'])); ?>
        </div>
@@ -260,7 +264,7 @@
                     <div class="mb-4">
                         <strong>Provider:</strong> ECONT Bulgaria
                         <div class="d-inline ml-3">
-                            <select class="selectpicker" data-style="btn-sm" data-width="150px">
+                            <select class="form-select" data-style="btn-sm" data-width="150px">
                                 <option>ECONT Bulgaria</option>
                                 <option>Speedy</option>
                             </select>
@@ -304,7 +308,7 @@
                     <?php _e("What is the status of this order?"); ?>
                 </div>
                 <div class="mb-2">
-                    <select name="order_status" class="selectpicker" data-style="btn-sm" data-width="100%">
+                    <select name="order_status" class="form-select" data-style="btn-sm" data-width="100%">
                         <option value="pending" <?php if ($order['order_status'] == 'pending'): ?>selected<?php endif; ?>>Pending
                             <small class="text-muted">(<?php _e('the order is not completed yet'); ?>)</small>
                         </option>
@@ -531,3 +535,5 @@
     </div>
 </div>
 <?php endif; ?>
+
+@endsection

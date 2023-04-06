@@ -1,5 +1,5 @@
 <div class="col-md-4 manage-content-sidebar">
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-body pt-3 pb-0">
             <div class="row">
                 <div class="col-12">
@@ -23,11 +23,11 @@
                 <div class="col-12">
                     <a href="#" class="btn btn-link px-0"><?php _e('Set a specific publish date'); ?></a>
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-body pt-3">
             <div class="row">
                 <div class="col-12">
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="card style-1 mb-3">
+    <div class="card-body mb-3">
         <div class="card-body pt-3">
             <div class="row mb-3">
                 <div class="col-12">

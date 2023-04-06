@@ -447,7 +447,7 @@
     <div class="create-presets-holder" style="display: none;" id="create-preset">
         <div class="js-module-preset-item-form-holder">
             <div class="form-group">
-                <label class="control-label">Create new preset</label>
+                <label class="form-label">Create new preset</label>
                 <input type="hidden" name="module" value="<?php print $module_name ?>">
                 <input type="hidden" name="module_id" value="<?php print $module_id ?>">
                 <input type="text" name="name" value="" placeholder="<?php _e('Title'); ?>" class="form-control"/>

@@ -107,7 +107,7 @@ if ($id != 0) {
 
 <?php if (isset($data) and $data != false): ?>
     <div class="form-group">
-        <label class="control-label"><strong><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?> <?php _e("structure"); ?></label>
+        <label class="form-label"><strong><?php print strtoupper(str_replace('_', ' ', $menu_title)); ?> <?php _e("structure"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?></small>
     </div>
 

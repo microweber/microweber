@@ -88,7 +88,7 @@ description: MW Default
                     </li>
                 <?php endforeach; ?>
                 <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
-                    <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
+                    <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>module/view?type=multilanguage';">
                         <?php _e('Settings'); ?>
                     </li>
                 <?php endif; ?>

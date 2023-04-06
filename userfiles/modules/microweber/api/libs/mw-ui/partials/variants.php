@@ -1,4 +1,4 @@
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header no-border">
         <h6><strong>Variants</strong></h6>
     </div>
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="js-product-variants">
             <hr class="thin no-padding"/>
 
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <h6 class="pb-1"><strong>Option 1</strong></h6>
                             <div>
-                                <select class="selectpicker" data-title="Option type" data-width="100%">
+                                <select class="form-select" data-title="Option type" data-width="100%">
                                     <option selected>Size</option>
                                     <option>Color</option>
                                     <option>Material</option>
@@ -55,7 +55,7 @@
                         <div class="form-group">
                             <h6 class="pb-1"><strong>Option 2</strong></h6>
                             <div>
-                                <select class="selectpicker" data-title="Option type" data-width="100%">
+                                <select class="form-select" data-title="Option type" data-width="100%">
                                     <option>Size</option>
                                     <option selected="">Color</option>
                                     <option>Material</option>

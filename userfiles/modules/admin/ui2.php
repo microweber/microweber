@@ -64,8 +64,8 @@
 
 
 
-<div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-header px-0">
+<div class="card mb-3">
+    <div class="card-header">
         <h5>
             <i class="mdi mdi-file-cabinet text-primary mr-3"></i> <strong>Files</strong>
         </h5>

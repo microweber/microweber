@@ -178,9 +178,9 @@ mw()->notifications_manager->mark_as_read('users');
         ?>
 
         <?php if ($user_params['id'] != 0): ?>
-            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Edit User"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Edit User"); ?></strong></h5>
         <?php else: ?>
-            <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
+            <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong></h5>
         <?php endif; ?>
     </div>
 
@@ -211,7 +211,7 @@ mw()->notifications_manager->mark_as_read('users');
             <div>
                 <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse" data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
 
-                <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>" class="btn btn-primary" id="add-new-user-btn">
+                <a href="<?php print admin_url('module/view?type=users/edit-user:0'); ?>" class="btn btn-primary" id="add-new-user-btn">
                     <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
                 </a>
             </div>
@@ -251,7 +251,7 @@ mw()->notifications_manager->mark_as_read('users');
                                             }
                                         </script>
 
-                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByRoles(event)">
+                                        <select class="form-select" data-style="btn-md" onchange="handleUserSortByRoles(event)">
                                             <option value="-1"><?php _e("All"); ?></option>
                                             <option value="0"><?php _e("User"); ?></option>
                                             <option value="1"><?php _e("Admin"); ?></option>
@@ -281,7 +281,7 @@ mw()->notifications_manager->mark_as_read('users');
                                             }
                                         </script>
 
-                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
+                                        <select class="form-select" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
                                             <option value="-1"><?php _e("All users"); ?></option>
                                             <option value="1"><?php _e("Active users"); ?></option>
                                             <option value="0"><?php _e("Disabled users"); ?></option>

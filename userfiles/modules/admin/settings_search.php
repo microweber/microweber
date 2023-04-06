@@ -12,7 +12,7 @@
         });
     });
 </script>
-<select class="selectpicker js-search-settings" data-live-search="true" data-style="btn-sm" data-size="5">
+<select class="form-select js-search-settings" data-live-search="true" data-style="btn-sm" data-size="5">
     <optgroup label="Website Settings">
         <option data-tokens="currency general" data-url="<?php print admin_url() ?>view:shop/action:options/?group=general">General</option>
         <option data-tokens="updates" data-url="<?php print admin_url() ?>view:content/action:settings?group=updates">Updates</option>

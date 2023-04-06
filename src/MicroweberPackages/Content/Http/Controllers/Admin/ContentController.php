@@ -29,7 +29,7 @@ class ContentController extends AdminController
 
     public function index(Request $request) {
 
-        return $this->view('content::admin.content.index');
+        return view('content::admin.content.index');
     }
 
     public function create(Request $request) {
@@ -47,12 +47,12 @@ class ContentController extends AdminController
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
 
-        return $this->view('content::admin.content.edit',$data);
+        return view('content::admin.content.edit',$data);
     }
 
     public function edit(Request $request, $id) {
 
-        return $this->view('content::admin.content.edit', [
+        return view('content::admin.content.edit', [
             'content_id'=>intval($id)
         ]);
     }

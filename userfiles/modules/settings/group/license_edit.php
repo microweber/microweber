@@ -110,7 +110,7 @@ if(isset($params['require_name'])) {
     <?php endif; ?>
 
     <div class="form-group">
-        <label class="control-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
+        <label class="form-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
         <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a  class="btn btn-outline-primary btn-sm" target="_blank" href="<?php print $url; ?>"><?php _e('Get license key'); ?></a></small>
         <input type="hidden" name="rel_type" value="<?php print $params['prefix']; ?>">
         <input name="activate_on_save" type="hidden" value="1"/>

@@ -25,7 +25,7 @@ class ProductController extends AdminController
     }
 
     public function dashboard(Request $request) {
-        return $this->view('shop::admin.dashboard');
+        return view('shop::admin.dashboard');
     }
 
     public function index(Request $request) {

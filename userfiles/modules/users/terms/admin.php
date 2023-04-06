@@ -30,7 +30,7 @@ $terms_url = get_option('terms_url', $mod_id);
 <?php if($show_edit_for_label){ ?>
 
 <div class="form-group mb-3">
-    <label class="control-label"><?php _e("Terms and conditions text"); ?></label>
+    <label class="form-label"><?php _e("Terms and conditions text"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("The text will appear to the user"); ?></small>
     <input type="text" class="mw_option_field form-control" name="terms_label" option-group="<?php print $mod_id ?>" value="<?php print $terms_label; ?>" placeholder="<?php _e("I agree with the Terms and Conditions"); ?>"/>
 </div>
@@ -39,7 +39,7 @@ $terms_url = get_option('terms_url', $mod_id);
 
 
 <div class="form-group mb-3">
-    <label class="control-label"><?php _e("URL of terms and conditions"); ?></label>
+    <label class="form-label"><?php _e("URL of terms and conditions"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("Уou need to create this page and type in the address field"); ?>.</small>
     <input type="text" class="mw_option_field form-control" name="terms_url" option-group="<?php print $mod_id ?>" value="<?php print $terms_url; ?>" placeholder="<?php print site_url('terms') ?>"/>
 </div>

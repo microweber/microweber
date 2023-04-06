@@ -33,11 +33,11 @@
 
 
             <div class="edit" field="checkout_finish_message" rel="global">
-                <label class="control-label mb-0"><?php _e("Your order is completed"); ?></label>
+                <label class="form-label mb-0"><?php _e("Your order is completed"); ?></label>
                 <h4><?php _e("Thank you"); ?>!</h4>
             </div>
 
-            <label class="control-label mt-4 mb-0"><?php _e("Order number"); ?></label>
+            <label class="form-label mt-4 mb-0"><?php _e("Order number"); ?></label>
             <h4 dusk="order-number"><?php print($order['id']); ?></h4>
 
             <div class="edit" field="checkout_finish_button" rel="global">

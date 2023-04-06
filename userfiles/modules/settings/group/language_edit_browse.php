@@ -166,7 +166,7 @@ endif;
         <div class="row">
             <div class="col-12">
                 <div class="form-group mb-0">
-                    <label class="control-label mb-0"><?php _e('Language file'); ?>:
+                    <label class="form-label mb-0"><?php _e('Language file'); ?>:
                         <button type="button" class="btn btn-link js-lang-file-position" type="button" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
                             <?php
                             if ($namespace == '*') {
@@ -186,7 +186,7 @@ endif;
 
         <div class="d-flex justify-content-between align-items-center">
             <div>
-                <label class="control-label m-0"><?php _e('Translate the fields to different languages'); ?></label>
+                <label class="form-label m-0"><?php _e('Translate the fields to different languages'); ?></label>
             </div>
 
            <div>

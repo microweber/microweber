@@ -16,15 +16,15 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Settings</a>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-header px-0">
-                <h5><i class="mdi mdi-login text-primary mr-3"></i> <strong>Login and register</strong></h5>
+        <div class="card my-3">
+            <div class="card-header">
+                <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Login and register</strong></h5>
                 <div>
 
                 </div>
             </div>
 
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         <h5 class="font-weight-bold">Register options</h5>
@@ -36,7 +36,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Enable user registration</label>
+                                            <label class="form-label">Enable user registration</label>
                                             <small class="text-muted d-block mb-2">Do you allow users to register on your website? If you choose “yes”, they will do that with their email.</small>
                                         </div>
 
@@ -49,7 +49,7 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Registration approval required</label>
+                                            <label class="form-label">Registration approval required</label>
                                             <small class="text-muted d-block mb-2">Do you want the user to verify their account after registration? This way you will be sure that the user who has registered is a real person.</small>
                                         </div>
 
@@ -69,8 +69,8 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3 px-0">
+        <div class="card my-3">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -85,7 +85,7 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right">View Register Form settings</a>
-                                            <label class="control-label">Set the form fields</label>
+                                            <label class="form-label">Set the form fields</label>
                                             <small class="text-muted d-block mb-2">Use the checkbox to determine which visible fields are required for registration.</small>
                                         </div>
 
@@ -121,7 +121,7 @@
 
                                         <div class="form-group mb-3">
                                             <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
-                                            <label class="control-label">Disable Captcha - Registration Form</label>
+                                            <label class="form-label">Disable Captcha - Registration Form</label>
                                             <small class="text-muted d-block mb-2">Enable or Disable captcha code verification in the registration area.</small>
                                         </div>
 
@@ -133,7 +133,7 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Disable registration with temporary email?</label>
+                                            <label class="form-label">Disable registration with temporary email?</label>
                                             <small class="text-muted d-block mb-2">Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla...</small>
                                         </div>
 
@@ -152,8 +152,8 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3 px-0">
+        <div class="card my-3">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -168,7 +168,7 @@
                                     <div class="col-12">
                                         <div class="form-group mb-3">
                                             <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right">View Captcha module settings</a>
-                                            <label class="control-label">Login form settings</label>
+                                            <label class="form-label">Login form settings</label>
                                             <small class="text-muted d-block mb-2">Do I need a captcha foma for login each time?</small>
                                         </div>
 
@@ -187,8 +187,8 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3 px-0">
+        <div class="card my-3">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -202,7 +202,7 @@
                                 <div class="row">
                                     <div class="col-12 socials-logins-settings">
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Enable user registration with socials accounts</label>
+                                            <label class="form-label">Enable user registration with socials accounts</label>
                                             <small class="text-muted d-block mb-2">Do you allow users to register on your website with their social media accounts. This will save time of the users to register.</small>
                                         </div>
 
@@ -216,7 +216,7 @@
 
                                          <div class="collapse-x" id="allow-users-social-newtworks-login">
                                             <div class="form-group mb-3">
-                                                <label class="control-label mb-0">Allow Social Login with</label>
+                                                <label class="form-label mb-0">Allow Social Login with</label>
                                                 <hr class="thin"/>
                                             </div>
 
@@ -379,8 +379,8 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3 px-0">
+        <div class="card my-3">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -394,7 +394,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Send email for a user registration</label>
+                                            <label class="form-label">Send email for a user registration</label>
                                             <small class="text-muted d-block mb-2">Do you want users to receive an e-mail when registering?</small>
                                         </div>
 
@@ -407,7 +407,7 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Select email template</label>
+                                            <label class="form-label">Select email template</label>
                                             <small class="text-muted d-flex justify-content-between align-items-center mb-2">Choose template to send for registred users.
                                                 <button class="btn btn-sm btn-outline-primary">Add new email template</button>
                                             </small>
@@ -462,8 +462,8 @@
             </div>
         </div>
 
-        <div class="card bg-none style-1 mb-0">
-            <div class="card-body pt-3 px-0">
+        <div class="card my-3">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -477,28 +477,28 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label">Register URL</label>
+                                            <label class="form-label">Register URL</label>
                                             <small class="text-muted d-block mb-2">You can set a custom url for the register page</small>
 
                                             <input class="form-control" type="text" placeholder="" value="Use default"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Login URL</label>
+                                            <label class="form-label">Login URL</label>
                                             <small class="text-muted d-block mb-2">You can set a custom url for the login page</small>
 
                                             <input class="form-control" type="text" placeholder="" value="Use default"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Logout URL</label>
+                                            <label class="form-label">Logout URL</label>
                                             <small class="text-muted d-block mb-2">You can set a custom url for the logout page</small>
 
                                             <input class="form-control" type="text" placeholder="" value="Use default"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Forgot password URL</label>
+                                            <label class="form-label">Forgot password URL</label>
                                             <small class="text-muted d-block mb-2">You can set a custom url for the forgot password page</small>
 
                                             <input class="form-control" type="text" placeholder="" value="Use default"/>

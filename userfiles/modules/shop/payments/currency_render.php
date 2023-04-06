@@ -28,7 +28,7 @@ $num = 1.00;
         <h5 class="font-weight-bold"><?php _e("Accept payments in currency"); ?></h5>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("Select the currency accepted by payment provider"); ?></label>
+            <label class="form-label"><?php _e("Select the currency accepted by payment provider"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("If your payment provider does not support the default currency then the customer will pay in selected currency"); ?></small>
             <select name="payment_currency" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend" autocomplete="off" data-live-search="true" data-size="5">
                 <option value="" <?php if ($payment_currency == false): ?> selected="selected" <?php endif; ?>><?php _e('Default'); ?></option>
@@ -51,7 +51,7 @@ $num = 1.00;
 
 
         <div class="form-group">
-            <label class="control-label"><?php _e('Convert rate'); ?></label>
+            <label class="form-label"><?php _e('Convert rate'); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Convert rate from default currency to payment currency"); ?></small>
             <input name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>" id="payment_currency_rate_val_sugg" type="text" class="price-field mw_option_field form-control" data-option-group="payments" data-reload="mw_curr_rend"/>
             <?php $sugg = mw()->shop_manager->currency_convert_rate($cur, $payment_currency); ?>
@@ -67,7 +67,7 @@ $num = 1.00;
 <label class=""><?php _e("Example of how the price will be shown"); ?>:</label>
 <input value="<?php print (currency_format($num, $cur)); ?>" disabled type="text" class="mw-ui-invisible-field text-outline-primary font-weight-bold" style="font-size: 18px;"/>
 <?php if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies)): ?>
-    <label class="control-label"><?php _e("Equals to"); ?> (<?php _e('rate:'); ?> <?php print  $payment_currency_rate ?>
+    <label class="form-label"><?php _e("Equals to"); ?> (<?php _e('rate:'); ?> <?php print  $payment_currency_rate ?>
         <?php _e("or"); ?><?php print (currency_format(100, $cur)); ?>=<?php print (currency_format(100 * $payment_currency_rate, $payment_currency)); ?> )</label>
     <input value="<?php print (currency_format($num * $payment_currency_rate, $payment_currency)); ?>" disabled type="text" class="mw-ui-invisible-field"/>
 <?php endif; ?>

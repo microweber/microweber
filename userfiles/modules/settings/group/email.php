@@ -121,14 +121,14 @@
 
 <div class="<?php print $config['module_class'] ?>">
     <div class="card bg-none style-1 mb-0 card-settings  js-holder-email-names-settings">
-        <div class="card-header px-0">
-            <h5><i class="mdi mdi-email-outline text-primary mr-3"></i> <strong><?php _e("E-mail"); ?></strong></h5>
+        <div class="card-header">
+            <h5 class="card-title"><i class="mdi mdi-email-outline text-primary mr-3"></i> <strong><?php _e("E-mail"); ?></strong></h5>
             <div>
 
             </div>
         </div>
 
-        <div class="card-body pt-3 px-0">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("System e-mail website settings"); ?></h5>
@@ -142,13 +142,13 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("From e-mail address"); ?></label>
+                                        <label class="form-label"><?php _e("From e-mail address"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will send emails on behalf of this address"); ?></small>
                                         <input name="email_from" class="mw_option_field form-control" type="email" type="text" option-group="email" value="<?php print get_option('email_from', 'email'); ?>" placeholder="Ex. noreply@yourwebsite.com"/>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("From name"); ?></label>
+                                        <label class="form-label"><?php _e("From name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will use this name for the emails"); ?></small>
                                         <input name="email_from_name" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('email_from_name', 'email'); ?>" placeholder="<?php _e("Ex. Your Website Name"); ?>"/>
                                     </div>
@@ -162,7 +162,7 @@
     </div>
 
     <div class="card bg-none style-1 mb-0 card-settings js-holder-email-server-settings">
-        <div class="card-body pt-3 px-0">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("General e-mail provider settings"); ?></h5>
@@ -178,7 +178,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Send email function"); ?></label>
+                                        <label class="form-label"><?php _e("Send email function"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Select a provider or email feature to use for sending emails"); ?></small>
                                         <?php
                                         $email_transport = get_option('email_transport', 'email');
@@ -186,7 +186,7 @@
                                             $email_transport = 'php';
                                         }
                                         ?>
-                                        <select name="email_transport"  autocomplete="off" class="xxxmw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
+                                        <select name="email_transport"  autocomplete="off" class="xxxmw_option_field form-select js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
                                             <option value="php" <?php if ($email_transport == 'php'): ?> selected="selected" <?php endif; ?>><?php _e("PHP mail function"); ?></option>
                                             <option value="gmail" <?php if ($email_transport == 'gmail'): ?> selected="selected" <?php endif; ?>><?php _e("GMail"); ?></option>
                                             <?php /* <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
@@ -225,14 +225,14 @@
                                         <?php if ($email_transport == 'smtp' or $email_transport == 'cpanel' or $email_transport == 'plesk' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php print titlelize($email_transport) . ' ' . _e("Username", true); ?></label>
+                                                    <label class="form-label"><?php print titlelize($email_transport) . ' ' . _e("Username", true); ?></label>
                                                     <input name="smtp_username" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('smtp_username', 'email'); ?>" placeholder="<?php _e("example"); ?>: <?php _e("user@email.com"); ?>"/>
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php print titlelize($email_transport) . ' ' . _e("Password", true); ?></label>
+                                                    <label class="form-label"><?php print titlelize($email_transport) . ' ' . _e("Password", true); ?></label>
                                                     <input name="smtp_password" class="mw_option_field form-control" autocomplete="one-time-code" type="password" option-group="email" value="<?php print get_option('smtp_password', 'email'); ?>"/>
                                                 </div>
                                             </div>
@@ -241,7 +241,7 @@
                                         <?php if ($email_transport == 'smtp' || $email_transport == 'plesk' || $email_transport == 'cpanel'): ?>
                                             <div class="<?php if ($email_transport == 'smtp'): ?>col-12<?php else: ?>col-12<?php endif; ?>">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e("Smtp Email Host"); ?></label>
+                                                    <label class="form-label"><?php _e("Smtp Email Host"); ?></label>
                                                     <input name="smtp_host" class="mw_option_field form-control" autocomplete="off" type="text" option-group="email" value="<?php print get_option('smtp_host', 'email'); ?>" placeholder="<?php _e("example"); ?>: smtp.gmail.com"/>
                                                 </div>
                                             </div>
@@ -250,14 +250,14 @@
                                         <?php if ($email_transport == 'smtp'): ?>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e("Smtp Email Port"); ?></label>
+                                                    <label class="form-label"><?php _e("Smtp Email Port"); ?></label>
                                                     <input name="smtp_port" class="mw_option_field form-control"  autocomplete="off" type="text" option-group="email" value="<?php print get_option('smtp_port', 'email'); ?>" placeholder="<?php _e("example"); ?>: 587 or 995, 465, 110, 25"/>
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e("Enable SMTP authentication"); ?></label>
+                                                    <label class="form-label"><?php _e("Enable SMTP authentication"); ?></label>
                                                     <?php $email_smtp_auth = get_option('smtp_auth', 'email'); ?>
 
                                                     <select  autocomplete="off" name="smtp_auth" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
@@ -270,7 +270,7 @@
 
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e("Enable SMTP Secure Method"); ?></label>
+                                                    <label class="form-label"><?php _e("Enable SMTP Secure Method"); ?></label>
                                                     <?php $email_smtp_secure = get_option('smtp_secure', 'email'); ?>
 
                                                     <select  autocomplete="off" name="smtp_secure" class="form-control mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
@@ -298,12 +298,12 @@
                                         <p class="text-muted"><?php _e("Send test email to check settings are they work correctly."); ?></p>
 
                                         <div class="form-group">
-                                            <label class="control-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
+                                            <label class="form-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
                                             <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label" for="test_email_subject"><?php _e("Test mail subject"); ?></label>
+                                            <label class="form-label" for="test_email_subject"><?php _e("Test mail subject"); ?></label>
                                             <input name="test_email_subject" id="test_email_subject" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_subject', 'email'); ?>"/>
                                         </div>
 

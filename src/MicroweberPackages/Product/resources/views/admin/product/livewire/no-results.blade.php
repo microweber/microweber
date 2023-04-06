@@ -1,5 +1,5 @@
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-body">
         <div class="no-items-found products">
             <div class="no-items-box" style="background-image: url('<?php print modules_url(); ?>microweber/api/libs/mw-ui/assets/img/no_products.svg'); ">

@@ -195,7 +195,7 @@ if (isset($notif_params['quick'])) {
             mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
 
         } else {
-            var redirectModuleUrl = '<?php echo admin_url(); ?>view:modules/load_module:' + module_name + '/mw_notif:' + notification_id;
+            var redirectModuleUrl = '<?php echo admin_url(); ?>module/view?type=' + module_name + '/mw_notif:' + notification_id;
             window.location.href = redirectModuleUrl;
             return;
         }
@@ -283,9 +283,9 @@ if (isset($notif_params['quick'])) {
     }
 </style>
 
-<div class="card style-1 mb-3">
+<div class="card-body mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
+        <h5 class="card-title"><i class="mdi mdi-bell text-primary mr-3"></i> <strong>Notifications</strong></h5>
     </div>
 
     <div class="card-body" id="<?php print $wrapper_id ?>">
@@ -337,7 +337,7 @@ if (isset($notif_params['quick'])) {
                             });
                         </script>
 
-                        <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+                        <select class="form-select js-show-notif" data-style="btn-sm" data-width="auto">
                             <option value="?">All notifications</option>
                             <option value="?filter_by=comments" <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>Comments</option>
                             <option value="?filter_by=orders" <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>Orders</option>

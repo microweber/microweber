@@ -22,7 +22,7 @@
 
 <div class="card style-1 bg-light mb-3">
     <div class="card-header">
-        <h5><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
+        <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
         </h5>
     </div>
 
@@ -44,7 +44,7 @@
                     <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse"
                        data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
 
-                    <a href="<?php print admin_url('view:modules/load_module:users/edit-user:0'); ?>"
+                    <a href="<?php print admin_url('module/view?type=users/edit-user:0'); ?>"
                        class="btn btn-primary" id="add-new-user-btn">
                         <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
                     </a>
@@ -78,7 +78,7 @@
                                         <div>
                                             <label class="d-block mb-2"><?php _e("Role"); ?></label>
 
-                                            <select class="selectpicker" data-style="btn-md" name="isAdmin">
+                                            <select class="form-select" data-style="btn-md" name="isAdmin">
 
                                                 <option disabled="disabled"><?php _e("Select role"); ?></option>
 
@@ -190,7 +190,7 @@
                     <td>
 
                         <a class="btn btn-outline-primary btn-sm"
-                           href="{{admin_url()}}view:modules/load_module:users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
+                           href="{{admin_url()}}module/view?type=users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
                     </td>
                 </tr>
 

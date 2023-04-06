@@ -119,15 +119,15 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $payment_modules = get_modules('type=payment_gateway');
 ?>
 
-<div class="card bg-none style-1 mb-0">
-    <div class="card-header px-0">
+<div class="card my-3">
+    <div class="card-header">
         <h5>
             <i class="mdi mdi-cash-usd-outline text-primary mr-3"></i> <strong><?php _e("Payment methods"); ?></strong>
         </h5>
         <div></div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+    <div class="card-body">
         <p class="text-muted"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
 
         <div id="db-payment-methods">
@@ -143,7 +143,7 @@ $payment_modules = get_modules('type=payment_gateway');
 
 
 
-                        <div class="dragable-item card style-1 mb-3 <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
+                        <div class="dragable-item card-body mb-3 <?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
                             <div class="card-body py-3">
                                 <div class="row d-flex align-items-center">
                                     <div class="col cursor-move-holder">

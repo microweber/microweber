@@ -17,7 +17,7 @@ class OrderController extends AdminController
 
         $getOrder = Order::first();
 
-        return $this->view('order::admin.orders.index', compact('getOrder'));
+        return view('order::admin.orders.index', compact('getOrder'));
     }
 
     public function show($id)
@@ -33,7 +33,7 @@ class OrderController extends AdminController
             $order->save();
         }
 
-        return $this->view('order::admin.orders.show', [
+        return view('order::admin.orders.show', [
             'order'=>$order
         ]);
     }

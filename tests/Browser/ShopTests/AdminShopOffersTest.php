@@ -25,7 +25,7 @@ class AdminShopOffersTest extends DuskTestCase
 
             $browser->pause(100);
 
-            $browser->visit($siteUrl.'admin/view:shop/action:options#option_group=shop/settings');
+            $browser->visit($siteUrl.'admin/view:shop/action:options?group=shop/settings');
             $browser->within(new ChekForJavascriptErrors(), function ($browser) {
                 $browser->validate();
             });

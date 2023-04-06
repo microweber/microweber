@@ -67,7 +67,7 @@ $saveRoute = route('api.user.store');
             if (confirm("Are you sure you want to delete this user?")) {
                 $.post("<?php print api_link() ?>delete_user", {id: $user_id})
                     .done(function (data) {
-                        location.href = "<?php print admin_url('view:modules/load_module:users'); ?>";
+                        location.href = "<?php print admin_url('module/view?type=users'); ?>";
                     });
             }
         }
@@ -119,7 +119,7 @@ $saveRoute = route('api.user.store');
 
                 mw.notification.success(mw.lang('All changes saved'));
                 if (userId === 0) {
-                    location.href = "<?php print admin_url('view:modules/load_module:users/edit-user:'); ?>" + saveduserid;
+                    location.href = "<?php print admin_url('module/view?type=users/edit-user:'); ?>" + saveduserid;
                 }
                 mw.spinner({element: el, color: 'white'}).remove();
                 el.disabled = false;
@@ -259,13 +259,13 @@ $saveRoute = route('api.user.store');
                             <small class="d-block text-muted text-center mb-4 mt-2"><?php _e("Fill in the fields to create a new user"); ?></small>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Username"); ?></label>
+                                <label class="form-label"><?php _e("Username"); ?></label>
                                 <input type="text" class="form-control" name="username" value="<?php print $data['username']; ?>"/>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Password"); ?></label>
+                                <label class="form-label"><?php _e("Password"); ?></label>
                                 <?php if ($data['id'] != 0): ?>
                                     <span class="mw-ui-link" onclick="reset_password();$(this).hide()"><?php _e("Change Password"); ?></span>
                                 <?php endif; ?>
@@ -278,7 +278,7 @@ $saveRoute = route('api.user.store');
                             </div>
 
                             <div class="form-group <?php if ($data['id'] != 0): ?>semi_hidden js-reset-password<?php endif; ?>">
-                                <label class="control-label"><?php _e("Password again"); ?></label>
+                                <label class="form-label"><?php _e("Password again"); ?></label>
                                 <div class="input-group input-group-password mb-3 append-transparent">
                                     <input type="password" name="verify_password" class="form-control" id="verify_password"/>
                                     <div class="input-group-append">
@@ -291,22 +291,22 @@ $saveRoute = route('api.user.store');
                             <small class="d-block text-muted text-center mb-2"><?php _e("Personal data of the user"); ?></small>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("First Name"); ?></label>
+                                <label class="form-label"><?php _e("First Name"); ?></label>
                                 <input type="text" class="form-control" name="first_name" value="<?php print $data['first_name']; ?>">
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Last Name"); ?></label>
+                                <label class="form-label"><?php _e("Last Name"); ?></label>
                                 <input type="text" class="form-control" name="last_name" value="<?php print $data['last_name']; ?>"/>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Email"); ?></label>
+                                <label class="form-label"><?php _e("Email"); ?></label>
                                 <input type="email" class="form-control" name="email" value="<?php print $data['email']; ?>">
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e("Phone"); ?></label>
+                                <label class="form-label"><?php _e("Phone"); ?></label>
                                 <input type="text" class="form-control" name="phone" value="<?php print $data['phone']; ?>">
                             </div>
 
@@ -327,7 +327,7 @@ $saveRoute = route('api.user.store');
                                     <label class="custom-control-label" for="send_new_user_email"><?php _e("Send the new user an email about their account"); ?>. <br/>
                                     </label>
                                     <br />
-                                    <a href="<?php echo admin_url();?>view:settings#option_group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
+                                    <a href="<?php echo admin_url();?>settings?group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
                                 </div>
                             </div>
 
@@ -342,11 +342,11 @@ $saveRoute = route('api.user.store');
                                 <small class="d-block text-muted text-center mb-3"><?php _e("User status and role"); ?></small>
 
                                 <div class="form-group">
-                                    <label class="control-label mb-1"><?php _e("Role of the user"); ?></label>
+                                    <label class="form-label mb-1"><?php _e("Role of the user"); ?></label>
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current role of the user"); ?>.
                                       <!--  <a href=""><?php /*_e("Manage user roles"); */?></a>-->
                                     </small>
-                                    <select class="selectpicker" data-live-search="true" data-width="100%" name="is_admin">
+                                    <select class="form-select" data-live-search="true" data-width="100%" name="is_admin">
 
                                         <option value="1" <?php if( $data['is_admin'] == 1): ?> selected="selected" <?php endif; ?>>Admin</option>
                                         <option value="0" <?php if( $data['is_admin'] == 0): ?> selected="selected" <?php endif; ?>>User</option>
@@ -355,7 +355,7 @@ $saveRoute = route('api.user.store');
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label mb-1"><?php _e('Is Active'); ?>?</label>
+                                    <label class="form-label mb-1"><?php _e('Is Active'); ?>?</label>
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current status of this user"); ?></small>
 
                                     <div class="custom-control custom-radio d-inline-block mr-3">
@@ -373,7 +373,7 @@ $saveRoute = route('api.user.store');
                                 </div>
 
                                 <div class="form-group d-none">
-                                    <label class="control-label d-block"><?php _e("Basic mode"); ?></label>
+                                    <label class="form-label d-block"><?php _e("Basic mode"); ?></label>
 
                                     <div class="custom-control custom-radio d-inline-block mr-3">
                                         <input type="radio" id="basic_mode1" class="custom-control-input" value="1" name="basic_mode" <?php if ($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
@@ -394,7 +394,7 @@ $saveRoute = route('api.user.store');
                                     <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
 
                                     <div class="form-group <?php print $class; ?>">
-                                        <label class="control-label"><?php print ($title); ?></label>
+                                        <label class="form-label"><?php print ($title); ?></label>
                                         <div><?php print $html; ?></div>
                                     </div>
                                 <?php endforeach; ?>
@@ -404,7 +404,7 @@ $saveRoute = route('api.user.store');
 
                             <div class="collapse" id="advanced-settings">
                                 <div class="form-group">
-                                    <label class="control-label"><?php _e("Api key"); ?></label>
+                                    <label class="form-label"><?php _e("Api key"); ?></label>
                                     <input type="text" class="form-control" name="api_key" value="<?php print $data['api_key']; ?>">
                                 </div>
 
@@ -469,7 +469,7 @@ $saveRoute = route('api.user.store');
             <hr class="thin"/>
 
             <div class="d-flex justify-content-between">
-                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:modules/load_module:users'); ?>"><?php _e("Cancel"); ?></a>
+                <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('module/view?type=users'); ?>"><?php _e("Cancel"); ?></a>
                 <button id="user-save-button" class="btn btn-success btn-sm" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
             </div>
         </div>
