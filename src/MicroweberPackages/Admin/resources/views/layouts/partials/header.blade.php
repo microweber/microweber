@@ -34,6 +34,8 @@
         mw.require("content.js");
         mw.require("upgrades.js");
         mw.require("tree.js");
+        mw.require("bootstrap_select");
+
 
       //  mw.lib.require('mwui');
       //  mw.lib.require('mwui_init');
