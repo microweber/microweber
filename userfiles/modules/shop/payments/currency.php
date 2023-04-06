@@ -14,8 +14,8 @@ $curencies = mw()->shop_manager->currency_get();
 
 <div class="card mb-3">
     <div class="card-header">
-        <h5>
-            <i class="mdi mdi-cart-outline px-2 mdi-20px text-primary mr-3"></i> <strong><?php _e('Shop General'); ?></strong>
+        <h5 class="card-title">
+            <i class="mdi mdi-cart-outline px-2 fs-2 text-primary mr-3"></i> <strong><?php _e('Shop General'); ?></strong>
         </h5>
         <div></div>
     </div>

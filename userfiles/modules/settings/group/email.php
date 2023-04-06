@@ -186,7 +186,7 @@
                                             $email_transport = 'php';
                                         }
                                         ?>
-                                        <select name="email_transport"  autocomplete="off" class="xxxmw_option_field selectpicker js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
+                                        <select name="email_transport"  autocomplete="off" class="xxxmw_option_field form-select js-email-transport-select" data-width="100%" type="text" option-group="email" data-refresh="settings/group/email">
                                             <option value="php" <?php if ($email_transport == 'php'): ?> selected="selected" <?php endif; ?>><?php _e("PHP mail function"); ?></option>
                                             <option value="gmail" <?php if ($email_transport == 'gmail'): ?> selected="selected" <?php endif; ?>><?php _e("GMail"); ?></option>
                                             <?php /* <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
