@@ -1,7 +1,7 @@
 @if(method_exists($contents,'count') && $contents->count() == 0)
     <div class="no-items-found comments">
-        <div class="icon-title">
-            <i class="mdi mdi-comment"></i> <h5><?php _e("You don't have any comments yet."); ?></h5>
+        <div class="icon-title d-flex">
+            <i class="mdi mdi-comment me-2"></i> <h5><?php _e("You don't have any comments yet."); ?></h5>
         </div>
     </div>
 @endif

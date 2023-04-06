@@ -27,15 +27,15 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
-    <div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card mb-3">
         <div class="card-header">
-            <h5 class="w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php _e('General'); ?></strong></h5>
+            <h5 class="card-title w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php _e('General'); ?></strong></h5>
             <div class="d-block w-100">
                 <nav class="anchorific"></nav>
             </div>
         </div>
 
-        <div class="card-body pt-3 px-0">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e('Seo Settings'); ?></h5>
@@ -121,8 +121,8 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3 px-0">
+    <div class="card mb-3">
+        <div class="card-body">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
@@ -327,8 +327,8 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3 px-0">
+    <div class="card mb-3">
+        <div class="card-body">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
@@ -349,8 +349,8 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3 px-0">
+    <div class="card mb-3">
+        <div class="card-body">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">
@@ -370,8 +370,8 @@
     </div>
 
 
-    <div class="card bg-none style-1 mb-0 card-settings">
-        <div class="card-body pt-3 px-0">
+    <div class="card mb-3">
+        <div class="card-body">
             <hr class="thin mt-0 mb-5">
 
             <div class="row">

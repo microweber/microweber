@@ -1,7 +1,7 @@
 <div class="card card-danger mb-3">
     <div class="card-body p-4">
         <div class="d-flex justify-content-center align-items-center">
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-account-lock text-dark"></i>
                 <h5 class="mb-0">Permission denied!</h5>
             </div>

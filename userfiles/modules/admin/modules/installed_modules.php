@@ -208,7 +208,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
     $show_by_categories = true;
 }
 ?>
-<div class="card bg-none style-1 mb-0 card-settings">
+<div class="card mb-3">
     <div class="card-header">
         <h5>
             <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Modules"); ?></strong>
@@ -218,7 +218,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
         </div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+    <div class="card-body">
         <script>
             $(document).ready(function () {
                 $('.js-show-filter').on('click', function () {

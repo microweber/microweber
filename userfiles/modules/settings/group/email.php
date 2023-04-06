@@ -128,7 +128,7 @@
             </div>
         </div>
 
-        <div class="card-body pt-3 px-0">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("System e-mail website settings"); ?></h5>
@@ -162,7 +162,7 @@
     </div>
 
     <div class="card bg-none style-1 mb-0 card-settings js-holder-email-server-settings">
-        <div class="card-body pt-3 px-0">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h5 class="font-weight-bold"><?php _e("General e-mail provider settings"); ?></h5>

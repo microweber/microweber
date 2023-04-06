@@ -37,7 +37,7 @@
             </script>
         </div>
     <?php else: ?>
-        <div class="icon-title">
+        <div class="icon-title d-flex">
             <i class="mdi mdi-shopping"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
         </div>
     <?php endif; ?>

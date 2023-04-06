@@ -416,7 +416,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-shopping"></i> <h5>You don't have any orders</h5>
             </div>
         </div>
@@ -510,7 +510,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-comment-account"></i> <h5>You don't have any comments</h5>
             </div>
         </div>
@@ -572,7 +572,7 @@
             </div>
 
 
-            <div class="icon-title">
+            <div class="icon-title d-flex">
                 <i class="mdi mdi-email-check"></i> <h5>You don't have any messages</h5>
             </div>
         </div>

@@ -29,7 +29,7 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
             ?>
 
             <?php if (!$has_new and !$current_page and !$orders and !$hide_ctrls): ?>
-                <div class="icon-title">
+                <div class="icon-title d-flex">
                     <i class="mdi mdi-shopping"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
                 </div>
             <?php endif; ?>
@@ -90,8 +90,8 @@ if (isset($params['hide-controls']) and $params['hide-controls']) {
                     });
                 </script>
 
-                <div class="icon-title">
-                    <i class="mdi mdi-shopping"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
+                <div class="icon-title d-flex">
+                    <i class="mdi mdi-shopping me-2"></i> <h5><?php _e('You don\'t have any orders yet.'); ?></h5>
                 </div>
             <?php endif; ?>
         </div>
