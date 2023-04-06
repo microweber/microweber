@@ -26,7 +26,7 @@ class PostController extends AdminController
     }
 
     public function index(Request $request) {
-        return $this->view('post::admin.posts.index');
+        return view('post::admin.posts.index');
     }
 
     public function create(Request $request) {
@@ -46,12 +46,12 @@ class PostController extends AdminController
 
 
 
-        return $this->view('post::admin.posts.edit',$data);
+        return view('post::admin.posts.edit',$data);
     }
 
     public function edit(Request $request, $id) {
 
-        return $this->view('post::admin.posts.edit', [
+        return view('post::admin.posts.edit', [
             'content_id'=>intval($id)
         ]);
     }

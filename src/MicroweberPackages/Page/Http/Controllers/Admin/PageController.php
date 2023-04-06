@@ -24,7 +24,7 @@ class PageController extends AdminController
     }
 
     public function index(Request $request) {
-        return $this->view('page::admin.page.index');
+        return view('page::admin.page.index');
     }
     public function create(Request $request)
     {
@@ -40,14 +40,11 @@ class PageController extends AdminController
         if (isset($request_data['recommended_content_id'])) {
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
-        return  $this->view('page::admin.page.edit', $data);
+        return view('page::admin.page.edit', $data);
     }
 
-
-
     public function edit(Request $request, $id) {
-
-        return $this->view('page::admin.page.edit', [
+        return view('page::admin.page.edit', [
             'content_id'=>intval($id)
         ]);
     }
