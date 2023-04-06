@@ -30,7 +30,7 @@ Created at: <?php echo $form_data['created_at']; ?>
 <br />
 <?php if (is_array($customFields)): ?>
 	<?php foreach ($customFields as $key => $value): ?>
-	
+
 	<b style="font-size:13px;text-transform:uppercase"><?php echo $key; ?></b>
 	<br />
 	<?php if(is_string($value)): ?>
@@ -41,21 +41,21 @@ Created at: <?php echo $form_data['created_at']; ?>
 	<?php echo $v; ?> <br />
 	<?php endforeach; ?>
 	<?php endif; ?>
-	<br /><br /> 
+	<br /><br />
 	<?php endforeach; ?>
 <?php endif; ?>
 
 
 <div class="pull-right" style="margin-top:10%;">
 <a href="javascript:mw.notif_item_read(<?php echo $notification_id; ?>);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-notification">
-<i class="mw-icon-web-checkmark"></i> 
+<i class="mw-icon-web-checkmark"></i>
 Mark as read
 </a>
 <a href="javascript:mw.notif_item_reset(<?php echo $notification_id; ?>);" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-warn">
 Mark as unread
 </a>
-<a href="<?php print admin_url() ?>view:modules/load_module:contact_form" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info">
-<i class="mw-icon-live"></i> 
+<a href="<?php print admin_url() ?>module/view?type=contact_form" class="mw-ui-btn mw-ui-btn-outline mw-ui-btn-medium mw-ui-btn-info">
+<i class="mw-icon-live"></i>
 View all
 </a>
 </div>

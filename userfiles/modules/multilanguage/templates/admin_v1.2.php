@@ -43,7 +43,7 @@
             <?php endforeach; ?>
 
             <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
-                <a class="dropdown-item" href="<?php echo admin_url() ?>view:modules/load_module:multilanguage" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
+                <a class="dropdown-item" href="<?php echo admin_url() ?>module/view?type=multilanguage" onclick="window.location.href = '<?php echo admin_url() ?>module/view?type=multilanguage';">
                     <?php _e('Settings'); ?>
                 </a>
             <?php endif; ?>

@@ -76,8 +76,8 @@ if (!user_can_access('module.contact_form.index')) {
             <?php if ($mod_id != 'contact_form_default') : ?>
                 <br/>
                 <div class="form-group">
-                    <label class="form-label"><?php _e("Captcha settings") ?></label>
-                    <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('view:modules/load_module:captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
+                    <label class="control-label"><?php _e("Captcha settings") ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e("Setup your captcha preferences from ") ?><a href="<?php print admin_url('module/view?type=captcha'); ?>" target="_blank"><?php _e("Captcha module") ?></a></small>
                 </div>
 
                 <div class="form-group">

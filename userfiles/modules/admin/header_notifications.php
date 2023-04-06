@@ -75,7 +75,7 @@ if ($notif_count > 0) {
 
     <?php if ($new_comments_count > 0): ?>
         <li class="mx-2">
-            <a href="<?php print admin_url(); ?>view:modules/load_module:comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
+            <a href="<?php print admin_url(); ?>module/view?type=comments" class="btn btn-link btn-rounded icon-left text-dark px-0">
                 <?php print $comments_notif_html; ?>&nbsp;
                 <i class="mdi mdi-comment-account text-muted m-0"></i>
                 <span class="d-none d-xl-block mw-colorscheme-text-white">

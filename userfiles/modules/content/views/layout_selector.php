@@ -515,7 +515,7 @@ if (!empty($recomended_layouts)) {
                             </button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0 mb-3" href="<?php echo admin_url();?>view:packages">
+                                <a class="btn btn-link px-0 mb-3" href="<?php echo admin_url();?>module/view?type=admin/modules/packages">
                                     <small><?php _e("More Templates"); ?></small>
                                 </a>
                             <?php endif; ?>

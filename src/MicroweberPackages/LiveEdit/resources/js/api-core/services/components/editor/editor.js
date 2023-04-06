@@ -41,6 +41,7 @@ export const EditorComponent = function () {
         actionWindow: frame.contentWindow,
         element: holder,
         mode: 'document',
+        notEditableClasses: ['module'],
         regions: '.edit',
         skin: 'le2',
         editMode: 'liveedit',

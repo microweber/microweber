@@ -266,7 +266,7 @@ class MicroweberComposerClient extends Client
                 $response['redirect_to'] = $moduleLink;
             } else {
                 $message .= '<br /> <a href="' . $moduleLink . '">Visit the module</a>';
-                $response['redirect_to'] = admin_url('view:modules/load_module:' . $moduleName);
+                $response['redirect_to'] = admin_url('module/view?type=' . $moduleName);
             }
         }
 

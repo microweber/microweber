@@ -16,6 +16,7 @@ import {HandleMenu} from "./handle-menu.js";
 
 import {Tooltip} from "./tooltip.js";
 import { InteractionHandleContent } from "./handles-content/interaction.js";
+import { DomService } from "./classes/dom.js";
 
 
 export class LiveEdit {
@@ -136,7 +137,8 @@ export class LiveEdit {
             content: moduleHandleContent.root,
             handle: moduleHandleContent.menu.title,
             document: this.settings.document,
-            stateManager: this.settings.stateManager
+            stateManager: this.settings.stateManager,
+            resizable: true
         });
         var moduleHandle = this.moduleHandle;
 
@@ -192,6 +194,7 @@ export class LiveEdit {
         var title = scope.lang('Layout');
         layoutHandleContent.menu.setTitle(title)
         layoutHandle.on('targetChange', function (target){
+            
             layoutHandleContent.menu.setTarget(target);
             layoutHandleContent.menu.setTitle(title);
             if( scope.elementAnalyzer.isEditOrInEdit(target)) {
@@ -258,23 +261,27 @@ export class LiveEdit {
             this.handles.hide()
             if(first) {
                const type = this.elementAnalyzer.getType(first);
+               console.log(type)
                if(type && type !== 'edit') {
+ 
                     this.handles.set(type, elements[0])
                    if(type === 'element') {
                        this.handles.hide('module')
                    } else if(type === 'module') {
-                       this.handles.hide('element')
-                   } else {
+                    this.handles.hide('element')
+                    }  else if(type === 'layout') {
+                        // this.handles.hide('element')
+                    } else {
                         this.handles.hide()
                    }
                }
             }
         }
 
-        const interactionMode = 'click'; // click || hover;
+ 
 
         let events;
-        if(interactionMode === 'click') {
+  
             events = 'mousedown touchstart';
             ElementManager(this.root).on('mousemove', (e) => {
                 if(this.handles.targetIsOrInsideHandle(e)) {
@@ -282,10 +289,15 @@ export class LiveEdit {
                 }
                 const elements = this.observe.fromEvent(e);
                 
-                const target = elements[0];
-                if(target) {
+                const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module']);
+                
+                if(target && !this.handles.targetIsSelected(target, this.interactionHandle)) {
                     var title = '';
-                    if(target.nodeName === 'P') {
+                    if(target.dataset.mwTitle) {
+                        title = target.dataset.mwTitle;
+                    } else if(target.dataset.type) {
+                        title = target.dataset.type;
+                    }  else if(target.nodeName === 'P') {
                         title = this.lang('Paragraph');
                     } else if(/(H[1-6])/.test(target.nodeName)) {
                         title = this.lang('Title') + ' ' + target.nodeName.replace( /^\D+/g, '');
@@ -293,11 +305,12 @@ export class LiveEdit {
                         title = this.lang('Image');
                     }  else if(['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(target.nodeName)) {
                         title = this.lang('Title ' + target.nodeName.replace('H', ''));
-                    }  else {
+                    }  else if(['DIV', 'MAIN', 'SECTION'].includes(target.nodeName)) {
+                        title = this.lang('Block');
+                    }   else {
                         title = this.lang('Text');
                     }
             
-
                     this.interactionHandle.menu.setTitle(title);
                     this.interactionHandle.show();
                     this.interactionHandle.set(target);
@@ -311,14 +324,7 @@ export class LiveEdit {
                     _eventsHandle(e)
                 }
             });
-        } else if (interactionMode === 'hover') {
-            events = 'mousemove touchmove';
-            ElementManager(this.root).on(events, (e) => {
-                if ( !this.paused && e.pageX % 2 === 0) {
-                    _eventsHandle(e)
-                }
-         });
-        }
+         
  
          
     };

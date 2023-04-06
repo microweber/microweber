@@ -394,7 +394,7 @@ function mw_print_admin_backup_settings_link()
             $cls = ' class="active" ';
         }
         $notif_html = '';
-        $url = admin_url('view:modules/load_module:' . $mname);
+        $url = admin_url('module/view?type=' . $mname);
         echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Backup</a></li>';
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
@@ -407,7 +407,7 @@ function mw_print_admin_backup_settings_link()
             $cls = ' class="active" ';
         }
         $notif_html = '';
-        $url = admin_url('view:modules/load_module:' . $mname);
+        $url = admin_url('module/view?type=' . $mname);
         echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Import</a></li>';
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }

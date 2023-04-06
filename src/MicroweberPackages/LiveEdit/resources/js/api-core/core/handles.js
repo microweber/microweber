@@ -47,6 +47,23 @@ export const Handles = function (handles) {
             c.call(scope, i, this.handles[i]);
         }
     };
+    this.targetIsSelected = function(target, except) {
+        if(!target) {
+            return;
+        }
+        target = target.target || target;
+        var i;
+        for (i in this.handles) {
+            if(except && except === this.handles[i]) {
+                continue;
+            }
+            const tg = this.handles[i].getTarget();
+             if( tg && tg === target) {
+                return true
+             }
+        }
+        return false;
+    }
     this.targetIsOrInsideHandle = function(target) {
         if(!target) {
             return;

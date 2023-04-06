@@ -55,7 +55,7 @@ export class Resizable  {
             this.document.removeEventListener(l, this.listeners[l]);
         }
         this.listeners = {}
-        this.dispatch('resizeStop')
+        this.dispatch('resizeStop');
     };
 
     mouseDownHandler (e) {
@@ -75,6 +75,7 @@ export class Resizable  {
         for (const l in this.listeners) {
             this.document.addEventListener(l, this.listeners[l]);
         }
+        this.dispatch('resizeStart');
 
     };
 

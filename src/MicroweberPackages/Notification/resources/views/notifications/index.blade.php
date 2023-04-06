@@ -163,7 +163,7 @@
             mw.load_module('admin/notifications/view', '#mw_admin_preview_module_content', null, params);
 
         } else {
-            var redirectModuleUrl = '<?php echo admin_url(); ?>view:modules/load_module:' + module_name + '/mw_notif:' + notification_id;
+            var redirectModuleUrl = '<?php echo admin_url(); ?>module/view?type=' + module_name + '/mw_notif:' + notification_id;
             window.location.href = redirectModuleUrl;
             return;
         }
