@@ -12,7 +12,7 @@
     </script>
 
     <main>
-        <div class="card">
+        <div class="card my-3">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
                 <div>
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body pt-3 px-0">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -120,7 +120,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body pt-3 px-0">
                 <hr class="thin mt-0 mb-5"/>
 

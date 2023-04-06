@@ -69,17 +69,17 @@ Add the `.row-deck` class to `.row`, if you want to display several cards next t
 {% capture code %}
 <div class="row row-deck">
     <div class="col-md-4">
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body">Short content</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body">Extra long content of card. Lorem ipsum dolor sit amet, consetetur sadipscing elitr</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card">
+        <div class="card my-3">
             <div class="card-body">Short content</div>
         </div>
     </div>

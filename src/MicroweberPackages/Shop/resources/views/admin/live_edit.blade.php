@@ -166,7 +166,7 @@
 
                             <div class="col-12 js-blog-filtering-the-results" <?php if (get_option('disable_filter', $moduleId)): ?>style="display:none"<?php endif; ?>>
 
-                                <div class="card">
+                                <div class="card my-3">
                                     <div class="card-body">
                                         <strong><?php _e("Filtering the results"); ?></strong>
 
@@ -247,7 +247,7 @@
 
 
                                         <div class="js-filterting-custom-fields-settings mt-4" <?php if (!get_option('filtering_by_custom_fields', $moduleId)): ?>style="display:none"<?php endif; ?>>
-                                            <div class="card">
+                                            <div class="card my-3">
                                                 <div class="card-body">
 
                                             <div class="form-group">

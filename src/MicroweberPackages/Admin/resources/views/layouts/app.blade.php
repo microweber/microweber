@@ -4,7 +4,7 @@
     <main class="module-main-holder page-wrapper">
         @include('admin::layouts.partials.topbar2')
 
-       <div class="page-body">
+       <div class="page-body px-5">
            @yield('content' )
        </div>
     </main>
