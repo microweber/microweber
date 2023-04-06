@@ -10,8 +10,8 @@
 </script>
 
 
-<div class="card bg-none style-1 mb-0 card-settings">
-    <div class="card-body pt-3 px-0">
+<div class="card mb-3">
+    <div class="card-body">
         <hr class="thin mt-0 mb-5"/>
 
         <div class="row">

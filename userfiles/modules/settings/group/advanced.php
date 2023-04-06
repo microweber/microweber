@@ -27,7 +27,7 @@
 </script>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0 card-settings">
+    <div class="card mb-3">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong><?php _e("Advanced"); ?></strong></h5>
             <div>

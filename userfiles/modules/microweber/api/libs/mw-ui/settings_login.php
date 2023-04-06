@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         <h5 class="font-weight-bold">Register options</h5>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -153,7 +153,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -188,7 +188,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -380,7 +380,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
@@ -463,7 +463,7 @@
         </div>
 
         <div class="card my-3">
-            <div class="card-body pt-3 px-0">
+            <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">

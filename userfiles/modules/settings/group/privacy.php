@@ -6,7 +6,7 @@
     });
 </script>
 
-<div class="card bg-none style-1 mb-0 card-settings">
+<div class="card mb-3">
     <div class="card-header">
         <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
         <div>
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="card-body pt-3 px-0">
+    <div class="card-body">
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e('Privacy policy settings'); ?></h5>
