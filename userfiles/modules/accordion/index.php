@@ -32,7 +32,7 @@ if ($settings == false) {
 
 $data = array();
 $count = 0;
-if (is_array($json)) {
+if ($json and is_array($json) and !empty($json)) {
     foreach ($json as $slide) {
         $count++;
         if (!isset($slide['id'])) {
