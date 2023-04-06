@@ -8,8 +8,8 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     $admin_url = mw_admin_prefix_url();
 
-    Route::any('/' . $admin_url, 'AdminController@index')->name('admin.home');
-    Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@index'))->name('admin.index');
+    Route::any('/' . $admin_url, 'AdminController@dashboard')->name('admin.home');
+    Route::any($admin_url, array('as' => 'admin', 'uses' => 'AdminController@dashboard'))->name('admin.index');
 
 
 
