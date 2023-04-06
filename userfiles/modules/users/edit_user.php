@@ -327,7 +327,7 @@ $saveRoute = route('api.user.store');
                                     <label class="custom-control-label" for="send_new_user_email"><?php _e("Send the new user an email about their account"); ?>. <br/>
                                     </label>
                                     <br />
-                                    <a href="<?php echo admin_url();?>view:settings#option_group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
+                                    <a href="<?php echo admin_url();?>view:settings?group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
                                 </div>
                             </div>
 

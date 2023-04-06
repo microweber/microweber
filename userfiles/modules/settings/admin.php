@@ -8,19 +8,17 @@ must_have_access(); ?>
 
 <?php
 $show_group = false;
-$show_group_from_get = false;
 ?>
 
 <?php
-
 if (isset($_GET['group'])) {
-    $show_group = $show_group_from_get = $_GET['group'];
+    $show_group = $_GET['group'];
 } else if (isset($params['group'])) {
     $show_group = $params['group'];
+} else if (isset($_GET['option_group'])) {
+    $show_group = $_GET['option_group'];
 }
-
-
-  ?>
+?>
 
 <script type="text/javascript">
     _settingsSort = function (group_set) {
@@ -75,25 +73,6 @@ if (isset($_GET['group'])) {
 
     });
 
-        <?php if (!$show_group) { ?>
-
-        if (!mw.url.windowHashParam('option_group')) {
-            mw.url.windowHashParam('option_group', 'website');
-        }
-
-        <?php }  else if ($show_group and !$show_group_from_get) {   ?>
-
-         //_settingsSort('<?php print $show_group ?>')
-    //
-    if (!mw.url.windowHashParam('option_group')) {
-          mw.url.windowHashParam('option_group', '<?php print $show_group ?>');
-    }
-        <?php }  ?>
-
-
-
-
-
 
     mw.on.hashParam('installed', function () {
 
@@ -119,9 +98,9 @@ if (isset($_GET['group'])) {
 
 
 <div id="settings_admin_<?php print $rand; ?>" class="card-body pt-3">
-    <?php if ( $show_group_from_get) { ?>
+    <?php if ($show_group) { ?>
 
-<module type="settings/group/<?php print $show_group_from_get ?>"  />
+<module type="settings/group/<?php print $show_group ?>"  />
     <?php }  ?>
 </div>
 

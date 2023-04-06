@@ -600,7 +600,7 @@ $user = get_user_by_id($user_id);
                 <?php endif; ?>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=all">
+                    <a class="nav-link  <?php if (  ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings?group=all">
                         <i class="mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
@@ -613,25 +613,25 @@ $user = get_user_by_id($user_id);
 
                 <?php /*
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                    <a class="nav-link dropdown-toggle <?php if (!url_param('has_core_update') and ($view == 'settings')): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:settings?group=website">
                         <i class="mdi mdi-cog"></i>
                         <span class="badge-holder"><?php _e("Settings"); ?></span>
                     </a>
                     <div class="dropdown-menu">
 
-                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=website">
+                        <a class="item-website dropdown-item" href="<?php print admin_url(); ?>view:settings?group=website">
                             <span class="mai-website"></span><strong><?php _e("Website"); ?></strong>
                         </a>
 
-                        <a class="item-template dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=template">
+                        <a class="item-template dropdown-item" href="<?php print admin_url(); ?>view:settings?group=template">
                             <span class="mai-templates"></span><strong><?php _e("Template"); ?></strong>
                         </a>
 
-                        <a class="item-users dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=users">
+                        <a class="item-users dropdown-item" href="<?php print admin_url(); ?>view:settings?group=users">
                             <span class="mai-login"></span><strong><?php _e("Login & Register"); ?></strong>
                         </a>
 
-                        <a class="item-email dropdown-item" href="<?php print admin_url(); ?>view:settings#option_group=email">
+                        <a class="item-email dropdown-item" href="<?php print admin_url(); ?>view:settings?group=email">
                             <span class="mai-mail"></span><strong><?php _e("Email"); ?></strong>
                         </a>
 
@@ -644,7 +644,7 @@ $user = get_user_by_id($user_id);
                                 <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>
                                 <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
                                 <?php if ($module != 'admin') { ?>
-                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="#option_group=<?php print $module ?>">
+                                    <a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="dropdown-item <?php print $class ?>" href="?group=<?php print $module ?>">
                                         <span class="<?php print isset($item['icon']) ? $item['icon'] : ''; ?>"></span>
                                         <strong><?php print $title ?></strong>
                                     </a>

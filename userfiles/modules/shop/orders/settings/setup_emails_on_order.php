@@ -34,7 +34,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <small class="text-muted d-block mb-2">
             <?php _e("You must have a working email setup in order to send emails"); ?>.
-            <a class="btn btn-outline-primary btn-sm ml-2" target="_blank" href="<?php print admin_url('view:settings#option_group=email'); ?>"><?php _e("check your e-mail settings"); ?></a>
+            <a class="btn btn-outline-primary btn-sm ml-2" target="_blank" href="<?php print admin_url('view:settings?group=email'); ?>"><?php _e("check your e-mail settings"); ?></a>
         </small>
 
         <hr class="thin" />

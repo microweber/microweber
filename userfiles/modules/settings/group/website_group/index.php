@@ -35,7 +35,6 @@ if (isset($_GET['group']) and $_GET['group']) {
         $show_inner = $group;
     }
 }
-
 ?>
 
 <?php if ($show_inner): ?>
@@ -55,7 +54,7 @@ if (isset($_GET['group']) and $_GET['group']) {
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=website" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=website" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('General'); ?></span><br/>
@@ -67,7 +66,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
                     <?php if (mw()->ui->disable_marketplace != true): ?>
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=updates" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=updates" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-flash-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Updates'); ?></span><br/>
@@ -78,7 +77,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     <?php endif; ?>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=email" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=email" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-email-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('E-mail'); ?></span><br/>
@@ -88,7 +87,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=template" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=template" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-text-box-check-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Template'); ?></span><br/>
@@ -98,7 +97,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=advanced" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=advanced" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-keyboard-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Advanced'); ?></span><br/>
@@ -108,7 +107,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=files" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=files" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-file-cabinet mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Files'); ?></span><br/>
@@ -118,7 +117,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=users" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=users" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-login mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Login & Register'); ?></span><br/>
@@ -128,7 +127,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=language" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=language" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-translate mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Language'); ?></span><br/>
@@ -138,7 +137,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="<?php echo admin_url();?>view:settings#option_group=privacy" class="d-flex my-3 js-website-settings-link">
+                        <a href="<?php echo admin_url();?>view:settings?group=privacy" class="d-flex my-3 js-website-settings-link">
                             <div class="icon-holder"><i class="mdi mdi-shield-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Privacy Policy'); ?></span><br/>

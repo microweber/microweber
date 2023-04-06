@@ -62,7 +62,7 @@ if (isset($_GET['group']) and $_GET['group']) {
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=shop/payments/currency" class="d-flex my-3">
+                        <a href="?group=shop/payments/currency" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cart-outline mdi-20px mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e("General"); ?></span><br/>
@@ -74,7 +74,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=shop/orders/settings/invoice_settings" class="d-flex my-3">
+                        <a href="?group=shop/orders/settings/invoice_settings" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cash-register mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Invoices'); ?></span><br/>
@@ -84,7 +84,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=shop/orders/settings/setup_emails_on_order" class="d-flex my-3">
+                        <a href="?group=shop/orders/settings/setup_emails_on_order" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-email-edit-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e("Auto respond mail"); ?></span><br/>
@@ -94,7 +94,7 @@ if (isset($_GET['group']) and $_GET['group']) {
                     </div>
 
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#option_group=shop/orders/settings/other" class="d-flex my-3">
+                        <a href="?group=shop/orders/settings/other" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cog-outline mdi-20px"></i></div>
                             <div class="info-holder">
                                 <span class="text-outline-primary font-weight-bold"><?php _e('Other settings'); ?></span><br/>

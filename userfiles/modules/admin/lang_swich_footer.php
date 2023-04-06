@@ -67,7 +67,7 @@ if ($supportedLanguages) {
 
             if(this.value == 'edit_languages_redirect'){
 
-               window.location.href = '<?php print admin_url('view:settings#option_group=language'); ?>';
+               window.location.href = '<?php print admin_url('view:settings?group=language'); ?>';
 
             } else {
                 mw.admin.language(this.value);

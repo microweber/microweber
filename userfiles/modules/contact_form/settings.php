@@ -24,7 +24,7 @@ if (isset($params['for_module_id'])) {
         <?php endif; ?>
 
         <div class="col text-right">
-            <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings#option_group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
+            <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('view:settings?group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
         </div>
     </div>
 
@@ -38,7 +38,7 @@ if (isset($params['for_module_id'])) {
                 <?php _e('Use custom sender settings for the global contact forms.'); ?>
                 <br />
                 <?php _e('By default we will use website system e-mail settings.'); ?>
-                <a href="<?php print admin_url('view:settings#option_group=email'); ?>" target="_blank"><?php _e('You can change the system e-mail settings here.'); ?></a>
+                <a href="<?php print admin_url('view:settings?group=email'); ?>" target="_blank"><?php _e('You can change the system e-mail settings here.'); ?></a>
             </small>
         </div>
 
