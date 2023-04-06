@@ -35,8 +35,8 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
 
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
+      //  mw.lib.require('mwui');
+      //  mw.lib.require('mwui_init');
         mw.lib.require('flag_icons', true);
        //  mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 
