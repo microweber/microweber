@@ -1,4 +1,8 @@
-<table class="table abandoned-cart mt-2 mb-5" id="abandoned-cart-table<?php print $order['id'] ?>" cellpadding="0" cellspacing="0">
+@extends('admin::layouts.app')
+
+@section('content')
+
+    <table class="table abandoned-cart mt-2 mb-5" id="abandoned-cart-table<?php print $order['id'] ?>" cellpadding="0" cellspacing="0">
     <script>
         $(document).ready(function () {
             $("#abandoned-cart-table<?php print $order['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
@@ -104,3 +108,5 @@
     </td>
     </tbody>
 </table>
+
+@endsection
