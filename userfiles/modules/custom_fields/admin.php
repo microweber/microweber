@@ -209,7 +209,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                         <div class="mw-flex-row">
                                             <div class="mw-flex-col-xs-10 mw-flex-col-sm-6 mw-flex-col-md-8 mw-flex-col-lg-10">
-                                                <label class="control-label"><?php _e("Existing fields"); ?></label>
+                                                <label class="form-label"><?php _e("Existing fields"); ?></label>
                                                 <small class="d-block mb-2 text-muted"><?php _e("Choose from your existing fields bellow"); ?></small>
                                             </div>
                                             <div class="mw-flex-col-xs-2 mw-flex-col-sm-6 mw-flex-col-md-4 mw-flex-col-lg-2">
@@ -255,7 +255,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                         <?php endforeach; ?>
                                     </select>
 
-                                    <label class="control-label"><?php _e(" Add new fields"); ?></label>
+                                    <label class="form-label"><?php _e(" Add new fields"); ?></label>
                                     <small class="d-block mb-2 text-muted"><?php _e("Add new custom field from list bellow"); ?></small>
 
                                     <?php foreach ($fields as $field => $value): ?>
@@ -276,7 +276,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <hr class="thin">
 
-                <label class="control-label"><?php _e("Your fields"); ?></label>
+                <label class="form-label"><?php _e("Your fields"); ?></label>
                 <small class="d-block mb-2 text-muted"><?php _e("List of your added custom fields"); ?></small>
 
                 <div id="custom-fields-box">

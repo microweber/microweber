@@ -16,7 +16,7 @@ if (isset($params['show_description_text']) and $params['show_description_text']
 <?php endif; ?>
 
 <div class="form-group">
-    <label class="control-label d-block"><?php _e("Enable automatic image resize on upload?"); ?></label>
+    <label class="form-label d-block"><?php _e("Enable automatic image resize on upload?"); ?></label>
     <?php $automatic_image_resize_on_upload = get_option('automatic_image_resize_on_upload', 'website'); ?>
 
     <div class="custom-control custom-radio d-inline-block mr-2">

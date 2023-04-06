@@ -27,7 +27,7 @@
 
                     <div class="float-sm-right text-center text-md-right my-2">
                         <span class="d-inline d-sm-none d-md-inline">Show notifications</span>
-                        <select class="selectpicker" data-style="btn-sm" data-width="auto">
+                        <select class="form-select" data-style="btn-sm" data-width="auto">
                             <option>All notifications</option>
                             <option>Orders</option>
                             <option>Comments</option>
@@ -314,7 +314,7 @@
                                                 <div class="col">
                                                     <div class="mb-1"><small class="text-muted">Status</small></div>
                                                     <div>
-                                                        <select class="selectpicker js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
+                                                        <select class="form-select js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
                                                             <option data-change-color="btn-success">Publish</option>
                                                             <option data-change-color="btn-warning">Unpublish</option>
                                                             <option data-change-color="btn-secondary">Mark as Spam</option>

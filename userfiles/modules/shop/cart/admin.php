@@ -25,7 +25,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-shop-cart-settings">
                     <div class="form-group">
-                        <label class="control-label d-block"><?php _e("Checkout link enabled"); ?> ?</label>
+                        <label class="form-label d-block"><?php _e("Checkout link enabled"); ?> ?</label>
 
                         <?php $checkout_link_enanbled = get_option('data-checkout-link-enabled', $params['id']); ?>
                         <select name="data-checkout-link-enabled" class="mw_option_field selectpicker" data-width="100%">
@@ -36,7 +36,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
 
-                        <label class="control-label d-block"><?php _e("Use Checkout Page From"); ?></label>
+                        <label class="form-label d-block"><?php _e("Use Checkout Page From"); ?></label>
                         <?php $selected_page = get_option('data-checkout-page', $params['id']); ?>
 
                         <select name="data-checkout-page" class="mw_option_field selectpicker" data-width="100%" data-size="5">

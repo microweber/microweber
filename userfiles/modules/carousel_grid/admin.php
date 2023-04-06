@@ -61,15 +61,15 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-carousel-grid-settings">
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Items per slide', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Items per slide', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="items_number" value="<?php print $items_number; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Minimum Row height', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Minimum Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="row_height" placeholder="120" value="<?php print $rowHeight; ?>"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Max Row height', "modules/carousel_grid"); ?></label>
+                        <label class="form-label"><?php _lang('Max Row height', "modules/carousel_grid"); ?></label>
                         <input type="number" class="mw_option_field form-control" name="max_row_height" placeholder="250" value="<?php print $maxRowHeight; ?>"/>
                     </div>
                 </div>

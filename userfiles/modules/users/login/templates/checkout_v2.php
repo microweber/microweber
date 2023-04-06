@@ -56,11 +56,11 @@ description: Checkout default
 
             <form method="post" id="user_login_checkout_v2" class="clearfix">
                 <div class="control-group form-group">
-                    <label class="control-label"><?php _e("Email or username"); ?></label>
+                    <label class="form-label"><?php _e("Email or username"); ?></label>
                     <input class="large-field form-control" name="username" <?php if (isset($input['username']) != false): ?> value="<?php print $input['username'] ?>"  <?php endif;  ?> type="text" />
                 </div>
                 <div class="control-group form-group">
-                    <label class="control-label"><?php _e("Password"); ?></label>
+                    <label class="form-label"><?php _e("Password"); ?></label>
                     <input class="large-field form-control" name="password" <?php if (isset($input['password']) != false): ?> value="<?php print $input['password'] ?>"  <?php endif;  ?> type="password" />
                 </div>
                 <?php if (isset($login_captcha_enabled) and $login_captcha_enabled): ?>

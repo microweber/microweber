@@ -49,7 +49,7 @@ must_have_access();
 <?php $status = get_option('shipping_gw_shop/shipping/gateways/pickup' , 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Enable pickup"); ?></label>
+    <label class="form-label"><?php _e("Enable pickup"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Enable or disable pickup method for shipping'); ?></small>
     <div class="custom-control custom-switch pl-0">
         <label class="d-inline-block mr-5" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('No'); ?></label>
@@ -61,7 +61,7 @@ must_have_access();
 
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Shipping instructions'); ?></label>
+    <label class="form-label"><?php _e('Shipping instructions'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Display message to the customer when they select this shipping method.'); ?></small>
     <textarea name="shipping_pickup_instructions" placeholder="<?php _e('Ex.: Your order will be delivered to our office on address: ...'); ?>"
               class="mw_option_field form-control js-shipping-instructions" data-option-group="shipping"><?php print get_option('shipping_pickup_instructions', 'shipping') ?></textarea>

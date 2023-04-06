@@ -190,13 +190,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="row">
                         <div class="col-sm-6 mw-fields mw-fields-upload-buttons">
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Brand Name'); ?></label>
+                                <label class="form-label"><?php _e('Brand Name'); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e('Enter the name of your company'); ?></small>
                                 <input name="brand_name" option-group="whitelabel" placeholder="" class="form-control" type="text" value="<?php print  $brand_name; ?>"/>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Admin login - White Label URL'); ?></label>
+                                <label class="form-label"><?php _e('Admin login - White Label URL'); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e('Enter website url of your company'); ?></small>
                                 <input name="admin_logo_login_link" option-group="whitelabel" placeholder="" class="form-control" type="text" value="<?php print  $admin_logo_login_link; ?>"/>
                             </div>
@@ -266,7 +266,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div class="col-sm-6 mw-fields mw-fields-upload-buttons">
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Logo for Admin panel'); ?></label>
+                                <label class="form-label"><?php _e('Logo for Admin panel'); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e('Recommended size: 180x35 px'); ?></small>
 
 
@@ -277,7 +277,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Logo for Live-Edit toolbar'); ?></label>
+                                <label class="form-label"><?php _e('Logo for Live-Edit toolbar'); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e('Recommended size: 50x50 px'); ?></small>
                                 <div class="input-group mb-3">
                                     <input name="logo_live_edit" option-group="whitelabel" placeholder="<?php _e('Upload your logo'); ?>" class="form-control up" type="text" value="<?php print  $logo_live_edit; ?>"/>
@@ -286,7 +286,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Logo for Login screen'); ?></label>
+                                <label class="form-label"><?php _e('Logo for Login screen'); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e('Recommended size: max width 290px'); ?></small>
                                 <div class="input-group mb-3">
                                     <input name="logo_login" option-group="whitelabel" placeholder="<?php _e('Upload your logo'); ?>" class="form-control up" type="text" value="<?php print  $logo_login; ?>"/>
@@ -313,7 +313,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?php _e('Custom Marketplace Package Manager URL'); ?></label>
+                                <label class="form-label"><?php _e('Custom Marketplace Package Manager URL'); ?></label>
                                 <input name="marketplace_repositories_urls" option-group="marketplace_repositories_urls" placeholder="<?php _e('URL'); ?>" class="form-control" type="text" value="<?php print  $marketplace_repositories_urls; ?>"/>
                             </div>
                         </div>

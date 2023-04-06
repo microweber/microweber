@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group mb-3">
-                                    <label class="control-label"><?php _e("Users must agree to the Terms and Conditions"); ?></label>
+                                    <label class="form-label"><?php _e("Users must agree to the Terms and Conditions"); ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e('Should your users agree to the terms of use of the website'); ?></small>
                                 </div>
 

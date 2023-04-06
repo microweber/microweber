@@ -317,7 +317,7 @@ mw.filePicker = function (options) {
                 });
             }, 78);
         } else if(this.settings.nav === 'dropdown') {
-            var select = $('<select class="selectpicker btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
+            var select = $('<select class="form-select btn-as-link" data-style="btn-sm" data-width="auto" data-title="' + mw.lang('Add file') + '"/>');
             scope._select = select;
             this.settings.components.forEach(function (item) {
                 select.append('<option class="nav-item" value="'+item.type+'">'+item.label+'</option>');

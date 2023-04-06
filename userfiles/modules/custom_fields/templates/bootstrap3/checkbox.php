@@ -2,7 +2,7 @@
     <div class="form-group">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label"><?php echo $data["name"]; ?></label>
+        <label class="form-label"><?php echo $data["name"]; ?></label>
         <?php endif; ?>
 
         <div class="mw-customfields-checkboxes">

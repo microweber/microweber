@@ -78,9 +78,9 @@ $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFo
 
     <?php
     /*   <div class="form-group">
-        <label class="control-label"> <?php _e('Cache settings'); ?> </label>
+        <label class="form-label"> <?php _e('Cache settings'); ?> </label>
         <?php if (!empty($cache_adapters)): ?>
-        <select name="microweber[cache_adapter]" class="selectpicker" data-width="100%">
+        <select name="microweber[cache_adapter]" class="form-select" data-width="100%">
             <?php foreach ($cache_adapters as $cache_adapter): ?>
                 <?php if (isset($cache_adapter['title']) and isset($cache_adapter['adapter'])): ?>
                     <option value="<?php print $cache_adapter['adapter'] ?>"
@@ -100,24 +100,24 @@ $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFo
 
 
     <div class="form-group">
-        <label class="control-label"> <?php _e('Compile'); ?> api.js </label>
-        <select name="microweber[compile_assets]" class="selectpicker" data-width="100%">
+        <label class="form-label"> <?php _e('Compile'); ?> api.js </label>
+        <select name="microweber[compile_assets]" class="form-select" data-width="100%">
             <option value="0" <?php if ($compile_assets == 0): ?> selected <?php endif; ?> > <?php _e('No'); ?></option>
             <option value="1" <?php if ($compile_assets == 1): ?> selected <?php endif; ?> > <?php _e('Yes'); ?></option>
         </select>
     </div>
 
     <div class="form-group">
-        <label class="control-label"> <?php _e('Force HTTPS'); ?>  </label>
-        <select name="microweber[force_https]" class="selectpicker" data-width="100%">
+        <label class="form-label"> <?php _e('Force HTTPS'); ?>  </label>
+        <select name="microweber[force_https]" class="form-select" data-width="100%">
             <option value="0" <?php if ($force_https == 0): ?> selected <?php endif; ?> > <?php _e('No'); ?></option>
             <option value="1" <?php if ($force_https == 1): ?> selected <?php endif; ?> > <?php _e('Yes'); ?></option>
         </select>
     </div>
 
     <div class="form-group">
-        <label class="control-label"> <?php _e('Update Channel'); ?> </label>
-        <select name="microweber[update_channel]" class="selectpicker" data-width="100%">
+        <label class="form-label"> <?php _e('Update Channel'); ?> </label>
+        <select name="microweber[update_channel]" class="form-select" data-width="100%">
             <option value="stable" <?php if ($update_channel == 'stable'): ?> selected <?php endif; ?> > <?php _e('Stable'); ?></option>
             <option value="beta" <?php if ($update_channel == 'beta'): ?> selected <?php endif; ?> > <?php _e('Beta'); ?></option>
             <option value="dev" <?php if ($update_channel == 'dev'): ?> selected <?php endif; ?> > <?php _e('Dev'); ?></option>
@@ -126,8 +126,8 @@ $enabled_custom_fonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFo
     </div>
 
     <div class="form-group">
-        <label class="control-label"> <?php _e('Developer Mode'); ?> </label>
-        <select name="microweber[developer_mode]" class="selectpicker" data-width="100%">
+        <label class="form-label"> <?php _e('Developer Mode'); ?> </label>
+        <select name="microweber[developer_mode]" class="form-select" data-width="100%">
             <option value="0" <?php if ($developer_mode == '0'): ?> selected <?php endif; ?> > <?php _e('Disabled'); ?></option>
             <option value="1" <?php if ($developer_mode == '1'): ?> selected <?php endif; ?> > <?php _e('Enabled'); ?></option>
         </select>

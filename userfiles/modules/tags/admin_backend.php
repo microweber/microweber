@@ -130,7 +130,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label mb-0"><?php _e("Search tags");?></label>
+                            <label class="form-label mb-0"><?php _e("Search tags");?></label>
                             <small class="d-block text-muted mb-2"><?php _e("You can search multiple tags separated by coma");?>.</small>
 
                             <div class="input-group">

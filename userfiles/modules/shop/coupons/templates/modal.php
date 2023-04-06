@@ -33,7 +33,7 @@ $applied_code = '';
                     <div class="coupon_code_apply_wrapper-<?php echo $params['id']; ?>" <?php if(isset($applied_coupon_data['coupon_code'])): ?>  style="display: none"    <?php endif; ?>  >
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <label class="control-label font-weight-bold ms-3 mb-3"><?php _e("Enter coupon code"); ?></label>
+                                    <label class="form-label font-weight-bold ms-3 mb-3"><?php _e("Enter coupon code"); ?></label>
                                 </div>
                             </div>
 

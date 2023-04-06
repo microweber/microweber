@@ -42,7 +42,7 @@ description: Payments 1
                     <div class="methods">
                        <div class="edit nodrop mt-2" field="checkout_payment_information_title" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <label class="control-label"><?php _e("Choose Payment Method"); ?></label>
+                           <label class="form-label"><?php _e("Choose Payment Method"); ?></label>
                            <small class="text-muted d-block mb-2"><?php _e("Choose from the available payment methods to pay this order."); ?></small>
                            <div class="text-center my-4 d-sm-inline-block d-md-flex flex-wrap">
                                <?php $count = 0;
@@ -58,7 +58,7 @@ description: Payments 1
 
                        <div class="edit nodrop" field="checkout_payment_information_payments" rel="global"
                             rel_id="<?php print $params['id'] ?>">
-                           <label class="control-label"><?php _e("Finish your order"); ?></label>
+                           <label class="form-label"><?php _e("Finish your order"); ?></label>
                            <small class="text-muted d-block mb-2"><?php _e("Please full the fields of the selected payment method below, if it has."); ?></small>
 
                            <div class="mx-3 mt-4 mb-6" id="mw-payment-gateway-selected-<?php print $params['id']; ?>">

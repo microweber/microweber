@@ -9,7 +9,7 @@ if ($data['value'] == '') {
 }
 ?>
     <div class="mw-ui-field-holder">
-        <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Value in "); ?>
+        <label class="form-label" for="value<?php print $rand; ?>"><?php _e("Value in "); ?>
             <b><?php print $curr_symbol; ?> </b></label>
         <small class="text-muted d-block mb-2"><?php _e('Your price'); ?></small>
 

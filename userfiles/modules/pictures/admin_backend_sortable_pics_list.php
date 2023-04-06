@@ -231,7 +231,7 @@ $rand = 'pic-sorter-' . uniqid();
                                     $ok = url_title(strtolower($name));
                                     ?>
                                     <div class="form-group">
-                                        <label class="control-label"><?php print $name ?></label>
+                                        <label class="form-label"><?php print $name ?></label>
                                         <input type="text" class="form-control" name="<?php print $ok; ?>" value="<?php print isset($curr[$ok]) ? $curr[$ok] : ''; ?>"/>
                                     </div>
                                 <?php } ?>

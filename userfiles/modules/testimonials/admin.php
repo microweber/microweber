@@ -151,19 +151,19 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-testimonials-settings">
                         <div class="form-group">
-                            <label class="control-label"><?php _e('Show testimonials for project'); ?></label>
+                            <label class="form-label"><?php _e('Show testimonials for project'); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e('If you have more than one template for testimonials, choose which one to be visible'); ?></small>
                             <module type="testimonials/project_select" id="project-select-testimonials" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> option-group="<?php print $params['id'] ?>"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e('Maximum number of testimonials to display'); ?></label>
+                            <label class="form-label"><?php _e('Maximum number of testimonials to display'); ?></label>
                             <small class="text-muted d-block mb-2"<?php _e('Number of the visible testimonials'); ?>> </small>
                             <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e('Maximum number of characters to display'); ?></label>
+                            <label class="form-label"><?php _e('Maximum number of characters to display'); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e('Limit of the testimonial characters'); ?></small>
                             <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
                         </div>

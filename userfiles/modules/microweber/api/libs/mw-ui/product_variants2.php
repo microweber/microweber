@@ -42,14 +42,14 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Option 1 title</label>
+                                <label class="form-label">Option 1 title</label>
                                 <input type="text" class="form-control" value="Size">
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Placeholder</label>
+                                <label class="form-label">Placeholder</label>
                                 <input type="text" class="form-control" placeholder="Enter placeholder here">
                             </div>
 
@@ -64,9 +64,9 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="control-label">Field type</label>
+                            <label class="form-label">Field type</label>
                             <div>
-                                <select class="selectpicker" data-width="100%">
+                                <select class="form-select" data-width="100%">
                                     <option>Dropdown</option>
                                     <option>Select</option>
                                 </select>
@@ -75,9 +75,9 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Organize in columns</label>
+                                <label class="form-label">Organize in columns</label>
                                 <div>
-                                    <select class="selectpicker" data-width="100%">
+                                    <select class="form-select" data-width="100%">
                                         <option>col-12</option>
                                         <option>col-6</option>
                                     </select>

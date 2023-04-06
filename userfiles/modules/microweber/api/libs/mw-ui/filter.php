@@ -54,7 +54,7 @@
                                 <div>
                                     <label class="d-block mb-2"><?php _e("Role"); ?></label>
 
-                                    <select class="selectpicker" data-style="btn-md">
+                                    <select class="form-select" data-style="btn-md">
                                         <option value="-1"><?php _e("All"); ?></option>
                                         <option value="0"><?php _e("User"); ?></option>
                                         <option value="1"><?php _e("Admin"); ?></option>
@@ -67,7 +67,7 @@
                                     <label class="d-block mb-2"><?php _e('Status'); ?></label>
 
 
-                                    <select class="selectpicker" data-style="btn-md">
+                                    <select class="form-select" data-style="btn-md">
                                         <option value="-1"><?php _e("All users"); ?></option>
                                         <option value="1"><?php _e("Active users"); ?></option>
                                         <option value="0"><?php _e("Disabled users"); ?></option>

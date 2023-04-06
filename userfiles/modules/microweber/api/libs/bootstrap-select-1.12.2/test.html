@@ -33,7 +33,7 @@
       <label for="basic" class="col-lg-2 control-label">"Basic" (liveSearch disabled)</label>
 
       <div class="col-lg-10">
-        <select id="basic" class="selectpicker show-tick form-control">
+        <select id="basic" class="form-select show-tick form-control">
           <option>cow</option>
           <option data-subtext="option subtext">bull</option>
           <option class="get-class" disabled>ox</option>
@@ -54,7 +54,7 @@
       <label for="basic" class="col-lg-2 control-label">"Basic" (liveSearch enabled)</label>
 
       <div class="col-lg-10">
-        <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+        <select id="basic" class="form-select show-tick form-control" data-live-search="true">
           <option>cow</option>
           <option data-subtext="option subtext">bull</option>
           <option class="get-class" disabled>ox</option>
@@ -94,7 +94,7 @@
       <label for="maxOption2" class="col-lg-2 control-label">multiple, show-menu-arrow, maxOptions=2</label>
 
       <div class="col-lg-10">
-        <select id="maxOption2" class="selectpicker show-menu-arrow form-control" multiple data-max-options="2">
+        <select id="maxOption2" class="form-select show-menu-arrow form-control" multiple data-max-options="2">
           <option>chicken</option>
           <option>turkey</option>
           <option disabled>duck</option>
@@ -110,7 +110,7 @@
       <label class="col-md-1 control-label" for="lunch">Lunch:</label>
     </div>
     <div class="form-group">
-      <select id="lunch" class="selectpicker" data-live-search="true" title="Please select a lunch ...">
+      <select id="lunch" class="form-select" data-live-search="true" title="Please select a lunch ...">
         <option>Hot Dog, Fries and a Soda</option>
         <option>Burger, Shake and a Smile</option>
         <option>Sugar, Spice and all things nice</option>
@@ -126,7 +126,7 @@
       <label for="error" class="col-lg-2 control-label">error</label>
 
       <div class="col-lg-10 error">
-        <select id="error" class="selectpicker show-tick form-control">
+        <select id="error" class="form-select show-tick form-control">
           <option>pen</option>
           <option>pencil</option>
           <option selected>brush</option>
@@ -138,7 +138,7 @@
   <hr>
   <form class="form-horizontal" role="form">
     <div class="form-group has-error form-group-lg">
-      <label class="control-label col-lg-2" for="country">error type 2</label>
+      <label class="form-label col-lg-2" for="country">error type 2</label>
 
       <div class="col-lg-10">
         <select id="country" name="country" class="form-control selectpicker">
@@ -161,7 +161,7 @@
 
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <select class="selectpicker" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+          <select class="form-select" multiple data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
             <optgroup label="filter1">
               <option>option1</option>
               <option>option2</option>
@@ -198,7 +198,7 @@
   </nav>
 
   <hr>
-  <select id="first-disabled" class="selectpicker" data-hide-disabled="true" data-live-search="true">
+  <select id="first-disabled" class="form-select" data-hide-disabled="true" data-live-search="true">
     <optgroup disabled="disabled" label="disabled">
       <option>Hidden</option>
     </optgroup>
@@ -213,7 +213,7 @@
   </select>
 
   <hr>
-  <select id="first-disabled2" class="selectpicker" multiple data-hide-disabled="true" data-size="5">
+  <select id="first-disabled2" class="form-select" multiple data-hide-disabled="true" data-size="5">
     <option>Apple</option>
     <option>Banana</option>
     <option>Orange</option>
@@ -253,7 +253,7 @@
   <p>With <code>data-mobile="true"</code> option.</p>
 
   <hr>
-  <select id="done" class="selectpicker" multiple data-done-button="true">
+  <select id="done" class="form-select" multiple data-done-button="true">
     <option>Apple</option>
     <option>Banana</option>
     <option>Orange</option>
@@ -272,7 +272,7 @@
 
   <div class="form-group">
     <label for="tokens">Key words (data-tokens)</label>
-    <select id="tokens" class="selectpicker form-control" multiple data-live-search="true">
+    <select id="tokens" class="form-select form-control" multiple data-live-search="true">
       <option data-tokens="first">I actually am called "one"</option>
       <option data-tokens="second">And me "two"</option>
       <option data-tokens="last">I am "three"</option>
@@ -285,7 +285,7 @@
       <label class="col-md-1 control-label" for="lunchBegins">Lunch (Begins search):</label>
     </div>
     <div class="form-group">
-      <select id="lunchBegins" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Please select a lunch ...">
+      <select id="lunchBegins" class="form-select" data-live-search="true" data-live-search-style="begins" title="Please select a lunch ...">
         <option>Hot Dog, Fries and a Soda</option>
         <option>Burger, Shake and a Smile</option>
         <option>Sugar, Spice and all things nice</option>

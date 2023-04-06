@@ -462,7 +462,7 @@
                                     <div class="col">
                                         <div class="mb-1"><small class="text-muted">Status</small></div>
                                         <div>
-                                            <select class="selectpicker js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
+                                            <select class="form-select js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
                                                 <option data-change-color="btn-success">Publish</option>
                                                 <option data-change-color="btn-warning">Unpublish</option>
                                                 <option data-change-color="btn-secondary">Mark as Spam</option>

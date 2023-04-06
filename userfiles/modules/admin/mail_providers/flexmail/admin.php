@@ -47,7 +47,7 @@
     <input type="hidden" name="mail_provider_name" value="flexmail"/>
     <?php foreach (get_flexmail_api_fields() as $field): ?>
         <div class="form-group">
-            <label class="control-label"><?php echo $field['title']; ?></label>
+            <label class="form-label"><?php echo $field['title']; ?></label>
             <input type="text" value="<?php echo $field['value']; ?>" name="<?php echo $field['name']; ?>" class="mw_option_field form-control">
         </div>
     <?php endforeach; ?>

@@ -205,7 +205,7 @@
 
                             <div class="form-group">
                                 <div option-group="comments" name="comments_per_page" parent-reload="true">
-                                    <label class="control-label"><?php _e("Comments per page"); ?></label>
+                                    <label class="form-label"><?php _e("Comments per page"); ?></label>
                                     <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw_option_field selectpicker" data-width="100%" data-size="5">
                                         <?php
                                         $per_page = get_option('paging', 'comments');
@@ -242,7 +242,7 @@
                         <div class="row d-none">
                             <div class="col-md-6">
                                 <div class="form-group email-on-new-comment-setting">
-                                    <label class="control-label d-block"><?php _e("Send email me on"); ?></label>
+                                    <label class="form-label d-block"><?php _e("Send email me on"); ?></label>
 
                                     <div class="email-on-new-comment-holder">
                                         <label class="mw-ui-check">
@@ -259,7 +259,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group email-on-new-comment-setting email-on-reply-comment-setting">
-                                    <label class="control-label d-block"><?php _e("Send email to user on"); ?></label>
+                                    <label class="form-label d-block"><?php _e("Send email to user on"); ?></label>
 
                                     <div class="email-on-new-comment-holder">
                                         <label class="mw-ui-check">
@@ -275,7 +275,7 @@
                         <hr class="thin">
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Select new comment reply email template"); ?></label>
+                            <label class="form-label"><?php _e("Select new comment reply email template"); ?></label>
 
                             <module type="admin/mail_templates/select_template" option_group="comments" mail_template_type="new_comment_reply"/>
                         </div>
@@ -292,7 +292,7 @@
                         <module type="comments/settings_for_engine" id="mw-comments-engine-settings"/>
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Avatar Display"); ?></label>
+                            <label class="form-label"><?php _e("Avatar Display"); ?></label>
 
                             <div class="form-group">
                                 <label class="mw-ui-check">
@@ -304,7 +304,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label"><?php _e("Default avatar style"); ?></label>
+                            <label class="form-label"><?php _e("Default avatar style"); ?></label>
 
                             <div class="avatars-holder <?php if (!$avatar_enabled) { ?>deactivated<?php } ?>">
                                 <div class="form-group">

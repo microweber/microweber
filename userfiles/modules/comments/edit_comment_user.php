@@ -26,7 +26,7 @@ $(document).ready(function () {
 });
 </script>
 <div class="comment_body" style="padding: 15px 0">
-    <label class="control-label font-weight-bold"><?php _e('Your comment');?></label>
+    <label class="form-label font-weight-bold"><?php _e('Your comment');?></label>
     <small class="text-muted d-block mb-3"><?php _e('Edit your comment in the field.');?></small>
     <textarea id="mw-comment-edit-textarea" class="mw-ui-field w-100 h-100" name="comment_body"><?php echo $comment['comment_body']; ?></textarea>
 </div>

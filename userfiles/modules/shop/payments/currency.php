@@ -34,7 +34,7 @@ $curencies = mw()->shop_manager->currency_get();
                             <div class="col-12">
                                 <?php if (is_array($curencies)): ?>
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e('Set default currency'); ?></label>
+                                        <label class="form-label"><?php _e('Set default currency'); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Default currency with which you will accept payments.'); ?></small>
                                         <select name="currency" class="mw_option_field selectpicker" data-width="100%" data-size="7" data-option-group="payments" data-reload="mw_curr_rend" data-live-search="true" data-size="5">
                                             <?php if (!$cur): ?>
@@ -51,7 +51,7 @@ $curencies = mw()->shop_manager->currency_get();
                                 <?php $cur_pos = get_option('currency_symbol_position', 'payments'); ?>
 
                                 <div class="form-group mb-4">
-                                    <label class="control-label"><?php _e("Currency simbol position"); ?></label>
+                                    <label class="form-label"><?php _e("Currency simbol position"); ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e('Where to display the currency symbol before, after or by default relative to the amount.'); ?></small>
 
                                     <select name="currency_symbol_position" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend">
@@ -62,7 +62,7 @@ $curencies = mw()->shop_manager->currency_get();
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label"><?php _e("Show Decimals"); ?></label>
+                                    <label class="form-label"><?php _e("Show Decimals"); ?></label>
                                     <select name="currency_symbol_decimal" class="mw_option_field selectpicker" data-width="100%" data-option-group="payments" data-reload="mw_curr_rend">
                                         <option <?php if (!$currency_symbol_decimal): ?> selected="selected" <?php endif; ?> value=""><?php _e('Always'); ?></option>
                                         <option <?php if ($currency_symbol_decimal == 'when_needed'): ?> selected="selected" <?php endif; ?> value="when_needed"><?php _e('When needed'); ?></option>

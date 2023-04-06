@@ -19,30 +19,30 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Developers tools"); ?></label>
+    <label class="form-label"><?php _e("Developers tools"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('If you are a developer, then these tools would be useful to you'); ?>.</small>
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Template Backup"); ?></label>
+    <label class="form-label"><?php _e("Template Backup"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Make a backup of your template website'); ?>.</small>
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/developer_tools/template_exporter', 'Template backup')"><?php _e('Export template'); ?></a>
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Media cleanup'); ?></label>
+    <label class="form-label"><?php _e('Media cleanup'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This module will remove media from database, which is not present on the hard drive'); ?>.</small>
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/developer_tools/media_cleanup', 'Media cleanup')"><?php _e("Cleanup the images"); ?></a>
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Database cleanup"); ?></label>
+    <label class="form-label"><?php _e("Database cleanup"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('This module will remove categories, images and custom fields which are connected to a content that is manually deleted from the database'); ?>.</small>
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/developer_tools/database_cleanup', 'Database cleanup')"><?php _e('Database cleanup'); ?></a>
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Show system log"); ?></label>
+    <label class="form-label"><?php _e("Show system log"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Show system logs for the last 30 days'); ?>.</small>
     <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('admin/notifications/system_log', 'Show system log')"><?php _e("Show system log"); ?></a>
 </div>
@@ -53,14 +53,14 @@ $showPoweredBy = mw()->ui->powered_by_link_enabled();
 
 if ($showLicensesLink and $showPoweredBy and ($got_lic) >= 0): ?>
     <div class="form-group">
-        <label class="control-label"><?php _e("Licenses"); ?></label>
+        <label class="form-label"><?php _e("Licenses"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e('Add or edit your licenses'); ?>.</small>
         <a href="javascript:;" class="btn btn-outline-primary btn-sm" onclick="openModuleInModal('settings/group/licenses', 'Licenses')"><?php _e("Licenses"); ?></a>
     </div>
 <?php endif; ?>
 
 <div class="form-group">
-    <label class="control-label"><?php _e("Cache settings"); ?></label>
+    <label class="form-label"><?php _e("Cache settings"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Speed up your website load speed'); ?>.</small>
     <a href="<?php echo admin_url('module/view?type=fullpage_cache');?>" class="btn btn-outline-success"><?php _e("Run fullpage cache"); ?></a>
 </div>

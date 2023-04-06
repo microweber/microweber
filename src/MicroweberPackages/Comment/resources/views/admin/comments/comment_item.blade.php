@@ -21,7 +21,7 @@
                                 })
                             </script>
                             <div>
-                                <select class="selectpicker js-change-color js-modify-comment d-inline-block" data-style="btn-success btn-sm" data-width="fit" data-title="<?php _e($status); ?>">
+                                <select class="form-select js-change-color js-modify-comment d-inline-block" data-style="btn-success btn-sm" data-width="fit" data-title="<?php _e($status); ?>">
                                     <option class="js-comment-approved-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-success"><?php _e('Published'); ?></option>
                                     <option class="js-comment-unpublished-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-warning"><?php _e('Unpublish'); ?></option>
                                     <option class="js-mark-spam-comment-btn" data-id="<?php print $comment['id'] ?>" data-change-color="btn-secondary"><?php _e('Mark as Spam'); ?></option>

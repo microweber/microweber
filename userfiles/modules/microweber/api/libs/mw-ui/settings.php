@@ -32,19 +32,19 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-4">
-                                            <label class="control-label">Website Name</label>
+                                            <label class="form-label">Website Name</label>
                                             <small class="text-muted d-block mb-2">This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.</small>
                                             <input class="form-control" value="Microweber"/>
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <label class="control-label">Website Description</label>
+                                            <label class="form-label">Website Description</label>
                                             <small class="text-muted d-block mb-2">Describe what your website is about.</small>
                                             <textarea class="form-control"></textarea>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Website Keywords</label>
+                                            <label class="form-label">Website Keywords</label>
                                             <small class="text-muted d-block mb-2">Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food</small>
                                             <input class="form-control"/>
                                         </div>
@@ -72,18 +72,18 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-4">
-                                            <label class="control-label">Date format</label>
+                                            <label class="form-label">Date format</label>
                                             <small class="text-muted d-block mb-2">Choose a date format for your website</small>
-                                            <select class="selectpicker" data-width="100%">
+                                            <select class="form-select" data-width="100%">
                                                 <option>2020-05-20 11:28:27 (Y-m-d H:i:s)</option>
                                                 <option>2020-05-20 11:28:27 (Y-m-d H:i:s)</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label">Time zone</label>
+                                            <label class="form-label">Time zone</label>
                                             <small class="text-muted d-block mb-2">Set a time zone</small>
-                                            <select class="selectpicker" data-width="100%">
+                                            <select class="form-select" data-width="100%">
                                                 <option>UTC</option>
                                             </select>
                                         </div>
@@ -93,7 +93,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label">Change Favicon</label>
+                                            <label class="form-label">Change Favicon</label>
                                             <small class="text-muted d-block mb-2">Select an icon for your website. It is best to be part of your logo.</small>
                                             <div class="d-flex">
                                                 <div class="img-circle-holder img-absolute border-radius-0 border-silver mr-3">
@@ -107,7 +107,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label">Posts per Page</label>
+                                            <label class="form-label">Posts per Page</label>
                                             <small class="text-muted d-block mb-2">Select how many posts or products you want to be shown per page?</small>
                                             <input class="form-control" value="10"/>
                                         </div>
@@ -135,7 +135,7 @@
                                 <div class="row">
                                     <div class="col-12 socials-settings">
                                         <div class="form-group mb-4">
-                                            <label class="control-label">Select and type socials links you want to show</label>
+                                            <label class="form-label">Select and type socials links you want to show</label>
                                             <small class="text-muted d-block mb-2">Select the social networks you want to see on your site, blog and store</small>
                                         </div>
 

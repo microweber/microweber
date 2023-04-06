@@ -37,7 +37,7 @@ if(empty($supportedLanguages)){
 }
 ?>
 <div class="my-2">
-    <label class="control-label"><?php _e('Select the language to export:');?></label>
+    <label class="form-label"><?php _e('Select the language to export:');?></label>
     <small class="text-muted d-block mb-3"><?php _e('If you want to export a .xlsx translated file you can export it from here.');?></small>
     <select class="form-control js-export-selected-locale-val">
         <?php
@@ -49,7 +49,7 @@ if(empty($supportedLanguages)){
         ?>
     </select>
     <br />
-    <label class="control-label"><?php _e('Export File Format:'); ?></label>
+    <label class="form-label"><?php _e('Export File Format:'); ?></label>
     <small class="text-muted d-block mb-3"><?php _e('Select the format file to export.');?></small>
     <select class="form-control js-export-selected-file-format-val">
         <option value="xlsx">.xlsx</option>

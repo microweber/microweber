@@ -29,7 +29,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-search-settings">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Search in page"); ?></label>
+                        <label class="form-label"><?php _e("Search in page"); ?></label>
 
                         <div>
                             <select name="data-content-id" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">

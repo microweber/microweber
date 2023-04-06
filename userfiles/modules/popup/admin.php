@@ -128,7 +128,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="tab-pane fade show active" id="settings">
                 <div class="module-live-edit-settings module-popup-settings">
                     <div class="form-group">
-                        <label class="control-label d-block"><?php _e("Show Pop-Up event"); ?></label>
+                        <label class="form-label d-block"><?php _e("Show Pop-Up event"); ?></label>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
                             <input type="radio" id="type1" name="type" class="mw_option_field custom-control-input" value="on_click" data-refresh="popup" <?php if ($type == 'on_click'): ?>checked<?php endif; ?>>
@@ -158,18 +158,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-group link_text">
-                        <label class="control-label"><?php _e("Button text"); ?></label>
+                        <label class="form-label"><?php _e("Button text"); ?></label>
                         <input type="text" name="link_text" class="mw_option_field form-control" value="<?php print $link_text; ?>" data-refresh="popup"/>
                     </div>
 
                     <div class="form-group js-time-delay" style="display: none;">
-                        <label class="control-label"><?php _e("Time delay in MS"); ?></label>
+                        <label class="form-label"><?php _e("Time delay in MS"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Only if Show Pop-Up Event is On time"); ?></small>
                         <input type="text" name="time_delay" class="mw_option_field form-control" value="<?php print $time_delay; ?>" data-refresh="popup"/>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label d-block"><?php _e("Content source"); ?></label>
+                        <label class="form-label d-block"><?php _e("Content source"); ?></label>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
                             <input type="radio" id="source1" name="source" class="mw_option_field custom-control-input" value="edited_text" data-refresh="popup" <?php if ($source == 'edited_text'): ?>checked<?php endif; ?>>
@@ -183,7 +183,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div id="popup_url_holder" class="form-group popup_page_id">
-                        <label class="control-label"><?php _e("Select existing page for popup content"); ?></label>
+                        <label class="form-label"><?php _e("Select existing page for popup content"); ?></label>
                         <div>
                             <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
                                 <input type="hidden" class="mw_option_field" name="page_id" id="page_id_field"/>

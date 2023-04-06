@@ -337,7 +337,7 @@ if (isset($notif_params['quick'])) {
                             });
                         </script>
 
-                        <select class="selectpicker js-show-notif" data-style="btn-sm" data-width="auto">
+                        <select class="form-select js-show-notif" data-style="btn-sm" data-width="auto">
                             <option value="?">All notifications</option>
                             <option value="?filter_by=comments" <?php if (isset($filter_by) AND $filter_by == 'comments'): ?>selected<?php endif; ?>>Comments</option>
                             <option value="?filter_by=orders" <?php if (isset($filter_by) AND $filter_by == 'orders'): ?>selected<?php endif; ?>>Orders</option>

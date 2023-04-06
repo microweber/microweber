@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Upload Before Image', "modules/beforeafter"); ?></label>
+                        <label class="form-label"><?php _lang('Upload Before Image', "modules/beforeafter"); ?></label>
                         <img src="<?php print $before; ?>" alt="before" class="js-before-image"/>
 
                         <div class="text-center mt-3">
@@ -54,7 +54,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label"><?php _lang('Upload After Image', "modules/beforeafter"); ?></label>
+                        <label class="form-label"><?php _lang('Upload After Image', "modules/beforeafter"); ?></label>
                         <img src="<?php print $after; ?>" alt="after" class="js-after-image"/>
 
                         <div class="text-center mt-3">

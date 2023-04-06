@@ -53,13 +53,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <!-- Settings Content -->
                 <div class="module-live-edit-settings module-audio-settings">
                     <div class="form-group">
-                        <label class="control-label d-block"><?php _lang("Upload Audio file", "modules/audio"); ?></label>
+                        <label class="form-label d-block"><?php _lang("Upload Audio file", "modules/audio"); ?></label>
                         <input type="hidden" name="data-audio-upload" value="<?php print get_option('data-audio-upload', $params['id']) ?>" class="mw_option_field" id="upload_value"/>
                         <span class="btn btn-primary btn-rounded relative" id="upload"><span class="fa fa-upload"></span> &nbsp; <?php _lang("Upload File", "modules/audio"); ?></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label"><?php _lang("Paste URL", "modules/audio"); ?></label>
+                        <label class="form-label"><?php _lang("Paste URL", "modules/audio"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _lang('You can <strong>Upload your audio file</strong> or you can <strong>Paste URL</strong> to the file. It\'s possible to use <strong > only one option</strong>.', "modules/audio"); ?></small>
                         <input name="data-audio-url" class="mw_option_field form-control" id="audio" type="text" value="<?php print get_option('data-audio-url', $params['id']) ?>"/>
                     </div>

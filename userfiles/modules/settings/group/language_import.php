@@ -49,7 +49,7 @@ $(document).ready(function () {
 </script>
 
 <div class="my-2">
-<label class="control-label"><?php _e('Upload Your Language File');?></label>
+<label class="form-label"><?php _e('Upload Your Language File');?></label>
     <small class="text-muted d-block mb-3"><?php _e('If you have a .xlsx translated file you can import it by uploading it here.');?></small>
 
     <div class="custom-control custom-checkbox">

@@ -271,7 +271,7 @@ if ($last_page_front != false) {
 
             <?php if (isset($content_types) and !empty($content_types)): ?>
                 <div>
-                    <select id="content_type_filter_by_select" class="selectpicker" data-style="btn-sm" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
+                    <select id="content_type_filter_by_select" class="form-select" data-style="btn-sm" <?php if (!$selected): ?> style="display:none" <?php endif; ?>>
                         <option value=""><?php _e('All'); ?></option>
                         <?php foreach ($content_types as $k => $items): ?>
                             <optgroup label="<?php print ucfirst($k); ?>">
@@ -305,7 +305,7 @@ if ($last_page_front != false) {
                 });
             </script>
             <div class="d-none d-md-inline-block">
-                <select class="selectpicker js-search-by-selector" data-width="150" data-style="btn-sm">
+                <select class="form-select js-search-by-selector" data-width="150" data-style="btn-sm">
                     <option value="keywords" selected><?php _e('search by keyword'); ?></option>
                     <option value="tags"><?php _e('search by tags'); ?></option>
                 </select>

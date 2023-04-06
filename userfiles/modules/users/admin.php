@@ -251,7 +251,7 @@ mw()->notifications_manager->mark_as_read('users');
                                             }
                                         </script>
 
-                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByRoles(event)">
+                                        <select class="form-select" data-style="btn-md" onchange="handleUserSortByRoles(event)">
                                             <option value="-1"><?php _e("All"); ?></option>
                                             <option value="0"><?php _e("User"); ?></option>
                                             <option value="1"><?php _e("Admin"); ?></option>
@@ -281,7 +281,7 @@ mw()->notifications_manager->mark_as_read('users');
                                             }
                                         </script>
 
-                                        <select class="selectpicker" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
+                                        <select class="form-select" data-style="btn-md" onchange="handleUserSortByActiveState(event)">
                                             <option value="-1"><?php _e("All users"); ?></option>
                                             <option value="1"><?php _e("Active users"); ?></option>
                                             <option value="0"><?php _e("Disabled users"); ?></option>

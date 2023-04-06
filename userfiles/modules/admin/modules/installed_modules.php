@@ -281,7 +281,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                         <div>
                             <label class="d-block mb-2"><?php _e("Type"); ?></label>
 
-                            <select class="selectpicker js-modules-sort-types" data-width="100%">
+                            <select class="form-select js-modules-sort-types" data-width="100%">
                                 <option value="live_edit"><?php _e("Live edit modules"); ?></option>
                                 <option value="admin" selected><?php _e("Admin modules"); ?></option>
                                 <option value="advanced"><?php _e("All modules"); ?></option>
@@ -293,7 +293,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                         <div>
                             <label class="d-block mb-2"><?php _e("Status"); ?></label>
 
-                            <select class="selectpicker js-modules-sort-status" data-width="100%">
+                            <select class="form-select js-modules-sort-status" data-width="100%">
                                 <option value="1"><?php _e("Installed"); ?></option>
                                 <option value="0"><?php _e("Uninstalled"); ?></option>
                                 <!--                                <option value="2">--><?php //_e("All"); ?><!--</option>-->

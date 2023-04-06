@@ -331,7 +331,7 @@ $current_template = false;
                                 <!-- Current template - Start -->
                                 <div class="row">
                                     <div class="col-12 current-template">
-                                        <label class="control-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
+                                        <label class="form-label" title="<?php print $current_template['layout_file']; ?>"><?php _e('Current layout'); ?></label>
                                         <div class="screenshot">
                                             <div class="holder">
                                                 <img data-url="<?php echo thumbnail($current_template['screenshot'], 800, 400); ?>" alt="<?php print $current_template['name']; ?>" style="max-width:100%;" title="<?php print $current_template['name']; ?>"/>
@@ -341,7 +341,7 @@ $current_template = false;
                                     </div>
                                     <div class="col-12 current-template-modules">
                                         <div class="current-template-modules-list-wrap">
-                                            <label class="control-label">This layout contains those modules</label>
+                                            <label class="form-label">This layout contains those modules</label>
 
                                             <div class="current-template-modules-list"></div>
                                         </div>

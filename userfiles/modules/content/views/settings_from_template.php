@@ -55,7 +55,7 @@ if (!empty($template_config)) {
 <?php if (is_array($data_fields_conf)): ?>
     <div class="card-body mb-3 fields">
         <div class="card-header no-border">
-            <label class="control-label"><?php _e("Template settings"); ?></label>
+            <label class="form-label"><?php _e("Template settings"); ?></label>
             <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template settings') ?></a>
         </div>
         <div class="card-body py-0">
@@ -203,7 +203,7 @@ if (!empty($template_config)) {
 <?php if (!empty($edit_fields_from_template_conf_ready)): ?>
 <div class="card-body mb-3 fields">
     <div class="card-header no-border">
-        <label class="control-label"><?php _e("Template Edit Fields"); ?></label>
+        <label class="form-label"><?php _e("Template Edit Fields"); ?></label>
         <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#template-edit-fields"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('Template Edit Fields') ?></a>
     </div>
     <div class="card-body pb-4">

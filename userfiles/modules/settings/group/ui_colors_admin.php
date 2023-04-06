@@ -33,7 +33,7 @@ $schemes = ['litera','cosmo'];
 
  ?>
 <div class="form-group">
-    <label class="control-label" for="admin_color_scheme_name">Color Scheme</label>
+    <label class="form-label" for="admin_color_scheme_name">Color Scheme</label>
     <select name="admin_color_scheme_name" class="form-control js-color-admin-change mw_option_field" id="admin_color_scheme_name" option-group="website">
         <option value="">none</option>
 <?php foreach ($schemes as $scheme_name){ ?>

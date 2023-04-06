@@ -20,27 +20,27 @@
             <h5 class="mb-3 font-weight-bold">Client information</h5>
 
             <div class="form-group">
-                <label class="control-label">Display Name:</label>
+                <label class="form-label">Display Name:</label>
                 <input type="text" class="form-control" value="<?php echo $name;?>" required="required" name="name">
             </div>
 
             <div class="form-group">
-                <label class="control-label">First Name:</label>
+                <label class="form-label">First Name:</label>
                 <input type="text" class="form-control" value="<?php echo $first_name;?>" required="required" name="first_name">
             </div>
 
             <div class="form-group">
-                <label class="control-label">Last Name:</label>
+                <label class="form-label">Last Name:</label>
                 <input type="text" class="form-control" value="<?php echo $last_name;?>" required="required" name="last_name">
             </div>
 
             <div class="form-group">
-                <label class="control-label">Email:</label>
+                <label class="form-label">Email:</label>
                 <input type="email" class="form-control" value="<?php echo $email;?>" required="required" name="email">
             </div>
 
             <div class="form-group">
-                <label class="control-label">Phone:</label>
+                <label class="form-label">Phone:</label>
                 <input type="text" class="form-control" value="<?php echo $phone;?>" required="required" name="phone">
             </div>
         </div>
@@ -52,35 +52,35 @@
         <h5 class="mb-3 font-weight-bold">Billing Address</h5>
 
         <div class="form-group d-none">
-            <label class="control-label">Address Name:</label>
+            <label class="form-label">Address Name:</label>
             <input type="text" class="form-control" value="<?php echo $billing_address['name'];?>" name="addresses[1][name]">
         </div>
 
         <div class="form-group">
-            <label class="control-label">Address:</label>
+            <label class="form-label">Address:</label>
             <textarea class="form-control" placeholder="Street 1" name="addresses[1][address_street_1]"><?php echo $billing_address['address_street_1'];?></textarea>
         </div>
 
         <div class="form-group">
-            <label class="control-label">City:</label>
+            <label class="form-label">City:</label>
             <input type="text" class="form-control" value="<?php echo $billing_address['city'];?>" name="addresses[1][city]">
         </div>
 
         <div class="form-group">
-            <label class="control-label">Zip Code:</label>
+            <label class="form-label">Zip Code:</label>
             <input type="text" class="form-control" value="<?php echo $billing_address['zip'];?>" name="addresses[1][zip]">
         </div>
 
         <div class="form-group">
-            <label class="control-label">State:</label>
+            <label class="form-label">State:</label>
             <input type="text" class="form-control" value="<?php echo $billing_address['state'];?>" name="addresses[1][state]">
         </div>
         <div class="form-group">
-            <label class="control-label d-block">Country:</label>
+            <label class="form-label d-block">Country:</label>
             <?php if(!empty($countries)):?>
 
                 <div class="dropdown bootstrap-select" style="width: 100%;">
-                <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
+                <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[1][country_id]" tabindex="-98">
                     <?php foreach ($countries as $country):?>
                         <option value="<?php echo $country['id']; ?>" <?php if ($billing_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
                     <?php endforeach; ?>
@@ -100,36 +100,36 @@
             <h5 class="mb-3 font-weight-bold">Shipping Address</h5>
 
             <div class="form-group d-none">
-                <label class="control-label">Address Name:</label>
+                <label class="form-label">Address Name:</label>
                 <input type="text" class="form-control" value="<?php echo $shipping_address['name'];?>" name="addresses[0][name]">
             </div>
 
             <div class="form-group">
-                <label class="control-label">Address:</label>
+                <label class="form-label">Address:</label>
                 <textarea class="form-control" placeholder="Street 1" name="addresses[0][address_street_1]"><?php echo $shipping_address['address_street_1'];?></textarea>
             </div>
 
             <div class="form-group">
-                <label class="control-label">City:</label>
+                <label class="form-label">City:</label>
                 <input type="text" class="form-control" value="<?php echo $shipping_address['city'];?>" name="addresses[0][city]">
             </div>
 
             <div class="form-group">
-                <label class="control-label">Zip Code:</label>
+                <label class="form-label">Zip Code:</label>
                 <input type="text" class="form-control" value="<?php echo $shipping_address['zip'];?>" name="addresses[0][zip]">
             </div>
 
             <div class="form-group">
-                <label class="control-label">State:</label>
+                <label class="form-label">State:</label>
                 <input type="text" class="form-control" value="<?php echo $shipping_address['state'];?>" name="addresses[0][state]">
             </div>
 
             <div class="form-group">
-                <label class="control-label d-block">Country:</label>
+                <label class="form-label d-block">Country:</label>
                 <?php if(!empty($countries)):?>
 
                 <div class="dropdown bootstrap-select" style="width: 100%;">
-                    <select class="selectpicker" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
+                    <select class="form-select" data-live-search="true" data-width="100%" data-size="5" name="addresses[0][country_id]" tabindex="-98">
                         <?php foreach ($countries as $country):?>
                             <option value="<?php echo $country['id']; ?>" <?php if ($shipping_address['country_id'] == $country['id']): ?> selected="selected" <?php endif; ?>><?php echo $country['name']; ?> </option>
                         <?php endforeach; ?>

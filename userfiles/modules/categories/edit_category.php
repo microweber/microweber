@@ -423,7 +423,7 @@ if (isset($params['live_edit'])) {
                         <div class="col-12">
                             <div class="form-group" id="content-title-field-row">
 
-                                <label class="control-label" for="content-title-field"><?php _e('Category name'); ?></label>
+                                <label class="form-label" for="content-title-field"><?php _e('Category name'); ?></label>
 
                                 <?php
                                 $categoryNamePlaceholder = 'Category name';
@@ -463,7 +463,7 @@ if (isset($params['live_edit'])) {
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="bootstrap-select form-control">
-                                    <label class="control-label"><?php _e('Choose a parent'); ?>:</label>
+                                    <label class="form-label"><?php _e('Choose a parent'); ?>:</label>
                                     <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
                                     <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
@@ -487,7 +487,7 @@ if (isset($params['live_edit'])) {
 
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="control-label" for="description"><?php _e("Description"); ?></label>
+                                <label class="form-label" for="description"><?php _e("Description"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("Type description of your category in the field"); ?></small>
                                 <!--  <textarea class="form-control" id="description" name="description" rows="3" spellcheck="false"><?php /*echo $data['description']; */?></textarea>-->
 
@@ -668,7 +668,7 @@ if (isset($params['live_edit'])) {
                         <?php endif; ?>
 
                         <div class="col-12">
-                            <label class="control-label"><?php _e("Other settings"); ?></label>
+                            <label class="form-label"><?php _e("Other settings"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("Discover more advanced options"); ?></small>
 
                             <button type="button" class="btn btn-link btn-sm js-edit-category-show-more" data-bs-toggle="collapse" data-bs-target="#show-more"><?php _e("Show more"); ?></button>
@@ -678,7 +678,7 @@ if (isset($params['live_edit'])) {
                                     <?php if (isset($data['id']) and $data['id'] != 0): ?>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label class="control-label"><?php _e("Link"); ?></label>
+                                                <label class="form-label"><?php _e("Link"); ?></label>
                                                 <div class="mb-3">
                                                     <small><a href="<?php print category_link($data['id']); ?>" target="_blank"><?php print category_link($data['id']); ?></a></small>
                                                 </div>
@@ -690,7 +690,7 @@ if (isset($params['live_edit'])) {
 
                                     <!--  <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label"><?php /*_e("Slug"); */?></label>
+                                            <label class="form-label"><?php /*_e("Slug"); */?></label>
                                             <div class="mb-3">
                                                 <input type="text" class="form-control" name="url" value="<?php /*(isset($data['url'])) ? print ($data['url']) : '' */?>"/>
                                             </div>
@@ -699,7 +699,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label class="control-label"><?php _e("Category URL"); ?></label>
+                                            <label class="form-label"><?php _e("Category URL"); ?></label>
                                             <div class="mb-3">
                                                 <?php
                                                 $url = '';
@@ -729,7 +729,7 @@ if (isset($params['live_edit'])) {
                                                 $data['users_can_create_content'] = 0;
                                             }
                                             ?>
-                                            <label class="control-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
+                                            <label class="form-label"><?php _e("Can users create content"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="<?php _e("If you set this to YES the website users will be able to add content under this category"); ?>"></span></label>
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
@@ -762,10 +762,10 @@ if (isset($params['live_edit'])) {
                                             </script>
 
                                             <div class="form-group">
-                                                <label class="control-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
+                                                <label class="form-label"><?php _e("Category subtype"); ?> <span class="help-tooltip" data-bs-toggle="tooltip" title="You can set the category behaviour by changing its subtype"></span></label>
 
                                                 <div>
-                                                    <select class="selectpicker edit-category-choose-subtype-dd" data-width="100%">
+                                                    <select class="form-select edit-category-choose-subtype-dd" data-width="100%">
                                                         <option value="default" <?php if ($data['category_subtype'] === 'default') {
                                                             print 'selected';
                                                         } ?>><?php _e("Default"); ?></option>
@@ -784,7 +784,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-md-12">
                                         <div class="form-group ">
-                                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                                            <label class="form-label"><?php _e("Meta title"); ?></label>
                                             <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
@@ -806,7 +806,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-md-12">
                                         <div class="form-group ">
-                                            <label class="control-label"><?php _e("Meta description"); ?></label>
+                                            <label class="form-label"><?php _e("Meta description"); ?></label>
                                             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                                             <?php
@@ -824,7 +824,7 @@ if (isset($params['live_edit'])) {
 
                                     <div class="col-md-12">
                                         <div class="form-group ">
-                                            <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                                            <label class="form-label"><?php _e("Meta keywords"); ?></label>
                                             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
                                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
 
@@ -861,7 +861,7 @@ if (isset($params['live_edit'])) {
                                                 $data['is_hidden'] = 0;
                                             }
                                             ?>
-                                            <label class="control-label"><?php _e("Is category hidden?"); ?>
+                                            <label class="form-label"><?php _e("Is category hidden?"); ?>
 
                                                 <small class="text-muted d-block mb-2"><?php _e("If you set this to YES this category will be hidden from the website"); ?></small>
                                             </label>
