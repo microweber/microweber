@@ -49,7 +49,7 @@ class AdminController extends Controller
         return $this->render();
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         return view('admin::admin.dashboard');
     }
