@@ -82,10 +82,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <h1 class="navbar-brand navbar-brand-autodark">
-            <a href=".">
-                <img src="./static/logo-white.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+        <h1 class="navbar-brand navbar-brand-autodark justify-content-start ms-3">
+            <?php
+            if (mw()->ui->admin_logo != false):
+                $logo = mw()->ui->admin_logo;
+            elseif (mw()->ui->admin_logo_login() != false):
+                $logo = mw()->ui->admin_logo_login();
+            else:
+                $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
+            endif;
+            ?>
+            <a class="w-75" href="<?php print admin_url('view:dashboard'); ?>">
+                <img alt="" src="<?php print $logo; ?>">
             </a>
+
         </h1>
 
         <div class="navbar-nav flex-row d-lg-none">

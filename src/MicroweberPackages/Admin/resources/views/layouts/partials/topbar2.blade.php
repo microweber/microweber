@@ -1,5 +1,5 @@
 <div class="page-header d-print-none">
-    <div class="container-xl">
+    <div class="px-3">
         <div class="row g-2 align-items-center">
             <div class="col">
                 <?php
