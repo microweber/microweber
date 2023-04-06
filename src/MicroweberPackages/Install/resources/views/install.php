@@ -337,7 +337,7 @@
 <div class="installholder">
     <small class="text-muted d-block text-end text-right mb-2">v. <?php print MW_VERSION ?></small>
 
-    <div class="card">
+    <div class="card my-3">
         <div class="card-header d-block">
             <div class="text-center my-3">
                 <?php if ($pre_configured): ?>
