@@ -129,7 +129,7 @@
                         <span class="badge bg-red"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-                        <div class="card">
+                        <div class="card my-3">
                             <div class="card-header">
                                 <h3 class="card-title">Last updates</h3>
                             </div>

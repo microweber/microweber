@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Websites</a>
         </div>
 
-        <div class="card">
+        <div class="card my-3">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
                 <div>

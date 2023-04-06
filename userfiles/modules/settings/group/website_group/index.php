@@ -42,7 +42,7 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<div class="card">
+<div class="card my-3">
     <div class="card-header">
         <h5 class="card-title"><i class="mdi mdi-earth text-primary mr-3"></i> <strong><?php _e('Website settings'); ?></strong></h5>
         <div>
