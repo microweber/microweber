@@ -13,7 +13,7 @@ $url_blank = get_option('url_blank', $params['id']);
 <div class="row">
     <div class="col-6">
         <div class="form-group">
-            <label class="control-label d-block"><?php _e("Color"); ?></label>
+            <label class="form-label d-block"><?php _e("Color"); ?></label>
             <small class="text-muted d-block mb-3"><?php _e('Choose your button color from the dropdown.');?></small>
             <select class="mw_option_field selectpicker" data-width="100%" name="button_style">
                 <option <?php if ($style == ''): ?>selected<?php endif; ?> value="btn-default"><?php _e("Default"); ?></option>
@@ -28,7 +28,7 @@ $url_blank = get_option('url_blank', $params['id']);
     </div>
     <div class="col-6">
         <div class="form-group">
-            <label class="control-label"><?php _e("Size"); ?></label>
+            <label class="form-label"><?php _e("Size"); ?></label>
             <small class="text-muted d-block mb-3"><?php _e('Choose your button size from the dropdown.');?></small>
             <select class="mw_option_field selectpicker" data-width="100%" name="button_size">
                 <option <?php if ($size == ''): ?>selected<?php endif; ?> value=""><?php _e("Default"); ?></option>

@@ -579,7 +579,7 @@
                                                 <hr class="thin"/>
 
                                                 <div class="form-group">
-                                                    <label class="control-label">Database Engine</label>
+                                                    <label class="form-label">Database Engine</label>
                                                     <small class="text-muted d-block mb-2">Choose the database type</small>
 
                                                     <select class="form-select" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
@@ -596,25 +596,25 @@
 
                                                 <div id="db-form">
                                                     <div class="form-group">
-                                                        <label class="control-label"><?php _e('Hostname'); ?></label>
+                                                        <label class="form-label"><?php _e('Hostname'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The address of your database server'); ?></small>
                                                         <input type="text" class="form-control" autofocus name="db_host" tabindex="2" value="<?php if ($dbDefaultHostname): ?><?php print $dbDefaultHostname; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label"><?php _e('Username'); ?></label>
+                                                        <label class="form-label"><?php _e('Username'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
                                                         <input type="text" class="form-control" name="db_username" tabindex="2" value="<?php if ($dbDefaultUsername): ?><?php print $dbDefaultUsername; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label"><?php _e('Password'); ?></label>
+                                                        <label class="form-label"><?php _e('Password'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
                                                         <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if ($dbDefaultPassword): ?><?php print $dbDefaultPassword; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="control-label"><?php _e('Database'); ?></label>
+                                                        <label class="form-label"><?php _e('Database'); ?></label>
                                                         <small class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
                                                         <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if ($dbDefaultDbname): ?><?php print $dbDefaultDbname; ?><?php endif; ?>"/>
                                                     </div>
@@ -622,14 +622,14 @@
 
                                                 <div id="db-form-sqlite" style="display:none">
                                                     <div class="form-group">
-                                                        <label class="control-label"><?php _e('Database file'); ?> </label>
+                                                        <label class="form-label"><?php _e('Database file'); ?> </label>
                                                         <small class="text-muted d-block mb-2"><?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?></small>
                                                         <input type="text" class="form-control" autofocus name="db_name_sqlite" tabindex="2" value="<?php if (isset($config['db_name_sqlite'])): ?><?php print $config['db_name_sqlite']; ?><?php endif; ?>"/>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e('Table Prefix'); ?></label>
+                                                    <label class="form-label"><?php _e('Table Prefix'); ?></label>
                                                     <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
                                                     <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if ($dbDefaultDbTablePrefix): ?><?php print $dbDefaultDbTablePrefix; ?><?php endif; ?>" onblur="prefix_add(this)"/>
                                                 </div>
@@ -745,24 +745,24 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label"><?php _e('Admin username'); ?></label>
+                                                                <label class="form-label"><?php _e('Admin username'); ?></label>
                                                                 <input type="text" class="form-control" tabindex="9" name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <label class="control-label"><?php _e('Admin password'); ?></label>
+                                                                <label class="form-label"><?php _e('Admin password'); ?></label>
                                                                 <input type="password" class="form-control" tabindex="11" name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="control-label"><?php _e('Admin email'); ?></label>
+                                                                <label class="form-label"><?php _e('Admin email'); ?></label>
                                                                 <input type="text" class="form-control" tabindex="10" name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <label class="control-label"><?php _e('Repeat password'); ?></label>
+                                                                <label class="form-label"><?php _e('Repeat password'); ?></label>
                                                                 <input type="password" class="form-control" tabindex="12" name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
 
@@ -791,7 +791,7 @@
 
                                             <div class="advanced-options-installation mt-2" style="display:none;">
                                                 <div class="form-group">
-                                                    <label class="control-label"><?php _e('Admin URL'); ?></label>
+                                                    <label class="form-label"><?php _e('Admin URL'); ?></label>
                                                     <input type="text" class="form-control" name="admin_url" value="admin" id="admin_url" tabindex="15"/>
                                                 </div>
                                             </div>

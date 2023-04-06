@@ -46,7 +46,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="module-live-edit-settings module-shop-checkout-settings">
                     <div class="mw-set-checkout-options-swticher">
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _e("Show shopping cart in checkout?"); ?></label>
+                            <label class="form-label d-block"><?php _e("Show shopping cart in checkout?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
                             <select name="data-show-cart" class="mw_option_field selectpicker" data-width="100%">
@@ -56,7 +56,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _e("Show shipping?"); ?></label>
+                            <label class="form-label d-block"><?php _e("Show shipping?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-shipping', $params['id']); ?>
                             <select name="data-show-shipping" class="mw_option_field selectpicker" data-width="100%">
@@ -70,7 +70,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label d-block"><?php _e("Show payments?"); ?></label>
+                            <label class="form-label d-block"><?php _e("Show payments?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-payments', $params['id']); ?>
                             <select name="data-show-payments" class="mw_option_field selectpicker" data-width="100%">

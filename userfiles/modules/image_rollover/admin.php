@@ -214,7 +214,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <hr class="thin"/>
 
                     <div class="form-group">
-                        <label class="control-label" style="padding-top: 10px;"><span><?php _lang('Image size', "modules/image_rollover"); ?></span> - <b id="imagesizeval"></b></label>
+                        <label class="form-label" style="padding-top: 10px;"><span><?php _lang('Image size', "modules/image_rollover"); ?></span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
                     </div>
 
@@ -227,13 +227,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <?php if (!isset($params['menu_rollover'])) { ?>
                         <div class="form-group">
-                            <label class="control-label"><?php _lang("Link title") ?></label>
+                            <label class="form-label"><?php _lang("Link title") ?></label>
                             <small class="text-muted mb-2 d-block"><?php _lang("Create a link below the image") ?></small>
                             <input type="text" class="mw_option_field form-control" value="<?php print $text; ?>" name="text" id="text"/>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label"><?php _lang("Link URL") ?></label>
+                            <label class="form-label"><?php _lang("Link URL") ?></label>
                             <small class="text-muted mb-2 d-block"><?php _lang("Type the URL for the link") ?></small>
                             <input type="text" class="mw_option_field form-control" placeholder="<?php _lang('http://', "modules/image_rollover"); ?>" value="<?php print $text; ?>" name="href-url" id="href-url"/>
                         </div>

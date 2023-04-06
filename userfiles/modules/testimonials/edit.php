@@ -174,12 +174,12 @@ if (!isset($data['client_company'])) {
 
         <div class="col">
             <div class="form-group">
-                <label class="control-label"><?php _e('Client name'); ?></label>
+                <label class="form-label"><?php _e('Client name'); ?></label>
                 <input type="text" name="name" placeholder="Name" value="<?php print $data['name'] ?>" required="required" class="form-control">
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e('Client testimonial'); ?></label>
+                <label class="form-label"><?php _e('Client testimonial'); ?></label>
                 <textarea name="content" class="form-control" required="required" rows="10"><?php print $data['content'] ?></textarea>
             </div>
 
@@ -187,22 +187,22 @@ if (!isset($data['client_company'])) {
 
             <div id="more-testimonial-settings" style="display: none;">
                 <div class="form-group">
-                    <label class="control-label"><?php _e('Client Role'); ?></label>
+                    <label class="form-label"><?php _e('Client Role'); ?></label>
                     <input type="text" name="client_role" placeholder="CEO, CTO, etc" value="<?php print $data['client_role'] ?>" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e('Company'); ?></label>
+                    <label class="form-label"><?php _e('Company'); ?></label>
                     <input type="text" name="client_company" placeholder="Awesome Co." value="<?php print $data['client_company'] ?>" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e('Client website'); ?></label>
+                    <label class="form-label"><?php _e('Client website'); ?></label>
                     <input type="text" name="client_website" placeholder="http://www.example.com" value="<?php print $data['client_website'] ?>" class="form-control">
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e('"Read more" button text'); ?></label>
+                    <label class="form-label"><?php _e('"Read more" button text'); ?></label>
                     <input type="text" name="read_more_url" value="<?php print $data['read_more_url'] ?>" class="form-control">
                 </div>
 
@@ -223,7 +223,7 @@ if (!isset($data['client_company'])) {
                 ?>
 
                 <div class="form-group">
-                    <label class="control-label"><?php _e('Project name'); ?></label>
+                    <label class="form-label"><?php _e('Project name'); ?></label>
                     <small class="text-muted d-block mb-2"><?php _e('You can have more than one “testimonials”, check in Settings tab'); ?></small>
                     <input type="text" name="project_name" value="<?php echo $projectName; ?>" class="form-control">
 

@@ -148,7 +148,7 @@ if ($stylesheet_settings) {
 
                 <?php elseif ($setting['type'] == 'dropdown'): ?>
                     <div class="form-group">
-                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                        <label for="<?php echo $key; ?>" class="form-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <div>
                             <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
                                 <?php if (isset($setting['options'])): ?>
@@ -189,7 +189,7 @@ if ($stylesheet_settings) {
                     </style>
 
                     <div class="form-group background-x-option">
-                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                        <label for="<?php echo $key; ?>" class="form-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <div>
                             <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control selectpicker" data-option-group="<?php print $option_group; ?>">
                                 <?php if (isset($setting['options'])): ?>
@@ -234,7 +234,7 @@ if ($stylesheet_settings) {
                     </div>
                 <?php elseif ($setting['type'] == 'text'): ?>
                     <div class="form-group my-2">
-                        <label class="control-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                        <label class="form-label mw-ui-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <input class="form-control mw-ui-field mw_option_field" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default: <?php echo $setting['default']; ?>">
                     </div>
                 <?php elseif ($setting['type'] == 'font_selector'): ?>
@@ -253,7 +253,7 @@ if ($stylesheet_settings) {
                     }
                     ?>
                     <div class="form-group">
-                        <label for="<?php echo $key; ?>" class="control-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
+                        <label for="<?php echo $key; ?>" class="form-label"><?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?></label>
                         <div>
                             <select name="<?php echo $key; ?>" id="<?php echo $key; ?>" class="mw_option_field form-control" data-option-group="<?php print $option_group; ?>">
                                 <?php if (isset($setting['options'])): ?>

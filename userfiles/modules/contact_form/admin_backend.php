@@ -82,8 +82,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class=" mb-3">
                         <div class="form-group">
-                            <label class="control-label d-block mb-2"><?php _e('Your form lists'); ?></label>
-                            <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="selectpicker" data-width="100%">
+                            <label class="form-label d-block mb-2"><?php _e('Your form lists'); ?></label>
+                            <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-select" data-width="100%">
                                 <option <?php if ($load_list === 'all_lists') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>"><?php _e('All lists'); ?></option>
                                 <option <?php if ($load_list === 'default') { ?> selected="selected" <?php } ?> value="<?php print $config['url']; ?>/load_list:0"><?php _e('Default list'); ?>
                                     (<?php

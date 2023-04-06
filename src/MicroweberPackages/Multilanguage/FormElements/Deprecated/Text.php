@@ -87,7 +87,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
         $html .= '
         <div class="input-group-append">
             <span>
-                <select class="selectpicker" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
+                <select class="form-select" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
 
         foreach($supportedLanguages as $language) {
             $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);

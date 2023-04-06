@@ -7,7 +7,7 @@
 
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Width'); ?></label>
+    <label class="form-label"><?php _e('Width'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose width for the twitter box from 250 to 550 (px)'); ?></small>
 
     <input type="number" min="250" max="550" class="mw_option_field form-control" name="twitter_feed_width" value="<?php print get_option('twitter_feed_width', $params['id']); ?>">
@@ -15,7 +15,7 @@
 
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Theme'); ?></label>
+    <label class="form-label"><?php _e('Theme'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Choose you prefer theme for the twitter card'); ?></small>
 
     <select name="twitter_feed_theme" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
@@ -26,7 +26,7 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Conversation'); ?></label>
+    <label class="form-label"><?php _e('Conversation'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('When set to Off, only the cited Tweet will be displayed even if it is in reply to another Tweet.'); ?></small>
 
     <select name="twitter_feed_conversation" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
@@ -37,7 +37,7 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Cards'); ?></label>
+    <label class="form-label"><?php _e('Cards'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('When set to hidden, links in a Tweet are not expanded to photo, video, or link previews.'); ?></small>
 
     <select name="twitter_feed_cards" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
@@ -48,7 +48,7 @@
 </div>
 
 <div class="form-group">
-    <label class="control-label"><?php _e('Align'); ?></label>
+    <label class="form-label"><?php _e('Align'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Float the Tweet left, right, or center relative to its container. Typically set to allow text or other content to wrap around the Tweet.'); ?></small>
 
     <select name="twitter_feed_align" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">

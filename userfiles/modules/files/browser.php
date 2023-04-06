@@ -311,7 +311,7 @@ if (isset($params['viewsize'])) {
                                         }
                                         ?>
 
-                                        <select name="file_browser_sort_by" data-style="btn-sm" id="file_browser_sort_by" class="selectpicker file_browser_sort_by">
+                                        <select name="file_browser_sort_by" data-style="btn-sm" id="file_browser_sort_by" class="form-select file_browser_sort_by">
                                             <option value="" onmousedown="mw.url.windowHashParam('sort_by', '');"><?php _e("Sort by"); ?></option>
                                             <option value="basename ASC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'ASC'): ?> selected <?php endif; ?> ><?php _e("File name"); ?> &#8593;</option>
                                             <option value="basename DESC"  <?php if ($sortby_param == 'basename' and $sortby_param_ord == 'DESC'): ?> selected <?php endif; ?> ><?php _e("File name"); ?> &#8595;</option>

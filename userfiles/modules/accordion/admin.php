@@ -66,7 +66,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <br>
                 <br>
-                <label class="control-label align-self-center"> <?php  _e('Info!'); ?></label>
+                <label class="form-label align-self-center"> <?php  _e('Info!'); ?></label>
                 <small class="text-muted d-inline-block mb-2"><?php  _e('Use the live edit to drag and drop image, video or something else directly on created accordions.'); ?></small>
 
             </div>

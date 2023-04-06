@@ -47,31 +47,31 @@ description: Default register template
             <?php print csrf_form(); ?>
             <?php if ($form_show_first_name): ?>
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Firs name"); ?></label>
+                    <label class="form-label"><?php _e("Firs name"); ?></label>
                     <input class="form-control input-lg" type="text" name="first_name">
                 </div>
             <?php endif; ?>
 
             <?php if ($form_show_last_name): ?>
                 <div class="form-group">
-                    <label class="control-label"><?php _e("Last name"); ?></label>
+                    <label class="form-label"><?php _e("Last name"); ?></label>
                     <input class="form-control input-lg" type="text" name="last_name">
                 </div>
             <?php endif; ?>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Email"); ?></label>
+                <label class="form-label"><?php _e("Email"); ?></label>
                 <input class="form-control input-lg" type="email" name="email">
             </div>
 
             <div class="form-group m-t-20">
-                <label class="control-label"><?php _e("Password"); ?></label>
+                <label class="form-label"><?php _e("Password"); ?></label>
                 <input class="form-control input-lg" type="password" name="password">
             </div>
 
             <?php if ($form_show_password_confirmation): ?>
                 <div class="form-group m-t-20">
-                    <label class="control-label"><?php _e("Confirm password"); ?></label>
+                    <label class="form-label"><?php _e("Confirm password"); ?></label>
                     <input class="form-control input-lg" type="password" name="password2">
                 </div>
             <?php endif; ?>

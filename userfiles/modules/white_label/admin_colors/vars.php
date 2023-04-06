@@ -68,7 +68,7 @@ if ($vars_theme) {
 </script>
 <?php foreach ($vars as $k => $v) : ?>
     <?php if ($k != 'color_scheme'): ?>
-        <label class="control-label"><?php print $k ?></label>
+        <label class="form-label"><?php print $k ?></label>
 
         <div class="input-group">
             <input type="text" class="form-control js-color color-picker-<?php echo $k; ?>" name="<?php print $k ?>"

@@ -33,7 +33,7 @@ if (isset($params['for_module_id'])) {
         <h5 class="font-weight-bold"><?php _e("Global sender") ?></h5>
 
         <div class="form-group mb-3">
-            <label class="control-label"><?php _e("Use custom sender settings"); ?></label>
+            <label class="form-label"><?php _e("Use custom sender settings"); ?></label>
             <small class="text-muted d-block mb-2">
                 <?php _e('Use custom sender settings for the global contact forms.'); ?>
                 <br />
@@ -65,13 +65,13 @@ if (isset($params['for_module_id'])) {
 
         <div class="js-custom-sender" <?php if (!$emailCustomSender): ?> style="display:none"<?php endif; ?>>
             <div class="form-group">
-                <label class="control-label"><?php _e("From e-mail address"); ?></label>
+                <label class="form-label"><?php _e("From e-mail address"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("The e-mail address which will send the message"); ?></small>
                 <input name="email_from" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("From name"); ?></label>
+                <label class="form-label"><?php _e("From name"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("e.x. your name, company or brand name"); ?></small>
                 <input name="email_from_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_from_name', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
             </div>
@@ -83,7 +83,7 @@ if (isset($params['for_module_id'])) {
         <b><?php _e("Send contact forms data to global receivers when is submited"); ?></b>
 
         <div class="form-group mt-3">
-            <label class="control-label"><?php _e("To e-mail addresses"); ?></label>
+            <label class="form-label"><?php _e("To e-mail addresses"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("E-mail address of the receivers separated with coma."); ?></small>
             <input name="email_to" option-group="<?php print $mod_id ?>" value="<?php print get_option('email_to', $mod_id); ?>" class="mw_option_field form-control" type="text"/>
         </div>

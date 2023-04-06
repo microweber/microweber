@@ -1,6 +1,6 @@
 <?php include('settings_header.php'); ?>
  <div class="custom-field-settings-values">
-   <label class="control-label"><?php _e('Values'); ?></label>
+   <label class="form-label"><?php _e('Values'); ?></label>
     <small class="text-muted d-block mb-2"><?php _e('Add, remove and change positions of your values');?></small>
 
 

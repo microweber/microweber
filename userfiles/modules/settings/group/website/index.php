@@ -52,7 +52,7 @@
                                     ?>
 
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Website Name"); ?></label>
+                                        <label class="form-label"><?php _e("Website Name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("This is very important for search engines."); ?> <?php _e("Your website will be categorized by many criteria and its name is one of them."); ?></small>
                                         <?php
                                         echo $formBuilder->textOption('website_title', 'website')->attribute('autocomplete', 'off');
@@ -60,7 +60,7 @@
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Website Description"); ?></label>
+                                        <label class="form-label"><?php _e("Website Description"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Describe what your website is about"); ?>.</small>
                                         <?php
                                         echo $formBuilder->textareaOption('website_description', 'website')->rows(7)->attribute('autocomplete', 'off');
@@ -69,7 +69,7 @@
 
                                     <?php
                                     /*        <div class="form-group">
-                                                <label class="control-label">
+                                                <label class="form-label">
                                                     <?php _e("Shop Enable/Disable"); ?>
                                                 </label>
 
@@ -87,7 +87,7 @@
                                     ?>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Website Keywords"); ?></label>
+                                        <label class="form-label"><?php _e("Website Keywords"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Ex.");?>: <?php _e("Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?></small>
                                         <?php
                                         echo $formBuilder->textOption('website_keywords', 'website')->attribute('autocomplete', 'off');
@@ -95,7 +95,7 @@
                                     </div>
 
                                     <div class="form-group js-permalink-edit-option-hook">
-                                        <label class="control-label"><?php _e("Permalink Settings"); ?></label>
+                                        <label class="form-label"><?php _e("Permalink Settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Choose the URL posts & page format."); ?></small>
                                         <?php $permalinkStructures = mw()->permalink_manager->getStructures(); ?>
                                         <?php $currentPremalinkStructure = get_option('permalink_structure', 'website'); ?>
@@ -103,7 +103,7 @@
 
                                         <div class="d-block d-xl-flex align-items-center">
                                             <small class="mr-2 my-2 font-weight-bold"><?php echo mw()->url_manager->site_url(); ?> </small>
-                                            <select name="permalink_structure" class="selectpicker mw_option_field" data-width="100%" data-style="btn-sm" option-group="website">
+                                            <select name="permalink_structure" class="form-select mw_option_field" data-width="100%" data-style="btn-sm" option-group="website">
                                                 <?php if (is_array($permalinkStructures)): ?>
                                                     <?php foreach ($permalinkStructures as $structureKey => $structureVal): ?>
                                                         <option value="<?php print $structureKey ?>" <?php if ($currentPremalinkStructure == $structureKey): ?> selected="selected" <?php endif; ?>><?php print $structureVal ?></option>
@@ -138,11 +138,11 @@
 
 
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Date Format"); ?></label>
+                                        <label class="form-label"><?php _e("Date Format"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Choose a date format for your website"); ?></small>
                                         <?php $date_formats = array("Y-m-d H:i:s", "Y-m-d H:i", "d-m-Y H:i:s", "d-m-Y H:i", "m/d/y", "m/d/Y", "d/m/Y", "F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a", 'D-M-Y', 'D-M-Y H:i'); ?>
                                         <?php $curent_val = get_option('date_format', 'website'); ?>
-                                        <select name="date_format" class="selectpicker mw_option_field" data-width="100%" data-size="7" option-group="website">
+                                        <select name="date_format" class="form-select mw_option_field" data-width="100%" data-size="7" option-group="website">
                                             <?php if (is_array($date_formats)): ?>
                                                 <?php foreach ($date_formats as $item): ?>
                                                     <option value="<?php print $item ?>" <?php if ($curent_val == $item): ?> selected="selected" <?php endif; ?>><?php print date($item, time()) ?> - (<?php print $item ?>)</option>
@@ -152,7 +152,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Time Zone"); ?></label>
+                                        <label class="form-label"><?php _e("Time Zone"); ?></label>
                                         <small class="text-muted d-block mb-2">Set a time zone</small>
                                         <?php $curent_time_zone = get_option('time_zone', 'website'); ?>
                                         <?php
@@ -161,7 +161,7 @@
                                         }
 
                                         $timezones = timezone_identifiers_list(); ?>
-                                        <select name="time_zone" class="selectpicker mw_option_field" data-width="100%" data-size="7" data-live-search="true" option-group="website">
+                                        <select name="time_zone" class="form-select mw_option_field" data-width="100%" data-size="7" data-live-search="true" option-group="website">
                                             <?php foreach ($timezones as $timezone) {
                                                 echo '<option';
                                                 if ($timezone == $curent_time_zone) echo ' selected="selected"';
@@ -176,7 +176,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Posts per Page"); ?></label>
+                                        <label class="form-label"><?php _e("Posts per Page"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Select how many posts or products you want to be shown per page"); ?>?</small>
                                         <select name="items_per_page" class="form-control mw_option_field" type="range" option-group="website">
                                             <?php
@@ -227,7 +227,7 @@
 
                                         </script>
 
-                                        <label class="control-label"><?php _e("Website Logo"); ?></label>
+                                        <label class="form-label"><?php _e("Website Logo"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
                                         <div class="d-flex">
                                             <div class="img-circle-holder img-absolute border-radius-0 border-silver mr-3" style="height: 40px;">
@@ -271,7 +271,7 @@
                                             });
                                         </script>
 
-                                        <label class="control-label"><?php _e("Website Favicon"); ?></label>
+                                        <label class="form-label"><?php _e("Website Favicon"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
                                         <div class="d-flex">
                                             <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
@@ -291,7 +291,7 @@
                             <div class="row" style="display: none;">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="control-label"><?php _e("Fonts"); ?></label>
+                                        <label class="form-label"><?php _e("Fonts"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select fonts you want to install for your website.'); ?></small>
 
                                         <div class="table-responsive">

@@ -113,7 +113,7 @@ if (is_module('multilanguage')) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Website Language"); ?></label>
+                                        <label class="form-label"><?php _e("Website Language"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
                                         <div class="row">
                                             <div class="col-md-7">
@@ -153,7 +153,7 @@ if (is_module('multilanguage')) {
                                             }
                                             </script>
 
-                                                    <select onchange="confirmChangeDefaultLanguage(this,event)" class="selectpicker" data-size="7" data-live-search="true" data-width="100%">
+                                                    <select onchange="confirmChangeDefaultLanguage(this,event)" class="form-select" data-size="7" data-live-search="true" data-width="100%">
                                                         <option disabled="disabled"><?php _e('Select Language'); ?></option>
                                                         <?php foreach ($langs as $languageName => $languageDetails): ?>
 
@@ -208,7 +208,7 @@ if (is_module('multilanguage')) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
-                                        <label class="control-label"><?php _e("Multi language mode"); ?></label>
+                                        <label class="form-label"><?php _e("Multi language mode"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Activate the multi-language mode to have multiple languages for your content."); ?></small>
                                         <div class="row">
 

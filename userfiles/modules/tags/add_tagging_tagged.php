@@ -133,7 +133,7 @@ if(self !== top){
 
 <form method="post" class="js-admin-post-tag-add-form">
     <div class="form-group">
-        <label class="control-label"><?php _e('Tag Name'); ?></label>
+        <label class="form-label"><?php _e('Tag Name'); ?></label>
         <small class="text-muted mb-2 d-block"><?php _e('The name is how it appears on your site.'); ?></small>
         <input type="text" name="tag_name" value="" class="form-control js-admin-post-tag-add-form-tag-name">
     </div>

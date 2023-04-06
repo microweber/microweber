@@ -40,7 +40,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <input type="hidden" name="email" value="{{ $email }}">
 
-                        <label class="control-label">Email: {{$email}}</label>
+                        <label class="form-label">Email: {{$email}}</label>
 
 
 

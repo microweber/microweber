@@ -116,7 +116,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Available quantity</label>
-                        <select name="data_qty" class="selectpicker js-invertory-quantity">
+                        <select name="data_qty" class="form-select js-invertory-quantity">
                             <option selected="selected" value="nolimit">∞ No Limit</option>
                             <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
                             <option value="1">1</option>
@@ -228,7 +228,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Max quantity per order</label>
-                        <select name="data_qty" class="selectpicker js-invertory-max-quantity-per-order">
+                        <select name="data_qty" class="form-select js-invertory-max-quantity-per-order">
                             <option selected="selected" value="nolimit">∞ No Limit</option>
                             <option value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
                             <option value="1">1</option>

@@ -17,7 +17,7 @@ must_have_access();
 
 <div id="stats-units-setup">
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Enable statistics"); ?></label>
+        <label class="form-label d-block"><?php _e("Enable statistics"); ?></label>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
             <input type="radio" id="stats_disabled1" name="stats_disabled" class="mw_option_field custom-control-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
@@ -31,7 +31,7 @@ must_have_access();
     </div>
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Tracking settings"); ?></label>
+        <label class="form-label d-block"><?php _e("Tracking settings"); ?></label>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
             <input type="radio" id="stats_is_buffered1" name="stats_is_buffered" class="mw_option_field custom-control-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
@@ -48,7 +48,7 @@ must_have_access();
 
 
     <div class="form-group">
-        <label class="control-label d-block"><?php _e("Views counter"); ?></label>
+        <label class="form-label d-block"><?php _e("Views counter"); ?></label>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
             <input type="radio" id="stats_views_counter_live_stats1" name="stats_views_counter_live_stats" class="mw_option_field custom-control-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_views_counter_live_stats', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >

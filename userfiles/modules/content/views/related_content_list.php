@@ -44,7 +44,7 @@ if ($content) {
 <?php $rand = md5(uniqid()) ?>
 
 
-<label class="control-label"><?php _e("Search for content"); ?></label>
+<label class="form-label"><?php _e("Search for content"); ?></label>
 <small class="text-muted d-block"><?php _e('In the field below you can search for content from your website.');?></small>
 
 <script>mw.require('autocomplete.js')</script>
@@ -169,7 +169,7 @@ if ($content) {
         <div id="mw-admin-search-for-related-content<?php print $rand ?>"></div>
     </div>
 <div>
-    <label class="control-label my-3"><?php _e("List of related content"); ?></label>
+    <label class="form-label my-3"><?php _e("List of related content"); ?></label>
     <?php if (!$related) { ?>
 
         <div class="alert alert-dismissible alert-secondary">

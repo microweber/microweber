@@ -75,7 +75,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
     <div class="js-admin-supported-locale-edit-messages mt-3"></div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Display Locale"); ?>:</label>
+        <label class="form-label"><?php _e("Display Locale"); ?>:</label>
         <small class="text-muted d-block mb-2"><?php _e("Define how the slug in the url will be shown"); ?></small>
         <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control"/>
 
@@ -88,7 +88,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Display Name"); ?>:</label>
+        <label class="form-label"><?php _e("Display Name"); ?>:</label>
         <small class="text-muted d-block mb-2"><?php _e("Translation name in the website switcher"); ?></small>
         <input type="text" name="display_name" value="<?php echo $displayName; ?>" class="form-control"/>
 
@@ -101,7 +101,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Display Icon"); ?>:</label>
+        <label class="form-label"><?php _e("Display Icon"); ?>:</label>
         <small class="text-muted d-block mb-2"><?php _e("Change the flag with your own image"); ?></small>
 
         <div class="row">

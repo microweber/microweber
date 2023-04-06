@@ -194,7 +194,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                     <div class="col-md-12">
                         <div class="form-group ">
-                            <label class="control-label"><?php _e("Meta title"); ?></label>
+                            <label class="form-label"><?php _e("Meta title"); ?></label>
                             <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
                             <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
 
@@ -213,7 +213,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                     <div class="col-md-12">
                         <div class="form-group ">
-                        <label class="control-label"><?php _e("Meta description"); ?></label>
+                        <label class="form-label"><?php _e("Meta description"); ?></label>
                         <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
                     <?php
@@ -231,7 +231,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                     <div class="col-md-12">
                         <div class="form-group ">
-                        <label class="control-label"><?php _e("Meta keywords"); ?></label>
+                        <label class="form-label"><?php _e("Meta keywords"); ?></label>
                         <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
                             <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
 
@@ -385,7 +385,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 </script>
                 <div class="row d-flex align-items-center">
                     <div class="col-md-8">
-                        <label class="control-label"><?php _e('Related Content'); ?>:</label>
+                        <label class="form-label"><?php _e('Related Content'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('You can add related content to your post or product');?></small>
                         <a class="btn btn btn-outline-primary btn-sm" href="javascript:open_edit_related_content_modal('<?php print $data['id'] ?>');"><?php _e("Edit related"); ?></a>
                     </div>
@@ -394,7 +394,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                 </div>
                 <div class="row d-flex align-items-center">
                     <div class="col-md-12 text-center text-md-left">
-                        <label class="control-label mt-3"><?php _e('More options'); ?>:</label>
+                        <label class="form-label mt-3"><?php _e('More options'); ?>:</label>
                         <small class="text-muted d-block mb-3"><?php _e('Choose more options');?></small>
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>&nbsp;
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
@@ -546,7 +546,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['content_type'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
+                                            <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
                                                 <?php foreach ($available_content_types as $item): ?>
                                                     <option value="<?php print $item['content_type']; ?>" <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type']; ?></option>
                                                 <?php endforeach; ?>
@@ -558,7 +558,7 @@ if (isset($data['created_by']) and $data['created_by']) {
                                                 <small data-bs-toggle="tooltip" data-title="<?php _e("Changing the content type to different than"); ?> '<?php print $data['subtype'] ?>' <?php _e("is advanced action. Please read the documentation and consider not to change the content type"); ?>"></small>
                                             </label>
 
-                                            <select class="selectpicker dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
+                                            <select class="form-select dropup" data-dropup-auto="false" data-width="100%" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
                                                 <?php foreach ($available_content_subtypes as $item): ?>
                                                     <option value="<?php print $item['subtype']; ?>" <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype']; ?></option>
                                                 <?php endforeach; ?>

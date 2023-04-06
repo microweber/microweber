@@ -23,7 +23,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("Company Logo:"); ?> </label>
+            <label class="form-label"><?php _e("Company Logo:"); ?> </label>
 
             <div class="input-group mb-3">
                 <div class="custom-file">
@@ -34,12 +34,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("Company Name:"); ?> </label>
+            <label class="form-label"><?php _e("Company Name:"); ?> </label>
             <input type="text" class="mw_option_field form-control" data-option-group="shop" name="invoice_company_name" placeholder="" value="">
         </div>
 
         <div class="form-group">
-            <label class="control-label"><?php _e("Company Country:"); ?></label>
+            <label class="form-label"><?php _e("Company Country:"); ?></label>
 
             <select name="invoice_company_country" class="mw_option_field selectpicker" data-size="5" data-width="100%" data-option-group="shop">
                 <?php if (countries_list()): ?>
@@ -52,32 +52,32 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div>
             <div class="form-group">
-                <label class="control-label"><?php _e("Company City:"); ?> </label>
+                <label class="form-label"><?php _e("Company City:"); ?> </label>
                 <input type="text" class="mw_option_field form-control" data-option-group="shop" name="invoice_company_city" placeholder="" value="">
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Company Address:"); ?> </label>
+                <label class="form-label"><?php _e("Company Address:"); ?> </label>
                 <input type="text" class="mw_option_field form-control" data-option-group="shop" name="invoice_company_address" placeholder="" value="">
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Company VAT Number:"); ?> </label>
+                <label class="form-label"><?php _e("Company VAT Number:"); ?> </label>
                 <input type="text" class="mw_option_field form-control" data-option-group="shop" name="invoice_company_vat_number" placeholder="" value="">
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("ID Company Number:"); ?> </label>
+                <label class="form-label"><?php _e("ID Company Number:"); ?> </label>
                 <input type="text" class="mw_option_field form-control" data-option-group="shop" name="invoice_id_company_number" placeholder="" value="">
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Additional information:"); ?> </label>
+                <label class="form-label"><?php _e("Additional information:"); ?> </label>
                 <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="<?php _e("For example: reason for taxes"); ?>"></textarea>
             </div>
 
             <div class="form-group">
-                <label class="control-label"><?php _e("Bank transfer details:"); ?> </label>
+                <label class="form-label"><?php _e("Bank transfer details:"); ?> </label>
                 <textarea class="mw_option_field form-control" data-option-group="shop" name="invoice_company_bank_details" placeholder="<?php _e("Enter your bank details here"); ?>"></textarea>
             </div>
         </div>

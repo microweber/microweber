@@ -70,7 +70,7 @@ if (isset($item['created_by'])) {
                                 <small class="text-muted">Status</small>
                             </div>
                             <div>
-                                <select class="selectpicker js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
+                                <select class="form-select js-change-color d-inline-block" data-style="btn-success btn-sm" data-width="fit">
                                     <option data-change-color="btn-success"><?php _e('Publish'); ?></option>
                                     <option data-change-color="btn-warning"><?php _e('Unpublish'); ?></option>
                                     <option data-change-color="btn-secondary"><?php _e('Mark as Spam'); ?></option>

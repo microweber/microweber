@@ -269,7 +269,7 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label mb-0"><?php _e('Search'); ?> <span class="js-filter-by-text"><?php _e('posts'); ?></span></label>
+            <label class="form-label mb-0"><?php _e('Search'); ?> <span class="js-filter-by-text"><?php _e('posts'); ?></span></label>
             <small class="d-block text-muted mb-2"><?php _e('You can search posts by title & tags.'); ?></small>
             <div class="input-group">
                 <input type="text" class="form-control js-search-posts-keyword" placeholder="<?php _e('Keyword...'); ?>">
@@ -299,7 +299,7 @@
                 <small class="text-muted d-block mb-3"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('Actions'); ?></small>
 
                 <div class="form-group">
-                    <label class="control-label d-block"><?php _e('Filter:'); ?></label>
+                    <label class="form-label d-block"><?php _e('Filter:'); ?></label>
                     <select class="js-posts-filter-by form-control" data-width="100%">
                         <option value="posts"><?php _e('Posts'); ?></option>
                         <option value="products"><?php _e('Products'); ?></option>
@@ -307,7 +307,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label d-block"><span class="js-filter-by-text"><?php _e('Post'); ?></span> <?php _e('lists'); ?></label>
+                    <label class="form-label d-block"><span class="js-filter-by-text"><?php _e('Post'); ?></span> <?php _e('lists'); ?></label>
                     <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
                 </div>
             </div>

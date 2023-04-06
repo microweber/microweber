@@ -2,7 +2,7 @@
     <div class="mw-ui-field-holder">
 
         <?php if($settings['show_label']): ?>
-        <label class="control-label">
+        <label class="form-label">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>
@@ -16,7 +16,7 @@
             <div class="form-group">
 
                 <?php if($settings['show_label']): ?>
-                <label class="control-label"><?php print($value); ?>
+                <label class="form-label"><?php print($value); ?>
                     <?php if ($settings['required']): ?>
                         <span style="color:red;">*</span>
                     <?php endif; ?>

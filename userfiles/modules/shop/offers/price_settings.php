@@ -94,7 +94,7 @@ $offers_enabled = (mw()->module_manager->is_installed('shop/offers') ? true : fa
         <small class="text-muted d-block mb-2"><?php _e('Your offer price');?></small>
 
     <div class="mw-ui-field-holder offer-value" style="display:<?php print ($is_offer_set ? 'block' : 'none'); ?>;">
-        <label class="control-label" for="offer"><?php _e('New price') ?> <b><?php print $curr_symbol; ?> </b></label>
+        <label class="form-label" for="offer"><?php _e('New price') ?> <b><?php print $curr_symbol; ?> </b></label>
         <small class="text-muted d-block mb-2"><?php _e('Your new offer price');?></small>
         <?php if ($is_offer_set): ?>
             <a href="#" onclick="deleteOffer('<?php print $offer['id']; ?>')"><span class="text-danger">Delete</span></a>

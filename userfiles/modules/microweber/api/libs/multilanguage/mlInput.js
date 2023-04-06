@@ -88,7 +88,7 @@
                 var mlInputLocaleChangeId = 'ml-input-'+plainName+'-change';
                 outputHtml += '<div class="input-group-append">';
                     outputHtml += '<span>';
-                        outputHtml += '<select class="selectpicker" id="'+mlInputLocaleChangeId+'" data-width="100%">';
+                        outputHtml += '<select class="form-select" id="'+mlInputLocaleChangeId+'" data-width="100%">';
                         for (var i = 0; i < locales.length; i++) {
                             var localeIcon = locales[i];
                             var localeIconSplit = localeIcon.split('_');

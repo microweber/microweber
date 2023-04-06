@@ -70,7 +70,7 @@ if (!is_array($data)) {
             ?>
         <?php else : ?>
 
-            <label class="control-label-title">
+            <label class="form-label-title">
                 <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
                     <?php print $data['name'] ?>
                 <?php else : ?>
@@ -78,7 +78,7 @@ if (!is_array($data)) {
                 <?php endif; ?>
             </label>
             <?php if (isset($data['help']) == true and $data['help'] != ''): ?>
-                <small class="control-label-help"><?php print $data['help'] ?></small>
+                <small class="form-label-help"><?php print $data['help'] ?></small>
             <?php endif; ?>
             <input name="<?php print $data['option_key'] ?>" class="mw_option_field mw-ui-field" type="text"
                    option-group="<?php print $data['option_group'] ?>" value="<?php print $data['option_value'] ?>"/>

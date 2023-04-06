@@ -16,7 +16,7 @@ mw.options.form('#opt_form_<?php echo $rand;?>');
 });
 </script>
 <div class="option-item" id="opt_form_<?php echo $rand;?>">
-  <label class="control-label"><?php print $data['option_key'] ?></label>
+  <label class="form-label"><?php print $data['option_key'] ?></label>
   <div class="controls">
     <input name="<?php print $data['option_key'] ?>" class="mw_option_field"   type="text" data-refresh="<?php print $data['option_group'] ?>"  value="<?php print $data['option_value'] ?>" />
   </div>

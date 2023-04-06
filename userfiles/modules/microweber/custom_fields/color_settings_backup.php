@@ -121,13 +121,13 @@
     }
 
 </style>
- 
+
 
 
 
 <div class="custom-field-settings-values">
     <div class="mw-custom-field-group">
-        <label class="control-label">Color name</label>
+        <label class="form-label">Color name</label>
         <small class="text-muted d-block mb-2">Used for filtering purposes</small>
 
         <div id="mw-custom-fields-text-holder">
@@ -136,7 +136,7 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label" for="value<?php print $rand; ?>"><?php _e("Color"); ?></label>
+      <label class="form-label" for="value<?php print $rand; ?>"><?php _e("Color"); ?></label>
        <small class="text-muted d-block mb-2"><?php _e('This attribute specifies the color');?></small>
             <input type="hidden" name="value" value="<?php print ($data['value']) ?>" id="value<?php print $rand; ?>" />
 

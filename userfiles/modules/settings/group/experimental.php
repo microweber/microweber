@@ -14,7 +14,7 @@
 <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn"><?php _e("Those settings are experimental and may lead to bugs. Please don't use them yet"); ?></div>
 <div class="<?php print $config['module_class'] ?>">
     <div class="mw-ui-field-holder" style="display: none">
-        <label class="control-label">
+        <label class="form-label">
             <?php _e("Open module settings in sidebar on live edit"); ?>
         </label>
         <?php
@@ -35,13 +35,13 @@
 
 
     <div class="mw-ui-field-holder">
-        <label class="control-label"><?php _e('Cache settings'); ?></label>
+        <label class="form-label"><?php _e('Cache settings'); ?></label>
         <div class="mw-notification"><?php _e("Note: Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></div>
         <hr>
     </div>
 
     <div class="mw-ui-field-holder">
-        <label class="control-label"><?php _e("Optimize assets loading"); ?></label>
+        <label class="form-label"><?php _e("Optimize assets loading"); ?></label>
         <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
         <ul class="mw-ui-inline-list">
@@ -62,7 +62,7 @@
 
 
     <div class="mw-ui-field-holder">
-        <label class="control-label"><?php _e("Enable full page cache"); ?></label>
+        <label class="form-label"><?php _e("Enable full page cache"); ?></label>
         <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
         <ul class="mw-ui-inline-list">
             <li>
@@ -82,7 +82,7 @@
 
     <hr>
   <div class="mb-2">
-      <label class="control-label d-flex"><?php _e("Static files delivery method"); ?></label>
+      <label class="form-label d-flex"><?php _e("Static files delivery method"); ?></label>
       <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
 
       <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw-ui-field mw_option_field w-100" type="text" option-group="website">
@@ -100,7 +100,7 @@
           </div>
 
           <div class="mw-ui-field-holder">
-              <label class="control-label"><?php _e("CDN Domain name"); ?></label>
+              <label class="form-label"><?php _e("CDN Domain name"); ?></label>
               <?php $key_name = 'static_files_delivery_method_domain'; ?>
               <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
           </div>
@@ -111,7 +111,7 @@
 
 
     <div class="mw-ui-field-holder">
-        <label class="control-label"><?php _e("Use Google Fonts proxy?"); ?></label>
+        <label class="form-label"><?php _e("Use Google Fonts proxy?"); ?></label>
         <?php $use_google_fonts_proxy = get_option('use_google_fonts_proxy', 'template'); ?>
 
         <ul class="mw-ui-inline-list">

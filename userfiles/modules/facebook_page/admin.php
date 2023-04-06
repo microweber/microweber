@@ -62,14 +62,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="module-live-edit-settings module-facebook-page-settings">
             <div class="form-group">
-                <label class="control-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
+                <label class="form-label" for="fb-page"><?php _e('Facebook page URL'); ?></label>
                 <input name="fb-page" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $fbPage; ?>" id="fb-page" placeholder="<?php _e('Example: https://www.facebook.com/Microweber/"'); ?>"/>
             </div>
 
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label" for="width"><?php _e('Box width'); ?><br/></label>
+                        <label class="form-label" for="width"><?php _e('Box width'); ?><br/></label>
                         <input name="width" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $width; ?>" id="width"/>
                         <small class="text-muted"><?php _e('Min: 180px - Max: 500px'); ?></small>
                     </div>
@@ -77,7 +77,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label class="control-label" for="height"><?php _e('Box height'); ?><br/></label>
+                        <label class="form-label" for="height"><?php _e('Box height'); ?><br/></label>
                         <input name="height" data-refresh="facebook_page" class="mw_option_field form-control" type="text" value="<?php print $height; ?>" id="height"/>
                         <small class="text-muted"><?php _e('Min: 70px'); ?></small>
                     </div>

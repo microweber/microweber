@@ -26,14 +26,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group mb-3">
-                                    <label class="control-label"><?php _e("Users must agree to the terms and conditions"); ?></label>
+                                    <label class="form-label"><?php _e("Users must agree to the terms and conditions"); ?></label>
                                     <small class="text-muted d-block mb-2"><?php _e("If the user does not agree to the terms, he will not be able to use the comments"); ?></small>
                                 </div>
 
                                 <module type="users/terms/set_for_module" for_module="comments" />
 
                                 <div class="form-group mb-3">
-                                    <label class="control-label d-block"><?php _e("Want to view and edit the text and the page?"); ?></label>
+                                    <label class="form-label d-block"><?php _e("Want to view and edit the text and the page?"); ?></label>
                                     <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="collapse" data-bs-target="#comments-form-settings"><?php _e("Edit the text and URL"); ?></button>
                                 </div>
 

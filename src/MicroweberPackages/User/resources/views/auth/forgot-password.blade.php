@@ -9,7 +9,7 @@
     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 
 
-        <label class="control-label">Enter your email</label>
+        <label class="form-label">Enter your email</label>
 
         <input type="text" class="form-control" id="email" name="email"
                placeholder="Email"/>

@@ -107,7 +107,7 @@ $('.selectpicker').selectpicker('refresh');
 
 <div class="bs-docs-example">
   <div class="form-group">
-    <select class="selectpicker remove-example">
+    <select class="form-select remove-example">
       <option value="Mustard">Mustard</option>
       <option value="Ketchup">Ketchup</option>
       <option value="Relish">Relish</option>
@@ -120,7 +120,7 @@ $('.selectpicker').selectpicker('refresh');
 </div>
 
 ```html
-<select class="selectpicker remove-example">
+<select class="form-select remove-example">
   <option value="Mustard">Mustard</option>
   <option value="Ketchup">Ketchup</option>
   <option value="Relish">Relish</option>
@@ -139,7 +139,7 @@ $('.rm-mustard').click(function () {
 
 <div class="bs-docs-example">
   <div class="form-group">
-    <select class="selectpicker disable-example">
+    <select class="form-select disable-example">
       <option value="Mustard">Mustard</option>
       <option value="Ketchup">Ketchup</option>
       <option value="Relish">Relish</option>

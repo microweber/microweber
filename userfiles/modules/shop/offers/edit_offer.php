@@ -95,7 +95,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <?php } ?>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Offer status"); ?></label>
+        <label class="form-label"><?php _e("Offer status"); ?></label>
         <div class="custom-control custom-switch">
             <input type="checkbox" name="is_active" class="custom-control-input" id="is_active" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
             <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
@@ -103,7 +103,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Product title | Price"); ?></label>
+        <label class="form-label"><?php _e("Product title | Price"); ?></label>
 
         <select name="product_id_with_price_id" class="js-product-title selectpicker" data-size="5" data-live-search="true" data-width="100%">
             <?php if ($all_products): ?>
@@ -136,14 +136,14 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     </div>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Offer price"); ?> <?php print mw()->shop_manager->currency_symbol(); ?></label>
+        <label class="form-label"><?php _e("Offer price"); ?> <?php print mw()->shop_manager->currency_symbol(); ?></label>
         <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <?php if ($addNew) { ?>
         <div class="form-group">
-            <label class="control-label"><?php _e("Offer start at"); ?></label>
+            <label class="form-label"><?php _e("Offer start at"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("The date when the offer will be created"); ?></small>
             <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
         </div>
@@ -152,7 +152,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Offer start at"); ?></label>
+                        <label class="form-label"><?php _e("Offer start at"); ?></label>
                         <p><?php print date_system_format($data['created_at']); ?></p>
                     </div>
                 </div>
@@ -160,7 +160,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
             <div class="mw-ui-col">
                 <div class="mw-ui-col-container">
                     <div class="form-group">
-                        <label class="control-label"><?php _e("Updated date"); ?></label>
+                        <label class="form-label"><?php _e("Updated date"); ?></label>
                         <p><?php print date_system_format($data['updated_at']); ?></p>
                         <div class="js-field-message"></div>
                     </div>
@@ -170,7 +170,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <?php } ?>
 
     <div class="form-group">
-        <label class="control-label"><?php _e("Offer expiry at"); ?></label>
+        <label class="form-label"><?php _e("Offer expiry at"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("The date when the offer will expire"); ?></small>
 
         <div class="custom-control custom-checkbox">

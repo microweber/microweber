@@ -115,7 +115,7 @@ $data = $products;
                 <div class="mw-ui-box-content m-1 border-0 w-100">
                     <h5 class="font-weight-bold mb-4"><?php _e("Search Products"); ?></h5>
                     <div class="col-12 ">
-                       <label class="control-label"><?php _e("Search for product"); ?></label>
+                       <label class="form-label"><?php _e("Search for product"); ?></label>
                         <small class="text-muted d-block mb-2"> <?php _e("In the field below you can search for products from your shop."); ?></small>
                         <div class="mw-ui-field-holder p-0">
                             <div id="mw-admin-search-for-products"></div>
@@ -129,7 +129,7 @@ $data = $products;
                      *
                      * <h5 class="font-weight-bold my-4">Add New Product</h5>
                     <div class="col-12 mt-2">
-                       <label class="control-label"><?php _e("Add custom item"); ?></label>
+                       <label class="form-label"><?php _e("Add custom item"); ?></label>
                         <small class="text-muted d-block mb-2"> <?php _e("In the field below you can add the name and price of products from your shop."); ?></small>
                         <div class="mw_admin_custom_order_item_add_form_toggle">
                             <div id="mw_admin_custom_order_item_add_form">
