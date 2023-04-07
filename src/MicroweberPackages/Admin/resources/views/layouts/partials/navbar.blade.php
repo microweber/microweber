@@ -247,7 +247,6 @@
                     </a>
 
                     <div class="dropdown-menu" data-bs-popper="static">
-
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'pages'): ?> active <?php endif; ?>">
@@ -280,8 +279,8 @@
                 <?php endif; ?>
 
                 <?php if (is_shop_module_enabled_for_user()): ?>
-                <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-                    <a href="<?php print route('admin.product.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle <?php echo $shop_class; ?>">
+                <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                    <a href="<?php print route('admin.product.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle <?php echo $shop_class; ?>" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <i class="fs-1 me-2 mdi mdi-shopping"></i>
                         <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                     </a>
@@ -292,7 +291,7 @@
                                 <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                                 <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
                                     <?php _e("Products"); ?>
-                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                                 <?php endif; ?>
 
@@ -301,7 +300,7 @@
                                     <?php _e("Orders"); ?>
                                     <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
                                     <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
-                                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
+                                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                                 <?php endif; ?>
 
@@ -310,7 +309,7 @@
 
                                 <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
                                     <?php _e("Categories"); ?>
-                                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
+                                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class=" mdi mdi-plus"></i></span>
                                 </a>
 
                                 <?php
