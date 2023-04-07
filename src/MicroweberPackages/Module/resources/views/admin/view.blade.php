@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div id="module-admin-wrapper">
+<div id="module-admin-wrapper" class="px-5">
     <module type="{{$type}}" view="admin" />
 </div>
 

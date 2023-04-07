@@ -238,12 +238,9 @@
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
                 <li class="nav-item dropdown <?php echo $website_class; ?>">
-
                     <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle py-3 fs-3" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
-
                         <i class="fs-1 me-2 mdi mdi-earth"></i>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
-
                     </a>
 
                     <div class="dropdown-menu" data-bs-popper="static">
