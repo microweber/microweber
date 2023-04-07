@@ -23,7 +23,7 @@ if (!$shop_disabled) {
     }
 
     if ($new_orders_count) {
-        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
     }
 }
 
@@ -37,7 +37,7 @@ if ($new_comments_count) {
         $font_size = 8;
     }
 
-    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 }
 
 $notif_html = '';
@@ -49,7 +49,7 @@ if ($notif_count > 0) {
         $font_size = 8;
     }
 
-    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $notif_count . '</span>';
+    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: '.$font_size.'px; width: 20px; height:20px;">' . $notif_count . '</span>';
 }
 ?>
 

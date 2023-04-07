@@ -233,20 +233,20 @@ $new_orders_count = false;
 //    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
 //
 //    if ($new_orders_count) {
-//        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
+//        $order_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;">' . $new_orders_count . '</span>';
 //    }
 //}
 
 $comments_notif_html = false;
 //$new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count();
 //if ($new_comments_count) {
-//    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+//    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 //}
 
 $notif_html = '';
 //$notif_count = Auth::user()->unreadNotifications()->count();
 //if ($notif_count > 0) {
-//    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
+//    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
 //}
 ?>
 
@@ -589,7 +589,7 @@ $user = get_user_by_id($user_id);
                                 if ($countNewUpdates > 0):
                                 ?>
                                 <span class="badge-holder">
-                                    <span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;"><?php echo $countNewUpdates; ?></span>
+                                    <span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;"><?php echo $countNewUpdates; ?></span>
                                 </span>
                                 <?php
                                 endif;
