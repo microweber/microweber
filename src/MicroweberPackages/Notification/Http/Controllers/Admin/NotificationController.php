@@ -71,7 +71,7 @@ class NotificationController extends AdminController
             ];
         }
 
-        return $this->view('notification::notifications.index', [
+        return view('notification::notifications.index', [
             'is_quick' => 1,
             'type' => $request->get('type'),
             'notifications_model' => $notifications,

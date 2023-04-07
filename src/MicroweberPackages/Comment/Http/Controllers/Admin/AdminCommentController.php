@@ -29,7 +29,7 @@ class AdminCommentController extends AdminController
     {
         $contents = $this->getComments($request);
 
-        return $this->view('comment::admin.comments.index', ['contents' => $contents]);
+        return view('comment::admin.comments.index', ['contents' => $contents]);
     }
 
     public function getComments(Request $request)

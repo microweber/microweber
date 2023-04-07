@@ -20,7 +20,7 @@ class RolesController extends AdminController
     {
         $roles = Role::with('users')->get();
 
-        return $this->view('role::admin.roles.index', compact('roles'));
+        return view('role::admin.roles.index', compact('roles'));
     }
 
     /**
@@ -33,7 +33,7 @@ class RolesController extends AdminController
         $selectedPermissions = array();
         $permissionGroups = Permission::all();
 
-        return $this->view('role::admin.roles.edit', compact('permissionGroups', 'selectedPermissions'));
+        return view('role::admin.roles.edit', compact('permissionGroups', 'selectedPermissions'));
     }
 
     /**
@@ -75,7 +75,7 @@ class RolesController extends AdminController
               'foo' => $selectedPermissions
           ]);*/
 
-        return $this->view('role::admin.roles.edit', compact('role', 'permissions', 'selectedPermissions', 'permissionGroups'));
+        return view('role::admin.roles.edit', compact('role', 'permissions', 'selectedPermissions', 'permissionGroups'));
     }
 
     /**
