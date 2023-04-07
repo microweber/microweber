@@ -140,7 +140,7 @@ $lang = mw()->lang_helper->current_lang();
 <hr class="thin mx-4"/>
 
 <div class="card mb-3">
-    <div class="card-body pt-0 px-0">
+    <div class="card-body">
         <div class="row">
             <div class="col-md-3">
                 <h5 class="font-weight-bold"><?php _e("Translation"); ?></h5>

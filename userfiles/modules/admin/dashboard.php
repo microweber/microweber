@@ -27,7 +27,7 @@
                     <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                     <?php $text = $item['text']; ?>
                     <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> text-dark fs-3 me-2"></i><span><?php print $text; ?></span></a>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -45,7 +45,7 @@
                     <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                     <?php $text = $item['text']; ?>
                     <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
+                        <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> text-dark fs-3 me-2"></i><span><?php print $text; ?></span></a>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -73,7 +73,7 @@
                         <?php $icon = (isset($item['icon_class']) ? $item['icon_class'] : false); ?>
                         <?php $text = $item['text']; ?>
                         <div class="col-12 col-sm-6 col-md-6 col-xl-4">
-                            <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> fs-3 me-2"></i><span><?php print $text; ?></span></a>
+                            <a href="<?php print $btnurl; ?>" class="btn btn-link py-1 px-0"><i class="<?php print $icon; ?> text-dark fs-3 me-2"></i><span><?php print $text; ?></span></a>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
