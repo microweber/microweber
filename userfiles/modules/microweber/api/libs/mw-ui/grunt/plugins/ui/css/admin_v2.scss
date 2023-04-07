@@ -12,6 +12,23 @@
 
 .admin-dashboard-left-nav {
     background-color: white;
+
+    padding: 40px 20px 20px 40px !important;
+
+    .nav-link {
+        padding: 15px 0 !important;
+    }
+
+
+
+    .dropdown-menu-column {
+        padding: 15px 0;
+    }
+}
+
+.navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
+    background-color: transparent;
+    color: var(--tblr-primary);
 }
 
 .hidden {
