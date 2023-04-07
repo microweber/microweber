@@ -237,117 +237,107 @@
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
-                <li class="nav-item dropdown-no-js <?php echo $website_class; ?>">
-
-                    <a href="<?php echo route('admin.content.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle  <?php echo $website_class; ?>">
+                <li class="nav-item dropdown <?php echo $website_class; ?>">
+                    <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle py-3 fs-3" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <i class="fs-1 me-2 mdi mdi-earth"></i>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
                     </a>
 
-                    <div class="dropdown-menu">
-                        <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item <?php if ($action == 'pages'): ?> active <?php endif; ?>">
-                            <?php _e("Pages"); ?>
-                            <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
-                        </a>
+                    <div class="dropdown-menu" data-bs-popper="static">
+                        <div class="dropdown-menu-columns">
+                            <div class="dropdown-menu-column">
+                                <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'pages'): ?> active <?php endif; ?>">
+                                        <?php _e("Pages"); ?>
+                                    <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                </a>
 
-                        <a class="dropdown-item <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php echo route('admin.post.index'); ?>">
-                            <?php _e("Posts"); ?>
-                            <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print route('admin.post.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
-                        </a>
+                                <a class="dropdown-item justify-content-between <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php echo route('admin.post.index'); ?>">
+                                        <?php _e("Posts"); ?>
+                                    <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new post") ?>" data-href="<?php print route('admin.post.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                </a>
 
-                        <a class="dropdown-item <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
-                            <?php _e("Categories"); ?>
-                            <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
-                        </a>
-
-                        <?php if (is_shop_module_enabled_for_user()): ?>
-                        <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                            <?php _e("Products"); ?>
-                            <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
-                        </a>
-                        <?php endif; ?>
-
-                        <a class="dropdown-item <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
-                            <?php _e("Settings"); ?>
-                        </a>
+                                <a class="dropdown-item justify-content-between <?php if ($action == 'categories'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:categories">
+                                        <?php _e("Categories"); ?>
+                                    <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
+                                </a>
+                                    <?php if (is_shop_module_enabled_for_user()): ?>
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                        <?php _e("Products"); ?>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                                <?php endif; ?>
+                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+                                        <?php _e("Settings"); ?>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </li>
                 <?php endif; ?>
 
                 <?php if (is_shop_module_enabled_for_user()): ?>
-                <li class="nav-item dropdown-no-js <?php echo $shop_class; ?>">
-                    <a href="<?php print route('admin.product.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle <?php echo $shop_class; ?>">
+                <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                    <a href="<?php print route('admin.product.index'); ?>" class="nav-link py-3 fs-3 dropdown-toggle <?php echo $shop_class; ?>" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <i class="fs-1 me-2 mdi mdi-shopping"></i>
                         <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                     </a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu" data-bs-popper="static">
 
-                    <!-- <a href="<?php /*print route('admin.shop.dashboard'); */?>" class="dropdown-item <?php /*if ($action == 'dashboard'): */?> active <?php /*endif; */?>">
-                                <?php /*_e("Dashboard"); */?>
-                        </a>-->
-
-                    <!--   <?php /*if (user_can_view_module(['module' => 'shop.products'])): */?>
-                        <a href="<?php /*print admin_url(); */?>view:shop/action:products" class="dropdown-item <?php /*if ($action == 'products'): */?> active <?php /*endif; */?>">
-                                    <?php /*_e("Products"); */?>
-                        <span data-href="<?php /*print route('admin.product.create'); */?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php /*_e("Add new product") */?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
+                        <div class="dropdown-menu-columns">
+                            <div class="dropdown-menu-column">
+                                <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
+                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
+                                    <?php _e("Products"); ?>
+                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
-                            --><?php
-                        /*                            endif;
-                                                    */?>
+                                <?php endif; ?>
 
-                        <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
-                        <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                            <?php _e("Products"); ?>
-                            <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
-                        </a>
-                        <?php endif; ?>
-
-                        <?php if (user_can_view_module(['module' => 'order.index'])): ?>
-                        <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item <?php if($view == 'order'): ?>active<?php endif;?>">
-                            <?php _e("Orders"); ?>
-                            <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
-                            <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
-                                  data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
-                        </a>
-                        <?php endif; ?>
+                                <?php if (user_can_view_module(['module' => 'order.index'])): ?>
+                                <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item justify-content-between <?php if($view == 'order'): ?>active<?php endif;?>">
+                                    <?php _e("Orders"); ?>
+                                    <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
+                                    <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
+                                          data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
+                                </a>
+                                <?php endif; ?>
 
 
-                        <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
+                                <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
 
-                        <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
-                            <?php _e("Categories"); ?>
-                            <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class="fs-1 me-2 mdi mdi-plus"></i></span>
-                        </a>
+                                <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
+                                    <?php _e("Categories"); ?>
+                                    <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class=" mdi mdi-plus"></i></span>
+                                </a>
 
-                        <?php
-                        endif;
-                        ?>
+                                <?php
+                                endif;
+                                ?>
 
-                        <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
-                        <a href="<?php  print admin_url();  ?>customers" class="dropdown-item <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
-                            <?php  _e("Clients");   ?>
-                        </a>
+                                <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
+                                <a href="<?php  print admin_url();  ?>customers" class="dropdown-item justify-content-between <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
+                                    <?php  _e("Clients");   ?>
+                                </a>
 
-                        <?php
+                                <?php
 
-                        /*
-                        <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
-                            <?php _e("Clients"); ?>
-                        </a>*/
-                        ?>
-                        <?php endif; ?>
+                                /*
+                                <a href="<?php echo route('admin.customers.index'); ?>" class="dropdown-item <?php if ($view == 'customers'): ?> active <?php endif; ?>">
+                                    <?php _e("Clients"); ?>
+                                </a>*/
+                                ?>
+                                <?php endif; ?>
 
-                        <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
-                        <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
-                            <?php _e("Invoices"); ?>
-                        </a>
-                        <?php endif; ?>
+                                <?php if (user_can_view_module(['module' => 'invoices']) && Route::has('admin.invoices.index') && mw()->module_manager->is_installed('invoice')): ?>
+                                <a href="<?php echo route('admin.invoices.index'); ?>" class="dropdown-item justify-content-between <?php if ($view == 'invoices'): ?> active <?php endif; ?>">
+                                    <?php _e("Invoices"); ?>
+                                </a>
+                                <?php endif; ?>
 
-                        <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item <?php if ($action == 'options'): ?> active <?php endif; ?>">
-                            <?php _e("Settings"); ?>
-                        </a>
-
-
+                                <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                                    <?php _e("Settings"); ?>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </li>
                 <?php endif; ?>
