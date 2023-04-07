@@ -31,7 +31,6 @@
 
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-<!--                                        <span class="avatar me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"></span>-->
                                     <div>
                                         <div>
                                             {{$marketItem['description']}}
