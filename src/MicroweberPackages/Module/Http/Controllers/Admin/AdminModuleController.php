@@ -15,6 +15,10 @@ class AdminModuleController
     {
         $type = $request->get('type', false);
 
+        if(!is_module($type)){
+            return 'No module found';
+        }
+
         return view('module::admin.view', [
             'type' => $type,
         ]);
