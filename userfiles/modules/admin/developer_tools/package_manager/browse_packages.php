@@ -158,7 +158,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
         </div>
     </div>
 
-    <div class="card-body pt-3">
+    <div class="card-body p-3">
         <script>
             $(document).ready(function () {
                 mw.on.hashParam('search', function (pval) {

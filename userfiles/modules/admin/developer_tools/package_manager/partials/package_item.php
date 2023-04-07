@@ -151,8 +151,8 @@ if(!isset($item['type'] )){
     </div>
 <?php else: ?>
     <div class="js-package-install-content">
-        <div class="card style-1 bg-light">
-            <div class="card-body pb-3">
+        <div class="card">
+            <div class="card-body p-3">
                 <?php if ($item['type'] != 'microweber-core-update'): ?>
                     <?php if (isset($screenshot) and $screenshot): ?>
 
