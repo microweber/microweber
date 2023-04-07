@@ -7,13 +7,13 @@
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
         @if($displayFilters)
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
 
             @include('content::admin.content.livewire.components.keyword')
 
-            <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ps-0">
+            <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ">
                 @include('content::admin.content.livewire.components.button-filter')
-                <div class="dropdown-menu p-1" style="width:250px;max-height:400px;overflow:auto;overflow-x:hidden;">
+                <div class="dropdown-menu p-1">
 
                     @if(!empty($dropdownFilters))
                         @foreach($dropdownFilters as $dropdownFilterGroup)
