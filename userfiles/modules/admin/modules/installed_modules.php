@@ -218,7 +218,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body d-flex align-items-center justify-content-between">
         <script>
             $(document).ready(function () {
                 $('.js-show-filter').on('click', function () {
@@ -232,20 +232,19 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
             });
         </script>
 
-        <div class="d-lg-block d-xl-flex text-center align-items-center justify-content-between mt-3 mb-4">
-            <div class="mb-3">
-                <form class="d-flex justify-content-center">
-                    <div class="form-group mb-0">
-                        <div class="input-group mb-0 prepend-transparent">
-                            <div class="input-group-prepend bg-white">
-                                <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
-                            </div>
 
-                            <input value="" type="search" class="form-control" name="module_keyword" id="module_keyword" placeholder='<?php _e("Search for modules"); ?>' autocomplete="off">
-                        </div>
+            <div class="mt-3 mb-4 my-2 flex-grow-1 flex-md-grow-0">
+                <form class="d-flex" action="./" method="get" autocomplete="off" novalidate="">
+                    <div class="input-icon">
+                    <span class="input-icon-addon">
+                      <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                    </span>
+                        <input type="text" value="" class="form-control" placeholder="Search for modules..." name="module_keyword" id="module_keyword" aria-label="Search in website">
                     </div>
 
-                    <button type="button" class="btn btn-outline-primary ml-2 js-search-keyword"><?php _e("Search"); ?></button>
+                      <button type="button" class="btn btn-outline-primary rounded-0  ml-2 js-search-keyword"><?php _e("Search"); ?></button>
+
                 </form>
             </div>
 
