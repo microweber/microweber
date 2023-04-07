@@ -24,10 +24,20 @@
                         @foreach($marketplace as $marketItem)
                         <div class="col-sm-6 col-lg-6">
                             <div class="card card-sm">
+
+                                @if(isset($marketItem['extra']['_meta']['screenshot']))
                                 <a href="#" class="d-block">
-                                    @if(isset($marketItem['extra']['_meta']['screenshot']))
-                                    <img src="{{$marketItem['extra']['_meta']['screenshot']}}" class="card-img-top"></a>
-                                    @endif
+                                    <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 300px;background-size: cover;background-position: top;" class="card-img-top">
+                                    </div>
+                                </a>
+                                @else
+                                    <a href="#" class="d-block">
+                                    <div class="card-img-top">
+                                        <i class="mdi mdi-view-grid-plus text-muted"
+                                           style="opacity:0.5;font-size:90px;margin-left: 15px;"></i>
+                                    </div>
+                                @endif
+
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
 <!--                                        <span class="avatar me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"></span>-->
