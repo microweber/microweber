@@ -35,6 +35,7 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
         mw.lib.require("bootstrap_select");
+        mw.lib.require("bootstrap_tags");
 
 
       //  mw.lib.require('mwui');
