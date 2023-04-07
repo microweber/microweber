@@ -16,7 +16,7 @@
                     </div>
 
                     @if($showColumns['image'])
-                    <div class="col-2" style="min-width: 120px; max-width: 120px;">
+                    <div class="col-2 mx-4" style="min-width: 120px; max-width: 120px;">
 
                         <div class="mw-admin-product-item-icon text-muted">
                             <i class="mdi mdi-shopping mdi-18px" data-bs-toggle="tooltip" title=""></i>
