@@ -124,7 +124,7 @@ if(isset($packages_by_type_reorder['microweber-module'])){
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class="card mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header justify-content-between">
         <?php $module_info = module_info($params['module']); ?>
         <h5 class="card-title mb-0">
@@ -135,8 +135,6 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
             <?php } ?>
         </h5>
 
-
-
         <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0">
             <form action="./" method="get" autocomplete="off" novalidate="">
                 <div class="input-icon">
@@ -145,13 +143,9 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                               </span>
                     <input type="text" value="" class="form-control" placeholder="Search…" aria-label="Search in website" onkeyup="mw.url.windowHashParam('search',this.value)">
                 </div>
-
             <!-- <button type="button" class="btn btn-primary btn-sm btn-icon px-3" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i>--><?php //_e("Search"); ?><!--</button>-->
-
             </form>
         </div>
-
-
 
         <div class="d-flex">
             <?php if ($is_update_mode) { ?>
