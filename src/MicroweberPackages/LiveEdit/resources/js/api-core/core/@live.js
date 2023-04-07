@@ -261,19 +261,23 @@ export class LiveEdit {
             this.handles.hide()
             if(first) {
                const type = this.elementAnalyzer.getType(first);
-               console.log(type)
                if(type && type !== 'edit') {
- 
-                    this.handles.set(type, elements[0])
+                   this.handles.set(type, elements[0])
                    if(type === 'element') {
                        this.handles.hide('module')
                    } else if(type === 'module') {
                     this.handles.hide('element')
                     }  else if(type === 'layout') {
-                        // this.handles.hide('element')
+                         
                     } else {
                         this.handles.hide()
                    }
+               }
+               if(type && type !== 'layout') {
+                    const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['module-layouts']);
+                    if(layout) {
+                        this.handles.set('layout', layout)
+                    }
                }
             }
         }

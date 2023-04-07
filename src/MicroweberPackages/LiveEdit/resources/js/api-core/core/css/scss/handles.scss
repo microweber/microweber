@@ -69,6 +69,10 @@ $handleHeight: 42;
         &:empty{
             display: none !important;
         }
+        transition: .2s;
+        opacity: 0;
+        transform: translateY(10px);
+        
     }
     position: absolute;
 
@@ -76,6 +80,14 @@ $handleHeight: 42;
 
     * {
         vertical-align: middle;
+    }
+}
+.mw-handle-item.mw-handle-active{
+    .mw-le-handle-menu {
+        .mw-le-handle-menu-buttons{
+            opacity: 1;
+            transform: translateY(0px);
+        }
     }
 }
 
@@ -91,7 +103,8 @@ $handleHeight: 42;
 
     .mw-le-handle-menu-buttons{
         left: auto;
-        right: 0;
+        right: 5px;
+        top: 5px;
     }
     .mw-le-handle-menu-title {
         display: none;

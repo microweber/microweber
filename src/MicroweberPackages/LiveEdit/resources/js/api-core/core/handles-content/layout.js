@@ -157,6 +157,7 @@ export const LayoutHandleContent = function (rootScope) {
                             value: parent.innerHTML
                         });
                     });
+                    newEl.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                 }
             },
 

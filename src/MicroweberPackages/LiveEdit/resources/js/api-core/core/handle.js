@@ -35,6 +35,7 @@ export const Handle = function (options) {
     this.hide = function () {
         _visible = false;
         this.wrapper.addClass('mw-handle-item-hidden');
+        this.wrapper.removeClass('mw-handle-active');
     };
     let _content = null;
     this.setContent = function (content) {
@@ -67,6 +68,7 @@ export const Handle = function (options) {
     };
 
     this.set = function (target) {
+        
         if (!target) {
             _currentTarget = null;
             return;
@@ -84,6 +86,7 @@ export const Handle = function (options) {
             _currentTarget = target;
             this.dispatch('targetChange', target);
         }
+        setTimeout(() => this.wrapper.addClass('mw-handle-active'), 1)
     };
 
     this.createHandle = function () {
@@ -101,6 +104,56 @@ export const Handle = function (options) {
             this.wrapper.append(this.handle);
         }
     }
+
+    var _resizableMaxWidth = this.settings.document.defaultView.innerWidth;
+    var _resizableMaxHeight = this.settings.document.defaultView.innerHeight;
+
+    this.resizableMaxWidth = function(number) {
+        if(typeof number === 'undefined') {
+            return _resizableMaxWidth;
+        }
+        _resizableMaxWidth = number;
+    }
+
+    this.resizableMaxHeight = function(number) {
+        if(typeof number === 'undefined') {
+            return _resizableMaxHeight;
+        }
+        _resizableMaxHeight = number;
+    }
+
+    this.findClosestElementByClass = function(element, maxDistance = 200) {
+        let closestElements = [];
+        let currentElement = element;
+        let distance = 0;
+   
+      
+        while (currentElement !== document) {
+          const elements = currentElement.parentNode.querySelectorAll('.element,.module');
+          
+          if (elements.length > 0) {
+            closestElements = [...elements].filter(el => {
+              const elDistance = Math.abs(element.getBoundingClientRect().top - el.getBoundingClientRect().top);
+              return elDistance <= maxDistance;
+            });
+            
+            if (closestElements.length > 0) {
+              break;
+            }
+          }
+      
+          currentElement = currentElement.parentNode;
+          distance++;
+      
+          if (distance > maxDistance / 10) {
+            // Break out of the loop if we've exceeded the maximum distance threshold
+            break;
+          }
+        }
+      
+        return closestElements;
+      }
+      
 
     this.resizable = function() {
         if(!this.settings.resizable) {
