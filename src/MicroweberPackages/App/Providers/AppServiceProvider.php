@@ -53,6 +53,7 @@ use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\LiveEdit\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
+use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
 use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
@@ -304,6 +305,7 @@ class AppServiceProvider extends ServiceProvider
         // Others
         $this->app->register(LiveEditServiceProvider::class);
 
+        $this->app->register(MarketplaceServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
         $this->app->register(BackupServiceProvider::class);
