@@ -18,7 +18,7 @@ class MultilanguageController extends AdminController
 {
     public function index(Request $request) {
 
-        return $this->view('multilanguage::admin.multilanguage.index');
+        return view('multilanguage::admin.multilanguage.index');
     }
 
 }

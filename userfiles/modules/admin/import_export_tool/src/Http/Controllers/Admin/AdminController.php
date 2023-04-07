@@ -12,14 +12,14 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
     {
         $importFeeds = ImportFeed::get();
 
-        return $this->view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
+        return view('import_export_tool::admin.index', ['import_feeds' => $importFeeds]);
     }
 
     public function exports()
     {
         $exportFeeds = ExportFeed::where('is_draft', 0)->get();
 
-        return $this->view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
+        return view('import_export_tool::admin.index-exports', ['export_feeds' => $exportFeeds]);
     }
 
     public function importDelete($id)

@@ -15,18 +15,18 @@ if (mw()->ui->disable_marketplace) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body mb-3">
+<div class="card-body d-flex justify-content-between mt-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
-        <h5>
+        <h5 class="card-title">
             <?php if (isset($module_info['icon'])):?>
-                <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
+                <img height="auto" width="25px" src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
                 <strong><?php _e('System updates'); ?></strong>
             <?php endif; ?>
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+
         <?php
         if (is_module('standalone-updater')) {
         ?>
@@ -47,7 +47,6 @@ if (mw()->ui->disable_marketplace) {
         }
         ?>
 
-    </div>
 </div>
 <br />
 <br />

@@ -55,7 +55,7 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Discount Type"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Choose the type of discount which can be fixed price or percentage of the price."); ?></small>
-        <select name="discount_type" class="js-discount-type selectpicker" data-width="100%">
+        <select name="discount_type" class="js-discount-type form-select" data-width="100%">
             <option value="percentage"><?php _e("Percentage"); ?></option>
             <option value="fixed_amount"><?php _e("Fixed Amount"); ?></option>
         </select>
@@ -99,7 +99,7 @@ if ($params['coupon_id'] !== 'false') {
 
     <hr class="thin">
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-end">
         <?php if (!$addNew) { ?>
             <div>
                 <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>

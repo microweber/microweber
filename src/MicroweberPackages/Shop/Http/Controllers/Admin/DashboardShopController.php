@@ -14,6 +14,6 @@ class DashboardShopController extends AdminController
     public function dashboard(Request $request)
     {
         $data = [];
-        return $this->view('shop::admin.dashboard', ['data' => $data]);
+        return view('shop::admin.dashboard', ['data' => $data]);
     }
 }

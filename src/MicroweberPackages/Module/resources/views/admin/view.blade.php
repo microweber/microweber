@@ -2,8 +2,10 @@
 
 @section('content')
 
+<div id="module-admin-wrapper" class="px-5">
+    <module type="{{$type}}" view="admin" />
+</div>
 
-   <div type="{{$type}}" view="admin" class="mw-lazy-load-module" id="id-module-@php echo md5($type); @endphp">
-   </div>
+
 
 @endsection

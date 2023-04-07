@@ -52,7 +52,7 @@ class UserController extends AdminController
 
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 
-        return $this->view('user::admin.users.index', [
+        return view('user::admin.users.index', [
             'isAdmin'=>$isAdmin,
             'keyword'=>$keyword,
             'orderBy'=>$orderBy,
@@ -70,7 +70,7 @@ class UserController extends AdminController
             return redirect(route('admin.user.index'));
         }
 
-        return $this->view('user::admin.users.show', [
+        return view('user::admin.users.show', [
             'user'=>$user
         ]);
     }

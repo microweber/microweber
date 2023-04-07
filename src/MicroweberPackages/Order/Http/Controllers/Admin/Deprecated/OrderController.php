@@ -90,7 +90,7 @@ OrderController extends AdminController
 
         $exportUrl = $request->fullUrlWithQuery(['exportResults'=>true]);
 
-        return $this->view('order::admin.orders.index', [
+        return view('order::admin.orders.index', [
             'id'=>$id,
             'productId'=>$productId,
             'productKeyword'=>$productKeyword,
@@ -131,7 +131,7 @@ OrderController extends AdminController
             ->appends($request->except('page'));
 
 
-        return $this->view('order::admin.orders.abandoned', [
+        return view('order::admin.orders.abandoned', [
             'abandoned'=>true,
             'priceBetween'=>$priceBetween,
             'orderBy'=>$orderBy,
@@ -157,7 +157,7 @@ OrderController extends AdminController
             $order->save();
         }
 
-        return $this->view('order::admin.orders.show', [
+        return view('order::admin.orders.show', [
             'order'=>$order
         ]);
     }

@@ -42,7 +42,7 @@ class CustomersController extends AdminController
             //->leftJoin('invoices', 'customers.id', '=', 'invoices.customer_id')
             ->paginate($limit);
 
-        return $this->view('customer::admin.customers.index', [
+        return view('customer::admin.customers.index', [
             'customers' => $customers
         ]);
     }
@@ -135,7 +135,7 @@ class CustomersController extends AdminController
             $countries = Country::all();
         }
 
-        return $this->view('customer::admin.customers.edit', [
+        return view('customer::admin.customers.edit', [
             'customer' => false,
             'countries' => $countries,
             'currencies' => $currencies,
@@ -156,7 +156,7 @@ class CustomersController extends AdminController
         $currencies = Currency::all();
         $orders = Order::where('customer_id', $customer->id)->get();
 
-        return $this->view('customer::admin.customers.edit', [
+        return view('customer::admin.customers.edit', [
             'countries' => Country::all(),
             'customer' => $customer,
             'orders' => $orders,

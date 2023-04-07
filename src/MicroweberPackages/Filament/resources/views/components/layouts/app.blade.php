@@ -1,6 +1,8 @@
-@include('admin::layouts.partials.header', [
-    'disableLivewireScripts' => true,
-])
+@extends('admin::layouts.app')
+
+@section('content')
+
+
 <main class="module-main-holder">
    {{-- FILAMENT SCRIPTS START --}}
 
@@ -121,6 +123,5 @@
 
 {{-- FILAMENT SCRIPTS END --}}
 </main>
-@include('admin::layouts.partials.footer')
 
-
+@endsection

@@ -1,3 +1,7 @@
+@extends('admin::layouts.app')
+
+@section('content')
+
 <module type="admin/modules/info" history_back="true"/>
 
 
@@ -223,3 +227,4 @@
     </div>
 </div>
 
+@endsection

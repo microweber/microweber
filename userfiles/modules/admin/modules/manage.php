@@ -212,7 +212,7 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
         <?php if ($moduleCategories): ?>
 
               <?php foreach ($moduleCategories as $mod_cat => $mods): ?>
-                <div class="row mw-modules">
+                <div class="row mw-modules p-3">
 
                       <?php if ($show_by_categories): ?>
                           <div class="w100">

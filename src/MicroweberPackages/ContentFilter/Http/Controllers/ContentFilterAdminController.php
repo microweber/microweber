@@ -12,7 +12,7 @@ class ContentFilterAdminController extends AdminController
 
     public function index(Request $request)
     {
-        return $this->view('content_filter::admin');
+        return view('content_filter::admin');
 
     }
 

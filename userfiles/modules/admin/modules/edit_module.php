@@ -97,7 +97,7 @@ if ($id != false) {
     }
     ?>
 
-    <div class="card mw-modules-module-holder p-1">
+    <div class="card mw-modules-module-holder">
         <div class="card-body px-2 pt-1" <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print module_admin_url($data['module']) ?>';"<?php endif; ?>>
             <div class="text-start text-left pb-3">
             <?php echo $badge; ?>
@@ -133,7 +133,7 @@ if ($id != false) {
 
                 <?php if (user_can_destroy_module($data)): ?>
                 <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-                    <button class="btn btn-link btn-sm text-danger btn-rounded btn-icon position-absolute module-uninstall-btn" data-bs-toggle="tooltip" data-title="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print$data['id'] ?>" value="đ"><i class="mdi mdi-close-thick"></i></button>
+                    <button class="btn btn-link btn-sm text-danger btn-rounded btn-icon position-absolute top-0 end-0 module-uninstall-btn" data-bs-toggle="tooltip" data-title="<?php _e("Uninstall"); ?>" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print$data['id'] ?>" value="đ"><i class="mdi mdi-close-thick"></i></button>
                     <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
                 <?php else: ?>
                     <button class="btn btn-outline-success btn-sm position-absolute module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>"><?php _e("Install"); ?></button>

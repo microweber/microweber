@@ -124,48 +124,41 @@ if(isset($packages_by_type_reorder['microweber-module'])){
 $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_update);
 ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
-    <div class="card-header">
+<div class="card mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-header justify-content-between">
         <?php $module_info = module_info($params['module']); ?>
-        <h5 class="mb-0">
+        <h5 class="card-title mb-0">
             <?php if ($is_update_mode) { ?>
                 <i class="mdi mdi-update text-primary mr-3"></i> <strong><?php _e("Updates"); ?></strong>
             <?php } else { ?>
-                <i class="mdi mdi-fruit-cherries text-primary mr-3"></i> <strong><?php _e("Marketplace"); ?></strong>
+                <i class="mdi mdi-fruit-cherries fs-2 text-primary mr-3"></i> <strong><?php _e("Marketplace"); ?></strong>
             <?php } ?>
         </h5>
-        <nav class="navbar navbar-expand-xl navbar-light bg-light text-center justify-content-center order-md-1 p-md-0 p-2">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto m-md-0 m-2">
-                    <li class="nav-item active d-xl-flex">
-                        <?php if ($is_update_mode) { ?>
-                            <a href="<?php print admin_url() ?>module/view?type=admin/modules/packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
-                        <?php } else { ?>
-                            <a href="<?php print admin_url() ?>settings?group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
-                        <?php } ?>
-                        <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block  my-xl-0 my-1 my-md-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
-                        <a href="javascript:;" class="btn btn-success btn-sm d-block my-xl-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></a>                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="form-inline flex-nowrap justify-content-center">
-            <div class="input-group mb-0 prepend-transparent mx-2">
-                <div class="input-group-prepend">
-                    <span class="input-group-text px-1"><i class="mdi mdi-magnify"></i></span>
+        <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0">
+            <form action="./" method="get" autocomplete="off" novalidate="">
+                <div class="input-icon">
+                              <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                              </span>
+                    <input type="text" value="" class="form-control" placeholder="Search…" aria-label="Search in website" onkeyup="mw.url.windowHashParam('search',this.value)">
                 </div>
-                <input type="text" class="form-control form-control-sm" name="module_keyword" value="" placeholder="<?php _e("Search"); ?>" onkeyup="mw.url.windowHashParam('search',this.value)">
-            </div>
+            <!-- <button type="button" class="btn btn-primary btn-sm btn-icon px-3" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i>--><?php //_e("Search"); ?><!--</button>-->
+            </form>
+        </div>
 
-            <button type="button" class="btn btn-primary btn-sm btn-icon px-3" onclick="mw.url.windowHashParam('search',$(this).prev().find('input').val())"><i class="mdi mdi-magnify"></i><?php _e("Search"); ?></button>
+        <div class="d-flex">
+            <?php if ($is_update_mode) { ?>
+                <a href="<?php print admin_url() ?>module/view?type=admin/modules/packages" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"> <i class="mdi mdi-arrow-left"></i><?php _e("Back to list"); ?></a>
+            <?php } else { ?>
+                <a href="<?php print admin_url() ?>settings?group=updates" class="btn btn-outline-primary btn-sm d-block my-xl-0 my-1 mx-lg-1"><?php _e("Show updates"); ?></a>
+            <?php } ?>
+            <a href="javascript:;" class="btn btn-outline-primary btn-sm d-block  my-xl-0 my-1 my-md-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.reload_packages_list();"><?php _e("Reload packages"); ?></a>
+            <a href="javascript:;" class="btn btn-success btn-sm d-block my-xl-0 my-1 mx-lg-1" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></a>
         </div>
     </div>
 
-    <div class="card-body pt-3">
+    <div class="card-body p-3">
         <script>
             $(document).ready(function () {
                 mw.on.hashParam('search', function (pval) {

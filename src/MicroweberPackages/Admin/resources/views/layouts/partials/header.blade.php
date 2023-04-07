@@ -35,6 +35,7 @@
         mw.require("upgrades.js");
         mw.require("tree.js");
         mw.lib.require("bootstrap_select");
+        mw.lib.require("bootstrap_tags");
 
 
       //  mw.lib.require('mwui');
@@ -234,13 +235,13 @@ $new_orders_count = false;
 $comments_notif_html = false;
 //$new_comments_count = Auth::user()->unreadNotifications()->where('type', 'like', '%Comment%')->count();
 //if ($new_comments_count) {
-//    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
+//    $comments_notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;">' . $new_comments_count . '</span>';
 //}
 
 $notif_html = '';
 //$notif_count = Auth::user()->unreadNotifications()->count();
 //if ($notif_count > 0) {
-//    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
+//    $notif_html = '<span class="badge badge-success badge-pill mr-1 lh-0 d-inline-flex justify-content-center align-items-center position-relative" style="font-size: 11px; width: 20px; height:20px;">' . $notif_count . '</span>';
 //}
 ?>
 
