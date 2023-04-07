@@ -5,8 +5,6 @@
 
 @section('content')
 
-
-     <livewire:admin-live-edit-button-settings :module-id="$moduleId" />
-
+    <livewire:admin-live-edit-button-settings :module-id="$moduleId" />
 
 @endsection

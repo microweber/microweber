@@ -12,4 +12,7 @@
 .hidden {
   display: none; }
 
+.card-header {
+  border-bottom: 0; }
+
 /*# sourceMappingURL=admin_v2.css.map */
