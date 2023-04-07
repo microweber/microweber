@@ -459,7 +459,7 @@
 
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
-                    <a class="nav-link py-3 fs-3 <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('module/view?type=users/action:profile'); ?>">
+                    <a class="nav-link py-3 fs-3 <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('users'); ?>">
                         <i class="fs-1 me-2 mdi mdi-account-multiple"></i> <?php _e("Users"); ?>
                     </a>
 
