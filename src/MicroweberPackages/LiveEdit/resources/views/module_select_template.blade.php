@@ -3,9 +3,9 @@
     @php
         $currentSkin = $settings['template'];
         $currentSkinName = str_replace('.php', '', $currentSkin);
-        $componentName = 'live-edit::'.$moduleType.'-template-'.$currentSkinName;
+        $componentNameForModuleSkin = 'live-edit::'.$moduleType.'-template-'.$currentSkinName;
 
-        $hasSkinSettingsComponent= livewire_component_exists($componentName) === true;
+        $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
 
     @endphp
@@ -34,8 +34,41 @@
             <div class="mw-module-skin-setting-inner">
                 <div>
                     <div>
-                    @livewire($componentName, ['moduleId' => $moduleId, 'moduleType' => $moduleType], key($componentName.'-'.$moduleId))
-                    </div>
+
+                            <?php
+                            $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+                            $hasError = false;
+                            $output = false;
+
+                            try {
+                                $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                    'moduleId' => $moduleId,
+                                    'moduleType' => $moduleType,
+                                ])->html();
+
+                            } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
+                                $hasError = true;
+                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                            } catch (\Exception $e) {
+                                $hasError = true;
+                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                            }
+
+                            if ($hasError) {
+                                print '<div class="alert alert-danger" role="alert">';
+                                print $output;
+                                print '</div>';
+                            } else {
+                                print $output;
+                            }
+
+
+                            ?>
+
+
+
+
+                     </div>
                     <script>
                         window.livewire.rescan();
                     </script>

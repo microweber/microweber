@@ -55,4 +55,4 @@
         })
     </script>
 
-@endsection('content')
+@endsection
