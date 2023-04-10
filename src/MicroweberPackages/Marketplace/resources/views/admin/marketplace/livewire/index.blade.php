@@ -65,7 +65,9 @@
                     </div>
                     @endforeach
                     @else
+                        <div class="col-12">
                         no items
+                        </div>
                     @endif
 
                 </div>

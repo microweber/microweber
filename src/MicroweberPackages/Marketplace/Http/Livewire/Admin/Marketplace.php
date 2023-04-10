@@ -32,13 +32,11 @@ class Marketplace extends Component
         $latestVersions = [];
         foreach ($packages as $packageName=>$package) {
             $latestVersionPackage = end($package);
-
             if (!empty($this->category)) {
                 if ($latestVersionPackage['type'] != $this->category) {
                     continue;
                 }
             }
-
             $latestVersions[$packageName] = $latestVersionPackage;
         }
 
