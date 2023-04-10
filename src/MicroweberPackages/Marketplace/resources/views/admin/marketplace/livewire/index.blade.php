@@ -32,14 +32,19 @@
 
                             @if(isset($marketItem['extra']['_meta']['screenshot']))
                             <a href="#" class="d-block">
-                                <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 280px;background-size: cover;background-position: top;" class="card-img-top">
-                                </div>
+                                @if($marketItem['type'] == 'microweber-module')
+                                    <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
+                                    </div>
+                                    @else
+                                    <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 280px;background-size: cover;background-position: top;" class="card-img-top">
+                                    </div>
+                                    @endif
                             </a>
                             @else
                                 <a href="#" class="d-block">
-                                    <div class="card-img-top">
+                                    <div class="card-img-top text-center">
                                         <i class="mdi mdi-view-grid-plus text-muted"
-                                           style="opacity:0.5;font-size:90px;margin-left: 15px;"></i>
+                                           style="opacity:0.5;font-size:126px;margin-left: 15px;"></i>
                                     </div>
                                 </a>
                             @endif

@@ -10,6 +10,10 @@ class Marketplace extends Component
     public $marketplace = [];
     public $category = 'microweber-template';
 
+    public $queryString = [
+        'category'
+    ];
+
     public function filterCategory($category)
     {
         $this->category = $category;
