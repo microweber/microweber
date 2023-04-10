@@ -7,12 +7,19 @@ use MicroweberPackages\Package\MicroweberComposerClient;
 
 class Marketplace extends Component
 {
+    public $keyword = '';
     public $marketplace = [];
     public $category = 'microweber-template';
 
     public $queryString = [
+        'keyword',
         'category'
     ];
+
+    public function updatedKeyword($keyword)
+    {
+        $this->filter();
+    }
 
     public function filterCategory($category)
     {
@@ -21,6 +28,11 @@ class Marketplace extends Component
     }
 
     public function mount()
+    {
+        $this->filter();
+    }
+
+    public function reloadPackages()
     {
         $this->filter();
     }
@@ -37,6 +49,31 @@ class Marketplace extends Component
                     continue;
                 }
             }
+
+            $searchKeywords = [];
+            if (isset($latestVersionPackage['keywords']) && is_array($latestVersionPackage['keywords'])) {
+                $searchKeywords = array_merge($searchKeywords, $latestVersionPackage['keywords']);
+            }
+
+            if (isset($latestVersionPackage['extra']['categories']) && is_array($latestVersionPackage['extra']['categories'])) {
+                $searchKeywords = array_merge($searchKeywords, $latestVersionPackage['extra']['categories']);
+            }
+
+            if (!empty($this->keyword)) {
+                $founded = false;
+                if (in_array($this->keyword, $searchKeywords)) {
+                    $founded = true;
+                }
+                if (isset($latestVersionPackage['description'])) {
+                    if (mb_strpos($latestVersionPackage['description'], $this->keyword) !== false) {
+                        $founded = true;
+                    }
+                }
+                if (!$founded) {
+                    continue;
+                }
+            }
+
             $latestVersions[$packageName] = $latestVersionPackage;
         }
 

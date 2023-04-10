@@ -12,14 +12,33 @@
                     <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    Templates
+                    <i class="mdi mr-1 mdi-pencil-ruler"></i> Templates
                 </button>
                 <button type="button" class="btn @if($category == 'microweber-module') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-module')">
                     <div wire:loading wire:target="filterCategory('microweber-module')" class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    Modules
+                    <i class="mdi mr-1 mdi-view-grid-plus"></i> Modules
                 </button>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Keyword</label>
+                        <input type="text" class="form-control" wire:keydown.enter="filter" wire:model.lazy="keyword" />
+                        <div wire:loading wire:target="keyword" class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Searching...</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <button type="button" class="btn btn-outline-primary" wire:click="reloadPackages">
+                            <div wire:loading wire:target="reloadPackages" class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            Reload Packages
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="col-12">
