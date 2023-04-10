@@ -32,7 +32,16 @@ export class Resizable  {
         const dx = e.clientX - this.x;
         const dy = e.clientY - this.y;
         let calcH = this.h + dy;
-        let calcW = this.w + dx;
+        let calcW;
+
+      
+        if(this.activeHandle === this.handles.left) {
+            calcW = this.w - dx;
+        } else {
+            calcW = this.w + dx;
+        }
+        
+
 
         if(this.settings.maxWidth) {
             calcW = Math.min(calcW, this.settings.maxWidth)
@@ -54,7 +63,8 @@ export class Resizable  {
         for (const l in this.listeners) {
             this.document.removeEventListener(l, this.listeners[l]);
         }
-        this.listeners = {}
+        this.listeners = {};
+        this.activeHandle = null;
         this.dispatch('resizeStop');
     };
 
@@ -79,11 +89,20 @@ export class Resizable  {
 
     };
 
+    activeHandle = null;
+    handles = {};
+
     build() {
         const nodeT = this.document.createElement('span');
         const nodeR = this.document.createElement('span');
         const nodeB = this.document.createElement('span');
         const nodeL = this.document.createElement('span');
+
+        this.handles.top = nodeT;
+        this.handles.right = nodeR;
+        this.handles.bottom = nodeB;
+        this.handles.left = nodeL;
+
         nodeT.className = 'mw-le-resizer mw-le-resizer-t';
         nodeR.className = 'mw-le-resizer mw-le-resizer-r';
         nodeL.className = 'mw-le-resizer mw-le-resizer-l';
@@ -104,6 +123,7 @@ export class Resizable  {
         Array.from(resizers).forEach(resizer => {
             resizer.addEventListener('mousedown', e => {
                 this.mouseDownHandler(e)
+                this.activeHandle = resizer;
             });
         });
         this.dispatch('ready', { height: this.element.offsetHeight, width: this.element.offsetWidth });
