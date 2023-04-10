@@ -91,7 +91,7 @@
         "spatie/laravel-permission": "*",
         "symfony/intl": "*",
         "symfony/translation": "*",
-        "ticketswap/omnipay-przelewy24": "^2.0",
+        "microweber-dev/omnipay-przelewy24": "0.2",
         "tightenco/ziggy": "*",
         "torann/laravel-repository": "*",
         "tucker-eric/eloquentfilter": "*",
