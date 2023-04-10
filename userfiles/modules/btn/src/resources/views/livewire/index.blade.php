@@ -23,20 +23,11 @@
                     <option value="right">right</option>
                     <option value="center">center</option>
                 </select></div>
-        </div>
-        <div class="tab-pane fade" wire:ignore.self id="messages">
+
             <div>
 
-
-
-
-                <div>
-                    <livewire:live-edit::module-select-template :moduleId="$moduleId"  :moduleType="$moduleType"   />
-                </div>
-
-
-
                 {{ $settings['align'] }}
+
                 <div class="btn-group" role="group" aria-label="Button Align">
                     <button wire:click="setAlign('none')" type="button"
                             class="btn btn-primary @if($settings['align'] == 'none'): active @endif">None
@@ -52,8 +43,24 @@
                     </button>
                 </div>
 
+            </div>
 
 
+        </div>
+        <div class="tab-pane fade" wire:ignore.self id="messages">
+            <div>
+
+                <div>
+
+
+
+
+                    @livewire('live-edit::module-select-template', ['moduleId' => $moduleId, 'moduleType' => $moduleType], key('module-select-template-'.$moduleId))
+
+
+
+
+                </div>
 
             </div>
         </div>

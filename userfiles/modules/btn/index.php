@@ -36,7 +36,6 @@ $hovercolor = get_module_option('hovercolor', $params['id']);
 $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
 
 
-
 $style = $btn_options['button_style'];
 $size = $btn_options['button_size'];
 $action = $btn_options['button_action'];
@@ -52,6 +51,7 @@ if ($btn_options['icon']) {
     $icon = '';
 }
 
+
 $icon = html_entity_decode($icon);
 
 if (isset($params['button_id'])) {
@@ -60,11 +60,11 @@ if (isset($params['button_id'])) {
 
 $attributes = '';
 if (isset($params['button_onclick'])) {
-    $attributes .= 'onclick="'.$params['button_onclick'].'"';
+    $attributes .= 'onclick="' . $params['button_onclick'] . '"';
 }
 
 if (isset($params['button_text']) && !empty($params['button_text']) && empty($text)) {
-	$text = $params['button_text'];
+    $text = $params['button_text'];
 }
 
 $popup_function_id = 'btn_popup' . uniqid();
@@ -76,7 +76,7 @@ if ($text == false and isset($params['text'])) {
 if ($text === '$notext') {
     $text = '';
 }
-if($icon){
+if ($icon) {
     $text = $icon . ($text !== '' ? '&nbsp;' : '') . $text;
 }
 
@@ -103,11 +103,9 @@ if ($url_to_content_id) {
 }
 
 
-if($url_display){
+if ($url_display) {
     $url = $url_display;
 }
-
-
 
 
 if ($style == false and isset($params['button_style'])) {
@@ -142,8 +140,6 @@ if ($module_template != false) {
 }
 
 
-
-
 if (is_file($template_file) != false) {
     include($template_file);
 } else {
@@ -160,36 +156,36 @@ $cssButton = '';
 $cssHoverButton = '';
 
 
-if($backgroundColor){
+if ($backgroundColor) {
     $cssButton .= 'background-color:' . $backgroundColor . '!important;';
 }
-if($color){
+if ($color) {
     $cssButton .= 'color:' . $color . '!important;';
 }
 
-if($borderColor){
+if ($borderColor) {
     $cssButton .= 'border-color:' . $borderColor . '!important;';
 }
 
-if($borderWidth){
+if ($borderWidth) {
     $cssButton .= 'border-width:' . $borderWidth . 'px!important;';
 }
 
-if($borderRadius){
+if ($borderRadius) {
     $cssButton .= 'border-radius:' . $borderRadius . 'px!important;';
 }
 
-if($customSize){
-    $cssButton .= 'font-size: '.(intval($customSize)).'px!important;padding: .9em 2em!important;';
+if ($customSize) {
+    $cssButton .= 'font-size: ' . (intval($customSize)) . 'px!important;padding: .9em 2em!important;';
 }
 
-if($shadow){
+if ($shadow) {
     $cssButton .= 'box-shadow:' . $shadow . '!important;';
 }
 
-if($align){
-    if(_lang_is_rtl()) {
-        if($align == 'left') {
+if ($align) {
+    if (_lang_is_rtl()) {
+        if ($align == 'left') {
             $align = 'right';
         } elseif ($align == 'right') {
             $align = 'left';
@@ -198,28 +194,32 @@ if($align){
     $cssWrapper .= 'text-align:' . $align . ' !important;';
 }
 
-if($hoverbackgroundColor){
+if ($hoverbackgroundColor) {
     $cssHoverButton .= 'background-color:' . $hoverbackgroundColor . ' !important;';
 }
 
-if($hovercolor){
+if ($hovercolor) {
     $cssHoverButton .= 'color:' . $hovercolor . ' !important;';
 }
 
-if($hoverborderColor){
+if ($hoverborderColor) {
     $cssHoverButton .= 'border-color:' . $hoverborderColor . ' !important;';
 }
 
 
-
-
-
-
 ?>
-    <style >
-        #<?php print $params['id']; ?> { <?php print $cssWrapper; ?> }
-        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>,#<?php print $params['id']; ?> > a, #<?php print $params['id']; ?> > button { <?php print $cssButton; ?> }
-        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>:hover,#<?php print $params['id']; ?> > a:hover, #<?php print $params['id']; ?> > button:hover { <?php print $cssHoverButton; ?> }
+    <style>
+        #<?php print $params['id']; ?> {
+        <?php print $cssWrapper; ?>
+        }
+
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>, #<?php print $params['id']; ?> > a, #<?php print $params['id']; ?> > button {
+        <?php print $cssButton; ?>
+        }
+
+        #<?php print $params['id']; ?> > #<?php print $btn_id; ?>:hover, #<?php print $params['id']; ?> > a:hover, #<?php print $params['id']; ?> > button:hover {
+        <?php print $cssHoverButton; ?>
+        }
 
     </style>
 <?php
@@ -228,6 +228,8 @@ if ($action == 'popup') { ?>
 
     <script type="text/microweber" id="area<?php print $btn_id; ?>">
         <?php print $action_content; ?>
+
+
     </script>
 
     <script>
@@ -236,7 +238,7 @@ if ($action == 'popup') { ?>
                 name: 'frame<?php print $btn_id; ?>',
                 content: $(document.getElementById('area<?php print $btn_id; ?>')).html(),
                 template: 'basic',
-                title: "<?php print addslashes ($text); ?>"
+                title: "<?php print addslashes($text); ?>"
             });
         }
     </script>
