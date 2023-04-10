@@ -51,6 +51,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     public function register()
     {
 
+        include_once __DIR__ . '/Helpers/helpers.php';
 
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
 

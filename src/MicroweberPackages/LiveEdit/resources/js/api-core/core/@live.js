@@ -252,13 +252,18 @@ export class LiveEdit {
         }
 
         const _eventsHandle = (e) => {
+             
             if(this.handles.targetIsOrInsideHandle(e)) {
                 return
             }
             const elements = this.observe.fromEvent(e);
             
             const first = elements[0];
-            this.handles.hide()
+            this.handles.get('element').set(null)
+            this.handles.get('module').set(null)
+            this.handles.hide();
+    
+           
             if(first) {
                const type = this.elementAnalyzer.getType(first);
                if(type && type !== 'edit') {
@@ -268,18 +273,19 @@ export class LiveEdit {
                    } else if(type === 'module') {
                     this.handles.hide('element')
                     }  else if(type === 'layout') {
-                         
+                        this.handles.set('layout', layout)
                     } else {
                         this.handles.hide()
                    }
                }
-               if(type && type !== 'layout') {
-                    const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['module-layouts']);
-                    if(layout) {
-                        this.handles.set('layout', layout)
-                    }
-               }
+ 
+            } else {
+                const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
+                if(layout) {
+                    this.handles.set('layout', layout)
+                } 
             }
+ 
         }
 
  
@@ -294,8 +300,32 @@ export class LiveEdit {
                 const elements = this.observe.fromEvent(e);
                 
                 const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module']);
+                const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
+                let layoutHasSelectedTarget = false;
+
+                if(layout) {
+                 
+                    const elementTarget = this.handles.get('element').getTarget();
+                    const moduleTarget = this.handles.get('module').getTarget();
+                     
+                    if(layout.contains(elementTarget)) {
+                        layoutHasSelectedTarget = true;
+                    }
+
+                    if(layout.contains(moduleTarget)) {
+                        layoutHasSelectedTarget = true;
+                    }
+                  
+                    if(!layoutHasSelectedTarget) {
+                        this.handles.set('layout', layout);
+                    } else {
+                        this.handles.hide('layout');
+                    }
+                    
+                }
+
                 
-                if(target && !this.handles.targetIsSelected(target, this.interactionHandle)) {
+                if(target && !this.handles.targetIsSelected(target, this.interactionHandle) && !target.classList.contains('module-layouts')) {
                     var title = '';
                     if(target.dataset.mwTitle) {
                         title = target.dataset.mwTitle;

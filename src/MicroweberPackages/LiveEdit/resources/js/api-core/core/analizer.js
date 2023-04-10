@@ -5,7 +5,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     constructor(settings) {
         super(settings);
         this.settings = settings;
-        this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM'];
+        this._tagsCanAccept = ['DIV', 'ARTICLE', 'ASIDE', 'FOOTER', 'HEADER', 'MAIN', 'SECTION', 'DD', 'LI', 'TD', 'FORM', 'DD'];
         this.init();
     }
 

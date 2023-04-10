@@ -237,14 +237,15 @@ $handleHeight: 42;
     align-items: center;
     justify-content: center;
     white-space: nowrap;
-    background-color: #fff;
-    border-radius: 20px;
+    background-color: #0078ff;
+    color: white;
+    border-radius: 7px;
     cursor: pointer;
     left: 50%;
     transform: translateX(-50%);
     height: #{$height}px;
     padding: 0 15px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow: #11111a1a 0 4px 16px, #11111a0d 0 8px 32px;
 
     &.mw-handle-item-layout-plus-top {
         top: 0;
@@ -257,7 +258,7 @@ $handleHeight: 42;
     }
 
     &:hover {
-        background-color: #e9e9e9;
+        background-color: #016ce6;
     }
 }
 

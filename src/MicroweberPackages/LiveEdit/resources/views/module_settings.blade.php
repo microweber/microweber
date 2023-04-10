@@ -6,14 +6,6 @@
 @section('content')
 
     <div>
-        <script>
-
-            Livewire.on('settingsChanged', $data => {
-
-                mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
-            })
-        </script>
-
 
 
         <?php
@@ -31,7 +23,7 @@
         } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
             $hasError = true;
             $output = $e->getMessage();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $hasError = true;
             $output = $e->getMessage();
         }
@@ -48,9 +40,19 @@
         ?>
     </div>
 
+
+
+
+
+
+
+    <script>
+
+        Livewire.on('settingsChanged', $data => {
+            if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
+            }
+        })
+    </script>
+
 @endsection
-
-
-
-
-

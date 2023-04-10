@@ -16,11 +16,11 @@ class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 
 
          $moduleTemplates = module_templates($this->moduleType);
-        $currentTemplate = get_option('data-template', $this->moduleId);
+      //  $currentTemplate = get_option('data-template', $this->moduleId);
 
-        return view('live_edit::module_select_template', [
+        return view('live-edit::module_select_template', [
             'moduleTemplates' => $moduleTemplates,
-            'currentTemplate' => $currentTemplate,
+       //     'currentTemplate' => $currentTemplate,
 
             'moduleType' => $this->moduleType,
             'moduleId' => $this->moduleId,

@@ -16,7 +16,7 @@ class ButtonSettingsComponent extends ModuleSettingsComponent
         'url_to_content_id' => '',
         'url_to_category_id' => '',
         'popupcontent' => '',
-        'text' => '',
+        'text' => 'Button',
         'url_blank' => '',
         'icon' => '',
         'backgroundColor' => '',

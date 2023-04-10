@@ -1,34 +1,81 @@
 <div class="mw-module-select-template">
 
+    @php
+        $currentSkin = $settings['template'];
+        $currentSkinName = str_replace('.php', '', $currentSkin);
+        $componentNameForModuleSkin = 'live-edit::'.$moduleType.'-template-'.$currentSkinName;
 
-    select template
-
-    <select wire:model.debounce.100ms="settings.template">
-        <option value="default" <?php if (('default' == $currentTemplate)): ?>   selected="selected" <?php endif; ?>>
-            <?php _e("Default"); ?>
-        </option>
-
-        <?php foreach ($moduleTemplates as $item): ?>
-            <?php if ((strtolower($item['name']) != 'default')): ?>
-            <?php $default_item_names[] = $item['name']; ?>
-        <option <?php if (($item['layout_file'] == $currentTemplate)): ?>   selected="selected"
-                <?php endif; ?> value="<?php print $item['layout_file'] ?>"
-                title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </select>
+        $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
 
-    <?php
+    @endphp
+   <div>
+       select template
 
-    var_dump($moduleId);
-    var_dump($moduleTemplates);
-    var_dump($currentTemplate);
+       <select wire:model.debounce.100ms="settings.template">
+           <option value="default">
+               <?php _e("Default"); ?>
+           </option>
 
-    ?>
+           <?php foreach ($moduleTemplates as $item): ?>
+               <?php if ((strtolower($item['name']) != 'default')): ?>
+           <option value="<?php print $item['layout_file'] ?>"
+                   title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+           <?php endif; ?>
+           <?php endforeach; ?>
+       </select>
+
+   </div>
+
+    <div class="mw-module-skin-setting-holder">
+
+
+        @if($currentSkin and $hasSkinSettingsComponent)
+            <div class="mw-module-skin-setting-inner">
+                <div>
+                    <div>
+
+                            <?php
+                            $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+                            $hasError = false;
+                            $output = false;
+
+                            try {
+                                $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                    'moduleId' => $moduleId,
+                                    'moduleType' => $moduleType,
+                                ])->html();
+
+                            } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
+                                $hasError = true;
+                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                            } catch (\Exception $e) {
+                                $hasError = true;
+                                $output = $e->getMessage(). ' ' . $e->getFile() . ' ' . $e->getLine();
+                            }
+
+                            if ($hasError) {
+                                print '<div class="alert alert-danger" role="alert">';
+                                print $output;
+                                print '</div>';
+                            } else {
+                                print $output;
+                            }
+
+
+                            ?>
 
 
 
 
+                     </div>
+                    <script>
+                        window.livewire.rescan();
+                    </script>
+                </div>
+            </div>
+
+        @endif
+    </div>
 
 </div>
