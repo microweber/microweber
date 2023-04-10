@@ -13,6 +13,12 @@ class Marketplace extends Component
     public function filterCategory($category)
     {
         $this->category = $category;
+        $this->filter();
+    }
+
+    public function mount()
+    {
+        $this->filter();
     }
 
     public function filter()
