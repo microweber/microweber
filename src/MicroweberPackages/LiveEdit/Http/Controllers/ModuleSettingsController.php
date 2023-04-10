@@ -13,6 +13,6 @@ class ModuleSettingsController
         $type = module_name_decode($params['type']);
         $id = $params['id'];
 
-        return view('live_edit::module_settings', ['moduleId' => $id, 'moduleType' => $type]);
+        return view('live-edit::module_settings', ['moduleId' => $id, 'moduleType' => $type]);
     }
 }

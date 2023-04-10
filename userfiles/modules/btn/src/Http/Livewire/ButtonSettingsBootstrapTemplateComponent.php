@@ -15,7 +15,7 @@ class ButtonSettingsBootstrapTemplateComponent extends ModuleSettingsComponent
     public function render()
     {
         return view('modules.btn::livewire.bootstrap_settings');
-    }
+    } 
 
 
 
