@@ -7,7 +7,7 @@ use Livewire\Component;
 class ModuleSettingsComponent extends Component
 {
     public string $moduleId = '';
-
+    public string $moduleType = '';
     public array $settings = [
 
     ];

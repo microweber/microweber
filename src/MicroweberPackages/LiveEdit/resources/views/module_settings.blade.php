@@ -25,7 +25,7 @@
             $output = \Livewire\Livewire::mount('live-edit::' . $moduleTypeForComponent, [
                 //'id' => $moduleId,
                 'moduleId' => $moduleId,
-                'type' => $moduleType,
+                'moduleType' => $moduleType,
             ])->html();
 
         } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
