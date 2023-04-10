@@ -1,27 +1,34 @@
-<div>
+<div class="mw-module-select-template">
+
+
+    select template
+
+    <select wire:model.debounce.100ms="settings.template">
+        <option value="default" <?php if (('default' == $currentTemplate)): ?>   selected="selected" <?php endif; ?>>
+            <?php _e("Default"); ?>
+        </option>
+
+        <?php foreach ($moduleTemplates as $item): ?>
+            <?php if ((strtolower($item['name']) != 'default')): ?>
+            <?php $default_item_names[] = $item['name']; ?>
+        <option <?php if (($item['layout_file'] == $currentTemplate)): ?>   selected="selected"
+                <?php endif; ?> value="<?php print $item['layout_file'] ?>"
+                title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </select>
+
+
+    <?php
+
+    var_dump($moduleId);
+    var_dump($moduleTemplates);
+    var_dump($currentTemplate);
+
+    ?>
 
 
 
-select template
-
-    <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-        </a>
-
-        <div class="dropdown-menu dropdown-menu-demo">
-            <a href="#" class="dropdown-item"><span class="avatar avatar-xs rounded me-2" style="background-image: url(./static/avatars/000m.jpg)"></span>
-                Paweł Kuna</a>
-            <a href="#" class="dropdown-item"><span class="avatar avatar-xs rounded me-2">JL</span>
-                Jeffie Lewzey</a>
-            <a href="#" class="dropdown-item"><span class="avatar avatar-xs rounded me-2" style="background-image: url(./static/avatars/002m.jpg)"></span>
-                Mallory Hulme</a>
-            <a href="#" class="dropdown-item"><span class="avatar avatar-xs rounded me-2" style="background-image: url(./static/avatars/003m.jpg)"></span>
-                Dunn Slane</a>
-            <a href="#" class="dropdown-item"><span class="avatar avatar-xs rounded me-2" style="background-image: url(./static/avatars/000f.jpg)"></span>
-                Emmy Levet</a>
-        </div>
-    </div>
 
 
 </div>

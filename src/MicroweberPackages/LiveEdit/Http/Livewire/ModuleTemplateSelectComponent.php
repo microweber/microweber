@@ -2,11 +2,8 @@
 
 namespace MicroweberPackages\LiveEdit\Http\Livewire;
 
-use Livewire\Component;
-
 class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 {
-    public string $moduleId = '';
 
 
     public array $settings = [
@@ -16,7 +13,19 @@ class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 
     public function render()
     {
-        return view('live_edit::module_select_template');
 
-     }
+
+         $moduleTemplates = module_templates($this->moduleType);
+        $currentTemplate = get_option('data-template', $this->moduleId);
+
+        return view('live_edit::module_select_template', [
+            'moduleTemplates' => $moduleTemplates,
+            'currentTemplate' => $currentTemplate,
+
+            'moduleType' => $this->moduleType,
+            'moduleId' => $this->moduleId,
+            'settings' => $this->settings,
+        ]);
+
+    }
 }
