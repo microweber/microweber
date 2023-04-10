@@ -36,7 +36,6 @@ class Marketplace extends Component
             }
 
             $latestVersions[$packageName] = $latestVersionPackage;
-            $latestVersions[$packageName]['versions'] = $package;
         }
 
         $this->marketplace = $latestVersions;
