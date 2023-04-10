@@ -10,7 +10,9 @@ class ModuleSettingsController
     public function index(Request $request)
     {
         $params = $request->all();
+        $type = module_name_decode($params['type']);
+        $id = $params['id'];
 
-        return view('live_edit::module_settings', ['moduleId' => $params['id'], 'moduleType' => $params['type']]);
+        return view('live_edit::module_settings', ['moduleId' => $id, 'moduleType' => $type]);
     }
 }

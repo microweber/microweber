@@ -13,6 +13,8 @@ namespace MicroweberPackages\LiveEdit;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
 
@@ -31,6 +33,10 @@ class LiveEditServiceProvider extends ServiceProvider
         \App::singleton('LiveEditManager', function () {
             return new LiveEditManager();
         });
+
+
+        Livewire::component('live-edit::module-select-template', ModuleTemplateSelectComponent::class);
+
 
 
     }
