@@ -3,9 +3,13 @@
         <div class="row g-4">
 
             <div class="col-12">
-                <button type="button" class="btn btn-primary" wire:click="filterCategory('all')">All</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="filterCategory('microweber-template')">Templates</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="filterCategory('microweber-module')">Modules</button>
+                <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">All</button>
+                <button type="button" class="btn @if($category == 'microweber-template') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-template')">Templates</button>
+                <button type="button" class="btn @if($category == 'microweber-module') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-module')">Modules</button>
+            </div>
+
+            <div>
+
             </div>
 
             <div class="col-12">
