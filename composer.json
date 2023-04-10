@@ -68,7 +68,7 @@
         "league/omnipay": "*",
         "livewire/livewire": "v2.11.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
-        "microweber-modules/standalone-updater": "^4.8",
+        "microweber-modules/standalone-updater": "^4.9",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/bootstrap5": "^1.5",
