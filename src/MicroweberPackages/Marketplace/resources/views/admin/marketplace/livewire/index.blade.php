@@ -3,14 +3,29 @@
         <div class="row g-4">
 
             <div class="col-12">
-                <button type="button" class="btn btn-primary" wire:click="filterCategory('all')">All</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="filterCategory('microweber-template')">Templates</button>
-                <button type="button" class="btn btn-outline-primary" wire:click="filterCategory('microweber-module')">Modules</button>
+                <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
+                    <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>  All
+                </button>
+                <button type="button" class="btn @if($category == 'microweber-template') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-template')">
+                    <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    Templates
+                </button>
+                <button type="button" class="btn @if($category == 'microweber-module') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-module')">
+                    <div wire:loading wire:target="filterCategory('microweber-module')" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    Modules
+                </button>
             </div>
 
             <div class="col-12">
                 <div class="row row-cards">
 
+                    @if(!empty($marketplace))
                     @foreach($marketplace as $marketItem)
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
@@ -44,6 +59,9 @@
                         </div>
                     </div>
                     @endforeach
+                    @else
+                        no items
+                    @endif
 
                 </div>
             </div>

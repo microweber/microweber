@@ -16,7 +16,8 @@ class Marketplace extends Component
         $this->filter();
     }
 
-    public function mount() {
+    public function mount()
+    {
         $this->filter();
     }
 
@@ -35,7 +36,6 @@ class Marketplace extends Component
             }
 
             $latestVersions[$packageName] = $latestVersionPackage;
-            $latestVersions[$packageName]['versions'] = $package;
         }
 
         $this->marketplace = $latestVersions;
