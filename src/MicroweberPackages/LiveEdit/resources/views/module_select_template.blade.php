@@ -7,7 +7,7 @@
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
-
+         $moduleTypeForComponent = str_replace('/', '.', $moduleType);
     @endphp
    <div>
        select template
@@ -66,11 +66,9 @@
                             ?>
 
 
-
-
                      </div>
                     <script>
-                        window.livewire.rescan();
+                    //    window.livewire.rescan();
                     </script>
                 </div>
             </div>

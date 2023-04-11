@@ -36,12 +36,13 @@ class ButtonSettingsComponent extends ModuleSettingsComponent
 
     public function render()
     {
-        return view('modules.btn::livewire.index');
+        return view('modules.btn::livewire.settings');
     }
 
 
     public function setAlign($align)
     {
+
         $this->settings['align'] = $align;
         $this->updatedSettings($this->settings);
 
