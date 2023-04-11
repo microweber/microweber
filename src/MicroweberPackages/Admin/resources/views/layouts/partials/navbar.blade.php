@@ -92,7 +92,7 @@
                 $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
             endif;
             ?>
-            <a class="w-100" href="<?php print admin_url('view:dashboard'); ?>">
+            <a class="w-100 mb-md-3" href="<?php print admin_url('view:dashboard'); ?>">
                 <img alt="" src="<?php print $logo; ?>">
             </a>
 
