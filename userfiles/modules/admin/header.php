@@ -592,7 +592,7 @@ $user = get_user_by_id($user_id);
                         ?>
 
                         <li class="nav-item">
-                            <a href="<?php print admin_url(); ?>module/view?type=admin/modules/packages" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
+                            <a href="<?php print admin_url(); ?>marketplace" class="nav-link <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                                 <i class="mdi mdi-fruit-cherries"></i> <?php _e("Marketplace"); ?>
                                 <?php
                                 if ($countNewUpdates > 0):
