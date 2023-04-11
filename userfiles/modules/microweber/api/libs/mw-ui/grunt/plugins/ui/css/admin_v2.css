@@ -28,14 +28,14 @@
         transition: .5s;
         opacity: 0; }
       .admin-dashboard-left-nav .nav-link:hover {
-        font-weight: 500; }
+        font-weight: 600; }
         .admin-dashboard-left-nav .nav-link:hover span:after {
           width: 100%;
           opacity: 1; } }
   .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
-    font-weight: 500; }
+    font-weight: 600; }
     .admin-dashboard-left-nav .dropdown-toggle.show:after {
       transition: .4s;
       rotate: 90deg; }
