@@ -4,7 +4,7 @@
 
 @section('content')
 
-<main class="module-main-holder">
+<main class="filament-layouts-app module-main-holder px-5">
    {{-- FILAMENT SCRIPTS START --}}
 
         {{ \Filament\Facades\Filament::renderHook('head.start') }}
