@@ -1,6 +1,11 @@
 name: PHP Unit Tests
 on:
   push:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   main:
     runs-on: ubuntu-latest
