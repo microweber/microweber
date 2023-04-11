@@ -15,7 +15,7 @@
                         </span>
                     </div>
 
-                    <div class="col manage-post-item-col-2" style="max-width: 120px; min-width: 120px;">
+                    <div class="col manage-post-item-col-2 mx-md-4" style="max-width: 120px; min-width: 120px;">
 
                         @include('content::admin.content.livewire.components.picture', ['content'=>$content])
 
