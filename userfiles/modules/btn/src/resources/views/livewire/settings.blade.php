@@ -73,9 +73,9 @@
             </div>
 
 
-
             <div class="mw-btn-settings-align-controls mt-4">
                 <div>
+
 
                     {{ $settings['align'] }}
 
@@ -95,6 +95,21 @@
                     </div>
 
                 </div>
+
+
+                <div>
+                    <div>
+                        {!! $settings['icon'] !!}
+                        <button onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick')" type="button">
+                            Select Icon
+                        </button>
+                        <button onclick="mw.app.iconPicker.removeIcon('#btn-icon-pick')" type="button">
+                            Remove Icon
+                        </button>
+                        <textarea id="btn-icon-pick" wire:model="settings.icon"></textarea>
+                    </div>
+                </div>
+
 
             </div>
         </div>
