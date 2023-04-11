@@ -91,7 +91,7 @@
 
 .settings-holder-wrapper {
   border: 1px solid transparent;
-  padding: 20px;
+  padding: 30px 20px;
   width: 100%; }
   .settings-holder-wrapper:hover {
     text-decoration: none;
@@ -106,8 +106,7 @@
   align-items: start;
   align-self: center;
   display: flex;
-  margin-right: 20px;
-  margin-bottom: 20px; }
+  margin-right: 20px; }
   .icon-holder i {
     display: flex;
     justify-content: center;
