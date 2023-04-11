@@ -29,7 +29,7 @@
         width: 0;
         background-color: #000;
         opacity: 0;
-        transition: .5s; } 
+        transition: .5s; }
       .admin-dashboard-left-nav .nav-link:after {
         width: 30px;
         height: 30px;
@@ -74,9 +74,19 @@
   border-bottom: 0; }
 
 .settings-info-holder-title {
-  color: #000;
+  color: #2b2b2b;
+  font-weight: bold; }
+
+.card-title strong {
   font-weight: bold;
-  margin-bottom: 10px; }
+  font-size: 16px; }
+
+.main-pages-title {
+  font-weight: bold;
+  font-size: 20px; }
+
+.module {
+  margin-top: 0 !important; }
 
 .settings-holder-wrapper {
   border: 1px solid transparent; }
@@ -103,5 +113,8 @@
     font-size: 20px;
     color: #000000;
     margin: 0; }
+
+.module-settings-group-website-group .card-title, .module-shop-settings .card-title {
+  margin-top: 10px; }
 
 /*# sourceMappingURL=admin_v2.css.map */
