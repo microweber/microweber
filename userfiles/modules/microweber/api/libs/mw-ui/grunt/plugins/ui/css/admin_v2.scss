@@ -67,16 +67,16 @@
         padding: 15px 0;
     }
 
+    .dropdown-item {
+        color: #565656 !important;
+    }
+
     .dropdown-toggle {
         &.show {
             &:after {
                 transition: .4s;
                 rotate: 90deg;
                 background-color: #efefef;
-                margin: 0;
-                padding-top: 5px;
-                width: 30px;
-                height: 30px;
             }
 
             font-weight: 600;
