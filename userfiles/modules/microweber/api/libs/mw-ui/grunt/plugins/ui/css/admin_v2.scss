@@ -36,18 +36,27 @@
                 bottom: -5px;
                 left: 0;
                 height: .15rem;
-                width: 70%;
+                width: 0;
                 background-color: #000;
-                transition: .5s;
                 opacity: 0;
+                transition: .5s;
+            }
+
+            &:after {
+                width: 30px;
+                height: 30px;
+                padding-top: 5px;
             }
 
             &:hover {
-                font-weight: 600;
-
                 span:after {
                     width: 100%;
                     opacity: 1;
+                }
+
+                &:after {
+                    background-color: #efefef;
+
                 }
             }
 
@@ -59,8 +68,6 @@
     }
 
     .dropdown-toggle {
-
-
         &.show {
             &:after {
                 transition: .4s;
@@ -68,8 +75,8 @@
                 background-color: #efefef;
                 margin: 0;
                 padding-top: 5px;
-                width: 35px;
-                height: 35px;
+                width: 30px;
+                height: 30px;
             }
 
             font-weight: 600;
