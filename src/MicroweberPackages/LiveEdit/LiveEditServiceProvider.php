@@ -25,10 +25,6 @@ class LiveEditServiceProvider extends ServiceProvider
 
         View::addNamespace('live-edit', __DIR__.'/resources/views');
 
-        $this->app->singleton('live_edit', function (): LiveEditManager {
-            return new LiveEditManager();
-        });
-
 
         \App::singleton('LiveEditManager', function () {
             return new LiveEditManager();

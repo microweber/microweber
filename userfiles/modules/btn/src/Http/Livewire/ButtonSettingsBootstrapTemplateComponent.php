@@ -8,6 +8,7 @@ class ButtonSettingsBootstrapTemplateComponent extends ModuleSettingsComponent
 {
 
     public array $settings = [
+
         'button_style' => '',
         'button_size' => '',
     ];
@@ -15,7 +16,7 @@ class ButtonSettingsBootstrapTemplateComponent extends ModuleSettingsComponent
     public function render()
     {
         return view('modules.btn::livewire.bootstrap_settings');
-    } 
+    }
 
 
 
