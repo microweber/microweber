@@ -3,6 +3,10 @@ name: Microweber build & upload unstable
 on:
   push:
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   microweber-build-and-upload-unstable:
     runs-on: ubuntu-latest

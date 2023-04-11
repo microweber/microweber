@@ -1,6 +1,11 @@
 name: Dusk Apache
 on:
   push:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   dusk_apache:
     runs-on: ubuntu-latest
