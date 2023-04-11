@@ -29,7 +29,7 @@
         width: 70%;
         background-color: #000;
         transition: .5s;
-        opacity: 0; }
+        opacity: 0; } 
       .admin-dashboard-left-nav .nav-link:hover {
         font-weight: 600; }
         .admin-dashboard-left-nav .nav-link:hover span:after {
@@ -44,7 +44,9 @@
       rotate: 90deg;
       background-color: #efefef;
       margin: 0;
-      padding-top: 5px; }
+      padding-top: 5px;
+      width: 35px;
+      height: 35px; }
     .admin-dashboard-left-nav .dropdown-toggle.show span:after {
       width: 100%;
       opacity: 1; }
@@ -57,8 +59,6 @@
     align-items: center;
     margin-top: 5px;
     margin-right: 0;
-    width: 35px;
-    height: 35px;
     border-radius: 50%; }
 
 .navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
