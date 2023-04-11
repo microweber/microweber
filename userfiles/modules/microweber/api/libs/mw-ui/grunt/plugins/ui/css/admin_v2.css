@@ -29,7 +29,7 @@
         width: 0;
         background-color: #000;
         opacity: 0;
-        transition: .5s; } 
+        transition: .5s; }
       .admin-dashboard-left-nav .nav-link:after {
         width: 30px;
         height: 30px;
@@ -41,16 +41,14 @@
         background-color: #efefef; } }
   .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
+  .admin-dashboard-left-nav .dropdown-item {
+    color: #565656 !important; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
     font-weight: 600; }
     .admin-dashboard-left-nav .dropdown-toggle.show:after {
       transition: .4s;
       rotate: 90deg;
-      background-color: #efefef;
-      margin: 0;
-      padding-top: 5px;
-      width: 30px;
-      height: 30px; }
+      background-color: #efefef; }
     .admin-dashboard-left-nav .dropdown-toggle.show span:after {
       width: 100%;
       opacity: 1; }
