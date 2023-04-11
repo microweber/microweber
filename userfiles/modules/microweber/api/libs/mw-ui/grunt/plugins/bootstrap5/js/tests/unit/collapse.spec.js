@@ -246,10 +246,10 @@ describe('Collapse', () => {
 
     it('should collapse only the first collapse', done => {
       fixtureEl.innerHTML = [
-        '<div class="card mb-5" id="accordion1">',
+        '<div class="card mb-4" id="accordion1">',
         '  <div id="collapse1" class="collapse"></div>',
         '</div>',
-        '<div class="card mb-5" id="accordion2">',
+        '<div class="card mb-4" id="accordion2">',
         '  <div id="collapse2" class="collapse show"></div>',
         '</div>'
       ].join('')

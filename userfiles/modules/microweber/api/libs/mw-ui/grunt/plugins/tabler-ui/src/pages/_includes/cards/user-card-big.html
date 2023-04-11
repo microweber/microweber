@@ -1,6 +1,6 @@
 {% assign person-id = include.person-id | default: 0 %}
 {% assign person = site.data.people[person-id] %}
-<div class="card mb-5">
+<div class="card mb-4">
 	<div class="card-body text-center">
 		<div class="mb-3">
 			{% include ui/avatar.html size="xl" person=person rounded=true %}

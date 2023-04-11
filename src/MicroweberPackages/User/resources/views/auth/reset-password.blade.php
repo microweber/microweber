@@ -24,7 +24,7 @@
         <div class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
 
 
-            <div class="card mb-5">
+            <div class="card mb-4">
                 <div class="card-body py-4">
 
                     @if (session('status'))

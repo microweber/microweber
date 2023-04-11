@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Settings</a>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong>Privacy policy</strong></h5>
                 <div>
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -223,7 +223,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 

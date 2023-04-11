@@ -3,7 +3,7 @@
 ?>
 
 
-<div class="card mb-5" wire:init="loadSalesData">
+<div class="card mb-4" wire:init="loadSalesData">
 
     <div wire:loading>
 

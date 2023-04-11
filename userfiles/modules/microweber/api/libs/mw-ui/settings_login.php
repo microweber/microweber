@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Settings</a>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Login and register</strong></h5>
                 <div>
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -152,7 +152,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -187,7 +187,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -379,7 +379,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
@@ -462,7 +462,7 @@
             </div>
         </div>
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <div class="card-body">
                 <hr class="thin mt-0 mb-5"/>
 
