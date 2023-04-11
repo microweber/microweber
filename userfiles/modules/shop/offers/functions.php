@@ -374,12 +374,12 @@ event_bind('mw.admin.shop.settings.offers', function ($data) {
 
 
 event_bind('mw.admin.shop.settings.menu', function ($data) {
-    print '  <div class="card-header col-12 col-sm-6 col-lg-4">
+    print '  <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                 <a href="?group=shop/offers/admin_block" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline fs-1 me-2"></i></div>
 
                     <div class="info-holder card-title">
-                        <span class="text-outline-primary font-weight-bold">' . _e('Promotions', true) . '</span><br/>
+                        <div class="settings-info-holder-title">' . _e('Promotions', true) . '</div>
                         <small class="text-muted">'. _e('Creating and managing promo campaigns', true) .'</small>
                     </div>
                 </a>

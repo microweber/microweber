@@ -725,7 +725,7 @@
                 return;
             }
             if(!this._dialog) {
-                this._dialog = mw.top().dialog({content: this.get(), title: 'Select icon', closeButtonAction: 'hide', width: 450});
+                this._dialog = mw.top().dialog({content: this.get(), title: 'Select icon', closeButtonAction: 'hide', width: 450,overlayClose: true});
                 mw.components._init();
             }
             this._dialog.show();

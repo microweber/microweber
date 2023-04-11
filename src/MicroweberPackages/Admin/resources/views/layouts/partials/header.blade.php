@@ -37,6 +37,15 @@
         mw.lib.require("bootstrap_select");
         mw.lib.require("bootstrap_tags");
 
+        mw.require('icon_selector.js');
+        mw.iconLoader()
+
+            .addIconSet('iconsMindLine')
+            .addIconSet('iconsMindSolid')
+            .addIconSet('fontAwesome')
+            .addIconSet('materialDesignIcons')
+
+
 
       //  mw.lib.require('mwui');
       //  mw.lib.require('mwui_init');
@@ -50,6 +59,11 @@
         mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
         <?php } ?>
     </script>
+
+    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js')
+
+
+
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
     <script type="text/javascript">
         $(document).ready(function () {

@@ -11,34 +11,22 @@ import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
 import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {ModuleSettings} from "./services/module-settings";
+import {IconPicker} from "./services/icon-picker";
 
 
 mw.app = new MWUniversalContainer();
 
 
 //setTimeout(function() {
-    const canvas = new LiveEditCanvas();
-    const canvasHolder = document.getElementById('live-edit-frame-holder');
 
-    mw.app.register('canvas', canvas);
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
 
     mw.app.register('layouts', Layouts);
     mw.app.register('keyboard', KeyboardEvents);
+    mw.app.register('iconPicker', IconPicker);
+
 //mw.app.register('commands', Commands);
 
-    canvas.mount(canvasHolder);
-
-    mw.app.canvas.on('liveEditBeforeLoaded', function () {
-
-        mw.app.dispatch('init');
-    });
-
-    mw.app.canvas.on('liveEditCanvasLoaded', () => {
-        // new EditorComponent();
-        // liveEditComponent();
-        mw.app.dispatch('ready');
-    });
 
 //}, 300);
