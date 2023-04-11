@@ -14,8 +14,8 @@ module.exports = {
         './vendor/filament/packages/tables/resources/**/*.blade.php',
     ],
     corePlugins: {
-        // margin: false,
-        // padding: false,
+         margin: false,
+         padding: false,
     },
     darkMode: "class",
     // safelist: [
