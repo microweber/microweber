@@ -12,8 +12,11 @@
 
 .admin-dashboard-left-nav {
     background-color: white;
-
     padding: 40px 20px 20px 40px !important;
+
+    .add-new {
+        background-color: var(--tblr-primary);
+    }
 
     .nav-link {
         padding: 15px 0 !important;
@@ -29,7 +32,7 @@
                 content: '';
                 bottom: -5px;
                 left: 0;
-                height: 1px;
+                height: .15rem;
                 width: 70%;
                 background-color: #000;
                 transition: .5s;
@@ -37,6 +40,9 @@
             }
 
             &:hover {
+
+                font-weight: 500;
+
                 span:after {
                     width: 100%;
                     opacity: 1;
@@ -53,10 +59,28 @@
     .dropdown-toggle {
         &.show {
             &:after {
-                transform: unset;
-                transition: .3s;
-
+                transition: .4s;
+                rotate: 90deg;
             }
+
+            font-weight: 500;
+
+            span:after {
+                width: 100%;
+                opacity: 1;
+            }
+
+        }
+
+
+        &:after {
+            border: none;
+            content: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
+            transform: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
         }
     }
 }
@@ -69,7 +93,6 @@
 .hidden {
     display: none;
 }
-
 
 .card-header {
     border-bottom: 0;
