@@ -29,7 +29,7 @@
         width: 70%;
         background-color: #000;
         transition: .5s;
-        opacity: 0; } 
+        opacity: 0; }
       .admin-dashboard-left-nav .nav-link:hover {
         font-weight: 600; }
         .admin-dashboard-left-nav .nav-link:hover span:after {

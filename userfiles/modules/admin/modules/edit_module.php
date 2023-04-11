@@ -116,11 +116,11 @@ if ($id != false) {
 
                     <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print module_admin_url($data['module']); ?>'><?php endif; ?>
                         <div class="admin-modules-list-description mt-0">
-                            <h6>
+                            <h4>
                                 <?php if (isset($data['name'])): ?>
                                     <?php _e($data['name']) ?>
                                 <?php endif; ?>
-                            </h6>
+                            </h4>
                         </div>
                         <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?></a><?php endif; ?>
 
