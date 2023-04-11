@@ -57,8 +57,8 @@
                 <div class="col-12">
                     <div class="row row-cards">
 
-                        @if(!empty($marketplace))
-                        @foreach($marketplace as $marketItem)
+                        @if(!empty($marketplacePagination))
+                        @foreach($marketplacePagination as $marketItem)
                         <div class="col-sm-6 col-lg-4">
                             <div class="card card-sm">
 
@@ -96,6 +96,9 @@
                             </div>
                         </div>
                         @endforeach
+                            <div>
+                                {!! $marketplacePagination->links('simple-bootstrap') !!}
+                            </div>
                         @else
                             <div class="col-12">
                             no items
