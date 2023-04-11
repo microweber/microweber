@@ -97,7 +97,7 @@
                         </div>
                         @endforeach
                             <div>
-                                {!! $marketplacePagination->links('bootstrap') !!}
+                                {!! $marketplacePagination->links() !!}
                             </div>
                         @else
                             <div class="col-12">
