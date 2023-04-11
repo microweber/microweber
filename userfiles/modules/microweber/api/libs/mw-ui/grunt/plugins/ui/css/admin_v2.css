@@ -11,9 +11,29 @@
   padding: 40px 20px 20px 40px !important; }
   .admin-dashboard-left-nav .nav-link {
     padding: 15px 0 !important; }
-  .admin-dashboard-left-nav .dropdown-menu-column { 
+    @media screen and (min-width: 767px) {
+      .admin-dashboard-left-nav .nav-link span {
+        position: relative;
+        display: block; }
+      .admin-dashboard-left-nav .nav-link span:after {
+        position: absolute;
+        content: '';
+        bottom: -5px;
+        left: 0;
+        height: 1px;
+        width: 70%;
+        background-color: #000;
+        transition: .5s;
+        opacity: 0; }
+      .admin-dashboard-left-nav .nav-link:hover span:after {
+        width: 100%;
+        opacity: 1; } }
+  .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
-
+  .admin-dashboard-left-nav .dropdown-toggle.show:after {
+    transform: unset;
+    transition: .3s; }
+ 
 .navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
   background-color: transparent;
   color: var(--tblr-primary); }
