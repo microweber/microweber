@@ -21,7 +21,7 @@ $orders = get_orders('limit=5');
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 ?>
 <?php if (!$shop_disabled): ?>
-   <div class="card my-3">
+   <div class="card mb-5">
        <div class="card-header justify-content-between">
            <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Recent Orders") ?></strong></h5>
            <div>

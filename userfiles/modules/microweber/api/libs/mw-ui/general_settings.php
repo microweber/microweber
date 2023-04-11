@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Websites</a>
         </div>
 
-        <div class="card my-3">
+        <div class="card mb-5">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-cog text-primary mr-3"></i> <strong>Settings</strong></h5>
                 <div>
@@ -26,8 +26,8 @@
 
 
             <div class="row card-body">
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">General</span><br/>
@@ -36,8 +36,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Updates</span><br/>
@@ -46,8 +46,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-email-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">E-mail</span><br/>
@@ -56,8 +56,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Template</span><br/>
@@ -66,8 +66,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-angularjs fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Advanced</span><br/>
@@ -76,8 +76,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Files</span><br/>
@@ -86,8 +86,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-login fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Login & Register</span><br/>
@@ -96,8 +96,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-translate fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Language</span><br/>
@@ -106,8 +106,8 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                    <a href="#" class="d-flex my-3">
+                <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                    <a href="#" class="d-flex settings-holder-wrapper">
                         <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
                             <span class="text-outline-primary font-weight-bold">Privacy Policy</span><br/>
@@ -121,8 +121,8 @@
         <div class="card-body mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-cart-outline fs-1 me-2 fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">General</span><br/>
@@ -131,8 +131,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-scissors-cutting fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Coupons</span><br/>
@@ -141,8 +141,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-account-cash-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Taxes</span><br/>
@@ -151,8 +151,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-cash-usd-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Payments</span><br/>
@@ -161,8 +161,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Promotions</span><br/>
@@ -171,8 +171,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-cash-register fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Invoices</span><br/>
@@ -181,8 +181,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-truck-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Shipping</span><br/>
@@ -191,8 +191,8 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-                        <a href="#" class="d-flex my-3">
+                    <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+                        <a href="#" class="d-flex settings-holder-wrapper">
                             <div class="icon-holder"><i class="mdi mdi-email-edit-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
                                 <span class="text-outline-primary font-weight-bold">Auto respond mail</span><br/>

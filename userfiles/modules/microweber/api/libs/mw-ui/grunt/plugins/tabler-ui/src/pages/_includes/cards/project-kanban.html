@@ -3,7 +3,7 @@
 {% assign percentage = include.percentage | default: 20 %}
 {% assign percentage-color = include.percentage-color | default: "green" %}
 {% assign due = include.due | default: "2 days" %}
-<div class="card my-3">
+<div class="card mb-5">
 	{% include ui/progress.html value=percentage class="card-progress" color=percentage-color %}
 	<div class="card-body">
 

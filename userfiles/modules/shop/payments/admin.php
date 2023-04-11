@@ -119,7 +119,7 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $payment_modules = get_modules('type=payment_gateway');
 ?>
 
-<div class="card my-3">
+<div class="card mb-5">
     <div class="card-header">
         <h5>
             <i class="mdi mdi-cash-usd-outline text-primary mr-3"></i> <strong><?php _e("Payment methods"); ?></strong>

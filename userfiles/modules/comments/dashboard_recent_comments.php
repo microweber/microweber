@@ -13,7 +13,7 @@ $ccount = get_comments($comments_data);
 
 ?>
 
-<div class="card my-3">
+<div class="card mb-5">
     <div class="card-header justify-content-between">
         <h5 class="card-title"><i class="mdi mdi-comment-account text-primary mr-3"></i> <strong><?php _e("Last comments") ?></strong></h5>
         <div><a href="<?php print admin_url('module/view?type=comments'); ?>" class="btn btn-primary btn-sm"><?php print $ccount; ?>  <?php _e('New comments'); ?></a></div>

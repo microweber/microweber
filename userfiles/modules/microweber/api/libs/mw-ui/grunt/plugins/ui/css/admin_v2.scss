@@ -135,17 +135,16 @@
 
 .module {
     margin-top: 0 !important;
+    padding-top: 0 !important;
 }
 
 .settings-holder-wrapper {
     border: 1px solid transparent;
+    padding: 20px;
+    width: 100%;
 
     &:hover {
-        a {
-            text-decoration: none;
-
-        }
-
+        text-decoration: none;
         border-color: #d8e8ff;
         border-radius: 15px;
         background: #f6f8ff;
@@ -175,7 +174,12 @@
 }
 
 .module-settings-group-website-group, .module-shop-settings {
-    .card-title {
+    .card-title:not(.info-holder) {
         margin-top: 10px;
     }
+}
+
+.card {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: none;
 }
