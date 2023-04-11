@@ -16,6 +16,7 @@ use Arcanedev\Support\Providers\ServiceProvider;
 use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Tables\TablesServiceProvider;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 
@@ -27,6 +28,7 @@ class FilamentServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->register(TablesServiceProvider::class);
         $this->app->register(NotificationsServiceProvider::class);
         $this->app->register(FormsServiceProvider::class);
         $this->app->register(FilamentPackageServiceProvider::class);
