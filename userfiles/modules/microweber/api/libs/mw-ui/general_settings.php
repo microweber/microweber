@@ -26,7 +26,7 @@
 
 
             <div class="row card-body">
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -36,7 +36,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -46,7 +46,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-email-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -56,7 +56,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -66,7 +66,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-angularjs fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -76,7 +76,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -86,7 +86,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-login fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -96,7 +96,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-translate fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -106,7 +106,7 @@
                     </a>
                 </div>
 
-                <div class="card-header col-12 col-sm-6 col-lg-4">
+                <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                     <a href="#" class="d-flex my-3">
                         <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1 me-2"></i></div>
                         <div class="card-title info-holder">
@@ -121,7 +121,7 @@
         <div class="card-body mb-3">
             <div class="card-body pt-3 px-5">
                 <div class="row select-settings">
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cart-outline fs-1 me-2 fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -131,7 +131,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-scissors-cutting fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -141,7 +141,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-account-cash-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -151,7 +151,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cash-usd-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -161,7 +161,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -171,7 +171,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-cash-register fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -181,7 +181,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-truck-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">
@@ -191,7 +191,7 @@
                         </a>
                     </div>
 
-                    <div class="card-header col-12 col-sm-6 col-lg-4">
+                    <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
                         <a href="#" class="d-flex my-3">
                             <div class="icon-holder"><i class="mdi mdi-email-edit-outline fs-1 me-2"></i></div>
                             <div class="card-title info-holder">

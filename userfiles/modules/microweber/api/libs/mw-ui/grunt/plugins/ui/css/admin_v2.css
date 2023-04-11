@@ -26,27 +26,29 @@
         bottom: -5px;
         left: 0;
         height: .15rem;
-        width: 70%;
+        width: 0;
         background-color: #000;
-        transition: .5s;
-        opacity: 0; }
-      .admin-dashboard-left-nav .nav-link:hover {
-        font-weight: 600; }
-        .admin-dashboard-left-nav .nav-link:hover span:after {
-          width: 100%;
-          opacity: 1; } }
+        opacity: 0;
+        transition: .5s; } 
+      .admin-dashboard-left-nav .nav-link:after {
+        width: 30px;
+        height: 30px;
+        padding-top: 5px; }
+      .admin-dashboard-left-nav .nav-link:hover span:after {
+        width: 100%;
+        opacity: 1; }
+      .admin-dashboard-left-nav .nav-link:hover:after {
+        background-color: #efefef; } }
   .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
+  .admin-dashboard-left-nav .dropdown-item {
+    color: #565656 !important; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
     font-weight: 600; }
     .admin-dashboard-left-nav .dropdown-toggle.show:after {
       transition: .4s;
       rotate: 90deg;
-      background-color: #efefef;
-      margin: 0;
-      padding-top: 5px;
-      width: 35px;
-      height: 35px; }
+      background-color: #efefef; }
     .admin-dashboard-left-nav .dropdown-toggle.show span:after {
       width: 100%;
       opacity: 1; }
@@ -70,5 +72,36 @@
 
 .card-header {
   border-bottom: 0; }
+
+.settings-info-holder-title {
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 10px; }
+
+.settings-holder-wrapper {
+  border: 1px solid transparent; }
+  .settings-holder-wrapper:hover {
+    border-color: #01460185;
+    border-radius: 15px;
+    background: #f6f8ff; }
+    .settings-holder-wrapper:hover a {
+      text-decoration: none; }
+
+.icon-holder {
+  padding: 10px 12px;
+  background-color: #dcdcf3;
+  border-radius: 10px;
+  align-items: start;
+  align-self: center;
+  display: flex;
+  margin-right: 20px;
+  margin-bottom: 20px; }
+  .icon-holder i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #000000;
+    margin: 0; }
 
 /*# sourceMappingURL=admin_v2.css.map */
