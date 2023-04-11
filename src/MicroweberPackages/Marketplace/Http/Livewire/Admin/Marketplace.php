@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Marketplace\Http\Livewire\Admin;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
@@ -34,23 +36,36 @@ class Marketplace extends Component
 
     public function reloadPackages()
     {
+        Cache::forget('livewire-marketplace');
         $this->filter();
     }
 
     public function filter()
     {
-        $marketplace = new MicroweberComposerClient();
-        $packages = $marketplace->search();
+
+        $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
+            $marketplace = new MicroweberComposerClient();
+            return $marketplace->search();
+        });
+
         $latestVersions = [];
+
+        $allowedCategories = [
+            'microweber-module',
+            'microweber-template'
+        ];
+        if (!empty($this->category)) {
+            if ($this->category !== 'all') {
+                $allowedCategories = [];
+                $allowedCategories[] = $this->category;
+            }
+        }
         foreach ($packages as $packageName=>$package) {
+
             $latestVersionPackage = end($package);
 
-            if (!empty($this->category)) {
-                if ($this->category !== 'all') {
-                    if ($latestVersionPackage['type'] != $this->category) {
-                        continue;
-                    }
-                }
+            if (isset($latestVersionPackage['type']) && !in_array($latestVersionPackage['type'], $allowedCategories)) {
+                continue;
             }
 
             $searchKeywords = [];
