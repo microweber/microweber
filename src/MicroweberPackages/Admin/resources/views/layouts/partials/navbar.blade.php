@@ -231,7 +231,9 @@
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>" class="nav-link fs-3 <?php if (!$view): ?> active <?php endif; ?>">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M520 456V216h320v240H520ZM120 616V216h320v400H120Zm400 320V536h320v400H520Zm-400 0V696h320v240H120Zm80-400h160V296H200v240Zm400 320h160V616H600v240Zm0-480h160v-80H600v80ZM200 856h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360 776Z"/></svg>
-                        <?php _e("Dashboard"); ?>
+                       <span>
+                            <?php _e("Dashboard"); ?>
+                       </span>
                     </a>
                 </li>
 
@@ -288,14 +290,18 @@
                             <div class="dropdown-menu-column">
                                 <?php if (user_can_view_module(['module' => 'shop.products'])): ?>
                                 <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                                    <?php _e("Products"); ?>
+                                   <span>
+                                        <?php _e("Products"); ?>
+                                   </span>
                                     <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
                                 </a>
                                 <?php endif; ?>
 
                                 <?php if (user_can_view_module(['module' => 'order.index'])): ?>
                                 <a href="<?php echo route('admin.order.index'); ?>" class="dropdown-item justify-content-between <?php if($view == 'order'): ?>active<?php endif;?>">
-                                    <?php _e("Orders"); ?>
+                                   <span>
+                                        <?php _e("Orders"); ?>
+                                   </span>
                                     <?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?>
                                     <span data-href="javascript:mw_admin_add_order_popup()" class="btn btn-success btn-rounded btn-icon btn-sm add-new"
                                           data-bs-toggle="tooltip" title="<?php _e("Add order") ?>"><i class="mdi mdi-plus"></i></span>
@@ -306,7 +312,9 @@
                                 <?php if (user_can_view_module(['module' => 'shop.category'])): ?>
 
                                 <a href="<?php print route('admin.shop.category.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'shop_category'): ?> active <?php endif; ?>">
-                                    <?php _e("Categories"); ?>
+                                   <span>
+                                        <?php _e("Categories"); ?>
+                                   </span>
                                     <span data-href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><i class=" mdi mdi-plus"></i></span>
                                 </a>
 
@@ -316,7 +324,9 @@
 
                                 <?php if (user_can_view_module(['module' => 'shop.customers'])): ?>
                                 <a href="<?php  print admin_url();  ?>customers" class="dropdown-item justify-content-between <?php if (url_segment(1) == 'customers'):  ?> active <?php endif;  ?>">
-                                    <?php  _e("Clients");   ?>
+                                  <span>
+                                        <?php  _e("Clients");   ?>
+                                  </span>
                                 </a>
 
                                 <?php
@@ -356,7 +366,9 @@
                     <a href="<?php print admin_url(); ?>view:modules" class="nav-link fs-3 <?php echo $modules_class; ?>">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="m390 976-68-120H190l-90-160 68-120-68-120 90-160h132l68-120h180l68 120h132l90 160-68 120 68 120-90 160H638l-68 120H390Zm248-440h86l44-80-44-80h-86l-45 80 45 80ZM438 656h84l45-80-45-80h-84l-45 80 45 80Zm0-240h84l46-81-45-79h-86l-45 79 46 81ZM237 536h85l45-80-45-80h-85l-45 80 45 80Zm0 240h85l45-80-45-80h-86l-44 80 45 80Zm200 120h86l45-79-46-81h-84l-46 81 45 79Zm201-120h85l45-80-45-80h-85l-45 80 45 80Z"/></svg>
 
-                            <?php _e("Modules"); ?> </a>
+                           <span>
+                                <?php _e("Modules"); ?>
+                           </span> </a>
                 </li>
                 <?php endif; ?>
 
@@ -371,7 +383,9 @@
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>module/view?type=admin/modules/packages" class="nav-link fs-3 <?php if ($view == 'packages'): ?>active<?php endif; ?>">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M841 538v318q0 33-23.5 56.5T761 936H201q-33 0-56.5-23.5T121 856V538q-23-21-35.5-54t-.5-72l42-136q8-26 28.5-43t47.5-17h556q27 0 47 16.5t29 43.5l42 136q12 39-.5 71T841 538Zm-272-42q27 0 41-18.5t11-41.5l-22-140h-78v148q0 21 14 36.5t34 15.5Zm-180 0q23 0 37.5-15.5T441 444V296h-78l-22 140q-4 24 10.5 42t37.5 18Zm-178 0q18 0 31.5-13t16.5-33l22-154h-78l-40 134q-6 20 6.5 43t41.5 23Zm540 0q29 0 42-23t6-43l-42-134h-76l22 154q3 20 16.5 33t31.5 13ZM201 856h560V574q-5 2-6.5 2H751q-27 0-47.5-9T663 538q-18 18-41 28t-49 10q-27 0-50.5-10T481 538q-17 18-39.5 28T393 576q-29 0-52.5-10T299 538q-21 21-41.5 29.5T211 576h-4.5q-2.5 0-5.5-2v282Zm560 0H201h560Z"/></svg>
-                            <?php _e("Marketplace"); ?>
+                           <span>
+                                <?php _e("Marketplace"); ?>
+                           </span>
                         <?php
                         if ($countNewUpdates > 0):
                         ?>
@@ -455,7 +469,9 @@
                 <?php $load_module = url_param('load_module'); ?>
                 <li <?php print 'class="nav-item dropdown ' . ($load_module == 'users' ? 'active' : '') . '"'; ?>>
                     <a class="nav-link fs-3 <?php print ($load_module == 'users' OR $view == 'roles') ? 'active' : ''; ?>" href="<?php print admin_url('users'); ?>">
-                        <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M400 576q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM80 896V784q0-33 17-62t47-44q51-26 115-44t141-18h14q6 0 12 2-8 18-13.5 37.5T404 696h-4q-71 0-127.5 18T180 750q-9 5-14.5 14t-5.5 20v32h252q6 21 16 41.5t22 38.5H80Zm560 40-12-60q-12-5-22.5-10.5T584 852l-58 18-40-68 46-40q-2-14-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T628 596l12-60h80l12 60q12 5 22.5 11t21.5 15l58-20 40 70-46 40q2 12 2 25t-2 25l46 40-40 68-58-18q-11 8-21.5 13.5T732 876l-12 60h-80Zm40-120q33 0 56.5-23.5T760 736q0-33-23.5-56.5T680 656q-33 0-56.5 23.5T600 736q0 33 23.5 56.5T680 816ZM400 496q33 0 56.5-23.5T480 416q0-33-23.5-56.5T400 336q-33 0-56.5 23.5T320 416q0 33 23.5 56.5T400 496Zm0-80Zm12 400Z"/></svg>                         <?php _e("Users"); ?>
+                        <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M400 576q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM80 896V784q0-33 17-62t47-44q51-26 115-44t141-18h14q6 0 12 2-8 18-13.5 37.5T404 696h-4q-71 0-127.5 18T180 750q-9 5-14.5 14t-5.5 20v32h252q6 21 16 41.5t22 38.5H80Zm560 40-12-60q-12-5-22.5-10.5T584 852l-58 18-40-68 46-40q-2-14-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T628 596l12-60h80l12 60q12 5 22.5 11t21.5 15l58-20 40 70-46 40q2 12 2 25t-2 25l46 40-40 68-58-18q-11 8-21.5 13.5T732 876l-12 60h-80Zm40-120q33 0 56.5-23.5T760 736q0-33-23.5-56.5T680 656q-33 0-56.5 23.5T600 736q0 33 23.5 56.5T680 816ZM400 496q33 0 56.5-23.5T480 416q0-33-23.5-56.5T400 336q-33 0-56.5 23.5T320 416q0 33 23.5 56.5T400 496Zm0-80Zm12 400Z"/></svg>                       <span>
+                              <?php _e("Users"); ?>
+                        </span>
                     </a>
 
                 <?php if (mw()->ui->enable_service_links): ?>
@@ -471,7 +487,10 @@
                 <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link fs-3">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M440 616V216h80v400h-80Zm40 320q-74 0-139.5-28.5T226 830q-49-49-77.5-114.5T120 576q0-80 33-151t93-123l56 56q-48 40-75 97t-27 121q0 116 82 198t198 82q117 0 198.5-82T760 576q0-64-26.5-121T658 358l56-56q60 52 93 123t33 151q0 74-28.5 139.5t-77 114.5q-48.5 49-114 77.5T480 936Z"/></svg>
 
-                        <?php _e("Log out"); ?></a></li>
+                       <span>
+                             <?php _e("Users"); ?>
+                       </span>
+                    </a></li>
 
 
 
