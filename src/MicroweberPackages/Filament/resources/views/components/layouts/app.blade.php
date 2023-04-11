@@ -1,7 +1,8 @@
-@extends('admin::layouts.app')
+@extends('admin::layouts.app', [
+ 'disableLivewireScripts' => true,
+])
 
 @section('content')
-
 
 <main class="module-main-holder">
    {{-- FILAMENT SCRIPTS START --}}
