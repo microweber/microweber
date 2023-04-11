@@ -6,9 +6,14 @@
 :root {
   --tblr-body-font-family: 'Inter'; }
 
+.table-responsive {
+  background-color: #ffffff; }
+
 .admin-dashboard-left-nav {
   background-color: white;
   padding: 40px 20px 20px 40px !important; }
+  .admin-dashboard-left-nav .add-new {
+    background-color: var(--tblr-primary); }
   .admin-dashboard-left-nav .nav-link {
     padding: 15px 0 !important; }
     @media screen and (min-width: 767px) {
@@ -20,20 +25,42 @@
         content: '';
         bottom: -5px;
         left: 0;
-        height: 1px;
+        height: .15rem;
         width: 70%;
         background-color: #000;
         transition: .5s;
         opacity: 0; }
-      .admin-dashboard-left-nav .nav-link:hover span:after {
-        width: 100%;
-        opacity: 1; } }
+      .admin-dashboard-left-nav .nav-link:hover {
+        font-weight: 600; }
+        .admin-dashboard-left-nav .nav-link:hover span:after {
+          width: 100%;
+          opacity: 1; } }
   .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
-  .admin-dashboard-left-nav .dropdown-toggle.show:after {
+  .admin-dashboard-left-nav .dropdown-toggle.show {
+    font-weight: 600; }
+    .admin-dashboard-left-nav .dropdown-toggle.show:after {
+      transition: .4s;
+      rotate: 90deg;
+      background-color: #efefef;
+      margin: 0;
+      padding-top: 5px;
+      width: 35px;
+      height: 35px; }
+    .admin-dashboard-left-nav .dropdown-toggle.show span:after {
+      width: 100%;
+      opacity: 1; }
+  .admin-dashboard-left-nav .dropdown-toggle:after {
+    border: none;
+    content: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
     transform: unset;
-    transition: .3s; }
- 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    margin-right: 0;
+    border-radius: 50%; }
+
 .navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
   background-color: transparent;
   color: var(--tblr-primary); }
