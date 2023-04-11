@@ -115,3 +115,47 @@
 .card-header {
     border-bottom: 0;
 }
+
+
+.settings-info-holder-title {
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.settings-holder-wrapper {
+    border: 1px solid transparent;
+
+    &:hover {
+        a {
+            text-decoration: none;
+
+        }
+
+        border-color: #01460185;
+        border-radius: 15px;
+        background: #f6f8ff;
+    }
+}
+
+.icon-holder {
+    padding: 10px 12px;
+    background-color: #dcdcf3;
+    border-radius: 10px;
+    align-items: start;
+    align-self: center;
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+
+
+    i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        color: #000000;
+        margin: 0;
+    }
+}

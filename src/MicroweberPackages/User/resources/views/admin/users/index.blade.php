@@ -162,7 +162,7 @@
                     </td>
 
                     <td>
-                        <div class="text-outline-primary font-weight-bold">
+                        <div class="settings-info-holder-title">
                             {{$user->first_name}} {{$user->last_name}}
                             @if($user->is_admin)
                                 <br><small class="text-dark"><?php _e('Admin');?></small>
