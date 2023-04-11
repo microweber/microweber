@@ -1,6 +1,6 @@
 <div>
     <div class="container px-5">
-        
+
         <div class="card mb-3 ">
             <div class="card-header justify-content-between">
                 <h5 class="card-title mb-0">
@@ -68,7 +68,7 @@
                                         <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
                                         </div>
                                         @else
-                                        <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 280px;background-size: cover;background-position: top;" class="card-img-top">
+                                        <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-size: cover;background-position: top;" class="card-img-top">
                                         </div>
                                         @endif
                                 </a>

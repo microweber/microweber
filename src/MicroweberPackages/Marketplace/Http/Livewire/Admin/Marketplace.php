@@ -42,15 +42,23 @@ class Marketplace extends Component
         $marketplace = new MicroweberComposerClient();
         $packages = $marketplace->search();
         $latestVersions = [];
+
+        $allowedCategories = [
+            'microweber-module',
+            'microweber-template'
+        ];
+        if (!empty($this->category)) {
+            if ($this->category !== 'all') {
+                $allowedCategories = [];
+                $allowedCategories[] = $this->category;
+            }
+        }
         foreach ($packages as $packageName=>$package) {
+
             $latestVersionPackage = end($package);
 
-            if (!empty($this->category)) {
-                if ($this->category !== 'all') {
-                    if ($latestVersionPackage['type'] != $this->category) {
-                        continue;
-                    }
-                }
+            if (isset($latestVersionPackage['type']) && !in_array($latestVersionPackage['type'], $allowedCategories)) {
+                continue;
             }
 
             $searchKeywords = [];
