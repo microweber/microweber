@@ -1,6 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+    important: '.filament-layouts-app',
     content: [
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
@@ -13,10 +14,10 @@ module.exports = {
         './vendor/filament/packages/support/resources/**/*.blade.php',
         './vendor/filament/packages/tables/resources/**/*.blade.php',
     ],
-    corePlugins: {
-         margin: false,
-         padding: false,
-    },
+    // corePlugins: {
+    //      margin: false,
+    //      padding: false,
+    // },
     darkMode: "class",
     // safelist: [
     //     {
