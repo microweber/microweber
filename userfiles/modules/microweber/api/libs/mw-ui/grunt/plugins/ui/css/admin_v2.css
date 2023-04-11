@@ -29,7 +29,7 @@
         width: 0;
         background-color: #000;
         opacity: 0;
-        transition: .5s; }
+        transition: .5s; } 
       .admin-dashboard-left-nav .nav-link:after {
         width: 30px;
         height: 30px;
@@ -81,15 +81,15 @@
 .settings-holder-wrapper {
   border: 1px solid transparent; }
   .settings-holder-wrapper:hover {
-    border-color: #01460185;
+    border-color: #d8e8ff;
     border-radius: 15px;
     background: #f6f8ff; }
     .settings-holder-wrapper:hover a {
       text-decoration: none; }
 
 .icon-holder {
-  padding: 10px 12px;
-  background-color: #dcdcf3;
+  padding: 8px 12px;
+  background-color: #e1edfa;
   border-radius: 10px;
   align-items: start;
   align-self: center;
