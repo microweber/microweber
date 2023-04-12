@@ -18,7 +18,7 @@ if (!$module_info) {
         <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
     <?php } ?>
     <?php if (isset($module_info['name'])) { ?>
-        <strong><?php _e($module_info['name']); ?></strong>
+        <h1 class="main-pages-title"><?php _e($module_info['name']); ?> </h1>
     <?php } ?>
 </h5>
 
