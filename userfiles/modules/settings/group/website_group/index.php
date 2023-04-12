@@ -42,14 +42,10 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
+<h1 class="main-pages-title"><?php _e('Website Settings'); ?></h1>
+
+
 <div class="card mb-4">
-    <div class="card-header">
-        <h5 class="card-title"><strong><?php _e('Website'); ?></strong></h5>
-        <div>
-
-        </div>
-    </div>
-
     <div class="row card-body">
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">

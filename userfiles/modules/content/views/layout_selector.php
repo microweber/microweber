@@ -478,20 +478,16 @@ if (!empty($recomended_layouts)) {
     $templateName = ucwords($templateName);
     ?>
 
-    <div class="layouts_box_holder">
-        <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
-            <div class="card-header">
-                <h5 class="card-title"><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
+    <?php if (!$showAllowSelectTemplate): ?>
+        <h1 class="main-pages-title"><?php _e('Template'); ?></h1>- <?php echo $templateName ?>
+    <?php else: ?>
+        <h1 class="main-pages-title"><?php _e('Templates'); ?></h1>
 
-                    <?php if (!$showAllowSelectTemplate): ?>
-                        <strong><?php _e("Template"); ?></strong> - <?php echo $templateName ?>
-                    <?php else: ?>
-                        <strong><?php _e("Templates"); ?></strong>
-                    <?php endif; ?>
-                </h5>
-                <div></div>
-            </div>
-            <div class=" p-3">
+    <?php endif; ?>
+
+    <div class="layouts_box_holder">
+        <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
+            <div class="card-body p-3">
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>
                         <div class="col-md-4 mt-3">
@@ -523,7 +519,7 @@ if (!empty($recomended_layouts)) {
                     <?php endif; ?>
 
                     <div class="<?php if ($show_save_changes_buttons): ?>col-md-8<?php else: ?>col-md-12<?php endif; ?>">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
 
@@ -681,10 +677,10 @@ if (!empty($recomended_layouts)) {
 
         </style>
 
-        <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
+        <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-body pt-3">
                 <?php if ($show_save_changes_buttons): ?>
-                    <hr class="thin mt-0 mb-4"/><?php endif; ?>
+                <?php endif; ?>
 
                 <div class="row">
                     <div class="col-md-12">

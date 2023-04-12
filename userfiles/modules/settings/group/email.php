@@ -119,14 +119,11 @@
     }
 </script>
 
+<h1 class="main-pages-title"><?php _e('E-Mail'); ?></h1>
+
+
 <div class="<?php print $config['module_class'] ?>">
     <div class="card bg-none style-1 mb-0 card-settings  js-holder-email-names-settings">
-        <div class="card-header">
-            <h5 class="card-title"><i class="mdi mdi-email-outline text-primary mr-3"></i> <strong><?php _e("E-mail"); ?></strong></h5>
-            <div>
-
-            </div>
-        </div>
 
         <div class="card-body">
             <div class="row">
@@ -137,7 +134,7 @@
                     </small>
                 </div>
                 <div class="col-md-9">
-                    <div class="card bg-light style-1 mb-3">
+                    <div class="card bg-light style-1">
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
@@ -172,7 +169,7 @@
                     </small>
                 </div>
                 <div class="col-md-9">
-                    <div class="card bg-light style-1 mb-3">
+                    <div class="card bg-light style-1">
                         <div class="card-body pt-3">
 
                             <div class="row">

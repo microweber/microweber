@@ -1,11 +1,11 @@
 <div>
     <div class="container px-5">
 
-        <div class="card mb-3 ">
-            <div class="card-header justify-content-between">
-                <h5 class="card-title mb-0">
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <h1 class="mb-0">
                     <i class="mdi mdi-fruit-cherries fs-2 text-primary mr-3"></i> <strong>Marketplace</strong>
-                </h5>
+                </h1>
                 <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0">
                     <div class="input-icon">
                               <span class="input-icon-addon">
@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="card-body p-3">
+            <div class="p-3">
               <div class="row g-4">
 
                 <div class="col-12">
@@ -60,36 +60,33 @@
                         @if(!empty($marketplacePagination))
                         @foreach($marketplacePagination as $marketItem)
                         <div class="col-sm-6 col-lg-4">
-                            <div class="card card-sm">
+                            <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
                                 @if(isset($marketItem['extra']['_meta']['screenshot']))
-                                <a href="#" class="d-block">
-                                    @if($marketItem['type'] == 'microweber-module')
+                                    <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                        @if($marketItem['type'] == 'microweber-module')
                                         <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
                                         </div>
                                         @else
                                         <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-size: cover;background-position: top;" class="card-img-top">
                                         </div>
                                         @endif
-                                </a>
+                                    </button>
                                 @else
-                                    <a href="#" class="d-block">
+                                    <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                         <div class="card-img-top text-center">
                                             <i class="mdi mdi-view-grid-plus text-muted"
                                                style="opacity:0.5;font-size:126px;margin-left: 15px;"></i>
                                         </div>
-                                    </a>
+                                    </button>
                                 @endif
 
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            <div>
+                                            <b>
                                                 {{$marketItem['description']}}
-                                            </div>
-                                            <div class="text-muted">
-                                                Version: {{$marketItem['version']}}
-                                            </div>
+                                            </b>
                                         </div>
                                     </div>
                                 </div>
