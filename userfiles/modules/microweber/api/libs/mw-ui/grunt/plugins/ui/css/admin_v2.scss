@@ -15,7 +15,7 @@
 
 .admin-dashboard-left-nav {
     background-color: white;
-    padding: 40px 20px 20px 40px !important;
+    padding: 10px 20px 20px 40px !important;
 
     .add-new {
         background-color: var(--tblr-primary);
@@ -203,8 +203,8 @@
 }
 
 .img-circle-holder {
-    width: 80px;
-    height: 80px;
+    max-width: 100%;
+    max-height: 100%;
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -214,12 +214,6 @@
     background: #fff;
     border: 1px solid transparent;
     border-radius: 0;
-}
-
-
-.img-circle-holder.w-40 {
-    width: 40px;
-    height: 40px;
 }
 
 .mw-btn-icon {

@@ -197,7 +197,7 @@
                                     <div class="form-group">
                                         <?php
                                         $logo = get_option('logo', 'website');
-                                        $nologo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
+                                        $nologo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
                                         if (!$logo) {
                                             $logo = $nologo;
                                         }
@@ -226,13 +226,16 @@
                                         <label class="form-label"><?php _e("Website Logo"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
                                         <div class="d-flex">
-                                            <div class="img-circle-holder img-absolute border-radius-0 border-silver me-3" style="height: 40px;">
+                                            <div class="avatar img-absolute border-radius-0 border-silver me-3" >
                                                 <img src="<?php print $logo; ?>" class="js-logo" />
                                                 <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="website"/>
                                             </div>
                                             <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image"><?php _e("Upload logo"); ?></button>
-                                             <span class="mdi mdi-delete tip mw-btn-icon" id="remove-logo-btn"  data-tip="<?php _e("Remove logo"); ?>"></span>
-                                         </div>
+                                             <span class="tip mw-btn-icon" id="remove-logo-btn"   data-bs-toggle="tooltip" aria-label="Clear logo" data-bs-original-title="Clear logo">
+                                                <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/trash.svg" alt="">
+
+                                             </span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -240,7 +243,7 @@
                                     <div class="form-group">
                                         <?php
                                         $favicon_image = get_option('favicon_image', 'website');
-                                        $nofavicon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image-2.jpg';
+                                        $nofavicon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
                                         if (!$favicon_image) {
                                             $favicon_image = $nofavicon;
                                         }
@@ -272,13 +275,16 @@
                                         <label class="form-label"><?php _e("Website Favicon"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
                                         <div class="d-flex">
-                                            <div class="img-circle-holder img-absolute w-40 border-radius-0 border-silver mr-3">
+                                            <div class="avatar img-absolute w-40 border-radius-0 border-silver me-3" >
                                                 <img src="<?php print $favicon_image; ?>" class="js-icoimage"/>
                                                 <input type="hidden" class="mw_option_field" name="favicon_image" id="favicon_image" value="<?php print $favicon_image; ?>" option-group="website"/>
                                             </div>
 
                                             <button type="button" class="btn btn-outline-primary" id="upload-icoimage"><?php _e("Upload favicon"); ?></button>
-                                            <span class="mdi mdi-delete tip mw-btn-icon" id="remove-favicon-btn"  data-tip="<?php _e("Remove favicon"); ?>"></span>
+                                            <span class="tip mw-btn-icon" id="remove-favicon-btn" data-bs-toggle="tooltip" aria-label="Clear logo" data-bs-original-title="Clear logo">
+                                               <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/trash.svg" alt="">
+                                            </span>
+
 
                                         </div>
                                     </div>
