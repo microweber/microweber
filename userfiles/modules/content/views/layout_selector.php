@@ -478,19 +478,15 @@ if (!empty($recomended_layouts)) {
     $templateName = ucwords($templateName);
     ?>
 
+    <?php if (!$showAllowSelectTemplate): ?>
+        <h1 class="main-pages-title"><?php _e('Template'); ?></h1>- <?php echo $templateName ?>
+    <?php else: ?>
+        <h1 class="main-pages-title"><?php _e('Templates'); ?></h1>
+
+    <?php endif; ?>
+
     <div class="layouts_box_holder">
         <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-0<?php else: ?> mb-3<?php endif; ?>">
-            <div class="card-header">
-                <h5 class="card-title"><i class="mdi mdi-text-box-check-outline text-primary mr-3"></i>
-
-                    <?php if (!$showAllowSelectTemplate): ?>
-                        <strong><?php _e("Template"); ?></strong> - <?php echo $templateName ?>
-                    <?php else: ?>
-                        <strong><?php _e("Templates"); ?></strong>
-                    <?php endif; ?>
-                </h5>
-                <div></div>
-            </div>
             <div class=" p-3">
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>
