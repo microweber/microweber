@@ -40,6 +40,8 @@
 
 
         ?>
+
+
         @livewire('live-edit::' . $moduleTypeForComponent, [
             'moduleId' => $moduleId,
             'moduleType' => $moduleType,
