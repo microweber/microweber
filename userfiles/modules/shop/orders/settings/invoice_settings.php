@@ -13,8 +13,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 <div class="card">
-    <div class="row">
-        <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+        <div class="row">
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input type="checkbox" name="enable_invoices" id="enable_invoices" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" class="mw_option_field custom-control-input" <?php if (true): ?>checked<?php endif; ?>>

@@ -13,8 +13,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
 <div class="card">
-    <div class="row">
-        <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+    <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+        <div class="row">
 
             <script type="text/javascript">
                 $(document).ready(function () {
