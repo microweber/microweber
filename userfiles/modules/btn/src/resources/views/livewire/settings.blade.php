@@ -2,74 +2,68 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item" wire:ignore>
-            <a href="#home" class="nav-link active" data-bs-toggle="tab">Text</a>
+            <a href="#text" class="nav-link active" data-bs-toggle="tab">Text</a>
         </li>
+
         <li class="nav-item" wire:ignore>
-            <a href="#profile" class="nav-link" data-bs-toggle="tab">Align</a>
-        </li>
-        <li class="nav-item" wire:ignore>
-            <a href="#messages" class="nav-link" data-bs-toggle="tab">Align2</a>
+            <a href="#design" class="nav-link" data-bs-toggle="tab">Design</a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane fade show active" wire:ignore.self id="home">
-            <div><input type="text" wire:model.debounce.100ms="settings.text"/></div>
-        </div>
-        <div class="tab-pane fade" wire:ignore.self id="profile">
-            <div>
-                <select wire:model.debounce.100ms="settings.align">
-                    <option value="none">none</option>
-                    <option value="left">left</option>
-                    <option value="right">right</option>
-                    <option value="center">center</option>
-                </select></div>
+        <div class="tab-pane fade show active" wire:ignore.self id="text">
 
 
-        </div>
-        <div class="tab-pane fade" wire:ignore.self id="messages">
-            <div>
 
-
-                <div>
-                    <div>
-
-                        <livewire:live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
-
-
-                    </div>
-                </div>
-
+            <div class="mb-3">
+                <label class="form-label">Button Text</label>
+                <input type="text" class="form-control mb-2"  wire:model.debounce.100ms="settings.text"  placeholder="Text..">
 
             </div>
 
 
+
+
+
+            <div class="mb-3">
+                <label class="form-label">Button URL</label>
+
+                <button onclick="mw.app.linkPicker.selectLink()">set url</button>
+
+                <input type="text" class="form-control mb-2"  wire:model.debounce.100ms="settings.url"  placeholder="Url ...">
+
+            </div>
+
+
+
+
+        </div>
+
+        <div class="tab-pane fade" wire:ignore.self id="design">
+
+
             <div class="mw-btn-settings-align-controls mt-4">
                 <div>
-
-
-                    {{ $settings['align'] }}
-
+                    <livewire:live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+                </div>
+                <div>
+                    <label class="form-label">Align</label>
                     <div class="btn-group" role="group" aria-label="Button Align">
-                        <button wire:click="setAlign('none')" type="button"
-                                class="btn btn-primary @if($settings['align'] == 'none'): active @endif">None
+                        <button wire:click="$set('settings.align', 'left')" type="button"
+                                class="btn btn-primary @if($settings['align'] == 'left'): active @endif"><i
+                                class="fa fa-align-left"></i>
                         </button>
-                        <button wire:click="setAlign('left')" type="button"
-                                class="btn btn-primary @if($settings['align'] == 'left'): active @endif">Left
+                        <button wire:click="$set('settings.align', 'center')" type="button"
+                                class="btn btn-primary @if($settings['align'] == 'center'): active @endif"><i
+                                class="fa fa-align-center"></i>
                         </button>
-                        <button wire:click="setAlign('center')" type="button"
-                                class="btn btn-primary @if($settings['align'] == 'center'): active @endif">Middle
-                        </button>
-                        <button wire:click="setAlign('right')" type="button"
-                                class="btn btn-primary @if($settings['align'] == 'right'): active @endif">Right
+                        <button wire:click="$set('settings.align', 'right')" type="button"
+                                class="btn btn-primary @if($settings['align'] == 'right'): active @endif"><i
+                                class="fa fa-align-right"></i>
                         </button>
                     </div>
-
                 </div>
 
-
-
-                <x-mw-ui::icon-picker  wire:model="settings.icon" :value="$settings['icon']" />
-
+                <x-mw-ui::icon-picker wire:model="settings.icon" :value="$settings['icon']"/>
 
             </div>
         </div>

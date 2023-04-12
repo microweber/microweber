@@ -12,6 +12,7 @@ import {Layouts} from "./services/layouts.js";
 import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {ModuleSettings} from "./services/module-settings";
 import {IconPicker} from "./services/icon-picker";
+import {LinkPicker} from "./services/link-picker";
 
 
 mw.app = new MWUniversalContainer();
@@ -25,6 +26,7 @@ mw.app = new MWUniversalContainer();
     mw.app.register('layouts', Layouts);
     mw.app.register('keyboard', KeyboardEvents);
     mw.app.register('iconPicker', IconPicker);
+    mw.app.register('linkPicker', LinkPicker);
 
 //mw.app.register('commands', Commands);
 
