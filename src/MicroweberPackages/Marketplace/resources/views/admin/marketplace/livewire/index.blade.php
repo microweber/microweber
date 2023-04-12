@@ -1,6 +1,6 @@
 <div>
     <div class="container px-5">
-        
+
         <div class="card mb-3 ">
             <div class="card-header justify-content-between">
                 <h5 class="card-title mb-0">
@@ -57,8 +57,8 @@
                 <div class="col-12">
                     <div class="row row-cards">
 
-                        @if(!empty($marketplace))
-                        @foreach($marketplace as $marketItem)
+                        @if(!empty($marketplacePagination))
+                        @foreach($marketplacePagination as $marketItem)
                         <div class="col-sm-6 col-lg-4">
                             <div class="card card-sm">
 
@@ -68,7 +68,7 @@
                                         <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
                                         </div>
                                         @else
-                                        <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 280px;background-size: cover;background-position: top;" class="card-img-top">
+                                        <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-size: cover;background-position: top;" class="card-img-top">
                                         </div>
                                         @endif
                                 </a>
@@ -96,6 +96,9 @@
                             </div>
                         </div>
                         @endforeach
+                            <div>
+                                {!! $marketplacePagination->links() !!}
+                            </div>
                         @else
                             <div class="col-12">
                             no items

@@ -49,9 +49,9 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<div class="card my-3">
+<div class="card mb-4">
     <div class="card-header">
-        <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Shop settings"); ?></strong></h5>
+        <h5 class="card-title"><strong><?php _e("Shop"); ?></strong></h5>
         <div>
 
         </div>
@@ -59,8 +59,8 @@ if (isset($_GET['group']) and $_GET['group']) {
 
 
     <div class="row card-body">
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="?group=shop/payments/currency" class="d-flex my-3">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="?group=shop/payments/currency" class="d-flex settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-cart-outline fs-1 me-2"></i></div>
                 <div class="card-title info-holder">
                     <div class="settings-info-holder-title"><?php _e("General"); ?></div>
@@ -71,8 +71,8 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <?php event_trigger('mw.admin.shop.settings.menu', $params); ?>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="?group=shop/orders/settings/invoice_settings" class="d-flex my-3">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="?group=shop/orders/settings/invoice_settings" class="d-flex settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-cash-register fs-1 me-2"></i></div>
                 <div class="card-title info-holder">
                     <div class="settings-info-holder-title"><?php _e('Invoices'); ?></div>
@@ -81,8 +81,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="?group=shop/orders/settings/setup_emails_on_order" class="d-flex my-3">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="?group=shop/orders/settings/setup_emails_on_order" class="d-flex settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-email-edit-outline fs-1 me-2"></i></div>
                 <div class="card-title info-holder">
                     <div class="settings-info-holder-title"><?php _e("Auto respond mail"); ?></div>
@@ -91,8 +91,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="?group=shop/orders/settings/other" class="d-flex my-3">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="?group=shop/orders/settings/other" class="d-flex settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                 <div class="card-title info-holder">
                     <div class="settings-info-holder-title"><?php _e('Other settings'); ?></div>

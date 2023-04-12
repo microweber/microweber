@@ -16,7 +16,7 @@
                 <img src="<?php print mw()->ui->admin_logo_login(); ?>" alt="Logo" style="max-width: 70%;"/>
             </a>
 
-            <div class="card my-3">
+            <div class="card mb-4">
                 <div class="card-body py-4">
 
                     @if (session('status'))

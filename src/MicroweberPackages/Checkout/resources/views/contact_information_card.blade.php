@@ -1,4 +1,4 @@
-<div class="card my-3">
+<div class="card mb-4">
     <div class="card-body d-flex p-3">
 
         <div class="col-8">

@@ -1894,7 +1894,7 @@
                     <div class="row mt-3">
                         <div class="col">
                             <div class="accordion" id="accordionExample">
-                                <div class="card my-3">
+                                <div class="card mb-4">
                                     <div class="card-header" id="headingOne">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-start text-left" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -1910,7 +1910,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card my-3">
+                                <div class="card mb-4">
                                     <div class="card-header" id="headingTwo">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -1925,7 +1925,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card my-3">
+                                <div class="card mb-4">
                                     <div class="card-header" id="headingThree">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-start text-left collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">

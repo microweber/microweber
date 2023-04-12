@@ -42,9 +42,9 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<div class="card my-3">
+<div class="card mb-4">
     <div class="card-header">
-        <h5 class="card-title"><i class="mdi mdi-earth text-primary mr-3"></i> <strong><?php _e('Website settings'); ?></strong></h5>
+        <h5 class="card-title"><strong><?php _e('Website'); ?></strong></h5>
         <div>
 
         </div>
@@ -52,8 +52,8 @@ if (isset($_GET['group']) and $_GET['group']) {
 
     <div class="row card-body">
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=general" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=general" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('General'); ?></div>
@@ -64,8 +64,8 @@ if (isset($_GET['group']) and $_GET['group']) {
 
 
         <?php if (mw()->ui->disable_marketplace != true): ?>
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=updates" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=updates" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Updates'); ?></div>
@@ -75,8 +75,8 @@ if (isset($_GET['group']) and $_GET['group']) {
         </div>
         <?php endif; ?>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=email" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=email" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-email-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('E-mail'); ?></div>
@@ -85,8 +85,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=template" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=template" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Template'); ?></div>
@@ -95,8 +95,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=advanced" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=advanced" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-keyboard-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Advanced'); ?></div>
@@ -105,8 +105,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=files" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=files" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Files'); ?></div>
@@ -115,8 +115,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=users" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=users" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-login fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Login & Register'); ?></div>
@@ -125,8 +125,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=language" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=language" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-translate fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Language'); ?></div>
@@ -135,8 +135,8 @@ if (isset($_GET['group']) and $_GET['group']) {
             </a>
         </div>
 
-        <div class="card-header col-12 col-sm-6 col-lg-4 settings-holder-wrapper">
-            <a href="<?php echo admin_url();?>settings?group=privacy" class="d-flex my-3 js-website-settings-link">
+        <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
+            <a href="<?php echo admin_url();?>settings?group=privacy" class=" d-flex js-website-settings-link settings-holder-wrapper">
                 <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1 me-2"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Privacy Policy'); ?></div>

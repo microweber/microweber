@@ -118,36 +118,47 @@
 
 
 .settings-info-holder-title {
-    color: #000;
+    color: #2b2b2b;
     font-weight: bold;
-    margin-bottom: 10px;
+    //margin-bottom: 10px;
+}
+
+.card-title strong {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.main-pages-title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.module {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
 
 .settings-holder-wrapper {
     border: 1px solid transparent;
+    padding: 30px 20px;
+    width: 100%;
 
     &:hover {
-        a {
-            text-decoration: none;
-
-        }
-
-        border-color: #01460185;
+        text-decoration: none;
+        border-color: #d8e8ff;
         border-radius: 15px;
         background: #f6f8ff;
     }
 }
 
 .icon-holder {
-    padding: 10px 12px;
-    background-color: #dcdcf3;
+    padding: 8px 12px;
+    background-color: #e1edfa;
     border-radius: 10px;
     align-items: start;
     align-self: center;
     display: flex;
     margin-right: 20px;
-    margin-bottom: 20px;
-
 
 
     i {
@@ -158,4 +169,15 @@
         color: #000000;
         margin: 0;
     }
+}
+
+.module-settings-group-website-group, .module-shop-settings {
+    .card-title:not(.info-holder) {
+        margin-top: 10px;
+    }
+}
+
+.card {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: none;
 }

@@ -31,7 +31,7 @@
             <div class="row row-mx-30">
                 <div class="col-md-6 col-px-30">
                     <h6 class="small font-weight-bold mb-3"><?php _e("Client card"); ?></h6>
-                    <div class="card my-3">
+                    <div class="card mb-4">
                         <div class="card-body">
                             @if($customer AND isset($customer->first_name))
                                 <span><i class="mdi mdi-account text-muted mdi-30px"></i></span>
@@ -94,7 +94,7 @@
             <div class="row row-mx-30">
                 <div class="col-md-6 col-px-30">
                     <h6 class="small font-weight-bold mb-3"><?php _e("Shipping card"); ?></h6>
-                    <div class="card my-3">
+                    <div class="card mb-4">
                         <div class="card-body">
                             @if(isset($customer->addresses[0]) AND isset($customer->addresses[0]->name))
                                 <span class="d-block"><i class="mdi mdi-truck text-muted mdi-30px"></i></span>
@@ -182,7 +182,7 @@
             <div class="row row-mx-30">
                 <div class="col-md-6 col-px-30">
                     <h6 class="small font-weight-bold mb-3"><?php _e("Company card"); ?></h6>
-                    <div class="card my-3">
+                    <div class="card mb-4">
                         <div class="card-body">
                             @if(isset($customer->addresses[1]) AND isset($customer->addresses[1]->company_name))
                                 <span class="d-block"><i class="mdi mdi-office-building text-muted mdi-30px"></i></span>

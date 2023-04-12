@@ -10,7 +10,7 @@ description: Component for visualising activity logs or other monitoring-related
 {% include example.html code=code max-width="20rem" centered=true %}
 
 {% capture code %}
-<div class="card my-3">
+<div class="card mb-4">
 	 <div class="card-body">
 		 <div class="d-flex align-items-center">
 			 <div class="subheader">Status monitoring</div>

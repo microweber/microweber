@@ -15,7 +15,7 @@ libs: apexcharts
 	</div>
 
 	<div class="col-12">
-		<div class="card my-3">
+		<div class="card mb-4">
 			<div class="card-body">
 				<div class="d-flex">
 					<h3 class="card-title">Social referrals</h3>
@@ -29,7 +29,7 @@ libs: apexcharts
 	</div>
 
 	<div class="col-12">
-		<div class="card my-3">
+		<div class="card mb-4">
 			<div class="card-body">
 				{% include ui/chart.html chart-id="tasks-overview" height=20 %}
 			</div>
@@ -40,7 +40,7 @@ libs: apexcharts
 	{% if chart[1].demo %}
 	{% assign chart-id = chart[0] %}
 	<div class="col-lg-6 col-xl-4">
-		<div class="card my-3">
+		<div class="card mb-4">
 			{% if chart[1].name %}
 			<div class="card-header">
 				<h3 class="card-title">{{ chart[1].name }}</h3>

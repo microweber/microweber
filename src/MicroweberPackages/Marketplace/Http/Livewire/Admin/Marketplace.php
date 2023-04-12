@@ -2,13 +2,21 @@
 
 namespace MicroweberPackages\Marketplace\Http\Livewire\Admin;
 
+use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use Livewire\WithPagination;
 use MicroweberPackages\Package\MicroweberComposerClient;
 
 class Marketplace extends Component
 {
+    use WithPagination;
+
     public $keyword = '';
-    public $marketplace = [];
+    public $marketplace;
     public $category = 'microweber-template';
 
     public $queryString = [
@@ -34,23 +42,36 @@ class Marketplace extends Component
 
     public function reloadPackages()
     {
+        Cache::forget('livewire-marketplace');
         $this->filter();
     }
 
     public function filter()
     {
-        $marketplace = new MicroweberComposerClient();
-        $packages = $marketplace->search();
+
+        $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
+            $marketplace = new MicroweberComposerClient();
+            return $marketplace->search();
+        });
+
         $latestVersions = [];
+
+        $allowedCategories = [
+            'microweber-module',
+            'microweber-template'
+        ];
+        if (!empty($this->category)) {
+            if ($this->category !== 'all') {
+                $allowedCategories = [];
+                $allowedCategories[] = $this->category;
+            }
+        }
         foreach ($packages as $packageName=>$package) {
+
             $latestVersionPackage = end($package);
 
-            if (!empty($this->category)) {
-                if ($this->category !== 'all') {
-                    if ($latestVersionPackage['type'] != $this->category) {
-                        continue;
-                    }
-                }
+            if (isset($latestVersionPackage['type']) && !in_array($latestVersionPackage['type'], $allowedCategories)) {
+                continue;
             }
 
             $searchKeywords = [];
@@ -83,8 +104,24 @@ class Marketplace extends Component
         $this->marketplace = $latestVersions;
     }
 
+    /**
+
+     * The attributes that are mass assignable.
+
+     *
+     * @var array
+     */
+    public function paginate($items, $perPage = 2, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
     public function render()
     {
-        return view('marketplace::admin.marketplace.livewire.index');
+        $marketplacePagination = $this->paginate($this->marketplace);
+
+        return view('marketplace::admin.marketplace.livewire.index',compact('marketplacePagination'));
     }
 }
