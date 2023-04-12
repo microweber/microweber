@@ -32,6 +32,7 @@ class Marketplace extends Component
     public function filterCategory($category)
     {
         $this->category = $category;
+        $this->gotoPage(1);
         $this->filter();
     }
 
