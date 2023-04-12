@@ -23,6 +23,8 @@ class MarketplaceItemModal extends ModalComponent
             ]);
         });
 
+      //  dd($package);
+
         $this->package = $package;
     }
 
