@@ -49,7 +49,7 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<h1 class="main-pages-title"><?php _e('E-Mail'); ?></h1>
+<h1 class="main-pages-title"><?php _e('Shop Settings'); ?></h1>
 
 
 <div class="card mb-4">
