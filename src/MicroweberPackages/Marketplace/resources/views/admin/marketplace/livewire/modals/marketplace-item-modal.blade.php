@@ -24,16 +24,14 @@
                     Latest Version: {{$package['version']}}
                 </div>
                 <br />
+
+                <select class="form-control">
+                    <option></option>
+                </select>
+
+                <br />
                 <div>
-                    <x-mw-ui::tabs tabs="Installation,Version,Details">
-                        <x-slot:tab name="Installation">
-                            PALISH PLAISH
-                        </x-slot:tab>
-                        <x-slot:tab name="Version">
-                            AAU
-                        </x-slot:tab>
-                        <x-slot:tab name="Details">
-                            <table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
+                    <table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
                                 <tbody>
 
                                 <tr>
@@ -82,8 +80,6 @@
 
                                 </tbody>
                             </table>
-                        </x-slot:tab>
-                    </x-mw-ui::tabs>
                 </div>
             </div>
         </div>
