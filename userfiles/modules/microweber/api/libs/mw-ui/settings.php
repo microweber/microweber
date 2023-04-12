@@ -27,7 +27,7 @@
                         <small class="text-muted">Fill in the fields for maximum results when finding your website in search engines.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -67,7 +67,7 @@
                         <small class="text-muted">Set regional settings for your website or online store. They will also affect the language you use and the fees for the orders.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -130,7 +130,7 @@
                         <small class="text-muted">Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12 socials-settings">

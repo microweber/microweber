@@ -11,7 +11,7 @@
 
 .admin-dashboard-left-nav {
   background-color: white;
-  padding: 40px 20px 20px 40px !important; }
+  padding: 10px 20px 20px 40px !important; }
   .admin-dashboard-left-nav .add-new {
     background-color: var(--tblr-primary); }
   .admin-dashboard-left-nav .nav-link {
@@ -31,7 +31,7 @@
         opacity: 0;
         transition: .5s; }
       .admin-dashboard-left-nav .nav-link:after {
-        width: 30px;
+        width: 30px; 
         height: 30px;
         padding-top: 5px; }
       .admin-dashboard-left-nav .nav-link:hover span:after {
@@ -83,7 +83,7 @@
 
 .main-pages-title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   margin: 20px 0; }
 
 .module {
@@ -137,8 +137,8 @@
   font-weight: bold; }
 
 .img-circle-holder {
-  width: 80px;
-  height: 80px;
+  max-width: 100%;
+  max-height: 100%;
   position: relative;
   overflow: hidden;
   text-align: center;
@@ -149,10 +149,6 @@
   border: 1px solid transparent;
   border-radius: 0; }
 
-.img-circle-holder.w-40 {
-  width: 40px;
-  height: 40px; }
-
 .mw-btn-icon {
   padding: 6px 10px;
   font-size: 20px;
@@ -162,5 +158,51 @@
 
 .card-body .row {
   padding: 30px; }
+
+small.text-muted {
+  color: #383838 !important;
+  font-size: 14px !important; }
+
+.form-label {
+  font-size: 1rem; }
+
+#mw-notifications-holder {
+  position: relative;
+  z-index: 9999; }
+
+#mw-notifications-holder .mw-notification:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px; }
+
+#mw-notifications-holder .mw-notification {
+  left: 50%;
+  -webkit-margin-start: -175px;
+  margin-inline-start: -175px;
+  position: fixed;
+  top: 0;
+  transition: opacity 2s;
+  -moz-transition: opacity 2s;
+  -webkit-transition: opacity 2s;
+  -o-transition: opacity 2s;
+  width: 200px;
+  color: #fff; }
+
+#mw-notifications-holder .mw-notification + .mw-notification {
+  top: 40px; }
+
+#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification {
+  top: 80px; }
+
+#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification {
+  top: 120px; }
+
+#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
+  top: 160px; }
+
+#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
+  top: 200px; }
+
+#mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
+  top: 240px; }
 
 /*# sourceMappingURL=admin_v2.css.map */

@@ -1,5 +1,6 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
+import { Confirm } from "../classes/dialog.js";
 
 export const ElementHandleContent = function (proto) {
     this.root = ElementManager({
@@ -7,6 +8,60 @@ export const ElementHandleContent = function (proto) {
             id: 'mw-handle-item-element-root'
         }
     });
+
+    const cloneAbleMenu = [
+        {
+            title: 'Duplicate' ,
+            text: '',
+            icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg>',
+            className: 'mw-handle-clone-button',
+            onTarget: function (target, selfNode) {
+                selfNode.style.display = target.classList.contains('cloneable') ? '' : 'none';
+            },
+            action: function (el) {
+
+                ElementManager(el).after(el.outerHTML)
+            }
+        },
+        {
+            title: 'Move backward' ,
+            text: '',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" ><path d="M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" /></svg>',
+            className: 'mw-handle-move-back-button',
+            onTarget: function (target, selfNode) {
+                const isCloneable = target.classList.contains('cloneable');
+                const prev = target.previousElementSibling;
+                selfNode.style.display = isCloneable && prev ? '' : 'none';
+            },
+            action: function (el) {
+                const prev = el.previousElementSibling;
+                if(prev) {
+                    prev.before(el);
+                    proto.elementHandle.set(el)
+                }
+            }
+        },
+        {
+            title: 'Move forward' ,
+            text: '',
+            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M10.5 18H18V20H10.5C6.91 20 4 17.09 4 13.5S6.91 7 10.5 7H16.17L13.08 3.91L14.5 2.5L20 8L14.5 13.5L13.09 12.09L16.17 9H10.5C8 9 6 11 6 13.5S8 18 10.5 18Z" /></svg>',
+            className: 'mw-handle-move-back-button',
+            onTarget: function (target, selfNode) {
+                const isCloneable = target.classList.contains('cloneable');
+                const next = target.nextElementSibling;
+                selfNode.style.display = isCloneable && next  ? '' : 'none';
+            },
+            action: function (el) {
+                const next = el.nextElementSibling;
+ 
+                if(next) {
+                    next.after(el);
+                    proto.elementHandle.set(el)
+                }
+                
+            }
+        },
+    ];
     
     this.menu = new HandleMenu({
         id: 'mw-handle-item-element-menu',
@@ -27,13 +82,19 @@ export const ElementHandleContent = function (proto) {
                     })
                 }
             },
+            ...cloneAbleMenu,
             {
                 title: proto.lang('Delete'),
                 text: '',
                 icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>',
                 className: 'mw-handle-insert-button',
                 action: function (el) {
-
+                    
+                    Confirm(ElementManager('<span>Are you sure</span>'), () => {
+                        
+                        el.remove()
+                        proto.elementHandle.hide()
+                    })
                 }
             }
         ],

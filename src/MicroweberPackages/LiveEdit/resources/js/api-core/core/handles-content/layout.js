@@ -166,7 +166,7 @@ export const LayoutHandleContent = function (rootScope) {
                 text: '',
                 icon: '<svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',
                 className: 'mw-handle-insert-button',
-                onTarget: function (target, selfNode, rootscope) {
+                onTarget: function (target, selfNode) {
 
                     if(target.nextElementSibling === null) {
                         selfNode.style.display = 'none';
@@ -174,8 +174,8 @@ export const LayoutHandleContent = function (rootScope) {
                         selfNode.style.display = '';
                     }
                 },
-                action: function (target, selfNode, rootScope) {
-                    rootScope.handles.get('layout').hide()
+                action: function (target, selfNode) {
+                     
                     var prev = target.nextElementSibling;
                     if(!prev) return;
                     var offTarget = target.getBoundingClientRect();
@@ -198,6 +198,8 @@ export const LayoutHandleContent = function (rootScope) {
                         prev.classList.remove("mw-le-target-to-animate")
                         target.style.transform = '';
                         prev.style.transform = '';
+                        target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                        rootScope.layoutHandle.set(target, true)
                     }, 300)
                 }
 
@@ -214,8 +216,9 @@ export const LayoutHandleContent = function (rootScope) {
                         selfNode.style.display = '';
                     }
                 },
-                action: function (target, selfNode, rootScope) {
-                    rootScope.handles.get('layout').hide()
+                action: function (target, selfNode) {
+                     
+                     
                     var prev = target.previousElementSibling;
                     if(!prev) return;
                     var offTarget = target.getBoundingClientRect();
@@ -238,6 +241,9 @@ export const LayoutHandleContent = function (rootScope) {
                         prev.classList.remove("mw-le-target-to-animate")
                         target.style.transform = '';
                         prev.style.transform = '';
+                      
+                        rootScope.layoutHandle.set(target, true);
+                        target.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                     }, 300)
                 }
             },

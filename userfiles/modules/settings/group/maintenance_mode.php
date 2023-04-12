@@ -17,19 +17,9 @@ $maintenance_mode_text = get_option('maintenance_mode_text', 'website');
     <label class="form-label d-block"><?php _e("Maintenance mode"); ?></label>
     <small class="text-muted d-block mb-2"><?php _e("Turn on Under construction mode of your site"); ?></small>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
-        <input name="maintenance_mode" class="mw_option_field custom-control-input" id="maintenance_mode_1"
-               data-option-group="website" value="n"
-               type="radio" <?php if (get_option('maintenance_mode', 'website') !== "y"): ?> checked="checked" <?php endif; ?> >
-        <label class="custom-control-label" for="maintenance_mode_1"><?php _e("Disable"); ?></label>
-    </div>
-
-    <div class="custom-control custom-radio d-inline-block mr-2">
-        <input name="maintenance_mode" class="mw_option_field custom-control-input" id="maintenance_mode_0"
-               data-option-group="website" value="y"
-               type="radio" <?php if (get_option('maintenance_mode', 'website') === "y"): ?> checked="checked" <?php endif; ?> >
-        <label class="custom-control-label" for="maintenance_mode_0"><?php _e("Enable"); ?></label>
-    </div>
+    <label class="form-check form-switch">
+        <input name="maintenance_mode" class="form-check-input mw_option_field " data-option-group="website" data-value-checked="y" data-value-unchecked="n" type="checkbox" <?php if (get_option('maintenance_mode', 'website') !== "n"): ?> checked="checked" checked="checked" <?php endif; ?>>
+    </label>
 
 
 

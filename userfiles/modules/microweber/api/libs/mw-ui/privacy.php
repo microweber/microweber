@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -96,7 +96,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -233,7 +233,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1 mb-3">
+                        <div class="card bg-light style-1">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">

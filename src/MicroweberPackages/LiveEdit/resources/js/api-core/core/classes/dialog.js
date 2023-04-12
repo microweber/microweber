@@ -146,8 +146,9 @@ export class Dialog {
 
 export const Confirm = function (content, c) {
     const footer = dialogFooter();
+  
     const dialog = new Dialog({
-        content, footer, position: 'centered'
+        content, footer: footer.footer.get(0), position: 'centered'
     });
     footer.cancel.on('click', function (){
         dialog.remove();
