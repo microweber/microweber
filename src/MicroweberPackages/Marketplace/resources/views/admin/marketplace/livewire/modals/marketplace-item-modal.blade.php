@@ -25,55 +25,65 @@
                 </div>
                 <br />
                 <div>
-                    <table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
-                        <tbody>
+                    <x-mw-ui::tabs tabs="Installation,Version,Details">
+                        <x-slot:tab name="Installation">
+                            PALISH PLAISH
+                        </x-slot:tab>
+                        <x-slot:tab name="Version">
+                            AAU
+                        </x-slot:tab>
+                        <x-slot:tab name="Details">
+                            <table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
+                                <tbody>
 
-                        <tr>
-                            <td><?php _e('License'); ?></td>
-                            <td>
-                                <?php _e('N/A'); ?>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <td><?php _e('License'); ?></td>
+                                    <td>
+                                        <?php _e('N/A'); ?>
+                                    </td>
+                                </tr>
 
-                        <tr>
-                            <td><?php _e('Website'); ?></td>
-                            <td>
-                                <?php if (isset($package['homepage'])): ?>
-                                <a href="<?php print $package['homepage']; ?>" target="_blank"
-                                   class="mw-blue package-ext-link"><?php print $package['homepage']; ?></a>
-                                <?php else: ?>
+                                <tr>
+                                    <td><?php _e('Website'); ?></td>
+                                    <td>
+                                        <?php if (isset($package['homepage'])): ?>
+                                        <a href="<?php print $package['homepage']; ?>" target="_blank"
+                                           class="mw-blue package-ext-link"><?php print $package['homepage']; ?></a>
+                                        <?php else: ?>
                 <?php _e('N/A'); ?>
             <?php endif; ?>
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                        @if(isset($package['authors']) && !empty($package['authors']))
-                        <tr>
-                            <td><?php _e('Author'); ?></td>
-                            <td>
-                                @foreach($package['authors'] as $author)
-                                    {{$author['name']}}  {{$author['email']}}
-                                @endforeach
-                            </td>
-                        </tr>
-                        @endif
+                                @if(isset($package['authors']) && !empty($package['authors']))
+                                    <tr>
+                                        <td><?php _e('Author'); ?></td>
+                                        <td>
+                                            @foreach($package['authors'] as $author)
+                                                {{$author['name']}}  {{$author['email']}}
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endif
 
-                        <tr>
-                            <td><?php _e('Release date'); ?></td>
-                            <td><?php print date('d M Y', strtotime($package['time'])) ?></td>
-                        </tr>
+                                <tr>
+                                    <td><?php _e('Release date'); ?></td>
+                                    <td><?php print date('d M Y', strtotime($package['time'])) ?></td>
+                                </tr>
 
-                        <tr>
-                            <td><?php _e('Keywords'); ?></td>
-                            <td>
-                                <?php if (isset($package['keywords'])): ?>
+                                <tr>
+                                    <td><?php _e('Keywords'); ?></td>
+                                    <td>
+                                        <?php if (isset($package['keywords'])): ?>
                 <?php print implode(", ", $package['keywords']); ?>
             <?php endif; ?>
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
 
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </x-slot:tab>
+                    </x-mw-ui::tabs>
                 </div>
             </div>
         </div>
