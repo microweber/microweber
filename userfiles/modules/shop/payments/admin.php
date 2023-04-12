@@ -119,16 +119,11 @@ $here = dirname(__FILE__) . DS . 'gateways' . DS;
 $payment_modules = get_modules('type=payment_gateway');
 ?>
 
-<div class="card mb-4">
-    <div class="card-header">
-        <h5>
-            <i class="mdi mdi-cash-usd-outline text-primary mr-3"></i> <strong><?php _e("Payment methods"); ?></strong>
-        </h5>
-        <div></div>
-    </div>
+<h1 class="main-pages-title"><?php _e('Payment methods'); ?></h1>
 
+<div class="card mb-4">
     <div class="card-body">
-        <p class="text-muted"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
+        <p class="text-muted m-3"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
 
         <div id="db-payment-methods">
             <?php if (is_array($payment_modules)): ?>

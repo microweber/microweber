@@ -6,14 +6,10 @@
     });
 </script>
 
+<h1 class="main-pages-title"><?php _e('Privacy policy'); ?></h1>
+
+
 <div class="card mb-3">
-    <div class="card-header">
-        <h5 class="card-title"><i class="mdi mdi-shield-edit-outline text-primary mr-3"></i> <strong><?php _e('Privacy policy'); ?></strong></h5>
-        <div>
-
-        </div>
-    </div>
-
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
