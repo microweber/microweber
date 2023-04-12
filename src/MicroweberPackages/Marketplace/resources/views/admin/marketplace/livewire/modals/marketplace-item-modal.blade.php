@@ -10,8 +10,12 @@
             <div style="max-height:400px;overflow:hidden">
                 @if (isset($package['extra']['_meta']['screenshot_large']))
                     <img src="{{$package['extra']['_meta']['screenshot_large']}}" />
-                @elseif($package['extra']['_meta']['screenshot'])
+                @elseif(isset($package['extra']['_meta']['screenshot']))
                     <img src="{{$package['extra']['_meta']['screenshot']}}" />
+                @else
+                <div class="card-img-top text-center">
+                    <i class="mdi mdi-view-grid-plus text-muted" style="opacity:0.5;font-size:126px;margin-left: 15px;"></i>
+                </div>
                 @endif
             </div>
             <div>
