@@ -11,6 +11,6 @@ class BtnLiveEditSettingsController
         $params = $request->all();
 
 
-        return view('modules.btn::live_edit.settings',['moduleId' => $params['id']]);
+        return view('modules.btn::live-edit.settings',['moduleId' => $params['id']]);
     }
 }
