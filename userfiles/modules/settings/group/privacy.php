@@ -17,7 +17,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <h5 class="font-weight-bold"><?php _e('Privacy policy settings'); ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e('Privacy policy settings'); ?></h5>
                 <small class="text-muted d-block mb-3">
                     <?php _e('A Privacy Policy is a legal agreement that explains what kinds of personal information you gather from website visitors, how you use this information, and how you keep it safe. Examples of personal information might include: Names. Dates of birth.'); ?>
                 </small>

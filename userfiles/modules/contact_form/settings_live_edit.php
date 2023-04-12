@@ -16,7 +16,7 @@ if (isset($params['for_module_id'])) {
 <div id="form_email_options">
     <div class="row d-flex align-items-center">
         <div class="col">
-            <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
+            <h5 class="font-weight-bold settings-title-inside"><?php _e("Current contact form settings") ?></h5>
         </div>
         <div class="col text-right">
             <a class="btn btn-outline-primary btn-sm" href="<?php print admin_url('settings?group=email') ?>" target="_blank"><i class="mdi mdi-email-send"></i> <?php _e("E-mail sending options"); ?></a>
@@ -31,7 +31,7 @@ if (isset($params['for_module_id'])) {
             <input name="form_name" option-group="<?php print $mod_id ?>" value="<?php print get_option('form_name', $mod_id); ?>" class="mw_option_field form-control col-6" type="text"/>
         </div>
 
-        <h5 class="font-weight-bold"><?php _e("Receivers") ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e("Receivers") ?></h5>
 
         <div class="form-group mb-3">
             <label class="form-label"><?php _e("Send contact form data to custom receivers when is submited"); ?></label>

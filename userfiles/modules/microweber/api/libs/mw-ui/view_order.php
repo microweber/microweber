@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <h5 class="font-weight-bold">Order Information</h5>
+                <h5 class="font-weight-bold settings-title-inside">Order Information</h5>
                 <div class="table-responsive">
                     <table class="table vertical-align-middle table-header-no-border table-primary-hover">
                         <thead class="text-primary">
@@ -121,7 +121,7 @@
         <div class="card bg-light style-1 mb-3">
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
-                    <h5 class="font-weight-bold">Client Information</h5>
+                    <h5 class="font-weight-bold settings-title-inside">Client Information</h5>
 
                     <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
 

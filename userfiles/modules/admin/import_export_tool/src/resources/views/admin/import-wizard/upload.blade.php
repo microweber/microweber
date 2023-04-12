@@ -64,7 +64,7 @@
 
                 @if($this->import_feed['source_type'] == 'upload_file')
                     <div>
-                        <h5 class="font-weight-bold"><?php _e('Upload your content feed file'); ?></h5>
+                        <h5 class="font-weight-bold settings-title-inside"><?php _e('Upload your content feed file'); ?></h5>
                     </div>
 
                     <div class="mb-3 mt-2">

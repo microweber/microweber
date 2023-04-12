@@ -778,7 +778,7 @@
                                 <h4 class="font-weight-bold">Heading 4</h4>
                                 <h4 class="text-uppercase">Heading 4</h4>
                                 <h5>Heading 5</h5>
-                                <h5 class="font-weight-bold">Heading 5</h5>
+                                <h5 class="font-weight-bold settings-title-inside">Heading 5</h5>
                                 <h5 class="text-uppercase">Heading 5</h5>
                                 <h6>Heading 6</h6>
                                 <h6 class="font-weight-bold">Heading 6</h6>

@@ -72,7 +72,7 @@
         </div>--}}
     </div>
     <div class="card-body">
-        <h5 class="font-weight-bold"><?php _e('Order Information'); ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e('Order Information'); ?></h5>
 
         <module type="shop/orders/views/order_cart" order-id="{{ $order['id'] }}" />
 
@@ -82,7 +82,7 @@
 <div class="card bg-light style-1 mb-3">
     <div class="card-body">
         <div class="d-flex mb-3">
-            <h5 class="font-weight-bold"><?php _e("Client Information"); ?></h5>
+            <h5 class="font-weight-bold settings-title-inside"><?php _e("Client Information"); ?></h5>
             <?php
             if (isset($order['customer_id']) && $order['customer_id'] > 0):
             ?><small>

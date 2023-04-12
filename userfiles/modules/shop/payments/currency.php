@@ -12,18 +12,15 @@ $curencies = mw()->shop_manager->currency_get();
     });
 </script>
 
+<h1 class="main-pages-title"><?php _e('Shop General'); ?></h1>
+
+
 <div class="card mb-3">
-    <div class="card-header">
-        <h5 class="card-title">
-            <i class="mdi mdi-cart-outline px-2 fs-2 text-primary mr-3"></i> <strong><?php _e('Shop General'); ?></strong>
-        </h5>
-        <div></div>
-    </div>
 
     <div class="card-body">
         <div class="row">
             <div class="col-md-3 pt-5">
-                <h5 class="font-weight-bold"><?php _e("Currency settings"); ?></h5>
+                <h3 class="font-weight-bold"><?php _e("Currency settings"); ?></h3>
                 <small class="text-muted"><?php _e('Set the currency in which your store will operate.'); ?></small>
             </div>
 

@@ -25,7 +25,7 @@ $num = 1.00;
     ?>
     <?php if (is_array($curencies)): ?>
         <hr class="thin"/>
-        <h5 class="font-weight-bold"><?php _e("Accept payments in currency"); ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e("Accept payments in currency"); ?></h5>
 
         <div class="form-group">
             <label class="form-label"><?php _e("Select the currency accepted by payment provider"); ?></label>

@@ -27,7 +27,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             });
         </script>
 
-        <h5 class="font-weight-bold"><?php _e('Shop settings'); ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e('Shop settings'); ?></h5>
 
         <div class="form-group">
             <label class="form-label d-block"><?php _e("Users must agree to Terms and Conditions"); ?></label>

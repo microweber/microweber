@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Register options</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Register options</h5>
                         <small class="text-muted">Set your settings for proper login and register functionality.</small>
                     </div>
                     <div class="col-md-8">
@@ -75,7 +75,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Register form settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Register form settings</h5>
                         <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification.</small>
                     </div>
                     <div class="col-md-8">
@@ -158,7 +158,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Login form settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Login form settings</h5>
                         <small class="text-muted">Customize your registration form in the best way by specifying the fields you want are required and you want Captcha certification</small>
                     </div>
                     <div class="col-md-8">
@@ -193,7 +193,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Social Networks login</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Social Networks login</h5>
                         <small class="text-muted">Allow your users to register on your site, blog or store through their social media accounts.</small>
                     </div>
                     <div class="col-md-8">
@@ -385,7 +385,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Email notifications</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Email notifications</h5>
                         <small class="text-muted">Register users can automatically receive an automatic email from you. See the settings and post your messages.</small>
                     </div>
                     <div class="col-md-8">
@@ -468,7 +468,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Other settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Other settings</h5>
                         <small class="text-muted">Advanced setting where you can set different URL addresses.</small>
                     </div>
                     <div class="col-md-8">

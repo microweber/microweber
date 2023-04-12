@@ -19,7 +19,7 @@ if (isset($params['for_module_id'])) {
         <?php else: ?>
 
             <div class="col">
-                <h5 class="font-weight-bold"><?php _e("Current contact form settings") ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e("Current contact form settings") ?></h5>
             </div>
         <?php endif; ?>
 
@@ -30,7 +30,7 @@ if (isset($params['for_module_id'])) {
 
     <div class="mt-2">
 
-        <h5 class="font-weight-bold"><?php _e("Global sender") ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e("Global sender") ?></h5>
 
         <div class="form-group mb-3">
             <label class="form-label"><?php _e("Use custom sender settings"); ?></label>
@@ -79,7 +79,7 @@ if (isset($params['for_module_id'])) {
 
         <hr class="thin" />
 
-        <h5 class="font-weight-bold"><?php _e("Global Receivers") ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e("Global Receivers") ?></h5>
         <b><?php _e("Send contact forms data to global receivers when is submited"); ?></b>
 
         <div class="form-group mt-3">

@@ -25,20 +25,15 @@
 //         });
     })
 </script>
+<h1 class="main-pages-title"><?php _e('General'); ?></h1>
+
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card mb-3">
-        <div class="card-header">
-            <h5 class="card-title w-100"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><?php _e('General'); ?></strong></h5>
-            <div class="d-block w-100">
-                <nav class="anchorific"></nav>
-            </div>
-        </div>
-
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e('Seo Settings'); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e('Seo Settings'); ?></h5>
                     <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
                 </div>
                 <div class="col-md-9">
@@ -127,7 +122,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e('General Settings'); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e('General Settings'); ?></h5>
                     <small class="text-muted"><?php _e('Set regional settings for your website or online store');?> <?php _e('They will also affect the language you use and the fees for the orders.'); ?></small>
                 </div>
                 <div class="col-md-9">
@@ -230,7 +225,7 @@
                                         <label class="form-label"><?php _e("Website Logo"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website.'); ?></small>
                                         <div class="d-flex">
-                                            <div class="img-circle-holder img-absolute border-radius-0 border-silver mr-3" style="height: 40px;">
+                                            <div class="img-circle-holder img-absolute border-radius-0 border-silver me-3" style="height: 40px;">
                                                 <img src="<?php print $logo; ?>" class="js-logo" />
                                                 <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="website"/>
                                             </div>
@@ -333,7 +328,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e('Social Networks links'); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e('Social Networks links'); ?></h5>
                     <small class="text-muted"><?php _e('Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.'); ?></small>
                 </div>
                 <div class="col-md-9">
@@ -355,7 +350,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e('Online Shop'); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e('Online Shop'); ?></h5>
                     <small class="text-muted"><?php _e('Enable or disable your online shop'); ?></small>
                 </div>
                 <div class="col-md-9">
@@ -376,7 +371,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("Maintenance mode"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Maintenance mode"); ?></h5>
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light style-1 mb-3">

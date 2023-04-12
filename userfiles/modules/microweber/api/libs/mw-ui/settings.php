@@ -14,7 +14,7 @@
     <main>
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong>General</strong></h5>
+                <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary me-3"></i> <strong>General</strong></h5>
                 <div>
 
                 </div>
@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Seo Settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Seo Settings</h5>
                         <small class="text-muted">Fill in the fields for maximum results when finding your website in search engines.</small>
                     </div>
                     <div class="col-md-8">
@@ -58,12 +58,12 @@
         </div>
 
         <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body p-3">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">General Settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">General Settings</h5>
                         <small class="text-muted">Set regional settings for your website or online store. They will also affect the language you use and the fees for the orders.</small>
                     </div>
                     <div class="col-md-8">
@@ -96,7 +96,7 @@
                                             <label class="form-label">Change Favicon</label>
                                             <small class="text-muted d-block mb-2">Select an icon for your website. It is best to be part of your logo.</small>
                                             <div class="d-flex">
-                                                <div class="img-circle-holder img-absolute border-radius-0 border-silver mr-3">
+                                                <div class="img-circle-holder img-absolute border-radius-0 border-silver me-3">
                                                     <img src="assets/img/no-image.jpg">
                                                 </div>
 
@@ -126,7 +126,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Social Networks links</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Social Networks links</h5>
                         <small class="text-muted">Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.</small>
                     </div>
                     <div class="col-md-8">
