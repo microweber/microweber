@@ -10,6 +10,7 @@ use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 class BladeUIServiceProvider extends ServiceProvider
 {
     use MergesConfig;
+
     public function register()
     {
 
@@ -17,16 +18,16 @@ class BladeUIServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/blade-heroicons.php', 'blade-heroicons');
 
         $defaltPath = config('blade-icons.sets.default.path');
-        if($defaltPath){
+        if ($defaltPath) {
             $defaltPath = normalize_path($defaltPath, true);
-            if(!is_dir($defaltPath)){
+            if (!is_dir($defaltPath)) {
                 mkdir_recursive($defaltPath);
             }
         }
 
 
-        $this->app->register(BladeIconsServiceProvider::class);
-        $this->app->register(BladeHeroiconsServiceProvider::class);
+       // $this->app->register(BladeIconsServiceProvider::class);
+      //  $this->app->register(BladeHeroiconsServiceProvider::class);
     }
 
 }

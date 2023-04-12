@@ -5,7 +5,7 @@
         @include('admin::layouts.partials.topbar2')
 
        <div class="page-body">
-           @yield('content' )
+           @yield('content')
        </div>
     </main>
 @endif

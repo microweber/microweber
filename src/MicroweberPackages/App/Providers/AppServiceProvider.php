@@ -58,6 +58,7 @@ use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
+use MicroweberPackages\MicroweberUI\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -241,6 +242,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         $this->app->register(ViewServiceProvider::class);
+        $this->app->register(MicroweberUIServiceProvider::class);
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
 

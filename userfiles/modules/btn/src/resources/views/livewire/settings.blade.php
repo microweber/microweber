@@ -97,18 +97,8 @@
                 </div>
 
 
-                <div>
-                    <div>
-                        {!! $settings['icon'] !!}
-                        <button onclick="mw.app.iconPicker.selectIcon('#btn-icon-pick')" type="button">
-                            Select Icon
-                        </button>
-                        <button onclick="mw.app.iconPicker.removeIcon('#btn-icon-pick')" type="button">
-                            Remove Icon
-                        </button>
-                        <textarea id="btn-icon-pick" wire:model="settings.icon"></textarea>
-                    </div>
-                </div>
+
+                <x-mw-ui::icon-picker  wire:model="settings.icon" :value="$settings['icon']" />
 
 
             </div>
