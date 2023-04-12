@@ -160,7 +160,8 @@
   padding: 30px; }
 
 small.text-muted {
-  color: #383838 !important; }
+  color: #383838 !important;
+  font-size: 14px !important; }
 
 .form-label {
   font-size: 1rem; }
