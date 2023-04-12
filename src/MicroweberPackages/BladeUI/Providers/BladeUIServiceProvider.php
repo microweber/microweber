@@ -26,8 +26,8 @@ class BladeUIServiceProvider extends ServiceProvider
         }
 
 
-       // $this->app->register(BladeIconsServiceProvider::class);
-      //  $this->app->register(BladeHeroiconsServiceProvider::class);
+       $this->app->register(BladeIconsServiceProvider::class);
+         $this->app->register(BladeHeroiconsServiceProvider::class);
     }
 
 }
