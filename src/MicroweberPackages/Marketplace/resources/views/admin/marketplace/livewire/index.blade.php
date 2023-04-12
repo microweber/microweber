@@ -96,8 +96,8 @@
                             </div>
                         </div>
                         @endforeach
-                            <div>
-                                {!! $marketplacePagination->links() !!}
+                            <div class="d-flex justify-content-center mt-4">
+                                {!! $marketplacePagination->links('livewire-tables::specific.bootstrap-4.pagination') !!}
                             </div>
                         @else
                             <div class="col-12">
