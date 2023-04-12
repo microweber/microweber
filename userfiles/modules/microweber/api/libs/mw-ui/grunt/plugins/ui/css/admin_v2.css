@@ -83,7 +83,8 @@
 
 .main-pages-title {
   font-weight: bold;
-  font-size: 20px; }
+  font-size: 20px;
+  margin: 20px 0; }
 
 .module {
   margin-top: 0 !important;
@@ -133,7 +134,7 @@
 
 .settings-title-inside {
   font-size: 16px;
-  font-weight: normal; }
+  font-weight: bold; }
 
 .img-circle-holder {
   width: 80px;
@@ -158,5 +159,8 @@
   margin: 0 10px;
   border-radius: 3px;
   cursor: pointer; }
+
+.card-body .row {
+  padding: 30px; }
 
 /*# sourceMappingURL=admin_v2.css.map */

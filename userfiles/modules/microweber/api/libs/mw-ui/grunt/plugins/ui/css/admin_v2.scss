@@ -131,6 +131,7 @@
 .main-pages-title {
     font-weight: bold;
     font-size: 20px;
+    margin: 20px 0;
 }
 
 .module {
@@ -198,7 +199,7 @@
 
 .settings-title-inside {
     font-size: 16px;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 .img-circle-holder {
@@ -226,4 +227,10 @@
     margin: 0 10px;
     border-radius: 3px;
     cursor: pointer;
+}
+
+.card-body {
+    .row {
+        padding: 30px;
+    }
 }

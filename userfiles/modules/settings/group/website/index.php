@@ -25,16 +25,11 @@
 //         });
     })
 </script>
+<h1 class="main-pages-title"><?php _e('General'); ?></h1>
+
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
     <div class="card mb-3">
-        <div class="card-header">
-            <h5 class=" py-3 w-100 card-title"><strong><?php _e('General'); ?></strong></h5>
-            <div class="d-block w-100">
-                <nav class="anchorific"></nav>
-            </div>
-        </div>
-
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">

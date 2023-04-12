@@ -12,13 +12,10 @@ $curencies = mw()->shop_manager->currency_get();
     });
 </script>
 
+<h1 class="main-pages-title"><?php _e('Shop General'); ?></h1>
+
+
 <div class="card mb-3">
-    <div class="card-header">
-        <h5 class="card-title">
-            <strong><?php _e('Shop General'); ?></strong>
-        </h5>
-        <div></div>
-    </div>
 
     <div class="card-body">
         <div class="row">

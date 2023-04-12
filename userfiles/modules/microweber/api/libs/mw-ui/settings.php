@@ -58,7 +58,7 @@
         </div>
 
         <div class="card mb-4">
-            <div class="card-body">
+            <div class="card-body p-3">
                 <hr class="thin mt-0 mb-5"/>
 
                 <div class="row">
