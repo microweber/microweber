@@ -91,6 +91,30 @@ export class Resizable  {
 
     activeHandle = null;
     handles = {};
+    #disabled = false;
+    #enabled = true;
+
+
+    disable() {
+        this.#disabled = true;
+        this.#enabled = false;
+        this.element.classList.add('mw-le-resizable-disabled');
+    }
+
+    
+    enable() {
+        this.#disabled = false;
+        this.#enabled = true;
+        this.element.classList.remove('mw-le-resizable-disabled');
+    }
+
+    disabled() {
+        return this.#disabled
+    }
+
+    enabled() {
+        return this.#enabled
+    }
 
     build() {
         const nodeT = this.document.createElement('span');

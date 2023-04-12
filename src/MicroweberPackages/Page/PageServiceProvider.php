@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-use MicroweberPackages\Page\Http\Livewire\Admin\Marketplace;
+use MicroweberPackages\Page\Http\Livewire\Admin\PagesList;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Page\Observers\PageObserver;
 
@@ -19,7 +19,7 @@ class PageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Livewire::component('admin-pages-list', Marketplace::class);
+        Livewire::component('admin-pages-list', PagesList::class);
 
         Page::observe(BaseModelObserver::class);
         Page::observe(PageObserver::class);

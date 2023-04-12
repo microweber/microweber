@@ -1,5 +1,10 @@
 .mw-le-resizable {
     position: relative;
+    &.mw-le-resizable-disabled{
+        .mw-le-resizer{
+            display: none;
+        }
+    }
 }
 .mw-le-resizer {
     position: absolute;
