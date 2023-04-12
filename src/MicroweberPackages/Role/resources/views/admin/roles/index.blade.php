@@ -17,7 +17,7 @@
 
     <div class="row d-flex justify-content-end align-items-end mb-4">
         <div class="col-md-6">
-            <h5 class="font-weight-bold">User roles list and permitions</h5>
+            <h5 class="font-weight-bold settings-title-inside">User roles list and permitions</h5>
             <small class="text-muted">List of your user roles below</small>
         </div>
 

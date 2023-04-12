@@ -47,7 +47,7 @@ function importSelectType(type)
 <div class="import-modal-select-file-upload" style="display:none">
     <div class="row">
     <div class="col-12 mb-4">
-        <h5 class="font-weight-bold"><?php _e('Upload file with content'); ?></h5>
+        <h5 class="font-weight-bold settings-title-inside"><?php _e('Upload file with content'); ?></h5>
         <small class="text-muted d-block mb-3"><?php _e("Upload your content file"); ?></small>
         <span id="mw_uploader" class="btn btn-primary btn-rounded"><i class="mdi mdi-cloud-upload-outline"></i>&nbsp; <?php _e("Select file"); ?></span>
 

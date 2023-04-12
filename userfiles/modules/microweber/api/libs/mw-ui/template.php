@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4 mt-3">
-                        <h5 class="font-weight-bold"><?php _e("Settings"); ?></h5>
+                        <h5 class="font-weight-bold settings-title-inside"><?php _e("Settings"); ?></h5>
                         <small class="text-muted d-block mb-3"><?php _e("Choose a new template or browse the pages of the current one"); ?>.</small>
                         <br/>
                         <label class="form-label"><?php _e("Want to upload template"); ?>?</label>
@@ -76,7 +76,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h5 class="font-weight-bold"><?php _e("Template preview"); ?></h5>
+                        <h5 class="font-weight-bold settings-title-inside"><?php _e("Template preview"); ?></h5>
                         <small class="text-muted"><?php _e("Use the fields at the top to see the changes"); ?>.</small>
                     </div>
                 </div>

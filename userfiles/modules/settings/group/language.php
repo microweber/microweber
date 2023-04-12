@@ -104,7 +104,7 @@ if (is_module('multilanguage')) {
         <div  class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("Language"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Language"); ?></h5>
                     <small class="text-muted"><?php _e('Set a language for your website and admin panel.'); ?></small>
                 </div>
                 <div class="col-md-9">
@@ -199,7 +199,7 @@ if (is_module('multilanguage')) {
             <?php if(!$hasMultilanguageModuleActivated and app()->module_manager->exists('multilanguage')   ): ?>
             <div class="row pt-3">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("Multi-Language"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Multi-Language"); ?></h5>
                     <small class="text-muted"><?php _e('You can activate the Multi-language module to use multiple languages'); ?></small>
                 </div>
                 <div class="col-md-9">

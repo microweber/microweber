@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div>
-                    <h5 class="font-weight-bold">{{ $title }}</h5>
+                    <h5 class="font-weight-bold settings-title-inside">{{ $title }}</h5>
                     {{ $content }}
                 </div>
             </div>

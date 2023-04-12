@@ -131,7 +131,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("System e-mail website settings"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("System e-mail website settings"); ?></h5>
                     <small class="text-muted">
                         <?php _e("Deliver messages related with new registration, password resets and others system functionalities."); ?>
                     </small>
@@ -165,7 +165,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
-                    <h5 class="font-weight-bold"><?php _e("General e-mail provider settings"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("General e-mail provider settings"); ?></h5>
                     <small class="text-muted">
                         <?php _e("Set up your email provider."); ?>
                         <?php _e("The general e-mail provider will deliver all messages related with the website. Including system messages and contact form messages."); ?>

@@ -117,7 +117,7 @@ $lang = mw()->lang_helper->current_lang();
     <div  class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <h5 class="font-weight-bold"><?php _e("Search"); ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e("Search"); ?></h5>
                 <small class="text-muted"><?php _e('Search for words or phrases.'); ?></small>
             </div>
             <div class="col-md-9">
@@ -143,7 +143,7 @@ $lang = mw()->lang_helper->current_lang();
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <h5 class="font-weight-bold"><?php _e("Translation"); ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e("Translation"); ?></h5>
                 <small class="text-muted"><?php _e('You can translate the selected language from this fields.'); ?></small>
                 <br/>
                 <br/>

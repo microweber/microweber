@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Privacy policy settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Privacy policy settings</h5>
                         <small class="text-muted d-block mb-3">A Privacy Policy is a legal agreement
                             that explains what kinds of personal
                             information you gather from website
@@ -92,7 +92,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Contact form settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Contact form settings</h5>
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
@@ -160,7 +160,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Comments form settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Comments form settings</h5>
                         <small class="text-muted">Make settings for the comment form. Are there any rules they must agree to when posting a comment?</small>
                     </div>
 
@@ -229,7 +229,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h5 class="font-weight-bold">Newsletter settings</h5>
+                        <h5 class="font-weight-bold settings-title-inside">Newsletter settings</h5>
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">

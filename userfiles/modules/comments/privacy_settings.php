@@ -16,7 +16,7 @@
 
         <div class="row">
             <div class="col-md-3">
-                <h5 class="font-weight-bold"><?php _e("Comments form settings"); ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e("Comments form settings"); ?></h5>
                 <small class="text-muted"><?php _e("Make settings for the comment form. Are there any rules they must agree to when posting a comment?") ?></small>
             </div>
 

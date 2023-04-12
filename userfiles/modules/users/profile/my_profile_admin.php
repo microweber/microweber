@@ -34,7 +34,7 @@ if (isset($user['role'])) {
     <div class="card-body pt-3">
         <div class="row d-flex align-items-center justify-content-around">
             <div class="col-md-5 py-5">
-                <h5 class="font-weight-bold"><?php _e('Manage your users'); ?></h5>
+                <h5 class="font-weight-bold settings-title-inside"><?php _e('Manage your users'); ?></h5>
                 <p><?php _e('You are able to create and manage users, groups and roles.'); ?></p>
                 <br/>
 
