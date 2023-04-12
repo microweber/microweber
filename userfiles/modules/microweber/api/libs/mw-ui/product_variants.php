@@ -15,7 +15,7 @@
 <main>
     <div class="row">
         <div class="col-md-12">
-            <div class="card bg-light style-1 mb-3">
+            <div class="card bg-light style-1">
                 <div class="card-header no-border">
                     <h5><strong><?php _e("L / Red"); ?></strong></h5>
                     <div>
