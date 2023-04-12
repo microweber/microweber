@@ -33,37 +33,7 @@
                 <div>
                     <div>
 
-
-                        <?php
-
-                        $moduleTypeForComponent = 'live-edit::module-select-template';
-                        $hasError = false;
-                        $output = false;
-
-                        try {
-                            $output = \Livewire\Livewire::mount($moduleTypeForComponent, [
-                                'moduleId' => $moduleId,
-                                'moduleType' => $moduleType,
-                            ])->html();
-
-                        } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
-                            $hasError = true;
-                            $output = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
-                        } catch (\Exception $e) {
-                            $hasError = true;
-                            $output = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
-                        }
-
-                        if ($hasError) {
-                            print '<div class="alert alert-danger" role="alert">';
-                            print $output;
-                            print '</div>';
-                        } else {
-                            print $output;
-                        }
-
-
-                        ?>
+                        <livewire:live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
 
 
                     </div>

@@ -1,5 +1,3 @@
-
-
 @include('admin::layouts.partials.header',[
     'disableTopBar' => true,
     'disableNavBar' => true,
