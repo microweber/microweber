@@ -125,9 +125,20 @@ export class LiveEdit {
             stateManager: this.settings.stateManager,
             resizable: true
         });
+        this.isResizing = false;
+
+        elementHandle.resizer.on('resizeStart', e => this.isResizing = true)
+        elementHandle.resizer.on('resizeStop', e => this.isResizing = false)
 
         elementHandle.on('targetChange', function (target){
             elementHandleContent.menu.setTarget(target);
+
+
+            if(target.className.includes('col-')) {
+                elementHandle.resizer.disable()
+            } else {
+                elementHandle.resizer.enable()
+            }
 
         });
 
@@ -248,7 +259,8 @@ export class LiveEdit {
 
     init() {
         if(this.settings.mode === 'auto') {
-            ModeAuto(this);
+            setInterval(() =>  ModeAuto(this), 1000)
+            
         }
 
         const _eventsHandle = (e) => {
@@ -257,25 +269,31 @@ export class LiveEdit {
                 return
             }
             const elements = this.observe.fromEvent(e);
+            let first = elements[0];
+
+            if(first.nodeName !== 'IMG') {
+                first = DomService.firstBlockLevel(elements[0]);
+            }
+
+             
             
-            const first = elements[0];
+              
             this.handles.get('element').set(null)
-            this.handles.get('module').set(null)
             this.handles.hide();
-    
+             
            
             if(first) {
                const type = this.elementAnalyzer.getType(first);
                if(type && type !== 'edit') {
                    this.handles.set(type, elements[0])
                    if(type === 'element') {
-                       this.handles.hide('module')
+                       this.handles.hide('module');
                    } else if(type === 'module') {
-                    this.handles.hide('element')
+                    this.handles.hide('element');
                     }  else if(type === 'layout') {
-                        this.handles.set('layout', layout)
+                        this.handles.set('layout', layout);
                     } else {
-                        this.handles.hide()
+                        this.handles.hide();
                    }
                }
  
@@ -294,14 +312,21 @@ export class LiveEdit {
   
             events = 'mousedown touchstart';
             ElementManager(this.root).on('mousemove', (e) => {
+                if(this.paused ||  this.isResizing) {
+                    this.interactionHandle.hide();
+                    return
+                }
                 if(this.handles.targetIsOrInsideHandle(e)) {
+                    this.interactionHandle.hide();
                     return
                 }
                 const elements = this.observe.fromEvent(e);
                 
-                const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module']);
+                const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
+
+                
 
                 if(layout) {
                  

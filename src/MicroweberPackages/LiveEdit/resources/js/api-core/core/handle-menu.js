@@ -164,10 +164,7 @@ export const HandleMenu = function(options) {
             });
         } else if(typeof conf.action === 'function') {
             btn.on('click', function(){
-                conf.action(scope.getTarget(), btn.get(0), {
-                    dialog: scope.options.rootScope.dialog,
-                    tooltip: scope.options.rootScope.tooltip,
-                });
+                conf.action(scope.getTarget(), btn.get(0));
             });
         }
         return btn;

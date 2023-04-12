@@ -56,6 +56,7 @@ const getElementsLike = (selector, root, scope) => {
 };
 
 export const ModeAuto = (scope) => {
+ 
     const {
         backgroundImageHolder,
         editClass,
@@ -86,7 +87,7 @@ export const ModeAuto = (scope) => {
     for ( ; i2 < edits.length; i2++ ) {
         var all = getElementsLike(':not(.' + elementClass + ')', edits[i2], scope), i2a = 0;
 
-        var allAllowDrops = edits[i2].querySelectorAll('.' + allowDrop), i3a = 0;
+        var allAllowDrops = edits[i2].querySelectorAll('img,.' + allowDrop), i3a = 0;
         for( ; i3a < allAllowDrops.length; i3a++){
             allAllowDrops[i3a].classList.add(elementClass);
         }

@@ -67,7 +67,7 @@ export const Handle = function (options) {
         })
     };
 
-    this.set = function (target) {
+    this.set = function (target, forced) {
         
         if (!target) {
             _currentTarget = null;
@@ -82,7 +82,7 @@ export const Handle = function (options) {
         });
         this.show();
         this.draggable.setElement(target);
-        if(_currentTarget !== target) {
+        if(_currentTarget !== target || forced) {
             _currentTarget = target;
             this.dispatch('targetChange', target);
         }
@@ -168,10 +168,15 @@ export const Handle = function (options) {
         this.resizer.mount();
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
-            if(target) {
+            if(target.nodeName === 'IMG') {
+                target.style.height = data.height + 'px';
+                target.style.width = data.width + 'px';
+                
+            } else {
                 target.style.minHeight = data.height + 'px';
                 target.style.width = data.width + 'px';
             }
+            this.set(target)
         });
     }
 
