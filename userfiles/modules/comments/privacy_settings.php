@@ -15,12 +15,12 @@
 
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Comments form settings"); ?></h5>
                 <small class="text-muted"><?php _e("Make settings for the comment form. Are there any rules they must agree to when posting a comment?") ?></small>
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-xl-9">
                 <div class="card bg-light ">
                     <div class="card-body pt-3">
                         <div class="row">

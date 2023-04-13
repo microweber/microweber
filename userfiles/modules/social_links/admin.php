@@ -86,43 +86,41 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <small class="text-muted d-block mb-2"><?php _e("Select the social networks you want to see on your site, blog and store"); ?></small>
                 </div>
 
-
-
                 <div class="form-check">
-                    <div class="d-flex align-items-center">
-                        <div class="col-lg-3 pb-2">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="col-xl-3 col-md-6 col-12 pb-2">
                             <input type="checkbox" class="mw_option_field form-check-input me-2" id="facebook_enabled" option-group="<?php print $option_group; ?>" name="facebook_enabled" id="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
                             <label class="form-check-label mr-2 d-flex" for="facebook_enabled"><i class="mdi mdi-facebook mdi-20px lh-1_0 me-1"></i> facebook.com/</label>
                         </div>
-                        <div class="col-lg-9">
-                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="facebook_url" value="<?php print $facebook_url; ?>">
+                        <div class="col-xl-9 col-md-6 col-12">
+                            <input type="text"md-  col-12option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="facebook_url" value="<?php print $facebook_url; ?>">
 
                         </div>
                     </div>
                 </div>
 
                 <div class="form-check">
-                    <div class="d-flex align-items-center">
-                        <div class="col-lg-3 pb-2">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="col-xl-3 col-md-6 col-12 pb-2">
                             <input type="checkbox" class="mw_option_field form-check-input me-2" name="twitter_enabled" id="twitter_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
                             <label class="form-check-label mr-2 d-flex" for="twitter_enabled"><i class="mdi mdi-twitter mdi-20px lh-1_0 me-1"></i> twitter.com/</label>
                         </div>
 
-                        <div class="col-lg-9">
-                            <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="twitter_url" value="<?php print $twitter_url; ?>">
+                        <div class="col-xl-9 col-md-6 col-12">
+                            <input type="text"md-  col-12option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="twitter_url" value="<?php print $twitter_url; ?>">
 
                         </div>
                     </div>
                 </div>
 
                 <div class="form-check">
-                    <div class="d-flex align-items-center">
-                        <div class="col-lg-3 pb-2">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                             <input type="checkbox" class="mw_option_field form-check-input me-2" name="youtube_enabled" id="youtube_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($youtube_enabled) print 'checked="checked"'; ?>>
                             <label class="form-check-label mr-2 d-flex" for="youtube_enabled"><i class="mdi mdi-youtube mdi-20px lh-1_0 me-1"></i> youtube.com/</label>
                         </div>
-                        <div class="col-lg-9">
+                        <div class="col-xl-9 col-md-6 col-12">
 
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="youtube_url" value="<?php print $youtube_url; ?>"/>
                         </div>
@@ -130,13 +128,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
 
                 <div class="form-check">
-                    <div class="d-flex align-items-center">
-                        <div class="col-lg-3 pb-2">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                             <input type="checkbox" class="mw_option_field form-check-input me-2" name="instagram_enabled" id="instagram_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($instagram_enabled) print 'checked="checked"'; ?>>
                             <label class="form-check-label mr-2 d-flex" for="instagram_enabled"><i class="mdi mdi-instagram mdi-20px lh-1_0 me-1"></i> instagram.com/</label>
                         </div>
-                        <div class="col-lg-9">
+                        <div class="col-xl-9 col-md-6 col-12">
 
                         <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="instagram_url" value="<?php print $instagram_url; ?>"/>
                         </div>
@@ -150,13 +148,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="collapse" id="more-socials-settings">
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="pinterest_enabled" id="pinterest_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-20px lh-1_0 me-1"></i> pinterest.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="pinterest_url" value="<?php print $pinterest_url; ?>"/><span></span>
                             </div>
@@ -164,13 +162,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="linkedin_enabled" id="linkedin_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-20px lh-1_0 me-1"></i> linkedin.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="linkedin_url" value="<?php print $linkedin_url; ?>"/>
                             </div>
@@ -178,13 +176,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="github_enabled" id="github_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($github_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="github_enabled"><i class="mdi mdi-github mdi-20px lh-1_0 me-1"></i> github.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="github_url" value="<?php print $github_url; ?>"/>
                             </div>
@@ -193,13 +191,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="soundcloud_enabled" id="soundcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($soundcloud_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="soundcloud_enabled"><i class="mdi mdi-soundcloud mdi-20px lh-1_0 me-1"></i> soundcloud.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="soundcloud_url" value="<?php print $soundcloud_url; ?>"/>
                             </div>
@@ -207,13 +205,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="mixcloud_enabled" id="mixcloud_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($mixcloud_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="mixcloud_enabled"><i class="mdi mdi-mixdcloud mdi-20px lh-1_0 me-1"></i> mixdcloud.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="mixcloud_url" value="<?php print $mixcloud_url; ?>"/>
                             </div>
@@ -221,13 +219,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="medium_enabled" id="medium_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($medium_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="medium_enabled"><i class="mdi mdi-medium mdi-20px lh-1_0 me-1"></i> medium.com/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                                 <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="medium_url" value="<?php print $medium_url; ?>"/>
                             </div>
@@ -235,26 +233,26 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="rss_enabled" id="rss_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($rss_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="rss_enabled"><i class="mdi mdi-rss mdi-20px lh-1_0 me-1"></i> RSS</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             </div>
                         </div>
                     </div>
 
                     <div class="form-check">
-                        <div class="d-flex align-items-center">
-                            <div class="col-lg-3 pb-2">
+                        <div class="d-flex flex-wrap align-items-center">
+                            <div class="col-xl-3 col-md-6 col-12 pb-2">
 
                                 <input type="checkbox" class="mw_option_field form-check-input me-2" name="discord_enabled" id="discord_enabled" option-group="<?php print $option_group; ?>" value="y" <?php if ($discord_enabled) print 'checked="checked"'; ?>>
                                 <label class="form-check-label mr-2 d-flex" for="discord_enabled"><i class="mdi mdi-discord mdi-20px lh-1_0 me-1"></i> discord.gg/</label>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-xl-9 col-md-6 col-12">
 
                             <input type="text" option-group="<?php print $option_group; ?>" class="mw_option_field form-control" name="discord_url" value="<?php print $discord_url; ?>">
                             </div>

@@ -73,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 0;
+    margin-right: 0; 
     border-radius: 50%; }
   .admin-dashboard-left-nav hr.thin {
     margin: 0 !important; }
@@ -173,7 +173,7 @@
 
 .card-body .row {
   padding: 10px; }
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 1300px) {
     .card-body .row {
       padding: 30px; } }
 

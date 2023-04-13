@@ -116,11 +116,11 @@ $lang = mw()->lang_helper->current_lang();
 <div class="card mb-3">
     <div  class="card-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Search"); ?></h5>
                 <small class="text-muted"><?php _e('Search for words or phrases.'); ?></small>
             </div>
-            <div class="col-md-9">
+            <div class="col-xl-9">
                 <div class="row mt-3">
                     <div class="col">
                         <div class="input-group prepend-transparent">
@@ -142,7 +142,7 @@ $lang = mw()->lang_helper->current_lang();
 <div class="card mb-3">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Translation"); ?></h5>
                 <small class="text-muted"><?php _e('You can translate the selected language from this fields.'); ?></small>
                 <br/>
@@ -160,7 +160,7 @@ $lang = mw()->lang_helper->current_lang();
                                 <a href="javascript:;" onclick="send_lang_form_to_microweber()" class="btn btn-outline-primary btn-sm mt-2"><?php /*_e('Send us your translation'); */?></a>
                                 -->
             </div>
-            <div class="col-md-9">
+            <div class="col-xl-9">
                 <form id="language-form" class="lang-edit-form">
                     <div class="js-lang-edit-form-messages"></div>
                     <?php

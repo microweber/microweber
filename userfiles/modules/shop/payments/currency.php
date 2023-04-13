@@ -24,7 +24,7 @@ $curencies = mw()->shop_manager->currency_get();
                 <small class="text-muted"><?php _e('Set the currency in which your store will operate.'); ?></small>
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-xl-9">
                 <div class="card bg-light ">
                     <div class="card-body pt-3">
                         <div class="row">
