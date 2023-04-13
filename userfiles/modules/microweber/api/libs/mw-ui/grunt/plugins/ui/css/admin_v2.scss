@@ -198,7 +198,7 @@
 }
 
 .settings-title-inside {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -319,5 +319,13 @@ small.text-muted {
     &:hover {
         transform: scale(1.1);
         background-color: #f8fcff !important;
+    }
+}
+
+.admin-add-new-modal-buttons {
+    border-radius: 3px;
+    padding: 20px 40px;
+    &:hover {
+        background-color: #f8fafc;
     }
 }
