@@ -48,6 +48,7 @@ export const Handle = function (options) {
 
 
     this.initDraggable = function () {
+
       this.draggable = new Draggable({
           handle: this.handle,
           element: null,
@@ -59,13 +60,67 @@ export const Handle = function (options) {
           type: this.settings.type
 
       }, options);
+
+      
         this.draggable.on('dragStart', function () {
+           
             scope.wrapper.addClass('mw-handle-item-dragging');
         })
         this.draggable.on('dragEnd', function () {
+             
             scope.wrapper.removeClass('mw-handle-item-dragging');
-        })
+        });
+
+
+ 
+
+
+
     };
+
+    const getScroll = () => {
+        if (this.settings.document.defaultView.pageYOffset !== undefined) {
+            return {x: this.settings.document.defaultView.pageXOffset, y: this.settings.document.defaultView.pageYOffset};
+        } else {
+            let sx, sy, d = this.settings.document,
+                r = d.documentElement,
+                b = d.body;
+            sx = r.scrollLeft || b.scrollLeft || 0;
+            sy = r.scrollTop || b.scrollTop || 0;
+            return {x: sx, y: sy};
+        }
+    }
+
+    this.position = function(target) {
+        if(!target){
+            return
+        }
+        const off = DomService.offset(target);
+        const scroll = getScroll();
+        const menu = this.wrapper.get(0).querySelector('.mw-le-handle-menu-buttons');
+        let transform ;
+        
+        if(scroll.y > (off.top - 70)) {
+            transform = (scroll.y - (off.top - 70));
+
+            if((transform + 10) > off.height) {
+                transform = off.height + 10
+            }
+        }
+        menu.style.transition = `none`;
+        menu.style.transform = transform ? `translateY(${transform}px)` : '';
+
+        setTimeout(() => menu.style.transition = ``, 10)
+
+
+         this.wrapper.css({
+            top:  off.top, 
+            left:  off.left,
+            width: off.width,   
+            height: off.height,
+        });
+        
+    }
 
     this.set = function (target, forced) {
         
@@ -73,14 +128,10 @@ export const Handle = function (options) {
             _currentTarget = null;
             return;
         }
-        var off = DomService.offset(target);
-         this.wrapper.css({
-            top: off.top,
-            left: off.left,
-            width: off.width,
-            height: off.height,
-        });
+
+        this.position(target);
         this.show();
+
         this.draggable.setElement(target);
         if(_currentTarget !== target || forced) {
             _currentTarget = target;
@@ -91,6 +142,9 @@ export const Handle = function (options) {
 
     this.createHandle = function () {
         if (this.settings.handle) {
+            if(typeof this.settings.handle === 'string') {
+                this.settings.handle = ElementManager(this.handle)
+            }
             this.handle = this.settings.handle;
         } else {
             this.handle = ElementManager({
@@ -103,6 +157,7 @@ export const Handle = function (options) {
             });
             this.wrapper.append(this.handle);
         }
+        
     }
 
     var _resizableMaxWidth = this.settings.document.defaultView.innerWidth;
@@ -153,6 +208,14 @@ export const Handle = function (options) {
       
         return closestElements;
       }
+
+
+      function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+        var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+    
+        return { width: srcWidth*ratio, height: srcHeight*ratio };
+     }
       
 
     this.resizable = function() {
@@ -169,6 +232,7 @@ export const Handle = function (options) {
         this.resizer.on('resize',  data => {
             const target = this.getTarget();
             if(target.nodeName === 'IMG') {
+                data = calculateAspectRatioFit(target.offsetWidth, target.offsetHeight, data.width, data.height)
                 target.style.height = data.height + 'px';
                 target.style.width = data.width + 'px';
                 
@@ -209,4 +273,8 @@ export const Handle = function (options) {
     }
     this.hide()
     this.resizable()
+
+    this.settings.document.addEventListener('orientationChange', e => this.position(this.getTarget()))
+    this.settings.document.addEventListener('resize', e => this.position(this.getTarget()))
+    this.settings.document.addEventListener('scroll', e => this.position(this.getTarget()))
 };

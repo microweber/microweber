@@ -120,10 +120,12 @@ export class LiveEdit {
             ...this.settings,
             dropIndicator: this.dropIndicator,
             content: elementHandleContent.root,
-            handle: elementHandleContent.menu.title,
+            // handle: elementHandleContent.menu.title,
+            handle: ElementManager('.mw-handle-drag-button', elementHandleContent.root.get(0)),
             document: this.settings.document,
             stateManager: this.settings.stateManager,
-            resizable: true
+            resizable: true,
+            
         });
         this.isResizing = false;
 
@@ -274,8 +276,6 @@ export class LiveEdit {
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
             }
-
-             
             
               
             this.handles.get('element').set(null)
@@ -285,7 +285,7 @@ export class LiveEdit {
             if(first) {
                const type = this.elementAnalyzer.getType(first);
                if(type && type !== 'edit') {
-                   this.handles.set(type, elements[0])
+                   this.handles.set(type, first)
                    if(type === 'element') {
                        this.handles.hide('module');
                    } else if(type === 'module') {
