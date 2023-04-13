@@ -1,6 +1,10 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 
 export class LinkPicker extends MicroweberBaseClass {
+    constructor() {
+        super();
+    }
+
     selectLink(targetElementSelector) {
 
 
@@ -22,39 +26,38 @@ export class LinkPicker extends MicroweberBaseClass {
                 url: mw.$(targetElementSelector).val() || ''
             })
         }
-
+        var selectLinkInstance = this;
         linkEditor.promise().then(function (ldata) {
             if (!ldata) {
-                return
+                return;
             }
-
+            var result = {};
 
             var url = ldata.url;
-            var url_display = ldata.url;
-            var btn_category_id;
-            var btn_content_id;
 
+
+            result.url = url;
 
             if (ldata.data) {
                 if (ldata.data.id) {
+                    result.id = ldata.data.id;
                     if ((ldata.data.type) && ldata.data.type === 'category') {
-                        //url = 'category:' + ldata.data.id;
-                        btn_category_id = ldata.data.id;
+
+                        result.type = 'category';
                     } else if ((ldata.data.type) && ldata.data.type === 'page') {
-                        //url = 'content:' + ldata.data.id;
-                        btn_content_id = ldata.data.id;
+
+                        result.type = 'content';
                     } else if (ldata.data.content_type) {
-                        //url = 'content:' + ldata.data.id;
-                        btn_content_id = ldata.data.id;
+                        result.type = 'content';
+
                     }
                 }
 
             }
-            if (!url_display) {
-                url_display = url;
-            }
 
-            alert(url_display + ' ' + url + ' ' + btn_category_id + ' ' + btn_content_id);
+
+            selectLinkInstance.dispatch('selected', result);
+
         })
 
 

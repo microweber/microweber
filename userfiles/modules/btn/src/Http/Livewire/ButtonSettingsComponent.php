@@ -6,7 +6,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
 class ButtonSettingsComponent extends ModuleSettingsComponent
 {
-
+    public $url = '';
     public array $settings = [
         'button_style' => '',
         'button_size' => '',
@@ -36,15 +36,18 @@ class ButtonSettingsComponent extends ModuleSettingsComponent
 
     public function render()
     {
+        if($this->settings['url_to_content_id'] != ''){
+            $this->url = content_link($this->settings['url_to_content_id']);
+        }
+        if($this->settings['url_to_category_id'] != ''){
+            $this->url = category_link($this->settings['url_to_category_id']);
+        }
+        if($this->settings['url'] != ''){
+            $this->url = $this->settings['url'];
+        }
+
         return view('modules.btn::livewire.settings');
     }
 
 
-    public function setAlign($align)
-    {
-
-        $this->settings['align'] = $align;
-        $this->updatedSettings($this->settings);
-
-    }
 }
