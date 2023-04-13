@@ -17,7 +17,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="row">
             <div class="form-group">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" name="enable_invoices" id="enable_invoices" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" class="mw_option_field custom-control-input" <?php if (true): ?>checked<?php endif; ?>>
+                    <input type="checkbox" name="enable_invoices" id="enable_invoices" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" class="mw_option_field form-check-input" <?php if (true): ?>checked<?php endif; ?>>
                     <label class="custom-control-label" for="enable_invoices"><?php _e("Enable invoicing"); ?></label>
                 </div>
             </div>

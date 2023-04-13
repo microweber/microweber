@@ -20,12 +20,12 @@
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="voguepay_test_mode1" name="voguepay_test_mode" class="mw_option_field custom-control-input" data-option-group="payments" value="1" <?php if (get_option('voguepay_test_mode', 'payments') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="radio" id="voguepay_test_mode1" name="voguepay_test_mode" class="mw_option_field form-check-input" data-option-group="payments" value="1" <?php if (get_option('voguepay_test_mode', 'payments') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="voguepay_test_mode1"><?php _e("Yes"); ?></label>
     </div>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="voguepay_test_mode2" name="voguepay_test_mode" class="mw_option_field custom-control-input" data-option-group="payments" value="0" <?php if (get_option('voguepay_test_mode', 'payments') != 1): ?> checked="checked" <?php endif; ?>>
+        <input type="radio" id="voguepay_test_mode2" name="voguepay_test_mode" class="mw_option_field form-check-input" data-option-group="payments" value="0" <?php if (get_option('voguepay_test_mode', 'payments') != 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="voguepay_test_mode2"><?php _e("No"); ?></label>
     </div>
 </div>

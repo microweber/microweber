@@ -131,12 +131,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label d-block"><?php _e("Show Pop-Up event"); ?></label>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="type1" name="type" class="mw_option_field custom-control-input" value="on_click" data-refresh="popup" <?php if ($type == 'on_click'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="type1" name="type" class="mw_option_field form-check-input" value="on_click" data-refresh="popup" <?php if ($type == 'on_click'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type1"><?php _e("On button click"); ?></label>
                         </div>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="type2" name="type" class="mw_option_field custom-control-input" value="on_click_host" data-refresh="popup" <?php if ($type == 'on_click_host'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="type2" name="type" class="mw_option_field form-check-input" value="on_click_host" data-refresh="popup" <?php if ($type == 'on_click_host'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type2">
                                 <?php _e("On host link click"); ?>
                                 <span data-bs-toggle="tooltip" title="Use nearest preceding link"><i class="mdi mdi-help-circle"></i></span>
@@ -144,7 +144,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="type3" name="type" class="mw_option_field custom-control-input" value="on_time" data-refresh="popup" <?php if ($type == 'on_time'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="type3" name="type" class="mw_option_field form-check-input" value="on_time" data-refresh="popup" <?php if ($type == 'on_time'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type3">
                                 <?php _e("On time"); ?>
                                 <span data-bs-toggle="tooltip" title="Only first time (if accept) with cookies"><i class="mdi mdi-help-circle"></i></span>
@@ -152,7 +152,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         </div>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="type4" name="type" class="mw_option_field custom-control-input" value="on_leave_window" data-refresh="popup" <?php if ($type == 'on_leave_window'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="type4" name="type" class="mw_option_field form-check-input" value="on_leave_window" data-refresh="popup" <?php if ($type == 'on_leave_window'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="type4"><?php _e("On Leave window"); ?></label>
                         </div>
                     </div>
@@ -172,12 +172,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label d-block"><?php _e("Content source"); ?></label>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="source1" name="source" class="mw_option_field custom-control-input" value="edited_text" data-refresh="popup" <?php if ($source == 'edited_text'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="source1" name="source" class="mw_option_field form-check-input" value="edited_text" data-refresh="popup" <?php if ($source == 'edited_text'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="source1"><?php _e("Edited text"); ?> (<span class="tip" data-tipposition="top-center" title="Open the popup to edit the text">?</span>)</label>
                         </div>
 
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="source2" name="source" class="mw_option_field custom-control-input" value="existing_page" data-refresh="popup" <?php if ($source == 'existing_page'): ?>checked<?php endif; ?>>
+                            <input type="radio" id="source2" name="source" class="mw_option_field form-check-input" value="existing_page" data-refresh="popup" <?php if ($source == 'existing_page'): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="source2"><?php _e("Existing page content"); ?></label>
                         </div>
                     </div>

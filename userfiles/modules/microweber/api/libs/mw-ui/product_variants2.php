@@ -27,14 +27,14 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                    <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Allow multiple choices</label>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                    <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Is it required field? </label>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                    <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">Show label</label>
                                 </div>
                             </div>

@@ -141,7 +141,7 @@
 
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1">
                                                 <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-facebook mdi-20px lh-1_0 mr-2"></i> facebook.com/</label>
                                                 <input class="form-control" value="Microweber"/>
                                             </div>
@@ -149,7 +149,7 @@
 
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1">
                                                 <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-twitter mdi-20px lh-1_0 mr-2"></i> twitter.com/</label>
                                                 <input class="form-control" value=""/>
                                             </div>
@@ -157,7 +157,7 @@
 
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1">
                                                 <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-pinterest mdi-20px lh-1_0 mr-2"></i> pinterest.com/</label>
                                                 <input class="form-control" value=""/>
                                             </div>
@@ -168,7 +168,7 @@
                                         <div class="collapse" id="more-socials-settings">
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-youtube mdi-20px lh-1_0 mr-2"></i> youtube.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -176,7 +176,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-linkedin mdi-20px lh-1_0 mr-2"></i> linkedin.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -184,7 +184,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-github mdi-20px lh-1_0 mr-2"></i> github.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -192,7 +192,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-instagram mdi-20px lh-1_0 mr-2"></i> instagram.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -200,7 +200,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-soundcloud mdi-20px lh-1_0 mr-2"></i> soundcloud.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -208,7 +208,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-mixdcloud mdi-20px lh-1_0 mr-2"></i> mixdcloud.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -216,7 +216,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-medium mdi-20px lh-1_0 mr-2"></i> medium.com/</label>
                                                     <input class="form-control" value=""/>
                                                 </div>
@@ -224,7 +224,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-rss mdi-20px lh-1_0 mr-2"></i> RSS</label>
                                                 </div>
                                             </div>

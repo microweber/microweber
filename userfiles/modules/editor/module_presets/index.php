@@ -356,7 +356,7 @@
                         <div class="row">
                             <div class="col-auto d-flex align-items-center justify-content-center">
                                 <div class="custom-control custom-radio mb-0">
-                                    <input type="radio" name="preset_selector" title="<?php print  $item['module_id'] ?>" value="1" id="<?php print $item['module_id'] ?>-field" js-mod-id="<?php print $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="custom-control-input module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" <?php if ($fffound) { ?>checked<?php } ?>>
+                                    <input type="radio" name="preset_selector" title="<?php print  $item['module_id'] ?>" value="1" id="<?php print $item['module_id'] ?>-field" js-mod-id="<?php print $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="form-check-input module-presets-action-btn  js-module-presets-action-btn-use js-module-presets-action-btn-use-radio" <?php if ($fffound) { ?>checked<?php } ?>>
                                     <label class="custom-control-label mb-0" for="<?php print $item['module_id'] ?>-field">&nbsp;</label>
                                 </div>
                                 <button type="button" js-mod-id="<?php print  $item['module_id'] ?>" use="<?php print  $item['module_id'] ?>" class="btn btn-sm <?php if (($fffound) != false): ?>btn-success<?php else : ?>btn-primary<?php endif; ?> module-presets-action-btn js-module-presets-action-btn-use"><?php if ($fffound): ?>Using<?php else: ?>Use<?php endif; ?></button>

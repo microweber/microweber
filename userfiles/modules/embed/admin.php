@@ -34,7 +34,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="mw_option_field custom-control-input" name="hide_in_live_edit" id="hide_in_live_edit" value="true" data-refresh="embed" <?php if ($hide_in_live_edit): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="mw_option_field form-check-input" name="hide_in_live_edit" id="hide_in_live_edit" value="true" data-refresh="embed" <?php if ($hide_in_live_edit): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="hide_in_live_edit"><?php _e("Hide in Live Edit"); ?></label>
                     </div>
                 </div>

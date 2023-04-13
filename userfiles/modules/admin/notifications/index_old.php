@@ -300,7 +300,7 @@ if (isset($notif_params['quick'])) {
                 <div class="col-12 d-sm-flex align-items-center justify-content-between">
                     <div class="text-center text-md-left my-2">
                         <div class="custom-control custom-checkbox d-inline-block my-2 mr-3">
-                            <input type="checkbox" class="custom-control-input check-all js-check-all" id="check-all"/>
+                            <input type="checkbox" class="form-check-input check-all js-check-all" id="check-all"/>
                             <label class="custom-control-label" for="check-all">Select all</label>
                         </div>
 
@@ -369,7 +369,7 @@ if (isset($notif_params['quick'])) {
 
                         <div class="col pr-0 timeline-line">
                             <div class="custom-control custom-checkbox d-inline-block">
-                                <input type="checkbox" class="custom-control-input js-checked-checkbox" id="notif-<?php echo $item['id']; ?>" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
+                                <input type="checkbox" class="form-check-input js-checked-checkbox" id="notif-<?php echo $item['id']; ?>" value="<?php echo $item['id']; ?>" name="checked[<?php echo $item['id']; ?>]">
                                 <label class="custom-control-label" for="notif-<?php echo $item['id']; ?>"></label>
                             </div>
 

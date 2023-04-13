@@ -88,7 +88,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="form-group">
                                         <div class="custom-control custom-switch m-0">
-                                            <input type="checkbox" name="enable_coupons" class="mw_option_field custom-control-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
+                                            <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
 
                                             <label class="custom-control-label" for="enable_coupons"><?php _e("Enable coupons support"); ?></label>
                                         </div>

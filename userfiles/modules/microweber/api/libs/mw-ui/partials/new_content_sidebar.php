@@ -11,11 +11,11 @@
                 <div class="col-12">
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="">
+                            <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" checked="">
                             <label class="custom-control-label" for="customRadio1"><?php _e('Visible'); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                            <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
                             <label class="custom-control-label" for="customRadio2"><?php _e('Hidden'); ?></label>
                         </div>
                     </div>

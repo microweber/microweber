@@ -17,7 +17,7 @@ $randomId = uniqid();
                     @php
                         $randIdForCheck = uniqid();
                     @endphp
-                    <input class="custom-control-input js-filter-option-select" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                    <input class="form-check-input js-filter-option-select" type="radio" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
                     <label class="custom-control-label" for="{{$randIdForCheck}}">
                         {{ $options->value }}
                     </label>

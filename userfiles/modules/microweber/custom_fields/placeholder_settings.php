@@ -14,7 +14,7 @@
         <div class="mw-custom-field-form-controls p-0">
             <label class="mw-ui-check">
                 <input type="hidden" value="false" name="options[show_placeholder]">
-                <input type="checkbox" class="custom-control-input" name="options[show_placeholder]" id="custom_field_show_placeholder<?php print $rand; ?>" value="true" <?php if ($settings['show_placeholder'] == 'true'): ?> checked="checked"  <?php endif; ?> >
+                <input type="checkbox" class="form-check-input" name="options[show_placeholder]" id="custom_field_show_placeholder<?php print $rand; ?>" value="true" <?php if ($settings['show_placeholder'] == 'true'): ?> checked="checked"  <?php endif; ?> >
                 <span></span>
                 <span></span>
             </label>

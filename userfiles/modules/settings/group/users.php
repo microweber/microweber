@@ -126,9 +126,9 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-4">
                                         <?php  $curent_val = get_option('enable_user_registration', 'users'); ?>
-                                        <div class="custom-control custom-switch pl-0">
+                                        <div class="form-check form-switch pl-0">
                                             <label class="d-inline-block mr-5" for="enable_user_registration"><?php _e("No"); ?></label>
-                                            <input type="checkbox"  data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="enable_user_registration" option-group="users" id="enable_user_registration" value="y" <?php if ($curent_val !== 'n'): ?>checked<?php endif; ?>>
+                                            <input type="checkbox"  data-value-checked="y" data-value-unchecked="n"   class="mw_option_field form-check-input" name="enable_user_registration" option-group="users" id="enable_user_registration" value="y" <?php if ($curent_val !== 'n'): ?>checked<?php endif; ?>>
                                             <label class="custom-control-label" for="enable_user_registration"><?php _e("Yes"); ?></label>
                                         </div>
                                     </div>
@@ -139,9 +139,9 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <div class="custom-control custom-switch pl-0">
+                                        <div class="form-check form-switch pl-0">
                                             <label class="d-inline-block mr-5" for="registration_approval_required"><?php _e("No"); ?></label>
-                                            <input type="checkbox" class="mw_option_field custom-control-input" name="registration_approval_required" option-group="users" id="registration_approval_required" value="y" <?php if ($registration_approval_required == 'y'): ?>checked<?php endif; ?>>
+                                            <input type="checkbox" class="mw_option_field form-check-input" name="registration_approval_required" option-group="users" id="registration_approval_required" value="y" <?php if ($registration_approval_required == 'y'): ?>checked<?php endif; ?>>
                                             <label class="custom-control-label" for="registration_approval_required"><?php _e("Yes"); ?></label>
                                         </div>
                                     </div>
@@ -176,28 +176,28 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" id="form_show_first_name" class="mw_option_field custom-control-input" option-group="users">
+                                            <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" id="form_show_first_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_first_name"><?php _e("Show first name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" id="form_show_last_name" class="mw_option_field custom-control-input" option-group="users">
+                                            <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" id="form_show_last_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_last_name"><?php _e("Show last name field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" id="form_show_password_confirmation" class="mw_option_field custom-control-input" option-group="users">
+                                            <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" id="form_show_password_confirmation" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_password_confirmation"><?php _e("Show password confirmation field?"); ?></label>
                                         </div>
                                     </div>
 
                                     <div class="form-group mb-4">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" id="form_show_newsletter_subscription" class="mw_option_field custom-control-input" option-group="users">
+                                            <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" id="form_show_newsletter_subscription" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_newsletter_subscription"><?php _e("Show newsletter subscription checkbox?"); ?></label>
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@ if ($registration_approval_required == false) {
                                     <div class="form-group mb-4">
                                         <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
                                             <label class="custom-control-label" for="captcha_disabled"><?php _e('Disable Captcha?'); ?></label>
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@ if ($registration_approval_required == false) {
                                     <div class="form-group mb-4">
                                         <?php $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
                                             <label class="custom-control-label" for="disable_registration_with_temporary_email"><?php _e('Disable registration with temporary email?'); ?></label>
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@ if ($registration_approval_required == false) {
                                     <div class="form-group mb-4">
                                         <?php $login_captcha_enabled = get_option('login_captcha_enabled', 'users'); ?>
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field custom-control-input" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                            <input type="checkbox" class="mw_option_field form-check-input" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
                                             <label class="custom-control-label" for="login_captcha_enabled"><?php _e('Require captcha to login?'); ?></label>
                                         </div>
                                     </div>
@@ -297,9 +297,9 @@ if ($registration_approval_required == false) {
 
                                     <div class="form-group mb-4">
                                         <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
-                                        <div class="custom-control custom-switch pl-0">
+                                        <div class="form-check form-switch pl-0">
                                             <label class="d-inline-block mr-5" for="users-social-newtworks-login"><?php _e("No"); ?></label>
-                                            <input type="checkbox" class="mw_option_field custom-control-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-bs-toggle="collapse" data-bs-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
+                                            <input type="checkbox" class="mw_option_field form-check-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-bs-toggle="collapse" data-bs-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
                                             <label class="custom-control-label" for="users-social-newtworks-login"><?php _e("Yes"); ?></label>
                                         </div>
 
@@ -311,7 +311,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_fb_registration"><i class="mdi mdi-facebook mdi-30px lh-1_0 mr-2"></i> <?php _e('Enable login with Facebook?'); ?></label>
                                                 </div>
                                             </div>
@@ -336,7 +336,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_twitter_registration"><i class="mdi mdi-twitter mdi-30px lh-1_0 mr-2"></i> <?php _e('Twitter login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -361,7 +361,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_github_registration"><i class="mdi mdi-github mdi-30px lh-1_0 mr-2"></i> <?php _e('Github login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -386,7 +386,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_linkedin_registration"><i class="mdi mdi-linkedin mdi-30px lh-1_0 mr-2"></i> <?php _e('Linked In login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -411,7 +411,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#google-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#google-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_google_registration"><i class="mdi mdi-google mdi-30px lh-1_0 mr-2"></i> <?php _e('Google login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -435,7 +435,7 @@ if ($registration_approval_required == false) {
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field custom-control-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
+                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="enable_user_microweber_registration"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> <?php _e('Microweber login enabled?'); ?></label>
                                                 </div>
                                             </div>
@@ -496,9 +496,9 @@ if ($registration_approval_required == false) {
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="register_email_enabled"><?php _e("No"); ?></label>
-                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="register_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
@@ -511,9 +511,9 @@ if ($registration_approval_required == false) {
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="register_email_to_admins_enabled"><?php _e("No"); ?></label>
-                                                <input name="register_email_to_admins_enabled" id="register_email_to_admins_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_to_admins_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <input name="register_email_to_admins_enabled" id="register_email_to_admins_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_to_admins_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="register_email_to_admins_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>
@@ -526,9 +526,9 @@ if ($registration_approval_required == false) {
                                         </div>
 
                                         <div class="form-group mb-4">
-	                                        <div class="custom-control custom-switch pl-0">
+	                                        <div class="form-check form-switch pl-0">
 	                                            <label class="d-inline-block mr-5" for="register_email_verify"><?php _e("No"); ?></label>
-		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field custom-control-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
+		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field form-check-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
 		                                        <label class="custom-control-label" for="register_email_verify"><?php _e("Yes"); ?></label>
 		                                    </div>
                                         </div>
@@ -545,9 +545,9 @@ if ($registration_approval_required == false) {
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="forgot_pass_email_enabled"><?php _e("No"); ?></label>
-                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field custom-control-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                                 <label class="custom-control-label" for="forgot_pass_email_enabled"><?php _e("Yes"); ?></label>
                                             </div>
                                         </div>

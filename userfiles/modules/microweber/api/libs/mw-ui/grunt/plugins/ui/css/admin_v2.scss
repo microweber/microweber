@@ -286,3 +286,17 @@ small.text-muted {
 #mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
     top: 240px;
 }
+
+.form-check-input {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.form-control {
+    padding: .65rem .9rem;
+}
+
+
+.form-select {
+    padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+}

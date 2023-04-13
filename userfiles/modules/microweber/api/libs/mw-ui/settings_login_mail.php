@@ -40,9 +40,9 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <div class="custom-control custom-switch pl-0">
+                            <div class="form-check form-switch pl-0">
                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                             </div>
                         </div>

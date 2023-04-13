@@ -149,7 +149,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                       <div class="col pl-0 js-change-method-status" style="max-width: 60px;">
                                           <div class="form-group m-0">
                                               <div class="custom-control custom-switch m-0">
-                                                  <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field custom-control-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?> value="1">
+                                                  <input onchange="setActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" class="mw_option_field form-check-input" id="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>" name="payment_gw_<?php print $payment_module['module'] ?>" data-option-group="payments" data-id="shipping_gw_shop/shipping/gateways/country"<?php if (get_option('payment_gw_' . $payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?> value="1">
                                                   <label class="custom-control-label" for="ccheckbox-payment_gw_<?php print $payment_module['module'] ?>"></label>
                                               </div>
                                           </div>

@@ -304,7 +304,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="thumbnail" id="thumbnail" <?php if (in_array('thumbnail', $show_fields)): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="thumbnail" id="thumbnail" <?php if (in_array('thumbnail', $show_fields)): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="thumbnail"><?php _e("Thumbnail"); ?></label>
                     </div>
                 </div>
@@ -313,7 +313,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="title" id="title" <?php if (in_array('title', $show_fields)): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="title" id="title" <?php if (in_array('title', $show_fields)): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="title"><?php _e("Title"); ?></label>
                     </div>
                 </div>
@@ -327,7 +327,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="description" id="description" <?php if (in_array('description', $show_fields)): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="description" id="description" <?php if (in_array('description', $show_fields)): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="description"><?php _e("Description"); ?></label>
                     </div>
                 </div>
@@ -342,7 +342,7 @@ $rand = uniqid(); ?>
                 <div class="setting-row d-flex align-items-center justify-content-between">
                     <div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="price" id="price" <?php if (in_array('price', $show_fields)): ?>checked<?php endif; ?>>
+                            <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="price" id="price" <?php if (in_array('price', $show_fields)): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="price"><?php _e("Show price"); ?></label>
                         </div>
                     </div>
@@ -351,7 +351,7 @@ $rand = uniqid(); ?>
                 <div class="setting-row d-flex align-items-center justify-content-between">
                     <div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="add_to_cart" id="add_to_cart" <?php if (in_array('add_to_cart', $show_fields)): ?>checked<?php endif; ?>>
+                            <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="add_to_cart" id="add_to_cart" <?php if (in_array('add_to_cart', $show_fields)): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="add_to_cart"><?php _e("Add to cart button"); ?></label>
                         </div>
                     </div>
@@ -365,7 +365,7 @@ $rand = uniqid(); ?>
                 <div class="setting-row d-flex align-items-center justify-content-between">
                     <div>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input mw_option_field" name="filter-only-in-stock" value="1" id="filter-only-in-stock" <?php if (get_option('filter-only-in-stock', $params['id'])): ?>checked<?php endif; ?>>
+                            <input type="checkbox" class="form-check-input mw_option_field" name="filter-only-in-stock" value="1" id="filter-only-in-stock" <?php if (get_option('filter-only-in-stock', $params['id'])): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" for="filter-only-in-stock"><?php _e("Show only products in stock"); ?></label>
                         </div>
                     </div>
@@ -375,7 +375,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="read_more" id="read_more" <?php if (in_array('read_more', $show_fields)): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="read_more" id="read_more" <?php if (in_array('read_more', $show_fields)): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="read_more"><?php _e("Read More Link"); ?></label>
                     </div>
                 </div>
@@ -388,7 +388,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-show" value="created_at" id="created_at" <?php if (in_array('created_at', $show_fields)): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-show" value="created_at" id="created_at" <?php if (in_array('created_at', $show_fields)): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="created_at"><?php _e("Date"); ?></label>
                     </div>
                 </div>
@@ -397,7 +397,7 @@ $rand = uniqid(); ?>
             <div class="setting-row d-flex align-items-center justify-content-between">
                 <div>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input mw_option_field" name="data-hide-paging" value="y" id="data-hide-paging" <?php if (get_option('data-hide-paging', $params['id']) == 'y'): ?>checked<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input mw_option_field" name="data-hide-paging" value="y" id="data-hide-paging" <?php if (get_option('data-hide-paging', $params['id']) == 'y'): ?>checked<?php endif; ?>>
                         <label class="custom-control-label" for="data-hide-paging"><?php _e("Hide paging"); ?></label>
                     </div>
                 </div>

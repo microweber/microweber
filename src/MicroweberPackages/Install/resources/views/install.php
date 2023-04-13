@@ -707,7 +707,7 @@
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" id="with_default_content" name="with_default_content" value="1" tabindex="7" checked="">
+                                                            <input type="checkbox" class="form-check-input" id="with_default_content" name="with_default_content" value="1" tabindex="7" checked="">
                                                             <label class="custom-control-label" for="with_default_content"><?php _e('Import default content'); ?></label>
                                                         </div>
                                                         <small class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>
@@ -772,7 +772,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="subscribe_for_update_notification" name="subscribe_for_update_notification" value="1" tabindex="13" checked="">
+                                                                    <input type="checkbox" class="form-check-input" id="subscribe_for_update_notification" name="subscribe_for_update_notification" value="1" tabindex="13" checked="">
                                                                     <label class="custom-control-label" for="subscribe_for_update_notification"><?php _e('Update nofitication'); ?></label>
                                                                 </div>
 

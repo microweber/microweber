@@ -18,9 +18,9 @@
 
             <div class="form-group">
                 <label class="form-label"><?php _e('Multilanguage is active'); ?>?</label>
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active"><?php _e('No'); ?></label>
-                    <input class="mw_option_field custom-control-input" id="is_active" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                    <input class="mw_option_field form-check-input" id="is_active" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
                     <label class="custom-control-label" for="is_active"><?php _e('Yes'); ?></label>
                 </div>
             </div>
@@ -70,9 +70,9 @@
 
             <div class="form-group">
                 <label class="form-label"><?php _e("Add prefix for all languages"); ?></label>
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="add_prefix_for_all_languages"><?php _e("No"); ?></label>
-                    <input class="mw_option_field custom-control-input" id="add_prefix_for_all_languages" type="checkbox" autocomplete="off" name="add_prefix_for_all_languages" <?php if (get_option('add_prefix_for_all_languages', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                    <input class="mw_option_field form-check-input" id="add_prefix_for_all_languages" type="checkbox" autocomplete="off" name="add_prefix_for_all_languages" <?php if (get_option('add_prefix_for_all_languages', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
                     <label class="custom-control-label" for="add_prefix_for_all_languages"><?php _e("Yes"); ?></label>
                 </div>
             </div>
@@ -81,9 +81,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label"><?php _e("Switch language by IP Geolocation"); ?></label>
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="use_geolocation"><?php _e("No"); ?></label>
-                    <input class="mw_option_field custom-control-input" type="checkbox" id="use_geolocation" autocomplete="off" name="use_geolocation" <?php if (get_option('use_geolocation', 'multilanguage_settings') == 'y'): ?>checked="checked"<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                    <input class="mw_option_field form-check-input" type="checkbox" id="use_geolocation" autocomplete="off" name="use_geolocation" <?php if (get_option('use_geolocation', 'multilanguage_settings') == 'y'): ?>checked="checked"<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
                     <label class="custom-control-label" for="use_geolocation"><?php _e("Yes"); ?></label>
                 </div>
             </div>

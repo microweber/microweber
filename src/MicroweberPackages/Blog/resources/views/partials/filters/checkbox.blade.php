@@ -18,7 +18,7 @@ $randomId = uniqid();
                 @endphp
 
                         <div class="custom-control custom-checkbox ">
-                            <input class="custom-control-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
+                            <input class="form-check-input js-filter-option-select" type="checkbox" id="{{$randIdForCheck}}" @if ($options->active) checked @endif name="filters[{{$filterKey}}][]" value="{{$options->value}}">
                             <label class="custom-control-label" for="{{$randIdForCheck}}">
                                 <span>{{ $options->value }}</span>
                             </label>

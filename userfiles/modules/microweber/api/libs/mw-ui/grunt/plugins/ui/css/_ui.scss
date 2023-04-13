@@ -453,7 +453,7 @@ textarea:not(.form-control) {
     }
   }
 
-  .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
+  .form-check-input[disabled] ~ .custom-control-label::before, .form-check-input:disabled ~ .custom-control-label::before {
     border-color: $gray-400;
   }
 }

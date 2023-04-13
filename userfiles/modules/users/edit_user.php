@@ -323,7 +323,7 @@ $saveRoute = route('api.user.store');
 
                             <div class="form-group mt-4 mb-4">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="send_new_user_email" checked="">
+                                    <input type="checkbox" class="form-check-input" id="send_new_user_email" checked="">
                                     <label class="custom-control-label" for="send_new_user_email"><?php _e("Send the new user an email about their account"); ?>. <br/>
                                     </label>
                                     <br />
@@ -359,11 +359,11 @@ $saveRoute = route('api.user.store');
                                     <small class="text-muted d-block mb-1"><?php _e("Choose the current status of this user"); ?></small>
 
                                     <div class="custom-control custom-radio d-inline-block mr-3">
-                                        <input type="radio" id="is_active1" class="custom-control-input" value="1" name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
+                                        <input type="radio" id="is_active1" class="form-check-input" value="1" name="is_active" <?php if ($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
                                         <label class="custom-control-label" for="is_active1"><?php _e("Active"); ?></label>
                                     </div>
                                     <div class="custom-control custom-radio d-inline-block">
-                                        <input type="radio" id="is_active2" class="custom-control-input" value="0" name="is_active" <?php if ($data['is_active'] == 0): ?> checked="checked" <?php endif; ?>>
+                                        <input type="radio" id="is_active2" class="form-check-input" value="0" name="is_active" <?php if ($data['is_active'] == 0): ?> checked="checked" <?php endif; ?>>
                                         <label class="custom-control-label" for="is_active2"><?php _e("Disabled"); ?></label>
                                     </div>
 
@@ -376,12 +376,12 @@ $saveRoute = route('api.user.store');
                                     <label class="form-label d-block"><?php _e("Basic mode"); ?></label>
 
                                     <div class="custom-control custom-radio d-inline-block mr-3">
-                                        <input type="radio" id="basic_mode1" class="custom-control-input" value="1" name="basic_mode" <?php if ($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
+                                        <input type="radio" id="basic_mode1" class="form-check-input" value="1" name="basic_mode" <?php if ($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
                                         <label class="custom-control-label" for="basic_mode1"><?php _e("Active"); ?></label>
                                     </div>
 
                                     <div class="custom-control custom-radio d-inline-block">
-                                        <input type="radio" id="basic_mode0" class="custom-control-input" value="0" name="basic_mode" <?php if ($data['basic_mode'] == 0): ?> checked="checked" <?php endif; ?>>
+                                        <input type="radio" id="basic_mode0" class="form-check-input" value="0" name="basic_mode" <?php if ($data['basic_mode'] == 0): ?> checked="checked" <?php endif; ?>>
                                         <label class="custom-control-label" for="basic_mode0"><?php _e("Disabled"); ?></label>
                                     </div>
                                 </div>

@@ -41,9 +41,9 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -54,9 +54,9 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -91,28 +91,28 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show first name field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show first name field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show password confirmation field?</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Show newsletter subscription field?</label>
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Disable Captcha?</label>
                                             </div>
                                         </div>
@@ -139,7 +139,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Disable registration with temporary email?</label>
                                             </div>
                                         </div>
@@ -174,7 +174,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Require Captcha to Login?</label>
                                             </div>
                                         </div>
@@ -207,9 +207,9 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="users-social-newtworks-login">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="users-social-newtworks-login" data-bs-toggle="collapse" data-bs-target="#allow-users-social-newtworks-login">
+                                                <input type="checkbox" class="form-check-input" id="users-social-newtworks-login" data-bs-toggle="collapse" data-bs-target="#allow-users-social-newtworks-login">
                                                 <label class="custom-control-label" for="users-social-newtworks-login">Yes</label>
                                             </div>
                                         </div>
@@ -222,7 +222,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="fb-login" data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="fb-login" data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="fb-login"><i class="mdi mdi-facebook mdi-30px lh-1_0 mr-2"></i> Enable login with Facebook?</label>
                                                 </div>
                                             </div>
@@ -247,7 +247,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck2" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck2" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck2"><i class="mdi mdi-twitter mdi-30px lh-1_0 mr-2"></i> Twitter login enabled?</label>
                                                 </div>
                                             </div>
@@ -272,7 +272,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-github mdi-30px lh-1_0 mr-2"></i> Github login enabled?</label>
                                                 </div>
                                             </div>
@@ -297,7 +297,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-linkedin mdi-30px lh-1_0 mr-2"></i> Linked In login enabled?</label>
                                                 </div>
                                             </div>
@@ -322,7 +322,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#google-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#google-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-google mdi-30px lh-1_0 mr-2"></i> Google login enabled?</label>
                                                 </div>
                                             </div>
@@ -346,7 +346,7 @@
 
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1" data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
                                                     <label class="custom-control-label mr-2 d-flex" for="customCheck1"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> Microweber login enabled?</label>
                                                 </div>
                                             </div>
@@ -399,9 +399,9 @@
                                         </div>
 
                                         <div class="form-group mb-4">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>

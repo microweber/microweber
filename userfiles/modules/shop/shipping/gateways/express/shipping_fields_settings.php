@@ -11,12 +11,12 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
     <label class="form-label d-block"><?php _e("Disable default shipping fields"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="disable_default_shipping_fields1" name="disable_default_shipping_fields" class="mw_option_field custom-control-input" data-option-group="shipping" value="1" <?php echo $disable_default_shipping_fields ? 'checked="checked"' : ''?> >
+        <input type="radio" id="disable_default_shipping_fields1" name="disable_default_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $disable_default_shipping_fields ? 'checked="checked"' : ''?> >
         <label class="custom-control-label" for="disable_default_shipping_fields1"><?php _e("Yes"); ?></label>
     </div>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="disable_default_shipping_fields2" name="disable_default_shipping_fields" class="mw_option_field custom-control-input" data-option-group="shipping" value="0" <?php echo $disable_default_shipping_fields ? '' : 'checked="checked"'?>  >
+        <input type="radio" id="disable_default_shipping_fields2" name="disable_default_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="0" <?php echo $disable_default_shipping_fields ? '' : 'checked="checked"'?>  >
         <label class="custom-control-label" for="disable_default_shipping_fields2"><?php _e("No"); ?></label>
     </div>
 </div>
@@ -25,12 +25,12 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
     <label class="form-label d-block"><?php _e("Enable custom shipping fields"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="enable_custom_shipping_fields1" name="enable_custom_shipping_fields" class="mw_option_field custom-control-input" data-option-group="shipping" value="1" <?php echo $enable_custom_shipping_fields ? 'checked="checked"' : ''?> >
+        <input type="radio" id="enable_custom_shipping_fields1" name="enable_custom_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $enable_custom_shipping_fields ? 'checked="checked"' : ''?> >
         <label class="custom-control-label" for="enable_custom_shipping_fields1"><?php _e("Yes"); ?></label>
     </div>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="enable_custom_shipping_fields2" name="enable_custom_shipping_fields" class="mw_option_field custom-control-input" data-option-group="shipping" value="0" <?php echo $enable_custom_shipping_fields ? '' : 'checked="checked"'?>  >
+        <input type="radio" id="enable_custom_shipping_fields2" name="enable_custom_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="0" <?php echo $enable_custom_shipping_fields ? '' : 'checked="checked"'?>  >
         <label class="custom-control-label" for="enable_custom_shipping_fields2"><?php _e("No"); ?></label>
     </div>
 </div>
@@ -44,30 +44,30 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
     <label class="form-label d-block"><?php _e("Require fields for checkout"); ?></label>
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="require_country" data-option-group="shipping" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_country" <?php if (get_option('require_country', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="checkbox" name="require_country" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_country" <?php if (get_option('require_country', 'website') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="check-shop_require_country"></label> <?php _e("Country"); ?>
     </div>
 
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="require_city" data-option-group="shipping" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_city" <?php if (get_option('require_city', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="checkbox" name="require_city" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_city" <?php if (get_option('require_city', 'website') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="check-shop_require_city"></label> <?php _e("City"); ?>
     </div>
 
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="require_address" data-option-group="shipping" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_address" <?php if (get_option('require_address', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="checkbox" name="require_address" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_address" <?php if (get_option('require_address', 'website') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="check-shop_require_address"></label> <?php _e("Address"); ?>
     </div>
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="require_state" data-option-group="shipping" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_state" <?php if (get_option('require_state', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="checkbox" name="require_state" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_state" <?php if (get_option('require_state', 'website') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="check-shop_require_state"></label> <?php _e("State"); ?>
     </div>
 
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="require_zip" data-option-group="shipping" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_zip" <?php if (get_option('require_zip', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+        <input type="checkbox" name="require_zip" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_zip" <?php if (get_option('require_zip', 'website') == 1): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="check-shop_require_zip"></label> <?php _e("Zip"); ?>
     </div>
 

@@ -16,7 +16,7 @@
                 <div class="col-12 d-sm-flex align-items-center justify-content-between">
                     <div class="text-center text-md-left my-2">
                         <div class="custom-control custom-checkbox d-inline-block mb-0 mr-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                            <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                             <label class="custom-control-label" for="customCheck1">Select all</label>
                         </div>
 
@@ -49,7 +49,7 @@
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">
-                            <input type="checkbox" class="custom-control-input" id="check-1" checked="">
+                            <input type="checkbox" class="form-check-input" id="check-1" checked="">
                             <label class="custom-control-label" for="check-1"></label>
                         </div>
 
@@ -156,7 +156,7 @@
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">
-                            <input type="checkbox" class="custom-control-input" id="check-12" >
+                            <input type="checkbox" class="form-check-input" id="check-12" >
                             <label class="custom-control-label" for="check-12"></label>
                         </div>
 
@@ -178,7 +178,7 @@
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">
-                            <input type="checkbox" class="custom-control-input" id="check-11" checked="">
+                            <input type="checkbox" class="form-check-input" id="check-11" checked="">
                             <label class="custom-control-label" for="check-11"></label>
                         </div>
 
@@ -200,7 +200,7 @@
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">
-                            <input type="checkbox" class="custom-control-input" id="check-2">
+                            <input type="checkbox" class="form-check-input" id="check-2">
                             <label class="custom-control-label" for="check-2"></label>
                         </div>
 
@@ -267,7 +267,7 @@
                 <div class="row timeline-event">
                     <div class="col pr-0 timeline-line">
                         <div class="custom-control custom-checkbox d-inline-block">
-                            <input type="checkbox" class="custom-control-input" id="check-3" >
+                            <input type="checkbox" class="form-check-input" id="check-3" >
                             <label class="custom-control-label" for="check-3"></label>
                         </div>
 
@@ -369,7 +369,7 @@
                 <!--                <div class="row timeline-event">
                                     <div class="col pr-0 timeline-line">
                                         <div class="custom-control custom-checkbox d-inline-block">
-                                            <input type="checkbox" class="custom-control-input" id="check-4" >
+                                            <input type="checkbox" class="form-check-input" id="check-4" >
                                             <label class="custom-control-label" for="check-4"></label>
                                         </div>
 

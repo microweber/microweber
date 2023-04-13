@@ -203,7 +203,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field custom-control-input" <?php if ($enable_service_links == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
+                                    <input type="checkbox" name="enable_service_links" id="enable_service_links" class="mw_option_field form-check-input" <?php if ($enable_service_links == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="enable_service_links"><?php _e('Enable support links'); ?></label>
                                 </div>
 
@@ -252,7 +252,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </script>
 
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field custom-control-input" <?php if ($disable_powered_by_link == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
+                                    <input type="checkbox" name="disable_powered_by_link" id="disable_powered_by_link" class="mw_option_field form-check-input" <?php if ($disable_powered_by_link == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="disable_powered_by_link"><?php _e('Enable'); ?> "<?php _e('Powered By'); ?>"</label>
                                 </div>
 
@@ -296,7 +296,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="custom-control-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
+                                    <input type="checkbox" name="disable_marketplace" id="disable_marketplace" class="form-check-input" <?php if ($disable_marketplace == '0'): ?>checked<?php endif; ?> data-value-checked="0" data-value-unchecked="1" value="1"/>
                                     <label class="custom-control-label" for="disable_marketplace"><?php _e('Microweber Marketplace'); ?></label>
                                 </div>
                                 <small class="text-muted d-block mb-2"><?php _e('Allow users to see Microweber Marketplace'); ?></small>
@@ -305,7 +305,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="hide_white_label_module_from_list" id="hide_white_label_module_from_list" class="custom-control-input" <?php if ($hide_white_label_module_from_list and $hide_white_label_module_from_list == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
+                                    <input type="checkbox" name="hide_white_label_module_from_list" id="hide_white_label_module_from_list" class="form-check-input" <?php if ($hide_white_label_module_from_list and $hide_white_label_module_from_list == '1'): ?>checked<?php endif; ?> data-value-checked="1" data-value-unchecked="0" value="1"/>
                                     <label class="custom-control-label" for="hide_white_label_module_from_list"><?php _e('Hide white label module from list'); ?></label>
                                 </div>
                                 <small class="text-muted d-block mb-2"><?php _e('Hide the white label module from list of modules'); ?></small>

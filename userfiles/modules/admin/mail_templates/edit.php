@@ -139,9 +139,9 @@ if (!empty($template_id)) {
                     </div>
 
                     <div class="form-group mb-4">
-                        <div class="custom-control custom-switch pl-0">
+                        <div class="form-check form-switch pl-0">
                             <label class="d-inline-block mr-5" for="is_active">No</label>
-                            <input name="is_active" id="is_active" class="custom-control-input" value="1" type="checkbox" <?php if ($template['is_active']): ?> checked="checked" <?php endif; ?>>
+                            <input name="is_active" id="is_active" class="form-check-input" value="1" type="checkbox" <?php if ($template['is_active']): ?> checked="checked" <?php endif; ?>>
                             <label class="custom-control-label" for="is_active">Yes</label>
                         </div>
                     </div>

@@ -88,7 +88,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="col-6">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input mw_option_field" name="friends" data-refresh="facebook_page" id="friends" value="true" <?php if ($friends == 'true'): ?> checked<?php endif; ?> >
+                            <input type="checkbox" class="form-check-input mw_option_field" name="friends" data-refresh="facebook_page" id="friends" value="true" <?php if ($friends == 'true'): ?> checked<?php endif; ?> >
                             <label class="custom-control-label" for="friends"><?php _e('Show friends faces'); ?></label>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="col-6">
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input mw_option_field" name="timeline" data-refresh="facebook_page" id="timeline" value="true" <?php if ($timeline == 'true'): ?> checked<?php endif; ?> >
+                            <input type="checkbox" class="form-check-input mw_option_field" name="timeline" data-refresh="facebook_page" id="timeline" value="true" <?php if ($timeline == 'true'): ?> checked<?php endif; ?> >
                             <label class="custom-control-label" for="timeline"><?php _e('Show timeline'); ?></label>
                         </div>
                     </div>

@@ -44,9 +44,9 @@ if (isset($params['for_module_id'])) {
 
         <div class="form-group mb-4">
             <?php  $emailCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_sender', $mod_id); ?>
-            <div class="custom-control custom-switch pl-0">
+            <div class="form-check form-switch pl-0">
                 <label class="d-inline-block mr-5" for="email_custom_sender">No</label>
-                <input type="checkbox" onchange="toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field custom-control-input" name="email_custom_sender" option-group="<?php print $mod_id ?>" id="email_custom_sender" value="y" <?php if ($emailCustomSender): ?>checked<?php endif; ?>>
+                <input type="checkbox" onchange="toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field form-check-input" name="email_custom_sender" option-group="<?php print $mod_id ?>" id="email_custom_sender" value="y" <?php if ($emailCustomSender): ?>checked<?php endif; ?>>
                 <label class="custom-control-label" for="email_custom_sender">Yes</label>
             </div>
         </div>

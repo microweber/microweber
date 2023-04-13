@@ -274,7 +274,7 @@
                     <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="form-check-input"
                                    id="company_vat_registered"
                                    value="1"
                                    @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif

@@ -53,7 +53,7 @@ $(document).ready(function () {
     <small class="text-muted d-block mb-3"><?php _e('If you have a .xlsx translated file you can import it by uploading it here.');?></small>
 
     <div class="custom-control custom-checkbox">
-        <input type="checkbox" name="replace_values" value="1" class="custom-control-input" id="replace_valuesCheck1"  >
+        <input type="checkbox" name="replace_values" value="1" class="form-check-input" id="replace_valuesCheck1"  >
         <label class="custom-control-label" for="replace_valuesCheck1"><?php _e('Replace language values');?></label>
     </div>
 

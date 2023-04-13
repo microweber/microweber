@@ -33,7 +33,7 @@
                                                 <div class="col text-center manage-post-item-col-1" style="max-width: 40px;">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox custom-checkx-1">
-                                                <input type="checkbox" class="custom-control-input select_posts_for_action" name="select_posts_for_action" id="select-content-<?php print ($item['id']) ?>" value="<?php print ($item['id']) ?>">
+                                                <input type="checkbox" class="form-check-input select_posts_for_action" name="select_posts_for_action" id="select-content-<?php print ($item['id']) ?>" value="<?php print ($item['id']) ?>">
                                                 <label class="custom-control-label" for="select-content-<?php print ($item['id']) ?>"></label>
                                             </div>
                                         </div>

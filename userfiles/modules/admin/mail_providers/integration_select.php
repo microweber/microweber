@@ -19,7 +19,7 @@ $mailProviders = get_modules('type=mail_provider');
         <?php foreach ($mailProviders as $mailProvider): ?>
             <div class="form-group mb-1">
                 <div class="custom-control custom-checkbox d-inline-block mr-2">
-                    <input type="checkbox" parent-reload="true" value="y" name="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" id="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" class="mw_option_field custom-control-input" option-group="<?php echo $option_group; ?>" <?php if (get_option('use_integration_with_' . strtolower($mailProvider['name']), $option_group) == 'y'): ?>checked<?php endif; ?> />
+                    <input type="checkbox" parent-reload="true" value="y" name="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" id="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>" class="mw_option_field form-check-input" option-group="<?php echo $option_group; ?>" <?php if (get_option('use_integration_with_' . strtolower($mailProvider['name']), $option_group) == 'y'): ?>checked<?php endif; ?> />
                     <label class="custom-control-label" for="use_integration_with_<?php echo strtolower($mailProvider['name']); ?>"><?php echo $mailProvider['name']; ?></label>
                 </div>
 
