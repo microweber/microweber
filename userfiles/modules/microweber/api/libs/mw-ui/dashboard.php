@@ -579,7 +579,7 @@
     </div>
 
 
-    <div class="card style-1">
+    <div class="card ">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-link text-primary mr-3"></i> <strong>Quick links</strong></h5>
         </div>

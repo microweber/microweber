@@ -123,7 +123,7 @@
 
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card bg-none style-1 mb-0 card-settings  js-holder-email-names-settings">
+    <div class="card mb-3 card-settings  js-holder-email-names-settings">
 
         <div class="card-body">
             <div class="row">
@@ -134,7 +134,7 @@
                     </small>
                 </div>
                 <div class="col-md-9">
-                    <div class="card bg-light style-1">
+                    <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
                                 <div class="col-12">
@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <div class="card bg-none style-1 mb-0 card-settings js-holder-email-server-settings">
+    <div class="card mb-3 card-settings js-holder-email-server-settings">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
@@ -169,7 +169,7 @@
                     </small>
                 </div>
                 <div class="col-md-9">
-                    <div class="card bg-light style-1">
+                    <div class="card bg-light ">
                         <div class="card-body pt-3">
 
                             <div class="row">

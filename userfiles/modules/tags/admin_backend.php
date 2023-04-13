@@ -147,7 +147,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     </div>
 
                     <div class="col-md-12">
-                        <div class="card style-1 bg-light">
+                        <div class="card  bg-light">
                             <div class="card-header"><h6 class="font-weight-bold"><?php _e("Global tags");?></h6></div>
                             <div class="card-body">
                                 <div class="js-all-tags"></div>

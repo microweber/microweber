@@ -39,6 +39,6 @@ if (isset($params['for_module'])) {
     <div class="form-check form-switch pl-0">
 
         <input type="checkbox" parent-reload="true" name="require_terms" id="require_terms<?php print $params['id']; ?>" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field form-check-input" option-group="<?php print $mod_name ?>"<?php if (get_option('require_terms', $mod_name) == 'y'): ?>checked<?php endif; ?>/>
-       
+
     </div>
 </div>

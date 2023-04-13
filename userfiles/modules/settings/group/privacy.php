@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-md-9">
-                <div class="card bg-light style-1">
+                <div class="card bg-light ">
                     <div class="card-body pt-3">
                         <div class="row">
                             <div class="col-12">

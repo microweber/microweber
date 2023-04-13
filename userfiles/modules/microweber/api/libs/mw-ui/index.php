@@ -1781,14 +1781,14 @@
                                     </div>
                                 </div>
 
-                                <div class="card style-1 card-success mb-3" style="max-width: 20rem;">
+                                <div class="card  card-success mb-3" style="max-width: 20rem;">
                                     <div class="card-body">
                                         <h4 class="card-title">Primary card title</h4>
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                     </div>
                                 </div>
 
-                                <div class="card style-1 card-danger mb-3" style="max-width: 20rem;">
+                                <div class="card  card-danger mb-3" style="max-width: 20rem;">
                                     <div class="card-body">
                                         <h4 class="card-title">Primary card title</h4>
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

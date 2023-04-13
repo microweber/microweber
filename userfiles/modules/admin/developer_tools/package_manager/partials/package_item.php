@@ -24,7 +24,7 @@ if(!isset($item['type'] )){
 
 <?php if ($item['type'] === 'microweber-module'): ?>
     <div class="js-package-install-content h-100">
-        <div class="card style-1 bg-light h-100 w-100">
+        <div class="card  bg-light h-100 w-100">
             <div class="card-body p-3 d-flex flex-column justify-content-between h-100">
                 <div>
                     <?php if ($item['type'] != 'microweber-core-update'): ?>

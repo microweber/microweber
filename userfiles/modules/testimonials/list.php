@@ -165,7 +165,7 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
             <div>
                 <strong class="mb-2 d-block"><?php echo $key; ?></strong>
                 <?php foreach ($project as $item): ?>
-                    <div class="card style-1 testimonial-holder mb-3" data-id="<?php echo $item->id ?>">
+                    <div class="card  testimonial-holder mb-3" data-id="<?php echo $item->id ?>">
                         <div class="card-body mt-3">
                             <div class="row">
                                 <div class="col-auto d-flex flex-column align-items-center">

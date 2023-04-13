@@ -91,7 +91,7 @@
     </div>
 </div>
 
-<div class="card style-1 bg-light mb-3">
+<div class="card  bg-light mb-3">
     <div class="card-body pt-3"><div id="fm"></div></div>
 </div>
 

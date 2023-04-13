@@ -329,7 +329,7 @@
 @endsection
 
 @section('order_content')
-    <div class="card style-1 bg-light mb-3">
+    <div class="card  bg-light mb-3">
         <div class="card-header">
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>
@@ -338,7 +338,7 @@
         <div class="card-body pt-3">
             @if (!empty($customer) && $customer->orders()->count() > 0)
                 @foreach ($customer->orders()->get() as $order)
-                    <div class="card style-1 mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">
+                    <div class="card  mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">
                         <div class="card-header no-border">
                             <h5><strong>Order #{{ $order->id }}</strong></h5>
                             <div>

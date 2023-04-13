@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -88,7 +88,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -96,7 +96,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -156,7 +156,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -225,7 +225,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -233,7 +233,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">

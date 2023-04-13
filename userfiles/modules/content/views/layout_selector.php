@@ -486,7 +486,7 @@ if (!empty($recomended_layouts)) {
     <?php endif; ?>
 
     <div class="layouts_box_holder">
-        <div class="content-title-field-row card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
+        <div class="content-title-field-row card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-body p-3">
                 <div class="row">
                     <?php if ($show_save_changes_buttons): ?>
@@ -519,7 +519,7 @@ if (!empty($recomended_layouts)) {
                     <?php endif; ?>
 
                     <div class="<?php if ($show_save_changes_buttons): ?>col-md-8<?php else: ?>col-md-12<?php endif; ?>">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
 
@@ -677,7 +677,7 @@ if (!empty($recomended_layouts)) {
 
         </style>
 
-        <div class="card style-1 <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
+        <div class="card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
             <div class="card-body pt-3">
                 <?php if ($show_save_changes_buttons): ?>
                 <?php endif; ?>
