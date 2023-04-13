@@ -5,10 +5,9 @@
             if (user_can_access('module.content.edit')):
                 ?>
             <li class="mx-1 d-none d-md-block">
-                <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon "
+                <button type="button" class="btn btn-primary  bg-white border-0 admin-toolbar-buttons"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="mdi mdi-plus"></i>
-                    <span class="d-none d-md-block"><?php _e("Add New"); ?></span>
+                    <img height="28" width="28" src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/add-new-button.svg" alt="">
                 </button>
                 <div class="dropdown-menu ">
                         <?php $custom_view = url_param('view'); ?>
@@ -47,17 +46,11 @@
 
             <ul class="nav">
                 <?php if (user_can_access('module.content.edit')): ?>
-                <li class="mx-1">
-                    <a href="<?php print $past_page ?>?editmode=n"
-                       class="btn btn-outline-success btn-rounded btn-sm-only-icon go-live-edit-href-set go-live-edit-href-set-view">
-                        <i class="mdi mdi-earth"></i><span class="d-none d-md-block ml-1"><?php _e("Website"); ?></span>
-                    </a>
-                </li>
-                <li class="mx-1">
+                <li>
                     <a href="<?php print $past_page ?>?editmode=y"
-                       class="btn btn-primary btn-rounded btn-sm-only-icon go-live-edit-href-set">
-                        <i class="mdi mdi-eye-outline"></i><span
-                            class="d-none d-md-block ml-1"><?php _e("Live Edit"); ?></span>
+                       class="btn btn-primary bg-white border-0 go-live-edit-href-set admin-toolbar-buttons">
+                        <img height="28" width="28" src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/live-edit-button.svg" alt="">
+                        <span class="text-dark ms-2" style="font-size: 14px; font-weight: bold;">EDIT</span>
                     </a>
                 </li>
                 <?php endif; ?>
