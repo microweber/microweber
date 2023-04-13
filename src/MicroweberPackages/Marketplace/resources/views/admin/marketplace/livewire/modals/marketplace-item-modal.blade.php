@@ -25,9 +25,21 @@
                 </div>
                 <br />
 
-                <select class="form-control">
-                    <option></option>
-                </select>
+                <div>
+                   <div>
+                       Install version:
+                       <select class="form-control">
+                           @foreach($package['versions'] as $version)
+                               <option value="{{$version}}">{{$version}}</option>
+                           @endforeach
+                       </select>
+                   </div>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-outline-success">
+                            Install
+                        </button>
+                    </div>
+                </div>
 
                 <br />
                 <div>

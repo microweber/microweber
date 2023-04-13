@@ -15,17 +15,26 @@ class MarketplaceItemModal extends ModalComponent
 
     public function mount()
     {
-        $name = $this->name;
-        $package = Cache::remember('livewire-marketplace-' . $name, Carbon::now()->addHours(12), function () use($name) {
+        $foundedPackage = [];
+        $foundedPackageVersions = [];
+        $packageName = $this->name;
+        $packages = Cache::remember('livewire-marketplace', Carbon::now()->addHours(12), function () {
             $marketplace = new MicroweberComposerClient();
-            return $marketplace->search([
-                'require_name'=>$name
-            ]);
+            return $marketplace->search();
         });
+        if (!empty($packages)) {
+            foreach ($packages as $packageVersions) {
+                foreach ($packageVersions as $packageVersion=>$packageVersionData) {
+                    if ($packageVersionData['name'] == $packageName) {
+                        $foundedPackage = $packageVersionData;
+                        $foundedPackageVersions[] = $packageVersion;
+                    }
+                }
+            }
+        }
+        $foundedPackage['versions'] = $foundedPackageVersions;
 
-      //  dd($package);
-
-        $this->package = $package;
+        $this->package = $foundedPackage;
     }
 
     public function render()
