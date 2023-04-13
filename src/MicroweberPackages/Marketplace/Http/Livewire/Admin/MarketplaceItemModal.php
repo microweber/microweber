@@ -43,7 +43,7 @@ class MarketplaceItemModal extends ModalComponent
             }
             return 0;
         });
-        
+
         $foundedPackage['versions'] = $foundedPackageVersions;
 
         $this->package = $foundedPackage;

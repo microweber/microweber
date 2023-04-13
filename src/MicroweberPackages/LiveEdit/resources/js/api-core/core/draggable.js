@@ -89,7 +89,7 @@ export const Draggable = function (options, rootSettings) {
 
     this.draggable = function () {
          ElementManager(this.settings.target).on('dragleave', function (e) {
-             scope.dropIndicator.hide()
+            if(scope.dropIndicator) scope.dropIndicator.hide();
          })
          ElementManager(this.settings.target).on('dragover', function (e) {
              scope.target = null;
@@ -101,12 +101,14 @@ export const Draggable = function (options, rootSettings) {
                       if(pos) {
                          scope.target = targetAction.target;
                          scope.action = pos.action;
-                         scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
+                         if(scope.dropIndicator) scope.dropIndicator.position(scope.target, pos.action + '-' + pos.position)
+                         
                      } else {
-                         scope.dropIndicator.hide();
+                        if(scope.dropIndicator) scope.dropIndicator.hide();
+                         
                      }
                  } else {
-                     scope.dropIndicator.hide();
+                    if(scope.dropIndicator) scope.dropIndicator.hide();
                  }
                  if (scope.isDragging) {
                      scope.dispatch('dragOver', {element: scope.element, event: e});
@@ -119,11 +121,12 @@ export const Draggable = function (options, rootSettings) {
                 if (scope.target && scope.action) {
                     ElementManager(scope.target)[scope.action](scope.element);
                 }
-                scope.dropIndicator.hide();
+                if(scope.dropIndicator) scope.dropIndicator.hide();
                 scope.dispatch('drop', {element: scope.element, event: e});
             }
-             scope.dropIndicator.hide();
+            if(scope.dropIndicator) scope.dropIndicator.hide();
         });
+    
         this.handle
             .on('dragstart', function (e) {
                 scope.isDragging = true;
