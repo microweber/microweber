@@ -230,9 +230,9 @@ small.text-muted {
     background-color: #f8fcff !important; }
 
 .admin-add-new-modal-buttons {
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 20px 40px; }
   .admin-add-new-modal-buttons:hover {
-    background-color: #f8fafc; }
+    background-color: #efefef; }
 
 /*# sourceMappingURL=admin_v2.css.map */
