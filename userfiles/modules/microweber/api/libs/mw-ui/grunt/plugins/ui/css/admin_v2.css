@@ -31,7 +31,7 @@
         opacity: 0;
         transition: .5s; }
       .admin-dashboard-left-nav .nav-link:after {
-        width: 30px; 
+        width: 30px;
         height: 30px;
         padding-top: 5px; }
       .admin-dashboard-left-nav .nav-link:hover span:after {
@@ -92,7 +92,7 @@
 
 .settings-holder-wrapper {
   border: 1px solid transparent;
-  padding: 30px 20px;
+  padding: 40px 20px;
   width: 100%; }
   .settings-holder-wrapper:hover {
     text-decoration: none;
