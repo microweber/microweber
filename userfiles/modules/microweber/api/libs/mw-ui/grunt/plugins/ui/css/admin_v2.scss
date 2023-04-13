@@ -290,9 +290,12 @@ small.text-muted {
 .form-check-input {
     width: 1.3rem;
     height: 1.3rem;
-    margin-top: 0;
     background-size: unset;
-    background-position: unset;
+
+}
+
+.mdi-20px {
+    font-size: 20px;
 }
 
 .form-control {

@@ -273,7 +273,7 @@
                                         <br>
 
                                         <label class="form-label"><?php _e("Website Favicon"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website. It is best to be part of your logo.'); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select an icon for your website.'); ?></small>
                                         <div class="d-flex">
                                             <div class="avatar img-absolute w-40 border-radius-0 border-silver me-3" >
                                                 <img src="<?php print $favicon_image; ?>" class="js-icoimage"/>
@@ -342,10 +342,8 @@
                 </div>
                 <div class="col-md-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
-                            <div id="mw-global-fields-social-profile-set">
-                                <module type="social_links/admin" module-id="website" live_edit="false"/>
-                            </div>
+                        <div id="mw-global-fields-social-profile-set">
+                            <module type="social_links/admin" module-id="website" live_edit="false"/>
                         </div>
                     </div>
                 </div>
