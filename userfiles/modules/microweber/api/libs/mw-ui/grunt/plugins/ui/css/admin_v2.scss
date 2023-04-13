@@ -290,6 +290,7 @@ small.text-muted {
 .form-check-input {
     width: 1.3rem;
     height: 1.3rem;
+    margin-top: 0;
 }
 
 .form-control {
@@ -299,4 +300,10 @@ small.text-muted {
 
 .form-select {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+}
+
+
+.form-switch .form-check-input {
+    height: 1.25rem;
+    width: 2.4rem;
 }
