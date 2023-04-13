@@ -37,7 +37,7 @@
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("SEO Settings"); ?></h5>
                     <small class="text-muted"><?php _e('Make these settings to get the best results when finding your website.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -73,7 +73,7 @@
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Development settings"); ?></h5>
                     <small class="text-muted"><?php _e('If you are developer you will find great tools to make your website.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="card bg-light  mb-1">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -95,7 +95,7 @@
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Other settings"); ?></h5>
                     <small class="text-muted"><?php _e('Other settings for your website.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="card bg-light  mb-1">
                         <div class="card-body pt-3">
                             <div class="row">

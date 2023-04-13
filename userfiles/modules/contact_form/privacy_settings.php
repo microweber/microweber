@@ -44,7 +44,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                 <h5 class="font-weight-bold settings-title-inside"><?php _e("Contact form settings") ?></h5>
                 <small class="text-muted"><?php _e("Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.") ?></small>
             </div>
-            <div class="col-md-9">
+            <div class="col-lg-9">
                 <div class="<?php if (!$simple): ?>card bg-light  mb-3<?php endif; ?>">
                     <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
                         <div class="row">

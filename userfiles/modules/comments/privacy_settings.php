@@ -20,7 +20,7 @@
                 <small class="text-muted"><?php _e("Make settings for the comment form. Are there any rules they must agree to when posting a comment?") ?></small>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-lg-9">
                 <div class="card bg-light ">
                     <div class="card-body pt-3">
                         <div class="row">

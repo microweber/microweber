@@ -82,7 +82,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start">
+        <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start" style="padding: 0;">
             <?php
             if (mw()->ui->admin_logo != false):
                 $logo = mw()->ui->admin_logo;
@@ -374,7 +374,7 @@
             </ul>
 
             <hr class="thin">
-            <ul class="navbar-nav-padding">
+            <ul class="navbar-nav-padding nav-item-profile-wrapper">
                 <li class="nav-item nav-item-profile">
                     <a href="" class="nav-link fs-3 ">
                         <div class="mw-admin-sidebar-profile">

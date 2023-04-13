@@ -21,8 +21,13 @@
         padding-inline: 40px 20px !important;
     }
 
+
+    li {
+        list-style: none;
+    }
+
     .navbar-brand.navbar-nav-padding {
-        margin-top: 20px;
+        margin-top: 25px;
     }
 
     .add-new {
@@ -30,9 +35,16 @@
     }
 
     .nav-item-profile {
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: 10px;
+        padding-bottom: 5px;
     }
+
+    .nav-item-profile-wrapper {
+
+        padding-inline-start: 33px !important;
+    }
+
+
 
     .nav-link {
         padding: 15px 0 !important;
@@ -59,6 +71,9 @@
                 width: 30px;
                 height: 30px;
                 padding-top: 5px;
+                position: absolute;
+                top: 14px;
+                right: 0;
             }
 
             &:hover {
@@ -101,6 +116,7 @@
             }
         }
 
+
         &:after {
             border: none;
             content: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
@@ -108,11 +124,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 5px;
             margin-right: 0;
             border-radius: 50%;
 
         }
+    }
+
+    hr.thin {
+        margin: 0 !important;
     }
 }
 
@@ -239,7 +258,12 @@
 
 .card-body {
     .row {
-        padding: 30px;
+
+        @media screen and (min-width: 1000px) {
+            padding: 30px;
+        }
+        padding: 10px;
+
     }
 }
 
@@ -350,7 +374,7 @@ small.text-muted {
 
 
 .mw-admin-sidebar-profile {
-    background-color: #f5f5f5;
+    background-color: #f1f5f9;
     padding: 20px;
     margin-right: 20px;
     border-radius: 50%;

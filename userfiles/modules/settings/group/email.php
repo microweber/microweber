@@ -133,7 +133,7 @@
                         <?php _e("Deliver messages related with new registration, password resets and others system functionalities."); ?>
                     </small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -168,7 +168,7 @@
                         <?php _e("The general e-mail provider will deliver all messages related with the website. Including system messages and contact form messages."); ?>
                     </small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
 
