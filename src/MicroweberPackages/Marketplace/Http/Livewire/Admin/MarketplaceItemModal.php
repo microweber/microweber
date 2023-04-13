@@ -34,6 +34,16 @@ class MarketplaceItemModal extends ModalComponent
                 }
             }
         }
+
+        usort($foundedPackageVersions, function($a, $b) {
+            if ($a < $b) {
+                return 1;
+            } elseif ($a > $b) {
+                return -1;
+            }
+            return 0;
+        });
+        
         $foundedPackage['versions'] = $foundedPackageVersions;
 
         $this->package = $foundedPackage;
