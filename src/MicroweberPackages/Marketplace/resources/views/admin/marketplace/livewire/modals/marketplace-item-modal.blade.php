@@ -1,4 +1,6 @@
 <div>
+    <script>mw.require('admin_package_manager.js');</script>
+
     <div class="modal-header">
         <h5 class="modal-title">
             {{$package['description']}}
@@ -28,16 +30,18 @@
                 <div>
                    <div>
                        Install version:
-                       <select class="form-control">
+                       <select wire:model="installVersion" class="form-control">
                            @foreach($package['versions'] as $version)
                                <option value="{{$version}}">{{$version}}</option>
                            @endforeach
                        </select>
                    </div>
                     <div class="mt-2">
-                        <button type="button" class="btn btn-outline-success">
-                            Install
-                        </button>
+                        <a vkey="{{$installVersion}}" href="javascript:;"
+                           id="js-install-package-action"
+                           onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
+                           class="btn btn-outline-success js-package-install-btn"> Install
+                        </a>
                     </div>
                 </div>
 
@@ -59,9 +63,9 @@
                                         <?php if (isset($package['homepage'])): ?>
                                         <a href="<?php print $package['homepage']; ?>" target="_blank"
                                            class="mw-blue package-ext-link"><?php print $package['homepage']; ?></a>
-                                        <?php else: ?>
-                <?php _e('N/A'); ?>
-            <?php endif; ?>
+                                                    <?php else: ?>
+                                            <?php _e('N/A'); ?>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
 
@@ -85,8 +89,8 @@
                                     <td><?php _e('Keywords'); ?></td>
                                     <td>
                                         <?php if (isset($package['keywords'])): ?>
-                <?php print implode(", ", $package['keywords']); ?>
-            <?php endif; ?>
+                                            <?php print implode(", ", $package['keywords']); ?>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
 

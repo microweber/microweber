@@ -12,6 +12,7 @@ class MarketplaceItemModal extends ModalComponent
 {
     public $name;
     public $package = [];
+    public $installVersion = '';
 
     public function mount()
     {
@@ -28,6 +29,7 @@ class MarketplaceItemModal extends ModalComponent
                     if ($packageVersionData['name'] == $packageName) {
                         $foundedPackage = $packageVersionData;
                         $foundedPackageVersions[] = $packageVersion;
+                        $this->installVersion = $packageVersion;
                     }
                 }
             }
