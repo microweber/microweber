@@ -2,6 +2,17 @@
 
 @section('content')
 
-    <module type="categories/manage" @if(isset($isShop)) is_shop="1" @endif />
+    <div class="px-5">
+
+        @php
+        $enableShop = 0;
+        if(isset($isShop)) {
+            $enableShop = 1;
+        }
+        @endphp
+
+        <module type="categories/manage" is_shop="{{$enableShop}}" id="category-manage" />
+
+    </div>
 
 @endsection

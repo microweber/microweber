@@ -5,7 +5,7 @@
             <div class="js-hide-when-no-items">
                 <div class="d-flex">
                     <?php if (user_can_access('module.categories.edit')): ?>
-                        <?php if (isset($params['is_shop'])): ?>
+                        <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
                             <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
                         <?php else: ?>
                             <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
@@ -173,7 +173,7 @@
                         params: {
                             only_categories: 1,
                             no_limit: true,
-                            <?php if(isset($params['is_shop'])): ?>
+                            <?php if(isset($params['is_shop']) && $params['is_shop'] == 1): ?>
                             is_shop: 1,
                             <?php endif; ?>
                         }

@@ -205,7 +205,7 @@
                                 }
                             </script>
 
-                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
+                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>category" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>
