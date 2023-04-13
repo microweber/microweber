@@ -233,6 +233,7 @@ small.text-muted {
   border-radius: 5px;
   padding: 20px 40px; }
   .admin-add-new-modal-buttons:hover {
-    background-color: #efefef; }
+    background-color: #efefef;
+    cursor: pointer; }
 
 /*# sourceMappingURL=admin_v2.css.map */

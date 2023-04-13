@@ -6,7 +6,7 @@
                 ?>
             <li class="mx-1 d-none d-md-block">
                 <button type="button" class="btn btn-primary  bg-white border-0 admin-toolbar-buttons"
-                        data-bs-toggle="modal"  data-bs-target="#modal-simple" aria-expanded="false">
+                        data-bs-toggle="modal"  data-bs-target="#modal-add-new-admin" aria-expanded="false">
                     <img height="28" width="28" src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/add-new-button.svg" alt="">
                 </button>
 
@@ -64,7 +64,7 @@
 </div>
 
 
-<div class="modal modal-blur fade hide" id="modal-simple" tabindex="-1" aria-modal="true" role="dialog">
+<div class="modal modal-blur fade hide" id="modal-add-new-admin" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header border-0">
