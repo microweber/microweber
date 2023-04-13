@@ -10,12 +10,14 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
+
+    <link rel="stylesheet" href="<?php print mw_includes_url(); ?>css/fonts/fonts.css">
     <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
 
     <script type="text/javascript">
 
 
-        mw.require("<?php print mw_includes_url(); ?>css/fonts/fonts.css", true);
+        {{--mw.require("<?php print mw_includes_url(); ?>css/fonts/fonts.css", true);--}}
         mw.lib.require('jqueryui');
         mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         mw.require("liveadmin.js");

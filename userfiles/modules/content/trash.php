@@ -112,7 +112,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <div class="toolbar row mb-3">
             <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-2">
                 <div class="custom-control custom-checkbox mb-0 trash-select-all">
-                    <input type="checkbox" class="custom-control-input" id="check-all">
+                    <input type="checkbox" class="form-check-input" id="check-all">
                     <label class="custom-control-label" for="check-all"><?php _e("Check all"); ?></label>
                 </div>
             </div>
@@ -143,7 +143,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     <div class="col text-center" style="max-width: 40px;">
                                         <div class="form-group mb-0">
                                             <div class="custom-control custom-checkbox mx-1">
-                                                <input name="select_delete_forever" id="trash-item-<?php print ($item['id']) ?>" class="select_delete_forever custom-control-input" type="checkbox" value="<?php print ($item['id']) ?>"/>
+                                                <input name="select_delete_forever" id="trash-item-<?php print ($item['id']) ?>" class="select_delete_forever form-check-input" type="checkbox" value="<?php print ($item['id']) ?>"/>
                                                 <label class="custom-control-label" for="trash-item-<?php print ($item['id']) ?>"></label>
                                             </div>
                                         </div>

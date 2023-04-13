@@ -274,7 +274,7 @@
                     <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="checkbox"
-                                   class="custom-control-input"
+                                   class="form-check-input"
                                    id="company_vat_registered"
                                    value="1"
                                    @if(isset($customer->addresses[1]) && $customer->addresses[1]->company_vat_registered == '1') checked="checked" @endif
@@ -329,7 +329,7 @@
 @endsection
 
 @section('order_content')
-    <div class="card style-1 bg-light mb-3">
+    <div class="card  bg-light mb-3">
         <div class="card-header">
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>
@@ -338,7 +338,7 @@
         <div class="card-body pt-3">
             @if (!empty($customer) && $customer->orders()->count() > 0)
                 @foreach ($customer->orders()->get() as $order)
-                    <div class="card style-1 mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">
+                    <div class="card  mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">
                         <div class="card-header no-border">
                             <h5><strong>Order #{{ $order->id }}</strong></h5>
                             <div>

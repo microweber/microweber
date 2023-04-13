@@ -205,11 +205,11 @@
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
-                                                    <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="">
+                                                    <input type="radio" id="customRadio1" name="customRadio" class="form-check-input" checked="">
                                                     <label class="custom-control-label" for="customRadio1">Yes</label>
                                                 </div>
                                                 <div class="custom-control custom-radio d-inline-block">
-                                                    <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                    <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
                                                     <label class="custom-control-label" for="customRadio2">No</label>
                                                 </div>
                                             </div>

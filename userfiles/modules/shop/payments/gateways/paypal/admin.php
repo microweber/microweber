@@ -10,12 +10,12 @@
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
+        <input type="radio" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="paypalexpress_testmode1"><?php _e("Yes"); ?></label>
     </div>
 
     <div class="custom-control custom-radio d-inline-block mr-2">
-        <input type="radio" id="paypalexpress_testmode2" name="paypalexpress_testmode" class="mw_option_field custom-control-input" data-option-group="payments" value="n" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
+        <input type="radio" id="paypalexpress_testmode2" name="paypalexpress_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="paypalexpress_testmode2"><?php _e("No"); ?></label>
     </div>
 </div>

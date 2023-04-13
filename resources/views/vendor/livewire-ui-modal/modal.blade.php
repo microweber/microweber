@@ -2,6 +2,7 @@
     <script>{!! file_get_contents(resource_path() . '/views/vendor/livewire-ui-modal/bootstrap-modal.js') !!}</script>
 
     <div
+        id="livewire-ui-modal"
 
         x-data="LivewireUIBootstrapModal()"
         x-init="init()"

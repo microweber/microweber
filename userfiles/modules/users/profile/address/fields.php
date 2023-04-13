@@ -16,7 +16,7 @@
 -->
 <!-- <div class="form-group">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="company_vat_registered" value="<?php /*echo $billing_address['company_vat_registered'];*/?>" name="addresses[1][company_vat_registered]">
+                <input type="checkbox" class="form-check-input" id="company_vat_registered" value="<?php /*echo $billing_address['company_vat_registered'];*/?>" name="addresses[1][company_vat_registered]">
                 <label class="custom-control-label" for="company_vat_registered">VAT registered</label>
             </div>
         </div>-->

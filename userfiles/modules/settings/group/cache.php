@@ -29,12 +29,12 @@
         <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="img_resize_choice1" name="optimize_asset_loading" class="mw_option_field custom-control-input" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <input type="radio" id="img_resize_choice1" name="optimize_asset_loading" class="mw_option_field form-check-input" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
             <label class="custom-control-label" for="img_resize_choice1"><?php _e("Yes"); ?></label>
         </div>
 
         <div class="custom-control custom-radio d-inline-block">
-            <input type="radio" id="img_resize_choice2" name="optimize_asset_loading" class="mw_option_field custom-control-input" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+            <input type="radio" id="img_resize_choice2" name="optimize_asset_loading" class="mw_option_field form-check-input" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
             <label class="custom-control-label" for="img_resize_choice2"><?php _e("No"); ?></label>
         </div>
     </div>
@@ -44,12 +44,12 @@
         <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="enable_full_page_cache1" name="enable_full_page_cache" class="mw_option_field custom-control-input" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <input type="radio" id="enable_full_page_cache1" name="enable_full_page_cache" class="mw_option_field form-check-input" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
             <label class="custom-control-label" for="enable_full_page_cache1"><?php _e("Yes"); ?></label>
         </div>
 
         <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="enable_full_page_cache2" name="enable_full_page_cache" class="mw_option_field custom-control-input" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
+            <input type="radio" id="enable_full_page_cache2" name="enable_full_page_cache" class="mw_option_field form-check-input" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
             <label class="custom-control-label" for="enable_full_page_cache2"><?php _e("No"); ?></label>
         </div>
     </div>

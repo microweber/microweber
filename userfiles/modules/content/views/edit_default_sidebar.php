@@ -153,11 +153,11 @@
                 <div class="col-12"><input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>"/>
                     <div class="form-group">
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_1"  name="is_active" class="custom-control-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
+                            <input type="radio" id="is_active_1"  name="is_active" class="form-check-input" value="1" <?php if ($data['is_active']): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" style="cursor:pointer" for="is_active_1"><?php _e("Published"); ?></label>
                         </div>
                         <div class="custom-control custom-radio">
-                            <input type="radio" id="is_active_0" name="is_active" class="custom-control-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
+                            <input type="radio" id="is_active_0" name="is_active" class="form-check-input" value="0" <?php if (!$data['is_active']): ?>checked<?php endif; ?>>
                             <label class="custom-control-label" style="cursor:pointer" for="is_active_0"><?php _e("Unpublished"); ?></label>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                                 }
                             </script>
 
-                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>view:content/action:categories" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
+                            <a onclick="manage_cats_for_add_post();void(0);return false;" href="<?php  echo admin_url(); ?>category" class="btn btn-link float-right py-1 px-0"> <?php _e("Manage categories"); ?></a>
                         </div>
                     <?php endif; ?>
                 </div>

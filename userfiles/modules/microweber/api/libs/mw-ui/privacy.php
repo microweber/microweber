@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -58,9 +58,9 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -88,7 +88,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -96,7 +96,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -106,9 +106,9 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -120,7 +120,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>
                                         </div>
@@ -156,7 +156,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -165,7 +165,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -175,9 +175,9 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -189,7 +189,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>
                                         </div>
@@ -225,7 +225,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <hr class="thin mt-0 mb-5"/>
+
 
                 <div class="row">
                     <div class="col-md-4">
@@ -233,7 +233,7 @@
                         <small class="text-muted">Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.</small>
                     </div>
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-3">
                                 <div class="row">
                                     <div class="col-12">
@@ -243,9 +243,9 @@
                                         </div>
 
                                         <div class="form-group mb-3">
-                                            <div class="custom-control custom-switch pl-0">
+                                            <div class="form-check form-switch pl-0">
                                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                                             </div>
                                         </div>
@@ -257,7 +257,7 @@
 
                                         <div class="form-group mb-4">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="">
+                                                <input type="checkbox" class="form-check-input" id="customCheck1" checked="">
                                                 <label class="custom-control-label" for="customCheck1">Skip saving emails in my website database.</label>
                                             </div>
                                         </div>

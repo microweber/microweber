@@ -253,7 +253,7 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
 
         </div>
     <?php else : ?>
-        <div class="card style-1 h-100 mw-modules-module-holder">
+        <div class="card  h-100 mw-modules-module-holder">
             <div class="card-body h-100 d-flex align-items-center justify-content-center flex-column">
                 <div class="icon-title d-flex">
                     <i class="mdi mdi-view-grid-plus"></i> <h5 class="mb-0"><?php _e("No modules found"); ?></h5>

@@ -130,7 +130,7 @@
     }
   }
 
-  .custom-control-input {
+  .form-check-input {
     @include form-validation-state-selector($state) {
       ~ .custom-control-label {
         color: $color;

@@ -24,7 +24,7 @@ if (isset($user['role'])) {
 }
 ?>
 
-<div class="card style-1 bg-light mb-3">
+<div class="card  bg-light mb-3">
     <div class="card-header">
         <h5>
             <i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e('Users'); ?></strong>

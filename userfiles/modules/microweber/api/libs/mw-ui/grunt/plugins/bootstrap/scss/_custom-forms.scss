@@ -36,7 +36,7 @@
   margin-inline-end: $custom-control-spacer-x;
 }
 
-.custom-control-input {
+.form-check-input {
   position: absolute;
   left: 0;
   z-index: 1; // Put the input behind the label so it doesn't overlay text
@@ -148,7 +148,7 @@ html[dir="rtl"] {
                 left: calc(100% + 27px);
             }
         }
-        .custom-control-input:checked ~ .custom-control-label::after {
+        .form-check-input:checked ~ .custom-control-label::after {
             transform: translateX(-0.92rem);
         }
     }
@@ -167,13 +167,13 @@ html[dir="rtl"] {
     @include border-radius($custom-checkbox-indicator-border-radius);
   }
 
-  .custom-control-input:checked ~ .custom-control-label {
+  .form-check-input:checked ~ .custom-control-label {
     &::after {
       background-image: escape-svg($custom-checkbox-indicator-icon-checked);
     }
   }
 
-  .custom-control-input:indeterminate ~ .custom-control-label {
+  .form-check-input:indeterminate ~ .custom-control-label {
     &::before {
       border-color: $custom-checkbox-indicator-indeterminate-border-color;
       @include gradient-bg($custom-checkbox-indicator-indeterminate-bg);
@@ -184,7 +184,7 @@ html[dir="rtl"] {
     }
   }
 
-  .custom-control-input:disabled {
+  .form-check-input:disabled {
     &:checked ~ .custom-control-label::before {
       background-color: $custom-control-indicator-checked-disabled-bg;
     }
@@ -219,13 +219,13 @@ html[dir="rtl"] {
     border-radius: $custom-radio-indicator-border-radius;
   }
 
-  .custom-control-input:checked ~ .custom-control-label {
+  .form-check-input:checked ~ .custom-control-label {
     &::after {
       background-image: escape-svg($custom-radio-indicator-icon-checked);
     }
   }
 
-  .custom-control-input:disabled {
+  .form-check-input:disabled {
     &:checked ~ .custom-control-label::before {
       background-color: $custom-control-indicator-checked-disabled-bg;
     }
@@ -261,14 +261,14 @@ html[dir="rtl"] {
     }
   }
 
-  .custom-control-input:checked ~ .custom-control-label {
+  .form-check-input:checked ~ .custom-control-label {
     &::after {
       background-color: $custom-control-indicator-bg;
       transform: translateX($custom-switch-width - $custom-control-indicator-size);
     }
   }
 
-  .custom-control-input:disabled {
+  .form-check-input:disabled {
     &:checked ~ .custom-control-label::before {
       background-color: $custom-control-indicator-checked-disabled-bg;
     }

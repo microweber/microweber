@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <div class="card bg-light style-1">
+                        <div class="card bg-light ">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
                                     <div class="col-12">

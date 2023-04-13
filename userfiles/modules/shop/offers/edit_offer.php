@@ -97,7 +97,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Offer status"); ?></label>
         <div class="custom-control custom-switch">
-            <input type="checkbox" name="is_active" class="custom-control-input" id="is_active" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
             <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
         </div>
     </div>
@@ -174,7 +174,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         <small class="text-muted d-block mb-2"><?php _e("The date when the offer will expire"); ?></small>
 
         <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
+            <input type="checkbox" class="form-check-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
             <label class="custom-control-label" for="expiration-checkbox"><?php _e('Has expiration date');?></label>
         </div>
 

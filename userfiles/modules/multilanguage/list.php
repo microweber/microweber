@@ -47,7 +47,7 @@ only_admin_access();
 
                         <td class="text-center px-0" style="vertical-align: middle; width: 25px;">
                             <div class="custom-control custom-switch">
-                                <input class="mw_option_field js-option-field-change-is-active custom-control-input" type="checkbox" supported_language_id="<?php echo $language['id']; ?>" id="<?php echo $language['id']; ?>" autocomplete="off" value="y" name="is_active" <?php if ($language['is_active'] == 'y'): ?>checked<?php endif;
+                                <input class="mw_option_field js-option-field-change-is-active form-check-input" type="checkbox" supported_language_id="<?php echo $language['id']; ?>" id="<?php echo $language['id']; ?>" autocomplete="off" value="y" name="is_active" <?php if ($language['is_active'] == 'y'): ?>checked<?php endif;
                                 ?> data-value-checked="y" data-value-unchecked="n">
                                 <label class="custom-control-label" for="<?php echo $language['id']; ?>"></label>
                             </div>

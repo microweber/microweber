@@ -10,7 +10,7 @@ if ($instanceField->hasShowLabelOptions):
        <div class="mw-custom-field-form-controls p-0">
             <label class="mw-ui-check">
                    <input type="hidden" value="1" name="show_label">
-                   <input type="checkbox" class="custom-control-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="0" <?php if ($settings['show_label'] == '0'): ?> checked="checked"  <?php endif; ?> >
+                   <input type="checkbox" class="form-check-input" name="show_label" id="custom_field_show_label<?php print $rand; ?>" value="0" <?php if ($settings['show_label'] == '0'): ?> checked="checked"  <?php endif; ?> >
                    <span></span>
                    <span></span>
             </label>

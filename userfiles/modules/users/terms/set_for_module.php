@@ -36,9 +36,9 @@ if (isset($params['for_module'])) {
 </script>
 
 <div class="form-group mb-3">
-    <div class="custom-control custom-switch pl-0">
-        <label class="d-inline-block mr-5" for="require_terms<?php print $params['id']; ?>"><?php _e('No') ?></label>
-        <input type="checkbox" parent-reload="true" name="require_terms" id="require_terms<?php print $params['id']; ?>" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field custom-control-input" option-group="<?php print $mod_name ?>"<?php if (get_option('require_terms', $mod_name) == 'y'): ?>checked<?php endif; ?>/>
-        <label class="custom-control-label" for="require_terms<?php print $params['id']; ?>"><?php _e('Yes') ?></label>
+    <div class="form-check form-switch pl-0">
+
+        <input type="checkbox" parent-reload="true" name="require_terms" id="require_terms<?php print $params['id']; ?>" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field form-check-input" option-group="<?php print $mod_name ?>"<?php if (get_option('require_terms', $mod_name) == 'y'): ?>checked<?php endif; ?>/>
+
     </div>
 </div>

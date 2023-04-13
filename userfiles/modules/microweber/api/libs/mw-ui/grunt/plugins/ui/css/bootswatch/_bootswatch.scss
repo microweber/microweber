@@ -177,12 +177,12 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;70
     }
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
+.form-check-input:checked ~ .custom-control-label::before {
     border-color: $muted !important;
     background-color: $muted !important;
 }
 
-.custom-control-input ~ .custom-control-label::before {
+.form-check-input ~ .custom-control-label::before {
     border-color: #6e6e6e !important;
     background-color: #6e6e6e !important;
 }

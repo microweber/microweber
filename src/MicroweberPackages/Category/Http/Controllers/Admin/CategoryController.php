@@ -23,6 +23,10 @@ class CategoryController extends AdminController
         $this->repository = $repository;
     }
 
+    public function index(Request $request) {
+        return view('category::admin.category.index');
+    }
+
     public function create() {
 
         return view('category::admin.category.edit', [

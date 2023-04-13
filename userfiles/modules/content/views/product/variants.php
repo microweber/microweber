@@ -234,7 +234,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="content_data[has_variants]" data-value-checked="1" data-value-unchecked="0"  value="1" <?php if($hasVariants): ?> checked="checked" <?php endif; ?> class="custom-control-input js-product-has-variants" id="the-product-has-variants">
+                        <input type="checkbox" name="content_data[has_variants]" data-value-checked="1" data-value-unchecked="0"  value="1" <?php if($hasVariants): ?> checked="checked" <?php endif; ?> class="form-check-input js-product-has-variants" id="the-product-has-variants">
                         <label class="custom-control-label" for="the-product-has-variants">This product has multiple options, like different sizes or colors</label>
                     </div>
                 </div>

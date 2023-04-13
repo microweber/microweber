@@ -94,9 +94,9 @@
                             <div class="form-group col-4">
                                 <label class="form-label d-block"><?php echo _e("Enable pagination", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Show pagination on the page", true); ?></span>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_pagination"><?php _e('No'); ?></label>
-                                    <input class="mw_option_field custom-control-input" id="disable_pagination" type="checkbox"
+                                    <input class="mw_option_field form-check-input" id="disable_pagination" type="checkbox"
                                            autocomplete="off" name="disable_pagination" <?php if (!get_option('disable_pagination', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_pagination"><?php _e('Yes'); ?></label>
                                 </div>
@@ -106,9 +106,9 @@
                             <div class="form-group col-4 js-filtering-allow-limit">
                                 <label class="form-label d-block"><?php echo _e("Enable limit", true); ?></label>
                                 <span class="text-muted"><?php echo _e("User can define number of products per page", true); ?></span>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_limit"><?php _e('No'); ?></label>
-                                    <input class="mw_option_field custom-control-input" id="disable_limit" type="checkbox"
+                                    <input class="mw_option_field form-check-input" id="disable_limit" type="checkbox"
                                            autocomplete="off" name="disable_limit" <?php if (!get_option('disable_limit', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_limit"><?php _e('Yes'); ?></label>
                                 </div>
@@ -123,9 +123,9 @@
                             <div class="form-group col-4 js-filtering-allow-sort">
                                 <label class="form-label d-block"><?php echo _e("Enable product sort", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Sort products by criteria", true); ?></span>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_sort"><?php _e('No'); ?></label>
-                                    <input class="mw_option_field custom-control-input" id="disable_sort" type="checkbox"
+                                    <input class="mw_option_field form-check-input" id="disable_sort" type="checkbox"
                                            autocomplete="off" name="disable_sort" <?php if (!get_option('disable_sort', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_sort"><?php _e('Yes'); ?></label>
                                 </div>
@@ -134,9 +134,9 @@
                             <div class="form-group col-4">
                                 <label class="form-label d-block"><?php echo _e("Filtering the results", true); ?></label>
                                 <span class="text-muted"><?php echo _e("Show filters on the shop page", true); ?></span>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="disable_filter"><?php _e('No'); ?></label>
-                                    <input class="mw_option_field custom-control-input" id="disable_filter" type="checkbox"
+                                    <input class="mw_option_field form-check-input" id="disable_filter" type="checkbox"
                                            autocomplete="off" name="disable_filter" <?php if (!get_option('disable_filter', $moduleId)): ?>checked<?php endif; ?> option-group="<?php echo $moduleId;?>" data-value-checked="0" data-value-unchecked="1">
                                     <label class="custom-control-label" for="disable_filter"><?php _e('Yes'); ?></label>
                                 </div>
@@ -212,7 +212,7 @@
                                                     <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
                                                 </div>
                                                 <div class="custom-control custom-checkbox mt-3 js-disable-search">
-                                                    <input type="checkbox" <?php if (!get_option('disable_search', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" data-value-checked="0" data-value-unchecked="1" name="disable_search" value="1" id="disable_search">
+                                                    <input type="checkbox" <?php if (!get_option('disable_search', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" data-value-checked="0" data-value-unchecked="1" name="disable_search" value="1" id="disable_search">
                                                     <label class="custom-control-label" for="disable_search"><?php _e("Search"); ?></label>
                                                 </div>
                                             </div>
@@ -221,7 +221,7 @@
                                                 <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
                                                 </div>
                                                 <div class="custom-control custom-checkbox js-filtering-by-tags">
-                                                    <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_tags" value="1" id="filter_by_tags">
+                                                    <input type="checkbox" <?php if ('1'== get_option('filtering_by_tags', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_tags" value="1" id="filter_by_tags">
                                                     <label class="custom-control-label" for="filter_by_tags"><?php _e("Tags"); ?></label>
                                                 </div>
                                             </div>
@@ -230,7 +230,7 @@
                                                 <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
                                                 </div>
                                                 <div class="custom-control custom-checkbox js-filtering-by-categories">
-                                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_categories" value="1" id="filter_by_categories">
+                                                    <input type="checkbox" <?php if ('1' == get_option('filtering_by_categories', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_categories" value="1" id="filter_by_categories">
                                                     <label class="custom-control-label" for="filter_by_categories"><?php _e("Categories"); ?></label>
                                                 </div>
                                             </div>
@@ -239,7 +239,7 @@
                                                 <i class="list-group-item-handle-sort mdi mdi-cursor-move mdi-18px text-muted"></i>
                                                 </div>
                                                 <div class="custom-control custom-checkbox js-filtering-by-custom-fields">
-                                                    <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
+                                                    <input type="checkbox" <?php if (get_option('filtering_by_custom_fields', $moduleId)=='1'): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_custom_fields" value="1" id="filter_by_custom_fields">
                                                     <label class="custom-control-label" for="filter_by_custom_fields"><?php _e("Custom Fields"); ?></label>
                                                 </div>
                                             </div>
@@ -307,13 +307,13 @@
 
 
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
+                                                <input type="checkbox" <?php if ('1' == get_option('filtering_show_picked_first', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_show_picked_first" value="1" id="filtering_show_picked_first">
                                                 <label class="custom-control-label" for="filtering_show_picked_first"><?php _e("Show picked filters first"); ?></label>
                                             </div>
                                         </div>
 
                                      {{--   <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field custom-control-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
+                                            <input type="checkbox" <?php if ('1' == get_option('filtering_by_template_fields', $moduleId)): ?>checked="checked"<?php endif; ?> class="mw_option_field form-check-input" name="filtering_by_template_fields" value="1" id="filter_by_template_fields">
                                             <label class="custom-control-label" for="filter_by_template_fields"><?php _e("Template fields"); ?></label>
                                         </div>--}}
 

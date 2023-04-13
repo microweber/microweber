@@ -336,18 +336,18 @@ select.form-control {
     top: 0;
   }
 
-  .custom-control-input:checked ~ &::before {
+  .form-check-input:checked ~ &::before {
     border-color: $primary;
   }
 }
 
-.custom-checkbox .custom-control-input:checked {
+.custom-checkbox .form-check-input:checked {
   ~ .custom-control-label::after {
     transform: scale(1.5);
   }
 }
 
-.custom-radio .custom-control-input {
+.custom-radio .form-check-input {
   &:checked {
     ~ .custom-control-label::before {
       background: $white;
@@ -373,11 +373,11 @@ select.form-control {
     border: none;
   }
 
-  .custom-control-input:disabled  ~ .custom-control-label {
+  .form-check-input:disabled  ~ .custom-control-label {
     opacity: 0.7;
   }
 
-  .custom-control-input:disabled ~ .custom-control-label::before {
+  .form-check-input:disabled ~ .custom-control-label::before {
     background: $gray-500;
   }
 
@@ -386,43 +386,43 @@ select.form-control {
     box-shadow: 0 1px 4px rgba(0,0,0,.3);
   }
 
-  .custom-control-input:checked ~ .custom-control-label::before {
+  .form-check-input:checked ~ .custom-control-label::before {
     opacity: 0.38;
   }
 
-  .custom-control-input:checked ~ .custom-control-label::after {
+  .form-check-input:checked ~ .custom-control-label::after {
     background-color: $primary;
   }
 
-  .custom-control-input:hover:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:hover:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(0,0,0,0.05);
   }
 
-  .custom-control-input:focus:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:focus:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(0,0,0,0.09);
   }
 
-  .custom-control-input:active:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:active:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(0,0,0,0.16);
   }
 
-  .custom-control-input:hover:checked:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:hover:checked:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(33,150,243,0.05);
   }
 
-  .custom-control-input:focus:checked:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:focus:checked:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(33,150,243,0.09);
   }
 
-  .custom-control-input:active:checked:not(:disabled) ~ .custom-control-label::after {
+  .form-check-input:active:checked:not(:disabled) ~ .custom-control-label::after {
     box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 9px rgba(33,150,243,0.16);
   }
 
-  .custom-control-input:active:not(:checked) ~ .custom-control-label::before {
+  .form-check-input:active:not(:checked) ~ .custom-control-label::before {
     background-color: $gray-500;
   }
 
-  .custom-control-input:active:not(:checked) ~ .custom-control-label::before {
+  .form-check-input:active:not(:checked) ~ .custom-control-label::before {
     background-color: $gray-500;
   }
 }

@@ -40,7 +40,7 @@
             <?php foreach ($menus as $item): ?>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input id="menuid-<?php print $item['id'] ?>" class="custom-control-input" name="add_content_to_menu[]" <?php if (is_in_menu($item['id'], $content_id) or ($select_default_menu == true and $item['title'] == 'header_menu') or ($add_to_menu == true and $item['title'] == $add_to_menu)): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>"
+                        <input id="menuid-<?php print $item['id'] ?>" class="form-check-input" name="add_content_to_menu[]" <?php if (is_in_menu($item['id'], $content_id) or ($select_default_menu == true and $item['title'] == 'header_menu') or ($add_to_menu == true and $item['title'] == $add_to_menu)): ?> checked="checked" <?php endif; ?> value="<?php print $item['id'] ?>"
                                type="checkbox" <?php if (isset($item['title'])): ?>  data-menu-key="<?php print addslashes(strtolower(str_replace(' ', '_', $item['title']))); ?>" <?php endif; ?> >
                         <label class="custom-control-label" for="menuid-<?php print $item['id'] ?>"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></label>
                     </div>

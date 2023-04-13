@@ -733,11 +733,11 @@ if (isset($params['live_edit'])) {
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
-                                                    <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="custom-control-input" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
+                                                    <input type="radio" id="users_can_create_content_1" name="users_can_create_content" class="form-check-input" value="1" <?php if ('1' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
                                                     <label class="custom-control-label" for="users_can_create_content_1"><?php _e("Yes"); ?></label>
                                                 </div>
                                                 <div class="custom-control custom-radio d-inline-block">
-                                                    <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="custom-control-input" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
+                                                    <input type="radio" id="users_can_create_content_0" name="users_can_create_content" class="form-check-input" value="0" <?php if ('' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?> checked<?php endif; ?>>
                                                     <label class="custom-control-label" for="users_can_create_content_0"><?php _e("No"); ?></label>
                                                 </div>
                                             </div>
@@ -868,11 +868,11 @@ if (isset($params['live_edit'])) {
 
                                             <div>
                                                 <div class="custom-control custom-radio d-inline-block mr-3">
-                                                    <input type="radio" id="is_hidden_1" name="is_hidden" class="custom-control-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <input type="radio" id="is_hidden_1" name="is_hidden" class="form-check-input" value="1" <?php if ('1' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
                                                     <label class="custom-control-label" for="is_hidden_1"><?php _e("Yes"); ?></label>
                                                 </div>
                                                 <div class="custom-control custom-radio d-inline-block">
-                                                    <input type="radio" id="is_hidden_2" name="is_hidden" class="custom-control-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
+                                                    <input type="radio" id="is_hidden_2" name="is_hidden" class="form-check-input" value="0" <?php if ('' == trim($data['is_hidden']) or '0' == trim($data['is_hidden'])): ?> checked<?php endif; ?>>
                                                     <label class="custom-control-label" for="is_hidden_2"><?php _e("No"); ?></label>
                                                 </div>
                                             </div>

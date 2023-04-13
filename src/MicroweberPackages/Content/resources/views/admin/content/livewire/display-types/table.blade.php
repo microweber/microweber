@@ -31,7 +31,7 @@
             <tr class="manage-post-item manage-post-item-{{ $content->id }}">
                 <td>
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" value="{{ $content->id }}" id="js-content-checkbox-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                        <input type="checkbox" value="{{ $content->id }}" id="js-content-checkbox-{{ $content->id }}"  class="js-select-posts-for-action form-check-input"  wire:model="checked">
                         <label for="js-content-checkbox-{{ $content->id }}" class="custom-control-label"></label>
                     </div>
 

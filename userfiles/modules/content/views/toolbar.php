@@ -374,7 +374,7 @@ if ($last_page_front != false) {
         <div class="toolbar row js-hide-when-no-items">
             <div class="col-sm-4 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" class="custom-control-input " id="posts-check">
+                    <input type="checkbox" class="form-check-input " id="posts-check">
                     <label class="custom-control-label" for="posts-check"><?php _e('Select all'); ?></label>
                 </div>
 

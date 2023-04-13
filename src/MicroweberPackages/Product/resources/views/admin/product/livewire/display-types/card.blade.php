@@ -7,7 +7,7 @@
 
                     <div class="col-1 text-center" style="max-width: 40px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action custom-control-input"  wire:model="checked">
+                            <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action form-check-input"  wire:model="checked">
                             <label for="products-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
                         <span class="btn btn-link text-muted px-0 js-move mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()">

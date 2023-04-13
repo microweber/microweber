@@ -70,7 +70,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="facebook_enabled" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="facebook_enabled" name="facebook_enabled" value="y" <?php if ($facebook_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="facebook_enabled"><i class="mdi mdi-facebook mdi-22px lh-1_0 mr-2 mw-socials-facebook-color"></i> Facebook</label>
                             </div>
                         </div>
@@ -81,7 +81,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="twitter_enabled" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="twitter_enabled" name="twitter_enabled" value="y" <?php if ($twitter_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="twitter_enabled"><i class="mdi mdi-twitter mdi-22px lh-1_0 mr-2 mw-socials-twitter-color"></i> Twitter</label>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="googleplus_enabled" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="googleplus_enabled" name="googleplus_enabled" value="y" <?php if ($googleplus_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="googleplus_enabled"><i class="mdi mdi-google-plus mdi-22px lh-1_0 mr-2 mw-socials-youtube-color"></i> Google+</label>
                             </div>
                         </div>
@@ -103,7 +103,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="pinterest_enabled" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="pinterest_enabled" name="pinterest_enabled" value="y" <?php if ($pinterest_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="pinterest_enabled"><i class="mdi mdi-pinterest mdi-22px lh-1_0 mr-2 mw-socials-pinterest-color"></i> Pinterest</label>
                             </div>
                         </div>
@@ -114,7 +114,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="viber_enabled" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="viber_enabled" name="viber_enabled" value="y" <?php if ($viber_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="viber_enabled"><i class="fab fa-viber mdi-22px lh-1_0 mr-2 mw-socials-viber-color"></i> Viber</label>
                             </div>
                         </div>
@@ -125,7 +125,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="whatsapp_enabled" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="whatsapp_enabled" name="whatsapp_enabled" value="y" <?php if ($whatsapp_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="whatsapp_enabled"><i class="mdi mdi-whatsapp mdi-22px lh-1_0 mr-2 mw-socials-whatsapp-color"></i> WhatsApp</label>
                             </div>
                         </div>
@@ -136,7 +136,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <td>
                         <div class="form-group m-0">
                             <div class="custom-control custom-checkbox d-flex align-items-center m-0">
-                                <input type="checkbox" class="mw_option_field custom-control-input" id="linkedin_enabled" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
+                                <input type="checkbox" class="mw_option_field form-check-input" id="linkedin_enabled" name="linkedin_enabled" value="y" <?php if ($linkedin_enabled) print 'checked="checked"'; ?>>
                                 <label class="custom-control-label mr-2 d-flex" for="linkedin_enabled"><i class="mdi mdi-linkedin mdi-22px lh-1_0 mr-2 mw-socials-linkedin-color"></i> LinkedIn</label>
                             </div>
                         </div>

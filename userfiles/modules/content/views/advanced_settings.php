@@ -304,9 +304,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <div class="form-group">
                             <label><?php _e("Require login"); ?></label>
                             <small class="text-muted d-block mb-2"><?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?></small>
-                            <div class="custom-control custom-switch pl-0">
+                            <div class="form-check form-switch pl-0">
                                 <label class="d-inline-block mr-5" style="cursor:pointer" for="require_login"><?php _e("No"); ?></label>
-                                <input type="checkbox" class="custom-control-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
+                                <input type="checkbox" class="form-check-input" style="cursor:pointer" id="require_login" name="require_login" data-value-checked="1" data-value-unchecked="0" <?php if ('1' == trim($data['require_login'])): ?>checked="1"<?php endif; ?>>
                                 <label class="custom-control-label" style="cursor:pointer" for="require_login"><?php _e("Yes"); ?></label>
                             </div>
                         </div>
@@ -414,9 +414,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div class="form-group">
                                 <label><?php _e("Is Home"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("If yes this page will be your Home"); ?></small>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="is_home"><?php _e("No"); ?></label>
-                                    <input type="checkbox" name="is_home" class="custom-control-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
+                                    <input type="checkbox" name="is_home" class="form-check-input" id="is_home" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_home']): ?>checked="1"<?php endif; ?> />
                                     <label class="custom-control-label" for="is_home"><?php _e("Yes"); ?></label>
                                 </div>
                             </div>
@@ -428,9 +428,9 @@ if (isset($data['created_by']) and $data['created_by']) {
                             <div class="form-group">
                                 <label><?php _e("Is Shop"); ?></label>
                                 <small class="text-muted d-block mb-2"><?php _e("If yes this page will accept products to be added to it"); ?></small>
-                                <div class="custom-control custom-switch pl-0">
+                                <div class="form-check form-switch pl-0">
                                     <label class="d-inline-block mr-5" for="is_shop"><?php _e("No"); ?></label>
-                                    <input type="checkbox" name="is_shop" class="custom-control-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
+                                    <input type="checkbox" name="is_shop" class="form-check-input" id="is_shop" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_shop']): ?>checked="1"<?php endif; ?> />
                                     <label class="custom-control-label" for="is_shop"><?php _e("Yes"); ?></label>
                                 </div>
                             </div>

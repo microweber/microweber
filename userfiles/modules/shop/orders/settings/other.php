@@ -34,12 +34,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="form-label d-block"><?php _e("Users must agree to Terms and Conditions"); ?></label>
 
                 <div class="custom-control custom-radio d-inline-block mr-2">
-                    <input name="shop_require_terms" class="mw_option_field custom-control-input" id="shop_require_terms_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
+                    <input name="shop_require_terms" class="mw_option_field form-check-input" id="shop_require_terms_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_terms_0"><?php _e("No"); ?></label>
                 </div>
 
                 <div class="custom-control custom-radio d-inline-block">
-                    <input name="shop_require_terms" class="mw_option_field custom-control-input" id="shop_require_terms_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
+                    <input name="shop_require_terms" class="mw_option_field form-check-input" id="shop_require_terms_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
 
                     <label class="custom-control-label" for="shop_require_terms_1"><?php _e("Yes"); ?></label>
                 </div>
@@ -49,12 +49,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="form-label d-block"><?php _e("Purchasing requires registration"); ?></label>
 
                 <div class="custom-control custom-radio d-inline-block mr-2">
-                    <input name="shop_require_registration" class="mw_option_field custom-control-input" id="shop_require_registration_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
+                    <input name="shop_require_registration" class="mw_option_field form-check-input" id="shop_require_registration_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_registration_0"><?php _e("No"); ?></label>
                 </div>
 
                 <div class="custom-control custom-radio d-inline-block mr-2">
-                    <input name="shop_require_registration" class="mw_option_field custom-control-input" id="shop_require_registration_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
+                    <input name="shop_require_registration" class="mw_option_field form-check-input" id="shop_require_registration_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_registration_1"><?php _e("Yes"); ?></label>
                 </div>
             </div>
@@ -63,23 +63,23 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <label class="form-label d-block"><?php _e("Require fields for checkout"); ?></label>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="shop_require_first_name" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_first_name" <?php if (get_option('shop_require_first_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+                    <input type="checkbox" name="shop_require_first_name" data-option-group="website" value="1" class="mw_option_field  form-check-input" id="check-shop_require_first_name" <?php if (get_option('shop_require_first_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
                     <label class="custom-control-label" for="check-shop_require_first_name"></label> <?php _e("First Name"); ?>
                 </div>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="shop_require_last_name" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_last_name" <?php if (get_option('shop_require_last_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+                    <input type="checkbox" name="shop_require_last_name" data-option-group="website" value="1" class="mw_option_field  form-check-input" id="check-shop_require_last_name" <?php if (get_option('shop_require_last_name', 'website') == 1): ?> checked="checked" <?php endif; ?>>
                     <label class="custom-control-label" for="check-shop_require_last_name"></label> <?php _e("Last Name"); ?>
                 </div>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="shop_require_email" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_email" <?php if (get_option('shop_require_email', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+                    <input type="checkbox" name="shop_require_email" data-option-group="website" value="1" class="mw_option_field  form-check-input" id="check-shop_require_email" <?php if (get_option('shop_require_email', 'website') == 1): ?> checked="checked" <?php endif; ?>>
                     <label class="custom-control-label" for="check-shop_require_email"></label> <?php _e("Email"); ?>
                 </div>
 
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="shop_require_phone" data-option-group="website" value="1" class="mw_option_field  custom-control-input" id="check-shop_require_phone" <?php if (get_option('shop_require_phone', 'website') == 1): ?> checked="checked" <?php endif; ?>>
+                    <input type="checkbox" name="shop_require_phone" data-option-group="website" value="1" class="mw_option_field  form-check-input" id="check-shop_require_phone" <?php if (get_option('shop_require_phone', 'website') == 1): ?> checked="checked" <?php endif; ?>>
                     <label class="custom-control-label" for="check-shop_require_phone"></label> <?php _e("Phone"); ?>
                 </div>
 

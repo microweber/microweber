@@ -11,9 +11,16 @@
 
 .admin-dashboard-left-nav {
   background-color: white;
-  padding: 10px 20px 20px 40px !important; }
+  padding: 0 !important; }
+  .admin-dashboard-left-nav .navbar-nav-padding {
+    padding-inline: 40px 20px !important; }
+  .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
+    margin-top: 20px; }
   .admin-dashboard-left-nav .add-new {
     background-color: var(--tblr-primary); }
+  .admin-dashboard-left-nav .nav-item-profile {
+    padding-top: 30px;
+    padding-bottom: 30px; }
   .admin-dashboard-left-nav .nav-link {
     padding: 15px 0 !important; }
     @media screen and (min-width: 767px) {
@@ -25,13 +32,13 @@
         content: '';
         bottom: -5px;
         left: 0;
-        height: .15rem;
+        height: 1px;
         width: 0;
         background-color: #000;
         opacity: 0;
         transition: .5s; }
       .admin-dashboard-left-nav .nav-link:after {
-        width: 30px; 
+        width: 30px;
         height: 30px;
         padding-top: 5px; }
       .admin-dashboard-left-nav .nav-link:hover span:after {
@@ -70,7 +77,7 @@
 .hidden {
   display: none; }
 
-.card-header {
+.card-header { 
   border-bottom: 0; }
 
 .settings-info-holder-title {
@@ -92,7 +99,7 @@
 
 .settings-holder-wrapper {
   border: 1px solid transparent;
-  padding: 30px 20px;
+  padding: 40px 20px;
   width: 100%; }
   .settings-holder-wrapper:hover {
     text-decoration: none;
@@ -133,7 +140,7 @@
   margin-left: auto; }
 
 .settings-title-inside {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold; }
 
 .img-circle-holder {
@@ -204,5 +211,45 @@ small.text-muted {
 
 #mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
   top: 240px; }
+
+.form-check-input {
+  width: 1.3rem;
+  height: 1.3rem;
+  background-size: unset; }
+
+.mdi-20px {
+  font-size: 20px; }
+
+.form-control {
+  padding: .65rem .9rem; }
+
+.form-select {
+  padding: 0.65rem 2.25rem 0.65rem 0.75rem; }
+
+.form-switch .form-check-input {
+  height: 1.25rem;
+  width: 2.4rem; }
+
+.form-check.form-switch {
+  width: 50px; }
+
+.admin-toolbar-buttons {
+  transition: 0.25s ease; }
+  .admin-toolbar-buttons:hover {
+    transform: scale(1.1);
+    background-color: #f8fcff !important; }
+
+.admin-add-new-modal-buttons {
+  border-radius: 5px;
+  padding: 20px 40px; }
+  .admin-add-new-modal-buttons:hover {
+    background-color: #efefef;
+    cursor: pointer; }
+
+.mw-admin-sidebar-profile {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-right: 20px;
+  border-radius: 50%; }
 
 /*# sourceMappingURL=admin_v2.css.map */

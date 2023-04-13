@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Settings</a>
         </div>
 
-        <div class="card bg-light style-1" style="max-width: 600px; margin: 0 auto;">
+        <div class="card bg-light " style="max-width: 600px; margin: 0 auto;">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
                 <div>
@@ -40,9 +40,9 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <div class="custom-control custom-switch pl-0">
+                            <div class="form-check form-switch pl-0">
                                 <label class="d-inline-block mr-5" for="customSwitch1">No</label>
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1" checked="">
+                                <input type="checkbox" class="form-check-input" id="customSwitch1" checked="">
                                 <label class="custom-control-label" for="customSwitch1">Yes</label>
                             </div>
                         </div>

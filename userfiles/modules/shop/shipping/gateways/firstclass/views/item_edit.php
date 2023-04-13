@@ -262,9 +262,9 @@ if ($weight_units == false) {
 
             <div class="form-group">
                 <label class="form-label"><?php _e("Allow shipping to this country"); ?></label>
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active"><?php _e("No"); ?></label>
-                    <input onchange="ToggleShipping(event)" type="checkbox" name="is_active" id="is_active" class="custom-control-input" data-id="<?php print $item['id']; ?>" data-value-checked="1" data-value-unchecked="0" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>checked<?php endif; ?>>
+                    <input onchange="ToggleShipping(event)" type="checkbox" name="is_active" id="is_active" class="form-check-input" data-id="<?php print $item['id']; ?>" data-value-checked="1" data-value-unchecked="0" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>checked<?php endif; ?>>
                     <label class="custom-control-label" for="is_active"><?php _e("Yes"); ?></label>
                 </div>
             </div>
@@ -277,19 +277,19 @@ if ($weight_units == false) {
 
                             <div class="form-group">
                                 <div class="custom-control custom-radio mb-4">
-                                    <input type="radio" id="shipping_type1" name="shipping_type" class="custom-control-input js-shipping-type-select" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                    <input type="radio" id="shipping_type1" name="shipping_type" class="form-check-input js-shipping-type-select" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
                                     <label class="custom-control-label" for="shipping_type1"><?php _e("Fixed"); ?>
                                         <small class="text-muted d-block"><?php _e('Set a shipping price for the whole order'); ?></small>
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio mb-4">
-                                    <input type="radio" id="shipping_type2" name="shipping_type" class="custom-control-input js-shipping-type-select" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                    <input type="radio" id="shipping_type2" name="shipping_type" class="form-check-input js-shipping-type-select" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
                                     <label class="custom-control-label" for="shipping_type2"><?php _e("Dimensions or Weight"); ?>
                                         <small class="text-muted d-block"><?php _e('Set a flexible shipping price depending on a product’s dimensions or weight'); ?></small>
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" id="shipping_type3" name="shipping_type" class="custom-control-input js-shipping-type-select" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                    <input type="radio" id="shipping_type3" name="shipping_type" class="form-check-input js-shipping-type-select" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
                                     <label class="custom-control-label" for="shipping_type3"><?php _e("Per item"); ?>
                                         <small class="text-muted d-block"><?php _e('Charge a set shipping price for each product a customer orders'); ?></small>
                                     </label>

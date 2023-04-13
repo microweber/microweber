@@ -151,7 +151,7 @@ return;
             <div>
                 <div class="form-group">
                     <label class="custom-control custom-radio">
-                        <input type="radio" name="customRadio" value="picker" class="custom-control-input">
+                        <input type="radio" name="customRadio" value="picker" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Picker'); ?></span>
                         <div class="custom-radio-checked-content">
                             <div class="js-color-input-method-picker">
@@ -166,7 +166,7 @@ return;
                     </label>
 
                     <label class="custom-control custom-radio">
-                        <input type="radio" name="customRadio" value="palette" class="custom-control-input">
+                        <input type="radio" name="customRadio" value="palette" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Palette'); ?></span>
                         <div class="custom-radio-checked-content">
                             <div class="palette-picker">
@@ -182,7 +182,7 @@ return;
                     </label>
 
                     <label class="custom-control custom-radio">
-                        <input type="radio" name="customRadio" value="image" class="custom-control-input">
+                        <input type="radio" name="customRadio" value="image" class="form-check-input">
                         <span class="custom-control-label"><?php _e('Image'); ?></span>
                         <div class="custom-radio-checked-content">
                             <input name="upload_thumb" id="upload_thumb_field" class="form-control mw_option_field semi_hidden" type="text" data-mod-name="" value=""/>

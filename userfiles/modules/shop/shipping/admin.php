@@ -127,7 +127,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                        <div class="col pl-0 js-change-method-status" style="max-width: 60px;">
                                            <div class="form-group m-0">
                                                <div class="custom-control custom-switch m-0">
-                                                   <input onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field custom-control-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
+                                                   <input onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field form-check-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
                                                    <label class="custom-control-label" for="ccheckbox-shipping_gw_<?php print($shipping_module['module']) ?>"></label>
                                                </div>
                                            </div>

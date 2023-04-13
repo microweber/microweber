@@ -64,7 +64,7 @@ if (!user_can_access('module.contact_form.index')) {
                 <small class="text-muted d-block mb-2"><?php _e("Show the newsletter subscription checkbox?") ?></small>
 
                 <div class="custom-control custom-checkbox mb-4">
-                    <input type="checkbox" parent-reload="true" name="newsletter_subscription" id="newsletter_subscription" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field custom-control-input" option-group="<?php print $mod_id ?>" <?php if (get_option('newsletter_subscription', $mod_id) == 'y'): ?>checked<?php endif; ?> />
+                    <input type="checkbox" parent-reload="true" name="newsletter_subscription" id="newsletter_subscription" value="y" data-value-unchecked="n" data-value-checked="y" class="mw_option_field form-check-input" option-group="<?php print $mod_id ?>" <?php if (get_option('newsletter_subscription', $mod_id) == 'y'): ?>checked<?php endif; ?> />
                     <label class="custom-control-label" for="newsletter_subscription"><?php _e("Enable newsletter checkbox"); ?></label>
                 </div>
             </div>
@@ -82,7 +82,7 @@ if (!user_can_access('module.contact_form.index')) {
 
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $mod_id ?>" class="mw_option_field custom-control-input" <?php if (get_option('disable_captcha', $mod_id) == 'y'): ?>checked <?php endif; ?>/>
+                        <input type="checkbox" name="disable_captcha" id="disable_captcha" value="y" option-group="<?php print $mod_id ?>" class="mw_option_field form-check-input" <?php if (get_option('disable_captcha', $mod_id) == 'y'): ?>checked <?php endif; ?>/>
                         <label class="custom-control-label" for="disable_captcha"><?php _e("Disable Code Verification ex"); ?>.: <img src="<?php print mw_includes_url(); ?>img/code_verification_example.jpg" alt="" style="margin-top: -8px;"/></label>
                     </div>
                 </div>

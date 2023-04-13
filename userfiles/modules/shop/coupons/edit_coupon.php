@@ -91,7 +91,7 @@ if ($params['coupon_id'] !== 'false') {
 
     <div class="form-group">
         <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
             <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
         </div>
         <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>

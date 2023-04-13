@@ -105,7 +105,7 @@
         <tr>
             <th class="border-0">
                 <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" class="js-select-all custom-control-input" id="delete-all">
+                    <input type="checkbox" class="js-select-all form-check-input" id="delete-all">
                     <label class="custom-control-label" for="delete-all">&nbsp;</label>
                 </div>
             </th>
@@ -123,7 +123,7 @@
         <tr class="bg-white">
             <th>
                 <div class="custom-control custom-checkbox mb-0">
-                    <input type="checkbox" name="id" class="js-selected-customer custom-control-input" id="delete-{{$customer->id}}" value="{{$customer->id}}">
+                    <input type="checkbox" name="id" class="js-selected-customer form-check-input" id="delete-{{$customer->id}}" value="{{$customer->id}}">
                     <label class="custom-control-label" for="delete-{{$customer->id}}">&nbsp;</label>
                 </div>
             </th>

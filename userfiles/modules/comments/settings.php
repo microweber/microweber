@@ -140,7 +140,7 @@
                 <?php $are_enabled = get_option('enable_comments', 'comments') == 'y'; ?>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="mw_option_field custom-control-input" id="enable_comments" name="enable_comments" parent-reload="true" value="y" option-group="comments" <?php if ($are_enabled): ?>checked<?php endif; ?> />
+                    <input type="checkbox" class="mw_option_field form-check-input" id="enable_comments" name="enable_comments" parent-reload="true" value="y" option-group="comments" <?php if ($are_enabled): ?>checked<?php endif; ?> />
                     <label class="custom-control-label" for="enable_comments"><?php _e("Allow people to post comments"); ?></label>
                 </div>
             </div>

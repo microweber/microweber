@@ -288,21 +288,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-label my-3"><?php _e("Choose Logo type"); ?></label>
 
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field custom-control-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
+                                <input type="radio" id="logotype1" option-group="<?php print $logo_name ?>" class="mw_option_field form-check-input" <?php if ($logotype == 'image'){ ?>checked<?php } ?> name="logotype" value="image">
                                 <label class="custom-control-label" for="logotype1"><?php _e('Image Logo'); ?><br/>
                                     <small class="text-muted"><?php _e("Upload your logo image in .JPG or .PNG format"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field custom-control-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
+                                <input type="radio" id="logotype2" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input" <?php if ($logotype == 'text'){ ?>checked<?php } ?> name="logotype" value="text">
                                 <label class="custom-control-label" for="logotype2"><?php _e('Text Logo'); ?><br/>
                                     <small class="text-muted"><?php _e("Type your brand and choose font size and style"); ?></small>
                                 </label>
                             </div>
 
                             <div class="custom-control custom-radio d-none">
-                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field custom-control-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
+                                <input type="radio" id="logotype3" option-group="<?php print $logo_name ?>"  class="mw_option_field form-check-input" <?php if ($logotype == 'both' or $logotype == false){ ?>checked<?php } ?> name="logotype" value="both">
                                 <label class="custom-control-label" for="logotype3"><?php _e('Both'); ?><br/>
                                     <small class="text-muted"><?php _e("Type your brand and choose font size") ;?></small>
                                 </label>
@@ -395,7 +395,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" checked="" id="auto_scale_logo" value="pending">
+                                <input type="checkbox" class="form-check-input" checked="" id="auto_scale_logo" value="pending">
                                 <label class="custom-control-label" for="auto_scale_logo"><?php _e('Set auto logo size'); ?></label>
                             </div>
                         </div>

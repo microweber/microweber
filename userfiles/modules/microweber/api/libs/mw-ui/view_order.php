@@ -5,7 +5,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Back to orders</a>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
                 <div>
@@ -118,7 +118,7 @@
             </div>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-body">
                 <div class="d-flex justify-content-between mb-3">
                     <h5 class="font-weight-bold settings-title-inside">Client Information</h5>
@@ -164,7 +164,7 @@
             </div>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-body">
                 <h5 class="mb-4 font-weight-bold">Shipping Address</h5>
 
@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-body">
 
                 <div class="row">
@@ -244,7 +244,7 @@
             </div>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-body">
 
                 <div class="row d-flex">
@@ -299,7 +299,7 @@
             </div>
         </div>
 
-        <div class="card bg-light style-1">
+        <div class="card bg-light ">
             <div class="card-body">
                 <h5 class="mb-3 font-weight-bold">Invoices</h5>
 

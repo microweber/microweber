@@ -79,7 +79,7 @@
                         <label><?php _e("Require login"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("If set to ON, this page will require login from a registered user in order to be opened"); ?></small>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch2">
+                            <input type="checkbox" class="form-check-input" id="customSwitch2">
                             <label class="custom-control-label" for="customSwitch2"><?php _e("ON / OFF"); ?></label>
                         </div>
                     </div>

@@ -255,9 +255,9 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
         <div class="col-4 text-right">
             <div class="form-group module-switch-active-form">
                 <label class="form-label"><?php _e('Multilanguage is active'); ?>?</label>
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="is_active_quick"><?php _e('No'); ?></label>
-                    <input class="custom-control-input" id="is_active_quick"
+                    <input class="form-check-input" id="is_active_quick"
                            type="checkbox"
                            autocomplete="off"
                            name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?>

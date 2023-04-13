@@ -51,7 +51,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-physical-product-check" id="customCheck4" name="content_data[physical_product]" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
+                        <input type="checkbox" class="form-check-input js-physical-product-check" id="customCheck4" name="content_data[physical_product]" value="1" <?php if ($contentData['physical_product']==1):?>checked="checked"<?php endif; ?>>
                         <label class="custom-control-label" for="customCheck4"><?php _e("This is a physical product"); ?></label>
                     </div>
                 </div>
@@ -102,11 +102,11 @@
                     <div class="form-group">
                         <label class="form-label d-block mb-3"><?php _e("Free Shipping"); ?></label>
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="customRadio1" class="custom-control-input" name="content_data[free_shipping]" value="1" <?php if ($contentData['free_shipping']==1):?>checked="checked"<?php endif; ?>>
+                            <input type="radio" id="customRadio1" class="form-check-input" name="content_data[free_shipping]" value="1" <?php if ($contentData['free_shipping']==1):?>checked="checked"<?php endif; ?>>
                             <label class="custom-control-label" for="customRadio1"><?php _e("Yes"); ?></label>
                         </div>
                         <div class="custom-control custom-radio d-inline-block mr-3">
-                            <input type="radio" id="customRadio2" class="custom-control-input" name="content_data[free_shipping]" value="0" <?php if ($contentData['free_shipping']==0):?>checked="checked"<?php endif; ?>>
+                            <input type="radio" id="customRadio2" class="form-check-input" name="content_data[free_shipping]" value="0" <?php if ($contentData['free_shipping']==0):?>checked="checked"<?php endif; ?>>
                             <label class="custom-control-label" for="customRadio2"><?php _e("No"); ?></label>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="show-params-checkout-page" name="content_data[params_in_checkout]" value="1" <?php if ($contentData['params_in_checkout']==1):?>checked="checked"<?php endif; ?> />
+                                <input type="checkbox" class="form-check-input" id="show-params-checkout-page" name="content_data[params_in_checkout]" value="1" <?php if ($contentData['params_in_checkout']==1):?>checked="checked"<?php endif; ?> />
                                 <label class="custom-control-label" for="show-params-checkout-page"><?php _e("Show parameters in checkout page"); ?></label>
                             </div>
                         </div>

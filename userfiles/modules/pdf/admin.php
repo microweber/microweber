@@ -42,7 +42,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="form-group">
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="mw_option_field custom-control-input" id="download" name="download" value="true" <?= ($download == 'true' ? 'checked="checked"' : '') ?>>
+                    <input type="checkbox" class="mw_option_field form-check-input" id="download" name="download" value="true" <?= ($download == 'true' ? 'checked="checked"' : '') ?>>
                     <label class="custom-control-label" for="download"><?php _e('Allow download'); ?></label>
                 </div>
             </div>

@@ -28,7 +28,7 @@
             <div class="toolbar row mb-3">
                 <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
                     <div class="custom-control custom-checkbox mb-0">
-                        <input type="checkbox" class="custom-control-input" id="check-all" checked>
+                        <input type="checkbox" class="form-check-input" id="check-all" checked>
                         <label class="custom-control-label" for="check-all">Check all</label>
                     </div>
 
@@ -59,7 +59,7 @@
                             <div class="col text-center" style="max-width: 40px;">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox mx-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                        <input type="checkbox" class="form-check-input" id="customCheck1" checked>
                                         <label class="custom-control-label" for="customCheck1"></label>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                             <div class="col text-center" style="max-width: 40px;">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox mx-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                        <input type="checkbox" class="form-check-input" id="customCheck1" checked>
                                         <label class="custom-control-label" for="customCheck1"></label>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                             <div class="col text-center" style="max-width: 40px;">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox mx-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                        <input type="checkbox" class="form-check-input" id="customCheck1" checked>
                                         <label class="custom-control-label" for="customCheck1"></label>
                                     </div>
                                 </div>

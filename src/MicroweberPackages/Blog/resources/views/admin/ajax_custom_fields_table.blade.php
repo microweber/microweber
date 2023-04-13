@@ -50,9 +50,9 @@
                 @php
                     $customFieldOptionName = 'filtering_by_custom_fields_' . $customFieldKey;
                 @endphp
-                <div class="custom-control custom-switch pl-0">
+                <div class="form-check form-switch pl-0">
                     <label class="d-inline-block mr-5" for="{{$customFieldOptionName}}"></label>
-                    <input type="checkbox" <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?> name="{{$customFieldOptionName}}" data-value-checked="1" data-value-unchecked="0" id="{{$customFieldOptionName}}" class="mw_option_field custom-control-input">
+                    <input type="checkbox" <?php if ('1' == get_option($customFieldOptionName, $moduleId)): ?>checked="checked"<?php endif; ?> name="{{$customFieldOptionName}}" data-value-checked="1" data-value-unchecked="0" id="{{$customFieldOptionName}}" class="mw_option_field form-check-input">
                     <label class="custom-control-label" for="{{$customFieldOptionName}}"></label>
                 </div>
             </td>

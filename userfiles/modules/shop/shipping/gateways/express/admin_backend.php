@@ -53,9 +53,9 @@ use MicroweberPackages\View\View;
                     <div class="form-group">
                         <label class="form-label"><?php _e("Enable Express shipping"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e('Enable or disable Express shipping'); ?></small>
-                        <div class="custom-control custom-switch pl-0">
+                        <div class="form-check form-switch pl-0">
                             <label class="d-inline-block mr-5" for="shipping_gw_<?php print $shipping_module['module'] ?>">No</label>
-                            <input onchange="shippingExpressClass(this)" type="checkbox" name="shipping_gw_<?php print $shipping_module['module'] ?>" id="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" data-id="shipping_gw_<?php print $shipping_module['module'] ?>" data-value-checked="y" data-value-unchecked="n" class="mw_option_field custom-control-input" <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
+                            <input onchange="shippingExpressClass(this)" type="checkbox" name="shipping_gw_<?php print $shipping_module['module'] ?>" id="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" data-id="shipping_gw_<?php print $shipping_module['module'] ?>" data-value-checked="y" data-value-unchecked="n" class="mw_option_field form-check-input" <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
                             <label class="custom-control-label" for="shipping_gw_<?php print $shipping_module['module'] ?>">Yes</label>
                         </div>
                     </div>
