@@ -127,13 +127,13 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("System e-mail website settings"); ?></h5>
                     <small class="text-muted">
                         <?php _e("Deliver messages related with new registration, password resets and others system functionalities."); ?>
                     </small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -161,14 +161,14 @@
     <div class="card mb-3 card-settings js-holder-email-server-settings">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("General e-mail provider settings"); ?></h5>
                     <small class="text-muted">
                         <?php _e("Set up your email provider."); ?>
                         <?php _e("The general e-mail provider will deliver all messages related with the website. Including system messages and contact form messages."); ?>
                     </small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
 

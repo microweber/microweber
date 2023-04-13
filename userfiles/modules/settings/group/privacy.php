@@ -12,7 +12,7 @@
 <div class="card mb-3">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-xl-3 mb-xl-0 mb-3">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e('Privacy policy settings'); ?></h5>
                 <small class="text-muted d-block mb-3">
                     <?php _e('A Privacy Policy is a legal agreement that explains what kinds of personal information you gather from website visitors, how you use this information, and how you keep it safe. Examples of personal information might include: Names. Dates of birth.'); ?>
@@ -23,7 +23,7 @@
                 </small>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-xl-9">
                 <div class="card bg-light ">
                     <div class="card-body pt-3">
                         <div class="row">

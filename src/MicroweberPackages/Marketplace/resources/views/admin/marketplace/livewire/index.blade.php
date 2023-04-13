@@ -1,4 +1,6 @@
 <div>
+    <script>mw.require('admin_package_manager.js');</script>
+
     <div class="container px-5">
 
         <div class="mb-3">
@@ -23,6 +25,7 @@
                         </div>
                         Reload Packages
                     </button>
+                    <button type="button" class="btn btn-outline-success" onclick="mw.admin.admin_package_manager.show_licenses_modal();">Licenses</a>
                 </div>
             </div>
 

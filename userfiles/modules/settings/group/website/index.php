@@ -32,11 +32,11 @@
     <div class="card mb-5">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e('Seo Settings'); ?></h5>
                     <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -121,11 +121,11 @@
 
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e('General Settings'); ?></h5>
                     <small class="text-muted"><?php _e('Set regional settings for your website or online store');?> <?php _e('They will also affect the language you use and the fees for the orders.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <div class="row">
@@ -336,11 +336,11 @@
 
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e('Social Networks links'); ?></h5>
                     <small class="text-muted"><?php _e('Add links to your social media accounts. Once set up, you can use them anywhere on your site using the "social networks" module with drag and drop technology.'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div id="mw-global-fields-social-profile-set">
                             <module type="social_links/admin" module-id="website" live_edit="false"/>
@@ -356,11 +356,11 @@
 
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e('Online Shop'); ?></h5>
                     <small class="text-muted"><?php _e('Enable or disable your online shop'); ?></small>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
                             <module type="shop/orders/settings/enable_disable_shop"/>
@@ -377,10 +377,10 @@
 
 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Maintenance mode"); ?></h5>
                 </div>
-                <div class="col-md-9">
+                <div class="col-xl-9">
                     <div class="card bg-light ">
                         <div class="card-body pt-3">
 

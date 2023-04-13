@@ -93,7 +93,9 @@
                        }
                        ?>
 
-                   <div class="col-lg-3 text-center admin-add-new-modal-buttons">
+                <div class="col-lg-3 text-center admin-add-new-modal-buttons">
+
+                   <a href="<?php print $base_url; ?>" class="">
 
                        <?php if ($item['content_type'] == 'page') { ?>
                             <div>
@@ -126,7 +128,9 @@
 
                             </div>
                        </a>
-                   </div>
+                   </a>
+                </div>
+
                        <?php endforeach; ?>
                        <?php endif; ?>
             </div>
