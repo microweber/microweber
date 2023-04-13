@@ -22,7 +22,7 @@ class MicroweberModuleTagCompiler extends ComponentTagCompiler
             $attributes = [];
             $getAttributes = $this->extractModuleTagAttributes($matches[0]);
             foreach ($getAttributes as $attributeKey=>$attributeValue) {
-                $attributes[$attributeKey] = "'". $attributeValue . "'";
+                $attributes[$attributeKey] = "'".$this->compileAttributeEchos($attributeValue)."'";
             }
 
             $component = "'{$matches[0]}'";
