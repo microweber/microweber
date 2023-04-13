@@ -15,10 +15,23 @@
 
 .admin-dashboard-left-nav {
     background-color: white;
-    padding: 10px 20px 20px 40px !important;
+    padding: 0 !important;
+
+    .navbar-nav-padding {
+        padding-inline: 40px 20px !important;
+    }
+
+    .navbar-brand.navbar-nav-padding {
+        margin-top: 20px;
+    }
 
     .add-new {
         background-color: var(--tblr-primary);
+    }
+
+    .nav-item-profile {
+        padding-top: 30px;
+        padding-bottom: 30px;
     }
 
     .nav-link {
@@ -35,7 +48,7 @@
                 content: '';
                 bottom: -5px;
                 left: 0;
-                height: .15rem;
+                height: 1px;
                 width: 0;
                 background-color: #000;
                 opacity: 0;
@@ -313,6 +326,10 @@ small.text-muted {
     width: 2.4rem;
 }
 
+.form-check.form-switch {
+    width: 50px;
+}
+
 .admin-toolbar-buttons {
     transition: 0.25s ease;
 
@@ -329,4 +346,12 @@ small.text-muted {
         background-color: #efefef;
         cursor: pointer;
     }
+}
+
+
+.mw-admin-sidebar-profile {
+    background-color: #f5f5f5;
+    padding: 20px;
+    margin-right: 20px;
+    border-radius: 50%;
 }

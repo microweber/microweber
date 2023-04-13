@@ -82,7 +82,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <h1 class="navbar-brand navbar-brand-autodark justify-content-start">
+        <h1 class="navbar-brand navbar-nav-padding navbar-brand-autodark justify-content-start">
             <?php
             if (mw()->ui->admin_logo != false):
                 $logo = mw()->ui->admin_logo;
@@ -100,7 +100,7 @@
 
 
         <div class="collapse navbar-collapse" id="sidebar-menu">
-            <ul class="navbar-nav pt-lg-3" id="mw-admin-main-navigation">
+            <ul class="navbar-nav navbar-nav-padding" id="mw-admin-main-navigation">
                 <li class="nav-item">
                     <a href="<?php print admin_url(); ?>" class="nav-link fs-3 <?php if (!$view): ?> active <?php endif; ?>">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M520 456V216h320v240H520ZM120 616V216h320v400H120Zm400 320V536h320v400H520Zm-400 0V696h320v240H120Zm80-400h160V296H200v240Zm400 320h160V616H600v240Zm0-480h160v-80H600v80ZM200 856h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360 776Z"/></svg>
@@ -357,18 +357,38 @@
                 <!--                    <a href="--><?php //print site_url(); ?><!--?editmode=y" class="go-live-edit-href-set dropdown-item">--><?php //_e("View Website"); ?><!--</a>-->
                 </li>
 
-                <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link fs-3">
-                        <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M440 616V216h80v400h-80Zm40 320q-74 0-139.5-28.5T226 830q-49-49-77.5-114.5T120 576q0-80 33-151t93-123l56 56q-48 40-75 97t-27 121q0 116 82 198t198 82q117 0 198.5-82T760 576q0-64-26.5-121T658 358l56-56q60 52 93 123t33 151q0 74-28.5 139.5t-77 114.5q-48.5 49-114 77.5T480 936Z"/></svg>
-
+                <li class="nav-item mt-auto"><a href="<?php print api_url('Get Help'); ?>" class="nav-link fs-3">
+                        <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M478 816q21 0 35.5-14.5T528 766q0-21-14.5-35.5T478 716q-21 0-35.5 14.5T428 766q0 21 14.5 35.5T478 816Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342 438l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506 530q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197 859q-54-54-85.5-127T80 576q0-83 31.5-156T197 293q54-54 127-85.5T480 176q83 0 156 31.5T763 293q54 54 85.5 127T880 576q0 83-31.5 156T763 859q-54 54-127 85.5T480 976Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
                        <span>
-                             <?php _e("Logout"); ?>
+                             <?php _e("Get Help"); ?>
                        </span>
                     </a></li>
 
-                <?php event_trigger('mw.admin.sidebar.li.last'); ?>
-                <div class="mt-5">
-                    <?php include(modules_path(). DS . 'admin/lang_swich_footer.php'); ?>
-                </div>
+                <li class="nav-item"><a href="<?php print api_url('logout'); ?>" class="nav-link fs-3">
+                        <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M440 616V216h80v400h-80Zm40 320q-74 0-139.5-28.5T226 830q-49-49-77.5-114.5T120 576q0-80 33-151t93-123l56 56q-48 40-75 97t-27 121q0 116 82 198t198 82q117 0 198.5-82T760 576q0-64-26.5-121T658 358l56-56q60 52 93 123t33 151q0 74-28.5 139.5t-77 114.5q-48.5 49-114 77.5T480 936Z"/></svg>
+
+                        <span>
+                             <?php _e("Logout"); ?>
+                       </span>
+                    </a></li>
+            </ul>
+
+            <hr class="thin">
+            <ul class="navbar-nav-padding">
+                <li class="nav-item nav-item-profile">
+                    <a href="" class="nav-link fs-3 ">
+                        <div class="mw-admin-sidebar-profile">
+
+                        </div>
+                        <div>
+                            <?php _e("Profile Name"); ?>
+                        </div>
+                    </a>
+                </li>
+{{--                <?php event_trigger('mw.admin.sidebar.li.last'); ?>--}}
+{{--                <div class="mt-5">--}}
+{{--                    <?php include(modules_path(). DS . 'admin/lang_swich_footer.php'); ?>--}}
+{{--                </div>--}}
             </ul>
         </div>
 
