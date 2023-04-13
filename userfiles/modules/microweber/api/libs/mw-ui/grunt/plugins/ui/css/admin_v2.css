@@ -99,7 +99,7 @@
     border-color: #d8e8ff;
     border-radius: 15px;
     background: #f6f8ff; }
- 
+
 .icon-holder {
   padding: 8px 12px;
   background-color: #e1edfa;
@@ -222,8 +222,10 @@ small.text-muted {
   height: 1.25rem;
   width: 2.4rem; }
 
-.admin-toolbar-buttons:hover {
-  transform: scale(1.1);
+.admin-toolbar-buttons {
   transition: 0.25s ease; }
+  .admin-toolbar-buttons:hover {
+    transform: scale(1.1);
+    background-color: #f8fcff !important; }
 
 /*# sourceMappingURL=admin_v2.css.map */

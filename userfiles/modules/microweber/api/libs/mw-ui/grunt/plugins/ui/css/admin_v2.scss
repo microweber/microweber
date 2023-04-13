@@ -311,8 +311,10 @@ small.text-muted {
 }
 
 .admin-toolbar-buttons {
+    transition: 0.25s ease;
+
     &:hover {
         transform: scale(1.1);
-        transition: 0.25s ease;
+        background-color: #f8fcff !important;
     }
 }

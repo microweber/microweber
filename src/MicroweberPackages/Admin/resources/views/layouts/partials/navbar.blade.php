@@ -361,15 +361,11 @@
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M440 616V216h80v400h-80Zm40 320q-74 0-139.5-28.5T226 830q-49-49-77.5-114.5T120 576q0-80 33-151t93-123l56 56q-48 40-75 97t-27 121q0 116 82 198t198 82q117 0 198.5-82T760 576q0-64-26.5-121T658 358l56-56q60 52 93 123t33 151q0 74-28.5 139.5t-77 114.5q-48.5 49-114 77.5T480 936Z"/></svg>
 
                        <span>
-                             <?php _e("Users"); ?>
+                             <?php _e("Logout"); ?>
                        </span>
                     </a></li>
 
-
-
                 <?php event_trigger('mw.admin.sidebar.li.last'); ?>
-
-
                 <div class="mt-5">
                     <?php include(modules_path(). DS . 'admin/lang_swich_footer.php'); ?>
                 </div>
