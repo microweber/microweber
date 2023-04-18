@@ -195,7 +195,7 @@ mw()->notifications_manager->mark_as_read('users');
                         mw.url.windowHashParam('search', target.value.trim());
                     }
                 </script>
-                <form class="form-inline" onsubmit="handleUserSearch(event)">
+                <form class="form-inline d-flex" onsubmit="handleUserSearch(event)">
                     <div class="form-group">
                         <div class="input-group mb-0 prepend-transparent">
                             <div class="input-group-prepend bg-white">
