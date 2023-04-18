@@ -1,7 +1,7 @@
 <?php
 
- $wrapper_class = 'mw-edit-content-item-admin'; 
- 
+ $wrapper_class = 'mw-edit-content-item-admin';
+
   if(isset($params['live_edit'])){
 	$wrapper_class = 'module-live-edit-settings';
  }
@@ -13,8 +13,8 @@
 
   <?php $content_edit_modules = mw()->ui->module('content.edit.main'); ?>
   <?php $modules = array(); ?>
-  <?php 
- 
+  <?php
+
 if (!empty($content_edit_modules) and !empty($data)) {
     foreach ($content_edit_modules as $k1=>$content_edit_module) {
 		if(isset($content_edit_module['module'])){

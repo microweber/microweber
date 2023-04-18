@@ -1,6 +1,5 @@
-<div class="row">
-    <div class="col-md-12">
-        <div>
+<div class="card">
+        <div class="card-header">
             <?php $module_info = module_info('admin/import_export_tool'); ?>
             <h5>
                 <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
@@ -8,9 +7,9 @@
             </h5>
         </div>
 
-        <div class="card-body mb-3 mt-3">
-            <div class="card-body pt-3">
+        <div class="card-body pt-3">
 
+            <div class="row">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
                         <a href="{{route('admin.import-export-tool.index')}}" class="nav-link
@@ -32,5 +31,4 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
