@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
 
         @if($getOrder)
         <livewire:admin-orders-filters />

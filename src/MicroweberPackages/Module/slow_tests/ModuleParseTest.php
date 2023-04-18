@@ -153,7 +153,7 @@ HTML;
         Auth::login($user);
 
         $layout = <<<HTML
-     <module id="settings_admin_mw-main-module-backend-settings-admin" class="card-body pt-3" option_group="shop/settings" is_system="1" style="position: relative;" data-type="settings/system_settings" />
+     <module id="settings_admin_mw-main-module-backend-settings-admin" class=" " option_group="shop/settings" is_system="1" style="position: relative;" data-type="settings/system_settings" />
 HTML;
         $layout = app()->parser->process($layout);
 

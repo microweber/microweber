@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <module type="settings/group/seo"/>
@@ -51,7 +51,7 @@
                     <hr class="thin"/>
 
                     <div class="card bg-light  mb-1">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <module type="settings/group/custom_head_tags"/>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light  mb-1">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <module type="admin/developer_tools"/>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light  mb-1">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">

@@ -142,7 +142,7 @@
 
 <div class="col-md-4 manage-content-sidebar">
     <div class="card-body mb-3">
-        <div class="card-body pt-3 pb-0">
+        <div class="  pb-0">
             <div class="row">
                 <div class="col-12">
                     <strong><?php _e("Visibility"); ?></strong>
@@ -170,7 +170,7 @@
     <module type="content/views/edit_default_sidebar_variants" content-id="<?php echo $data['id']; ?>" />
 
     <div class="card-body mb-3 categories js-sidebar-categories-card">
-            <div class="card-body pt-3 pb-1">
+            <div class="  pb-1">
                 <div class="row">
 
 
@@ -343,7 +343,7 @@
 
     <?php if ($data['content_type'] == 'page'): ?>
         <div class="card-body mb-3 menus">
-            <div class="card-body pt-3">
+            <div class=" ">
                 <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
 
                 <?php if (isset($data['add_to_menu'])): ?>
@@ -359,7 +359,7 @@
 
     <?php if (isset($data['content_type']) and ($data['content_type'] != 'page')): ?>
         <div class="card-body mb-3">
-            <div class="card-body pt-3">
+            <div class=" ">
                 <div class="row mb-3">
                     <div class="col-12">
                         <strong><?php _e("Tags"); ?></strong>

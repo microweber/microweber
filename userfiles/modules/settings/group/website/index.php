@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
 
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
 
@@ -362,7 +362,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <module type="shop/orders/settings/enable_disable_shop"/>
                         </div>
                     </div>
@@ -382,7 +382,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
 
 
                             <module type="settings/group/maintenance_mode"/>

@@ -352,7 +352,7 @@ if (isset($params['quick_edit'])) {
                                 </div>
 
                                 <?php if (isset($edit_page_info['title'])): ?>
-                                    <div class="card-body pt-3">
+                                    <div class=" ">
 
                                         <div class="form-group" id="slug-field-holder">
                                             <label class="form-label"><?php _e($type) ?> <?php _e("title"); ?></label>

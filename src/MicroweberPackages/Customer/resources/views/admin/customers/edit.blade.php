@@ -335,7 +335,7 @@
                 <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>
             </h5>
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             @if (!empty($customer) && $customer->orders()->count() > 0)
                 @foreach ($customer->orders()->get() as $order)
                     <div class="card  mb-2 card-collapse" data-bs-toggle="collapse" data-bs-target="#order-item-{{ $order->id }}">

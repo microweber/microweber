@@ -23,11 +23,11 @@
                     </div>
                 </div>
 
-                <div class="card-body pt-3">
+                <div class=" ">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card-body mb-3">
-                                <div class="card-body pt-3">
+                                <div class=" ">
                                     <div class="row">
                                         <div class="col-4 px-0">
                                             <div class="img-circle-holder border-radius-10 border-silver w-auto">
@@ -110,7 +110,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body pt-3">
+                                <div class=" ">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
@@ -140,7 +140,7 @@
                                     <h6><strong><?php _e("Pricing"); ?></strong></h6>
                                 </div>
 
-                                <div class="card-body pt-3">
+                                <div class=" ">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label><?php _e("Price"); ?></label>
@@ -199,7 +199,7 @@
                                     <h6><strong><?php _e("Inventory"); ?></strong></h6>
                                 </div>
 
-                                <div class="card-body pt-3">
+                                <div class=" ">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
@@ -278,7 +278,7 @@
                                     <h6><strong><?php _e("Shipping"); ?></strong></h6>
                                 </div>
 
-                                <div class="card-body pt-3">
+                                <div class=" ">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">

@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="row">
                 <div class="col-12">
                     <div class="no-items-box" style="background-image: url('assets/img/no_products.svg'); ">

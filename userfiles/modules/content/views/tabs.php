@@ -19,7 +19,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
             </div>
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             <module
                 id="edit-post-gallery-main"
                 type="pictures/admin"
@@ -114,7 +114,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
     <?php /*if (trim($data['content_type']) == 'product'):  */?><!--
         <div class="card-body mb-3">
-            <div class="card-body pt-3">
+            <div class=" ">
                 <?php /*event_trigger('mw_edit_product_admin', $data); */?>
             </div>
         </div>
@@ -128,7 +128,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             <?php $class = (isset($item['class'])) ? ($item['class']) : false; ?>
             <?php $html = (isset($item['html'])) ? ($item['html']) : false; ?>
             <div class="card-body mb-3 custom-tabs">
-                <div class="card-body pt-3"><?php print $html; ?></div>
+                <div class=" "><?php print $html; ?></div>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

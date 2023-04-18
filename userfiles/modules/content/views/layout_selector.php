@@ -678,7 +678,7 @@ if (!empty($recomended_layouts)) {
         </style>
 
         <div class="card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
-            <div class="card-body pt-3">
+            <div class=" ">
                 <?php if ($show_save_changes_buttons): ?>
                 <?php endif; ?>
 

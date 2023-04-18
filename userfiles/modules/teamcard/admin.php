@@ -110,7 +110,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
-    <div class="card-body pt-3">
+    <div class=" ">
 
         <div class="mw-modules-tabs">
             <div class="mw-accordion-item">

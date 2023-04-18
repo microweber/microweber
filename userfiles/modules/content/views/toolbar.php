@@ -370,7 +370,7 @@ if ($last_page_front != false) {
     </div>
 <?php endif; ?>
 <?php if (!isset($edit_page_info)): ?>
-    <div class="card-body pt-3 pb-0">
+    <div class="  pb-0">
         <div class="toolbar row js-hide-when-no-items">
             <div class="col-sm-4 d-md-flex d-none align-items-center justify-content-center justify-content-sm-start my-1">
                 <div class="custom-control custom-checkbox mb-0">

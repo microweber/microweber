@@ -16,7 +16,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <?php
         $facebook_enabled = get_option('facebook_enabled', $params['id']) == 'y';
         $twitter_enabled = get_option('twitter_enabled', $params['id']) == 'y';

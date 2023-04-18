@@ -2,7 +2,7 @@
 
     @include('content::admin.content.livewire.card-header')
 
-    <div class="card-body pt-3">
+    <div class=" ">
 
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 

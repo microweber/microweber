@@ -15,7 +15,7 @@ $current_template = false;
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <?php
         if (!isset($params['parent-module']) and isset($params['root-module'])) {
             $params['parent-module'] = $params['root-module'];

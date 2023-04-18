@@ -33,7 +33,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 ?>
 
 <div class="<?php if (!$simple): ?>card  mb-3<?php endif; ?> card-settings">
-    <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
+    <div class="<?php if (!$simple): ?> <?php endif; ?>">
 
         <?php if (!$simple): ?>
 
@@ -46,7 +46,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
             </div>
             <div class="col-xl-9">
                 <div class="<?php if (!$simple): ?>card bg-light  mb-3<?php endif; ?>">
-                    <div class="<?php if (!$simple): ?>card-body pt-3<?php endif; ?>">
+                    <div class="<?php if (!$simple): ?> <?php endif; ?>">
                         <div class="row">
                             <div class="col-12">
 

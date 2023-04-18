@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="toolbar row mb-3">
                 <div class="col-12 d-flex align-items-center">
                     <h5>List of your categories</h5>
@@ -129,7 +129,7 @@
                 <button type="button" class="btn btn-success btn-sm icon-left" disabled=""><i class="spinner-border spinner-border-sm mr-2"></i> Please wait...</button>
             </div>
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <p>Please fill the fields to create a new category</p>

@@ -14,7 +14,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="menus-index-bar">
             <?php
             include($config['path_to_module'] . 'admin_live_edit_tab1.php'); ?>

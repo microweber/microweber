@@ -31,7 +31,7 @@ if (isset($user['role'])) {
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="row d-flex align-items-center justify-content-around">
             <div class="col-md-5 py-5">
                 <h5 class="font-weight-bold settings-title-inside"><?php _e('Manage your users'); ?></h5>

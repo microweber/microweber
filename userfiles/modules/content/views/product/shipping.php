@@ -46,7 +46,7 @@
         <h6><strong><?php _e("Shipping"); ?></strong></h6>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">

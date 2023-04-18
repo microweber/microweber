@@ -30,7 +30,7 @@
         </h5>
     </div>
 
-    <div class="card-body pt-3" id="users-manage-body">
+    <div class=" " id="users-manage-body">
         <form method="GET">
             <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
                 <div class="form-inline">

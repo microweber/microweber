@@ -119,7 +119,7 @@
         </div>
 
         <div class="card-body mb-3">
-            <div class="card-body pt-3 px-5">
+            <div class="  px-5">
                 <div class="row select-settings">
                     <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
                         <a href="#" class="d-flex settings-holder-wrapper">

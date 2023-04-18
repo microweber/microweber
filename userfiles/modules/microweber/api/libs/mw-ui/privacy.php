@@ -49,7 +49,7 @@
 
                     <div class="col-md-8">
                         <div class="card bg-light ">
-                            <div class="card-body pt-3">
+                            <div class=" ">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card bg-light ">
-                            <div class="card-body pt-3">
+                            <div class=" ">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
@@ -166,7 +166,7 @@
 
                     <div class="col-md-8">
                         <div class="card bg-light ">
-                            <div class="card-body pt-3">
+                            <div class=" ">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">
@@ -234,7 +234,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card bg-light ">
-                            <div class="card-body pt-3">
+                            <div class=" ">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-3">

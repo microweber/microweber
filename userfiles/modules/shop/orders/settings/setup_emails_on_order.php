@@ -20,7 +20,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </h5>
             </div>
 
-            <div class="card-body pt-3">
+            <div class=" ">
                 <script type="text/javascript">
                     $(document).ready(function () {
                         mw.options.form('.<?php print $config['module_class'] ?>', function () {

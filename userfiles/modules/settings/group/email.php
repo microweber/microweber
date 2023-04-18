@@ -135,7 +135,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
@@ -170,7 +170,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class="card-body pt-3">
+                        <div class=" ">
 
                             <div class="row">
                                 <div class="col-12">
