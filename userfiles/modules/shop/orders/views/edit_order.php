@@ -309,7 +309,7 @@
                     <div class="mb-3">
                         <?php _e("Is paid"); ?>:
                         <div class="d-inline">
-                            <select name="is_paid" class="mw-order-is-paid-change selectpicker" data-style="btn-sm" data-width="100px">
+                            <select name="is_paid" class="mw-order-is-paid-change  form-select" data-style="btn-sm" data-width="100px">
                                 <option value="1" <?php if (isset($ord['is_paid']) and intval($ord['is_paid']) == 1): ?> selected="selected" <?php endif; ?>>
                                     <?php _e("Yes"); ?>
                                 </option>

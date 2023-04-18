@@ -155,5 +155,5 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             </div>
         </div>
-    
+
 </div>

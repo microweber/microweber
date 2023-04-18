@@ -69,7 +69,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="form-label"><?php _e("Captcha provider"); ?></label>
 
-                        <select class="mw_option_field js-select-captcha-provider selectpicker" data-width="100%" name="provider" option-group="captcha">
+                        <select class="mw_option_field js-select-captcha-provider  form-select" data-width="100%" name="provider" option-group="captcha">
                             <option value="microweber"><?php _e("Select"); ?></option>
                             <option value="google_recaptcha_v2" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v2'): ?>selected="selected"<?php endif; ?>><?php _e("Google ReCaptcha V2"); ?></option>
                             <option value="google_recaptcha_v3" <?php if (get_option('provider', 'captcha') == 'google_recaptcha_v3'): ?>selected="selected"<?php endif; ?>><?php _e("Google ReCaptcha V3"); ?></option>

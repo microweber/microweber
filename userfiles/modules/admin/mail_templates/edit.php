@@ -150,7 +150,7 @@ if (!empty($template_id)) {
                         <label class="form-label"><?php _e("Template type"); ?></label>
                         <small class="text-muted d-block mb-2"><?php _e("Name the email template so you can recognize it more easily"); ?></small>
                         <div>
-                            <select name="type" class="js-template-type selectpicker" data-width="100%">
+                            <select name="type" class="js-template-type  form-select" data-width="100%">
                                 <?php foreach (get_mail_template_types() as $type): ?>
                                     <option value="<?php echo $type; ?>" <?php if ($type == $template['type']): ?>selected="selected"<?php endif; ?>><?php echo $type; ?></option>
                                 <?php endforeach; ?>

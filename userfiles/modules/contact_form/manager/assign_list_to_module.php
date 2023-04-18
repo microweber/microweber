@@ -46,7 +46,7 @@ $data = get_form_lists('order_by=created_at desc&module_name=' . $params['for-mo
             <div class="col-6">
                 <label class="form-label"><?php _e("Select list for current form"); ?></label>
                 <small class="text-muted d-block mb-2"><?php _e("Select a list in which incoming entries will be saved"); ?></small>
-                <select name="list_id" class="mw_option_field form-list-id selectpicker" data-width="100%" option-group="<?php print $params['for-module-id'] ?>">
+                <select name="list_id" class="mw_option_field form-list-id  form-select" data-width="100%" option-group="<?php print $params['for-module-id'] ?>">
                     <option value="" <?php if (intval($selected_list) == 0): ?>   selected="selected"  <?php endif; ?>><?php _e("Default list"); ?></option>
                     <?php foreach ($data as $item): ?>
                         <option value="<?php print $item['id'] ?>" <?php if ((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <?php endif; ?>><?php print $item['title'] ?></option>

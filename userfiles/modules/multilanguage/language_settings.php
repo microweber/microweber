@@ -213,7 +213,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 <label class="form-label d-block"><?php _e('Add new language'); ?></label>
 
                 <?php if ($languages) : ?>
-                    <select autocomplete="off" class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
+                    <select autocomplete="off" class="js-dropdown-text-language  form-select" id="add_language_ul" data-size="5" data-live-search="true">
                         <option>
                             <?php _e('Select language'); ?>
                         </option>
