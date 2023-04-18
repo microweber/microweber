@@ -253,7 +253,7 @@ if (isset($menu_data) and is_array($menu_data) and isset($menu_data['id'])) {
 ?>
 
 <div class="d-block">
-    <button type="button" class="btn btn-primary" onclick="addMenuItem()"><i class="mdi mdi-plus"></i> <?php _e("Add menu item"); ?></button>
+    <button type="button" class="btn btn-primary mt-2" onclick="addMenuItem()"><i class="mdi mdi-plus"></i> <?php _e("Add menu item"); ?></button>
 </div>
 
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link">
