@@ -73,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 0; 
+    margin-right: 0;
     border-radius: 50%; }
   .admin-dashboard-left-nav hr.thin {
     margin: 0 !important; }
@@ -262,5 +262,13 @@ small.text-muted {
   padding: 20px;
   margin-right: 20px;
   border-radius: 50%; }
+
+.btn-group-sm > .btn, .btn-sm {
+  padding: 3px 15px;
+  font-size: 14px;
+  border-radius: 4px; }
+
+.navbar .navbar-nav .nav-link .badge {
+  top: 0; }
 
 /*# sourceMappingURL=admin_v2.css.map */

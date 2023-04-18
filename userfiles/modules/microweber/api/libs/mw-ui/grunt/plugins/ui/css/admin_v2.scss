@@ -379,3 +379,14 @@ small.text-muted {
     margin-right: 20px;
     border-radius: 50%;
 }
+
+
+.btn-group-sm>.btn, .btn-sm {
+    padding: 3px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.navbar .navbar-nav .nav-link .badge {
+    top: 0;
+}
