@@ -200,7 +200,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div class="form-group col-6">
                             <label class="form-label d-block"><?php _e("Action"); ?></label>
                             <small class="text-muted d-block mb-3"><?php _e('Setup action from dropdown.');?></small>
-                            <select class="mw_option_field selectpicker" data-width="100%" id="action" name="button_action">
+                            <select class="mw_option_field form-select" data-width="100%" id="action" name="button_action">
                                 <option <?php if ($action == 'url' OR $action == ''): ?>selected<?php endif; ?> value="url"><?php _e("Go to link"); ?></option>
                                 <option <?php if ($action == 'popup'): ?>selected<?php endif; ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
                                 <option <?php if ($action == 'submit'): ?>selected<?php endif; ?> value="submit"><?php _e("Submit form"); ?></option>

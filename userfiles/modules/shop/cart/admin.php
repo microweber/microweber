@@ -28,7 +28,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label d-block"><?php _e("Checkout link enabled"); ?> ?</label>
 
                         <?php $checkout_link_enanbled = get_option('data-checkout-link-enabled', $params['id']); ?>
-                        <select name="data-checkout-link-enabled" class="mw_option_field selectpicker" data-width="100%">
+                        <select name="data-checkout-link-enabled" class="mw_option_field form-select" data-width="100%">
                             <option value="y" <?php if (('n' != strval($checkout_link_enanbled))): ?>  selected="selected"  <?php endif; ?>><?php _e("Yes"); ?></option>
                             <option value="n" <?php if (('n' == strval($checkout_link_enanbled))): ?>  selected="selected"  <?php endif; ?>><?php _e("No"); ?></option>
                         </select>
@@ -39,7 +39,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label d-block"><?php _e("Use Checkout Page From"); ?></label>
                         <?php $selected_page = get_option('data-checkout-page', $params['id']); ?>
 
-                        <select name="data-checkout-page" class="mw_option_field selectpicker" data-width="100%" data-size="5">
+                        <select name="data-checkout-page" class="mw_option_field form-select" data-width="100%" data-size="5">
                             <option value="default" <?php if ((0 == intval($selected_page)) or ('default' == strval($selected_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
                             <?php
                             $pt_opts = array();

@@ -105,7 +105,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Product title | Price"); ?></label>
 
-        <select name="product_id_with_price_id" class="js-product-title selectpicker" data-size="5" data-live-search="true" data-width="100%">
+        <select name="product_id_with_price_id" class="js-product-title  form-select" data-size="5" data-live-search="true" data-width="100%">
             <?php if ($all_products): ?>
                 <?php foreach ($all_products as $product) {
 

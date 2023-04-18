@@ -178,7 +178,7 @@ if(isset($contentData['max_qty_per_order']) and $contentData['max_qty_per_order'
                         <small class="text-muted d-block mb-3"><?php _e("How many products you have available in stock"); ?></small>
 
                         <?php if(!$qty_selected_is_custom){ ?>
-                        <select name="content_data[qty]" class="js-track-quantity-select-qty  selectpicker " data-size="7" onchange="set_custom_qty_number(this)">
+                        <select name="content_data[qty]" class="js-track-quantity-select-qty  form-select" data-size="7" onchange="set_custom_qty_number(this)">
                             <option selected="selected" value="nolimit" <?php if($qty_selected =='nolimit' ) : ?> selected <?php endif;  ?>>∞ <?php _e("No Limit"); ?></option>
                             <option value="0" <?php if($qty_selected ===0 ) : ?> selected <?php endif;  ?> title="This item is out of stock and cannot be ordered."><?php _e("Out of stock"); ?></option>
                             <?php for ($i = 1; $i <= $dropdown_qty_max; $i++){  ?>

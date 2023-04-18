@@ -73,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 0; 
+    margin-right: 0;
     border-radius: 50%; }
   .admin-dashboard-left-nav hr.thin {
     margin: 0 !important; }
@@ -237,6 +237,9 @@ small.text-muted {
 .form-select {
   padding: 0.65rem 2.25rem 0.65rem 0.75rem; }
 
+.btn:not(.btn-sm) {
+  padding: 0.55rem 1.25rem; }
+
 .form-switch .form-check-input {
   height: 1.25rem;
   width: 2.4rem; }
@@ -262,5 +265,16 @@ small.text-muted {
   padding: 20px;
   margin-right: 20px;
   border-radius: 50%; }
+
+.btn-group-sm > .btn, .btn-sm {
+  padding: 3px 15px;
+  font-size: 14px;
+  border-radius: 2px; }
+
+.btn {
+  border-radius: 2px !important; }
+
+.navbar .navbar-nav .nav-link .badge {
+  top: 0; }
 
 /*# sourceMappingURL=admin_v2.css.map */

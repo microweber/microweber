@@ -1,19 +1,14 @@
-<div class="row">
-    <div class="col-md-12">
-        <div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+        <div class="card-header">
             <?php $module_info = module_info('admin/import_export_tool'); ?>
             <h5>
-                <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
+                <img width="30" height="30" src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
                 <strong><?php _e($module_info['name']); ?></strong>
             </h5>
         </div>
-
-        <div class="card-body mb-3 mt-3">
-            <div class="card-body pt-3">
-
-                <livewire:import_export_tool::install />
-
-            </div>
+            <livewire:import_export_tool::install />
         </div>
     </div>
 </div>

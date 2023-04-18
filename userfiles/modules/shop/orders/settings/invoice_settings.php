@@ -41,7 +41,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="form-group">
                 <label class="form-label"><?php _e("Company Country:"); ?></label>
 
-                <select name="invoice_company_country" class="mw_option_field selectpicker" data-size="5" data-width="100%" data-option-group="shop">
+                <select name="invoice_company_country" class="mw_option_field form-select" data-size="5" data-width="100%" data-option-group="shop">
                     <?php if (countries_list()): ?>
                         <?php foreach (countries_list() as $country): ?>
                             <option value="<?php print $country; ?>" selected="selected"><?php print $country; ?></option>

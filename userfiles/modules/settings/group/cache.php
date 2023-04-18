@@ -18,7 +18,7 @@
         <?php
         $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
         ?>
-        <select name="open_module_settings_in_sidebar" class="mw_option_field selectpicker" type="text" option-group="live_edit">
+        <select name="open_module_settings_in_sidebar" class="mw_option_field form-select" type="text" option-group="live_edit">
             <option value="0" <?php if (!$open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
             <option value="1" <?php if ($open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
         </select>
@@ -61,7 +61,7 @@
         <label class="form-label"><?php _e("Static files delivery method"); ?></label>
         <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
 
-        <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw_option_field selectpicker" data-width="100%" option-group="website">
+        <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw_option_field form-select" data-width="100%" option-group="website">
             <option value="" <?php if (!$static_files_delivery_method): ?> selected="selected" <?php endif; ?>><?php _e("Default"); ?></option>
             <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>><?php _e("CDN Domain"); ?></option>
             <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>><?php _e("Content proxy (experimental)"); ?></option>

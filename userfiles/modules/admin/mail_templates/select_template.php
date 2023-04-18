@@ -43,9 +43,9 @@ $mail_template_type = $params['mail_template_type'];
     <small class="text-muted d-block mb-2"><?php _e("If you add few emails for same functionality they will be showing in dropdown box"); ?>.</small>
 </div>
 
-<div class="row d-flex align-items-center">
+<div class=" d-flex align-items-center">
     <div class="col-md-8">
-        <select name="<?php echo $mail_template_type; ?>_mail_template" class="mw_option_field selectpicker" data-width="100%" data-option-group="<?php echo $option_group; ?>" option-group="<?php echo $option_group; ?>">
+        <select name="<?php echo $mail_template_type; ?>_mail_template" class="mw_option_field form-select form-select-sm" data-width="100%" data-option-group="<?php echo $option_group; ?>" option-group="<?php echo $option_group; ?>">
             <option><?php _e("Select template"); ?></option>
             <?php foreach (get_mail_templates_by_type($mail_template_type) as $template): ?>
                 <option value="<?php echo $template['id']; ?>" <?php if (get_option($mail_template_type . '_mail_template', $option_group) == $template['id']): ?>selected="selected"<?php endif; ?>><?php echo $template['name']; ?></option>
@@ -54,6 +54,6 @@ $mail_template_type = $params['mail_template_type'];
     </div>
 
     <div class="col-md-4">
-        <button onclick="mw_admin_edit_mail_templates('<?php echo $mail_template_type; ?>')" class="btn btn-outline-success btn-sm" title="<?php _e('Edit Templates'); ?>"><?php _e('Edit Templates'); ?></button>
+        <button onclick="mw_admin_edit_mail_templates('<?php echo $mail_template_type; ?>')" class="btn btn-outline-success ms-2" title="<?php _e('Edit Templates'); ?>"><?php _e('Edit Templates'); ?></button>
     </div>
 </div>

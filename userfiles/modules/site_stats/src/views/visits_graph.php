@@ -243,7 +243,7 @@ if ($params['period']) {
 
 
 <div id="stats">
-   <div class="card">
+   <div class="card mb-4">
        <div class="card-body mb-3">
            <div class="card-header px-0 justify-content-between">
 

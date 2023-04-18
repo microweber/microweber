@@ -121,7 +121,7 @@ include_once 'partials/package_data.php';
                 <div>
                     <small class="text-muted">v.</small>
                     <div class="d-inline-block">
-                        <select class="mw-sel-item-key-install selectpicker" data-style="btn-sm"
+                        <select class="mw-sel-item-key-install form-select form-select-sm" data-style="btn-sm"
                                 data-width="80px" data-size="5" data-vkey="<?php print $key; ?>">
                             <option
                                 value="<?php print $item['latest_version']['version'] ?>"><?php print $item['latest_version']['version'] ?></option>

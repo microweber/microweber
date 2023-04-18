@@ -57,7 +57,7 @@ $rand = uniqid(); ?>
     <div class="form-group">
         <label class="form-label d-block"><?php echo _e("Display", true) . ' ' . $set_content_type . ' ' . _e("from page", true); ?></label>
 
-        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
+        <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true" onchange="mw_reload_content_mod_window()">
             <?php if (intval($posts_parent_page) > 0 and !get_content_by_id($posts_parent_page)) { ?>
                 <option value="" selected="selected"><?php _e("Unknown page"); ?></option>
             <?php } ?>
@@ -93,7 +93,7 @@ $rand = uniqid(); ?>
 
         <div class="form-group">
             <label class="form-label d-block"><?php _e("Show only from category"); ?></label>
-            <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" data-also-reload="<?php print  $config['the_module'] ?>">
+            <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true" data-also-reload="<?php print  $config['the_module'] ?>">
                 <option value='' <?php if ((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
                 <?php
                 $pt_opts = array();
@@ -417,7 +417,7 @@ $rand = uniqid(); ?>
                         <?php _e("Order by"); ?>
                     </label>
 
-                    <select name="data-order-by" class="mw_option_field selectpicker" data-width="auto" data-also-reload="<?php print  $config['the_module'] ?>">
+                    <select name="data-order-by" class="mw_option_field form-select" data-width="auto" data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value="" <?php if ((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?>(ASC)</option>
                         <option value="position asc" <?php if (('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?>(DESC)</option>
                         <option value="created_at desc" <?php if (('created_at desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?>(ASC)</option>

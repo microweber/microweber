@@ -32,7 +32,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <label class="form-label"><?php _e("Search in page"); ?></label>
 
                         <div>
-                            <select name="data-content-id" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                            <select name="data-content-id" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
                                 <option value="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("None"); ?>"><?php _e("All pages"); ?></option>
                                 <?php
                                 $pt_opts = array();
