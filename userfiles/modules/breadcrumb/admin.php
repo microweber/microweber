@@ -29,7 +29,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="form-label"><?php _e("Root level"); ?></label>
                         <div>
-                            <select name="data-start-from" class="mw_option_field selectpicker" data-width="100%">
+                            <select name="data-start-from" class="mw_option_field form-select" data-width="100%">
                                 <option value='' <?php if ('' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
                                 <option value='page' <?php if ('page' == $selected_start_depth): ?>   selected="selected"  <?php endif; ?>><?php _e("Page"); ?></option>
                                 <?php ?>

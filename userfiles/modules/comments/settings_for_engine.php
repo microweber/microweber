@@ -12,7 +12,7 @@
 <div class="form-group">
     <label class="form-label"><?php _e("Comments engine"); ?></label>
 
-    <select name="engine" option-group="comments" class="mw_option_field selectpicker" data-width="100%" data-also-reload="#<?php print $params['id'] ?>">
+    <select name="engine" option-group="comments" class="mw_option_field form-select" data-width="100%" data-also-reload="#<?php print $params['id'] ?>">
         <option value="default" <?php if (!$engine or $engine == 'default'): ?>  selected="selected"  <?php endif; ?> ><?php _e('Default'); ?></option>
         <option value="facebook" <?php if ($engine == 'facebook'): ?>  selected="selected"  <?php endif; ?> >Facebook</option>
         <option value="disqus" <?php if ($engine == 'disqus'): ?>  selected="selected"  <?php endif; ?> >Disqus</option>
@@ -42,7 +42,7 @@
         <label class="form-label"><?php _e('Color scheme'); ?></label>
         <?php $facebook_color_scheme = get_option('facebook_color_scheme', 'comments'); ?>
 
-        <select name="facebook_color_scheme" option-group="comments" class="mw_option_field selectpicker" data-width="100%">
+        <select name="facebook_color_scheme" option-group="comments" class="mw_option_field form-select" data-width="100%">
             <option value="default" <?php if (!$facebook_color_scheme or $facebook_color_scheme == 'default'): ?>  selected="selected"  <?php endif; ?> ><?php _e('Default'); ?></option>
             <option value="light" <?php if ($facebook_color_scheme == 'light"  '): ?>  selected="selected"  <?php endif; ?> ><?php _e('Light'); ?></option>
             <option value="dark" <?php if ($facebook_color_scheme == 'dark"'): ?>  selected="selected"  <?php endif; ?> ><?php _e('Dark'); ?></option>

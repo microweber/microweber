@@ -206,7 +206,7 @@
                             <div class="form-group">
                                 <div option-group="comments" name="comments_per_page" parent-reload="true">
                                     <label class="form-label"><?php _e("Comments per page"); ?></label>
-                                    <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw_option_field selectpicker" data-width="100%" data-size="5">
+                                    <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw_option_field form-select" data-width="100%" data-size="5">
                                         <?php
                                         $per_page = get_option('paging', 'comments');
                                         $found = false;

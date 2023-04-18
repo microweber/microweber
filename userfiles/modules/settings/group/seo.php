@@ -39,7 +39,7 @@
     <input name="<?php print $key_name ?>" class="mw_option_field form-control" type="text" option-group="website" value="<?php print get_option($key_name, 'website'); ?>"/>
 </div>
 
-<a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)" class="btn btn-outline-primary btn-sm mb-3"><?php _e('Other search engines'); ?></a>
+<a href="javascript:$('.other-site-verification-codes-hidden-toggle').toggle();void(0)" class="btn btn-outline-primary btn-sm my-3"><?php _e('Other search engines'); ?></a>
 <script>
     $(document).ready(function () {
         $('#js-static_files_delivery_method_select').on('change', function () {

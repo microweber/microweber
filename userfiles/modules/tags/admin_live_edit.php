@@ -42,7 +42,7 @@ if (isset($params['for-content-id'])) {
                 <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>"/>
 
                 <div class="">
-                    <select name="data-root-page-id" class="mw_option_field selectpicker" data-width="100%" data-also-reload="<?php print  $config['the_module'] ?>">
+                    <select name="data-root-page-id" class="mw_option_field form-select" data-width="100%" data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("Default"); ?>"><?php _e("Default"); ?></option>
                         <?php
                         $pt_opts = array();

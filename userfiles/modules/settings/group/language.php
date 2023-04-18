@@ -204,8 +204,6 @@ if (is_module('multilanguage')) {
                                     <div class="form-group mb-4">
                                         <label class="form-label"><?php _e("Multi language mode"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Activate the multi-language mode to have multiple languages for your content."); ?></small>
-                                        <div class="row">
-
                                             <div class="col-md-12 text-start">
 
                                                 <?php if ($hasMultilanguageModuleActivated): ?>
@@ -224,7 +222,6 @@ if (is_module('multilanguage')) {
                                                     <?php endif; ?>
                                                 <?php endif;?>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

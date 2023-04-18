@@ -150,7 +150,7 @@ $lang = mw()->lang_helper->current_lang();
                 <?php if (mw()->ui->enable_service_links and mw()->ui->disable_powered_by_link == false): ?>
 
                 <small class="text-muted"><?php _e('Help us improve'); ?></small>
-                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm mt-2"><?php _e('Help with translation'); ?></a>
+                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm"><?php _e('Help with translation'); ?></a>
                 <?php endif; ?>
 
 

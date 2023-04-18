@@ -49,7 +49,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-label d-block"><?php _e("Show shopping cart in checkout?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-cart', $params['id']); ?>
-                            <select name="data-show-cart" class="mw_option_field selectpicker" data-width="100%">
+                            <select name="data-show-cart" class="mw_option_field form-select" data-width="100%">
                                 <option value="y" <?php if (('n' != strval($cart_show_enanbled))): ?>   selected="selected"  <?php endif; ?>><?php _e("Yes"); ?></option>
                                 <option value="n" <?php if (('n' == strval($cart_show_enanbled))): ?>   selected="selected"  <?php endif; ?>><?php _e("No"); ?></option>
                             </select>
@@ -59,7 +59,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-label d-block"><?php _e("Show shipping?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-shipping', $params['id']); ?>
-                            <select name="data-show-shipping" class="mw_option_field selectpicker" data-width="100%">
+                            <select name="data-show-shipping" class="mw_option_field form-select" data-width="100%">
                                 <option value="y" <?php if (('n' != strval($cart_show_enanbled))): ?>   selected="selected"  <?php endif; ?>>
                                     <?php _e("Yes"); ?>
                                 </option>
@@ -73,7 +73,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <label class="form-label d-block"><?php _e("Show payments?"); ?></label>
 
                             <?php $cart_show_enanbled = get_option('data-show-payments', $params['id']); ?>
-                            <select name="data-show-payments" class="mw_option_field selectpicker" data-width="100%">
+                            <select name="data-show-payments" class="mw_option_field form-select" data-width="100%">
                                 <option value="y" <?php if (('n' != strval($cart_show_enanbled))): ?>   selected="selected"  <?php endif; ?>><?php _e("Yes"); ?></option>
                                 <option value="n" <?php if (('n' == strval($cart_show_enanbled))): ?>   selected="selected"  <?php endif; ?>><?php _e("No"); ?></option>
                             </select>

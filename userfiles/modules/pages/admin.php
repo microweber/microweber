@@ -35,7 +35,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div class="form-group">
                         <label class="form-label"><?php _e("Pages & Sub-Pages From"); ?></label>
-                        <select name="data-parent" id="mw_change_pages_parent_root" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                        <select name="data-parent" id="mw_change_pages_parent_root" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
                             <option valie="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
                             <?php
                             $pt_opts = array();
@@ -56,7 +56,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="form-label"><?php _e("Show Categories from page"); ?></label>
 
-                        <select name="include_categories" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                        <select name="include_categories" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
                             <option value="y" <?php if ('y' == $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
                             <option value="n" <?php if ('y' != $include_categories): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
                         </select>
@@ -65,7 +65,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="form-label"><?php _e("Include Parent"); ?></label>
 
-                        <select name="include_parent" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                        <select name="include_parent" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
                             <option value="y" <?php if ('y' == $include_parent): ?>   selected="selected"  <?php endif; ?> ><?php _e("Yes"); ?></option>
                             <option value="n" <?php if ('y' != $include_parent): ?>   selected="selected"  <?php endif; ?> ><?php _e("No"); ?></option>
                         </select>
@@ -74,7 +74,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     <div class="form-group">
                         <label class="form-label"><?php _e("Max depth"); ?></label>
 
-                        <select name="maxdepth" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true">
+                        <select name="maxdepth" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true">
                             <option value="none" selected>
                                 <?php _e("Default"); ?>
                             </option>
