@@ -257,9 +257,9 @@
                                                     <?php $email_smtp_auth = get_option('smtp_auth', 'email'); ?>
 
                                                     <select  autocomplete="off" name="smtp_auth" class="form-select mw_option_field" type="text" option-group="email" data-refresh="settings/group/email">
-                                                        <option value="ssl" <?php if ($email_smtp_auth == 'ssl'): ?> selected="selected" <?php endif; ?>>ssl</option>
-                                                        <option value="tls" <?php if ($email_smtp_auth == 'tls'): ?> selected="selected" <?php endif; ?>>tls</option>
-                                                        <option value="" <?php if ($email_smtp_auth == ''): ?> selected="selected" <?php endif; ?>>none</option>
+                                                        <option value="" <?php if ($email_smtp_auth == ''): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
+                                                        <option value="ssl" <?php if ($email_smtp_auth == 'ssl'): ?> selected="selected" <?php endif; ?>><?php _e("SSL"); ?></option>
+                                                        <option value="tls" <?php if ($email_smtp_auth == 'tls'): ?> selected="selected" <?php endif; ?>><?php _e("TLS"); ?></option>
                                                     </select>
                                                 </div>
                                             </div>
