@@ -15,7 +15,8 @@ class ButtonSettingsBootstrapTemplateComponent extends ModuleSettingsComponent
 
     public function render()
     {
-        return view('microweber.module.btn::livewire.bootstrap-settings');
+
+        return view('microweber-module-btn::livewire.bootstrap-settings');
     }
 
 

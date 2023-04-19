@@ -5,5 +5,5 @@
 ### Icon picker 
 
 ```php
-  <x-mw-ui::icon-picker  wire:model="settings.icon" :value="$settings['icon']" />
+  <x-microweber-ui::icon-picker  wire:model="settings.icon" :value="$settings['icon']" />
 ```

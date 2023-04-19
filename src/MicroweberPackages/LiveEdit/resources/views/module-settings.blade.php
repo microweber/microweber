@@ -8,7 +8,7 @@
 
 
         <?php
-        $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+        $moduleTypeForComponent = str_replace('/', '-', $moduleType);
         $hasError = false;
         $output = false;
 
@@ -42,7 +42,7 @@
         ?>
 
 
-        @livewire('microweber-live-edit::' . $moduleTypeForComponent, [
+        @livewire('microweber-module-'.$moduleTypeForComponent.'::live-edit', [
             'moduleId' => $moduleId,
             'moduleType' => $moduleType,
         ])

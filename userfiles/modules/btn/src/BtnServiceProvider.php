@@ -4,7 +4,6 @@
 namespace MicroweberPackages\Modules\Btn;
 
 
-use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsBootstrapTemplateComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
@@ -18,18 +17,17 @@ class BtnServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package->name('microweber-module-btn');
+        $package->hasViews('microweber-module-btn');
     }
 
     public function register(): void
     {
         parent::register();
 
-        Livewire::component('microweber-live-edit::btn', ButtonSettingsComponent::class);
-        Livewire::component('microweber-live-edit::btn-template-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-        Livewire::component('microweber-live-edit::btn-template-default', ButtonSettingsDefaultTemplateComponent::class);
+        Livewire::component('microweber-module-btn::live-edit', ButtonSettingsComponent::class);
+        Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
+        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
-        View::addNamespace('microweber.module.btn', __DIR__ . '/resources/views');
     }
 
 }
