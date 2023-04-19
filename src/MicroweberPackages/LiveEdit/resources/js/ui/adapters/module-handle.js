@@ -10,7 +10,7 @@ class ModuleHandleAdapter extends BaseComponent {
         })
     }
 
-} 
+}
 
 class ElementHandleAdapter extends BaseComponent {
     constructor() {
@@ -20,7 +20,7 @@ class ElementHandleAdapter extends BaseComponent {
             this.dispatch('targetChange', taget)
         })
     }
-} 
+}
 
 class LayoutHandleAdapter extends BaseComponent {
     constructor() {
@@ -30,7 +30,7 @@ class LayoutHandleAdapter extends BaseComponent {
             this.dispatch('targetChange', taget)
         })
     }
-} 
+}
 
 
 export class EditorHandles extends BaseComponent {
@@ -42,7 +42,7 @@ export class EditorHandles extends BaseComponent {
     }
 
     insertModule(module, options){
-        const target = mw.app.get('liveEdit').handles.get('module').getTarget()
+        const target = mw.app.get('liveEdit').handles.get('element').getTarget()
         return insertModule(target, module, options)
     };
 
@@ -50,11 +50,10 @@ export class EditorHandles extends BaseComponent {
         const target = mw.app.get('liveEdit').handles.get('layout').getTarget()
         return insertModule(target, 'layouts', options)
     };
-    
+
 
 };
 
- 
 
- 
- 
+
+
