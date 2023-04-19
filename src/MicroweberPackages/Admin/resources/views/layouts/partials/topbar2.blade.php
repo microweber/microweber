@@ -93,9 +93,9 @@
                        }
                        ?>
 
-                <div class="col-lg-3 text-center admin-add-new-modal-buttons">
+                <a href="<?php print $base_url; ?> " class="col-lg-3 text-center admin-add-new-modal-buttons">
 
-                   <a href="<?php print $base_url; ?>" class="">
+
 
                        <?php if ($item['content_type'] == 'page') { ?>
                             <div>
@@ -122,14 +122,13 @@
                             </div>
                        <?php }?>
 
-                       <a class="text-dark" href="<?php print $base_url; ?>">
+                       <span class="text-dark">
                             <div class="my-2">
                                 <span class="<?php print $class; ?>"></span> <?php print $title; ?>
-
                             </div>
-                       </a>
+                       </span>
                    </a>
-                </div>
+
 
                        <?php endforeach; ?>
                        <?php endif; ?>

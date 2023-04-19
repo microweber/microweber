@@ -511,8 +511,8 @@ if (!empty($recomended_layouts)) {
                             </button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0 mb-3" href="<?php echo admin_url();?>marketplace">
-                                    <small><?php _e("More Templates"); ?></small>
+                                <a class="btn btn-link px-0 mb-3 form-label-inner" href="<?php echo admin_url();?>marketplace">
+                                   <?php _e("More Templates"); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -574,7 +574,7 @@ if (!empty($recomended_layouts)) {
                                                 <label class="custom-control-label" for="allow_multiple_templates">
                                                     <?php _e("Allow multiple templates"); ?>
                                                 </label>
-                                                <small class="text-muted d-block mb-2">
+                                                <small class="text-muted d-block my-2">
                                                     <?php _e("If you allow multiple templates, you will be abble to use different templates when you create a new pages."); ?>
                                                 </small>
                                             </div>
@@ -678,7 +678,7 @@ if (!empty($recomended_layouts)) {
         </style>
 
         <div class="card  <?php if ($show_save_changes_buttons): ?>bg-none mb-5<?php else: ?> mb-3<?php endif; ?>">
-            <div class=" ">
+            <div class="card-body ">
                 <?php if ($show_save_changes_buttons): ?>
                 <?php endif; ?>
 
@@ -687,10 +687,8 @@ if (!empty($recomended_layouts)) {
                         <h5 class="font-weight-bold settings-title-inside"><?php _e("Template preview"); ?></h5>
                         <small class="text-muted"><?php _e("Use the fields above to make changes"); ?>.</small>
                     </div>
-                </div>
 
-                <div class="row mt-4">
-                    <div class="col-md-12">
+                    <div class="col-md-12 mt-3">
                         <div class="preview_frame_wrapper loading left">
                             <?php if (!isset($params['edit_page_id'])): ?>
                                 <span class="previewctrl prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.prev();"></span>
