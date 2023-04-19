@@ -16,7 +16,7 @@ class GoogleMapsSettingsComponent extends ModuleSettingsComponent
     public function render()
     {
 
-        return view('modules.google_maps::livewire.index');
+        return view('microweber-module-google-maps::livewire.index');
     }
 
 }
