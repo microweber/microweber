@@ -306,4 +306,10 @@ small.text-muted {
     border-radius: 50%;
     box-shadow: var(--tblr-shadow-button-inset); }
 
+.form-label-inner {
+  font-size: 0.8rem; }
+
+.form-group {
+  margin-bottom: 20px; }
+
 /*# sourceMappingURL=admin_v2.css.map */
