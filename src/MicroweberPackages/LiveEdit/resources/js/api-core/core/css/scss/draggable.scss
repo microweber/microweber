@@ -3,8 +3,20 @@
     pointer-events: none;
 }
 html.le-dragging{
+ 
     .mw-handle-item{
         opacity:0 !important;
+    }
+}
+
+.mw-handle-item-draggable-self{
+    position: absolute;
+    pointer-events: all;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    &.active{
+        display: block;
     }
 }
 

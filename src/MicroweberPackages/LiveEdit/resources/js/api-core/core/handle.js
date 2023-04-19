@@ -48,6 +48,7 @@ export const Handle = function (options) {
 
 
     this.initDraggable = function () {
+ 
 
       this.draggable = new Draggable({
           handle: this.handle,
@@ -103,7 +104,7 @@ export const Handle = function (options) {
         if(scroll.y > (off.top - 70)) {
             transform = (scroll.y - (off.top - 70));
 
-            if((transform + 10) > off.height) {
+            if((transform) > off.height) {
                 transform = off.height + 10
             }
         }
@@ -141,6 +142,36 @@ export const Handle = function (options) {
     };
 
     this.createHandle = function () {
+        if (this.settings.handle === 'self') {
+
+            var elementhandle = ElementManager({
+                tag: 'div',
+                props: {
+                    className: 'mw-handle-item-draggable-self',
+ 
+                }
+            });
+
+            this.wrapper.append(elementhandle);
+
+            this.settings.document.addEventListener('mousedown', function(){
+                elementhandle.addClass('active');
+            });
+
+            this.settings.document.addEventListener('mouseup', function(){
+                elementhandle.removeClass('active');
+            });
+
+            this.settings.handle = elementhandle;
+            this.handle = elementhandle;
+
+            this.wrapper.append(elementhandle)
+
+
+            return;
+
+        }
+
         if (this.settings.handle) {
             if(typeof this.settings.handle === 'string') {
                 this.settings.handle = ElementManager(this.handle)
@@ -253,6 +284,7 @@ export const Handle = function (options) {
                 contentEditable: false
             }
         });
+ 
 
         this.wrapper.on('mousedown', function () {
             this.classList.remove('mw-handle-item-mouse-down')

@@ -122,6 +122,7 @@ export class LiveEdit {
             content: elementHandleContent.root,
             // handle: elementHandleContent.menu.title,
             handle: ElementManager('.mw-handle-drag-button', elementHandleContent.root.get(0)),
+            handle: 'self',
             document: this.settings.document,
             stateManager: this.settings.stateManager,
             resizable: true,

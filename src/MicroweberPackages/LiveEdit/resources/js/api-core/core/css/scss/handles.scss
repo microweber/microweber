@@ -38,8 +38,11 @@
 .mw-draggable-helper {
     position: absolute;
     z-index: 10;
-    background-color: rgba(119, 117, 117, 0.49);
     pointer-events: none;
+    .mw-element-is-dragged{
+        opacity: 1;
+        pointer-events: none;
+    }
 }
 
 /*  Handles content  */

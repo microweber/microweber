@@ -877,9 +877,35 @@ var MWEditor = function (options) {
                 });
             }
             scope.settings.regions = scope.settings.regions || scope.$editArea;
-            $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
+ 
+            
             if (scope.settings.editMode === 'liveedit') {
                 scope.liveEditMode();
+                const set = function(e) {
+
+                    var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit');
+                  
+                    Array.from(scope.settings.document.querySelectorAll('[contenteditable="true"]')).forEach(node => {
+                        if(node !== edit) {
+                            node.contentEditable = false;
+                        }
+                    })
+                    if(edit) {
+                        const hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode']);
+                        const regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(e.target, ['regular-mode', 'safe-mode']);
+                        const isSafe = hasSafe && !regInsafe;
+                        if(isSafe){
+
+                        } else {
+                            edit.contentEditable = true;
+                        }                        
+                    }
+                }
+                scope.settings.document.addEventListener('mousedown', set)
+                scope.settings.document.addEventListener('touchstart', set)
+
+            } else {
+                $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);
             }
             var css = {};
             if(scope.settings.minHeight) {

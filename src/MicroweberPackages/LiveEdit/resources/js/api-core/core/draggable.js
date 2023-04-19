@@ -57,13 +57,21 @@ export const Draggable = function (options, rootSettings) {
         this.draggable();
     };
 
-    this.helper = function (e) {
+    this.$data = {}
+
+    this.helper = function (e, event) {
         if(!this._helper) {
             this._helper = ElementManager().get(0);
             this._helper.className = 'mw-draggable-helper';
+           
             this.settings.document.body.appendChild(this._helper);
         }
         if (e === 'create') {
+            var off = ElementManager( scope.element ).offset()
+            this.$data._calcMinus = {
+                y: (event.pageY - off.offsetTop),
+                x: (event.pageX - off.offsetLeft),
+            }
             this._helper.style.top = e.pageY + 'px';
             this._helper.style.left = e.pageX + 'px';
             this._helper.style.width = scope.element.offsetWidth + 'px';
@@ -74,11 +82,14 @@ export const Draggable = function (options, rootSettings) {
             this._helper.style.display = 'none';
             this.settings.document.documentElement.classList.remove('le-dragging')
         } else if(this.settings.helper && e) {
-            this._helper.style.top = e.pageY + 'px';
-            this._helper.style.left = e.pageX + 'px';
-            this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
+            
+            this._helper.style.top = (e.pageY -  this.$data._calcMinus.y) + 'px';
+            this._helper.style.left = (e.pageX -  this.$data._calcMinus.x) + 'px';
+            // this._helper.style.maxWidth = (scope.settings.document.defaultView.innerWidth - e.pageX - 40) + 'px';
             this.settings.document.documentElement.classList.add('le-dragging')
         }
+         
+        this._helper.innerHTML =  scope.element.outerHTML;
         return this._helper;
     };
 
@@ -137,7 +148,7 @@ export const Draggable = function (options, rootSettings) {
                 e.dataTransfer.setData("text", scope.element.id);
                 e.dataTransfer.effectAllowed = "move";
 
-                scope.helper('create');
+                scope.helper('create', e);
                 scope.dispatch('dragStart',{element: scope.element, event: e});
             })
             .on('drag', function (e) {

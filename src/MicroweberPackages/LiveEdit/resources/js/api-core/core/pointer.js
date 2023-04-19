@@ -63,6 +63,17 @@ export const GetPointerTargets = function(options)  {
     };
 
     this.fromEvent = function (e) {
+        let x, y;
+        if(e.pageX) {
+            x = e.pageX;
+            y = e.pageY;
+        } else if( e.targetTouches && e.targetTouches[0]) {
+            x = e.targetTouches[0].pageX;
+            y = e.targetTouches[0].pageY;   
+        } else if( e.touches && e.touches[0]) {
+            x = e.touches[0].pageX;
+            y = e.touches[0].pageY;
+        }  
          if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
              if(!scope.document._test){
                  scope.document._test = document.createElement('div');
@@ -75,7 +86,7 @@ export const GetPointerTargets = function(options)  {
                  scope.document.body.appendChild(scope.document._test);
              }
              scope.document._test.style.top = e.pageY + 'px';
-             return this.fromPoint(e.pageX, e.pageY/* + scope.document.defaultView.scrollY*/);
+             return this.fromPoint(x, y/* + scope.document.defaultView.scrollY*/);
         }
         return []
     }
@@ -86,6 +97,7 @@ export const GetPointerTargets = function(options)  {
             y -= scope.document.defaultView.scrollY;
         }
 
+ 
         var el = scope.document.elementFromPoint(x, y);
 
         if (!el ) return [];
