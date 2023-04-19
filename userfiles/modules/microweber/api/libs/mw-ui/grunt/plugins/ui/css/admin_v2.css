@@ -293,6 +293,9 @@ small.text-muted {
   background-color: var(--tblr-primary);
   padding: 4px; }
 
+.form-check-input {
+  margin-top: -1px; }
+
 .mw-toolbar-back-button-wrapper a {
   height: 40px;
   width: 40px;
