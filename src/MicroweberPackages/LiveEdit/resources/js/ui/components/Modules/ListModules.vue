@@ -463,7 +463,16 @@ export default {
             this.getLayoutsList().then(function (data) {
                 instance.layoutsList = data;
             });
+
+            mw.app.editor.on('insertModuleRequest', function(el){
+                console.log(el);
+                instance.showModal = true;
+            });
+            
         });
+
+
+        
 
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'show-modules') {
