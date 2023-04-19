@@ -243,6 +243,7 @@
 .settings-title-inside {
     font-size: 18px;
     font-weight: bold;
+    line-height: 1.3;
 }
 
 .img-circle-holder {
@@ -380,10 +381,16 @@ small.text-muted {
 
 .admin-add-new-modal-buttons {
     border-radius: 5px;
-    padding: 20px 40px;
+    padding: 20px 0;
+    transition: 0.25s ease;
+
     &:hover {
-        background-color: #efefef;
+        transform: scale(1.1);
+        background-color: #f8fcff !important;
         cursor: pointer;
+        text-decoration: none;
+        box-shadow: var(--tblr-shadow-button-inset);
+
     }
 }
 
@@ -429,7 +436,7 @@ small.text-muted {
         &:hover {
             background-color: #fff;
             border-radius: 50%;
-            box-shadow: var(--tblr-shadow-button);
+            box-shadow: var(--tblr-shadow-button-inset);
         }
     }
 }

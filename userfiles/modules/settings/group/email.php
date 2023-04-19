@@ -123,7 +123,7 @@
 
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card mb-3 card-settings  js-holder-email-names-settings">
+    <div class="card mb-5 card-settings  js-holder-email-names-settings">
 
         <div class="card-body">
             <div class="row">
@@ -138,7 +138,7 @@
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group">
+                                    <div class="form-group mb-4">
                                         <label class="form-label"><?php _e("From e-mail address"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will send emails on behalf of this address"); ?></small>
                                         <input name="email_from" class="mw_option_field form-control" type="email" type="text" option-group="email" value="<?php print get_option('email_from', 'email'); ?>" placeholder="Ex. noreply@yourwebsite.com"/>
@@ -201,23 +201,22 @@
                                 </div>
 
                             </div>
-                            <div class="row js-email-transport-select-user-pass">
 
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <?php if ($email_transport == 'php'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts."); ?></small>
-                                            <?php elseif ($email_transport == 'gmail'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your gmail account to use a Gmail provider."); ?></small>
-                                            <?php elseif ($email_transport == 'smtp'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your credentials below."); ?></small>
-                                            <?php elseif ($email_transport == 'cpanel'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your cPanel account to use it."); ?></small>
-                                            <?php elseif ($email_transport == 'plesk'): ?>
-                                                <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your Plesk account to use it."); ?></small>
-                                            <?php endif; ?>
-                                        </div>
+                            <div class="px-3">
+                                <div class="card mx-3 row js-email-transport-select-user-pass">
+
+                                    <div class="card-body">
+                                        <?php if ($email_transport == 'php'): ?>
+                                            <small class="text-muted d-block mb-4 mt-0"><?php _e("PHP mail is the built in PHP function that is used to send emails from PHP scripts."); ?></small>
+                                        <?php elseif ($email_transport == 'gmail'): ?>
+                                            <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your gmail account to use a Gmail provider."); ?></small>
+                                        <?php elseif ($email_transport == 'smtp'): ?>
+                                            <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your credentials below."); ?></small>
+                                        <?php elseif ($email_transport == 'cpanel'): ?>
+                                            <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your cPanel account to use it."); ?></small>
+                                        <?php elseif ($email_transport == 'plesk'): ?>
+                                            <small class="text-muted d-block mb-4 mt-0"><?php _e("Type your Plesk account to use it."); ?></small>
+                                        <?php endif; ?>
 
                                         <?php if ($email_transport == 'smtp' or $email_transport == 'cpanel' or $email_transport == 'plesk' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
                                             <div class="col-12">
@@ -278,42 +277,44 @@
                                                 </div>
                                             </div>
                                         <?php endif; ?>
+
+                                        <div class="col-12 d-flex align-items-center justify-content-between mt-3">
+                                            <a class="btn btn-primary"  href="javascript:;" onclick="$('.js-test-email').mwDialog();"><?php _e("Test mail sending method"); ?></a>
+
+                                            <button onClick="saveEmailOptions(1)" class="btn btn-success"><?php _e("Save email settings"); ?></button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-12 d-flex align-items-center justify-content-between">
-                                    <a class="btn btn-outline-primary btn-sm"  href="javascript:;" onclick="$('.js-test-email').mwDialog();"><?php _e("Test Mail Sending Method"); ?></a>
-
-                                    <button onClick="saveEmailOptions(1)" class="btn btn-success btn-sm"><?php _e("Save email settings"); ?></button>
-                                </div>
 
 
-                                <div class="col-12 d-none">
-                                    <div class="js-test-email">
 
-                                        <h4><?php _e("Send test email"); ?></h4>
-                                        <p class="text-muted"><?php _e("Send test email to check settings are they work correctly."); ?></p>
+                                    <div class="col-12 d-none">
+                                        <div class="js-test-email">
 
-                                        <div class="form-group">
-                                            <label class="form-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
-                                            <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
-                                        </div>
+                                            <h4><?php _e("Send test email"); ?></h4>
+                                            <p class="text-muted"><?php _e("Send test email to check settings are they work correctly."); ?></p>
 
-                                        <div class="form-group">
-                                            <label class="form-label" for="test_email_subject"><?php _e("Test mail subject"); ?></label>
-                                            <input name="test_email_subject" id="test_email_subject" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_subject', 'email'); ?>"/>
-                                        </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="test_email_to"><?php _e("Send test email to"); ?></label>
+                                                <input name="test_email_to" id="test_email_to" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_to', 'email'); ?>"/>
+                                            </div>
 
-                                        <pre id="email_send_test_btn_output"></pre>
+                                            <div class="form-group">
+                                                <label class="form-label" for="test_email_subject"><?php _e("Test mail subject"); ?></label>
+                                                <input name="test_email_subject" id="test_email_subject" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('test_email_subject', 'email'); ?>"/>
+                                            </div>
 
-                                        <div class="row">
-                                            <div class="col-12 d-flex justify-content-between">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
-                                                <button type="button" onclick="mw.email_send_test();" class="btn btn-success btn-sm" id="email_send_test_btn"><?php _e("Send Test Email"); ?></button>
+                                            <pre id="email_send_test_btn_output"></pre>
+
+                                            <div class="row">
+                                                <div class="col-12 d-flex justify-content-between">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="mw.dialog.get(this).remove()"><?php _e("Cancel"); ?></button>
+                                                    <button type="button" onclick="mw.email_send_test();" class="btn btn-success btn-sm" id="email_send_test_btn"><?php _e("Send Test Email"); ?></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
