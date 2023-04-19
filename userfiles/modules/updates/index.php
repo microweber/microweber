@@ -8,7 +8,6 @@ if (mw()->ui->disable_marketplace) {
 
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
-
 <?php endif; ?>
 
 <div class="d-flex justify-content-between">
