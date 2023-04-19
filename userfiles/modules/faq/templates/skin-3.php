@@ -92,9 +92,11 @@ description: FAQ Skin 3
 
             <div class="collapse allow-drop"   id="collapse-accordion-item-<?php print $edit_field_key . '-' . $key ?>" class="collapse <?php if ($key == 0) : ?> show <?php endif; ?>" aria-labelledby="header-item-<?php print $edit_field_key ?>" data-parent="#mw-accordion-module-<?php print $params['id'] ?>">
                 <div class="card-body ">
-                    <div class="allow-drop">
-                        <div class="element">
-                            <p class="faq-skin-3-answer"> <?php print isset($slide['answer']) ? $slide['answer'] : 'FAQ Answer' ?></p>
+                    <div class="row">
+                        <div class="allow-drop">
+                            <div class="element">
+                                <p class="faq-skin-3-answer"> <?php print isset($slide['answer']) ? $slide['answer'] : 'FAQ Answer' ?></p>
+                            </div>
                         </div>
                     </div>
                 </div>

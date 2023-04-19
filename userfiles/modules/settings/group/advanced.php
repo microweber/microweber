@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <module type="settings/group/seo"/>

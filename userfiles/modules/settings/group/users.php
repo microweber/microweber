@@ -116,7 +116,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-3">
@@ -165,7 +165,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-3">
@@ -251,7 +251,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-3">
@@ -287,7 +287,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12 socials-logins-settings">
                                     <div class="form-group mb-3">
@@ -486,7 +486,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-4">
@@ -577,7 +577,7 @@ if ($registration_approval_required == false) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
-                        <div class=" ">
+                        <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
