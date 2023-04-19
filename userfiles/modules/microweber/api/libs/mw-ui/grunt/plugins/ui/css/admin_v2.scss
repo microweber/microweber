@@ -192,6 +192,7 @@
     align-self: center;
     display: flex;
     margin-right: 20px;
+    position: relative;
 
 
     i {
@@ -201,6 +202,16 @@
         font-size: 20px;
         color: #000000;
         margin: 0;
+    }
+
+    .mw-update-required {
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background-color: #4993fc;
     }
 }
 
@@ -398,3 +409,5 @@ small.text-muted {
 .navbar .navbar-nav .nav-link .badge {
     top: 0;
 }
+
+
