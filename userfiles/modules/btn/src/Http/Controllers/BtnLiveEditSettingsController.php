@@ -11,6 +11,6 @@ class BtnLiveEditSettingsController
         $params = $request->all();
 
 
-        return view('modules.btn::live-edit.settings',['moduleId' => $params['id']]);
+        return view('microweber.module.btn::live-edit.settings',['moduleId' => $params['id']]);
     }
 }

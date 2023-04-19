@@ -28,7 +28,7 @@ class BtnServiceProvider extends PackageServiceProvider
         Livewire::component('live-edit::btn-template-default', ButtonSettingsDefaultTemplateComponent::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
-        View::addNamespace('modules.btn', __DIR__ . '/resources/views');
+        View::addNamespace('microweber.module.btn', __DIR__ . '/resources/views');
     }
 
 }
