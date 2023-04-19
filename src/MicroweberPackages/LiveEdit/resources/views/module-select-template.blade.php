@@ -9,21 +9,24 @@
 
          $moduleTypeForComponent = str_replace('/', '.', $moduleType);
     @endphp
-   <div>
-       select template
+   <div class="mb-3">
 
-       <select wire:model.debounce.100ms="settings.template">
-           <option value="default">
-               <?php _e("Default"); ?>
-           </option>
 
-           <?php foreach ($moduleTemplates as $item): ?>
-               <?php if ((strtolower($item['name']) != 'default')): ?>
-           <option value="<?php print $item['layout_file'] ?>"
-                   title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
-           <?php endif; ?>
-           <?php endforeach; ?>
-       </select>
+       <div class="form-floating">
+           <select wire:model="settings.template" class="form-select" id="floatingSelectTemplate" aria-label="<?php _ejs("Select Template"); ?>">
+               <option value="default">
+                   <?php _e("Default"); ?>
+               </option>
+
+               <?php foreach ($moduleTemplates as $item): ?>
+                   <?php if ((strtolower($item['name']) != 'default')): ?>
+               <option value="<?php print $item['layout_file'] ?>"
+                       title="Template: <?php print str_replace('.php', '', $item['layout_file']); ?>"> <?php print $item['name'] ?> </option>
+               <?php endif; ?>
+               <?php endforeach; ?>
+           </select>
+           <label for="floatingSelectTemplate"><?php _e("Select Template"); ?></label>
+       </div>
 
    </div>
 
@@ -36,7 +39,7 @@
                     <div>
 
                             <?php
-                            $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+                            $moduleTypeForComponent = str_replace('/', '-', $moduleType);
                             $hasError = false;
                             $output = false;
 
