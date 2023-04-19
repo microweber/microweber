@@ -62,7 +62,10 @@ if (isset($_GET['group']) and $_GET['group']) {
         <?php if (mw()->ui->disable_marketplace != true): ?>
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=updates" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i>
+                    <span class="mw-update-required"></span>
+
+                </div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Updates'); ?></div>
                     <small class="text-muted"><?php _e('Check for the latest updates'); ?></small>
