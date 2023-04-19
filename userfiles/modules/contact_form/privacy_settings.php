@@ -33,7 +33,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
 ?>
 
 <div class="<?php if (!$simple): ?>card  mb-3<?php endif; ?> card-settings">
-    <div class="<?php if (!$simple): ?> <?php endif; ?>">
+    <div class="card-body <?php if (!$simple): ?> <?php endif; ?>">
 
         <?php if (!$simple): ?>
 

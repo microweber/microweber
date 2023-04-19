@@ -38,7 +38,10 @@ if (isset($_GET['group']) and $_GET['group']) {
 ?>
 
 <?php if ($show_inner): ?>
-    <module type="<?php print $show_inner ?>"/>
+
+       <module type="admin/modules/info" back_button_url="settings" />
+
+        <module type="<?php print $show_inner ?>"/>
     <?php return; ?>
 <?php endif ?>
 

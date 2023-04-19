@@ -99,7 +99,7 @@ if (isset($_GET['group'])) {
 
 <div id="settings_admin_<?php print $rand; ?>" class=" ">
     <?php if ($show_group) { ?>
-
+sdadaa
 <module type="settings/group/<?php print $show_group ?>"  />
     <?php }  ?>
 </div>
