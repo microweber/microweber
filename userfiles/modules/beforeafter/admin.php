@@ -16,7 +16,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <?php
         $before = get_option('before', $params['id']);
         $after = get_option('after', $params['id']);

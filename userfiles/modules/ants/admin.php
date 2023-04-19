@@ -14,7 +14,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="module-live-edit-settings module-ants-settings">
             <div class="form-group">
                 <label class="form-label"><?php _lang("Number of ants", "modules/ants"); ?></label>

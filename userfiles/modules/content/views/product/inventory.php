@@ -75,7 +75,7 @@ if (!isset($contentData['sell_oos'])) {
         <h6><strong><?php _e("Inventory"); ?></strong></h6>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group mb-3">

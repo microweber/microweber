@@ -14,7 +14,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
 
         <?php $pages = get_content('content_type=page&subtype=dynamic&limit=1000'); ?>
         <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>

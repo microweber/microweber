@@ -68,7 +68,7 @@ $whmcsSettings = get_whitelabel_whmcs_settings();
     <div class="form-group row">
         <label for="whmcs_auth_type" class="col-12 col-form-label">WHMSC Auth Type</label>
         <div class="col-12">
-            <select id="whmcs_auth_type" name="whmcs_auth_type" option-group="whitelabel" class="custom-select js-whmcs-auth-type" aria-describedby="selectHelpBlock">
+            <select id="whmcs_auth_type" name="whmcs_auth_type" option-group="whitelabel" class=" form-select js-whmcs-auth-type" aria-describedby="selectHelpBlock">
                 <option value="api" <?php if ($whmcsSettings['whmcs_auth_type']=='api'):?>selected="selected"<?php endif; ?>>API</option>
                 <option value="password" <?php if ($whmcsSettings['whmcs_auth_type']=='password'):?>selected="selected"<?php endif; ?>>Username & Password</option>
             </select>

@@ -1,6 +1,6 @@
 <div class="col-md-4 manage-content-sidebar">
     <div class="card-body mb-3">
-        <div class="card-body pt-3 pb-0">
+        <div class="  pb-0">
             <div class="row">
                 <div class="col-12">
                     <strong><?php _e('Visibility'); ?></strong>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="card-body mb-3">
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="row">
                 <div class="col-12">
                     <strong>Categories</strong>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="card-body mb-3">
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="row mb-3">
                 <div class="col-12">
                     <strong><?php _e('Tags'); ?></strong>

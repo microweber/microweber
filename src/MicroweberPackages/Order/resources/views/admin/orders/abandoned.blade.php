@@ -9,7 +9,7 @@
                 <button onclick="mw_admin_add_order_popup()" class="btn btn-sm btn-outline-success ml-2"><?php _e('Add new order'); ?></button>
             </h5>
         </div>
-        <div class="card-body pt-3 pb-0">
+        <div class="  pb-0">
 
             @include('order::admin.orders.partials.abandoned_filtering')
 

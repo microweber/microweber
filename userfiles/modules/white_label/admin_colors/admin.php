@@ -30,7 +30,7 @@ return;
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="module-live-edit-settings module-admin-colors-settings">
 
         </div>

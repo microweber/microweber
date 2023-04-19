@@ -97,7 +97,7 @@ if (isset($_GET['group'])) {
 </script>
 
 
-<div id="settings_admin_<?php print $rand; ?>" class="card-body pt-3">
+<div id="settings_admin_<?php print $rand; ?>" class=" ">
     <?php if ($show_group) { ?>
 
 <module type="settings/group/<?php print $show_group ?>"  />

@@ -21,7 +21,7 @@
   .admin-dashboard-left-nav .add-new {
     background-color: var(--tblr-primary); }
   .admin-dashboard-left-nav .nav-item-profile {
-    padding-top: 10px;
+    padding-top: 10px; 
     padding-bottom: 5px; }
   .admin-dashboard-left-nav .nav-item-profile-wrapper {
     padding-inline-start: 33px !important; }

@@ -11,12 +11,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
+<div class=" <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
     </div>
 
-    <div class="card-body pt-3">
+
         <?php
         $style = get_module_option('button_style', $params['id']);
         $size = get_module_option('button_size', $params['id']);
@@ -186,18 +186,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             });
         </script>
-
-        <div class="module-live-edit-settings module-btn-settings">
+        <div class="row module-live-edit-settings module-btn-settings">
             <div class="text-start text-left">
-                <div class="row">
-                    <div class="form-group col-6">
+                <div class="d-flex flex-wrap">
+                    <div class="form-group col-xl-6 col-lg-8 col-12 pe-lg-3 pe-0">
                         <label class="form-label"><?php _e("Text"); ?></label>
                         <small class="text-muted d-block mb-3"><?php _e('Change your button text.');?></small>
                         <input type="text" name="text" class="mw_option_field form-control" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>"/>
                     </div>
 
                     <?php if (!$onclick): ?>
-                        <div class="form-group col-6">
+                        <div class="form-group col-xl-6 col-lg-8 col-12">
                             <label class="form-label d-block"><?php _e("Action"); ?></label>
                             <small class="text-muted d-block mb-3"><?php _e('Setup action from dropdown.');?></small>
                             <select class="mw_option_field form-select" data-width="100%" id="action" name="button_action">
@@ -215,7 +214,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <textarea class="mw_option_field form-control" name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
                     </div>
                 <?php endif; ?>
-                <label class="form-label"><?php _e("Align"); ?></label>
+                <label class="form-label mt-2"><?php _e("Align"); ?></label>
                 <div class="form-group">
 
                     <div class="btn-group btn-group-toggle" data-bs-toggle="buttons" dir="ltr">
@@ -233,38 +232,38 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                 <?php if (!$onclick): ?>
 
-                        <div id="btn_url_holder">
-                            <div class="form-group">
-                                <label class="form-label"><?php _e("Edit url"); ?></label>
-                                <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
+                    <div id="btn_url_holder">
+                        <div class="form-group">
+                            <label class="form-label"><?php _e("Edit url"); ?></label>
+                            <small class="text-muted d-block mb-3"><?php _e('Link settings for your url.');?></small>
 
-                                <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
-
-
-
-
-                                <button type="button" onclick="pickUrl()" id="display-url-edit-btn" class="btn btn-secondary btn-sm btn-rounded  "><i class="mdi mdi-link"></i> <?php _e("Edit link"); ?></button>
-
-
-                                <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
-
-                                <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
-
-                                <input type="hidden" name="url_to_content_id" id="btn-default_url_content_id" value="<?php print $url_to_content_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
-                                <input type="hidden" name="url_to_category_id" id="btn-default_url_category_id" value="<?php print $url_to_category_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+                            <input type="hidden" id="btn-default_url-show" value="<?php print $url_display; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field" />
 
 
 
 
+                            <button type="button" onclick="pickUrl()" id="display-url-edit-btn" class="btn btn-secondary btn-sm btn-rounded  "><i class="mdi mdi-link"></i> <?php _e("Edit link"); ?></button>
 
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="url_blank" value="y" class="mw_option_field form-check-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
-                                    <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
-                                </div>
+
+                            <span class="mw-ui-link" id="display-url"><?php print $url_display; ?></span>
+
+                            <input type="hidden" name="url" id="btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+                            <input type="hidden" name="url_to_content_id" id="btn-default_url_content_id" value="<?php print $url_to_content_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+                            <input type="hidden" name="url_to_category_id" id="btn-default_url_category_id" value="<?php print $url_to_category_id; ?>" placeholder="<?php _e("Enter URL"); ?>" class="mw_option_field mw-ui-field"/>
+
+
+
+
+
+                        </div>
+                        <div class="form-group my-3">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="url_blank" value="y" class="mw_option_field form-check-input" <?php if ($url_blank == 'y'): ?>checked<?php endif; ?> id="url_blank">
+                                <label class="custom-control-label" for="url_blank"><?php _e("Open in new window"); ?></label>
                             </div>
                         </div>
+                    </div>
                 <?php endif; ?>
 
 
@@ -595,5 +594,4 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 </div>
             </div>
         </div>
-    </div>
 </div>

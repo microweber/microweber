@@ -317,7 +317,7 @@ if (isset($params['live_edit'])) {
             </div>
         <?php endif; ?>
 
-        <div class="<?php if (!isset($params['no-toolbar'])): ?>card-body pt-3<?php endif; ?>">
+        <div class="<?php if (!isset($params['no-toolbar'])): ?> <?php endif; ?>">
             <div class="text-right">
                 <div class="create-root mb-3">
                     <div id="content-title-field-buttons">

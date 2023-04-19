@@ -2,7 +2,7 @@
 
     @include('content::admin.content.livewire.card-header')
 
-    <div class="card-body pt-3">
+    <div class=" ">
 
         <div class="no-items-found">
 

@@ -15,7 +15,7 @@ if (mw()->ui->disable_marketplace) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
-<div class="card-body d-flex justify-content-between mt-3">
+<div class="d-flex justify-content-between mt-3">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
         <h5 class="card-title">

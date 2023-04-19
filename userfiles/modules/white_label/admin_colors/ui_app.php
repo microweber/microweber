@@ -2508,7 +2508,7 @@ foreach ($files as $file) {
                 </div>
             </div>
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="toolbar row mb-3">
                 <div class="col-sm-6 d-flex align-items-center justify-content-center justify-content-sm-start my-1">
                     <div class="custom-control custom-checkbox mb-0">
@@ -2706,7 +2706,7 @@ foreach ($files as $file) {
                     </div>
                 </div>
 
-                <div class="card-body pt-3">
+                <div class=" ">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

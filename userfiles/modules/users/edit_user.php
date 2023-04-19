@@ -207,7 +207,7 @@ $saveRoute = route('api.user.store');
             <button id="user-save-button-top" class="btn btn-success btn-sm floar-end" onclick="SaveAdminUserForm<?php print $data['id']; ?>()"><?php _e("Save"); ?></button>
 
         </div>
-        <div class="card-body pt-3">
+        <div class=" ">
             <div class="row">
                 <div class="col-xl-6 mx-auto">
                     <div class="<?php print $config['module_class'] ?> user-id-<?php print $data['id']; ?>" id="users_edit_<?php echo $usersEditRand; ?>">

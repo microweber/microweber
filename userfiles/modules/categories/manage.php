@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="card-body pt-3">
+        <div class=" ">
 
             <?php if(!isset($params['show_add_post_to_category_button'])): ?>
                 <div class="js-hide-when-no-items-selected mb-3" style="display:none;">

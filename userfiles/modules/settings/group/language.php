@@ -103,7 +103,7 @@ if (is_module('multilanguage')) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light  mb-1">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
@@ -198,7 +198,7 @@ if (is_module('multilanguage')) {
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light  mb-1">
-                        <div class="card-body pt-3">
+                        <div class=" ">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">

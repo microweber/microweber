@@ -23,7 +23,7 @@
                    </div>
                </div>
 
-               <div class="card-body pt-3">
+               <div class=" ">
                    <div class="row">
                        <div class="col-12">
                            <div class="form-group">
@@ -54,7 +54,7 @@
                         <h6><strong>Pricing</strong></h6>
                     </div>
 
-                    <div class="card-body pt-3">
+                    <div class=" ">
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Price</label>
@@ -114,7 +114,7 @@
                        <h6><strong>Inventory</strong></h6>
                    </div>
 
-                   <div class="card-body pt-3">
+                   <div class=" ">
                        <div class="row">
                            <div class="col-md-6">
                                <div class="form-group mb-3">
@@ -195,7 +195,7 @@
                        <h6><strong>Shipping</strong></h6>
                    </div>
 
-                   <div class="card-body pt-3">
+                   <div class=" ">
                        <div class="row">
                            <div class="col-md-12">
                                <div class="form-group">

@@ -14,7 +14,7 @@
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         @yield('content')
     </div>
 </div>

@@ -84,7 +84,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <script>
             $(document).ready(function () {
                 $('#check-all', '.trash-select-all').on('click', function () {

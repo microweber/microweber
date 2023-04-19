@@ -9,7 +9,7 @@ if(content_data($params['content-id'], 'has_variants') == 1) {
 <?php if($hasVariants): ?>
 
     <div class="card-body mb-3 product-variants">
-        <div class="card-body pt-3 pb-1">
+        <div class="  pb-1">
             <div class="row">
                 <div class="col-12">
                     <strong><?php _e("Variants"); ?></strong>

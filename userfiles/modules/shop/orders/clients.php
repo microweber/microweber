@@ -72,7 +72,7 @@ $is_orders = get_orders('count=1');
         <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Clients List"); ?></strong></h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
 
         <div class="d-flex align-items-center justify-content-between mt-2 mb-4">
             <div>

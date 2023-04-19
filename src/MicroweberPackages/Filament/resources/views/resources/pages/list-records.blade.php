@@ -22,7 +22,7 @@
         </div>
 
         <div class="card-body mb-3 mt-3">
-            <div class="card-body pt-3">
+            <div class=" ">
                 <style>
                     .nav-tabs .nav-link {
                         margin:0px;

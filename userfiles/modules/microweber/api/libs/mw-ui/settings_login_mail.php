@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="card-body pt-3">
+            <div class=" ">
                 <h5 class="mb-3">Edit mail template</h5>
                 <div class="row">
                     <div class="col-12">

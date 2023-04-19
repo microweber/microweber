@@ -19,7 +19,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </h5>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <?php
         $type = get_option('type', $params['id']);
         $link_text = get_option('link_text', $params['id']);

@@ -202,7 +202,7 @@ $params_module = $params;
         </div>
     <?php endif; ?>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <?php
         $params_module['show_only_content'] = true;
         $params_module['wrap'] = true;

@@ -3,7 +3,7 @@
         <h6><strong><?php _e("Pricing"); ?></strong></h6>
     </div>
 
-    <div class="card-body pt-3">
+    <div class=" ">
         <div class="row">
 
             <div class="col-md-12">
