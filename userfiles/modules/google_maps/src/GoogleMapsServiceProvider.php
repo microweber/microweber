@@ -27,7 +27,7 @@ class GoogleMapsServiceProvider extends PackageServiceProvider
         Event::listen(ServingLiveEdit::class, [$this, 'registerLiveEditAssets']);
         Event::listen(ServingModuleSettings::class, [$this, 'registerLivewireComponents']);
 
-        Livewire::component('live-edit::google_maps', GoogleMapsSettingsComponent::class);
+        Livewire::component('microweber-live-edit::google_maps', GoogleMapsSettingsComponent::class);
 
         // $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
         View::addNamespace('modules.google_maps', __DIR__ . '/resources/views');

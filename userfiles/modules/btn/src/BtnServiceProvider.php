@@ -23,9 +23,10 @@ class BtnServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        Livewire::component('live-edit::btn', ButtonSettingsComponent::class);
-        Livewire::component('live-edit::btn-template-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-        Livewire::component('live-edit::btn-template-default', ButtonSettingsDefaultTemplateComponent::class);
+
+        Livewire::component('microweber-live-edit::btn', ButtonSettingsComponent::class);
+        Livewire::component('microweber-live-edit::btn-template-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
+        Livewire::component('microweber-live-edit::btn-template-default', ButtonSettingsDefaultTemplateComponent::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/live_edit.php');
         View::addNamespace('microweber.module.btn', __DIR__ . '/resources/views');

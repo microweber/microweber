@@ -1,10 +1,11 @@
 <?php
 
 
-namespace MicroweberPackages\LiveEdit;
+namespace MicroweberPackages\LiveEdit\Providers;
 
 
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
+
 
 class LiveEditManager
 {
@@ -19,7 +20,7 @@ class LiveEditManager
                 if (is_file($modFile)) {
                     $scriptUrl = module_url($module['module']) . 'live_edit.js';
 
-                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl,['type' => 'module','defer' => true]);
+                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl, ['type' => 'module', 'defer' => true]);
                 }
             }
         }

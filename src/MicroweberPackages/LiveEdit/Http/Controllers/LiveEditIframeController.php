@@ -12,7 +12,7 @@ class LiveEditIframeController
 
     public function index()
     {
-        $l = view('live-edit::iframe');
+        $l = view('microweber-live-edit::iframe');
         $l = app()->template->append_api_js_to_layout($l);
 
         return $l;

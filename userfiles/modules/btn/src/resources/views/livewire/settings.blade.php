@@ -69,7 +69,7 @@
 
             <div class="mw-btn-settings-align-controls mt-4">
                 <div>
-                    <livewire:live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
+                    <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
                 </div>
                 <div>
                     <label class="form-label">Align</label>

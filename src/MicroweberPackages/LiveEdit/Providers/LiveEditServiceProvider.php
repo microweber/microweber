@@ -9,30 +9,35 @@
  *
  */
 
-namespace MicroweberPackages\LiveEdit;
+namespace MicroweberPackages\LiveEdit\Providers;
 
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LiveEditServiceProvider extends ServiceProvider
+class LiveEditServiceProvider extends PackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package->name('microweber-live-edit');
+        $package->hasViews('microweber-live-edit');
+    }
+
     public function register()
     {
-
-        View::addNamespace('live-edit', __DIR__.'/resources/views');
+        parent::register();
+        View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
 
 
         \App::singleton('LiveEditManager', function () {
             return new LiveEditManager();
         });
 
-
-        Livewire::component('live-edit::module-select-template', ModuleTemplateSelectComponent::class);
-
+        Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
 
 
     }
@@ -44,6 +49,7 @@ class LiveEditServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
         $router = $this->app['router'];
 
         $router->middlewareGroup('live_edit', [
@@ -54,9 +60,9 @@ class LiveEditServiceProvider extends ServiceProvider
             DispatchServingModuleSettings::class,
         ]);
 
-        $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
-        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
-        $this->loadRoutesFrom((__DIR__) . '/routes/live_edit.php');
+        $this->loadRoutesFrom((__DIR__) . '/../routes/api.php');
+        $this->loadRoutesFrom((__DIR__) . '/../routes/web.php');
+        $this->loadRoutesFrom((__DIR__) . '/../routes/live_edit.php');
     }
 
 }

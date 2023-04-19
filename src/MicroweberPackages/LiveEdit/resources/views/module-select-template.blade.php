@@ -3,7 +3,7 @@
     @php
         $currentSkin = $settings['template'];
         $currentSkinName = str_replace('.php', '', $currentSkin);
-        $componentNameForModuleSkin = 'live-edit::'.$moduleType.'-template-'.$currentSkinName;
+        $componentNameForModuleSkin = 'microweber-live-edit::'.$moduleType.'-template-'.$currentSkinName;
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 

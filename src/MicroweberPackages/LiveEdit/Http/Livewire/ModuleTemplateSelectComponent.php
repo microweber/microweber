@@ -16,7 +16,7 @@ class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 
          $moduleTemplates = module_templates($this->moduleType);
       //  $currentTemplate = get_option('data-template', $this->moduleId);
-        return view('live-edit::module-select-template', [
+        return view('microweber-live-edit::module-select-template', [
             'moduleTemplates' => $moduleTemplates,
             'moduleType' => $this->moduleType,
             'moduleId' => $this->moduleId,

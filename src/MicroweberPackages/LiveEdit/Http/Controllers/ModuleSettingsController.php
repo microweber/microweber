@@ -15,7 +15,7 @@ class ModuleSettingsController
         $hasError = false;
 //        try {
 //
-//            $output = view('live-edit::module_settings', ['moduleId' => $id, 'moduleType' => $type]);
+//            $output = view('microweber-live-edit::module_settings', ['moduleId' => $id, 'moduleType' => $type]);
 //
 //        } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
 //            $hasError = true;
@@ -33,9 +33,9 @@ class ModuleSettingsController
 //
 //
 //        if($hasError){
-//            $output = view('live-edit::module_settings_error', ['moduleId' => $id, 'moduleType' => $type, 'error' => $output]);
+//            $output = view('microweber-live-edit::module_settings_error', ['moduleId' => $id, 'moduleType' => $type, 'error' => $output]);
 //        }
 
-        return view('live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type]);
+        return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type]);
     }
 }

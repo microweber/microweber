@@ -51,7 +51,7 @@ use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\LiveEdit\LiveEditServiceProvider;
+use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
 use MicroweberPackages\Media\MediaManagerServiceProvider;

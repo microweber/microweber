@@ -13,7 +13,7 @@
         $output = false;
 
 //        try {
-//            $output = \Livewire\Livewire::mount('live-edit::' . $moduleTypeForComponent, [
+//            $output = \Livewire\Livewire::mount('microweber-live-edit::' . $moduleTypeForComponent, [
 //                //'id' => $moduleId,
 //                'moduleId' => $moduleId,
 //                'moduleType' => $moduleType,
@@ -42,7 +42,7 @@
         ?>
 
 
-        @livewire('live-edit::' . $moduleTypeForComponent, [
+        @livewire('microweber-live-edit::' . $moduleTypeForComponent, [
             'moduleId' => $moduleId,
             'moduleType' => $moduleType,
         ])
