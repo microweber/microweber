@@ -8,6 +8,7 @@
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
          $moduleTypeForComponent = str_replace('/', '.', $moduleType);
+         $moduleTypeForComponent = str_replace('_', '-', $moduleType);
     @endphp
    <div class="mb-3">
 

@@ -9,6 +9,7 @@
 
         <?php
         $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+        $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $hasError = false;
         $output = false;
 
