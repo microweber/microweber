@@ -2,7 +2,7 @@
     <div>
 
         <label class="form-label"><?php _e("Style"); ?></label>
-        <select class="form-select" wire:model.debounce.100ms="settings.button_style">
+        <select class="form-select" wire:model="settings.button_style">
             <option value="btn-default"><?php _e("Default"); ?></option>
             <option value="btn-primary"><?php _e("Primary"); ?></option>
             <option value="btn-secondary"><?php _e("Secondary"); ?></option>
@@ -14,7 +14,7 @@
             <option value="btn-dark"><?php _e("Dark"); ?></option>
         </select>
         <label class="form-label"><?php _e("Size"); ?></label>
-        <select class="form-select" wire:model.debounce.100ms="settings.button_size">
+        <select class="form-select" wire:model="settings.button_size">
             <option value=""><?php _e("Default"); ?></option>
             <option value="btn-lg"><?php _e("Large"); ?></option>
             <option value="btn-md"><?php _e("Medium"); ?></option>

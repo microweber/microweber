@@ -56,9 +56,9 @@
 
                 <input id="display-url" onclick="mw.app.linkPicker.selectLink('#display-url')" class="form-control-plaintext" type="text" placeholder="Url ..." value="{{ $url }}">
 
-                <input type="hidden" wire:model.debounce.100ms="settings.url">
-                <input type="hidden" wire:model.debounce.100ms="settings.url_to_content_id">
-                <input type="hidden" wire:model.debounce.100ms="settings.url_to_category_id">
+                <input type="hidden" wire:model="settings.url">
+                <input type="hidden" wire:model="settings.url_to_content_id">
+                <input type="hidden" wire:model="settings.url_to_category_id">
 
             </div>
 

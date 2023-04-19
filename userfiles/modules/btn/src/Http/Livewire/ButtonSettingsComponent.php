@@ -46,7 +46,7 @@ class ButtonSettingsComponent extends ModuleSettingsComponent
             $this->url = $this->settings['url'];
         }
 
-        return view('modules.btn::livewire.settings');
+        return view('microweber.module.btn::livewire.settings');
     }
 
 
