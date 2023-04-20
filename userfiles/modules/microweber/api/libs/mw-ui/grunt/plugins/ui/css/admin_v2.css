@@ -13,10 +13,10 @@
   background-color: white;
   padding: 0 !important; }
   .admin-dashboard-left-nav .navbar-nav-padding {
-    padding-inline: 40px 20px !important; }
+    padding-inline: 40px 20px !important; } 
   .admin-dashboard-left-nav li {
     list-style: none; }
-  .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding { 
+  .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
     margin-top: 25px; }
   .admin-dashboard-left-nav .add-new {
     background-color: var(--tblr-primary); }
@@ -271,9 +271,10 @@ small.text-muted {
     background-color: white;
     padding: 20px 15px;
     text-align: center;
-    border-radius: 3px; }
+    border-radius: 3px;
+    box-shadow: var(--tblr-shadow-button-inset); }
   .admin-add-new-modal-buttons:hover {
-    background-color: #ededef !important;
+    background-color: #f1f5f9 !important;
     cursor: pointer;
     text-decoration: none; }
     .admin-add-new-modal-buttons:hover .modal-add-new-buttons-img {

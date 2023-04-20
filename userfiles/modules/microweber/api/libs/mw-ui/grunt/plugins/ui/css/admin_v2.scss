@@ -391,14 +391,15 @@ small.text-muted {
         padding: 20px 15px;
         text-align: center;
         border-radius: 3px;
+        box-shadow: var(--tblr-shadow-button-inset);
+
     }
 
     &:hover {
         //transform: scale(1.1);
-        background-color: #ededef !important;
+        background-color: #f1f5f9 !important;
         cursor: pointer;
         text-decoration: none;
-        //box-shadow: var(--tblr-shadow-button-inset);
 
 
         .modal-add-new-buttons-img {
