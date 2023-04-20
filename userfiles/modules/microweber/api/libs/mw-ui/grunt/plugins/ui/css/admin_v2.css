@@ -16,7 +16,7 @@
     padding-inline: 40px 20px !important; }
   .admin-dashboard-left-nav li {
     list-style: none; }
-  .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
+  .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding { 
     margin-top: 25px; }
   .admin-dashboard-left-nav .add-new {
     background-color: var(--tblr-primary); }
@@ -282,8 +282,11 @@ small.text-muted {
 .font-weight-bold {
   font-weight: 500; }
 
+.font-weight-bolder {
+  font-weight: 600; }
+
 .modal-add-new-buttons-p {
-  font-size: 16px;
+  font-size: 13px;
   color: #2b2b2b; }
 
 .mw-admin-sidebar-profile {
