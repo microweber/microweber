@@ -268,13 +268,13 @@ small.text-muted {
   padding: 13px;
   transition: 0.25s ease; }
   .admin-add-new-modal-buttons .modal-add-new-buttons-img {
-    background-color: #f1f5f9;
+    background-color: white;
     padding: 20px 15px;
     text-align: center;
     border-radius: 3px;
     box-shadow: var(--tblr-shadow-button-inset); }
   .admin-add-new-modal-buttons:hover {
-    background-color: white !important;
+    background-color: #f1f5f9 !important;
     cursor: pointer;
     text-decoration: none; }
     .admin-add-new-modal-buttons:hover .modal-add-new-buttons-img {
