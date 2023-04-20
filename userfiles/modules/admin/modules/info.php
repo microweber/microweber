@@ -7,6 +7,8 @@ if (!isset($params['parent-module'])) {
 }
 
 $v_mod = $params['parent-module'];
+
 $module = mw()->module_manager->get('one=1&ui=any&module=' . $v_mod);
 ?>
+
 
