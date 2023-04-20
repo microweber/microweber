@@ -265,14 +265,26 @@ small.text-muted {
 
 .admin-add-new-modal-buttons {
   border-radius: 5px;
-  padding: 20px 0;
+  padding: 13px;
   transition: 0.25s ease; }
+  .admin-add-new-modal-buttons .modal-add-new-buttons-img {
+    background-color: white;
+    padding: 20px 15px;
+    text-align: center;
+    border-radius: 3px; }
   .admin-add-new-modal-buttons:hover {
-    transform: scale(1.1);
-    background-color: #f8fcff !important;
+    background-color: #ededef !important;
     cursor: pointer;
-    text-decoration: none;
-    box-shadow: var(--tblr-shadow-button-inset); }
+    text-decoration: none; }
+    .admin-add-new-modal-buttons:hover .modal-add-new-buttons-img {
+      background-color: white; }
+
+.font-weight-bold {
+  font-weight: 500; }
+
+.modal-add-new-buttons-p {
+  font-size: 16px;
+  color: #2b2b2b; }
 
 .mw-admin-sidebar-profile {
   background-color: #f1f5f9;
