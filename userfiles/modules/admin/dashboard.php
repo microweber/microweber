@@ -1,7 +1,7 @@
 <div class="col-xl-8 mx-auto">
 
     <div class="dashboard-title-container ">
-            <h1 class="dashboard-welcome-title">Welcome back, Boris</h1>
+            <h1 class="dashboard-welcome-title">Welcome back, <?php print user_name(); ?></h1>
 
         <div class="d-flex flex-wrap justify-content-between align-items-center">
             <div>

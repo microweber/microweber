@@ -51,14 +51,8 @@ if ($params['period']) {
     }
 
     $(document).ready(function () {
-        $("[data-stat='<?php print $period ?>']").addClass("active");
+        $("[data-stat='<?php print $period ?>']").addClass("active").attr("checked", true);
     });
-
-
-
-
-
-
 
     var series = [];
 
@@ -248,12 +242,26 @@ if ($params['period']) {
            <div class="card-header px-0 justify-content-between">
 
                <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><span><?php _e("Statistics") ?></span></strong></h5>
-               <div id="stats_nav" class="nav btn-hover-style-2">
-                   <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','daily');" data-stat='daily' class="btn btn-outline-secondary btn-sm justify-content-center mx-1"><?php _e("Daily"); ?></a>
-                   <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','weekly');" data-stat='weekly' class="btn btn-outline-secondary btn-sm justify-content-center mx-1"><?php _e("Weekly"); ?></a>
-                   <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','monthly');" data-stat='monthly' class="btn btn-outline-secondary btn-sm justify-content-center mx-1"><?php _e("Monthly"); ?></a>
-                   <a href="javascript:mw_stats_period_switch('<?php print $module_id; ?>','yearly');" data-stat='yearly' class="btn btn-outline-secondary btn-sm justify-content-center mx-1"><?php _e("Yearly"); ?></a>
+
+
+               <div class="form-selectgroup">
+                   <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','daily');" >
+                       <input type="radio" data-stat='daily'  class="form-selectgroup-input">
+                       <span class="form-selectgroup-label"><?php _e("Daily"); ?></span>
+                   </label>
+
+                   <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','weekly');" >
+                       <input type="radio" data-stat='weekly'  class="form-selectgroup-input">
+                       <span class="form-selectgroup-label"><?php _e("Weekly"); ?></span>
+                   </label>
+                   <label class="form-selectgroup-item" onclick="mw_stats_period_switch('<?php print $module_id; ?>','monthly');" >
+                       <input type="radio" data-stat='monthly'  class="form-selectgroup-input">
+                       <span class="form-selectgroup-label"><?php _e("Monthly"); ?></span>
+                   </label>
+
                </div>
+
+
 
            </div>
            <?php if($users_online){ ?>
@@ -262,7 +270,7 @@ if ($params['period']) {
                    <span><?php _e("Users online") ?></span>
                </div>
            <?php } ?>
-           <div class="graph-holder">
+           <div class="graph-holder" style="min-height: 215px;">
                <div class="dashboard_stats"></div>
                <div class="lines">
                    <div class="line"></div>
@@ -275,11 +283,11 @@ if ($params['period']) {
 
            <div class="stats_box_footer">
                <div class="row d-flex justify-content-between">
-                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">
+                   <div class="stats-box-colorscheme col-6 col-sm-2 d-flex align-items-center justify-content-center justify-content-sm-start">
                        <i class="mdi mdi-eye mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $views_count; ?></span> <span><?php _e('Views'); ?></span>
                    </div>
 
-                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center">
+                   <div class="stats-box-colorscheme col-6 col-sm-2 d-flex align-items-center justify-content-center">
                        <i class="mdi mdi-account-multiple mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $visits_count; ?></span> <span><?php _e('Visitors') ?></span>
                    </div>
 
