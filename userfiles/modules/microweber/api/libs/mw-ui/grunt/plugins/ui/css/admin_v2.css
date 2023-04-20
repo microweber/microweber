@@ -13,7 +13,7 @@
   background-color: white;
   padding: 0 !important; }
   .admin-dashboard-left-nav .navbar-nav-padding {
-    padding-inline: 40px 20px !important; }
+    padding-inline: 40px 20px !important; } 
   .admin-dashboard-left-nav li {
     list-style: none; }
   .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
@@ -330,5 +330,14 @@ small.text-muted {
 
 .form-group {
   margin-bottom: 20px; }
+
+.dashboard-title-container {
+  padding: 40px 0; }
+  .dashboard-title-container .dashboard-welcome-title {
+    font-size: 36px;
+    margin-bottom: 12px; }
+  .dashboard-title-container .dashboard-welcome-p {
+    font-size: 24px;
+    font-weight: 500; }
 
 /*# sourceMappingURL=admin_v2.css.map */

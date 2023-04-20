@@ -270,6 +270,9 @@ if ($params['period']) {
                    <div class="line"></div>
                </div>
            </div>
+
+
+
            <div class="stats_box_footer">
                <div class="row d-flex justify-content-between">
                    <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">
@@ -280,13 +283,13 @@ if ($params['period']) {
                        <i class="mdi mdi-account-multiple mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $visits_count; ?></span> <span><?php _e('Visitors') ?></span>
                    </div>
 
-                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center">
-                       <i class="mdi mdi-shopping mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $orders_count; ?></span> <span><?php _e('Orders'); ?></span>
-                   </div>
-
-                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center">
-                       <i class="mdi mdi-comment-account mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $comments_count; ?></span> <span><?php _e('Comments'); ?></span>
-                   </div>
+<!--                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center">-->
+<!--                       <i class="mdi mdi-shopping mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2">--><?php //print $orders_count; ?><!--</span> <span>--><?php //_e('Orders'); ?><!--</span>-->
+<!--                   </div>-->
+<!---->
+<!--                   <div class="stats-box-colorscheme col-6 col-sm d-flex align-items-center justify-content-center">-->
+<!--                       <i class="mdi mdi-comment-account mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2">--><?php //print $comments_count; ?><!--</span> <span>--><?php //_e('Comments'); ?><!--</span>-->
+<!--                   </div>-->
 
                    <div class="stats-box-colorscheme col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
                        <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats"><?php _e('Show more'); ?></a>

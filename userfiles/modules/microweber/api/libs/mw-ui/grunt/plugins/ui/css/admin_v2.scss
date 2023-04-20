@@ -475,3 +475,16 @@ small.text-muted {
 .form-group {
     margin-bottom: 20px;
 }
+
+.dashboard-title-container {
+    padding: 40px 0;
+
+    .dashboard-welcome-title {
+        font-size: 36px;
+        margin-bottom: 12px;
+    }
+    .dashboard-welcome-p {
+        font-size: 24px;
+        font-weight: 500;
+    }
+}
