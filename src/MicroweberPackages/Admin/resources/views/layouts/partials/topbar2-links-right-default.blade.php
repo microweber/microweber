@@ -2,7 +2,7 @@
  $past_page = site_url();
 @endphp
 
-@if (user_can_access('module.content.edit')):
+@if (user_can_access('module.content.edit'))
 <li>
     <a href="{{$past_page}}?editmode=y"
        class="btn btn-primary bg-white border-0 go-live-edit-href-set admin-toolbar-buttons">
