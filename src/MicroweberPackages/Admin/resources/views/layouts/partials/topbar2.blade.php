@@ -7,11 +7,12 @@
         </div>
         <!-- Page title actions -->
         <div class="col-auto ms-auto d-print-none">
-            {!! event_trigger('mw.admin.header.toolbar'); !!}
+            <?php
+            event_trigger('mw.admin.header.toolbar'); ?>
 
             <ul class="nav">
                 @yield('topbar2-links-right', \View::make('admin::layouts.partials.topbar2-links-right-default'))
-                {!! event_trigger('mw.admin.header.toolbar.ul'); !!}
+                <?php event_trigger('mw.admin.header.toolbar.ul'); ?>
             </ul>
         </div>
     </div>
