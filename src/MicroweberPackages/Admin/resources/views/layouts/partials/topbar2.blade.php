@@ -49,7 +49,7 @@
                 }
                 ?>
 
-                <a href="<?php print $base_url; ?> " class="col-12 text-start d-flex align-items-center my-3 flex-wrap admin-add-new-modal-buttons me-auto">
+                <a href="<?php print $base_url; ?> " class="col-12 text-start d-flex align-items-center flex-wrap admin-add-new-modal-buttons me-auto">
 
 
 
@@ -115,7 +115,7 @@
                 <?php endforeach; ?>
 
                 <div class="col-12 mt-4 modal-add-new-buttons-p">
-                    <a href=""> Edit current</a></p>
+                    <a href=""> Edit current</a>
 
                 </div>
 
