@@ -13,10 +13,15 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
 ?>
 
 <div class="card mb-4">
-        <div class="card-header justify-content-between">
-            <h5 class="card-title"><i class="mdi mdi-email-check text-primary mr-3"></i> <strong><?php _e("Recent Messages") ?></strong></h5>
-            <div><a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-outline-secondary btn-sm"><?php _e('View all'); ?></a></div>
+        <div class="card-header">
+            <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-emails.png" alt="messages">
+
+            <p> <strong><?php _e("Emails") ?></strong></p>
+            <div><a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a></div>
         </div>
+
+
+
 
         <div class="card-body">
             <?php

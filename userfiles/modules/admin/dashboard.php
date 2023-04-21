@@ -18,14 +18,17 @@
             <?php event_trigger('mw.admin.dashboard.content.before'); ?>
             <?php event_trigger('mw.admin.dashboard.content'); ?>
     <div class="d-flex flex-wrap">
+
         <div class="col-xl-6 pe-2">
+            <?php event_trigger('mw.admin.dashboard.content.3'); ?>
+        </div>
+
+        <div class="col-xl-6 ps-2">
             <?php event_trigger('mw.admin.dashboard.content.1'); ?>
             <?php event_trigger('mw.admin.dashboard.content.2'); ?>
         </div>
 
-        <div class="col-xl-6 ps-2">
-            <?php event_trigger('mw.admin.dashboard.content.3'); ?>
-        </div>
+
     </div>
 
 
