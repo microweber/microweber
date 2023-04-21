@@ -20,7 +20,7 @@
 
 
 <div class="d-flex flex-wrap mx-auto justify-content-center mb-3">
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <label class="form-label"><?php _e("Template Backup"); ?></label>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <label class="form-label"><?php _e('Media cleanup'); ?></label>
@@ -43,7 +43,7 @@
 
 
 <div class="d-flex flex-wrap mx-auto justify-content-center mt-3">
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <label class="form-label"><?php _e("Database cleanup"); ?></label>
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <label class="form-label"><?php _e("Show system log"); ?></label>
@@ -65,7 +65,7 @@
 </div>
 
 <div class="d-flex flex-wrap mx-auto justify-content-center mt-3">
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <?php
@@ -81,7 +81,7 @@
         </div>
     </div>
 
-    <div class="col-xl-6">
+    <div class="col-xl-6 col-12 my-xl-0 my-3">
         <div class="card mx-2 h-100">
             <div class="card-body">
                 <label class="form-label"><?php _e("Cache settings"); ?></label>

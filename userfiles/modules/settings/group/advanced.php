@@ -110,7 +110,7 @@
                    <div class="card bg-light">
                       <div class="row">
                           <div class="d-flex flex-wrap mx-auto justify-content-center mt-3">
-                              <div class="col-xl-6">
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
                                   <div class="card mx-2 h-100">
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Internal Settings"); ?></label>
@@ -120,7 +120,7 @@
                                   </div>
                               </div>
 
-                              <div class="col-xl-6">
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
                                   <div class="card mx-2 h-100">
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Live Edit settings"); ?></label>
@@ -135,7 +135,7 @@
                           </div>
 
                           <div class="d-flex flex-wrap mx-auto justify-content-center mt-3">
-                              <div class="col-xl-6">
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
                                   <div class="card mx-2 h-100">
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Setup statistics"); ?></label>
@@ -145,7 +145,7 @@
                                   </div>
                               </div>
 
-                              <div class="col-xl-6">
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
                                   <div class="card mx-2 h-100">
                                       <div class="card-body">
                                               <label class="form-label"><?php _e("Other"); ?></label>
@@ -161,12 +161,12 @@
                           </div>
 
                           <div class="d-flex flex-wrap mx-auto justify-content-start mt-3">
-                              <div class="col-xl-6">
+                              <div class="col-xl-6 col-12 my-xl-0 my-3">
                                   <div class="card mx-2 h-100">
                                       <div class="card-body">
-                                              <label class="form-label"><?php _e("Setup statistics"); ?></label>
-                                              <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Configure website statistics'); ?></small>
-                                              <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
+                                          <label class="form-label"><?php _e("Experimental"); ?></label>
+                                          <small class="advanced-settings-small-helper d-block mb-2"><?php _e("Experimental settings for developers"); ?></small>
+                                          <a class="btn btn-link" style="padding: 0 !important;" href="javascript:settings_load_module('Experimental settings','settings/group/experimental')"><?php _e("Experimental settings"); ?></a>
                                       </div>
                                   </div>
                               </div>
