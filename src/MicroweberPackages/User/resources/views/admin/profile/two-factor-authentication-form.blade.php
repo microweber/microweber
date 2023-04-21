@@ -50,7 +50,7 @@
             @endif
         @endif
 
-        <div class="mt-5">
+        <div class="mt-2">
             @if (! $this->enabled)
                 <x-microweber-ui::button type="button" wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled">
                     Enable

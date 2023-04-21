@@ -13,7 +13,7 @@
         </div>
 
         @if (count($this->sessions) > 0)
-            <div class="mt-5 space-y-6">
+            <div class="mt-2 space-y-6">
                 <!-- Other Browser Sessions -->
                 @foreach ($this->sessions as $session)
                     <div class="flex items-center">
@@ -51,7 +51,7 @@
             </div>
         @endif
 
-        <div class="flex items-center mt-5">
+        <div class="flex items-center mt-2">
             <x-microweber-ui::button wire:click="confirmLogout" wire:loading.attr="disabled">
                 Logout Other Browser Sessions
             </x-microweber-ui::button>
