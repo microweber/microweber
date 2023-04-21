@@ -498,3 +498,45 @@ small.text-muted {
     font-size: 14px;
     padding-bottom: 10px;
 }
+
+.dashboard-admin-cards {
+
+    .dashboard-icons-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+
+        &.wrapper-icon-emails {
+            background-color: #e1f9f9;
+        }
+
+        &.wrapper-icon-messages {
+            background-color: #e1edf9;
+        }
+
+        &.wrapper-icon-orders {
+            background-color: #f9f3e1;
+        }
+
+        &.wrapper-icon-sales {
+            background-color: #e1f9e6;
+        }
+
+    }
+
+    p {
+        font-weight: 500;
+    }
+
+    .dashboard-numbers {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .btn.btn-link {
+        padding: 0 !important;
+        margin-bottom: 35px;
+    }
+}

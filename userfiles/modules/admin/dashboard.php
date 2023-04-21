@@ -1,4 +1,4 @@
-<div class="col-xl-8 mx-auto">
+<div class="col-xxl-8 col-xl-10 col-12 mx-auto">
 
     <div class="dashboard-title-container ">
             <h1 class="dashboard-welcome-title">Welcome back, <?php print user_name(); ?></h1>
@@ -17,19 +17,56 @@
 
             <?php event_trigger('mw.admin.dashboard.content.before'); ?>
             <?php event_trigger('mw.admin.dashboard.content'); ?>
-    <div class="d-flex flex-wrap">
+        <div class="row">
 
-        <div class="col-xl-6 pe-2">
-            <?php event_trigger('mw.admin.dashboard.content.3'); ?>
+            <div class="col-xxl-6 col-xl-8 col-lg-10 col-12 pe-3">
+                <?php event_trigger('mw.admin.dashboard.content.3'); ?>
+
+                <div class="card mb-4 dashboard-admin-cards">
+                    <div class="card-body px-xxl-4 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="dashboard-icons-wrapper wrapper-icon-sales">
+                                <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-sales.png" alt="messages">
+                            </div>
+
+                            <!--                        --><?php
+                            //                        if ($ccount == 0) {  ?>
+                            <!--                            <small>You dont have any comments yet </small>-->
+                            <!--                        --><?php //} else { ?>
+                            <!--                            <h5 class="dashboard-numbers">-->
+                            <!--                                --><?php // print $ccount; ?>
+                            <!---->
+                            <!--                            </h5>-->
+                            <!--                        --><?php // } ?>
+
+                            <div class="row ms-3 ">
+                                <p> <?php _e("Sales") ?></p>
+                                <h5 class="dashboard-numbers">
+                                    10$
+                                </h5>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-xxl-6 col-xl-8 col-lg-10 col-12 pe-3">
+                <?php event_trigger('mw.admin.dashboard.content.2'); ?>
+                <?php event_trigger('mw.admin.dashboard.content.1'); ?>
+            </div>
+
+
         </div>
-
-        <div class="col-xl-6 ps-2">
-            <?php event_trigger('mw.admin.dashboard.content.1'); ?>
-            <?php event_trigger('mw.admin.dashboard.content.2'); ?>
-        </div>
-
-
-    </div>
 
 
 

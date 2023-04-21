@@ -17,29 +17,38 @@ if (!user_can_access('module.shop.orders.index')) {
 </script>
 
 <?php
-$orders = get_orders('limit=5');
+
+
+$orders = get_orders('count=1');
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 ?>
 <?php if (!$shop_disabled): ?>
-   <div class="card mb-4">
-       <div class="card-header justify-content-between">
-           <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Recent Orders") ?></strong></h5>
-           <div>
-               <?php $new_orders_count = mw()->order_manager->get_count_of_new_orders(); ?>
-               <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-primary btn-sm">
-                   <?php if ($new_orders_count): ?>
-                       <span class="badge badge-success badge-pill mr-2 absolute-left"><?php print $new_orders_count; ?></span> <?php _e('New orders'); ?>
-                   <?php else: ?>
-                       <?php _e('Go to orders'); ?>
-                   <?php endif; ?>
-               </a>
-               <a href="javascript: mw_admin_add_order_popup();" class="btn btn-outline-secondary btn-sm"><?php _e('Add new order'); ?></a>
-           </div>
-       </div>
-       <div class="card-body dashboard-recent">
-           <div class="orders-holder" id="shop-orders">
-               <module type="shop/orders/admin" limit="5" hide-controls="true" intersect-new-orders="true"/>
-           </div>
-       </div>
-   </div>
+    <div class="card mb-4 dashboard-admin-cards">
+        <div class="card-body px-xxl-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <div class="dashboard-icons-wrapper wrapper-icon-orders">
+                    <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-orders.png" alt="messages">
+                </div>
+
+                <div class="row ms-3 ">
+                    <p> <?php _e("Recent Orders") ?></p>
+                    <?php
+                    if ($orders == 0) {  ?>
+                        <small>You dont have any comments yet </small>
+                    <?php } else { ?>
+                        <h5 class="dashboard-numbers">
+                            <?php  print $orders; ?>
+
+                        </h5>
+                    <?php  } ?>
+                </div>
+            </div>
+
+
+            <div>
+                <a href="<?php print admin_url('order'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+            </div>
+
+        </div>
+    </div>
 <?php endif; ?>
