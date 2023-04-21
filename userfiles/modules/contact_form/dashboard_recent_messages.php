@@ -19,17 +19,12 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
                 <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-emails.png" alt="messages">
             </div>
 
-            <div class="row ms-3 ">
+            <div class="row">
                 <p> <?php _e("Emails") ?></p>
-                <?php
-                if ($last_messages_count == 0) {  ?>
-                    <small>You dont have any comments yet </small>
-                <?php } else { ?>
-                    <h5 class="dashboard-numbers">
-                        <?php  print $last_messages_count; ?>
 
-                    </h5>
-                <?php  } ?>
+                <h5 class="dashboard-numbers">
+                    <?php  print $last_messages_count; ?>
+                </h5>
             </div>
         </div>
 

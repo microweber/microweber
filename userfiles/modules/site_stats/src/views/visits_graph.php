@@ -239,7 +239,7 @@ if ($params['period']) {
 <div id="stats">
    <div class="card mb-4">
        <div class="card-body mb-3">
-           <div class="card-header px-0 justify-content-between">
+           <div class="card-header p-0 justify-content-between">
 
 
                <div class="dashboard-admin-cards d-flex align-items-center">
@@ -247,7 +247,7 @@ if ($params['period']) {
                        <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-statistics.png" alt="messages">
                    </div>
 
-                   <div class="row ms-3 ">
+                   <div class="row">
                        <p> <?php _e("Statistics") ?></p>
 
                        <div class="d-flex">
@@ -301,7 +301,7 @@ if ($params['period']) {
 
 
            <div class="stats_box_footer">
-               <div class="row d-flex justify-content-between">
+               <div class="px-4 d-flex justify-content-between">
                    <div class="stats-box-colorscheme col-6 col-sm-2 d-flex align-items-center justify-content-center justify-content-sm-start">
                        <i class="mdi mdi-eye mdi-24px text-muted text-opacity-6"></i> <span class="text-primary mx-2"><?php print $views_count; ?></span> <span><?php _e('Views'); ?></span>
                    </div>
@@ -319,7 +319,7 @@ if ($params['period']) {
 <!--                   </div>-->
 
                    <div class="stats-box-colorscheme col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
-                       <a class="btn btn-link show-more-stats"><?php _e('Show more'); ?></a>
+                       <a class="btn btn-link show-more-stats text-capitalize"><?php _e('Show more'); ?></a>
                    </div>
                </div>
 

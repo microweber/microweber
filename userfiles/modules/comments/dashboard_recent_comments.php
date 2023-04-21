@@ -21,19 +21,12 @@ $ccount = get_comments($comments_data);
                 <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-comments.png" alt="messages">
             </div>
 
-            <div class="row ms-3 ">
+            <div class="row">
                 <p> <?php _e("Last comments") ?></p>
 
-                <?php
-                if ($ccount == 0) {  ?>
-                    <small>You dont have any comments yet </small>
-                <?php } else { ?>
-                    <h5 class="dashboard-numbers">
-                          <?php  print $ccount; ?>
-
-                    </h5>
-               <?php  } ?>
-
+                <h5 class="dashboard-numbers">
+                      <?php  print $ccount; ?>
+                </h5>
             </div>
         </div>
 

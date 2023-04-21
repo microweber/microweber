@@ -332,7 +332,7 @@ small.text-muted {
   margin-bottom: 20px; }
 
 .dashboard-title-container {
-  padding: 40px 0; }
+  padding: 30px 0; }
   .dashboard-title-container .dashboard-welcome-title {
     font-size: 36px;
     margin-bottom: 15px;
@@ -370,9 +370,10 @@ small.text-muted {
 .dashboard-admin-cards a {
   font-weight: 500; }
 .dashboard-admin-cards p {
-  font-weight: 500; }
+  font-weight: 500;
+  font-size: 16px; }
 .dashboard-admin-cards .dashboard-numbers {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 600; }
 .dashboard-admin-cards .btn.btn-link {
   padding: 0 !important;

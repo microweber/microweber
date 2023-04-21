@@ -30,17 +30,13 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-orders.png" alt="messages">
                 </div>
 
-                <div class="row ms-3 ">
+                <div class="row">
                     <p> <?php _e("Recent Orders") ?></p>
-                    <?php
-                    if ($orders == 0) {  ?>
-                        <small>You dont have any comments yet </small>
-                    <?php } else { ?>
-                        <h5 class="dashboard-numbers">
-                            <?php  print $orders; ?>
 
-                        </h5>
-                    <?php  } ?>
+                    <h5 class="dashboard-numbers">
+                        <?php  print $orders; ?>
+                    </h5>
+
                 </div>
             </div>
 
