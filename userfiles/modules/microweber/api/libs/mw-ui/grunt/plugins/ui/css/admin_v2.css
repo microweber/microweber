@@ -253,7 +253,7 @@ small.text-muted {
 .form-switch .form-check-input {
   height: 1.25rem;
   width: 2.4rem; }
-
+ 
 .form-check.form-switch {
   width: 50px; }
 
@@ -357,14 +357,28 @@ small.text-muted {
   border-radius: 5px; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-emails {
     background-color: #e1f9f9; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-emails svg {
+      fill: #0078dd; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-messages {
     background-color: #e1edf9; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-messages svg {
+      fill: #0078dd; }
+  .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-comments {
+    background-color: #f9e1f3; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-comments svg {
+      fill: #f20c78; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-orders {
     background-color: #f9f3e1; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-orders svg {
+      fill: #ee9d00; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-sales {
     background-color: #e1f9e6; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-sales svg {
+      fill: #3d9707; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-statistics {
     background-color: #efefef; }
+    .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-statistics svg {
+      fill: #0078dd; }
 .dashboard-admin-cards small {
   margin-bottom: 6px; }
 .dashboard-admin-cards a {
