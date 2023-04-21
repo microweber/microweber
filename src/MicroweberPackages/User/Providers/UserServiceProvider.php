@@ -22,6 +22,7 @@ use MicroweberPackages\Billing\Providers\BillingFilamentPluginServiceProvider;
 use MicroweberPackages\User\Http\Livewire\Admin\DeleteUserForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdatePasswordForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdateProfileInformationForm;
+use MicroweberPackages\User\Http\Livewire\Admin\UsersList;
 use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\RSAKeys;
@@ -46,6 +47,7 @@ class UserServiceProvider extends AuthServiceProvider
         View::addNamespace('user', __DIR__ . '/../resources/views');
         View::addNamespace('admin', __DIR__ . '/../resources/views/admin');
 
+        Livewire::component('admin::users-list', UsersList::class);
         Livewire::component('admin::profile.update-profile-information-form', UpdateProfileInformationForm::class);
         Livewire::component('admin::profile.update-password-form', UpdatePasswordForm::class);
         Livewire::component('admin::profile.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
