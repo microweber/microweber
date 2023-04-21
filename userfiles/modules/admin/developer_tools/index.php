@@ -98,10 +98,11 @@
                     <label class="form-label"><?php _e("Cache settings"); ?></label>
                     <small class=" d-block mb-2"><?php _e('Speed up your website load speed'); ?>.</small>
                     <a href="<?php echo admin_url('module/view?type=fullpage_cache');?>" class="btn btn-link" style="padding-left: 0 !important;"><?php _e("Run full page cache"); ?></a>
+                    <a href="javascript:;" class="btn btn-link" style="padding-left: 0 !important;" onclick="openModuleInModal('settings/group/cache', 'Cache settings')"><?php _e("Cache settings"); ?></a>
+                    <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a>
                 </div>
 
-                <a href="javascript:;" class="btn btn-link" style="padding-left: 0 !important;" onclick="openModuleInModal('settings/group/cache', 'Cache settings')"><?php _e("Cache settings"); ?></a>
-                <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:clearMwCache();"><?php _e("Clear cache"); ?></a>
+
             </div>
         </div>
     </div>
