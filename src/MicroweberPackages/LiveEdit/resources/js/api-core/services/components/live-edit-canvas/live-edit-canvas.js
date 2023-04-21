@@ -52,12 +52,13 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         frame.frameBorder = 0;
         frame.id="live-editor-frame";
         frame.referrerPolicy = "no-referrer";
+        frame.loading = "lazy";
         this.#canvas = frame;
         target.innerHTML = '';
         target.appendChild(frame);
         frame.addEventListener('load', e => {
 
-            
+
 
             this.dispatch('liveEditCanvasLoaded');
             mw.spinner({

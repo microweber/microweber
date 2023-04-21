@@ -67,7 +67,7 @@ class UserController extends AdminController
         $user = User::where('id',$id)->first();
 
         if ($user == false) {
-            return redirect(route('admin.user.index'));
+            return redirect(route('admin.users.index'));
         }
 
         return view('user::admin.users.show', [
