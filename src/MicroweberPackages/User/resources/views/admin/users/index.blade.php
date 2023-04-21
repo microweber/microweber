@@ -2,9 +2,6 @@
 
 @section('content')
 
-<module type="admin/modules/info" history_back="true"/>
-
-
 <style>
     #mw-admin-manage-users-header {
         display: flex;
@@ -23,8 +20,8 @@
     }
 </style>
 
-
-<div class="card  bg-light mb-3">
+<div class="px-5">
+<div class="card bg-light mb-3">
     <div class="card-header">
         <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
         </h5>
@@ -111,7 +108,7 @@
                                     </button>
                                 </div> &nbsp;&nbsp;
                                 <div class="text-center">
-                                    <a href="{{route('admin.user.index')}}" class="btn btn-outline-primary btn-sm" type="button">
+                                    <a href="{{route('admin.users.index')}}" class="btn btn-outline-primary btn-sm" type="button">
                                         Reset filters
                                     </a>
                                 </div>
@@ -130,9 +127,9 @@
                 <option disabled="disabled"><?php _e("Select sorting"); ?></option>
 
                 <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
-                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
+                        <?php endif;?> value="{{route('admin.users.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
                 <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
-                        <?php endif;?> value="{{route('admin.user.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
+                        <?php endif;?> value="{{route('admin.users.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
 
             </select>
         </div>
@@ -225,6 +222,7 @@
         </div>
 
     </div>
+</div>
 </div>
 
 @endsection

@@ -23,10 +23,7 @@ Route::name('admin.')
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('user', 'UserController',['except' => ['show','edit', 'create']]);
-        Route::get('users', function () {
-            return redirect(admin_url('v2/users'));
-        })->name('users');
+        Route::resource('users', 'UserController',['except' => ['edit', 'create']]);
     });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
