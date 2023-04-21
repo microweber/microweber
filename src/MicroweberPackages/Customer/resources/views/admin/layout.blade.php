@@ -1,22 +1,29 @@
-<div class="position-relative">
-    <div class="main-toolbar" id="mw-modules-toolbar">
-        <a href="javascript:;" onClick="mw.admin.back()" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> <?php _e("Back"); ?></a>
+@extends('admin::layouts.app')
 
-        <module type="admin/settings_search"/>
-    </div>
-</div>
+@section('content')
+<div class="mx-5">
 
-<div class="card  bg-light mb-3">
-    <div class="card-header">
-        <h5>
-            @yield('icon')
-            <strong>@yield('title')</strong>
-        </h5>
+    <div class="position-relative">
+        <div class="main-toolbar" id="mw-modules-toolbar">
+            <a href="javascript:;" onClick="mw.admin.back()" class="btn btn-link text-silver"><i class="mdi mdi-chevron-left"></i> <?php _e("Back"); ?></a>
+
+            <module type="admin/settings_search"/>
+        </div>
     </div>
 
-    <div class=" ">
-        @yield('content')
+    <div class="card bg-light mb-3">
+        <div class="card-header">
+            <h5>
+                @yield('icon')
+                <strong>@yield('title')</strong>
+            </h5>
+        </div>
+        <div class="card-body">
+            @yield('content')
+        </div>
     </div>
 </div>
 
 @yield('order_content')
+
+@endsection
