@@ -29,12 +29,12 @@
 <h1 class="main-pages-title"><?php _e('Advanced'); ?></h1>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card my-4">
+    <div class="card mb-5">
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("SEO Settings"); ?></h5>
-                    <small class="text-muted"><?php _e('Make these settings to get the best results when finding your website.'); ?></small>
+                    <small class="advanced-settings-small-helper text-muted"><?php _e('Make these settings to get the best results when finding your website.'); ?></small>
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light ">
@@ -65,12 +65,12 @@
         </div>
     </div>
 
-    <div class="card my-4">
+    <div class="card my-5">
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Development settings"); ?></h5>
-                    <small class="text-muted"><?php _e('If you are developer you will find great tools to make your website.'); ?></small>
+                    <small class="advanced-settings-small-helper text-muted"><?php _e('If you are developer you will find great tools to make your website.'); ?></small>
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-light  mb-1">
@@ -87,12 +87,12 @@
         </div>
     </div>
 
-   <div class="card my-4">
+   <div class="card my-5">
        <div class="card-body">
            <div class="row">
                <div class="col-xl-3 mb-xl-0 mb-3">
                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Other settings"); ?></h5>
-                   <small class="text-muted"><?php _e('Other settings for your website.'); ?></small>
+                   <small class="advanced-settings-small-helper text-muted"><?php _e('Other settings for your website.'); ?></small>
                </div>
               <div class="col-xl-9">
                    <div class="card bg-light">
@@ -103,7 +103,7 @@
                                       <div class="card-body">
                                           <div class="form-group">
                                               <label class="form-label"><?php _e("Internal Settings"); ?></label>
-                                              <small class="d-block mb-2"><?php _e('Internal settings for developers'); ?></small>
+                                              <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Internal settings for developers'); ?></small>
                                               <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:settings_load_module('Internal settings','settings/group/internal')"><?php _e("Internal settings"); ?></a>
                                           </div>
                                       </div>
@@ -115,7 +115,7 @@
                                       <div class="card-body">
                                           <div class="form-group">
                                               <label class="form-label"><?php _e("Live Edit settings"); ?></label>
-                                              <small class="text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
+                                              <small class="advanced-settings-small-helper text-muted d-block mb-2"><?php _e('Configure Live Edit settings'); ?></small>
 
 
                                               <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:settings_load_module('Live Edit settings','settings/group/live_edit')"><?php _e("Live Edit settings"); ?></a>
@@ -132,7 +132,7 @@
                                       <div class="card-body">
                                           <div class="form-group">
                                               <label class="form-label"><?php _e("Setup statistics"); ?></label>
-                                              <small class="d-block mb-2"><?php _e('Configure website statistics'); ?></small>
+                                              <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Configure website statistics'); ?></small>
                                               <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                           </div>
                                       </div>
@@ -144,7 +144,7 @@
                                       <div class="card-body">
                                           <div class="form-group">
                                               <label class="form-label"><?php _e("Other"); ?></label>
-                                              <small class="d-block mb-2"><?php _e('Other settings'); ?></small>
+                                              <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Other settings'); ?></small>
                                               <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:reloadMwDB();"><?php _e("Reload Database"); ?></a>
 
                                               <?php if (is_module('shop') and get_option('shop_disabled', 'website') == "y") { ?>
@@ -162,7 +162,7 @@
                                       <div class="card-body">
                                           <div class="form-group">
                                               <label class="form-label"><?php _e("Setup statistics"); ?></label>
-                                              <small class="d-block mb-2"><?php _e('Configure website statistics'); ?></small>
+                                              <small class="advanced-settings-small-helper d-block mb-2"><?php _e('Configure website statistics'); ?></small>
                                               <a class="btn btn-link" style="padding-left: 0 !important;" href="javascript:settings_load_module('Statistics settings','site_stats/settings')"><?php _e("Statistics settings"); ?></a>
                                           </div>
                                       </div>

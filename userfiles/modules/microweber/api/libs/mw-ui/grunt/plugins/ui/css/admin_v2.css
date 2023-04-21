@@ -13,7 +13,7 @@
   background-color: white;
   padding: 0 !important; }
   .admin-dashboard-left-nav .navbar-nav-padding {
-    padding-inline: 40px 20px !important; } 
+    padding-inline: 40px 20px !important; }
   .admin-dashboard-left-nav li {
     list-style: none; }
   .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
@@ -343,5 +343,8 @@ small.text-muted {
 
 .apexcharts-menu-icon {
   display: none; }
+
+.advanced-settings-small-helper {
+  font-size: 14px; }
 
 /*# sourceMappingURL=admin_v2.css.map */
