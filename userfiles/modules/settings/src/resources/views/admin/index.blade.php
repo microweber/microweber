@@ -14,10 +14,6 @@
 
     @endsection
 
-    @section('topbar2-links-right')
-
-    @endsection
-
 @endif
 
 @section('content')
