@@ -13,12 +13,34 @@ $ccount = get_comments($comments_data);
 
 ?>
 
-<div class="card mb-4">
-    <div class="card-header justify-content-between">
-        <h5 class="card-title"><i class="mdi mdi-comment-account text-primary mr-3"></i> <strong><?php _e("Last comments") ?></strong></h5>
-        <div><a href="<?php print admin_url('module/view?type=comments'); ?>" class="btn btn-primary btn-sm"><?php print $ccount; ?>  <?php _e('New comments'); ?></a></div>
-    </div>
-    <div class="card-body">
-        <module type="comments/manage"  id="dashboard-recent-comments" no_paging="true" limit="5" >
+
+<div class="card mb-4 dashboard-admin-cards">
+    <div class="card-body px-xxl-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <div class="dashboard-icons-wrapper wrapper-icon-emails">
+                <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-comments.png" alt="messages">
+            </div>
+
+            <div class="row ms-3 ">
+                <p> <?php _e("Last comments") ?></p>
+
+                <?php
+                if ($ccount == 0) {  ?>
+                    <small>You dont have any comments yet </small>
+                <?php } else { ?>
+                    <h5 class="dashboard-numbers">
+                          <?php  print $ccount; ?>
+
+                    </h5>
+               <?php  } ?>
+
+            </div>
+        </div>
+
+
+        <div>
+            <a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+        </div>
+
     </div>
 </div>

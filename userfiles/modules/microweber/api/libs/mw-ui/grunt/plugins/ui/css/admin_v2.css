@@ -253,7 +253,7 @@ small.text-muted {
 .form-switch .form-check-input {
   height: 1.25rem;
   width: 2.4rem; }
-
+ 
 .form-check.form-switch {
   width: 50px; }
 
@@ -347,5 +347,29 @@ small.text-muted {
 .advanced-settings-small-helper {
   font-size: 14px;
   padding-bottom: 10px; }
+
+.dashboard-admin-cards .dashboard-icons-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 5px; }
+  .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-emails {
+    background-color: #e1f9f9; }
+  .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-messages {
+    background-color: #e1edf9; }
+  .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-orders {
+    background-color: #f9f3e1; }
+  .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-sales {
+    background-color: #e1f9e6; }
+.dashboard-admin-cards p {
+  font-weight: 500; }
+.dashboard-admin-cards .dashboard-numbers {
+  font-size: 24px;
+  font-weight: 600; }
+.dashboard-admin-cards .btn.btn-link {
+  padding: 0 !important;
+  margin-bottom: 35px; }
 
 /*# sourceMappingURL=admin_v2.css.map */
