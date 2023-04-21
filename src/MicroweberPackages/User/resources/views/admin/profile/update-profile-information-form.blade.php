@@ -28,7 +28,7 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" class="rounded-full h-20 w-20">
+                    <img src="{{ user_picture($this->user->id) }}" class="rounded-full h-20 w-20">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -47,9 +47,16 @@
 
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
-            <x-microweber-ui::label for="name" value="Name" />
-            <x-microweber-ui::input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
-            <x-microweber-ui::input-error for="name" class="mt-2" />
+            <x-microweber-ui::label for="first_name" value="First Name" />
+            <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" autocomplete="first_name" />
+            <x-microweber-ui::input-error for="first_name" class="mt-2" />
+        </div>
+
+        <!-- Name -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-microweber-ui::label for="last_name" value="Last Name" />
+            <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" autocomplete="last_name" />
+            <x-microweber-ui::input-error for="last_name" class="mt-2" />
         </div>
 
         <!-- Email -->
