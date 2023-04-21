@@ -24,6 +24,11 @@ Route::name('admin.')
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('users', 'UserController',['except' => ['edit', 'create']]);
+
+        // User & Profile...
+        Route::get('/user/profile', 'UserController@profile')
+            ->name('profile');
+
     });
 
 Route::namespace('\MicroweberPackages\User\Http\Controllers')->middleware(['web'])->group(function () {
