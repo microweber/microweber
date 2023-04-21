@@ -3,7 +3,10 @@
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
 
 class UpdatePasswordForm extends Component
@@ -22,14 +25,27 @@ class UpdatePasswordForm extends Component
     /**
      * Update the user's password.
      *
-     * @param  \Laravel\Fortify\Contracts\UpdatesUserPasswords  $updater
      * @return void
      */
-    public function updatePassword(UpdatesUserPasswords $updater)
+    public function updatePassword()
     {
         $this->resetErrorBag();
 
-        $updater->update(Auth::user(), $this->state);
+        $user = Auth::user();
+        $input = $this->state;
+
+        Validator::make($input, [
+            'current_password' => ['required', 'string'],
+            'password' => $this->passwordRules(),
+        ])->after(function ($validator) use ($user, $input) {
+            if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
+                $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
+            }
+        })->validateWithBag('updatePassword');
+
+        $user->forceFill([
+            'password' => Hash::make($input['password']),
+        ])->save();
 
         $this->state = [
             'current_password' => '',
@@ -38,6 +54,16 @@ class UpdatePasswordForm extends Component
         ];
 
         $this->emit('saved');
+    }
+
+    /**
+     * Get the validation rules used to validate passwords.
+     *
+     * @return array
+     */
+    protected function passwordRules()
+    {
+        return ['required', 'string', new Password(), 'confirmed'];
     }
 
     /**

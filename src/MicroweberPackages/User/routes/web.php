@@ -27,7 +27,7 @@ Route::name('admin.')
 
         // User & Profile...
         Route::get('/user/profile', 'UserController@profile')
-            ->name('profile');
+            ->name('profile.show');
 
     });
 

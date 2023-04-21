@@ -376,7 +376,7 @@
             <hr class="thin">
             <ul class="navbar-nav-padding nav-item-profile-wrapper">
                 <li class="nav-item nav-item-profile">
-                    <a href="" class="nav-link fs-3 ">
+                    <a href="{{admin_url('user/profile')}}" class="nav-link fs-3">
                         <div class="mw-admin-sidebar-profile" style="background:url('<?php echo user_picture(); ?>');background-size: cover;background-position: top;">
 
                         </div>
