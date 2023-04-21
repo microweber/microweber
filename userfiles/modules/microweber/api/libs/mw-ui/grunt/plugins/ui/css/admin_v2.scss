@@ -509,6 +509,11 @@ small.text-muted {
         height: 60px;
         border-radius: 5px;
 
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+
         &.wrapper-icon-emails {
             background-color: #e1f9f9;
 
@@ -552,9 +557,6 @@ small.text-muted {
         &.wrapper-icon-statistics {
             background-color: #efefef;
 
-            svg {
-                fill: #0078dd;
-            }
         }
 
     }
@@ -577,6 +579,7 @@ small.text-muted {
         font-weight: 600;
     }
     .btn.btn-link {
+        font-size: 16px;
         padding: 0 !important;
         margin-bottom: 35px;
     }
