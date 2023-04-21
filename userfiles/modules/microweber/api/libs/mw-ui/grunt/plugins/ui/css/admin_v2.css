@@ -253,7 +253,7 @@ small.text-muted {
 .form-switch .form-check-input {
   height: 1.25rem;
   width: 2.4rem; }
- 
+
 .form-check.form-switch {
   width: 50px; }
 
@@ -363,6 +363,10 @@ small.text-muted {
     background-color: #f9f3e1; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-sales {
     background-color: #e1f9e6; }
+.dashboard-admin-cards small {
+  margin-bottom: 6px; }
+.dashboard-admin-cards a {
+  font-weight: 500; }
 .dashboard-admin-cards p {
   font-weight: 500; }
 .dashboard-admin-cards .dashboard-numbers {
