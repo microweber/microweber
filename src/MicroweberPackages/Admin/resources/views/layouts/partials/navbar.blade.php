@@ -53,6 +53,10 @@
         $website_class = "show";
         $action = 'content';
     }
+    if ($routeName == 'admin.category.index') {
+        $website_class = "show";
+        $action = 'category';
+    }
 
 
     $shop_class = '';
@@ -137,13 +141,8 @@
                                         <?php _e("Categories"); ?>
                                     <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                                 </a>
-                                    <?php if (is_shop_module_enabled_for_user()): ?>
-                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                                        <?php _e("Products"); ?>
-                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
-                                </a>
-                                <?php endif; ?>
-                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+
+                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings">
                                         <?php _e("Settings"); ?>
                                 </a>
                             </div>
@@ -218,7 +217,7 @@
                                 </a>
                                 <?php endif; ?>
 
-                                <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                                <a href="<?php print admin_url(); ?>settings" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                     <?php _e("Settings"); ?>
                                 </a>
                             </div>
