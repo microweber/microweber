@@ -241,7 +241,26 @@ if ($params['period']) {
        <div class="card-body mb-3">
            <div class="card-header px-0 justify-content-between">
 
-               <h5 class="card-title"><i class="mdi mdi-signal-cellular-3 text-primary mr-3"></i> <strong><span><?php _e("Statistics") ?></span></strong></h5>
+
+               <div class="dashboard-admin-cards d-flex align-items-center">
+                   <div class="dashboard-icons-wrapper wrapper-icon-statistics">
+                       <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/admin-dashboard-statistics.png" alt="messages">
+                   </div>
+
+                   <div class="row ms-3 ">
+                       <p> <?php _e("Statistics") ?></p>
+
+                       <div class="d-flex">
+                           <h5 class="dashboard-numbers">
+                               <?php  print $users_online; ?>
+
+                           </h5>
+
+                           <p class="mb-0 ms-2">Online</p>
+                       </div>
+
+                   </div>
+               </div>
 
 
                <div class="form-selectgroup">
@@ -300,7 +319,7 @@ if ($params['period']) {
 <!--                   </div>-->
 
                    <div class="stats-box-colorscheme col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
-                       <a class="btn btn-outline-secondary btn-sm btn-rounded show-more-stats"><?php _e('Show more'); ?></a>
+                       <a class="btn btn-link show-more-stats"><?php _e('Show more'); ?></a>
                    </div>
                </div>
 
