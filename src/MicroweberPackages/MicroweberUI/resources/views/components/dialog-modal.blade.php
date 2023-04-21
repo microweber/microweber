@@ -1,6 +1,6 @@
 @props(['id' => null, 'maxWidth' => null])
 
-<x-mw-ui::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
+<x-microweber-ui::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">{{ $title }}</h5>
@@ -13,4 +13,4 @@
             {{ $footer }}
         </div>
     </div>
-</x-mw-ui::modal>
+</x-microweber-ui::modal>
