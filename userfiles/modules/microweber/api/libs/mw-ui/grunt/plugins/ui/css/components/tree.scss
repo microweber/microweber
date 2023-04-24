@@ -78,7 +78,7 @@
     padding-inline-end: 0;
 
       font-size: 12px;
-      color: #7e7e7e;
+      color: #2b2b2b;
   }
   tree-label {
     width: 20px;
@@ -181,6 +181,7 @@
             margin-inline-end: 5px;
             border-radius: 3px;
             overflow: hidden;
+            margin-left: auto;
            &:after{
                position: absolute;
                content: '';
@@ -331,7 +332,7 @@
   }
     .mw-tree-item-content:hover {
         .mw-tree-context-menu {
-            background-color: #fff;
+            background-color: transparent;
         }
     }
     html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
@@ -363,12 +364,13 @@
     font-family: 'Microweber';
   }
 
-  li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-      content: "\F0214";
-  }
+  //li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+  //    content: "\F0214";
+  //}
 
   li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    content: "\F02DC";
+    //content: "\F02DC";
+      content: url('<svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"></path></svg>');
    }
 
   li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
