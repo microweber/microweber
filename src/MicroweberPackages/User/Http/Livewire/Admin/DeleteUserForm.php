@@ -70,6 +70,6 @@ class DeleteUserForm extends Component
      */
     public function render()
     {
-        return view('admin::profile.delete-user-form');
+        return view('admin::edit-user.delete-user-form');
     }
 }

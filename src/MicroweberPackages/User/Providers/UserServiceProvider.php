@@ -49,11 +49,11 @@ class UserServiceProvider extends AuthServiceProvider
         View::addNamespace('admin', __DIR__ . '/../resources/views/admin');
 
         Livewire::component('admin::users-list', UsersList::class);
-        Livewire::component('admin::profile.update-profile-information-form', UpdateProfileInformationForm::class);
-        Livewire::component('admin::profile.update-password-form', UpdatePasswordForm::class);
-        Livewire::component('admin::profile.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
-        Livewire::component('admin::profile.logout-other-browser-sessions-form', \MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm::class);
-        Livewire::component('admin::profile.delete-user-form', DeleteUserForm::class);
+        Livewire::component('admin::edit-user.update-profile-information-form', UpdateProfileInformationForm::class);
+        Livewire::component('admin::edit-user.update-password-form', UpdatePasswordForm::class);
+        Livewire::component('admin::edit-user.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
+        Livewire::component('admin::edit-user.logout-other-browser-sessions-form', \MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm::class);
+        Livewire::component('admin::edit-user.delete-user-form', DeleteUserForm::class);
 
         Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
         Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
