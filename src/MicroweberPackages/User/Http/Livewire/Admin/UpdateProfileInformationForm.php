@@ -45,6 +45,8 @@ class UpdateProfileInformationForm extends Component
         } else {
             $this->state = Auth::user()->withoutRelations()->toArray();
         }
+
+        $this->photo = user_picture($this->state['id']);
     }
 
     /**
