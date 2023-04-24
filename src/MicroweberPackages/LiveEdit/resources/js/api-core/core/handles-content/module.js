@@ -27,7 +27,15 @@ export const ModuleHandleContent = function (rootScope) {
                     var type = target.dataset.type || target.getAttribute('type');
                     type = type.trim();
                     mw.app.editor.dispatch('onModuleSettingsRequest@' + type, target);
-                }
+                },
+                onTarget: function (target, selfNode) {
+
+                    if(target.classList.contains('no-settings')) {
+                        selfNode.style.display = 'none';
+                    } else {
+                        selfNode.style.display = '';
+                    }
+                },
             }
         ],
     })
