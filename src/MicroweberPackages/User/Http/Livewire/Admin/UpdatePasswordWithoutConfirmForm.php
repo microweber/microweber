@@ -71,6 +71,6 @@ class UpdatePasswordWithoutConfirmForm extends Component
      */
     public function render()
     {
-        return view('admin::edit-user.update-password-without-confirm-form');
+        return view('user::admin.livewire.edit-user.update-password-without-confirm-form');
     }
 }

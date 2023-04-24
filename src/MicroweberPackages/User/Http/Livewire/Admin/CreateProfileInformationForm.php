@@ -22,7 +22,19 @@ class CreateProfileInformationForm extends Component
      */
     public $state = [];
 
+    public function createProfileInformation()
+    {
+        $this->resetErrorBag();
 
+        $user = new User();
+        $user->fill($this->state);
+        $user->save();
+
+        $this->emit('saved');
+
+        return redirect(route('admin.users.edit', $user->id));
+
+    }
 
     /**
      * Render the component.
