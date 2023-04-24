@@ -477,7 +477,7 @@ small.text-muted {
 }
 
 .dashboard-title-container {
-    padding: 40px 0;
+    padding: 30px 0;
 
     .dashboard-welcome-title {
         font-size: 36px;
@@ -509,20 +509,54 @@ small.text-muted {
         height: 60px;
         border-radius: 5px;
 
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+
         &.wrapper-icon-emails {
             background-color: #e1f9f9;
+
+            svg {
+                fill: #0078dd;
+            }
         }
 
         &.wrapper-icon-messages {
             background-color: #e1edf9;
+
+            svg {
+                fill: #0078dd;
+            }
+        }
+
+        &.wrapper-icon-comments {
+            background-color: #f9e1f3;
+
+            svg {
+                fill: #f20c78;
+            }
         }
 
         &.wrapper-icon-orders {
             background-color: #f9f3e1;
+
+            svg {
+                fill: #ee9d00;
+            }
         }
 
         &.wrapper-icon-sales {
             background-color: #e1f9e6;
+
+            svg {
+                fill: #3d9707;
+            }
+        }
+
+        &.wrapper-icon-statistics {
+            background-color: #efefef;
+
         }
 
     }
@@ -537,13 +571,15 @@ small.text-muted {
 
     p {
         font-weight: 500;
+        font-size: 16px;
     }
 
     .dashboard-numbers {
-        font-size: 24px;
+        font-size: 30px;
         font-weight: 600;
     }
     .btn.btn-link {
+        font-size: 16px;
         padding: 0 !important;
         margin-bottom: 35px;
     }

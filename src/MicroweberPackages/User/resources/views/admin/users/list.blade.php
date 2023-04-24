@@ -1,23 +1,23 @@
-
-<style>
-    #mw-admin-manage-users-header {
-        display: flex;
-    }
-
-    #users-manage-body {
-        position: relative;
-    }
-
-    #users-manage-body .mw-spinner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 50px;
-    }
-</style>
-
 <div>
+
+
+    <style>
+        #mw-admin-manage-users-header {
+            display: flex;
+        }
+
+        #users-manage-body {
+            position: relative;
+        }
+
+        #users-manage-body .mw-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50px;
+        }
+    </style>
     <div class="card bg-light mb-3">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
@@ -25,111 +25,26 @@
         </div>
 
         <div class="card-body">
-            <div class=" " id="users-manage-body">
-                <form method="GET">
-                    <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <div class="input-group mb-0 prepend-transparent">
-                                    <div class="input-group-prepend bg-white">
-                                        <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
-                                    </div>
-                                    <input type="search" value="{{$keyword}}" name="keyword" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">
+            <div id="users-manage-body">
+
+                <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <div class="input-group mb-0 prepend-transparent">
+                                <div class="input-group-prepend bg-white">
+                                    <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                                 </div>
-                                <button type="submit" class="btn btn-outline-primary ml-2"><?php _e("Search"); ?></button>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#" class="btn btn-outline-primary icon-left btn-md js-show-filter" data-bs-toggle="collapse"
-                               data-bs-target="#show-filter"><i class="mdi mdi-filter-outline"></i><?php _e('Filter'); ?></a>
+                                <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
 
-                            <a href="<?php print admin_url('module/view?type=users/edit-user:0'); ?>"
-                               class="btn btn-primary" id="add-new-user-btn">
-                                <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="manage-items mt-4" id="sort-users">
-                        <script>
-                            $(document).ready(function () {
-                                $('.js-show-filter').on('click', function () {
-                                    $(this).toggleClass('active');
-                                    if ($(this).hasClass('active')) {
-                                        $(this).find('i').removeClass('mdi-filter-outline').addClass('mdi-close-thick');
-                                    } else {
-                                        $(this).find('i').removeClass('mdi-close-thick').addClass('mdi-filter-outline');
-                                    }
-                                });
-                                @if(isset($_GET['showFilter']))
-                                $('.js-show-filter').click();
-                                @endif
-                            });
-                        </script>
-
-                        <div class="collapse" id="show-filter">
-                            <div class="bg-primary-opacity-1 rounded">
-                                <div class="row d-flex">
-                                    <div class="col-auto">
-                                        <div class="row d-flex justify-content-between">
-
-                                            <div class="col-md-12">
-                                                <div>
-                                                    <label class="d-block mb-2"><?php _e("Role"); ?></label>
-
-                                                    <select class="form-control" data-style="btn-md" name="isAdmin">
-
-                                                        <option disabled="disabled"><?php _e("Select role"); ?></option>
-
-                                                        <option value=""><?php _e("All"); ?></option>
-
-                                                        <option value="0"><?php _e("User"); ?></option>
-
-                                                        <option value="1"><?php _e("Admin"); ?></option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col d-flex align-items-center justify-content-center">
-
-                                        <div class="text-center">
-                                            <button class="btn btn-outline-primary btn-sm" name="showFilter" value="1" type="submit">
-                                                Submit filters
-                                            </button>
-                                        </div> &nbsp;&nbsp;
-                                        <div class="text-center">
-                                            <a href="{{route('admin.users.index')}}" class="btn btn-outline-primary btn-sm" type="button">
-                                                Reset filters
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-
-                </form>
-
-                <div class="mb-3" >
-                    <label class="d-block mb-2"><?php _e("Sort By"); ?></label>
-                    <select class="form-control" style="width: 200px" onchange="location = this.value;">
-
-                        <option disabled="disabled"><?php _e("Select sorting"); ?></option>
-
-                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'desc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.users.index')}}?orderBy=created_at&orderDirection=desc&showFilter=1"><?php _e("Users"); ?> <?php _e("[New > Old]"); ?></option>
-                        <option <?php if($orderBy == 'created_at' && $orderDirection == 'asc'): ?>selected="selected"
-                                <?php endif;?> value="{{route('admin.users.index')}}?orderBy=created_at&orderDirection=asc&showFilter=1"><?php _e("Users"); ?> <?php _e("[Old > New]"); ?></option>
-
-                    </select>
+                    <div>
+                        <a href="<?php print admin_url(''); ?>"
+                           class="btn btn-primary" id="add-new-user-btn">
+                            <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
+                        </a>
+                    </div>
                 </div>
 
                 <style>

@@ -37,41 +37,46 @@
     <?php
     $website_class = '';
     if ($view == 'content' and $action == false) {
-        $website_class = 'active';
+        $website_class = 'show';
     } else if ($view == 'content' and $action != false) {
-        $website_class = 'active';
+        $website_class = 'show';
     }
     if ($routeName == 'admin.post.index') {
-        $website_class = "active";
+        $website_class = "show";
         $action = 'posts';
     }
     if ($routeName == 'admin.page.index') {
-        $website_class = "active";
+        $website_class = "show";
         $action = 'pages';
     }
     if ($routeName == 'admin.content.index') {
-        $website_class = "active";
+        $website_class = "show";
         $action = 'content';
     }
+    if ($routeName == 'admin.category.index') {
+        $website_class = "show";
+        $action = 'category';
+    }
+
 
     $shop_class = '';
     if ($view == 'shop' and $action == false) {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'shop' and $action != false) {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'invoices') {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'customers') {
-        $shop_class = "active";
+        $shop_class = "show";
     } elseif ($view == 'order') {
-        $shop_class = "active";
+        $shop_class = "show";
     }
     if ($routeName == 'admin.shop.dashboard') {
-        $shop_class = "active";
+        $shop_class = "show";
     }
     ?>
 
@@ -113,13 +118,13 @@
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
                 <?php if (user_can_view_module(['module' => 'content'])): ?>
-                <li class="nav-item dropdown <?php echo $website_class; ?>">
+                <li class="nav-item dropdown">
                     <a href="<?php echo route('admin.content.index'); ?>" class="nav-link dropdown-toggle py-3 fs-3" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M480 976q-83 0-156-31.5T197 859q-54-54-85.5-127T80 576q0-83 31.5-156T197 293q54-54 127-85.5T480 176q83 0 156 31.5T763 293q54 54 85.5 127T880 576q0 83-31.5 156T763 859q-54 54-127 85.5T480 976Zm-40-82v-78q-33 0-56.5-23.5T360 736v-40L168 504q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440 894Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600 280v16q0 33-23.5 56.5T520 376h-80v80q0 17-11.5 28.5T400 496h-80v80h240q17 0 28.5 11.5T600 616v120h40q26 0 47 15.5t29 40.5Z"/></svg>
                         <span class="badge-holder"><?php _e("Website"); ?></span>
                     </a>
 
-                    <div class="dropdown-menu" data-bs-popper="static">
+                    <div class="dropdown-menu <?php echo $website_class; ?>" data-bs-popper="static">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a href="<?php echo route('admin.page.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'pages'): ?> active <?php endif; ?>">
@@ -136,13 +141,8 @@
                                         <?php _e("Categories"); ?>
                                     <span class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24"><path fill="white" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></span>
                                 </a>
-                                    <?php if (is_shop_module_enabled_for_user()): ?>
-                                <a href="<?php print route('admin.product.index'); ?>" class="dropdown-item justify-content-between <?php if ($action == 'products'): ?> active <?php endif; ?>">
-                                        <?php _e("Products"); ?>
-                                    <span data-href="<?php print route('admin.product.create'); ?>" class="btn btn-success btn-rounded btn-icon btn-sm add-new" data-bs-toggle="tooltip" title="<?php _e("Add new product") ?>"><i class="mdi mdi-plus"></i></span>
-                                </a>
-                                <?php endif; ?>
-                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>view:content/action:settings">
+
+                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings">
                                         <?php _e("Settings"); ?>
                                 </a>
                             </div>
@@ -152,12 +152,12 @@
                 <?php endif; ?>
 
                 <?php if (is_shop_module_enabled_for_user()): ?>
-                <li class="nav-item dropdown <?php echo $shop_class; ?>">
+                <li class="nav-item dropdown">
                     <a href="<?php print route('admin.product.index'); ?>" class="nav-link fs-3 dropdown-toggle <?php echo $shop_class; ?>" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                         <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"/></svg>
                         <span class="badge-holder"><?php _e("Shop"); ?><?php if ($order_notif_html): ?><?php print $order_notif_html; ?><?php endif; ?></span>
                     </a>
-                    <div class="dropdown-menu" data-bs-popper="static">
+                    <div class="dropdown-menu <?php echo $shop_class; ?>" data-bs-popper="static">
 
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
@@ -217,7 +217,7 @@
                                 </a>
                                 <?php endif; ?>
 
-                                <a href="<?php print admin_url(); ?>view:shop/action:options" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
+                                <a href="<?php print admin_url(); ?>settings" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
                                     <?php _e("Settings"); ?>
                                 </a>
                             </div>
@@ -377,8 +377,8 @@
             <ul class="navbar-nav-padding nav-item-profile-wrapper">
                 <li class="nav-item nav-item-profile">
                     <a href="{{admin_url('user/profile')}}" class="nav-link fs-3">
-                        <div class="mw-admin-sidebar-profile" style="background:url('<?php echo user_picture(); ?>');background-size: cover;background-position: top;">
-
+                        <div class="mw-admin-sidebar-profile">
+                                <span style="font-size: 14px;">SB</span>
                         </div>
                         <div>
                             <?php echo get_username_short(); ?>

@@ -15,6 +15,13 @@ class UsersList extends Component
     public $orderDirection;
     public $keyword;
     public $exportResults = false;
+    public $pageLimit = 15;
+
+    public $queryString = [
+        'orderBy',
+        'orderDirection',
+        'keyword',
+    ];
 
     public function render()
     {
@@ -50,11 +57,7 @@ class UsersList extends Component
         $exportUrl = '?exportResults=true';
 
         return view('admin::users.list', [
-           // 'isAdmin'=>$this->isAdmin,
-            'keyword'=>$this->keyword,
-            'orderBy'=>$this->orderBy,
             'exportUrl'=>$exportUrl,
-            'orderDirection'=>$this->keyword,
             'users'=>$users
         ]);
 
