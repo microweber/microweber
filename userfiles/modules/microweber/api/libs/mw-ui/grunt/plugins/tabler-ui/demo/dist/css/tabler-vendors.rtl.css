@@ -7424,11 +7424,10 @@ li:hover > .show-on-hover {
   position: relative;
   top: 0;
   z-index: 2;
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid #D9DADB;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid transparent;
   min-height: 43px;
-  background-color: #4592ff;
-  color: #fff;
+  background-color: #fff;
 }
 .mw-dialog-skin-default .mw-dialog-header .mw-dialog-title {
   max-width: calc(100% - 55px);
@@ -7437,7 +7436,6 @@ li:hover > .show-on-hover {
   white-space: nowrap;
   font-size: 17px;
   font-weight: bold;
-  color: #fff;
 }
 .mw-dialog-skin-default .mw-dialog-header .mw-dialog-title .mdi {
   -webkit-margin-end: 6px;
@@ -7467,9 +7465,9 @@ li:hover > .show-on-hover {
 }
 .mw-dialog-skin-default .mw-dialog-holder {
   max-width: 98%;
-  background-color: #FAFAFA;
+  background-color: #fff;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  border-radius: 8px;
   visibility: hidden;
   opacity: 0;
   transform: translateY(20px);
@@ -7482,6 +7480,9 @@ li:hover > .show-on-hover {
 .mw-dialog-skin-default .mw-dialog-overlay {
   opacity: 0;
   visibility: hidden;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: rgba(29, 39, 59, 0.1411764706);
 }
 .mw-dialog-skin-default.active {
   visibility: visible;
@@ -7508,7 +7509,6 @@ li:hover > .show-on-hover {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
-  border: 1px solid #CFCFCF;
   border-radius: 0px;
   display: inline-flex;
   justify-content: center;
@@ -7519,9 +7519,19 @@ li:hover > .show-on-hover {
   color: #4592ff;
 }
 .mw-dialog-skin-default .mw-dialog-close:after {
-  content: "\f2d7";
-  font-family: Microweber;
-  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0.3;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E");
+  background-size: 12px auto;
 }
 .mw-dialog-skin-default .mw-dialog-container {
   padding: 10px 25px;

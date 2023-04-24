@@ -35,6 +35,61 @@ export const EditorComponent = function () {
     frame.contentWindow.fontFamilyProvider = fontFamilyProvider;
 
 
+    const editorControls = [
+        [
+
+            {
+                group: {
+                    icon: 'mdi mdi-format-title',
+                    controls: ['format', 'lineHeight']
+                }
+            },
+
+            {
+                group: {
+                    controller: 'bold',
+                    controls: ['italic', 'underline', 'strikeThrough', 'removeFormat']
+                }
+            },
+            'fontSelector',
+
+            'fontSize',
+
+
+            {
+                group: {
+                    controller: 'alignLeft',
+                    controls: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify']
+                }
+            },
+
+            {
+                group: {
+                    controller: 'ul',
+                    controls: ['ol']
+                }
+            },
+
+
+            'image',
+            {
+                group: {
+                    controller: 'link',
+                    controls: ['unlink']
+                }
+            },
+            {
+                group: {
+                    controller: 'textColor',
+                    controls: ['textBackgroundColor']
+                }
+            },
+
+
+        ]
+    ];
+
+
     const liveEditor = mw.Editor({
         document: frame.contentWindow.document,
         executionDocument: frame.contentWindow.document,
@@ -46,59 +101,9 @@ export const EditorComponent = function () {
         skin: 'le2',
         editMode: 'liveedit',
         scopeColor: 'white',
-        controls: [
-            [
-
-                {
-                    group: {
-                        icon: 'mdi mdi-format-title',
-                        controls: ['format', 'lineHeight']
-                    }
-                },
-
-                {
-                    group: {
-                        controller: 'bold',
-                        controls: ['italic', 'underline', 'strikeThrough', 'removeFormat']
-                    }
-                },
-                'fontSelector',
-
-                'fontSize',
-
-
-                {
-                    group: {
-                        controller: 'alignLeft',
-                        controls: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify']
-                    }
-                },
-
-                {
-                    group: {
-                        controller: 'ul',
-                        controls: ['ol']
-                    }
-                },
-
-
-                'image',
-                {
-                    group: {
-                        controller: 'link',
-                        controls: ['unlink']
-                    }
-                },
-                {
-                    group: {
-                        controller: 'textColor',
-                        controls: ['textBackgroundColor']
-                    }
-                },
-
-
-            ]
-        ],
+        controls: editorControls,
+        smallEditor: editorControls,
+        
         smallEditorPositionX: 'center',
         smallEditorSkin: 'lite',
 
