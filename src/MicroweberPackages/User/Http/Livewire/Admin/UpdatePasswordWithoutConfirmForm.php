@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
+use MicroweberPackages\User\Models\User;
 
-class UpdatePasswordForm extends Component
+class UpdatePasswordWithoutConfirmForm extends Component
 {
     /**
      * The component's state.
@@ -17,10 +18,16 @@ class UpdatePasswordForm extends Component
      * @var array
      */
     public $state = [
-        'current_password' => '',
         'password' => '',
-        'password_confirmation' => '',
     ];
+
+    public $userId;
+
+    public function mount($userId = false) {
+        if ($userId) {
+            $this->userId = $userId;
+        }
+    }
 
     /**
      * Update the user's password.
@@ -31,39 +38,19 @@ class UpdatePasswordForm extends Component
     {
         $this->resetErrorBag();
 
-        $user = Auth::user();
-        $input = $this->state;
+        $user = User::where('id', $this->userId)->first();
 
-        Validator::make($input, [
-            'current_password' => ['required', 'string'],
-            'password' => $this->passwordRules(),
-        ])->after(function ($validator) use ($user, $input) {
-            if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
-                $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
-            }
-        })->validateWithBag('updatePassword');
+        $input = $this->state;
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
 
         $this->state = [
-            'current_password' => '',
             'password' => '',
-            'password_confirmation' => '',
         ];
 
         $this->emit('saved');
-    }
-
-    /**
-     * Get the validation rules used to validate passwords.
-     *
-     * @return array
-     */
-    protected function passwordRules()
-    {
-        return ['required', 'string', new Password(), 'confirmed'];
     }
 
     /**
@@ -73,7 +60,8 @@ class UpdatePasswordForm extends Component
      */
     public function getUserProperty()
     {
-        return Auth::user();
+        return User::where('id', $this->userId)->first();
+
     }
 
     /**

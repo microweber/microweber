@@ -60,7 +60,7 @@ class UsersList extends Component
 
         $exportUrl = '?exportResults=true';
 
-        return view('admin::users.list', [
+        return view('admin::livewire.users.list', [
             'exportUrl'=>$exportUrl,
             'users'=>$users
         ]);

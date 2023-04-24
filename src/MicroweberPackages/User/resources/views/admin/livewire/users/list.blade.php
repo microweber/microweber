@@ -40,10 +40,10 @@
                         </div>
                     </div>
                     <div>
-                        <button type="button" wire:click="$emit('openModal', 'admin::edit-user')"
+                        <a href="{{route('admin.users.create')}}"
                            class="btn btn-primary" id="add-new-user-btn">
                             <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -99,7 +99,7 @@
 
                                 <td>
 
-                                    <a class="btn btn-outline-primary btn-sm" wire:click="$emit('openModal', 'admin::edit-user', {{ json_encode(['userId' => $user->id]) }})"><?php _e('Edit');?></a>
+                                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.users.edit', $user->id)}}"><?php _e('Edit');?></a>
                                 </td>
                             </tr>
 
