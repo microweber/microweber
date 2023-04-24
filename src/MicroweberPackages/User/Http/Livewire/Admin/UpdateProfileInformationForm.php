@@ -81,10 +81,19 @@ class UpdateProfileInformationForm extends Component
             $user = Auth::user();
         }
 
-        $input = $this->photo
-            ? array_merge($this->state, ['thumbnail' => $this->photo])
-            : $this->state;
+        $input = $this->state;
 
+        if (isset($this->photo) && $this->photo) {
+            $photoExt = $this->photo->guessExtension();
+            $photoContent = $this->photo->get();
+            $photoFile = media_base_path() . 'users/' . $user->id . '-avatar.'.$photoExt;
+            if (!is_dir(dirname($photoFile))) {
+                mkdir_recursive(dirname($photoFile));
+            }
+            file_put_contents($photoFile, $photoContent);
+            $user->thumbnail = media_base_url() . 'users/' . $user->id . '-avatar.'.$photoExt;
+            $user->save();
+        }
 
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
