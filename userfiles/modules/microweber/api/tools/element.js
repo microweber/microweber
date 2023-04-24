@@ -341,10 +341,11 @@
 
         this.offset = function () {
             if(this._active()) {
+                var win = this.getWindow();
                 var rect = this._active().getBoundingClientRect();
-                rect.offsetTop = rect.top + window.pageYOffset;
-                rect.offsetBottom = rect.bottom + window.pageYOffset;
-                rect.offsetLeft = rect.left + window.pageXOffset;
+                rect.offsetTop = rect.top + win.pageYOffset;
+                rect.offsetBottom = rect.bottom + win.pageYOffset;
+                rect.offsetLeft = rect.left + win.pageXOffset;
                 return rect;
             }
         };

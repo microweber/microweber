@@ -6,8 +6,8 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Laravel\Jetstream\Contracts\DeletesUsers;
 use Livewire\Component;
+use MicroweberPackages\User\Models\User;
 
 class DeleteUserForm extends Component
 {
@@ -24,6 +24,8 @@ class DeleteUserForm extends Component
      * @var string
      */
     public $password = '';
+
+    public $userId = false;
 
     /**
      * Confirm that the user would like to delete their account.
@@ -42,11 +44,10 @@ class DeleteUserForm extends Component
     /**
      * Delete the current user.
      *
-     * @param  \Laravel\Jetstream\Contracts\DeletesUsers  $deleter
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
      * @return void
      */
-    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth)
+    public function deleteUser(StatefulGuard $auth)
     {
         $this->resetErrorBag();
 
@@ -56,11 +57,22 @@ class DeleteUserForm extends Component
             ]);
         }
 
-        $deleter->delete(Auth::user()->fresh());
+        if ($this->userId) {
+            $user = User::where('id', $this->userId)->first();
+        } else {
+            $user = Auth::user();
+        }
 
-        $auth->logout();
+        $user->delete();
 
-        return redirect('/');
+        return redirect()->route('admin.users.index');
+    }
+
+    public function mount($userId = false)
+    {
+        if ($userId) {
+            $this->userId = $userId;
+        }
     }
 
     /**
@@ -70,6 +82,6 @@ class DeleteUserForm extends Component
      */
     public function render()
     {
-        return view('admin::profile.delete-user-form');
+        return view('admin::livewire.edit-user.delete-user-form');
     }
 }

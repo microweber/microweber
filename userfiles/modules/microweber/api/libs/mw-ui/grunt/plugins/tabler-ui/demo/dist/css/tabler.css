@@ -36,7 +36,7 @@ body {
 
 .mw-defaults * {
   box-sizing: border-box;
-  font-family: "Verdana", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .mw-defaults li {
@@ -3740,7 +3740,7 @@ html.mw-loading:after {
   -webkit-padding-end: 0;
           padding-inline-end: 0;
   font-size: 12px;
-  color: #7e7e7e;
+  color: #2b2b2b;
 }
 .mw-tree-nav-skin-default tree-label {
   width: 20px;
@@ -3836,6 +3836,7 @@ html.mw-loading:after {
           margin-inline-end: 5px;
   border-radius: 3px;
   overflow: hidden;
+  margin-left: auto;
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:after {
   position: absolute;
@@ -3952,7 +3953,7 @@ html.mw-loading:after {
   justify-content: center;
 }
 .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu {
-  background-color: #fff;
+  background-color: transparent;
 }
 .mw-tree-nav-skin-default html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-context-menu {
   right: auto;
@@ -3981,11 +3982,8 @@ html.mw-loading:after {
   content: "c";
   font-family: "Microweber";
 }
-.mw-tree-nav-skin-default li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f0214";
-}
 .mw-tree-nav-skin-default li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f02dc";
+  background-image: url('<svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"></path></svg>');
 }
 .mw-tree-nav-skin-default li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
   content: "\f049a";
@@ -7434,11 +7432,10 @@ li:hover > .show-on-hover {
   position: relative;
   top: 0;
   z-index: 2;
-  border-radius: 10px 10px 0 0;
-  border-bottom: 1px solid #D9DADB;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid transparent;
   min-height: 43px;
-  background-color: #4592ff;
-  color: #fff;
+  background-color: #fff;
 }
 .mw-dialog-skin-default .mw-dialog-header .mw-dialog-title {
   max-width: calc(100% - 55px);
@@ -7447,7 +7444,6 @@ li:hover > .show-on-hover {
   white-space: nowrap;
   font-size: 17px;
   font-weight: bold;
-  color: #fff;
 }
 .mw-dialog-skin-default .mw-dialog-header .mw-dialog-title .mdi {
   -webkit-margin-end: 6px;
@@ -7477,9 +7473,9 @@ li:hover > .show-on-hover {
 }
 .mw-dialog-skin-default .mw-dialog-holder {
   max-width: 98%;
-  background-color: #FAFAFA;
+  background-color: #fff;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
+  border-radius: 8px;
   visibility: hidden;
   opacity: 0;
   transform: translateY(20px);
@@ -7492,6 +7488,9 @@ li:hover > .show-on-hover {
 .mw-dialog-skin-default .mw-dialog-overlay {
   opacity: 0;
   visibility: hidden;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background-color: rgba(29, 39, 59, 0.24);
 }
 .mw-dialog-skin-default.active {
   visibility: visible;
@@ -7518,7 +7517,6 @@ li:hover > .show-on-hover {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
-  border: 1px solid #CFCFCF;
   border-radius: 0px;
   display: inline-flex;
   justify-content: center;
@@ -7529,9 +7527,19 @@ li:hover > .show-on-hover {
   color: #4592ff;
 }
 .mw-dialog-skin-default .mw-dialog-close:after {
-  content: "\f2d7";
-  font-family: Microweber;
-  font-size: 12px;
+  border-radius: 4px;
+  opacity: 0.3;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E");
+  background-size: 12px auto;
 }
 .mw-dialog-skin-default .mw-dialog-container {
   padding: 10px 25px;

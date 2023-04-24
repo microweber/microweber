@@ -173,7 +173,8 @@
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "@tabler/icons": "^1.111.0",
-    "bootstrap": "~5.2.2"
+    "bootstrap": "~5.2.2",
+    "bundler": "^0.8.0"
   },
   "peerDependencies": {
     "apexcharts": "^3.36.3",

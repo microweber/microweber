@@ -27,6 +27,10 @@ mw.app.editor.insertModule('layouts',
         skin:'my-skin',
     }
 );
+
+mw.app.editor.on('editNodeRequest',function(element){
+
+        });
   
 ```
 

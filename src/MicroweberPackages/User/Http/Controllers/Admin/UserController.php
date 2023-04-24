@@ -63,7 +63,27 @@ class UserController extends AdminController
     }
 
     public function profile() {
-        return view('user::admin.profile.show');
+
+        return view('user::admin.users.show');
+
+    }
+
+    public function edit($id)
+    {
+        $user = User::where('id',$id)->first();
+
+        if ($user == false) {
+            return redirect(route('admin.users.index'));
+        }
+
+        return view('user::admin.users.edit', [
+            'user'=>$user
+        ]);
+    }
+
+    public function create()
+    {
+        return view('user::admin.users.create');
     }
 
     public function show($id)

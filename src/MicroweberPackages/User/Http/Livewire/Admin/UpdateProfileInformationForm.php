@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\User\Models\User;
 
 class UpdateProfileInformationForm extends Component
 {
@@ -28,14 +29,22 @@ class UpdateProfileInformationForm extends Component
      */
     public $photo;
 
+
+    public $userId = false;
+
     /**
      * Prepare the component.
      *
      * @return void
      */
-    public function mount()
+    public function mount($userId = false)
     {
-        $this->state = Auth::user()->withoutRelations()->toArray();
+        if ($userId) {
+            $this->userId = $userId;
+            $this->state = User::where('id', $userId)->first()->withoutRelations()->toArray();
+        } else {
+            $this->state = Auth::user()->withoutRelations()->toArray();
+        }
     }
 
     /**
@@ -46,7 +55,12 @@ class UpdateProfileInformationForm extends Component
     {
         $this->resetErrorBag();
 
-        $user =  Auth::user();
+        if ($this->userId) {
+            $user = User::where('id', $this->userId)->first();
+        } else {
+            $user = Auth::user();
+        }
+
         $input = $this->photo
             ? array_merge($this->state, ['thumbnail' => $this->photo])
             : $this->state;
@@ -120,6 +134,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render()
     {
-        return view('admin::profile.update-profile-information-form');
+        return view('admin::livewire.edit-user.update-profile-information-form');
     }
 }
