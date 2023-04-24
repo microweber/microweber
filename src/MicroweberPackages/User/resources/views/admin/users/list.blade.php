@@ -40,10 +40,10 @@
                         </div>
                     </div>
                     <div>
-                        <a href="<?php print admin_url(''); ?>"
+                        <button type="button" wire:click="$emit('openModal', 'admin::edit-user')"
                            class="btn btn-primary" id="add-new-user-btn">
                             <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -99,8 +99,7 @@
 
                                 <td>
 
-                                    <a class="btn btn-outline-primary btn-sm"
-                                       href="{{admin_url()}}module/view?type=users/edit-user:{{$user->id}}"><?php _e('Edit');?></a>
+                                    <a class="btn btn-outline-primary btn-sm" wire:click="$emit('openModal', 'admin::edit-user', {{ json_encode(['userId' => $user->id]) }})"><?php _e('Edit');?></a>
                                 </td>
                             </tr>
 

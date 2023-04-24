@@ -23,6 +23,10 @@ class UsersList extends Component
         'keyword',
     ];
 
+    public $listeners = [
+        'refreshUserList' => '$refresh',
+    ];
+
     public function render()
     {
         $filterFields = [];
