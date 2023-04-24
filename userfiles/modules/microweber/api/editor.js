@@ -798,6 +798,7 @@ var MWEditor = function (options) {
     ];
 
     this.smallEditorInteract = function (target) {
+      
 
 
 
@@ -812,6 +813,8 @@ var MWEditor = function (options) {
 
             if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                 var off = mw.element(target).offset();
+                console.log(off)
+                console.log(mw.element(target).offset)
                 var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
                 // var cleft =  scope.interactionData.pageX;
                 var cleft =  off.left;
@@ -887,22 +890,24 @@ var MWEditor = function (options) {
                   
                     Array.from(scope.settings.document.querySelectorAll('[contenteditable="true"]')).forEach(node => {
                         if(node !== edit) {
-                            node.contentEditable = false;
-                        }
+                            // node.contentEditable = false;
+                        }  
                     })
                     if(edit) {
                         const hasSafe = mw.tools.hasAnyOfClassesOnNodeOrParent(e.target, ['safe-mode']);
                         const regInsafe = mw.tools.parentsOrCurrentOrderMatchOrNone(e.target, ['regular-mode', 'safe-mode']);
                         const isSafe = hasSafe && !regInsafe;
                         if(isSafe){
-
+                            edit.contentEditable = true;
                         } else {
                             edit.contentEditable = true;
                         }                        
                     }
+                    console.log(e.type, e.target)
                 }
-                scope.settings.document.addEventListener('mousedown', set)
-                scope.settings.document.addEventListener('touchstart', set)
+                //  scope.settings.document.addEventListener('mousedown', set)
+                // scope.settings.document.addEventListener('dblclick', set)
+               
 
             } else {
                 $(scope.settings.regions, scope.actionWindow.document).attr('contenteditable', true);

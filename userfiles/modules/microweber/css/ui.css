@@ -6543,11 +6543,11 @@ li:hover > .show-on-hover {
   position: relative;
   top: 0;
   z-index: 2;
-  border-radius: 10px 10px 0 0;
+  border-radius: 8px 8px 0 0;
   border-bottom: 1px solid #D9DADB;
   min-height: 43px;
-  background-color: #4592ff;
-  color: #fff;
+  background-color: #fff;
+  color: #1d273b;
 }
 .mw-dialog-skin-default .mw-dialog-header .mw-dialog-title {
   max-width: calc(100% - 55px);

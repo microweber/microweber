@@ -11,13 +11,30 @@ export default {
         mw.app.on('ready', () => {
             new EditorComponent();
             liveEditComponent();
+            mw.app.editor.on('editNodeRequest',function(element){
+                 
+                element.contentEditable = true;
+                console.log(element)
+                mw.app.get('liveEdit').handles.hide();
+                mw.app.get('liveEdit').pause();
+            });
         });
+        
     }
 }
 </script>
 
 <template>
     <div>
-    <div class="toolbar-nav" id="mw-live-edit-editor"></div>
+        <div class="toolbar-nav" id="mw-live-edit-editor"></div>
     </div>
 </template>
+
+
+<style scoped>
+
+    #mw-live-edit-editor{
+        display: none;
+    }
+
+</style>
