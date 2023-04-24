@@ -63,7 +63,9 @@ class UserController extends AdminController
     }
 
     public function profile() {
-        return view('user::admin.profile.show');
+
+        return view('user::admin.users.show');
+
     }
 
     public function edit($id)

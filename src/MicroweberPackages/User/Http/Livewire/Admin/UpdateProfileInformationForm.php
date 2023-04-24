@@ -134,6 +134,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render()
     {
-        return view('admin::edit-user.update-profile-information-form');
+        return view('admin::livewire.edit-user.update-profile-information-form');
     }
 }

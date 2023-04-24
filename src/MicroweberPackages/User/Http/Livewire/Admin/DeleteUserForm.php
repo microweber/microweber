@@ -82,6 +82,6 @@ class DeleteUserForm extends Component
      */
     public function render()
     {
-        return view('admin::edit-user.delete-user-form');
+        return view('admin::livewire.edit-user.delete-user-form');
     }
 }
