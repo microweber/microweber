@@ -79,6 +79,11 @@ class UserController extends AdminController
         ]);
     }
 
+    public function create()
+    {
+        return view('user::admin.users.create');
+    }
+
     public function show($id)
     {
         $user = User::where('id',$id)->first();
