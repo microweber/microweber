@@ -49,7 +49,6 @@ class UserServiceProvider extends AuthServiceProvider
         View::addNamespace('admin', __DIR__ . '/../resources/views/admin');
 
         Livewire::component('admin::users-list', UsersList::class);
-        Livewire::component('admin::edit-user', EditUserModal::class);
         Livewire::component('admin::profile.update-profile-information-form', UpdateProfileInformationForm::class);
         Livewire::component('admin::profile.update-password-form', UpdatePasswordForm::class);
         Livewire::component('admin::profile.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
