@@ -7482,7 +7482,7 @@ li:hover > .show-on-hover {
   visibility: hidden;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
-  background-color: rgba(29, 39, 59, 0.1411764706);
+  background-color: rgba(29, 39, 59, 0.24);
 }
 .mw-dialog-skin-default.active {
   visibility: visible;

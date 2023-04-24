@@ -168,7 +168,7 @@
     visibility: hidden;
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
-    background-color: #1d273b24;
+    background-color: rgba(29,39,59,.24);
   }
   &.active {
     visibility: visible;
