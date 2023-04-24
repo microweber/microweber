@@ -23,7 +23,8 @@ Route::name('admin.')
     ])
     ->namespace('\MicroweberPackages\User\Http\Controllers\Admin')
     ->group(function () {
-        Route::resource('users', 'UserController',['except' => ['edit', 'create']]);
+
+        Route::resource('users', 'UserController');
 
         // User & Profile...
         Route::get('/user/profile', 'UserController@profile')
