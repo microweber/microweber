@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 use Livewire\Component;
+use MicroweberPackages\User\Models\User;
 
 class DeleteUserForm extends Component
 {
@@ -24,6 +25,8 @@ class DeleteUserForm extends Component
      * @var string
      */
     public $password = '';
+
+    public $userId = false;
 
     /**
      * Confirm that the user would like to delete their account.
@@ -56,11 +59,24 @@ class DeleteUserForm extends Component
             ]);
         }
 
-        $deleter->delete(Auth::user()->fresh());
+        if ($this->userId) {
+            $user = User::where('id', $this->userId)->first();
+        } else {
+            $user = Auth::user();
+        }
+
+        $deleter->delete($user->fresh());
 
         $auth->logout();
 
         return redirect('/');
+    }
+
+    public function mount($userId = false)
+    {
+        if ($userId) {
+            $this->userId = $userId;
+        }
     }
 
     /**
