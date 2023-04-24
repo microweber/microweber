@@ -138,6 +138,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+
     /**
      * Find the user instance for the given username.
      *

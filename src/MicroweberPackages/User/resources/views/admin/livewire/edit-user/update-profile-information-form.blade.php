@@ -9,6 +9,51 @@
 
     <x-slot name="form">
 
+        <!-- Profile Photo -->
+        <div class="mb-3" x-data="{photoName: null, photoPreview: null}">
+            <!-- Profile Photo File Input -->
+            <input type="file" hidden
+                   wire:model="photo"
+                   x-ref="photo"
+                   x-on:change="
+                                photoName = $refs.photo.files[0].name;
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    photoPreview = e.target.result;
+                                };
+                                reader.readAsDataURL($refs.photo.files[0]);
+                        " />
+
+            <x-microweber-ui::label for="photo" value="{{ __('Photo') }}" />
+
+            <!-- Current Profile Photo -->
+            <div class="mt-2" x-show="! photoPreview">
+                <img src="{{ $this->photo }}" class="rounded-circle" height="80px" width="80px">
+            </div>
+
+            <!-- New Profile Photo Preview -->
+            <div class="mt-2" x-show="photoPreview">
+                <img x-bind:src="photoPreview" class="rounded-circle" width="80px" height="80px">
+            </div>
+
+            <x-microweber-ui::secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                {{ __('Select A New Photo') }}
+            </x-microweber-ui::secondary-button>
+
+            @if ($this->photo)
+                <x-microweber-ui::secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                    <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+
+                    {{ __('Remove Photo') }}
+                </x-microweber-ui::secondary-button>
+            @endif
+
+            <x-microweber-ui::input-error for="photo" class="mt-2" />
+        </div>
+
+
         <!-- First Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
             <x-microweber-ui::label for="first_name" value="First Name" />

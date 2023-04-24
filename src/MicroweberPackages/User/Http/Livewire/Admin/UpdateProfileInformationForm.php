@@ -49,6 +49,24 @@ class UpdateProfileInformationForm extends Component
         $this->photo = user_picture($this->state['id']);
     }
 
+
+    /**
+     * Delete user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteProfilePhoto()
+    {
+        if ($this->userId) {
+            $user = User::where('id', $this->userId)->first();
+        } else {
+            $user = Auth::user();
+        }
+
+        $user->thumbnail = null;
+        $user->save();
+    }
+
     /**
      * Update the user's profile information.
      * @return void
