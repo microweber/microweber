@@ -29,6 +29,9 @@
             @include('checkout::contact_information_card')
 
             <div class="shop-cart-shipping mb-3">
+
+
+
                 @if(isset($checkout_session['shipping_gw']) and $checkout_session['shipping_gw'])
                     <module type="shop/shipping" class="no-settings" selected_provider="{{$checkout_session['shipping_gw']}}"  template="checkout_v2" data-store-values="true" />
                 @else

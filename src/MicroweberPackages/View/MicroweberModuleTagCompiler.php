@@ -10,19 +10,48 @@ class MicroweberModuleTagCompiler extends ComponentTagCompiler
 {
     public function compile($value)
     {
+
         return $this->compileMicroweberModuleSelfClosingTags($value);
     }
 
     protected function compileMicroweberModuleSelfClosingTags($value)
     {
-        $pattern = '/<module[^>]*>/Uis';
+
+        $pattern = "/
+            <
+                \s*
+               module
+                \s*
+                (?<attributes>
+                    (?:
+                        \s+
+                        [\w\-:.@]+
+                        (
+                            =
+                            (?:
+                                \\\"[^\\\"]*\\\"
+                                |
+                                \'[^\']*\'
+                                |
+                                [^\'\\\"=<>]+
+                            )
+                        )?
+                    )*
+                    \s*
+                )
+            \/?>
+        /x";
+
 
         $pregReplaceResponse = preg_replace_callback($pattern, function (array $matches) {
 
             $attributes = [];
-            $getAttributes = $this->extractModuleTagAttributes($matches[0]);
+         //    $getAttributes = $this->extractModuleTagAttributes($matches[0]);
+             $getAttributes = $this->getAttributesFromAttributeString($matches[0]);
+
             foreach ($getAttributes as $attributeKey=>$attributeValue) {
-                $attributes[$attributeKey] = "'".$this->compileAttributeEchos($attributeValue)."'";
+              //  $attributes[$attributeKey] = "'".$this->compileAttributeEchos($attributeValue)."'";
+                $attributes[$attributeKey] = $attributeValue;
             }
 
             $component = "'{$matches[0]}'";
@@ -30,6 +59,8 @@ class MicroweberModuleTagCompiler extends ComponentTagCompiler
             return $this->componentString($component, $attributes);
 
         }, $value);
+
+        //dd($pregReplaceResponse);
 
         return $pregReplaceResponse;
     }
