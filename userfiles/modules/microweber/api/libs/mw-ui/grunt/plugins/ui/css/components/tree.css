@@ -131,7 +131,8 @@
     background-color: rgba(183, 216, 255, 0.15);
     margin-inline-end: 5px;
     border-radius: 3px;
-    overflow: hidden; }
+    overflow: hidden;
+    margin-left: auto; }
     .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:after {
       position: absolute;
       content: '';
@@ -228,7 +229,7 @@
     align-items: center;
     justify-content: center; }
   .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu {
-    background-color: #fff; }
+    background-color: transparent; }
   .mw-tree-nav-skin-default html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {
     right: auto;
     left: 0; }

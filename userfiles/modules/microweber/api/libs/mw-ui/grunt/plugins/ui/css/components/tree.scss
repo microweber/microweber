@@ -181,6 +181,7 @@
             margin-inline-end: 5px;
             border-radius: 3px;
             overflow: hidden;
+            margin-left: auto;
            &:after{
                position: absolute;
                content: '';
@@ -331,7 +332,7 @@
   }
     .mw-tree-item-content:hover {
         .mw-tree-context-menu {
-            background-color: #fff;
+            background-color: transparent;
         }
     }
     html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-context-menu {

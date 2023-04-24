@@ -233,7 +233,7 @@ small.text-muted {
 #mw-notifications-holder .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification + .mw-notification {
   top: 240px; }
 
-.form-check-input {
+.form-check-input { 
   width: 1.3rem;
   height: 1.3rem;
   background-size: unset; }
