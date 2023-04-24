@@ -71,6 +71,6 @@ class UpdatePasswordWithoutConfirmForm extends Component
      */
     public function render()
     {
-        return view('admin::edit-user.update-password-form');
+        return view('admin::edit-user.update-password-without-confirm-form');
     }
 }
