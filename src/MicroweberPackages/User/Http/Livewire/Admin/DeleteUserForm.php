@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Laravel\Jetstream\Contracts\DeletesUsers;
 use Livewire\Component;
 use MicroweberPackages\User\Models\User;
 
@@ -45,11 +44,10 @@ class DeleteUserForm extends Component
     /**
      * Delete the current user.
      *
-     * @param  \Laravel\Jetstream\Contracts\DeletesUsers  $deleter
      * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
      * @return void
      */
-    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth)
+    public function deleteUser(StatefulGuard $auth)
     {
         $this->resetErrorBag();
 
@@ -65,11 +63,9 @@ class DeleteUserForm extends Component
             $user = Auth::user();
         }
 
-        $deleter->delete($user->fresh());
+        $user->delete();
 
-        $auth->logout();
-
-        return redirect('/');
+        return redirect()->route('admin.users.index');
     }
 
     public function mount($userId = false)
