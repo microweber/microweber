@@ -8,7 +8,7 @@
              'is_blog'=>1,
          ])
 
-        <div class="module-content w-75 pe-3">
+        <div class="module-content w-75 pe-3 mx-auto">
 
             <livewire:admin-posts-list />
             <livewire:admin-content-bulk-options />
