@@ -281,7 +281,7 @@ export class LiveEdit {
               
             this.handles.get('element').set(null)
             this.handles.hide();
-             
+         
            
             if(first) {
                const type = this.elementAnalyzer.getType(first);
@@ -382,6 +382,11 @@ export class LiveEdit {
             ElementManager(this.root).on(events, (e) => {
                 if ( !this.paused  ) {
                     _eventsHandle(e)
+                } else {
+                    var elementTarget = this.elementHandle.getTarget();
+                    if(elementTarget && !elementTarget.contains(e.target)) {
+                        this.play()
+                    }
                 }
             });
          

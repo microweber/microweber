@@ -95,7 +95,7 @@
             var treeTail = [
                 {
                     title: '<?php _ejs("Trash") ?>',
-                    icon: 'mdi mdi-delete',
+         
                     action: function () {
 
                         window.livewire.emit('resetFilter');
