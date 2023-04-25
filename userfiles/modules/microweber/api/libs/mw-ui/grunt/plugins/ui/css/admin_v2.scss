@@ -32,7 +32,13 @@
     }
 
     .add-new {
-        background-color: var(--tblr-primary);
+        //background-color: var(--tblr-primary);
+        visibility: hidden;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
     }
 
     .nav-item-profile {
@@ -98,6 +104,12 @@
 
     .dropdown-item {
         color: #565656 !important;
+
+        &:hover {
+           .add-new{
+               visibility: visible;
+           }
+        }
     }
 
     .dropdown-toggle {
