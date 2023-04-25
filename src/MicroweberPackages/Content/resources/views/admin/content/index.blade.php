@@ -6,7 +6,7 @@
         @include('content::admin.content.index-page-category-tree')
 
 
-        <div class="module-content w-75 pe-3">
+        <div class="module-content w-75 pe-3 mx-auto">
 
             <livewire:admin-content-list />
             <livewire:admin-content-bulk-options />

@@ -416,4 +416,7 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
   left: auto;
   right: auto; }
 
+#js-page-tree-wrapper {
+  margin-top: 60px; }
+
 /*# sourceMappingURL=admin_v2.css.map */

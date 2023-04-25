@@ -7,7 +7,6 @@
 :root {
     //--tblr-body-bg: white;
     --tblr-body-font-family: 'Inter';
-
 }
 
 .table-responsive {
@@ -621,3 +620,7 @@ small.text-muted {
     left: auto;
     right: auto;
  }
+
+#js-page-tree-wrapper {
+    margin-top: 60px;
+}
