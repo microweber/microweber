@@ -53,6 +53,12 @@
             <x-microweber-ui::input-error for="photo" class="mt-2" />
         </div>
 
+        <!-- Username -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="username" value="Username" />
+            <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" />
+            <x-microweber-ui::input-error for="username" class="mt-2" />
+        </div>
 
         <!-- First Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
@@ -74,6 +80,14 @@
             <x-microweber-ui::input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-microweber-ui::input-error for="email" class="mt-2" />
         </div>
+
+        <!-- Phone -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="phone" value="Phone" />
+            <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
+            <x-microweber-ui::input-error for="phone" class="mt-2" />
+        </div>
+
     </x-slot>
 
     <x-slot name="actions">
