@@ -15,7 +15,10 @@
   .admin-dashboard-left-nav .navbar-brand.navbar-nav-padding {
     margin-top: 25px; }
   .admin-dashboard-left-nav .add-new {
-    background-color: var(--tblr-primary); }
+    visibility: hidden; }
+    .admin-dashboard-left-nav .add-new svg {
+      width: 20px;
+      height: 20px; }
   .admin-dashboard-left-nav .nav-item-profile {
     padding-top: 10px;
     padding-bottom: 5px; }
@@ -53,6 +56,8 @@
     padding: 15px 0; }
   .admin-dashboard-left-nav .dropdown-item {
     color: #565656 !important; }
+    .admin-dashboard-left-nav .dropdown-item:hover .add-new {
+      visibility: visible; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
     font-weight: 600; }
     .admin-dashboard-left-nav .dropdown-toggle.show:after {

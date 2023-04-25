@@ -126,8 +126,8 @@
             ];
 
             contextMenu.push({
-                title: '<?php _ejs("Add article"); ?>',
-                icon: 'add-article-icon-tree',
+                title: '<?php _ejs("Add post"); ?>',
+                icon: 'add-post-icon-tree',
                 action: function (element, data, menuitem) {
 
                     if(data.parent_page &&  data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 0){
