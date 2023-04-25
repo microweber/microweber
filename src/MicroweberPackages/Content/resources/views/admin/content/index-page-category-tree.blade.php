@@ -126,8 +126,8 @@
             ];
 
             contextMenu.push({
-                title: '<?php _ejs("Add post"); ?>',
-                icon: 'mdi mdi-plus-circle-outline',
+                title: '<?php _ejs("Add article"); ?>',
+                icon: 'add-article-icon-tree',
                 action: function (element, data, menuitem) {
 
                     if(data.parent_page &&  data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 0){
@@ -160,7 +160,7 @@
             <?php if(is_shop_module_enabled_for_user()): ?>
             contextMenu.push({
                 title: '<?php _ejs("Add product"); ?>',
-                icon: 'mdi mdi-plus-circle-outline',
+                icon: 'add-product-icon-tree',
                 action: function (element, data, menuitem) {
                     if(data.parent_page && data.parent_page.subtype === 'dynamic' && data.parent_page.is_shop === 1){
                         window.location.href = '<?php print admin_url('shop/product'); ?>/create?recommended_category_id=' + data.id + '&recommended_content_id=' + data.parent_page.id;
@@ -192,7 +192,7 @@
 
             contextMenu.push({
                 title: '<?php _ejs("Add subcategory"); ?>',
-                icon: 'mdi mdi-folder-plus',
+                icon: 'add-subcategory-icon-tree',
                 action: function (element, data, menuitem) {
                     window.location.href = '<?php print admin_url('category'); ?>/create?addsubcategory=' + data.id;
                 },

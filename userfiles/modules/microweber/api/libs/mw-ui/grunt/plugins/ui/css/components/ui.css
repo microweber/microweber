@@ -2930,7 +2930,7 @@ html.mw-loading:after {
       max-width: -webkit-calc(100% - 25px);
       max-width: calc(100% - 25px); }
   .mw-tree-nav-skin-default > li {
-    margin: 2px 0; }
+    margin: 6px 0; }
   .mw-tree-nav-skin-default li {
     position: relative;
     list-style: none; }
@@ -3017,19 +3017,26 @@ html.mw-loading:after {
     .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:hover {
       background-color: rgba(183, 216, 255, 0.55); }
   .mw-tree-nav-skin-default .mw-tree-context-menu-item span:before {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
     content: '';
-    display: inline-block; }
+    display: inline-block;
+    margin-top: 5px; }
   .mw-tree-nav-skin-default .edit-category-icon-tree:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 856h56l345-345-56-56-345 345v56Zm572-403L602 285l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829 396l-57 57Zm-58 59L290 936H120V766l424-424 170 170Zm-141-29-28-28 56 56-28-28Z'/%3E%3C/svg%3E"); }
   .mw-tree-nav-skin-default .delete-category-icon-tree:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E"); }
+  .mw-tree-nav-skin-default .add-subcategory-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M560 736h80v-80h80v-80h-80v-80h-80v80h-80v80h80v80ZM160 896q-33 0-56.5-23.5T80 816V336q0-33 23.5-56.5T160 256h240l80 80h320q33 0 56.5 23.5T880 416v400q0 33-23.5 56.5T800 896H160Zm0-560v480h640V416H447l-80-80H160Zm0 0v480-480Z'/%3E%3C/svg%3E"); }
   .mw-tree-nav-skin-default .add-subpage-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M440 816h80V696h120v-80H520V496h-80v120H320v80h120v120ZM240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E"); }
+  .mw-tree-nav-skin-default .add-product-icon-tree:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E"); }
+  .mw-tree-nav-skin-default .add-article-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 936q-33 0-56.5-23.5T120 856V296q0-33 23.5-56.5T200 216h360v80H200v560h560V496h80v360q0 33-23.5 56.5T760 936H200Zm120-160v-80h320v80H320Zm0-120v-80h320v80H320Zm0-120v-80h320v80H320Zm360-80v-80h-80v-80h80v-80h80v80h80v80h-80v80h-80Z'/%3E%3C/svg%3E"); }
   .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button,
   .mw-tree-nav-skin-default .mw-tree-item-content-root:hover .mw-tree-context-menu-content-button {
     opacity: 1;
@@ -3048,8 +3055,8 @@ html.mw-loading:after {
     margin-block: 2px 0; }
   .mw-tree-nav-skin-default .mw-tree-toggler:after {
     content: '';
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -3093,7 +3100,8 @@ html.mw-loading:after {
     visibility: visible; }
   .mw-tree-nav-skin-default .mw-tree-context-menu-item:hover {
     opacity: 1;
-    color: #0e80e5; }
+    color: #0e80e5;
+    background-color: #ececec; }
   .mw-tree-nav-skin-default .mw-tree-item-content-root {
     display: block; }
   .mw-tree-nav-skin-default .mw-tree-item-content {
@@ -3140,8 +3148,8 @@ html.mw-loading:after {
     color: #0e80e5; }
   .mw-tree-nav-skin-default .mw-tree-item-title:before {
     font-family: "Material Design Icons";
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat; }
