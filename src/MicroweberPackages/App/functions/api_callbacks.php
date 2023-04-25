@@ -125,7 +125,7 @@ api_expose('empty_cart');
 api_expose('payment_options');
 
 api_expose('shop/redirect_to_checkout', function () {
-    return mw()->shop_manager->redirect_to_checkout();
+    return app()->shop_manager->redirect_to_checkout();
 });
 
 
@@ -138,7 +138,7 @@ api_expose_admin('delete_order');
 api_expose_admin('update_order');
 
 api_expose_admin('shop/update_order', function ($data) {
-    return mw()->shop_manager->update_order($data);
+    return app()->shop_manager->update_order($data);
 });
 
 
