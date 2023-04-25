@@ -53,7 +53,7 @@
     max-width: 100%;
     padding-block-start: 5px;
     padding-inline-end: 0;
-    font-size: 12px;
+    font-size: 14px;
     color: #2b2b2b; }
   .mw-tree-nav-skin-default tree-label {
     width: 20px; }
@@ -147,6 +147,20 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z'%3E%3C/path%3E%3C/svg%3E"); }
     .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:hover {
       background-color: rgba(183, 216, 255, 0.55); }
+  .mw-tree-nav-skin-default .mw-tree-context-menu-item span:before {
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    content: '';
+    display: inline-block; }
+  .mw-tree-nav-skin-default .edit-category-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 856h56l345-345-56-56-345 345v56Zm572-403L602 285l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829 396l-57 57Zm-58 59L290 936H120V766l424-424 170 170Zm-141-29-28-28 56 56-28-28Z'/%3E%3C/svg%3E"); }
+  .mw-tree-nav-skin-default .delete-category-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E"); }
+  .mw-tree-nav-skin-default .add-subpage-icon-tree:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E"); }
   .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button,
   .mw-tree-nav-skin-default .mw-tree-item-content-root:hover .mw-tree-context-menu-content-button {
     opacity: 1;
@@ -186,7 +200,9 @@
     top: calc(100% - 2px);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     z-index: 12;
-    transition: .3s; }
+    transition: .3s;
+    padding: 9px;
+    margin-top: 9px; }
   .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button:after {
     transform: rotate(-90deg); }
   .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content {

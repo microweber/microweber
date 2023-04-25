@@ -109,7 +109,7 @@
             var contextMenu =  [
                 {
                     title: '<?php _ejs("Edit"); ?>',
-                    icon: 'mdi mdi-pencil',
+                    icon: 'edit-category-icon-tree',
                     action: function (element, data, menuitem) {
                         if (data.type === 'category') {
                             window.location.href = '<?php print admin_url('category'); ?>/' + data.id + '/edit';
@@ -209,7 +209,7 @@
 
             contextMenu.push({
                 title: '<?php _ejs("Add subpage"); ?>',
-                icon: 'mdi mdi-plus-circle-outline',
+                icon: 'add-subpage-icon-tree',
                 action: function (element, data, menuitem) {
                     window.location.href = '<?php print admin_url('page'); ?>/create?recommended_content_id=' + data.id;
                 },
@@ -223,7 +223,7 @@
 
             contextMenu.push({
                     title: '<?php _ejs("Delete"); ?>',
-                    icon: 'mdi mdi-delete',
+                    icon: 'delete-category-icon-tree',
                     action: function (element, data, menuitem) {
 
                         mw.spinner({element: element, size: 15, color: 'red', decorate: true});
