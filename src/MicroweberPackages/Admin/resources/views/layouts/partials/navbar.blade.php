@@ -132,13 +132,11 @@
                                     <span onclick="openMenuNavbarDots();" class="add-new" data-bs-toggle="tooltip" title="<?php _e("Add new page") ?>" data-href="<?php print route('admin.page.create'); ?>"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg></svg></span>
                                 </a>
 
-
-                                <div class="dropdown-menu">
+                                <div class="mw-admin-sidebar-navigation-menu d-none">
                                     <a class="dropdown-item" href="#">Action</a>
                                     <a class="dropdown-item" href="#">Another action</a>
                                     <a class="dropdown-item" href="#">Third action</a>
                                 </div>
-
 
                                 <a class="dropdown-item justify-content-between <?php if ($action == 'posts'): ?> active <?php endif; ?>" href="<?php echo route('admin.post.index'); ?>">
                                         <?php _e("Posts"); ?>
