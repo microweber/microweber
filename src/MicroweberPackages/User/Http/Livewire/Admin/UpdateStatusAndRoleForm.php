@@ -13,7 +13,6 @@ use MicroweberPackages\User\Models\User;
 
 class UpdateStatusAndRoleForm extends Component
 {
-    use WithFileUploads;
 
     /**
      * The component's state.
@@ -45,27 +44,10 @@ class UpdateStatusAndRoleForm extends Component
         } else {
             $this->state = Auth::user()->withoutRelations()->toArray();
         }
-
-        $this->photo = user_picture($this->state['id']);
     }
 
 
-    /**
-     * Delete user's profile photo.
-     *
-     * @return void
-     */
-    public function deleteProfilePhoto()
-    {
-        if ($this->userId) {
-            $user = User::where('id', $this->userId)->first();
-        } else {
-            $user = Auth::user();
-        }
 
-        $user->thumbnail = null;
-        $user->save();
-    }
 
     /**
      * Update the user's profile information.
@@ -83,69 +65,12 @@ class UpdateStatusAndRoleForm extends Component
 
         $input = $this->state;
 
-        if (isset($this->photo) && !empty($this->photo)) {
-            if (method_exists($this->photo, 'guessExtension')) {
-                $photoExt = $this->photo->guessExtension();
-                $photoContent = $this->photo->get();
-                $photoFile = media_base_path() . 'users/' . $user->id . '-avatar.' . $photoExt;
-                if (!is_dir(dirname($photoFile))) {
-                    mkdir_recursive(dirname($photoFile));
-                }
-                file_put_contents($photoFile, $photoContent);
-                $user->thumbnail = media_base_url() . 'users/' . $user->id . '-avatar.' . $photoExt;
-                $user->save();
-            }
-        }
-
-        Validator::make($input, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-        ])->validateWithBag('updateProfileInformation');
-
-
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
-        } else {
-            $user->forceFill([
-                'first_name' => $input['first_name'],
-                'last_name' => $input['last_name'],
-                'email' => $input['email'],
-            ])->save();
-        }
-
-        if (isset($this->photo)) {
-            return redirect()->route('admin.profile.show');
-        }
-
-        $this->emit('saved');
-    }
-
-    /**
-     * Update the given verified user's profile information.
-     *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return void
-     */
-    protected function updateVerifiedUser($user, array $input)
-    {
         $user->forceFill([
-            'first_name' => $input['first_name'],
-            'last_name' => $input['last_name'],
-            'email' => $input['email'],
-            'email_verified_at' => null,
+            'is_admin' => $input['is_admin'],
+            'is_active' => $input['is_active'],
         ])->save();
 
-        $user->sendEmailVerificationNotification();
+        $this->emit('saved');
     }
 
     /**
