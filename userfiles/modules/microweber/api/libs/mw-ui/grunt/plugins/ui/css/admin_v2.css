@@ -396,6 +396,26 @@ small.text-muted {
   padding: 0 !important;
   margin-bottom: 35px; }
 
+.dropdown-menu-column-item {
+  position: relative; }
+
+.mw-admin-sidebar-navigation-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: .2s;
+  min-width: 200px; }
+
+.mw-admin-sidebar-navigation-menu.active {
+  opacity: 1;
+  visibility: visible; }
+
+html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
+  left: auto;
+  right: auto; }
+
 #js-page-tree-wrapper {
   margin-top: 60px; }
 

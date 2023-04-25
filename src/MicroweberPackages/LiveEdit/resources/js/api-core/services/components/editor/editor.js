@@ -100,7 +100,7 @@ export const EditorComponent = function () {
         regions: '.edit',
         skin: 'le2',
         editMode: 'liveedit',
-        scopeColor: 'white',
+        scopeColor: '#111',
         controls: editorControls,
         smallEditor: editorControls,
         
