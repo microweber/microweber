@@ -3740,7 +3740,7 @@ html.mw-loading:after {
   max-width: calc(100% - 25px);
 }
 .mw-tree-nav-skin-default > li {
-  margin: 2px 0;
+  margin: 6px 0;
 }
 .mw-tree-nav-skin-default li {
   position: relative;
@@ -3846,8 +3846,8 @@ html.mw-loading:after {
   background-color: rgba(183, 216, 255, 0.55);
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-item span:before {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
@@ -3895,8 +3895,8 @@ html.mw-loading:after {
 }
 .mw-tree-nav-skin-default .mw-tree-toggler:after {
   content: "";
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4006,8 +4006,8 @@ html.mw-loading:after {
 }
 .mw-tree-nav-skin-default .mw-tree-item-title:before {
   font-family: "Material Design Icons";
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;

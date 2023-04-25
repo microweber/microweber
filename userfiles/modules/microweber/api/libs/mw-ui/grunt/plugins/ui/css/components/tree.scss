@@ -88,7 +88,7 @@
     }
   }
   & > li {
-      margin: 2px 0;
+      margin: 6px 0;
   }
   li {
       position: relative;
@@ -203,8 +203,8 @@
 
     .mw-tree-context-menu-item {
         span:before {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background-size: contain;
             background-position: center center;
             background-repeat: no-repeat;
@@ -300,8 +300,8 @@
     }
   .mw-tree-toggler:after {
       content: '';
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
@@ -429,8 +429,8 @@
 
   .mw-tree-item-title:before {
       font-family: "Material Design Icons";
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       background-size: contain;
       background-position: center center;
       background-repeat: no-repeat;
