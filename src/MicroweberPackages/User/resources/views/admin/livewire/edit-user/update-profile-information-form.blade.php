@@ -99,6 +99,10 @@
                 </div>
             </div>
 
+            <div class="col-span-6 sm:col-span-4 mt-2">
+                <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
+            </div>
+
         </x-slot>
 
         <x-slot name="actions">
