@@ -1,8 +1,8 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
-/*@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");*/
-/*@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");*/
-/*@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");*/
-/*@import url("../css/../../tabler-ui/dist/css/tabler-payments.min.css");*/
+@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");
+@import url("../css/../../tabler-ui/dist/css/tabler-payments.min.css");
 :root {
   --tblr-body-font-family: 'Inter'; }
 

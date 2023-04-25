@@ -3027,18 +3027,25 @@ html.mw-loading:after {
     transform: scale(1); }
   .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
     margin-inline: -25px -23px;
-    margin-block: 2px 0; }
+    margin-block: 2px 0;
+    margin-top: 7px; }
   .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
     margin-inline: -40px -39px;
     margin-block: 2px 0; }
   .mw-tree-nav-skin-default .mw-tree-toggler:after {
-    content: "\F0536";
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
     transition: .3s;
     position: relative;
     display: inline-block;
-    transform: rotate(90deg); }
+    transform: rotate(0deg); }
   .mw-tree-nav-skin-default .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
-    transform: rotate(180deg); }
+    transform: rotate(90deg); }
   .mw-tree-nav-skin-default .mw-tree-context-menu-content {
     position: absolute;
     background-color: #fff;
@@ -3117,28 +3124,35 @@ html.mw-loading:after {
     color: #0e80e5; }
   .mw-tree-nav-skin-default .mw-tree-item-title:before {
     font-family: "Material Design Icons";
-    content: '';
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-size: contain;
-    background-position: center center; }
+    background-position: center center;
+    background-repeat: no-repeat; }
   .mw-tree-nav-skin-default li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
     font-family: 'Microweber'; }
   .mw-tree-nav-skin-default li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+    content: ''; }
+  .mw-tree-nav-skin-default li.type-page.has-children > .mw-tree-item-content-root .mw-tree-item-title:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+    content: ''; }
   .mw-tree-nav-skin-default li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z'/%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z'/%3E%3C/svg%3E");
+    content: ''; }
   .mw-tree-nav-skin-default li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-    background-image: url("data:image/svg+xml,%3Csvg style='margin-right: 20px;' xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z'%3E%3C/path%3E%3C/svg%3E"); }
+    background-image: url("data:image/svg+xml,%3Csvg style='margin-right: 20px;' xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z'%3E%3C/path%3E%3C/svg%3E");
+    content: ''; }
   .mw-tree-nav-skin-default li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 936q-33 0-56.5-23.5T120 856V296q0-33 23.5-56.5T200 216h440l200 200v440q0 33-23.5 56.5T760 936H200Zm0-80h560V456H600V296H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z'/%3E%3C/svg%3E");
+    content: '';
     z-index: 1; }
   .mw-tree-nav-skin-default .type-category.subtype-category .mw-tree-item-title:before {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M160 896q-33 0-56.5-23.5T80 816V336q0-33 23.5-56.5T160 256h240l80 80h320q33 0 56.5 23.5T880 416v400q0 33-23.5 56.5T800 896H160Zm0-560v480h640V416H447l-80-80H160Zm0 0v480-480Z'/%3E%3C/svg%3E"); }
-  .mw-tree-nav-skin-default .mw-tree-additional-item.level-1 {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E"); }
-    .mw-tree-nav-skin-default .mw-tree-additional-item.level-1.mdi-delete {
-      display: none; }
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M160 896q-33 0-56.5-23.5T80 816V336q0-33 23.5-56.5T160 256h240l80 80h320q33 0 56.5 23.5T880 416v400q0 33-23.5 56.5T800 896H160Zm0-560v480h640V416H447l-80-80H160Zm0 0v480-480Z'/%3E%3C/svg%3E");
+    content: ''; }
+  .mw-tree-nav-skin-default .mw-tree-additional-item .mw-tree-item-content-root .mw-tree-item-title:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E");
+    content: ''; }
   .mw-tree-nav-skin-default .mw-tree-item-hidden {
     display: none; }
 

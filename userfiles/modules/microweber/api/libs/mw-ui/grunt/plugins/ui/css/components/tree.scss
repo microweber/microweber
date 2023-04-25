@@ -376,9 +376,11 @@
 
   }
 
-  //li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  //    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
-  //}
+  li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+      content: '';
+
+  }
 
 
     li.type-page.has-children > .mw-tree-item-content-root .mw-tree-item-title:before {
