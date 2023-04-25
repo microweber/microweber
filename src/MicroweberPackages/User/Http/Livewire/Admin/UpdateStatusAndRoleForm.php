@@ -46,17 +46,12 @@ class UpdateStatusAndRoleForm extends Component
         }
     }
 
-
-
-
     /**
      * Update the user's profile information.
      * @return void
      */
     public function updateProfileInformation()
     {
-        $this->resetErrorBag();
-
         if ($this->userId) {
             $user = User::where('id', $this->userId)->first();
         } else {

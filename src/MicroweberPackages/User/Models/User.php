@@ -46,8 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $attributes = [
         'is_active' => 1,
-        'is_admin' =>0,
-        'is_verified' =>0,
+        'is_admin' => 0,
+        'is_verified' => 0,
     ];
 
     protected $searchable = [
@@ -71,7 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'oauth_provider',
         'last_login_ip',
         'password',
-        'is_admin',
     ];
 
     //protected $hidden = array('password', 'remember_token');
@@ -114,14 +113,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     private $validator;
 
-
-
     public static function boot()
     {
         parent::boot();
 
         self::creating(function ($model) {
-
            //$model->is_active = 0;
            $model->is_verified = 0;
         });
@@ -136,8 +132,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['password'] = (Hash::needsRehash($pass) ? Hash::make($pass) : $pass);
     }
-
-
 
     /**
      * Find the user instance for the given username.
@@ -160,6 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $remember = $request->remember;
         $email = $request->email;
         $password = $request->password;
+
         return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
     }
 
