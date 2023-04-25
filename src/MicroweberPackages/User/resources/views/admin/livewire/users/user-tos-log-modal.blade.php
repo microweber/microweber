@@ -1,20 +1,4 @@
-<div class="mx-5 my-5">
-    <?php
-
-    $uid = user_id();
-    if (isset($params['user_id']) and is_admin()) {
-        $uid = $params['user_id'];
-    }
-    $terms = false;
-    if ($uid) {
-        $terms_params = array();
-        $terms_params['user_id'] = $uid;
-
-        $terms = new \MicroweberPackages\User\TosManager();
-        $terms = $terms->get($terms_params);
-    }
-    ?>
-
+<div class="mx-2 my-2">
     <?php if (!$terms) { ?>
     <?php _e('You don\'t have any accepted terms and conditions'); ?>
 <?php } else { ?>
