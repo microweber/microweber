@@ -312,7 +312,7 @@ body,
     /*Adds background-image*/
     background-position: right center;
     /*Position of the background-image*/
-    xxxwidth: 100px;
+    
     /*Width of select dropdown to give space for arrow image*/
     text-indent: 0.01px;
     /* Removes default arrow from firefox*/
@@ -348,3 +348,5 @@ body,
 }
 
 
+
+ 
