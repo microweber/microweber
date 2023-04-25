@@ -25,7 +25,9 @@ use MicroweberPackages\User\Http\Livewire\Admin\EditUserModal;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdatePasswordForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdatePasswordWithoutConfirmForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdateProfileInformationForm;
+use MicroweberPackages\User\Http\Livewire\Admin\UserLoginAttemptsModal;
 use MicroweberPackages\User\Http\Livewire\Admin\UsersList;
+use MicroweberPackages\User\Http\Livewire\Admin\UserTosLogModal;
 use MicroweberPackages\User\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use MicroweberPackages\User\Http\Livewire\TwoFactorAuthenticationForm;
 use MicroweberPackages\User\Services\RSAKeys;
@@ -58,6 +60,9 @@ class UserServiceProvider extends AuthServiceProvider
         Livewire::component('admin::edit-user.two-factor-authentication-form', \MicroweberPackages\User\Http\Livewire\Admin\TwoFactorAuthenticationForm::class);
         Livewire::component('admin::edit-user.logout-other-browser-sessions-form', \MicroweberPackages\User\Http\Livewire\Admin\LogoutOtherBrowserSessionsForm::class);
         Livewire::component('admin::edit-user.delete-user-form', DeleteUserForm::class);
+
+        Livewire::component('admin::user-tos-log', UserTosLogModal::class);
+        Livewire::component('admin::user-login-attempts', UserLoginAttemptsModal::class);
 
         Livewire::component('user::profile.two-factor-authentication-form', TwoFactorAuthenticationForm::class);
         Livewire::component('user::profile.logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);

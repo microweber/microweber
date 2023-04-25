@@ -110,6 +110,11 @@
             <x-microweber-ui::input-error for="is_active" class="mt-2" />
         </div>
 
+
+        <br />
+        <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::user-tos-log', {{ json_encode(['userId' => $state['id']]) }})">Terms agreement log</button>
+        <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::user-login-attempts', {{ json_encode(['userId' => $state['id']]) }})">Login attempts</button>
+
     </x-slot>
 
     <x-slot name="actions">
