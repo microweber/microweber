@@ -28,7 +28,7 @@ body {
 
 .mw-defaults * {
   box-sizing: border-box;
-  font-family: "Verdana", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .mw-defaults li {
@@ -3731,8 +3731,8 @@ html.mw-loading:after {
           padding-block-start: 5px;
   -webkit-padding-end: 0;
           padding-inline-end: 0;
-  font-size: 12px;
-  color: #7e7e7e;
+  font-size: 14px;
+  color: #2b2b2b;
 }
 .mw-tree-nav-skin-default tree-label {
   width: 20px;
@@ -3828,6 +3828,7 @@ html.mw-loading:after {
           margin-inline-end: 5px;
   border-radius: 3px;
   overflow: hidden;
+  margin-left: auto;
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:after {
   position: absolute;
@@ -3845,6 +3846,24 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:hover {
   background-color: rgba(183, 216, 255, 0.55);
 }
+.mw-tree-nav-skin-default .mw-tree-context-menu-item span:before {
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  content: "";
+  display: inline-block;
+}
+.mw-tree-nav-skin-default .edit-category-icon-tree:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 856h56l345-345-56-56-345 345v56Zm572-403L602 285l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829 396l-57 57Zm-58 59L290 936H120V766l424-424 170 170Zm-141-29-28-28 56 56-28-28Z'/%3E%3C/svg%3E");
+}
+.mw-tree-nav-skin-default .delete-category-icon-tree:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E");
+}
+.mw-tree-nav-skin-default .add-subpage-icon-tree:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+}
 .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button,
 .mw-tree-nav-skin-default .mw-tree-item-content-root:hover .mw-tree-context-menu-content-button {
   opacity: 1;
@@ -3859,20 +3878,27 @@ html.mw-loading:after {
 .mw-tree-nav-skin-default > li > .mw-tree-item-content-root .mw-tree-toggler {
   margin-inline: -25px -23px;
   margin-block: 2px 0;
+  margin-top: 7px;
 }
 .mw-tree-nav-skin-default > li li .mw-tree-item-content-root .mw-tree-toggler {
   margin-inline: -40px -39px;
   margin-block: 2px 0;
 }
 .mw-tree-nav-skin-default .mw-tree-toggler:after {
-  content: "\f0536";
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
   transition: 0.3s;
   position: relative;
   display: inline-block;
-  transform: rotate(90deg);
+  transform: rotate(0deg);
 }
 .mw-tree-nav-skin-default .opened > .mw-tree-item-content-root .mw-tree-toggler:after {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 .mw-tree-nav-skin-default .mw-tree-context-menu-content {
   position: absolute;
@@ -3884,6 +3910,8 @@ html.mw-loading:after {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   z-index: 12;
   transition: 0.3s;
+  padding: 9px;
+  margin-top: 9px;
 }
 .mw-tree-nav-skin-default .context-menu-active > .mw-tree-item-content-root .mw-tree-context-menu-content-button:after {
   transform: rotate(-90deg);
@@ -3944,7 +3972,7 @@ html.mw-loading:after {
   justify-content: center;
 }
 .mw-tree-nav-skin-default .mw-tree-item-content:hover .mw-tree-context-menu {
-  background-color: #fff;
+  background-color: transparent;
 }
 .mw-tree-nav-skin-default html[dir=rtl] .mw-tree-nav-skin-default .mw-tree-context-menu {
   right: auto;
@@ -3958,7 +3986,7 @@ html.mw-loading:after {
   font-size: 19px;
   display: inline-block;
   position: relative;
-  top: 0;
+  top: 3px;
   -webkit-margin-end: 3px;
           margin-inline-end: 3px;
   vertical-align: top;
@@ -3968,23 +3996,43 @@ html.mw-loading:after {
 }
 .mw-tree-nav-skin-default .mw-tree-item-title:before {
   font-family: "Material Design Icons";
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 .mw-tree-nav-skin-default li.type-category > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "c";
   font-family: "Microweber";
 }
 .mw-tree-nav-skin-default li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f0214";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+  content: "";
+}
+.mw-tree-nav-skin-default li.type-page.has-children > .mw-tree-item-content-root .mw-tree-item-title:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
+  content: "";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-home > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f02dc";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z'/%3E%3C/svg%3E");
+  content: "";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-shop > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f049a";
+  background-image: url("data:image/svg+xml,%3Csvg style='margin-right: 20px;' xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z'%3E%3C/path%3E%3C/svg%3E");
+  content: "";
 }
 .mw-tree-nav-skin-default li.type-page.subtype-dynamic > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-  content: "\f1009";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M200 936q-33 0-56.5-23.5T120 856V296q0-33 23.5-56.5T200 216h440l200 200v440q0 33-23.5 56.5T760 936H200Zm0-80h560V456H600V296H200v560Zm80-80h400v-80H280v80Zm0-320h200v-80H280v80Zm0 160h400v-80H280v80Zm-80-320v160-160 560-560Z'/%3E%3C/svg%3E");
+  content: "";
   z-index: 1;
+}
+.mw-tree-nav-skin-default .type-category.subtype-category .mw-tree-item-title:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M160 896q-33 0-56.5-23.5T80 816V336q0-33 23.5-56.5T160 256h240l80 80h320q33 0 56.5 23.5T880 416v400q0 33-23.5 56.5T800 896H160Zm0-560v480h640V416H447l-80-80H160Zm0 0v480-480Z'/%3E%3C/svg%3E");
+  content: "";
+}
+.mw-tree-nav-skin-default .mw-tree-additional-item .mw-tree-item-content-root .mw-tree-item-title:before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z'/%3E%3C/svg%3E");
+  content: "";
 }
 .mw-tree-nav-skin-default .mw-tree-item-hidden {
   display: none;

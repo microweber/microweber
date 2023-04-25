@@ -149,7 +149,7 @@
                     position: 'sticky',
                     top: '20px',
                     zIndex: '1',
-                    margin: '20px 15px 0 0',
+                    margin: '9px 15px 15px 0',
                     width: '100%',
                     maxWidth: '100%',
 

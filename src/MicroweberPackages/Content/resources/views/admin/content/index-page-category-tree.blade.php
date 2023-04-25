@@ -52,13 +52,15 @@
             <?php endfor; ?>
         </div>
 
+
+
         <div class="tree-show-hide-nav" style="display:none">
-            <div class="form-group">
-                <div class="custom-control custom-switch">
+            <div class="form-check form-switch d-flex ps-0 justify-content-between align-items-center" style="width: 100%;">
+                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show all"); ?></small>
+                </label>
                     <input type="checkbox" class="form-check-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
-                    <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
-                </div>
             </div>
+
         </div>
 
         <div id="js-page-tree" style="display:none;"></div>
@@ -95,7 +97,6 @@
             var treeTail = [
                 {
                     title: '<?php _ejs("Trash") ?>',
-         
                     action: function () {
 
                         window.livewire.emit('resetFilter');
@@ -108,7 +109,7 @@
             var contextMenu =  [
                 {
                     title: '<?php _ejs("Edit"); ?>',
-                    icon: 'mdi mdi-pencil',
+                    icon: 'edit-category-icon-tree',
                     action: function (element, data, menuitem) {
                         if (data.type === 'category') {
                             window.location.href = '<?php print admin_url('category'); ?>/' + data.id + '/edit';
@@ -208,7 +209,7 @@
 
             contextMenu.push({
                 title: '<?php _ejs("Add subpage"); ?>',
-                icon: 'mdi mdi-plus-circle-outline',
+                icon: 'add-subpage-icon-tree',
                 action: function (element, data, menuitem) {
                     window.location.href = '<?php print admin_url('page'); ?>/create?recommended_content_id=' + data.id;
                 },
@@ -222,7 +223,7 @@
 
             contextMenu.push({
                     title: '<?php _ejs("Delete"); ?>',
-                    icon: 'mdi mdi-delete',
+                    icon: 'delete-category-icon-tree',
                     action: function (element, data, menuitem) {
 
                         mw.spinner({element: element, size: 15, color: 'red', decorate: true});

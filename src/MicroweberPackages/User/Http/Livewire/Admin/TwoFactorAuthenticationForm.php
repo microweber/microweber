@@ -89,6 +89,6 @@ class TwoFactorAuthenticationForm extends Component
      */
     public function render()
     {
-        return view('admin::profile.two-factor-authentication-form');
+        return view('admin::livewire.profile.two-factor-authentication-form');
     }
 }

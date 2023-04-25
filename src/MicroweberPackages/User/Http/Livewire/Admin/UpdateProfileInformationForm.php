@@ -45,6 +45,26 @@ class UpdateProfileInformationForm extends Component
         } else {
             $this->state = Auth::user()->withoutRelations()->toArray();
         }
+
+        $this->photo = user_picture($this->state['id']);
+    }
+
+
+    /**
+     * Delete user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteProfilePhoto()
+    {
+        if ($this->userId) {
+            $user = User::where('id', $this->userId)->first();
+        } else {
+            $user = Auth::user();
+        }
+
+        $user->thumbnail = null;
+        $user->save();
     }
 
     /**
@@ -61,10 +81,21 @@ class UpdateProfileInformationForm extends Component
             $user = Auth::user();
         }
 
-        $input = $this->photo
-            ? array_merge($this->state, ['thumbnail' => $this->photo])
-            : $this->state;
+        $input = $this->state;
 
+        if (isset($this->photo) && !empty($this->photo)) {
+            if (method_exists($this->photo, 'guessExtension')) {
+                $photoExt = $this->photo->guessExtension();
+                $photoContent = $this->photo->get();
+                $photoFile = media_base_path() . 'users/' . $user->id . '-avatar.' . $photoExt;
+                if (!is_dir(dirname($photoFile))) {
+                    mkdir_recursive(dirname($photoFile));
+                }
+                file_put_contents($photoFile, $photoContent);
+                $user->thumbnail = media_base_url() . 'users/' . $user->id . '-avatar.' . $photoExt;
+                $user->save();
+            }
+        }
 
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
@@ -134,6 +165,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render()
     {
-        return view('admin::edit-user.update-profile-information-form');
+        return view('admin::livewire.edit-user.update-profile-information-form');
     }
 }
