@@ -6,8 +6,10 @@
         @livewire('admin::edit-user.update-profile-information-form')
         <x-microweber-ui::section-border/>
 
-        @livewire('admin::edit-user.update-password-form')
+        @livewire('admin::edit-user.update-status-and-role-form')
+        <x-microweber-ui::section-border/>
 
+        @livewire('admin::edit-user.update-password-form')
         <x-microweber-ui::section-border/>
 
         @livewire('admin::edit-user.two-factor-authentication-form')
