@@ -3117,7 +3117,7 @@ html.mw-loading:after {
     font-size: 19px;
     display: inline-block;
     position: relative;
-    top: 0;
+    top: 3px;
     margin-inline-end: 3px;
     vertical-align: top; }
   .mw-tree-nav-skin-default .selected > .mw-tree-item-content-root .mw-tree-item-title:before {
