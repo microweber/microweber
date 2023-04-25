@@ -505,7 +505,7 @@ class CheckoutManager
 
 
             // convert currency to payment provider currency
-            $currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
+            $currencies_list_paypal = app()->shop_manager->currency_get_for_paypal();
             $currencyCode = strtoupper($place_order['currency']);
             $amount = $place_order['amount'];
 

@@ -6,7 +6,7 @@ $order_first_product = false;
 $item_id = $id;
 
 $item = $order = get_order_by_id($item_id);
-$order_products = mw()->shop_manager->order_items($item_id);
+$order_products = app()->shop_manager->order_items($item_id);
 if ($order_products) {
     $order_first_product = $order_products[0];
 }
