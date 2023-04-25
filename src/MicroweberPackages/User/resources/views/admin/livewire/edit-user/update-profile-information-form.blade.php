@@ -53,6 +53,12 @@
             <x-microweber-ui::input-error for="photo" class="mt-2" />
         </div>
 
+        <!-- Username -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="username" value="Username" />
+            <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" />
+            <x-microweber-ui::input-error for="username" class="mt-2" />
+        </div>
 
         <!-- First Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
@@ -74,6 +80,36 @@
             <x-microweber-ui::input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-microweber-ui::input-error for="email" class="mt-2" />
         </div>
+
+        <!-- Phone -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="phone" value="Phone" />
+            <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
+            <x-microweber-ui::input-error for="phone" class="mt-2" />
+        </div>
+
+        <!-- Role -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="role" value="Role of the user" />
+            <div class="text-muted">Choose the current role of the user. </div>
+            <select id="role" class="form-control" wire:model.defer="state.is_admin">
+                <option value="0">User</option>
+                <option value="1">Admin</option>
+            </select>
+            <x-microweber-ui::input-error for="role" class="mt-2" />
+        </div>
+
+        <!-- Is Active -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="is_active" value="Is Active?" />
+            <div class="text-muted">Choose the current status of this user</div>
+            <select id="is_active" class="form-control" wire:model.defer="state.is_active">
+                <option value="1">Active</option>
+                <option value="0">Disabled</option>
+            </select>
+            <x-microweber-ui::input-error for="is_active" class="mt-2" />
+        </div>
+
     </x-slot>
 
     <x-slot name="actions">
@@ -86,3 +122,9 @@
         </x-microweber-ui::button>
     </x-slot>
 </x-microweber-ui::form-section>
+<script>
+    import Options from "../../../../../../../../userfiles/modules/microweber/api/libs/chosen/options.html";
+    export default {
+        components: {Options}
+    }
+</script>

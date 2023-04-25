@@ -52,13 +52,15 @@
             <?php endfor; ?>
         </div>
 
+
+
         <div class="tree-show-hide-nav" style="display:none">
-            <div class="form-group">
-                <div class="custom-control custom-switch">
+            <div class="form-check form-switch d-flex ps-0 justify-content-between align-items-center" style="width: 100%;">
+                <label class="form-check-label " style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Show all"); ?></small>
+                </label>
                     <input type="checkbox" class="form-check-input js-open-close-all-tree-elements" id="open-close-all-tree-elements" value="1"/>
-                    <label class="custom-control-label d-flex align-items-center" style="cursor:pointer" for="open-close-all-tree-elements"><small class="text-muted"><?php _e("Open"); ?> / <?php _e("Close"); ?></small></label>
-                </div>
             </div>
+
         </div>
 
         <div id="js-page-tree" style="display:none;"></div>
