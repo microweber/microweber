@@ -133,7 +133,7 @@
                                 </a>
 
 
-                                <div class="dropdown-menu show">
+                                <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Action</a>
                                     <a class="dropdown-item" href="#">Another action</a>
                                     <a class="dropdown-item" href="#">Third action</a>
