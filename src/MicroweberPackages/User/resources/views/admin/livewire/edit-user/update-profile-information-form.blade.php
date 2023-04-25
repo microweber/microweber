@@ -110,8 +110,8 @@
             <x-microweber-ui::input-error for="is_active" class="mt-2" />
         </div>
 
-
         <br />
+        <a href="{{api_url('users/export_my_data?user_id=' . $state['id'])}}" class="btn btn-outline-primary">Export user data</a>
         <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::user-tos-log', {{ json_encode(['userId' => $state['id']]) }})">Terms agreement log</button>
         <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::user-login-attempts', {{ json_encode(['userId' => $state['id']]) }})">Login attempts</button>
 
