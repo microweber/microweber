@@ -1,5 +1,5 @@
-<div class="card-header">
-    <div class="col d-flex justify-content-md-between justify-content-center align-items-center px-0">
+<div class="card-header row">
+    <div class="col d-flex justify-content-md-between justify-content-center align-items-center">
         <div class="d-flex align-items-center">
             <i class="mdi mdi-earth text-primary fs-2"></i>
 
