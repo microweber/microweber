@@ -1,9 +1,8 @@
 <div class="card-header row">
-    <div class="col d-flex justify-content-md-between justify-content-center align-items-center">
+    <div class="col d-flex justify-content-center align-items-center">
         <div class="d-flex align-items-center">
-            <i class="mdi mdi-earth text-primary fs-2"></i>
 
-            <h1 class="d-md-flex d-none card-title">
+            <h1 class="main-pages-title d-md-flex d-none card-title">
 
                 <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none text-dark ms-1 @endif" onclick="livewire.emit('deselectAllCategories');return false;">
                     {{_e('Website')}}
@@ -29,10 +28,10 @@
         </div>
         <div>
 
-            @if(isset($contentType))
-                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn btn-outline-primary btn-sm'])
+{{--            @if(isset($contentType))--}}
+{{--                @include('content::admin.content.livewire.create-content-buttons',['buttonClass'=>'btn btn-outline-primary btn-sm'])--}}
 
-            @endif
+{{--            @endif--}}
 
 
 
