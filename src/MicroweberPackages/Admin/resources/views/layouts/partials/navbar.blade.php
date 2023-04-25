@@ -148,9 +148,9 @@
                                     <span class="add-new" data-href="<?php print route('admin.category.create'); ?>" data-bs-toggle="tooltip" title="<?php _e("Add new category") ?>"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg></svg></span>
                                 </a>
 
-                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings">
-                                        <?php _e("Settings"); ?>
-                                </a>
+{{--                                <a class="dropdown-item justify-content-between <?php if ($action == 'settings'): ?> active <?php endif; ?>" href="<?php print admin_url(); ?>settings">--}}
+{{--                                        <?php _e("Settings"); ?>--}}
+{{--                                </a>--}}
                             </div>
                         </div>
                     </div>
@@ -223,9 +223,9 @@
                                 </a>
                                 <?php endif; ?>
 
-                                <a href="<?php print admin_url(); ?>settings" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">
-                                    <?php _e("Settings"); ?>
-                                </a>
+{{--                                <a href="<?php print admin_url(); ?>settings" class="dropdown-item justify-content-between <?php if ($action == 'options'): ?> active <?php endif; ?>">--}}
+{{--                                    <?php _e("Settings"); ?>--}}
+{{--                                </a>--}}
                             </div>
                         </div>
                     </div>
