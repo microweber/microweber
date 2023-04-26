@@ -1437,13 +1437,12 @@ class UserManager
                 $save = array_filter($save);
 
 
-                $created = User::create($save);
-                if ($created) {
+                $user = User::create($save);
+                if ($user) {
 
+                    event(new Registered($user));
 
-                    event(new Registered($created));
-
-                 }
+                }
 
 
               //  $user = new User();
