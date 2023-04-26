@@ -58,7 +58,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
         // Load datatables
-        app()->register(LaravelLivewireTablesServiceProvider::class); 
+        app()->register(LaravelLivewireTablesServiceProvider::class);
         $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal
