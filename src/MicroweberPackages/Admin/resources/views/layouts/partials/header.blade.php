@@ -61,7 +61,30 @@
         mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
         <?php } ?>
     </script>
+    <?php
+    $enableLivewireScripts = true;
+    if (isset($disableLivewireScripts) && $disableLivewireScripts) {
+        $enableLivewireScripts = false;
+    }
 
+    $enableTopBar = true;
+    if (isset($disableTopBar) && $disableTopBar) {
+        $enableTopBar = false;
+    }
+
+    $enableNavBar = true;
+    if (isset($disableNavBar) && $disableNavBar) {
+        $enableNavBar = false;
+    }
+    ?>
+    <?php if ($enableLivewireScripts) { ?>
+
+        <?php print \Livewire\Livewire::scripts(); ?>
+        <?php print \Livewire\Livewire::styles(); ?>
+
+
+
+    <?php } ?>
     @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js')
 
 
@@ -94,34 +117,9 @@
     <?php event_trigger('admin_head'); ?>
     <?php event_trigger('mw.admin.header');; ?>
 
-    <?php
-    $enableLivewireScripts = true;
-    if (isset($disableLivewireScripts) && $disableLivewireScripts) {
-        $enableLivewireScripts = false;
-    }
 
-    $enableTopBar = true;
-    if (isset($disableTopBar) && $disableTopBar) {
-        $enableTopBar = false;
-    }
 
-    $enableNavBar = true;
-    if (isset($disableNavBar) && $disableNavBar) {
-        $enableNavBar = false;
-    }
-    ?>
 
-    <?php if ($enableLivewireScripts) { ?>
-
-        <?php print \Livewire\Livewire::scripts(); ?>
-        <?php print \Livewire\Livewire::styles(); ?>
-
-        <!-- Alpine v3 -->
-        <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
-        <!-- Livewire sortable -->
-        <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
-
-    <?php } ?>
 
     <?php if (config('app.debug') and is_logged()) { ?>
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ad6da16521af0946f1fca86e17ed62f",
+    "content-hash": "152df36f82d4e94f35eb061c141cc5ec",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -10783,29 +10783,30 @@
         },
         {
             "name": "rappasoft/laravel-livewire-tables",
-            "version": "v2.8.0",
+            "version": "v2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rappasoft/laravel-livewire-tables.git",
-                "reference": "e6069cd0fac4b7f8a5d492388a735a3b7351bc80"
+                "reference": "d4d3e24a24a169fcbbb127c0671091503f25a6f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rappasoft/laravel-livewire-tables/zipball/e6069cd0fac4b7f8a5d492388a735a3b7351bc80",
-                "reference": "e6069cd0fac4b7f8a5d492388a735a3b7351bc80",
+                "url": "https://api.github.com/repos/rappasoft/laravel-livewire-tables/zipball/d4d3e24a24a169fcbbb127c0671091503f25a6f7",
+                "reference": "d4d3e24a24a169fcbbb127c0671091503f25a6f7",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^8.0|^9.0",
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
                 "livewire/livewire": "^2.6",
-                "php": "^7.4|^8.0",
+                "php": "^7.4|^8.0|^8.1|^8.2",
                 "spatie/laravel-package-tools": "^1.4.3"
             },
             "require-dev": {
+                "brianium/paratest": "^4.0|^5.0|^6.0|^7.0",
                 "ext-sqlite3": "*",
-                "orchestra/testbench": "^6.13|^7.0",
-                "phpunit/phpunit": "^9.3",
-                "spatie/laravel-ray": "^1.9"
+                "nunomaduro/collision": "^4.0|^5.0|^6.0|^7.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0",
+                "phpunit/phpunit": "^9.0|^10.0"
             },
             "type": "library",
             "extra": {
@@ -10842,7 +10843,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rappasoft/laravel-livewire-tables/issues",
-                "source": "https://github.com/rappasoft/laravel-livewire-tables/tree/v2.8.0"
+                "source": "https://github.com/rappasoft/laravel-livewire-tables/tree/v2.12.0"
             },
             "funding": [
                 {
@@ -10850,7 +10851,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-25T00:44:21+00:00"
+            "time": "2023-04-09T02:03:53+00:00"
         },
         {
             "name": "react/promise",
@@ -18843,5 +18844,5 @@
         "ext-zip": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
