@@ -29,6 +29,20 @@ trait HasMenus
             ->add(Link::to(admin_url('post'), 'Post'))
         );
 
+
+        $this->menus['footer_links']->add(
+            Menu::new()
+                ->add(Link::to(admin_url(), 'Shop'))
+                ->add(Link::to(admin_url('product'), 'Products'))
+                ->add(Link::to(admin_url('order'), 'Orders'))
+                ->add(Link::to(admin_url('category'), 'Categories'))
+                ->add(Link::to(admin_url('customers'), 'Customers'))
+        );
+
+        $this->menus['footer_links']->add(Link::to(admin_url('module/view?type=admin/modules'), 'Modules'));
+        $this->menus['footer_links']->add(Link::to('/marketplace', 'Marketplace'));
+        $this->menus['footer_links']->add(Link::to('/settings', 'Settings'));
+        $this->menus['footer_links']->add(Link::to('/users', 'Users'));
     }
 
     public function addMenuItem($menu, $item)
