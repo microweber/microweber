@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User;
 
 use Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -1435,12 +1436,22 @@ class UserManager
             } else {
                 $save = array_filter($save);
 
-                $user = new User();
-                $user->fill($save);
+
+                $created = User::create($save);
+                if ($created) {
+
+
+                    event(new Registered($created));
+
+                 }
+
+
+              //  $user = new User();
+             //   $user->fill($save);
                 //  $user->save($save);
 
 
-                $new_user = $user->save($save);
+             //   $new_user = $user->save($save);
 
                 $new_user_id = $user->id;
 
