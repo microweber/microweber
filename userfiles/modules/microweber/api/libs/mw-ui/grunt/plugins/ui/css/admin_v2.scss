@@ -11,6 +11,10 @@
     --tblr-body-font-family: 'Inter';
 }
 
+* {
+    font-family: var(--tblr-body-font-family) !important;
+}
+
 .table-responsive {
     background-color: #ffffff;
 }
@@ -627,11 +631,18 @@ small.text-muted {
     margin-top: 60px;
 }
 
-//*::-webkit-scrollbar-thumb {
-//    background-color: blue;
-//    border-radius: 20px;
-//    border: 3px solid orange;
-//}
+.module-standalone-icons-check {
+    .text-success {
+        svg {
+            fill: var(--tblr-success);
+        }
+    }
 
+    .text-danger {
+        svg {
+            fill: var(--tblr-danger);
+        }
+    }
+}
 
 
