@@ -38,9 +38,9 @@
 
 <div class="mw-backup-restore">
 
-    <div class="mw-backup-restore-options">
+    <div class="mw-backup-restore-options mt-4">
 
-        <h2 style="font-weight: bold">How do you like to apply this template?</h2>
+        <h2 style="font-weight: bold">How to apply this template?</h2>
         <br/>
 
         <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-default">
@@ -86,10 +86,10 @@
     <div class="backup-restore-modal-log-progress"></div>
 
     <div class="mw-backup-restore-buttons">
-        <a class="btn btn-link button-cancel">Close</a>
         <button class="btn btn-primary btn-rounded button-start js-button-change-template" onclick="mw_change_template()" type="submit">
             Change Template
         </button>
+        <a class="btn btn-link button-cancel" style="font-weight: normal;">Close</a>
     </div>
 
 </div>

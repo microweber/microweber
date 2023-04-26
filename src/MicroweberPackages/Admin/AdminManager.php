@@ -4,10 +4,12 @@ namespace MicroweberPackages\Admin;
 
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Admin\Events\ServingAdmin;
+use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 class AdminManager
 {
+    use HasMenus;
     use HasScriptsAndStylesTrait;
 
     public function __construct()
@@ -15,10 +17,9 @@ class AdminManager
         $this->addDefaultScripts();
         $this->addDefaultStyles();
         $this->addDefaultCustomTags();
+
+        $this->initMenus();
     }
-
-
-
 
     public function addDefaultScripts(): void
     {

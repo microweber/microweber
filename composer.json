@@ -91,6 +91,7 @@
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",
         "spatie/laravel-googletagmanager": "dev-main",
+        "spatie/laravel-menu": "dev-main",
         "spatie/laravel-permission": "*",
         "symfony/intl": "*",
         "symfony/translation": "*",
