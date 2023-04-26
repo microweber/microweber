@@ -118,6 +118,18 @@
                     @endif
                 @endforeach
 
+                @foreach(\MicroweberPackages\Admin\Facades\AdminManager::getMenu('left_menu_bottom') as $item)
+                    @if(method_exists($item, 'items'))
+                        @include('admin::layouts.partials.navbar-dropdown-link')
+                    @else
+                        @if($loop->first)
+                            @include('admin::layouts.partials.navbar-link', ['class'=>'mt-auto'])
+                        @else
+                            @include('admin::layouts.partials.navbar-link')
+                        @endif
+                    @endif
+                @endforeach
+
                 <?php event_trigger('mw.admin.sidebar.li.last'); ?>
 
 
