@@ -103,12 +103,12 @@
     border: 1px solid #ebebeb;
     margin-bottom: 15px;
     width: 100%;
-    text-align: left;
+    text-align: left; 
 }
 
-.mw-backup-restore-option.active {
-    box-shadow: 0px 4px 11px #e6e6e6;
-}
+/*.mw-backup-restore-option.active {*/
+/*    box-shadow: 0px 4px 11px #e6e6e6;*/
+/*}*/
 
 .mw-backup-restore-option:hover {
     box-shadow: 0px 4px 11px #e6e6e6;

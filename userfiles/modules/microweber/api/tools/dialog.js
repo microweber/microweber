@@ -220,7 +220,7 @@
             this.dialogHeader = this.options.root.createElement('div');
             this.dialogHeader.className = 'mw-dialog-header';
             if (this.options.title || this.options.header) {
-                this.dialogHeader.innerHTML = '<div class="mw-dialog-title">' + (this.options.title || this.options.header) + '</div>';
+                this.dialogHeader.innerHTML = '<div class="modal-title settings-title-inside">' + (this.options.title || this.options.header) + '</div>';
             }
         };
 
@@ -241,7 +241,7 @@
                     root.html(title);
                 }
                 else {
-                    mw.$(this.dialogHeader).prepend('<div class="mw-dialog-title">' + title + '</div>');                }
+                    mw.$(this.dialogHeader).prepend('<div class="modal-title settings-title-inside">' + title + '</div>');                }
             }
         };
 
