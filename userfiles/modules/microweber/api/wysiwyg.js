@@ -131,7 +131,7 @@ mw.wysiwyg = {
         if (!mw.wysiwyg.isSelectionEditable()) return false;
         mw.wysiwyg.save_selection();
         var cleaner = mw.$('<div class="mw-cleaner-block" contenteditable="true"><small class="muted">Paste document here.</small></div>')
-        var inserter = mw.$('<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right">Insert</span>')
+        var inserter = mw.$('<span class="btn btn-link mw-ui-btn-invert pull-right">Insert</span>')
         var clean = mw.dialog({
             content: cleaner,
             overlay: true,

@@ -271,6 +271,21 @@
     }
 }
 
+td, tr, th {
+    color: var(--tblr-dark);
+
+}
+
+.mw-dialog-skin-default .mw-dialog-footer {
+    border-top: none !important;
+}
+
+.mw-alert-holder {
+    font-size: 16px;
+    color: var(--tblr-dark) !important;
+
+}
+
 .settings-title-inside {
     font-size: 18px;
     font-weight: bold;
@@ -279,7 +294,6 @@
 }
 .mw-dialog-header {
     min-height: 3.5rem !important;
-    margin-bottom: 30px;
 }
 
 .img-circle-holder {

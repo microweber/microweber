@@ -49,29 +49,20 @@ if (isset($params['keyword'])) {
     <?php if (!empty($backups) ) { ?>
 
         <h6 class="advanced-settings-p-helper "><?php _e("Available Backups"); ?></h6>
-        <table cellspacing="0" cellpadding="0" class="table table-bordered" width="80%">
-            <thead class="bg-secondary">
-            <tr>
-                <th><?php _e("Filename"); ?></th>
-                <th><?php _e("Date"); ?></th>
-                <th><?php _e("Size"); ?></th>
-                <th><?php _e("Download"); ?></th>
-                <th><?php _e("Delete"); ?></th>
-            </tr>
-            </thead>
-            <tfoot class="bg-secondary">
-            <tr>
-                <td><?php _e("Filename"); ?></td>
-                <td><?php _e("Date"); ?></td>
+        <div class="">
+            <table class="table table-vcenter card-table">
+                <thead class="bg-secondary">
+                <tr>
+                    <th><?php _e("Filename"); ?></th>
+                    <th><?php _e("Date"); ?></th>
+                    <th><?php _e("Size"); ?></th>
+                    <th><?php _e("Download"); ?></th>
+                    <th><?php _e("Delete"); ?></th>
+                </tr>
+                </thead>
 
-                <td><?php _e("Size"); ?></td>
-                <td><?php _e("Download"); ?></td>
-
-                <td><?php _e("Delete"); ?></td>
-            </tr>
-            </tfoot>
-            <tbody>
-            <?php
+                <tbody>
+                <?php
                 $i = 1;
                 foreach ($backups as $item): ?>
                     <tr class="mw_admin_backup_item_<?php print $i ?>">
@@ -85,8 +76,9 @@ if (isset($params['keyword'])) {
                     </tr>
                     <?php $i++; endforeach; ?>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
 
     <?php } else { ?>
         <h6 class="advanced-settings-p-helper "><?php _e("There is no available backups"); ?></h6>

@@ -302,7 +302,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
                 </div>
             </div>
 
-            <div class="mw-dropdown pull-left nested-dropdown" style="display:none;"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
+            <div class="mw-dropdown pull-left nested-dropdown" style="display:none;"><span class="mw-dropdown-value btn btn-link mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
                 <div class="mw-dropdown-content">
                     <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>"/>
                 </div>

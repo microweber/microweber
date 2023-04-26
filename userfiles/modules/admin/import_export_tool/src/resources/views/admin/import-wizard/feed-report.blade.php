@@ -9,7 +9,7 @@
 
         @foreach($mappedContent->items() as $content)
             <div class="table-responsive">
-              <table class="table table-bordered">
+              <table class="table table-vcenter card-table">
                 <tbody>
                 @foreach($content as $columnKey=>$columnValue)
                     <tr>

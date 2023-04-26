@@ -109,9 +109,9 @@ mw.helpinfo = {
         mw.helpinfo_helper.id = 'helpinfo_helper';
         var footer = ''
             + '<div id="mw_info_helper_footer">'
-              + '<span class="mw-ui-btn mw-ui-btn-medium  left" onclick="mw.helpinfo.HideToHelp();">Hide</span>'
-              + '<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right" id="mw_helpinfo_next_btn" onclick="mw.helpinfo.next();" title="Press Spacebar">Next</span>'
-              + '<span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue right" id="mw_helpinfo_prev_btn" onclick="mw.helpinfo.previous();" title="Press Backspace">Previous</span>'
+              + '<span class="btn btn-link  left" onclick="mw.helpinfo.HideToHelp();">Hide</span>'
+              + '<span class="btn btn-link mw-ui-btn-green right" id="mw_helpinfo_next_btn" onclick="mw.helpinfo.next();" title="Press Spacebar">Next</span>'
+              + '<span class="btn btn-link mw-ui-btn-blue right" id="mw_helpinfo_prev_btn" onclick="mw.helpinfo.previous();" title="Press Backspace">Previous</span>'
             + '</div>';
         mw.helpinfo_helper.innerHTML = '<span id="helpinfo_arr"></span><div id="mw_info_helper_content"></div>' + footer;
         document.body.appendChild( mw.helpinfo_helper );

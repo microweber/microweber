@@ -218,8 +218,8 @@
         <div class="mw-ui-box-content">
             <div style="text-align:center;padding-bottom: 12px;">
                 <div id="cropmenu" class="mw-ui-btn-nav" style="display: none;">
-                    <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" onclick="DoCrop()"><?php _e("Crop"); ?></span>
-                    <span class="mw-ui-btn mw-ui-btn-medium" onclick="cropcancel()"><?php _e("Cancel"); ?></span>
+                    <span class="btn btn-primary" onclick="DoCrop()"><?php _e("Crop"); ?></span>
+                    <span class="btn btn-link" onclick="cropcancel()"><?php _e("Cancel"); ?></span>
                 </div>
             </div>
             <div class="mw-ui-field-holder" id="edititems">

@@ -21,7 +21,7 @@
 <div class="mw-ui-btn-nav" id="mw-site-preview-navigation">
 
 
-    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="mw-ui-btn mw-ui-btn-medium"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
+    <a href="<?php echo route('admin.content.index'); ?>" id="back_to_admin" class="btn btn-link"> <span class="d-none d-sm-block mdi mdi-arrow-left"></span> <?php _e("Admin"); ?></a>
 
 
 
@@ -31,6 +31,6 @@
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }
- print $u ?>?editmode=y"  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info"><span class="d-none d-sm-block mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
+ print $u ?>?editmode=y"  class="btn btn-primary"><span class="d-none d-sm-block mdi mdi-eye-outline"></span> &nbsp;<?php _e("Live Edit"); ?></a>
 </div>
 
