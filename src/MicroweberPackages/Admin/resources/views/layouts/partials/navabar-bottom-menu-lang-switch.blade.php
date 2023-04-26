@@ -1,15 +1,5 @@
+<div class="dropdown-divider"></div>
 <?php
-// file moved to .blade
-// file moved to .blade
-// file moved to .blade
-// file moved to .blade
-//
-///
-// src/MicroweberPackages/Admin/resources/views/layouts/partials/navabar-bottom-menu-lang-switch.blade.php
-//
-//
-
-return;
 
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
@@ -27,7 +17,7 @@ if (MultilanguageHelpers::multilanguageIsEnabled()) {
 
 
     //$getTranslationLocalesImported =  app()->translation_key_repostory->getImportedLocales();
-     if($supportedLanguagesFiles){
+    if($supportedLanguagesFiles){
         foreach ($supportedLanguagesFiles as $langKey => $langName) {
             $item = [];
             $item['locale'] = $langKey;
@@ -47,43 +37,44 @@ if(empty($supportedLanguages)){
 
 
 if ($supportedLanguages) {
-?>
+    ?>
 
 <div class="form-group text-center">
-     <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
+    <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
         <select class="form-select"
-            name="lang"
-            id="lang_selector_admin_footer"
-            data-width="100%"
-            data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
-            <?php foreach ($supportedLanguages as $language): ?>
+                name="lang"
+                id="lang_selector_admin_footer"
+                data-width="100%"
+                data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
+                <?php foreach ($supportedLanguages as $language): ?>
 
-            <?php
+                <?php
 
                 $languageLocale = $language['locale'];
                 $languageDisplayName = $language['display_name'] . ' [' . $language['locale'] . ']';
                 ?>
-                <option value="<?php print $languageLocale; ?>"
+            <option value="<?php print $languageLocale; ?>"
                     <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
                     <?php echo $languageDisplayName; ?>
-                </option>
+            </option>
             <?php endforeach; ?>
 
             <option value="edit_languages_redirect">&#9998; Edit languages...</option>
         </select>
     </div>
 </div>
-    <script>
-        document.querySelector("#lang_selector_admin_footer").addEventListener("change", function () {
+<script>
+    document.querySelector("#lang_selector_admin_footer").addEventListener("change", function () {
 
-            if(this.value == 'edit_languages_redirect'){
+        if(this.value == 'edit_languages_redirect'){
 
-               window.location.href = '<?php print admin_url('settings?group=language'); ?>';
+            window.location.href = '<?php print admin_url('settings?group=language'); ?>';
 
-            } else {
-                mw.admin.language(this.value);
+        } else {
+            mw.admin.language(this.value);
 
-            }
-        });
-    </script>
+        }
+    });
+</script>
 <?php } ?>
+
