@@ -3347,6 +3347,9 @@ html[dir="rtl"] {
       .mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler:before {
         content: "\F0142"; }
 
+#admin-main-tree *::-webkit-scrollbar-track {
+  background: orange; }
+
 /****************************
             Boxes
 *****************************/

@@ -737,3 +737,11 @@ html[dir="rtl"]{
     }
 }
 
+#admin-main-tree {
+
+    *::-webkit-scrollbar-track {
+        background: orange;
+    }
+
+}
+

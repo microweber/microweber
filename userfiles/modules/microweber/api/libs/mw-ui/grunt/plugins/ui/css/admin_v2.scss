@@ -1,4 +1,6 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
+@import "_mw_tabler";
+
 //@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");
 //@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");
 //@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");
@@ -624,3 +626,12 @@ small.text-muted {
 #js-page-tree-wrapper {
     margin-top: 60px;
 }
+
+//*::-webkit-scrollbar-thumb {
+//    background-color: blue;
+//    border-radius: 20px;
+//    border: 3px solid orange;
+//}
+
+
+
