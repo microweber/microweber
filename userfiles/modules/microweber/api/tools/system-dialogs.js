@@ -5,7 +5,7 @@ mw.tools.alert = function (text) {
         + '<td align="center" valign="middle"><div class="mw-alert-holder">' + text + '</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="btn btn-link" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
+        + '<td align="center" height="25"><span class="btn btn-primary" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
         + '</tr>'
         + '</table>';
     if (mw.$("#mw_alert").length === 0) {

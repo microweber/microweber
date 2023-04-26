@@ -36,7 +36,6 @@ mw.template_exporter = {
             data.id = $id;
             $.post(mw.settings.api_url + 'admin/developer_tools/template_exporter/Worker/delete', data,
                 function (resp) {
-                    mw.notification.msg(resp);
                     if ($selector_to_hide != undefined) {
                         $($selector_to_hide).fadeOut().remove();
 
