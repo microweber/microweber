@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Template\Traits;
 
+use Spatie\Menu\Link;
 use Spatie\Menu\Menu;
 
 trait HasMenus
@@ -15,14 +16,21 @@ trait HasMenus
         $this->menus['top_menu_left'] = Menu::new();
         $this->menus['top_menu_right'] = Menu::new();
         $this->menus['footer_links'] = Menu::new();
+
+        $this->menus['footer_links']->add(Link::to('/', 'Home'));
+        $this->menus['footer_links']->add(Link::to('/', 'Home'));
+        $this->menus['footer_links']->add(Link::to('/', 'Home'));
+        $this->menus['footer_links']->add(Link::to('/', 'Home'));
+
+
     }
 
     public function addMenuItem($menu, $item)
     {
-        $this->menus[$menu]->add($item); 
+        $this->menus[$menu]->add($item);
     }
 
-    public function render($menu)
+    public function renderMenu($menu)
     {
         return $this->menus[$menu]->render();
     }
