@@ -154,9 +154,16 @@
 
 </head>
 
+<?php
+$bodyDarkClass = '';
+
+if(isset($_COOKIE['admin_theme_dark'])){
+    $bodyDarkClass = 'theme-dark';
+}
+?>
 
 
-<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
+<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $bodyDarkClass; ?>">
 
 <?php if ($enableLivewireScripts) { ?>
 <div>
@@ -228,6 +235,20 @@ if(is_shop_module_enabled_for_user()){
         }, { order_id: ord_id });
     }
 
+    function mw_admin_toggle_dark_theme() {
+
+        var is_dark = $("body").hasClass('theme-dark');
+
+        if (!is_dark) {
+            $("body").addClass('theme-dark')
+            mw.cookie.set('admin_theme_dark', 'true');
+
+        } else {
+            $("body").removeClass('theme-dark')
+            mw.cookie.delete('admin_theme_dark');
+
+        }
+    }
 </script>
 
 
