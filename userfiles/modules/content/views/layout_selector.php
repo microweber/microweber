@@ -511,7 +511,7 @@ if (!empty($recomended_layouts)) {
                             </button>
 
                             <?php if (mw()->ui->disable_marketplace != true): ?>
-                                <a class="btn btn-link px-0 mb-3 form-label-inner" href="<?php echo admin_url();?>marketplace">
+                                <a class="btn btn-link px-0 mb-3 form-label-inner d-block text-start" style="padding-left: 0; display: block;" href="<?php echo admin_url();?>marketplace">
                                    <?php _e("More Templates"); ?>
                                 </a>
                             <?php endif; ?>
@@ -566,7 +566,7 @@ if (!empty($recomended_layouts)) {
                                         <?php
                                         if(isset($params['show_allow_multiple_template'])):
                                         ?>
-                                        <div class="form-group mb-3">
+                                        <div class="form-group mb-5">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="mw_option_field form-check-input" id="allow_multiple_templates"
                                                        parent-reload="true" name="allow_multiple_templates" value="y" data-value-unchecked="n" data-value-checked="y" option-group="system"
@@ -581,7 +581,7 @@ if (!empty($recomended_layouts)) {
                                         </div>
                                         <?php endif; ?>
 
-                                        <div class="form-group mb-3">
+                                        <div class="form-group mb-5">
                                             <label class="form-label"><?php _e("Choose Page Layout"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Select a page from the current template"); ?></small>
                                             <div>
