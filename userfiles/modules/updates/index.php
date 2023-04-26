@@ -6,9 +6,9 @@ if (mw()->ui->disable_marketplace) {
 ?>
 
 <div>
-    <h1>System Updates</h1>
+    <h1 class="main-pages-title">System Updates</h1>
 
-    <div class="mt-3">
+
         <module type="standalone-updater/admin" />
-    </div>
+
 </div>
