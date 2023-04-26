@@ -114,10 +114,12 @@
                     @if(method_exists($item, 'items'))
                         <li class="nav-item dropdown">
                             <a href="" class="nav-link fs-3 dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
-                                <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"/></svg>
+                                @if($item->prepend->icon)
+                                    {!! $item->prepend->icon !!}
+                                @endif
                                 <span class="badge-holder">
-                                {{$item->prepend->text()}}
-                            </span>
+                                    {{$item->prepend->text()}}
+                                </span>
                             </a>
                             <div class="dropdown-menu" data-bs-popper="static">
                                 <div class="dropdown-menu-columns">
@@ -138,8 +140,10 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a href="{{$item->url()}}" class="nav-link fs-3 ">
-                                <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M520 456V216h320v240H520ZM120 616V216h320v400H120Zm400 320V536h320v400H520Zm-400 0V696h320v240H120Zm80-400h160V296H200v240Zm400 320h160V616H600v240Zm0-480h160v-80H600v80ZM200 856h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360 776Z"></path></svg>
+                            <a href="{{$item->url()}}" class="nav-link fs-3 @if($item->active) active @endif">
+                                @if($item->icon)
+                                    {!! $item->icon !!}
+                                @endif
                                 <span>
                                 {{$item->text()}}
                                 </span>

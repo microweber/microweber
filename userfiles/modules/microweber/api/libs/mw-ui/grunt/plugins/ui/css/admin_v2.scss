@@ -88,7 +88,7 @@
                 right: 0;
             }
 
-            &:hover {
+            &:hover, &.active {
                 span:after {
                     width: 100%;
                     opacity: 1;
