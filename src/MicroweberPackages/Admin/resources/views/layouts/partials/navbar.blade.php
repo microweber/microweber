@@ -109,7 +109,6 @@
 
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
-
                 @foreach(\MicroweberPackages\Admin\Facades\AdminManager::getMenu('left_menu_top') as $item)
                     @if(method_exists($item, 'items'))
                         @include('admin::layouts.partials.navbar-dropdown-link')
