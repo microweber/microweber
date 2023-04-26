@@ -8,7 +8,7 @@
     });
 </script>
 
-<div class="alert alert-dismissible alert-warning">
+<div class="alert alert-dismissible alert-warning mb-3">
     <p class="mb-0"><?php _e("Note! Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></p>
 </div>
 
@@ -25,36 +25,27 @@
     </div>
 
     <div class="form-group">
-        <label class="form-label d-block"><?php _e("Optimize assets loading"); ?></label>
-        <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
-        <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="img_resize_choice1" name="optimize_asset_loading" class="mw_option_field form-check-input" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
-            <label class="custom-control-label" for="img_resize_choice1"><?php _e("Yes"); ?></label>
-        </div>
+        <label class="form-check form-switch" style="width: 100%;">
+            <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
-        <div class="custom-control custom-radio d-inline-block">
-            <input type="radio" id="img_resize_choice2" name="optimize_asset_loading" class="mw_option_field form-check-input" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
-            <label class="custom-control-label" for="img_resize_choice2"><?php _e("No"); ?></label>
-        </div>
+            <input type="checkbox" id="img_resize_choice1" name="optimize_asset_loading"  class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <span class="form-check-label" for="img_resize_choice1"><?php _e("Optimize assets loading"); ?></span>
+        </label>
+
     </div>
 
     <div class="form-group">
-        <label class="form-label d-block"><?php _e("Enable full page cache"); ?></label>
-        <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
 
-        <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="enable_full_page_cache1" name="enable_full_page_cache" class="mw_option_field form-check-input" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
-            <label class="custom-control-label" for="enable_full_page_cache1"><?php _e("Yes"); ?></label>
-        </div>
 
-        <div class="custom-control custom-radio d-inline-block mr-2">
-            <input type="radio" id="enable_full_page_cache2" name="enable_full_page_cache" class="mw_option_field form-check-input" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
-            <label class="custom-control-label" for="enable_full_page_cache2"><?php _e("No"); ?></label>
-        </div>
+        <label class="form-check form-switch" style="width: 100%;">
+            <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
+
+            <input type="checkbox" id="enable_full_page_cache1" name="enable_full_page_cache" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <span class="form-check-label" for="img_resize_choice1"><?php _e("Enable full page cache"); ?></span>
+        </label>
+
     </div>
-
-    <hr class="thin">
 
     <script>mw.lib.require('mwui_init');</script>
     <div class="form-group">

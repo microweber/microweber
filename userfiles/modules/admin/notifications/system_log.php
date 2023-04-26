@@ -64,14 +64,17 @@ $data = mw()->log_manager->get($log_params);
 
 <?php if (is_array($data)): ?>
     <br/>
-    <p>Show system logs for the last 30 days</p>
+   <div class="d-flex justify-content-between align-items-center mb-3">
+       <p class="mb-0">Show system logs for the last 30 days</p>
+       <a href="javascript:mw.syslog_log_reset_all();" class="btn btn-link"><?php _e("Clean up system log"); ?></a>
+   </div>
+
     <div class="mw-admin-system_log-holder" id="admin_system_log">
         <table cellspacing="0" cellpadding="0" class="table table-vcenter card-table">
             <thead>
             <tr valign="middle" class="bg-secondary">
                 <th valign="middle" colspan="3">
                     <h5 class="mb-1"><?php _e("Your system log for the last 30 days"); ?></h5>
-                    <a href="javascript:mw.syslog_log_reset_all();" class="btn btn-link btn-sm p-0"><?php _e("Clean up system log"); ?></a>
                 </th>
             </tr>
             </thead>
@@ -154,5 +157,5 @@ $data = mw()->log_manager->get($log_params);
         </table>
     </div>
 <?php else: ?>
-    <?php print notif(_e("Your system log is empty", true)) ?>
+    <p class="advanced-settings-p-helper"><?php _e("Your system log is empty") ?></p>
 <?php endif; ?>
