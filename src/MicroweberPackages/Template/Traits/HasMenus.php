@@ -18,10 +18,16 @@ trait HasMenus
         $this->menus['footer_links'] = Menu::new();
 
         $this->menus['footer_links']->add(Link::to('/', 'Home'));
-        $this->menus['footer_links']->add(Link::to('/', 'Home'));
-        $this->menus['footer_links']->add(Link::to('/', 'Home'));
-        $this->menus['footer_links']->add(Link::to('/', 'Home'));
 
+
+        $this->menus['footer_links']->add(Link::to(admin_url(), 'Dashboard'));
+        $this->menus['footer_links']->add(
+            Menu::new()
+            ->add(Link::to(admin_url(), 'Website'))
+            ->add(Link::to(admin_url('page'), 'Pages'))
+            ->add(Link::to(admin_url('category'), 'Category'))
+            ->add(Link::to(admin_url('post'), 'Post'))
+        );
 
     }
 
