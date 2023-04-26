@@ -48,7 +48,7 @@
     </div>
 
     <script>mw.lib.require('mwui_init');</script>
-    <div class="form-group">
+    <div class="form-group mt-4">
         <label class="form-label"><?php _e("Static files delivery method"); ?></label>
         <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
 
