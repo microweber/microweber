@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\User\tests;
 
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
@@ -58,6 +59,7 @@ class UserManagerTest extends TestCase
 
     public function testRegistration()
     {
+        Event::fake();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_enableUserRegistration();
@@ -81,6 +83,7 @@ class UserManagerTest extends TestCase
         self::$_username = $newUser['username'];
         self::$_password = $newUser['password'];
         self::$_email = $newUser['email'];
+        Event::assertDispatched(Registered::class);
 
     }
 
@@ -111,6 +114,7 @@ class UserManagerTest extends TestCase
 
     public function testLogin()
     {
+        Event::fake();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
@@ -124,6 +128,9 @@ class UserManagerTest extends TestCase
         $loginStatus = $userManager->login($loginDetails);
 
         $this->assertArrayHasKey('success', $loginStatus);
+
+
+        Event::assertDispatched(Login::class);
 
     }
 
