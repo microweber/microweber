@@ -14,7 +14,8 @@ export default {
             mw.app.editor.on('editNodeRequest',function(element){
                  
                 element.contentEditable = true;
-                console.log(element)
+                mw.app.richTextEditor.smallEditorInteract(element)
+            
                 mw.app.get('liveEdit').handles.hide();
                 mw.app.get('liveEdit').pause();
             });
@@ -33,8 +34,6 @@ export default {
 
 <style scoped>
 
-    #mw-live-edit-editor{
-        display: none;
-    }
+ 
 
 </style>

@@ -283,7 +283,7 @@
                     var treeHolder = mw.element('#admin-main-tree');
                     if(treeHolder) {
                         treeHolder.css({
-                            'height': 'calc(100vh - 120px)',
+                            'height': 'calc(100vh - 355px)',
                             'overflow': 'auto',
                             'minHeight': '200px',
                         });

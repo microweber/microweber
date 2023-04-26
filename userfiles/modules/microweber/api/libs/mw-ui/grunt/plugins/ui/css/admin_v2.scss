@@ -1,4 +1,6 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
+@import "_mw_tabler";
+
 //@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");
 //@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");
 //@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");
@@ -7,7 +9,10 @@
 :root {
     //--tblr-body-bg: white;
     --tblr-body-font-family: 'Inter';
+}
 
+* {
+    font-family: var(--tblr-body-font-family) !important;
 }
 
 .table-responsive {
@@ -598,6 +603,46 @@ small.text-muted {
 }
 
 
+.dropdown-menu-column-item{
+    position: relative;
+}
+ .mw-admin-sidebar-navigation-menu{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s;
+    min-width: 200px;
+
+ }
+
+ .mw-admin-sidebar-navigation-menu.active{
+    opacity: 1;
+    visibility: visible;
+ }
+
+ html[dir="rtl"]  .mw-admin-sidebar-navigation-menu{
+    left: auto;
+    right: auto;
+ }
+
 #js-page-tree-wrapper {
     margin-top: 60px;
 }
+
+.module-standalone-icons-check {
+    .text-success {
+        svg {
+            fill: var(--tblr-success);
+        }
+    }
+
+    .text-danger {
+        svg {
+            fill: var(--tblr-danger);
+        }
+    }
+}
+
+

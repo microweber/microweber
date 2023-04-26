@@ -8,11 +8,11 @@
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
         @if($displayFilters)
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-center">
 
             @include('content::admin.content.livewire.components.keyword')
 
-            <div class="col-xl-2 col-sm-3 col-12 mb-3 mb-md-0 ">
+            <div class=" mb-3 mb-md-0 ">
                 @include('content::admin.content.livewire.components.button-filter')
                 <div class="dropdown-menu p-1">
 
