@@ -83,7 +83,7 @@ MWEditor.interactionControls = {
             var changeButton = mw.element({
                 props: {
                     innerHTML: '<i class="mdi mdi-folder-multiple-image"></i>',
-                    className: 'mw-ui-btn mw-ui-btn-medium tip',
+                    className: 'btn btn-link tip',
                     dataset: {
                         tip: rootScope.lang('Change image')
                     }
@@ -118,7 +118,7 @@ MWEditor.interactionControls = {
             var editButton = mw.element({
                 props: {
                     innerHTML: '<i class="mdi mdi-image-edit"></i>',
-                    className: 'mw-ui-btn mw-ui-btn-medium tip',
+                    className: 'btn btn-link tip',
                     dataset: {
                         tip: rootScope.lang('Edit image')
                     }

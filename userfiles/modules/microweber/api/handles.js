@@ -1286,8 +1286,8 @@ mw._initHandles = {
 
 
             mw.$('.text-background-handle').on('click', function () {
-                var ok = mw.$('<button class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info pull-right">OK</button>');
-                var cancel = mw.$('<button class="mw-ui-btn mw-ui-btn-medium pull-left">Cancel</button>');
+                var ok = mw.$('<button class="btn btn-primary pull-right">OK</button>');
+                var cancel = mw.$('<button class="btn btn-link pull-left">Cancel</button>');
                 var footer = mw.$('<div></div>');
                 var area = $('<textarea class="mw-ui-field w100" style="height: 200px"/>');
                 var node = this.__for;

@@ -58,7 +58,7 @@
 
         if (state === '0') {
             tosend.state = 'ASC';
-//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'btn btn-link active ASC';
             obj.el.setAttribute('data-state', 'ASC');
 
             jQueryEl.find('i').removeClass('mdi-chevron-down');
@@ -66,7 +66,7 @@
         }
         else if (state === 'ASC') {
             tosend.state = 'DESC';
-//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active DESC';
+//            obj.el.className = 'btn btn-link active DESC';
             obj.el.setAttribute('data-state', 'DESC');
 
             jQueryEl.find('i').removeClass('mdi-chevron-up');
@@ -74,7 +74,7 @@
         }
         else if (state === 'DESC') {
             tosend.state = 'ASC';
-//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'btn btn-link active ASC';
             obj.el.setAttribute('data-state', 'ASC');
 
             jQueryEl.find('i').removeClass('mdi-chevron-down');
@@ -82,7 +82,7 @@
         }
         else {
             tosend.state = 'ASC';
-//            obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
+//            obj.el.className = 'btn btn-link active ASC';
             obj.el.setAttribute('data-state', 'ASC');
 
             jQueryEl.find('i').removeClass('mdi-chevron-down');

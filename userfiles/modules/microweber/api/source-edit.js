@@ -10,8 +10,8 @@ mw.lib.require('codemirror');
         var nav = document.createElement('div');
         var validator = document.createElement('div');
 
-        mw.$(ok).addClass('mw-ui-btn mw-ui-btn-medium mw-ui-btn-info').html(mw.lang('OK'));
-        mw.$(cancel).addClass('mw-ui-btn mw-ui-btn-medium').html(mw.lang('Cancel'));
+        mw.$(ok).addClass('btn btn-primary').html(mw.lang('OK'));
+        mw.$(cancel).addClass('btn btn-link').html(mw.lang('Cancel'));
 
         mw.$(area).on('input', function () {
             validator.innerHTML = area.value;

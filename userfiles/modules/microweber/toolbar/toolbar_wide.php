@@ -119,7 +119,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span><?php _e('Back to Admin'); ?></span> </a> </div>
           </li>
               <?php event_trigger('live_edit_toolbar_menu_start'); ?>
-          <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> <?php _e('Add New'); ?> </a>
+          <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="btn btn-link" title="Create or manage your content" style=""> <span class="ico iplus"></span> <?php _e('Add New'); ?> </a>
 
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
@@ -180,11 +180,11 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
 
 
-        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
+        <span class="btn btn-link mw-ui-btn-green mw-ui-btn right"
                               onclick="mw.drag.save(this)" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
-          <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-inline-start: 0;"><span
+          <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="btn btn-link" style="margin-inline-start: 0;"><span
                             class="mw-dropdown-arrow right"></span>
             <?php _e("Actions"); ?>
             </a>

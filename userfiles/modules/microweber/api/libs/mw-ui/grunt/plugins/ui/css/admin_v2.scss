@@ -264,11 +264,26 @@
     right: 13px;
 }
 
-.mw-backup-restore {
-    p, h3, h2 {
+.mw-backup-restore, .mw-dialog-holder {
+    p, h3, h2, small {
         color: var(--tblr-dark);
 
     }
+}
+
+td, tr, th {
+    color: var(--tblr-dark);
+
+}
+
+.mw-dialog-skin-default .mw-dialog-footer {
+    border-top: none !important;
+}
+
+.mw-alert-holder {
+    font-size: 16px;
+    color: var(--tblr-dark) !important;
+
 }
 
 .settings-title-inside {
@@ -531,6 +546,13 @@ small.text-muted {
 .advanced-settings-small-helper {
     font-size: 14px;
     padding-bottom: 10px;
+    color: var(--tblr-dark);
+}
+
+.advanced-settings-p-helper {
+    font-size: 16px;
+    padding-bottom: 10px;
+    color: var(--tblr-dark);
 }
 
 .dashboard-admin-cards {

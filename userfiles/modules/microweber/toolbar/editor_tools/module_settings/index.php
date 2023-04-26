@@ -306,9 +306,9 @@
 
                         var html = ""
                             + "<div class='mw-ui-btn-nav module-modal-settings-menu-content'>" +
-                            "<a class='mw-ui-btn mw-ui-btn-medium' href='javascript:window.mw.parent().tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset module</a>" +
+                            "<a class='btn btn-link' href='javascript:window.mw.parent().tools.confirm_reset_module_by_id(\"<?php print $params['id'] ?>\");'>Reset module</a>" +
 
-                            "<a class='mw-ui-btn mw-ui-btn-medium' disabled-href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
+                            "<a class='btn btn-link' disabled-href='javascript:window.parent.modal_preset_manager_html_placeholder_for_reload();'>Presets</a>" +
 
 
                             "</div>"
