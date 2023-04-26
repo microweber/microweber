@@ -148,8 +148,8 @@
     .mw-tree-nav-skin-default .mw-tree-context-menu-content-button:hover {
       background-color: rgba(183, 216, 255, 0.55); }
   .mw-tree-nav-skin-default .mw-tree-context-menu-item span:before {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -186,8 +186,8 @@
     margin-block: 2px 0; }
   .mw-tree-nav-skin-default .mw-tree-toggler:after {
     content: '';
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
@@ -279,8 +279,8 @@
     color: #0e80e5; }
   .mw-tree-nav-skin-default .mw-tree-item-title:before {
     font-family: "Material Design Icons";
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat; }
@@ -478,7 +478,7 @@ html[dir="rtl"] {
       .mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler:before {
         content: "\F0142"; }
 
-#admin-main-tree *::-webkit-scrollbar-track {
-  background: orange; }
+#admin-main-tree::-webkit-scrollbar-track {
+  background: #f1f5f9; }
 
 /*# sourceMappingURL=tree.css.map */
