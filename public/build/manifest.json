@@ -1,88 +1,16 @@
 {
-  "_bootstrap-0323fd72.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-0323fd72.js"
-  },
-  "_bootstrap-1c670bc5.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-1c670bc5.js"
-  },
-  "_bootstrap-22d4d072.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-22d4d072.js"
-  },
   "_bootstrap-2c1f888f.js": {
     "css": [
       "assets/bootstrap-94c1ec46.css"
     ],
     "file": "assets/bootstrap-2c1f888f.js"
   },
-  "_bootstrap-39e4cb66.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-39e4cb66.js"
-  },
-  "_bootstrap-44f825d0.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-44f825d0.js"
-  },
-  "_bootstrap-7a165de0.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-7a165de0.js"
-  },
-  "_bootstrap-957a1b87.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-957a1b87.js"
-  },
-  "_bootstrap-a04f8715.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-a04f8715.js"
-  },
-  "_bootstrap-a8772154.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-a8772154.js"
-  },
-  "_bootstrap-bbb27619.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-bbb27619.js"
-  },
-  "_bootstrap-dc123d97.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-dc123d97.js"
-  },
-  "_bootstrap-e04f5328.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-e04f5328.js"
-  },
   "bootstrap.css": {
     "file": "assets/bootstrap-94c1ec46.css",
     "src": "bootstrap.css"
   },
   "resources/css/microweber-admin-filament.css": {
-    "file": "assets/microweber-admin-filament-30c2444a.css",
+    "file": "assets/microweber-admin-filament-a58decbb.css",
     "isEntry": true,
     "src": "resources/css/microweber-admin-filament.css"
   },

@@ -506,5 +506,54 @@ $.fn.serializeAssoc = function() {
     return data;
 };
 
+// dropdowns
+;(function(){
+    
+    const _customDropdowns = () => {
+    
+
+        let all = document.querySelectorAll('select.form-select:not(.mw--select-ready)'),
+            i = 0, l = all.length;
+        for( ; i < l; i++ ) {
+            let itm = all[i];
+            itm.classList.add('mw--select-ready');
+            itm.style.display = 'none';
+            var settings = {
+
+            };
+            new TomSelect(itm, settings);
+        }        
+    }
+
+
+
+    var observer = new MutationObserver(function( mutations ) {
+        mutations.forEach(function( mutation ) {
+          var newNodes = mutation.addedNodes; 
+          if( newNodes !== null ) {  
+            _customDropdowns();
+          }
+        });    
+      });
+      
+ 
+      
+
+      addEventListener('DOMContentLoaded', _customDropdowns);
+      addEventListener('load',  e => {
+ 
+          _customDropdowns();
+          observer.observe(document.getElementById('mw-admin-container'), observerConfig = { 
+            attributes: false, 
+            childList: true, 
+            characterData: false 
+        });
+      });
+      
+    
+      
+    
+
+})();
 
 
