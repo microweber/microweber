@@ -8,7 +8,7 @@
     });
 </script>
 
-<div class="alert alert-dismissible alert-warning mb-3">
+<div class="alert alert-dismissible alert-warning mb-4">
     <p class="mb-0"><?php _e("Note! Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></p>
 </div>
 
