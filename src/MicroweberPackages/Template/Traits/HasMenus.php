@@ -38,9 +38,9 @@ trait HasMenus
         );
 
         $this->menus['left_menu_top']->add(Link::to(admin_url('module/view?type=admin/modules'), 'Modules'));
-        $this->menus['left_menu_top']->add(Link::to(admin_url('/marketplace'), 'Marketplace'));
-        $this->menus['left_menu_top']->add(Link::to(admin_url('/settings'), 'Settings'));
-        $this->menus['left_menu_top']->add(Link::to(admin_url('/users'), 'Users'));
+        $this->menus['left_menu_top']->add(Link::to(admin_url('marketplace'), 'Marketplace'));
+        $this->menus['left_menu_top']->add(Link::to(admin_url('settings'), 'Settings'));
+        $this->menus['left_menu_top']->add(Link::to(admin_url('users'), 'Users'));
 
     }
 

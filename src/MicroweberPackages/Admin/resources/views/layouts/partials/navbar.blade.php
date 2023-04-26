@@ -116,18 +116,18 @@
                             <a href="" class="nav-link fs-3 dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
                                 <svg style="margin-right: 20px;" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"/></svg>
                                 <span class="badge-holder">
-                                {{$item->prepend->text()}}
+                                {{$item->prepend->text()}} 
                             </span>
                             </a>
                             <div class="dropdown-menu" data-bs-popper="static">
                                 <div class="dropdown-menu-columns">
                                     <div class="dropdown-menu-column">
                                         @foreach($item->items() as $subItem)
-                                            <a href="" class="dropdown-item justify-content-between">
+                                            <a href="{{$subItem->url()}}" class="dropdown-item justify-content-between">
                                                <span>
                                                     {{$subItem->text()}}
                                                </span>
-                                                <span data-href="" class="add-new" data-bs-toggle="tooltip" title="">
+                                                <span data-href="{{$subItem->url()}}" class="add-new" data-bs-toggle="tooltip" title="">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
                                                 </span>
                                             </a>
