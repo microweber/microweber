@@ -813,8 +813,7 @@ var MWEditor = function (options) {
 
             if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                 var off = mw.element(target).offset();
-                console.log(off)
-                console.log(mw.element(target).offset)
+               
                 var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
                 // var cleft =  scope.interactionData.pageX;
                 var cleft =  off.left;

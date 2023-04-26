@@ -18,6 +18,8 @@ if (isset($_GET['group']) and $_GET['group']) {
         $show_inner = 'updates';
     } elseif ($group == 'email') {
         $show_inner = 'settings/group/email';
+    } elseif ($group == 'users') {
+        $show_inner = 'settings/group/users';
     } elseif ($group == 'template') {
         $show_inner = 'settings/group/template';
     } elseif ($group == 'advanced') {

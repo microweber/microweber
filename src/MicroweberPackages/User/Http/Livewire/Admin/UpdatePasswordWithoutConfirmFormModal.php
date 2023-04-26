@@ -2,15 +2,11 @@
 
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Contracts\UpdatesUserPasswords;
-use Laravel\Fortify\Rules\Password;
-use Livewire\Component;
 use MicroweberPackages\User\Models\User;
+use LivewireUI\Modal\ModalComponent;
 
-class UpdatePasswordWithoutConfirmForm extends Component
+class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
 {
     /**
      * The component's state.
@@ -71,6 +67,6 @@ class UpdatePasswordWithoutConfirmForm extends Component
      */
     public function render()
     {
-        return view('user::admin.livewire.edit-user.update-password-without-confirm-form');
+        return view('user::admin.livewire.edit-user.update-password-without-confirm-form-modal');
     }
 }
