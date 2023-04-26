@@ -8546,10 +8546,10 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
         position: absolute;
         top: 14px;
         right: 0; }
-      .admin-dashboard-left-nav .nav-link:hover span:after {
+      .admin-dashboard-left-nav .nav-link:hover span:after, .admin-dashboard-left-nav .nav-link.active span:after {
         width: 100%;
         opacity: 1; }
-      .admin-dashboard-left-nav .nav-link:hover:after {
+      .admin-dashboard-left-nav .nav-link:hover:after, .admin-dashboard-left-nav .nav-link.active:after {
         background-color: #efefef; } }
   .admin-dashboard-left-nav .dropdown-menu-column {
     padding: 15px 0; }
