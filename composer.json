@@ -86,7 +86,7 @@
         "phpdocumentor/reflection-docblock": "^5.0@dev",
         "phpoffice/phpspreadsheet": "1.16.0",
         "predis/predis": "*",
-        "rappasoft/laravel-livewire-tables": "v2.8.0",
+        "rappasoft/laravel-livewire-tables": "v2.12.0",
         "rtconner/laravel-tagging": "*",
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",

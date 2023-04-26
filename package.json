@@ -5,6 +5,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@nextapps-be/livewire-sortablejs": "^0.2.0",
         "@tailwindcss/aspect-ratio": "^0.4.2",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/line-clamp": "^0.4.2",
@@ -32,6 +33,7 @@
         "@vitejs/plugin-vue": "^4.1.0",
         "@vueform/slider": "^2.1.7",
         "@yeger/vue-masonry-wall": "^3.4.4",
+        "alpinejs": "^3.12.0",
         "aos": "^2.3.4",
         "axios": "^0.21.1",
         "bootstrap": "^4.6.2",

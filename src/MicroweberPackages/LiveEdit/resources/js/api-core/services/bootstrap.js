@@ -13,7 +13,10 @@ import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {ModuleSettings} from "./services/module-settings";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
+import '@nextapps-be/livewire-sortablejs';
 
+// other libs
+import Alpine from 'alpinejs';
 
 mw.app = new MWUniversalContainer();
 
@@ -32,3 +35,8 @@ mw.app = new MWUniversalContainer();
 
 
 //}, 300);
+
+// init other libs
+window.Alpine = Alpine;
+
+Alpine.start();
