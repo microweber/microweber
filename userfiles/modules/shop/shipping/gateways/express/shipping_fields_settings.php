@@ -10,12 +10,12 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Disable default shipping fields"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="disable_default_shipping_fields1" name="disable_default_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $disable_default_shipping_fields ? 'checked="checked"' : ''?> >
         <label class="custom-control-label" for="disable_default_shipping_fields1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="disable_default_shipping_fields2" name="disable_default_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="0" <?php echo $disable_default_shipping_fields ? '' : 'checked="checked"'?>  >
         <label class="custom-control-label" for="disable_default_shipping_fields2"><?php _e("No"); ?></label>
     </div>
@@ -24,12 +24,12 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Enable custom shipping fields"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="enable_custom_shipping_fields1" name="enable_custom_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $enable_custom_shipping_fields ? 'checked="checked"' : ''?> >
         <label class="custom-control-label" for="enable_custom_shipping_fields1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="enable_custom_shipping_fields2" name="enable_custom_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="0" <?php echo $enable_custom_shipping_fields ? '' : 'checked="checked"'?>  >
         <label class="custom-control-label" for="enable_custom_shipping_fields2"><?php _e("No"); ?></label>
     </div>

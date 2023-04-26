@@ -33,7 +33,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="form-group">
                 <label class="form-label d-block"><?php _e("Users must agree to Terms and Conditions"); ?></label>
 
-                <div class="custom-control custom-radio d-inline-block mr-2">
+                <div class="custom-control custom-radio d-inline-block me-2">
                     <input name="shop_require_terms" class="mw_option_field form-check-input" id="shop_require_terms_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_terms_0"><?php _e("No"); ?></label>
                 </div>
@@ -48,12 +48,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div class="form-group">
                 <label class="form-label d-block"><?php _e("Purchasing requires registration"); ?></label>
 
-                <div class="custom-control custom-radio d-inline-block mr-2">
+                <div class="custom-control custom-radio d-inline-block me-2">
                     <input name="shop_require_registration" class="mw_option_field form-check-input" id="shop_require_registration_0" data-option-group="website" value="0" type="radio" <?php if (get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_registration_0"><?php _e("No"); ?></label>
                 </div>
 
-                <div class="custom-control custom-radio d-inline-block mr-2">
+                <div class="custom-control custom-radio d-inline-block me-2">
                     <input name="shop_require_registration" class="mw_option_field form-check-input" id="shop_require_registration_1" data-option-group="website" value="1" type="radio" <?php if (get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
                     <label class="custom-control-label" for="shop_require_registration_1"><?php _e("Yes"); ?></label>
                 </div>

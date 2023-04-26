@@ -34,10 +34,9 @@
 
 
 
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder mt-3">
         <label class="form-label"><?php _e('Cache settings'); ?></label>
         <div class="mw-notification"><?php _e("Note: Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></div>
-        <hr>
     </div>
 
     <div class="mw-ui-field-holder">
@@ -80,7 +79,6 @@
         </ul>
     </div>
 
-    <hr>
   <div class="mb-2">
       <label class="form-label d-flex"><?php _e("Static files delivery method"); ?></label>
       <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
