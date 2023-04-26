@@ -44,47 +44,53 @@ if (isset($params['keyword'])) {
         }
     }
 </style>
-
+<?php $backups = mw('admin\developer_tools\template_exporter\Worker')->get($keyword); ?>
 <div id="backups_list">
-    <h6><?php _e("Available Backups"); ?></h6>
-    <table cellspacing="0" cellpadding="0" class="table table-bordered" width="80%">
-        <thead class="bg-secondary">
-        <tr>
-            <th><?php _e("Filename"); ?></th>
-            <th><?php _e("Date"); ?></th>
-            <th><?php _e("Size"); ?></th>
-            <th><?php _e("Download"); ?></th>
-            <th><?php _e("Delete"); ?></th>
-        </tr>
-        </thead>
-        <tfoot class="bg-secondary">
-        <tr>
-            <td><?php _e("Filename"); ?></td>
-            <td><?php _e("Date"); ?></td>
+    <?php if (!empty($backups) ) { ?>
 
-            <td><?php _e("Size"); ?></td>
-            <td><?php _e("Download"); ?></td>
+        <h6 class="advanced-settings-p-helper "><?php _e("Available Backups"); ?></h6>
+        <table cellspacing="0" cellpadding="0" class="table table-bordered" width="80%">
+            <thead class="bg-secondary">
+            <tr>
+                <th><?php _e("Filename"); ?></th>
+                <th><?php _e("Date"); ?></th>
+                <th><?php _e("Size"); ?></th>
+                <th><?php _e("Download"); ?></th>
+                <th><?php _e("Delete"); ?></th>
+            </tr>
+            </thead>
+            <tfoot class="bg-secondary">
+            <tr>
+                <td><?php _e("Filename"); ?></td>
+                <td><?php _e("Date"); ?></td>
 
-            <td><?php _e("Delete"); ?></td>
-        </tr>
-        </tfoot>
-        <tbody>
-        <?php $backups = mw('admin\developer_tools\template_exporter\Worker')->get($keyword);
-        if (isarr($backups)): ?>
+                <td><?php _e("Size"); ?></td>
+                <td><?php _e("Download"); ?></td>
+
+                <td><?php _e("Delete"); ?></td>
+            </tr>
+            </tfoot>
+            <tbody>
             <?php
-            $i = 1;
-            foreach ($backups as $item): ?>
-                <tr class="mw_admin_backup_item_<?php print $i ?>">
-                    <td><?php print $item['filename'] ?> <span id="restore-<?php print md5($item['filename']) ?>" class="restore-loading-indicator mw-icon-load-c" title="Working"> </span></td>
-                    <td><?php print $item['date'] ?><?php print $item['time'] ?></td>
+                $i = 1;
+                foreach ($backups as $item): ?>
+                    <tr class="mw_admin_backup_item_<?php print $i ?>">
+                        <td><?php print $item['filename'] ?> <span id="restore-<?php print md5($item['filename']) ?>" class="restore-loading-indicator mw-icon-load-c" title="Working"> </span></td>
+                        <td><?php print $item['date'] ?><?php print $item['time'] ?></td>
 
-                    <td><?php print file_size_nice($item['size']) ?></td>
-                    <td class="text-center"><a target="_blank" title="<?php _e("Download"); ?>" class="text-success" href="<?php print api_url('admin/developer_tools/template_exporter/Worker/download'); ?>?file=<?php print $item['filename'] ?>"><i class="mdi mdi-content-save-move mdi-20px"></i></a></td>
+                        <td><?php print file_size_nice($item['size']) ?></td>
+                        <td class="text-center"><a target="_blank" title="<?php _e("Download"); ?>" class="text-success" href="<?php print api_url('admin/developer_tools/template_exporter/Worker/download'); ?>?file=<?php print $item['filename'] ?>"><i class="mdi mdi-content-save-move mdi-20px"></i></a></td>
 
-                    <td class="text-center"><a href="javascript:;" title="<?php _e("Delete"); ?>" class="text-danger" onclick="mw.template_exporter.remove('<?php print $item['filename'] ?>', '.mw_admin_backup_item_<?php print $i ?>');"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
-                </tr>
-                <?php $i++; endforeach; ?>
-        <?php endif; ?>
-        </tbody>
-    </table>
+                        <td class="text-center"><a href="javascript:;" title="<?php _e("Delete"); ?>" class="text-danger" onclick="mw.template_exporter.remove('<?php print $item['filename'] ?>', '.mw_admin_backup_item_<?php print $i ?>');"><i class="mdi mdi-trash-can-outline mdi-20px"></i></a></td>
+                    </tr>
+                    <?php $i++; endforeach; ?>
+
+            </tbody>
+        </table>
+
+    <?php } else { ?>
+        <h6 class="advanced-settings-p-helper "><?php _e("There is no available backups"); ?></h6>
+
+
+   <?php } ?>
 </div>
