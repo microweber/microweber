@@ -7,12 +7,12 @@
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Show additional details"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_show_msg1" name="bank_transfer_show_msg" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('bank_transfer_show_msg', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_show_msg1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_show_msg2" name="bank_transfer_show_msg" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('bank_transfer_show_msg', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_show_msg2"><?php _e("No"); ?></label>
     </div>
@@ -27,12 +27,12 @@
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Show payment instructions"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_show_instructions1" name="bank_transfer_show_instructions" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('bank_transfer_show_instructions', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_show_instructions1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_show_instructions2" name="bank_transfer_show_instructions" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('bank_transfer_show_instructions', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_show_instructions2"><?php _e("No"); ?></label>
     </div>
@@ -41,12 +41,12 @@
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Send email with payment instructions"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_send_email_instructions1" name="bank_transfer_send_email_instructions" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_send_email_instructions1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="bank_transfer_send_email_instructions2" name="bank_transfer_send_email_instructions" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('bank_transfer_send_email_instructions', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="bank_transfer_send_email_instructions2"><?php _e("No"); ?></label>
     </div>

@@ -294,11 +294,11 @@ mw()->notifications_manager->mark_as_read('users');
                                         <label class="d-block mb-2"><?php _e('Sort by'); ?></label>
 
                                         <div class="form-group mb-0">
-                                            <div class="custom-control custom-radio d-inline-block mr-2">
+                                            <div class="custom-control custom-radio d-inline-block me-2">
                                                 <input type="radio" id="sortby1" name="sortby" class="form-check-input mw_users_filter_show" value="created_at desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)">
                                                 <label class="custom-control-label" for="sortby1"><?php _e("Date created"); ?></label>
                                             </div>
-                                            <div class="custom-control custom-radio d-inline-block mr-2">
+                                            <div class="custom-control custom-radio d-inline-block me-2">
                                                 <input type="radio" id="sortby2" name="sortby" class="form-check-input mw_users_filter_show" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)">
                                                 <label class="custom-control-label" for="sortby2"><?php _e("Last login"); ?></label>
                                             </div>
