@@ -1,18 +1,13 @@
 @import url("../css/../../tabler-ui/dist/css/tabler.min.css");
 @import "_mw_tabler";
 
-//@import url("../css/../../tabler-ui/dist/css/tabler-vendors.min.css");
-//@import url("../css/../../tabler-ui/dist/css/tabler-flags.min.css");
-//@import url("../css/../../tabler-ui/dist/css/tabler-flags.rtl.min.css");
-//@import url("../css/../../tabler-ui/dist/css/tabler-payments.min.css");
-
 :root {
     //--tblr-body-bg: white;
     --tblr-body-font-family: 'Inter';
 }
 
-* {
-    font-family: var(--tblr-body-font-family) !important;
+body {
+    font-family: var(--tblr-body-font-family);
 }
 
 .table-responsive {
@@ -265,7 +260,7 @@
 }
 
 .mw-backup-restore, .mw-dialog-holder {
-    p, h3, h2, small {
+    p, h3, h2, small, span, label {
         color: var(--tblr-dark);
 
     }

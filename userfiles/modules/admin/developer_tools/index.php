@@ -7,7 +7,7 @@
         if(!title){
             title = '';
         }
-        var dialog = mw.dialog({'title': title});
+        var dialog = mw.dialog({'title': title, 'width': 900});
         mw.load_module(module, dialog.dialogContainer);
     }
 </script>

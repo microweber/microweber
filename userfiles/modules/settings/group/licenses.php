@@ -124,9 +124,9 @@
        <h3 class="pt-3">
            You don't have any license.
        </h3>
-       <h6>
+       <p class="advanced-settings-p-helper">
            Please add a license to continue.
-       </h6>
+       </p>
        <a class="btn btn-success mb-3" href="javascript:mw.edit_licence('0');"><?php _e('Add License'); ?></a>
    </div>
 

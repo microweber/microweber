@@ -8498,8 +8498,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 :root {
   --tblr-body-font-family: 'Inter'; }
 
-* {
-  font-family: var(--tblr-body-font-family) !important; }
+body {
+  font-family: var(--tblr-body-font-family); }
 
 .table-responsive {
   background-color: #ffffff; }
@@ -8660,7 +8660,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   top: 17px;
   right: 13px; }
 
-.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small {
+.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-backup-restore span, .mw-backup-restore label, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small, .mw-dialog-holder span, .mw-dialog-holder label {
   color: var(--tblr-dark); }
 
 td, tr, th {
