@@ -59,7 +59,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
 </script>
 
 <div class="module-live-edit-settings">
-    <!--    <a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn mw-ui-btn-medium pull-right">--><?php //_e("Create new page"); ?><!--</a>-->
+    <!--    <a href="javascript:mw.add_new_page_to_menu();" class="btn btn-link pull-right">--><?php //_e("Create new page"); ?><!--</a>-->
 
     <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
         <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Menus'); ?></a>

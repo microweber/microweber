@@ -11,7 +11,7 @@
 </style>
 
 <div class="mw_edit_page_default" id="mw_edit_page_left">
-    <p><?php _e('This module will remove media from database, which is not present on the hard drive'); ?>.</p>
+    <p class="advanced-settings-small-helper"><?php _e('This module will remove media from database, which is not present on the hard drive'); ?>.</p>
 
     <div class="mw-admin-side-nav">
         <div class="back-up-nav-btns">

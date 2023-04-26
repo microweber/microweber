@@ -66,7 +66,7 @@ $data = mw()->log_manager->get($log_params);
     <br/>
     <p>Show system logs for the last 30 days</p>
     <div class="mw-admin-system_log-holder" id="admin_system_log">
-        <table cellspacing="0" cellpadding="0" class="table table-bordered">
+        <table cellspacing="0" cellpadding="0" class="table table-vcenter card-table">
             <thead>
             <tr valign="middle" class="bg-secondary">
                 <th valign="middle" colspan="3">

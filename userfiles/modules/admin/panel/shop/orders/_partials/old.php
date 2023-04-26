@@ -22,8 +22,8 @@
           <div class="mw-order-images">
             <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
             <?php  if(isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
-            <?php 
-	  
+            <?php
+
 	  $p = $cart_items[$i]['item_image']; ?>
             <?php if ($p != false): ?>
             <a data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);" href="<?php print ($p); ?>" target="_blank"></a>
@@ -113,7 +113,7 @@
             <div class="mw-ui-box-header" ><span>
               <?php _e("Order Status"); ?>
               </span></div>
-            
+
           </div>
           <?php event_trigger('mw.ui.admin.shop.order.edit.status.after', $ord); ?>
           <?php $edit_order_custom_items = mw()->ui->module('mw.ui.admin.shop.order.edit.status.after'); ?>
@@ -171,14 +171,14 @@
                   <?php _e("Payment Amount"); ?>
                   : <?php print $ord['payment_amount']; ?>
                   <?php
-				 
+
 		/*		  <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
                   <span> with <?php print $ord['payment_shipping']; ?>
                   <?php _e("for shipping"); ?>
                   </span>
                   <?php endif; ?>*/
-				 
-				 
+
+
 				  ?>
                   <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Amount paid by the user"); ?>"></span></li>
                 <?php endif; ?>
@@ -205,7 +205,7 @@
     </div>
     <div class="mw-ui-col">
       <div class="mw-ui-box">
-        <div class="mw-ui-box-header"> <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium pull-right"> <span class="mw-icon-pen"></span>
+        <div class="mw-ui-box-header"> <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="btn btn-link pull-right"> <span class="mw-icon-pen"></span>
           <?php _e("Edit"); ?>
           </a> <span>
           <?php _e("Client Information"); ?>

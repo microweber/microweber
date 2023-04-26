@@ -392,8 +392,8 @@ img{
 <template style="display: none" id="plus-modules-list">
 <input type="text" class="mw-ui-searchfield" />
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
-        <span class="mw-ui-btn mw-ui-btn-medium active"><i class="mw-icon-module"></i> <?php _e("Modules"); ?></span>
-        <!-- <span class="mw-ui-btn mw-ui-btn-medium"><i class="mw-icon-template"></i> <?php _e("Layouts"); ?></span> -->
+        <span class="btn btn-link active"><i class="mw-icon-module"></i> <?php _e("Modules"); ?></span>
+        <!-- <span class="btn btn-link"><i class="mw-icon-template"></i> <?php _e("Layouts"); ?></span> -->
     </div>
 
     <div class="plus-modules-list-box">

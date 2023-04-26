@@ -53,7 +53,7 @@ description: MW Default
     </style>
 
     <div class="mw-dropdown mw-dropdown-default">
-    <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
+    <span class="mw-dropdown-value btn btn-primary mw-dropdown-val">
 
         <?php if (!empty($current_language['display_icon'])): ?>
             <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" />

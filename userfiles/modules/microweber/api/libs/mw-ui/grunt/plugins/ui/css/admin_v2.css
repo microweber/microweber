@@ -8660,8 +8660,18 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   top: 17px;
   right: 13px; }
 
-.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2 {
+.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small {
   color: var(--tblr-dark); }
+
+td, tr, th {
+  color: var(--tblr-dark); }
+
+.mw-dialog-skin-default .mw-dialog-footer {
+  border-top: none !important; }
+
+.mw-alert-holder {
+  font-size: 16px;
+  color: var(--tblr-dark) !important; }
 
 .settings-title-inside {
   font-size: 18px;
@@ -8857,7 +8867,13 @@ small.text-muted {
 
 .advanced-settings-small-helper {
   font-size: 14px;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+  color: var(--tblr-dark); }
+
+.advanced-settings-p-helper {
+  font-size: 16px;
+  padding-bottom: 10px;
+  color: var(--tblr-dark); }
 
 .dashboard-admin-cards .dashboard-icons-wrapper {
   display: flex;

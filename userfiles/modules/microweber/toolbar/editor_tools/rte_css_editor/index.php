@@ -1479,7 +1479,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                             >
                             <input type="text" data-options="min: 50, max: 2000">
                         </div>
-                        <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('width', 'auto')">Auto</span>
+                        <span class="btn btn-link" onclick="output('width', 'auto')">Auto</span>
                     </div>
                 </div>
                 <div class="mw-esc">
@@ -1489,7 +1489,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                             <input type="text" data-options="min: 50, max: 2000">
 
                         </div>
-                        <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('height', 'auto')">Auto</span>
+                        <span class="btn btn-link" onclick="output('height', 'auto')">Auto</span>
 
                     </div>
                 </div>
@@ -1500,7 +1500,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         <label><?php _e("Min Width"); ?></label>
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat unit" data-prop="minWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
-                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minWidth', '0')">None</span>
+                            <span class="btn btn-link" onclick="output('minWidth', '0')">None</span>
 
                         </div>
                     </div>
@@ -1508,7 +1508,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         <label><?php _e("Min Height"); ?></label>
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat unit" data-prop="minHeight" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
-                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('minHeight', '0')">None</span>
+                            <span class="btn btn-link" onclick="output('minHeight', '0')">None</span>
                         </div>
                     </div>
 
@@ -1518,7 +1518,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         <label><?php _e("Max Width"); ?></label>
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat unit" data-prop="maxWidth" data-size="medium"><input type="text" data-options="min: 50, max: 2000"></div>
-                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxWidth', 'none')">None</span>
+                            <span class="btn btn-link" onclick="output('maxWidth', 'none')">None</span>
                         </div>
 
                     </div>
@@ -1526,7 +1526,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
                         <label><?php _e("Max Height"); ?></label>
                         <div class="mw-multiple-fields">
                             <div class="mw-field mw-field-flat unit" data-prop="maxHeight" data-size="medium"><input type="text"></div>
-                            <span class="mw-ui-btn mw-ui-btn-medium" onclick="output('maxHeight', 'none')">None</span>
+                            <span class="btn btn-link" onclick="output('maxHeight', 'none')">None</span>
                         </div>
                     </div>
                 </div>

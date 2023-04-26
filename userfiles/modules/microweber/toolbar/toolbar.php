@@ -402,7 +402,7 @@ if (isset($_COOKIE['mw_exp'])) {
 
 
                             <a href="javascript:;"
-                               class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button mw-toolbar-add-new-content-ctrl"
+                               class="btn btn-link mw-dropdown-button mw-toolbar-add-new-content-ctrl"
                                title="Create or manage your content">
                                 <i class="mdi mdi-plus mr-0"></i><span> <?php _e("Add New"); ?> </span>
                             </a>
@@ -466,11 +466,11 @@ if (isset($_COOKIE['mw_exp'])) {
                     <div class="mw-toolbar-right-content">
                         <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
-                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" data-tip="<?php _e("Back to Admin"); ?>" data-tipposition="bottom-center">
+                        <a id="back-to-admin-toolbar" href="<?php print $back_url; ?>" class="btn btn-link mw-ui-btn-invert" data-tip="<?php _e("Back to Admin"); ?>" data-tipposition="bottom-center">
                             <i class="mdi mdi-arrow-left"></i>
                             <?php _e("Admin"); ?>
                         </a>
-                        <button disabled class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
+                        <button disabled class="btn btn-link mw-ui-btn-invert" onclick="mw.drag.save()" id="main-save-btn"><i class="mdi mdi-floppy savebtn"></i><?php _e("Save"); ?></button>
 
                         <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" >
                             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span

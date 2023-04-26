@@ -8,7 +8,7 @@
 
             <h3>Default</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">Medium</a>
+            <a href="javascript:;" class="btn btn-link">Medium</a>
             <a href="javascript:;" class="mw-ui-btn">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big">Big</a>
 
@@ -17,37 +17,37 @@
 
             <h3>Invert</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-invert">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert">Medium</a>
+            <a href="javascript:;" class="btn btn-link mw-ui-btn-invert">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-invert">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-invert">Big</a>
 
             <h3>Info</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Medium</a>
+            <a href="javascript:;" class="btn btn-primary">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-info">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info">Big</a>
 
             <h3>Warn</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-warn">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn">Medium</a>
+            <a href="javascript:;" class="btn btn-link mw-ui-btn-warn">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-warn">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-warn">Big</a>
 
             <h3>Important</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important">Medium</a>
+            <a href="javascript:;" class="btn btn-link mw-ui-btn-important">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-important">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-important">Big</a>
 
             <h3>Rounded</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-rounded">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-rounded">Medium</a>
+            <a href="javascript:;" class="btn btn-link mw-ui-btn-rounded">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-rounded">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-rounded">Big</a>
 
             <h3>Notification</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification">Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Medium</a>
+            <a href="javascript:;" class="btn btn-link mw-ui-btn-notification">Medium</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification">Big</a>
 
@@ -55,14 +55,14 @@
 
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mai-website"></span> Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><span class="mai-website"></span> Medium</a>
+            <a href="javascript:;" class="btn btn-link"><span class="mai-website"></span> Medium</a>
             <a href="javascript:;" class="mw-ui-btn"><span class="mai-website"></span> Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mai-website"></span> Big</a>
 
             <h3>Icon only</h3>
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-icon-gear"></span></a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-gear"></span></a>
+            <a href="javascript:;" class="btn btn-link"><span class="mw-icon-gear"></span></a>
             <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-gear"></span></a>
 
@@ -70,7 +70,7 @@
             <h3>Button with image</h3>
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=1896727020)"></span> Small</a>
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=270356512)"></span> Medium</a>
+            <a href="javascript:;" class="btn btn-link"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=270356512)"></span> Medium</a>
             <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=664070448)"></span> Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=331172226)"></span> Big</a>
 

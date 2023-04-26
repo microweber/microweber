@@ -13,7 +13,7 @@
             var el = this;
             el.pauseScrollCallback();
             $.post("", function(){
-                var a = '<li><a title="Nominate"href="javascript:;"><img contenteditable="false"alt="Nominate screenshot."src="http://prothemedesign.com/wp-content/uploads/2010/07/nominate-wordpress-theme-screenshot.jpg"><span class="mw-overlay"></span><span class="mw-ui-theme-list-description"><span class="mw-theme-browser-list-title">Nominate</span><span class="mw_clear"></span><span style="margin-right: 10px;"class="mw-ui-btn mw-ui-btn-medium">Get Started</span><span class="mw-ui-btn mw-ui-btn-medium">Live Demo</span></span></a></li><li><a title="Byline"href="javascript:;"><img contenteditable="false"alt="Byline screenshot."src="http://prothemedesign.com/wp-content/uploads/2011/06/byline-wordpress-theme-screenshot.jpg"><span class="mw-overlay"></span><span class="mw-ui-theme-list-description"><span class="mw-theme-browser-list-title">Byline</span><span class="mw_clear"></span><span style="margin-right: 10px;"class="mw-ui-btn mw-ui-btn-medium">Get Started</span><span class="mw-ui-btn mw-ui-btn-medium"><?php _e("Live Demo"); ?></span></span></a></li>';
+                var a = '<li><a title="Nominate"href="javascript:;"><img contenteditable="false"alt="Nominate screenshot."src="http://prothemedesign.com/wp-content/uploads/2010/07/nominate-wordpress-theme-screenshot.jpg"><span class="mw-overlay"></span><span class="mw-ui-theme-list-description"><span class="mw-theme-browser-list-title">Nominate</span><span class="mw_clear"></span><span style="margin-right: 10px;"class="btn btn-link">Get Started</span><span class="btn btn-link">Live Demo</span></span></a></li><li><a title="Byline"href="javascript:;"><img contenteditable="false"alt="Byline screenshot."src="http://prothemedesign.com/wp-content/uploads/2011/06/byline-wordpress-theme-screenshot.jpg"><span class="mw-overlay"></span><span class="mw-ui-theme-list-description"><span class="mw-theme-browser-list-title">Byline</span><span class="mw_clear"></span><span style="margin-right: 10px;"class="btn btn-link">Get Started</span><span class="btn btn-link"><?php _e("Live Demo"); ?></span></span></a></li>';
                 $("#mw-theme-browser-list").append(a);
                 $("#mw-theme-browser-list").append(a);
                 el.continueScrollCallback();
@@ -46,8 +46,8 @@
                     <span class="mw-ui-theme-list-description">
                       <span class="mw-theme-browser-list-title"><?php print $title; ?></span>
                       <span class="mw_clear"></span>
-                      <span class="mw-ui-btn mw-ui-btn-medium" style="margin-right: 10px;"><?php _e("Get Started"); ?></span>
-                      <span class="mw-ui-btn mw-ui-btn-medium"><?php _e("Live Demo"); ?></span>
+                      <span class="btn btn-link" style="margin-right: 10px;"><?php _e("Get Started"); ?></span>
+                      <span class="btn btn-link"><?php _e("Live Demo"); ?></span>
                     </span>
                 </a>
             </li>

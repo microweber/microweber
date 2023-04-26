@@ -5,7 +5,7 @@ mw.tools.alert = function (text) {
         + '<td align="center" valign="middle"><div class="mw-alert-holder">' + text + '</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
+        + '<td align="center" height="25"><span class="btn btn-primary" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></td>'
         + '</tr>'
         + '</table>';
     if (mw.$("#mw_alert").length === 0) {
@@ -86,8 +86,8 @@ mw.tools.confirm = function (question, callback, onCancel) {
             + '</tr>'
             + '</table>';
 
-        var ok = mw.top().$('<span tabindex="99999" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">' + mw.msg.ok + '</span>');
-        var cancel = mw.top().$('<span class="mw-ui-btn mw-ui-btn-medium ">' + mw.msg.cancel + '</span>');
+        var ok = mw.top().$('<span tabindex="99999" class="btn btn-primary">' + mw.msg.ok + '</span>');
+        var cancel = mw.top().$('<span class="btn btn-link ">' + mw.msg.cancel + '</span>');
         var modal;
 
         if (mw.$("#mw_confirm_modal").length === 0) {
