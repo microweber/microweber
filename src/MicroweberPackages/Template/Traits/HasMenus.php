@@ -31,9 +31,9 @@ trait HasMenus
         $this->menus['left_menu_top']->submenu(
             Link::to(admin_url(), 'Shop'),
             Menu::new()
-                ->add(Link::to(admin_url('product'), 'Products'))
+                ->add(Link::to(admin_url('shop/product'), 'Products'))
                 ->add(Link::to(admin_url('order'), 'Orders'))
-                ->add(Link::to(admin_url('category'), 'Categories'))
+                ->add(Link::to(admin_url('shop/category'), 'Categories'))
                 ->add(Link::to(admin_url('customers'), 'Customers'))
         );
 
