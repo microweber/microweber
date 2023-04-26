@@ -15,10 +15,6 @@ class Menu extends \Spatie\Menu\Menu
 
     public string | Item $prepend = '';
 
-    public function items()
-    {
-        return $this->items;
-    }
 
     protected function __construct(Item ...$items)
     {
@@ -39,5 +35,22 @@ class Menu extends \Spatie\Menu\Menu
         });
     }
 
+    public function reordered()
+    {
+        $items = $this->items();
+
+        usort($items, function($item,$secondItem){
+            return $item->order > $secondItem->order;
+        });
+
+        $this->items = $items;
+
+        return $this;
+    }
+
+    public function items()
+    {
+        return $this->items;
+    }
 
 }

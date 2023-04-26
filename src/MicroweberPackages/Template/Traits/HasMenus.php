@@ -49,6 +49,6 @@ trait HasMenus
 
     public function getMenu($menu)
     {
-        return $this->menus[$menu];
+        return $this->menus[$menu]->reordered();
     }
 }
