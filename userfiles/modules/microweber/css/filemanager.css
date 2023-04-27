@@ -46,7 +46,7 @@
 }
 
 .mw-file-manager-root[data-view="list"] td.mw-file-manager-list-item-modified-cell{
-    max-width: 230px;
+     width: 220px;
 }
 .mw-file-manager-root[data-view="list"] .mw-file-manager-view-table th{
     white-space: nowrap;
@@ -117,7 +117,7 @@
     transform: rotateX(180deg);
 }
 
-.mw-file-manager-view-table tbody tr:hover > *{
+[data-view="list"] .mw-file-manager-view-table tbody tr:hover > *{
     background-color: #fafafa;
 }
 
@@ -236,10 +236,9 @@
     border-color: #ccc;
     transition: .3s;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  
 }
-.mw-file-manager-root[data-view="grid"] tr:hover .mw-file-manager-list-item-thumb.mw-file-manager-list-item-thumb-folder{
-    background-color: #eee;
-}
+ 
 
 .mw-file-manager-root[data-view="grid"] tbody tr .mw-file-manager-list-item-check-cell{
     padding: 0;
@@ -247,10 +246,14 @@
     bottom: 5px;
     left: 10px;
 }
+.mw-file-manager-root[data-view="grid"] tbody tr  > td{
+    padding: 20px;
+}
 .mw-file-manager-root[data-view="grid"] tbody tr {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
     position: absolute;
@@ -265,6 +268,7 @@
     color: #999;
     font-size: 11px;
     padding-block: 0;
+    display: none;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-size-cell{
     color: #555;
@@ -303,21 +307,14 @@
     padding: 0 20px;
 }
 .mw-file-manager-bar-path{
-    display: inline-block;
+ 
     max-width: 90%;
     overflow:hidden;
     text-align: right;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.mw-file-manager-bar-path > * + *:before{
-    display: inline-block;
-    content: '/';
-    margin-inline: 5px;
-}
-.mw-file-manager-bar-path > *{
-    display: inline-block;
-}
+ 
 
 .mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-thumb-image-cell{
     width: 70px;
@@ -326,7 +323,7 @@
     width: 40px;
 }
 .mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-thumb-file{
-    background-color: #b7b7b7;
+    background-color: #efefef;
     font-weight: bolder;
     border-radius: 3px;
     font-size: 10px;
@@ -346,7 +343,7 @@
     display: none !important;
 }
 .mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb-file{
-    background-color: #b7b7b7;
+    background-color: #efefef;
     font-weight: bolder;
     border-radius: 3px;
     font-size: 20px;
