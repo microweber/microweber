@@ -12,9 +12,11 @@ foreach($item->items() as $subItem) {
         @if($item->prepend->icon)
             {!! $item->prepend->icon !!}
         @endif
-        <span class="badge-holder">
-            {{$item->prepend->text()}}
-        </span>
+        <div x-init="setTimeout(function() { $el.classList.remove('placeholder'); $el.classList.remove('placeholder-xs'); }, 0);" class="placeholder placeholder-xs">
+            <span class="badge-holder">
+                {{$item->prepend->text()}}
+            </span>
+        </div>
     </a>
     <div class="dropdown-menu @if($dropdownActive) show @endif" data-bs-popper="static">
         <div class="dropdown-menu-columns">

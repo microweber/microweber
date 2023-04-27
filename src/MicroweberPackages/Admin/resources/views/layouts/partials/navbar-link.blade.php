@@ -4,7 +4,9 @@
             {!! $item->icon !!}
         @endif
         <span>
-        {{$item->text()}}
+           <div x-init="setTimeout(function() { $el.classList.remove('placeholder'); $el.classList.remove('placeholder-xs'); }, 0);" class="placeholder placeholder-xs">
+                {{$item->text()}}
+           </div>
         </span>
     </a>
 </li>
