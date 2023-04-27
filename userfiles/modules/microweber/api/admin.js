@@ -505,11 +505,13 @@ $.fn.serializeAssoc = function() {
     });
     return data;
 };
-
+ 
 // dropdowns
 ;(function(){
     
     const _customDropdownSelectPickerAdaper = (itm) => {
+
+       
 
 
         var defaults = {
@@ -561,9 +563,14 @@ $.fn.serializeAssoc = function() {
             itm.classList.add('mw--select-ready');
             itm.style.display = 'none';
             
-            _customDropdownSelectPickerAdaper(itm)
-           //  $(itm).selectpicker();
-        }        
+            // _customDropdownSelectPickerAdaper(itm)
+              $(itm).selectpicker();
+        }   
+        
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     }
 
 
