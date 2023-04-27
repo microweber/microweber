@@ -35,15 +35,15 @@ trait HasMenus
 
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Pages', [
-                'uri' => admin_url('page'),
+                'attributes' => ['route'=>'admin.page.index'],
         ]);
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Categories', [
-                'uri' => admin_url('category'),
+                'attributes' => ['route'=>'admin.category.index'],
         ]);
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Posts', [
-                'uri' => admin_url('post'),
+                'attributes' => ['route'=>'admin.post.index'],
             ]);
 
 

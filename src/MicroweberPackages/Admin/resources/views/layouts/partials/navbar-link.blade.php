@@ -3,7 +3,11 @@ $isCurrent = false;
 if (request()->getUri() == $item->getUri()) {
     $isCurrent = true;
 }
+if ($item->getAttribute('route') == Route::currentRouteName()) {
+    $dropdownActive = true;
+}
 @endphp
+
 
 <li class="nav-item @if(isset($class)) {{$class}} @endif">
     <a href="{{$item->getUri()}}" class="nav-link fs-3" @if($isCurrent) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif >

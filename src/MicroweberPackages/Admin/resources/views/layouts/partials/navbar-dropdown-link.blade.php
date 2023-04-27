@@ -4,6 +4,9 @@ foreach($item->getChildren() as $subItem) {
     if ($subItem->getAttribute('route') == Route::currentRouteName()) {
         $dropdownActive = true;
     }
+    if (request()->getUri() == $subItem->getUri()) {
+        $dropdownActive = true;
+    }
 }
 @endphp
 
