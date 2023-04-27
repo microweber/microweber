@@ -103,7 +103,7 @@ export const EditorComponent = function () {
         scopeColor: '#111',
         controls: editorControls,
         smallEditor: editorControls,
-        
+
         smallEditorPositionX: 'center',
         smallEditorSkin: 'lite',
 
@@ -120,8 +120,8 @@ export const EditorComponent = function () {
 
 
 
-    var btnUndo = document.getElementById('toolbar-undo')
-    var btnRedo = document.getElementById('toolbar-redo')
+    var btnUndo = document.getElementById('vue-toolbar-undo')
+    var btnRedo = document.getElementById('vue-toolbar-redo')
 
     liveEditor.state.on('record', function () {
 

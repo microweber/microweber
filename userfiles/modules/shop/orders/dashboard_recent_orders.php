@@ -19,8 +19,30 @@ if (!user_can_access('module.shop.orders.index')) {
 <?php
 
 
-$orders = get_orders('count=1');
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
+
+
+$currency = get_currency_code();
+
+$filter = [];
+$filters['from'] = date('Y-m-d', strtotime('-30 days'));
+$filters['to'] = date('Y-m-d', strtotime('today'));
+$filters['currency'] = $currency;
+
+$ordersAmount = app()->order_repository->getOrdersCountForPeriod($filters);
+
+
+$amountToDisplay = 0;
+
+if ($ordersAmount) {
+
+    $amountToDisplay = intval($ordersAmount);
+
+}
+
+
+
+
 ?>
 <?php if (!$shop_disabled): ?>
     <div class="card mb-4 dashboard-admin-cards">
@@ -34,7 +56,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <p> <?php _e("Recent Orders") ?></p>
 
                     <h5 class="dashboard-numbers">
-                        <?php  print $orders; ?>
+                        <?php  print $amountToDisplay; ?>
                     </h5>
 
                 </div>
@@ -42,7 +64,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 
             <div>
-                <a href="<?php print admin_url('order'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+                <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
             </div>
 
         </div>
