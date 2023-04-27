@@ -114,12 +114,12 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Enable user registration"); ?></label>
                                         <small class="text-muted d-block mb-2"> <?php _e("Do you allow users to register on your website? If you choose \"yes\", they will do that with their email."); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <?php  $curent_val = get_option('enable_user_registration', 'users'); ?>
                                         <div class="form-check form-switch pl-0">
 
@@ -128,12 +128,12 @@ if ($registration_approval_required == false) {
                                         </div>
                                     </div>
 
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Registration email verification"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Ask users for email verification confirmation after their registration. "); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <div class="form-check form-switch pl-0">
 
                                             <input type="checkbox" class="mw_option_field form-check-input" name="registration_approval_required" option-group="users" id="registration_approval_required" value="y" <?php if ($registration_approval_required == 'y'): ?>checked<?php endif; ?>>
@@ -163,33 +163,33 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Set the form fields"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Use the checkbox to determine which visible fields are required for registration."); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" value="y" <?php if ($form_show_first_name == 'y'): ?> checked <?php endif; ?> name="form_show_first_name" id="form_show_first_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_first_name"><?php _e("Show first name field?"); ?></label>
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" value="y" <?php if ($form_show_last_name == 'y'): ?> checked <?php endif; ?> name="form_show_last_name" id="form_show_last_name" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_last_name"><?php _e("Show last name field?"); ?></label>
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" value="y" <?php if ($form_show_password_confirmation == 'y'): ?> checked <?php endif; ?> name="form_show_password_confirmation" id="form_show_password_confirmation" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_password_confirmation"><?php _e("Show password confirmation field?"); ?></label>
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" value="y" <?php if ($form_show_newsletter_subscription == 'y'): ?> checked <?php endif; ?> name="form_show_newsletter_subscription" id="form_show_newsletter_subscription" class="mw_option_field form-check-input" option-group="users">
                                             <label class="custom-control-label" for="form_show_newsletter_subscription"><?php _e("Show newsletter subscription checkbox?"); ?></label>
@@ -197,7 +197,7 @@ if ($registration_approval_required == false) {
                                     </div>
 
 <!--                                    <a href="#" class="btn btn-link my-1" style="padding: 0;">--><?php //_e("View Register Form settings"); ?><!--</a>-->
-                                    <div class="form-group my-3 pt-3">
+                                    <div class="form-group my-4 pt-3">
                                         <label class="form-label"><?php _e("Disable Captcha - registration form"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Enable or Disable captcha code verification in the registration area."); ?></small>
                                     </div>
@@ -210,7 +210,7 @@ if ($registration_approval_required == false) {
                                     <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
 
 
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Disable registration with temporary email?"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla... etc"); ?></small>
                                     </div>
@@ -245,7 +245,7 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Login form settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do I need a captcha foma for login each time?"); ?></small>
                                     </div>
@@ -277,19 +277,19 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12 socials-logins-settings">
-                                    <div class="form-group my-3">
+                                    <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Enable user registration with socials accounts"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do you allow users to register on your website with their social media accounts. This will save time of the users to register."); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <div class="form-group mb-5">
                                         <?php $allow_socials_login = get_option('allow_socials_login', 'users'); ?>
                                         <div class="form-check form-switch pl-0">
                                             <input type="checkbox" class="mw_option_field form-check-input" name="allow_socials_login" id="users-social-newtworks-login" option-group="users" value="y" data-bs-toggle="collapse" data-bs-target="#allow-users-social-newtworks-login" <?php if ($allow_socials_login == 'y'): ?>checked<?php endif; ?> />
                                         </div>
 
                                         <div class="collapse <?php if ($allow_socials_login == 'y'): ?>show<?php endif; ?>" id="allow-users-social-newtworks-login">
-                                            <div class="form-group my-3">
+                                            <div class="form-group my-4">
                                                 <label class="form-label mb-0"><?php _e("Allow social login with"); ?></label>
 
                                             </div>
@@ -481,12 +481,12 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-4">
-                                        <div class="form-group my-3">
+                                        <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
                                         </div>
 
-                                        <div class="form-group mb-4">
+                                        <div class="form-group mb-5">
                                             <div class="form-check form-switch pl-0">
                                                 <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                             </div>
@@ -494,12 +494,12 @@ if ($registration_approval_required == false) {
 
 
 
-                                        <div class="form-group my-3">
+                                        <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Send email on new user registration to admin users"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want adminitrators to receive an e-mail when new user is registered?"); ?></small>
                                         </div>
 
-                                        <div class="form-group mb-4">
+                                        <div class="form-group mb-5">
                                             <div class="form-check form-switch pl-0">
                                                 <input name="register_email_to_admins_enabled" id="register_email_to_admins_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_to_admins_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                             </div>
@@ -507,12 +507,12 @@ if ($registration_approval_required == false) {
 
 
 
-                                        <div class="form-group my-3">
+                                        <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Require e-mail verification on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want users to verify their e-mail address when registering?"); ?></small>
                                         </div>
 
-                                        <div class="form-group mb-4">
+                                        <div class="form-group mb-5">
 	                                        <div class="form-check form-switch pl-0">
 		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field form-check-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
 		                                    </div>
@@ -524,12 +524,12 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div>
-                                        <div class="form-group my-3">
+                                        <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Send custom forgot password email"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Select which template the users will receive when try to reset their password?"); ?></small>
                                         </div>
 
-                                        <div class="form-group mb-4">
+                                        <div class="form-group mb-5">
                                             <div class="form-check form-switch pl-0">
                                                 <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                             </div>
@@ -537,7 +537,7 @@ if ($registration_approval_required == false) {
 
                                         <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" class="mb-4"/>
 
-                                        <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send Test Email'); ?></a>
+                                        <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send test email'); ?></a>
 
                                     </div>
                                 </div>
