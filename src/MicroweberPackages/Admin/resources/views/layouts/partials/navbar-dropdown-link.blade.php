@@ -1,14 +1,14 @@
 @php
 $dropdownActive = false;
 foreach($item->getChildren() as $subItem) {
-    if($subItem->isCurrent()) {
+    if ($subItem->getAttribute('route') == Route::currentRouteName()) {
         $dropdownActive = true;
     }
 }
 @endphp
 
 <li class="nav-item dropdown">
-    <a href="{{$item->getUri()}}" class="nav-link fs-3 dropdown-toggle" @if($dropdownActive) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="nav-link fs-3 dropdown-toggle" @if($dropdownActive) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
         {!! $item->getAttribute('icon') !!}
         <div x-init="setTimeout(function() { $el.classList.remove('placeholder'); $el.classList.remove('placeholder-xs'); }, 300);" class="placeholder placeholder-xs">
             <span class="badge-holder">
@@ -20,7 +20,7 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-                    <a href="{{$subItem->getUri()}}" class="dropdown-item justify-content-between @if($subItem->isCurrent()) active @endif">
+                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItem->getAttribute('route') == Route::currentRouteName()) active @endif">
                        <span>
                             {{$subItem->getName()}}
                        </span>

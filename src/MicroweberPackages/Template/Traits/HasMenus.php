@@ -47,7 +47,6 @@ trait HasMenus
             ]);
 
 
-
         $this->menus['left_menu_bottom']->addChild('Get Help', [
             'uri' => admin_url('GetHelp'),
             'attributes'=>[
