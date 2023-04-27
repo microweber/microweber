@@ -150,7 +150,7 @@
                 orderBy: 'filemtime',
                 path: '/'
             },
-            backgroundColor: '#fafafa',
+            backgroundColor: '#ffffff',
             stickyHeader: false,
             requestData: defaultRequest,
             addFile: defaultAddFile,
@@ -180,7 +180,8 @@
             var input = document.createElement('input');
             input.type = (scope.settings.multiselect ? 'checkbox' : 'radio');
             input.name = name || _checkName;
-            var root = mw.element('<label class="mw-ui-check"><span></span></label>');
+            input.className = 'form-check-input';
+            var root = mw.element('<label class="form-check"><span></span></label>');
             root.prepend(input);
 
             ['click', 'mousedown', 'mouseup', 'touchstart', 'touchend'].forEach(function (ev){
@@ -214,9 +215,9 @@
             if(!label) {
                 label = i;
             }
-            var lnk = mw.element('<a>' + label + '</a>');
-
-            lnk.on('click', function () {
+            var lnk = mw.element('<li class="page-item"><a class="page-link">' + label + '</a></li>');
+         
+            lnk.find('a').on('click', function () {
                 scope.setPage(i);
             });
             if(i === curr) {
@@ -225,8 +226,10 @@
             return lnk;
         };
 
+ 
+
         var _createPaginationNav = function (array, curr, totalPages) {
-            var wrapper = mw.element('<div class="mw-paging mw-paging-medium" />');
+            var wrapper = mw.element('<div class="pagination" />');
             if(curr > 1){
                 wrapper.append(_createPaginationNavLink(1, '&laquo;', curr));
                 wrapper.append(_createPaginationNavLink(curr-1, '&lsaquo;', curr));
@@ -249,7 +252,7 @@
                     top: mw.element('<div class="mw-file-manager-paging mw-file-manager-paging-top" />'),
                     bottom: mw.element('<div class="mw-file-manager-paging mw-file-manager-paging-bottom" />')
                 }
-                scope.tableWrapper.prepend(scope.pagingNavigations.top);
+                // scope.tableWrapper.prepend(scope.pagingNavigations.top);
                 scope.tableWrapper.append(scope.pagingNavigations.bottom);
             }
             var pg = obj.pagination;
@@ -259,8 +262,10 @@
             } else {
                 array = [curr-2,curr-1,curr,curr+1,curr+2];
             }
+             
+ 
 
-            scope.pagingNavigations.top.empty().append(_createPaginationNav(array, curr, pg.totalPages));
+            // scope.pagingNavigations.top.empty().append(_createPaginationNav(array, curr, pg.totalPages));
             scope.pagingNavigations.bottom.empty().append(_createPaginationNav(array, curr, pg.totalPages));
         };
 
@@ -836,12 +841,30 @@
 
 
         this.creteSearchNode = function (target) {
+
+
+            
+
           var html = '<div class="mw-file-manager-search">' +
               '<div class="mw-field"><input type="text" placeholder="Search"><button type="button" class="mw-file-manager-search-clear"></button></div><button type="button" class="mw-ui-btn mw-field-append mw-file-manager-search-button">' +
               '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">' +
               '<path d="M954.7,855L774.6,674.8c-13.5-13.5-30.8-20.8-48.4-22.5c54.3-67.7,87-153.5,87-246.8C813.1,187.4,635.7,10,417.6,10S22.1,187.4,22.1,405.5S199.5,801,417.6,801c82.3,0,158.8-25.3,222.1-68.5c0.4,19.6,8,39.1,23,54.1l180.2,180.2c15.4,15.5,35.7,23.2,55.9,23.2c20.2,0,40.5-7.7,55.9-23.2C985.6,935.9,985.6,885.9,954.7,855z M417.6,669.2c-145.4,0-263.7-118.3-263.7-263.7s118.3-263.7,263.7-263.7s263.7,118.3,263.7,263.7S563,669.2,417.6,669.2z"/>' +
               '</svg></button>' +
               '</div>';
+
+
+
+              var html = `<div class="row g-2">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-icon mw-file-manager-search-button" aria-label="Button">
+              
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                </button>
+              </div>
+            </div>`;
 
             var el = mw.element(html);
             if(target) {
@@ -932,22 +955,43 @@
 
             scope.creteMethodsNode(selectEl.get(0));
             scope.creteSearchNode(selectEl.get(0));
-            topBar.append(selectEl);
-            return topBar.get(0);
 
-        };
 
-        var createMainBar = function (){
             var viewTypeSelectorRoot = mw.element({
                 props: {
                     className: 'mw-file-manager-bar-view-type-selector'
                 }
             });
-            var sortSelectRoot = mw.element({
-                props: {
-                    className: 'mw-file-manager-bar-view-sort-selector'
-                }
+
+            var viewTypeSelector = mw.element(`
+            <div class="btn-group">
+                <span class="btn btn-sm" data-view-type="grid" data-bs-toggle="tooltip" data-bs-placement="top" title="Grid">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M120 536V216h320v320H120Zm0 400V616h320v320H120Zm400-400V216h320v320H520Zm0 400V616h320v320H520ZM200 456h160V296H200v160Zm400 0h160V296H600v160Zm0 400h160V696H600v160Zm-400 0h160V696H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
+                </span>
+
+                <span class="btn btn-sm" data-view-type="list" data-bs-toggle="tooltip" data-bs-placement="top" title="List">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M360 856v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200 896q-33 0-56.5-23.5T120 816q0-33 23.5-56.5T200 736q33 0 56.5 23.5T280 816q0 33-23.5 56.5T200 896Zm0-240q-33 0-56.5-23.5T120 576q0-33 23.5-56.5T200 496q33 0 56.5 23.5T280 576q0 33-23.5 56.5T200 656Zm0-240q-33 0-56.5-23.5T120 336q0-33 23.5-56.5T200 256q33 0 56.5 23.5T280 336q0 33-23.5 56.5T200 416Z"/></svg>
+                </span>
+            </div>`);
+
+         
+
+          viewTypeSelectorRoot.append(viewTypeSelector);
+
+ 
+            viewTypeSelector.find('.btn').on('click', function (val){
+                scope.viewType( this.dataset.viewType );
             });
+
+            topBar.append(selectEl);
+            selectEl.append(viewTypeSelectorRoot);
+            return topBar.get(0);
+
+        };
+
+        var createMainBar = function (){
+            
+ 
             _backNode = mw.element({
                 tag: 'button',
 
@@ -961,42 +1005,9 @@
             });
 
 
-
-            var viewTypeSelector = mw.select({
-                element: viewTypeSelectorRoot.get(0),
-                size: 'small',
-                placeholder: mw.lang('Display'),
-                data: [
-                    {title: mw.lang('Grid'), value: 'grid'},
-                    {title: mw.lang('List'), value: 'list'},
-
-                ]
-            });
-
-            var sortTypeSelector = mw.select({
-                element: sortSelectRoot.get(0),
-                size: 'small',
-                placeholder: mw.lang('Sort'),
-                data: [
-                    {title: mw.lang('Name') + '&#8593;', value: 'basename|asc'},
-                    {title: mw.lang('Name') + '&#8595;', value: 'basename|desc'},
-                    {title: mw.lang('Size') + '&#8593;', value: 'filesize|asc'},
-                    {title: mw.lang('Size') + '&#8595;', value: 'filesize|desc'},
-                    {title: mw.lang('Last modified') + '&#8593;', value: 'filemtime|asc'},
-                    {title: mw.lang('Last modified') + '&#8595;', value: 'filemtime|desc'},
-                ]
-            });
-
-            sortTypeSelector.on('change', function (val){
-                var arr = val[0].value.split('|');
-                scope.sort(arr[0], arr[1])
-            });
-            viewTypeSelector.on('change', function (val){
-                scope.viewType( val[0].value);
-            });
             _pathNode = mw.element({
                 props: {
-                    className: 'mw-file-manager-bar-path'
+                    className: 'breadcrumb mw-file-manager-bar-path'
                 }
             });
             var _pathNodeRoot = mw.element({
@@ -1014,8 +1025,8 @@
             bar
                 .append(_backNode)
                 .append(_pathNodeRoot)
-                .append(sortSelectRoot)
-                .append(viewTypeSelectorRoot);
+                
+                
             return bar;
         };
 
@@ -1106,9 +1117,14 @@
             if(viewType !== this.settings.viewType || _forced) {
                 this.settings.viewType = viewType;
                 this.root.dataset('view', this.settings.viewType);
+              
+                Array.from(this.root.get(0).querySelectorAll('[data-view-type]')).forEach(function(node){
+                    node.classList[node.dataset.viewType === viewType ? 'add' : 'remove']('active');
+                });
                 this.dispatch('viewTypeChange', this.settings.viewType);
+
             }
-        };
+        }; 
 
         var pathItem = function (path, html){
             var node = document.createElement('a');
@@ -1174,13 +1190,14 @@
                 scope.view();
                 scope.path(scope.settings.query.path, false);
                 scope.sort(scope.settings.query.orderBy, scope.settings.query.order, false);
+                scope.viewType(scope.settings.viewType, true);
                 scope.dispatch('ready');
             });
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
             }
 
-            this.viewType(this.settings.viewType, true);
+            
 
         };
         this.init();

@@ -45,11 +45,14 @@
     height: 43px;
 }
 
+.mw-file-manager-root[data-view="list"] td.mw-file-manager-list-item-modified-cell{
+    max-width: 230px;
+}
 .mw-file-manager-root[data-view="list"] .mw-file-manager-view-table th{
     white-space: nowrap;
     font-size: 12px;
     font-weight: normal;
-
+    text-transform: uppercase;
     border-bottom: 1px solid #dbdcdd;
 
 }
@@ -207,13 +210,14 @@
 .mw-file-manager-root[data-view="grid"] thead th:empty{
     display: none;
 }
+ 
 .mw-file-manager-root[data-view="grid"] thead,
 .mw-file-manager-root[data-view="grid"] tbody{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    justify-content: start;
+    justify-content: flex-start;
     align-content: flex-start;
 }
 
@@ -255,6 +259,7 @@
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-name-cell{
     padding-block: 0 10px;
+    max-width: 200px;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-modified-cell{
     color: #999;
@@ -273,10 +278,10 @@
     transform-origin: center bottom;
 }
 .mw-file-manager-root[data-view="grid"] tr{
-    width: 160px;
-    border-bottom: 1px solid #ccc;
+    width: auto;
+ 
     position: relative;
-    padding-bottom: 35px;
+    padding: 0px 0px 35px;
 }
 
 
@@ -284,7 +289,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #dbdcdd;
+ 
     padding: 0px 0 12px;
 }
 
@@ -366,7 +371,7 @@
 }
 .mw-file-manager-top-bar-actions-content{
     position: absolute;
-    top: 0;
+    top: 100%;
     left: 0;
     background-color: #fff;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -380,7 +385,6 @@
 .mw-file-manager-top-bar{
     padding-bottom: 20px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #dbdcdd;
 }
 .mw-file-manager-top-bar-actions{
     position: relative;
@@ -398,13 +402,8 @@
     height: 20px;
     vertical-align: top;
 }
-.mw-file-manager-create-methods-dropdown-add{
 
-}
-
-.mw-file-manager-add-node + .mw-file-manager-add-node{
-    border-top: 1px solid #eee;
-}
+ 
 .mw-file-manager-add-node{
     position: relative;
     display: block;
@@ -489,9 +488,7 @@
 }
 
 
-.mw-file-manager-paging-top{
-    border-bottom: 1px solid #dbdcdd;
-}
+ 
 
 .mw-file-manager-paging{
     display: flex;

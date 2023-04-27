@@ -505,24 +505,72 @@ $.fn.serializeAssoc = function() {
     });
     return data;
 };
-
+ 
 // dropdowns
 ;(function(){
     
+    const _customDropdownSelectPickerAdaper = (itm) => {
+
+       
+
+
+        var defaults = {
+            copyClassesToDropdown: false,
+    		dropdownClass: 'dropdown-menu ts-dropdown',
+    		optionClass:'dropdown-item',
+    		controlInput: '<input>',
+    		render:{
+    			item: function(data,escape) {
+                    const content = (data.content || data.text);
+    				if( data.customProperties ){
+    					return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + content + '</div>';
+    				}
+    				return '<div>' + content + '</div>';
+    			},
+    			option: function(data,escape){
+                    const content = (data.content || data.text);
+    				if( data.customProperties ){
+    					return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + content + '</div>';
+    				}
+    				return '<div>' + content + '</div>';
+    			},
+    		},
+        }
+
+        var options = {
+ 
+        };
+
+        var settings = Object.assign({}, defaults, options)
+
+
+
+
+        Array.from(itm.options).forEach(el => {
+            if(el.dataset.content) {
+                el.innerHTML = el.dataset.content;
+            }
+        });
+        new TomSelect(itm, settings);
+    }
     const _customDropdowns = () => {
     
 
-        let all = document.querySelectorAll('select.form-select:not(.mw--select-ready)'),
+        let all = document.querySelectorAll('select.selectpicker:not(.mw--select-ready)'),
             i = 0, l = all.length;
         for( ; i < l; i++ ) {
             let itm = all[i];
             itm.classList.add('mw--select-ready');
             itm.style.display = 'none';
-            var settings = {
-
-            };
-            new TomSelect(itm, settings);
-        }        
+            
+            // _customDropdownSelectPickerAdaper(itm)
+              $(itm).selectpicker();
+        }   
+        
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     }
 
 
