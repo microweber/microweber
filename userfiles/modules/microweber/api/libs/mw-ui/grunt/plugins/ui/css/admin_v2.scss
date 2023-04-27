@@ -113,8 +113,8 @@ body {
     }
 
     .dropdown-toggle {
-        &.show {
-            &:after,  &.active {
+        &.show, &.active {
+            &:after {
                 transition: .4s;
                 rotate: 90deg;
                 background-color: #efefef;

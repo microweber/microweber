@@ -8557,13 +8557,13 @@ body {
     color: #565656 !important; }
     .admin-dashboard-left-nav .dropdown-item:hover .add-new {
       visibility: visible; }
-  .admin-dashboard-left-nav .dropdown-toggle.show {
+  .admin-dashboard-left-nav .dropdown-toggle.show, .admin-dashboard-left-nav .dropdown-toggle.active {
     font-weight: 600; }
-    .admin-dashboard-left-nav .dropdown-toggle.show:after, .admin-dashboard-left-nav .dropdown-toggle.show.active {
+    .admin-dashboard-left-nav .dropdown-toggle.show:after, .admin-dashboard-left-nav .dropdown-toggle.active:after {
       transition: .4s;
       rotate: 90deg;
       background-color: #efefef; }
-    .admin-dashboard-left-nav .dropdown-toggle.show span:after {
+    .admin-dashboard-left-nav .dropdown-toggle.show span:after, .admin-dashboard-left-nav .dropdown-toggle.active span:after {
       width: 100%;
       opacity: 1; }
   .admin-dashboard-left-nav .dropdown-toggle:after {
