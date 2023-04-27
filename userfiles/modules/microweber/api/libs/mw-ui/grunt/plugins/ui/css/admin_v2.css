@@ -8555,11 +8555,11 @@ body {
     padding: 15px 0; }
   .admin-dashboard-left-nav .dropdown-item {
     color: #565656 !important; }
-    .admin-dashboard-left-nav .dropdown-item:hover .add-new, .admin-dashboard-left-nav .dropdown-item.active .add-new {
+    .admin-dashboard-left-nav .dropdown-item:hover .add-new {
       visibility: visible; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
     font-weight: 600; }
-    .admin-dashboard-left-nav .dropdown-toggle.show:after {
+    .admin-dashboard-left-nav .dropdown-toggle.show:after, .admin-dashboard-left-nav .dropdown-toggle.show.active {
       transition: .4s;
       rotate: 90deg;
       background-color: #efefef; }
