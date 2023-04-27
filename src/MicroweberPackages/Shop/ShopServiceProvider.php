@@ -47,7 +47,7 @@ class ShopServiceProvider extends ServiceProvider
 
         AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
             ->addChild('Categories', [
-            'attributes' => ['route' => 'admin.category.index']
+            'attributes' => ['route' => 'admin.shop.category.index']
         ]);
 
         AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
