@@ -196,19 +196,19 @@ if ($registration_approval_required == false) {
                                         </div>
                                     </div>
 
-                                    <a href="#" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Register Form settings"); ?></a>
-
-
-                                    <div class="form-group my-3">
+<!--                                    <a href="#" class="btn btn-link my-1" style="padding: 0;">--><?php //_e("View Register Form settings"); ?><!--</a>-->
+                                    <div class="form-group my-3 pt-3">
                                         <label class="form-label"><?php _e("Disable Captcha - Registration Form"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Enable or Disable captcha code verification in the registration area."); ?></small>
                                     </div>
-
 
                                     <label class="form-check form-switch" for="captcha_disabled">
                                         <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
                                         <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
                                     </label>
+
+                                    <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
+
 
                                     <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Disable registration with temporary email?"); ?></label>
@@ -220,7 +220,6 @@ if ($registration_approval_required == false) {
                                         <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
                                     </label>
 
-                                    <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
 
                                 </div>
                             </div>
@@ -251,7 +250,7 @@ if ($registration_approval_required == false) {
                                         <label class="form-label"><?php _e("Login form settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do I need a captcha foma for login each time?"); ?></small>
                                     </div>
-                                    
+
                                     <label class="form-check form-switch" for="captcha_disabled">
                                         <?php $login_captcha_enabled = get_option('login_captcha_enabled', 'users'); ?>
                                         <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
