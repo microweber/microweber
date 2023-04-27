@@ -5,7 +5,7 @@
  * Default styles
  * Do not change anything!
  *
- */
+ */ 
 * {
   margin: 0;
   padding: 0;
@@ -8961,5 +8961,8 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
   fill: var(--tblr-success); }
 .module-standalone-icons-check .text-danger svg {
   fill: var(--tblr-danger); }
+
+#allow-users-social-newtworks-login small {
+  font-size: 13px; }
 
 /*# sourceMappingURL=admin_v2.css.map */

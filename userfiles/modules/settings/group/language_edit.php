@@ -113,7 +113,7 @@ $lang = mw()->lang_helper->current_lang();
     }
 </style>
 
-<div class="card mb-3">
+<div class="card mb-5">
     <div  class="card-body">
         <div class="row">
             <div class="col-xl-3 mb-xl-0 mb-3">
@@ -139,7 +139,7 @@ $lang = mw()->lang_helper->current_lang();
 
 <hr class="thin mx-4"/>
 
-<div class="card mb-3">
+<div class="card mb-5">
     <div class="card-body">
         <div class="row">
             <div class="col-xl-3 mb-xl-0 mb-3">

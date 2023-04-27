@@ -102,7 +102,7 @@ if ($registration_approval_required == false) {
 <h1 class="main-pages-title"><?php _e("Login and register"); ?></h1>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card mb-3">
+    <div class="card mb-5">
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
@@ -149,7 +149,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-5">
         <div class="card-body">
 
 
@@ -198,7 +198,7 @@ if ($registration_approval_required == false) {
 
 <!--                                    <a href="#" class="btn btn-link my-1" style="padding: 0;">--><?php //_e("View Register Form settings"); ?><!--</a>-->
                                     <div class="form-group my-3 pt-3">
-                                        <label class="form-label"><?php _e("Disable Captcha - Registration Form"); ?></label>
+                                        <label class="form-label"><?php _e("Disable Captcha - registration form"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Enable or Disable captcha code verification in the registration area."); ?></small>
                                     </div>
 
@@ -230,7 +230,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-5">
         <div class="card-body">
 
 
@@ -246,7 +246,6 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group my-3">
-                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
                                         <label class="form-label"><?php _e("Login form settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do I need a captcha foma for login each time?"); ?></small>
                                     </div>
@@ -264,13 +263,13 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-5">
         <div class="card-body">
 
 
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
-                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Social Networks login"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Social networks login"); ?></h5>
                     <small class="text-muted"><?php _e("Allow your users to register on your site, blog or store through their social media accounts."); ?></small>
                 </div>
                 <div class="col-xl-9">
@@ -291,165 +290,171 @@ if ($registration_approval_required == false) {
 
                                         <div class="collapse <?php if ($allow_socials_login == 'y'): ?>show<?php endif; ?>" id="allow-users-social-newtworks-login">
                                             <div class="form-group my-3">
-                                                <label class="form-label mb-0"><?php _e("Allow Social Login with"); ?></label>
-                                                <hr class="thin"/>
+                                                <label class="form-label mb-0"><?php _e("Allow social login with"); ?></label>
+
                                             </div>
 
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_fb_registration"><i class="mdi mdi-facebook mdi-30px lh-1_0 mr-2"></i> <?php _e('Enable login with Facebook?'); ?></label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                   <div class="row">
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" option-group="users" id="enable_user_fb_registration" name="enable_user_fb_registration" value="y" <?php if ($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#fb-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_fb_registration"><i class="mdi mdi-facebook mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Enable login with Facebook?'); ?></label>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="collapse <?php if ($enable_user_fb_registration == 'y'): ?>show<?php endif; ?>" id="fb-login-settings">
+                                                           <small class="d-block mb-1">1. <?php _e("API access"); ?> <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a></small>
+                                                           <small class="d-block mb-1">2. <?php _e("In Website with Facebook Login please enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
+                                                           <small class="d-block mb-1">3. <?php _e("If asked for callback url - use"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=facebook') ?></span></small>
+
+                                                           <div class="form-group mt-3">
+                                                               <label><?php _e("App ID/API Key"); ?></label>
+                                                               <input name="fb_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
+                                                           </div>
+
+                                                           <div class="form-group">
+                                                               <label><?php _e("App Secret"); ?></label>
+                                                               <input name="fb_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
+                                                           </div>
+                                                       </div>
+
+
+
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_twitter_registration"><i class="mdi mdi-twitter mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Twitter login enabled?'); ?></label>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="collapse <?php if ($enable_user_twitter_registration == 'y'): ?>show<?php endif; ?>" id="twitter-login-settings">
+                                                           <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://dev.twitter.com/apps" target="_blank">https://dev.twitter.com/apps</a></small>
+                                                           <small class="d-block mb-1">2. <?php _e("In Website enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
+                                                           <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=twitter') ?></span></small>
+
+                                                           <div class="form-group mt-3">
+                                                               <label><?php _e("Consumer key"); ?></label>
+                                                               <input type="text" name="twitter_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
+                                                           </div>
+
+                                                           <div class="form-group">
+                                                               <label><?php _e("Consumer secret"); ?></label>
+                                                               <input type="text" name="twitter_app_secret" class="mw_option_field form-control" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
+                                                           </div>
+                                                       </div>
+
+
+
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_github_registration"><i class="mdi mdi-github mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Github login enabled?'); ?></label>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="collapse <?php if ($enable_user_github_registration == 'y'): ?>show<?php endif; ?>" id="github-login-settings">
+                                                           <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://github.com/settings/applications/new" target="_blank">https://github.com/settings/applications/new</a></small>
+                                                           <small class="d-block mb-1">2. <?php _e("In Main URL enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
+                                                           <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=github') ?></span></small>
+
+                                                           <div class="form-group mt-3">
+                                                               <label><?php _e("Client ID"); ?></label>
+                                                               <input name="github_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
+                                                           </div>
+
+                                                           <div class="form-group">
+                                                               <label><?php _e("Client secret"); ?></label>
+                                                               <input name="github_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
+                                                           </div>
+                                                       </div>
+
+
+
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_linkedin_registration"><i class="mdi mdi-linkedin mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Linked In login enabled?'); ?></label>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="collapse <?php if ($enable_user_linkedin_registration == 'y'): ?>show<?php endif; ?>" id="linkedin-login-settings">
+                                                           <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a></small>
+                                                           <small class="d-block mb-1">2. <?php _e("In Website enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
+                                                           <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=linkedin') ?></span></small>
+
+                                                           <div class="form-group mt-3">
+                                                               <label><?php _e("Client ID"); ?></label>
+                                                               <input type="text" name="linkedin_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
+                                                           </div>
+
+                                                           <div class="form-group">
+                                                               <label><?php _e("Client Secret"); ?></label>
+                                                               <input type="text" name="linkedin_app_secret" class="mw_option_field form-control" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
+                                                           </div>
+                                                       </div>
+
+
+
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#google-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_google_registration"><i class="mdi mdi-google mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Google login enabled?'); ?></label>
+                                                           </div>
+                                                       </div>
+
+                                                       <div class="collapse <?php if ($enable_user_google_registration == 'y'): ?>show<?php endif; ?>" id="google-login-settings">
+                                                           <small class="d-block mb-1">1. <?php _e("Set your API access"); ?> <a href="https://code.google.com/apis/console/" target="_blank">https://code.google.com/apis/console/</a></small>
+                                                           <small class="d-block mb-1">2. <?php _e("In redirect URI please enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=google') ?></span></small>
+
+                                                           <div class="form-group mt-3">
+                                                               <label><?php _e("Client ID"); ?></label>
+                                                               <input type="text" name="google_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
+                                                           </div>
+
+                                                           <div class="form-group">
+                                                               <label><?php _e("Client secret"); ?></label>
+                                                               <input name="google_app_secret" class="mw_option_field form-control" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
+                                                           </div>
+                                                       </div>
+
+
+
+                                                       <div class="form-group">
+                                                           <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                               <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
+                                                               <label class="custom-control-label ms-2 d-flex align-items-center" for="enable_user_microweber_registration"><i class="mdi mdi-microweber mdi-30px lh-1_0 me-2" style="font-size: 20px;"></i> <?php _e('Microweber login enabled?'); ?></label>
+                                                           </div>
+                                                       </div>
+                                                        <div class="collapse <?php if ($enable_user_microweber_registration == 'y'): ?>show<?php endif; ?>" id="mw-login-settings">
+                                                            <small class="d-block mb-1"><?php _e("Please enter your credentials for Microweber login server"); ?></small>
+                                                            <?php
+                                                            $microweber_app_url = get_option('microweber_app_url', 'users');
+                                                            if (empty($microweber_app_url)) {
+                                                                $microweber_app_url = 'https://mwlogin.com';
+                                                            }
+                                                            ?>
+
+                                                            <div class="form-group mt-3">
+                                                                <label><?php _e("Server URL"); ?></label>
+                                                                <input name="microweber_app_url" class="mw_option_field form-control" type="text" option-group="users" value="<?php print $microweber_app_url; ?>"/>
+                                                            </div>
+
+                                                            <div class="form-group mt-3">
+                                                                <label><?php _e("Client ID"); ?></label>
+                                                                <input name="microweber_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label><?php _e("Client secret"); ?></label>
+                                                                <input name="microweber_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
+                                                            </div>
+                                                        </div>
+                                                   </div>
                                                 </div>
                                             </div>
 
-                                            <div class="collapse <?php if ($enable_user_fb_registration == 'y'): ?>show<?php endif; ?>" id="fb-login-settings">
-                                                <small class="d-block mb-1">1. <?php _e("API access"); ?> <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a></small>
-                                                <small class="d-block mb-1">2. <?php _e("In Website with Facebook Login please enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
-                                                <small class="d-block mb-1">3. <?php _e("If asked for callback url - use"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=facebook') ?></span></small>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("App ID/API Key"); ?></label>
-                                                    <input name="fb_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('fb_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("App Secret"); ?></label>
-                                                    <input name="fb_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('fb_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
-
-                                            <hr class="thin"/>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_twitter_registration" option-group="users" value="y" <?php if ($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> id="enable_user_twitter_registration" data-bs-toggle="collapse" data-bs-target="#twitter-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_twitter_registration"><i class="mdi mdi-twitter mdi-30px lh-1_0 mr-2"></i> <?php _e('Twitter login enabled?'); ?></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="collapse <?php if ($enable_user_twitter_registration == 'y'): ?>show<?php endif; ?>" id="twitter-login-settings">
-                                                <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://dev.twitter.com/apps" target="_blank">https://dev.twitter.com/apps</a></small>
-                                                <small class="d-block mb-1">2. <?php _e("In Website enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
-                                                <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=twitter') ?></span></small>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Consumer key"); ?></label>
-                                                    <input type="text" name="twitter_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('twitter_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("Consumer secret"); ?></label>
-                                                    <input type="text" name="twitter_app_secret" class="mw_option_field form-control" option-group="users" value="<?php print get_option('twitter_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
-
-                                            <hr class="thin"/>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="enable_user_github_registration" value="y" <?php if ($enable_user_github_registration == 'y'): ?>checked<?php endif; ?> id="enable_user_github_registration" data-bs-toggle="collapse" data-bs-target="#github-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_github_registration"><i class="mdi mdi-github mdi-30px lh-1_0 mr-2"></i> <?php _e('Github login enabled?'); ?></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="collapse <?php if ($enable_user_github_registration == 'y'): ?>show<?php endif; ?>" id="github-login-settings">
-                                                <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://github.com/settings/applications/new" target="_blank">https://github.com/settings/applications/new</a></small>
-                                                <small class="d-block mb-1">2. <?php _e("In Main URL enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
-                                                <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=github') ?></span></small>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Client ID"); ?></label>
-                                                    <input name="github_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('github_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("Client secret"); ?></label>
-                                                    <input name="github_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('github_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
-
-                                            <hr class="thin"/>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_linkedin_registration" option-group="users" id="enable_user_linkedin_registration" value="y" <?php if ($enable_user_linkedin_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#linkedin-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_linkedin_registration"><i class="mdi mdi-linkedin mdi-30px lh-1_0 mr-2"></i> <?php _e('Linked In login enabled?'); ?></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="collapse <?php if ($enable_user_linkedin_registration == 'y'): ?>show<?php endif; ?>" id="linkedin-login-settings">
-                                                <small class="d-block mb-1">1. <?php _e("Register your application"); ?> <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a></small>
-                                                <small class="d-block mb-1">2. <?php _e("In Website enter"); ?>: <span class="text-muted"><?php print site_url(); ?></span></small>
-                                                <small class="d-block mb-1">3. <?php _e("In Callback URL enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=linkedin') ?></span></small>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Client ID"); ?></label>
-                                                    <input type="text" name="linkedin_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('linkedin_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("Client Secret"); ?></label>
-                                                    <input type="text" name="linkedin_app_secret" class="mw_option_field form-control" option-group="users" value="<?php print get_option('linkedin_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
-
-                                            <hr class="thin"/>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_google_registration" option-group="users" id="enable_user_google_registration" value="y" <?php if ($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> data-bs-toggle="collapse" data-bs-target="#google-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_google_registration"><i class="mdi mdi-google mdi-30px lh-1_0 mr-2"></i> <?php _e('Google login enabled?'); ?></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="collapse <?php if ($enable_user_google_registration == 'y'): ?>show<?php endif; ?>" id="google-login-settings">
-                                                <small class="d-block mb-1">1. <?php _e("Set your API access"); ?> <a href="https://code.google.com/apis/console/" target="_blank">https://code.google.com/apis/console/</a></small>
-                                                <small class="d-block mb-1">2. <?php _e("In redirect URI please enter"); ?>: <span class="text-muted"><?php print api_link('social_login_process?provider=google') ?></span></small>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Client ID"); ?></label>
-                                                    <input type="text" name="google_app_id" class="mw_option_field form-control" option-group="users" value="<?php print get_option('google_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("Client secret"); ?></label>
-                                                    <input name="google_app_secret" class="mw_option_field form-control" style="" type="text" option-group="users" value="<?php print get_option('google_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
-
-                                            <hr class="thin"/>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                                    <input type="checkbox" class="mw_option_field form-check-input" name="enable_user_microweber_registration" option-group="users" id="enable_user_microweber_registration" value="y" <?php if ($enable_user_microweber_registration == 'y'): ?>checked<?php endif; ?> data-bs-toggle="collapse" data-bs-target="#mw-login-settings">
-                                                    <label class="custom-control-label mr-2 d-flex" for="enable_user_microweber_registration"><i class="mdi mdi-microweber mdi-30px lh-1_0 mr-2"></i> <?php _e('Microweber login enabled?'); ?></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="collapse <?php if ($enable_user_microweber_registration == 'y'): ?>show<?php endif; ?>" id="mw-login-settings">
-                                                <small class="d-block mb-1"><?php _e("Please enter your credentials for Microweber Login Server"); ?></small>
-                                                <?php
-                                                $microweber_app_url = get_option('microweber_app_url', 'users');
-                                                if (empty($microweber_app_url)) {
-                                                    $microweber_app_url = 'https://mwlogin.com';
-                                                }
-                                                ?>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Server URL"); ?></label>
-                                                    <input name="microweber_app_url" class="mw_option_field form-control" type="text" option-group="users" value="<?php print $microweber_app_url; ?>"/>
-                                                </div>
-
-                                                <div class="form-group mt-3">
-                                                    <label><?php _e("Client ID"); ?></label>
-                                                    <input name="microweber_app_id" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('microweber_app_id', 'users'); ?>"/>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label><?php _e("Client secret"); ?></label>
-                                                    <input name="microweber_app_secret" class="mw_option_field form-control" type="text" option-group="users" value="<?php print get_option('microweber_app_secret', 'users'); ?>"/>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -461,7 +466,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-3" id="email-notifications">
+    <div class="card mb-5" id="email-notifications">
         <div class="card-body">
 
 
@@ -544,7 +549,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-5">
         <div class="card-body">
 
 
