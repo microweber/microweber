@@ -20,7 +20,7 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-                    <a href="{{$subItem->getUri()}}" class="dropdown-item justify-content-between @if($subItem->getUri()) active @endif">
+                    <a href="{{$subItem->getUri()}}" class="dropdown-item justify-content-between @if($subItem->getUri()==32) active @endif">
                        <span>
                             {{$subItem->getName()}}
                        </span>
