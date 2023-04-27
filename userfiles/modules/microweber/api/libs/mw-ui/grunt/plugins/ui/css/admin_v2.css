@@ -5,7 +5,7 @@
  * Default styles
  * Do not change anything!
  *
- */ 
+ */
 * {
   margin: 0;
   padding: 0;
@@ -6238,6 +6238,7 @@ li:hover > .show-on-hover {
 
 .mw-dialog-skin-default {
   visibility: hidden;
+  opacity: 0;
   color: #686868; }
   .mw-dialog-skin-default .mw-dialog-header {
     padding: 6px 25px;
@@ -6293,7 +6294,9 @@ li:hover > .show-on-hover {
     backdrop-filter: blur(4px);
     background-color: rgba(29, 39, 59, 0.24); }
   .mw-dialog-skin-default.active {
-    visibility: visible; }
+    visibility: visible;
+    opacity: 1;
+    transition: .3s; }
     .mw-dialog-skin-default.active .mw-dialog-holder {
       visibility: visible;
       opacity: 1;
@@ -8781,7 +8784,8 @@ small.text-muted {
 .btn.btn-link {
   padding: 0; }
   .btn.btn-link:hover, .btn.btn-link:active {
-    background-color: transparent; }
+    background-color: transparent;
+    border: none; }
 
 .form-switch .form-check-input {
   height: 1.25rem;
@@ -8835,7 +8839,8 @@ small.text-muted {
   border-radius: 2px; }
 
 .btn {
-  border-radius: 2px !important; }
+  border-radius: 2px !important;
+  font-weight: normal; }
 
 .navbar .navbar-nav .nav-link .badge {
   top: 0;
@@ -8953,6 +8958,9 @@ small.text-muted {
 html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
   left: auto;
   right: auto; }
+
+.d-block {
+  display: block !important; }
 
 #js-page-tree-wrapper {
   margin-top: 60px; }

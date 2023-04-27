@@ -422,6 +422,7 @@ small.text-muted {
 
     &:hover, &:active {
         background-color: transparent;
+        border: none;
     }
 
 }
@@ -501,6 +502,7 @@ small.text-muted {
 
 .btn {
     border-radius: 2px !important;
+    font-weight: normal;
 }
 
 .navbar .navbar-nav .nav-link .badge {
@@ -680,6 +682,10 @@ small.text-muted {
  html[dir="rtl"]  .mw-admin-sidebar-navigation-menu{
     left: auto;
     right: auto;
+ }
+
+ .d-block {
+     display: block !important;
  }
 
 #js-page-tree-wrapper {
