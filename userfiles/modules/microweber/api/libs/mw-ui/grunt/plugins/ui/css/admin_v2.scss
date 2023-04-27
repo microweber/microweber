@@ -397,15 +397,18 @@ small.text-muted {
 
 .form-control {
     padding: .65rem .9rem;
+    min-height: 45px;
 }
 
 
 .form-select {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+    min-height: 45px;
 }
 
 .btn:not(.btn-sm) {
     padding: 0.65rem 1.25rem;
+    min-height: 45px;
 }
 
 
