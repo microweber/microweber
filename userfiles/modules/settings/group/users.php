@@ -114,7 +114,7 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group mb-3">
+                                    <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Enable user registration"); ?></label>
                                         <small class="text-muted d-block mb-2"> <?php _e("Do you allow users to register on your website? If you choose \"yes\", they will do that with their email."); ?></small>
                                     </div>
@@ -128,9 +128,9 @@ if ($registration_approval_required == false) {
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb-3">
-                                        <label class="form-label"><?php _e("Registration approval required"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Do you want the user to verify their account after registration? This way you will be sure that the user who has registered is a real person."); ?></small>
+                                    <div class="form-group my-3">
+                                        <label class="form-label"><?php _e("Registration email verification"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e("Ask users for email verification confirmation after their registration. "); ?></small>
                                     </div>
 
                                     <div class="form-group mb-4">
@@ -163,8 +163,7 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group mb-3">
-                                        <a href="#" class="btn btn-link btn-sm py-1 px-0 float-right"><?php _e("View Register Form settings"); ?></a>
+                                    <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Set the form fields"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Use the checkbox to determine which visible fields are required for registration."); ?></small>
                                     </div>
@@ -197,34 +196,32 @@ if ($registration_approval_required == false) {
                                         </div>
                                     </div>
 
-                                    <hr class="thin"/>
+                                    <a href="#" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Register Form settings"); ?></a>
 
-                                    <div class="form-group mb-3">
-                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link btn-sm py-1 px-0 float-right"><?php _e("View Captcha module settings"); ?></a>
+
+                                    <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Disable Captcha - Registration Form"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Enable or Disable captcha code verification in the registration area."); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
-                                        <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
-                                            <label class="custom-control-label" for="captcha_disabled"><?php _e('Disable Captcha?'); ?></label>
-                                        </div>
-                                    </div>
 
-                                    <div class="form-group mb-3">
+                                    <label class="form-check form-switch" for="captcha_disabled">
+                                        <?php $captcha_disabled = get_option('captcha_disabled', 'users'); ?>
+                                        <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" option-group="users" name="captcha_disabled" id="captcha_disabled" <?php if ($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                    </label>
+
+                                    <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Disable registration with temporary email?"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Users can register with temporary emails like - Mailinator, MailDrop, Guerrilla... etc"); ?></small>
                                     </div>
 
-                                    <div class="form-group mb-4">
+                                    <label class="form-check form-switch" for="captcha_disabled">
                                         <?php $disable_registration_with_temporary_email = get_option('disable_registration_with_temporary_email', 'users'); ?>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field form-check-input" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
-                                            <label class="custom-control-label" for="disable_registration_with_temporary_email"><?php _e('Disable registration with temporary email?'); ?></label>
-                                        </div>
-                                    </div>
+                                        <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" option-group="users" name="disable_registration_with_temporary_email" id="disable_registration_with_temporary_email" <?php if ($disable_registration_with_temporary_email == 'y'): ?> checked <?php endif; ?> value="y">
+                                    </label>
+
+                                    <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
+
                                 </div>
                             </div>
                         </div>
@@ -249,19 +246,16 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="form-group mb-3">
-                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link btn-sm py-1 px-0 float-right"><?php _e("View Captcha module settings"); ?></a>
+                                    <div class="form-group my-3">
+                                        <a href="javascript:mw.open_captcha_settings();" class="btn btn-link my-1" style="padding: 0;"><?php _e("View Captcha module settings"); ?></a>
                                         <label class="form-label"><?php _e("Login form settings"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do I need a captcha foma for login each time?"); ?></small>
                                     </div>
-
-                                    <div class="form-group mb-4">
+                                    
+                                    <label class="form-check form-switch" for="captcha_disabled">
                                         <?php $login_captcha_enabled = get_option('login_captcha_enabled', 'users'); ?>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="mw_option_field form-check-input" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
-                                            <label class="custom-control-label" for="login_captcha_enabled"><?php _e('Require captcha to login?'); ?></label>
-                                        </div>
-                                    </div>
+                                        <input type="checkbox" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" id="login_captcha_enabled" option-group="users" name="login_captcha_enabled" <?php if ($login_captcha_enabled == 'y'): ?> checked <?php endif; ?> value="y">
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -285,7 +279,7 @@ if ($registration_approval_required == false) {
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12 socials-logins-settings">
-                                    <div class="form-group mb-3">
+                                    <div class="form-group my-3">
                                         <label class="form-label"><?php _e("Enable user registration with socials accounts"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Do you allow users to register on your website with their social media accounts. This will save time of the users to register."); ?></small>
                                     </div>
@@ -297,7 +291,7 @@ if ($registration_approval_required == false) {
                                         </div>
 
                                         <div class="collapse <?php if ($allow_socials_login == 'y'): ?>show<?php endif; ?>" id="allow-users-social-newtworks-login">
-                                            <div class="form-group mb-3">
+                                            <div class="form-group my-3">
                                                 <label class="form-label mb-0"><?php _e("Allow Social Login with"); ?></label>
                                                 <hr class="thin"/>
                                             </div>
@@ -483,7 +477,7 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-4">
-                                        <div class="form-group mb-3">
+                                        <div class="form-group my-3">
                                             <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
                                         </div>
@@ -496,7 +490,7 @@ if ($registration_approval_required == false) {
 
 
 
-                                        <div class="form-group mb-3">
+                                        <div class="form-group my-3">
                                             <label class="form-label"><?php _e("Send email on new user registration to admin users"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want adminitrators to receive an e-mail when new user is registered?"); ?></small>
                                         </div>
@@ -509,7 +503,7 @@ if ($registration_approval_required == false) {
 
 
 
-                                        <div class="form-group mb-3">
+                                        <div class="form-group my-3">
                                             <label class="form-label"><?php _e("Require e-mail verification on new user registration"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Do you want users to verify their e-mail address when registering?"); ?></small>
                                         </div>
@@ -526,7 +520,7 @@ if ($registration_approval_required == false) {
                                     </div>
 
                                     <div>
-                                        <div class="form-group mb-3">
+                                        <div class="form-group my-3">
                                             <label class="form-label"><?php _e("Send custom forgot password email"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("Select which template the users will receive when try to reset their password?"); ?></small>
                                         </div>

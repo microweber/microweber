@@ -411,6 +411,13 @@ small.text-muted {
     min-height: 45px;
 }
 
+.btn-link:hover {
+    background-color: transparent;
+}
+
+.btn-btn-link {
+    padding: 0;
+}
 
 .form-switch .form-check-input {
     height: 1.25rem;
