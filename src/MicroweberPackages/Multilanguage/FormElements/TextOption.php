@@ -45,7 +45,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         <div class="input-group-prepend">
             <span>
-                <select class="form-select" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
+                <select class="selectpicker" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
 
         foreach($supportedLanguages as $language) {
             $selected = '';

@@ -99,9 +99,24 @@ event_bind('recover_shopping_cart', function ($params = false) {
 
 event_bind('mw.admin.dashboard.content.2', function ($params = false) {
 
+    $shop_disabled = get_option('shop_disabled', 'website') == 'y';
+    if($shop_disabled){
+        return;
+    }
 
     print '<div type="shop/orders/dashboard_recent_orders" class="mw-lazy-load-module" id="site_stats_dashboard_recent_orders"></div>';
 
     // print '  <module type="site_stats/admin" id="site_stats_admin" />';
+
+});
+event_bind('mw.admin.dashboard.content.3', function ($params = false) {
+
+    $shop_disabled = get_option('shop_disabled', 'website') == 'y';
+    if($shop_disabled){
+        return;
+    }
+
+    print '<div type="shop/orders/dashboard_recent_sales" class="mw-lazy-load-module" id="site_stats_dashboard_recent_sales"></div>';
+
 
 });

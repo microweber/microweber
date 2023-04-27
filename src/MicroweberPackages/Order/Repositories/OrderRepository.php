@@ -18,7 +18,6 @@ class OrderRepository extends AbstractRepository
 
     public function getOrderCurrencies($params = [])
     {
-      //  $orders = $this->getDefaultQueryForStats($params);
         $orders = $this->getModel()->newQuery();
         $orders->select('currency');
         $orders->whereNotNull('currency');
@@ -169,28 +168,7 @@ class OrderRepository extends AbstractRepository
        // $orders->groupBy('cart.rel_id');
       //  $sum =   $orders->count('cart.order_id');
         $sum =   $orders->count('cart_orders.id' );
-      //  dd($orders->toSql(),$sum);
-//
-//
-//
-//
-//
-//        $data = $orders->groupBy('rel_id')
-//          //  ->orderBy('date', 'desc')
-//            ->where('rel_type', 'content')
-//            ->get([
-//                 DB::raw('COUNT( * ) as "count"')
-//            ])->toArray();
-//
-//        dd($data);
-//
-//
-//
-//      //  $orders->select(DB::raw('COUNT( * ) as "count"') );
-//        $orders->where('rel_type', 'content');
-//        $orders->groupBy('rel_id');
-//        $sum = $orders-> count('id');
-//      //  $sum = $orders->sum('count');
+
         if ($sum) {
             return intval($sum);
         }
@@ -279,9 +257,6 @@ class OrderRepository extends AbstractRepository
             ])->toArray();
         }
 
-
-
-//dump($orders->toSql(),$data);
 
 
         if (!empty($data)) {

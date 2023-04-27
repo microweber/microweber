@@ -180,11 +180,16 @@ body {
     font-weight: bold;
     font-size: 24px;
     margin: 20px 0;
+    color: var(--tblr-dark);
 }
 
 .module {
     margin-top: 0 !important;
     padding-top: 0 !important;
+}
+
+.mw-dialog-skin-default .mw-dialog-container {
+    padding: 25px;
 }
 
 .settings-holder-wrapper {
@@ -409,6 +414,16 @@ small.text-muted {
 .btn:not(.btn-sm) {
     padding: 0.65rem 1.25rem;
     min-height: 45px;
+}
+
+
+.btn.btn-link {
+    padding: 0;
+
+    &:hover, &:active {
+        background-color: transparent;
+    }
+
 }
 
 

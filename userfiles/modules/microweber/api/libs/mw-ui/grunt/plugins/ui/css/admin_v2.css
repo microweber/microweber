@@ -8599,11 +8599,15 @@ body {
 .main-pages-title {
   font-weight: bold;
   font-size: 24px;
-  margin: 20px 0; }
+  margin: 20px 0;
+  color: var(--tblr-dark); }
 
 .module {
   margin-top: 0 !important;
   padding-top: 0 !important; }
+
+.mw-dialog-skin-default .mw-dialog-container {
+  padding: 25px; }
 
 .settings-holder-wrapper {
   border: 1px solid transparent;
@@ -8773,6 +8777,11 @@ small.text-muted {
 .btn:not(.btn-sm) {
   padding: 0.65rem 1.25rem;
   min-height: 45px; }
+
+.btn.btn-link {
+  padding: 0; }
+  .btn.btn-link:hover, .btn.btn-link:active {
+    background-color: transparent; }
 
 .form-switch .form-check-input {
   height: 1.25rem;
