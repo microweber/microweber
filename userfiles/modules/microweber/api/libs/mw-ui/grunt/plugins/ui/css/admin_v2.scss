@@ -105,6 +105,8 @@ body {
     .dropdown-item {
         color: #565656 !important;
 
+
+
         &:hover {
            .add-new{
                visibility: visible;
@@ -113,7 +115,7 @@ body {
     }
 
     .dropdown-toggle {
-        &.show, &.active {
+        &.show {
             &:after {
                 transition: .4s;
                 rotate: 90deg;
@@ -149,7 +151,8 @@ body {
 }
 
 .navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
-    background-color: transparent;
+    background-color: var(--tblr-navbar-active-bg);
+
     color: var(--tblr-primary);
 }
 
