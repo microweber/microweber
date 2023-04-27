@@ -105,7 +105,7 @@ body {
     .dropdown-item {
         color: #565656 !important;
 
-        &:hover {
+        &:hover, &.active {
            .add-new{
                visibility: visible;
            }

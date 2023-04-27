@@ -8555,7 +8555,7 @@ body {
     padding: 15px 0; }
   .admin-dashboard-left-nav .dropdown-item {
     color: #565656 !important; }
-    .admin-dashboard-left-nav .dropdown-item:hover .add-new {
+    .admin-dashboard-left-nav .dropdown-item:hover .add-new, .admin-dashboard-left-nav .dropdown-item.active .add-new {
       visibility: visible; }
   .admin-dashboard-left-nav .dropdown-toggle.show {
     font-weight: 600; }
