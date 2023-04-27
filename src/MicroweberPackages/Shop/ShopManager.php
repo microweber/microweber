@@ -397,26 +397,32 @@ class ShopManager
         return $curr;
 
     }
-    public function currency_format($amount, $curr = false)
+    public function currency_format($amount, $currency = false )
     {
         if(is_array($amount)){
             return;
         }
 
-
-        $curr = $this->get_default_currency();
-
-        $need_float = true;
-        if (strstr($amount, '.')) {
-            $need_float = false;
+        if (!$currency) {
+            $currency = $this->get_default_currency();
         }
+
+        $need_float = false;
+        if (str_contains($amount, '.')) {
+            $need_float = true;
+        }
+        if (str_contains($amount, ',')) {
+            $need_float = true;
+        }
+
+
         if ($need_float) {
             $amount = floatval($amount);
         }
-        $sym = $this->currency_symbol($curr);
+        $sym = $this->currency_symbol($currency);
 
         if ($sym == '') {
-            $sym = $curr;
+            $sym = $currency;
         }
         $currency_symbol_decimal = get_option('currency_symbol_decimal', 'payments');
         $cur_pos = $this->app->option_manager->get('currency_symbol_position', 'payments');
@@ -448,7 +454,7 @@ class ShopManager
             return $amount;
         }
 
-        switch ($curr) {
+        switch ($currency) {
             case 'EUR':
                 $curNumberFormat = number_format($amount, $decimals, ',', ' ');
                 break;
@@ -477,7 +483,7 @@ class ShopManager
                 break;
             case 'default':
             default:
-                switch ($curr) {
+                switch ($currency) {
                     case 'BGN':
                     case 'RUB':
                         $ret = $curNumberFormat . ' ' . $sym;
