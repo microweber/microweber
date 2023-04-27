@@ -902,7 +902,7 @@
             });
             var addButton = mw.element({
                 props: {
-                    className: 'mw-ui-btn mw-ui-btn-notification mw-file-manager-create-methods-dropdown-add',
+                    className: 'btn btn-primary mw-file-manager-create-methods-dropdown-add',
                     innerHTML: label || plusIcon('white')
                 }
             });
@@ -1006,6 +1006,7 @@
 
 
             _pathNode = mw.element({
+                tag: 'ol',
                 props: {
                     className: 'breadcrumb mw-file-manager-bar-path'
                 }
@@ -1127,7 +1128,8 @@
         }; 
 
         var pathItem = function (path, html){
-            var node = document.createElement('a');
+            var node = document.createElement('li');
+            node.className = 'breadcrumb-item';
             node.innerHTML = html || path.split('/').pop();
             node.addEventListener('click', function (e){
                 e.preventDefault();

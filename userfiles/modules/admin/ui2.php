@@ -64,7 +64,7 @@
 
 
 
-<div class="card mb-3">
+<div class="card mb-5">
     <div class="card-header">
         <h5>
             <i class="mdi mdi-file-cabinet text-primary mr-3"></i> <strong>Files</strong>
