@@ -34,58 +34,36 @@
 
 
 
-    <div class="mw-ui-field-holder">
+    <div class="mw-ui-field-holder mt-3">
         <label class="form-label"><?php _e('Cache settings'); ?></label>
         <div class="mw-notification"><?php _e("Note: Those features are experimental and not fully tested. Check if your website is working normally after enabling cache settings."); ?></div>
-        <hr>
     </div>
 
-    <div class="mw-ui-field-holder">
-        <label class="form-label"><?php _e("Optimize assets loading"); ?></label>
+    <div class="form-check form-switch my-3" style="width: 100%;">
         <?php $optimize_asset_loading = get_option('optimize_asset_loading', 'website'); ?>
 
-        <ul class="mw-ui-inline-list">
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio" id="img_resize_choice1" name="optimize_asset_loading" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
-                    <span></span><span><?php _e("Yes"); ?></span>
-                </label>
-            </li>
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio" id="img_resize_choice2" name="optimize_asset_loading" <?php if (!$optimize_asset_loading or $optimize_asset_loading != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
-                    <span></span><span><?php _e("No"); ?></span>
-                </label>
-            </li>
-        </ul>
+        <label class="form-label d-block">
+            <input class="form-check-input mw_option_field me-2" type="checkbox" id="img_resize_choice1" name="optimize_asset_loading" data-value-checked="y" data-value-unchecked="n" <?php if ($optimize_asset_loading == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <span class="form-check-label"><?php _e("Optimize assets loading"); ?></span>
+        </label>
     </div>
 
 
-    <div class="mw-ui-field-holder">
-        <label class="form-label"><?php _e("Enable full page cache"); ?></label>
+    <div class="form-check form-switch my-3" style="width: 100%;">
         <?php $enable_full_page_cache = get_option('enable_full_page_cache', 'website'); ?>
-        <ul class="mw-ui-inline-list">
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio"   name="enable_full_page_cache" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
-                    <span></span><span><?php _e("Yes"); ?></span>
-                </label>
-            </li>
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio"  name="enable_full_page_cache" <?php if (!$enable_full_page_cache or $enable_full_page_cache != 'y'): ?> checked <?php endif; ?> value="n" option-group="website">
-                    <span></span><span><?php _e("No"); ?></span>
-                </label>
-            </li>
-        </ul>
+
+        <label class="form-label d-block">
+            <input class="form-check-input mw_option_field me-2" type="checkbox"   name="enable_full_page_cache" data-value-checked="y" data-value-unchecked="n" <?php if ($enable_full_page_cache == 'y'): ?> checked <?php endif; ?> value="y" option-group="website">
+            <span class="form-check-label"><?php _e("Enable full page cache"); ?></span>
+        </label>
     </div>
 
-    <hr>
-  <div class="mb-2">
+
+  <div class="my-4">
       <label class="form-label d-flex"><?php _e("Static files delivery method"); ?></label>
       <?php $static_files_delivery_method = get_option('static_files_delivery_method', 'website'); ?>
 
-      <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="mw-ui-field mw_option_field w-100" type="text" option-group="website">
+      <select id="js-static_files_delivery_method_select" name="static_files_delivery_method" class="form-select mw_option_field w-100" type="text" option-group="website">
           <option value="" <?php if (!$static_files_delivery_method): ?> selected="selected" <?php endif; ?>><?php _e("Default"); ?></option>
           <option value="cdn_domain" <?php if ($static_files_delivery_method == 'cdn_domain'): ?> selected="selected" <?php endif; ?>><?php _e("CDN Domain"); ?></option>
           <option value="content_proxy" <?php if ($static_files_delivery_method == 'content_proxy'): ?> selected="selected" <?php endif; ?>><?php _e("Content proxy (experimental)"); ?></option>
@@ -109,27 +87,15 @@
   </div>
 
 
-
-    <div class="mw-ui-field-holder">
-        <label class="form-label"><?php _e("Use Google Fonts proxy?"); ?></label>
+    <div class="form-check form-switch my-3" style="width: 100%;">
         <?php $use_google_fonts_proxy = get_option('use_google_fonts_proxy', 'template'); ?>
 
-        <ul class="mw-ui-inline-list">
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio"   name="use_google_fonts_proxy" <?php if ($use_google_fonts_proxy == '1'): ?> checked <?php endif; ?> value="1" option-group="template">
-                    <span></span><span><?php _e("Yes"); ?></span>
-                </label>
-            </li>
-            <li>
-                <label class="mw-ui-check">
-                    <input class="form-control mw_option_field" type="radio"   name="use_google_fonts_proxy" <?php if (!$use_google_fonts_proxy or $use_google_fonts_proxy != '1'): ?> checked <?php endif; ?> value="0" option-group="template">
-                    <span></span><span><?php _e("No"); ?></span>
-                </label>
-            </li>
-        </ul>
-    </div>
+        <label class="form-label d-block">
+            <input class="form-check-input mw_option_field me-2" type="checkbox"   name="use_google_fonts_proxy" data-value-checked="y" data-value-unchecked="n" <?php if (!$use_google_fonts_proxy or $use_google_fonts_proxy != '1'): ?> checked <?php endif; ?> value="0" option-group="template">
 
+            <span class="form-check-label"><?php _e("Use Google Fonts proxy?"); ?></span>
+        </label>
+    </div>
 
            <module type="settings/group/ui_colors_admin"/>
 </div>

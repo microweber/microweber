@@ -1,86 +1,4 @@
 <aside class="navbar navbar-vertical navbar-expand-lg admin-dashboard-left-nav p-3">
-    <?php $view = url_param('view'); ?>
-    <?php $action = url_param('action'); ?>
-    <?php $load_module = url_param('load_module'); ?>
-
-    <?php
-    if (empty($view)) {
-        $view = Request::segment(2);
-    }
-
-    $routeName = Route::currentRouteName();
-    if ($routeName == 'admin.post.create' || $routeName == 'admin.post.edit') {
-        $action = 'posts';
-        $view = 'content';
-    }
-    if ($routeName == 'admin.category.create' || $routeName == 'admin.category.edit') {
-        $action = 'categories';
-        $view = 'content';
-    }
-    if ($routeName == 'admin.page.create' || $routeName == 'admin.page.edit') {
-        $action = 'pages';
-        $view = 'content';
-    }if ($routeName == 'admin.product.index' || $routeName == 'admin.product.create' || $routeName == 'admin.product.edit') {
-        $action = 'products';
-        $view = 'shop';
-    }
-    if ($routeName == 'admin.shop.category.index' || $routeName == 'admin.shop.category.create' || $routeName == 'admin.shop.category.edit') {
-        $action = 'shop_category';
-        $view = 'shop';
-    }
-    if ($routeName == 'admin.shop.dashboard') {
-        $action = 'dashboard';
-        $view = 'shop';
-    }
-    ?>
-
-    <?php
-    $website_class = '';
-    if ($view == 'content' and $action == false) {
-        $website_class = 'show';
-    } else if ($view == 'content' and $action != false) {
-        $website_class = 'show';
-    }
-    if ($routeName == 'admin.post.index') {
-        $website_class = "show";
-        $action = 'posts';
-    }
-    if ($routeName == 'admin.page.index') {
-        $website_class = "show";
-        $action = 'pages';
-    }
-    if ($routeName == 'admin.content.index') {
-        $website_class = "show";
-        $action = 'content';
-    }
-    if ($routeName == 'admin.category.index') {
-        $website_class = "show";
-        $action = 'category';
-    }
-
-
-    $shop_class = '';
-    if ($view == 'shop' and $action == false) {
-        $shop_class = "show";
-    } elseif ($view == 'shop' and $action != false) {
-        $shop_class = "show";
-    } elseif ($view == 'modules' and $load_module == 'shop__coupons') {
-        $shop_class = "show";
-    } elseif ($view == 'shop' AND $action == 'products' OR $action == 'orders' OR $action == 'clients' OR $action == 'options') {
-        $shop_class = "show";
-    } elseif ($view == 'invoices') {
-        $shop_class = "show";
-    } elseif ($view == 'customers') {
-        $shop_class = "show";
-    } elseif ($view == 'order') {
-        $shop_class = "show";
-    }
-    if ($routeName == 'admin.shop.dashboard') {
-        $shop_class = "show";
-    }
-    ?>
-
-
 
     <div class="container-fluid" id="sidebar-menu">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,7 +27,6 @@
 
                 <?php event_trigger('mw.admin.sidebar.li.first'); ?>
 
-
                 @foreach(\MicroweberPackages\Admin\Facades\AdminManager::getMenu('left_menu_top') as $item)
                     @if(method_exists($item, 'items'))
                         @include('admin::layouts.partials.navbar-dropdown-link')
@@ -134,8 +51,6 @@
 
 
             </ul>
-
-
 
             <hr class="thin">
 

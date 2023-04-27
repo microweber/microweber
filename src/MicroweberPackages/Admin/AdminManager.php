@@ -56,8 +56,6 @@ class AdminManager
 
     }
 
-
-
     public function addDefaultCustomTags(): void
     {
         $template_headers_src = mw()->template->admin_head(true);

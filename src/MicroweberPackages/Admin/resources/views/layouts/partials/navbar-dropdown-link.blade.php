@@ -1,17 +1,28 @@
+@php
+$dropdownActive = false;
+foreach($item->items() as $subItem) {
+    if($subItem->active) {
+        $dropdownActive = true;
+    }
+}
+@endphp
+
 <li class="nav-item dropdown">
-    <a href="" class="nav-link fs-3 dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+    <a href="" class="nav-link fs-3 dropdown-toggle" @if($dropdownActive) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
         @if($item->prepend->icon)
             {!! $item->prepend->icon !!}
         @endif
-        <span class="badge-holder">
-            {{$item->prepend->text()}}
-        </span>
+        <div x-init="setTimeout(function() { $el.classList.remove('placeholder'); $el.classList.remove('placeholder-xs'); }, 300);" class="placeholder placeholder-xs">
+            <span class="badge-holder">
+                {{$item->prepend->text()}}
+            </span>
+        </div>
     </a>
-    <div class="dropdown-menu" data-bs-popper="static">
+    <div class="dropdown-menu" @if($dropdownActive) x-init="setTimeout(function() { $el.classList.add('show'); }, 300);" @endif data-bs-popper="static">
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->items() as $subItem)
-                    <a href="{{$subItem->url()}}" class="dropdown-item justify-content-between">
+                    <a href="{{$subItem->url()}}" class="dropdown-item justify-content-between @if($subItem->active) active @endif">
                        <span>
                             {{$subItem->text()}}
                        </span>

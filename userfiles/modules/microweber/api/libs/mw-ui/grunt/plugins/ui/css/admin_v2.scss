@@ -105,6 +105,8 @@ body {
     .dropdown-item {
         color: #565656 !important;
 
+
+
         &:hover {
            .add-new{
                visibility: visible;
@@ -149,7 +151,8 @@ body {
 }
 
 .navbar-vertical.navbar-expand-lg .navbar-collapse .dropdown-menu .dropdown-item.active {
-    background-color: transparent;
+    background-color: var(--tblr-navbar-active-bg);
+
     color: var(--tblr-primary);
 }
 
@@ -394,15 +397,18 @@ small.text-muted {
 
 .form-control {
     padding: .65rem .9rem;
+    min-height: 45px;
 }
 
 
 .form-select {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+    min-height: 45px;
 }
 
 .btn:not(.btn-sm) {
     padding: 0.65rem 1.25rem;
+    min-height: 45px;
 }
 
 

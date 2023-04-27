@@ -3,10 +3,12 @@
 namespace MicroweberPackages\Admin\MenuBuilder;
 
 use MicroweberPackages\Admin\MenuBuilder\Traits\HasIcon;
+use MicroweberPackages\Admin\MenuBuilder\Traits\HasOrder;
 
 class Link extends \Spatie\Menu\Link
 {
     use HasIcon;
+    use HasOrder;
 
     public bool $active = false;
 

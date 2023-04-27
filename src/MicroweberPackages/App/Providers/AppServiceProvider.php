@@ -245,11 +245,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
 
+
        $this->app->register(FortifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
         $this->app->register(OptionServiceProvider::class);
 
         $this->app->register(InstallServiceProvider::class);
+
         $this->app->register(AdminServiceProvider::class);
 
         $this->app->register(RepositoryServiceProvider::class);

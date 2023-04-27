@@ -7,12 +7,12 @@
 <div class="form-group">
     <label class="form-label d-block">Show message?</label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="pay_on_delivery_show_msg1" name="pay_on_delivery_show_msg" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('pay_on_delivery_show_msg', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="pay_on_delivery_show_msg1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="pay_on_delivery_show_msg2" name="pay_on_delivery_show_msg" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('pay_on_delivery_show_msg', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="pay_on_delivery_show_msg2"><?php _e("No"); ?></label>
     </div>

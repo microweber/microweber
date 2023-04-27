@@ -38,9 +38,8 @@ class AdminServiceProvider extends ServiceProvider
       //  $this->loadRoutesFrom(__DIR__ . '/routes/admin.php'); moved to AdminRouteServiceProvider
 
         \App::bind('AdminManager',function() {
-            return new \MicroweberPackages\Admin\AdminManager();
+            return new AdminManager();
         });
-
 
     }
 

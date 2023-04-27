@@ -8,12 +8,12 @@
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="paypalpro_testmode1" name="paypalpro_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('paypalpro_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="paypalpro_testmode1"><?php _e("Yes"); ?></label>
     </div>
 
-    <div class="custom-control custom-radio d-inline-block mr-2">
+    <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="paypalpro_testmode2" name="paypalpro_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('paypalpro_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
         <label class="custom-control-label" for="paypalpro_testmode2"><?php _e("No"); ?></label>
     </div>
