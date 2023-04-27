@@ -1,5 +1,5 @@
 <li class="nav-item dropdown">
-    <a href="" class="nav-link fs-3 dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
+    <a href="" class="nav-link fs-3 dropdown-toggle @if($item->prepend->active) show @endif" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="true">
         @if($item->prepend->icon)
             {!! $item->prepend->icon !!}
         @endif
@@ -7,11 +7,11 @@
             {{$item->prepend->text()}}
         </span>
     </a>
-    <div class="dropdown-menu" data-bs-popper="static">
+    <div class="dropdown-menu @if($item->prepend->active) show @endif" data-bs-popper="static">
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->items() as $subItem)
-                    <a href="{{$subItem->url()}}" class="dropdown-item justify-content-between">
+                    <a href="{{$subItem->url()}}" class="dropdown-item justify-content-between @if($subItem->active) active @endif">
                        <span>
                             {{$subItem->text()}}
                        </span>
