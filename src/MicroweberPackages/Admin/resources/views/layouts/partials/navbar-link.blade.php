@@ -1,5 +1,5 @@
 <li class="nav-item @if(isset($class)) {{$class}} @endif">
-    <a href="{{$item->getUri()}}" class="nav-link fs-3" @if($item) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif >
+    <a href="{{$item->getUri()}}" class="nav-link fs-3" @if($item->isCurrent()) x-init="setTimeout(function() { $el.classList.add('active'); }, 300);" @endif >
 
         {!! $item->getAttribute('icon') !!}
         <span>
