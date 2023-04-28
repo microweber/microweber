@@ -488,9 +488,13 @@ small.text-muted {
 
 .mw-admin-sidebar-profile {
     background-color: #f1f5f9;
-    padding: 20px;
-    margin-right: 20px;
+    margin-right: 10px;
     border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
