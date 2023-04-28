@@ -65,26 +65,39 @@
 
 {{--                    <?php _e('Logout') ?></a>--}}
 
-
-
-
 {{--            </div>--}}
 {{--        </div>--}}
 {{--    </li>--}}
-        <li class="nav-item nav-item-profile">
+    <li class="nav-item nav-item-profile">
 
 
 
-            <a href="{{admin_url('user/profile')}}" class="nav-link fs-3">
-                <div class="mw-admin-sidebar-profile">
-                    <p class="mb-0 text-uppercase" style="font-size: 14px;"><?php print get_username_short() ?></p>
-                </div>
+        <a href="{{admin_url('user/profile')}}" class="nav-link fs-3">
+            <div class="mw-admin-sidebar-profile">
+                <p class="mb-0 text-uppercase" style="font-size: 14px;"><?php print get_username_short() ?></p>
+            </div>
 
-                <?php print user_name(); ?>
-            </a>
-        </li>
-                    <?php event_trigger('mw.admin.sidebar.li.last'); ?>
-                    <div class="mt-5">
-                        <?php include(modules_path(). DS . 'admin/lang_swich_footer.php'); ?>
-                    </div>
+            <?php print user_name(); ?>
+        </a>
+    </li>
+    <?php event_trigger('mw.admin.sidebar.li.last'); ?>
+    <div class="mt-3">
+        @include('admin::layouts.partials.navabar-bottom-menu-lang-switch')
+    </div>
+
+                    <a href="javascript:mw_admin_toggle_dark_theme()" class="dropdown-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M12 5l0 .01"></path>
+                            <path d="M17 7l0 .01"></path>
+                            <path d="M19 12l0 .01"></path>
+                            <path d="M17 17l0 .01"></path>
+                            <path d="M12 19l0 .01"></path>
+                            <path d="M7 17l0 .01"></path>
+                            <path d="M5 12l0 .01"></path>
+                            <path d="M7 7l0 .01"></path>
+                        </svg>
+                        <?php _e('Theme') ?>
+                    </a>
 </ul>
