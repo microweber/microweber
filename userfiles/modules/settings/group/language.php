@@ -73,7 +73,7 @@ if (is_module('multilanguage')) {
             addDefaultLanguageToMultilanguage();
         }
 
-        <?php if (is_module('multilanguage')): ?>
+      /*  <?php if (is_module('multilanguage')): ?>
         var data = {};
         data.show_settings_link = "true";
         openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
@@ -85,7 +85,7 @@ if (is_module('multilanguage')) {
         });
         <?php else: ?>
         mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
-        <?php endif; ?>
+        <?php endif; ?>*/
     }
 </script>
 
