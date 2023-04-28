@@ -31,12 +31,12 @@ class ContentManagerServiceProvider extends ServiceProvider
          * @property ContentRepository   $content_repository
          */
         $this->app->bind('content_repository', function ($app) {
-            return $this->app->repository_manager->driver(Content::class);;
+            return $this->app->repository_manager->driver(\MicroweberPackages\Content\Models\Content::class);;
         });
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Content::class, function () {
+            $repositoryManager->extend(\MicroweberPackages\Content\Models\Content::class, function () {
                 return new ContentRepository();
             });
         });

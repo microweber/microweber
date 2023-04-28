@@ -286,14 +286,14 @@ function paging($params)
  *
  * @return array The parent content items
  */
-function content_parents($id = 0, $without_main_parent = false)
+function content_parents($id = 0)
 {
-    return app()->content_manager->get_parents($id, $without_main_parent);
+    return app()->content_manager->get_parents($id);
 }
 
-function get_content_children($id = 0, $without_main_parent = false)
+function get_content_children($id = 0)
 {
-    return app()->content_manager->get_children($id, $without_main_parent);
+    return app()->content_manager->get_children($id);
 }
 
 function page_link($id = false)

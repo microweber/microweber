@@ -28,7 +28,7 @@ class ContentRepositoryTest extends TestCase
 
         // get from repository test
 
-        $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Content::class);
+        $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Models\Content::class);
 
         $cont = $content_repository->findAllBy('id', $prod_id);
 
@@ -67,10 +67,21 @@ class ContentRepositoryTest extends TestCase
         $this->assertEquals($contById->id, $prod_id);
 
 
+        $query1 = $content_repository->makeModel()->select('content.*')->where('id','<>',$prod_id)->first();
+        $query2 = $content_repository->makeModel()->select('content.*')->where('id','=',$prod_id)->first();
+        $this->assertEquals($query2->id, $prod_id);
+        $this->assertNotEquals($query1->id, $prod_id);
+
+
+
         $del = delete_content($prod_id);
         $contMustBeNull = $content_repository->findById($prod_id);
 
         $this->assertEquals($contMustBeNull, null);
+
+
+
+
 
 
     }
