@@ -48,7 +48,7 @@ class ContentApiControllerLiveEditSaveTest extends TestCase
 
         $contentFieldHtml = <<<HTML
 <div class="feature-icon bg-primary bg-gradient">
-<svg class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+ <svg fill="currentColor"class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
 </div>
 <div class="feature-icon bg-primary bg-gradient">
 <h2>Featured title</h2>

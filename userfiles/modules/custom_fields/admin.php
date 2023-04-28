@@ -224,7 +224,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     <div class="row">
                                         <?php foreach ($exiisting_fields as $item): ?>
-                                            <button type="button" class="btn btn-link text-dark px-1 mw-custom-field-existing-item-btn"
+                                            <button type="button" class="btn btn-link   px-1 mw-custom-field-existing-item-btn"
                                                     onclick="javascript:addCustomFieldByExisting('<?php print $item['id']; ?>','<?php print $item['name']; ?>');">
 
                                                     <span class="mw-custom-field-icon-text mw-custom-field-icon-<?php print $item['type']; ?>"></span>
@@ -260,7 +260,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                                     <?php foreach ($fields as $field => $value): ?>
 
-                                        <button type="button" class="btn btn-link text-dark px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
+                                        <button type="button" class="btn btn-link   px-1 js-add-custom-field-<?php print $field; ?>" onclick="javascript:addCustomFieldByVal('<?php print $field; ?>');">
                                             <div>
                                                 <span class="mw-custom-field-icon-<?php print $field; ?>"></span>
                                                 <span class="mw-custom-field-title text-break-line-1 text-center small"><?php _e($value); ?></span>

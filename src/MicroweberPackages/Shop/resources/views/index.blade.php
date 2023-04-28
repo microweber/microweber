@@ -15,7 +15,7 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 <section class="section container-fluid mw-shop-module-wrapper">
     <div class="row">
         <div class="col-xl-3 mb-xl-0 mb-3">
-            <div class="card border-0 text-dark bg-white ">
+            <div class="card border-0   bg-white ">
 
                 {!! $products->filtersActive() !!}
 

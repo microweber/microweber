@@ -83,6 +83,8 @@
 }
 
 .mw-file-manager-view-table tbody tr.selected,
+.mw-file-manager-view-table tbody tr.selected:hover,
+.mw-file-manager-view-table tbody tr.selected:hover td,
 .mw-file-manager-view-table tbody tr.selected td{
     background-color: rgb(204, 222, 255);
 }
@@ -138,6 +140,7 @@
     transition: .2s;
     border-radius: 3px;
     pointer-events: none;
+    z-index: 3;
 }
 .mw-file-manager-list-item-options-button:hover:before{
     opacity: 1;
@@ -172,6 +175,10 @@
     display: block;
     cursor: pointer;
     padding: 10px;
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .mw-file-manager-list-item-options-list > *:hover{
     background-color: #f2f3f5;
@@ -229,12 +236,11 @@
 .mw-file-manager-root[data-view="grid"] tr{
     border: 1px solid transparent;
     border-top-width: 0;
-
+    margin: 5px;
     z-index: 1;
 }
 .mw-file-manager-root[data-view="grid"] tr:hover {
-    border-color: #ccc;
-    transition: .3s;
+    transition: box-shadow .3s;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
   
 }
@@ -435,45 +441,12 @@
 
 .mw-file-manager-search{
     position: relative;
+    
+    min-width: 200px;
+    width: 50%;
+
 }
-.mw-file-manager-search-clear:after{
-    transition: .7s;
-    content: '';
-    opacity: .1;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    background-image: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M324.91,256L497.13,83.79c19.36-18.7,19.89-49.57,1.19-68.89c-18.7-19.36-49.52-19.89-68.89-1.24l-1.19,1.24L255.98,187.12 L83.76,14.9C65.06-4.46,34.24-4.98,14.87,13.71C-4.49,32.36-5.01,63.24,13.68,82.55l1.19,1.24l172.22,172.17L14.87,428.22 c-19.36,18.7-19.89,49.52-1.19,68.89c18.7,19.36,49.52,19.89,68.89,1.19l1.19-1.19l172.22-172.22l172.26,172.22 c18.7,19.36,49.52,19.89,68.89,1.19c19.36-18.65,19.89-49.52,1.19-68.89l-1.19-1.19L324.91,255.96V256z'/%3E%3C/g%3E%3C/svg%3E");
-}
-.mw-file-manager-search .has-value .mw-file-manager-search-clear:after{
-    opacity: .6;
-    transform: translate(-50%, -50%) rotate(0deg);
-}
-.mw-file-manager-search .has-value .mw-file-manager-search-clear{
-    visibility: visible;
-}
-.mw-file-manager-search-clear{
-    position: absolute;
-    display: flex;
-    top: 0;
-    right: 0;
-    width:30px;
-    height: 100%;
-    visibility: hidden;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    background-color: transparent;
-    background-repeat: no-repeat;
-}
+ 
 
 .mw-file-manager-no-results-content{
     font-size: 17px;

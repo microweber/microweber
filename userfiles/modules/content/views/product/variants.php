@@ -250,7 +250,7 @@
 
             <hr class="thin" />
 
-            <button type="button" class="btn btn-outline-primary text-dark js-add-variant-option">Add another option</button>
+            <button type="button" class="btn btn-outline-primary   js-add-variant-option">Add another option</button>
             <hr class="thin no-padding"/>
             <h6 class="text-uppercase mb-3"><strong>Preview</strong></h6>
 

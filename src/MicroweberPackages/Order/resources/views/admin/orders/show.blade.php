@@ -86,7 +86,7 @@
             <?php
             if (isset($order['customer_id']) && $order['customer_id'] > 0):
             ?><small>
-                <a href="<?php echo route('admin.customers.edit', $order['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2 text-dark">
+                <a href="<?php echo route('admin.customers.edit', $order['customer_id']) ?>" class="btn btn-sm btn-outline-primary ml-2  ">
                     <?php _e("Edit"); ?>
                 </a>
             </small>
@@ -288,7 +288,7 @@
                 </div>
 
                 <div class="col-md-6 text-md-right">
-                    <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+                    <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2  ">Edit</a></small>
                     <br/>
                     <br/>
                     <img src="<?php /*print modules_url(); */?>microweber/api/libs/mw-ui/assets/img/shipping_EcontExpress.jpg"/>

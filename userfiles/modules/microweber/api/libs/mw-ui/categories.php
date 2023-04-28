@@ -37,7 +37,7 @@
                         <div class="card-body py-2 px-3">
                             <div class="row align-items-center">
                                 <div class="col-12 col-sm col-md-8 col-lg col-xl-9 my-1">
-                                    <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
+                                    <h6 class="  text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
                                 <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
@@ -54,7 +54,7 @@
                         <div class="card-body py-2 px-3">
                             <div class="row align-items-center">
                                 <div class="col-12 col-sm col-md-8 col-lg col-xl-9 my-1">
-                                    <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
+                                    <h6 class="  text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
                                 <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
@@ -71,7 +71,7 @@
                         <div class="card-body py-2 px-3">
                             <div class="row align-items-center">
                                 <div class="col-12 col-sm col-md-8 col-lg col-xl-9 my-1">
-                                    <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
+                                    <h6 class="  text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
                                 <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
@@ -88,7 +88,7 @@
                         <div class="card-body py-2 px-3">
                             <div class="row align-items-center">
                                 <div class="col-12 col-sm col-md-8 col-lg col-xl-9 my-1">
-                                    <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
+                                    <h6 class="  text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
                                 <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">
@@ -105,7 +105,7 @@
                         <div class="card-body py-2 px-3">
                             <div class="row align-items-center">
                                 <div class="col-12 col-sm col-md-8 col-lg col-xl-9 my-1">
-                                    <h6 class="text-dark text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
+                                    <h6 class="  text-break-line-2 mb-0"><i class="mdi mdi-folder text-muted mdi-18px mr-2"></i> Modern Golden Watch &nbsp;/&nbsp; <a href="#" class="text-primary">Blog</a></h6>
                                 </div>
 
                                 <div class="col-12 col-sm col-md-4 col-lg col-xl-3 my-1 text-end text-right">

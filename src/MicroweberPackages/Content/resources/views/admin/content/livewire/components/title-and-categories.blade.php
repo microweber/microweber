@@ -1,7 +1,7 @@
 <div class="manage-item-main-top">
 
     <a target="_self" href="{{route('admin.page.edit', $content->id)}}" class="btn btn-link p-0">
-        <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title">
+        <h5 class="  text-break-line-1 mb-0 manage-post-item-title">
             {{$content->title}}
         </h5>
     </a>

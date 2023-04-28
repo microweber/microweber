@@ -137,7 +137,7 @@ $lang = mw()->lang_helper->current_lang();
     </div>
 </div>
 
-<hr class="thin mx-4"/>
+
 
 <div class="card mb-5">
     <div class="card-body">

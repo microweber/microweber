@@ -114,7 +114,7 @@ if ($id != false) {
                         <img data-module-icon="<?php print $data['icon'] ?>" class="module-img"  data-title="<?php print $data['module'] ?>"/>
                     <?php endif; ?>
 
-                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link text-dark p-0" href='<?php print module_admin_url($data['module']); ?>'><?php endif; ?>
+                    <?php if (strval($data['installed']) != '' and intval($data['installed']) != 0): ?><a class="btn btn-link   p-0" href='<?php print module_admin_url($data['module']); ?>'><?php endif; ?>
                         <div class="admin-modules-list-description mt-0">
                             <h4>
                                 <?php if (isset($data['name'])): ?>

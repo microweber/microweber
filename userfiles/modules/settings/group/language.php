@@ -73,7 +73,7 @@ if (is_module('multilanguage')) {
             addDefaultLanguageToMultilanguage();
         }
 
-        <?php if (is_module('multilanguage')): ?>
+      /*  <?php if (is_module('multilanguage')): ?>
         var data = {};
         data.show_settings_link = "true";
         openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
@@ -85,7 +85,7 @@ if (is_module('multilanguage')) {
         });
         <?php else: ?>
         mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
-        <?php endif; ?>
+        <?php endif; ?>*/
     }
 </script>
 
@@ -107,10 +107,21 @@ if (is_module('multilanguage')) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
-                                        <label class="form-label"><?php _e("Website Language"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
-                                        <div class="row">
-                                            <div class="col-md-7">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                           <div>
+                                               <label class="form-label"><?php _e("Website Language"); ?></label>
+                                               <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
+                                           </div>
+
+                                            <?php if($isMultilanguageActivated) { ?>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-green me-2"></span>
+                                                    <p class="text-success mb-0">Activated</p>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+
+                                            <div class="col-md-7 mt-4">
 
                                             <?php if ($hasMultilanguageModuleActivated): ?>
                                             <module type="multilanguage" template="admin" show_settings_link="true" />
@@ -176,7 +187,6 @@ if (is_module('multilanguage')) {
                                             <div class="col-md-5 text-end text-right">
 
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +248,7 @@ if (is_module('multilanguage')) {
 
         </div>
     </div>
-    <hr class="thin mx-4"/>
+
     <module type="settings/group/language_edit" id="mw_lang_file_edit"  edit-lang="<?php print $def_language ?>"  />
 </div>
 

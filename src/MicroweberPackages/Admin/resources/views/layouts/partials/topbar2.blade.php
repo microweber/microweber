@@ -59,10 +59,10 @@
                     </div>
 
                     <div class="col-xl-10 ps-xl-3">
-                        <h3 class="text-dark font-weight-bolder"> New <?php print $title; ?></h3>
+                        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="text-dark font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
                             Create a new page to your website or online store, choose from pre-pared page designs
                         </p>
                     </div>
@@ -73,10 +73,10 @@
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-post.svg" alt="">
                     </div>
                     <div class="col-xl-10 ps-xl-3">
-                        <h3 class="text-dark font-weight-bolder"> New <?php print $title; ?></h3>
+                        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="text-dark font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
                             Add new post to your blog page, linked to category of main page on your website
                         </p>
                     </div>
@@ -87,10 +87,10 @@
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-category.svg" alt="">
                     </div>
                     <div class="col-xl-10 ps-xl-3">
-                        <h3 class="text-dark font-weight-bolder"> New <?php print $title; ?></h3>
+                        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="text-dark font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
                             Add new category and organize your blog posts or items from the shop in the right way
                         </p>
                     </div>
@@ -102,10 +102,10 @@
 
                     </div>
                     <div class="col-xl-10 ps-xl-3">
-                        <h3 class="text-dark font-weight-bolder"> New <?php print $title; ?></h3>
+                        <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="text-dark font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
                             Add new category and organize your blog posts or items from the shop in the right way
                         </p>
                     </div>

@@ -143,7 +143,7 @@ $payment_modules = get_modules('type=payment_gateway');
                               <div class="card-body py-3">
                                   <div class="row d-flex align-items-center">
                                       <div class="col cursor-move-holder">
-                                          <a href="javascript:;" class="btn btn-link text-dark"><i class="mdi mdi-cursor-move"></i></a>
+                                          <a href="javascript:;" class="btn btn-link  "><i class="mdi mdi-cursor-move"></i></a>
                                       </div>
 
                                       <div class="col pl-0 js-change-method-status" style="max-width: 60px;">

@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-outline-primary text-dark">Add another option</button>
+            <button type="button" class="btn btn-outline-primary  ">Add another option</button>
 
             <hr class="thin no-padding"/>
 

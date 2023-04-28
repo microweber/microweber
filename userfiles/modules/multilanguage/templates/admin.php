@@ -27,6 +27,18 @@ description: MW Default
 <?php if (!empty($supported_languages)): ?>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $('.multilanguage-module-dropdown-settings').on('click', function () {
+
+                var data = {};
+                var module_id = 'multilanguage-admin-settings';
+                var opts = {};
+                opts.width = '800';
+                opts.height = '600';
+                mw.tools.open_global_module_settings_modal('multilanguage/admin', module_id, opts, data);
+
+            });
+
             $('#switch_language_ul li').on('click', function () {
                 var selected = $(this).data('value');
                 var is_admin = <?php if (defined('MW_FRONTEND')) {
@@ -52,7 +64,7 @@ description: MW Default
     <script>mw.lib.require('flag_icons');</script>
 
     <div class="mw-dropdown mw-dropdown-default">
-        <span class="mw-dropdown-value btn btn-primary mw-dropdown-val">
+        <span class="mw-dropdown-value btn btn-outline-primary mw-dropdown-val">
             <?php if (!empty($current_language['display_icon'])): ?>
                 <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" style="margin-top:3px;"/>
             <?php else: ?>
@@ -67,7 +79,7 @@ description: MW Default
         </span>
 
         <div class="mw-dropdown-content">
-            <ul id="switch_language_ul">
+            <ul id="switch_language_ul" class="mb-0">
                 <?php foreach ($supported_languages as $language): ?>
                     <li <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
                         <!-- custom display icon -->
@@ -88,7 +100,7 @@ description: MW Default
                     </li>
                 <?php endforeach; ?>
                 <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
-                    <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>module/view?type=multilanguage';">
+                    <li class="multilanguage-module-dropdown-settings">
                         <?php _e('Settings'); ?>
                     </li>
                 <?php endif; ?>

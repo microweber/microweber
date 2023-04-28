@@ -554,7 +554,7 @@ foreach ($files as $file) {
                                 <div class="bs-component my-3">
                                     <div class="d-inline-block">
                                         <button type="button" class="btn text-silver btn-link btn-icon btn-sm"><i class="mdi mdi-thumb-up"></i></button>
-                                        <span class="text-dark"><strong>0</strong></span>
+                                        <span class=" "><strong>0</strong></span>
                                         <button type="button" class="btn text-silver btn-link btn-icon btn-sm"><i class="mdi mdi-thumb-down"></i></button>
                                     </div>
                                     &nbsp;&nbsp;
@@ -1463,7 +1463,7 @@ foreach ($files as $file) {
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                     </div>
                                 </div>
-                                <div class="card text-dark bg-secondary mb-3" style="max-width: 20rem;">
+                                <div class="card   bg-secondary mb-3" style="max-width: 20rem;">
                                     <div class="card-header">Header</div>
                                     <div class="card-body">
                                         <h4 class="card-title">Secondary card title</h4>
@@ -1499,14 +1499,14 @@ foreach ($files as $file) {
                                     </div>
                                 </div>
                                 <div class="card bg-light mb-3" style="max-width: 20rem;">
-                                    <div class="card-header text-dark">Header</div>
+                                    <div class="card-header  ">Header</div>
                                     <div class="card-body">
                                         <h4 class="card-title">Light card title</h4>
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                     </div>
                                 </div>
                                 <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
-                                    <div class="card-header text-dark">Header</div>
+                                    <div class="card-header  ">Header</div>
                                     <div class="card-body">
                                         <h4 class="card-title">Dark card title</h4>
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -2288,7 +2288,7 @@ foreach ($files as $file) {
             <div class="d-flex justify-content-between mb-3">
                 <h5 class="font-weight-bold settings-title-inside">Client Information</h5>
 
-                <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+                <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2  ">Edit</a></small>
 
             </div>
 
@@ -2400,7 +2400,7 @@ foreach ($files as $file) {
                 </div>
 
                 <div class="col-md-6 text-md-right">
-                    <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+                    <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2  ">Edit</a></small>
                     <br/>
                     <br/>
                     <img src="assets/img/shipping_EcontExpress.jpg"/>
@@ -2560,7 +2560,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="col item-title">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <br />
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
@@ -2600,7 +2600,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="col" style="min-width: 270px;">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">
@@ -2639,7 +2639,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="col" style="min-width: 270px;">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">

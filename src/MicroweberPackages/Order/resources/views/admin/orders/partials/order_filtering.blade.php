@@ -16,12 +16,12 @@
         <div id="cartsnav">
 
             <a href="{{route('admin.order.index')}}"
-               class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>">
+               class="btn btn-link btn-sm px-0 <?php if (!isset($abandoned)): ?>font-weight-bold   active<?php else: ?>text-muted<?php endif; ?>">
                 <?php _e("Completed orders"); ?> (<?php echo $orders_count; ?>)
             </a>
 
         <a href="{{route('admin.order.abandoned')}}"
-               class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold text-dark active<?php else: ?>text-muted<?php endif; ?>">
+               class="btn btn-link btn-sm <?php if (isset($abandoned)): ?>font-weight-bold   active<?php else: ?>text-muted<?php endif; ?>">
             <?php _e("Abandoned carts"); ?> (<?php echo $abandoned_count; ?>)
         </a>
 

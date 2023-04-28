@@ -50,7 +50,7 @@
                 <div class="col-12">
                     <small class="text-muted"><?php _e('Want to add the product in more categories'); ?>?</small>
                     <br />
-                    <button type="button" class="btn btn-outline-primary btn-sm text-dark my-3"><?php _e('Add to category'); ?></button>
+                    <button type="button" class="btn btn-outline-primary btn-sm   my-3"><?php _e('Add to category'); ?></button>
                     <br />
                     TREE
                 </div>
