@@ -123,7 +123,7 @@
                 <div class="d-flex justify-content-between mb-3">
                     <h5 class="font-weight-bold settings-title-inside">Client Information</h5>
 
-                    <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+                    <small>Edit client information <a href="#" class="btn btn-sm btn-outline-primary ml-2  ">Edit</a></small>
 
                 </div>
 
@@ -235,7 +235,7 @@
                     </div>
 
                     <div class="col-md-6 text-md-right">
-                        <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2 text-dark">Edit</a></small>
+                        <small>Edit shipment information <a href="#" class="btn btn-sm btn-outline-primary ml-2  ">Edit</a></small>
                         <br/>
                         <br/>
                         <img src="assets/img/shipping_EcontExpress.jpg"/>

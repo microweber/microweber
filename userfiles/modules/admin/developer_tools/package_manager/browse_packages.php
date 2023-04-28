@@ -165,7 +165,7 @@ $packages_by_type_all = array_merge($packages_by_type, $packages_by_type_with_up
                     if (pval === false) return false;
 
                     var search_kw = pval;
-                    var items = document.querySelectorAll('.text-dark');
+                    var items = document.querySelectorAll('. ');
                     var foundlen = 0;
 
                     mw.tools.search(search_kw, items, function (found) {

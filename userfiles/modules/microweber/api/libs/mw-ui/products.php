@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="col item-title">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <br />
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
@@ -116,7 +116,7 @@
                             </div>
 
                             <div class="col" style="min-width: 270px;">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">
@@ -155,7 +155,7 @@
                             </div>
 
                             <div class="col" style="min-width: 270px;">
-                                <h5 class="text-dark text-break-line-1 mb-0">Modern Golden Watch</h5>
+                                <h5 class="  text-break-line-1 mb-0">Modern Golden Watch</h5>
                                 <a href="#" class="text-muted">Category 1,</a> <a href="#" class="text-muted">Category 2</a>
                                 <small class="text-muted">http://localhost/microweber/dave-wool-beanie</small>
                                 <div class="mt-2">

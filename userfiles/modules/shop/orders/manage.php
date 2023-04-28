@@ -170,7 +170,7 @@
             <div class="manage-toobar d-flex justify-content-between align-items-center">
                 <?php if ($is_orders != 0) { ?>
                     <div id="cartsnav">
-                        <a href="#orderstype=completed" class="btn btn-link btn-sm px-0 text-dark active"><?php _e("Completed orders"); ?></a>
+                        <a href="#orderstype=completed" class="btn btn-link btn-sm px-0   active"><?php _e("Completed orders"); ?></a>
                         <a href="#orderstype=carts" class="btn btn-link btn-sm text-muted"><?php _e("Abandoned carts"); ?></a>
                     </div>
 

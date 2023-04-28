@@ -75,9 +75,9 @@
                                     <div class="settings-info-holder-title">
                                         {{$user->first_name}} {{$user->last_name}}
                                         @if($user->is_admin)
-                                            <br><small class="text-dark"><?php _e('Admin');?></small>
+                                            <br><small class=" "><?php _e('Admin');?></small>
                                         @else
-                                            <br><small class="text-dark"><?php _e('User');?></small>
+                                            <br><small class=" "><?php _e('User');?></small>
                                         @endif
                                     </div>
                                 </td>

@@ -3,7 +3,7 @@
 <section class="section container-fluid">
     <div class="row pt-5">
         <div class="col-xl-3 mb-xl-0 mb-3">
-            <div class="card border-0 text-dark bg-white">
+            <div class="card border-0   bg-white">
 
                 {!! $posts->filtersActive() !!}
 

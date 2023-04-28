@@ -32,7 +32,7 @@ $ccount = get_comments($comments_data);
 
 
         <div>
-            <a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+            <a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link  "><?php _e('View'); ?></a>
         </div>
 
     </div>

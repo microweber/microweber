@@ -92,7 +92,7 @@
                                     <div class="col item-title manage-post-item-col-3 manage-post-main">
                                         <div class="manage-item-main-top">
                                             <a target="<?php echo $target; ?>" href="<?php print $edit_link_front; ?>" class="btn btn-link p-0">
-                                                <h5 class="text-dark text-break-line-1 mb-0 manage-post-item-title"><?php print strip_tags($item['title']) ?></h5>
+                                                <h5 class="  text-break-line-1 mb-0 manage-post-item-title"><?php print strip_tags($item['title']) ?></h5>
                                             </a>
                                             <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 

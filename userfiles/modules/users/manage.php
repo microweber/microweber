@@ -90,7 +90,7 @@ $registration_approval_required = get_option('registration_approval_required', '
                             <?php endif; ?>
                             <?php print $item['first_name'] . ' ' . $item['last_name']; ?>
                             <br>
-                            <small class="text-dark"><?php if ($item['is_admin'] == 1) {_e("Admin");} else {_e("User");}  ?></small>
+                            <small class=" "><?php if ($item['is_admin'] == 1) {_e("Admin");} else {_e("User");}  ?></small>
                         </div>
                     </td>
 

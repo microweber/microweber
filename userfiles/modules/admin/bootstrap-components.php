@@ -3,7 +3,7 @@
     <div class="container ">
         <div class="row">
 
-            <h1 class="text-center text-dark py-5"> BOOTSTRAP COMPONENTS </h1>
+            <h1 class="text-center   py-5"> BOOTSTRAP COMPONENTS </h1>
 
                 <!--ACCORDION -->
 
@@ -327,9 +327,9 @@
                 <span class="badge bg-secondary">Secondary</span>
                 <span class="badge bg-success">Success</span>
                 <span class="badge bg-danger">Danger</span>
-                <span class="badge bg-warning text-dark">Warning</span>
-                <span class="badge bg-info text-dark">Info</span>
-                <span class="badge bg-light text-dark">Light</span>
+                <span class="badge bg-warning  ">Warning</span>
+                <span class="badge bg-info  ">Info</span>
+                <span class="badge bg-light  ">Light</span>
                 <span class="badge bg-dark">Dark</span>
             </div>
 
@@ -340,9 +340,9 @@
                 <span class="badge rounded-pill bg-secondary">Secondary</span>
                 <span class="badge rounded-pill bg-success">Success</span>
                 <span class="badge rounded-pill bg-danger">Danger</span>
-                <span class="badge rounded-pill bg-warning text-dark">Warning</span>
-                <span class="badge rounded-pill bg-info text-dark">Info</span>
-                <span class="badge rounded-pill bg-light text-dark">Light</span>
+                <span class="badge rounded-pill bg-warning  ">Warning</span>
+                <span class="badge rounded-pill bg-info  ">Info</span>
+                <span class="badge rounded-pill bg-light  ">Light</span>
                 <span class="badge rounded-pill bg-dark">Dark</span>
             </div>
 
@@ -1119,21 +1119,21 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                 </div>
-                <div class="card text-dark bg-warning mb-3" style="max-width: 18rem;">
+                <div class="card   bg-warning mb-3" style="max-width: 18rem;">
                     <div class="card-header">Header</div>
                     <div class="card-body">
                         <h5 class="card-title">Warning card title</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                 </div>
-                <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+                <div class="card   bg-info mb-3" style="max-width: 18rem;">
                     <div class="card-header">Header</div>
                     <div class="card-body">
                         <h5 class="card-title">Info card title</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                 </div>
-                <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+                <div class="card   bg-light mb-3" style="max-width: 18rem;">
                     <div class="card-header">Header</div>
                     <div class="card-body">
                         <h5 class="card-title">Light card title</h5>
@@ -1203,7 +1203,7 @@
                 </div>
                 <div class="card border-dark mb-3" style="max-width: 18rem;">
                     <div class="card-header">Header</div>
-                    <div class="card-body text-dark">
+                    <div class="card-body  ">
                         <h5 class="card-title">Dark card title</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
@@ -4282,7 +4282,7 @@
                                     <div class="spinner-border text-light" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
-                                    <div class="spinner-border text-dark" role="status">
+                                    <div class="spinner-border  " role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>
@@ -4321,7 +4321,7 @@
                                     <div class="spinner-grow text-light" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
-                                    <div class="spinner-grow text-dark" role="status">
+                                    <div class="spinner-grow  " role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
                                 </div>

@@ -61,11 +61,11 @@
                                             </h5>
                                         </li>-->
 
-                <li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left text-dark px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-shopping text-muted"></i> <span class="d-none d-md-block">New order</span></a>
+                <li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left   px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-shopping text-muted"></i> <span class="d-none d-md-block">New order</span></a>
                 </li>
-                <li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left text-dark px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-comment-account text-muted"></i> <span
+                <li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left   px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-comment-account text-muted"></i> <span
                                 class="d-none d-md-block">New comment</span></a></li>
-                <!--<li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left text-dark px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-bell text-muted"></i> <span class="d-none d-md-block">New notification</span></a></li>-->
+                <!--<li class="mx-1"><a href="#" class="btn btn-link btn-rounded icon-left   px-0"><span class="badge badge-success badge-pill mr-2">4</span> <i class="mdi mdi-bell text-muted"></i> <span class="d-none d-md-block">New notification</span></a></li>-->
             </ul>
 
             <ul class="nav nav-last">

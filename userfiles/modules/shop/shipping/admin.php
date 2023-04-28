@@ -121,7 +121,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                <div class="card-body py-3">
                                    <div class="row d-flex align-items-center">
                                        <div class="col cursor-move-holder" style="max-width: 80px;">
-                                           <span href="javascript:;" class="btn btn-link text-dark"><i class="mdi mdi-cursor-move"></i></span>
+                                           <span href="javascript:;" class="btn btn-link  "><i class="mdi mdi-cursor-move"></i></span>
                                        </div>
 
                                        <div class="col pl-0 js-change-method-status" style="max-width: 60px;">

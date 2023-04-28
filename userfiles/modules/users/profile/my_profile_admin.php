@@ -69,7 +69,7 @@ if (isset($user['role'])) {
 
                     <small class="d-block text-muted"><?php _e('You are logged in as'); ?></small>
                     <span class="d-block text-outline-primary font-weight-bold"><?php echo $user_name; ?></span>
-                    <small class="d-block text-dark"><?php echo $user_role; ?></small>
+                    <small class="d-block  "><?php echo $user_role; ?></small>
 
                     <a
                         href="<?php print admin_url('module/view?type=users/edit-user:' . $user['id']); ?>"

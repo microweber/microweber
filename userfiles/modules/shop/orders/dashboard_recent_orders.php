@@ -64,7 +64,7 @@ if ($ordersAmount) {
 
 
             <div>
-                <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link text-dark"><?php _e('View'); ?></a>
+                <a href="<?php echo route('admin.order.index'); ?>" class="btn btn-link  "><?php _e('View'); ?></a>
             </div>
 
         </div>

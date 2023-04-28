@@ -184,7 +184,7 @@ if(!isset($item['type'] )){
                     <div class="row">
                         <div class="col">
                             <a <?php print (isset($item['homepage']) ? 'href="' . $item['homepage'] . '"' : ''); ?>
-                                class="btn btn-lg btn-link text-dark p-0"><?php print $item['description'] ?></a>
+                                class="btn btn-lg btn-link   p-0"><?php print $item['description'] ?></a>
                         </div>
 
                         <div class="col text-end text-right">

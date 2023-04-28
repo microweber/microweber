@@ -163,7 +163,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                     </div>
 
                                     <div class="col-auto item-title">
-                                        <h5 class="text-dark text-break-line-1 mb-0"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h5>
+                                        <h5 class="  text-break-line-1 mb-0"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h5>
                                         <br>
                                         <small class="text-muted"><?php print content_link($item['id']); ?></small>
                                         <div class="mt-2">
