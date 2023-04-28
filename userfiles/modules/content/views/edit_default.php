@@ -296,7 +296,7 @@ if (isset($params['quick_edit'])) {
         }
         ?>
 
-        <div class="position-relative">
+        <div class="position-relative mw-modules-toolbar-back-button-holder-wrapper">
             <div class="main-toolbar mw-modules-toolbar-back-button-holder">
                 <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
                     <i class="mdi mdi-chevron-left"></i> <?php _e('Back to'); ?> <?php _e($backToTypeText); ?>

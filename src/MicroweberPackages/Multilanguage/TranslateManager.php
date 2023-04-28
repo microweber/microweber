@@ -288,7 +288,7 @@ class TranslateManager
                     $get = array();
                     $get['id'] = $findTranslate['rel_id'];
                     $get['single'] = true;
-                    $content = mw()->content_manager->get($get);
+                    $content = app()->content_manager->get($get);
 
                     if (!$content) {
                         // Debugbar::stopMeasure('app.content.get_by_url');
@@ -312,7 +312,7 @@ class TranslateManager
                     $get['url'] = $targetUrl;
                     $get['single'] = true;
 
-                    $content = mw()->content_manager->get($get);
+                    $content = app()->content_manager->get($get);
                     if (!$content) {
                         // Debugbar::stopMeasure('app.content.get_by_url');
                         return;

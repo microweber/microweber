@@ -390,7 +390,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                 $pt_opts['active_ids'] = content_id();
                                 $pt_opts['limit'] = 1000;
                                 $pt_opts['active_code_tag'] = 'class="active"';
-                                mw()->content_manager->pages_tree($pt_opts);
+                                app()->content_manager->pages_tree($pt_opts);
                                 ?>
                                 <a id="backtoadminindropdown"
                                    href="<?php print $back_url; ?>"
@@ -520,7 +520,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                     </li>
                                     <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                                     <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-                                        <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
+                                        <?php $pub_or_inpub = app()->content_manager->get_by_id(CONTENT_ID); ?>
                                         <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 1): ?> style="display:none" <?php endif; ?>>
                                             <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span><?php _e("Unpublish"); ?></span></a>
                                         </li>

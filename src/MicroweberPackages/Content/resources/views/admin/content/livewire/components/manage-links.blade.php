@@ -1,6 +1,7 @@
 <div class="manage-post-item-links mt-3">
 
-    <a href="{{$content->editLink()}}" class="btn btn-outline-primary btn-sm">Edit</a>
+    <a  href="javascript:mw.admin.content.quickEditModalFrame('{{$content->editLink()}}')" class="btn btn-outline-primary btn-sm">Edit modal</a>
+    <a  href="{{$content->editLink()}}" class="btn btn-outline-primary btn-sm">Edit</a>
     <a href="{{$content->editLink()}}" class="btn btn-outline-success btn-sm">Live Edit</a>
 
     <?php if(!$content->is_deleted): ?>

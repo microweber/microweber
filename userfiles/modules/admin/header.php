@@ -146,19 +146,19 @@ if ($last_page_front == false) {
 }
 
 if ($last_page_front != false) {
-    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
+    $cont_by_url = app()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+        $past_page = app()->content_manager->get("order_by=updated_at desc&limit=1");
         if (isset($past_page[0])) {
-            $past_page = mw()->content_manager->link($past_page[0]['id']);
+            $past_page = app()->content_manager->link($past_page[0]['id']);
         }
     } else {
-        $past_page = mw()->content_manager->link($last_page_front);
+        $past_page = app()->content_manager->link($last_page_front);
     }
 } else {
-    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
+    $past_page = app()->content_manager->get("order_by=updated_at desc&limit=1");
     if (isset($past_page[0])) {
-        $past_page = mw()->content_manager->link($past_page[0]['id']);
+        $past_page = app()->content_manager->link($past_page[0]['id']);
 
     } else {
         $past_page = site_url();

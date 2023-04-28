@@ -98,7 +98,7 @@ class AdminController extends Controller
 
 
         //create_mw_default_options();
-        mw()->content_manager->define_constants();
+        app()->content_manager->define_constants();
 
         if (defined('TEMPLATE_DIR')) {
             app()->template_manager->boot_template();

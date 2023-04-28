@@ -68,16 +68,16 @@ class ContentTest extends TestCase
             'content_id'=>$parent_page,
             'related_content_id'=>$get_sub_page['id'],
         ];
-        $add = mw()->content_manager->helpers->related_content_add($params);
-        $related = mw()->content_manager->get_related_content_ids_for_content_id($parent_page);
+        $add = app()->content_manager->helpers->related_content_add($params);
+        $related = app()->content_manager->get_related_content_ids_for_content_id($parent_page);
         $this->assertEquals($related[0], $get_sub_page['id']);
 
         $params = [
             'content_id'=>$parent_page,
             'related_content_id'=>$get_sub_page['id'],
         ];
-        mw()->content_manager->helpers->related_content_remove($params);
-        $related = mw()->content_manager->get_related_content_ids_for_content_id($get_sub_page['id']);
+        app()->content_manager->helpers->related_content_remove($params);
+        $related = app()->content_manager->get_related_content_ids_for_content_id($get_sub_page['id']);
         $this->assertTrue(empty($related));
 
 

@@ -18,7 +18,7 @@ $homepage = array(
 
 );
 
-$homepage_get = mw()->content_manager->homepage();
+$homepage_get = app()->content_manager->homepage();
 if($homepage_get){
     $homepage = array(
         'url'=>content_link($homepage_get['id']),

@@ -114,7 +114,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         $pt_opts['active_ids'] = CONTENT_ID;
                         $pt_opts['limit'] = 1000;
                         $pt_opts['active_code_tag'] = 'class="active"';
-                        mw()->content_manager->pages_tree($pt_opts);
+                        app()->content_manager->pages_tree($pt_opts);
                         ?>
               <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span><?php _e('Back to Admin'); ?></span> </a> </div>
           </li>
@@ -231,7 +231,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
 
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-                <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
+                <?php $pub_or_inpub = app()->content_manager->get_by_id(CONTENT_ID); ?>
                 <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span
                                             class="ico iUnpublish"></span><span>
                   <?php _e("Unpublish"); ?>

@@ -10,7 +10,7 @@ if(isset($params['post_id']) and intval($params['post_id']) != 0){
 } else if(isset($params['page_id']) and intval($params['page_id']) != 0){
 	$cont_id = intval($params['page_id']);
 } else if(isset($params['for_url']) and ($params['for_url']) != false){
-	$cont = mw()->content_manager->get_by_url($params['for_url']);
+	$cont = app()->content_manager->get_by_url($params['for_url']);
 	if(isset($cont['id'])){
 		$cont_id = $cont['id'];
 	}

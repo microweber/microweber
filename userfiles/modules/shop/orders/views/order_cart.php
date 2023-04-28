@@ -170,7 +170,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                     </td>
                     <td class="mw-order-item-sku">
                         <?php if ($item['rel_type'] == 'content'): ?>
-                            <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
+                            <?php $data_fields = app()->content_manager->data($item['rel_id']); ?>
                             <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                                 <span class="text-muted"><?php print $data_fields['sku']; ?></span>
                             <?php endif; ?>

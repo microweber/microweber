@@ -360,6 +360,17 @@ mw.admin.content.refreshContentListAfterAction = function () {
     }
 }
 
+mw.admin.content.quickEditModalFrame = function (url) {
+    mw.dialogIframe({
+        url: url + '?iframe=true',
+        width: 800,
+        height: 600,
+        draggable: true,
+        template: 'mw_modal_simple',
+        title: 'Edit content',
+        id: 'btn-quick-setting-dialog'
+    });
+}
 
 
 $(mwd).ready(function () {
@@ -505,13 +516,13 @@ $.fn.serializeAssoc = function() {
     });
     return data;
 };
- 
+
 // dropdowns
 ;(function(){
-    
+
     const _customDropdownSelectPickerAdaper = (itm) => {
 
-       
+
 
 
         var defaults = {
@@ -538,7 +549,7 @@ $.fn.serializeAssoc = function() {
         }
 
         var options = {
- 
+
         };
 
         var settings = Object.assign({}, defaults, options)
@@ -554,7 +565,7 @@ $.fn.serializeAssoc = function() {
         new TomSelect(itm, settings);
     }
     const _customDropdowns = () => {
-    
+
 
         let all = document.querySelectorAll('select.selectpicker:not(.mw--select-ready)'),
             i = 0, l = all.length;
@@ -562,11 +573,11 @@ $.fn.serializeAssoc = function() {
             let itm = all[i];
             itm.classList.add('mw--select-ready');
             itm.style.display = 'none';
-            
+
             // _customDropdownSelectPickerAdaper(itm)
               $(itm).selectpicker();
-        }   
-        
+        }
+
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
@@ -577,30 +588,30 @@ $.fn.serializeAssoc = function() {
 
     var observer = new MutationObserver(function( mutations ) {
         mutations.forEach(function( mutation ) {
-          var newNodes = mutation.addedNodes; 
-          if( newNodes !== null ) {  
+          var newNodes = mutation.addedNodes;
+          if( newNodes !== null ) {
             _customDropdowns();
           }
-        });    
+        });
       });
-      
- 
-      
+
+
+
 
       addEventListener('DOMContentLoaded', _customDropdowns);
       addEventListener('load',  e => {
- 
+
           _customDropdowns();
-          observer.observe(document.getElementById('mw-admin-container'), observerConfig = { 
-            attributes: false, 
-            childList: true, 
-            characterData: false 
+          observer.observe(document.getElementById('mw-admin-container'), observerConfig = {
+            attributes: false,
+            childList: true,
+            characterData: false
         });
       });
-      
-    
-      
-    
+
+
+
+
 
 })();
 

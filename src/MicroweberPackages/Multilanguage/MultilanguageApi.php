@@ -127,7 +127,7 @@ class MultilanguageApi
             $location = false;
 
             $categoryId = get_category_id_from_url($url);
-            $contentId = mw()->content_manager->get_content_id_from_url($url);
+            $contentId = app()->content_manager->get_content_id_from_url($url);
             $contentCheck = get_content_by_id($contentId);
 
 

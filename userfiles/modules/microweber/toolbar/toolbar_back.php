@@ -27,7 +27,7 @@
 
     <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
-	  $u  = mw()->content_manager->link(CONTENT_ID);
+	  $u  = app()->content_manager->link(CONTENT_ID);
   } else {
 	  $u  =mw()->url_manager->current(1,1);
   }

@@ -70,7 +70,7 @@ if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data[
             $data['layout_file'] = 'inherit';
 
         } else {
-            $inh1 = mw()->content_manager->get_inherited_parent($params["inherit_from"]);
+            $inh1 = app()->content_manager->get_inherited_parent($params["inherit_from"]);
 
             if ($inh1 == false) {
                 $inh1 = intval($params["inherit_from"]);
@@ -101,7 +101,7 @@ if (isset($data["id"])) {
         $iframe_cont_id = $data["id"];
     }
     if (!defined('ACTIVE_SITE_TEMPLATE')) {
-        mw()->content_manager->define_constants($data);
+        app()->content_manager->define_constants($data);
     }
 }
 

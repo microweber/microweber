@@ -50,7 +50,7 @@ function is_in_menu($menu_id = false, $content_id = false)
 
 function add_content_to_menu($content_id, $menu_id = false)
 {
-    return mw()->content_manager->helpers->add_content_to_menu($content_id, $menu_id);
+    return app()->content_manager->helpers->add_content_to_menu($content_id, $menu_id);
 }
 
 

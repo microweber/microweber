@@ -21,14 +21,14 @@
               <tr
                     data-index="<?php print $index; ?>"
                     class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
-                    
+
                     <td>
 					<center>
-					
+
 					<?php  if(isset($cart_items[$i]['item_image']) and $cart_items[$i]['item_image'] != false): ?>
 
-                  <?php 
-	  
+                  <?php
+
 	  $p = $cart_items[$i]['item_image']; ?>
             <?php if ($p != false): ?>
             <a data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);" href="<?php print ($p); ?>" target="_blank"></a>
@@ -38,31 +38,31 @@
             <?php if ($p != false): ?>
             <span data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
             <?php endif; ?>
-                  
-                <?php endif; ?>  
-                
+
+                <?php endif; ?>
+
                 </center>
-                
+
                 </td>
-                    
+
                 <td   class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
                   <?php if ($item['rel_type'] == 'content'): ?>
-                  <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
+                  <?php $data_fields = app()->content_manager->data($item['rel_id']); ?>
                   <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                   <small class="mw-ui-label-help">
                   <?php _e("SKU"); ?>
                   : <?php print $data_fields['sku']; ?></small>
                   <?php endif; ?>
                   <?php endif; ?>
-                  
-                  
-                  
-                  
-                  
-                  
-             
-                  
-                  
+
+
+
+
+
+
+
+
+
                   </td>
                 <!--  <td class="mw-order-item-fields"></td>-->
                 <td class="mw-order-item-amount nowrap"><?php print  currency_format($item['price'], $ord['currency']); ?></td>

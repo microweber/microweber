@@ -14,7 +14,7 @@ Route::name('api.menu.')
     ->group(function () {
 
         Route::name('add.content')->post('add/content', function (\Illuminate\Http\Request $request) {
-            return mw()->content_manager->helpers->add_content_to_menu($request->all());
+            return app()->content_manager->helpers->add_content_to_menu($request->all());
         });
 
         Route::name('delete')->post('delete', function (\Illuminate\Http\Request $request) {

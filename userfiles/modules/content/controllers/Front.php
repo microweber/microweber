@@ -350,7 +350,7 @@ class Front
         }
 
         if ($get_related_ids_for_content_id) {
-            $related_ids = mw()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
+            $related_ids = app()->content_manager->get_related_content_ids_for_content_id($get_related_ids_for_content_id);
             if ($related_ids) {
                 if ($related_ids) {
                     $post_params['ids'] = $related_ids;
@@ -965,7 +965,7 @@ class Front
 
         $paging_links = false;
         if (intval($pages_count) > 1) {
-            //$paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
+            //$paging_links = app()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
         }
 
         $read_more_text = Option::fetchFromCollection($options, 'data-read-more-text');

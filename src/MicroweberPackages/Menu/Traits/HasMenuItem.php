@@ -40,7 +40,7 @@ trait HasMenuItem
 
             if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {
                 foreach (self::$addContentToMenu as $menuId) {
-                    mw()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
+                    app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
                 }
             }
 

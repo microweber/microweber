@@ -63,7 +63,7 @@ $paging_links = false;
 ?>
 
 <?php if (intval($pages_count) > 1): ?>
-    <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+    <?php $paging_links = app()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 
 <?php

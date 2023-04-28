@@ -310,4 +310,14 @@ $user = get_user_by_id($user_id);
           @include('admin::layouts.partials.navbar')
     <?php } ?>
 
+
+    <?php if ($disableTopBar) { ?>
+
+        <style>
+            .mw-modules-toolbar-back-button-holder-wrapper {
+                display: none;
+            }
+     </style>
+    <?php } ?>
+
 <?php event_trigger('mw.admin.header.last'); ?>
