@@ -67,7 +67,7 @@ description: MW Default
         </span>
 
         <div class="mw-dropdown-content">
-            <ul id="switch_language_ul">
+            <ul id="switch_language_ul" class="mb-0">
                 <?php foreach ($supported_languages as $language): ?>
                     <li <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
                         <!-- custom display icon -->
@@ -88,7 +88,7 @@ description: MW Default
                     </li>
                 <?php endforeach; ?>
                 <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
-                    <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>module/view?type=multilanguage';">
+                    <li class="multilanguage-module-dropdown-settings" onclick="window.location.href = '<?php echo admin_url() ?>module/view?type=multilanguage';">
                         <?php _e('Settings'); ?>
                     </li>
                 <?php endif; ?>

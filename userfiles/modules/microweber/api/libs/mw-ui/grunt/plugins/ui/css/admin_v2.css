@@ -513,7 +513,7 @@ table[class*='mw-wysiwyg-table'].valign td {
 
 span.mw-powered-by {
   display: inline !important; }
-
+ 
 .mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-module,
 .mw-ui-btn-nav-tabs .mw-ui-btn .mw-icon-template,
 #create-menu-btn .mw-icon-plus {
@@ -8965,12 +8965,18 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 #js-page-tree-wrapper {
   margin-top: 60px; }
 
-.module-standalone-icons-check .text-success svg {
+.module-standalo ne-icons-check .text-success svg {
   fill: var(--tblr-success); }
-.module-standalone-icons-check .text-danger svg {
+.module-standalo ne-icons-check .text-danger svg {
   fill: var(--tblr-danger); }
 
 #allow-users-social-newtworks-login small {
   font-size: 13px; }
+
+.multilanguage-module-dropdown-settings {
+  color: var(--tblr-primary); }
+
+.mw-dropdown-default .mw-dropdown-content li:hover {
+  background-color: #efefef; }
 
 /*# sourceMappingURL=admin_v2.css.map */

@@ -692,7 +692,7 @@ small.text-muted {
     margin-top: 60px;
 }
 
-.module-standalone-icons-check {
+.module-standalo ne-icons-check {
     .text-success {
         svg {
             fill: var(--tblr-success);
@@ -710,5 +710,16 @@ small.text-muted {
 #allow-users-social-newtworks-login {
     small {
         font-size: 13px;
+    }
+}
+
+
+.multilanguage-module-dropdown-settings {
+    color: var(--tblr-primary);
+}
+
+.mw-dropdown-default .mw-dropdown-content li {
+    &:hover {
+        background-color: #efefef;
     }
 }
