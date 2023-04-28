@@ -10,7 +10,7 @@
   margin: 0;
   padding: 0;
   -webkit-overflow-scrolling: touch; }
-
+ 
 template {
   display: none !important; }
 
@@ -8782,10 +8782,10 @@ small.text-muted {
   min-height: 45px; }
 
 .btn.btn-link {
-  padding: 0; }
+  padding: 0;
+  border: none; }
   .btn.btn-link:hover, .btn.btn-link:active {
-    background-color: transparent;
-    border: none; }
+    background-color: transparent; }
 
 .form-switch .form-check-input {
   height: 1.25rem;

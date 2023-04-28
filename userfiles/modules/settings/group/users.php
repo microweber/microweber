@@ -481,18 +481,6 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-4">
-                                        <div class="form-group my-4">
-                                            <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
-                                        </div>
-
-                                        <div class="form-group mb-5">
-                                            <div class="form-check form-switch pl-0">
-                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
-                                            </div>
-                                        </div>
-
-
 
                                         <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Send email on new user registration to admin users"); ?></label>
@@ -517,6 +505,18 @@ if ($registration_approval_required == false) {
 		                                        <input name="register_email_verify" id="register_email_verify" class="mw_option_field form-check-input" data-option-group="users" value="y" type="checkbox" <?php if (get_option('register_email_verify', 'users') == 'y'): ?> checked <?php endif; ?>>
 		                                    </div>
                                         </div>
+
+                                        <div class="form-group my-4">
+                                            <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
+                                            <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
+                                        </div>
+
+                                        <div class="form-group mb-5">
+                                            <div class="form-check form-switch pl-0">
+                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                            </div>
+                                        </div>
+
 
                                         <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
 

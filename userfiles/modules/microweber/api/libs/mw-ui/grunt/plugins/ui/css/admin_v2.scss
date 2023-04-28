@@ -419,10 +419,10 @@ small.text-muted {
 
 .btn.btn-link {
     padding: 0;
+    border: none;
 
     &:hover, &:active {
         background-color: transparent;
-        border: none;
     }
 
 }
