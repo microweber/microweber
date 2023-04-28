@@ -240,9 +240,9 @@ class ContentRepository extends AbstractRepository
      * @param string $rel_type The related type.
      * @param mixed $rel_id The related ID (optional).
      *
-     * @return string|false The HTML for the editable field.
+     * @return array|false The HTML for the editable field.
      */
-    public function getEditField($field, $rel_type, $rel_id = false): bool|string
+    public function getEditField($field, $rel_type, $rel_id = false): bool|array
     {
         $cacheResponse = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
 
