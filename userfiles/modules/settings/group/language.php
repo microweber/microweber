@@ -114,7 +114,10 @@ if (is_module('multilanguage')) {
                                            </div>
 
                                             <?php if($isMultilanguageActivated) { ?>
-                                                <p class="text-success">Multilanguage is activated</p>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-green me-2"></span>
+                                                    <p class="text-success mb-0">Activated</p>
+                                                </div>
                                             <?php } ?>
                                         </div>
 
