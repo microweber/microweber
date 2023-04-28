@@ -11,11 +11,12 @@ body {
 }
 
 .table-responsive {
-    background-color: #ffffff;
+    background-color: var(--tblr-bg-surface);
+
 }
 
 .admin-dashboard-left-nav {
-    background-color: white;
+    background-color: var(--tblr-bg-surface);
     padding: 0 !important;
 
     .navbar-nav-padding {
@@ -308,7 +309,7 @@ td, tr, th {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background-color: var(--tblr-bg-surface);
     border: 1px solid transparent;
     border-radius: 0;
 }
@@ -362,7 +363,8 @@ small.text-muted {
     -webkit-transition: opacity 2s;
     -o-transition: opacity 2s;
     width: 200px;
-    color: #fff;
+    color: var(--tblr-bg-surface);
+
 }
 
 #mw-notifications-holder .mw-notification + .mw-notification {
@@ -488,9 +490,13 @@ small.text-muted {
 
 .mw-admin-sidebar-profile {
     background-color: #f1f5f9;
-    padding: 20px;
-    margin-right: 20px;
+    margin-right: 10px;
     border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -528,7 +534,7 @@ small.text-muted {
         margin-left: -10px;
 
         &:hover {
-            background-color: #fff;
+            background-color: var(--tblr-bg-surface);
             border-radius: 50%;
             box-shadow: var(--tblr-shadow-button-inset);
         }
