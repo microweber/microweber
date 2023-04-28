@@ -71,7 +71,7 @@
         "livewire/livewire": "v2.11.0",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-dev/omnipay-przelewy24": "0.2",
-        "microweber-modules/standalone-updater": "^5.1",
+        "microweber-modules/standalone-updater": "^5.2",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/bootstrap5": "^1.5",
