@@ -109,8 +109,8 @@ if (is_module('multilanguage')) {
                                     <div class="form-group mb-4">
                                         <label class="form-label"><?php _e("Website Language"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
-                                        <div class="row">
-                                            <div class="col-md-7">
+
+                                            <div class="col-md-7 mt-4">
 
                                             <?php if ($hasMultilanguageModuleActivated): ?>
                                             <module type="multilanguage" template="admin" show_settings_link="true" />
@@ -176,7 +176,6 @@ if (is_module('multilanguage')) {
                                             <div class="col-md-5 text-end text-right">
 
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
