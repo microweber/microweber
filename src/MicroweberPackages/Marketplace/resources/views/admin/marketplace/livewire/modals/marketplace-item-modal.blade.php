@@ -47,7 +47,7 @@
 
                 <br />
                 <div>
-                    <table cellspacing="0" cellpadding="0" class="table table-striped bg-white m-0" width="100%">
+                    <table cellspacing="0" cellpadding="0" class="table table-striped   m-0" width="100%">
                                 <tbody>
 
                                 <tr>

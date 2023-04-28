@@ -31,7 +31,7 @@
                     <div class="form-inline">
                         <div class="form-group">
                             <div class="input-group mb-0 prepend-transparent">
-                                <div class="input-group-prepend bg-white">
+                                <div class="input-group-prepend  ">
                                     <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                                 </div>
                                 <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
@@ -54,7 +54,7 @@
                     }
                 </style>
 
-                <div class="table-responsive bg-white mw-admin-users-manage-table">
+                <div class="table-responsive   mw-admin-users-manage-table">
                     <table class="table table-hover m-0" cellspacing="0" cellpadding="0">
                         <tbody>
 

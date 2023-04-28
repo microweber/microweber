@@ -10,7 +10,7 @@
 
 <li @class(['filament-sidebar-item overflow-hidden border-l-4 rounded-r',
  'border-transparent'=>!$active,
- 'filament-sidebar-item-active shadow bg-white border-primary-500' => $active])>
+ 'filament-sidebar-item-active shadow   border-primary-500' => $active])>
     <a
         href="{{ $url }}"
         {!! $shouldOpenUrlInNewTab ? 'target="_blank"' : '' !!}

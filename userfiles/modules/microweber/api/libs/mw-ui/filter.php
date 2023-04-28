@@ -28,7 +28,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <div class="input-group mb-0 prepend-transparent">
-                                    <div class="input-group-prepend bg-white">
+                                    <div class="input-group-prepend  ">
                                         <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                                     </div>
                                     <input type="search" class="form-control" aria-label="Search" placeholder="<?php _e("Search for users"); ?>">

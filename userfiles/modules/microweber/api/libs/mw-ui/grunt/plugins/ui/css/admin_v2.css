@@ -8679,7 +8679,7 @@ p {
 .mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-backup-restore span, .mw-backup-restore label, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small, .mw-dialog-holder span, .mw-dialog-holder label {
   color: var(--tblr-body-color); }
 
-td, tr, th {
+td, tr, th, .theme-dark .input-group-text {
   color: var(--tblr-body-color);
   background-color: var(--tblr-body-bg); }
 

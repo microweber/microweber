@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 582.4 446" style="enable-background:new 0 0 582.4 446;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#A751E5;}
@@ -347,13 +347,13 @@
 	<g>
 		<g class="st10">
 		</g>
-		
+
 			<radialGradient id="SVGID_1_" cx="452.1168" cy="164.4492" r="39.56" gradientTransform="matrix(1.7 0 0 0.7286 -294.8476 47.9167)" gradientUnits="userSpaceOnUse">
 			<stop  offset="0" style="stop-color:#E3E3E3"/>
 			<stop  offset="1" style="stop-color:#D9D9D9"/>
 		</radialGradient>
 		<rect x="378.9" y="164.6" class="st11" width="189.7" height="6.2"/>
-		
+
 			<radialGradient id="SVGID_2_" cx="452.1168" cy="163.541" r="39.4543" gradientTransform="matrix(1.7 0 0 1 -294.8476 0)" gradientUnits="userSpaceOnUse">
 			<stop  offset="0" style="stop-color:#F7F7F7"/>
 			<stop  offset="0.5286" style="stop-color:#F2F2F2"/>

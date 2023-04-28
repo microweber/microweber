@@ -1970,7 +1970,7 @@
                                 <h3>Square dropable zones</h3>
 
                                 <div style="width: 120px;">
-                                    <div class="dropable-zone small-zone square-zone bg-white">
+                                    <div class="dropable-zone small-zone square-zone  ">
                                         <div class="holder">
                                             <div class="dropable-zone-img img-media mb-2"></div>
 

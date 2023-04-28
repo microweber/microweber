@@ -107,7 +107,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
         <div class="row">
             <div class="col-auto">
                 <div style="width: 120px;">
-                    <div class="dropable-zone small-zone square-zone bg-white" id="mw_uploader">
+                    <div class="dropable-zone small-zone square-zone  " id="mw_uploader">
                         <div class="holder">
                             <div class="dropable-zone-img img-media mb-2"></div>
 

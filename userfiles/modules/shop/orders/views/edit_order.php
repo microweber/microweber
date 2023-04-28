@@ -283,11 +283,11 @@
                     </div>
 
                     <div id="mw_order_status" style="overflow: hidden;">
-                        <div class="bg-white p-3 mt-1 mb-2 text-center btn btn-outline-warning btn-block rounded-0 <?php if ($ord['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
+                        <div class="  p-3 mt-1 mb-2 text-center btn btn-outline-warning btn-block rounded-0 <?php if ($ord['order_status'] == 'completed'): ?>semi_hidden<?php endif; ?>">
                             <small class="d-block bg-warning text-white px-3 py-1 mx-auto"><?php _e("Pending"); ?></small>
                         </div>
 
-                        <div class="bg-white p-3 mt-1 mb-2 text-center btn btn-outline-success btn-block rounded-0 <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
+                        <div class="  p-3 mt-1 mb-2 text-center btn btn-outline-success btn-block rounded-0 <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
                             <small class="d-block bg-success text-white px-3 py-1 mx-auto"><?php _e("Successfully Completed"); ?></small>
                         </div>
                     </div>

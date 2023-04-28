@@ -124,7 +124,7 @@ $lang = mw()->lang_helper->current_lang();
                 <div class="row mt-3">
                     <div class="col">
                         <div class="input-group prepend-transparent">
-                            <div class="input-group-prepend bg-white">
+                            <div class="input-group-prepend  ">
                                 <span class="input-group-text"><i class="mdi mdi-magnify mdi-18px"></i></span>
                             </div>
                             <input type="text" class="form-control js-search-lang-text"
