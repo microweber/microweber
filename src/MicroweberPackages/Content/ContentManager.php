@@ -2,15 +2,13 @@
 
 namespace MicroweberPackages\Content;
 
-use Conner\Tagging\Model\Tagged;
 use Content;
+use DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Menu;
-use DB;
-use MicroweberPackages\Content\Facades\ContentService;
-use MicroweberPackages\Content\Repositories\ContentRepository;
+
+
 
 /**
  * Content class is used to get and save content in the database.
@@ -65,7 +63,6 @@ class ContentManager
         $this->helpers = new ContentManagerHelpers($this->app);
 
         //$this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
-
 
 
     }
@@ -133,8 +130,6 @@ class ContentManager
     }
 
 
-
-
     /**
      * Sets the database table names to use by the class.
      *
@@ -144,7 +139,7 @@ class ContentManager
     {
         $prefix = '';
 
-        if($tables == false){
+        if ($tables == false) {
             $tables = array();
         }
 
@@ -286,9 +281,10 @@ class ContentManager
      */
     public function get_by_id($id)
     {
+
         return app()->content_repository->getById($id);
 
-      //  return $this->crud->get_by_id($id);
+        //  return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -305,7 +301,6 @@ class ContentManager
     }
 
 
-
     /**
      * Get array of content items from the database.
      *
@@ -318,8 +313,6 @@ class ContentManager
      *
      *
      * @desc     Get array of content items from the content DB table
-     *
-     * @uses     get() You can use all the options of get(), such as limit, order_by, count, etc...
      *
      * @param mixed|array|bool|string $params You can pass parameters as string or as array
      * @params
@@ -351,6 +344,8 @@ class ContentManager
      *| is_shop             | flag for shop page        |  "n" or "y"
      *
      * @return array|bool|mixed Array of content or false if nothing is found
+     *
+     * @uses     get() You can use all the options of get(), such as limit, order_by, count, etc...
      *
      * @example
      * #### Get with parameters as array
@@ -399,89 +394,9 @@ class ContentManager
         return $this->crud->get($params);
     }
 
-    public function get_children($id = 0, $without_main_parrent = false)
+    public function get_children($id = 0)
     {
-        if (intval($id) == 0) {
-            return false;
-        }
-
-        $table = $this->tables['content'];
-
-        $content_ids = $this->get('fields=id&no_limit=1&parent=' . $id);
-
-        $ids = array();
-
-        $data = array();
-        $id = intval($id);
-
-        $get = array();
-        $get['parent'] = $id;
-
-        $cats = get_categories_for_content($id);
-
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $get['parent'] = '[neq]0';
-        }
-
-
-        if ($content_ids and !empty($content_ids)) {
-            foreach ($content_ids as $n) {
-                if ($n and isset($n['id'])) {
-                    $ids[] = $n['id'];
-                }
-            }
-        }
-
-
-        // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-        // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
-
-        $taxonomies = $this->get($get);
-        // $taxonomies = $taxonomies->get()->toArray();
-        if ($cats) {
-            foreach ($cats as $cat) {
-                if (isset($cat['id'])) {
-                    $posts_in_cats = get_category_items($cat['id']);
-                    if ($posts_in_cats) {
-                        foreach ($posts_in_cats as $posts_in_cat) {
-                            if (isset($posts_in_cat['rel_type']) and $posts_in_cat['rel_type'] == 'content') {
-                                if (intval($posts_in_cat['rel_id']) != 0) {
-                                    $ids[] = $posts_in_cat['rel_id'];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($taxonomies)) {
-            foreach ($taxonomies as $item) {
-                if (intval($item['id']) != 0) {
-                    $ids[] = $item['id'];
-                }
-
-                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
-                    $next = $this->get_children($item['id'], $without_main_parrent);
-                    if (!empty($next)) {
-                        foreach ($next as $n) {
-                            if ($n != '' and $n != 0) {
-                                $ids[] = $n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        if (!empty($ids)) {
-            $ids = array_unique($ids);
-
-            return $ids;
-        } else {
-            return false;
-        }
+        return app()->content_repository->getChildren($id);
     }
 
     public function get_data($params = false)
@@ -489,7 +404,7 @@ class ContentManager
         return $this->app->data_fields_manager->get($params);
     }
 
-    public function data($content_id,$field_name = false)
+    public function data($content_id, $field_name = false)
     {
         $data = array();
         $data['content_id'] = intval($content_id);
@@ -525,20 +440,20 @@ class ContentManager
      *
      * paging
      *
-     * @category  posts
+     * @param $params ['num'] = 5; //the numer of pages
      *
-     * @author    Microweber
-     *
+     * @return string - html string with ul/li
      * @link
      *
-     * @param $params ['num'] = 5; //the numer of pages
+     * @category  posts
      *
      * @internal  param $display =
      *            'default' //sets the default paging display with <ul> and </li>
      *            tags. If $display = false, the function will return the paging
      *            array which is the same as $posts_pages_links in every template
      *
-     * @return string - html string with ul/li
+     * @author    Microweber
+     *
      */
     public function paging($params)
     {
@@ -679,11 +594,11 @@ class ContentManager
                 $item_to_print .= '';
                 $paging_items[$key] = $item_to_print;
 
-              /*
-               * TODO: this will bug when we have many products
-               *   if (count($ready_paging_number_links) > $limit) {
-                    continue;
-                }*/
+                /*
+                 * TODO: this will bug when we have many products
+                 *   if (count($ready_paging_number_links) > $limit) {
+                      continue;
+                  }*/
 
                 $ready_paging_number_links[] = [
                     'attributes' => [
@@ -906,6 +821,16 @@ class ContentManager
     /**
      * Print nested tree of pages.
      *
+     * @param int $parent
+     * @param bool $link
+     * @param bool $active_ids
+     * @param bool $active_code
+     * @param bool $remove_ids
+     * @param bool $removed_ids_code
+     * @param bool $ul_class_name
+     * @param bool $include_first
+     *
+     * @return sting Prints the pages tree
      * @example
      * <pre>
      * // Example Usage:
@@ -936,16 +861,6 @@ class ContentManager
      * $pt_opts['id_prefix'] = 'my_id';
      * </pre>
      *
-     * @param int $parent
-     * @param bool $link
-     * @param bool $active_ids
-     * @param bool $active_code
-     * @param bool $remove_ids
-     * @param bool $removed_ids_code
-     * @param bool $ul_class_name
-     * @param bool $include_first
-     *
-     * @return sting Prints the pages tree
      */
     public function pages_tree($parent = 0, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false)
     {
@@ -966,7 +881,7 @@ class ContentManager
             }
         }
         if (!defined('CONTENT_ID')) {
-             $this->define_constants();
+            $this->define_constants();
         }
 
         $cache_id_params = $params;
@@ -1641,6 +1556,10 @@ class ContentManager
      *
      * It accepts array or $content that must have  $content['id'] set
      *
+     * @param array|bool $content
+     *
+     * @option     integer  "id"   [description]
+     * @option     string "content_type" [description]
      * @example
      * <code>
      *  Define constants for some page
@@ -1663,10 +1582,6 @@ class ContentManager
      * @const      DEFAULT_TEMPLATE_DIR the directory of the site's default template
      * @const      DEFAULT_TEMPLATE_URL the url of the site's default template
      *
-     * @param array|bool $content
-     *
-     * @option     integer  "id"   [description]
-     * @option     string "content_type" [description]
      */
     public function define_constants($content = false)
     {
@@ -1718,7 +1633,7 @@ class ContentManager
             $cat_url = $this->app->category_manager->get_category_id_from_url();
             if ($cat_url != false) {
                 define('CATEGORY_ID', intval($cat_url));
-                $this->category_id=intval($cat_url);
+                $this->category_id = intval($cat_url);
             }
         }
         // dd(debug_backtrace(1));
@@ -1736,7 +1651,7 @@ class ContentManager
 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', intval($current_category['id']));
-                            $this->category_id=intval($current_category['id']);
+                            $this->category_id = intval($current_category['id']);
 
                         }
                     }
@@ -1745,14 +1660,14 @@ class ContentManager
 
                     if (defined('POST_ID') == false) {
                         define('POST_ID', intval($content['id']));
-                        $this->post_id=intval($content['id']);
+                        $this->post_id = intval($content['id']);
 
                     }
 
                     if (is_array($page) and $page['content_type'] == 'product') {
                         if (defined('PRODUCT_ID') == false) {
                             define('PRODUCT_ID', intval($content['id']));
-                            $this->product_id=intval($content['id']);
+                            $this->product_id = intval($content['id']);
                         }
                     }
                 }
@@ -1777,13 +1692,13 @@ class ContentManager
 
             if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
-                $this->content_id=intval($content['id']);
+                $this->content_id = intval($content['id']);
 
             }
 
             if (defined('PAGE_ID') == false and isset($content['id'])) {
                 define('PAGE_ID', $page['id']);
-                $this->page_id=intval($content['id']);
+                $this->page_id = intval($content['id']);
 
             }
 
@@ -1795,7 +1710,7 @@ class ContentManager
 
                     if (defined('MAIN_PAGE_ID') == false) {
                         define('MAIN_PAGE_ID', $inherit_from_id);
-                        $this->main_page_id=intval($inherit_from_id);
+                        $this->main_page_id = intval($inherit_from_id);
 
                     }
                 }
@@ -1840,7 +1755,7 @@ class ContentManager
             $cat_id = $this->app->category_manager->get_category_id_from_url();
             if ($cat_id != false) {
                 define('CATEGORY_ID', intval($cat_id));
-                $this->category_id=intval($cat_id);
+                $this->category_id = intval($cat_id);
 
             }
         }
@@ -1854,7 +1769,7 @@ class ContentManager
                 $page = $pageFromSlug;
                 $content = $pageFromSlug;
                 define('PAGE_ID', intval($page['id']));
-                $this->page_id=intval($page['id']);
+                $this->page_id = intval($page['id']);
 
             }
         }
@@ -1881,7 +1796,7 @@ class ContentManager
             $the_active_site_template = $page['active_site_template'];
         } elseif (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
             $the_active_site_template = $content['active_site_template'];
-        }elseif (isset($content_orig) and  !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
+        } elseif (isset($content_orig) and !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
             $the_active_site_template = $content_orig['active_site_template'];
         } else {
             $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
@@ -2056,26 +1971,11 @@ class ContentManager
 
     /**
      *  Get the first parent that has layout.
-     *
-     * @category   Content
-     *
-     * @uses       $this->get_parents()
-     * @uses       $this->get_by_id()
      */
     public function get_inherited_parent($content_id)
     {
-        $inherit_from = $this->get_parents($content_id);
-        $found = 0;
-        if (!empty($inherit_from)) {
-            foreach ($inherit_from as $value) {
-                if ($found == 0) {
-                    $par_c = $this->get_by_id($value);
-                    if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-                        return $par_c['id'];
-                    }
-                }
-            }
-        }
+
+        return app()->content_repository->getInheritedParent($content_id);
     }
 
     /***
@@ -2101,7 +2001,7 @@ class ContentManager
         if (!empty($parents)) {
             foreach ($parents as $parentId) {
                 $editLink = content_edit_link($parentId);
-                $parentTitles[] = '<a href="'.$editLink.'" class="'.$class.'">' . $this->title($parentId) . '</a>';
+                $parentTitles[] = '<a href="' . $editLink . '" class="' . $class . '">' . $this->title($parentId) . '</a>';
             }
         }
 
@@ -2123,23 +2023,23 @@ class ContentManager
         $parentTitles = [];
         $parents = $this->get_parents($id);
         if (!empty($parents)) {
-          foreach ($parents as $parentId) {
-              $parentTitles[] = $this->title($parentId);
-          }
+            foreach ($parents as $parentId) {
+                $parentTitles[] = $this->title($parentId);
+            }
         }
         $parentTitles = array_reverse($parentTitles);
 
         if (!empty($parentTitles)) {
-          return implode($implodeSymbol, $parentTitles);
+            return implode($implodeSymbol, $parentTitles);
         }
 
         return false;
     }
 
 
-    public function get_parents($id = 0, $without_main_parrent = false)
+    public function get_parents($id = 0)
     {
-        return  ContentService::getParents($id = 0, $without_main_parrent);
+        return app()->content_repository->getParents($id);
 
     }
 
@@ -2664,7 +2564,7 @@ class ContentManager
             $contentData['position'] = 0;
         }
 
-        $query = \MicroweberPackages\Content\Content::query()->select('content.*');
+        $query = \MicroweberPackages\Content\Models\Content::query()->select('content.*');
         $categories = array();
         $params = array();
 
@@ -2780,10 +2680,7 @@ class ContentManager
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            return array('error' => 'You must be admin to unpublish content!');
-        }
+
 
         if (!isset($params['id'])) {
             return array('error' => 'You must provide id parameter!');
@@ -2871,7 +2768,6 @@ class ContentManager
         }
 
 
-
         return $this->get($params);
     }
 
@@ -2912,7 +2808,6 @@ class ContentManager
 
     public function title($id)
     {
-
 
 
         if ($id == false or $id == 0) {
@@ -2976,12 +2871,9 @@ class ContentManager
     }
 
 
-
-
     public function get_related_content_ids_for_content_id($content_id = false)
     {
-
-        return   $this->app->content_repository->getRelatedContentIds($content_id);
+        return $this->app->content_repository->getRelatedContentIds($content_id);
 
     }
 

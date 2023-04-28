@@ -165,7 +165,7 @@
             }
 
             var postTagBoxHtml = '' +
-                '<div class="js-post-tag-box bg-white px-2 mb-3 js-post-tag-' + taggable_id + '">' +
+                '<div class="js-post-tag-box   px-2 mb-3 js-post-tag-' + taggable_id + '">' +
                 '<p class="mb-1 mt-2">' + data.title + '</p>' +
                 '<div class="d-flex align-items-center flex-wrap"><div class="mb-2 mr-2">Tags:</div> ' + tags + '<button class="btn btn-success btn-sm btn-icon js-post-tag-add-new mb-2" onClick="addTaggingTagged(' + taggable_id + ')"><i class="fa fa-plus"></i></button></div>' +
                 '</div>';

@@ -78,7 +78,7 @@ $is_orders = get_orders('count=1');
             <div>
                 <div class="form-group mb-0">
                     <div class="input-group mb-0 prepend-transparent">
-                        <div class="input-group-prepend bg-white">
+                        <div class="input-group-prepend  ">
                             <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
                         </div>
                         <input type="search" class="form-control" aria-label="Search" placeholder="<?php _e("Search in clients"); ?>" onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('clients_search',this.value)})" value="<?php print $keyword ?>" autofocus="autofocus" />
@@ -88,7 +88,7 @@ $is_orders = get_orders('count=1');
         </div>
 
         <?php if ($is_orders != 0 AND !empty($orders)): ?>
-            <div class="table-responsive bg-white">
+            <div class="table-responsive  ">
                 <table cellspacing="0" cellpadding="0" class="table table-hover m-0" width="100%">
                     <tbody>
                     <?php foreach ($orders as $order) : ?>

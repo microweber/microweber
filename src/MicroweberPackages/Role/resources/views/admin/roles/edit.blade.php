@@ -114,7 +114,7 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
-                                    <div class="bg-white p-3">
+                                    <div class="  p-3">
                                         <div class="table-responsive">
                                             <table class="table table-permissions" id="{{$permissionGroupHash}}">
                                                 <thead>

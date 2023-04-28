@@ -405,7 +405,7 @@ $current_template = false;
                             <div class="form-group">
                                 <div class="input-group prepend-transparent mb-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text px-2 bg-white"><i class="mdi mdi-magnify mdi-18px"></i></span>
+                                        <span class="input-group-text px-2  "><i class="mdi mdi-magnify mdi-18px"></i></span>
                                     </div>
                                     <input type="text" class="form-control" id="module-skins-search" autocomplete="off" aria-label="Search" placeholder="Search">
                                 </div>

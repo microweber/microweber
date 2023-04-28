@@ -120,7 +120,7 @@
     </thead>
     <tbody>
         @foreach($customers as $customer)
-        <tr class="bg-white">
+        <tr class=" ">
             <th>
                 <div class="custom-control custom-checkbox mb-0">
                     <input type="checkbox" name="id" class="js-selected-customer form-check-input" id="delete-{{$customer->id}}" value="{{$customer->id}}">

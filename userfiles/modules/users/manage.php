@@ -66,7 +66,7 @@ $registration_approval_required = get_option('registration_approval_required', '
 </style>
 
 <?php if (is_array($data)): ?>
-    <div class="table-responsive bg-white mw-admin-users-manage-table">
+    <div class="table-responsive   mw-admin-users-manage-table">
         <table cellspacing="0" cellpadding="0" class="table table-hover m-0">
             <tbody>
             <?php foreach ($data as $item): ?>

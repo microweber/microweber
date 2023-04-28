@@ -285,7 +285,7 @@ p {
     }
 }
 
-td, tr, th {
+td, tr, th, .theme-dark .input-group-text {
     color: var(--tblr-body-color);
     background-color: var(--tblr-body-bg);
 }

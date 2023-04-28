@@ -1,4 +1,4 @@
-<div class="container-fluid bg-white">
+<div class="container-fluid  ">
 
     <div class="container ">
         <div class="row">

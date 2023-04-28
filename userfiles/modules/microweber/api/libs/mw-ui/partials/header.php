@@ -33,7 +33,7 @@
     <script src="assets/ui/plugins/js/jquery-3.4.1.min.js"></script>
 </head>
 <body class="">
-<header class="position-sticky sticky-top bg-white">
+<header class="position-sticky sticky-top  ">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center py-1">
             <ul class="nav">

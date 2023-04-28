@@ -1,6 +1,6 @@
 @if (user_can_access('module.content.edit'))
 
-<button type="button" class="btn btn-primary  bg-white border-0 admin-toolbar-buttons"
+<button type="button" class="btn btn-primary    border-0 admin-toolbar-buttons"
         data-bs-toggle="modal"  data-bs-target="#modal-add-new-admin" aria-expanded="false">
     <img height="28" width="28" src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/add-new-button.svg" alt="">
 </button>

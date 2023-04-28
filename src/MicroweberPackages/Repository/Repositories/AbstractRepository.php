@@ -3,23 +3,17 @@
 
 namespace MicroweberPackages\Repository\Repositories;
 
-use Illuminate\Support\Facades\Event;
-use MicroweberPackages\Content\Repositories\ContentRepository;
-use MicroweberPackages\Repository\MicroweberQuery;
-use MicroweberPackages\Repository\MicroweberQueryToModel;
-use MicroweberPackages\Repository\Observers\RepositoryModelObserver;
-use MicroweberPackages\Repository\Traits\CacheableRepository;
-
-use Closure;
 use BadMethodCallException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Torann\LaravelRepository\Traits\Cacheable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Torann\LaravelRepository\Contracts\RepositoryContract;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\MessageBag;
+use MicroweberPackages\Repository\MicroweberQueryToModel;
+use MicroweberPackages\Repository\Traits\CacheableRepository;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
 
@@ -619,6 +613,7 @@ abstract class AbstractRepository
 
         return false;
     }
+
     /**
      *
      * @param array $attributes
@@ -1035,10 +1030,10 @@ abstract class AbstractRepository
                     $limit = intval($params['limit']);
                 }
                 $page_count = $this->query->count();
-                if($page_count > 0){
-                    $exec =intval(ceil($page_count / $limit));
+                if ($page_count > 0) {
+                    $exec = intval(ceil($page_count / $limit));
                 } else {
-                    $exec =0;
+                    $exec = 0;
                 }
 
 
@@ -1360,62 +1355,45 @@ abstract class AbstractRepository
 
     public function getById($id)
     {
-
         if (is_array($id)) {
-            $ready = [];
-            foreach ($id as $k => $v) {
-                $get =  $this->getById($v);
-                if($get){
-                    $ready[$k] = $get;
+            $result = [];
+            foreach ($id as $key => $value) {
+                $item = $this->getById($value);
+                if ($item) {
+                    $result[$key] = $item;
                 }
             }
-            return $ready;
+            return $result;
+        }
+
+        if (!is_numeric($id) || $id == 0) {
+            return false;
         }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($id) {
-
-            if (!$id) {
-                return false;
-            }
-
-            if (intval($id) == 0) {
-                return false;
-            }
-
-            if (is_numeric($id)) {
-                $id = intval($id);
-            } else {
-                $id = mb_trim($id);
-            }
-
             $table = $this->getModel()->getTable();
-            //$getItemById = \DB::table($table)->where('id', $id)->first();
-            $getItemById = $this->getModel()->query()->where('id', $id)->first();
+            $item = $this->getModel()->query()->where('id', $id)->first();
 
-
-            if ($getItemById) {
-
-              //  $getItemById = (array)collection_to_array($getItemById);
-                $getItemById = $getItemById->toArray();
-
-                // hook
-                $hookParams = [];
-                $hookParams['data'] = $getItemById;
-                $hookParams['hook_overwrite_type'] = 'single';
-
-                if (is_array($getItemById)) {
-                    $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
-                    if (isset($overwrite['data'])) {
-                        $getItemById = $overwrite['data'];
-                    }
-                }
-
-                return $getItemById;
+            if (!$item) {
+                return false;
             }
 
-            return false;
+            $item = $item->toArray();
+
+            $hookParams = [
+                'data' => $item,
+                'hook_overwrite_type' => 'single',
+            ];
+
+            $overwrite = app()->event_manager->response(get_class($this) . '\\getById', $hookParams);
+            if (isset($overwrite['data'])) {
+                $item = $overwrite['data'];
+            }
+
+            return $item;
         });
     }
+
 
     /*  public function getByParams($params = [])
       {
