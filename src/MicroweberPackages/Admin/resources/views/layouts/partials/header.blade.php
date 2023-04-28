@@ -311,7 +311,7 @@ $user = get_user_by_id($user_id);
     <?php } ?>
 
 
-    <?php if ($disableTopBar) { ?>
+    <?php if (isset($disableTopBar) and $disableTopBar) { ?>
 
         <style>
             .mw-modules-toolbar-back-button-holder-wrapper {
