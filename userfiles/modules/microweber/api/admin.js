@@ -562,7 +562,7 @@ $.fn.serializeAssoc = function() {
                 el.innerHTML = el.dataset.content;
             }
         });
-        new TomSelect(itm, settings);
+        // new TomSelect(itm, settings);
     }
     const _customDropdowns = () => {
 
