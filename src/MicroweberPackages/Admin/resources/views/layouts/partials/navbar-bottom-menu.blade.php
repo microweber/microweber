@@ -20,7 +20,7 @@
 
 
 {{--                <a href="{{admin_url('user/profile')}}" class="dropdown-item">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
 {{--                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>--}}
 {{--                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>--}}
 {{--                        <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>--}}
@@ -28,7 +28,7 @@
 {{--                    </svg>--}}
 {{--                    <?php _e('Profile') ?></a>--}}
 {{--                <a href="#" class="dropdown-item">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-help-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-help-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
 {{--                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>--}}
 {{--                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>--}}
 {{--                        <path d="M12 16v.01"></path>--}}
@@ -38,7 +38,7 @@
 {{--                </a>--}}
 
 {{--                <a href="javascript:mw_admin_toggle_dark_theme()" class="dropdown-item">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
+{{--                     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">--}}
 {{--                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>--}}
 {{--                        <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>--}}
 {{--                        <path d="M12 5l0 .01"></path>--}}
@@ -54,7 +54,7 @@
 {{--                </a>--}}
 {{--                <div class="dropdown-divider"></div>--}}
 {{--                <a href="<?php print api_url('logout'); ?>" class="dropdown-item">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24"--}}
+{{--                     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24"--}}
 {{--                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"--}}
 {{--                         stroke-linecap="round" stroke-linejoin="round">--}}
 {{--                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>--}}
@@ -86,7 +86,7 @@
     </div>
 
                     <a href="javascript:mw_admin_toggle_dark_theme()" class="dropdown-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                         <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                             <path d="M12 5l0 .01"></path>
