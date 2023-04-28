@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Menu;
 use DB;
+use MicroweberPackages\Content\Facades\ContentService;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 
 /**
@@ -2135,46 +2136,11 @@ class ContentManager
         return false;
     }
 
+
     public function get_parents($id = 0, $without_main_parrent = false)
     {
-        if (intval($id) == 0) {
-            return false;
-        }
+        return  ContentService::getParents($id = 0, $without_main_parrent);
 
-        $ids = array();
-        $get = array();
-        $get['id'] = $id;
-        $get['limit'] = 1;
-        $get['fields'] = 'id,parent';
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $get['parent'] = '[neq]0';
-        }
-        $content_parents = $this->get($get);
-        if (!empty($content_parents)) {
-            foreach ($content_parents as $item) {
-                if (intval($item['id']) != 0) {
-                    $ids[] = $item['parent'];
-                }
-                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
-                    $next = $this->get_parents($item['parent'], $without_main_parrent);
-                    if (!empty($next)) {
-                        foreach ($next as $n) {
-                            if ($n != '' and $n != 0) {
-                                $ids[] = $n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (!empty($ids)) {
-            $ids = array_filter($ids);
-            $ids = array_unique($ids);
-
-            return $ids;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -3009,11 +2975,7 @@ class ContentManager
         }
     }
 
-    public function site_templates()
-    {
-        //shim for old versions
-        return $this->app->template->site_templates();
-    }
+
 
 
     public function get_related_content_ids_for_content_id($content_id = false)
