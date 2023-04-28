@@ -13,9 +13,8 @@ namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\Repositories\ContentRepositoryApi;
-use MicroweberPackages\Content\Repositories\ContentRepositoryManager;
 use MicroweberPackages\Content\Repositories\ContentRepository;
-use MicroweberPackages\Repository\Controllers\ContentRepositoryController;
+use MicroweberPackages\Content\Models\Content;
 
 
 class ContentManagerServiceProvider extends ServiceProvider

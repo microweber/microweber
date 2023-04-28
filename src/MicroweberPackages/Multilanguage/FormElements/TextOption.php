@@ -42,7 +42,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
         $html = $this->getJavaScript();
 
         $html .= '<div class="input-group mb-3">
-
+ <input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">
         <div class="input-group-prepend">
             <span>
                 <select class="selectpicker" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
@@ -63,7 +63,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
         $html .= '</select>
            </span>
         </div>
-        <input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
+       ';
 
         $html .= '</div>';
 
