@@ -12,12 +12,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
-use MicroweberPackages\Repository\MicroweberQueryToModel;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
+use Torann\LaravelRepository\Contracts\RepositoryContract;
 use Torann\LaravelRepository\Exceptions\RepositoryException;
 
 
-abstract class AbstractRepository
+abstract class AbstractRepository implements RepositoryContract
 {
     use CacheableRepository;
 
@@ -127,7 +127,7 @@ abstract class AbstractRepository
      *
      * @return Model
      */
-    public function getModel()
+    public function getModel() : Model
     {
         return $this->modelInstance;
     }
@@ -816,7 +816,7 @@ abstract class AbstractRepository
      *
      * @return string
      */
-    public function getErrorMessage($default = '')
+    public function getErrorMessage($default = '') : string
     {
         return $this->getErrors()->first('message') ?: $default;
     }
