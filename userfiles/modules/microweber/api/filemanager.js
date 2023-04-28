@@ -150,7 +150,7 @@
                 orderBy: 'filemtime',
                 path: '/'
             },
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--tblr-bg-surface)',
             stickyHeader: false,
             requestData: defaultRequest,
             addFile: defaultAddFile,
@@ -271,7 +271,7 @@
 
         var _image = function (item) {
             if (item.type === 'folder') {
-                return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-folder"></span>';
+                return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-folder"><svg xmlns="http://www.w3.org/2000/svg" height="48" fill="currentColor" viewBox="0 96 960 960" width="48"><path d="M141 896q-24 0-42-18.5T81 836V316q0-23 18-41.5t42-18.5h280l60 60h340q23 0 41.5 18.5T881 376v460q0 23-18.5 41.5T821 896H141Zm0-580v520h680V376H456l-60-60H141Zm0 0v520-520Z"/></svg></span>';
             } else if (item.thumbnail) {
                 return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-image" style="background-image: url(' + item.thumbnail + ')"></span>';
             } else {
@@ -288,7 +288,10 @@
                 return '';
             }
             var el = mw.element({
-                content: option.label
+                content: option.label,
+                props: {
+                    className: 'dropdown-item'
+                }
             });
             el.on('click', function (e){
                 e.stopPropagation()
@@ -316,7 +319,13 @@
             mw.tools.copy(item.url);
         };
 
-        var _deleteHandle = function (item) {
+        var _deleteHandle = function (items) {
+            if(items && !items.length){
+                items = [items];
+            } 
+            items = items.map(itm => {
+                return itm.path ? itm.path : itm;
+            })
             mw.confirm(mw.lang('Are you sure') + '?', function (){
                 var xhr = new XMLHttpRequest();
                 scope.loading(true);
@@ -332,7 +341,7 @@
                     scope.loading(false)
                 });
                 var dt = {
-                    paths:[item.path],
+                    paths:[...items],
 
                 };
                 var url = route('api.file-manager.delete');
@@ -349,6 +358,9 @@
                 xhr.send(JSON.stringify(dt));
             });
         };
+
+
+
 
         var _selectedUI = function () {
             if(!scope.settings.selectable || !scope.settings.multiselect) {
@@ -379,8 +391,8 @@
                 { label: 'Delete', action: _deleteHandle, match: function (item) { return true } },
             ];
             var el = mw.element().addClass('mw-file-manager-list-item-options');
-            el.append(mw.element({tag: 'span', content: '...', props: {tooltip:'options'}}).addClass('mw-file-manager-list-item-options-button'));
-            var optsHolder = mw.element().addClass('mw-file-manager-list-item-options-list');
+            el.append(mw.element({tag: 'span', content: ' <svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22" fill="currentColor"><path d="M207.858 624Q188 624 174 609.858q-14-14.141-14-34Q160 556 174.142 542q14.141-14 34-14Q228 528 242 542.142q14 14.141 14 34Q256 596 241.858 610q-14.141 14-34 14Zm272 0Q460 624 446 609.858q-14-14.141-14-34Q432 556 446.142 542q14.141-14 34-14Q500 528 514 542.142q14 14.141 14 34Q528 596 513.858 610q-14.141 14-34 14Zm272 0Q732 624 718 609.858q-14-14.141-14-34Q704 556 718.142 542q14.141-14 34-14Q772 528 786 542.142q14 14.141 14 34Q800 596 785.858 610q-14.141 14-34 14Z"/></svg>', props: {tooltip:'options'}}).addClass('btn btn-sm mw-file-manager-list-item-options-button'));
+            var optsHolder = mw.element().addClass('dropdown-menu mw-file-manager-list-item-options-list');
             el.on('click', function (e){
                 e.stopPropagation()
                 var all = scope.root.get(0).querySelectorAll('.mw-file-manager-list-item-options.active');
@@ -549,6 +561,7 @@
         var _noResultsBlock = function () {
 
             noResultsContentLabel = mw.element({
+                tag: 'h2',
                 props: {
                     className: 'mw-file-manager-no-results-label'
                 },
@@ -897,7 +910,7 @@
             });
             var addButton = mw.element({
                 props: {
-                    className: 'btn btn-primary mw-file-manager-create-methods-dropdown-add',
+                    className: 'btn btn-success mw-file-manager-create-methods-dropdown-add',
                     innerHTML: label || plusIcon('white')
                 }
             });
@@ -960,12 +973,12 @@
 
             var viewTypeSelector = mw.element(`
             <div class="btn-group">
-                <span class="btn btn-sm" data-view-type="grid" data-bs-toggle="tooltip" data-bs-placement="top" title="Grid">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M120 536V216h320v320H120Zm0 400V616h320v320H120Zm400-400V216h320v320H520Zm0 400V616h320v320H520ZM200 456h160V296H200v160Zm400 0h160V296H600v160Zm0 400h160V696H600v160Zm-400 0h160V696H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
+                <span class="btn  btn-icon" data-view-type="grid" data-bs-toggle="tooltip" data-bs-placement="top" title="Grid">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor" class="icon icon-tabler"><path d="M120 536V216h320v320H120Zm0 400V616h320v320H120Zm400-400V216h320v320H520Zm0 400V616h320v320H520ZM200 456h160V296H200v160Zm400 0h160V296H600v160Zm0 400h160V696H600v160Zm-400 0h160V696H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
                 </span>
 
-                <span class="btn btn-sm" data-view-type="list" data-bs-toggle="tooltip" data-bs-placement="top" title="List">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M360 856v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200 896q-33 0-56.5-23.5T120 816q0-33 23.5-56.5T200 736q33 0 56.5 23.5T280 816q0 33-23.5 56.5T200 896Zm0-240q-33 0-56.5-23.5T120 576q0-33 23.5-56.5T200 496q33 0 56.5 23.5T280 576q0 33-23.5 56.5T200 656Zm0-240q-33 0-56.5-23.5T120 336q0-33 23.5-56.5T200 256q33 0 56.5 23.5T280 336q0 33-23.5 56.5T200 416Z"/></svg>
+                <span class="btn btn-icon " data-view-type="list" data-bs-toggle="tooltip" data-bs-placement="top" title="List">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor" class="icon icon-tabler"><path d="M360 856v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200 896q-33 0-56.5-23.5T120 816q0-33 23.5-56.5T200 736q33 0 56.5 23.5T280 816q0 33-23.5 56.5T200 896Zm0-240q-33 0-56.5-23.5T120 576q0-33 23.5-56.5T200 496q33 0 56.5 23.5T280 576q0 33-23.5 56.5T200 656Zm0-240q-33 0-56.5-23.5T120 336q0-33 23.5-56.5T200 256q33 0 56.5 23.5T280 336q0 33-23.5 56.5T200 416Z"/></svg>
                 </span>
             </div>`);
 
@@ -991,8 +1004,15 @@
                 tag: 'button',
 
                 props: {
-                    className: 'btn btn-outline-primary btn-sm',
-                    innerHTML: '<i class="mdi mdi-keyboard-backspace"></i> ' + mw.lang('Back')
+                    className: 'btn btn-link btn-sm',
+                    innerHTML: `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 12l14 0"></path>
+   <path d="M5 12l6 6"></path>
+   <path d="M5 12l6 -6"></path>
+</svg>
+                    ${mw.lang('Back')}`
                 }
             });
             _backNode.on('click', function (){
@@ -1018,9 +1038,46 @@
                     className: 'mw-file-manager-bar'
                 }
             });
+
+
+            var multiSelectMenuTemplate = mw.element(`
+                <div class="mw-file-manager--multiselect--context-actions">
+                    <button type="button" class="btn btn-icon" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
+                        
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
+                        
+                    </button>
+                    <button type="button" class="btn btn-icon btn-danger" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
+                
+                    </button>
+                </div>
+            `); 
+
+
+            this.multiSelectDeleteAll = function() {
+                const selected = scope.getSelected();
+                _deleteHandle(selected)
+            }
+            this.multiSelectDownloadAll = function() {
+                const selected = scope.getSelected().filter(itm => itm.type === 'file');
+                selected.forEach(itm => {
+                    _downloadHandle(node)
+                })
+
+            }
+
             bar
+                .append(multiSelectMenuTemplate)
                 .append(_backNode)
                 .append(_pathNodeRoot)
+
+                multiSelectMenuTemplate.get(0).querySelectorAll('.btn').forEach(node => {
+                    node.addEventListener('click', e => {
+                        this[node.dataset.action]();
+                    });
+                });
                 
                 
             return bar;
@@ -1154,8 +1211,10 @@
 
 
             while (path.length) {
-                _pathNode.prepend(pathItem(path.join('/')));
+                var item = pathItem(path.join('/'))
+                _pathNode.prepend(item);
                 path.pop();
+
             }
 
             if(showHome) {
@@ -1177,6 +1236,8 @@
                     scope.renderData();
                 });
             }
+            _pathNode.find('.acttive').removeClass('active')
+            _pathNode.find('.breadcrumb-item:last-child').addClass('active')
 
         };
 
