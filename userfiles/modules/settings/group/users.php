@@ -481,18 +481,6 @@ if ($registration_approval_required == false) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-4">
-                                        <div class="form-group my-4">
-                                            <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
-                                            <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
-                                        </div>
-
-                                        <div class="form-group mb-5">
-                                            <div class="form-check form-switch pl-0">
-                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
-                                            </div>
-                                        </div>
-
-
 
                                         <div class="form-group my-4">
                                             <label class="form-label"><?php _e("Send email on new user registration to admin users"); ?></label>
@@ -518,9 +506,23 @@ if ($registration_approval_required == false) {
 		                                    </div>
                                         </div>
 
-                                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
+                                        <div class="form-group my-4">
+                                            <label class="form-label"><?php _e("Send email on new user registration"); ?></label>
+                                            <small class="text-muted d-block mb-2"><?php _e("Do you want users to receive an e-mail when registering?"); ?></small>
+                                        </div>
 
-                                        <a onclick="mw.register_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send Test Email'); ?></a>
+                                        <div class="form-group mb-5">
+                                            <div class="form-check form-switch pl-0">
+                                                <input name="register_email_enabled" id="register_email_enabled" class="mw_option_field form-check-input" data-bs-toggle="collapse" data-bs-target="#register_email_enabled_template" data-option-group="users" value="1" type="checkbox" <?php if (get_option('register_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                            </div>
+                                        </div>
+
+                                        <div class="collapse <?php if (get_option('register_email_enabled', 'users') == 1): ?>show<?php endif; ?>" id="register_email_enabled_template">
+
+                                            <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="new_user_registration" class="mb-4"/>
+
+                                            <a onclick="mw.register_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send Test Email'); ?></a>
+                                        </div>
                                     </div>
 
                                     <div>
@@ -531,13 +533,15 @@ if ($registration_approval_required == false) {
 
                                         <div class="form-group mb-5">
                                             <div class="form-check form-switch pl-0">
-                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
+                                                <input name="forgot_pass_email_enabled" id="forgot_pass_email_enabled" data-bs-toggle="collapse" data-bs-target="#forgot_pass_email_enabled_template" class="mw_option_field form-check-input" data-option-group="users" value="1" type="checkbox" <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>checked<?php endif; ?>>
                                             </div>
                                         </div>
 
-                                        <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" class="mb-4"/>
+                                        <div class="collapse <?php if (get_option('forgot_pass_email_enabled', 'users') == 1): ?>show<?php endif; ?>" id="forgot_pass_email_enabled_template">
+                                            <module type="admin/mail_templates/select_template" option_group="users" mail_template_type="forgot_password" class="mb-4"/>
 
-                                        <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send test email'); ?></a>
+                                            <a onclick="mw.forgot_password_email_send_test();" href="javascript:;" class="btn btn-outline-primary btn-sm"><?php _e('Send test email'); ?></a>
+                                        </div>
 
                                     </div>
                                 </div>
