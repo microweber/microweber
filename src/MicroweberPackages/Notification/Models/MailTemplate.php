@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Admin\Models;
+namespace MicroweberPackages\Notification\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -35,9 +35,8 @@ class AdminServiceProvider extends ServiceProvider
     public function register()
     {
         View::addNamespace('admin', __DIR__.'/resources/views');
-      //  $this->loadRoutesFrom(__DIR__ . '/routes/admin.php'); moved to AdminRouteServiceProvider
 
-        \App::bind('AdminManager',function() {
+        \App::bind(AdminManager::class,function() {
             return new AdminManager();
         });
 

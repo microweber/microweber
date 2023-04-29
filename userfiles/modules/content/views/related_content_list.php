@@ -25,7 +25,7 @@ $exclude_ids[] = $content_id;
 
 
 $related = [];
-$content = (new \MicroweberPackages\Content\Content())->where('id', $content_id)->first();
+$content = (new \MicroweberPackages\Content\Models\Content())->where('id', $content_id)->first();
 
 if ($content) {
     $related_cont = $content->related()->get();

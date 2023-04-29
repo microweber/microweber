@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
-use MicroweberPackages\Admin\MenuBuilder\Link;
-use MicroweberPackages\Modules\Settings\Http\Livewire\ButtonSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

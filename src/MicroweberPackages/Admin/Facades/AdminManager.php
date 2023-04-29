@@ -12,6 +12,6 @@ class AdminManager extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return 'AdminManager';
+        return \MicroweberPackages\Admin\AdminManager::class;
     }
 }

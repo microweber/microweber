@@ -66,7 +66,7 @@ class DataFieldsTest extends TestCase
         $this->assertEquals($attributes['something_else_custom'], $val2);
 
 
-        \MicroweberPackages\Content\Content::where('id', $id)->first()->delete();
+        \MicroweberPackages\Content\Models\Content::where('id', $id)->first()->delete();
 
         $attributes = content_data($id);
         $this->assertTrue(empty($attributes));

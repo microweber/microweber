@@ -2,10 +2,13 @@
 
 namespace MicroweberPackages\Admin\MenuBuilder;
 
+use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
+
 class Menu {
 
-    public $menuItems;
-    public $menuFactory;
+    public ItemInterface $menuItems;
+    public FactoryInterface $menuFactory;
 
     public function __construct($name = 'default')
     {

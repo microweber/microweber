@@ -128,10 +128,10 @@ function save_mail_template($data)
 
     $findMailTemplate = null;
     if (isset($data['id'])) {
-        $findMailTemplate = \MicroweberPackages\Admin\Models\MailTemplate::where('id', $data['id'])->first();
+        $findMailTemplate = MicroweberPackages\Notification\Models\MailTemplate::where('id', $data['id'])->first();
     }
     if ($findMailTemplate == null) {
-        $findMailTemplate = new \MicroweberPackages\Admin\Models\MailTemplate();
+        $findMailTemplate = new MicroweberPackages\Notification\Models\MailTemplate();
     }
 
     $findMailTemplate->type = $data['type'];
@@ -237,7 +237,7 @@ function get_mail_templates($params = array())
 {
     $showTemplates = [];
     $defaultTemplates = get_default_mail_templates();
-    $getTemplates = \MicroweberPackages\Admin\Models\MailTemplate::all();
+    $getTemplates = MicroweberPackages\Notification\Models\MailTemplate::all();
     if ($getTemplates->count() > 0) {
         $templates = $getTemplates->toArray();
         foreach ($templates as $template) {

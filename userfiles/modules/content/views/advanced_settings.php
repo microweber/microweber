@@ -171,7 +171,11 @@ if (isset($data['created_by']) and $data['created_by']) {
 <?php if ($showSeoSettings): ?>
 
     <?php
-    $contentModel = \MicroweberPackages\Content\Content::where('id', $data['id'])->first();
+
+    $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
+    /**
+     * @var \MicroweberPackages\Form\FormElementBuilder $formBuilder
+     */
     $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
     ?>
 

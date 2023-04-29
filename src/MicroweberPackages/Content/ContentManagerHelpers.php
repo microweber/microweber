@@ -146,7 +146,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
+                \MicroweberPackages\Content\Models\Content::where('id', $c_id)->first()->delete();
             }
         }
 
@@ -159,7 +159,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($c_id) {
                     $del_ids[] = $c_id;
                     if ($to_trash == false) {
-                        \MicroweberPackages\Content\Content::where('id', $c_id)->first()->delete();
+                        \MicroweberPackages\Content\Models\Content::where('id', $c_id)->first()->delete();
                     }
                 }
             }

@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
-use MicroweberPackages\Admin\MenuBuilder\Link;
-use MicroweberPackages\Admin\MenuBuilder\Menu;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 

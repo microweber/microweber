@@ -12,20 +12,15 @@
 namespace MicroweberPackages\User\Providers;
 
 use Illuminate\Auth\AuthServiceProvider;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Passport\Passport;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
-use MicroweberPackages\Admin\MenuBuilder\Link;
-use MicroweberPackages\Billing\Providers\BillingFilamentPluginServiceProvider;
 use MicroweberPackages\User\Http\Livewire\Admin\CreateProfileInformationForm;
 use MicroweberPackages\User\Http\Livewire\Admin\DeleteUserForm;
-use MicroweberPackages\User\Http\Livewire\Admin\EditUserModal;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdatePasswordForm;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdatePasswordWithoutConfirmFormModal;
 use MicroweberPackages\User\Http\Livewire\Admin\UpdateProfileInformationForm;
