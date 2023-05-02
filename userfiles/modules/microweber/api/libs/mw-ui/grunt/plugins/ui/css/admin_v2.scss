@@ -767,3 +767,13 @@ small.text-muted {
     }
 }
 
+
+
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu{
+    position: absolute;
+    background-color: var(--tblr-bg-surface);
+}
+
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item{
+    padding-inline-start: 10px;
+}

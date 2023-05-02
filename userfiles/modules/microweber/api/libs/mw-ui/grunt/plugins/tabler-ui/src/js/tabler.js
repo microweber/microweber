@@ -10,6 +10,8 @@ import './src/tab';
 import './src/toast';
 import * as bootstrap from 'bootstrap';
 import * as tabler from './src/tabler';
+import  TomSelect from 'tom-select';
 
 globalThis.bootstrap = bootstrap;
 globalThis.tabler = tabler;
+window.TomSelect = TomSelect;
