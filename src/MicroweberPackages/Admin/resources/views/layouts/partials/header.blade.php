@@ -251,14 +251,11 @@ if(is_shop_module_enabled_for_user()){
         if (is_dark) {
             $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-light');
             $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-dark');
-            mw.cookie.set('admin_theme_dark', 'true');
 
 
         } else {
             $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-dark');
             $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-light');
-            mw.cookie.delete('admin_theme_light');
-
         }
     }
 </script>

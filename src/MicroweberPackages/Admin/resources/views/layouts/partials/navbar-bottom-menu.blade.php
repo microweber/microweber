@@ -1,3 +1,11 @@
+<?php
+$bodyThemeText = 'light';
+
+if(isset($_COOKIE['admin_theme_dark'])){
+    $bodyThemeText = 'dark';
+}
+?>
+
 <ul class="navbar-nav-padding nav-item-profile-wrapper" style="margin-bottom: 0;">
     <?php event_trigger('mw.admin.sidebar.li.last'); ?>
     <div class="mt-3">
