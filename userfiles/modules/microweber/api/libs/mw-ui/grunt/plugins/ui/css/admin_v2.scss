@@ -27,11 +27,7 @@ body {
     background-color: var(--tblr-bg-surface);
 }
 
-.mw-dialog-skin-default .mw-dialog-close {
-    background-color: var(--tblr-body-color);
-}
-
-.mdi.text-muted {
+.mdi.text-muted, label {
     color: var(--tblr-body-color) !important;
 }
 
@@ -434,9 +430,10 @@ small.text-muted {
 }
 
 
-.form-select {
+.form-select, .input-group, .dropdown-toggle {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
     min-height: 45px;
+    color: var(--tblr-body-color);
 }
 
 .btn:not(.btn-sm) {
@@ -562,6 +559,7 @@ small.text-muted {
         justify-content: center;
         transition: 0.25s ease;
         margin-left: -10px;
+        color: var(--tblr-body-color);
 
         &:hover {
             background-color: var(--tblr-bg-surface);

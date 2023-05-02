@@ -8514,10 +8514,7 @@ body {
 .table-responsive, .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-skin-default .mw-dialog-container {
   background-color: var(--tblr-bg-surface); }
 
-.mw-dialog-skin-default .mw-dialog-close {
-  background-color: var(--tblr-body-color); }
-
-.mdi.text-muted {
+.mdi.text-muted, label {
   color: var(--tblr-body-color) !important; }
 
 .admin-dashboard-left-nav {
@@ -8793,9 +8790,10 @@ small.text-muted {
   padding: .65rem .9rem;
   min-height: 45px; }
 
-.form-select {
+.form-select, .input-group, .dropdown-toggle {
   padding: 0.65rem 2.25rem 0.65rem 0.75rem;
-  min-height: 45px; }
+  min-height: 45px;
+  color: var(--tblr-body-color); }
 
 .btn:not(.btn-sm) {
   padding: 0.65rem 1.25rem;
@@ -8883,7 +8881,8 @@ small.text-muted {
   align-items: center;
   justify-content: center;
   transition: 0.25s ease;
-  margin-left: -10px; }
+  margin-left: -10px;
+  color: var(--tblr-body-color); }
   .mw-toolbar-back-button-wrapper a:hover {
     background-color: var(--tblr-bg-surface);
     border-radius: 50%;
