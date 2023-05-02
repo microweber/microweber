@@ -246,7 +246,16 @@ if(is_shop_module_enabled_for_user()){
         } else {
             $("body").removeClass('theme-dark')
             mw.cookie.delete('admin_theme_dark');
+        }
 
+        if (is_dark) {
+            $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-light');
+            $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-dark');
+
+
+        } else {
+            $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-dark');
+            $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-light');
         }
     }
 </script>
