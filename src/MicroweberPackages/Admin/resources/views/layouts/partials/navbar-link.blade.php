@@ -15,7 +15,7 @@ if ($item->getAttribute('route') == Route::currentRouteName()) {
         {!! $item->getAttribute('icon') !!}
         <span>
            <div x-init="setTimeout(function() { $el.classList.remove('placeholder'); $el.classList.remove('placeholder-xs'); }, 300);" class="placeholder placeholder-xs">
-               {{$item->getName()}}
+               {{_e($item->getName())}}
            </div>
         </span>
 
