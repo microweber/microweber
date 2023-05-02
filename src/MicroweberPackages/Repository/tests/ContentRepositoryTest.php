@@ -81,8 +81,9 @@ class ContentRepositoryTest extends TestCase
 
 
 
-
-
+        // check non existing content data
+        $data =  $content_repository->getContentData(0);
+         $this->assertIsArray($data);
 
     }
 

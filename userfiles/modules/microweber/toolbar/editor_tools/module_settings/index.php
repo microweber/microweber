@@ -339,7 +339,7 @@
 
                         btn.className = 'mw-module-presets-opener';
                         btn.dataset.tipposition = 'bottom-right';
-                        //btn.innerHTML = ' <svg fill="currentColor"class="icon" height="30" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M736 576c-89.6 0-160 70.4-160 160s70.4 160 160 160 160-70.4 160-160-70.4-160-160-160z m96 192h-64v64h-64v-64h-64v-64h64v-64h64v64h64v64z" fill="white" /><path d="M256 291.2h384v64H256zM256 419.2h384v64H256zM640 550.4V544H256v64h313.6c19.2-22.4 44.8-41.6 70.4-57.6z" fill="white" /><path d="M531.2 768H192V192h512v339.2c9.6-3.2 22.4-3.2 32-3.2s22.4 0 32 3.2V160c0-19.2-12.8-32-32-32H160c-19.2 0-32 12.8-32 32v640c0 19.2 12.8 32 32 32h390.4c-9.6-19.2-16-41.6-19.2-64z" fill="white" /></svg>';
+                        //btn.innerHTML = ' <svg fill="currentColor" class="icon" height="30" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M736 576c-89.6 0-160 70.4-160 160s70.4 160 160 160 160-70.4 160-160-70.4-160-160-160z m96 192h-64v64h-64v-64h-64v-64h64v-64h64v64h64v64z" fill="white" /><path d="M256 291.2h384v64H256zM256 419.2h384v64H256zM640 550.4V544H256v64h313.6c19.2-22.4 44.8-41.6 70.4-57.6z" fill="white" /><path d="M531.2 768H192V192h512v339.2c9.6-3.2 22.4-3.2 32-3.2s22.4 0 32 3.2V160c0-19.2-12.8-32-32-32H160c-19.2 0-32 12.8-32 32v640c0 19.2 12.8 32 32 32h390.4c-9.6-19.2-16-41.6-19.2-64z" fill="white" /></svg>';
                         btn.innerHTML = 'Presets';
                         //$('.mw-module-presets-opener').on('click', function () {
                         $(btn).on('click', function () {

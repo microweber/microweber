@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Content;
 
 use Content;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -2054,35 +2054,35 @@ class ContentManager
      *
      * @constant  MW_LANG defines the MW_LANG constant
      */
-    public function lang_current()
-    {
-        if (defined('MW_LANG') and MW_LANG != false) {
-            return MW_LANG;
-        }
-
-        $lang = false;
-
-        if (!isset($lang) or $lang == false) {
-            if (isset($_COOKIE['lang'])) {
-                $lang = $_COOKIE['lang'];
-            }
-        }
-        if (!isset($lang) or $lang == false) {
-            $def_language = $this->app->option_manager->get('language', 'website');
-            if ($def_language != false) {
-                $lang = $def_language;
-            }
-        }
-        if (!isset($lang) or $lang == false) {
-            $lang = 'en';
-        }
-        $lang = sanitize_path($lang);
-        if (!defined('MW_LANG') and isset($lang)) {
-            define('MW_LANG', $lang);
-        }
-
-        return $lang;
-    }
+//    public function lang_current()
+//    {
+//        if (defined('MW_LANG') and MW_LANG != false) {
+//            return MW_LANG;
+//        }
+//
+//        $lang = false;
+//
+//        if (!isset($lang) or $lang == false) {
+//            if (isset($_COOKIE['lang'])) {
+//                $lang = $_COOKIE['lang'];
+//            }
+//        }
+//        if (!isset($lang) or $lang == false) {
+//            $def_language = $this->app->option_manager->get('language', 'website');
+//            if ($def_language != false) {
+//                $lang = $def_language;
+//            }
+//        }
+//        if (!isset($lang) or $lang == false) {
+//            $lang = 'en';
+//        }
+//        $lang = sanitize_path($lang);
+//        if (!defined('MW_LANG') and isset($lang)) {
+//            define('MW_LANG', $lang);
+//        }
+//
+//        return $lang;
+//    }
 
     /**
      * Set the current language.
@@ -2093,13 +2093,13 @@ class ContentManager
      *  set_language('es');
      * </code>
      */
-    public function lang_set($lang = 'en')
-    {
-        $lang = sanitize_path($lang);
-        setcookie('lang', $lang);
-
-        return $lang;
-    }
+//    public function lang_set($lang = 'en')
+//    {
+//        $lang = sanitize_path($lang);
+//        setcookie('lang', $lang);
+//
+//        return $lang;
+//    }
 
     public function breadcrumb($params = false)
     {

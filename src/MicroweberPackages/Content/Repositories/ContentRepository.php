@@ -6,6 +6,7 @@ namespace MicroweberPackages\Content\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 /**
@@ -116,13 +117,13 @@ class ContentRepository extends AbstractRepository
     }
 
     /**
-     * Find content by id.
+     * Find content data by content id.
      *
      * @param mixed $id
      *
-     * @return Model|Collection
+     * @return array
      */
-    public function getContentData($relId)
+    public function getContentData($relId) : array
     {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
@@ -137,6 +138,10 @@ class ContentRepository extends AbstractRepository
             }
 
             $getContentData = $getContentData->get();
+
+            if(!$getContentData) {
+                return [];
+            }
 
             $contentData = collect($getContentData)->map(function ($item) {
                 return (array)$item;
@@ -154,7 +159,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return array
      */
-    public function getCustomFields($relId)
+    public function getCustomFields($relId) : array
     {
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
@@ -191,7 +196,15 @@ class ContentRepository extends AbstractRepository
         });
     }
 
-    public function getCustomFieldsByType($relId, $type)
+    /**
+     * Retrieve custom fields of a specific type for a given relationship ID.
+     *
+     * @param int    $relId The relationship ID.
+     * @param string $type  The type of custom fields to retrieve.
+     *
+     * @return array An array containing the custom fields of the specified type.
+     */
+    public function getCustomFieldsByType($relId, $type) : array
     {
         $fields = $this->getCustomFields($relId);
         if ($fields) {
@@ -224,6 +237,7 @@ class ContentRepository extends AbstractRepository
             if (!$item) {
                 return [];
             }
+            /** @var Content $item */
             $related = $item->related;
             if ($related) {
                 $related = $related->toArray();
@@ -288,7 +302,7 @@ class ContentRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $returnFullTagsData) {
 
-            $query = \Illuminate\Support\Facades\DB::table('tagging_tagged');
+            $query = DB::table('tagging_tagged');
             $query->where('taggable_type', 'content');
             if ($contentId) {
                 $query->where('taggable_id', $contentId);

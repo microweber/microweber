@@ -48,7 +48,7 @@ class ContentApiControllerLiveEditSaveTest extends TestCase
 
         $contentFieldHtml = <<<HTML
 <div class="feature-icon bg-primary bg-gradient">
- <svg fill="currentColor"class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
+ <svg fill="currentColor" class="bi" width="1em" height="1em"><use xlink:href="#collection"></use></svg>
 </div>
 <div class="feature-icon bg-primary bg-gradient">
 <h2>Featured title</h2>
@@ -106,7 +106,7 @@ HTML;
         $this->assertEquals($fieldSaved[0]['field'], 'content');
         $findPage = Page::whereId($findPage->id)->first();
 
-        $this->assertTrue(str_contains($findPage->content, 'svg class="bi" width="1em" height="1em"'));
+        $this->assertTrue(str_contains($findPage->content, 'svg fill="currentColor" class="bi" width="1em" height="1em"'));
         $this->assertTrue(str_contains($findPage->content, '<h2>Featured title</h2>'));
         $this->assertTrue(str_contains($findPage->content, '<a class="mb-2" href="https://example.com"><i class="mdi mdi-arrow-up"></i>example link</a>'));
         $this->assertTrue(str_contains($findPage->content, '<a class="mb-3" target="_blank" href="https://example.com/2"><i class="mdi mdi-arrow-left-bold-box"></i>link 2</a>'));
