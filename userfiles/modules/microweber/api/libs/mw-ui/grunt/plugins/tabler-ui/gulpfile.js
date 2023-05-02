@@ -177,6 +177,7 @@ gulp.task('sass', () => {
 		.src(argv.withPlugins || BUILD ? `${srcDir}/scss/!(_)*.scss` : `${srcDir}/scss/+(tabler|demo).scss`)
 		.pipe(debug())
 		.pipe(sass({
+			includePaths: ['node_modules'],
 			style: 'expanded',
 			precision: 7,
 			importer: (url, prev, done) => {
@@ -393,9 +394,8 @@ gulp.task('build-purgecss', (cb) => {
  * Watch JS and SCSS files
  */
 gulp.task('watch', (cb) => {
-	gulp.watch('./src/scss/**/*.scss', gulp.series('sass','build-core'))
-	gulp.watch('./../ui/css/**/*.scss', gulp.series('sass','build-core'))
-	gulp.watch('./src/js/**/*.js', gulp.parallel( 'sass','build-core' ))
+	gulp.watch('./src/scss/**/*.scss', gulp.series('sass'))
+	gulp.watch('./src/js/**/*.js', gulp.parallel('js', 'mjs', gulp.parallel('js-demo', 'js-demo-theme')))
 	cb()
 })
 

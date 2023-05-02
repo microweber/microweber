@@ -1,0 +1,103 @@
+.avatar {
+  --#{$prefix}avatar-size: #{$avatar-size};
+  --#{$prefix}avatar-bg: var(--#{$prefix}gray-100);
+  position: relative;
+  width: var(--#{$prefix}avatar-size);
+  height: var(--#{$prefix}avatar-size);
+  font-size: calc(var(--#{$prefix}avatar-size) / #{$line-height-base * 2});
+  font-weight: var(--#{$prefix}font-weight-medium);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--#{$prefix}muted);
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: bottom;
+  user-select: none;
+  background: var(--#{$prefix}avatar-bg) no-repeat center/cover;
+  border-radius: $avatar-border-radius;
+
+  svg {
+    width: calc(var(--#{$prefix}avatar-size) / #{divide(40, 24)});
+    height: calc(var(--#{$prefix}avatar-size) / #{divide(40, 24)});
+  }
+
+  .badge {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: $border-radius-pill;
+    box-shadow: 0 0 0 2px $card-bg;
+  }
+
+  @at-root a#{&} {
+    cursor: pointer;
+  }
+}
+
+.avatar-rounded {
+  border-radius: $border-radius-pill;
+}
+
+@each $avatar-size, $size in $avatar-sizes {
+  .avatar-#{$avatar-size} {
+    --#{$prefix}avatar-size: #{$size};
+  }
+
+  .avatar-#{$avatar-size} .badge:empty {
+    width: $size * .25;
+    height: $size * .25;
+  }
+}
+
+
+.avatar-list {
+  @include elements-list;
+
+  a.avatar {
+    &:hover {
+      z-index: 1;
+    }
+  }
+}
+
+.avatar-list-stacked {
+  .avatar {
+    margin-right: -.5rem !important;
+    box-shadow: 0 0 0 2px 0 0 0 2px var(--#{$prefix}card-cap-bg, var(--#{$prefix}card-bg, var(--#{$prefix}bg-surface)));
+  }
+}
+
+.avatar-upload {
+  width: 4rem;
+  height: 4rem;
+  border: 1px dashed var(--#{$prefix}border-color);
+  background: $form-check-input-bg;
+  flex-direction: column;
+  @include transition(color $transition-time, background-color $transition-time);
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke-width: 1;
+  }
+
+  &:hover {
+    border-color: var(--#{$prefix}primary);
+    color: var(--#{$prefix}primary);
+    text-decoration: none;
+  }
+}
+
+.avatar-upload-text {
+  font-size: $h6-font-size;
+  line-height: 1;
+  margin-top: .25rem;
+}
+
+.page-avatar {
+  .page-cover ~ * & {
+    margin-top: calc(calc(-1 * calc(var(--#{$prefix}avatar-size) * .5)) - #{$content-padding-y});
+    box-shadow: 0 0 0 .25rem $body-bg;
+  }
+}

@@ -71,7 +71,7 @@
 .status-lite {
   border: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color) !important;
   background: transparent !important;
-  color: var(--#{$prefix}body-text) !important;
+  color: var(--#{$prefix}body-color) !important;
 }
 
 @each $name, $color in $theme-colors {
@@ -106,16 +106,6 @@
     opacity: .6;
     animation: 1s linear 2s backwards infinite status-pulsate-tertiary;
   }
-}
-
-$btn-colors: $theme-colors;
-
-@if $enable-extra-colors {
-  $btn-colors: map-merge($btn-colors, $extra-colors);
-}
-
-@if $enable-social-colors {
-  $btn-colors: map-merge($btn-colors, $social-colors);
 }
 
 //
