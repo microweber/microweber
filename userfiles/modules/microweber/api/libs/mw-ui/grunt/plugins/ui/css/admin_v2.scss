@@ -3,7 +3,11 @@
 
 :root {
     //--tblr-body-bg: white;
-    --tblr-body-font-family: 'Inter';
+        --tblr-body-font-family: 'Inter';
+
+    body:not(.theme-dark) {
+        --tblr-bg-surface-tertiary: #e1edf9;
+    }
 }
 
 body {

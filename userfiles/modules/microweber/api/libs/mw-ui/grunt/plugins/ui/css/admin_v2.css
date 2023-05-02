@@ -456,7 +456,7 @@ table[class*='mw-wysiwyg-table'].valign td {
   height: 100%; }
 
 .valign-cell > * {
-  vertical-align: middle; } 
+  vertical-align: middle; }
 
 .img-polaroid, .img-rounded {
   display: inline-block; }
@@ -8500,6 +8500,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 
 :root {
   --tblr-body-font-family: 'Inter'; }
+  :root body:not(.theme-dark) {
+    --tblr-bg-surface-tertiary: #e1edf9; }
 
 body {
   font-family: var(--tblr-body-font-family); }
