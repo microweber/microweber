@@ -8814,6 +8814,8 @@ small.text-muted {
   border-radius: 5px;
   padding: 13px;
   transition: 0.25s ease; }
+  .admin-add-new-modal-buttons h3, .admin-add-new-modal-buttons p {
+    color: var(--tblr-body-color); }
   .admin-add-new-modal-buttons .modal-add-new-buttons-img {
     background-color: #f1f5f9;
     padding: 20px 15px;

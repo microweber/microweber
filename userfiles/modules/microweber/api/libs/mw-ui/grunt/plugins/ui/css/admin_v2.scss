@@ -463,6 +463,10 @@ small.text-muted {
     padding: 13px;
     transition: 0.25s ease;
 
+    h3, p {
+        color: var(--tblr-body-color);
+    }
+
     .modal-add-new-buttons-img {
         background-color: #f1f5f9;
         padding: 20px 15px;
