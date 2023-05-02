@@ -15,8 +15,11 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
+use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
+use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 
 
@@ -81,6 +84,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
 
+        Livewire::component('admin-modules-list', ListModules::class);
 
         $this->app->bind('module', function () {
             return new Module();
