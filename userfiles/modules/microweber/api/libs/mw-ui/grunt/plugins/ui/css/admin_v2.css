@@ -8790,7 +8790,7 @@ small.text-muted {
   padding: .65rem .9rem;
   min-height: 45px; }
 
-.form-select, .input-group, .dropdown-toggle {
+.form-select, .dropdown-toggle {
   padding: 0.65rem 2.25rem 0.65rem 0.75rem;
   min-height: 45px;
   color: var(--tblr-body-color); }

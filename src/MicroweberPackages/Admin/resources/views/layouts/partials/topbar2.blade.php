@@ -54,7 +54,7 @@
 
 
                     <?php if ($item['content_type'] == 'page') { ?>
-                    <div class="col-xl-2 col-12 modal-add-new-buttons-img">
+                    <div class="col-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-page.svg" alt="">
                     </div>
 
@@ -69,7 +69,7 @@
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'post') { ?>
-                    <div class="col-xl-2 col-12 modal-add-new-buttons-img">
+                    <div class="col-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-post.svg" alt="">
                     </div>
                     <div class="col-xl-10 ps-xl-3">
@@ -83,7 +83,7 @@
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'category') { ?>
-                    <div class="col-xl-2 col-12 modal-add-new-buttons-img">
+                    <div class="col-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-category.svg" alt="">
                     </div>
                     <div class="col-xl-10 ps-xl-3">
@@ -97,7 +97,7 @@
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'product') { ?>
-                    <div class="col-xl-2 col-12 modal-add-new-buttons-img">
+                    <div class="col-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-product.svg" alt="">
 
                     </div>
