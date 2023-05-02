@@ -241,22 +241,21 @@ if(is_shop_module_enabled_for_user()){
 
         if (!is_dark) {
             $("body").addClass('theme-dark')
+            $("#navbar-change-theme-icon-dark").show()
+            $("#navbar-change-theme-icon-light").hide()
+
             mw.cookie.set('admin_theme_dark', 'true');
+
 
         } else {
             $("body").removeClass('theme-dark')
+            $("#navbar-change-theme-icon-light").show()
+            $("#navbar-change-theme-icon-dark").hide()
+
             mw.cookie.delete('admin_theme_dark');
         }
 
-        if (is_dark) {
-            $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-light');
-            $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-dark');
 
-
-        } else {
-            $(".navbar-change-theme-icon").addClass('navbar-change-theme-icon-dark');
-            $(".navbar-change-theme-icon").removeClass('navbar-change-theme-icon-light');
-        }
     }
 </script>
 
