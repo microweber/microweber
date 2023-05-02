@@ -436,6 +436,11 @@ small.text-muted {
     color: var(--tblr-body-color);
 }
 
+.input-group {
+    color: var(--tblr-body-color);
+
+}
+
 .btn:not(.btn-sm) {
     padding: 0.65rem 1.25rem;
     min-height: 45px;
