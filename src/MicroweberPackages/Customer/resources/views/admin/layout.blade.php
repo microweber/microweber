@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div class="card bg-light mb-3">
+    <div class="card bg-azure-lt mb-3">
         <div class="card-header">
             <h5>
                 @yield('icon')

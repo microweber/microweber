@@ -9,11 +9,15 @@ class ListModules extends Component
 {
     use WithPagination;
 
-    public $keyword = '';
+    public $keyword;
+    public $type = 'admin';
+    public $installed = 1;
 
     public $queryString = [
         'keyword',
         'page',
+        'type',
+        'installed',
     ];
 
 
@@ -35,7 +39,21 @@ class ListModules extends Component
             $modules->where('name', 'like', '%' . $this->keyword . '%');
         }
 
-        $modules = $modules->paginate(20);
+        if (!empty($this->type)) {
+            if ($this->type == 'elements') {
+                $modules->where('as_element', 1);
+            }
+            if ($this->type == 'admin') {
+                $modules->where('ui_admin', 1);
+            }
+            if ($this->type == 'live_edit') {
+                $modules->where('ui', 1);
+            }
+        }
+
+        $modules->where('installed', $this->installed);
+
+        $modules = $modules->paginate(28);
 
         return view('module::livewire.admin.list-modules', [
             'modules' => $modules

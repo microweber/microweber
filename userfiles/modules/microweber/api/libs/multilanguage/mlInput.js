@@ -1,5 +1,5 @@
 (function ($) {
- 
+
     $.fn.mlInput = function (options) {
         var settings = $.extend({
             name: false,

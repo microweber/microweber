@@ -102,7 +102,7 @@ if (is_module('multilanguage')) {
                     <small class="text-muted"><?php _e('Set a language for your website and admin panel.'); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light  mb-1">
+                    <div class="card bg-azure-lt  mb-1">
                         <div class=" ">
                             <div class="row">
                                 <div class="col-12">
@@ -207,7 +207,7 @@ if (is_module('multilanguage')) {
                     <small class="text-muted"><?php _e('You can activate the Multi-language module to use multiple languages'); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light  mb-1">
+                    <div class="card bg-azure-lt  mb-1">
                         <div class=" ">
                             <div class="row">
                                 <div class="col-12">

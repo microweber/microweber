@@ -7,6 +7,15 @@
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
+        .lg-light {
+            background-color: var(--tblr-bg-surface-tertiary);
+        }
+    }
+}
+
+body:not(.theme-dark) {
+    .bg-azure-lt {
+        background-color: var(--tblr-body-bg) !important;
     }
 }
 
@@ -18,11 +27,7 @@ body {
     background-color: var(--tblr-bg-surface);
 }
 
-.mw-dialog-skin-default .mw-dialog-close {
-    background-color: var(--tblr-body-color);
-}
-
-.mdi.text-muted {
+.mdi.text-muted, label {
     color: var(--tblr-body-color) !important;
 }
 
@@ -261,6 +266,9 @@ p {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border: none;
 }
+.form-label {
+    color: var(--tblr-body-color);
+}
 
 .form-group {
     .form-label {
@@ -422,9 +430,15 @@ small.text-muted {
 }
 
 
-.form-select {
+.form-select, .dropdown-toggle {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
     min-height: 45px;
+    color: var(--tblr-body-color);
+}
+
+.input-group, input {
+    color: var(--tblr-body-color);
+
 }
 
 .btn:not(.btn-sm) {
@@ -550,6 +564,7 @@ small.text-muted {
         justify-content: center;
         transition: 0.25s ease;
         margin-left: -10px;
+        color: var(--tblr-body-color);
 
         &:hover {
             background-color: var(--tblr-bg-surface);

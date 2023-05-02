@@ -117,7 +117,7 @@
                             </div>
 
                             <div class="bs-component my-3">
-                                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
@@ -1674,7 +1674,7 @@
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                     </div>
                                 </div>
-                                <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card bg-azure-lt mb-3" style="max-width: 20rem;">
                                     <div class="card-header  ">Header</div>
                                     <div class="card-body">
                                         <h4 class="card-title">Light card title</h4>

@@ -519,7 +519,7 @@ if (!empty($recomended_layouts)) {
                     <?php endif; ?>
 
                     <div class="<?php if ($show_save_changes_buttons): ?>col-md-8<?php else: ?>col-md-12<?php endif; ?>">
-                        <div class="card bg-light ">
+                        <div class="card bg-azure-lt ">
                             <div class="card-body pt-4 pb-5">
                                 <div class="row">
 

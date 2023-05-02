@@ -19,13 +19,13 @@ $curencies = mw()->shop_manager->currency_get();
 
     <div class="card-body">
         <div class="row">
-            <div class="col-md-3 pt-5">
-                <h3 class="font-weight-bold"><?php _e("Currency settings"); ?></h3>
-                <small class="text-muted"><?php _e('Set the currency in which your store will operate.'); ?></small>
+            <div class="col-xl-3 mb-xl-0 mb-3">
+                <h5 class="font-weight-bold settings-title-inside"><?php _e("Currency settings"); ?></h5>
+                <small class="text-muted"><?php _e('Fill in the fields for maximum results when finding your website in search engines.'); ?></small>
             </div>
 
             <div class="col-xl-9">
-                <div class="card bg-light ">
+                <div class="card bg-azure-lt ">
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-12">

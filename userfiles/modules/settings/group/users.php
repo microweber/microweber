@@ -110,7 +110,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Set your settings for proper login and register functionality."); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
@@ -159,7 +159,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Customize your registration form by selecting the fields you require and whether you want Captcha certification."); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
@@ -241,7 +241,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Customize your registration form by selecting the fields you require and whether you want Captcha certification"); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
@@ -273,7 +273,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Allow your users to register on your site, blog or store through their social media accounts."); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12 socials-logins-settings">
@@ -476,7 +476,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Register users can automatically receive an automatic email from you. See the settings and post your messages."); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">
@@ -569,7 +569,7 @@ if ($registration_approval_required == false) {
                     <small class="text-muted"><?php _e("Advanced setting where you can set different URL addresses."); ?></small>
                 </div>
                 <div class="col-xl-9">
-                    <div class="card bg-light ">
+                    <div class="card bg-azure-lt ">
                         <div class="card-body ">
                             <div class="row">
                                 <div class="col-12">

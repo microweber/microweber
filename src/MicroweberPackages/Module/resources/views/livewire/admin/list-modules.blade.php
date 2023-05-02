@@ -27,13 +27,39 @@
         </div>
     </div>
 
+    <div>
+        <div class="bg-white shadow-sm rounded p-4 mb-4">
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-6">
+                    <div>
+                        <label class="d-block mb-2">{{  _e("Type")}}</label>
+                        <select class="form-select" wire:model="type" data-width="100%">
+                            <option value="live_edit">{{  _e("Live edit modules")}}</option>
+                            <option value="admin" selected>{{  _e("Admin modules")}}</option>
+                            <option value="advanced">{{  _e("All modules")}}</option>
+                            <option value="elements">{{  _e("Elements")}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <label class="d-block mb-2">{{  _e("Status")}}</label>
+                        <select class="form-select" wire:model="installed" data-width="100%">
+                            <option value="1">{{  _e("Installed")}}</option>
+                            <option value="0">{{  _e("Uninstalled")}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row row-cards">
 
         @foreach($modules as $module)
             <div class="col-md-3">
                 <div class="card card-stacked" style="min-height:170px">
                     <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
-
                         <a href="{{module_admin_url($module->module)}}">
                             <img src="{{$module->icon()}}" style="width:64px" />
                             <h3 class="card-title pt-2 text-muted">
