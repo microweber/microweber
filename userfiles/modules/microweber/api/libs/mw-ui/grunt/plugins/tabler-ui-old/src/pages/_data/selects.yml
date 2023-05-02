@@ -1,0 +1,93 @@
+users:
+  value: 3
+  options:
+    1:
+      name: Chuck Tesla
+    2:
+      name: Elon Musk
+    3:
+      name: Paweł Kuna
+    4:
+      name: Nikola Tesla
+
+tags:
+  max-items: 15
+  multiple: true
+  value: [HTML, JavaScript, Bootstrap]
+  options:
+    - HTML
+    - JavaScript
+    - CSS
+    - jQuery
+    - Bootstrap
+    - Ruby
+    - Python
+
+tags-advanced:
+  max-items: 15
+  multiple: true
+  removable: true
+  value: [Ruby, Python]
+  options:
+    - HTML
+    - JavaScript
+    - CSS
+    - jQuery
+    - Bootstrap
+    - Ruby
+    - Python
+
+countries:
+  value: pl
+  options:
+    pl:
+      name: Poland
+      flag: pl
+    de:
+      name: Germany
+      flag: de
+    cz:
+      name: Czech Republic
+      flag: cz
+    br:
+      name: Brazil
+      flag: br
+
+labels:
+  value: paste
+  options:
+    copy:
+      name: Copy
+      label: cmd + C
+    paste:
+      name: Paste
+      label: cmd + V
+    cut:
+      name: Cut
+      label: cmd + X
+
+people:
+  value: 4
+  data: people
+
+optgroups:
+  value: Optgroups
+  data: optgroup
+  options:
+    -
+      title: Tags
+      options:
+        - HTML
+        - JavaScript
+        - CSS
+        - jQuery
+        - Bootstrap
+        - Ruby
+        - Python
+    -
+      title: People
+      options:
+        - Chuck Tesla
+        - Elon Musk
+        - Paweł Kuna
+        - Nikola Tesla

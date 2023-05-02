@@ -6,7 +6,7 @@ page-header: Offcanvas
 
 {% assign directions = 'start,end,top,bottom' | split: ',' %}
 
-<div class="card mb-4">
+<div class="card">
 	<div class="card-body">
 		{% for direction in directions %}
 		<a class="btn" data-bs-toggle="offcanvas" href="#offcanvas{{ direction | capitalize }}" role="button" aria-controls="offcanvas{{ direction | capitalize }}">

@@ -80,6 +80,9 @@ class ShopServiceProvider extends ServiceProvider
 
         Livewire::component('admin-shop-dashboard-sales', DashboardSalesComponent::class);
 
-        Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
+        if (get_option('shop_disabled', 'website') !== 'y') {
+            Event::listen(ServingAdmin::class, [$this, 'registerMenu']);
+        }
+
     }
 }

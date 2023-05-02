@@ -8500,6 +8500,8 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 
 :root {
   --tblr-body-font-family: 'Inter'; }
+  :root body:not(.theme-dark) {
+    --tblr-bg-surface-tertiary: #e1edf9; }
 
 body {
   font-family: var(--tblr-body-font-family); }
@@ -8633,7 +8635,7 @@ p {
 
 .icon-holder {
   padding: 8px 12px;
-  background: var(--tblr-blue-rgb);
+  background: var(--tblr-bg-surface-tertiary);
   border-radius: 10px;
   align-items: start;
   align-self: center;
@@ -8994,11 +8996,5 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 
 .mw-dropdown-default .mw-dropdown-content li:hover {
   background-color: #efefef; }
-
-.navbar-change-theme-icon-light #navbar-change-theme-icon-light {
-  display: flex !important; }
-
-.navbar-change-theme-icon-dark #navbar-change-theme-icon-dark {
-  display: flex !important; }
 
 /*# sourceMappingURL=admin_v2.css.map */

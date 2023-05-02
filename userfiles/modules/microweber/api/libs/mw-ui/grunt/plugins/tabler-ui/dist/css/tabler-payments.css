@@ -1,6 +1,6 @@
 /*!
-* Tabler v1.0.0-beta16 (https://tabler.io)
-* @version 1.0.0-beta16
+* Tabler v1.0.0-beta17 (https://tabler.io)
+* @version 1.0.0-beta17
 * @link https://tabler.io
 * Copyright 2018-2023 The Tabler Authors
 * Copyright 2018-2023 codecalm.net Paweł Kuna
@@ -159,6 +159,14 @@
 
 .payment-provider-ebay-dark {
   background-image: url("../img/payments/ebay-dark.svg");
+}
+
+.payment-provider-epayco {
+  background-image: url("../img/payments/epayco.svg");
+}
+
+.payment-provider-epayco-dark {
+  background-image: url("../img/payments/epayco-dark.svg");
 }
 
 .payment-provider-eway {
@@ -505,8 +513,8 @@
 }
 
 .payment-lg {
-  width: 8.3333rem;
-  height: 5rem;
+  width: 9.16663rem;
+  height: 5.5rem;
 }
 
 .payment-xl {

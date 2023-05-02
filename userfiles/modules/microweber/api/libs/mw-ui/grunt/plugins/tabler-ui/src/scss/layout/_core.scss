@@ -1,6 +1,5 @@
 // stylelint-disable property-no-vendor-prefix
 body {
-  overflow-y: scroll;
   letter-spacing: $body-letter-spacing;
   touch-action: manipulation;
   text-rendering: optimizeLegibility;
@@ -47,7 +46,7 @@ body {
     margin: 0 auto;
     max-width: var(--#{$prefix}theme-boxed-width);
     border-radius: var(--#{$prefix}theme-boxed-border-radius);
-    color: $body-color;
+    color: var(--#{$prefix}body-color);
 
     @include media-breakpoint-up(md) {
       border: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color);
