@@ -475,12 +475,12 @@ table[class*='mw-wysiwyg-table'].valign td {
   cursor: pointer;
   padding: 5px 19px;
   border: 1px solid transparent; }
-
+ 
 .mw-cancel:hover {
   background: #F3F3F3;
   border-color: #D7D7D7; }
 
-.semi_hidden { 
+.semi_hidden {
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important; }
@@ -8530,7 +8530,7 @@ body {
   .admin-dashboard-left-nav .nav-item-profile {
     padding-top: 10px;
     padding-bottom: 5px; }
-  .admin-dashboard-left-nav .nav-item-profile-wrapper {
+  .admin-dashboard-left-nav .nav-item.nav-item-profile {
     padding-inline-start: 33px !important; }
   .admin-dashboard-left-nav .nav-link {
     padding: 15px 0 !important; }
