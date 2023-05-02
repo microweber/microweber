@@ -64,6 +64,5 @@ class ContentManagerServiceProvider extends ServiceProvider
         });
 
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-    }
+     }
 }

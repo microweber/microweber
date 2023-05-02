@@ -5,13 +5,13 @@ namespace MicroweberPackages\Admin\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \MicroweberPackages\Admin\AdminManager
- * @mixin \MicroweberPackages\Admin\AdminManager
+ * @see \MicroweberPackages\Admin\Services\AdminManager
+ * @mixin \MicroweberPackages\Admin\Services\AdminManager
  */
 class AdminManager extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return \MicroweberPackages\Admin\AdminManager::class;
+        return \MicroweberPackages\Admin\Services\AdminManager::class;
     }
 }

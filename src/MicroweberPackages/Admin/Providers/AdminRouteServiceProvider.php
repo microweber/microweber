@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Admin;
+namespace MicroweberPackages\Admin\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +18,7 @@ class AdminRouteServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/admin.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
     }
 }
