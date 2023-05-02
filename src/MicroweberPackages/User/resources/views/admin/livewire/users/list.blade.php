@@ -18,7 +18,7 @@
             border-radius: 50px;
         }
     </style>
-    <div class="card bg-light mb-3">
+    <div class="card bg-azure-lt mb-3">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
             </h5>

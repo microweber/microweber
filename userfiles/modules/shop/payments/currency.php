@@ -25,7 +25,7 @@ $curencies = mw()->shop_manager->currency_get();
             </div>
 
             <div class="col-xl-9">
-                <div class="card bg-light ">
+                <div class="card bg-azure-lt ">
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-12">

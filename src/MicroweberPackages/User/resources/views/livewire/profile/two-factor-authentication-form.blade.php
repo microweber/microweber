@@ -38,7 +38,7 @@
                     {{ __('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.') }}
                 </p>
 
-                <div class="bg-light rounded p-3">
+                <div class="bg-azure-lt rounded p-3">
                     @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
                         <div>{{ $code }}</div>
                     @endforeach

@@ -8502,6 +8502,11 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   --tblr-body-font-family: 'Inter'; }
   :root body:not(.theme-dark) {
     --tblr-bg-surface-tertiary: #e1edf9; }
+    :root body:not(.theme-dark) .lg-light {
+      background-color: var(--tblr-bg-surface-tertiary); }
+
+body:not(.theme-dark) .bg-azure-lt {
+  background-color: var(--tblr-body-bg) !important; }
 
 body {
   font-family: var(--tblr-body-font-family); }
@@ -8664,6 +8669,9 @@ p {
 .card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border: none; }
+
+.form-label {
+  color: var(--tblr-body-color); }
 
 .form-group .form-label {
   margin: 5px 0; }

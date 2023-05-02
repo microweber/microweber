@@ -161,7 +161,7 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 endif;
 ?>
 
-<div class="card bg-light ">
+<div class="card bg-azure-lt ">
     <div class="card-body py-2">
         <div class="row">
             <div class="col-12">
