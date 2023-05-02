@@ -217,7 +217,7 @@ p {
 
 .icon-holder {
     padding: 8px 12px;
-    background: var(--tblr-blue-rgb);
+    background: var(--tblr-bg-surface-tertiary);
 
     border-radius: 10px;
     align-items: start;
@@ -744,15 +744,3 @@ small.text-muted {
     }
 }
 
-
-.navbar-change-theme-icon-light {
-    #navbar-change-theme-icon-light {
-        display: flex !important;
-    }
-}
-
-.navbar-change-theme-icon-dark {
-    #navbar-change-theme-icon-dark {
-        display: flex !important;
-    }
-}

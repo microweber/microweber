@@ -456,7 +456,7 @@ table[class*='mw-wysiwyg-table'].valign td {
   height: 100%; }
 
 .valign-cell > * {
-  vertical-align: middle; }
+  vertical-align: middle; } 
 
 .img-polaroid, .img-rounded {
   display: inline-block; }
@@ -8633,7 +8633,7 @@ p {
 
 .icon-holder {
   padding: 8px 12px;
-  background: var(--tblr-blue-rgb);
+  background: var(--tblr-bg-surface-tertiary);
   border-radius: 10px;
   align-items: start;
   align-self: center;
@@ -8994,11 +8994,5 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 
 .mw-dropdown-default .mw-dropdown-content li:hover {
   background-color: #efefef; }
-
-.navbar-change-theme-icon-light #navbar-change-theme-icon-light {
-  display: flex !important; }
-
-.navbar-change-theme-icon-dark #navbar-change-theme-icon-dark {
-  display: flex !important; }
 
 /*# sourceMappingURL=admin_v2.css.map */
