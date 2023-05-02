@@ -329,7 +329,7 @@
 @endsection
 
 @section('order_content')
-    <div class="card  bg-light mb-3">
+    <div class="card  bg-azure-lt mb-3">
         <div class="card-header">
             <h5>
                 <i class="mdi mdi-shopping text-primary mr-3"></i> <strong><?php _e("Client orders"); ?></strong>

@@ -1,0 +1,1 @@
+<span class="flag{% if include['size'] %} flag-{{ include.size }}{% endif %} flag-country-{{ include.flag | default: 'pl' | downcase }}{% if include.class %} {{ include.class }}{% endif %}"></span>

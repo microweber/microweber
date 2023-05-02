@@ -1,6 +1,6 @@
 <div class="row justify-content-center my-5">
     <div class="col-md-12">
-        <div class="card shadow bg-light">
+        <div class="card shadow bg-azure-lt">
             <div class="card-body   px-5 py-3 border-bottom rounded-top">
                 <div class="mx-3 my-3">
                     <div>

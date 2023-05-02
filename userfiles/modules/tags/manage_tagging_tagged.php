@@ -285,7 +285,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="card  bg-light">
+        <div class="card  bg-azure-lt">
             <div class="card-header">
                 <h6 class="font-weight-bold"><span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('list'); ?></h6>
             </div>
@@ -315,7 +315,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="card  bg-light">
+        <div class="card  bg-azure-lt">
             <div class="card-header">
                 <h6 class="font-weight-bold"><?php _e('Tags for'); ?> <span class="js-filter-by-text"><?php _e('Post'); ?></span></h6>
             </div>

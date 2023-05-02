@@ -16,7 +16,7 @@
             <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Settings</a>
         </div>
 
-        <div class="card bg-light " style="max-width: 600px; margin: 0 auto;">
+        <div class="card bg-azure-lt " style="max-width: 600px; margin: 0 auto;">
             <div class="card-header">
                 <h5 class="card-title"><i class="mdi mdi-login text-primary mr-3"></i> <strong>Mail Template</strong></h5>
                 <div>

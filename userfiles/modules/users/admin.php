@@ -168,7 +168,7 @@ mw()->notifications_manager->mark_as_read('users');
 ?>
 
 
-<div class="card  bg-light mb-3">
+<div class="card  bg-azure-lt mb-3">
     <div class="card-header">
         <?php
         $user_params['id'] = 0;

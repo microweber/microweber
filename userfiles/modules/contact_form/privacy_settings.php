@@ -45,7 +45,7 @@ if (isset($params['simple']) AND $params['simple'] == 'true') {
                 <small class="text-muted"><?php _e("Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.") ?></small>
             </div>
             <div class="col-xl-9">
-                <div class="<?php if (!$simple): ?>card bg-light  mb-3<?php endif; ?>">
+                <div class="<?php if (!$simple): ?>card bg-azure-lt  mb-3<?php endif; ?>">
                     <div class="<?php if (!$simple): ?> <?php endif; ?>">
                         <div class="row">
                             <div class="col-12">

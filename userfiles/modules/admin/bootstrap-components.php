@@ -329,7 +329,7 @@
                 <span class="badge bg-danger">Danger</span>
                 <span class="badge bg-warning  ">Warning</span>
                 <span class="badge bg-info  ">Info</span>
-                <span class="badge bg-light  ">Light</span>
+                <span class="badge bg-azure-lt  ">Light</span>
                 <span class="badge bg-dark">Dark</span>
             </div>
 
@@ -342,7 +342,7 @@
                 <span class="badge rounded-pill bg-danger">Danger</span>
                 <span class="badge rounded-pill bg-warning  ">Warning</span>
                 <span class="badge rounded-pill bg-info  ">Info</span>
-                <span class="badge rounded-pill bg-light  ">Light</span>
+                <span class="badge rounded-pill bg-azure-lt  ">Light</span>
                 <span class="badge rounded-pill bg-dark">Dark</span>
             </div>
 
@@ -1133,7 +1133,7 @@
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                 </div>
-                <div class="card   bg-light mb-3" style="max-width: 18rem;">
+                <div class="card   bg-azure-lt mb-3" style="max-width: 18rem;">
                     <div class="card-header">Header</div>
                     <div class="card-body">
                         <h5 class="card-title">Light card title</h5>
@@ -3155,7 +3155,7 @@
 
 
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -3192,21 +3192,21 @@
                                 </div>
                             </nav>
                         </div>
-                        <p>This example uses <a href="/docs/5.0/utilities/background/">background</a> (<code>bg-light</code>) and <a href="/docs/5.0/utilities/spacing/">spacing</a> (<code>my-2</code>, <code>my-lg-0</code>, <code>me-sm-0</code>, <code>my-sm-0</code>) utility classes.</p>
+                        <p>This example uses <a href="/docs/5.0/utilities/background/">background</a> (<code>bg-azure-lt</code>) and <a href="/docs/5.0/utilities/spacing/">spacing</a> (<code>my-2</code>, <code>my-lg-0</code>, <code>me-sm-0</code>, <code>my-sm-0</code>) utility classes.</p>
                         <h3 id="brand">Brand<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#brand" style="padding-left: 0.375em;"></a></h3>
                         <p>The <code>.navbar-brand</code> can be applied to most elements, but an anchor works best, as some elements might require utility classes or custom styles.</p>
                         <h4 id="text">Text<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#text" style="padding-left: 0.375em;"></a></h4>
                         <p>Add your text within an element with the <code>.navbar-brand</code> class.</p>
                         <div class="bd-example py-3">
                             <!-- As a link -->
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                 </div>
                             </nav>
 
                             <!-- As a heading -->
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <span class="navbar-brand mb-0 h1">Navbar</span>
                                 </div>
@@ -3215,7 +3215,7 @@
                         <h4 id="image">Image<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#image" style="padding-left: 0.375em;"></a></h4>
                         <p>You can replace the text within the <code>.navbar-brand</code> with an <code>&lt;img&gt;</code>.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container">
                                     <a class="navbar-brand" href="#">
                                         <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24">
@@ -3226,7 +3226,7 @@
                         <h4 id="image-and-text">Image and text<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#image-and-text" style="padding-left: 0.375em;"></a></h4>
                         <p>You can also make use of some additional utilities to add an image and text at the same time. Note the addition of <code>.d-inline-block</code> and <code>.align-text-top</code> on the <code>&lt;img&gt;</code>.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">
                                         <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -3240,7 +3240,7 @@
                         <p>Add the <code>.active</code> class on <code>.nav-link</code> to indicate the current page.</p>
                         <p>Please note that you should also add the <code>aria-current</code> attribute on the active <code>.nav-link</code>.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -3267,7 +3267,7 @@
                         </div>
                         <p>And because we use classes for our navs, you can avoid the list-based approach entirely if you like.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -3286,7 +3286,7 @@
                         </div>
                         <p>You can also use dropdowns in your navbar. Dropdown menus require a wrapping element for positioning, so be sure to use separate and nested elements for <code>.nav-item</code> and <code>.nav-link</code> as shown below.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -3321,7 +3321,7 @@
                         <h3 id="forms">Forms<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#forms" style="padding-left: 0.375em;"></a></h3>
                         <p>Place various form controls and components within a navbar:</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <form class="d-flex">
                                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -3332,7 +3332,7 @@
                         </div>
                         <p>Immediate child elements of <code>.navbar</code> use flex layout and will default to <code>justify-content: space-between</code>. Use additional <a href="/docs/5.0/utilities/flex/">flex utilities</a> as needed to adjust this behavior.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand">Navbar</a>
                                     <form class="d-flex">
@@ -3344,7 +3344,7 @@
                         </div>
                         <p>Input groups work, too. If your navbar is an entire form, or mostly a form, you can use the <code>&lt;form&gt;</code> element as the container and save some HTML.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <form class="container-fluid">
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">@</span>
@@ -3355,7 +3355,7 @@
                         </div>
                         <p>Various buttons are supported as part of these navbar forms, too. This is also a great reminder that vertical alignment utilities can be used to align different sized elements.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <form class="container-fluid justify-content-start">
                                     <button class="btn btn-outline-success me-2" type="button">Main button</button>
                                     <button class="btn btn-sm btn-outline-secondary" type="button">Smaller button</button>
@@ -3365,7 +3365,7 @@
                         <h3 id="text-1">Text<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#text-1" style="padding-left: 0.375em;"></a></h3>
                         <p>Navbars may contain bits of text with the help of <code>.navbar-text</code>. This class adjusts vertical alignment and horizontal spacing for strings of text.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <span class="navbar-text">
                                       Navbar text with an inline element
@@ -3375,7 +3375,7 @@
                         </div>
                         <p>Mix and match with other components and utilities as needed.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar w/ text</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -3492,7 +3492,7 @@
                         <p>Although it’s not required, you can wrap a navbar in a <code>.container</code> to center it on a page–though note that an inner container is still required. Or you can add a container inside the <code>.navbar</code> to only center the contents of a <a href="#placement">fixed or static top navbar</a>.</p>
                         <div class="bd-example py-3">
                             <div class="container">
-                                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                     <div class="container-fluid">
                                         <a class="navbar-brand" href="#">Navbar</a>
                                     </div>
@@ -3501,7 +3501,7 @@
                         </div>
                         <p>Use any of the responsive containers to change how wide the content in your navbar is presented.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-md">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                 </div>
@@ -3511,28 +3511,28 @@
                         <p>Use our <a href="/docs/5.0/utilities/position/">position utilities</a> to place navbars in non-static positions. Choose from fixed to the top, fixed to the bottom, or stickied to the top (scrolls with the page until it reaches the top, then stays there). Fixed navbars use <code>position: fixed</code>, meaning they’re pulled from the normal flow of the DOM and may require custom CSS (e.g., <code>padding-top</code> on the <code>&lt;body&gt;</code>) to prevent overlap with other elements.</p>
                         <p>Also note that <strong><code>.sticky-top</code> uses <code>position: sticky</code>, which <a href="https://caniuse.com/css-sticky">isn’t fully supported in every browser</a></strong>.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Default</a>
                                 </div>
                             </nav>
                         </div>
                         <div class="bd-example py-3">
-                            <nav class="navbar fixed-top navbar-light bg-light">
+                            <nav class="navbar fixed-top navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Fixed top</a>
                                 </div>
                             </nav>
                         </div>
                         <div class="bd-example py-3">
-                            <nav class="navbar fixed-bottom navbar-light bg-light">
+                            <nav class="navbar fixed-bottom navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Fixed bottom</a>
                                 </div>
                             </nav>
                         </div>
                         <div class="bd-example py-3">
-                            <nav class="navbar sticky-top navbar-light bg-light">
+                            <nav class="navbar sticky-top navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Sticky top</a>
                                 </div>
@@ -3543,7 +3543,7 @@
                         <p>Please note that this behavior comes with a potential drawback of <code>overflow</code>—when setting <code>overflow-y: auto</code> (required to scroll the content here), <code>overflow-x</code> is the equivalent of <code>auto</code>, which will crop some horizontal content.</p>
                         <p>Here’s an example navbar using <code>.navbar-nav-scroll</code> with <code>style="--bs-scroll-height: 100px;"</code>, with some extra margin utilities for optimum spacing.</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar scroll</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -3587,7 +3587,7 @@
                         <p>Navbar togglers are left-aligned by default, but should they follow a sibling element like a <code>.navbar-brand</code>, they’ll automatically be aligned to the far right. Reversing your markup will reverse the placement of the toggler. Below are examples of different toggle styles.</p>
                         <p>With no <code>.navbar-brand</code> shown at the smallest breakpoint:</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
@@ -3615,7 +3615,7 @@
                         </div>
                         <p>With a brand name shown on the left and toggler on the right:</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -3643,7 +3643,7 @@
                         </div>
                         <p>With a toggler on the left and brand name on the right:</p>
                         <div class="bd-example py-3">
-                            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                            <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                 <div class="container-fluid">
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
@@ -3697,7 +3697,7 @@
                                 <h2 id="examples">Examples<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#examples" style="padding-left: 0.375em;"></a></h2>
                                 <h3 id="offcanvas-components">Offcanvas components<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#offcanvas-components" style="padding-left: 0.375em;"></a></h3>
                                 <p>Below is an offcanvas example that is shown by default (via <code>.show</code> on <code>.offcanvas</code>). Offcanvas includes support for a header with a close button and an optional body class for some initial <code>padding</code>. We suggest that you include offcanvas headers with dismiss actions whenever possible, or provide an explicit dismiss action.</p>
-                                <div class="bd-example bd-example-offcanvas p-0 bg-light overflow-hidden">
+                                <div class="bd-example bd-example-offcanvas p-0 bg-azure-lt overflow-hidden">
                                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
                                         <div class="offcanvas-header">
                                             <h5 class="offcanvas-title" id="offcanvasLabel">Offcanvas</h5>
@@ -4142,7 +4142,7 @@
                                    <h2 class="py-3" id="example-in-navbar">Example in navbar<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#example-in-navbar" style="padding-left: 0.375em;"></a></h2>
                                    <p>Scroll the area below the navbar and watch the active class change. The dropdown items will be highlighted as well.</p>
                                    <div class="bd-example py-3">
-                                       <nav id="navbar-example2" class="navbar navbar-light bg-light px-3">
+                                       <nav id="navbar-example2" class="navbar navbar-light bg-azure-lt px-3">
                                            <a class="navbar-brand" href="#">Navbar</a>
                                            <ul class="nav nav-pills">
                                                <li class="nav-item">
@@ -4180,7 +4180,7 @@
                                    <div class="bd-example py-3">
                                        <div class="row">
                                            <div class="col-4">
-                                               <nav id="navbar-example3" class="navbar navbar-light bg-light flex-column align-items-stretch p-3">
+                                               <nav id="navbar-example3" class="navbar navbar-light bg-azure-lt flex-column align-items-stretch p-3">
                                                    <a class="navbar-brand" href="#">Navbar</a>
                                                    <nav class="nav nav-pills flex-column">
                                                        <a class="nav-link active" href="#item-1">Item 1</a>
@@ -4416,7 +4416,7 @@
                                     <h3 id="basic">Basic<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#basic" style="padding-left: 0.375em;"></a></h3>
                                     <p>To encourage extensible and predictable toasts, we recommend a header and body. Toast headers use <code>display: flex</code>, allowing easy alignment of content thanks to our margin and flexbox utilities.</p>
                                     <p>Toasts are as flexible as you need and have very little required markup. At a minimum, we require a single element to contain your “toasted” content and strongly encourage a dismiss button.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                             <div class="toast-header">
                                                  <svg fill="currentColor" class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
@@ -4467,7 +4467,7 @@
                                     </div>
                                     <h3 id="stacking">Stacking<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#stacking" style="padding-left: 0.375em;"></a></h3>
                                     <p>You can stack toasts by wrapping them in a toast container, which will vertically add some spacing.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div class="toast-container">
                                             <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                                 <div class="toast-header">
@@ -4498,7 +4498,7 @@
                                     </div>
                                     <h3 id="custom-content">Custom content<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#custom-content" style="padding-left: 0.375em;"></a></h3>
                                     <p>Customize your toasts by removing sub-components, tweaking them with <a href="/docs/5.0/utilities/api/">utilities</a>, or by adding your own markup. Here we’ve created a simpler toast by removing the default <code>.toast-header</code>, adding a custom hide icon from <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>, and using some <a href="/docs/5.0/utilities/flex/">flexbox utilities</a> to adjust the layout.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div class="toast align-items-center fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                             <div class="d-flex">
                                                 <div class="toast-body">
@@ -4509,7 +4509,7 @@
                                         </div>
                                     </div>
                                     <p>Alternatively, you can also add additional controls and components to toasts.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                             <div class="toast-body">
                                                 Hello, world! This is a toast message.
@@ -4522,7 +4522,7 @@
                                     </div>
                                     <h3 id="color-schemes">Color schemes<a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#color-schemes" style="padding-left: 0.375em;"></a></h3>
                                     <p>Building on the above example, you can create different toast color schemes with our <a href="/docs/5.0/utilities/colors/">color</a> and <a href="/docs/5.0/utilities/background/">background</a> utilities. Here we’ve added <code>.bg-primary</code> and <code>.text-white</code> to the <code>.toast</code>, and then added <code>.btn-close-white</code> to our close button. For a crisp edge, we remove the default border with <code>.border-0</code>.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div class="toast align-items-center text-white bg-primary border-0 fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                             <div class="d-flex">
                                                 <div class="toast-body">
@@ -4632,7 +4632,7 @@
                                     <p>You also need to adapt the <code>role</code> and <code>aria-live</code> level depending on the content. If it’s an important message like an error, use <code>role="alert" aria-live="assertive"</code>, otherwise use <code>role="status" aria-live="polite"</code> attributes.</p>
                                     <p>As the content you’re displaying changes, be sure to update the <a href="#options"><code>delay</code> timeout</a> so that users have enough time to read the toast.</p>
                                     <p>When using <code>autohide: false</code>, you must add a close button to allow users to dismiss the toast.</p>
-                                    <div class="bd-example bg-light py-3">
+                                    <div class="bd-example bg-azure-lt py-3">
                                         <div role="alert" aria-live="assertive" aria-atomic="true" class="toast fade show" data-bs-autohide="false">
                                             <div class="toast-header">
                                                  <svg fill="currentColor" class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>

@@ -80,7 +80,7 @@ foreach ($files as $file) {
                             </div>
 
                             <div class="bs-component my-3">
-                                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                <nav class="navbar navbar-expand-lg navbar-light bg-azure-lt">
                                     <a class="navbar-brand" href="#">Navbar</a>
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
@@ -1498,7 +1498,7 @@ foreach ($files as $file) {
                                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                     </div>
                                 </div>
-                                <div class="card bg-light mb-3" style="max-width: 20rem;">
+                                <div class="card bg-azure-lt mb-3" style="max-width: 20rem;">
                                     <div class="card-header  ">Header</div>
                                     <div class="card-body">
                                         <h4 class="card-title">Light card title</h4>
@@ -2170,7 +2170,7 @@ foreach ($files as $file) {
         <a href="#" class="btn btn-link text-silver px-0"><i class="mdi mdi-chevron-left"></i> Back to orders</a>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-shopping text-primary mr-3"></i> <strong>Order #1</strong></h5>
             <div>
@@ -2283,7 +2283,7 @@ foreach ($files as $file) {
         </div>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-3">
                 <h5 class="font-weight-bold settings-title-inside">Client Information</h5>
@@ -2329,7 +2329,7 @@ foreach ($files as $file) {
         </div>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-body">
             <h5 class="mb-4 font-weight-bold">Shipping Address</h5>
 
@@ -2366,7 +2366,7 @@ foreach ($files as $file) {
         </div>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-body">
 
             <div class="row">
@@ -2409,7 +2409,7 @@ foreach ($files as $file) {
         </div>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-body">
 
             <div class="row d-flex">
@@ -2464,7 +2464,7 @@ foreach ($files as $file) {
         </div>
     </div>
 
-    <div class="card bg-light ">
+    <div class="card bg-azure-lt ">
         <div class="card-body">
             <h5 class="mb-3 font-weight-bold">Invoices</h5>
 

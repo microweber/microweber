@@ -1,10 +1,3 @@
-/*!
- * Tabler (v0.9.0): _dark.scss
- * Copyright 2018-2021 The Tabler Authors
- * Copyright 2018-2021 codecalm
- * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
- */
-
 // stylelint-disable declaration-no-important
 body:not(.theme-dark) .hide-theme-light {
   display: none !important;
@@ -22,7 +15,8 @@ body:not(.theme-dark) .hide-theme-light {
     --#{$prefix}bg-forms: #{$dark-mode-darken};
     --#{$prefix}bg-surface: #{$dark};
     --#{$prefix}bg-surface-dark: #{$dark-mode-darken};
-    --#{$prefix}bg-surface-secondary: #{$dark-mode-darken};
+    --#{$prefix}bg-surface-secondary: #{$dark-mode-lighten};
+    --#{$prefix}bg-surface-tertiary: #{$dark-mode-darken};
 
     --#{$prefix}link-color: #{lighten($primary, 8%)};
     --#{$prefix}link-hover-color: #{$primary};
@@ -36,14 +30,19 @@ body:not(.theme-dark) .hide-theme-light {
     --#{$prefix}card-color: #{$dark-mode-text};
 
     --#{$prefix}border-color: var(--#{$prefix}dark-mode-border-color);
-    --#{$prefix}border-color-light: var(--#{$prefix}dark-mode-border-color-light);
+    --#{$prefix}border-dark-color: var(--#{$prefix}dark-mode-border-dark-color);
     --#{$prefix}border-color-active: var(--#{$prefix}dark-mode-border-color-active);
 
     --#{$prefix}btn-color: #{$dark-mode-darken};
 
     --#{$prefix}code-color: var(--#{$prefix}body-color);
-    --#{$prefix}code-bg: #{$dark-mode-border-color-light};
+    --#{$prefix}code-bg: #{$dark-mode-border-dark-color};
 
+    @each $color, $value in $theme-colors {
+      --#{$prefix}#{$color}-lt-rgb: #{to-rgb(theme-color-lighter($value, $dark))};
+    }
+
+    color-scheme: dark;
     color: $dark-mode-text;
     background-color: $dark-mode-darken;
   }
@@ -118,8 +117,8 @@ body:not(.theme-dark) .hide-theme-light {
     background-color: $dark-mode-darken;
   }
 
-  .avatar {
-    --#{$prefix}avatar-bg: #{$dark-mode-lighten};
+  .timeline-event-icon {
+    background-color: #{$dark-mode-lighten};
   }
 
   .markdown,

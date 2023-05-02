@@ -55,7 +55,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=general" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-cog-outline fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('General'); ?></div>
                     <small class="text-muted"><?php _e('Make basic settings for your website'); ?></small>
@@ -67,7 +67,7 @@ if (isset($_GET['group']) and $_GET['group']) {
         <?php if (mw()->ui->disable_marketplace != true): ?>
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=updates" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1 me-2"></i>
+                <div class="icon-holder"><i class="mdi mdi-flash-outline fs-1"></i>
                     <span class="mw-update-required"></span>
 
                 </div>
@@ -81,7 +81,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=email" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-email-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-email-outline fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('E-mail'); ?></div>
                     <small class="text-muted"><?php _e('Email settings'); ?></small>
@@ -91,7 +91,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=template" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-text-box-check-outline fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Template'); ?></div>
                     <small class="text-muted"><?php _e('Change or manage the theme you use'); ?></small>
@@ -101,7 +101,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=advanced" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-keyboard-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-keyboard-outline fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Advanced'); ?></div>
                     <small class="text-muted"><?php _e('Additional settings'); ?></small>
@@ -111,7 +111,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=files" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-file-cabinet fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Files'); ?></div>
                     <small class="text-muted"><?php _e('File management'); ?></small>
@@ -121,7 +121,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=users" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-login fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-login fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Login & Register'); ?></div>
                     <small class="text-muted"><?php _e('Manage the access control to your website'); ?></small>
@@ -131,7 +131,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=language" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-translate fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-translate fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Language'); ?></div>
                     <small class="text-muted"><?php _e('Choice of language and translations'); ?></small>
@@ -141,7 +141,7 @@ if (isset($_GET['group']) and $_GET['group']) {
 
         <div class="card-header col-12 col-md-6 col-xxl-4 p-0">
             <a href="<?php echo admin_url();?>settings?group=privacy" class=" d-flex js-website-settings-link settings-holder-wrapper">
-                <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1 me-2"></i></div>
+                <div class="icon-holder"><i class="mdi mdi-shield-edit-outline fs-1"></i></div>
                 <div class="info-holder card-title">
                     <div class="settings-info-holder-title"><?php _e('Privacy Policy'); ?></div>
                     <small class="text-muted"><?php _e('Privacy Policy and GDPR settings'); ?></small>
