@@ -19,11 +19,19 @@ must_have_access();
 
     <div class="mb-3">
         <label class="form-label"><?php _e("Enable statistics"); ?></label>
-        <small class="text-muted mb-3 d-block"><?php _e("Show or hide statistic module from the dashboard"); ?></small>
 
-        <label class="form-check form-switch" style="width: 100%;">
-            <input type="checkbox" id="stats_disabled1" name="stats_disabled" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
-        </label>
+
+
+
+
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_is_disabled1" name="stats_disabled" class="mw_option_field form-check-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_disabled1"><?php _e("Enable the statistics module."); ?></label>
+        </div>
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_is_disabled2" name="stats_disabled" class="mw_option_field form-check-input" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_disabled2"><?php _e("Disable the statistics module."); ?></label>
+        </div>
     </div>
 
     <div class="row">
