@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Admin;
+namespace MicroweberPackages\Admin\Services;
 
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Admin\Events\ServingAdmin;
