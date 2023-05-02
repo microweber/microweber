@@ -562,20 +562,24 @@ $.fn.serializeAssoc = function() {
                 el.innerHTML = el.dataset.content;
             }
         });
-        // new TomSelect(itm, settings);
+         new TomSelect(itm, settings);
     }
     const _customDropdowns = () => {
 
 
-        let all = document.querySelectorAll('select.selectpicker:not(.mw--select-ready)'),
+        let all = document.querySelectorAll('select.selectpicker:not(.mw--select-ready),select.tomselect:not(.mw--select-ready)'),
             i = 0, l = all.length;
         for( ; i < l; i++ ) {
             let itm = all[i];
             itm.classList.add('mw--select-ready');
             itm.style.display = 'none';
-
-            // _customDropdownSelectPickerAdaper(itm)
-              $(itm).selectpicker();
+            if(itm.classList.contains('tomselect')) {
+                _customDropdownSelectPickerAdaper(itm)
+            } else if(itm.classList.contains('selectpicker')) {
+                $(itm).selectpicker();
+            }
+        
+              
         }
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
