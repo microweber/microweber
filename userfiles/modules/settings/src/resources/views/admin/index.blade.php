@@ -18,7 +18,7 @@
 
 @section('content')
 
-<div class="col-xxl-9 col-md-10 col-12 px-md-0 px-2 mx-auto">
+<div class="col-xxl-9 col-md-11 col-12 px-md-0 px-2 mx-auto">
     <module type="settings/group/website_group" />
 
     <?php  if (get_option('shop_disabled', 'website') != 'y') { ?>
