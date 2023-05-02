@@ -7,34 +7,6 @@ must_have_access();
     mw.require('options.js');
 </script>
 
-
-
-<div id="stats-units-setup mb-3">
-
-    <div class="form-check form-switch my-3" style="width: 100%;">
-        <label class="form-label d-block">
-            <input type="checkbox" id="stats_disabled1" name="stats_disabled" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-            <span class="form-check-label"><?php _e("Enable statistics"); ?></span>
-        </label>
-    </div>
-
-    <div class="form-check form-switch my-3" style="width: 100%;">
-        <label class="form-label d-block">
-            <input type="checkbox" id="stats_is_buffered1" name="stats_is_buffered" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-            <span class="form-check-label"><?php _e("Tracking settings"); ?></span>
-        </label>
-    </div>
-
-
-    <div class="form-check form-switch my-3" style="width: 100%;">
-        <label class="form-label d-block">
-            <input type="checkbox" id="stats_views_counter_live_stats1" name="stats_views_counter_live_stats" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_views_counter_live_stats', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-            <span class="form-check-label"><?php _e("Views counter"); ?></span>
-        </label>
-    </div>
-
-
-</div>
 <script type="text/javascript">
     $(document).ready(function () {
         mw.options.form('#stats-units-setup', function () {
@@ -42,3 +14,45 @@ must_have_access();
         });
     });
 </script>
+
+<div id="stats-units-setup">
+    
+    <div class="mb-3">
+        <label class="form-label"><?php _e("Enable statistics"); ?></label>
+        <small class="text-muted mb-2 d-block"><?php _e("Show or hide statistic module from the dashboard"); ?></small>
+
+        <label class="form-check form-switch" style="width: 100%;">
+            <input type="checkbox" id="stats_disabled1" name="stats_disabled" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+        </label>
+    </div>
+
+    <div class="row">
+        <label class="form-label d-block"><?php _e("Tracking settings"); ?></label>
+
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_is_buffered1" name="stats_is_buffered" class="mw_option_field form-check-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_buffered1"><?php _e("Live"); ?></label>
+        </div>
+
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_is_buffered2" name="stats_is_buffered" class="mw_option_field form-check-input" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_is_buffered', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_is_buffered2"><?php _e("Buffered (records every 1 minute)"); ?></label>
+        </div>
+    </div>
+
+
+    <div class="row mt-3">
+        <label class="form-label d-block"><?php _e("Views counter"); ?></label>
+
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_views_counter_live_stats1" name="stats_views_counter_live_stats" class="mw_option_field form-check-input" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_views_counter_live_stats', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_views_counter_live_stats1"><?php _e("Cached"); ?></label>
+        </div>
+
+        <div class="custom-control custom-radio d-inline-block me-2 my-1">
+            <input type="radio" id="stats_views_counter_live_stats2" name="stats_views_counter_live_stats" class="mw_option_field form-check-input" data-option-group="site_stats" value="1" type="radio" <?php if (get_option('stats_views_counter_live_stats', 'site_stats') == 1): ?> checked="checked" <?php endif; ?> >
+            <label class="custom-control-label" for="stats_views_counter_live_stats2"><?php _e("Live"); ?></label>
+        </div>
+    </div>
+
+</div>
