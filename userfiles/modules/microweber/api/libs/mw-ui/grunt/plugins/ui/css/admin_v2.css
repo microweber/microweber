@@ -8795,7 +8795,7 @@ small.text-muted {
   min-height: 45px;
   color: var(--tblr-body-color); }
 
-.input-group {
+.input-group, input {
   color: var(--tblr-body-color); }
 
 .btn:not(.btn-sm) {
@@ -8807,6 +8807,10 @@ small.text-muted {
   border: none; }
   .btn.btn-link:hover, .btn.btn-link:active {
     background-color: transparent; }
+
+.tab-content {
+  padding-right: 0;
+  padding-left: 0; }
 
 .form-switch .form-check-input {
   height: 1.25rem;
