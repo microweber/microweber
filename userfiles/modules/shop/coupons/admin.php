@@ -59,8 +59,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
-            <div class="card-header">
+            <div class="card-header d-flex align-items-center justify-content-between">
                 <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+
+                <div class="form-group mb-0">
+                    <div class="custom-control custom-switch m-0">
+                        <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
+
+                        <label class="custom-control-label" for="enable_coupons"><?php _e("Enable coupons"); ?></label>
+                    </div>
+                </div>
             </div>
 
                 <?php if ($from_live_edit): ?>
@@ -86,13 +94,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                                 </script>
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-switch m-0">
-                                            <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
 
-                                            <label class="custom-control-label" for="enable_coupons"><?php _e("Enable coupons support"); ?></label>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group">
                                         <a href="javascript:;" class="btn btn-primary btn-sm btn-rounded js-add-new-coupon mb-2"><i class="fa fa-plus-circle"></i> <?php _e('Add new'); ?></a>

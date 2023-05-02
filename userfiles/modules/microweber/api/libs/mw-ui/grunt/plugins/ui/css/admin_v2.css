@@ -8808,6 +8808,10 @@ small.text-muted {
   .btn.btn-link:hover, .btn.btn-link:active {
     background-color: transparent; }
 
+.tab-content {
+  padding-right: 0;
+  padding-left: 0; }
+
 .form-switch .form-check-input {
   height: 1.25rem;
   width: 2.4rem; }
