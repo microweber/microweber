@@ -7,20 +7,14 @@ must_have_access();
     mw.require('options.js');
 </script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        mw.options.form('#stats-units-setup', function () {
-            mw.notification.success("<?php _ejs("Saved"); ?>");
-        });
-    });
-</script>
+
 
 <div id="stats-units-setup mb-3">
 
     <div class="form-check form-switch my-3" style="width: 100%;">
         <label class="form-label d-block">
             <input type="checkbox" id="stats_disabled1" name="stats_disabled" class="mw_option_field form-check-input me-2" data-value-checked="y" data-value-unchecked="n" data-option-group="site_stats" value="0" type="radio" <?php if (get_option('stats_disabled', 'site_stats') == 0): ?> checked="checked" <?php endif; ?> >
-            <span class="form-check-label"><?php _e("Enable Statistics"); ?></span>
+            <span class="form-check-label"><?php _e("Enable statistics"); ?></span>
         </label>
     </div>
 
@@ -41,3 +35,10 @@ must_have_access();
 
 
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        mw.options.form('#stats-units-setup', function () {
+            mw.notification.success("<?php _ejs("Saved"); ?>");
+        });
+    });
+</script>
