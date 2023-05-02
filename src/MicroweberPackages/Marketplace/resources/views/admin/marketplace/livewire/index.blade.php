@@ -25,7 +25,7 @@
                         </div>
                         Reload Packages
                     </button>
-                    <button type="button" class="btn btn-outline-success" onclick="mw.admin.admin_package_manager.show_licenses_modal();">Licenses</a>
+                    <button type="button" class="btn btn-outline-success" onclick="mw.admin.admin_package_manager.show_licenses_modal();">Licenses</button>
                 </div>
             </div>
 

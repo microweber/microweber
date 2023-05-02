@@ -3,20 +3,39 @@
 namespace MicroweberPackages\Module\Http\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListModules extends Component
 {
-    public $search;
+    use WithPagination;
+
+    public $keyword = '';
+
+    public $queryString = [
+        'keyword',
+        'page',
+    ];
+
+
+    public function reloadModules()
+    {
+        mw_post_update();
+    }
+
+    public function filter()
+    {
+        $this->gotoPage(1);
+    }
 
     public function render()
     {
         $modules = \MicroweberPackages\Module\Module::query();
 
-        if ($this->search) {
-            $modules->where('name', 'like', '%' . $this->search . '%');
+        if ($this->keyword) {
+            $modules->where('name', 'like', '%' . $this->keyword . '%');
         }
 
-        $modules = $modules->paginate(100);
+        $modules = $modules->paginate(20);
 
         return view('module::livewire.admin.list-modules', [
             'modules' => $modules
