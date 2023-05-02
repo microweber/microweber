@@ -480,7 +480,7 @@ table[class*='mw-wysiwyg-table'].valign td {
   background: #F3F3F3;
   border-color: #D7D7D7; }
 
-.semi_hidden {
+.semi_hidden { 
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important; }
@@ -8992,5 +8992,11 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 
 .mw-dropdown-default .mw-dropdown-content li:hover {
   background-color: #efefef; }
+
+.navbar-change-theme-icon-light #navbar-change-theme-icon-light {
+  display: flex !important; }
+
+.navbar-change-theme-icon-dark #navbar-change-theme-icon-dark {
+  display: flex !important; }
 
 /*# sourceMappingURL=admin_v2.css.map */
