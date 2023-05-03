@@ -93,41 +93,20 @@ class ContentManager
 
     function content_id()
     {
-        if ($this->app->template->getContentId()) {
-            return $this->app->template->getContentId();
-        }
+        return $this->app->template->getContentId();
 
-        if ($this->post_id()) {
-            return $this->post_id();
-        } elseif ($this->product_id()) {
-            return $this->product_id();
-        } elseif ($this->page_id()) {
-            return $this->page_id();
-        } elseif (defined('CONTENT_ID')) {
-            return CONTENT_ID;
-        }
+
     }
 
     function category_id()
     {
-        if ($this->category_id) {
-            return $this->category_id;
-        }
-        if (defined('CATEGORY_ID')) {
-            return CATEGORY_ID;
-        }
+        return $this->app->template->getCategoryId();
 
     }
 
     function page_id()
     {
-        if ($this->app->template->getPageId()) {
-            return $this->app->template->getPageId();
-        }
-
-        if (defined('PAGE_ID')) {
-            return PAGE_ID;
-        }
+        return $this->app->template->getPageId();
     }
 
 

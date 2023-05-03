@@ -881,5 +881,14 @@ class Template
     {
         return $this->adapter_current->getPostId();
     }
+    public function getCategoryId()
+    {
+        return $this->adapter_current->getCategoryId();
+    }
+
+    public function getMainPageId()
+    {
+        return $this->adapter_current->getMainPageId();
+    }
 
 }

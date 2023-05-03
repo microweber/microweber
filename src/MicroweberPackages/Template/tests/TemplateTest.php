@@ -118,7 +118,7 @@ class TemplateTest extends TestCase
 
     public function testTemplateNameAndDirVarsForContent()
     {
-        $template_name = 'my-test-template';
+        $templateName = 'my-test-template';
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
@@ -129,7 +129,7 @@ class TemplateTest extends TestCase
             'layout_file' => 'clean.php',
             'title' => 'PageVarsTest',
             'url' => 'PageVarsTest',
-            'active_site_template' => $template_name,
+            'active_site_template' => $templateName,
             'is_active' => 1,
         ]);
 
@@ -141,10 +141,25 @@ class TemplateTest extends TestCase
         $this->assertEquals($contentId, $pageId);
         $this->assertEquals($newCleanPageId, $contentId);
         $this->assertEquals($newCleanPageId, $pageId);
+        $this->assertEquals(0, category_id());
+        $this->assertTrue(is_page());
+        $this->assertFalse(is_post());
+        $this->assertFalse(is_category());
 
-        $template_dir = template_dir();
-        $template_dir_expected = templates_path() .$template_name . DS;
-        $this->assertEquals($template_dir_expected, $template_dir);
+
+
+        $templateDir = template_dir();
+        $templateDirExpected = templates_path() .$templateName . DS;
+        $this->assertEquals($templateDirExpected, $templateDir);
+
+
+        $newCleanCategoryId = save_category([
+            'title' => 'Test Category for post vars' . uniqid(),
+            'rel_type' => 'content',
+            'rel_id' => $newCleanPageId,
+        ]);
+        $this->assertTrue($newCleanCategoryId > 0);
+
 
         $newCleanPagePostId = save_content([
             'subtype' => 'post',
@@ -152,21 +167,79 @@ class TemplateTest extends TestCase
             'title' => 'PostVarsTest',
             'url' => 'PostVarsTest',
             'is_active' => 1,
-            // 'categories' => 'sub category test for post vars',
+            'categories' => [$newCleanCategoryId],
             'parent' => $newCleanPageId,
         ]);
+
+        $contentCategories = content_categories($newCleanPagePostId);
+        $this->assertEquals($newCleanCategoryId,$contentCategories[0]['id']);
+
+
+
         app()->content_manager->define_constants(['id' => $newCleanPagePostId]);
 
-        $template_dir = template_dir();
-        $template_dir_expected = templates_path() .$template_name . DS;
-        $this->assertEquals($template_dir_expected, $template_dir);
+
+        $templateDir = template_dir();
+        $templateDirExpected = templates_path() .$templateName . DS;
+        $this->assertEquals($templateDirExpected, $templateDir);
 
 
         $this->assertEquals($newCleanPagePostId, post_id());
         $this->assertEquals($newCleanPagePostId, content_id());
         $this->assertEquals($newCleanPageId, page_id());
+        $this->assertEquals($newCleanCategoryId, category_id());
         $this->assertEquals(0, product_id());
+        $this->assertFalse(is_page());
+        $this->assertTrue(is_post());
+        $this->assertTrue(is_category());
+        $this->assertFalse(is_product());
 
+
+
+
+        // test post in subpage of page
+        $newSubPageId = save_content([
+            'parent' =>$newCleanPageId,
+            'subtype' => 'dynamic',
+            'content_type' => 'page',
+            'layout_file' => 'clean.php',
+            'title' => 'PageVarsTest-sub',
+            'active_site_template' => $templateName,
+            'is_active' => 1,
+        ]);
+
+
+        $newCleanCategoryIdSub = save_category([
+            'title' => 'Test Category for post sub vars-' . uniqid(),
+            'rel_type' => 'content',
+            'rel_id' => $newSubPageId,
+        ]);
+
+        $newCleanPostSubId = save_content([
+            'subtype' => 'post',
+            'content_type' => 'post',
+            'title' => 'PostVarsTestSub sub',
+            'is_active' => 1,
+            'categories' => [$newCleanCategoryIdSub],
+            'parent' => $newSubPageId,
+        ]);
+
+
+        app()->content_manager->define_constants(['id' => $newCleanPostSubId]);
+
+
+
+        $this->assertEquals($newCleanPostSubId, post_id());
+
+
+        $this->assertEquals($newCleanPostSubId, content_id());
+        $this->assertEquals($newSubPageId, page_id());
+        $this->assertEquals($newCleanCategoryIdSub, category_id());
+        $this->assertEquals(0, product_id());
+        $this->assertFalse(is_page());
+        $this->assertTrue(is_post());
+        $this->assertTrue(is_category());
+        $this->assertFalse(is_product());
 
 
     }

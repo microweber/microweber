@@ -11,13 +11,13 @@ class MicroweberTemplate
     public $app;
 
 
-    public int $main_page_id =0 ;
-    public int $post_id =0 ;
-    public int $category_id =0 ;
-    public int $content_id =0 ;
-    public int $product_id =0 ;
+    public int $main_page_id = 0;
+    public int $post_id = 0;
+    public int $category_id = 0;
+    public int $content_id = 0;
+    public int $product_id = 0;
 
-    public int $page_id =0 ;
+    public int $page_id = 0;
     public string $template_name;
 
     /**
@@ -1018,69 +1018,48 @@ class MicroweberTemplate
                     $content = $page;
 
                     $current_categorys = $this->app->category_manager->get_for_content($page['id']);
-                    if (!empty($current_categorys)) {
+
+                    if (!empty($current_categorys) and isset($current_categorys[0])){
                         $current_category = reset($current_categorys);
 
-                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                            define('CATEGORY_ID', intval($current_category['id']));
-                            $this->category_id = intval($current_category['id']);
 
-                        }
+                        $this->category_id = intval($current_category['id']);
                     }
 
                     $page = $this->app->content_manager->get_by_id($page['parent']);
 
-                    if (defined('POST_ID') == false) {
-                        define('POST_ID', intval($content['id']));
-                        $this->post_id = intval($content['id']);
-
-                    }
+                    $this->post_id = intval($content['id']);
+                    $this->product_id = 0;
 
                     if (is_array($page) and $page['content_type'] == 'product') {
-                        if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID', intval($content['id']));
-                            $this->product_id = intval($content['id']);
-                        }
+                        $this->product_id = intval($content['id']);
+                        $this->post_id = 0;
+
                     }
                 }
             } else {
                 $content = $page;
-                if (defined('POST_ID') == false) {
-                    define('POST_ID', false);
-                }
-            }
-
-            if (defined('ACTIVE_PAGE_ID') == false) {
-                if (!isset($page['id'])) {
-                    $page['id'] = 0;
-                }
-                define('ACTIVE_PAGE_ID', $page['id']);
-            }
-
-            if (!defined('CATEGORY_ID')) {
-                //define('CATEGORY_ID', $current_category['id']);
+                $this->page_id = intval($content['id']);
             }
 
 
-            if (defined('CONTENT_ID') == false and isset($content['id'])) {
-                define('CONTENT_ID', $content['id']);
-                $this->content_id = intval($content['id']);
 
-            } else if (isset($content['id'])) {
-                $this->content_id = intval($content['id']);
+
+
+
+            if ( isset($content['id'])) {
+                 $this->content_id = intval($content['id']);
+
             }
-            if (isset($content['content_type']) && $content['content_type'] == 'page') {
-                if (!defined('PAGE_ID') == false and isset($content['id'])) {
-                    define('PAGE_ID', $page['id']);
-                    $this->page_id = intval($content['id']);
-                } elseif (isset($content['id'])) {
+            if (isset($content['content_type']) and $content['content_type'] == 'page') {
+                if (isset($content['id'])) {
                     $this->page_id = intval($content['id']);
                 }
             }
 
-            if (isset($content['id']) and isset($content['content_type']) && $content['content_type'] != 'page') {
-                if (isset($page['parent']) and $page['parent']) {
-                    $this->page_id = intval($page['parent']);
+            if (isset($content['id']) and isset($content['content_type']) and $content['content_type'] != 'page') {
+                if (isset($content['parent']) and $content['parent']) {
+                    $this->page_id = intval($content['parent']);
                 }
                 if($content['content_type'] == 'post'){
                     $this->post_id = intval($content['id']);
@@ -1098,11 +1077,10 @@ class MicroweberTemplate
                 if (isset($parent_page_check_if_inherited['layout_file']) and $parent_page_check_if_inherited['layout_file'] == 'inherit') {
                     $inherit_from_id = $this->app->content_manager->get_inherited_parent($parent_page_check_if_inherited['id']);
 
-                    if (defined('MAIN_PAGE_ID') == false) {
-                        define('MAIN_PAGE_ID', $inherit_from_id);
-                        $this->main_page_id = intval($inherit_from_id);
 
-                    }
+if($inherit_from_id){
+                    $this->main_page_id = intval($inherit_from_id);
+}
                 }
 
                 //$root_parent = $this->get_inherited_parent($page['parent']);
@@ -1138,10 +1116,8 @@ class MicroweberTemplate
             }
         }
 
-        if (defined('ACTIVE_PAGE_ID') == false) {
-            define('ACTIVE_PAGE_ID', false);
-        }
-        if (defined('CATEGORY_ID') == false) {
+
+        if (! $this->category_id and !defined('CATEGORY_ID')) {
             $cat_id = $this->app->category_manager->get_category_id_from_url();
             if ($cat_id != false) {
                 define('CATEGORY_ID', intval($cat_id));
@@ -1149,36 +1125,18 @@ class MicroweberTemplate
 
             }
         }
-        if (!defined('CATEGORY_ID')) {
-            define('CATEGORY_ID', false);
-        };
-        if (defined('PAGE_ID') == false) {
+
+        if (!$this->page_id  and !defined('PAGE_ID')) {
             $getPageSlug = $this->app->permalink_manager->slug($ref_page, 'page');
             $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
             if ($pageFromSlug) {
                 $page = $pageFromSlug;
                 $content = $pageFromSlug;
-                define('PAGE_ID', intval($page['id']));
-                $this->page_id = intval($page['id']);
+                 $this->page_id = intval($page['id']);
 
             }
         }
 
-
-        if (defined('CONTENT_ID') == false) {
-            define('CONTENT_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }
 
         if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
             $the_active_site_template = $page['active_site_template'];
@@ -1338,22 +1296,25 @@ class MicroweberTemplate
             define('LAYOUTS_URL', $layouts_url);
         }
 
-        if (defined('CATEGORY_ID') == false) {
-            define('CATEGORY_ID', false);
+
+
+        if (!defined('CATEGORY_ID')) {
+            define('CATEGORY_ID',  $this->category_id);
         }
 
 
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
+        if (!defined('PAGE_ID')) {
+            define('PAGE_ID',  $this->page_id);
         }
 
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
+        if (!defined('POST_ID')) {
+            define('POST_ID',  $this->post_id);
         }
 
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
+        if (!defined('MAIN_PAGE_ID') ) {
+            define('MAIN_PAGE_ID',  $this->main_page_id);
         }
+
 
         return true;
     }
