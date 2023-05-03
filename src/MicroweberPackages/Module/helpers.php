@@ -69,6 +69,17 @@ function module_info($module_name)
     return mw()->module_manager->info($module_name);
 }
 
+function module_icon_inline($module_name)
+{
+    $findModule = \MicroweberPackages\Module\Module::where('module', $module_name)->first();
+    if ($findModule) {
+        $icon = $findModule->getIconInline();
+        if ($icon) {
+            return $icon;
+        }
+    }
+}
+
 function module_name_decode($module_name)
 {
     $module_name = str_replace('__', '/', $module_name);
