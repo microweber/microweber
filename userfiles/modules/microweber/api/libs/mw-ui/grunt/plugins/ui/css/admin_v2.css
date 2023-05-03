@@ -8508,7 +8508,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 body:not(.theme-dark) .bg-azure-lt {
   background-color: var(--tblr-body-bg) !important; }
 
-body {
+body, .is_admin {
   font-family: var(--tblr-body-font-family); }
 
 .table-responsive, .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-skin-default .mw-dialog-container {
@@ -8796,8 +8796,8 @@ small.text-muted {
   min-height: 45px;
   color: var(--tblr-body-color); }
 
-.input-group, input, .custom-control, .nav-link {
-  color: var(--tblr-body-color); }
+.input-group, input, .custom-control, .nav-link, textarea {
+  color: var(--tblr-body-color) !important; }
 
 .btn:not(.btn-sm) {
   padding: 0.65rem 1.25rem;

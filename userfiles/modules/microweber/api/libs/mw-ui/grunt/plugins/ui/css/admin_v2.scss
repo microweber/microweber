@@ -19,7 +19,7 @@ body:not(.theme-dark) {
     }
 }
 
-body {
+body, .is_admin {
     font-family: var(--tblr-body-font-family);
 }
 
@@ -437,8 +437,8 @@ small.text-muted {
     color: var(--tblr-body-color);
 }
 
-.input-group, input, .custom-control, .nav-link  {
-    color: var(--tblr-body-color);
+.input-group, input, .custom-control, .nav-link, textarea  {
+    color: var(--tblr-body-color) !important;
 
 }
 

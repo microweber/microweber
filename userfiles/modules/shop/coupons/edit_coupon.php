@@ -35,17 +35,26 @@ if ($params['coupon_id'] !== 'false') {
 <form class="js-edit-coupon-form" action="<?php print api_url('coupons_save_coupon'); ?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
+
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
+        </div>
+        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
+    </div>
+
     <div class="form-group">
         <label class="form-label"><?php _e("Coupon name"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
-        <input type="text" name="coupon_name" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
+        <input type="text" name="coupon_name" required="required" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
         <label class="form-label"><?php _e("Code"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the discount code or generate it from the button bellow."); ?></small>
-        <input type="text" name="coupon_code" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
+        <input type="text" name="coupon_code" required="required" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
         <div class="js-field-message"></div>
         <br/>
         <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code"><?php _e("Generate New Promo Code"); ?></button>
@@ -55,16 +64,17 @@ if ($params['coupon_id'] !== 'false') {
     <div class="mb-4">
         <label class="form-label"><?php _e("Discount Type"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Choose the type of discount which can be fixed price or percentage of the price."); ?></small>
+
         <div class="form-selectgroup">
             <label class="form-selectgroup-item">
-                <input type="radio" name="discount_type" value="percentage" class="form-selectgroup-input js-discount-type" checked="">
+                <input type="radio" name="discount_type" value="percentage" class="form-selectgroup-input js-discount-type" <?php if ($data['discount_type'] == 'percentage'): ?>checked=""<?php endif; ?>>
                 <span class="form-selectgroup-label">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 96 960 960" width="24"><path d="M300 536q-58 0-99-41t-41-99q0-58 41-99t99-41q58 0 99 41t41 99q0 58-41 99t-99 41Zm0-80q25 0 42.5-17.5T360 396q0-25-17.5-42.5T300 336q-25 0-42.5 17.5T240 396q0 25 17.5 42.5T300 456Zm360 440q-58 0-99-41t-41-99q0-58 41-99t99-41q58 0 99 41t41 99q0 58-41 99t-99 41Zm0-80q25 0 42.5-17.5T720 756q0-25-17.5-42.5T660 696q-25 0-42.5 17.5T600 756q0 25 17.5 42.5T660 816Zm-444 80-56-56 584-584 56 56-584 584Z"/></svg>
                     <?php _e("Percentage"); ?>
                 </span>
             </label>
             <label class="form-selectgroup-item">
-                <input type="radio" name="discount_type" value="fixed_amount" class="form-selectgroup-input js-discount-type">
+                <input type="radio" name="discount_type" value="fixed_amount" class="form-selectgroup-input js-discount-type" <?php if ($data['discount_type'] == 'fixed_amount'): ?>checked=""<?php endif; ?>>
                 <span class="form-selectgroup-label">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 96 960 960" width="24"><path d="M640 536q17 0 28.5-11.5T680 496q0-17-11.5-28.5T640 456q-17 0-28.5 11.5T600 496q0 17 11.5 28.5T640 536Zm-320-80h200v-80H320v80ZM180 936q-34-114-67-227.5T80 476q0-92 64-156t156-64h200q29-38 70.5-59t89.5-21q25 0 42.5 17.5T720 236q0 6-1.5 12t-3.5 11q-4 11-7.5 22.5T702 305l91 91h87v279l-113 37-67 224H480v-80h-80v80H180Zm60-80h80v-80h240v80h80l62-206 98-33V476h-40L620 336q0-20 2.5-38.5T630 260q-29 8-51 27.5T547 336H300q-58 0-99 41t-41 99q0 98 27 191.5T240 856Zm240-298Z"/></svg>
                       <?php _e("Fixed Amount"); ?>
@@ -122,26 +132,18 @@ if ($params['coupon_id'] !== 'false') {
         <div class="js-field-message"></div>
     </div>
 
-    <div class="form-group">
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
-        </div>
-        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
-    </div>
-
     <hr class="thin">
 
     <div class="d-flex justify-content-end">
         <?php if (!$addNew) { ?>
-            <div>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>
-            </div>
+<!--            <div>-->
+<!--                <a class="btn btn-outline-danger" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
+<!--            </div>-->
         <?php } ?>
 
         <div>
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
-            <button type="button" class="btn btn-success btn-sm js-save-coupon"><?php _e("Save"); ?></button>
+            <button type="button" class="btn btn-outline-secondary" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-success js-save-coupon"><?php _e("Save"); ?></button>
         </div>
     </div>
 </form>
