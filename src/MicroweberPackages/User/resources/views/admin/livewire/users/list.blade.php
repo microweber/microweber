@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="row bg-white rounded">
+                <div class="row rounded">
                     <div class="col mb-3">
                         <label class="d-block mb-2">Sort By</label>
                         <div class="d-flex">
