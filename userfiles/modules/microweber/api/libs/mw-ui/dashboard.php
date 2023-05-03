@@ -43,19 +43,19 @@
 
             <div class="row d-flex justify-content-between">
                 <div class="col-6 col-sm d-flex align-items-center justify-content-center justify-content-sm-start">
-                    <i class="mdi mdi-eye mdi-24px text-muted"></i> <span class="text-primary mx-2">6</span> <span>Views</span>
+                    <i class="mdi mdi-eye mdi-24px text-muted"></i> <span class="  mx-2">6</span> <span>Views</span>
                 </div>
 
                 <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                    <i class="mdi mdi-account-multiple mdi-24px text-muted"></i> <span class="text-primary mx-2">1</span> <span>Visitors</span>
+                    <i class="mdi mdi-account-multiple mdi-24px text-muted"></i> <span class="  mx-2">1</span> <span>Visitors</span>
                 </div>
 
                 <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                    <i class="mdi mdi-shopping mdi-24px text-muted"></i> <span class="text-primary mx-2">0</span> <span>Orders</span>
+                    <i class="mdi mdi-shopping mdi-24px text-muted"></i> <span class="  mx-2">0</span> <span>Orders</span>
                 </div>
 
                 <div class="col-6 col-sm d-flex align-items-center justify-content-center">
-                    <i class="mdi mdi-comment-account mdi-24px text-muted"></i> <span class="text-primary mx-2">1</span> <span>Comments</span>
+                    <i class="mdi mdi-comment-account mdi-24px text-muted"></i> <span class="  mx-2">1</span> <span>Comments</span>
                 </div>
 
                 <div class="col-12 col-sm d-flex align-items-center  justify-content-center justify-content-sm-end">
