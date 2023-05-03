@@ -9,6 +9,7 @@
 
         <?php
         $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+        $moduleTypeForLegacyModule = module_name_decode($moduleType);
         $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $hasError = false;
         $output = false;
@@ -42,12 +43,20 @@
 
         ?>
 
+        @if(livewire_component_exists('microweber-module-'.$moduleTypeForComponent.'::live-edit'))
+                @livewire('microweber-module-'.$moduleTypeForComponent.'::live-edit', [
+                    'moduleId' => $moduleId,
+                    'moduleType' => $moduleType,
+                ])
+        @else
 
-        @livewire('microweber-module-'.$moduleTypeForComponent.'::live-edit', [
-            'moduleId' => $moduleId,
-            'moduleType' => $moduleType,
-        ])
 
+            @if(is_module($moduleTypeForLegacyModule))
+                <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}"/>
+            @endif
+
+
+        @endif
     </div>
 
 
@@ -63,6 +72,44 @@
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
             }
         })
+    </script>
+
+
+
+    <script>
+
+        var createAutoHeight = function () {
+            if (window.thismodal && thismodal.iframe) {
+                mw.tools.iframeAutoHeight(thismodal.iframe, 'now');
+            }
+            else if (mw.top().win.frameElement && mw.top().win.frameElement.contentWindow === window) {
+                mw.tools.iframeAutoHeight(mw.top().win.frameElement, 'now');
+            } else if (window.top !== window) {
+                mw.top().$('iframe').each(function () {
+                    try {
+                        if (this.contentWindow === window) {
+                            mw.tools.iframeAutoHeight(this, 'now');
+                        }
+                    } catch (e) {
+                    }
+                })
+            }
+        };
+
+
+
+
+        $(window).on('load', function () {
+
+            mw.interval('_settingsAutoHeight', function () {
+                if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                    createAutoHeight();
+                }
+            });
+
+        });
+
+
     </script>
 
 @endsection

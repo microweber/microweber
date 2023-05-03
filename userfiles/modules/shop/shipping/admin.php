@@ -33,9 +33,14 @@ $shipping_modules = get_modules("type=shipping_gateway");
         var formId = mw.id('pm');
 
 
+        var moduleId =formId;
+        var moduleType = mod + '/admin';
+
+
+
 
         var dialog = mw.top().dialogIframe({
-            url: '<?php print site_url() ?>module/?type='+mod+'/admin&admin=true&id=mw_admin_existing_modal&from_url=<?php print site_url() ?>',
+             url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType,
             title: $('.gateway-title', el).html(),
             id: 'mw_admin_existing_modal_shipping<?php print $params['id'] ?>',
 
