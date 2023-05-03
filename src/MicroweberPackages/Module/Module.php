@@ -44,6 +44,14 @@ class Module extends Model
         return $icon;
     }
 
+    public function getIconInline()
+    {
+        $icon = str_replace( '{SITE_URL}', '', $this->icon);
+        if (mb_strpos($icon, '.svg') !== false) {
+            echo file_get_contents($icon);
+        }
+    }
+
     public function register($module)
     {
   //      return app()->module_manager->register('order/list', 'MicroweberPackages\Order\Http\Controllers\OrdersController');;

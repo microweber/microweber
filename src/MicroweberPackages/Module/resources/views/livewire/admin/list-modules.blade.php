@@ -61,8 +61,10 @@
                 <div class="card" style="min-height:170px">
                     <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
                         <a href="{{module_admin_url($module->module)}}">
-                            <img src="{{$module->icon()}}" style="width:64px" />
-                            <h3 class="card-title pt-2 text-muted">
+                               <div class="mx-auto" style="width:50px;height:50px">
+                                   {!! $module->getIconInline() !!}
+                               </div>
+                               <h3 class="card-title pt-2 text-muted">
                                 {{str_limit(_e($module->name, true), 30)}}
                             </h3>
                         </a>
