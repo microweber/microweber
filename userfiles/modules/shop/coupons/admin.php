@@ -43,7 +43,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         //if (typeof(editModal) != 'undefined' && editModal.modal) {
         //    editModal.modal.remove();
         //}
-        window.location.href = window.location.href; 
+        window.location.href = window.location.href;
     }
 
     $(document).ready(function () {

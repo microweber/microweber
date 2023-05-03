@@ -108,7 +108,6 @@ function coupons_save_coupon($couponData = array())
 
     $couponData = xss_clean($couponData);
 
-
     if (!isset($couponData['is_active'])) {
         $couponData['is_active'] = 0;
     }
@@ -147,6 +146,14 @@ function coupons_save_coupon($couponData = array())
         $json['success_edit'] = true;
     } else {
         $json['error_message'] = $errorMessage;
+    }
+
+
+    if ($ok) {
+        $count = coupon_get_count();
+        if ($count == 1) {
+            save_option('enable_coupons', 1, 'shop');
+        }
     }
 
     return $json;
