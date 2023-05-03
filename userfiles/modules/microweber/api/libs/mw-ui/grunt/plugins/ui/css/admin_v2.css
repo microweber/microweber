@@ -8796,8 +8796,8 @@ small.text-muted {
   min-height: 45px;
   color: var(--tblr-body-color); }
 
-.input-group, input, .custom-control, .nav-link {
-  color: var(--tblr-body-color); }
+.input-group, input, .custom-control, .nav-link, textarea {
+  color: var(--tblr-body-color) !important; }
 
 .btn:not(.btn-sm) {
   padding: 0.65rem 1.25rem;

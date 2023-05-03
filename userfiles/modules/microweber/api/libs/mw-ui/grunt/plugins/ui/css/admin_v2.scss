@@ -437,8 +437,8 @@ small.text-muted {
     color: var(--tblr-body-color);
 }
 
-.input-group, input, .custom-control, .nav-link  {
-    color: var(--tblr-body-color);
+.input-group, input, .custom-control, .nav-link, textarea  {
+    color: var(--tblr-body-color) !important;
 
 }
 
