@@ -53,9 +53,9 @@ Import
 
 
 		</script>
-  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span> <span>
+  <span id="mw_uploader" class="  btn btn-primary"><span class="mw-icon-upload"></span> <span>
   <?php _e("Upload backup"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
-<div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">
+<div id="mw_uploader_loading" class="  btn btn-primary" style="display:none;">
   <?php _e("Uploading files"); ?>
 </div>

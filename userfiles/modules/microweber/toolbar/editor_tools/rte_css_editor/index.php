@@ -1655,7 +1655,7 @@ targetMw.$(targetMw.liveEditSelector).on('select', function(e, nodes){
             <div class="mw-accordion-content mw-ui-box-content">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Classes"); ?></label>
-                    <div class="mw-ui-field w100" id="classtags"></div>
+                    <div class="form-select  w100" id="classtags"></div>
                 </div>
 
             </div>

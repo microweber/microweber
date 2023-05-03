@@ -149,7 +149,7 @@ body {
 
         &:after {
             border: none;
-            content: url("data:image/svg+xml; utf8,<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
+            content: url("data:image/svg+xml; utf8,<svg fill='currentColor' xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
             transform: unset;
             display: flex;
             justify-content: center;
@@ -430,10 +430,15 @@ small.text-muted {
 }
 
 
-.form-select, .input-group, .dropdown-toggle {
+.form-select, .dropdown-toggle {
     padding: 0.65rem 2.25rem 0.65rem 0.75rem;
     min-height: 45px;
     color: var(--tblr-body-color);
+}
+
+.input-group, input, .custom-control {
+    color: var(--tblr-body-color);
+
 }
 
 .btn:not(.btn-sm) {
@@ -452,6 +457,10 @@ small.text-muted {
 
 }
 
+.tab-content {
+    padding-right: 0;
+    padding-left: 0;
+}
 
 .form-switch .form-check-input {
     height: 1.25rem;
@@ -490,7 +499,7 @@ small.text-muted {
 
     &:hover {
         //transform: scale(1.1);
-        background-color: #f1f5f9 !important;
+        background-color: var(--tblr-body-bg) !important;
         cursor: pointer;
         text-decoration: none;
 
@@ -663,7 +672,7 @@ small.text-muted {
         }
 
         &.wrapper-icon-statistics {
-            background-color: #efefef;
+            background-color: var(--tblr-body-bg);
 
         }
 
@@ -758,3 +767,53 @@ small.text-muted {
     }
 }
 
+
+
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu{
+    position: absolute;
+    background-color: var(--tblr-bg-surface);
+}
+
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item{
+    padding-inline-start: 10px;
+}
+
+
+.shipping-module-draggable-item {
+    .cursor-move-holder {
+        visibility: hidden;
+    }
+
+    &:hover {
+        .cursor-move-holder {
+            visibility: visible;
+        }
+    }
+
+}
+
+.nav-link:focus, .nav-link:hover {
+    color: var(--tblr-body-color);
+}
+
+body.theme-dark {
+
+    .mw-dialog-skin-default .mw-dialog-close {
+
+         &:hover {
+             &:after {
+                 filter: none;
+             }
+         }
+        &:after {
+
+
+                filter: invert(1);
+
+        }
+    }
+}
+
+.mw-ui-box-header {
+    background-color: var(--tblr-bg-surface-secondary);
+}

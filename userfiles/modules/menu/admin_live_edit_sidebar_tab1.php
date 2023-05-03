@@ -132,7 +132,7 @@ if ($menu_data) {
             <div class="control-group form-group">
                 <label class="mw-ui-label"><?php _e("Select the Menu you want show"); ?></label>
 
-                <select id="menu_selector_<?php print $params['id'] ?>" style="width: 100%;" name="menu_name" class="mw-ui-field mw_option_field" type="radio" onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');"
+                <select id="menu_selector_<?php print $params['id'] ?>" style="width: 100%;" name="menu_name" class="form-select  mw_option_field" type="radio" onchange="mw.menu_edit_items(this.value, '#items_list_<?php print $rand ?>');"
                         onblur="mw.menu_edit_items(this.value, '#items_list_<?php print$rand ?>');">
                     <?php foreach ($menus as $item): ?>
                         <?php if ($active_menu == false) {

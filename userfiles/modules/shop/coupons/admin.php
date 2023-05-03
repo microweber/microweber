@@ -36,12 +36,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     }
 
     function reload_coupon_after_save() {
-        mw.reload_module_parent('#<?php print $params['id'] ?>');
-        mw.reload_module('shop/coupons/edit_coupons');
-        window.parent.$(window.parent.document).trigger('shop.coupons.update');
-        if (typeof(editModal) != 'undefined' && editModal.modal) {
-            editModal.modal.remove();
-        }
+        //mw.reload_module_parent('#<?php //print $params['id'] ?>//');
+        //mw.reload_module_everywhere('shop/coupons/admin');
+        //mw.reload_module_everywhere('shop/coupons/edit_coupons');
+        //window.parent.$(window.parent.document).trigger('shop.coupons.update');
+        //if (typeof(editModal) != 'undefined' && editModal.modal) {
+        //    editModal.modal.remove();
+        //}
+        window.location.href = window.location.href;
     }
 
     $(document).ready(function () {
@@ -56,63 +58,79 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     mw.require("<?php print $config['url_to_module'];?>css/main.css");
 </script>
 
+<?php
+$coupon_get_count = coupon_get_count();
+?>
+
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
-            <div class="card-header">
+
+            <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
                 <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+
+                <?php
+                if ($coupon_get_count > 0) {
+                ?>
+                <a href="javascript:;" class="btn btn-primary js-add-new-coupon"><?php _e('Add new'); ?></a>
+                <?php
+                }
+                ?>
+
             </div>
+
+            <?php
+            if ($coupon_get_count > 0) {
+                ?>
+                <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
+                    <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
+                    &nbsp; <?php _e('Enable'); ?>
+                </label>
+            <?php
+            }
+            ?>
 
                 <?php if ($from_live_edit): ?>
                     <?php include 'admin_live_edit.php'; ?>
                 <?php else: ?>
 
 
+                <?php
+                    if ($coupon_get_count > 0) {
+                ?>
                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                    <a class="btn justify-content-center active" data-bs-toggle="tab" href="#list-coupons"><i class="mdi mdi-view-list mr-1"></i> <?php _e('List coupons'); ?></a>
-                    <a class="btn justify-content-center" data-bs-toggle="tab" href="#list-log-coupons"><i class="mdi mdi-cart-check mr-1"></i> <?php _e('Log coupons'); ?></a>
+                    <a class="btn justify-content-center active" data-bs-toggle="tab" href="#list-coupons"><?php _e('List coupons'); ?></a>
+                    <a class="btn justify-content-center" data-bs-toggle="tab" href="#list-log-coupons"> <?php _e('Used coupons'); ?></a>
                 </nav>
-
-                    <div class="tab-content py-3">
-                        <div class="tab-pane fade show active" id="list-coupons">
-                            <!-- Settings Content -->
-                            <div class="module-coupons-settings">
-                                <script type="text/javascript">
-                                    $(document).ready(function () {
-                                        mw.options.form('.<?php print $config['module_class'] ?>', function () {
-                                            mw.notification.success("<?php _ejs("Saved"); ?>.");
-                                        });
+                <div class="tab-content py-3">
+                    <div class="tab-pane fade show active" id="list-coupons">
+                        <!-- Settings Content -->
+                        <div class="module-coupons-settings">
+                            <script type="text/javascript">
+                                $(document).ready(function () {
+                                    mw.options.form('.<?php print $config['module_class'] ?>', function () {
+                                        mw.notification.success("<?php _ejs("Saved"); ?>.");
                                     });
-                                </script>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="form-group">
-                                        <div class="custom-control custom-switch m-0">
-                                            <input type="checkbox" name="enable_coupons" class="mw_option_field form-check-input" id="enable_coupons" data-option-group="shop" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_coupons', 'shop') == 1): ?>checked<?php endif; ?> />
-
-                                            <label class="custom-control-label" for="enable_coupons"><?php _e("Enable coupons support"); ?></label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <a href="javascript:;" class="btn btn-primary btn-sm btn-rounded js-add-new-coupon mb-2"><i class="fa fa-plus-circle"></i> <?php _e('Add new'); ?></a>
-                                    </div>
-                                </div>
-
-                                <module type="shop/coupons/edit_coupons"/>
-                            </div>
-                            <!-- Settings Content - End -->
+                                });
+                            </script>
+                            <module type="shop/coupons/edit_coupons"/>
                         </div>
-
-                        <div class="tab-pane fade" id="list-log-coupons">
-
-                            <module type="shop/coupons/log"/>
-
-                        </div>
-
+                        <!-- Settings Content - End -->
                     </div>
 
+                    <div class="tab-pane fade" id="list-log-coupons">
+                        <module type="shop/coupons/log"/>
+                    </div>
+
+                </div>
+                    <?php
+                    } else {
+                        include 'no-coupons.php';
+                    }
+                ?>
+
                 <?php endif; ?>
+
         </div>
     </div>
 

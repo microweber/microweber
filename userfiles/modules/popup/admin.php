@@ -120,8 +120,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
-            <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
+            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -187,7 +187,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <div>
                             <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
                                 <input type="hidden" class="mw_option_field" name="page_id" id="page_id_field"/>
-                                <input type="text" class="mw-ui-field inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
+                                <input type="text" class="form-select  inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
                                 <span class="mw-icon-dropdown"></span>
                                 <div class="mw-dropdown-content">
                                     <ul class="">

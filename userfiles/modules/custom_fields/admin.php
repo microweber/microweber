@@ -147,7 +147,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             </script>
 
             <div class="module-live-edit-settings">
-                <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
+                <div id="custom-field-editor" class="card" style="display: none">
                     <label class="mw-ui-label">
                         <small><?php _e("Edit"); ?> <b id="which_field"></b> <?php _e("Field"); ?></small>
                     </label>

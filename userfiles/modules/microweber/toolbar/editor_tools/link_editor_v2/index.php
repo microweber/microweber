@@ -273,12 +273,12 @@
 
     <div class="mw-flex-row">
         <div class="mw-flex-col-xs-4 mw-ui-btn-vertical-nav">
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="custom"><?php _e("Website URL"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="page"><?php _e("Page from My Website"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;" data-ctype="custom"><?php _e("Website URL"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;" data-ctype="page"><?php _e("Page from My Website"); ?></a>
 
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="content"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="file"><?php _e("File"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;" data-ctype="email"><?php _e("Email"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;" data-ctype="content"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;" data-ctype="file"><?php _e("File"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;" data-ctype="email"><?php _e("Email"); ?></a>
             <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;" data-ctype="section"><?php _e("Page Section"); ?></a>
             <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;" data-ctype="layout"><?php _e("Page Layout"); ?></a>
         </div>
@@ -352,7 +352,7 @@
             <div class="tab" data-ctype="content">
                 <div class="media-search-holder">
                     <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
-                        <input type="text" class="mw-ui-field inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
+                        <input type="text" class="form-select  inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
                         <span class="mw-icon-dropdown"></span>
                         <div class="mw-dropdown-content">
                             <ul class="">

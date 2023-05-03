@@ -161,7 +161,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td><textarea class="mw-ui-field w100" name="address"><?php print $client['address'] ?></textarea><span class="val"><?php print $client['address'] ?></span></td>
+                            <td><textarea class="form-select  w100" name="address"><?php print $client['address'] ?></textarea><span class="val"><?php print $client['address'] ?></span></td>
                         </tr>
                         </tbody>
                     </table>

@@ -9,11 +9,11 @@
             <h3>Default</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small</a>
             <a href="javascript:;" class="btn btn-link">Medium</a>
-            <a href="javascript:;" class="mw-ui-btn">Normal</a>
+            <a href="javascript:;" class="  btn btn-primary">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big">Big</a>
 
             <a href="javascript:;" class="mw-ui-btn disabled">Disabled</a>
-            <button class="mw-ui-btn" disabled>Disabled</button>
+            <button class="  btn btn-primary" disabled>Disabled</button>
 
             <h3>Invert</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-invert">Small</a>
@@ -56,14 +56,14 @@
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mai-website"></span> Small</a>
             <a href="javascript:;" class="btn btn-link"><span class="mai-website"></span> Medium</a>
-            <a href="javascript:;" class="mw-ui-btn"><span class="mai-website"></span> Normal</a>
+            <a href="javascript:;" class="  btn btn-primary"><span class="mai-website"></span> Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mai-website"></span> Big</a>
 
             <h3>Icon only</h3>
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-icon-gear"></span></a>
             <a href="javascript:;" class="btn btn-link"><span class="mw-icon-gear"></span></a>
-            <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+            <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-gear"></span></a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-gear"></span></a>
 
 
@@ -71,24 +71,24 @@
 
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=1896727020)"></span> Small</a>
             <a href="javascript:;" class="btn btn-link"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=270356512)"></span> Medium</a>
-            <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=664070448)"></span> Normal</a>
+            <a href="javascript:;" class="  btn btn-primary"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=664070448)"></span> Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=331172226)"></span> Big</a>
 
             <h3>Mixed</h3>
             <div class="mw-ui-btn-nav">
-                <a href="javascript:;" class="mw-ui-btn">Home</a>
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+                <a href="javascript:;" class="  btn btn-primary">Home</a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-gear"></span></a>
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div class="mw-ui-btn-nav">
-                <a href="javascript:;" class="mw-ui-btn">Home</a>
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-arrow-down-b"></span></a>
+                <a href="javascript:;" class="  btn btn-primary">Home</a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-arrow-down-b"></span></a>
             </div>
             <br><br>
             <div class="mw-ui-btn-nav">
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-magnify"></span></a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-magnify"></span></a>
                 <input type="text" class="mw-ui-field" placeholder="Search..." />
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-gear"></span></a>
             </div>
 
 

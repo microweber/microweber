@@ -828,7 +828,7 @@
                             <?php _e('Installation is completed'); ?>
                         </h2>
                         <br/>
-                        <a href="<?php print site_url() ?>" class="mw-ui-btn">
+                        <a href="<?php print site_url() ?>" class="  btn btn-primary">
                             <?php _e('Visit your site'); ?>
                         </a>
                         <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info">

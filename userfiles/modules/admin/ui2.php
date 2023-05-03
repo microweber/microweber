@@ -127,7 +127,7 @@
         <a class="mw-ui-btn mw-ui-btn-big active" href="#css">CSS Components</a>
         <a class="mw-ui-btn mw-ui-btn-big" href="#js">JavaScript Components</a>
     </div>
-    <div class="mw-ui-box mw-ui-box-content">
+    <div class="card">
         <ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal demonav" id="nav1">
 
         </ul>
@@ -202,9 +202,9 @@
             <h2>Dialog</h2>
             <br>
 
-            <button class="mw-ui-btn" onclick="mw.dialog({title:'Dialog title', height: 'auto', content:'Test content'});">Default</button>
-            <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: 'https://www.youtube.com/embed/L0gakjjel3E' });">Iframe</button>
-            <button class="mw-ui-btn" onclick="mw.dialogIframe({ url: '<?php print site_url(); ?>', autoHeight: true });">Iframe Auto height</button>
+            <button class="  btn btn-primary" onclick="mw.dialog({title:'Dialog title', height: 'auto', content:'Test content'});">Default</button>
+            <button class="  btn btn-primary" onclick="mw.dialogIframe({ url: 'https://www.youtube.com/embed/L0gakjjel3E' });">Iframe</button>
+            <button class="  btn btn-primary" onclick="mw.dialogIframe({ url: '<?php print site_url(); ?>', autoHeight: true });">Iframe Auto height</button>
 
 
         </div>

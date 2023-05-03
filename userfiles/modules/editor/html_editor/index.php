@@ -138,12 +138,12 @@
       <div class="mw-ui-col-container">
           <div class="mw-ui-btn-nav" id="custom_html_code_mirror_save">
 
-              <span onclick="format_code();" class="mw-ui-btn" ><?php _e('Format code'); ?></span>
-              <span onclick="mw.html_editor.apply();" class="mw-ui-btn" ><?php _e('Update'); ?></span>
+              <span onclick="format_code();" class="  btn btn-primary" ><?php _e('Format code'); ?></span>
+              <span onclick="mw.html_editor.apply();" class="  btn btn-primary" ><?php _e('Update'); ?></span>
               <span onclick="mw.html_editor.apply_and_save();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Update'); ?> <?php _e('and'); ?> <?php _e('save'); ?></span>
           </div>
           <div id="custom_html_code_mirror_container">
-                <textarea class="mw-ui-field w100" name="custom_html" id="custom_html_code_mirror"
+                <textarea class="form-select  w100" name="custom_html" id="custom_html_code_mirror"
                   option-group="template" placeholder="<?php _e('Type your HTML code here'); ?>"></textarea>
           </div>
 

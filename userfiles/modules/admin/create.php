@@ -17,15 +17,15 @@
 
                 <div class="mw-ui-field-holder">
                     <div class="mw-ui-label"><?php _e('Username'); ?></div>
-                    <input name="admin_username" type="text" required class="mw-ui-field w100"/>
+                    <input name="admin_username" type="text" required class="form-select  w100"/>
                 </div>
                 <div class="mw-ui-field-holder">
                     <div class="mw-ui-label"><?php _e('Email'); ?></div>
-                    <input name="admin_email" type="text" required class="mw-ui-field w100"/>
+                    <input name="admin_email" type="text" required class="form-select  w100"/>
                 </div>
                 <div class="mw-ui-field-holder">
                     <div class="mw-ui-label"><?php _e('Password'); ?></div>
-                    <input name="admin_password" type="password" required  class="mw-ui-field w100"/>
+                    <input name="admin_password" type="password" required  class="form-select  w100"/>
                 </div>
                 <div class="mw-ui-field-holder">
                     <input type="submit" value="Create Account" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right"/>

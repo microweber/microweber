@@ -1,5 +1,5 @@
 <div class="mw__example" data-tags="products list">
-    <div class="mw-ui-box mw-ui-box-content" data-view >
+    <div class="card" data-view >
 
     <div class="mw-flex-row text-center">
         <div class="mw-flex-col-xs-4">
@@ -11,7 +11,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
+                    <button type="button" class="  btn btn-primary"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
+                    <button type="button" class="  btn btn-primary"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div><div class="mw-flex-col-xs-4">
@@ -36,7 +36,7 @@
                     <p><span class="text-muted">$99.00</span></p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
 
-                    <button type="button" class="mw-ui-btn"><i class="mdi mdi-cart"></i> Add to cart</button>
+                    <button type="button" class="  btn btn-primary"><i class="mdi mdi-cart"></i> Add to cart</button>
                 </div>
             </div>
         </div>

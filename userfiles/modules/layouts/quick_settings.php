@@ -37,7 +37,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
     <div class="mw-flex-col-xs-12 ">
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Padding Top"); ?></label>
-            <select name="padding-top" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>">
+            <select name="padding-top" class="form-select  mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>">
                 <option value="" <?php if (!$padding_top) {echo 'selected';} ?>><?php _e("No Selected"); ?></option>
                 <?php if (isset($css_classes['padding-top'])): ?>
                     <?php foreach ($css_classes['padding-top'] as $key => $option): ?>
@@ -51,7 +51,7 @@ if ($padding_bottom === null OR $padding_bottom === false OR $padding_bottom == 
     <div class="mw-flex-col-xs-12 ">
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Padding Bottom"); ?></label>
-            <select name="padding-bottom" class="mw-ui-field mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>">
+            <select name="padding-bottom" class="form-select  mw_option_field mw-full-width" data-option-group="<?php print $params['id']; ?>">
                 <option value="" <?php if (!$padding_bottom) {echo 'selected';} ?>><?php _e("No Selected"); ?></option>
                 <?php if (isset($css_classes['padding-bottom'])): ?>
                     <?php foreach ($css_classes['padding-bottom'] as $key => $option): ?>

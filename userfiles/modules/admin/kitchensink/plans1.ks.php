@@ -1,5 +1,5 @@
 <div class="mw__example" data-tags="pricing table">
-    <div class="mw-ui-box mw-ui-box-content" data-view >
+    <div class="card" data-view >
 
 <div class="mw-flex-row text-center">
     <div class="mw-flex-col-xs-4">

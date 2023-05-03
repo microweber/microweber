@@ -156,7 +156,7 @@ if (isset($params['for_module_id'])): ?>
 
     <?php if (!empty($more)): ?>
         <?php if ($list_preview == false): ?>
-            <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
+            <div class="form-select  mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
                 <?php if (isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
                     <?php $p = get_content_by_id($params["rel_id"]); ?>
                     <?php if (isset($p['title'])): ?>
@@ -285,7 +285,7 @@ if (isset($params['for_module_id'])): ?>
         <?php endif; ?>
     <?php else : ?>
         <?php if (!isset($params['save_to_content_id']) and $suggest_from_rel == false and $list_preview == false): ?>
-            <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
+            <div class="form-select  mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
                 <div class="mw-custom-fields-from-page-title">
                     <span class="mw-custom-fields-from-page-title-text"><?php _e("You dont have any custom fields"); ?>.</span>
                 </div>

@@ -41,25 +41,35 @@ if ($supportedLanguages) {
 
 <div class="form-group text-center">
     <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
-        <select class="form-select"
+        <select class="form-select tomselect"
                 name="lang"
                 id="lang_selector_admin_footer"
                 data-width="100%"
+
                 data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
                 <?php foreach ($supportedLanguages as $language): ?>
 
                 <?php
-
                 $languageLocale = $language['locale'];
-                $languageDisplayName = $language['display_name'] . ' [' . $language['locale'] . ']';
+                $languageId = explode("_", $languageLocale);
+                $languageId = $languageId[1] or $languageId[0];
+                $languageId = strtolower($languageId);
+
+                if (!isset($language['language'])) {
+                    continue;
+                }
+
+                $languageDisplayName = $language['language'];
                 ?>
-            <option value="<?php print $languageLocale; ?>"
+            <option
+            value="<?php print $languageLocale; ?>"
+            data-custom-properties="<?php print '%3Cspan%20class%3D%22me-1 flag%20flag-country-'.$languageId.'%22%3E%3C%2Fspan%3E' . $languageDisplayName; ?>"
                     <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
-                    <?php echo $languageDisplayName; ?>
+
             </option>
             <?php endforeach; ?>
 
-            <option value="edit_languages_redirect">&#9998; Edit languages...</option>
+            <option value="edit_languages_redirect">Edit languages</option>
         </select>
     </div>
 </div>

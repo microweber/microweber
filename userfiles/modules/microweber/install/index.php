@@ -336,7 +336,7 @@
                     <?php _e("Database setup"); ?>
                 </h2>
             <?php else: ?>
-                <h2><span class="mw-ui-btn" onclick="$('#mw_db_setup_toggle').toggle();">
+                <h2><span class="  btn btn-primary" onclick="$('#mw_db_setup_toggle').toggle();">
                   <?php _e("Database setup"); ?>
                   </span></h2>
             <?php endif; ?>
@@ -497,7 +497,7 @@
         <?php _e("Installation is completed"); ?>
     </h2>
     <br/>
-    <a href="<?php print site_url() ?>" class="mw-ui-btn">
+    <a href="<?php print site_url() ?>" class="  btn btn-primary">
         <?php _e("Visit your site"); ?>
     </a>
     <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info">

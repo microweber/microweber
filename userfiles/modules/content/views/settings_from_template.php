@@ -188,7 +188,7 @@ if (!empty($template_config)) {
                                             });
                                         });
                                     </script>
-                                    <span id="data_<?php print $name; ?>" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload file<span id="data_<?php print $name; ?>_upload_info"></span></span></span>
+                                    <span id="data_<?php print $name; ?>" class="  btn btn-primary"><span class="ico iupload"></span><span>Upload file<span id="data_<?php print $name; ?>_upload_info"></span></span></span>
                                 <?php } else { ?>
                                 <input name="content_data[<?php print $name; ?>]" class="form-control" type="text" placeholder="<?php print $default_value ?>" value="<?php print $value ?>">
                                 <?php } ?>

@@ -28,8 +28,8 @@ if ($menu_name == false and isset($params['menu_name'])) {
 
 
 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-    <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
-    <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
+    <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Templates'); ?></a>
 </nav>
 
 <div class="tab-content py-3">
@@ -56,7 +56,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-menu-settings">
                 <?php include($config['path_to_module'] . 'admin_live_edit_sidebar_tab1.php'); ?>
@@ -71,7 +71,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates"/>
         </div>
     </div>

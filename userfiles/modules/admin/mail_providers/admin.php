@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <div class="mw-ui mw-ui-box-content">
-<div class="mw-ui-box mw-ui-box-content">
+<div class="card">
 <b><h3>Mail Providers Configuration</h3></b>
 <br />
 <div class="mw-ui-row">

@@ -1,5 +1,5 @@
 <div class="mw__example" data-tags="tree,navigation">
-<div class="mw-ui-box mw-ui-box-content" data-view  >
+<div class="card" data-view  >
     <div class="tree-example"></div>
     <script>
         $(document).ready(function(){

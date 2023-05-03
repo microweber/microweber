@@ -19,7 +19,7 @@ description: Autocomplete Search template
     <div class="mw-search-autocomplete-field-holder">
         <input type="text"
                id="search_field_<?php print $params['id'] . $rand ?>"
-               class="mw-ui-field w100"
+               class="form-select  w100"
                placeholder="<?php _e("Search"); ?>"
                onkeyup="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"
                onpaste="mw.autocompleteSearch(document.getElementById('search_box_holder_<?php print $params['id'] . $rand ?>'), this, event, 'search_results_holder_<?php print $params['id'] . $rand ?>');"

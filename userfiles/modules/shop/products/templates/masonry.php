@@ -118,7 +118,7 @@ if(!isset($tn[1])){
       <div class="product-price-holder clearfix">
         <?php if($show_fields == false or in_array('price', $show_fields)): ?>
         <?php if(isset($item['prices']) and is_array($item['prices'])){  ?>
-	    <?php 
+	    <?php
 		$vals2 = array_values($item['prices']);
 		$val1 = array_shift($vals2); ?>
         <span class="price"><?php print currency_format($val1); ?></span>
@@ -135,7 +135,7 @@ if(!isset($tn[1])){
         ?>
 
 				 <?php if(is_array( $item['prices'])): ?>
-                <button class="mw-ui-btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+                <button class="  btn btn-primary" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
                 <?php endif; ?>
         <?php endif; ?>
       </div>

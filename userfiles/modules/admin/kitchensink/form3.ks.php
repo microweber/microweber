@@ -3,14 +3,14 @@
         <div  data-view>
                 <div class="mw-flex-row">
                     <div class="mw-flex-col-md-6">
-                        <div class="mw-ui-box mw-ui-box-content">
+                        <div class="card">
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label">Email</label>
-                                <input type="email" class="mw-ui-field mw-full-width" placeholder="e.g.: hadid@example.com">
+                                <input type="email" class="form-select  mw-full-width" placeholder="e.g.: hadid@example.com">
                             </div>
                             <div class="mw-ui-field-holder">
                                 <label class="mw-ui-label">Password</label>
-                                <input type="password" class="mw-ui-field mw-full-width" placeholder="*****">
+                                <input type="password" class="form-select  mw-full-width" placeholder="*****">
                             </div>
                             <button type="submit" class="mw-ui-btn  mw-full-width">Submit</button>
                         </div>

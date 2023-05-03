@@ -101,7 +101,7 @@ mw.ok_import_file = function(){
   </select>
   <?php endif; ?>
   <input type="hidden" name="filename" id="mw_import_file" class="mw_import_file" />
-  <button onclick="mw.ok_import_file()" class="mw-ui-btn">
+  <button onclick="mw.ok_import_file()" class="  btn btn-primary">
   <?php _e("Start import"); ?>
   </button>
 </div>
@@ -109,7 +109,7 @@ mw.ok_import_file = function(){
 
 
 
- <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span>&nbsp;<span>
+ <span id="mw_uploader" class="  btn btn-primary"><span class="mw-icon-upload"></span>&nbsp;<span>
 
   <span id="mw_uploader_loading"></span>
 

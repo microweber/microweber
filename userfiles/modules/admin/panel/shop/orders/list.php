@@ -228,7 +228,7 @@
               <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span></label>
             <div style="font-size: 11px;color:#bbb;" onClick="mw.wysiwyg.select_all(this);"><?php print $recart_base.'?recart='.$item['session_id']; ?></div>
           </div>
-          <div class="mw-ui-btn-nav pull-right"> <a class="mw-ui-btn" href="javascript:mw.panel.shop.orders.delete_order('<?php print ($item['session_id']) ?>',1);">
+          <div class="mw-ui-btn-nav pull-right"> <a class="  btn btn-primary" href="javascript:mw.panel.shop.orders.delete_order('<?php print ($item['session_id']) ?>',1);">
             <?php _e("Delete cart"); ?>
             </a> <a class="mw-ui-btn mw-ui-btn-invert" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">
             <?php _e("Recover"); ?>

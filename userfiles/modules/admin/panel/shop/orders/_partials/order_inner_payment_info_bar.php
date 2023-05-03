@@ -7,7 +7,7 @@
     <li> <span>
       <?php _e("Is Paid"); ?>
       :</span>
-      <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
+      <select name="is_paid" class="form-select  mw-ui-field-medium mw-order-is-paid-change">
         <option value="1" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 1): ?> selected="selected" <?php endif; ?>>
         <?php _e("Yes"); ?>
         </option>
@@ -25,9 +25,9 @@
     <li> <span>
       <?php _e("Payment Amount"); ?>:</span> <?php print $ord['payment_amount']; ?> <?php print $ord['payment_currency']; ?>
       <?php
-		 
-				 
-				 
+
+
+
 				  ?>
       </li>
     <?php endif; ?>

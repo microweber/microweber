@@ -44,7 +44,7 @@ $(document).ready(function(){
       <?php print $data['description'] ?>
       </p>
       <?php endif; ?>
-    <a href="<?php print admin_url() ?>view:modules/add_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn">
+    <a href="<?php print admin_url() ?>view:modules/add_module:<?php print module_name_encode($data['module']) ?>" class="  btn btn-primary">
     <?php _e("Install"); ?>
     </a></div>
 </form>

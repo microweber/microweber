@@ -159,9 +159,9 @@
 
                     var htmlo = $(this).html();
                     var html = htmlo.replace(/\</g, '&lt;').replace(/ data-view=\"\"/g, '');
-                    var div = $('<div class="mw-ui-box mw-ui-box-content" data-source style="display:none;"><pre>' + html + '</pre></div>');
+                    var div = $('<div class="card" data-source style="display:none;"><pre>' + html + '</pre></div>');
                     $(this).append(div);
-                    $(this).prepend('<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"><a onclick="KS.demo(this)" class="mw-ui-btn active">Preview</a><a href="javascript:;" onclick="KS.demo(this)" class="mw-ui-btn">Source</a></div>');
+                    $(this).prepend('<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"><a onclick="KS.demo(this)" class="mw-ui-btn active">Preview</a><a href="javascript:;" onclick="KS.demo(this)" class="  btn btn-primary">Source</a></div>');
                     cp.onclick = function () {
                         KS.copy(htmlo);
                         mw.notification.success('Copied');

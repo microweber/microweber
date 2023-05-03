@@ -10,7 +10,7 @@ $loginAttempts = \MicroweberPackages\App\LoginAttempt::where('user_id', $user_id
     ->get();
 ?>
 
-<div class="mw-ui-box mw-ui-box-content" data-view="">
+<div class="card" data-view="">
     <table class="mw-ui-table mw-full-width mw-ui-table-basic">
         <thead>
         <tr>

@@ -288,7 +288,7 @@ if ($file and is_file($file)) {
 <div class="mw-ui-box" id="css-type-tabs">
     <div class="mw-ui-box-content" style="min-height: 300px">
 
-<textarea class="mw-ui-field w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
+<textarea class="form-select  w100 mw_option_field" dir="ltr" name="custom_css" id="custom_css_code_mirror" rows="30"
           option-group="template" placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $custom_css ?></textarea>
         <div class="mw-css-editor-c2a-nav" id="csssave">
             <span onclick="savecss();" class="mw-ui-btn mw-ui-btn-invert"><?php _e('Save'); ?></span>
@@ -300,7 +300,7 @@ if ($file and is_file($file)) {
 
 
 
-        <textarea class="mw-ui-field w100" dir="ltr" name="live_edit_custom_css"
+        <textarea class="form-select  w100" dir="ltr" name="live_edit_custom_css"
                   id="live_edit_custom_css_code_mirror" rows="30"
                   placeholder="<?php _e('Type your CSS code here'); ?>"><?php print $live_edit_css_content ?></textarea>
 

@@ -56,14 +56,14 @@
                         <div class="control-group form-group mw-ui-field-holder">
                             <!-- <label class="form-label">Enter new password</label>-->
                             <div class="controls">
-                                <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Choose a password"); ?>" name="pass1">
+                                <input type="password" class="form-select  field-full" placeholder="<?php _e("Choose a password"); ?>" name="pass1">
                             </div>
                         </div>
                         <div class="control-group form-group mw-ui-field-holder">
                             <!--        <label class="form-label">Repeat new password</label>
                             -->
                             <div class="controls">
-                                <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Repeat the password"); ?>" name="pass2">
+                                <input type="password" class="form-select  field-full" placeholder="<?php _e("Repeat the password"); ?>" name="pass2">
                             </div>
                         </div>
 

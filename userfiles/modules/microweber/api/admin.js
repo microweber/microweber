@@ -529,19 +529,20 @@ $.fn.serializeAssoc = function() {
             copyClassesToDropdown: false,
     		dropdownClass: 'dropdown-menu ts-dropdown',
     		optionClass:'dropdown-item',
-    		controlInput: '<input>',
+    		controlInput: false,
+            searchField: false,
     		render:{
     			item: function(data,escape) {
                     const content = (data.content || data.text);
     				if( data.customProperties ){
-    					return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + content + '</div>';
+    					return '<div><span class="dropdown-item-indicator">' + decodeURIComponent(data.customProperties) + '</span>' + content + '</div>';
     				}
     				return '<div>' + content + '</div>';
     			},
     			option: function(data,escape){
                     const content = (data.content || data.text);
     				if( data.customProperties ){
-    					return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + content + '</div>';
+    					return '<div><span class="dropdown-item-indicator">' + decodeURIComponent(data.customProperties) + '</span>' + content + '</div>';
     				}
     				return '<div>' + content + '</div>';
     			},

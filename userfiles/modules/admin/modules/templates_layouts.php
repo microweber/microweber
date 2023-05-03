@@ -256,8 +256,8 @@ $current_template = false;
             <?php $default_item_names = array(); ?>
 
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                <a class="btn btn-outline-secondary justify-content-center active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
-                <a class="btn btn-outline-secondary justify-content-center" data-bs-toggle="tab" href="#change-layout"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Change Layout'); ?></a>
+                <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _e('Settings'); ?></a>
+                <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#change-layout"><i class="mdi mdi-pencil-ruler mr-1"></i> <?php _e('Change Layout'); ?></a>
             </nav>
 
             <div class="tab-content py-3">
@@ -269,7 +269,7 @@ $current_template = false;
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-layouts-settings">
                         <div class="mw-mod-template-settings-holder">
-                            <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
+                            <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template" class="form-select  mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
                                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
                                 <?php foreach ($templates as $item): ?>

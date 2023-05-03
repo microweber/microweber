@@ -149,7 +149,7 @@
                                   class="mw-icon-close new-close tip" data-tip="<?php _e("Delete"); ?>"></span>
 
                             <b><?php print $item['shipping_country'] ?></b>
-                            <a class="mw-ui-btn"
+                            <a class="  btn btn-primary"
                                href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')">Edit</a>
 
 

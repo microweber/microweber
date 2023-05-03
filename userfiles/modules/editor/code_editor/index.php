@@ -56,7 +56,7 @@
       </a>
 
     </div>
-    <div class="mw-ui-box mw-ui-box-content">
+    <div class="card">
         <div class="code_editor_main_tab" style="display: block;">
             <module type="editor/html_editor" id="mw_code_html_editor"/>
         </div>
