@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="mw-ui-btn pull-right">Submit</button>
+        <button type="submit" class=" btn-btn-primary pull-right">Submit</button>
     </div>
 </div>
         </div>

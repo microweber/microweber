@@ -812,8 +812,12 @@ body.theme-dark {
 
         }
     }
+
+    .dashboard-icons-wrapper {
+        background-color: var(--tblr-body-bg) !important;
+    }
 }
 
-.mw-ui-box-header {
+.mw-ui-box-header, .mw-ui-box {
     background-color: var(--tblr-bg-surface-secondary);
 }

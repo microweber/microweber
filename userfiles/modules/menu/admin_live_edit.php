@@ -81,7 +81,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
             <input name="menu_id" type="hidden" value="0"/>
             <div style="overflow: hidden">
                 <input class="form-select  w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>"/>
-                <button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')"><?php _e("Add"); ?></button>
+                <button type="button" class=" btn-btn-primary pull-right" onclick="mw.menu_save('#add_new_menu')"><?php _e("Add"); ?></button>
             </div>
         </div>
 
