@@ -26,7 +26,9 @@ class ContentManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->loadMigrationsFrom(__DIR__ . DS . 'migrations');
+        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'api.php');
+        $this->loadRoutesFrom(__DIR__ . DS . 'routes' . DS . 'web.php');
         /**
          * @property ContentRepository   $content_repository
          */
@@ -64,5 +66,6 @@ class ContentManagerServiceProvider extends ServiceProvider
         });
 
 
-     }
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+    }
 }

@@ -40,11 +40,15 @@ class ContentTest extends TestCase
         $params = array(
             'title' => 'My test page',
             'content_type' => 'page',
+            'url' => 'my-page'.uniqid(),
 
             'is_active' => 1,);
         //saving
         $parent_page = save_content($params);
         $page_link = content_link($parent_page);
+        $expected = site_url() . $params['url'];
+        $this->assertEquals($expected,$page_link);
+
         $params = array(
             'title' => 'My test sub page',
             'content_type' => 'page',

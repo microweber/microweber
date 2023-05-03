@@ -245,7 +245,6 @@ class ContentManagerCrud extends Crud
 //
 //
 //        }
-//
 
 /*
         if (isset($params['category']) || isset($params['categories'])) {

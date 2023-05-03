@@ -3,7 +3,7 @@
 @section('content')
 
     <?php $zoom = 10; ?>
-<script>mw.lib.require('mwui_init');</script>
+
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -79,6 +79,7 @@ class LiveEditTest extends TestCase
             [],//files
             $_SERVER //server
         );
+
         $fieldSaved = $response->decodeResponseJson();
 
         $this->assertEquals($fieldSaved[0]['rel_type'], 'content');

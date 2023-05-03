@@ -2,7 +2,7 @@
 
     // file is moved to src/MicroweberPackages/Admin/resources/views/layouts/partials/header.blade.php
 
-
+return;
 ?><!DOCTYPE html>
 <html <?php print lang_attributes(); ?>>
 <head>
@@ -38,7 +38,7 @@
         mw.require("tree.js");
 
         mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
+
         mw.lib.require('flag_icons', true);
         mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
 

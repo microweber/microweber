@@ -36,9 +36,9 @@ class AdminServiceProvider extends ServiceProvider
     {
         View::addNamespace('admin', __DIR__.'/../resources/views');
 
-        \App::bind(AdminManager::class,function() {
-            return new AdminManager();
-        });
+//        \App::bind(AdminManager::class,function() {
+//            return new AdminManager();
+//        });
 
     }
 

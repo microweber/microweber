@@ -53,7 +53,6 @@ $data = mw()->log_manager->get($log_params);
     }
 </script>
 
-<script>mw.lib.require('mwui_init'); </script>
 
 <style>
     #admin_system_log {

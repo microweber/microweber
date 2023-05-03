@@ -153,10 +153,11 @@ class Template
         }
 
     }
+
     public function name()
     {
-        if(app()->content_manager->template_name){
-            return app()->content_manager->template_name;
+        if ($this->adapter_current->getTemplateName()) {
+            return $this->adapter_current->getTemplateName();
         }
         if (!defined('TEMPLATE_NAME')) {
             return $this->app->option_manager->get('current_template', 'template');
@@ -170,8 +171,8 @@ class Template
 
     public function dir($add = false)
     {
-        if(app()->content_manager->template_name){
-            return normalize_path(templates_path() . app()->content_manager->template_name . DS);
+        if ($this->adapter_current->getTemplateName()) {
+            return normalize_path(templates_path() . $this->adapter_current->getTemplateName() . DS);
         }
 
         if (defined('TEMPLATE_DIR')) {
@@ -210,7 +211,7 @@ class Template
                 include $file;
                 if (isset($config)) {
                     $config['dir_name'] = basename($dir);
-                    if(is_link(normalize_path($dir, false))){
+                    if (is_link(normalize_path($dir, false))) {
                         $config['is_symlink'] = true;
                     } else {
                         $config['is_symlink'] = false;
@@ -229,7 +230,7 @@ class Template
         $fieldTitle = '';
         $dataFields = $this->get_data_fields($type);
 
-        foreach ($dataFields as $dataFieldKey=>$dataFieldTitle) {
+        foreach ($dataFields as $dataFieldKey => $dataFieldTitle) {
             if ($field == $dataFieldKey) {
                 $fieldTitle = $dataFieldTitle;
                 break;
@@ -243,8 +244,8 @@ class Template
         $templateConfig = $this->get_config();
 
         $dataFields = [];
-        if (isset($templateConfig['data-fields-'.$type]) && !empty($templateConfig['data-fields-'.$type])) {
-            foreach ($templateConfig['data-fields-'.$type] as $templateField) {
+        if (isset($templateConfig['data-fields-' . $type]) && !empty($templateConfig['data-fields-' . $type])) {
+            foreach ($templateConfig['data-fields-' . $type] as $templateField) {
                 $dataFields[$templateField['name']] = $templateField['title'];
             }
         }
@@ -256,7 +257,7 @@ class Template
     {
         $fieldTitle = '';
         $editFields = $this->get_edit_fields($type);
-        foreach ($editFields as $editFieldKey=>$editFieldTitle) {
+        foreach ($editFields as $editFieldKey => $editFieldTitle) {
             if ($field == $editFieldKey) {
                 $fieldTitle = $editFieldTitle;
                 break;
@@ -270,8 +271,8 @@ class Template
         $templateConfig = $this->get_config();
 
         $editFields = [];
-        if (isset($templateConfig['edit-fields-'.$type]) && !empty($templateConfig['edit-fields-'.$type])) {
-            foreach ($templateConfig['edit-fields-'.$type] as $templateField) {
+        if (isset($templateConfig['edit-fields-' . $type]) && !empty($templateConfig['edit-fields-' . $type])) {
+            foreach ($templateConfig['edit-fields-' . $type] as $templateField) {
                 $editFields[$templateField['name']] = $templateField['title'];
             }
         }
@@ -450,14 +451,14 @@ class Template
 
     public function add_csrf_token_meta_tags($layout)
     {
-return $layout;
+        return $layout;
         $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
         $generator = new CsrfTokenRequestInlineJsScriptGenerator();
 
         $script = $generator->generate();
 
         $ajax = '<script>
-        '.$script.'
+        ' . $script . '
 
         </script>
        ';
@@ -523,7 +524,6 @@ return $layout;
             }
         }
     }
-
 
 
     public function admin_head($script_src)
@@ -695,7 +695,8 @@ return $layout;
      */
     public function get_layout($params = array())
     {
-        return $this->adapter('get_layout', $params);
+        return $this->adapter_current->get_layout($params);
+
     }
 
     public function process_meta($layout)
@@ -823,7 +824,7 @@ return $layout;
                     if (!empty($config)) {
                         $config['is_symlink'] = false;
 
-                        if(is_link(normalize_path($filename, false))){
+                        if (is_link(normalize_path($filename, false))) {
                             $config['is_symlink'] = true;
                         }
 
@@ -864,5 +865,21 @@ return $layout;
         return $to_return;
     }
 
+    public function define_constants($content = false)
+    {
+        return $this->adapter_current->define_constants($content);
+    }
+    public function getContentId()
+    {
+        return $this->adapter_current->getContentId();
+    }
+    public function getPageId()
+    {
+        return $this->adapter_current->getPageId();
+    }
+   public function getPostId()
+    {
+        return $this->adapter_current->getPostId();
+    }
 
 }

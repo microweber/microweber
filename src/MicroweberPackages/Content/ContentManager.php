@@ -38,7 +38,7 @@ class ContentManager
     public $main_page_id = false;
     public $post_id = false;
     public $category_id = false;
-    public $template_name = false;
+
 
 
     /**
@@ -70,8 +70,8 @@ class ContentManager
 
     function post_id()
     {
-        if ($this->post_id) {
-            return $this->post_id;
+        if ($this->app->template->getPostId()) {
+            return $this->app->template->getPostId();
         }
 
         if (defined('POST_ID')) {
@@ -93,9 +93,10 @@ class ContentManager
 
     function content_id()
     {
-        if ($this->content_id) {
-            return $this->content_id;
+        if ($this->app->template->getContentId()) {
+            return $this->app->template->getContentId();
         }
+
         if ($this->post_id()) {
             return $this->post_id();
         } elseif ($this->product_id()) {
@@ -120,8 +121,8 @@ class ContentManager
 
     function page_id()
     {
-        if ($this->page_id) {
-            return $this->page_id;
+        if ($this->app->template->getPageId()) {
+            return $this->app->template->getPageId();
         }
 
         if (defined('PAGE_ID')) {
@@ -282,9 +283,8 @@ class ContentManager
     public function get_by_id($id)
     {
 
-        return app()->content_repository->getById($id);
+    return  \MicroweberPackages\Content\Facades\ContentManager::getById($id);
 
-        //  return $this->crud->get_by_id($id);
     }
 
     public function get_by_url($url = '', $no_recursive = false)
@@ -1585,387 +1585,7 @@ class ContentManager
      */
     public function define_constants($content = false)
     {
-
-        $ref_page = false;
-        if (isset($_REQUEST['from_url'])) {
-            $ref_page = $_REQUEST['from_url'];
-        } else if (!defined('MW_BACKEND') and (is_ajax() or defined('MW_API_CALL')) && isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $_SERVER['HTTP_REFERER'];
-        } else {
-            $ref_page = url_current(true);
-        }
-
-        if (!$content and isset($ref_page) and $ref_page) {
-            if ($ref_page != '') {
-                $ref_page = strtok($ref_page, '?');
-
-                if ($ref_page == site_url()) {
-                    $ref_page = $this->app->content_manager->homepage($ref_page);
-                } else {
-                    $ref_page = $this->app->content_manager->get_by_url($ref_page);
-                }
-                if ($ref_page != false and !empty($ref_page)) {
-                    $content = $ref_page;
-                }
-            }
-        }
-
-        $page = false;
-        $content_orig = $content;
-
-        if (is_array($content)) {
-            if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
-                $content = $this->get_by_id($content['id']);
-                $page = $content;
-            } elseif (isset($content['id']) and $content['id'] == 0) {
-                $page = $content;
-            } elseif (isset($content['active_site_template'])) {
-                $page = $content;
-            }
-
-            if ($page == false) {
-                $page = $content;
-            }
-        }
-
-        if (defined('CATEGORY_ID') == false) {
-
-            $cat_url = $this->app->category_manager->get_category_id_from_url();
-            if ($cat_url != false) {
-                define('CATEGORY_ID', intval($cat_url));
-                $this->category_id = intval($cat_url);
-            }
-        }
-        // dd(debug_backtrace(1));
-        //    dd(debug_backtrace(1));
-//    //    dd(__METHOD__,$content,__LINE__);
-//
-        if (is_array($page)) {
-            if (isset($page['content_type']) and ($page['content_type'] != 'page')) {
-                if (isset($page['id']) and $page['id'] != 0) {
-                    $content = $page;
-
-                    $current_categorys = $this->app->category_manager->get_for_content($page['id']);
-                    if (!empty($current_categorys)) {
-                        $current_category = reset($current_categorys);
-
-                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                            define('CATEGORY_ID', intval($current_category['id']));
-                            $this->category_id = intval($current_category['id']);
-
-                        }
-                    }
-
-                    $page = $this->get_by_id($page['parent']);
-
-                    if (defined('POST_ID') == false) {
-                        define('POST_ID', intval($content['id']));
-                        $this->post_id = intval($content['id']);
-
-                    }
-
-                    if (is_array($page) and $page['content_type'] == 'product') {
-                        if (defined('PRODUCT_ID') == false) {
-                            define('PRODUCT_ID', intval($content['id']));
-                            $this->product_id = intval($content['id']);
-                        }
-                    }
-                }
-            } else {
-                $content = $page;
-                if (defined('POST_ID') == false) {
-                    define('POST_ID', false);
-                }
-            }
-
-            if (defined('ACTIVE_PAGE_ID') == false) {
-                if (!isset($page['id'])) {
-                    $page['id'] = 0;
-                }
-                define('ACTIVE_PAGE_ID', $page['id']);
-            }
-
-            if (!defined('CATEGORY_ID')) {
-                //define('CATEGORY_ID', $current_category['id']);
-            }
-
-
-            if (defined('CONTENT_ID') == false and isset($content['id'])) {
-                define('CONTENT_ID', $content['id']);
-                $this->content_id = intval($content['id']);
-
-            }
-
-            if (defined('PAGE_ID') == false and isset($content['id'])) {
-                define('PAGE_ID', $page['id']);
-                $this->page_id = intval($content['id']);
-
-            }
-
-            if (isset($page['parent'])) {
-                $parent_page_check_if_inherited = $this->get_by_id($page['parent']);
-
-                if (isset($parent_page_check_if_inherited['layout_file']) and $parent_page_check_if_inherited['layout_file'] == 'inherit') {
-                    $inherit_from_id = $this->get_inherited_parent($parent_page_check_if_inherited['id']);
-
-                    if (defined('MAIN_PAGE_ID') == false) {
-                        define('MAIN_PAGE_ID', $inherit_from_id);
-                        $this->main_page_id = intval($inherit_from_id);
-
-                    }
-                }
-
-                //$root_parent = $this->get_inherited_parent($page['parent']);
-
-                //  $this->get_inherited_parent($page['id']);
-                // if ($par_page != false) {
-                //  $par_page = $this->get_by_id($page['parent']);
-                //  }
-                if (defined('ROOT_PAGE_ID') == false) {
-                    $root_page = $this->get_parents($page['id']);
-                    if (!empty($root_page) and isset($root_page[0])) {
-                        $root_page[0] = end($root_page);
-                    } else {
-                        $root_page[0] = $page['parent'];
-                    }
-
-                    define('ROOT_PAGE_ID', $root_page[0]);
-                }
-
-                if (defined('MAIN_PAGE_ID') == false) {
-                    if ($page['parent'] == 0) {
-                        define('MAIN_PAGE_ID', $page['id']);
-                    } else {
-                        define('MAIN_PAGE_ID', $page['parent']);
-                    }
-                }
-                if (defined('PARENT_PAGE_ID') == false and isset($content['parent'])) {
-                    define('PARENT_PAGE_ID', $content['parent']);
-                }
-                if (defined('PARENT_PAGE_ID') == false) {
-                    define('PARENT_PAGE_ID', $page['parent']);
-                }
-            }
-        }
-
-        if (defined('ACTIVE_PAGE_ID') == false) {
-            define('ACTIVE_PAGE_ID', false);
-        }
-        if (defined('CATEGORY_ID') == false) {
-            $cat_id = $this->app->category_manager->get_category_id_from_url();
-            if ($cat_id != false) {
-                define('CATEGORY_ID', intval($cat_id));
-                $this->category_id = intval($cat_id);
-
-            }
-        }
-        if (!defined('CATEGORY_ID')) {
-            define('CATEGORY_ID', false);
-        };
-        if (defined('PAGE_ID') == false) {
-            $getPageSlug = $this->app->permalink_manager->slug($ref_page, 'page');
-            $pageFromSlug = $this->app->content_manager->get_by_url($getPageSlug);
-            if ($pageFromSlug) {
-                $page = $pageFromSlug;
-                $content = $pageFromSlug;
-                define('PAGE_ID', intval($page['id']));
-                $this->page_id = intval($page['id']);
-
-            }
-        }
-
-
-        if (defined('CONTENT_ID') == false) {
-            define('CONTENT_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }
-
-        if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
-            $the_active_site_template = $page['active_site_template'];
-        } elseif (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
-            $the_active_site_template = $page['active_site_template'];
-        } elseif (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
-            $the_active_site_template = $content['active_site_template'];
-        } elseif (isset($content_orig) and !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
-            $the_active_site_template = $content_orig['active_site_template'];
-        } else {
-            $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-            //
-        }
-
-
-        if (isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit') {
-            $inh = $this->get_inherited_parent($content['id']);
-            if ($inh != false) {
-                $inh_parent = $this->get_by_id($inh);
-                if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) != 'default') {
-                    $the_active_site_template = $inh_parent['active_site_template'];
-                } elseif (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) == 'default') {
-                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-                } elseif (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) == '') {
-                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-                }
-            }
-        }
-
-        if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
-            $the_active_site_template = 'default';
-        }
-
-        if ($the_active_site_template == false) {
-            $the_active_site_template = 'default';
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
-            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
-        }
-
-        if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
-            define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
-        }
-
-        $the_active_site_template_dir = normalize_path(templates_path() . $the_active_site_template . DS);
-
-        if (defined('DEFAULT_TEMPLATE_DIR') == false) {
-            define('DEFAULT_TEMPLATE_DIR', templates_path() . 'default' . DS);
-        }
-
-        if (defined('DEFAULT_TEMPLATE_URL') == false) {
-            define('DEFAULT_TEMPLATE_URL', templates_url() . '/default/');
-        }
-
-        if (trim($the_active_site_template) != 'default') {
-            if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
-                $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
-                if (is_file($use_default_layouts)) {
-                    if (isset($page['layout_file'])) {
-                        $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                    } else {
-                        $template_view = DEFAULT_TEMPLATE_DIR;
-                    }
-                    if (isset($page)) {
-                        if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
-                            $par_page = $this->get_inherited_parent($page['id']);
-                            if ($par_page != false) {
-                                $par_page = $this->get_by_id($par_page);
-                            }
-                            if (isset($par_page['layout_file'])) {
-                                $the_active_site_template = $par_page['active_site_template'];
-                                $page['layout_file'] = $par_page['layout_file'];
-                                $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = templates_path() . $page['active_site_template'] . DS . $page['layout_file'];
-                            }
-                        }
-                    }
-
-                    if (is_file($template_view) == true) {
-                        if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
-                        }
-
-                        if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = templates_url() . '/' . $the_active_site_template;
-                            $the_template_url = $the_template_url . '/';
-                            if (defined('THIS_TEMPLATE_URL') == false) {
-                                define('THIS_TEMPLATE_URL', $the_template_url);
-                            }
-                            if (defined('TEMPLATE_URL') == false) {
-                                define('TEMPLATE_URL', $the_template_url);
-                            }
-                        }
-                        $the_active_site_template = 'default';
-                        $the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
-                    }
-                }
-            }
-        }
-
-
-        $this->template_name = $the_active_site_template;
-        if (defined('ACTIVE_TEMPLATE_DIR') == false) {
-            define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false) {
-            define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = templates_url() . '/' . $the_active_site_template;
-
-            $the_template_url = $the_template_url . '/';
-
-            if (defined('THIS_TEMPLATE_URL') == false) {
-                define('THIS_TEMPLATE_URL', $the_template_url);
-            }
-        }
-
-
-        if (defined('TEMPLATE_NAME') == false) {
-            define('TEMPLATE_NAME', $the_active_site_template);
-        }
-
-        if (defined('TEMPLATE_DIR') == false) {
-            define('TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('ACTIVE_SITE_TEMPLATE') == false) {
-            define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
-        }
-
-        if (defined('TEMPLATES_DIR') == false) {
-            define('TEMPLATES_DIR', templates_path());
-        }
-
-        $the_template_url = templates_url() . $the_active_site_template;
-
-        $the_template_url = $the_template_url . '/';
-        if (defined('TEMPLATE_URL') == false) {
-            define('TEMPLATE_URL', $the_template_url);
-        }
-
-        if (defined('LAYOUTS_DIR') == false) {
-            $layouts_dir = TEMPLATE_DIR . 'layouts/';
-
-            define('LAYOUTS_DIR', $layouts_dir);
-        } else {
-            $layouts_dir = LAYOUTS_DIR;
-        }
-
-        if (defined('LAYOUTS_URL') == false) {
-            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir) . '/');
-
-            define('LAYOUTS_URL', $layouts_url);
-        }
-
-        if (defined('CATEGORY_ID') == false) {
-            define('CATEGORY_ID', false);
-        }
-
-
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }
-
-        return true;
+        return $this->app->template->define_constants($content);
     }
 
 
