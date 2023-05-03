@@ -217,6 +217,16 @@ function coupon_logs_get_by_code($coupon_code)
         ->toArray();
 }
 
+
+function coupon_get_count()
+{
+    $table = 'cart_coupons';
+    $coupons = DB::table($table)->select('*')
+        ->count();
+
+    return $coupons;
+}
+
 function coupon_get_all()
 {
     $table = 'cart_coupons';
