@@ -37,6 +37,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     function reload_coupon_after_save() {
         mw.reload_module_parent('#<?php print $params['id'] ?>');
+        mw.reload_module('shop/coupons/admin');
         mw.reload_module('shop/coupons/edit_coupons');
         window.parent.$(window.parent.document).trigger('shop.coupons.update');
         if (typeof(editModal) != 'undefined' && editModal.modal) {
@@ -115,7 +116,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         include 'no-coupons.php';
                     }
                 ?>
-                
+
                 <?php endif; ?>
 
         </div>
