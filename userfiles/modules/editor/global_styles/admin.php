@@ -31,13 +31,13 @@ $(document).ready(function(){
 
 
 
-        <input  name="font-size" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('font-size', TEMPLATE_NAME); ?>"     class="mw-ui-field mw_option_field" type="text" />
+        <input  name="font-size" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('font-size', TEMPLATE_NAME); ?>"     class="form-select  mw_option_field" type="text" />
        <label ><small><?php _e('Font'); ?></small></label>
 
 
 
 
-        <input  name="background-color" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('background-color', TEMPLATE_NAME); ?>"     class="mw-ui-field mw_option_field" type="text" />
+        <input  name="background-color" option-group="<?php print TEMPLATE_NAME; ?>"     value="<?php print get_option('background-color', TEMPLATE_NAME); ?>"     class="form-select  mw_option_field" type="text" />
 
 
     <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family hovered" id="mwthemesettings-fontfamily" data-value="Arial" style="width:210px;float:none"> <span class="mw-dropdown-value">  <span class="mw-dropdown-val">Arial</span> </span>

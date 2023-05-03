@@ -5,7 +5,7 @@ $bgImage = get_option('bg-image', $params['id']);
 
 <div class="col-xs-6">
     <div class="mw-ui-field-holder">
-        <span class="mw-ui-btn" id="bg-image"><span class="mw-icon-upload"></span><?php _e('Choose Skin Background image'); ?></span>
+        <span class="  btn btn-primary" id="bg-image"><span class="mw-icon-upload"></span><?php _e('Choose Skin Background image'); ?></span>
     </div>
 </div>
 <input type="hidden" class="mw_option_field" name="bg-image" id="bgimageval" value="<?php print $bgImage; ?>"/>

@@ -86,7 +86,7 @@ if ($instanceField->hasRequiredOptions):
    <div class="d-flex">
        <div class="mw-custom-field-form-controls p-0">
            <label class="mw-ui-check">
-               <input type="checkbox" class="mw-ui-field checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
+               <input type="checkbox" class="form-select  checkbox" name="required" onchange="valueChanged()" id="custom_field_required<?php print $rand; ?>" value="1" <?php if ($data['required']): ?> checked="checked"  <?php endif; ?> >
                <span></span>
            </label>
        </div>

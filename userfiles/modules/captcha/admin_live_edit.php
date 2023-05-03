@@ -12,7 +12,7 @@ if (empty($captcha_name)) {
 
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Captcha Name'); ?></label>
-        <input class="mw-ui-field mw_option_field mw-full-width" name="captcha_name" value="<?php echo $captcha_name; ?>" id="captcha_name" placeholder="<?php _e('Enter captcha name..'); ?>">
+        <input class="form-select  mw_option_field mw-full-width" name="captcha_name" value="<?php echo $captcha_name; ?>" id="captcha_name" placeholder="<?php _e('Enter captcha name..'); ?>">
     </div>
 
 </div>

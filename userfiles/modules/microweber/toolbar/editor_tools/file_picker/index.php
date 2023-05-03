@@ -250,17 +250,17 @@ if (array_key_exists('types', $_GET)) {
 
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
             <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
-            <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
+            <a href="javascript:;" class="  btn btn-primary"><?php _e("URL"); ?></a>
             <?php if (is_admin()): ?>
-                <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
+                <a href="javascript:;" class="  btn btn-primary" id="browseTab"><?php _e("Uploaded"); ?></a>
             <?php endif; ?>
              <?php if (is_admin()): ?>
-                <a href="javascript:;" class="mw-ui-btn" id="unslashImagesTab"><?php _e("Media Library"); ?></a>
+                <a href="javascript:;" class="  btn btn-primary" id="unslashImagesTab"><?php _e("Media Library"); ?></a>
             <?php endif; ?>
         </div>
 
 
-        <div class="mw-ui-box mw-ui-box-content">
+        <div class="card">
             <div class="tab" id="drag_files_here" style="display: block">
                 <div class="text-center" style="padding: 10px 0;">
                     <ul class="mw-upload-filetypes" id="">
@@ -298,7 +298,7 @@ if (array_key_exists('types', $_GET)) {
                         </div>
                         <div class="mw-ui-col">
                             <div class="mw-ui-col-container">
-                                <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
+                                <button type="button" class="  btn btn-primary" id="btn_insert"><?php _e("Insert"); ?></button>
                             </div>
                         </div>
                     </div>

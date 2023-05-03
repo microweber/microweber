@@ -61,7 +61,7 @@ $add_new_text = _e('Add new ' . $cont_type_to_add, true);
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-posts-settings">
                 <?php include($posts_mod); ?>
@@ -76,7 +76,7 @@ $add_new_text = _e('Add new ' . $cont_type_to_add, true);
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates" parent-module-id="<?php print $params['id'] ?>" for-module="<?php print $params['type'] ?>"/>
         </div>
     </div>

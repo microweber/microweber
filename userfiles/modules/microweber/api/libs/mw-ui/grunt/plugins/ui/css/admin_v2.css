@@ -8838,7 +8838,7 @@ small.text-muted {
     border-radius: 3px;
     box-shadow: var(--tblr-shadow-button-inset); }
   .admin-add-new-modal-buttons:hover {
-    background-color: #f1f5f9 !important;
+    background-color: var(--tblr-body-bg) !important;
     cursor: pointer;
     text-decoration: none; }
     .admin-add-new-modal-buttons:hover .modal-add-new-buttons-img {
@@ -9030,5 +9030,8 @@ body.theme-dark .mw-dialog-skin-default .mw-dialog-close:hover:after {
   filter: none; }
 body.theme-dark .mw-dialog-skin-default .mw-dialog-close:after {
   filter: invert(1); }
+
+.mw-ui-box-header {
+  background-color: var(--tblr-bg-surface-secondary); }
 
 /*# sourceMappingURL=admin_v2.css.map */

@@ -178,7 +178,7 @@ if ($id == 0) {
                     /*  <br>
                       <div  class="mw-ui-field-holder">
                           <label class="mw-ui-label">Auto add to menu <small class="mw-help" data-help="This option will populate the menu automatically with sub-pages and sub-categories"> (?)</small></label>
-                          <select name="auto_populate" class="mw-ui-field mw-ui-field-medium">
+                          <select name="auto_populate" class="form-select  mw-ui-field-medium">
                               <option  value="" <?php if($data['auto_populate'] == '') : ?>  selected   <?php endif; ?>   >Default</option>
                               <option  value="all" <?php if($data['auto_populate'] == 'all') : ?>  selected   <?php endif; ?> >Add Pages and Categories</option>
                               <option  value="pages" <?php if($data['auto_populate'] == 'pages') : ?>  selected   <?php endif; ?> >Add only Pages</option>

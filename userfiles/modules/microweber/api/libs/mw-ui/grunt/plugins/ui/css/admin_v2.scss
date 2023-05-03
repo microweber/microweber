@@ -499,7 +499,7 @@ small.text-muted {
 
     &:hover {
         //transform: scale(1.1);
-        background-color: #f1f5f9 !important;
+        background-color: var(--tblr-body-bg) !important;
         cursor: pointer;
         text-decoration: none;
 
@@ -812,4 +812,8 @@ body.theme-dark {
 
         }
     }
+}
+
+.mw-ui-box-header {
+    background-color: var(--tblr-bg-surface-secondary);
 }

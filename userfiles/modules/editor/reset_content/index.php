@@ -50,6 +50,6 @@
     </div>
 </div>
 <div id="save-toolbar" class="text-center">
-    <button onclick="reset();" class="mw-ui-btn"><?php _e('Reset content'); ?></button>
+    <button onclick="reset();" class="  btn btn-primary"><?php _e('Reset content'); ?></button>
 </div>
 

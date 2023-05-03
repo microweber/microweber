@@ -8,7 +8,7 @@
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <div class="module-live-edit-settings module-popup-settings">
                 <module type="<?php print($config['module_name']); ?>/admin_backend" id="mw_shipping_cfg"  />
             </div>
@@ -20,7 +20,7 @@
                 <i class="mw-icon-gear"></i> <?php _e("Skin/Template"); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <div class="module-live-edit-settings module-popup-settings">
                 <module type="admin/modules/templates" id="shipping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
             </div>
@@ -32,7 +32,7 @@
                 <i class="mw-icon-gear"></i> <?php _e("Fields"); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <div class="module-live-edit-settings module-popup-settings">
                 <module type="<?php print($config['module_name']); ?>/shipping_fields_settings" id="shipping_fields_settings"/>
             </div>

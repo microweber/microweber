@@ -24,7 +24,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
     <label class="mw-ui-label">
         <?php _e("Current Skin / Template"); ?>
     </label>
-    <select name="data-template" class="mw-ui-field mw_option_field"
+    <select name="data-template" class="form-select  mw_option_field"
             option_group="<?php print $params['parent-module-id'] ?>"
             data-refresh="<?php print $params['parent-module-id'] ?>">
         <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>>

@@ -222,13 +222,13 @@
 
             </script>
 
-            <span class="mw-ui-btn" onclick="__to();"><?php _e('Toggle Outline Type'); ?></span>
+            <span class="  btn btn-primary" onclick="__to();"><?php _e('Toggle Outline Type'); ?></span>
 
 
             <h3>Default</h3>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small</a>
             <a href="javascript:;" class="btn btn-link">Medium</a>
-            <a href="javascript:;" class="mw-ui-btn">Normal</a>
+            <a href="javascript:;" class="  btn btn-primary">Normal</a>
             <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big">Big</a>
 
             <h3>Invert</h3>
@@ -291,7 +291,7 @@
 
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Small</a>
                 <a href="javascript:;" class="btn btn-link"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Medium</a>
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Big</a>
 
 
@@ -303,7 +303,7 @@
 
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Small</a>
                 <a href="javascript:;" class="btn btn-link"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Medium</a>
-                <a href="javascript:;" class="mw-ui-btn"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
+                <a href="javascript:;" class="  btn btn-primary"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Normal</a>
                 <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big"><span class="mw-ui-btn-img" style="background-image: url(https://picsum.photos/50/50?v=<?php print rand(); ?>)"></span> Big</a>
 
 
@@ -313,25 +313,25 @@
             <h3>Button Navigations</h3>
             <div class="demobox">
                 <div class="mw-ui-btn-nav">
-                    <a href="javascript:;" class="mw-ui-btn">Home</a>
+                    <a href="javascript:;" class="  btn btn-primary">Home</a>
                     <a href="javascript:;" class="mw-ui-btn active">About</a>
-                    <a href="javascript:;" class="mw-ui-btn">Contact</a>
+                    <a href="javascript:;" class="  btn btn-primary">Contact</a>
                 </div>
             </div>
 
             <div class="demobox">
                 <h4>Fluid</h4>
                 <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
-                    <li><a href="javascript:;" class="mw-ui-btn">Home</a></li>
+                    <li><a href="javascript:;" class="  btn btn-primary">Home</a></li>
                     <li><a href="javascript:;" class="mw-ui-btn active">About</a></li>
-                    <li><a href="javascript:;" class="mw-ui-btn">Contact</a></li>
+                    <li><a href="javascript:;" class="  btn btn-primary">Contact</a></li>
                 </ul>
             </div>
             <div class="demobox">
                 <div class="mw-ui-btn-vertical-nav">
-                    <a href="javascript:;" class="mw-ui-btn">Vertical</a>
+                    <a href="javascript:;" class="  btn btn-primary">Vertical</a>
                     <a href="javascript:;" class="mw-ui-btn active">Button</a>
-                    <a href="javascript:;" class="mw-ui-btn">Navigation</a>
+                    <a href="javascript:;" class="  btn btn-primary">Navigation</a>
                 </div>
             </div>
 
@@ -340,8 +340,8 @@
             <div class="demobox" id="demotabsnav">
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
                     <a href="javascript:;" class="mw-ui-btn active">Home</a>
-                    <a href="javascript:;" class="mw-ui-btn">About</a>
-                    <a href="javascript:;" class="mw-ui-btn">Contact</a>
+                    <a href="javascript:;" class="  btn btn-primary">About</a>
+                    <a href="javascript:;" class="  btn btn-primary">Contact</a>
                 </div>
                 <div class="mw-ui-box">
                     <div class="mw-ui-box-content">Home - Lorem Ipsum</div>
@@ -627,7 +627,7 @@
 
             <div class="demobox">
                 <div id="progressdemo"></div>
-                <span class="mw-ui-btn" onclick="progressdemo()">Run progress demo</span>
+                <span class="  btn btn-primary" onclick="progressdemo()">Run progress demo</span>
                 <script>
 
                     progressdemo = function () {
@@ -722,8 +722,8 @@
             <div class="demof1">
                 <div class="demobox">
                     <label class="mw-ui-label">Small</label>
-                    <input type="text" class="mw-ui-field mw-ui-field-small"/>
-                    <select class="mw-ui-field mw-ui-field-small">
+                    <input type="text" class="form-select  mw-ui-field-small"/>
+                    <select class="form-select  mw-ui-field-small">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
@@ -731,8 +731,8 @@
                 </div>
                 <div class="demobox">
                     <label class="mw-ui-label">Medium</label>
-                    <input type="text" class="mw-ui-field mw-ui-field-medium"/>
-                    <select class="mw-ui-field mw-ui-field-medium">
+                    <input type="text" class="form-select  mw-ui-field-medium"/>
+                    <select class="form-select  mw-ui-field-medium">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
@@ -745,12 +745,12 @@
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
-                    <span class="mw-ui-btn"><span class="mw-icon-magnify"></span>Button</span>
+                    <span class="  btn btn-primary"><span class="mw-icon-magnify"></span>Button</span>
                 </div>
                 <div class="demobox">
                     <label class="mw-ui-label">Big</label>
-                    <input type="text" class="mw-ui-field mw-ui-field-big"/>
-                    <select class="mw-ui-field mw-ui-field-big">
+                    <input type="text" class="form-select  mw-ui-field-big"/>
+                    <select class="form-select  mw-ui-field-big">
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </select>
@@ -806,12 +806,12 @@
                 </div>
                 <div class="mw-ui-col">
                     <div class="mw-ui-dropdown">
-                        <span class="mw-ui-btn">Button navigation</span>
+                        <span class="  btn btn-primary">Button navigation</span>
                         <div class="mw-ui-dropdown-content">
                             <div class="mw-ui-btn-vertical-nav">
-                                <span class="mw-ui-btn">Option 1</span>
-                                <span class="mw-ui-btn">Option 2</span>
-                                <span class="mw-ui-btn">Option 3</span>
+                                <span class="  btn btn-primary">Option 1</span>
+                                <span class="  btn btn-primary">Option 2</span>
+                                <span class="  btn btn-primary">Option 3</span>
                             </div>
                         </div>
                     </div>
@@ -1115,7 +1115,7 @@
 
             </script>
 
-            <span class="mw-ui-btn" onclick="mw.gallery(GArrayExample)"> Click to launch </span>
+            <span class="  btn btn-primary" onclick="mw.gallery(GArrayExample)"> Click to launch </span>
 
         </td>
     </tr>
@@ -1173,7 +1173,7 @@
                             <i class="mai-setting2"></i> Another Example1
                         </div>
                     </div>
-                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                         Lorem Ipsum1
                     </div>
                 </div>
@@ -1183,7 +1183,7 @@
                             <i class="mai-setting2"></i> Another Example2
                         </div>
                     </div>
-                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                    <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                         Lorem Ipsum2
                     </div>
                 </div>
@@ -1210,9 +1210,9 @@
             <h2>Notification Bubbles</h2>
 
 
-            <span class="mw-ui-btn" onclick="mw.notification.success('Awesome');">Success</span>
-            <span class="mw-ui-btn" onclick="mw.notification.error('Critical');">Error</span>
-            <span class="mw-ui-btn" onclick="mw.notification.warning('Beware');">Warning</span>
+            <span class="  btn btn-primary" onclick="mw.notification.success('Awesome');">Success</span>
+            <span class="  btn btn-primary" onclick="mw.notification.error('Critical');">Error</span>
+            <span class="  btn btn-primary" onclick="mw.notification.warning('Beware');">Warning</span>
 
 
         </td>

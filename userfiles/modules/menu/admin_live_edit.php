@@ -80,7 +80,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
         <div class="tab-pane fade" id="add_new_menu">
             <input name="menu_id" type="hidden" value="0"/>
             <div style="overflow: hidden">
-                <input class="mw-ui-field w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>"/>
+                <input class="form-select  w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>"/>
                 <button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')"><?php _e("Add"); ?></button>
             </div>
         </div>

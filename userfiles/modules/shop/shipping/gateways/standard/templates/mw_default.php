@@ -4,7 +4,7 @@
             <?php $selected_country = mw()->user_manager->session_get('shipping_country'); ?>
 
             <label class="mw-ui-label"><?php _e("Choose country"); ?></label>
-            <select name="country" class="mw-ui-field mw-full-width">
+            <select name="country" class="form-select  mw-full-width">
                 <option value=""></option>
                 <?php foreach ($data as $item): ?>
                     <option value="<?php print $item['shipping_country'] ?>" <?php if (isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>

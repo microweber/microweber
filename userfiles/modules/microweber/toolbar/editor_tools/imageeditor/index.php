@@ -36,7 +36,7 @@
 
                 editImageRes.forEach(function (r){
                     var wrapper = $('<div class=" image-source-item"><h5>'+r.title+'</h5></div>');
-                    var el = $('<span class="mw-ui-btn"><i class="mdi mdi-cloud-upload"></i> Upload image</span>');
+                    var el = $('<span class="  btn btn-primary"><i class="mdi mdi-cloud-upload"></i> Upload image</span>');
 
                     var source = targetImagePic.querySelector('source[media="'+r.media+'"]');
                     var src = source ? source.srcset : '<?php print pixum(170, 170); ?>';
@@ -300,7 +300,7 @@
 
             <div class="mw-ui-field-holder" style="padding-bottom: 20px;display: none" id="overlayholder">
                 <label class="mw-ui-label"><?php _e('Overlay color'); ?></label>
-                <input type="text" class="mw-ui-field w100" id="overlaycolor" placeholder="Enter color"/>
+                <input type="text" class="form-select  w100" id="overlaycolor" placeholder="Enter color"/>
 
                 <script>
 
@@ -417,14 +417,14 @@
             </div>
             <div class="mw-ui-field-holder imeditor-image-link" style="padding-bottom: 20px;">
                 <label class="mw-ui-label"><?php _e('Links to'); ?>:</label>
-                <input type="text" class="mw-ui-field w100" id="link" placeholder="Enter URL"/>
+                <input type="text" class="form-select  w100" id="link" placeholder="Enter URL"/>
             </div>
 
             <div class="mw-ui-row-nodrop imeditor-image-description" style="padding-bottom: 20px;">
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">
                         <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
-                        <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-title"></textarea>
+                        <textarea class="form-select  w100" placeholder='<?php _e("Enter Description"); ?>' id="image-title"></textarea>
                     </div>
                 </div>
                 <div class="mw-ui-col">
@@ -438,7 +438,7 @@
 
                             </span>
                         </label>
-                        <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-alt"></textarea>
+                        <textarea class="form-select  w100" placeholder='<?php _e("Enter Description"); ?>' id="image-alt"></textarea>
                     </div>
                 </div>
             </div>

@@ -84,7 +84,7 @@ $option_group = $params['option_group'];
 <?php
 $appendFiles = explode(",", get_option($option_key, $option_group));
 ?>
-<input name="<?php echo $option_key; ?>" value="<?php print get_option('append_files', $option_group) ?>" class="mw-ui-field mw_option_field w100" id="append_files" option-group="<?php echo $option_group; ?>" data-option-group="<?php echo $option_group; ?>" type="hidden"/>
+<input name="<?php echo $option_key; ?>" value="<?php print get_option('append_files', $option_group) ?>" class="form-select  mw_option_field w100" id="append_files" option-group="<?php echo $option_group; ?>" data-option-group="<?php echo $option_group; ?>" type="hidden"/>
 
 
 <div class="form-group mb-4">

@@ -71,12 +71,12 @@
         <div class="module-live-edit-settings">
             <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs"> <a class="mw-ui-btn active" href="javascript:;">
                     <?php _e("New Comments"); ?>
-                </a> <a class="mw-ui-btn" href="javascript:;">
+                </a> <a class="  btn btn-primary" href="javascript:;">
                     <?php _e("Skin/Template"); ?>
-                </a> <a class="mw-ui-btn" href="javascript:;" class="">
+                </a> <a class="  btn btn-primary" href="javascript:;" class="">
                     <?php _e("Settings"); ?>
                 </a> </div>
-            <div class="mw-ui-box mw-ui-box-content">
+            <div class="card">
                 <div class="tab" style="display: block">
                     <?php
                     $get_comments_params['count'] = '1';
@@ -130,7 +130,7 @@
                             <input name="display_comments_from" class="mw_option_field" value="current" id="display_from_post"
                                    type="radio" <?php if ($display_comments_from == 'current'): ?>  checked="checked" <?php endif ?> />
                             <span></span> </label>
-                        <select name="display_comments_from_which_post" id="post_select" class="mw-ui-field mw_option_field">
+                        <select name="display_comments_from_which_post" id="post_select" class="form-select  mw_option_field">
                             <option
                                 value="current_post" <?php if ($display_comments_from_which_post == 'current_post'): ?> selected="selected" <?php endif ?>>
                                 <?php _e("Current Post"); ?>
@@ -223,7 +223,7 @@
                             </select>
                         <?php else : ?>
                             <input type="text" parent-reload="true" placeholder="<?php print $params['id'] ?>"
-                                   class="mw-ui-field mw_option_field" name="module_id"
+                                   class="form-select  mw_option_field" name="module_id"
                                    value="<?php print get_option('module_id', $params['id']) ?>"/>
                         <?php endif; ?>
                     </div>
@@ -242,7 +242,7 @@
                             <label class="mw-ui-inline-label">
                                 <?php _e("Comments per page"); ?>
                             </label>
-                            <input type="text" placeholder="10" style="width:32px;" class="mw-ui-field mw-ui-field-medium mw_option_field"
+                            <input type="text" placeholder="10" style="width:32px;" class="form-select  mw-ui-field-medium mw_option_field"
                                    name="comments_per_page" value="<?php print get_option('comments_per_page', $params['id']) ?>"
                                    parent-reload="true"/>
                         </div>
@@ -250,7 +250,7 @@
                     <label class="mw-ui-label">
                         <?php _e("Form title"); ?>
                     </label>
-                    <input type="text" placeholder="<?php _e("Use default"); ?>" class="mw-ui-field w100 mw_option_field" name="form_title"
+                    <input type="text" placeholder="<?php _e("Use default"); ?>" class="form-select  w100 mw_option_field" name="form_title"
                            value="<?php print get_option('form_title', $params['id']) ?>" parent-reload="true"/>
                     <?php  $are_enabled = get_option('enable_comments', 'comments') == 'y';  ?>
                     <?php if (!$are_enabled): ?>

@@ -3,11 +3,11 @@
         <div class="mw-ui-field-group-check mw-ui-field-group-check-small">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-small" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-small" placeholder="e.g.: Gigi Hadid">
             </div>
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-small" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-small" placeholder="e.g.: Gigi Hadid">
             </div>
             <label class="mw-ui-check">
                 <input type="checkbox" value="1" checked="">
@@ -22,11 +22,11 @@
         <div class="mw-ui-field-group-check mw-ui-field-group-check-medium">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-medium" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-medium" placeholder="e.g.: Gigi Hadid">
             </div>
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-medium" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-medium" placeholder="e.g.: Gigi Hadid">
             </div>
             <label class="mw-ui-check">
                 <input type="checkbox" value="1" checked="">
@@ -60,11 +60,11 @@
         <div class="mw-ui-field-group-check  mw-ui-field-group-check-big">
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-big" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-big" placeholder="e.g.: Gigi Hadid">
             </div>
             <div class="mw-ui-field-holder">
                 <label class="mw-ui-label">Name</label>
-                <input type="text" class="mw-ui-field mw-ui-field-big" placeholder="e.g.: Gigi Hadid">
+                <input type="text" class="form-select  mw-ui-field-big" placeholder="e.g.: Gigi Hadid">
             </div>
             <label class="mw-ui-check">
                 <input type="checkbox" value="1" checked="">

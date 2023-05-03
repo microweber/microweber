@@ -40,7 +40,7 @@ if ($product and isset($product['id'])) {
     <br/>
     <br class="mw-add-to-cart-spacer"/>
 
-    <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" input-class="mw-ui-field mw-full-width" id="cart_fields_<?php print $params['id'] ?>"/>
+    <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price" input-class="form-select  mw-full-width" id="cart_fields_<?php print $params['id'] ?>"/>
     <br />
     <br />
     <?php if (is_array($data)): ?>

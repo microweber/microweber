@@ -9,17 +9,17 @@
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-forgot-password-settings">
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Form title"); ?></label>
-                    <input name="form-title" class="mw-ui-field mw-full-width mw_option_field" type="text" value="<?php print get_option('form-title', $params['id']); ?>"/>
+                    <input name="form-title" class="form-select  mw-full-width mw_option_field" type="text" value="<?php print get_option('form-title', $params['id']); ?>"/>
                 </div>
 
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Show"); ?><?php _e("Login link"); ?></label>
-                    <select name="show-login-link" class="mw-ui-field mw-full-width mw_option_field">
+                    <select name="show-login-link" class="form-select  mw-full-width mw_option_field">
                         <option value="y" <?php if ($show_login_link != 'n'): ?> selected="selected" <?php endif ?>><?php _e("Yes"); ?></option>
                         <option value="n" <?php if ($show_login_link == 'n'): ?> selected="selected" <?php endif ?>><?php _e("No"); ?></option>
                     </select>

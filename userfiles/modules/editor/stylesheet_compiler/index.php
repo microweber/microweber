@@ -211,7 +211,7 @@ if ($stylesheet_settings) {
                 <?php elseif ($setting['type'] == 'color'): ?>
                     <div class="form-group" style="margin-bottom:5px;">
                         <div class="theme-color-selector">
-                            <input class="mw-ui-field mw_option_field hidden" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default color: <?php echo $setting['default']; ?>">
+                            <input class="form-select  mw_option_field hidden" name="<?php echo $key; ?>" value="<?php echo $$key ?>" data-option-group="<?php echo $option_group; ?>" placeholder="Default color: <?php echo $setting['default']; ?>">
                             <?php echo $setting['label']; ?> <?php if (isset($setting['help'])): ?><span class="tip" data-tip="<?php echo $setting['help']; ?>">(<span class="red">?</span>)</span><?php endif; ?>
                             <button style="background: <?php echo $$key ?>;" id="<?php echo $key; ?>"></button>
 

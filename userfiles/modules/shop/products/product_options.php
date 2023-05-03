@@ -21,7 +21,7 @@ $out_of_stock = false;
             <div class="mw-ui-col-container">
                 <div class="mw-ui-field-holder">
         			<label class="mw-ui-label"><?php _e("Items in stock"); ?> <span class="mw-help mw-help-right-top" data-help="<?php _e("How many items of this product you have in stock"); ?>?">?</span></label>
-        			<select name="data_qty" class="mw-ui-field w100">
+        			<select name="data_qty" class="form-select  w100">
         				<option <?php if (!isset($data_fields['qty']) or ($data_fields['qty']) == 'nolimit'): ?> selected="selected" <?php endif; ?> value="nolimit">&infin; <?php _e('No Limit'); ?></option>
         				<option <?php if (isset($data_fields['qty']) and $data_fields['qty']  != 'nolimit' and (intval($data_fields['qty'])) == 0): ?>  selected="selected" <?php endif; ?> value="0" title="<?php _e('This item is out of stock and cannot be ordered.'); ?>"><?php _e('Out of stock'); ?></option>
         				<?php for($i=1;$i<=100;$i++){ ?>
@@ -35,7 +35,7 @@ $out_of_stock = false;
             <div class="mw-ui-col-container">
                 <div class="mw-ui-field-holder">
         			<label class="mw-ui-label"><?php _e("SKU Number"); ?> <span class="tip" data-tip="<?php _e("Stock Keeping Unit - The number assigned to a product by a retail store to identify the price,\n product options and manufacturer of the merchandise"); ?>.">?</span></label>
-        			<input name="data_sku" type="text" class="mw-ui-field w100" <?php if (isset($data_fields['sku'])): ?> value="<?php print $data_fields['sku']; ?>" <?php endif; ?> />
+        			<input name="data_sku" type="text" class="form-select  w100" <?php if (isset($data_fields['sku'])): ?> value="<?php print $data_fields['sku']; ?>" <?php endif; ?> />
         		</div>
             </div>
             </div>

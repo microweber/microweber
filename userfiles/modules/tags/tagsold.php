@@ -56,8 +56,8 @@
 
                 <td><a href="javascript:void();" onclick="showPostsWithTags('<?php echo $tag['slug']; ?>')"><?php echo $tag['content_count']; ?></a></td>
                 <td>
-                    <button onclick="editTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-edit"></span></button>
-                    <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="mw-ui-btn"><span class="mw-icon-bin"></span></button>
+                    <button onclick="editTag(<?php echo $tag['id']; ?>);" class="  btn btn-primary"><span class="mw-icon-edit"></span></button>
+                    <button onclick="deleteTag(<?php echo $tag['id']; ?>);" class="  btn btn-primary"><span class="mw-icon-bin"></span></button>
                 </td>
             </tr>
         <?php endforeach; ?>

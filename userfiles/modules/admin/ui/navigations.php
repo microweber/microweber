@@ -7,9 +7,9 @@
                 <div class="demobox">
 
                     <div class="mw-ui-btn-nav">
-                        <a href="javascript:;" class="mw-ui-btn"><span class="mai-home"></span></a>
+                        <a href="javascript:;" class="  btn btn-primary"><span class="mai-home"></span></a>
                         <a href="javascript:;" class="mw-ui-btn mw-ui-btn-info">Services</a>
-                        <a href="javascript:;" class="mw-ui-btn">About</a>
+                        <a href="javascript:;" class="  btn btn-primary">About</a>
                         <a href="javascript:;" class="mw-ui-btn active">Contact</a>
                     </div>
 
@@ -20,18 +20,18 @@
                 <div class="demobox" style="max-width: 400px;">
                     <h4>Fluid</h4>
                     <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
-                        <li><a href="javascript:;" class="mw-ui-btn">Home</a></li>
+                        <li><a href="javascript:;" class="  btn btn-primary">Home</a></li>
                         <li><a href="javascript:;" class="mw-ui-btn active">About</a></li>
-                        <li><a href="javascript:;" class="mw-ui-btn">Contact</a></li>
+                        <li><a href="javascript:;" class="  btn btn-primary">Contact</a></li>
                     </ul>
                 </div>
                 <br>
                 <div class="demobox">
                     <h4>Vertical</h4>
                     <div class="mw-ui-btn-vertical-nav">
-                        <a href="javascript:;" class="mw-ui-btn">Vertical</a>
+                        <a href="javascript:;" class="  btn btn-primary">Vertical</a>
                         <a href="javascript:;" class="mw-ui-btn active">Button</a>
-                        <a href="javascript:;" class="mw-ui-btn">Navigation</a>
+                        <a href="javascript:;" class="  btn btn-primary">Navigation</a>
                     </div>
                 </div>
                 <div>

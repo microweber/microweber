@@ -20,7 +20,7 @@
         <?php
         $open_module_settings_in_sidebar = get_option('open_module_settings_in_sidebar', 'live_edit');
         ?>
-        <select name="open_module_settings_in_sidebar" class="mw-ui-field mw_option_field" type="text" option-group="live_edit">
+        <select name="open_module_settings_in_sidebar" class="form-select  mw_option_field" type="text" option-group="live_edit">
             <option value="0" <?php if (!$open_module_settings_in_sidebar): ?> selected="selected" <?php endif; ?>>
                 <?php _e("No"); ?>
 

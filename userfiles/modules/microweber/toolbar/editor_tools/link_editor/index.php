@@ -197,22 +197,22 @@
 <div id="mw-popup-insertlink">
     <div class="mw-ui-field-holder" id="customweburl_text_field_holder" style="display: none">
         <label class="mw-ui-label"><?php _e("Link text"); ?></label>
-        <textarea type="text" class="mw-ui-field w100" id="customweburl_text" placeholder="Link text"></textarea>
+        <textarea type="text" class="form-select  w100" id="customweburl_text" placeholder="Link text"></textarea>
     </div>
     <div class="mw-full-width m-t-20" style="display: none">
         <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
     </div>
     <div class="">
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;"><?php _e("Page from My Website"); ?></a>
             <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
-            <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;"><?php _e("Post"); ?>, <?php _e("Category"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;"><?php _e("File"); ?></a>
+            <a class="  btn btn-primary" href="javascript:;"><?php _e("Email"); ?></a>
             <a class="mw-ui-btn available_elements_tab_show_hide_ctrl" href="javascript:;"><?php _e("Page Section"); ?></a>
             <a class="mw-ui-btn page-layout-btn" style="display: none;" href="javascript:;"><?php _e("Page Layout"); ?></a>
         </div>
-        <div class="mw-ui-box mw-ui-box-content" id="tabs">
+        <div class="card" id="tabs">
             <div class="tab">
                 <?php
                 $unique = uniqid('link-tree-');
@@ -278,7 +278,7 @@
             <div class="tab">
                 <div class="media-search-holder">
                     <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
-                        <input type="text" class="mw-ui-field inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
+                        <input type="text" class="form-select  inactive" id="dd_pages_search" autocomplete="off" placeholder="<?php _e("Click to select"); ?>"/>
                         <span class="mw-icon-dropdown"></span>
                         <div class="mw-dropdown-content">
                             <ul class="">
@@ -330,7 +330,7 @@
 
                 </ul>
                 <hr>
-                <span class="mw-ui-btn" onclick="submitLayoutLink()"><?php _e('Insert'); ?></span>
+                <span class="  btn btn-primary" onclick="submitLayoutLink()"><?php _e('Insert'); ?></span>
                 <script>
                     submitLayoutLink = function(){
                         var selected = $('#layouts-selector input:checked');

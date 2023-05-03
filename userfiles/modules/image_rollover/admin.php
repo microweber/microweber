@@ -194,7 +194,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <img src="<?php print $default_image; ?>" class="the-image d-block" alt="" <?php if ($default_image != '' and $default_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="mw-ui-btn" onclick="chooseImage()">Choose image</span>
+                                <span class="  btn btn-primary" onclick="chooseImage()">Choose image</span>
                             </div>
                         </div>
                         </div>
@@ -205,7 +205,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <img src="<?php print $rollover_image; ?>" class="the-image-rollover d-block" alt="" <?php if ($rollover_image != '' and $rollover_image != false) { ?><?php } else { ?> style="display:block;" <?php } ?> />
                             <br>
                             <div class="d-block d-md-flex justify-content-between align-items-center p-1">
-                                <span class="mw-ui-btn" onclick="chooseImage(true)">Choose image</span>
+                                <span class="  btn btn-primary" onclick="chooseImage(true)">Choose image</span>
                             </div>
                         </div>
                         </div>

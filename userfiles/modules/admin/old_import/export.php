@@ -91,8 +91,8 @@
 
 <div>
     <h2>Select content to export</h2>
-    <a class="mw-ui-btn" onclick="exportContentSelector.select(exportContentSelector.options.data)">all</a>
-    <a class="mw-ui-btn" onclick="exportContentSelector.unselectAll()">none</a>
+    <a class="  btn btn-primary" onclick="exportContentSelector.select(exportContentSelector.options.data)">all</a>
+    <a class="  btn btn-primary" onclick="exportContentSelector.unselectAll()">none</a>
 
     <div id="quick-parent-selector-tree"></div>
 

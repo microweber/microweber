@@ -93,7 +93,7 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                                <a href="<?php print $item['link'] ?>" class="mw-ui-btn">
+                                <a href="<?php print $item['link'] ?>" class="  btn btn-primary">
                                     <?php $read_more_text ? print $read_more_text : _e("Continue Reading"); ?>
                                 </a>
                             <?php endif; ?>

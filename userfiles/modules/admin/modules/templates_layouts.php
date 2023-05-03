@@ -269,7 +269,7 @@ $current_template = false;
                     <!-- Settings Content -->
                     <div class="module-live-edit-settings module-layouts-settings">
                         <div class="mw-mod-template-settings-holder">
-                            <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
+                            <select id="mw-module-skin-select-dropdown" data-also-reload="#mw-module-skin-settings-module" name="data-template" class="form-select  mw_option_field  w100 hidden" option_group="<?php print $params['parent-module-id'] ?>" data-refresh="<?php print $params['parent-module-id'] ?>">
                                 <option value="default" <?php if (('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
                                 <?php foreach ($templates as $item): ?>

@@ -62,7 +62,7 @@
 
 <div id="image_settings_modal_holder" style="display: none">
   <div class='image_settings_modal'>
-    <div class="mw-ui-box mw-ui-box-content">
+    <div class="card">
       <hr style="border-bottom: none">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label"><?php _e('Alignment'); ?></label>
@@ -71,9 +71,9 @@
         <label class="mw-ui-label"><?php _e('Effects'); ?></label>
         <div class="mw-ui-btn-nav"> <span title="Vintage Effect"
                               onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn"><?php _e('Vintage Effect'); ?></span> <span title="Convert to Grayscale"
+                              class="  btn btn-primary"><?php _e('Vintage Effect'); ?></span> <span title="Convert to Grayscale"
                               onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"
-                              class="mw-ui-btn"><?php _e('Convert to Grayscale'); ?></span> <span class="mw-ui-btn"
+                              class="  btn btn-primary"><?php _e('Convert to Grayscale'); ?></span> <span class="  btn btn-primary"
                               onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')"><?php _e('Rotate'); ?></span> <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e('Reset'); ?></span> </div>
       </div>
       <div class="mw-ui-field-holder">

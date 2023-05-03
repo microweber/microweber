@@ -119,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <i class="mw-icon-navicon-round"></i> List of Members
                     </div>
                 </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                     <div class="module-live-edit-settings module-teamcard-settings">
                         <input type="hidden" class="mw_option_field" name="settings" id="settingsfield"/>
                         <div class="mw-ui-field-holder add-new-button text-end text-right">
@@ -138,7 +138,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
                     </div>
                 </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                     <module type="admin/modules/templates"/>
                 </div>
             </div>

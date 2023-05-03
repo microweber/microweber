@@ -159,7 +159,7 @@ $data = $products;
 
                         <div class="mw-ui-field-holder">
                             <form class="js-search-product-for-custom-order">
-                                <input type="text" name="search" class="mw-ui-field element-block "
+                                <input type="text" name="search" class="form-select  element-block "
                                        placeholder="Search product in catalog" required="required" value="<?php print $kw; ?>">
                             </form>
                         </div>

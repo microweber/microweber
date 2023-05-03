@@ -58,7 +58,7 @@
                     <div class="mw-ui-row-nodrop valign">
                         <div class="mw-ui-col" style="width: 100px;">
                             <span class="pricedropdown-currency"><?php print mw()->shop_manager->currency_symbol(); ?></span>
-                            <input type="text" data-custom-field-id="<?php print $item['id'] ?>" class="mw-ui-field mw-ui-field-big tip" data-tip="<?php print addslashes($item['name']) ?>" placeholder="0.00" value="<?php print $val; ?>" onfocus="mw.$('#pricedropdown').addClass('active');" onblur="mw.$('#pricedropdown').removeClass('active');" onchange="mw.quick_price_save_edit(this);"/>
+                            <input type="text" data-custom-field-id="<?php print $item['id'] ?>" class="form-select  mw-ui-field-big tip" data-tip="<?php print addslashes($item['name']) ?>" placeholder="0.00" value="<?php print $val; ?>" onfocus="mw.$('#pricedropdown').addClass('active');" onblur="mw.$('#pricedropdown').removeClass('active');" onchange="mw.quick_price_save_edit(this);"/>
                         </div>
                     </div>
                 <?php endforeach; ?>

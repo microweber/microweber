@@ -110,7 +110,7 @@ $my_tree_id = ''
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
 
             <div class="module-live-edit-settings module-categories-image-settings">
                 <input type="hidden" name="settings" id="settingsfield" value="" class="mw_option_field"/>
@@ -186,7 +186,7 @@ $my_tree_id = ''
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates"/>
         </div>
     </div>

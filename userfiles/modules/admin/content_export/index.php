@@ -6,17 +6,17 @@ $(document).ready(function(){
 	$('.js-mw-content-export-form').submit(function(e) {
 		e.preventDefault();
 		var formData = $(this).serialize();
-		
+
 		 mw.notification.success("Export started...");
 		 $.post(mw.settings.api_url+'content_export_start', formData , function(data) {
 
 	 		mw.notification.success(data.success);
 		    window.location = mw.settings.api_url + 'content_export_download?filename=' + data.filename;
-		 	
+
 		});
-		
+
 	});
-		
+
 });
 </script>
 
@@ -42,8 +42,8 @@ label {
     <label><input type="checkbox" name="export_posts" checked="checked" value="1"> <?php _e("Posts"); ?></label><br />
      <label><input type="checkbox" name="export_comments" checked="checked" value="1"> <?php _e("Comments"); ?></label><br />
     <label><input type="checkbox" name="export_categories" checked="checked" value="1"> <?php _e("Categories"); ?></label><br />
-    
-     
+
+
     <br />
     <h4> <?php _e("Shop"); ?></h4>
     <label><input type="checkbox" name="export_products" checked="checked" value="1"> <?php _e("Products"); ?></label> <br />
@@ -52,7 +52,7 @@ label {
     <label><input type="checkbox" name="export_coupons" checked="checked" value="1"> <?php _e("Coupons"); ?></label><br />
 
  	<hr />
-  <button type="submit" class="mw-ui-btn">
+  <button type="submit" class="  btn btn-primary">
   <?php _e("Start export"); ?>
   </button>
   </form>

@@ -117,8 +117,8 @@ if (!user_can_access('module.marketplace.index')) {
   </tbody>
 </table>
 <form onSubmit="return save_new_package_form();" id="add-package-form-<?php print $params['id'] ?>">
-  <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_name">
-  <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_version">
+  <input type="text" class="form-select  mw-ui-field-medium" name="require_name">
+  <input type="text" class="form-select  mw-ui-field-medium" name="require_version">
   <button class="btn btn-link" type="submit">Save config</button>
   <button type="button" id="run_composer_button_lock" onClick="apply_new_packages()"><?php _e('Run composer update'); ?></button>
 </form>

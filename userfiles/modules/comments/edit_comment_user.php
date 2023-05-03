@@ -28,6 +28,6 @@ $(document).ready(function () {
 <div class="comment_body" style="padding: 15px 0">
     <label class="form-label font-weight-bold"><?php _e('Your comment');?></label>
     <small class="text-muted d-block mb-3"><?php _e('Edit your comment in the field.');?></small>
-    <textarea id="mw-comment-edit-textarea" class="mw-ui-field w-100 h-100" name="comment_body"><?php echo $comment['comment_body']; ?></textarea>
+    <textarea id="mw-comment-edit-textarea" class="form-select  w-100 h-100" name="comment_body"><?php echo $comment['comment_body']; ?></textarea>
 </div>
 <span class="js-save-comment-btn mw-ui-btn mw-ui-btn-info pull-right" id="<?php print $id; ?>"><?php _e('Save'); ?></span>

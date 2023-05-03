@@ -10,7 +10,7 @@
                     <i class="mai-setting2"></i> Another Example1
                 </div>
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum1
             </div>
         </div>
@@ -20,7 +20,7 @@
                     <i class="mai-setting2"></i> Another Example2
                 </div>
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum2
             </div>
         </div>
@@ -35,9 +35,9 @@
                     <i class="mai-setting2"></i> Level 1
                 </div>
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Level 2
-                <div class="mw-ui-box mw-ui-box-content">
+                <div class="card">
                     <div class="mw-accordion">
                         <div class="mw-accordion-item">
                             <div class="mw-ui-box-header mw-accordion-title">
@@ -45,8 +45,8 @@
                                     <i class="mai-setting2"></i> Another Example1
                                 </div>
                             </div>
-                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                                <div class="mw-ui-box mw-ui-box-content">
+                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
+                                <div class="card">
                                     <div class="mw-accordion">
                                         <div class="mw-accordion-item">
                                             <div class="mw-ui-box-header mw-accordion-title">
@@ -54,7 +54,7 @@
                                                     <i class="mai-setting2"></i> Level 3
                                                 </div>
                                             </div>
-                                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                                                 Lorem Ipsum1
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                                     <i class="mai-setting2"></i> Another Example2
                                                 </div>
                                             </div>
-                                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                                                 Lorem Ipsum2
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                     <i class="mai-setting2"></i> Another Example2
                                 </div>
                             </div>
-                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+                            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                                 Lorem Ipsum2
                             </div>
                         </div>
@@ -92,7 +92,7 @@
             <div class="mw-ui-box-header mw-accordion-title">
                 <i class="mai-setting2"></i> Another Example2
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum2
             </div>
         </div>
@@ -126,7 +126,7 @@
             <div class="mw-ui-box-header mw-accordion-title">
                 <i class="mai-setting2"></i> Another Example1
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum1
             </div>
         </div>
@@ -134,7 +134,7 @@
             <div class="mw-ui-box-header mw-accordion-title">
                 <i class="mai-setting2"></i> Another Example2
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum2
             </div>
         </div>
@@ -145,7 +145,7 @@
             <div class="mw-ui-box-header mw-accordion-title">
                 <i class="mai-setting2"></i> Another Example1
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum1
             </div>
         </div>
@@ -153,7 +153,7 @@
             <div class="mw-ui-box-header mw-accordion-title">
                 <i class="mai-setting2"></i> Another Example2
             </div>
-            <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
                 Lorem Ipsum2
             </div>
         </div>
@@ -300,9 +300,9 @@
     <br>
     <br>
     <div class="mw-ui-btn-nav">
-        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-magnify"></span></a>
+        <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-magnify"></span></a>
         <input type="text" class="mw-ui-field" placeholder="Search...">
-        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-gear"></span></a>
+        <a href="javascript:;" class="  btn btn-primary"><span class="mw-icon-gear"></span></a>
     </div>
     <br>
     <br>

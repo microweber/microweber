@@ -5,7 +5,7 @@
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates"/>
         </div>
     </div>

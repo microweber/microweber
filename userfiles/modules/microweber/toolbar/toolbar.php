@@ -379,7 +379,7 @@ if (isset($_COOKIE['mw_exp'])) {
                             </a>
                             <div class="mw-dropdown-list create-content-dropdown-list">
                                 <div class="mw-dropdown-list-search">
-                                    <input type="text" class="mw-ui-field w100 mwtb-search mw-dropdown-search" placeholder="Search content"/>
+                                    <input type="text" class="form-select  w100 mwtb-search mw-dropdown-search" placeholder="Search content"/>
                                 </div>
                                 <?php
                                 $pt_opts = array();
@@ -490,7 +490,7 @@ if (isset($_COOKIE['mw_exp'])) {
                                             <li class="mw-defaults <?php print $class; ?>"
                                                 <?php if ($width): ?> style="width: <?php print $width ?>;"  <?php endif; ?>
                                                 title="<?php print $title; ?>">
-                                                <div class="mw-ui-btn"><?php print $html; ?></div>
+                                                <div class="  btn btn-primary"><?php print $html; ?></div>
                                             </li>
                                         <?php endforeach; ?>
                                     <?php endif; ?>

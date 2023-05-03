@@ -56,7 +56,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-menu-settings">
                 <?php include($config['path_to_module'] . 'admin_live_edit_sidebar_tab1.php'); ?>
@@ -71,7 +71,7 @@ if ($menu_name == false and isset($params['menu_name'])) {
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates"/>
         </div>
     </div>

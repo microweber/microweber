@@ -100,7 +100,7 @@ if (isset($params['for-content-id'])) {
                 <i class="mw-icon-gear"></i> <?php _e('Settings'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <!-- Settings Content -->
             <div class="module-live-edit-settings module-categories-settings">
                 <div class="mw-ui-field-holder">
@@ -108,7 +108,7 @@ if (isset($params['for-content-id'])) {
                     <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>"/>
 
                     <select name="data-content-id" id="mw_set_categories_tree_root_page"
-                            class="mw-ui-field mw_option_field mw-full-width"
+                            class="form-select  mw_option_field mw-full-width"
                             data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value="0" <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                                 title="<?php _e("None"); ?>"><?php _e("None"); ?></option>
@@ -130,7 +130,7 @@ if (isset($params['for-content-id'])) {
                     <div class="mw-ui-field-holder">
                         <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
                         <select name="data-category-id" id="selcted_categogy_for_parent_category"
-                                class="mw-ui-field mw_option_field mw-full-width"
+                                class="form-select  mw_option_field mw-full-width"
                                 data-also-reload="<?php print  $config['the_module'] ?>">
                             <option value='' <?php if ((0 == intval($category_id))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
                             <?php
@@ -151,7 +151,7 @@ if (isset($params['for-content-id'])) {
                 <?php $selected_max_depth = get_option('data-max-depth', $params['id']); ?>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Max depth"); ?></label>
-                    <select name="data-max-depth" class="mw-ui-field mw_option_field mw-full-width"
+                    <select name="data-max-depth" class="form-select  mw_option_field mw-full-width"
                             data-also-reload="<?php print  $config['the_module'] ?>">
                         <option value='0' <?php if (0 == intval($selected_max_depth)): ?>   selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
                         <?php for ($i = 1; $i <= 10; $i++): ?>
@@ -164,7 +164,7 @@ if (isset($params['for-content-id'])) {
                 <?php $only_products_in_stock = get_option('only-products-in-stock', $params['id']); ?>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label"><?php _e("Show only categories with products in-stock"); ?></label>
-                    <select name="only-products-in-stock" class="mw-ui-field mw_option_field mw-full-width"
+                    <select name="only-products-in-stock" class="form-select  mw_option_field mw-full-width"
                             data-also-reload="<?php print  $config['the_module'] ?>">
 
                         <option value="0">No</option>
@@ -186,7 +186,7 @@ if (isset($params['for-content-id'])) {
                   <i class="mw-icon-navicon-round"></i> <?php _e('List of Categories'); ?>
               </div>
           </div>
-          <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+          <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
               <div id="mw_add_cat_live_edit"></div>
           </div>
       </div>*/
@@ -199,7 +199,7 @@ if (isset($params['for-content-id'])) {
                 <i class="mw-icon-beaker"></i> <?php _e('Templates'); ?>
             </div>
         </div>
-        <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
+        <div class="mw-accordion-content mw-ui-box mw-ui-box-content card">
             <module type="admin/modules/templates"/>
         </div>
     </div>

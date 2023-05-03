@@ -50,19 +50,21 @@ if ($module_template != false) {
 
 <div for-module-id="<?php print $params['id'] ?>" class="module">
     <?php if (isset($template_file) and $template_file != false and is_file($template_file)): ?>
-        <div class="mw-ui-box m-t-20">
-            <div class="mw-ui-box-header">
+        <div class="card">
+            <div class="card-header d-block">
 <!--                <i class="mw-icon-gear mr-1"></i>-->
-                <label claas="control-label font-weight-bold" style="font-weight: bold;"><?php _e("Skin settings"); ?></label>
+                <label class="control-label font-weight-bold" style="font-weight: bold;"><?php _e("Skin settings"); ?></label>
                 <small class="text-muted d-block mb-3"><?php _e('Edit your design from here.');?></small>
             </div>
-            <div class="mw-ui-box-content">
-                <style>
-                    #settings-holder h5 {
-                        display: none !important;
-                    }
-                </style>
-                <?php include($template_file); ?>
+            <div class="card-body">
+              <div class="row">
+                  <style>
+                      #settings-holder h5 {
+                          display: none !important;
+                      }
+                  </style>
+                  <?php include($template_file); ?>
+              </div>
 
             </div>
         </div>
