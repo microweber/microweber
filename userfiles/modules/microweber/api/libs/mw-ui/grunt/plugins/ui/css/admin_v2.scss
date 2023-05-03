@@ -777,3 +777,18 @@ small.text-muted {
 .navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item{
     padding-inline-start: 10px;
 }
+
+
+.shipping-module-draggable-item {
+    .cursor-move-holder {
+        visibility: hidden;
+    }
+
+    &:hover {
+        .cursor-move-holder {
+            visibility: visible;
+        }
+    }
+
+}
+
