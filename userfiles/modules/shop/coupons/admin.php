@@ -67,6 +67,7 @@ $coupon_get_count = coupon_get_count();
         <div class="row">
 
             <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
+
                 <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
 
                 <?php

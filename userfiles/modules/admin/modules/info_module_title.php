@@ -15,7 +15,9 @@ if (!$module_info) {
 ?>
 <div class="d-flex align-items-center">
     <?php if (isset($module_info['icon'])) { ?>
-        <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill me-3" style="width: 24px; height: 24px;"/>
+        <span style="width: 50px; height: 50px">
+            dd
+        </span>
     <?php } ?>
     <?php if (isset($module_info['name'])) { ?>
         <h1 class="main-pages-title"><?php _e($module_info['name']); ?> </h1>

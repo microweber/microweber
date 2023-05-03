@@ -26,7 +26,6 @@
 
         <div class="card-body">
             <div id="users-manage-body">
-
                 <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
                     <div class="form-inline">
                         <div class="form-group">
@@ -49,7 +48,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="row rounded">
                     <div class="col mb-3">
                         <label class="d-block mb-2">Sort By</label>
