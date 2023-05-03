@@ -9011,16 +9011,16 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 .mw-dropdown-default .mw-dropdown-content li:hover {
   background-color: #efefef; }
 
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu {
+  position: absolute;
+  background-color: var(--tblr-bg-surface); }
 
-.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu{
-    position: absolute;
-    background-color: var(--tblr-bg-surface);
-}  
+.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item {
+  padding-inline-start: 10px; }
 
-.navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item{
-  padding-inline-start: 10px;
-}
+.shipping-module-draggable-item .cursor-move-holder {
+  visibility: hidden; }
+.shipping-module-draggable-item:hover .cursor-move-holder {
+  visibility: visible; }
 
 /*# sourceMappingURL=admin_v2.css.map */
-
-
