@@ -47,6 +47,35 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col mb-3">
+                        <label class="d-block mb-2">Sort By</label>
+                        <div class="d-flex">
+                            <select class="form-select mr-3">
+                                <option value="id">Id</option>
+                                <option value="username">Username</option>
+                                <option value="email">Email</option>
+                                <option value="is_active">Is active</option>
+                                <option value="last_login">Last login</option>
+                                <option value="created_at">Created at</option>
+                                <option value="updated_at">Updated at</option>
+                            </select>
+                            <select class="form-select">
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <label class="d-block mb-2">Role</label>
+                        <select class="form-select">
+                            <option value="">-</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                </div>
+
                 <style>
                     .mw-admin-users-manage-table td,
                     .mw-admin-users-manage-table td *{
@@ -54,7 +83,7 @@
                     }
                 </style>
 
-                <div class="table-responsive   mw-admin-users-manage-table">
+                <div class="table-responsive  mw-admin-users-manage-table">
                     <table class="table table-hover m-0" cellspacing="0" cellpadding="0">
                         <tbody>
 
