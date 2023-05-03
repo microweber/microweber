@@ -111,7 +111,7 @@
                             <?php _e("You don't have new comments"); ?>
                         </h2>
                         <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>"
-                           target="_top" class="mw-ui-btn pull-right" style="top:6px;">
+                           target="_top" class=" btn-btn-primary pull-right" style="top:6px;">
                             <?php _e("See all"); ?>
                             <strong><?php print $old; ?></strong></a>
                     <?php } ?>

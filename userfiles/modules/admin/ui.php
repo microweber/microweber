@@ -356,8 +356,8 @@
             <div class="demobox" id="demotabsnav2">
                 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
                     <a href="javascript:;" class="mw-ui-btn-tab active">Home</a>
-                    <a href="javascript:;" class="mw-ui-btn-tab">About</a>
-                    <a href="javascript:;" class="mw-ui-btn-tab">Contact</a>
+                    <a href="javascript:;" class="btn btn-primary">About</a>
+                    <a href="javascript:;" class="btn btn-primary">Contact</a>
                 </div>
                 <div class="mw-ui-box">
                     <div class="mw-ui-box-content">Home - Lorem Ipsum</div>
@@ -1162,7 +1162,7 @@
                 </div>
 
                 <div class="mw-ui-col" style="width: 150px;">
-                    <div class="mw-ui-col-container"><span class="mw-ui-btn pull-right" onclick="mw.accordion('#accordion-example2');">Remote control</span></div>
+                    <div class="mw-ui-col-container"><span class=" btn-btn-primary pull-right" onclick="mw.accordion('#accordion-example2');">Remote control</span></div>
                 </div>
             </div>
 

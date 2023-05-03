@@ -4,7 +4,7 @@
 <hr>
 <hr>
 <div id="mw-order-table-holder">
-  <div class="section-header"> <a class="mw-ui-btn pull-right" href="#vieworder=0"><span class="mw-icon-back"></span>
+  <div class="section-header"> <a class=" btn-btn-primary pull-right" href="#vieworder=0"><span class="mw-icon-back"></span>
     <?php _e("Back to Orders"); ?>
     </a>
     <h2>

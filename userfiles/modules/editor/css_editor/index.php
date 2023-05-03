@@ -283,7 +283,7 @@ if ($file and is_file($file)) {
 
 <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="css-type-tabs-nav">
     <a href="javascript:;" class="mw-ui-btn-tab active"><?php _e("Custom "); ?>CSS</a>
-    <a href="javascript:;" class="mw-ui-btn-tab"><?php _e("Visual Editor"); ?> CSS</a>
+    <a href="javascript:;" class="btn btn-primary"><?php _e("Visual Editor"); ?> CSS</a>
 </div>
 <div class="mw-ui-box" id="css-type-tabs">
     <div class="mw-ui-box-content" style="min-height: 300px">

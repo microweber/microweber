@@ -48,8 +48,8 @@
 
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="code_editor_main_tabnav">
       <a class="mw-ui-btn-tab active"  href="javascript:;">HTML</a>
-      <a class="mw-ui-btn-tab" href="javascript:;">CSS</a>
-      <a class="mw-ui-btn-tab" href="javascript:;" onclick="popout_css_editor_module_in_new_window()" title="Pop put">
+      <a class="btn btn-primary" href="javascript:;">CSS</a>
+      <a class="btn btn-primary" href="javascript:;" onclick="popout_css_editor_module_in_new_window()" title="Pop put">
 
           <i class="mdi mdi-open-in-new mdi-20px lh-1_3" title="Pop put"   style="cursor: pointer"></i>
 

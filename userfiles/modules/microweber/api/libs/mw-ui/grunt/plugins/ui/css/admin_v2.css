@@ -9030,8 +9030,10 @@ body.theme-dark .mw-dialog-skin-default .mw-dialog-close:hover:after {
   filter: none; }
 body.theme-dark .mw-dialog-skin-default .mw-dialog-close:after {
   filter: invert(1); }
+body.theme-dark .dashboard-icons-wrapper {
+  background-color: var(--tblr-body-bg) !important; }
 
-.mw-ui-box-header {
+.mw-ui-box-header, .mw-ui-box {
   background-color: var(--tblr-bg-surface-secondary); }
 
 /*# sourceMappingURL=admin_v2.css.map */
