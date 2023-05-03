@@ -54,58 +54,58 @@
 
 
                     <?php if ($item['content_type'] == 'page') { ?>
-                    <div class="col-2 modal-add-new-buttons-img">
+                    <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-page.svg" alt="">
                     </div>
 
-                    <div class="col-xl-10 ps-xl-3">
+                    <div class="col-lg-9 ps-3">
                         <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
                             Create a new page to your website or online store, choose from pre-pared page designs
                         </p>
                     </div>
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'post') { ?>
-                    <div class="col-2 modal-add-new-buttons-img">
+                    <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-post.svg" alt="">
                     </div>
-                    <div class="col-xl-10 ps-xl-3">
+                    <div class="col-lg-9 ps-3">
                         <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
                             Add new post to your blog page, linked to category of main page on your website
                         </p>
                     </div>
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'category') { ?>
-                    <div class="col-2 modal-add-new-buttons-img">
+                    <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-category.svg" alt="">
                     </div>
-                    <div class="col-xl-10 ps-xl-3">
+                    <div class="col-lg-9 ps-3">
                         <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
                             Add new category and organize your blog posts or items from the shop in the right way
                         </p>
                     </div>
                     <?php }?>
 
                     <?php if ($item['content_type'] == 'product') { ?>
-                    <div class="col-2 modal-add-new-buttons-img">
+                    <div class="col-lg-2 mx-2 modal-add-new-buttons-img">
                         <img  src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/mw-admin-add-product.svg" alt="">
 
                     </div>
-                    <div class="col-xl-10 ps-xl-3">
+                    <div class="col-lg-9 ps-3">
                         <h3 class="  font-weight-bolder"> New <?php print $title; ?></h3>
 
 
-                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p">
+                        <p class="  font-weight-bold mb-0 modal-add-new-buttons-p d-none d-lg-block">
                             Add new category and organize your blog posts or items from the shop in the right way
                         </p>
                     </div>
