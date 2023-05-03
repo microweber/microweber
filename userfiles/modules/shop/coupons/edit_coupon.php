@@ -137,13 +137,13 @@ if ($params['coupon_id'] !== 'false') {
     <div class="d-flex justify-content-end">
         <?php if (!$addNew) { ?>
 <!--            <div>-->
-<!--                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
+<!--                <a class="btn btn-outline-danger" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
 <!--            </div>-->
         <?php } ?>
 
         <div>
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
-            <button type="button" class="btn btn-success btn-sm js-save-coupon"><?php _e("Save"); ?></button>
+            <button type="button" class="btn btn-outline-secondary" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-success js-save-coupon"><?php _e("Save"); ?></button>
         </div>
     </div>
 </form>
