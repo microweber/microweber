@@ -45,7 +45,7 @@
                     <h5 class="text-white mr-3 d-flex align-items-center h-100"><img src="assets/img/logo.svg" alt="Microweber" style="width: 170px;"/></h5>
                 </li>
 
-                <li class="mx-1 d-none d-md-block">
+                <li class="mx-1">
                     <button type="button" class="btn btn-outline-secondary btn-rounded btn-sm-only-icon" data-bs-toggle="dropdown"><span class="d-none d-md-block">Add new</span> <i class="mdi mdi-plus"></i></button>
                     <div class="dropdown-menu ">
                         <a class="dropdown-item" href="#">Post</a>
