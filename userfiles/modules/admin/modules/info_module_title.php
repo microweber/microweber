@@ -15,8 +15,8 @@ if (!$module_info) {
 ?>
 <div class="d-flex align-items-center">
     <?php if (isset($module_info['icon'])) { ?>
-        <span style="width: 50px; height: 50px">
-            dd
+        <span style="width: 24px; height: 24px ; margin-right:10px;">
+            <?php echo module_icon_inline($mod); ?>
         </span>
     <?php } ?>
     <?php if (isset($module_info['name'])) { ?>

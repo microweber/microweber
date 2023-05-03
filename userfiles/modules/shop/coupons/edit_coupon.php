@@ -63,14 +63,22 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Discount"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the value of your discount."); ?></small>
-        <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
-        <div class="js-field-message"></div>
+        <div class="input-group mb-2">
+            <span class="input-group-text"><?php echo get_currency_symbol(); ?></span>
+            <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
+            <div class="js-field-message"></div>
+        </div>
     </div>
 
     <div class="form-group">
         <label class="form-label"><?php _e("Minimum Order Amount"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Apply the discount when the cart amount is more than the value of the coupone code."); ?></small>
-        <input type="text" name="total_amount" class="form-control js-validation js-validation-float-number" value="<?php print $data['total_amount'] ?>"/>
+
+        <div class="input-group mb-2">
+          <span class="input-group-text"><?php echo get_currency_symbol(); ?></span>
+         <input type="text" name="total_amount" class="form-control js-validation js-validation-float-number" value="<?php print $data['total_amount'] ?>"/>
+        </div>
+
         <div class="js-field-message"></div>
     </div>
 

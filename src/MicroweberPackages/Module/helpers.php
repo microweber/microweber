@@ -71,12 +71,11 @@ function module_info($module_name)
 
 function module_icon_inline($module_name)
 {
-    $module_info = module_info($module_name);
-
-    if (isset($module_info['icon'])) {
-        $icon = str_replace('{SITE_URL}', '', $module_info['icon']);
-        if (mb_strpos($icon, '.svg') !== false) {
-            echo file_get_contents($icon);
+    $findModule = \MicroweberPackages\Module\Module::where('module', $module_name)->first();
+    if ($findModule) {
+        $icon = $findModule->getIconInline();
+        if ($icon) {
+            return $icon;
         }
     }
 }
