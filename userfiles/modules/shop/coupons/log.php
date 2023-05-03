@@ -1,5 +1,15 @@
 <?php only_admin_access(); ?>
 <?php $couponLogs = coupon_logs(); ?>
+<?php
+if (empty($couponLogs)):
+?>
+
+<?php _e('No logs found'); ?>
+
+<?php
+else:
+?>
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -25,3 +35,6 @@
         <?php endif; ?>
     </table>
 </div>
+<?php
+endif;
+?>
