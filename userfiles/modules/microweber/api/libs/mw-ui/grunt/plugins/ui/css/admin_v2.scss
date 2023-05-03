@@ -672,7 +672,7 @@ small.text-muted {
         }
 
         &.wrapper-icon-statistics {
-            background-color: #efefef;
+            background-color: var(--tblr-body-bg);
 
         }
 
@@ -794,4 +794,22 @@ small.text-muted {
 
 .nav-link:focus, .nav-link:hover {
     color: var(--tblr-body-color);
+}
+
+body.theme-dark {
+
+    .mw-dialog-skin-default .mw-dialog-close {
+
+         &:hover {
+             &:after {
+                 filter: none;
+             }
+         }
+        &:after {
+
+
+                filter: invert(1);
+
+        }
+    }
 }

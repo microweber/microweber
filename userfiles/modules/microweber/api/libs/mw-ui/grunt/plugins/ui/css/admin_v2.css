@@ -8955,7 +8955,7 @@ small.text-muted {
     .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-sales svg {
       fill: #3d9707; }
   .dashboard-admin-cards .dashboard-icons-wrapper.wrapper-icon-statistics {
-    background-color: #efefef; }
+    background-color: var(--tblr-body-bg); }
 .dashboard-admin-cards small {
   margin-bottom: 6px; }
 .dashboard-admin-cards a {
@@ -9025,5 +9025,10 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 
 .nav-link:focus, .nav-link:hover {
   color: var(--tblr-body-color); }
+
+body.theme-dark .mw-dialog-skin-default .mw-dialog-close:hover:after {
+  filter: none; }
+body.theme-dark .mw-dialog-skin-default .mw-dialog-close:after {
+  filter: invert(1); }
 
 /*# sourceMappingURL=admin_v2.css.map */
