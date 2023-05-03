@@ -36,14 +36,14 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     }
 
     function reload_coupon_after_save() {
-
-        mw.reload_module_parent('#<?php print $params['id'] ?>');
-        mw.reload_module_everywhere('shop/coupons/admin');
-        mw.reload_module_everywhere('shop/coupons/edit_coupons');
-        window.parent.$(window.parent.document).trigger('shop.coupons.update');
-        if (typeof(editModal) != 'undefined' && editModal.modal) {
-            editModal.modal.remove();
-        }
+        //mw.reload_module_parent('#<?php //print $params['id'] ?>//');
+        //mw.reload_module_everywhere('shop/coupons/admin');
+        //mw.reload_module_everywhere('shop/coupons/edit_coupons');
+        //window.parent.$(window.parent.document).trigger('shop.coupons.update');
+        //if (typeof(editModal) != 'undefined' && editModal.modal) {
+        //    editModal.modal.remove();
+        //}
+        window.location.href = window.location.href; 
     }
 
     $(document).ready(function () {
