@@ -35,6 +35,15 @@ if ($params['coupon_id'] !== 'false') {
 <form class="js-edit-coupon-form" action="<?php print api_url('coupons_save_coupon'); ?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
+
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
+        </div>
+        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
+    </div>
+
     <div class="form-group">
         <label class="form-label"><?php _e("Coupon name"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
@@ -123,21 +132,13 @@ if ($params['coupon_id'] !== 'false') {
         <div class="js-field-message"></div>
     </div>
 
-    <div class="form-group">
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
-        </div>
-        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
-    </div>
-
     <hr class="thin">
 
     <div class="d-flex justify-content-end">
         <?php if (!$addNew) { ?>
-            <div>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>
-            </div>
+<!--            <div>-->
+<!--                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
+<!--            </div>-->
         <?php } ?>
 
         <div>
