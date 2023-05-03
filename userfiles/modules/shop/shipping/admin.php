@@ -143,8 +143,6 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                                           <span class="text-primary js-method-on">
                                                               <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')   === 'y'): ?>
                                                                   <?php _e("is activated") ?>
-                                                              <?php else: ?>
-                                                                 <?php _e("is OFF"); ?>
                                                           </span>
                                                       <?php endif; ?>
                                                   </small>
