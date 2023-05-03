@@ -47,14 +47,14 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Coupon name"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
-        <input type="text" name="coupon_name" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
+        <input type="text" name="coupon_name" required="required" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
         <label class="form-label"><?php _e("Code"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the discount code or generate it from the button bellow."); ?></small>
-        <input type="text" name="coupon_code" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
+        <input type="text" name="coupon_code" required="required" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
         <div class="js-field-message"></div>
         <br/>
         <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code"><?php _e("Generate New Promo Code"); ?></button>
