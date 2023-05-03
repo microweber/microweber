@@ -40,6 +40,9 @@
                         </div>
                     </div>
                     <div>
+                        <button type="button" class="btn btn-outline-default" >
+                            <i class="mdi mdi-filter mr-2"></i> Show Filters
+                        </button>
                         <a href="{{route('admin.users.create')}}"
                            class="btn btn-primary" id="add-new-user-btn">
                             <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
@@ -47,11 +50,11 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row bg-white rounded">
                     <div class="col mb-3">
                         <label class="d-block mb-2">Sort By</label>
                         <div class="d-flex">
-                            <select class="form-select mr-3">
+                            <select wire:model="orderBy" class="form-select">
                                 <option value="id">Id</option>
                                 <option value="username">Username</option>
                                 <option value="email">Email</option>
@@ -60,7 +63,7 @@
                                 <option value="created_at">Created at</option>
                                 <option value="updated_at">Updated at</option>
                             </select>
-                            <select class="form-select">
+                            <select wire:model="orderDirection" class="form-select">
                                 <option value="asc">Ascending</option>
                                 <option value="desc">Descending</option>
                             </select>
@@ -68,8 +71,8 @@
                     </div>
                     <div class="col mb-3">
                         <label class="d-block mb-2">Role</label>
-                        <select class="form-select">
-                            <option value="">-</option>
+                        <select wire:model="role" class="form-select">
+                            <option value="">All</option>
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>

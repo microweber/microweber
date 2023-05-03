@@ -13,11 +13,13 @@ class UsersList extends Component
 
     public $orderBy;
     public $orderDirection;
+    public $role;
     public $keyword;
     public $exportResults = false;
     public $pageLimit = 15;
 
     public $queryString = [
+        'role',
         'orderBy',
         'orderDirection',
         'keyword',
@@ -29,18 +31,20 @@ class UsersList extends Component
 
     public function render()
     {
-        $filterFields = [];
-
-        if (!isset($filterFields['orderBy'])) {
-            $filterFields['orderBy'] = 'created_at';
-            $filterFields['orderDirection'] = 'desc';
-        }
-
         $usersQuery = User::filter([
             'orderBy' => $this->orderBy,
             'orderDirection' => $this->orderDirection,
             'keyword' => $this->keyword,
         ]);
+
+        if (!empty($this->role)) {
+            if ($this->role == 'admin') {
+                $usersQuery->where('is_admin', 1);
+            }
+            if ($this->role == 'user') {
+                $usersQuery->where('is_admin', 0);
+            }
+        }
 
         if ($this->exportResults) {
 
