@@ -63,7 +63,7 @@ if (!$past_page) {
                 <?php
                 if (user_can_access('module.content.edit')):
                     ?>
-                <li class="mx-1 d-none d-md-block">
+                <li class="mx-1">
                     <button type="button" class="btn btn-outline-success btn-rounded btn-sm-only-icon "
                             data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi mdi-plus"></i>

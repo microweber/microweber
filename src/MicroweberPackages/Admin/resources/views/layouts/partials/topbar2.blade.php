@@ -1,7 +1,7 @@
 <div class="page-header d-print-none">
     <div class="row g-2 align-items-center px-5">
         <div class="col">
-            <div class="mx-1 d-none d-md-block">
+            <div class="mx-1">
                 @yield('topbar2-links-left', \View::make('admin::layouts.partials.topbar2-links-left-default'))
             </div>
         </div>
