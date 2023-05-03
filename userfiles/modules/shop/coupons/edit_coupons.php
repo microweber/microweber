@@ -8,6 +8,7 @@
             <th><?php _e('Discount'); ?></th>
             <th><?php _e('Discount Type'); ?></th>
             <th><?php _e('Total'); ?></th>
+            <th><?php _e('Status'); ?></th>
             <th  class="text-center"><?php _e('Actions'); ?></th>
         </tr>
         </thead>
@@ -39,6 +40,13 @@
                         <?php endif; ?>
                     </td>
                     <td><?php print($coupon['total_amount']) ?></td>
+                    <td>
+                        <?php if ($coupon['is_active'] == '1'): ?>
+                            <?php _e('Active'); ?>
+                        <?php else: ?>
+                            <?php _e('Inactive'); ?>
+                        <?php endif; ?>
+                    </td>
                     <td class="text-center">
                         <button onclick="editCoupon(<?php print($coupon['id']) ?>)" class="btn btn-outline-primary btn-sm" title="Edit"><?php _e('Edit'); ?></button>
                         &nbsp;

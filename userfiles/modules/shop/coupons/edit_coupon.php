@@ -35,17 +35,26 @@ if ($params['coupon_id'] !== 'false') {
 <form class="js-edit-coupon-form" action="<?php print api_url('coupons_save_coupon'); ?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
+
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
+        </div>
+        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
+    </div>
+
     <div class="form-group">
         <label class="form-label"><?php _e("Coupon name"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
-        <input type="text" name="coupon_name" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
+        <input type="text" name="coupon_name" required="required" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
         <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
         <label class="form-label"><?php _e("Code"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the discount code or generate it from the button bellow."); ?></small>
-        <input type="text" name="coupon_code" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
+        <input type="text" name="coupon_code" required="required" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
         <div class="js-field-message"></div>
         <br/>
         <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code"><?php _e("Generate New Promo Code"); ?></button>
@@ -123,26 +132,18 @@ if ($params['coupon_id'] !== 'false') {
         <div class="js-field-message"></div>
     </div>
 
-    <div class="form-group">
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
-        </div>
-        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
-    </div>
-
     <hr class="thin">
 
     <div class="d-flex justify-content-end">
         <?php if (!$addNew) { ?>
-            <div>
-                <a class="btn btn-outline-danger btn-sm" href="javascript:deleteCoupon('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></a>
-            </div>
+<!--            <div>-->
+<!--                <a class="btn btn-outline-danger" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
+<!--            </div>-->
         <?php } ?>
 
         <div>
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
-            <button type="button" class="btn btn-success btn-sm js-save-coupon"><?php _e("Save"); ?></button>
+            <button type="button" class="btn btn-outline-secondary" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+            <button type="button" class="btn btn-success js-save-coupon"><?php _e("Save"); ?></button>
         </div>
     </div>
 </form>
