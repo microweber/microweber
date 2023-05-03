@@ -1,11 +1,13 @@
 <?php
 
 
+
 function is_page()
 {
-    if (page_id()) {
+    if (page_id() == content_id()) {
         return true;
     }
+    return false;
 }
 
 function is_post()
@@ -13,6 +15,7 @@ function is_post()
     if (post_id()) {
         return true;
     }
+    return false;
 }
 
 function is_home()
@@ -27,12 +30,14 @@ function is_category()
     if (category_id()) {
         return true;
     }
+    return false;
 }
 function is_product()
 {
     if (product_id()) {
         return true;
     }
+    return false;
 }
 
 
