@@ -3,12 +3,10 @@
 @section('content')
 
 <div id="module-admin-wrapper" class="px-5">
-    <div class="card col-xxl-8 col-12 mx-auto">
-        <div class="card-body">
-            <div class="row">
-                <module type="{{$type}}" view="admin" />
-            </div>
-        </div>
+    <div class="col-xxl-8 col-12 mx-auto">
+
+        <module type="{{$type}}" view="admin" />
+
     </div>
 </div>
 

@@ -8599,7 +8599,8 @@ body {
   display: none; }
 
 .card-header {
-  border-bottom: 0; }
+  border-bottom: 0;
+  padding-top: 0; }
 
 .settings-info-holder-title {
   color: var(--tblr-body-color);
