@@ -47,7 +47,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i><?php _lang("List of Images", "modules/carousel_grid") ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php _lang('Settings', "modules/carousel_grid"); ?></a>
+            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings">  <?php _lang('Settings', "modules/carousel_grid"); ?></a>
         </nav>
 
         <div class="tab-content py-3">
