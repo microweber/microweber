@@ -1,4 +1,4 @@
-<script>mw.lib.require('mwui_init');</script>
+
 <style>
     .js-product-variants {
         display: block;

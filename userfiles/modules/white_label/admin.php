@@ -177,9 +177,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     });
                 });
             </script>
-            <script>
-                mw.lib.require('mwui_init');
-            </script>
+
             <div class="module-live-edit-settings">
                 <form id="white_label_settings_holder">
                     <p class="mb-4">

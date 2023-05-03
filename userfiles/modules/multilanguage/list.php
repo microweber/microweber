@@ -19,8 +19,6 @@ only_admin_access();
     });
 </script>
 
-<script>mw.lib.require('mwui_init');</script>
-
 
 <div class="table-responsive">
     <table class="table">

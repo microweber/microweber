@@ -53,7 +53,6 @@ $saveRoute = route('api.user.store');
 
 ?>
 
-<script>mw.lib.require("mwui_init");</script>
 <script>mw.require("files.js");</script>
 
 <?php if (is_array($data)): ?>

@@ -73,7 +73,7 @@ if (isset($params['live_edit'])) {
     <div class="card-body mb-3 <?php print $wrapper_class; ?>">
         <script type="text/javascript">
             mw.require('forms.js');
-            mw.lib.require('mwui_init');
+
             mw.lib.require('bootstrap_tags');
         </script>
         <script type="text/javascript">

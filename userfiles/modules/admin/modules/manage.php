@@ -150,7 +150,7 @@ if(isset($params['show_modules_by_categories']) and intval($params['show_modules
     }
     ?>
 
-    <script>mw.lib.require('mwui_init');</script>
+
 
     <style>
         .mw-module-installed-0 {

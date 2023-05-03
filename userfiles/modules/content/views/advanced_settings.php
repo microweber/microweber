@@ -44,9 +44,7 @@ if (isset($data['created_by']) and $data['created_by']) {
     $post_author_id = $data['created_by'];
 }
 ?>
-    <script type="text/javascript">
-        mw.lib.require('mwui_init');
-    </script>
+
     <script type="text/javascript">
         mw.reset_current_page = function (a, callback) {
             mw.tools.confirm("<?php _ejs("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {

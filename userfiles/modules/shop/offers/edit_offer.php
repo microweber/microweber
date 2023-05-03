@@ -39,7 +39,6 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 }
 ?>
 
-<script>mw.lib.require('mwui_init');</script>
 <script>mw.lib.require('bootstrap_datetimepicker');</script>
 
 <script>

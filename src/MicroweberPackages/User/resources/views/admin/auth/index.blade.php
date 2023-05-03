@@ -16,16 +16,6 @@
         admin_url = '<?php print admin_url(); ?>';
     </script>
 
-    <script type="text/javascript">
-        mw.require("<?php print mw_includes_url(); ?>css/admin.css", true);
-
-        <?php if(_lang_is_rtl()){ ?>
-        mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
-        <?php } ?>
-
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
-    </script>
 
 </head>
 

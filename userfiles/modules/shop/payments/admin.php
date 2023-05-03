@@ -3,7 +3,7 @@
 } ?>
 <script type="text/javascript">
     mw.require('options.js');
-    mw.lib.require('mwui_init');
+
 </script>
 
 <style>

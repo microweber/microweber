@@ -16,10 +16,7 @@
     <?php endif; ?>
 
     <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
-    <script>
-        mw.lib.require('mwui');
-        mw.lib.require('mwui_init');
-    </script>
+
 
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 

@@ -60,7 +60,7 @@
     }
 </script>
 
-<script>mw.lib.require('mwui_init');</script>
+
 <?php if ($active_or_disabled != 'active'): ?>
     <hr class="thin"/>
 <?php endif; ?>

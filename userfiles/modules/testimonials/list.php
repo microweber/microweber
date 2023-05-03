@@ -96,7 +96,6 @@ if (!isset($params['project_name'])) {
         });
     });
 </script>
-<script>mw.lib.require('mwui_init');</script>
 
 <style>
     .testimonial-client-image {

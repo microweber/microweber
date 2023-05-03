@@ -212,7 +212,7 @@ if ($weight_units == false) {
     <?php endif; ?>
 </script>
 
-<script>mw.lib.require('mwui_init');</script>
+
 
 <div data-field-id="<?php print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);"
      class="shipping-country-holder country-id-<?php print $item['id']; ?>">
