@@ -56,9 +56,6 @@ if ($params['coupon_id'] !== 'false') {
                             <?php _e("Inactive"); ?>
                         </span>
                         </template>
-
-                        <span x-text="couponIsActive">
-
                     </label>
                 </div>
             </div>
