@@ -155,15 +155,30 @@
 </head>
 
 <?php
+
+$additionalBodyClasses = [];
+
+
+
 $bodyDarkClass = '';
 
 if(isset($_COOKIE['admin_theme_dark'])){
     $bodyDarkClass = 'theme-dark';
 }
+
+
+$additionalBodyClasses[] = $bodyDarkClass;
+
+
+if(isset($options['iframe']) and $options['iframe']){
+    $additionalBodyClasses[] = 'mw-iframe-admin';
+}
+$additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
+
 ?>
 
 
-<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $bodyDarkClass; ?>">
+<body class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?> <?php print $additionalBodyClassesStr; ?>">
 
 <?php if ($enableLivewireScripts) { ?>
 <div>
