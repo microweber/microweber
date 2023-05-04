@@ -2924,7 +2924,7 @@ html.mw-loading:after {
     padding-block-start: 5px;
     padding-inline-end: 0;
     font-size: 14px;
-    color: #2b2b2b; }
+    color: var(--tblr-body-color); }
   .mw-tree-nav-skin-default tree-label {
     width: 20px; }
     .mw-tree-nav-skin-default tree-label + .mw-tree-item-title {
@@ -7265,22 +7265,7 @@ body.bup.dragStart.state-element .edit .element:empty {
   right: -0px; }
 
 .mw-ac-editor-nav {
-  position: relative;
-  vertical-align: middle;
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-  align-items: center;
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #cfcfcf;
-  width: 100%; }
-  .mw-ac-editor-nav > .mw-ui-btn-tab:not(.active) {
-    color: #adb5bd; }
-  .mw-ac-editor-nav > .mw-ui-btn-tab.active {
-    color: #4592ff; }
+  position: relative; }
 
 .mw-file-drop-zone {
   border: 2px dashed #4592ff;

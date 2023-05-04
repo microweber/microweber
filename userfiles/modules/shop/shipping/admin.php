@@ -35,7 +35,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
         var moduleType = mod + '/admin';
 
 
-
+ 
 
         var dialog = mw.top().dialogIframe({
              url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType,

@@ -7,7 +7,7 @@
     position: sticky;
     bottom: 0;
     z-index: 2;
-    background-color: #fff;
+    background-color: var(--tblr-bg-surface);
 }
 .mw-ui-form-controller-root{
     display: none;

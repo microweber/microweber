@@ -1056,11 +1056,16 @@ mw.require('link-editor.js');
 mw.require('state.js');
 
 mw.require('editor/bar.js');
+
 mw.require('editor/api.js');
 mw.require('editor/helpers.js');
+
 mw.require('editor/tools.js');
 mw.require('editor/core.js');
 mw.require('editor/controllers.js');
+
+
+
 mw.require('editor/add.controller.js');
 mw.require('editor/interaction-controls.js');
 mw.require('editor/i18n.js');

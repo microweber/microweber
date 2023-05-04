@@ -145,15 +145,19 @@
                 }
 
                 this.options.searchInput.placeholder = this.options.searchInputPlaceholder || mw.lang('Search');
-                 mw.$(this.options.searchInput).css({
-                    position: 'sticky',
-                    top: '20px',
-                    zIndex: '1',
-                    margin: '9px 15px 15px 0',
-                    width: '100%',
-                    maxWidth: '100%',
 
-                });
+                if(this.options.searchInputSticky) {
+                    mw.$(this.options.searchInput).css({
+                        position: 'sticky',
+                        top: '20px',
+                        zIndex: '1',
+                        margin: '9px 15px 15px 0',
+                        width: '100%',
+                        maxWidth: '100%',
+    
+                    });
+                }
+                 
                 this.options.searchInput.addEventListener('input', function () {
                     scope.search();
                 });
