@@ -27,7 +27,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
         }
     }
 
-    shippingMethodModal = function (el,mod) {
+    shippingMethodModal = function (el,mod, title) {
         el = $(el);
         var html = el.find('.js-modal-content').html();
         var formId = mw.id('pm');
@@ -41,7 +41,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
         var dialog = mw.top().dialogIframe({
              url: route('live_edit.module_settings') + '?id=' + moduleId+ '&type=' + moduleType,
-            title: $('.gateway-title', el).html(),
+            title,
             id: 'mw_admin_existing_modal_shipping<?php print $params['id'] ?>',
 
             height: 'auto',
@@ -136,7 +136,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
                                                   <div class="form-check form-check-single form-switch p-0">
                                                       <input onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field form-check-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
-                                                      <label class="custom-control-label" for="ccheckbox-shipping_gw_<?php print($shipping_module['module']) ?>"></label>
+                                                      <label class="custom-control-label gateway-title" for="ccheckbox-shipping_gw_<?php print($shipping_module['module']) ?>"></label>
                                                   </div>
 
                                               </div>
@@ -154,7 +154,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                               </div>
 
                                               <div class="col text-end text-right">
-                                                  <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print($shipping_module['module']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
+                                                  <button type="button" onclick="shippingMethodModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print($shipping_module['module']) ?>',  '<?php _ejs($shipping_module['name']) ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                               </div>
                                           </div>
                                       </div>

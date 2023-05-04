@@ -8621,7 +8621,8 @@ body, .is_admin {
   padding-top: 0 !important; }
 
 .mw-dialog-skin-default .mw-dialog-container {
-  padding: 25px; }
+  padding: 25px;
+  padding-top: 0; }
 
 p {
   color: var(--tblr-body-color); }
@@ -8684,7 +8685,7 @@ p {
   top: 17px;
   right: 13px; }
 
-.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-backup-restore span, .mw-backup-restore label, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small, .mw-dialog-holder span, .mw-dialog-holder label {
+.mw-backup-restore p, .mw-backup-restore h3, .mw-backup-restore h2, .mw-backup-restore small, .mw-backup-restore span:not(.btn.btn-primary), .mw-backup-restore label, .mw-dialog-holder p, .mw-dialog-holder h3, .mw-dialog-holder h2, .mw-dialog-holder small, .mw-dialog-holder span:not(.btn.btn-primary), .mw-dialog-holder label {
   color: var(--tblr-body-color); }
 
 td, tr, th, .theme-dark .input-group-text {
@@ -9019,9 +9020,9 @@ html[dir="rtl"] .mw-admin-sidebar-navigation-menu {
 .navbar-vertical.navbar-expand-lg .navbar-collapse div.tomselect .dropdown-menu .dropdown-item {
   padding-inline-start: 10px; }
 
-.shipping-module-draggable-item .cursor-move-holder {
+.shipping-module-draggable-item .cursor-move-holder, .shipping-module-draggable-item .mdi-cursor-move, .table .cursor-move-holder, .table .mdi-cursor-move {
   visibility: hidden; }
-.shipping-module-draggable-item:hover .cursor-move-holder {
+.shipping-module-draggable-item:hover .cursor-move-holder, .shipping-module-draggable-item:hover .mdi-cursor-move, .table:hover .cursor-move-holder, .table:hover .mdi-cursor-move {
   visibility: visible; }
 
 .nav-link:focus, .nav-link:hover {
@@ -9036,5 +9037,17 @@ body.theme-dark .dashboard-icons-wrapper {
 
 .mw-ui-box-header, .mw-ui-box {
   background-color: var(--tblr-bg-surface-secondary); }
+
+.trash-svg-icon {
+  fill: var(--tblr-danger); }
+
+.mw-alert-holder {
+  padding: 20px;
+  font-size: 16px; }
+
+.mw-dialog-skin-default .mw-dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
 
 /*# sourceMappingURL=admin_v2.css.map */

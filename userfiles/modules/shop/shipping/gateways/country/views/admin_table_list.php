@@ -66,8 +66,8 @@
 <?php endif; ?>
 
 <div class="">
-    <div class="row d-flex justify-content-between align-items-end">
-        <div class="col">
+    <div class="d-flex justify-content-between align-items-end flex-wrap">
+        <div class="col-md-8">
             <div class="form-group mb-0">
                 <?php if ($active_or_disabled == 'active'): ?>
                     <label class="form-label"><?php _e('Allowed countries for shipping'); ?></label>
@@ -78,8 +78,8 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div class="col text-end text-right">
-            <a class="btn btn-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup();"><?php _e("Add Country"); ?></a>
+        <div class="col-md-4 text-end text-right">
+            <a class="btn btn-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup();"><?php _e("Add country"); ?></a>
         </div>
     </div>
 
@@ -98,7 +98,7 @@
                 <?php foreach ($data as $item): ?>
                     <tr class="shipping-country-holder vertical-align-middle show-on-hover-root" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 10px; padding-right: 0;">
-                            <i data-title="<?php _e("Reorder shipping countries"); ?>" data-bs-toggle="tooltip" class="shipping-handle-field mdi mdi-cursor-move mdi-18px text-muted show-on-hover" style="cursor: pointer;"></i>
+                            <svg class="shipping-handle-field mdi-cursor-move ui-sortable-handle" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
                         </td>
                         <td>
                             <?php if ($active_or_disabled == 'active'): ?>
@@ -122,8 +122,10 @@
                         </td>
 
                         <td class="text-end text-right">
-                            <a class="btn btn-outline-primary btn-sm" href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')"><?php _e("Edit"); ?></a>
-                            <a href="javascript:;" onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="btn btn-link text-danger btn-sm px-0"><i class="mdi mdi-trash-can-outline"></i></a>
+                            <a class="btn btn-outline-primary btn-sm me-2" href="javascript:mw_admin_edit_country_item_popup('<?php print $item['id'] ?>')"><?php _e("Edit"); ?></a>
+                            <a href="javascript:;" onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="btn btn-link text-danger btn-sm px-0">
+                                <svg class="trash-svg-icon" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
