@@ -156,8 +156,8 @@ class Template
 
     public function name()
     {
-        if ($this->adapter_current->getTemplateName()) {
-            return $this->adapter_current->getTemplateName();
+        if ($this->adapter_current->getTemplatePath()) {
+            return $this->adapter_current->getTemplatePath();
         }
         if (!defined('TEMPLATE_NAME')) {
             return $this->app->option_manager->get('current_template', 'template');
@@ -171,8 +171,8 @@ class Template
 
     public function dir($add = false)
     {
-        if ($this->adapter_current->getTemplateName()) {
-            return normalize_path(templates_path() . $this->adapter_current->getTemplateName() . DS);
+        if ($this->adapter_current->getTemplatePath()) {
+            return normalize_path(templates_path() . $this->adapter_current->getTemplatePath() . DS);
         }
 
         if (defined('TEMPLATE_DIR')) {
