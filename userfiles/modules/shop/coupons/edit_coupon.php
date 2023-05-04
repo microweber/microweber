@@ -171,14 +171,14 @@ if ($params['coupon_id'] !== 'false') {
 
     <hr class="thin">
 
-    <div class="d-flex justify-content-end">
+    <div class="coupon-button-actions">
         <?php if (!$addNew) { ?>
 <!--            <div>-->
 <!--                <a class="btn btn-outline-danger" href="javascript:deleteCoupon('--><?php //print $data['id'] ?><!--')">--><?php //_e("Delete"); ?><!--</a>-->
 <!--            </div>-->
         <?php } ?>
 
-        <div>
+        <div class="d-flex justify-content-between">
             <button type="button" class="btn btn-outline-secondary" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
             <button type="button" class="btn btn-success js-save-coupon"><?php _e("Save"); ?></button>
         </div>
