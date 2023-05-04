@@ -61,14 +61,10 @@
 </script>
 
 
-<?php if ($active_or_disabled != 'active'): ?>
-    <hr class="thin"/>
-<?php endif; ?>
-
 <div class="">
     <div class="d-flex justify-content-between align-items-end flex-wrap">
         <div class="col-md-8">
-            <div class="form-group mb-0">
+            <div class="form-group mb-0 mt-3">
                 <?php if ($active_or_disabled == 'active'): ?>
                     <label class="form-label"><?php _e('Allowed countries for shipping'); ?></label>
                     <small class="text-muted d-block mb-0"> <?php _e('List of countries to which shipping is performed'); ?></small>
@@ -84,18 +80,19 @@
     </div>
 
     <div class="mw-shipping-items shipping_to_country_holder table-responsive mt-3" id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
-        <table class="table small">
-            <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
-            <tr>
-                <th style="width: 10px; padding-right: 0;"></th>
-                <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
-                <th><?php _e('Shipping Type'); ?></th>
-                <th><?php _e('Shipping Cost'); ?></th>
-                <th class="text-end text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
-            </tr>
-            </thead>
-            <?php if (is_array($data) and !empty($data)): ?>
-                <?php foreach ($data as $item): ?>
+        <?php if (is_array($data) and !empty($data)): ?>
+            <?php foreach ($data as $item): ?>
+            <table class="table small">
+                <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
+                <tr>
+                    <th style="width: 10px; padding-right: 0;"></th>
+                    <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
+                    <th><?php _e('Shipping Type'); ?></th>
+                    <th><?php _e('Shipping Cost'); ?></th>
+                    <th class="text-end text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
+                </tr>
+                </thead>
+
                     <tr class="shipping-country-holder vertical-align-middle show-on-hover-root" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 10px; padding-right: 0;">
                             <svg class="shipping-handle-field mdi-cursor-move ui-sortable-handle" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M360 896q-33 0-56.5-23.5T280 816q0-33 23.5-56.5T360 736q33 0 56.5 23.5T440 816q0 33-23.5 56.5T360 896Zm240 0q-33 0-56.5-23.5T520 816q0-33 23.5-56.5T600 736q33 0 56.5 23.5T680 816q0 33-23.5 56.5T600 896ZM360 656q-33 0-56.5-23.5T280 576q0-33 23.5-56.5T360 496q33 0 56.5 23.5T440 576q0 33-23.5 56.5T360 656Zm240 0q-33 0-56.5-23.5T520 576q0-33 23.5-56.5T600 496q33 0 56.5 23.5T680 576q0 33-23.5 56.5T600 656ZM360 416q-33 0-56.5-23.5T280 336q0-33 23.5-56.5T360 256q33 0 56.5 23.5T440 336q0 33-23.5 56.5T360 416Zm240 0q-33 0-56.5-23.5T520 336q0-33 23.5-56.5T600 256q33 0 56.5 23.5T680 336q0 33-23.5 56.5T600 416Z"></path></svg>
@@ -129,14 +126,12 @@
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <tr class="vertical-align-middle">
-                    <td colspan="5" class="bg-grey font-weight-bold">
-                        <?php _e("The list is empty"); ?>
-                    </td>
-                </tr>
-            <?php endif; ?>
         </table>
+            <?php else: ?>
+
+                        <?php _e("The list is empty"); ?>
+
+            <?php endif; ?>
 
 
         <?php
