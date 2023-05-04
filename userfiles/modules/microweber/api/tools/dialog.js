@@ -31,6 +31,8 @@
         setTimeout(function () {
             var frame = dialog.dialogContainer.querySelector('iframe');
             frame.style.minHeight = 0; // reset in case of conflicts
+            frame.loading = 'lazy';
+
             if (options.autoHeight) {
                 mw.tools.iframeAutoHeight(frame, {dialog: dialog, maxHeightWindowScroll: maxHeight});
             } else{
