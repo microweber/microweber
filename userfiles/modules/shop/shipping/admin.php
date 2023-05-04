@@ -20,10 +20,8 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
         if ($(checkbox).is(':checked')) {
             el.addClass('bg-primary-opacity-1');
-            el.find('.js-method-on').removeClass('d-none');
         } else {
             el.removeClass('bg-primary-opacity-1');
-            el.find('.js-method-on').addClass('d-none');
         }
     }
 
