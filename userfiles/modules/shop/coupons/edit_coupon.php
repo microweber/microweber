@@ -10,8 +10,7 @@ if ($params['coupon_id'] !== 'false') {
     $data['id'] = '';
     $data['coupon_name'] = '';
     $data['coupon_code'] = '';
-    $data['cupon_name'] = '';
-    $data['discount_type'] = '';
+    $data['discount_type'] = 'percentage';
     $data['discount_value'] = '';
     $data['total_amount'] = '';
     $data['uses_per_coupon'] = '';
@@ -35,13 +34,22 @@ if ($params['coupon_id'] !== 'false') {
 <form class="js-edit-coupon-form" action="<?php print api_url('coupons_save_coupon'); ?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
-
-    <div class="form-group">
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
+    <div class="d-flex justify-content-end">
+        <div style="width:80px">
+            <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>1<?php else: ?>0<?php endif; ?> }">
+                <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+                <template x-if="couponIsActive">
+                    <span class="form-check-label">
+                        <?php _e("Active"); ?>
+                    </span>
+                </template>
+                <template x-if="!couponIsActive">
+                    <span class="form-check-label">
+                        <?php _e("Inactive"); ?>
+                    </span>
+                </template>
+            </label>
         </div>
-        <small class="text-muted d-block mb-2" title=""><?php _e("Is the discount active or not."); ?></small>
     </div>
 
     <div class="form-group">
@@ -54,14 +62,17 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Code"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the discount code or generate it from the button bellow."); ?></small>
+
+        <div class="input-group">
         <input type="text" name="coupon_code" required="required" class="form-control js-coupon-code js-validation" value="<?php print $data['coupon_code'] ?>"/>
-        <div class="js-field-message"></div>
-        <br/>
         <button type="button" class="btn btn-outline-primary btn-sm js-generate-new-promo-code"><?php _e("Generate New Promo Code"); ?></button>
+        </div>
+
+        <div class="js-field-message"></div>
     </div>
 
 
-    <div class="mb-4">
+<!--    <div class="mb-4">
         <label class="form-label"><?php _e("Discount Type"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Choose the type of discount which can be fixed price or percentage of the price."); ?></small>
 
@@ -81,7 +92,7 @@ if ($params['coupon_id'] !== 'false') {
                 </span>
             </label>
         </div>
-    </div>
+    </div>-->
 
     <script type='text/javascript'>
         $(document).ready(function () {
@@ -99,11 +110,33 @@ if ($params['coupon_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Discount"); ?></label>
         <small class="text-muted d-block mb-2"><?php _e("Enter the value of your discount."); ?></small>
-        <div class="input-group mb-2">
-            <span class="input-group-text js-discount-value-label">%</span>
-            <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
-            <div class="js-field-message"></div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="input-group mb-2">
+                    <span class="input-group-text js-discount-value-label">%</span>
+                    <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="form-selectgroup">
+                    <label class="form-selectgroup-item d-block">
+                        <input type="radio" name="discount_type" value="percentage" class="form-selectgroup-input js-discount-type" <?php if ($data['discount_type'] == 'percentage'): ?>checked=""<?php endif; ?>>
+                        <span class="form-selectgroup-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 96 960 960" width="24"><path d="M300 536q-58 0-99-41t-41-99q0-58 41-99t99-41q58 0 99 41t41 99q0 58-41 99t-99 41Zm0-80q25 0 42.5-17.5T360 396q0-25-17.5-42.5T300 336q-25 0-42.5 17.5T240 396q0 25 17.5 42.5T300 456Zm360 440q-58 0-99-41t-41-99q0-58 41-99t99-41q58 0 99 41t41 99q0 58-41 99t-99 41Zm0-80q25 0 42.5-17.5T720 756q0-25-17.5-42.5T660 696q-25 0-42.5 17.5T600 756q0 25 17.5 42.5T660 816Zm-444 80-56-56 584-584 56 56-584 584Z"/></svg>
+                        <?php _e("Percentage"); ?>
+                    </span>
+                    </label>
+                    <label class="form-selectgroup-item d-block">
+                        <input type="radio" name="discount_type" value="fixed_amount" class="form-selectgroup-input js-discount-type" <?php if ($data['discount_type'] == 'fixed_amount'): ?>checked=""<?php endif; ?>>
+                        <span class="form-selectgroup-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="24" viewBox="0 96 960 960" width="24"><path d="M640 536q17 0 28.5-11.5T680 496q0-17-11.5-28.5T640 456q-17 0-28.5 11.5T600 496q0 17 11.5 28.5T640 536Zm-320-80h200v-80H320v80ZM180 936q-34-114-67-227.5T80 476q0-92 64-156t156-64h200q29-38 70.5-59t89.5-21q25 0 42.5 17.5T720 236q0 6-1.5 12t-3.5 11q-4 11-7.5 22.5T702 305l91 91h87v279l-113 37-67 224H480v-80h-80v80H180Zm60-80h80v-80h240v80h80l62-206 98-33V476h-40L620 336q0-20 2.5-38.5T630 260q-29 8-51 27.5T547 336H300q-58 0-99 41t-41 99q0 98 27 191.5T240 856Zm240-298Z"/></svg>
+                          <?php _e("Fixed Amount"); ?>
+                    </span>
+                    </label>
+                </div>
+            </div>
         </div>
+        <div class="js-field-message"></div>
     </div>
 
     <div class="form-group">
