@@ -8508,7 +8508,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 body:not(.theme-dark) .bg-azure-lt {
   background-color: var(--tblr-body-bg) !important; }
 
-body {
+body, .is_admin {
   font-family: var(--tblr-body-font-family); }
 
 .table-responsive, .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-skin-default .mw-dialog-container {

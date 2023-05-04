@@ -19,7 +19,7 @@ body:not(.theme-dark) {
     }
 }
 
-body {
+body, .is_admin {
     font-family: var(--tblr-body-font-family);
 }
 

@@ -24,7 +24,7 @@
 
         var modal_id = 'mw_admin_edit_country_item_popup_modal_opened';
         var dialog = mw.top().dialogIframe({
-            url: '<?php print site_url() ?>module/?type=shop/shipping/gateways/standard/add_country&live_edit=true&id=mw_admin_edit_country_item_popup_modal_opened__module&edit_id='+id+'&from_url=<?php print site_url() ?>',
+             url: route('live_edit.module_settings') + '?type=shop/shipping/gateways/standard/add_country&live_edit=true&id=mw_admin_edit_country_item_popup_modal_opened__module&edit_id='+id+'&from_url=<?php print site_url() ?>',
             title:modalTitle,
             id: modal_id,
 

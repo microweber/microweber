@@ -579,8 +579,8 @@ $.fn.serializeAssoc = function() {
             } else if(itm.classList.contains('selectpicker')) {
                 $(itm).selectpicker();
             }
-        
-              
+
+
         }
 
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -607,11 +607,16 @@ $.fn.serializeAssoc = function() {
       addEventListener('load',  e => {
 
           _customDropdowns();
+          if(typeof document.getElementById('mw-admin-container') == null){
+            return;
+          }
           observer.observe(document.getElementById('mw-admin-container'), observerConfig = {
             attributes: false,
             childList: true,
             characterData: false
         });
+
+
       });
 
 
