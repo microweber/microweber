@@ -1564,7 +1564,7 @@ class ContentManager
      */
     public function define_constants($content = false)
     {
-        return $this->app->template->define_constants($content);
+        return $this->app->template->defineConstants($content);
     }
 
 

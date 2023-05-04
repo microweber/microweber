@@ -247,7 +247,61 @@ class TemplateTest extends TestCase
 
 
 
-//    public function testTemplateNameAndDirVarsForPost()
-//    {
-//    }
+
+        public function testTemplateConstantsAreDefined()
+    {
+        $templateName = 'my-test-template-for-constants';
+
+        $user = User::where('is_admin', '=', '1')->first();
+        Auth::login($user);
+
+        $newCleanPageId = save_content([
+            'subtype' => 'dynamic',
+            'content_type' => 'page',
+            'layout_file' => 'clean.php',
+            'title' => 'PageVarsTest',
+            'url' => 'PageVarsTest',
+            'active_site_template' => $templateName,
+            'is_active' => 1,
+        ]);
+
+        app()->content_manager->define_constants(['id' => $newCleanPageId]);
+
+
+        $this->assertTrue(defined('PAGE_ID'));
+        $this->assertTrue(defined('POST_ID'));
+        $this->assertTrue(defined('CONTENT_ID'));
+        $this->assertTrue(defined('MAIN_PAGE_ID'));
+        $this->assertTrue(defined('ROOT_PAGE_ID'));
+        $this->assertTrue(defined('PARENT_PAGE_ID'));
+        $this->assertTrue(defined('CATEGORY_ID'));
+
+
+        $this->assertTrue(defined('DEFAULT_TEMPLATE_DIR'));
+        $this->assertTrue(defined('DEFAULT_TEMPLATE_URL'));
+        $this->assertTrue(defined('THIS_TEMPLATE_FOLDER_NAME'));
+        $this->assertTrue(defined('THIS_TEMPLATE_URL'));
+        $this->assertTrue(defined('THIS_TEMPLATE_DIR'));
+        $this->assertTrue(defined('ACTIVE_SITE_TEMPLATE'));
+        $this->assertTrue(defined('TEMPLATE_NAME'));
+        $this->assertTrue(defined('TEMPLATES_DIR'));
+        $this->assertTrue(defined('TEMPLATE_DIR'));
+        $this->assertTrue(defined('TEMPLATE_URL'));
+        $this->assertTrue(defined('LAYOUTS_URL'));
+        $this->assertTrue(defined('LAYOUTS_DIR'));
+
+
+
+
+        $this->assertEquals($newCleanPageId, PAGE_ID);
+        $this->assertEquals($newCleanPageId, CONTENT_ID);
+        $this->assertEquals($newCleanPageId, MAIN_PAGE_ID);
+        $this->assertEquals($newCleanPageId, ROOT_PAGE_ID);
+
+
+dd(PAGE_ID);
+dd(MAIN_PAGE_ID);
+dd(ROOT_PAGE_ID);
+dd(PARENT_PAGE_ID);
+    }
 }

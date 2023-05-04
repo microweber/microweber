@@ -254,6 +254,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(AdminServiceProvider::class);
 
+
+        $this->app->register(LiveEditServiceProvider::class);
+
+
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
@@ -306,8 +310,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(CartEventServiceProvider::class);
 
         // Others
-        $this->app->register(LiveEditServiceProvider::class);
-
         $this->app->register(MarketplaceServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);

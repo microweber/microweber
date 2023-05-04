@@ -865,9 +865,9 @@ class Template
         return $to_return;
     }
 
-    public function define_constants($content = false)
+    public function defineConstants($content = false)
     {
-        return $this->adapter_current->define_constants($content);
+        return $this->adapter_current->defineConstants($content);
     }
     public function getContentId()
     {
