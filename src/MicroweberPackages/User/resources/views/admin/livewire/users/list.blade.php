@@ -18,7 +18,7 @@
             border-radius: 50px;
         }
     </style>
-    <div class="card bg-azure-lt mb-3">
+    <div class="card bg-azure-lt mb-3" x-data="{showFilters: false}">
         <div class="card-header">
             <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
             </h5>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-outline-default" >
+                        <button type="button" class="btn btn-outline-default" @click="showFilters = ! showFilters">
                             <i class="mdi mdi-filter mr-2"></i> Show Filters
                         </button>
                         <a href="{{route('admin.users.create')}}"
@@ -48,7 +48,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="row rounded">
+                <div class="row rounded" x-show="showFilters">
                     <div class="col mb-3">
                         <label class="d-block mb-2">Sort By</label>
                         <div class="d-flex">
