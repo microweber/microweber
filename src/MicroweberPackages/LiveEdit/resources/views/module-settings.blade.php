@@ -108,10 +108,7 @@
 
             });
 
-            $(window).on('onbeforeunload', function () {
-
-                mw.removeInterval('_settingsAutoHeight');
-            });
+ 
 
         }
     </script>

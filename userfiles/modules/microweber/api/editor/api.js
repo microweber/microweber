@@ -4,7 +4,7 @@
 
 
 mw.lib.require('rangy');
-mw.lib.require('xss');
+ mw.lib.require('xss');
 
 ;(function (){
     var _filterXSS = function (html){

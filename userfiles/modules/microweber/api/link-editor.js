@@ -76,14 +76,14 @@ mw.lib.require('xss');
 
         this.buildNavigation = function (){
             if(this.settings.nav === 'tabs') {
-                this.nav = document.createElement('nav');
-                 this.nav.className = 'mw-ac-editor-nav';
+                this.nav = document.createElement('ul');
+                 this.nav.className = 'nav nav-tabs mw-ac-editor-nav';
 
                 var nav = scope.controllers.slice(0, 4);
                 var dropdown = scope.controllers.slice(4);
 
                 var handleSelect = function (__for, target) {
-                    [].forEach.call(scope.nav.children, function (item){item.classList.remove('active');});
+                    [].forEach.call(scope.nav.querySelectorAll('li a'), function (item){item.classList.remove('active');});
                     scope.controllers.forEach(function (item){item.controller.root.classList.remove('active');});
                     if(target && target.classList) {
                         target.classList.add('active');
@@ -95,14 +95,17 @@ mw.lib.require('xss');
                 };
 
                 var createA = function (ctrl, index) {
-                    var a =  document.createElement('a');
-                    a.className = 'mw-ui-btn-tab' + (index === 0 ? ' active' : '');
+                    var li =  document.createElement('li'); 
+                    li.className = 'nav-item'
+                    var a =  document.createElement('a'); 
+                    a.className = 'nav-link' + (index === 0 ? ' active' : '');
                     a.innerHTML = ('<i class="'+ctrl.controller.settings.icon+'"></i> '+ctrl.controller.settings.title);
                     a.__for = ctrl;
                     a.onclick = function (){
                         handleSelect(this.__for, this);
                     };
-                    return a;
+                    li.appendChild(a)
+                    return li;
                 };
 
 
@@ -110,26 +113,33 @@ mw.lib.require('xss');
                     scope.nav.appendChild(createA(ctrl, index));
                 });
                 this.settings.selectedIndex = this.settings.selectedIndex || 0
-                this.nav.children[this.settings.selectedIndex].click();
+                this.nav.children[this.settings.selectedIndex].querySelector('a').click();
                 this.root.prepend(this.nav);
 
                 if(dropdown.length) {
-                    var dropdownElBtn =  document.createElement('div');
-                    var dropdownEl =  document.createElement('div');
-                      dropdownElBtn.className = 'mw-ui-btn-tab mw-link-editor-more-button';
-                      dropdownEl.className = 'mw-link-editor-nav-drop-box';
-                      dropdownEl.style.display = 'none';
+                    const dropdownEl = mw.element(`
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">${mw.lang('More')}</a>
+                                <div class="dropdown-menu">
+                        
+                                </div>
+                            </div>
+                        </li>
+                    
+                    `);
+                    
 
-                    dropdownElBtn.innerHTML = mw.lang('More') + '<i class="mdi mdi-chevron-down"></i>';
+                     
                     dropdown.forEach(function (ctrl, index){
 
-                        mw.element(dropdownEl)
+                        mw.element('.dropdown-menu', dropdownEl)
                             .append(mw.element({
                                 tag: 'span',
                                 props: {
-                                    className: '',
+                                    className: 'dropdown-item',
                                     __for: ctrl,
-                                    innerHTML: ('<i class="'+ctrl.controller.settings.icon+'"></i> '+ctrl.controller.settings.title),
+                                    innerHTML: ('<i class="' + ctrl.controller.settings.icon + '"></i> '+ctrl.controller.settings.title),
                                     onclick: function () {
                                          handleSelect(this.__for);
                                         mw.element(dropdownEl).hide();
@@ -137,20 +147,12 @@ mw.lib.require('xss');
                                 }
                             }));
                     });
-                    this.nav.append(dropdownEl);
-                    this.nav.append(dropdownElBtn);
-                    dropdownElBtn.onclick = function (){
-                        mw.element(dropdownEl).toggle();
-                    };
+                    this.nav.append(dropdownEl.get(0));
+                     
+                    
 
-                    dropdownEl.onchange = function () {
-                        handleSelect(this.options[this.selectedIndex].__for);
-                    };
-                    /*setTimeout(function (){
-                        if($.fn.selectpicker) {
-                            $('.selectpicker').selectpicker();
-                        }
-                    }, 100)*/
+                     
+                    
                 }
             }
 
