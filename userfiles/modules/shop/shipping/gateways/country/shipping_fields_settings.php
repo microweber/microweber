@@ -9,6 +9,7 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
 
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Disable default shipping fields"); ?></label>
+    <small class="text-muted d-block mb-2"><?php _e("This will remove all shipping fields from the checkout form"); ?></small>
 
     <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="disable_default_shipping_fields1" name="disable_default_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $disable_default_shipping_fields ? 'checked="checked"' : ''?> >
@@ -23,6 +24,8 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
 
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Enable custom shipping fields"); ?></label>
+    <small class="text-muted d-block mb-2"><?php _e("Include additional custom fields in the shipping form"); ?></small>
+
 
     <div class="custom-control custom-radio d-inline-block me-2">
         <input type="radio" id="enable_custom_shipping_fields1" name="enable_custom_shipping_fields" class="mw_option_field form-check-input" data-option-group="shipping" value="1" <?php echo $enable_custom_shipping_fields ? 'checked="checked"' : ''?> >
@@ -39,9 +42,10 @@ $enable_custom_shipping_fields = get_option('enable_custom_shipping_fields', 'sh
     <module type="custom_fields/admin" for-id="shipping"  for-id="shipping"  default-fields="message"   />
 </div>
 
-<div class="form-group">
+<div class="form-group d-none">
 
     <label class="form-label d-block"><?php _e("Require fields for checkout"); ?></label>
+
 
     <div class="custom-control custom-checkbox">
         <input type="checkbox" name="require_country" data-option-group="shipping" value="1" class="mw_option_field  form-check-input" id="check-shop_require_country" <?php if (get_option('require_country', 'website') == 1): ?> checked="checked" <?php endif; ?>>
