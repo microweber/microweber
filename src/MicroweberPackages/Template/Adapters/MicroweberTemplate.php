@@ -1039,8 +1039,10 @@ class MicroweberTemplate
                 }
             } else {
                 $content = $page;
-                $this->page_id = intval($content['id']);
-            }
+                if(isset($content['id'])){
+                	$this->page_id = intval($content['id']);
+                }
+             }
 
 
 
@@ -1309,6 +1311,9 @@ if($inherit_from_id){
 
         if (!defined('POST_ID')) {
             define('POST_ID',  $this->post_id);
+        }
+    if (!defined('CONTENT_ID')) {
+            define('CONTENT_ID',  $this->content_id);
         }
 
         if (!defined('MAIN_PAGE_ID') ) {
