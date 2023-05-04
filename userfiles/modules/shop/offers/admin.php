@@ -70,20 +70,21 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                });
            </script>
 
+
+           <?php
+           $allOffers = app()->offer_repository->getAll();
+           if (!empty($allOffers)):
+           ?>
+
            <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
                <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('List of Offers'); ?></a>
                <?php if ($from_live_edit) : ?>
                    <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
                <?php endif; ?>
-
            </nav>
 
            <div class="tab-content py-3">
                <div class="tab-pane fade show active" id="list">
-                   <div class="mb-3">
-                       <a class="btn btn-primary btn-rounded js-add-new-offer" href="javascript:;"><?php _e('Add new offer'); ?></a>
-                   </div>
-
                    <module type="shop/offers/edit_offers"/>
                </div>
 
@@ -93,6 +94,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                    </div>
                <?php endif; ?>
            </div>
+
+           <?php else: ?>
+
+               no offers found
+               <br />
+               <div class="mb-3">
+                   <a class="btn btn-primary btn-rounded js-add-new-offer" href="javascript:;"><?php _e('Add new offer'); ?></a>
+               </div>
+
+
+           <?php endif; ?>
        </div>
     </div>
 

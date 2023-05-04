@@ -20,10 +20,8 @@ $shipping_modules = get_modules("type=shipping_gateway");
 
         if ($(checkbox).is(':checked')) {
             el.addClass('bg-primary-opacity-1');
-            el.find('.js-method-on').removeClass('d-none');
         } else {
             el.removeClass('bg-primary-opacity-1');
-            el.find('.js-method-on').addClass('d-none');
         }
     }
 
@@ -123,7 +121,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                   }
                                   ?>
 
-                                  <div class="dragable-item shipping-module-draggable-item  <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
+                                  <div x-data="{isModuleActivated: <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?>true<?php else: ?>false<?php endif; ?>}" class="dragable-item shipping-module-draggable-item  <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?>bg-primary-opacity-1<?php endif; ?>" id="module-db-id-<?php print $module_info['id'] ?>">
                                       <div class="row align-items-center shadow-sm bg-light mb-3">
                                               <div class="col-1 cursor-move-holder " style="max-width: 80px;">
                                                   <span href="javascript:;" class="btn btn-link text-blue-lt">
@@ -135,7 +133,7 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                               <div class="col js-change-method-status" style="max-width: 60px;">
 
                                                   <div class="form-check form-check-single form-switch p-0">
-                                                      <input onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field form-check-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
+                                                      <input x-model="isModuleActivated" onchange="shippingSetActiveProvider('#module-db-id-<?php print $module_info['id'] ?>', this);" type="checkbox" data-value-unchecked="n" data-value-checked="y"  class="mw_option_field form-check-input" id="ccheckbox-shipping_gw_<?php print $shipping_module['module'] ?>" name="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')  === 'y'): ?> checked="checked" <?php endif; ?> value="y">
                                                       <label class="custom-control-label gateway-title" for="ccheckbox-shipping_gw_<?php print($shipping_module['module']) ?>"></label>
                                                   </div>
 
@@ -145,11 +143,10 @@ $shipping_modules = get_modules("type=shipping_gateway");
                                                   <img src="<?php print $shipping_module['icon']; ?>" alt="" class="d-none"/>
                                                   <label class="form-label fs-2 font-weight-bold mb-0"><?php _e($shipping_module['name']) ?></label>
                                                   <small class="text-muted">
-                                                          <span class="text-primary js-method-on">
-                                                              <?php if (get_option('shipping_gw_' . $shipping_module['module'], 'shipping')   === 'y'): ?>
-                                                                  <?php _e("is activated") ?>
-                                                          </span>
-                                                      <?php endif; ?>
+                                                      <span class="text-primary">
+                                                        <span x-show="isModuleActivated">Activated</span>
+                                                        <span x-show="!isModuleActivated">Not activated</span>
+                                                      </span>
                                                   </small>
                                               </div>
 

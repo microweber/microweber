@@ -8508,7 +8508,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
 body:not(.theme-dark, .is_admin) .bg-azure-lt {
   background-color: var(--tblr-body-bg) !important; }
 
-body.is_admin, .mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
+.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
   background-color: var(--tblr-bg-surface); }
 
 body, .is_admin {
@@ -8627,11 +8627,11 @@ body, .is_admin {
   padding-top: 0;
   padding: 25px; }
 
-#mw-admin-container {
-  background-color: var(--tblr-bg-surface); }
-
 p {
   color: var(--tblr-body-color); }
+
+.mw-iframe-admin {
+  background-color: var(--tblr-bg-surface); }
 
 .settings-holder-wrapper {
   border: 1px solid transparent;

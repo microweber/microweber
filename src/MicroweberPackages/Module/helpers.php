@@ -71,7 +71,8 @@ function module_info($module_name)
 
 function module_icon_inline($module_name)
 {
-    $findModule = \MicroweberPackages\Module\Module::where('module', $module_name)->first();
+    $moduleInfo = module_info($module_name);
+    $findModule = \MicroweberPackages\Module\Module::where('module', $moduleInfo['module'])->first();
     if ($findModule) {
         $icon = $findModule->getIconInline();
         if ($icon) {

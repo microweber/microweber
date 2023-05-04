@@ -5,6 +5,11 @@ use MicroweberPackages\View\View;
 include __DIR__ . "/_admin_data.php";
 
 $item = array();
+
+if (isset($_GET['edit_id'])) {
+    $params['edit_id'] = intval($_GET['edit_id']);
+}
+
 if (isset($params['edit_id'])) {
     $shipping_to_country = mw('shop\shipping\gateways\country\shipping_to_country');
     $item = $shipping_to_country->get('single=1&id=' . $params['edit_id']);
