@@ -10,8 +10,7 @@ if ($params['coupon_id'] !== 'false') {
     $data['id'] = '';
     $data['coupon_name'] = '';
     $data['coupon_code'] = '';
-    $data['cupon_name'] = '';
-    $data['discount_type'] = '';
+    $data['discount_type'] = 'percentage';
     $data['discount_value'] = '';
     $data['total_amount'] = '';
     $data['uses_per_coupon'] = '';
