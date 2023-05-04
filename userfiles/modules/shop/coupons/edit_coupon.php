@@ -35,31 +35,35 @@ if ($params['coupon_id'] !== 'false') {
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
     <div class="form-group">
-        <label class="form-label"><?php _e("Coupon name"); ?></label>
-        <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
 
         <div class="row">
             <div class="col-md-9">
-                <input type="text" name="coupon_name" required="required" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
+             <label class="form-label"><?php _e("Coupon name"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Enter the name of your coupone code."); ?></small>
             </div>
-            <div class="col-md-3 d-flex align-items-center justify-content-center">
+            <div class="col-md-3 d-flex align-items-center justify-content-end">
                 <div style="width:80px">
-                        <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>1<?php else: ?>0<?php endif; ?> }">
-                            <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-                            <template x-if="couponIsActive">
+                    <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>true<?php else: ?>false<?php endif; ?> }">
+                        <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active">
+                        <template x-if="couponIsActive">
                             <span class="form-check-label">
                                 <?php _e("Active"); ?>
                             </span>
-                            </template>
-                            <template x-if="!couponIsActive">
+                        </template>
+                        <template x-if="!couponIsActive">
                             <span class="form-check-label">
                                 <?php _e("Inactive"); ?>
                             </span>
-                            </template>
-                        </label>
+                        </template>
+                    </label>
                 </div>
             </div>
         </div>
+
+        <div>
+            <input type="text" name="coupon_name" required="required" class="form-control js-coupon-name js-validation" value="<?php print $data['coupon_name'] ?>"/>
+        </div>
+
        <div class="js-field-message"></div>
     </div>
 
