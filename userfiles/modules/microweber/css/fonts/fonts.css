@@ -5,5 +5,5 @@
 @font-face {
     font-family: 'Inter';
     src: url('./inter/inter.ttf') format('truetype');
-    font-display: block;
+    font-display: swap;
 }

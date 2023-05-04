@@ -8509,7 +8509,7 @@ body:not(.theme-dark) .bg-azure-lt {
   background-color: var(--tblr-body-bg) !important; }
 
 body, .is_admin {
-  font-family: var(--tblr-body-font-family); }
+  font-family: var(--tblr-body-font-family), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
 
 .table-responsive, .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-skin-default .mw-dialog-container {
   background-color: var(--tblr-bg-surface); }
