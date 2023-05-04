@@ -170,7 +170,7 @@ if(isset($_COOKIE['admin_theme_dark'])){
 $additionalBodyClasses[] = $bodyDarkClass;
 
 
-if(isset($options['iframe']) and $options['iframe']){
+if(isset($iframeMode) or (isset($options['iframe']) and $options['iframe'])){
     $additionalBodyClasses[] = 'mw-iframe-admin';
 }
 $additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
