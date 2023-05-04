@@ -108,7 +108,9 @@ function coupons_save_coupon($couponData = array())
 
     $couponData = xss_clean($couponData);
 
-    if (!isset($couponData['is_active'])) {
+    if (isset($couponData['is_active']) && $couponData['is_active'] == 'on') {
+        $couponData['is_active'] = 1;
+    } else {
         $couponData['is_active'] = 0;
     }
 

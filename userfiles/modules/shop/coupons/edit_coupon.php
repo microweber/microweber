@@ -44,19 +44,22 @@ if ($params['coupon_id'] !== 'false') {
             </div>
             <div class="col-md-3 d-flex align-items-center justify-content-center">
                 <div style="width:80px">
-                        <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>1<?php else: ?>0<?php endif; ?> }">
-                            <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-                            <template x-if="couponIsActive">
-                            <span class="form-check-label">
-                                <?php _e("Active"); ?>
-                            </span>
-                            </template>
-                            <template x-if="!couponIsActive">
-                            <span class="form-check-label">
-                                <?php _e("Inactive"); ?>
-                            </span>
-                            </template>
-                        </label>
+                    <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>true<?php else: ?>false<?php endif; ?> }">
+                        <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active">
+                        <template x-if="couponIsActive">
+                        <span class="form-check-label">
+                            <?php _e("Active"); ?>
+                        </span>
+                        </template>
+                        <template x-if="!couponIsActive">
+                        <span class="form-check-label">
+                            <?php _e("Inactive"); ?>
+                        </span>
+                        </template>
+
+                        <span x-text="couponIsActive">
+
+                    </label>
                 </div>
             </div>
         </div>
