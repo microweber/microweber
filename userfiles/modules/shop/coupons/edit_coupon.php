@@ -34,20 +34,22 @@ if ($params['coupon_id'] !== 'false') {
 <form class="js-edit-coupon-form" action="<?php print api_url('coupons_save_coupon'); ?>">
     <input type="hidden" name="id" value="<?php print $data['id'] ?>"/>
 
-    <div class="mb-3">
-        <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>1<?php else: ?>0<?php endif; ?> }">
-            <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <template x-if="couponIsActive">
-                <span class="form-check-label">
-                    <?php _e("Active"); ?>
-                </span>
-            </template>
-            <template x-if="!couponIsActive">
-                <span class="form-check-label">
-                    <?php _e("Inactive"); ?>
-                </span>
-            </template>
-        </label>
+    <div class="d-flex justify-content-end">
+        <div style="width:80px">
+            <label class="form-check form-switch" x-data="{ couponIsActive: <?php if ($data['is_active'] == 1): ?>1<?php else: ?>0<?php endif; ?> }">
+                <input class="form-check-input" x-model="couponIsActive" type="checkbox" id="is_active" name="is_active" value="1" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
+                <template x-if="couponIsActive">
+                    <span class="form-check-label">
+                        <?php _e("Active"); ?>
+                    </span>
+                </template>
+                <template x-if="!couponIsActive">
+                    <span class="form-check-label">
+                        <?php _e("Inactive"); ?>
+                    </span>
+                </template>
+            </label>
+        </div>
     </div>
 
     <div class="form-group">
