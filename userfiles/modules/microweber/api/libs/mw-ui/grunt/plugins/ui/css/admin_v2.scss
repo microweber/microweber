@@ -21,7 +21,7 @@ body:not(.theme-dark, .is_admin) {
 
 
 
-body.is_admin, .mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
+.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
     background-color: var(--tblr-bg-surface);
 }
 
@@ -215,11 +215,6 @@ body, .is_admin {
     padding-top: 0;
     padding: 25px;
 }
-
- #mw-admin-container {
-     background-color: var(--tblr-bg-surface);
- }
-
 
 p {
     color: var(--tblr-body-color);

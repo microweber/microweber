@@ -279,8 +279,8 @@ if ($weight_units == false) {
                                 <div class="card m-3">
                                     <div class="card-body">
                                         <label class="form-check form-label" for="shipping_type1"><?php _e("Fixed"); ?>
-                                            <input type="radio" id="shipping_type1" name="shipping_type" class="form-check-input js-shipping-type-select" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                            <span class="form-check-label"><?php _e('Set a shipping price for the whole order'); ?></span>
+                                            <input type="radio" id="shipping_type1" name="shipping_type" class="form-check-input js-shipping-type-select me-2 mt-1" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                            <small class="form-check-label ms-1 mt-2"><?php _e('Set a shipping price for the whole order'); ?></small>
                                         </label>
                                     </div>
                                 </div>
@@ -289,8 +289,8 @@ if ($weight_units == false) {
                             <div class="card m-3">
                                 <div class="card-body">
                                     <label class="form-check form-label" for="shipping_type2"><?php _e("Dimensions or Weight"); ?>
-                                        <input type="radio" id="shipping_type2" name="shipping_type" class="form-check-input js-shipping-type-select" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                        <span class="form-check-label"><?php _e('Set a flexible shipping price depending on a product’s dimensions or weight'); ?></span>
+                                        <input type="radio" id="shipping_type2" name="shipping_type" class="form-check-input js-shipping-type-select me-2 mt-1" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                        <small class="form-check-label ms-1 mt-2"><?php _e('Set a flexible shipping price depending on a product’s dimensions or weight'); ?></small>
 
                                     </label>
                                 </div>
@@ -300,8 +300,8 @@ if ($weight_units == false) {
                             <div class="card m-3">
                                 <div class="card-body">
                                     <label class="form-check form-label" for="shipping_type3"><?php _e("Per item"); ?>
-                                        <input type="radio" id="shipping_type3" name="shipping_type" class="form-check-input js-shipping-type-select" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                        <span class="form-check-label"><?php _e('Charge a set shipping price for each product a customer orders'); ?></span>
+                                        <input type="radio" id="shipping_type3" name="shipping_type" class="form-check-input js-shipping-type-select me-2 mt-1" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                        <small class="form-check-label ms-1 mt-2"><?php _e('Charge a set shipping price for each product a customer orders'); ?></small>
 
                                     </label>
                                 </div>
