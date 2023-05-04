@@ -97,19 +97,23 @@
         };
 
 
+        if (self !== top) {
+            $(window).on('load', function () {
 
+                mw.interval('_settingsAutoHeight', function () {
+                    if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
+                        createAutoHeight();
+                    }
+                });
 
-        $(window).on('load', function () {
-
-            mw.interval('_settingsAutoHeight', function () {
-                if (document.querySelector('.mw-iframe-auto-height-detector') === null) {
-                    createAutoHeight();
-                }
             });
 
-        });
+            $(window).on('onbeforeunload', function () {
 
+                mw.removeInterval('_settingsAutoHeight');
+            });
 
+        }
     </script>
 
 @endsection
