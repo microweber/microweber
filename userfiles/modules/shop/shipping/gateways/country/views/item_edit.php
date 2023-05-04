@@ -260,12 +260,11 @@ if ($weight_units == false) {
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group d-flex align-items-center justify-content-between">
                 <label class="form-label"><?php _e("Allow shipping to this country"); ?></label>
                 <div class="form-check form-switch pl-0">
-                    <label class="d-inline-block mr-5" for="is_active"><?php _e("No"); ?></label>
                     <input onchange="ToggleShipping(event)" type="checkbox" name="is_active" id="is_active" class="form-check-input" data-id="<?php print $item['id']; ?>" data-value-checked="1" data-value-unchecked="0" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>checked<?php endif; ?>>
-                    <label class="custom-control-label" for="is_active"><?php _e("Yes"); ?></label>
+<!--                    <label class="custom-control-label ms-2" for="is_active">--><?php //_e("Yes"); ?><!--</label>-->
                 </div>
             </div>
 
@@ -275,38 +274,51 @@ if ($weight_units == false) {
                         <div class="form-group">
                             <label class="form-label"><?php _e("Choose shipping type and set price "); ?></label>
 
-                            <div class="form-group">
-                                <div class="custom-control custom-radio mb-4">
-                                    <input type="radio" id="shipping_type1" name="shipping_type" class="form-check-input js-shipping-type-select" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                    <label class="custom-control-label" for="shipping_type1"><?php _e("Fixed"); ?>
-                                        <small class="text-muted d-block"><?php _e('Set a shipping price for the whole order'); ?></small>
-                                    </label>
+
+
+                                <div class="card m-3">
+                                    <div class="card-body">
+                                        <label class="form-check form-label" for="shipping_type1"><?php _e("Fixed"); ?>
+                                            <input type="radio" id="shipping_type1" name="shipping_type" class="form-check-input js-shipping-type-select" value="fixed" <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                            <span class="form-check-label"><?php _e('Set a shipping price for the whole order'); ?></span>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="custom-control custom-radio mb-4">
-                                    <input type="radio" id="shipping_type2" name="shipping_type" class="form-check-input js-shipping-type-select" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                    <label class="custom-control-label" for="shipping_type2"><?php _e("Dimensions or Weight"); ?>
-                                        <small class="text-muted d-block"><?php _e('Set a flexible shipping price depending on a product’s dimensions or weight'); ?></small>
-                                    </label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="shipping_type3" name="shipping_type" class="form-check-input js-shipping-type-select" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
-                                    <label class="custom-control-label" for="shipping_type3"><?php _e("Per item"); ?>
-                                        <small class="text-muted d-block"><?php _e('Charge a set shipping price for each product a customer orders'); ?></small>
+
+
+                            <div class="card m-3">
+                                <div class="card-body">
+                                    <label class="form-check form-label" for="shipping_type2"><?php _e("Dimensions or Weight"); ?>
+                                        <input type="radio" id="shipping_type2" name="shipping_type" class="form-check-input js-shipping-type-select" value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                        <span class="form-check-label"><?php _e('Set a flexible shipping price depending on a product’s dimensions or weight'); ?></span>
+
                                     </label>
                                 </div>
                             </div>
+
+
+                            <div class="card m-3">
+                                <div class="card-body">
+                                    <label class="form-check form-label" for="shipping_type3"><?php _e("Per item"); ?>
+                                        <input type="radio" id="shipping_type3" name="shipping_type" class="form-check-input js-shipping-type-select" value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?> checked <?php endif; ?> onchange="SaveShippingForm();"/>
+                                        <span class="form-check-label"><?php _e('Charge a set shipping price for each product a customer orders'); ?></span>
+
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div class="col-5">
+                    <div class="col-5 mt-5">
                         <div class="form-group">
                             <small class="form-label mb-2 d-block"><?php _e("Shipping cost"); ?></small>
 
-                            <div class="input-group input-group-sm mb-3">
+                            <div class="input-group mb-3 w-50">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                    <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                 </div>
-                                <input class="form-control" type="number" oninput="SaveShippingForm();"   placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
+                                <input class="form-control form-control-sm" type="number" oninput="SaveShippingForm();"   placeholder="0" name="shipping_cost" value="<?php print $item['shipping_cost']; ?>"/>
                             </div>
                         </div>
 
@@ -314,9 +326,9 @@ if ($weight_units == false) {
                             <div class="form-group">
                                 <small class="form-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php _e("cubic"); ?> <?php print $size_units ?></small>
 
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group w-50 mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                        <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                     </div>
                                     <input type="text" name="shipping_price_per_size" value="<?php print  floatval($item['shipping_price_per_size']); ?>" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm();" class="form-control"/>
                                 </div>
@@ -325,9 +337,9 @@ if ($weight_units == false) {
                             <div class="form-group">
                                 <small class="form-label mb-2 d-block"><?php _e("Additional cost for"); ?> 1 <?php print $weight_units ?></small>
 
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group w-50 mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                        <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                     </div>
                                     <input type="text" name="shipping_price_per_weight" value="<?php print floatval($item['shipping_price_per_weight']); ?>" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm();" class="form-control"/>
                                 </div>
@@ -338,9 +350,9 @@ if ($weight_units == false) {
                             <div class="form-group">
                                 <small class="form-label mb-2 d-block"><?php _e("Cost for shipping each item"); ?></small>
 
-                                <div class="input-group input-group-sm mb-2">
+                                <div class="input-group w-50 mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                        <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                                     </div>
                                     <input type="text" name="shipping_price_per_item" value="<?php print  floatval($item['shipping_price_per_item']); ?>" onkeyup="mw.form.typeNumber(this);" onchange="SaveShippingForm();" class="form-control"/>
                                 </div>
@@ -364,9 +376,9 @@ if ($weight_units == false) {
                         <small class="text-muted d-block mb-2"><?php _e("Minimum amount in the shopping cart to activate special shipping price"); ?></small>
 
 
-                        <div class="input-group input-group-sm mb-2">
+                        <div class="input-group w-50 mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                             </div>
                             <input class="form-control" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"  name="shipping_cost_above" value="<?php print $item['shipping_cost_above']; ?>"   placeholder="">
                         </div>
@@ -386,9 +398,9 @@ if ($weight_units == false) {
                         <small class="text-muted d-block mb-2"><?php _e("Enter the cost if the special shipping price is activated"); ?></small>
 
 
-                        <div class="input-group input-group-sm mb-2">
+                        <div class="input-group w-50 mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol() ?></span>
+                                <span class="input-group-text h-100"><?php print mw()->shop_manager->currency_symbol() ?></span>
                             </div>
                             <input class="form-control shipping-price-field" type="text" oninput="mw.form.typeNumber(this);SaveShippingForm();"   name="shipping_cost_max" value="<?php print $item['shipping_cost_max']; ?>"  placeholder=""/>
                         </div>

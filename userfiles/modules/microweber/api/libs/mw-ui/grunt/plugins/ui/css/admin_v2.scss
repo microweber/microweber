@@ -13,10 +13,16 @@
     }
 }
 
-body:not(.theme-dark) {
+body:not(.theme-dark, .is_admin) {
     .bg-azure-lt {
         background-color: var(--tblr-body-bg) !important;
     }
+}
+
+
+
+body.is_admin, .mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
+    background-color: var(--tblr-bg-surface);
 }
 
 body, .is_admin {
@@ -24,7 +30,7 @@ body, .is_admin {
 
 }
 
-.table-responsive, .mw-dialog-skin-default .mw-dialog-header, .mw-dialog-skin-default .mw-dialog-container {
+.table-responsive, .mw-dialog-header {
     background-color: var(--tblr-bg-surface);
 }
 
@@ -206,9 +212,14 @@ body, .is_admin {
 }
 
 .mw-dialog-skin-default .mw-dialog-container {
-    padding: 25px;
     padding-top: 0;
+    padding: 25px;
 }
+
+ #mw-admin-container {
+     background-color: var(--tblr-bg-surface);
+ }
+
 
 p {
     color: var(--tblr-body-color);
@@ -839,4 +850,17 @@ body.theme-dark {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }

@@ -49,6 +49,8 @@ class Module extends Model
         $icon = str_replace( '{SITE_URL}', '', $this->icon);
         if (mb_strpos($icon, '.svg') !== false) {
             echo file_get_contents($icon);
+        } else {
+            echo '<img src="' . $icon . '" />';
         }
     }
 

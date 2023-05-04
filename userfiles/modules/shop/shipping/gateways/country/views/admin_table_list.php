@@ -80,18 +80,22 @@
     </div>
 
     <div class="mw-shipping-items shipping_to_country_holder table-responsive mt-3" id="shipping_to_country_holder<?php if ($active_or_disabled == 'active'): ?>_active<?php endif; ?>">
-        <?php if (is_array($data) and !empty($data)): ?>
-            <?php foreach ($data as $item): ?>
-            <table class="table small">
-                <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
-                <tr>
-                    <th style="width: 10px; padding-right: 0;"></th>
-                    <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
-                    <th><?php _e('Shipping Type'); ?></th>
-                    <th><?php _e('Shipping Cost'); ?></th>
-                    <th class="text-end text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
-                </tr>
-                </thead>
+
+
+
+                <?php if (is_array($data) and !empty($data)): ?>
+                    <table class="table small">
+
+                        <thead class="<?php if ($active_or_disabled == 'active'): ?>table-success<?php else: ?>table-danger<?php endif; ?>">
+                        <tr>
+                            <th style="width: 10px; padding-right: 0;"></th>
+                            <th><?php if ($active_or_disabled == 'active'): ?><?php _e('Allowed'); ?><?php else: ?><?php _e('Denied'); ?><?php endif; ?> <?php _e('Country'); ?></th>
+                            <th><?php _e('Shipping Type'); ?></th>
+                            <th><?php _e('Shipping Cost'); ?></th>
+                            <th class="text-end text-right" style="width: 200px;"><?php _e('Actions'); ?></th>
+                        </tr>
+                        </thead>
+                    <?php foreach ($data as $item): ?>
 
                     <tr class="shipping-country-holder vertical-align-middle show-on-hover-root" data-field-id="<?php print $item['id']; ?>" id="shipping-table-list-item-id-<?php print $item['id']; ?>">
                         <td style="width: 10px; padding-right: 0;">
@@ -125,13 +129,14 @@
                             </a>
                         </td>
                     </tr>
-                <?php endforeach; ?>
-        </table>
-            <?php else: ?>
+                    <?php endforeach; ?>
+                </table>
 
-                        <?php _e("The list is empty"); ?>
+                <?php else: ?>
 
-            <?php endif; ?>
+                            <?php _e("The list is empty"); ?>
+
+                <?php endif; ?>
 
 
         <?php
