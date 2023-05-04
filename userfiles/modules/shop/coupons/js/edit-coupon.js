@@ -1,28 +1,28 @@
 $(document).ready(function () {
-	
+
 	$(document).on("click", ".js-generate-new-promo-code", function() {
 		$('.js-coupon-code').val(uniqueId());
 	});
-	
+
 	$(document).on("change", ".js-validation", function() {
 		runFieldsValidation(this);
 	});
-	
+
 	// this is the id of the form
 	$(".js-save-coupon").click(function(e) {
-		
+
 			$(".js-validation-messages").html("");
-	
+
 			var ok = true;
 			var form = $(".js-edit-coupon-form");
 			var url = form.attr('action');
-	
+
 			$('.js-edit-coupon-form :input').each(function() {
 				if ($(this).hasClass('js-validation')) {
 					ok = runFieldsValidation(this);
 				}
 			});
-			
+
 			if (ok) {
 				$.ajax({
 						type: "POST",
@@ -31,9 +31,9 @@ $(document).ready(function () {
 						data: form.serialize(),
 						success: function(data) {
 							if (typeof(data.error_message) !== "undefined") {
-								// mw.notification.error(data.error_message);
-								$(".js-validation-messages").html(errorMessage(data.error_message));
-								scrollTopModal();
+                                mw.notification.error(data.error_message);
+								//$(".js-validation-messages").html(errorMessage(data.error_message));
+								//scrollTopModal();
 							}
 							if (typeof(data.success_edit) !== "undefined") {
 								mw.notification.success(TEXT_SUCCESS_SAVE);
@@ -47,25 +47,25 @@ $(document).ready(function () {
 			} else {
 				// mw.notification.error(TEXT_FILL_ALL_FIELDS);
 				$(".js-validation-messages").html(errorMessage(TEXT_FILL_ALL_FIELDS));
-				scrollTopModal();
+				//scrollTopModal();
 			}
-			
+
 			e.preventDefault()
 	});
-	
+
 	function runFieldsValidation(instance) {
-	
+
 		var ok = true;
-		
+
 		$(instance).removeAttr("style");
 		$(instance).parent().find(".js-field-message").html('');
-	
+
 		if ($(instance).val() == "") {
 			$(instance).css("border", "1px solid #b93636");
 			$(instance).parent().find('.js-field-message').html(errorText(TEXT_FIELD_CANNOT_BE_EMPTY));
 			ok = false;
 		}
-		
+
 		if ($(instance).hasClass('js-validation-number')) {
 			if (isInteger(parseFloat($(instance).val())) == false) {
 				$(instance).css("border", "1px solid #b93636");
@@ -73,7 +73,7 @@ $(document).ready(function () {
 				ok = false;
 			}
 		}
-		
+
 		if ($(instance).hasClass('js-validation-float-number')) {
 			if (isFloatOrInteger(parseFloat($(instance).val())) == false) {
 				$(instance).css("border", "1px solid #b93636");
@@ -81,16 +81,16 @@ $(document).ready(function () {
 				ok = false;
 			}
 		}
-	
+
 		return ok;
 	}
-	
-	function scrollTopModal() {
-		$('.mw_modal_container').scroll();
-		$(".mw_modal_container").animate({
-			scrollTop: 0
-		}, 444);
-	}
+
+	// function scrollTopModal() {
+	// 	$('.js-edit-coupon-form').scroll();
+	// 	$(".js-edit-coupon-form").animate({
+	// 		scrollTop: 0
+	// 	}, 444);
+	// }
 
 });
 
