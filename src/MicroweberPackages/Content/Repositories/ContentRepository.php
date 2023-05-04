@@ -188,7 +188,8 @@ class ContentRepository extends AbstractRepository
 
                 $customField['value'] = $customFieldValues[0] ?? false;
                 $customField['values'] = $customFieldValues;
-
+                $customField['values_plain'] = implode('|', $customFieldValues);// for the offers module
+                
                 $customFields[] = $customField;
             }
 
