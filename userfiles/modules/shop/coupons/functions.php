@@ -118,8 +118,16 @@ function coupons_save_coupon($couponData = array())
     $check = coupon_get_by_code($couponData['coupon_code']);
     if (!empty($check)) {
         if ($check['id'] != $couponData['id']) {
-            $errorMessage .= _e('This coupon code allready exists. Please, try with another', true) . '.<br />';
+            $errorMessage .= _e('This coupon code already exists. Please, try with another', true) . '.<br />';
         }
+    }
+
+    if (!empty(trim($couponData['coupon_code']))) {
+        $errorMessage .= _e('Coupon code is empty', true) . '.<br />';
+    }
+
+    if (!empty(trim($couponData['coupon_name']))) {
+        $errorMessage .= _e('Coupon name is empty', true) . '.<br />';
     }
 
     if (!is_numeric($couponData['uses_per_coupon'])) {
