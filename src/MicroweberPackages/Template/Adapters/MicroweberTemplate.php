@@ -158,14 +158,14 @@ class MicroweberTemplate
         $l = new View($render_file);
         $l->page_id = $params['page_id'];
         $l->content_id = $params['content_id'];
-        $l->post_id = $params['postId'];
+        $l->post_id = $params['post_id'];
         // $l->categoryId = $params['categoryId'];
 
         if (isset($params['content'])) {
             $l->content = $params['content'];
         }
-        if (isset($params['categoryId'])) {
-            $l->category_id = $params['categoryId'];
+        if (isset($params['category_id'])) {
+            $l->category_id = $params['category_id'];
         }
 
         if (isset($params['category'])) {
