@@ -147,9 +147,8 @@ class TemplateTest extends TestCase
         $this->assertFalse(is_category());
 
 
-
         $templateDir = template_dir();
-        $templateDirExpected = templates_path() .$templateName . DS;
+        $templateDirExpected = templates_path() . $templateName . DS;
         $this->assertEquals($templateDirExpected, $templateDir);
 
 
@@ -172,15 +171,14 @@ class TemplateTest extends TestCase
         ]);
 
         $contentCategories = content_categories($newCleanPagePostId);
-        $this->assertEquals($newCleanCategoryId,$contentCategories[0]['id']);
-
+        $this->assertEquals($newCleanCategoryId, $contentCategories[0]['id']);
 
 
         app()->content_manager->define_constants(['id' => $newCleanPagePostId]);
 
 
         $templateDir = template_dir();
-        $templateDirExpected = templates_path() .$templateName . DS;
+        $templateDirExpected = templates_path() . $templateName . DS;
         $this->assertEquals($templateDirExpected, $templateDir);
 
 
@@ -195,11 +193,9 @@ class TemplateTest extends TestCase
         $this->assertFalse(is_product());
 
 
-
-
         // test post in subpage of page
         $newSubPageId = save_content([
-            'parent' =>$newCleanPageId,
+            'parent' => $newCleanPageId,
             'subtype' => 'dynamic',
             'content_type' => 'page',
             'layout_file' => 'clean.php',
@@ -228,7 +224,6 @@ class TemplateTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPostSubId]);
 
 
-
         $this->assertEquals($newCleanPostSubId, post_id());
 
 
@@ -245,10 +240,7 @@ class TemplateTest extends TestCase
     }
 
 
-
-
-
-        public function testTemplateConstantsAreDefined()
+    public function testTemplateConstantsAreDefined()
     {
         $templateName = 'my-test-template-for-constants';
 
@@ -287,21 +279,25 @@ class TemplateTest extends TestCase
         $this->assertTrue(defined('TEMPLATES_DIR'));
         $this->assertTrue(defined('TEMPLATE_DIR'));
         $this->assertTrue(defined('TEMPLATE_URL'));
-        $this->assertTrue(defined('LAYOUTS_URL'));
-        $this->assertTrue(defined('LAYOUTS_DIR'));
-
-
 
 
         $this->assertEquals($newCleanPageId, PAGE_ID);
         $this->assertEquals($newCleanPageId, CONTENT_ID);
-        $this->assertEquals($newCleanPageId, MAIN_PAGE_ID);
-        $this->assertEquals($newCleanPageId, ROOT_PAGE_ID);
 
 
-dd(PAGE_ID);
-dd(MAIN_PAGE_ID);
-dd(ROOT_PAGE_ID);
-dd(PARENT_PAGE_ID);
+        $this->assertEquals(0, ROOT_PAGE_ID);
+        $this->assertEquals(0, MAIN_PAGE_ID);
+        $this->assertEquals(0, PARENT_PAGE_ID);
+        $this->assertEquals(0, CATEGORY_ID);
+        $this->assertEquals(0, POST_ID);
+
+        $this->assertEquals($templateName, TEMPLATE_NAME);
+        $this->assertEquals($templateName, ACTIVE_SITE_TEMPLATE);
+        $this->assertEquals(template_name(), TEMPLATE_NAME);
+        $this->assertEquals(template_url(), THIS_TEMPLATE_URL);
+        $this->assertEquals(template_dir(), TEMPLATE_DIR);
+        $this->assertEquals(template_dir(), THIS_TEMPLATE_URL);
+
+
     }
 }

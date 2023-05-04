@@ -1146,7 +1146,7 @@ class MicroweberTemplate
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = templates_url() . '/' . $the_active_site_template;
+            $the_template_url = templates_url() .  $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
 
@@ -1179,19 +1179,19 @@ class MicroweberTemplate
             define('TEMPLATE_URL', $the_template_url);
         }
 
-        if (defined('LAYOUTS_DIR') == false) {
-            $layouts_dir = TEMPLATE_DIR . 'layouts/';
-
-            define('LAYOUTS_DIR', $layouts_dir);
-        } else {
-            $layouts_dir = LAYOUTS_DIR;
-        }
-
-        if (defined('LAYOUTS_URL') == false) {
-            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir) . '/');
-
-            define('LAYOUTS_URL', $layouts_url);
-        }
+//        if (defined('LAYOUTS_DIR') == false) {
+//            $layouts_dir = TEMPLATE_DIR . 'layouts/';
+//
+//            define('LAYOUTS_DIR', $layouts_dir);
+//        } else {
+//            $layouts_dir = LAYOUTS_DIR;
+//        }
+//
+//        if (defined('LAYOUTS_URL') == false) {
+//            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir) . '/');
+//
+//            define('LAYOUTS_URL', $layouts_url);
+//        }
 
 
         return true;
