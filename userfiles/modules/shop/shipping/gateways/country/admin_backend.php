@@ -5,27 +5,28 @@ use MicroweberPackages\View\View;
 ?>
 
 
+
 <div class="card">
-    <div class="card-header d-block">
+    <div class="card-header d-block mt-4">
 
-        <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs" role="tablist">
+        <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link  active" data-bs-toggle="tab" href="#list">  <?php _e('Shipping to country'); ?></a>
+                <a class="nav-link  active" data-bs-toggle="tab" href="#list" role="tab" aria-selected="true">  <?php _e('Shipping to country'); ?></a>
             </li>
 
             <li class="nav-item" role="presentation">
-                <a class="nav-link " data-bs-toggle="tab" href="#settings">   <?php _e('Unit settings'); ?></a>
+                <a class="nav-link " data-bs-toggle="tab" href="#settings" role="tab" tabindex="-1" aria-selected="false">   <?php _e('Unit settings'); ?></a>
 
             </li>
 
             <li class="nav-item" role="presentation">
-                <a class="nav-link " data-bs-toggle="tab" href="#tab_shipping_fields_settings">   <?php _e('Fields settings'); ?></a>
+                <a class="nav-link " data-bs-toggle="tab" href="#tab_shipping_fields_settings" role="tab" tabindex="-1" aria-selected="false">   <?php _e('Fields settings'); ?></a>
             </li>
         </ul>
 
-        <div class="card-body">
-            <div class="tab-content py-3">
-                <div class="tab-pane fade show active" id="list">
+        <div class="card-body px-0 mt-4">
+            <div class="tab-content">
+                <div class="tab-pane show active" id="list" role="tabpanel">
                     <script type="text/javascript">
                         mw.require('options.js');
 
@@ -65,13 +66,15 @@ use MicroweberPackages\View\View;
                             <?php if (mw()->module_manager->is_installed($shipping_module['module'])): ?>
                                 <?php $status = get_option('shipping_gw_' . $shipping_module['module'], 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
-                                <div class="form-group">
-                                    <label class="form-label"><?php _e("Enable shipping to countries"); ?></label>
-                                    <small class="text-muted d-block mb-2"><?php _e('Enable or disable shipping to countries in general'); ?></small>
-                                    <div class="form-check form-switch pl-0">
-                                        <label class="d-inline-block mr-5" for="shipping_gw_<?php print $shipping_module['module'] ?>">No</label>
+                                <div class="form-group d-flex align-items-start justify-content-between">
+                                    <div>
+                                        <label class="form-label"><?php _e("Enable shipping to countries"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e('Enable or disable shipping to countries in general'); ?></small>
+                                    </div>
+                                    <div class="form-check form-switch">
+
                                         <input onchange="shippingToCountryClass(this)" type="checkbox" name="shipping_gw_<?php print $shipping_module['module'] ?>" id="shipping_gw_<?php print $shipping_module['module'] ?>" data-option-group="shipping" data-id="shipping_gw_<?php print $shipping_module['module'] ?>" data-value-checked="y" data-value-unchecked="n" class="mw_option_field form-check-input" <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
-                                        <label class="custom-control-label" for="shipping_gw_<?php print $shipping_module['module'] ?>">Yes</label>
+                                        <label class="custom-control-label ms-2" for="shipping_gw_<?php print $shipping_module['module'] ?>">Yes</label>
                                     </div>
                                 </div>
 
@@ -124,11 +127,11 @@ use MicroweberPackages\View\View;
                     ?>
                 </div>
 
-                <div class="tab-pane fade" id="settings">
+                <div class="tab-pane" id="settings" role="tabpanel">
                     <module type="shop/shipping/set_units"/>
                 </div>
 
-                <div class="tab-pane fade" id="tab_shipping_fields_settings">
+                <div class="tab-pane" id="tab_shipping_fields_settings" role="tabpanel">
                     <module type="shop/shipping/gateways/country/shipping_fields_settings" id="shipping_fields_settings"/>
                 </div>
             </div>

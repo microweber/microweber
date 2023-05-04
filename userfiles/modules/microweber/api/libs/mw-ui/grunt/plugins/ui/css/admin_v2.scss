@@ -206,6 +206,7 @@ body, .is_admin {
 
 .mw-dialog-skin-default .mw-dialog-container {
     padding: 25px;
+    padding-top: 0;
 }
 
 p {
@@ -292,7 +293,7 @@ p {
 }
 
 .mw-backup-restore, .mw-dialog-holder {
-    p, h3, h2, small, span, label {
+    p, h3, h2, small, span:not(.btn.btn-primary), label {
         color: var(--tblr-body-color);
 
     }
@@ -780,13 +781,13 @@ small.text-muted {
 }
 
 
-.shipping-module-draggable-item {
-    .cursor-move-holder {
+.shipping-module-draggable-item, .table {
+    .cursor-move-holder, .mdi-cursor-move {
         visibility: hidden;
     }
 
     &:hover {
-        .cursor-move-holder {
+        .cursor-move-holder, .mdi-cursor-move {
             visibility: visible;
         }
     }
@@ -823,3 +824,18 @@ body.theme-dark {
     background-color: var(--tblr-bg-surface-secondary);
 }
 
+.trash-svg-icon {
+    fill: var(--tblr-danger);
+}
+
+
+.mw-alert-holder {
+    padding: 20px;
+    font-size: 16px;
+}
+
+.mw-dialog-skin-default .mw-dialog-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
