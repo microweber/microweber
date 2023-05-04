@@ -47,10 +47,12 @@ class Module extends Model
     public function getIconInline()
     {
         $icon = str_replace( '{SITE_URL}', '', $this->icon);
-        if (mb_strpos($icon, '.svg') !== false) {
-            echo file_get_contents($icon);
+        if (get_file_extension($icon) == 'svg') {
+            $content =  file_get_contents($icon);
+            $content = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $content);
+            return $content;
         } else {
-            echo '<img src="' . $icon . '" />';
+            return '<img src="' . $icon . '" />';
         }
     }
 
