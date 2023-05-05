@@ -77,7 +77,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
 
                         <div class="mb-3">
                             <label class="form-label" for="username"><?php _e('Username'); ?>:</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> required />
+                            <input type="text" class="form-control" id="username" name="username" tabindex="1" placeholder="<?php _e("Username or Email"); ?>" <?php if (isset($input['username']) != false): ?>value="<?php print $input['username'] ?>"<?php endif; ?> required />
                         </div>
 
                         <div class="mb-3">
@@ -87,7 +87,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                                      <a href="./forgot-password.html">I forgot password</a>
                                 </span>
                             </label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="<?php _e("Password"); ?>" <?php if (isset($input['password']) != false): ?>value="<?php print $input['password'] ?>"<?php endif; ?> required>
+                            <input type="password" class="form-control" id="password" name="password" tabindex="2" placeholder="<?php _e("Password"); ?>" <?php if (isset($input['password']) != false): ?>value="<?php print $input['password'] ?>"<?php endif; ?> required>
 
 
                         </div>
@@ -132,7 +132,7 @@ if (!isset(mw()->ui->admin_logo_login_link) or mw()->ui->admin_logo_login_link =
                         <?php endif; ?>
                         <div class="form-group">
                             <label class="d-none d-sm-block">&nbsp;</label>
-                            <button class="btn btn-primary w-100" dusk="login-button" type="submit"><?php _e("Login"); ?></button>
+                            <button class="btn btn-primary w-100" tabindex="3" dusk="login-button" type="submit"><?php _e("Login"); ?></button>
                         </div>
                     </div>
 
