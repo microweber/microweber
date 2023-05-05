@@ -546,6 +546,7 @@
         this.button = function(){
             var btn = scope.document.createElement('mwbutton');
             btn.className = 'mw-tree-toggler';
+            btn.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>";
             btn.onclick = function(){
                 scope.toggle(mw.tools.firstParentWithTag(this, 'li'));
             };
@@ -780,7 +781,7 @@
                         var menuitem = scope.document.createElement('span');
                         var icon = scope.document.createElement('span');
                         menuitem.title = this.title;
-                        menuitem.innerHTML = this.title;
+                        menuitem.innerHTML = iconResolver(this) +  this.title;
                         menuitem.className = ((this.className || '') + ' mw-tree-context-menu-item').trim();
                         icon.className = this.icon;
                         menuitem.prepend(icon);
@@ -837,6 +838,12 @@
 
         this._ids = [];
 
+        
+        var iconResolver = function(item) {
+ 
+            return mw.iconResolver(item.icon) || mw.iconResolver(item.subtype) || mw.iconResolver(item.type)
+        }
+
         this.createItem = function(item){
             var selector = '#'+scope.options.id + '-' + item.type+'-'+item.id;
             if(this._ids.indexOf(selector) !== -1) return false;
@@ -851,7 +858,7 @@
             container.className = "mw-tree-item-content";
             var titleNode = document.createElement('span');
             titleNode.className = 'mw-tree-item-title';
-            titleNode.innerHTML = mw.iconResolver(item.type) + item.title;
+            titleNode.innerHTML = iconResolver(item) + item.title;
             if(!item.is_active){
                 titleNode.title = mw.lang('Category is hidden');
             }
@@ -904,17 +911,7 @@
 
             li.appendChild(container);
             $(container).wrap('<span class="mw-tree-item-content-root"></span>')
-            if(obj.icon){
-                if(obj.icon.indexOf('</') === -1){
-                    var icon = scope.document.createElement('span');
-                    icon.className = 'mw-tree-aditional-item-icon ' + obj.icon;
-                    containerTitle.appendChild(icon);
-                }
-                else{
-                    mw.$(containerTitle).append(obj.icon)
-                }
-
-            }
+            mw.$(containerTitle).append(iconResolver(obj))
             var title = scope.document.createElement('span');
             title.innerHTML = obj.title;
             title.alt = obj.title;

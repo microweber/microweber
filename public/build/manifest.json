@@ -5,82 +5,9 @@
     ],
     "file": "assets/bootstrap-14d8720e.js"
   },
-  "_bootstrap-1db6eb13.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-1db6eb13.js"
-  },
-  "_bootstrap-7dcc5bc6.js": {
-    "file": "assets/bootstrap-7dcc5bc6.js"
-  },
-  "_bootstrap-834b75ca.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-834b75ca.js"
-  },
-  "_bootstrap-846b9916.js": {
-    "css": [
-      "assets/bootstrap-94c1ec46.css"
-    ],
-    "file": "assets/bootstrap-846b9916.js"
-  },
-  "_bootstrap-8a84cadc.js": {
-    "file": "assets/bootstrap-8a84cadc.js"
-  },
-  "_bootstrap-c1246638.js": {
-    "file": "assets/bootstrap-c1246638.js"
-  },
-  "_module.esm-0d41a4f7.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-0d41a4f7.js"
-  },
-  "_module.esm-13d867d2.js": {
-    "file": "assets/module.esm-13d867d2.js"
-  },
-  "_module.esm-200d8fc8.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-200d8fc8.js"
-  },
-  "_module.esm-367f7f10.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-367f7f10.js"
-  },
-  "_module.esm-616dba9c.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-616dba9c.js"
-  },
-  "_module.esm-8d7c2e98.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-8d7c2e98.js"
-  },
-  "_module.esm-e3ac2b06.js": {
-    "file": "assets/module.esm-e3ac2b06.js"
-  },
-  "_module.esm-ff5b834d.js": {
-    "css": [
-      "assets/module-94c1ec46.css"
-    ],
-    "file": "assets/module.esm-ff5b834d.js"
-  },
   "bootstrap.css": {
     "file": "assets/bootstrap-94c1ec46.css",
     "src": "bootstrap.css"
-  },
-  "module.css": {
-    "file": "assets/module-94c1ec46.css",
-    "src": "module.css"
   },
   "resources/css/microweber-admin-filament.css": {
     "file": "assets/microweber-admin-filament-8463e39c.css",
