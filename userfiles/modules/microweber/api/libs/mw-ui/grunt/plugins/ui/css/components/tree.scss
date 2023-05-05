@@ -1,3 +1,4 @@
+
 .mw-tree {
     container-name: mw-tree-root;
     container-type: inline-size;
@@ -64,7 +65,7 @@
     cursor: pointer;
   }
   .mw-tree-item-title {
-      flex: 1;
+    flex: 1;
     padding-inline: 4px 0;
     padding-block: 0;
     display: inline-block;
@@ -74,11 +75,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-       padding-block-start: 5px;
+    padding-block-start: 5px;
     padding-inline-end: 0;
 
-      font-size: 14px;
-      color: #2b2b2b;
+    font-size: 14px;
+    color: var(--tblr-body-color);
   }
   tree-label {
     width: 20px;
@@ -441,11 +442,7 @@
 
   }
 
-  li.type-page > .mw-tree-item-content-root > .mw-tree-item-content .mw-tree-item-title:before {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 96 960 960' width='24'%3E%3Cpath d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/%3E%3C/svg%3E");
-      content: '';
-
-  }
+ 
 
 
     li.type-page.has-children > .mw-tree-item-content-root .mw-tree-item-title:before {

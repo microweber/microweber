@@ -41,7 +41,14 @@ mw.controlFields = {
         var id = conf.id || this._id();
         var button = document.createElement('button');
         button.type = conf.type || 'button';
-        button.className = 'mw-ui-btn btn-' + conf.size + ' btn-' + conf.color;
+        var prefix = 'btn'; // bootstrap
+        button.className = prefix;
+        if(conf.size) {
+            button.classList.add(`${prefix}-${conf.size}`)
+        }
+        if(conf.color) {
+            button.classList.add(`${prefix}-${conf.color}`)
+        }
         button.innerHTML = (conf.label || conf.content);
         return button;
     },
@@ -73,7 +80,7 @@ mw.controlFields = {
         return this._wrap(
             this._label(conf),
             this._description(conf),
-            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="mw-ui-field w100">'
+            '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control w100">'
         );
     },
     checkbox: function (conf) {
@@ -172,7 +179,7 @@ mw.emitter = {
             data.ok =  mw.controlFields._button({content: mw.lang('OK'), color: 'primary'});
             data.cancel =  mw.controlFields._button({content: mw.lang('Cancel')});
             data.root = mw.controlFields._wrap(data.cancel, data.ok);
-            data.root.className = 'mw-ui-form-controllers-footer';
+            data.root.className = 'modal-footer mw-ui-form-controllers-footer';
             return data;
         },
         title: function (options) {
@@ -635,7 +642,7 @@ mw.emitter = {
             root.className = 'mw-ui-form-controller-root';
             var _linkText = '', _linkUrl = '', _target = '';
             UIFormControllers._title(this.settings, root);
-            var treeEl = document.createElement('div');
+            var treeEl = document.createElement('input');
             treeEl.className = 'form-group mw-link-editor-posts-search';
 
             if (options.text) {
@@ -648,23 +655,87 @@ mw.emitter = {
             var url =  this.settings.dataUrl;
             url = typeof url === 'function' ? url() : url;
 
-            this.autoComplete = new mw.autoComplete({
-                element: treeEl,
-                titleDecorator: function (title, data) {
-                    var type = data.subtype === 'static' ? 'page' : data.subtype;
-                    return '<span class=" tip '+mw.IconClassResolver(data.subtype)+'" data-tip="' + type + '"></span>' + title;
-                },
-                ajaxConfig: {
-                    method: 'post',
-                    url: url,
-                    data: {
-                        limit: '5',
-                        keyword: '${val}',
-                        order_by: 'updated_at desc',
-                        search_in_fields: 'title',
-                    }
-                }
-            });
+            var initAutoComplete = () => {
+                this.autoComplete = new TomSelect(treeEl, {
+                    valueField: 'id',
+                    labelField: 'title',
+                    searchField: 'title',
+                    copyClassesToDropdown: false,
+                    dropdownClass: 'dropdown-menu ts-dropdown',
+                    optionClass:'dropdown-item',
+                    controlInput: '<input>',
+                    mode: 'single',
+                    closeAfterSelect: true,
+                    // fetch remote data
+                    load: function(query, callback) {
+                        var conf = {
+                            method: 'POST',
+                            url: url,
+                            body: JSON.stringify({
+                                limit: '5',
+                                keyword: treeEl.value,
+                                order_by: 'updated_at desc',
+                                search_in_fields: 'title',
+                            })                   
+                        }
+    
+    
+            
+                        
+                        fetch(url, conf)
+                            .then(response => response.json())
+                            .then(json => {
+                                callback(json);
+                            }).catch(()=>{
+                                callback();
+                            });
+            
+                    },
+                    // custom rendering functions for options and items
+                    render: {
+                        option: function(item, escape) {
+                             
+                            return `<div class="py-2 d-flex">
+                            ${item.image ? (`<div class="icon me-3">
+                            <img class="img-fluid" src="${item.image}" />
+                        </div>`) : ''}
+                                        
+                                        <div>
+                                            <div class="mb-1">
+                                                <span class="h4">
+                                                    ${ escape(item.title) }
+                                                </span>
+                                                <span class="text-muted"> - ${ escape(item.content_type) }</span>
+                                            </div>
+                                             ${item.description ? (`<div class="description">${ escape(item.description.substring(0, item.description.indexOf(' ', 100))) }</div>`) : ''}
+                                        </div>
+                                    </div>`;
+                        },
+                        item: function(item, escape) {
+                             
+                            return `<div class="d-flex">
+                            ${item.image ? (`<div class="icon me-3">
+                            <img class="img-fluid" src="${item.image}" />
+                        </div>`) : ''}
+                                        <div>
+                                            <div class="mb-1">
+                                                <span class="h4">
+                                                    ${ escape(item.title) }
+                                                </span>
+                                                <span class="text-muted"> - ${ escape(item.content_type) }</span>
+                                            </div>
+                                            ${item.description ? (`<div class="description">${ escape(item.description.substring(0, item.description.indexOf(' ', 100))) }</div>`) : ''}
+                                        </div>
+                                    </div>`;
+                        }
+                    },
+                });
+    
+                 
+ 
+            }
+
+
 
 
             var label = mw.controlFields._label({
@@ -673,6 +744,7 @@ mw.emitter = {
 
             setTimeout(function (){
                 mw.element(treeEl).before(label);
+                initAutoComplete()
             }, 10)
 
             if (options.target) {
@@ -710,7 +782,15 @@ mw.emitter = {
             this.getValue = function () {
                 var val = {};
                 if(textField) val.text = textField.value;
-                var getSelected = this.autoComplete.selected[0];
+      
+                 
+                var getSelected, autoCompleteVal = this.autoComplete.getValue();
+                for (let i in this.autoComplete.options) {
+                    if(autoCompleteVal == this.autoComplete.options[i].id) {
+                        getSelected = this.autoComplete.options[i];
+                        break;
+                    } 
+                }
                 val.url = getSelected ? getSelected.url : '';
                 val.data = getSelected;
                 if(targetField) val.target = targetField.checked;
@@ -800,7 +880,7 @@ mw.emitter = {
             if (options.target === true) options.target = defaults.target;
 
             var root = document.createElement('div');
-            root.className = 'mw-ui-form-controller-root';
+            root.className = 'tab-content mw-ui-form-controller-root';
             var _linkText = '', _linkUrl = '', _target = '';
             UIFormControllers._title(this.settings, root)
             var treeEl = document.createElement('div');
@@ -836,7 +916,7 @@ mw.emitter = {
                     sortable: false,
                     selectable: true,
                     singleSelect: true,
-                    searchInputClassName: 'mw-ui-field mw-ui-field-small',
+                    searchInputClassName: 'form-control form-control-sm',
                     searchInput: true
                 });
 
@@ -994,6 +1074,7 @@ mw.emitter = {
                     name: 'text'
                 });
             }
+            treeEl.append(mw.controlFields._label({content: 'Select file'}))
              var url =  this.settings.dataUrl;
             url = typeof url === 'function' ? url() : url;
              scope.filepicker = new mw.filePicker({
@@ -1002,7 +1083,7 @@ mw.emitter = {
                 nav: 'tabs',
                 label: false
             });
-            treeEl.append(mw.controlFields._label({content: 'Select file'}))
+            
             if (options.target) {
                 _target = mw.controlFields.checkbox({
                     label: options.target.label,

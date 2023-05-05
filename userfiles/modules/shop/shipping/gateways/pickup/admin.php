@@ -48,13 +48,17 @@ must_have_access();
 
 <?php $status = get_option('shipping_gw_shop/shipping/gateways/pickup' , 'shipping') == 'y' ? 'notification' : 'warn'; ?>
 
-<div class="form-group">
-    <label class="form-label"><?php _e("Enable pickup"); ?></label>
-    <small class="text-muted d-block mb-2"><?php _e('Enable or disable pickup method for shipping'); ?></small>
-    <div class="form-check form-switch pl-0">
-        <label class="d-inline-block mr-5" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('No'); ?></label>
+<div class="form-group d-flex align-items-center justify-content-between">
+    <div>
+        <label class="form-label"><?php _e("Enable pickup"); ?></label>
+        <small class="text-muted d-block mb-2"><?php _e('Enable or disable pickup method for shipping'); ?></small>
+
+    </div>
+    <div class="form-check form-switch pl-0 me-5">
+
         <input onchange="shippingPickupSettingsSet(this)" type="checkbox" name="shipping_gw_shop/shipping/gateways/pickup" id="shipping_gw_shop/shipping/gateways/pickup" data-option-group="shipping" data-id="shipping_gw_shop/shipping/gateways/pickup" data-value-checked="y" data-value-unchecked="n" class="mw_option_field form-check-input" <?php if ($status == 'notification'): ?> checked  <?php endif; ?>>
-        <label class="custom-control-label" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('Yes'); ?></label>
+        <label class="custom-control-label ms-2" for="shipping_gw_shop/shipping/gateways/pickup"><?php _e('Yes'); ?></label>
+
     </div>
 </div>
 

@@ -6,6 +6,14 @@ mw.require('tags.js');
 mw.require(mw.settings.modules_url + '/categories/categories.js');
 
 
+mw.iconResolver = icon => {
+    const icons = {
+        page: " <svg xmlns='http://www.w3.org/2000/svg' style='fill:var(--tblr-body-color)' height='24' viewBox='0 96 960 960' width='24'><path d='M240 976q-33 0-56.5-23.5T160 896V256q0-33 23.5-56.5T240 176h320l240 240v480q0 33-23.5 56.5T720 976H240Zm280-520V256H240v640h480V456H520ZM240 256v200-200 640-640Z'/></svg>",
+    }
+    return icons[icon] || '';
+}
+
+
 var _adm = {
 
     language: function(language) {
