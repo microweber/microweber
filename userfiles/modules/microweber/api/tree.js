@@ -851,7 +851,7 @@
             container.className = "mw-tree-item-content";
             var titleNode = document.createElement('span');
             titleNode.className = 'mw-tree-item-title';
-            titleNode.innerHTML = item.title;
+            titleNode.innerHTML = mw.iconResolver(item.type) + item.title;
             if(!item.is_active){
                 titleNode.title = mw.lang('Category is hidden');
             }

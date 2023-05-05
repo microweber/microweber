@@ -1,8 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite build --watch --sourcemap inline --mode development",
-        "build": "vite build"
+        "vitedev": "vite build --watch --sourcemap inline --mode development",
+        "dev": "concurrently \"npm run vitedev\" \"npm run admincssdev\"",
+        "build": "vite build",
+        "admincss": "gulp admin-css",
+        "admincssdev": "gulp admin-css-dev"
     },
     "devDependencies": {
         "@nextapps-be/livewire-sortablejs": "^0.2.0",
@@ -12,7 +15,9 @@
         "@tailwindcss/typography": "^0.5.9",
         "autoprefixer": "^10.4.13",
         "axios": "^1.1.2",
+        "concurrently": "^8.0.1",
         "gulp": "^4.0.2",
+        "gulp-clean-css": "^4.3.0",
         "gulp-concat": "^2.6.1",
         "gulp-css-url-fix": "0.0.1",
         "gulp-cssmin": "^0.2.0",

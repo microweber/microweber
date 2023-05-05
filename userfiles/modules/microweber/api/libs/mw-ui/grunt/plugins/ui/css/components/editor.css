@@ -233,7 +233,7 @@
     border-radius: 5px 5px 0 0; }
   .mw-editor-wrapper.mw-editor-default .mw-editor-iframe-area,
   .mw-editor-wrapper.mw-editor-default .mw-editor-area {
-    border-radius: 0 0 5px 5px; }
+    border-radius: 0 0 5px 5px; color: #111;}
   .mw-editor-wrapper.mw-editor-default .mw-editor-controller-component-select .mw-editor-group-button-caret svg {
     width: 15px; }
   .mw-editor-wrapper.mw-editor-default .mw-editor-dropdown-option {
