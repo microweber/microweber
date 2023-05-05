@@ -352,7 +352,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                    <h1 style="font-weight: 600;" class="text-center">
                        You don't have any offers.
                    </h1>
-                   <a href="javascript:;" class="btn btn-primary js-add-new-pffer"><?php _e('Add new offer'); ?></a>
+                   <a href="javascript:;" class="btn btn-primary js-add-new-offer"><?php _e('Add new offer'); ?></a>
 
 
                </div>
