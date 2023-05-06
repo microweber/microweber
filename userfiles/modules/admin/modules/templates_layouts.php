@@ -283,7 +283,7 @@ $current_template = false;
                                     <?php foreach ($site_templates as $site_template): ?>
                                         <?php if (isset($site_template['dir_name'])): ?>
                                             <?php
-                                            $template_dir = templates_path() . $site_template['dir_name'];
+                                            $template_dir = templates_dir() . $site_template['dir_name'];
                                             $possible_dir = $template_dir . DS . 'modules' . DS . $mod_name . DS;
                                             $possible_dir = normalize_path($possible_dir, false)
                                             ?>

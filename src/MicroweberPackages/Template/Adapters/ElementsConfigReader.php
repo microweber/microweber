@@ -101,8 +101,8 @@ class ElementsConfigReader
                 $result = str_ireplace('type:', '', $result);
                 $to_return_temp['type'] = trim($result);
                 $to_return_temp['directory'] = $here_dir;
-                if (strstr($here_dir, templates_path())) {
-                    $templ_dir = str_replace(templates_path(), '', $here_dir);
+                if (strstr($here_dir, templates_dir())) {
+                    $templ_dir = str_replace(templates_dir(), '', $here_dir);
                     if ($templ_dir != '') {
                         $templ_dir = explode(DS, $templ_dir);
                         if (isset($templ_dir[0])) {

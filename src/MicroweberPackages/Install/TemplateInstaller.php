@@ -74,7 +74,7 @@ class TemplateInstaller
 
         if (($template_name)) {
             if (function_exists('templates_path')) {
-                $template_dir = templates_path() . DS . $template_name;
+                $template_dir = templates_dir() . DS . $template_name;
                 $template_dir = normalize_path($template_dir, true);
                 if (is_dir($template_dir)) {
                     $template_default_content = $template_dir . 'mw_default_content.zip';

@@ -1018,7 +1018,7 @@ class ApiController  extends FrontendController
 
         if ($mod_n == 'module-' && isset($data['template'])) {
             $t = sanitize_path($data['template']);
-            $possible_layout = templates_path() . $t;
+            $possible_layout = templates_dir() . $t;
             $possible_layout = normalize_path($possible_layout, false);
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);

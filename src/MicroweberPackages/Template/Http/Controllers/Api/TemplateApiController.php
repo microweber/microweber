@@ -21,7 +21,7 @@ class TemplateApiController
         $template = $request->get('template', false);
         $importType = $request->get('import_type', 'default');
 
-        $filePath = templates_path() . $template . DS . 'mw_default_content.zip';
+        $filePath = templates_dir() . $template . DS . 'mw_default_content.zip';
 
 
         $importLog = [];

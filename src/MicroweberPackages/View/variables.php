@@ -21,7 +21,7 @@
   </tr>
   <tr>
     <td>templates_path</td>
-    <td><?php echo templates_path(); ?></td>
+    <td><?php echo templates_dir(); ?></td>
   </tr>
   <tr>
     <td>templates_url</td>

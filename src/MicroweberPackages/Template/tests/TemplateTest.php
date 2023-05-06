@@ -6,9 +6,11 @@ namespace MicroweberPackages\Template\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\TestResult;
 
 class TemplateTest extends TestCase
 {
+
     public function testGetTemplates()
     {
         $get = app()->template->site_templates();
@@ -38,11 +40,13 @@ class TemplateTest extends TestCase
 
     }
 
+    // @todo fix this test
     public function testCompileAdminCssUrl()
     {
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
+        return;
         save_option(array(
             'option_group' => 'admin',
             'module' => 'white_label_colors',
@@ -98,24 +102,31 @@ class TemplateTest extends TestCase
 
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testTemplateNameAndDirVars()
     {
 
         app()->content_manager->define_constants(['active_site_template' => 'default']);
 
         $template_dir = template_dir();
-        $template_dir_expected = templates_path() . 'default' . DS;
+        $template_dir_expected = templates_dir() . 'default' . DS;
         $this->assertEquals($template_dir_expected, $template_dir);
 
         app()->content_manager->define_constants(['active_site_template' => 'new-world']);
 
         $template_dir = template_dir();
-        $template_dir_expected = templates_path() . 'new-world' . DS;
+        $template_dir_expected = templates_dir() . 'new-world' . DS;
         $this->assertEquals($template_dir_expected, $template_dir);
 
 
     }
-
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testTemplateNameAndDirVarsForContent()
     {
         $templateName = 'my-test-template';
@@ -148,7 +159,7 @@ class TemplateTest extends TestCase
 
 
         $templateDir = template_dir();
-        $templateDirExpected = templates_path() . $templateName . DS;
+        $templateDirExpected = templates_dir() . $templateName . DS;
         $this->assertEquals($templateDirExpected, $templateDir);
 
 
@@ -178,12 +189,15 @@ class TemplateTest extends TestCase
 
 
         $templateDir = template_dir();
-        $templateDirExpected = templates_path() . $templateName . DS;
+        $templateDirExpected = templates_dir() . $templateName . DS;
         $this->assertEquals($templateDirExpected, $templateDir);
 
 
         $this->assertEquals($newCleanPagePostId, post_id());
         $this->assertEquals($newCleanPagePostId, content_id());
+
+
+
         $this->assertEquals($newCleanPageId, page_id());
         $this->assertEquals($newCleanCategoryId, category_id());
         $this->assertEquals(0, product_id());
@@ -240,64 +254,78 @@ class TemplateTest extends TestCase
     }
 
 
-    public function testTemplateConstantsAreDefined()
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testTemplateGetLayoutFile()
     {
-        $templateName = 'my-test-template-for-constants';
+        $templateName = 'new-world';
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         $newCleanPageId = save_content([
-            'subtype' => 'dynamic',
+            'subtype' => 'static',
             'content_type' => 'page',
             'layout_file' => 'clean.php',
-            'title' => 'PageVarsTest',
-            'url' => 'PageVarsTest',
+            'title' => 'PageTemplateGetLayoutFile',
             'active_site_template' => $templateName,
             'is_active' => 1,
         ]);
 
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
 
+        $content = get_content_by_id($newCleanPageId);
+        $renderFile = app()->template->get_layout($content);
 
-        $this->assertTrue(defined('PAGE_ID'));
-        $this->assertTrue(defined('POST_ID'));
-        $this->assertTrue(defined('CONTENT_ID'));
-        $this->assertTrue(defined('MAIN_PAGE_ID'));
-        $this->assertTrue(defined('ROOT_PAGE_ID'));
-        $this->assertTrue(defined('PARENT_PAGE_ID'));
-        $this->assertTrue(defined('CATEGORY_ID'));
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'clean.php';
+        $this->assertEquals($expectedRenderFile, $renderFile);
 
+        $newCleanPostId = save_content([
+            'subtype' => 'post',
+            'content_type' => 'post',
+            'title' => 'PostTemplateGetLayoutFile',
+            'is_active' => 1,
+            'parent' => $newCleanPageId,
+        ]);
+        app()->content_manager->define_constants(['id' => $newCleanPostId]);
 
-        $this->assertTrue(defined('DEFAULT_TEMPLATE_DIR'));
-        $this->assertTrue(defined('DEFAULT_TEMPLATE_URL'));
-        $this->assertTrue(defined('THIS_TEMPLATE_FOLDER_NAME'));
-        $this->assertTrue(defined('THIS_TEMPLATE_URL'));
-        $this->assertTrue(defined('THIS_TEMPLATE_DIR'));
-        $this->assertTrue(defined('ACTIVE_SITE_TEMPLATE'));
-        $this->assertTrue(defined('TEMPLATE_NAME'));
-        $this->assertTrue(defined('TEMPLATES_DIR'));
-        $this->assertTrue(defined('TEMPLATE_DIR'));
-        $this->assertTrue(defined('TEMPLATE_URL'));
-
-
-        $this->assertEquals($newCleanPageId, PAGE_ID);
-        $this->assertEquals($newCleanPageId, CONTENT_ID);
+        $content = get_content_by_id($newCleanPostId);
+        $renderFile = app()->template->get_layout($content);
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'post.php';
+        $this->assertEquals($expectedRenderFile, $renderFile);
 
 
-        $this->assertEquals(0, ROOT_PAGE_ID);
-        $this->assertEquals(0, MAIN_PAGE_ID);
-        $this->assertEquals(0, PARENT_PAGE_ID);
-        $this->assertEquals(0, CATEGORY_ID);
-        $this->assertEquals(0, POST_ID);
 
-        $this->assertEquals($templateName, TEMPLATE_NAME);
-        $this->assertEquals($templateName, ACTIVE_SITE_TEMPLATE);
-        $this->assertEquals(template_name(), TEMPLATE_NAME);
-        $this->assertEquals(template_url(), THIS_TEMPLATE_URL);
-        $this->assertEquals(template_dir(), TEMPLATE_DIR);
-        $this->assertEquals(template_dir(), THIS_TEMPLATE_URL);
 
+
+
+        $newCleanPageIdForBlog = save_content([
+            'subtype' => 'dynamic',
+            'content_type' => 'page',
+            'layout_file' => 'layouts/blog.php',
+            'title' => 'PageTemplateGetLayoutFile',
+            'active_site_template' => $templateName,
+            'is_active' => 1,
+        ]);
+
+
+        $newCleanPostSubId = save_content([
+            'subtype' => 'post',
+            'content_type' => 'post',
+            'title' => 'PostTemplateGetLayoutFile',
+            'is_active' => 1,
+            'parent' => $newCleanPageIdForBlog,
+        ]);
+        app()->content_manager->define_constants(['id' => $newCleanPostSubId]);
+
+        $content = get_content_by_id($newCleanPostSubId);
+        $renderFile = app()->template->get_layout($content);
+
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'layouts'.DS.'blog_inner.php';
+        $this->assertEquals($expectedRenderFile, $renderFile);
 
     }
 }

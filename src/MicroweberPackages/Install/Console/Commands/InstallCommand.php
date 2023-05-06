@@ -128,15 +128,15 @@ class InstallCommand extends Command
 
 
         $templateFound = false;
-        if (is_file(templates_path() . $input['default_template'] .DS. 'config.php')) {
+        if (is_file(templates_dir() . $input['default_template'] .DS. 'config.php')) {
             $templateFound = $input['default_template'];
         }
 
         if (!$templateFound) {
             // Search in composer json
-            $availTemplates = scandir(templates_path());
+            $availTemplates = scandir(templates_dir());
             foreach ($availTemplates as $templateFolderName) {
-                $templateComposerFile = templates_path() . $templateFolderName . DS.'composer.json';
+                $templateComposerFile = templates_dir() . $templateFolderName . DS.'composer.json';
                 if (is_file($templateComposerFile)) {
                     $templateComposerContent = file_get_contents($templateComposerFile);
                     $templateComposerContent = json_decode($templateComposerContent, true);

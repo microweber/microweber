@@ -692,7 +692,7 @@ class ModuleManager
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
 
-        $template_dir = templates_path() . 'default/';
+        $template_dir = templates_dir() . 'default/';
 
         if (defined('ACTIVE_TEMPLATE_DIR')) {
             $template_dir = ACTIVE_TEMPLATE_DIR;
@@ -995,7 +995,7 @@ class ModuleManager
                 $tf_mw_default = $module_name_l . 'default.php';
                 $tf = normalize_path($module_name_l . $template_name, false);
                 $tf_theme = $module_name_l_theme . $template_name;
-                $tf_from_other_theme = templates_path() . $template_name;
+                $tf_from_other_theme = templates_dir() . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
                 $tf_other_module = modules_path() . $template_name;

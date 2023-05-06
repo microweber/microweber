@@ -156,8 +156,8 @@ class Template
 
     public function name()
     {
-        if ($this->adapter_current->getTemplatePath()) {
-            return $this->adapter_current->getTemplatePath();
+        if ($this->adapter_current->getTemplateFolderName()) {
+            return $this->adapter_current->getTemplateFolderName();
         }
         if (!defined('TEMPLATE_NAME')) {
             return $this->app->option_manager->get('current_template', 'template');
@@ -171,24 +171,28 @@ class Template
 
     public function dir($add = false)
     {
-        if ($this->adapter_current->getTemplatePath()) {
-            return normalize_path(templates_path() . $this->adapter_current->getTemplatePath() . DS);
-        }
-
-        if (defined('TEMPLATE_DIR')) {
-            $val = TEMPLATE_DIR;
-            if ($add != false) {
-                $val = $val . $add;
-            }
-            return $val;
-        } else {
-            $the_active_site_template = $this->name();
-            $val = normalize_path(templates_path() . $the_active_site_template . DS);
+        if ($this->adapter_current->getActiveTemplateDir()) {
+            $val =$this->adapter_current->getActiveTemplateDir();
             if ($add != false) {
                 $val = $val . $add;
             }
             return $val;
         }
+//
+//        if (defined('TEMPLATE_DIR')) {
+//            $val = TEMPLATE_DIR;
+//            if ($add != false) {
+//                $val = $val . $add;
+//            }
+//            return $val;
+//        } else {
+//            $the_active_site_template = $this->name();
+//            $val = normalize_path(templates_dir() . $the_active_site_template . DS);
+//            if ($add != false) {
+//                $val = $val . $add;
+//            }
+//            return $val;
+//        }
 
 
     }
@@ -732,7 +736,7 @@ class Template
      */
     public function render($params = array())
     {
-        $layout = $this->adapter('render', $params);
+        $layout = $this->adapter_current->render($params);
 
         $layout = $this->process_meta($layout);
         $layout = $this->process_stacks($layout);
@@ -787,7 +791,7 @@ class Template
 
 
         if (!isset($options['path'])) {
-            $path = templates_path();
+            $path = templates_dir();
         } else {
             $path = $options['path'];
         }
@@ -861,7 +865,6 @@ class Template
             }
         }
 
-        //$this->app->cache_manager->save($to_return, $cache_id, $cache_group, 'files');
         return $to_return;
     }
 
