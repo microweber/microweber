@@ -151,6 +151,7 @@
             var treeTail = [
                 {
                     title: '<?php _ejs("Trash") ?>',
+                    icon: 'trash',
                     action: function () {
 
                         window.livewire.emit('resetFilter');
