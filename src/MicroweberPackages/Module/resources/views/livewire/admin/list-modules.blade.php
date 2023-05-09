@@ -63,7 +63,7 @@
            <div class="row row-cards bg-azure-lt">
 
                @foreach($modules as $module)
-                   <div class="col-md-3 p-3">
+                   <div class="col-md-3 p-3" wire:key="{{$module->id}}-{{md5($module->module)}}">
                        <div class="card" style="min-height:170px">
                            <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
                                <a href="{{module_admin_url($module->module)}}">
@@ -76,12 +76,18 @@
                                </a>
 
                                @if($module->installed == 1)
-                               <button wire:click="uninstall('{{$module->id}}')" wire:target="uninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
-                                   <div wire:loading wire:target="uninstall('{{$module->id}}')" class="spinner-border spinner-border-sm" role="status">
-                                       <span class="visually-hidden">Uninstalling...</span>
-                                   </div>
-                                   Uninstall
-                               </button>
+                                   @if($confirmUnistallId == $module->id)
+                                   <button wire:click="uninstall('{{$module->id}}')" wire:target="uninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
+                                       <div wire:loading wire:target="uninstall('{{$module->id}}')" class="spinner-border spinner-border-sm" role="status">
+                                           <span class="visually-hidden">Uninstalling...</span>
+                                       </div>
+                                       Confirm Uninstall
+                                   </button>
+                                   @else
+                                   <button wire:click="confirmUninstall('{{$module->id}}')" wire:target="confirmUninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
+                                       Uninstall
+                                   </button>
+                                   @endif
                                 @endif
 
                                @if($module->installed == 0)

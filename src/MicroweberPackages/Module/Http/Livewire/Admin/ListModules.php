@@ -12,6 +12,7 @@ class ListModules extends Component
     public $keyword;
     public $type = 'admin';
     public $installed = 1;
+    public $confirmUnistallId = 1;
 
     public $queryString = [
         'keyword',
@@ -29,6 +30,11 @@ class ListModules extends Component
     public function filter()
     {
         $this->gotoPage(1);
+    }
+
+    public function confirmUninstall($id)
+    {
+        $this->confirmUnistallId = $id;
     }
 
     public function uninstall($id)
