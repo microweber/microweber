@@ -1,4 +1,4 @@
-<div class="card col-xxl-11 mx-auto">
+<div class="card col-xxl-11 mx-auto" x-data="{ showFilters: false }">
 
    <div class="card-body">
        <div class="row">
@@ -20,6 +20,11 @@
                </div>
                <div>
 
+                   <button x-on:click="showFilters = ! showFilters" type="button" class="btn btn-outline-default">
+                       <span x-show="!showFilters">Show filters</span>
+                       <span x-show="showFilters">Hide filters</span>
+                   </button>
+
                    <button type="button" class="btn btn-outline-primary" wire:click="reloadModules">
                        <div wire:loading wire:target="reloadModules" class="spinner-border spinner-border-sm" role="status">
                            <span class="visually-hidden">{{  _e("Loading")}}...</span>
@@ -30,7 +35,7 @@
                </div>
            </div>
 
-           <div class="card shadow-sm rounded p-4 mb-4">
+           <div class="card shadow-sm rounded p-4 mb-4" x-show="showFilters">
                <div class="row d-flex justify-content-between">
                    <div class="col-md-6">
                        <div>
