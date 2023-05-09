@@ -13,7 +13,7 @@ class ListModules extends Component
     public $type = 'admin';
     public $installed = 1;
     public $confirmUnistallId = 1;
-    public $groupByCategories = true;
+    public $groupByCategories = false;
 
     public $queryString = [
         'keyword',
@@ -22,6 +22,10 @@ class ListModules extends Component
         'installed',
     ];
 
+    public function toggleGroupByCategories()
+    {
+        $this->groupByCategories = !$this->groupByCategories;
+    }
 
     public function reloadModules()
     {
@@ -88,10 +92,22 @@ class ListModules extends Component
 
         $modules = $modules->get();
 
-        $modulesGroups = [];
+        $modulesGroups = [
+            "Content" => [],
+            "Store" => [],
+            "Online Shop" => [],
+            "Admin" => [],
+            "Users" => [],
+            "Media" => [],
+            "Essentials" => [],
+            "Miscellaneous" => [],
+            "Advanced" => [],
+            "Other" => [],
+        ];
+
         if ($this->groupByCategories) {
             foreach ($modules as $module) {
-                $modulesGroups[$module->categories][] = $module;
+                $modulesGroups[ucwords($module->categories)][] = $module;
             }
         }
 

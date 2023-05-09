@@ -32,6 +32,14 @@
                        {{ _e("Reload modules") }}
                    </button>
 
+                   <button type="button"  class="btn btn-outline-primary" wire:click="toggleGroupByCategories()">
+                       @if($groupByCategories)
+                           Ungroup
+                       @else
+                           Group
+                       @endif
+                   </button>
+
                </div>
            </div>
 
@@ -65,7 +73,7 @@
                @if($groupByCategories)
                    @foreach($modulesGroups as $categories=>$modules)
                        <div>
-                            <h2 class="mb-4">{{ ucwords($categories) }}</h2>
+                            <h2>{{ $categories }}</h2>
                        </div>
                        @foreach($modules as $module)
                            @include('module::livewire.admin.list-module-card', ['module' => $module])
