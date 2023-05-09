@@ -31,6 +31,32 @@ class ListModules extends Component
         $this->gotoPage(1);
     }
 
+    public function uninstall($id)
+    {
+        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
+
+        if ($findModule) {
+            mw()->module_manager->uninstall([
+                'id' => $findModule->id,
+            ]);
+        }
+
+        $this->reloadModules();
+    }
+
+    public function install($id)
+    {
+        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
+
+        if ($findModule) {
+            mw()->module_manager->set_installed([
+                'id' => $findModule->id,
+            ]);
+        }
+
+        $this->reloadModules();
+    }
+
     public function render()
     {
         $modules = \MicroweberPackages\Module\Module::query();
