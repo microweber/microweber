@@ -69,11 +69,11 @@ mw.filePicker = function (options) {
             return mw.$(html);
         },
         url: function () {
-            var $input = $('<input class="mw-ui-field w100" placeholder="http://example.com/image.jpg">');
+            var $input = $('<input class="form-control" placeholder="http://example.com/image.jpg">');
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="mw-ui-label">'+mw.lang('Insert file url')+'</label>');
+            $input.before('<label class="form-label">'+mw.lang('Insert file url')+'</label>');
 
             $input.on('input', function () {
                 var val = this.value.trim();
@@ -83,22 +83,7 @@ mw.filePicker = function (options) {
 
             return $wrap[0];
         },
-        desktop2: function () {
-            var progressBlock = function (files) {
-                var root = mw.element(`<div class=""></div>`);
-            };
-            var $zone = `
-            <div class="mw-file-drop-zone"><div class="mw-file-drop-zone-holder">
-                    <div class="mw-file-drop-zone-img"></div>
-                    <div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>
-                    <span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">${mw.lang('Add file')}</span>
-                    <p>${mw.lang('or drop files to upload')}</p>
-                </div>
-            </div>`;
-
-
-
-        },
+ 
         desktop: function () {
 
 
@@ -109,7 +94,7 @@ mw.filePicker = function (options) {
                         '<div class="mw-file-drop-zone-holder">' +
                         '<div class="mw-file-drop-zone-img"></div>' +
                         '<div class="mw-ui-progress-small"><div class="mw-ui-progress-bar" style="width: 0%"></div></div>' +
-                        '<span class="mw-ui-btn mw-ui-btn-rounded mw-ui-btn-info">'+mw.lang('Add file')+'</span> ' +
+                        '<span class="btn btn-pill  btn-primary">'+mw.lang('Add file')+'</span> ' +
                         '<p>'+mw.lang('or drop files to upload')+'</p>' +
                         '</div>' +
                         '</div>');
@@ -342,8 +327,8 @@ mw.filePicker = function (options) {
                     var footer = false;
                     if (scope._getComponentObject('url').index === index ) {
                         footer =  document.createElement('div');
-                        var footerok = $('<button type="button" class="mw-ui-btn mw-ui-btn-info">' + scope.settings.okLabel + '</button>');
-                        var footercancel = $('<button type="button" class="mw-ui-btn">' + scope.settings.cancelLabel + '</button>');
+                        var footerok = $('<button type="button" class=" btn btn-primary">' + scope.settings.okLabel + '</button>');
+                        var footercancel = $('<button type="button" class=" btn">' + scope.settings.cancelLabel + '</button>');
                         footerok.disabled = true;
                         footer.appendChild(footercancel[0]);
                         footer.appendChild(footerok[0]);
@@ -400,7 +385,7 @@ mw.filePicker = function (options) {
         this._navigationFooter = document.createElement('div');
         this._navigationFooter.className = 'modal-footer mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
         this.$ok = $('<button type="button" class="btn btn-primary">' + this.settings.okLabel + '</button>');
-        this.$cancel = $('<button type="button" class="btn btn-primary">' + this.settings.cancelLabel + '</button>');
+        this.$cancel = $('<button type="button" class="btn">' + this.settings.cancelLabel + '</button>');
         this._navigationFooter.appendChild(this.$cancel[0]);
         this._navigationFooter.appendChild(this.$ok[0]);
         this.$root.append(this._navigationFooter);
