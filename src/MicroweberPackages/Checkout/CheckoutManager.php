@@ -53,8 +53,8 @@ class CheckoutManager
         $sid = $this->app->user_manager->session_id();
         $sess_order_id = $this->app->user_manager->session_get('order_id');
         $cart = array();
-        $cart_table = $this->tables['cart'];
-        $table_orders = $this->tables['cart_orders'];
+        $cart_table = 'cart';
+        $table_orders = 'cart_orders';
         $cart['session_id'] = $sid;
         $cart['order_completed'] = 0;
         $cart['limit'] = 1;
@@ -1103,7 +1103,7 @@ class CheckoutManager
 
 
         $payment_verify_token = $this->app->database_manager->escape_string($payment_verify_token);
-        $table = $this->tables['cart_orders'];
+        $table = 'cart_orders';
 
         $query = array();
         $query['payment_verify_token'] = $payment_verify_token;
@@ -1124,8 +1124,8 @@ class CheckoutManager
             $ord = $ord_data['id'];
         }
 
-        $cart_table = $this->tables['cart'];
-        $table_orders = $this->tables['cart_orders'];
+        $cart_table = 'cart';
+        $table_orders = 'cart_orders';
 
         $data['payment_gw'] = sanitize_path($data['payment_gw']);
         $gw_process = modules_path() . $data['payment_gw'] . '_checkout_ipn.php';

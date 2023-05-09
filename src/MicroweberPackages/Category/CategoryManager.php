@@ -27,21 +27,7 @@ class CategoryManager
             }
         }
 
-        $prefix = $this->app->config->get('database.connections.mysql.prefix');
-        $this->tables = $this->app->content_manager->tables;
-        if (!isset($this->tables['categories'])) {
-            $this->tables['categories'] = 'categories';
-        }
-        if (!isset($this->tables['categories_items'])) {
-            $this->tables['categories_items'] = 'categories_items';
-        }
-        if (!defined('MW_DB_TABLE_TAXONOMY')) {
-            define('MW_DB_TABLE_TAXONOMY', $this->tables['categories']);
-        }
 
-        if (!defined('MW_DB_TABLE_TAXONOMY_ITEMS')) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', $this->tables['categories_items']);
-        }
 
 
     }
@@ -178,7 +164,7 @@ class CategoryManager
             return $this->_get_parents[$id][$without_main_parrent][$data_type];
         }
 
-        $table = $this->tables['categories'];
+        $table ='categories';
 
         $ids = array();
 
@@ -253,9 +239,9 @@ class CategoryManager
         $categories_id = $parent_id = intval($parent_id);
 
 
-        $table = $this->tables['categories'];
+        $table = 'categories';
 
-        $db_t_content = $this->tables['content'];
+        $db_t_content = 'content';
 
         if (isset($orderby) == false) {
             $orderby = array();
@@ -378,8 +364,8 @@ class CategoryManager
             extract($params);
         }
 
-        $table = $this->tables['categories'];
-        $table_items = $this->tables['categories_items'];
+        $table = 'categories';
+        $table_items = 'categories_items';
 
         $data = $params;
 
@@ -456,8 +442,8 @@ class CategoryManager
             }
         }
 
-        $table = $this->tables['categories'];
-        $table_items = $this->tables['categories_items'];
+        $table = 'categories';
+        $table_items = 'categories_items';
 
         $content_ids = false;
         $simple_save = false;
@@ -537,7 +523,7 @@ class CategoryManager
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
-                $table_c = $this->tables['content'];
+                $table_c = 'content';
 
                 $save = $this->app->database_manager->save($table_c, $cs);
             }
@@ -643,7 +629,7 @@ class CategoryManager
         }
 
         DB::transaction(function () use ($sid, $id) {
-            DB::table($this->tables['custom_fields'])
+            DB::table('custom_fields')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
@@ -651,7 +637,7 @@ class CategoryManager
                 ->whereRelType('categories')
                 ->update(['rel_type' => 'categories', 'rel_id' => $id]);
 
-            DB::table($this->tables['media'])
+            DB::table('media')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
@@ -709,7 +695,8 @@ class CategoryManager
     public function save_item($params)
     {
         $params = parse_params($params);
-        $table = $this->tables['categories_items'];
+
+        $table = 'categories_items';
         $params['table'] = $table;
 
         $save = $this->app->database_manager->save($params);
@@ -815,7 +802,7 @@ class CategoryManager
     public function reorder($data)
     {
 
-        $table = $this->tables['categories'];
+        $table = 'categories';
         $res = array();
         foreach ($data as $value) {
             if (is_array($value)) {

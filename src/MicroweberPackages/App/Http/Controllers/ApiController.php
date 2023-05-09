@@ -27,9 +27,7 @@ class ApiController  extends FrontendController
 
     public function api($api_function = false, $params = false)
     {
-        if (isset($_REQUEST['api_key']) and user_id() == 0) {
-            api_login($_REQUEST['api_key']);
-        }
+
 
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);

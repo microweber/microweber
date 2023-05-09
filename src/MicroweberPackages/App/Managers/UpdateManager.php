@@ -331,7 +331,7 @@ class UpdateManager
         if ($adm == false) {
             return ['status'=>'Not allowed action.', 'active'=> false];
         }
-        $table = $this->app->module_manager->tables['system_licenses'];
+        $table =  'system_licenses';
         if ($table == false) {
             return ['status'=>'Not allowed action.', 'active'=> false];
         }
@@ -353,7 +353,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = $this->app->module_manager->tables['system_licenses'];
+        $table =  'system_licenses';
         if ($table == false) {
             return;
         }
@@ -402,7 +402,7 @@ class UpdateManager
             $params = $params2;
         }
 
-        $table = $this->app->module_manager->tables['system_licenses'];
+        $table =  'system_licenses';
         if ($table == false) {
             return;
         }
@@ -419,7 +419,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = $this->app->module_manager->tables['system_licenses'];
+        $table =  'system_licenses';
         if ($table == false) {
             return;
         }
@@ -436,7 +436,7 @@ class UpdateManager
         if ($adm == false) {
             return;
         }
-        $table = $this->app->module_manager->tables['system_licenses'];
+        $table =  'system_licenses';
         if ($table == false) {
             return;
         }

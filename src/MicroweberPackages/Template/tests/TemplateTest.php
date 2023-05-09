@@ -6,7 +6,6 @@ namespace MicroweberPackages\Template\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
-use PHPUnit\Framework\TestResult;
 
 class TemplateTest extends TestCase
 {
@@ -26,6 +25,18 @@ class TemplateTest extends TestCase
 
 
     }
+
+    public function testGetTemplateConfig()
+    {
+        app()->content_manager->define_constants(['active_site_template' => 'new-world']);
+
+        $config = app()->template->get_config();
+
+        $this->assertTrue(isset($config['name']));
+        $this->assertTrue('New World' == $config['name']);
+
+    }
+
 
     public function testAdminCssUrl()
     {
@@ -123,6 +134,7 @@ class TemplateTest extends TestCase
 
 
     }
+
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -197,7 +209,6 @@ class TemplateTest extends TestCase
         $this->assertEquals($newCleanPagePostId, content_id());
 
 
-
         $this->assertEquals($newCleanPageId, page_id());
         $this->assertEquals($newCleanCategoryId, category_id());
         $this->assertEquals(0, product_id());
@@ -254,7 +265,6 @@ class TemplateTest extends TestCase
     }
 
 
-
     /**
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -298,10 +308,6 @@ class TemplateTest extends TestCase
         $this->assertEquals($expectedRenderFile, $renderFile);
 
 
-
-
-
-
         $newCleanPageIdForBlog = save_content([
             'subtype' => 'dynamic',
             'content_type' => 'page',
@@ -324,7 +330,7 @@ class TemplateTest extends TestCase
         $content = get_content_by_id($newCleanPostSubId);
         $renderFile = app()->template->get_layout($content);
 
-        $expectedRenderFile = templates_dir() . $templateName . DS . 'layouts'.DS.'blog_inner.php';
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'layouts' . DS . 'blog_inner.php';
         $this->assertEquals($expectedRenderFile, $renderFile);
 
     }

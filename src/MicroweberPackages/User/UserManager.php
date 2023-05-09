@@ -16,14 +16,13 @@ use MicroweberPackages\User\Socialite\MicroweberProvider;
 
 class UserManager
 {
-    public $tables = array();
+
 
     /** @var \MicroweberPackages\App\LaravelApplication */
     public $app;
 
     public function __construct($app = null)
     {
-        $this->set_table_names();
 
         if (is_object($app)) {
             $this->app = $app;
@@ -34,21 +33,7 @@ class UserManager
         $this->socialite = new SocialiteManager($this->app);
     }
 
-    public function set_table_names($tables = false)
-    {
-        if (!is_array($tables)) {
-            $tables = array();
-        }
-        if (!isset($tables['users'])) {
-            $tables['users'] = 'users';
-        }
-        if (!isset($tables['log'])) {
-            $tables['log'] = 'log';
-        }
 
-        $this->tables['users'] = $tables['users'];
-        $this->tables['log'] = $tables['log'];
-    }
 
     public function is_admin()
     {
@@ -590,41 +575,6 @@ class UserManager
         return $name;
     }
 
-    public function api_login($api_key = false)
-    {
-        if ($api_key == false and isset($_REQUEST['api_key']) and user_id() == 0) {
-            $api_key = $_REQUEST['api_key'];
-        }
-
-        if ($api_key == false) {
-            return false;
-        } else {
-            if (trim($api_key) == '') {
-                return false;
-            } else {
-                if (user_id() > 0) {
-                    return true;
-                } else {
-                    $data = array();
-                    $data['api_key'] = $api_key;
-                    $data['is_active'] = 1;
-                    $data['limit'] = 1;
-
-                    $data = $this->get_all($data);
-
-                    if ($data != false) {
-                        if (isset($data[0])) {
-                            $data = $data[0];
-
-                            if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return $this->make_logged($data['id']);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     public function register($params)
     {
@@ -1171,7 +1121,7 @@ class UserManager
         $data1 = array();
         $data1['id'] = intval($params['id']);
         $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
-        $table = $this->tables['users'];
+        $table = 'users';
 
 
         $check = User::whereNotNull('password_reset_hash')->where('password_reset_hash', $data1['password_reset_hash'])->where('id', $data1['id'])->first();
@@ -1337,7 +1287,7 @@ class UserManager
             $data_to_save['last_login'] = date('Y-m-d H:i:s');
             $data_to_save['last_login_ip'] = user_ip();
 
-            $table = $this->tables['users'];
+            $table = 'users';
             $save = $this->app->database_manager->save($table, $data_to_save);
 
             $this->app->log_manager->delete('is_system=y&rel_type=login_failed&user_ip=' . user_ip());
@@ -1503,7 +1453,7 @@ class UserManager
     {
         $params = parse_params($params);
 
-        $table = $this->tables['users'];
+        $table = 'users';
 
         $data = $this->app->format->clean_html($params);
         $orig_data = $data;

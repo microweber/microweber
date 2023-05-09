@@ -18,8 +18,6 @@ $_mw_made_default_fields_register = array();
 class FieldsManager
 {
     public $app;
-    public $tables = array();
-    public $table = 'custom_fields';
     public $table_values = 'custom_fields_values';
     private $skip_cache = false;
 
@@ -32,7 +30,6 @@ class FieldsManager
                 $this->app = app();
             }
         }
-        $this->tables = $this->app->content_manager->tables;
     }
 
     public function getById($field_id)
@@ -164,7 +161,7 @@ class FieldsManager
          }
          */
 
-        $table_custom_field = $this->table;
+        $table_custom_field = 'custom_fields';
 
         $saved_fields = array();
         if (isset($rel)) {
@@ -598,7 +595,7 @@ class FieldsManager
         if (!is_array($params)) {
             $params = parse_params($params);
         }
-        $table_custom_field = $this->table;
+        $table_custom_field = 'custom_fields';
         $params['table'] = $table_custom_field;
 
         return $this->app->database_manager->get($params);

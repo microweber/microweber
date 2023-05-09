@@ -36,7 +36,7 @@ class ContentManagerCrud extends Crud
         } else {
             $this->app = mw();
         }
-        $this->set_table_names();
+
 
       //  $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 
@@ -157,7 +157,7 @@ class ContentManagerCrud extends Crud
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
         }
-        $table = $this->tables['content'];
+        $table = 'content';
         if (!isset($params['is_deleted'])) {
             $params['is_deleted'] = 0;
         }
@@ -498,9 +498,9 @@ class ContentManagerCrud extends Crud
 
         $mw_global_content_memory = array();
         $adm = $this->app->user_manager->is_admin();
-        $table = $this->tables['content'];
+        $table ='content';
 
-        $table_data = $this->tables['content_data'];
+        $table_data ='content_data';
 
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
@@ -682,7 +682,7 @@ class ContentManagerCrud extends Crud
             if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
         }
-        $table_cats = $this->tables['categories'];
+        $table_cats = 'categories';
 
         if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
             $data['url'] = $this->app->url_manager->slug($data_to_save['title']);
@@ -1130,16 +1130,16 @@ class ContentManagerCrud extends Crud
             }
         }
 
-        $custom_field_table = $this->tables['custom_fields'];
+        $custom_field_table ='custom_fields';
         $custom_field_table = $this->app->database_manager->real_table_name($custom_field_table);
 
         $sid = $this->app->user_manager->session_id();
-        $media_table = $this->tables['media'];
+        $media_table = 'media';
         $media_table = $this->app->database_manager->real_table_name($media_table);
 
         if ($sid != false and $sid != '' and $id != false) {
 
-            DB::table($this->tables['custom_fields'])
+            DB::table('custom_fields')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
@@ -1147,7 +1147,7 @@ class ContentManagerCrud extends Crud
                 ->whereRelType('content')
                 ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
-            DB::table($this->tables['media'])
+            DB::table('media')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
@@ -1207,7 +1207,7 @@ class ContentManagerCrud extends Crud
         $ids = array_unique($ids);
         $ids = array_map('intval', $ids);
         $ids_implode = implode(',', $ids);
-        $table = $this->app->database_manager->real_table_name($this->tables['content']);
+        $table = $this->app->database_manager->real_table_name('content');
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
         $get_max_pos = $this->app->database_manager->query($get_max_pos);
@@ -1228,7 +1228,7 @@ class ContentManagerCrud extends Crud
 
             $pox = $maxpos - $i;
 
-            DB::table($this->tables['content'])->whereId($id)->update(['position' => $pox]);
+            DB::table('content')->whereId($id)->update(['position' => $pox]);
             ++$i;
         }
 
@@ -1238,100 +1238,6 @@ class ContentManagerCrud extends Crud
         return true;
     }
 
-    /**
-     * Sets the database table names to use by the class.
-     *
-     * @param array|bool $tables
-     */
-    private function set_table_names($tables = false)
-    {
-        $prefix = '';
-
-        if($tables == false){
-            $tables = array();
-        }
-
-
-        if (!isset($tables['content'])) {
-            $tables['content'] = 'content';
-        }
-        if (!isset($tables['content_fields'])) {
-            $tables['content_fields'] = 'content_fields';
-        }
-        if (!isset($tables['content_data'])) {
-            $tables['content_data'] = 'content_data';
-        }
-        if (!isset($tables['content_fields_drafts'])) {
-            $tables['content_fields_drafts'] = 'content_fields_drafts';
-        }
-        if (!isset($tables['media'])) {
-            $tables['media'] = 'media';
-        }
-        if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] = 'custom_fields';
-        }
-        if (!isset($tables['custom_fields_values'])) {
-            $tables['custom_fields_values'] = 'custom_fields_values';
-        }
-        if (!isset($tables['content_data'])) {
-            $tables['content_data'] = 'content_data';
-        }
-        if (!isset($tables['attributes'])) {
-            $tables['attributes'] = 'attributes';
-        }
-
-        if (!isset($tables['categories'])) {
-            $tables['categories'] = 'categories';
-        }
-        if (!isset($tables['categories_items'])) {
-            $tables['categories_items'] = 'categories_items';
-        }
-        if (!isset($tables['menus'])) {
-            $tables['menus'] = 'menus';
-        }
-
-        $this->tables['content'] = $tables['content'];
-        $this->tables['content_fields'] = $tables['content_fields'];
-        $this->tables['content_data'] = $tables['content_data'];
-        $this->tables['content_fields_drafts'] = $tables['content_fields_drafts'];
-        $this->tables['media'] = $tables['media'];
-        $this->tables['custom_fields'] = $tables['custom_fields'];
-        $this->tables['categories'] = $tables['categories'];
-        $this->tables['categories_items'] = $tables['categories_items'];
-        $this->tables['menus'] = $tables['menus'];
-        $this->tables['attributes'] = $tables['attributes'];
-
-        /*
-         * Define table names constants for global default usage
-         */
-        if (!defined('MW_DB_TABLE_CONTENT')) {
-            define('MW_DB_TABLE_CONTENT', $tables['content']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_FIELDS')) {
-            define('MW_DB_TABLE_CONTENT_FIELDS', $tables['content_fields']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_DATA')) {
-            define('MW_DB_TABLE_CONTENT_DATA', $tables['content_data']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS')) {
-            define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', $tables['content_fields_drafts']);
-        }
-        if (!defined('MW_DB_TABLE_MEDIA')) {
-            define('MW_DB_TABLE_MEDIA', $tables['media']);
-        }
-        if (!defined('MW_DB_TABLE_CUSTOM_FIELDS')) {
-            define('MW_DB_TABLE_CUSTOM_FIELDS', $tables['custom_fields']);
-        }
-        if (!defined('MW_DB_TABLE_MENUS')) {
-            define('MW_DB_TABLE_MENUS', $tables['menus']);
-        }
-        if (!defined('MW_DB_TABLE_TAXONOMY')) {
-            define('MW_DB_TABLE_TAXONOMY', $tables['categories']);
-        }
-        if (!defined('MW_DB_TABLE_TAXONOMY_ITEMS')) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', $tables['categories_items']);
-        }
-    }
 
     private function map_params_to_schema($params)
     {
@@ -1400,8 +1306,8 @@ class ContentManagerCrud extends Crud
 
     public function get_edit_field($data)
     {
-        $table = $this->tables['content_fields'];
-        $table_drafts = $this->tables['content_fields_drafts'];
+        $table = 'content_fields';
+        $table_drafts = 'content_fields_drafts';
         if (is_string($data)) {
             $data = parse_params($data);
         }

@@ -42,8 +42,7 @@ class ModuleManager
                 $this->app = mw();
             }
         }
-        $this->set_table_names();
-        if (mw_is_installed()) {
+         if (mw_is_installed()) {
             $this->activeLicenses = app()->module_repository->getSystemLicenses();
 //            $getSystemLicense = SystemLicenses::get();
 //            if ($getSystemLicense != null) {
@@ -54,32 +53,6 @@ class ModuleManager
 
     }
 
-    public function set_table_names($tables = false)
-    {
-        if (!is_array($tables)) {
-            $tables = array();
-        }
-        if (!isset($tables['modules'])) {
-            $tables['modules'] = 'modules';
-        }
-        if (!isset($tables['elements'])) {
-            $tables['elements'] = 'elements';
-        }
-        if (!isset($tables['module_templates'])) {
-            $tables['module_templates'] = 'module_templates';
-        }
-        if (!isset($tables['system_licenses'])) {
-            $tables['system_licenses'] = 'system_licenses';
-        }
-        if (!isset($tables['options'])) {
-            $tables['options'] = 'options';
-        }
-        $this->tables['options'] = $tables['options'];
-        $this->tables['modules'] = $tables['modules'];
-        $this->tables['elements'] = $tables['elements'];
-        $this->tables['module_templates'] = $tables['module_templates'];
-        $this->tables['system_licenses'] = $tables['system_licenses'];
-    }
 
 
 
@@ -494,7 +467,7 @@ class ModuleManager
                         if ($ism == false) {
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
-                            $table_options = $this->tables['options'];
+                            $table_options = 'options';
                             $this->app->database_manager->delete_by_id($table_options, $mn, 'option_group');
                         }
                     }
@@ -524,7 +497,7 @@ class ModuleManager
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
         }
 
-        $table = $this->tables['modules'];
+        $table = 'modules';
         $save = false;
 
         if (!empty($data_to_save)) {
@@ -589,7 +562,7 @@ class ModuleManager
             return false;
         }
 
-        $table = $this->tables['modules'];
+        $table = 'modules';
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $options = $params2;
@@ -775,7 +748,7 @@ class ModuleManager
         }
         $id = intval($id);
 
-        $table = $this->tables['modules'];
+        $table = 'modules';
 
         $db_categories = get_table_prefix() . 'categories';
         $db_categories_items = get_table_prefix() . 'categories_items';
@@ -1170,7 +1143,7 @@ class ModuleManager
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = $this->tables['modules'];
+        $table = 'modules';
         foreach ($data as $value) {
             if (is_array($value)) {
                 $indx = array();
@@ -1193,7 +1166,7 @@ class ModuleManager
         if ($this->app->user_manager->is_admin() == false) {
             return false;
         } else {
-            $table = $this->tables['modules'];
+            $table = 'modules';
             $db_categories = $this->table_prefix . 'categories';
             $db_categories_items = $this->table_prefix . 'categories_items';
 
