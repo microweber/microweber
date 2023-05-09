@@ -13,6 +13,7 @@ class ListModules extends Component
     public $type = 'admin';
     public $installed = 1;
     public $confirmUnistallId = 1;
+    public $groupByCategories = true;
 
     public $queryString = [
         'keyword',
@@ -85,10 +86,18 @@ class ListModules extends Component
 
         $modules->where('installed', $this->installed);
 
-        $modules = $modules->paginate(28);
+        $modules = $modules->get();
+
+        $modulesGroups = [];
+        if ($this->groupByCategories) {
+            foreach ($modules as $module) {
+                $modulesGroups[$module->categories][] = $module;
+            }
+        }
 
         return view('module::livewire.admin.list-modules', [
-            'modules' => $modules
+            'modules' => $modules,
+            'modulesGroups' => $modulesGroups,
         ]);
     }
 }
