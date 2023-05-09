@@ -32,14 +32,6 @@
                        {{ _e("Reload modules") }}
                    </button>
 
-                   <button type="button"  class="btn btn-outline-primary" wire:click="toggleGroupByCategories()">
-                       @if($groupByCategories)
-                           Ungroup
-                       @else
-                           Group
-                       @endif
-                   </button>
-
                </div>
            </div>
 
@@ -69,6 +61,16 @@
            </div>
 
            <div class="row row-cards bg-azure-lt">
+
+               <div>
+                   <button type="button"  class="btn btn-outline-primary" wire:click="toggleGroupByCategories()">
+                       @if($groupByCategories)
+                           Ungroup
+                       @else
+                           Group
+                       @endif
+                   </button>
+               </div>
 
                @if($groupByCategories)
                    @foreach($modulesGroups as $categories=>$modules)
