@@ -1441,7 +1441,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
         $this->app->cache_manager->delete('content_fields');
         if (isset($data['rel_type']) and isset($data['rel_id'])) {
-            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
+            $cache_group = 'content_fields';
             $this->app->cache_manager->delete($cache_group);
             $this->app->cache_manager->delete('content/' . $data['rel_id']);
         }

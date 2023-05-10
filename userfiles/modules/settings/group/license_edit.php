@@ -118,7 +118,7 @@ if(isset($params['require_name'])) {
             <input name="id" type="hidden" value="<?php print $id; ?>"/>
         <?php endif; ?>
 
-        <input type="text" name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
+        <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
     </div>
 
     <div class="row">

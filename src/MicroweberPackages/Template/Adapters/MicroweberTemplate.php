@@ -182,7 +182,7 @@ class MicroweberTemplate
     /**
      * Return the path to the layout file that will render the page.
      */
-    public function get_layout($page = array())
+    public function getLayout($page = array()) : string
     {
         $function_cache_id = '';
         if (is_array($page)) {
@@ -367,8 +367,8 @@ class MicroweberTemplate
             $test_file = str_replace('___', DS, $url_file);
             $test_file = sanitize_path($test_file);
             $render_file_temp = $this->getActiveTemplateDir() . $test_file . '.php';
-            $render_file_temp2 =  $this->getActiveTemplateDir(). $test_file . '.php';
-            $render_file_temp3 =  $this->getActiveTemplateDir() . 'layouts' . DS . $test_file . '.php';
+            $render_file_temp2 = $this->getActiveTemplateDir() . $test_file . '.php';
+            $render_file_temp3 = $this->getActiveTemplateDir() . 'layouts' . DS . $test_file . '.php';
 
             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
@@ -600,7 +600,7 @@ class MicroweberTemplate
         }
 
         if ($render_file == false and isset($page['content_type']) and ($page['content_type'] == 'page') and isset($page['layout_file']) and trim($page['layout_file']) == 'inherit') {
-            $use_index = $this->getActiveTemplateDir(). 'clean.php';
+            $use_index = $this->getActiveTemplateDir() . 'clean.php';
             $use_index2 = $this->getActiveTemplateDir() . 'layouts/clean.php';
             $use_index = normalize_path($use_index, false);
             $use_index2 = normalize_path($use_index2, false);
@@ -896,8 +896,8 @@ class MicroweberTemplate
      * @example
      * <code>
      *  Define constants for some page
-     *  $ref_page = $this->app->content_manager->get_by_id(1);
-     *  $this->defineConstants($ref_page);
+     *
+     *  $this->defineConstants(['id'=>1]);
      *  print PAGE_ID;
      *  print POST_ID;
      *  print CATEGORY_ID;
@@ -1148,9 +1148,7 @@ class MicroweberTemplate
                     if ($content['content_type'] == 'page' && isset($content['id'])) {
                         $this->pageId = intval($content['id']);
                         $this->contentId = intval($content['id']);
-                    }
-
-                    elseif ($content['content_type'] != 'page' && isset($content['id'])) {
+                    } elseif ($content['content_type'] != 'page' && isset($content['id'])) {
                         if (isset($content['parent']) && $content['parent']) {
                             $this->pageId = intval($content['parent']);
                         }
@@ -1244,7 +1242,7 @@ class MicroweberTemplate
     }
 
 
-    public $template_config_cache = array();
+    public $templateConfigCache = array();
 
     public function getConfig($template = false)
     {
@@ -1254,8 +1252,8 @@ class MicroweberTemplate
 
             $file = $dir . 'config.php';
 
-            if (isset($this->template_config_cache[$file])) {
-                return $this->template_config_cache[$file];
+            if (isset($this->templateConfigCache[$file])) {
+                return $this->templateConfigCache[$file];
             }
 
             if (is_file($file)) {
@@ -1267,7 +1265,7 @@ class MicroweberTemplate
                     } else {
                         $config['is_symlink'] = false;
                     }
-                    $this->template_config_cache[$file] = $config;
+                    $this->templateConfigCache[$file] = $config;
                     return $config;
                 }
 

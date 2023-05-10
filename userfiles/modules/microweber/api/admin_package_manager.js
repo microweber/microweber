@@ -51,13 +51,14 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name = functi
     //mw.load_module('updates/worker', '#mw-updates-queue');
 
     var update_queue_set_modal = mw.dialog({
-        content: '<div class="module" type="updates/worker" id="update_queue_process_alert"></div>',
+        content: '<div   id="update_queue_process_alert"></div>',
         overlay: false,
+        height:'300px',
         id: 'update_queue_set_modal',
         title: 'Preparing'
     });
 
-    mw.reload_module('#update_queue_process_alert');
+   // mw.reload_module('#update_queue_process_alert');
 
     mw.admin.admin_package_manager.set_loading(50)
 
@@ -133,10 +134,10 @@ mw.admin.admin_package_manager.install_composer_package_by_package_name_do_ajax 
             return callback(jqXHR);
         }
 
-        if(typeof(context) != 'undefined' ) {
-            mw.spinner({ element: $(context).next() }).hide();
-            $(context).show();
-        }
+        // if(typeof(context) != 'undefined' ) {
+        //     mw.spinner({ element: $(context).next() }).hide();
+        //     $(context).show();
+        // }
 
         mw.$('#update_queue_set_modal').remove();
 

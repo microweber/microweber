@@ -127,13 +127,17 @@ window.LivewireUIBootstrapModal = () => {
             this.show = show;
 
             if (show) {
-                $(document.body).find('#livewire-ui-modal').modal('show');
+
+                var livewireUiModal = new bootstrap.Modal(document.getElementById('livewire-ui-modal'),
+                    {show:true, backdrop: 'static', focus:false, keyboard: false});
+                livewireUiModal.show();
+                
             } else {
                 $(document.body).find('#livewire-ui-modal').modal('hide');
 
                 setTimeout(() => {
                     this.activeComponent = false;
-                    this.$wire.resetState(); 
+                    this.$wire.resetState();
                 }, 300);
             }
         },

@@ -17,6 +17,7 @@ import '@nextapps-be/livewire-sortablejs';
 
 // other libs
 import Alpine from 'alpinejs';
+import focus from '@alpinejs/focus'
 
 mw.app = new MWUniversalContainer();
 
@@ -38,5 +39,6 @@ mw.app = new MWUniversalContainer();
 
 // init other libs
 window.Alpine = Alpine;
+Alpine.plugin(focus);
 
 Alpine.start();

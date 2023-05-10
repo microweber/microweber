@@ -1,3 +1,8 @@
+<?php
+
+exit('This file is not used anymore. See userfiles/modules/microweber/toolbar/editor_tools/module_dialog/index.php');
+?>
+
 <!DOCTYPE HTML>
 <html <?php print lang_attributes(); ?>>
 <head>
@@ -8,7 +13,7 @@
     <?php endif; ?>
 
 
-    <?php template_stack_display('default'); ?>
+    <?php //template_stack_display('default'); ?>
 
 
     <?php if (isset($params['live_edit_sidebar'])): ?>

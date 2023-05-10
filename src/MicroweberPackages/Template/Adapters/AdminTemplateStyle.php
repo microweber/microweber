@@ -2,6 +2,12 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
+
+
+/**
+ * @deprecated This class is deprecated.
+ *
+ */
 class AdminTemplateStyle
 {
     /** @var \MicroweberPackages\App\LaravelApplication */
