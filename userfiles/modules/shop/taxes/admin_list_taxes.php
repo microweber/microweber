@@ -1,11 +1,32 @@
 <?php
 must_have_access();
+?>
 
+
+<?php
 $defined_taxes = mw()->tax_manager->get();
 //d($defined_taxes);
 ?>
 
 <?php if (!empty($defined_taxes)) : ?>
+
+
+
+<!--
+
+    <div class="d-flex justify-content-end">
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field form-check-input position-relative" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
+                <label class="custom-control-label" for="enable_taxes"><?php _e("Enable taxes"); ?></label>
+            </div>
+        </div>
+    </div>
+
+-->
+
+
+
     <h6 class="font-weight-bold"><?php _e("Taxes list"); ?></h6>
 
     <div class="table-responsive">

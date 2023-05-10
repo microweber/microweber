@@ -14,19 +14,17 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
        <div class="row">
-           <div class="card-header px-0">
+
+
+           <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
-           </div>
 
 
-           <div class="d-flex justify-content-end">
-               <div class="form-group">
-                   <div class="custom-control custom-switch">
-                       <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field form-check-input position-relative" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
-                       <label class="custom-control-label" for="enable_taxes"><?php _e("Enable taxes"); ?></label>
-                   </div>
-               </div>
+               <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
+
+
            </div>
+
 
            <script>
                mw_admin_edit_tax_item_popup_modal_opened = null
