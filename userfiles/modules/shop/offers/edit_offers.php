@@ -3,10 +3,11 @@
 $allOffers = app()->offer_repository->getAll();
 ?>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table ">
         <thead>
         <tr>
             <th>#</th>
+            <th><?php _e('Image'); ?></th>
             <th><?php _e('Product'); ?></th>
             <th><?php _e('Label'); ?></th>
             <th><?php _e('Price'); ?></th>
@@ -23,8 +24,13 @@ $allOffers = app()->offer_repository->getAll();
                 $class_status = ($offer['is_active'] == 1 ? 'status-active' : 'status-inactive');
                 $class_status_badge = ($offer['is_active'] == 1 ? 'badge bg-success' : 'badge bg-warning');
                 ?>
-                <tr class="small td-valign <?php if ($offer['is_active'] == 1): ?>js-table-active<?php else: ?>js-table-inactive<?php endif; ?> <?php print $class_product_deleted; ?> ">
+                <tr class=" td-valign <?php if ($offer['is_active'] == 1): ?>js-table-active<?php else: ?>js-table-inactive<?php endif; ?> <?php print $class_product_deleted; ?> ">
                     <td><?php print($offer['id']) ?></td>
+                    <td>
+                        <span class="avatar avatar-md me-2 shadow-none" style="background-image: url('<?php print  get_picture($offer['product_id']) ?>')"></span>
+
+
+                    </td>
                     <td><a href="<?php print  content_link($offer['product_id']) ?>" target="_blank">
                         <?php print($offer['product_title']) ?>
                         </a>
