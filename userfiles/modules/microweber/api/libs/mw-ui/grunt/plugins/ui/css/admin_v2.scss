@@ -4,22 +4,22 @@
 @import "_mw_tabler";
 
 
- 
+
 
 :root {
-    
+
     //--tblr-body-bg: white;
         --tblr-body-font-family: 'Inter';
-        
+
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
         .lg-light {
             background-color: var(--tblr-bg-surface-tertiary);
         }
-        
+
     }
-   
+
 }body {
     --tblr-btn-border-radius: 112px;
 }
@@ -567,7 +567,7 @@ small.text-muted {
 }
 
 .btn {
- 
+
     font-weight: normal;
 }
 
@@ -873,4 +873,10 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+.you-dont-have-any {
+    svg {
+        opacity: .7;
+    }
 }
