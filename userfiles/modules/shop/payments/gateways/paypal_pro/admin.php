@@ -1,9 +1,9 @@
 <?php must_have_access(); ?>
 
 
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>paypal_pro.svg"  style="width: 50px; margin-top: -70px;"/>
-</div>
+<!--<div class="mb-3 float-right">-->
+<!--    <img src="--><?php //print $config['url_to_module'] ?><!--paypal_pro.svg"  style="width: 50px; margin-top: -70px;"/>-->
+<!--</div>-->
 
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>

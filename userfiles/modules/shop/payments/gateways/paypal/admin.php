@@ -1,8 +1,8 @@
 <?php must_have_access(); ?>
 
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>paypal.svg"  style="width: 50px; margin-top: -60px;"/>
-</div>
+<!--<div class="mb-3 float-right">-->
+<!--    <img src="--><?php //print $config['url_to_module'] ?><!--paypal.svg"  style="width: 50px; margin-top: -60px;"/>-->
+<!--</div>-->
 
 <div class="clearfix"></div>
 
