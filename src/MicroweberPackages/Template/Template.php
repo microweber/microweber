@@ -134,12 +134,16 @@ class Template
             }
         }
     }
-
+    /**
+     * @deprecated
+     */
     public function meta($name, $value = false)
     {
         $this->meta_tags[$name] = $value;
     }
-
+    /**
+     * @deprecated
+     */
     public function html_opening_tag($name, $value = false)
     {
         $this->html_opening_tag[$name] = $value;
@@ -382,36 +386,6 @@ class Template
     }
 
 
-    public function add_csrf_token_meta_tags($layout)
-    {
-        return $layout;
-        $optimize_asset_loading = get_option('optimize_asset_loading', 'website');
-        $generator = new CsrfTokenRequestInlineJsScriptGenerator();
-
-        $script = $generator->generate();
-
-        $ajax = '<script>
-        ' . $script . '
-
-        </script>
-       ';
-        $ajax = $ajax . ' <meta name="csrf-token" content="" />';
-
-        $one = 1;
-        //   $layout = str_ireplace('</head>', $add . '</head>', $layout, $one);
-
-        if ($optimize_asset_loading == 'y') {
-            $layout = str_ireplace('</body>', $ajax . '</body>', $layout, $one);
-
-        } else {
-            $layout = str_ireplace('</head>', $ajax . '</head>', $layout, $one);
-
-        }
-
-
-        return $layout;
-
-    }
 
     public function get_default_system_ui_css_url()
     {
@@ -684,18 +658,24 @@ class Template
         }
     }
 
-
+    /**
+     * @deprecated
+     */
     public function stack_add($src, $group = 'default')
     {
         return $this->stack_compiler_adapter->add($src, $group);
     }
-
+    /**
+     * @deprecated
+     */
     public function stack_display($group = 'default', $to_return = false)
     {
         return $this->stack_compiler_adapter->display($group, $to_return);
     }
 
-
+    /**
+     * @deprecated
+     */
     public function process_stacks($layout)
     {
         return $this->stack_compiler_adapter->render($layout);

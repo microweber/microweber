@@ -11,6 +11,9 @@ class ModuleSettingsController
     {
         $params = $request->all();
         $type = module_name_decode($params['type']);
+        if(!isset($params['id'])){
+            $params['id'] = 'module-'.crc32($type);
+        }
         $id = $params['id'];
         $hasError = false;
 //        try {

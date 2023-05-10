@@ -139,64 +139,13 @@ class AdminController extends Controller
 
     private function hasNoAdmin()
     {
-//        if (!$this->checkServiceConfig()) {
-//            $this->registerMwClient();
-//        }
+
         if (mw()->url_manager->param('mw_install_create_user')) {
             $this->execCreateAdmin();
         }
     }
 
-    private function checkServiceConfig()
-    {
-        $serviceConfig = Config::get('services.microweber');
-        if (!$serviceConfig) {
-            return false;
-        }
-        if (trim(implode('', $serviceConfig))) {
-            return true;
-        }
 
-        return false;
-    }
-
-
-    private function registerMwClient()
-    {
-        return;
-
-        $key = Config::get('app.key');
-
-        $client = new \Guzzle\Service\Client('https://login.microweber.com/api/v1/client/');
-
-        $domain = site_url();
-        $domain = substr($domain, strpos($domain, '://') + 3);
-        $domain = str_replace('/', '', $domain);
-        try {
-            $request = $client->createRequest('POST', "config/$domain");
-            //dd($request, $request);
-            $request->setPostField('token', md5($key));
-            $response = $client->send($request);
-        } catch (\Exception $e) {
-            return;
-        }
-
-        if (200 == $response->getStatusCode()) {
-            $body = (string)$response->getBody();
-            // $body = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $body, MCRYPT_MODE_ECB);
-            $body = trim($body);
-            $body = (array)json_decode($body);
-
-            Config::set('services.microweber', $body);
-            Config::save(array('microweber', 'services'));
-
-            save_option([
-                'option_value' => 'y',
-                'option_key' => 'enable_user_microweber_registration',
-                'option_group' => 'users',
-            ]);
-        }
-    }
 
     private function execCreateAdmin()
     {
