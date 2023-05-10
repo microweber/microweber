@@ -5,6 +5,7 @@ $from_live_edit = false;
 if (isset($params["live_edit"]) and $params["live_edit"]) {
     $from_live_edit = $params["live_edit"];
 }
+$allOffers = app()->offer_repository->getAll();
 ?>
 
 <?php if (isset($params['backend'])): ?>
@@ -14,8 +15,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
        <div class="row">
-           <div class="card-header px-0">
+
+           <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
+
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+
+               <?php
+                if (!empty($allOffers)):
+               ?>
+               <a href="javascript:;" class="btn btn-primary js-add-new-offer"><?php _e('Add new offer'); ?></a>
+
+               <?php endif; ?>
+
            </div>
 
            <script>
@@ -72,7 +83,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
 
            <?php
-           $allOffers = app()->offer_repository->getAll();
            if (!empty($allOffers)):
            ?>
 

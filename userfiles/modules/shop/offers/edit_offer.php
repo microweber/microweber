@@ -74,6 +74,8 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
                     if (typeof(reload_offer_after_save) != 'undefined') {
                         reload_offer_after_save();
                     }
+                    mw.reload_module_everywhere('shop/offers/admin');
+                    mw.reload_module_everywhere('shop/offers/admin_block');
                     mw.reload_module_everywhere('shop/offers/special_price_field');
                     editModal.modal.remove();
                 }
