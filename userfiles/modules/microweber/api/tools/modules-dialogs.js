@@ -15,7 +15,7 @@
             frame.width = "100%";
             frame.frameBorder = "0";
 
-                 frame.src = route('live_edit.module_settings') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+             frame.src = route('live_edit.module_settings') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
             if(autoHeight) {
                 mw.tools.iframeAutoHeight(frame)
             }
