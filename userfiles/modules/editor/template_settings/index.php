@@ -2,7 +2,6 @@
 <script>
     mw.lib.require('colorpicker');
 </script>
-<script>mw.lib.require('bootstrap3ns');</script>
 <script>
     function resetToDefault() {
         mw.tools.confirm_reset_module_by_id('<?php echo $option_group; ?>', function (){
@@ -64,7 +63,7 @@
         <?php if ($template_settings): ?>
         <mw-accordion-item>
             <div class="mw-ui-box-header mw-accordion-title"><?php _e("Template Settings"); ?></div>
-            <div class="bootstrap3ns mw-accordion-content mw-ui-box-content">
+            <div class="mw-accordion-content mw-ui-box-content">
             <?php foreach ($template_settings as $key => $setting): ?>
 
                     <h5 >

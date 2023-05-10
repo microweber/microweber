@@ -8,7 +8,9 @@
 /*
  * <script>mw.moduleCSS("<?php print modules_url(); ?>pictures/styles.css"); </script>
 */
-template_stack_add(modules_url()."pictures/styles.css");
+
+
+//template_stack_add(modules_url()."pictures/styles.css");
 
 
 ?>

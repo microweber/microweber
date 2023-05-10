@@ -17,7 +17,7 @@ mw.tools.createAutoHeight = function() {
 
 mw.tools.moduleFrame = function(type, template, options){
     var defaults = {
-        url: mw.external_tool('module_dialog') + '?module=' + type + (template ? ('&template=' + template) : ''),
+        url: route('live_edit.module_settings') + '?type=' + type + (template ? ('&template=' + template) : ''),
         width: 532,
         height: 'auto',
         autoHeight:true,

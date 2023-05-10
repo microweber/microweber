@@ -16,7 +16,7 @@
 
 /*<script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart_add/styles.css"); </script>
 */
-template_stack_add(modules_url()."shop/cart_add/styles.css");
+//template_stack_add(modules_url()."shop/cart_add/styles.css");
 
 ?>
 

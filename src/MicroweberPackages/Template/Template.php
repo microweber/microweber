@@ -12,13 +12,12 @@ use MicroweberPackages\Template\Adapters\TemplateCssParser;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
 /**
- * Content class is used to get and save content in the database.
+ * Class to render the frontend template and views.
  *
- * @category Content
- * @desc     These functions will allow you to get and save content in the database.
+ * @category Template
+ * @desc    These functions will allow to wo work with microweber template files.
  *
  * @property \MicroweberPackages\Template\Adapters\MicroweberTemplate $adapter_current
- * @property \MicroweberPackages\Template\Adapters\MicroweberTemplate $adapter_default
  */
 class Template
 {
@@ -57,7 +56,7 @@ class Template
         $this->stylesheet_adapter = new TemplateCssParser($app);
         $this->js_adapter = new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
-        $this->adapter_current = $this->adapter_default = new MicroweberTemplate($app);
+        $this->adapter_current = new MicroweberTemplate($app);
         $this->admin = new AdminTemplateStyle($app);
     }
 
@@ -148,24 +147,13 @@ class Template
 
     public function folder_name()
     {
-        if (defined('THIS_TEMPLATE_FOLDER_NAME')) {
-            return THIS_TEMPLATE_FOLDER_NAME;
-        }
+        return $this->adapter_current->getTemplateFolderName();
 
     }
 
     public function name()
     {
-        if ($this->adapter_current->getTemplateFolderName()) {
-            return $this->adapter_current->getTemplateFolderName();
-        }
-        if (!defined('TEMPLATE_NAME')) {
-            return $this->app->option_manager->get('current_template', 'template');
-            //$this->app->content_manager->define_constants();
-        }
-        if (defined('TEMPLATE_NAME')) {
-            return TEMPLATE_NAME;
-        }
+        return $this->adapter_current->getTemplateFolderName();
     }
 
 
@@ -640,7 +628,7 @@ class Template
      */
     public function get_layout($params = array())
     {
-        return $this->adapter_current->get_layout($params);
+        return $this->adapter_current->getLayout($params);
 
     }
 
