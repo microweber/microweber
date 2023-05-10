@@ -6,17 +6,11 @@
 
 <div class="clearfix"></div>
 
-<div class="form-group">
+<div class="form-group d-flex align-items-center justify-content-between">
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 
-    <div class="custom-control custom-radio d-inline-block me-2">
-        <input type="radio" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
-        <label class="custom-control-label" for="paypalexpress_testmode1"><?php _e("Yes"); ?></label>
-    </div>
-
-    <div class="custom-control custom-radio d-inline-block me-2">
-        <input type="radio" id="paypalexpress_testmode2" name="paypalexpress_testmode" class="mw_option_field form-check-input" data-option-group="payments" value="n" <?php if (get_option('paypalexpress_testmode', 'payments') != 'y'): ?> checked="checked" <?php endif; ?>>
-        <label class="custom-control-label" for="paypalexpress_testmode2"><?php _e("No"); ?></label>
+    <div class="form-check form-check-single form-switch" style="width: unset;">
+        <input type="checkbox" id="paypalexpress_testmode1" name="paypalexpress_testmode" class="mw_option_field form-check-input" data-value-unchecked="n" data-value-checked="y" data-option-group="payments" value="y" <?php if (get_option('paypalexpress_testmode', 'payments') == 'y'): ?> checked="checked" <?php endif; ?>>
     </div>
 </div>
 
