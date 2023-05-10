@@ -21,8 +21,6 @@ $(document).ready(function () {
 
 			if (ok) {
 
-
-
                 mw.reload_module_everywhere('shop/offers/special_price_field');
                  mw.reload_module('shop/offers/special_price_field');
                  mw.reload_module('shop/offers/special_price_field');
@@ -34,7 +32,7 @@ $(document).ready(function () {
 						data: form.serialize(),
 						success: function(msg) {
 
-							if (typeof(msg.data.error_message) !== "undefined") {
+                            if (typeof(msg.data.error_message) !== "undefined") {
 								// mw.notification.error(data.error_message);
 								$(".js-validation-messages").html(errorMessage(msg.data.error_message));
 								//scrollTopModal();
@@ -45,6 +43,10 @@ $(document).ready(function () {
 									reload_offer_after_save();
 								}
 								editModal.modal.remove();
+
+                                mw.reload_module_everywhere('shop/offers/admin');
+                                mw.reload_module_everywhere('shop/offers/admin_block');
+                                
                             }
 						}
 					});
