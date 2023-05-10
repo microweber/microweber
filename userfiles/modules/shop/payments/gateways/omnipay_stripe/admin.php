@@ -6,12 +6,17 @@
 
 <div class="clearfix"></div>
 
+<div class="d-flex align-items-center mb-3">
+    <span class="badge bg-green me-2"></span>
+    <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+</div>
+
 <div class="form-group">
-    <label class="form-label">Secret key: </label>
+    <label class="form-label"><?php _e("Secret key") ?> : </label>
     <input type="text" class="mw_option_field form-control" name="stripe_api_key" placeholder="" data-option-group="payments" value="<?php print get_option('stripe_api_key', 'payments'); ?>">
 </div>
 
 <div class="form-group">
-    <label class="form-label">Publishable key: </label>
+    <label class="form-label"><?php _e("Publishable key") ?> : </label>
     <input type="text" class="mw_option_field form-control" name="stripe_publishable_api_key" placeholder="" data-option-group="payments" value="<?php print get_option('stripe_publishable_api_key', 'payments'); ?>">
 </div>

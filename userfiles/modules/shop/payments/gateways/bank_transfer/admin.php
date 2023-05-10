@@ -42,7 +42,7 @@
 
         <label class="form-label"><?php _e('Payment instructions to order'); ?></label>
         <small class="text-muted d-block mb-2"><?php _e(" At the last step in the checkout, add additional information about the order. Use {{order_id}} to show order id in payment instructions.") ?></small>
-        <textarea name="bank_transfer_instructions" class="mw_option_field form-control" data-option-group="payments"><?php print get_option('bank_transfer_instructions', 'payments') ?></textarea>
+        <textarea name="bank_transfer_instructions" <?php _e("e.g. Your order number is {{order_id}}") ?> class="mw_option_field form-control" data-option-group="payments"><?php print get_option('bank_transfer_instructions', 'payments') ?></textarea>
         <small class="text-muted d-block mt-2"><?php _e('Displays to customers after they place an order with this payment method.'); ?></small>
     </div>
 
