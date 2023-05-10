@@ -11,6 +11,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+
+<?php
+$defined_taxes = mw()->tax_manager->get();
+?>
+
+
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
        <div class="row">
@@ -19,14 +25,25 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
            <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
 
+               <?php
+               if (!empty($defined_taxes)):
+               ?>
                <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
+               <?php
+               endif;
+               ?>
            </div>
 
+           <?php
+           if (!empty($defined_taxes)):
+           ?>
            <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
-               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?> />
+               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_taxes', 'shop') == 'y'): ?>checked<?php endif; ?> />
                &nbsp; <?php _e('Enable'); ?>
            </label>
-
+           <?php
+           endif;
+           ?>
 
            <script>
                mw_admin_edit_tax_item_popup_modal_opened = null
