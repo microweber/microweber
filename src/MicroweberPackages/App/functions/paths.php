@@ -82,8 +82,7 @@ function modules_url()
 
     return $folder;
 }
-
-function templates_path()
+function templates_dir()
 {
     static $folder;
     if (!$folder) {
@@ -91,6 +90,14 @@ function templates_path()
     }
 
     return $folder;
+}
+
+/**
+ * @deprecated Use templates_dir() instead.
+ */
+function templates_path()
+{
+         return templates_dir();
 }
 
 function templates_url()

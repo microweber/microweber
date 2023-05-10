@@ -56,7 +56,7 @@ class OrderManager
         if (isset($params['keyword'])) {
             $params['search_in_fields'] = array('first_name', 'last_name', 'email', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
         }
-        $table = $table = $this->table;
+        $table = 'cart_orders';
         $params['table'] = $table;
         $params['no_cache'] = true;
 
@@ -68,7 +68,7 @@ class OrderManager
 
     public function get_by_id($id = false)
     {
-        $table = $this->table;
+        $table = 'cart_orders';
         $params['table'] = $table;
         $params['one'] = true;
 
@@ -109,7 +109,7 @@ class OrderManager
         if (defined('MW_API_CALL') and $adm == false) {
             return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = $table = $this->table;
+        $table =  'cart_orders';
         if (!is_array($data)) {
             $data = array('id' => intval($data));
         }
@@ -141,7 +141,7 @@ class OrderManager
             unset($place_order['is_paid']);
             $should_mark_as_paid = true;
         }
-        $ord = $this->app->database_manager->save($this->table, $place_order);
+        $ord = $this->app->database_manager->save('cart_orders', $place_order);
         $place_order['id'] = $ord;
 
         $orderModel = Order::find($ord);
@@ -162,15 +162,15 @@ class OrderManager
 //        }
         DB::transaction(function () use ($sid, $ord, $place_order,$should_mark_as_paid) {
 
-            DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
+            DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
             $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
 
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
-                DB::table($this->app->cart_manager->table_name())->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
+                DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                    DB::table($this->table)->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
+                    DB::table('cart_orders')->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
                 }
 
                 $this->app->cache_manager->delete('cart');
@@ -230,7 +230,7 @@ class OrderManager
                $params['payment_data'] = json_encode($params['payment_data']);
             }
         }
-        $table = $this->table;
+        $table = 'cart_orders';
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
         $this->app->cache_manager->delete('cart');

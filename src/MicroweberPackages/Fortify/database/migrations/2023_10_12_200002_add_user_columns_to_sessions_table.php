@@ -14,9 +14,15 @@ class AddUserColumnsToSessionsTable extends Migration
     public function up()
     {
         Schema::table('sessions', function (Blueprint $table) {
-            $table->integer('user_id')->nullable();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
+            if (!Schema::hasColumn('sessions', 'user_id')) {
+                $table->integer('user_id')->nullable();
+            }
+            if (!Schema::hasColumn('sessions', 'ip_address')) {
+                $table->string('ip_address', 255)->nullable();
+            }
+            if (!Schema::hasColumn('sessions', 'user_agent')) {
+                $table->text('user_agent')->nullable();
+            }
         });
     }
 

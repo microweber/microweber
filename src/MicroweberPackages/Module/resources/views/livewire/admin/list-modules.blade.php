@@ -1,4 +1,4 @@
-<div class="card col-xxl-11 mx-auto">
+<div class="card col-xxl-11 mx-auto" x-data="{ showFilters: false }">
 
    <div class="card-body">
        <div class="row">
@@ -20,6 +20,11 @@
                </div>
                <div>
 
+                   <button x-on:click="showFilters = ! showFilters" type="button" class="btn btn-outline-default">
+                       <span x-show="!showFilters">Show filters</span>
+                       <span x-show="showFilters">Hide filters</span>
+                   </button>
+
                    <button type="button" class="btn btn-outline-primary" wire:click="reloadModules">
                        <div wire:loading wire:target="reloadModules" class="spinner-border spinner-border-sm" role="status">
                            <span class="visually-hidden">{{  _e("Loading")}}...</span>
@@ -30,7 +35,7 @@
                </div>
            </div>
 
-           <div class="card shadow-sm rounded p-4 mb-4">
+           <div class="card shadow-sm rounded p-4 mb-4" x-show="showFilters">
                <div class="row d-flex justify-content-between">
                    <div class="col-md-6">
                        <div>
@@ -57,28 +62,33 @@
 
            <div class="row row-cards bg-azure-lt">
 
-               @foreach($modules as $module)
-                   <div class="col-md-3 p-3">
-                       <div class="card" style="min-height:170px">
-                           <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
-                               <a href="{{module_admin_url($module->module)}}">
-                                   <div class="mx-auto mb-2" style="width: 40px;height: 40px">
-                                       {!! $module->getIconInline() !!}
-                                   </div>
-                                   <h3 class="card-title pt-2 mb-0 text-muted">
-                                       {{str_limit(_e($module->name, true), 30)}}
-                                   </h3>
-                               </a>
-                           </div>
+               <div>
+                   <button type="button"  class="btn btn-outline-primary" wire:click="toggleGroupByCategories()">
+                       @if($groupByCategories)
+                           Ungroup
+                       @else
+                           Group
+                       @endif
+                   </button>
+               </div>
+
+               @if($groupByCategories)
+                   @foreach($modulesGroups as $categories=>$modules)
+                       <div>
+                            <h2>{{ $categories }}</h2>
                        </div>
-                   </div>
-               @endforeach
+                       @foreach($modules as $module)
+                           @include('module::livewire.admin.list-module-card', ['module' => $module])
+                       @endforeach
+                   @endforeach
+                @else
+                   @foreach($modules as $module)
+                       @include('module::livewire.admin.list-module-card', ['module' => $module])
+                   @endforeach
+               @endif
 
            </div>
 
-           <div class="d-flex justify-content-center mt-4">
-               {!! $modules->links('livewire-tables::specific.bootstrap-4.pagination') !!}
-           </div>
        </div>
    </div>
 

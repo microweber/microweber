@@ -12,14 +12,21 @@ class ListModules extends Component
     public $keyword;
     public $type = 'admin';
     public $installed = 1;
+    public $confirmUnistallId = 1;
+    public $groupByCategories = false;
 
     public $queryString = [
         'keyword',
         'page',
         'type',
         'installed',
+        'groupByCategories',
     ];
 
+    public function toggleGroupByCategories()
+    {
+        $this->groupByCategories = !$this->groupByCategories;
+    }
 
     public function reloadModules()
     {
@@ -29,6 +36,37 @@ class ListModules extends Component
     public function filter()
     {
         $this->gotoPage(1);
+    }
+
+    public function confirmUninstall($id)
+    {
+        $this->confirmUnistallId = $id;
+    }
+
+    public function uninstall($id)
+    {
+        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
+
+        if ($findModule) {
+            mw()->module_manager->uninstall([
+                'id' => $findModule->id,
+            ]);
+        }
+
+        $this->reloadModules();
+    }
+
+    public function install($id)
+    {
+        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
+
+        if ($findModule) {
+            mw()->module_manager->set_installed([
+                'id' => $findModule->id,
+            ]);
+        }
+
+        $this->reloadModules();
     }
 
     public function render()
@@ -53,10 +91,30 @@ class ListModules extends Component
 
         $modules->where('installed', $this->installed);
 
-        $modules = $modules->paginate(28);
+        $modules = $modules->get();
+
+        $modulesGroups = [
+            "Content" => [],
+            "Store" => [],
+            "Online Shop" => [],
+            "Admin" => [],
+            "Users" => [],
+            "Media" => [],
+            "Essentials" => [],
+            "Miscellaneous" => [],
+            "Advanced" => [],
+            "Other" => [],
+        ];
+
+        if ($this->groupByCategories) {
+            foreach ($modules as $module) {
+                $modulesGroups[ucwords($module->categories)][] = $module;
+            }
+        }
 
         return view('module::livewire.admin.list-modules', [
-            'modules' => $modules
+            'modules' => $modules,
+            'modulesGroups' => $modulesGroups,
         ]);
     }
 }

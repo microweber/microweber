@@ -210,7 +210,7 @@ class LegacyCategoryTreeRenderer
         }
 
 
-        $table = $this->app->category_manager->tables['categories'];
+        $table = 'categories';
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
         }
@@ -452,9 +452,9 @@ d($fors);
      */
     private function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false, $only_ids = false)
     {
-        $db_t_content = $this->app->category_manager->tables['content'];
+        $db_t_content = 'content';
 
-        $table = $db_categories = $this->app->category_manager->tables['categories'];
+        $table = $db_categories = 'categories';
 
         if ($parent == false) {
             $parent = (0);

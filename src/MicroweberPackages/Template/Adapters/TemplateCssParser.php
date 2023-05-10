@@ -33,8 +33,8 @@ class TemplateCssParser
 
         if ($defaultCssFile and !$user_has_settings) {
 
-            $templatePath = templates_path() . $themeFolderName;
-            $defaultCssFilePath = templates_path() . $themeFolderName;
+            $templatePath = templates_dir() . $themeFolderName;
+            $defaultCssFilePath = templates_dir() . $themeFolderName;
             $defaultCssFilePath = normalize_path($templatePath . '/' . $defaultCssFile, false);
             $defaultCssFileUrl = templates_url() . $themeFolderName;
             $defaultCssFileUrl = $defaultCssFileUrl . '/' . $defaultCssFile;
@@ -319,7 +319,7 @@ class TemplateCssParser
         $lessDirPath = dirname($lessFilePathWithVersion);
         $templateUrlWithPathBase = templates_url() . $templateFolder . '/';
         $templateUrlWithPath = $templateUrlWithPathBase . $lessDirPath . '/';
-        $templatePath = templates_path() . $templateFolder;
+        $templatePath = templates_dir() . $templateFolder;
 
 
         // Output dirs

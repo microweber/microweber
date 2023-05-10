@@ -32,14 +32,14 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
         $content_id = intval($content_id);
-        if ($content_id == 0 or !isset($this->tables['menus'])) {
+        if ($content_id == 0) {
             return;
         }
         if ($menu_id != false) {
             //  $_REQUEST['add_content_to_menu'] = array( $menu_id);
         }
 
-        $menus = $this->tables['menus'];
+        $menus = 'menus';
         if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
             $add_to_menus = $_REQUEST['add_content_to_menu'];
             $add_to_menus_int = array();
@@ -173,46 +173,41 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($c_id) {
                     if ($to_untrash == true) {
 
-                        DB::table($this->tables['content'])->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
-                        DB::table($this->tables['content'])->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        DB::table('content')->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        DB::table('content')->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        DB::table('categories')->whereRelId($c_id)->whereRelType('content')->whereIsDeleted(1)->update(['is_deleted' => 0]);
 
-                        if (isset($this->tables['categories'])) {
-                            DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->whereIsDeleted(1)->update(['is_deleted' => 0]);
-                        }
                     } elseif ($to_trash == false) {
-                        DB::table($this->tables['content'])->whereParent($c_id)->update(['parent' => 0]);
+                        DB::table('content')->whereParent($c_id)->update(['parent' => 0]);
 
                         $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
-                        if (isset($this->tables['media'])) {
+
                             DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-                        }
 
-                        if (isset($this->tables['categories'])) {
+
+
                             DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-                        }
 
-                        if (isset($this->tables['categories_items'])) {
+
+
                             DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-                        }
-                        if (isset($this->tables['custom_fields'])) {
+
                             DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
-                        }
 
-                        if (isset($this->tables['content_data'])) {
+
                             DB::table('content_data')->where('content_id', '=', $c_id)->delete();
-                        }
 
-                        if (isset($this->tables['menus'])) {
+
                             DB::table('menus')->where('content_id', '=', $c_id)->delete();
-                        }
-                    } else {
-                        DB::table($this->tables['content'])->whereId($c_id)->update(['is_deleted' => 1]);
-                        DB::table($this->tables['content'])->whereParent($c_id)->update(['is_deleted' => 1]);
 
-                        if (isset($this->tables['categories'])) {
-                            DB::table($this->tables['categories'])->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
-                        }
+                    } else {
+                        DB::table('content')->whereId($c_id)->update(['is_deleted' => 1]);
+                        DB::table('content')->whereParent($c_id)->update(['is_deleted' => 1]);
+
+
+                            DB::table('categories')->whereRelId($c_id)->whereRelType('content')->update(['is_deleted' => 1]);
+
                     }
                     $this->app->cache_manager->delete('content/' . $c_id);
                 }
@@ -432,7 +427,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             case 'install' :
                 $any = $this->get('count=1&content_type=page&limit=1');
                 if (intval($any) == 0) {
-                    $table = $this->tables['content'];
+                    $table = 'content';
                     mw_var('FORCE_SAVE_CONTENT', $table);
                     mw_var('FORCE_SAVE', $table);
 
@@ -1277,7 +1272,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
         $this->app->content_manager->define_constants($page);
 
-        $table_drafts = $this->tables['content_fields_drafts'];
+        $table_drafts = 'content_fields_drafts';
 
         $data = parse_params($data);
 
@@ -1355,9 +1350,8 @@ class ContentManagerHelpers extends ContentManagerCrud
     public function save_content_field($data, $delete_the_cache = true)
     {
         $adm = $this->app->user_manager->is_admin();
-        $table = $this->tables['content_fields'];
-        //    $table_drafts = $this->tables['content_fields_drafts'];
-        $table_drafts = 'content_revisions_history';
+        $table = 'content_fields';
+         $table_drafts = 'content_revisions_history';
 
         if ($adm == false) {
             return false;

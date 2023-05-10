@@ -243,7 +243,7 @@ class CartManager extends Crud
             $params = $params2;
         }
 
-        $table = $this->table;
+        $table =  'cart';
         $params['table'] = $table;
         $skip_sid = false;
         if (!defined('MW_API_CALL')) {
@@ -330,7 +330,7 @@ class CartManager extends Crud
             return;
         }
         $params = array();
-        $table = $this->table;
+        $table =  'cart';
         $params['table'] = $table;
         $params['order_id'] = $order_id;
         $get = $this->app->database_manager->get($params);
@@ -455,7 +455,7 @@ class CartManager extends Crud
             $cart_return = $check_cart;
 
 
-            $table = $this->table;
+            $table =  'cart';
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
@@ -477,7 +477,7 @@ class CartManager extends Crud
     public function empty_cart()
     {
         $sid = mw()->user_manager->session_id();
-        $cart_table = $this->table;
+        $cart_table =  'cart';
 
         Cart::where('order_completed', 0)->where('session_id', $sid)->delete();
         $this->no_cache = true;
@@ -737,7 +737,7 @@ class CartManager extends Crud
             ksort($add);
             asort($add);
             $add = mw()->format->clean_xss($add);
-            $table = $this->table;
+            $table =  'cart';
 
 
             $cart = array();
@@ -873,7 +873,7 @@ class CartManager extends Crud
 
             if ($cur_sid != false) {
                 $c_id = $sid;
-                $table = $this->table;
+                $table =  'cart';
                 $params = array();
                 //   $params['order_completed'] = 0;
                 $params['session_id'] = $c_id;
@@ -942,7 +942,7 @@ class CartManager extends Crud
 
     public function table_name()
     {
-        return $this->table;
+        return  'cart';
     }
 
 

@@ -27,9 +27,7 @@ class ApiController  extends FrontendController
 
     public function api($api_function = false, $params = false)
     {
-        if (isset($_REQUEST['api_key']) and user_id() == 0) {
-            api_login($_REQUEST['api_key']);
-        }
+
 
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
@@ -1018,7 +1016,7 @@ class ApiController  extends FrontendController
 
         if ($mod_n == 'module-' && isset($data['template'])) {
             $t = sanitize_path($data['template']);
-            $possible_layout = templates_path() . $t;
+            $possible_layout = templates_dir() . $t;
             $possible_layout = normalize_path($possible_layout, false);
             if (is_file($possible_layout)) {
                 $l = new View($possible_layout);

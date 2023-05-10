@@ -32,7 +32,7 @@ class MediaManager
             }
         }
 
-        $this->tables['media'] = 'media';
+
     }
 
     public function get_picture($content_id, $for = 'content', $full = false)
@@ -69,7 +69,7 @@ class MediaManager
     public function get_by_id($id)
     {
 
-        $table = $this->tables['media'];
+        $table = 'media';
         $id = intval($id);
         if ($id == 0) {
             return false;
@@ -238,7 +238,7 @@ class MediaManager
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = $this->tables['media'];
+        $table = 'media';
         foreach ($data as $value) {
             if (is_array($value)) {
                 $indx = array();
@@ -301,7 +301,7 @@ class MediaManager
         if (!is_array($params)) {
             $params = parse_params($params);
         }
-        $table = $this->tables['media'];
+        $table = 'media';
         $params['table'] = $table;
 
         return $this->app->database_manager->get($params);
@@ -309,7 +309,7 @@ class MediaManager
 
     public function get($params)
     {
-        $table = $this->tables['media'];
+        $table = 'media';
 
         if ($params != false and !is_array($params) and intval($params) > 0) {
             $params2 = array();
@@ -567,13 +567,13 @@ class MediaManager
 
         if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
-            $table = $this->tables['media'];
+            $table = 'media';
             $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return $s;
         } elseif (isset($s['id'])) {
-            $table = $this->tables['media'];
+            $table = 'media';
             $s = $this->app->database_manager->extended_save($table, $s);
             $this->app->cache_manager->delete('media');
 
@@ -586,7 +586,7 @@ class MediaManager
     public function tags($media_id = false, $return_full = false)
     {
         /* $data = array();
-         $data['table'] = $this->tables['media'];
+         $data['table'] = 'media';
          if ($media_id) {
              $data['id'] = intval($media_id);
          }

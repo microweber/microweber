@@ -93,11 +93,10 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         <input type="hidden" name="edited_by" value="<?php print user_id() ?>"/>
     <?php } ?>
 
-    <div class="form-group">
+    <div class="form-group d-flex align-items-center justify-content-between" style="width: unset;">
         <label class="form-label"><?php _e("Offer status"); ?></label>
-        <div class="custom-control custom-switch">
-            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" data-value-checked="1" data-value-unchecked="0" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
-            <label class="custom-control-label" for="is_active"><?php _e("Active"); ?></label>
+        <div class="form-check form-check-single form-switch" style="width: unset;">
+            <input type="checkbox" name="is_active" class="form-check-input" id="is_active" data-value-checked="y" data-value-unchecked="n" <?php if ($data['is_active'] == 1): ?>checked<?php endif; ?>>
         </div>
     </div>
 
@@ -135,9 +134,15 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     </div>
 
     <div class="form-group">
-        <label class="form-label"><?php _e("Offer price"); ?> <?php print mw()->shop_manager->currency_symbol(); ?></label>
-        <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
-        <div class="js-field-message"></div>
+        <label class="form-label"><?php _e("Offer price"); ?> </label>
+        <div class="d-flex align-items-center">
+            <span class="d-block fs-3 me-2">
+                <?php print mw()->shop_manager->currency_symbol(); ?>
+            </span>
+            <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
+
+        </div>
+         <div class="js-field-message"></div>
     </div>
 
     <?php if ($addNew) { ?>
@@ -174,7 +179,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
 
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="form-check-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
-            <label class="custom-control-label" for="expiration-checkbox"><?php _e('Has expiration date');?></label>
+            <label class="custom-control-label mb-3" for="expiration-checkbox"><?php _e('Has expiration date');?></label>
         </div>
 
         <div class="js-exp-date-holder">
@@ -184,20 +189,12 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         <div class="js-field-message"></div>
     </div>
 
-    <hr class="thin">
 
-    <div class="d-flex justify-content-between">
-        <div>
-            <?php if (!$addNew) { ?>
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteOffer('<?php print $data['id'] ?>')"><?php _e("Delete"); ?></button>
-            <?php } ?>
-        </div>
-
-        <div>
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
-            <button type="button" class="btn btn-success btn-sm js-save-offer"><?php _e("Save"); ?></button>
-        </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>
+        <button type="button" class="btn btn-success btn-sm js-save-offer"><?php _e("Save"); ?></button>
     </div>
+
 </form>
 <script type='text/javascript'>
 

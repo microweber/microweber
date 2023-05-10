@@ -525,7 +525,7 @@ class FrontendController extends Controller
                     $the_new_page_file = false;
                     $page_url_segment_1 = app()->url_manager->segment(0, $page_url);
 
-                    $td = templates_path() . $page_url_segment_1;
+                    $td = templates_dir() . $page_url_segment_1;
                     $td_base = $td;
 
                     $page_url_segment_2 = app()->url_manager->segment(1, $page_url);
@@ -534,7 +534,7 @@ class FrontendController extends Controller
                     if (!$page_url_segment_1) {
                         $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                     }
-                    $td_base = templates_path() . $the_active_site_template . DS;
+                    $td_base = templates_dir() . $the_active_site_template . DS;
 
                     $page_url_segment_3_str = implode(DS, $page_url_segment_3);
 
@@ -583,7 +583,7 @@ class FrontendController extends Controller
                                     $the_new_page_file = $td_fd2;
                                     $simply_a_file = $directly_to_file = $td_fd2;
                                 } else {
-                                    $td_basedef = templates_path() . 'default' . DS . $page_url_segment_3_str;
+                                    $td_basedef = templates_dir() . 'default' . DS . $page_url_segment_3_str;
                                     if (is_file($td_basedef)) {
                                         $the_new_page_file = $td_basedef;
                                         $simply_a_file = $directly_to_file = $td_basedef;

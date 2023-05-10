@@ -58,7 +58,7 @@ class ContentManager
             }
         }
 
-        $this->set_table_names();
+
         $this->crud = new ContentManagerCrud($this->app);
         $this->helpers = new ContentManagerHelpers($this->app);
 
@@ -70,31 +70,18 @@ class ContentManager
 
     function post_id()
     {
-        if ($this->app->template->getPostId()) {
-            return $this->app->template->getPostId();
-        }
-
-        if (defined('POST_ID')) {
-            return POST_ID;
-        }
+        return $this->app->template->getPostId();
     }
 
 
     function product_id()
     {
-        if ($this->product_id) {
-            return $this->product_id;
-        }
-
-        if (defined('PRODUCT_ID')) {
-            return PRODUCT_ID;
-        }
+        return $this->app->template->getProductId();
     }
 
     function content_id()
     {
         return $this->app->template->getContentId();
-
 
     }
 
@@ -109,100 +96,6 @@ class ContentManager
         return $this->app->template->getPageId();
     }
 
-
-    /**
-     * Sets the database table names to use by the class.
-     *
-     * @param array|bool $tables
-     */
-    public function set_table_names($tables = false)
-    {
-        $prefix = '';
-
-        if ($tables == false) {
-            $tables = array();
-        }
-
-        if (!isset($tables['content'])) {
-            $tables['content'] = 'content';
-        }
-        if (!isset($tables['content_fields'])) {
-            $tables['content_fields'] = 'content_fields';
-        }
-        if (!isset($tables['content_data'])) {
-            $tables['content_data'] = 'content_data';
-        }
-        if (!isset($tables['content_fields_drafts'])) {
-            $tables['content_fields_drafts'] = 'content_fields_drafts';
-        }
-        if (!isset($tables['media'])) {
-            $tables['media'] = 'media';
-        }
-        if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] = 'custom_fields';
-        }
-        if (!isset($tables['custom_fields_values'])) {
-            $tables['custom_fields_values'] = 'custom_fields_values';
-        }
-        if (!isset($tables['content_data'])) {
-            $tables['content_data'] = 'content_data';
-        }
-        if (!isset($tables['attributes'])) {
-            $tables['attributes'] = 'attributes';
-        }
-
-        if (!isset($tables['categories'])) {
-            $tables['categories'] = 'categories';
-        }
-        if (!isset($tables['categories_items'])) {
-            $tables['categories_items'] = 'categories_items';
-        }
-        if (!isset($tables['menus'])) {
-            $tables['menus'] = 'menus';
-        }
-
-        $this->tables['content'] = $tables['content'];
-        $this->tables['content_fields'] = $tables['content_fields'];
-        $this->tables['content_data'] = $tables['content_data'];
-        $this->tables['content_fields_drafts'] = $tables['content_fields_drafts'];
-        $this->tables['media'] = $tables['media'];
-        $this->tables['custom_fields'] = $tables['custom_fields'];
-        $this->tables['categories'] = $tables['categories'];
-        $this->tables['categories_items'] = $tables['categories_items'];
-        $this->tables['menus'] = $tables['menus'];
-        $this->tables['attributes'] = $tables['attributes'];
-
-        /*
-         * Define table names constants for global default usage
-         */
-        if (!defined('MW_DB_TABLE_CONTENT')) {
-            define('MW_DB_TABLE_CONTENT', $tables['content']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_FIELDS')) {
-            define('MW_DB_TABLE_CONTENT_FIELDS', $tables['content_fields']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_DATA')) {
-            define('MW_DB_TABLE_CONTENT_DATA', $tables['content_data']);
-        }
-        if (!defined('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS')) {
-            define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', $tables['content_fields_drafts']);
-        }
-        if (!defined('MW_DB_TABLE_MEDIA')) {
-            define('MW_DB_TABLE_MEDIA', $tables['media']);
-        }
-        if (!defined('MW_DB_TABLE_CUSTOM_FIELDS')) {
-            define('MW_DB_TABLE_CUSTOM_FIELDS', $tables['custom_fields']);
-        }
-        if (!defined('MW_DB_TABLE_MENUS')) {
-            define('MW_DB_TABLE_MENUS', $tables['menus']);
-        }
-        if (!defined('MW_DB_TABLE_TAXONOMY')) {
-            define('MW_DB_TABLE_TAXONOMY', $tables['categories']);
-        }
-        if (!defined('MW_DB_TABLE_TAXONOMY_ITEMS')) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', $tables['categories_items']);
-        }
-    }
 
     /**
      * Get single content item by id from the content_table.
@@ -223,24 +116,14 @@ class ContentManager
      */
     public function get_page($id = 0)
     {
-        if ($id == false or $id == 0) {
+        if (intval($id) == 0) {
             return false;
         }
-        if (intval($id) != 0) {
-            $page = $this->get_by_id($id);
-            if (empty($page)) {
-                $page = $this->get_by_url($id);
-            }
-        } else {
-            if (empty($page)) {
-                $page = array();
-                $page['layout_name'] = trim($id);
-                $page = $this->get($page);
-                $page = $page[0];
-            }
-        }
 
+        $page = $this->get_by_id($id);
         return $page;
+
+
     }
 
     /**
@@ -984,7 +867,7 @@ class ContentManager
         }
         ob_start();
 
-        $table = $this->tables['content'];
+        $table = 'content';
         $par_q = '';
         if ($parent == false) {
             $parent = (0);
@@ -1882,9 +1765,7 @@ class ContentManager
         }
 
         if ($id == false or $id == 0) {
-            if (defined('PAGE_ID') == true) {
-                $id = PAGE_ID;
-            }
+            $id =  content_id();
         }
 
         if ($id == 0) {

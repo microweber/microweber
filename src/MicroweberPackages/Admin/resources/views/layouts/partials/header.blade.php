@@ -156,6 +156,8 @@
 
 <?php
 
+$bodyClasses = [];
+
 $additionalBodyClasses = [];
 
 
@@ -175,6 +177,19 @@ if(isset($iframeMode) or (isset($options['iframe']) and $options['iframe'])){
 }
 $additionalBodyClassesStr = implode(' ', $additionalBodyClasses);
 
+
+$bodyClasses[] = 'is_admin';
+if(mw()->url_manager->param('view')) {
+    $bodyClasses[] = 'view-'.mw()->url_manager->param('view');
+}
+
+if(mw()->url_manager->param('action')) {
+    $bodyClasses[] = 'action-'.mw()->url_manager->param('action');
+}
+
+
+
+$bodyClassesStr = $bodyClasses ? implode(' ', $bodyClasses) : '';
 ?>
 
 

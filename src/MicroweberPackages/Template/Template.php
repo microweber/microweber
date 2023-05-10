@@ -156,8 +156,8 @@ class Template
 
     public function name()
     {
-        if ($this->adapter_current->getTemplatePath()) {
-            return $this->adapter_current->getTemplatePath();
+        if ($this->adapter_current->getTemplateFolderName()) {
+            return $this->adapter_current->getTemplateFolderName();
         }
         if (!defined('TEMPLATE_NAME')) {
             return $this->app->option_manager->get('current_template', 'template');
@@ -171,58 +171,20 @@ class Template
 
     public function dir($add = false)
     {
-        if ($this->adapter_current->getTemplatePath()) {
-            return normalize_path(templates_path() . $this->adapter_current->getTemplatePath() . DS);
-        }
-
-        if (defined('TEMPLATE_DIR')) {
-            $val = TEMPLATE_DIR;
-            if ($add != false) {
-                $val = $val . $add;
-            }
-            return $val;
-        } else {
-            $the_active_site_template = $this->name();
-            $val = normalize_path(templates_path() . $the_active_site_template . DS);
+        if ($this->adapter_current->getActiveTemplateDir()) {
+            $val =$this->adapter_current->getActiveTemplateDir();
             if ($add != false) {
                 $val = $val . $add;
             }
             return $val;
         }
-
 
     }
 
-    public $template_config_cache = array();
 
     public function get_config($template = false)
     {
-        if ($template == false) {
-
-            $dir = template_dir();
-
-            $file = $dir . 'config.php';
-
-            if (isset($this->template_config_cache[$file])) {
-                return $this->template_config_cache[$file];
-            }
-
-            if (is_file($file)) {
-                include $file;
-                if (isset($config)) {
-                    $config['dir_name'] = basename($dir);
-                    if (is_link(normalize_path($dir, false))) {
-                        $config['is_symlink'] = true;
-                    } else {
-                        $config['is_symlink'] = false;
-                    }
-                    $this->template_config_cache[$file] = $config;
-                    return $config;
-                }
-
-                return false;
-            }
-        }
+         return $this->adapter_current->getConfig($template);
     }
 
     public function get_data_field_title($field, $type = 'general')
@@ -282,30 +244,13 @@ class Template
 
     public function url($add = false)
     {
-        if (!defined('TEMPLATE_URL')) {
-            $this->app->content_manager->define_constants();
-        }
-
-        if (defined('TEMPLATE_URL')) {
-            $val = TEMPLATE_URL;
-        }
+        $val = $this->adapter_current->getActiveTemplateUrl();
 
         if ($add != false) {
             $val = $val . $add;
         }
 
         return $val;
-    }
-
-    public function adapter($method, $params)
-    {
-        if (method_exists($this->adapter_current, $method)) {
-            return $this->adapter_current->$method($params);
-        } else {
-            if (method_exists($this->adapter_default, $method)) {
-                return $this->adapter_default->$method($params);
-            }
-        }
     }
 
     public function get_custom_css_content()
@@ -732,7 +677,7 @@ class Template
      */
     public function render($params = array())
     {
-        $layout = $this->adapter('render', $params);
+        $layout = $this->adapter_current->render($params);
 
         $layout = $this->process_meta($layout);
         $layout = $this->process_stacks($layout);
@@ -787,7 +732,7 @@ class Template
 
 
         if (!isset($options['path'])) {
-            $path = templates_path();
+            $path = templates_dir();
         } else {
             $path = $options['path'];
         }
@@ -861,7 +806,6 @@ class Template
             }
         }
 
-        //$this->app->cache_manager->save($to_return, $cache_id, $cache_group, 'files');
         return $to_return;
     }
 
@@ -872,6 +816,10 @@ class Template
     public function getContentId()
     {
         return $this->adapter_current->getContentId();
+    }
+    public function getProductId()
+    {
+        return $this->adapter_current->getProductId();
     }
     public function getPageId()
     {

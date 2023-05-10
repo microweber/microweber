@@ -247,7 +247,7 @@ if ($registration_approval_required == false) {
                                 <div class="col-12">
                                     <div class="form-group my-4">
                                         <label class="form-label"><?php _e("Login form settings"); ?></label>
-                                        <small class="text-muted d-block mb-2"><?php _e("Do I need a captcha foma for login each time?"); ?></small>
+                                        <small class="text-muted d-block mb-2"><?php _e("Enable captcha for login form"); ?></small>
                                     </div>
 
                                     <label class="form-check form-switch" for="captcha_disabled">

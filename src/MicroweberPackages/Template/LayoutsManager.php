@@ -114,7 +114,7 @@ class LayoutsManager
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path() . '' . $tmpl;
+                $check_dir = templates_dir() . '' . $tmpl;
 
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
@@ -124,7 +124,7 @@ class LayoutsManager
             } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
                 $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path() . '' . $tmpl;
+                $check_dir = templates_dir() . '' . $tmpl;
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
@@ -137,7 +137,7 @@ class LayoutsManager
                 $the_active_site_template = 'default';
             }
 
-            $path = normalize_path(templates_path() . $the_active_site_template);
+            $path = normalize_path(templates_dir() . $the_active_site_template);
         } else {
             $path = $options['path'];
         }
@@ -229,8 +229,8 @@ class LayoutsManager
                         $result = str_ireplace('type:', '', $result);
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
-                        if (strstr($here_dir, templates_path())) {
-                            $templ_dir = str_replace(templates_path(), '', $here_dir);
+                        if (strstr($here_dir, templates_dir())) {
+                            $templ_dir = str_replace(templates_dir(), '', $here_dir);
                             if ($templ_dir != '') {
                                 $templ_dir = explode(DS, $templ_dir);
                                 if (isset($templ_dir[0])) {
@@ -491,7 +491,7 @@ class LayoutsManager
         }
 
         $page_url_segment_1 = $this->app->url_manager->segment(0);
-        $td = templates_path() . $page_url_segment_1;
+        $td = templates_dir() . $page_url_segment_1;
         $td_base = $td;
 
         $page_url_segment_2 = $this->app->url_manager->segment(1);
@@ -501,7 +501,7 @@ class LayoutsManager
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
             //$page_url_segment_1 =	$the_active_site_template = $this->app->option_manager->get('current_template');
-            //$td_base = templates_path() .   $the_active_site_template.DS;
+            //$td_base = templates_dir() .   $the_active_site_template.DS;
         } else {
         }
         if (empty($page_url_segment_3)) {
@@ -786,7 +786,7 @@ class LayoutsManager
                     save_option($option);
                 }
 
-                $template_folder = templates_path() . $template . DS;
+                $template_folder = templates_dir() . $template . DS;
                 $template_url = templates_url() . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 

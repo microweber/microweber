@@ -39,22 +39,10 @@ class OptionManager
                 $this->app = mw();
             }
         }
-        $this->set_table_names();
+
     }
 
-    public function set_table_names($tables = false)
-    {
-        if (!is_array($tables)) {
-            $tables = array();
-        }
-        if (!isset($tables['content'])) {
-            $tables['options'] = 'options';
-        }
-        $this->tables = $tables;
-        if (!defined('MW_DB_TABLE_OPTIONS')) {
-            define('MW_DB_TABLE_OPTIONS', $tables['options']);
-        }
-    }
+
 
     public function get_all($params = '')
     {
@@ -65,7 +53,7 @@ class OptionManager
 
 
         $data = $params;
-        $table = $this->tables['options'];
+        $table = 'options';
         //  $data['debug'] = 1000;
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
@@ -91,7 +79,7 @@ class OptionManager
 
     public function get_groups($is_system = false)
     {
-        $table = $this->tables['options'];
+        $table = 'options';
         //$query = $this->app->database_manager->table($table);
 
         $query = new \MicroweberPackages\Option\Models\Option();
@@ -372,7 +360,7 @@ class OptionManager
                             if (isset($chck[0]) and isset($chck[0]['id'])) {
                                 $data['id'] = $chck[0]['id'];
                             } else {
-                                $table = $this->tables['options'];
+                                $table = 'options';
                                 $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                                 $this->clear_memory();
@@ -399,7 +387,7 @@ class OptionManager
                 }
             }
 
-            $table = $this->tables['options'];
+            $table = 'options';
             if (isset($data['field_values']) and $data['field_values'] != false) {
                 $data['field_values'] = base64_encode(serialize($data['field_values']));
             }
@@ -421,7 +409,7 @@ class OptionManager
 
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
-                $data['table'] = $this->tables['options'];
+                $data['table'] = 'options';
 
                 // $this->app->event_manager->trigger('option.before.save', $data);
 
@@ -528,7 +516,7 @@ class OptionManager
         }
 
         if (mw_is_installed() == true) {
-            $table = $this->tables['options'];
+            $table = 'options';
             $ttl = now()->addYear(1);
 
             $cache_key = $table . '_items_per_page_' . $group;

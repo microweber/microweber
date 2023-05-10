@@ -21,6 +21,12 @@ use MicroweberPackages\Tag\TranslateTables\TranslateTaggingTags;
 
 class TagsManagerServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/migrations/');
+
+    }
+
     /**
      * Bootstrap the application services.
      *

@@ -105,7 +105,7 @@ class CategoryTreeData
             $orderby = false;
         }
 
-        $table = $this->app->category_manager->tables['categories'];
+        $table = 'categories';
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
         }
@@ -374,9 +374,9 @@ class CategoryTreeData
             }
         }
 
-         $db_t_content = $this->app->category_manager->tables['content'];
+         $db_t_content = 'content';
 
-        $table = $db_categories = $this->app->category_manager->tables['categories'];
+        $table = $db_categories = 'categories';
         $parent = intval($parent);
 
         $ids_add_q = array();

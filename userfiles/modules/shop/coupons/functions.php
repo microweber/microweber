@@ -122,11 +122,11 @@ function coupons_save_coupon($couponData = array())
         }
     }
 
-    if (!empty(trim($couponData['coupon_code']))) {
+    if (empty(trim($couponData['coupon_code']))) {
         $errorMessage .= _e('Coupon code is empty', true) . '.<br />';
     }
 
-    if (!empty(trim($couponData['coupon_name']))) {
+    if (empty(trim($couponData['coupon_name']))) {
         $errorMessage .= _e('Coupon name is empty', true) . '.<br />';
     }
 

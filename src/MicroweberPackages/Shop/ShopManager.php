@@ -336,7 +336,7 @@ class ShopManager
         if ($adm == false) {
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = $this->tables['cart_orders'];
+        $table = 'cart_orders';
         if (isset($data['email'])) {
             $c_id = $this->app->database_manager->escape_string($data['email']);
             $res = $this->app->database_manager->delete_by_id($table, $c_id, 'email');

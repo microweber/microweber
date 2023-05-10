@@ -36,21 +36,9 @@ class MenuManager
                 $this->app = mw();
             }
         }
-        $this->set_table_names();
-    }
+     }
 
-    /**
-     * Sets the database table names to use by the class.
-     *
-     * @param array|bool $tables
-     */
-    public function set_table_names($tables = [])
-    {
-        if (!isset($tables['menus'])) {
-            $tables['menus'] = 'menus';
-        }
-        $this->tables['menus'] = $tables['menus'];
-    }
+
 
     public function menu_create($data_to_save)
     {
@@ -66,7 +54,7 @@ class MenuManager
         if (isset($data_to_save['menu_id'])) {
             $data_to_save['id'] = intval($data_to_save['menu_id']);
         }
-        $table = $this->tables['menus'];
+        $table = 'menus';
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu';
         if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
@@ -241,7 +229,7 @@ class MenuManager
         $params_order = array();
         $params_order['position'] = 'ASC';
 
-        $menus = $this->tables['menus'];
+        $menus = 'menus';
 
       //  $menu_params = array();
     //    $menu_params['parent_id'] = $menu_id;
@@ -914,7 +902,7 @@ class MenuManager
 
         $id = $this->app->database_manager->escape_string($id);
         $id = htmlspecialchars_decode($id);
-        $table = $this->tables['menus'];
+        $table = 'menus';
 
         $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
 
@@ -926,7 +914,7 @@ class MenuManager
     public function menu_item_get($id)
     {
         $id = intval($id);
-        $table = $this->tables['menus'];
+        $table = 'menus';
 
         return db_get("one=1&limit=1&table=$table&id=$id");
     }
@@ -939,7 +927,7 @@ class MenuManager
         if (!isset($id) or $id == false or intval($id) == 0) {
             return false;
         }
-        $table = $this->tables['menus'];
+        $table = 'menus';
         $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
         $this->app->cache_manager->delete('menus');
 
@@ -956,7 +944,7 @@ class MenuManager
                     $k = intval($k);
                     $value2 = intval($value2);
 
-                    \DB::table($this->tables['menus'])->whereId($value2)->where('id', '!=', $k)->whereItemType('menu_item')->update(['parent_id' => $k]);
+                    \DB::table('menus')->whereId($value2)->where('id', '!=', $k)->whereItemType('menu_item')->update(['parent_id' => $k]);
 
                     $this->app->cache_manager->delete('menus/' . $k);
                     $this->app->cache_manager->delete('menus/' . $value2);
@@ -1004,7 +992,7 @@ class MenuManager
 
     public function get_menu_items($params = false)
     {
-        $table = $this->tables['menus'];
+        $table = 'menus';
         if (is_string($params)) {
             $params = parse_params($params);
         }

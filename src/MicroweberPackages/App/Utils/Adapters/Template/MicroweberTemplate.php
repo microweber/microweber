@@ -652,7 +652,7 @@
 //                if ($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
 //                    $t_dir = ACTIVE_TEMPLATE_DIR;
 //                    if (isset($page['active_site_template'])) {
-//                        $t_dir = templates_path().DS.$page['active_site_template'].DS;
+//                        $t_dir = templates_dir().DS.$page['active_site_template'].DS;
 //                        $t_dir = normalize_path($t_dir, 1);
 //                    }
 //

@@ -91,10 +91,7 @@ function session_all()
     return app()->user_manager->session_all();
 }
 
-function api_login($api_key = false)
-{
-    return app()->user_manager->api_login($api_key);
-}
+
 
 
 function user_social_login($params)
