@@ -76,24 +76,8 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
            if (!empty($allOffers)):
            ?>
 
-           <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-               <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e('List of Offers'); ?></a>
-               <?php if ($from_live_edit) : ?>
-                   <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#templates">   <?php _e('Templates'); ?></a>
-               <?php endif; ?>
-           </nav>
+            <module type="shop/offers/edit_offers"/>
 
-           <div class="tab-content py-3">
-               <div class="tab-pane fade show active" id="list">
-                   <module type="shop/offers/edit_offers"/>
-               </div>
-
-               <?php if ($from_live_edit) : ?>
-                   <div class="tab-pane fade" id="templates">
-                       <module type="admin/modules/templates"/>
-                   </div>
-               <?php endif; ?>
-           </div>
 
            <?php else: ?>
 

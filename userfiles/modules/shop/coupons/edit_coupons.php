@@ -15,7 +15,7 @@
         <?php
         if ($allCoupons): ?>
             <?php foreach ($allCoupons as $coupon): ?>
-                <tr<?php if ($coupon['is_active'] == 1): ?> class="js-table-active text-teal-fg bg-green" <?php else: ?> class="js-table-inactive text-red-fg bg-red" <?php endif; ?>>
+                <tr<?php if ($coupon['is_active'] == 1): ?> class="js-table-active" <?php else: ?> class="js-table-inactive" <?php endif; ?>>
 
                     <td><?php print($coupon['coupon_name']) ?></td>
                     <td><?php print($coupon['coupon_code']) ?></td>
