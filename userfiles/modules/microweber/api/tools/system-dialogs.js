@@ -1,6 +1,6 @@
 mw.tools.alert = function (text) {
     var html = ''
-        + '<table class="mw_alert" width="100%" height="140" cellpadding="0" cellspacing="0">'
+        + '<table class="mw_alert" width="100%" cellpadding="0" cellspacing="0">'
         + '<tr>'
         + '<td align="center" valign="middle"><div class="mw-alert-holder">' + text + '</div></td>'
         + '</tr>'
@@ -12,7 +12,7 @@ mw.tools.alert = function (text) {
         return mw.dialog({
             html: html,
             width: 400,
-            height: 200,
+            height: "auto",
             overlay: false,
             name: "mw_alert",
             template: "mw_modal_basic"
