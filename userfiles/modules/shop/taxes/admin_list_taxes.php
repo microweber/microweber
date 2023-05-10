@@ -451,6 +451,8 @@ $defined_taxes = mw()->tax_manager->get();
             You don't have any taxes.
         </h1>
 
+        <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
+
 
     </div>
 
