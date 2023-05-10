@@ -45,7 +45,7 @@
         var html = el.find('.js-modal-content').html();
         var formId = mw.id('pm');
         var modal = mw.dialog({
-            content: '<form id="'+formId+'">' + html + '</form>',
+            content: '<div id="'+formId+'">' + html + '</div>',
             onremove: function () {
                 html = modal.container.innerHTML;
                 $(document.body).removeClass('paymentSettingsModal')
