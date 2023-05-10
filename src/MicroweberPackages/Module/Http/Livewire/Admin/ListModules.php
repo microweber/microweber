@@ -20,6 +20,7 @@ class ListModules extends Component
         'page',
         'type',
         'installed',
+        'groupByCategories',
     ];
 
     public function toggleGroupByCategories()
