@@ -138,57 +138,54 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Offer price"); ?> </label>
         <div class="d-flex align-items-center">
-            <span class="d-block fs-3 me-2">
-                <?php print mw()->shop_manager->currency_symbol(); ?>
-            </span>
-            <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
 
+            <div class="input-group mb-2">
+                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol(); ?></span>
+                <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
+            </div>
         </div>
          <div class="js-field-message"></div>
     </div>
 
-    <?php if ($addNew) { ?>
-        <div class="form-group">
-            <label class="form-label"><?php _e("Offer start at"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("The date when the offer will be created"); ?></small>
-            <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
-        </div>
-    <?php } else { ?>
-        <div class="mw-ui-row">
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Offer start at"); ?></label>
-                        <p><?php print date_system_format($data['created_at']); ?></p>
+    <div class="d-flex">
+        <?php if ($addNew) { ?>
+            <div class="form-group col-xl-6 pe-xl-2">
+                <label class="form-label"><?php _e("Offer start at"); ?></label>
+                <small class="text-muted d-block mb-2"><?php _e("Date to start"); ?></small>
+                <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
+            </div>
+        <?php } else { ?>
+            <div class="mw-ui-row">
+                <div class="mw-ui-col">
+                    <div class="mw-ui-col-container">
+                        <div class="form-group">
+                            <label class="form-label"><?php _e("Offer start at"); ?></label>
+                            <p><?php print date_system_format($data['created_at']); ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mw-ui-col">
+                    <div class="mw-ui-col-container">
+                        <div class="form-group">
+                            <label class="form-label"><?php _e("Updated date"); ?></label>
+                            <p><?php print date_system_format($data['updated_at']); ?></p>
+                            <div class="js-field-message"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Updated date"); ?></label>
-                        <p><?php print date_system_format($data['updated_at']); ?></p>
-                        <div class="js-field-message"></div>
-                    </div>
-                </div>
+        <?php } ?>
+
+        <div class="form-group col-xl-6 ps-xl-2">
+            <label class="form-label"><?php _e("Offer expiration date"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Expire date"); ?></small>
+
+            <div class="js-exp-date-holder">
+                <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
             </div>
+
+            <div class="js-field-message"></div>
         </div>
-    <?php } ?>
-
-    <div class="form-group">
-        <label class="form-label"><?php _e("Offer expiry at"); ?></label>
-        <small class="text-muted d-block mb-2"><?php _e("The date when the offer will expire"); ?></small>
-
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="form-check-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
-            <label class="custom-control-label mb-3" for="expiration-checkbox"><?php _e('Has expiration date');?></label>
-        </div>
-
-        <div class="js-exp-date-holder">
-            <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
-        </div>
-
-        <div class="js-field-message"></div>
     </div>
 
 
