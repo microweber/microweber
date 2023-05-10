@@ -19,11 +19,13 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
            <div class="card-header d-flex align-items-center justify-content-between px-0 pb-md-0">
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
 
-
                <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
-
-
            </div>
+
+           <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
+               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?> />
+               &nbsp; <?php _e('Enable'); ?>
+           </label>
 
 
            <script>
