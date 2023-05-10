@@ -148,44 +148,22 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     </div>
 
     <div class="d-flex">
-        <?php if ($addNew) { ?>
-            <div class="form-group col-xl-6 pe-xl-2">
-                <label class="form-label"><?php _e("Offer start at"); ?></label>
-                <small class="text-muted d-block mb-2"><?php _e("Date to start"); ?></small>
-                <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
-            </div>
-        <?php } else { ?>
-            <div class="mw-ui-row">
-                <div class="mw-ui-col">
-                    <div class="mw-ui-col-container">
-                        <div class="form-group">
-                            <label class="form-label"><?php _e("Offer start at"); ?></label>
-                            <p><?php print date_system_format($data['created_at']); ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="mw-ui-col">
-                    <div class="mw-ui-col-container">
-                        <div class="form-group">
-                            <label class="form-label"><?php _e("Updated date"); ?></label>
-                            <p><?php print date_system_format($data['updated_at']); ?></p>
-                            <div class="js-field-message"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
+
+        <div class="form-group col-xl-6 pe-xl-2">
+            <label class="form-label"><?php _e("Offer start at"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Date to start"); ?></small>
+            <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
+        </div>
 
         <div class="form-group col-xl-6 ps-xl-2">
             <label class="form-label"><?php _e("Offer expiration date"); ?></label>
             <small class="text-muted d-block mb-2"><?php _e("Expire date"); ?></small>
-
             <div class="js-exp-date-holder">
                 <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
             </div>
-
             <div class="js-field-message"></div>
         </div>
+
     </div>
 
 
