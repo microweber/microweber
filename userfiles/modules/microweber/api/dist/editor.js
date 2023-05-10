@@ -1434,14 +1434,14 @@ MWEditor.controllers = {
                 var ok = MWEditor.core.element({
                     tag: 'span',
                     props: {
-                        className: 'mw-ui-btn mw-ui-btn-info',
+                        className: 'btn btn-primary',
                         innerHTML: rootScope.lang('OK')
                     }
                 });
                 var cancel = MWEditor.core.element({
                     tag: 'span',
                     props: {
-                        className: 'mw-ui-btn',
+                        className: 'btn',
                         innerHTML: rootScope.lang('Cancel')
                     }
                 });

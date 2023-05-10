@@ -334,8 +334,8 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: #fff;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: var(--tblr-bg-surface);
+    box-shadow: rgba(41, 41, 46, 0.2) 0px 7px 29px 0px;
     z-index: 10;
     transition: .3s;
     opacity: 0;
@@ -374,9 +374,7 @@
     font-size: 14px;
     font-weight: normal;
 }
-.mw-file-manager-add-node:hover{
-    background-color: #efefef;
-}
+ 
 .mw-file-manager-add-node > :first-child{
     display: block;
     padding: 10px;

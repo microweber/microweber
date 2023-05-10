@@ -278,7 +278,8 @@ $editorSpacing: 5px;
 
 .mw-editor-frame-area,
 .mw-editor-area{
-    background-color: #fff;
+    background-color: var(--tblr-code-bg);
+     color: var(--tblr-code-color);
     padding: $editorSpacing;
     min-height: 100px;
     overflow: auto;
@@ -295,7 +296,7 @@ $editorSpacing: 5px;
         position: relative;
     }
     &.mw-editor-default{
-        border:1px solid #DDDDDD;
+        border:1px solid var(--tblr-border-color);;
         border-radius: 5px;
         .mw-bar-row:first-child{
             border-radius: 5px 5px 0 0;
@@ -303,7 +304,7 @@ $editorSpacing: 5px;
         .mw-editor-iframe-area,
         .mw-editor-area{
             border-radius: 0 0 5px 5px;
-            color: #111;
+        
         }
 
         .mw-editor-controller-component-select{
@@ -322,17 +323,17 @@ $editorSpacing: 5px;
 
             &.mw-editor-dropdown-option-active:hover,
             &.mw-editor-dropdown-option-active{
-                background-color: rgba(156, 217, 255, 1);
+                background-color: var(--tblr-body-bg);
             }
             &:hover{
-                background-color: #f7f7f7;
+                background-color: var(--tblr-body-bg);
             }
         }
         .mw-editor-controller-button{
 
             &:hover{
-                background-color: rgba(255,255,255,.77);
-                border-color: rgba(255,255,255,.87);
+                background-color: var(--tblr-body-bg);
+                border-color: var(--tblr-bg-surface);
             }
         }
     }
@@ -439,8 +440,8 @@ $editorSpacing: 5px;
         align-items: center;
     }
     .mw-bar-row {
-        border-bottom:1px solid #DDDDDD;
-        background-color: rgba(247,247,247, 1);
+        border-bottom:1px solid var(--tblr-border-color);;
+        background-color: var(--tblr-bg-surface);
         padding: $editorSpacing;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -477,7 +478,7 @@ $editorSpacing: 5px;
                     white-space: nowrap;
                     box-shadow:  0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.20);
                     padding: $editorSpacing;
-                    background-color: #F5F5F5;
+                    background-color: var(--tblr-bg-surface);
                     z-index: 15;
 
                 }
@@ -498,8 +499,8 @@ $editorSpacing: 5px;
         height: 16px;
         width: 2px;
         margin: 2px;
-        background-color: #b7b7b7;
-        border-left: 1px solid #eaeaea;
+        background-color: var(--tblr-border-color);;
+         
         vertical-align: middle;
     }
 }
@@ -521,7 +522,7 @@ $editorSpacing: 5px;
     position: relative;
     text-decoration: none;
     border-radius: 2px;
-    color: #686868;
+    color: var(--tblr-body-color);
     border: 1px solid transparent;
     outline: 0;
     white-space: nowrap;
@@ -557,7 +558,7 @@ $editorSpacing: 5px;
         .mw-editor-group-button-icon{
             vertical-align: middle;
             font-size: 20px;
-            color: #2b2b2b;
+        
             svg{
                 width: 20px;
             }
@@ -598,8 +599,8 @@ $editorSpacing: 5px;
         position: absolute;
         top: 100%;
         left: 0;
-        background: #fff;
-        border: 1px solid #ccc;
+        background-color: var(--tblr-bg-surface);
+        border: 1px solid var(--tblr-border-color);
         opacity: 0;
         visibility: hidden;
         transition: .3s;
@@ -609,15 +610,7 @@ $editorSpacing: 5px;
         overflow: auto;
         max-height: calc(100vh - 200px);
         min-height: 100px;
-        &::-webkit-scrollbar {
-            width: 7px;
-        }
-        &::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: #ccc;
-        }
+ 
     }
     &.active{
         z-index: 10;

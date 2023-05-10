@@ -1,8 +1,8 @@
 <?php must_have_access(); ?>
-
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>omnipay_authorize_aim.svg" style="width: 40px; margin-top: -70px;"/>
-</div>
+<!---->
+<!--<div class="mb-3 float-right">-->
+<!--    <img src="--><?php //print $config['url_to_module'] ?><!--omnipay_authorize_aim.svg" style="width: 40px; margin-top: -70px;"/>-->
+<!--</div>-->
 
 <div class="clearfix"></div>
 
