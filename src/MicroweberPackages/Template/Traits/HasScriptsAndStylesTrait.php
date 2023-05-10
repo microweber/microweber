@@ -9,7 +9,7 @@ trait HasScriptsAndStylesTrait
     public array $customHeadTags = [];
 
 
-    public function headTags()
+    public function headTags() : string
     {
         $tags = [];
 
@@ -24,9 +24,9 @@ trait HasScriptsAndStylesTrait
     /**
      * Adds a CSS stylesheet url to the page
      *
-     * @param string id The id of the style.
-     * @param string src The url of the stylesheet.
-     * @param array attributes An array of attributes to add to the script tag.
+     * @param string $id The id of the style.
+     * @param string $src The url of the stylesheet.
+     * @param array $attributes An array of attributes to add to the script tag.
      */
     public function addStyle(string $id, string $src, array $attributes = []): void
     {
@@ -40,7 +40,7 @@ trait HasScriptsAndStylesTrait
     /**
      * Removes a style from the styles array by id
      *
-     * @param string id The id of the style you want to remove.
+     * @param string $id The id of the style you want to remove.
      */
     public function removeStyle(string $id): void
     {
