@@ -6,6 +6,14 @@
 
 <div class="clearfix"></div>
 
+
+<?php if (get_option('payment_gw_shop/payments/gateways/paypal', 'payments')): ?>
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-green me-2"></span>
+        <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+    </div>
+<?php endif; ?>
+
 <div class="form-group d-flex align-items-center justify-content-between">
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>
 

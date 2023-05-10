@@ -40,7 +40,8 @@
         }
     }
 
-    paymentModal = function (el) {
+    paymentModal = function (el, id) {
+
         el = $(el);
         var html = el.find('.js-modal-content').html();
         var formId = mw.id('pm');
@@ -63,6 +64,8 @@
             mw.notification.success("<?php _ejs("Shop settings are saved"); ?>.");
             mw.reload_module_everywhere("shop/payments/admin");
         });
+
+        mw.reload_module_everywhere('#module-shop-payments-id-' + id);
     }
 
     $(document).ready(function () {
@@ -169,7 +172,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                   </div>
 
                                   <div class="col text-end text-right text-right">
-                                      <button type="button" onclick="paymentModal('#module-db-id-<?php print $module_info['id'] ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
+                                      <button type="button" onclick="paymentModal('#module-db-id-<?php print $module_info['id'] ?>', '<?php print $module_info['id'] ?>');" class="btn btn-outline-primary btn-sm"><?php _e('Settings'); ?></button>
                                   </div>
                               </div>
 
@@ -178,9 +181,10 @@ $payment_modules = get_modules('type=payment_gateway');
 <!--                                  <small class="text-muted mb-3 d-block">--><?php //_e("Ask your payment provider for this information and put it below"); ?><!--</small>-->
 
                                   <div class="mw-set-payment-gw-options">
-                                      <module type="<?php print $payment_module['module'] ?>" view="admin"/>
+                                      <module id="module-shop-payments-id-<?php print $module_info['id'] ?>" type="<?php print $payment_module['module'] ?>" view="admin"/>
                                   </div>
                               </template>
+
                           </div>
                           <script>
                               $(document).ready(function () {
@@ -189,6 +193,7 @@ $payment_modules = get_modules('type=payment_gateway');
                                   });
                               });
                           </script>
+
                       <?php endforeach; ?>
                   </div>
               <?php endif; ?>

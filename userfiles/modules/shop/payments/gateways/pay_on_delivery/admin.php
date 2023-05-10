@@ -4,6 +4,14 @@
 <!--    <img src="--><?php //print $config['url_to_module'] ?><!--pay_on_delivery.svg"  style="width: 60px; margin-top: -70px;"/>-->
 <!--</div>-->
 
+<?php if (get_option('payment_gw_shop/payments/gateways/pay_on_delivery', 'payments')): ?>
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-green me-2"></span>
+        <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+    </div>
+<?php endif; ?>
+
+
 <div class="form-group d-flex align-items-center justify-content-between">
     <div>
         <label class="form-label d-block"><?php _e("Additional message to the user") ?></label>

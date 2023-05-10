@@ -6,6 +6,14 @@
 
 <div class="clearfix"></div>
 
+<?php if (get_option('payment_gw_shop/payments/gateways/omnipay_przelewy24', 'payments')): ?>
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-green me-2"></span>
+        <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+    </div>
+<?php endif; ?>
+
+
 <div class="form-group">
     <label class="form-label">Merchant Id: </label>
     <input type="text" class="mw_option_field form-control" name="przelewy24_merchant_id" placeholder="" data-option-group="payments" value="<?php print get_option('przelewy24_merchant_id', 'payments'); ?>">
