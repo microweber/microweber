@@ -446,7 +446,8 @@ $defined_taxes = mw()->tax_manager->get();
                     </g>
                 </g>
             </g>
-</svg>         <h1 style="font-weight: 600;" class="text-center">
+</svg>
+        <h1 style="font-weight: 600;" class="text-center">
             You don't have any taxes.
         </h1>
 
