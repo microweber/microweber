@@ -160,7 +160,7 @@ $lang = mw()->lang_helper->current_lang();
                     }
                     ?>
 
-                    <div class="card bg-azure-lt">
+                    <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
                                 <li class="nav-item" role="presentation">
