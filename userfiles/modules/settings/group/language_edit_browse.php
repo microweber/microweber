@@ -161,8 +161,7 @@ endif;
         </button>
     </div>
 
-        <div class="collapse collapsed show" id="language-edit-<?php echo $namespaceMd5;?>">
-
+        <div class="collapse <?php if(isset($filter['co'])) { echo "collapsed show"; } ?>" id="language-edit-<?php echo $namespaceMd5;?>">
 
         <div class="d-flex justify-content-between align-items-center">
             <div>
