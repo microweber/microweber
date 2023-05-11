@@ -1,6 +1,6 @@
 <div class="col-md-3 p-3" wire:key="{{$module->id}}-{{md5($module->module)}}">
-    <div class="card" style="min-height:170px">
-        <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
+    <div class="card modules-card" style="min-height:170px">
+        <div class="card-body text-center d-flex align-items-center justify-content-center flex-column position-relative">
             <a href="{{module_admin_url($module->module)}}">
                 <div class="mx-auto mb-2" style="width: 40px;height: 40px">
                     {!! $module->getIconInline() !!}
@@ -11,9 +11,7 @@
             </a>
 
             @if($module->installed == 1)
-                <button wire:click="$emit('openModal', 'admin-ask-for-module-uninstall-modal', {{ json_encode(['moduleId' => $module->id]) }})" type="button" class="btn btn-sm btn-outline-danger">
-                    Uninstall
-                </button>
+                <span wire:click="$emit('openModal', 'admin-ask-for-module-uninstall-modal', {{ json_encode(['moduleId' => $module->id]) }})" type="button" class="mdi mdi-close text-danger modules-uninstall-button"></span>
             @endif
 
             @if($module->installed == 0)

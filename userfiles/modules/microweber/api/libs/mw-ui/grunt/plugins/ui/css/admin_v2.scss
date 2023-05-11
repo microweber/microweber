@@ -898,3 +898,20 @@ input[type=number] {
         color: var(--tblr-white);
     }
 }
+
+.modules-card {
+    .modules-uninstall-button {
+        visibility: hidden;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+
+    &:hover {
+        .modules-uninstall-button {
+            visibility: visible;
+        }
+    }
+}
+
