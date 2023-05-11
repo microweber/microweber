@@ -153,7 +153,8 @@
 
         var params_url = $.extend({}, params, additional_params);
 
-        var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+    //    var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+        var src =  route('live_edit.module_settings') + '?' + json2url(params_url);
 
 
         modalOptions = modalOptions || {};
