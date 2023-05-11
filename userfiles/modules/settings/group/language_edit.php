@@ -184,7 +184,7 @@ $lang = mw()->lang_helper->current_lang();
                                                 translation_namespace="<?php echo $translation['translation_namespace']; ?>"
                                                 translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
                                     <?php endforeach; ?>
-                                    
+
                                 </div>
                                 <div class="tab-pane" id="tabs-profile-11" role="tabpanel">
 
