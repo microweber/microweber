@@ -35,21 +35,7 @@ if(empty($supportedLanguages)){
 }
 $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGroupedTranslations($filter);
 ?>
-<script>
 
-    <?php
-    if (empty($getTranslations['results'])):
-    ?>
-    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeOut();
-    <?php
-   else:
-    ?>
-    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeIn();
-    <?php
-    endif;
-    ?>
-
-</script>
 
 <script>
 
@@ -79,13 +65,6 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
         mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>', function () {
             mw.tools.loading('.js-language-edit-browse-<?php echo $namespaceMd5;?>',false)
         });
-
-        setTimeout(function() {
-            $('.js-lang-edit-form-messages').html('');
-            if ($('.js-language-edit-browse-module:hidden').size() == $('.js-language-edit-browse-module').size()) {
-                $('.js-lang-edit-form-messages').html('<div class="alert alert-warning"><?php _e('No results found');?></div>');
-            }
-        }, 2000);
     }
 
     $(document).ready(function () {
