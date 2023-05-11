@@ -43,10 +43,13 @@ $allOffers = app()->offer_repository->getAll();
                     $expired = false;
                     $class_status = ($offer['is_active'] == 1 ? 'status-active' : 'status-inactive');
                     $class_status_badge = ($offer['is_active'] == 1 ? 'badge bg-success' : 'badge bg-warning');
-                    if (now() > $offer['expires_at']) {
-                        $class_status = 'status-inactive';
-                        $class_status_badge = 'badge bg-warning';
-                        $expired = true;
+
+                    if ($offer['expires_at'] and $offer['expires_at'] != '0000-00-00 00:00:00' ) {
+                        if (now() > $offer['expires_at']) {
+                            $class_status = 'status-inactive';
+                            $class_status_badge = 'badge bg-warning';
+                            $expired = true;
+                        }
                     }
                     ?>
 
@@ -57,7 +60,7 @@ $allOffers = app()->offer_repository->getAll();
                         <?php if ($expired): ?>
                             <?php _e('Expired'); ?>
                         <?php else: ?>
-                        
+
                            <?php print($offer['is_active'] == 1 ? 'Active' : 'Inactive') ?>
                         <?php endif; ?>
 

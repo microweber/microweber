@@ -120,7 +120,8 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
                     selected: [
                         {
                             id: '<?php print $data['product_id']; ?>|<?php print $data['price_id']; ?>',
-                            title: '<?php print content_title($data['product_id']); ?>',
+                            title: '<?php print content_title($data['product_id']); ?> | <?php print currency_format(get_product_price($data['product_id'])); ?>',
+                            image: '<?php print get_picture($data['product_id']); ?>'
                         }
                     ]
                 });
@@ -165,7 +166,6 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
         </div>
 
     </div>
-
 
     <div class="d-flex justify-content-between align-items-center">
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>

@@ -59,7 +59,7 @@ class OfferApiController extends Controller
                     $options[] = [
                         'id' => $product_id . '|' . $a_price['id'],
                         'picture'=> get_picture($product->id),
-                        'title' => $product->title . ' | ' . $a_price['name'] . ' : ' . mw()->shop_manager->currency_symbol() . ' ' . $a_price['values_plain']
+                        'title' => $product->title . ' | '. currency_format($a_price['values_plain'])
                     ];
 
                 }
