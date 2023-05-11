@@ -582,7 +582,8 @@
             input._data = element._data;
             input.value = element._data.id;
             input.name = this.list.id;
-            label.className = 'mw-ui-check';
+            input.className = 'form-check-input';
+            label.className = 'form-check';
 
             label.appendChild(input);
 
@@ -857,7 +858,7 @@
             var container = scope.document.createElement('span');
             container.className = "mw-tree-item-content";
             var titleNode = document.createElement('span');
-            titleNode.className = 'mw-tree-item-title';
+            titleNode.className = 'form-check-label mw-tree-item-title';
             titleNode.innerHTML = iconResolver(item) + item.title;
             if(!item.is_active){
                 titleNode.title = mw.lang('Category is hidden');

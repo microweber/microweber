@@ -690,7 +690,7 @@
         };
 
         this.singleListView = function (item) {
-            var row = mw.element({ tag: 'tr' });
+            var row = mw.element({ tag: 'tr', props: {className: 'mw-file-manager-list-item-type--' + item.type} });
             var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
             var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell'} });
             var cellSize = mw.element({ tag: 'td', content: _size(item), props: {className: 'mw-file-manager-list-item-size-cell'} });
@@ -755,11 +755,22 @@
                 globalcheck.input.prop('checked', false);
             }
 
+            let isLastFolder = false;
             scope.getItems().forEach(function (item) {
                 var row = scope.singleListView(item);
+                
                 rows.push({data: item, row: row});
                 tableBody.append(row);
+                if(!isLastFolder && item.type === 'file') {
+                    row.before('<hr class="mw-file-manager-list-item-type--types-delimitter">');
+                    isLastFolder = true;
+                }
             });
+            var folders = tableBody.find('.mw-file-manager-list-item-type--folder');
+            if(folders.nodes.length) {
+                folders.nodes[folders.nodes.length - 1].classList.add('mw-file-manager-list-item-type--folder-last');
+                mw.element(folders.nodes[folders.nodes.length - 1]).after
+            }
         };
 
 

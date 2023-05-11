@@ -129,7 +129,7 @@ $payment_modules = get_modules('type=payment_gateway');
             <div class="card-header d-block px-0">
                 <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
 
-                <p class="text-muted m-3 d-block"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
+                <p class="text-muted d-block"><?php _e("Enable and set up the payment method your customers will use to pay"); ?></p>
             </div>
 
           <div class="card bg-azure-lt " id="db-payment-methods">

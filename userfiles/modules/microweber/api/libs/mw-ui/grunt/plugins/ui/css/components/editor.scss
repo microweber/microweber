@@ -278,8 +278,8 @@ $editorSpacing: 5px;
 
 .mw-editor-frame-area,
 .mw-editor-area{
-    background-color: var(--tblr-code-bg);
-     color: var(--tblr-code-color);
+    background-color: var(--tblr-bg-forms);
+     color: var(--tblr-body-color);
     padding: $editorSpacing;
     min-height: 100px;
     overflow: auto;
