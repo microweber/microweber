@@ -127,11 +127,10 @@ window.LivewireUIBootstrapModal = () => {
             this.show = show;
 
             if (show) {
-
-                var livewireUiModal = new bootstrap.Modal(document.getElementById('livewire-ui-modal'),
-                    {show:true, backdrop: 'static', focus:false, keyboard: false});
-                livewireUiModal.show();
-                
+                $(document.body).find('#livewire-ui-modal').modal('show', {
+                    keyboard:false,
+                    focus:false
+                });
             } else {
                 $(document.body).find('#livewire-ui-modal').modal('hide');
 
