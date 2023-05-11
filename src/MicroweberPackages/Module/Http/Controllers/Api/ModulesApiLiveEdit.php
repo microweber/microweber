@@ -389,7 +389,7 @@ class ModulesApiLiveEdit extends Controller
                             'screenshot' => isset($dynamic_layout['screenshot']) ? $dynamic_layout['screenshot'] : '',
                             'description_raw' => $dynamic_layout['description'],
                             'description' => addslashes($dynamic_layout['description']),
-                            'title' => titlelize(_e($dynamic_layout['name'], true)),
+                            'title' => titlelize($dynamic_layout['name']),
                         ];
                     }
                 }
