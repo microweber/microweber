@@ -11,18 +11,12 @@
             </a>
 
             @if($module->installed == 1)
-                @if($confirmUnistallId == $module->id)
-                    <button wire:click="uninstall('{{$module->id}}')" wire:target="uninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
-                        <div wire:loading wire:target="uninstall('{{$module->id}}')" class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Uninstalling...</span>
-                        </div>
-                        Confirm Uninstall
-                    </button>
-                @else
-                    <button wire:click="confirmUninstall('{{$module->id}}')" wire:target="confirmUninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
-                        Uninstall
-                    </button>
-                @endif
+                <button wire:click="uninstall('{{$module->id}}')" wire:target="uninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
+                    <div wire:loading wire:target="uninstall('{{$module->id}}')" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Uninstalling...</span>
+                    </div>
+                    Uninstall
+                </button>
             @endif
 
             @if($module->installed == 0)
