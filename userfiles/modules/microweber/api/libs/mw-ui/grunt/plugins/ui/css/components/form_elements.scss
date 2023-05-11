@@ -72,8 +72,8 @@ select.mw-ui-invisible-field {
     font-size: $normalFontSize;
     font-weight: 400;
     line-height: 1.5;
-    color: #2b2b2b;
-    background-color: #fff;
+    color: var(--tblr-body-color);
+    background-color: var(--tblr-bg-forms);
     background-clip: padding-box;
     border: 1px solid #cfcfcf;
     border-radius: 5px;

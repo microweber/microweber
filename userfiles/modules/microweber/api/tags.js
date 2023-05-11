@@ -49,6 +49,8 @@ mw.tags = mw.chips = function(options){
         this.refresh();
     };
     this.rend = function(){
+        scope.options.element.classList.add('mw-tags--container', 'd-flex', 'flex-wrap', 'gap-3')
+ 
          $.each(this.options.data, function(i){
             var data = $.extend({index:i}, this);
             scope.options.element.appendChild(scope.tag(data));
@@ -155,8 +157,10 @@ mw.tags = mw.chips = function(options){
         else{
             icon = ic;
         }
+        icon = mw.element(icon).get(0);
+     
 
-        return mw.$(icon)[0];
+        return icon;
      };
 
      this.removeTag = function (index) {
@@ -216,7 +220,7 @@ mw.tags = mw.chips = function(options){
 
             $.extend(config, options);
 
-         config.tagBtnClass +=  ' mb-2 mr-2 btn';
+         config.tagBtnClass +=  '  btn';
 
          if (this.options.outline){
              config.tagBtnClass +=  '-outline';
@@ -241,13 +245,13 @@ mw.tags = mw.chips = function(options){
             tag_holder._config = config;
             tag_holder.dataset.index = config.index;
 
-            tag_holder.className = config.tagBtnClass;
+            tag_holder.className = 'btn-group';
 
              if(options.image){
 
              }
 
-            tag_holder.innerHTML = '<span class="tag-label-content">' + this.dataTitle(config) + '</span>';
+            tag_holder.innerHTML = '<span class="' + config.tagBtnClass + '">' + this.dataTitle(config) + '</span>';
 
              if(typeof this.options.disableItem === 'function') {
                  if(this.options.disableItem(config)){
@@ -265,10 +269,10 @@ mw.tags = mw.chips = function(options){
             var image = this.createImage(config);
 
              if(image){
-                 mw.$(tag_holder).prepend(image);
+                 mw.$(':first-child', tag_holder).prepend(image);
              }
              if(icon){
-                 mw.$(tag_holder).prepend(icon);
+                 mw.$(':first-child', tag_holder).prepend(icon);
              }
 
 
@@ -279,7 +283,15 @@ mw.tags = mw.chips = function(options){
                 }
             };
 
-            tag_close.className = 'mw-icon-close ml-1';
+            tag_close.className = config.tagBtnClass + ' btn-icon';
+            tag_close.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M4 7l16 0"></path>
+            <path d="M10 11l0 6"></path>
+            <path d="M14 11l0 6"></path>
+            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+         </svg>`;
             if(config.close){
                 tag_close.onclick = function () {
                     scope.removeTag(this._index);

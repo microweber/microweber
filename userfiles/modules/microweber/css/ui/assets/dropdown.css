@@ -181,19 +181,7 @@
   max-width: 100%;
   width: 100%;
 }
-.mw-select ::-webkit-scrollbar {
-  width: 5px;
-}
-.mw-select ::-webkit-scrollbar-track {
-  background: transparent;
-}
-.mw-select ::-webkit-scrollbar-thumb {
-  background: #2b2b2b;
-  border-radius: 55px;
-}
-.mw-select ::-webkit-scrollbar-thumb:hover {
-  background: #222;
-}
+ 
 .mw-select .mw-select-options {
   visibility: hidden;
   opacity: 0;
