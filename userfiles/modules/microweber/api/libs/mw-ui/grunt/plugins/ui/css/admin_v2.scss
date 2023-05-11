@@ -218,6 +218,12 @@ body, .is_admin {
 }
 
 .module {
+    .main-pages-title {
+        margin: unset;
+    }
+}
+
+.module {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
@@ -914,4 +920,11 @@ input[type=number] {
         }
     }
 }
+
+.offers-table {
+    td.min-width-100 {
+        min-width: 100px;
+    }
+}
+
 
