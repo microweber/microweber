@@ -48,8 +48,7 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     <?php
     endif;
     ?>
-
-    $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
+    
 </script>
 
 <script>
