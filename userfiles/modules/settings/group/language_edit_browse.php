@@ -137,8 +137,9 @@ endif;
 ?>
 
 
-    <div class="p-3" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
-        <button type="button" class="btn btn-outline-primary btn-sm js-lang-file-position" type="button" >
+    <div class="py-3 d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
+        <label for="" class="form-label  mb-0"><?php _e("Language group") ?>:</label>
+        <button type="button" class="btn btn-link btn-sm js-lang-file-position ms-2" type="button" >
             <?php
             if ($namespace == '*') {
                 echo 'Global';
