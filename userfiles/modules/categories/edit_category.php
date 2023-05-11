@@ -467,7 +467,7 @@ if (isset($params['live_edit'])) {
                                         <label class="form-label"><?php _e('Choose a parent'); ?>:</label>
                                         <small class="text-muted d-block mb-2"><?php _e('Choose a parent page or category') ?></small>
 
-                                        <span class="btn dropdown-toggle btn-light" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
+                                        <span class="btn dropdown-toggle" onclick="$(this).next().stop().slideToggle()" id="category-dropdown-holder"><?php _e("Select Parent page or category"); ?></span>
                                         <?php $is_shop = ''; ?>
                                         <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: none" id="edit_category_set_par">
                                             <?php /*

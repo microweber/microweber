@@ -98,7 +98,7 @@
 .mw-file-manager-view-table th.asc[data-sortable]:after,
 .mw-file-manager-view-table th.desc[data-sortable]:after{
     content: '';
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath d='M222.138,91.475l-89.6-89.6c-2.5-2.5-6.551-2.5-9.051,0l-89.6,89.6c-2.5,2.5-2.5,6.551,0,9.051s6.744,2.5,9.244,0L122,21.85 V249.6c0,3.535,2.466,6.4,6,6.4s6-2.865,6-6.4V21.85l78.881,78.676c1.25,1.25,2.992,1.875,4.629,1.875s3.326-0.625,4.576-1.875 C224.586,98.025,224.638,93.975,222.138,91.475z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='gray' xml:space='preserve' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cpath d='M222.138,91.475l-89.6-89.6c-2.5-2.5-6.551-2.5-9.051,0l-89.6,89.6c-2.5,2.5-2.5,6.551,0,9.051s6.744,2.5,9.244,0L122,21.85 V249.6c0,3.535,2.466,6.4,6,6.4s6-2.865,6-6.4V21.85l78.881,78.676c1.25,1.25,2.992,1.875,4.629,1.875s3.326-0.625,4.576-1.875 C224.586,98.025,224.638,93.975,222.138,91.475z'/%3E%3C/svg%3E");
     display: inline-block;
     width: 10px;
     height: 20px;
@@ -189,6 +189,7 @@
     border-top-width: 0;
     margin: 5px;
     z-index: 1;
+    width: 180px;
 }
 .mw-file-manager-root[data-view="grid"] tr:hover {
     transition: box-shadow .3s;
@@ -209,6 +210,18 @@
 }
 .mw-file-manager-root[data-view="grid"] tbody tr  > td{
     padding: 20px;
+}
+.mw-file-manager-root[data-view="grid"] tbody .mw-file-manager-list-item-type--types-delimitter{
+ 
+    display: block;
+    width: 100%;
+ 
+}
+.mw-file-manager-root[data-view="list"] tbody .mw-file-manager-list-item-type--types-delimitter{
+ 
+    display: none;
+
+ 
 }
 .mw-file-manager-root[data-view="grid"] tbody tr {
     display: flex;
@@ -243,8 +256,7 @@
     transform-origin: center bottom;
 }
 .mw-file-manager-root[data-view="grid"] tr{
-    width: auto;
- 
+   
     position: relative;
     padding: 0px 0px 35px;
 }
@@ -287,7 +299,7 @@
     width: 40px;
 }
 .mw-file-manager-root[data-view="list"]  .mw-file-manager-list-item-thumb-file{
-    background-color: #efefef;
+    background-color: var(--tblr-bg-surface);
     font-weight: bolder;
     border-radius: 3px;
     font-size: 10px;
@@ -307,7 +319,7 @@
     display: none !important;
 }
 .mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb-file{
-    background-color: #efefef;
+    background-color:  var(--tblr-bg-surface);
     font-weight: bolder;
     border-radius: 3px;
     font-size: 20px;

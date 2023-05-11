@@ -197,6 +197,7 @@ mw.lib.require('xss');
             if(this.settings.mode === 'dialog') {
                 this.dialog = mw.top().dialog({
                     content: this.root,
+                    width: 860,
                     height: 'auto',
                     title: this.settings.title,
                     overflowMode: 'visible',

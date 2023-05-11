@@ -111,7 +111,8 @@ MWEditor.interactionControls = {
                 dialog = mw.top().dialog({
                     content: picker.root,
                     title: mw.lang('Select image'),
-                    footer: false
+                    footer: false,
+                    width: 860
                 })
 
             });
