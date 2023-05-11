@@ -1,14 +1,27 @@
 <script>
     function mw_admin_edit_tax_item_submit_form(form) {
+
         var data = $(form).serialize()
         var url = mw.settings.api_url + 'shop/save_tax_item';
+
         $.post(url, data)
             .done(function (data) {
-                mw.trigger("mw.admin.shop.tax.edit.item.saved");
-                mw.reload_module_everywhere('shop/taxes')
-                mw.reload_module_everywhere('shop/taxes/admin')
-                mw.reload_module_everywhere('shop/cart')
 
+                if (data.errors) {
+
+                    $.each(data.errors,function(field_name,error){
+                        $(document).find('#js-field-'+field_name+'-errors').html('<span class="text-strong text-danger">' +error+ '</span>')
+                    });
+
+                } else {
+                    mw.notification.success("<?php _ejs("Tax item is saved"); ?>");
+
+                    mw.trigger("mw.admin.shop.tax.edit.item.saved");
+                    mw.reload_module_everywhere('shop/taxes')
+                    mw.reload_module_everywhere('shop/taxes/admin')
+                    mw.reload_module_everywhere('shop/cart')
+
+                }
             });
 
         return false;
@@ -35,6 +48,9 @@ $values = array_merge($default_item, $item);
         <label class="form-label"><?php _e('Tax name'); ?></label>
         <small class="text-muted d-block mb-2"><?php _e('For example: VAT'); ?></small>
         <input name="name" type="text" class="form-control" required="required" value="<?php print $values['name']; ?>">
+
+        <div id="js-field-name-errors"></div>
+
     </div>
 
     <div class="form-group">
@@ -65,7 +81,7 @@ $values = array_merge($default_item, $item);
                 </div>
             </div>
 
-          <div class="col-md-6 d-flex align-items-center justify-content-end px-0">
+              <div class="col-md-6 d-flex align-items-center justify-content-end px-0">
             <div class="form-selectgroup px-0">
                 <label class="form-selectgroup-item mx-0 pe-2">
                     <input type="radio" name="type" value="percent" class="form-selectgroup-input js-tax-type" <?php if ($values['type'] == 'percent'): ?>checked=""<?php endif; ?>>
@@ -87,6 +103,8 @@ $values = array_merge($default_item, $item);
                 </label>
             </div>
         </div>
+
+            <div id="js-field-rate-errors"></div>
 
          </div>
     </div>
