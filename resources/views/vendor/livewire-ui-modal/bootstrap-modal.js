@@ -144,7 +144,8 @@ window.LivewireUIBootstrapModal = () => {
             this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
 
             Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
-                this.closeModal(force, skipPreviousModals, destroySkipped);
+              //  this.closeModal(force, skipPreviousModals, destroySkipped);
+                this.closeModal(true); 
             });
 
             Livewire.on('activeModalComponentChanged', (id) => {
