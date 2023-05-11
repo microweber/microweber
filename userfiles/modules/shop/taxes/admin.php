@@ -11,12 +11,39 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+
+<?php
+$defined_taxes = mw()->tax_manager->get();
+?>
+
+
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
        <div class="row">
-           <div class="card-header">
+
+
+           <div class="card-header d-flex align-items-center justify-content-between px-0">
                <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
+
+               <?php
+               if (!empty($defined_taxes)):
+               ?>
+               <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
+               <?php
+               endif;
+               ?>
            </div>
+
+           <?php
+           if (!empty($defined_taxes)):
+           ?>
+           <label class="form-check form-check-single form-switch ps-0 mb-4" style="width: unset;">
+               <input type="checkbox" name="enable_taxes" class="mw_option_field form-check-input" id="enable_taxes" data-option-group="shop" data-value-checked="y" data-value-unchecked="n" <?php if (get_option('enable_taxes', 'shop') == 'y'): ?>checked<?php endif; ?> />
+               &nbsp; <?php _e('Enable'); ?>
+           </label>
+           <?php
+           endif;
+           ?>
 
            <script>
                mw_admin_edit_tax_item_popup_modal_opened = null
@@ -75,20 +102,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                    });
                });
            </script>
-
-           <div class="d-flex justify-content-between">
-               <div class="form-group">
-                   <div class="custom-control custom-switch">
-                       <input type="checkbox" name="enable_taxes" id="enable_taxes" class="mw_option_field form-check-input position-relative" data-option-group="shop" value="1" data-value-checked="1" data-value-unchecked="0" <?php if (get_option('enable_taxes', 'shop') == 1): ?>checked<?php endif; ?>>
-                       <label class="custom-control-label" for="enable_taxes"><?php _e("Enable taxes support"); ?></label>
-                   </div>
-                   <small class="text-muted d-block"><?php _e('Setup different types of taxes and they will appear automatically in your cart'); ?></small>
-               </div>
-
-               <div>
-                   <a class="btn btn-primary btn-rounded" href="javascript:mw_admin_edit_tax_item_popup(0)"><?php _e('Add new tax'); ?></a>
-               </div>
-           </div>
 
            <div class="mt-3">
                <module type="shop/taxes/admin_list_taxes" id="mw_admin_shop_taxes_items_list"/>

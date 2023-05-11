@@ -16,22 +16,22 @@ function load_all_service_providers_for_modules($app = null)
 
         // load service providers
         // Register module service providers
-        if ($app and is_object($app)) {
+
             foreach ($modules as $module) {
 
 
                 if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-                    $app->module_manager->boot_module($module);
+                    app()->module_manager->boot_module($module);
 
                 }
             }
-        }
+
 
         $module = app()->template->get_config();
 
         if ($module and isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
 
-            $app->module_manager->boot_module($module);
+            app()->module_manager->boot_module($module);
         }
     }
 }

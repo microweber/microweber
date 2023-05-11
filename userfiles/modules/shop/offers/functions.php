@@ -379,7 +379,7 @@ event_bind('mw.admin.shop.settings.menu', function ($data) {
                             <div class="icon-holder"><i class="mdi mdi-label-percent-outline fs-1"></i></div>
 
                     <div class="info-holder card-title">
-                        <div class="settings-info-holder-title">' . _e('Promotions', true) . '</div>
+                        <div class="settings-info-holder-title">' . _e('Offers', true) . '</div>
                         <small class="text-muted">'. _e('Creating and managing promo campaigns', true) .'</small>
                     </div>
                 </a>

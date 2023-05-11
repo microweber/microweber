@@ -14,7 +14,8 @@
             frame.scrolling = "auto";
             frame.width = "100%";
             frame.frameBorder = "0";
-            frame.src = mw.external_tool('module') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+
+             frame.src = route('live_edit.module_settings') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
             if(autoHeight) {
                 mw.tools.iframeAutoHeight(frame)
             }
@@ -152,7 +153,8 @@
 
         var params_url = $.extend({}, params, additional_params);
 
-        var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+    //    var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+        var src =  route('live_edit.module_settings') + '?' + json2url(params_url);
 
 
         modalOptions = modalOptions || {};

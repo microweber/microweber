@@ -600,24 +600,7 @@ $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
 
-/**
- * Guess the cache group from a table name or a string.
- *
- * @param bool|string $for Your table name
- *
- * @return string The cache group
- *
- * @uses       guess_table_name()
- *
- * @example
- * <code>
- * $cache_gr = guess_cache_group('content');
- * </code>
- */
-function guess_cache_group($for = false)
-{
-    return $for;
-}
+
 
 function strip_tags_content($text, $tags = '', $invert = false)
 {
@@ -637,29 +620,6 @@ function strip_tags_content($text, $tags = '', $invert = false)
     return $text;
 }
 
-function html_cleanup($s, $tags = false)
-{
-    if (is_string($s) == true) {
-        if ($tags != false) {
-            $s = strip_tags_content($s, $tags, $invert = false);
-        }
-
-        return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
-    } elseif (is_array($s) == true) {
-        foreach ($s as $k => $v) {
-            if (is_string($v) == true) {
-                if ($tags != false) {
-                    $v = strip_tags_content($v, $tags, $invert = false);
-                }
-                $s[$k] = htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
-            } elseif (is_array($v) == true) {
-                $s[$k] = html_cleanup($v, $tags);
-            }
-        }
-    }
-
-    return $s;
-}
 
 function in_live_edit()
 {
@@ -861,11 +821,16 @@ function template_headers_src()
     return mw()->template->head(true);
 }
 
+/**
+ * @deprecated
+ */
 function template_stack_add($src, $group = 'default')
 {
     return mw()->template->stack_add($src, $group);
 }
-
+/**
+ * @deprecated
+ */
 function template_stack_display($group = 'default')
 {
     return mw()->template->stack_display($group);

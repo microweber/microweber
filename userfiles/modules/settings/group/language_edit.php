@@ -113,31 +113,6 @@ $lang = mw()->lang_helper->current_lang();
     }
 </style>
 
-<div class="card mb-5">
-    <div  class="card-body">
-        <div class="row">
-            <div class="col-xl-3 mb-xl-0 mb-3">
-                <h5 class="font-weight-bold settings-title-inside"><?php _e("Search"); ?></h5>
-                <small class="text-muted"><?php _e('Search for words or phrases.'); ?></small>
-            </div>
-            <div class="col-xl-9">
-                <div class="row mt-3">
-                    <div class="col">
-                        <div class="input-group prepend-transparent">
-                            <div class="input-group-prepend  ">
-                                <span class="input-group-text"><i class="mdi mdi-magnify mdi-18px"></i></span>
-                            </div>
-                            <input type="text" class="form-control js-search-lang-text"
-                                   placeholder="<?php _e('Enter a word or phrase'); ?>"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 <div class="card mb-5">
     <div class="card-body">
@@ -162,19 +137,78 @@ $lang = mw()->lang_helper->current_lang();
             </div>
             <div class="col-xl-9">
                 <form id="language-form" class="lang-edit-form">
-                    <div class="js-lang-edit-form-messages"></div>
+
                     <?php
                     $getNamespaces = \MicroweberPackages\Translation\Models\TranslationKey::getNamespaces();
+                    $namespaceGroups = [
+                        'Global' => [],
+                        'Modules' => [],
+                        'Templates' => [],
+                    ];
+                    if (!empty($getNamespaces)) {
+                        foreach ($getNamespaces as $namespace=>$namespaceData) {
+                            if ($namespace == 'global') {
+                                $namespaceGroups['Global'][] = $namespaceData;
+                            }
+                            if (strpos($namespace, 'modules-') !== false) {
+                                $namespaceGroups['Modules'][] = $namespaceData;
+                            }
+                            if (strpos($namespace, 'templates-') !== false) {
+                                $namespaceGroups['Templates'][] = $namespaceData;
+                            }
+                        }
+                    }
                     ?>
-                    <?php if ($getNamespaces): ?>
 
-                    <?php foreach ($getNamespaces as $translation):?>
-                    <module type="settings/group/language_edit_browse"
-                            class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
-                            translation_namespace="<?php echo $translation['translation_namespace']; ?>"
-                            translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
-                    <?php endforeach; ?>
-                    <?php endif; ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-home-11" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Global</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-profile-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Modules</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-activity-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Templates</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+
+                                    <?php foreach ($namespaceGroups['Global'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+
+                                </div>
+                                <div class="tab-pane" id="tabs-profile-11" role="tabpanel">
+
+                                    <?php foreach ($namespaceGroups['Modules'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+
+                                </div>
+                                <div class="tab-pane" id="tabs-activity-11" role="tabpanel">
+
+                                    <?php foreach ($namespaceGroups['Templates'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

@@ -57,7 +57,7 @@ class TranslationKey extends Model
         }
 
          $like = 'like';
-        
+
         if (!isset($filter['translation_namespace'])) {
             $filter['translation_namespace'] = '*';
         }
@@ -88,7 +88,7 @@ class TranslationKey extends Model
             return $filter['page'];
         });
 
-        $getTranslationsKeys = $queryModel->paginate(50);
+        $getTranslationsKeys = $queryModel->paginate(3);
         $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
 
         $group = [];

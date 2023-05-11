@@ -4,22 +4,22 @@
 @import "_mw_tabler";
 
 
- 
+
 
 :root {
-    
+
     //--tblr-body-bg: white;
         --tblr-body-font-family: 'Inter';
-        
+
 
     body:not(.theme-dark) {
         --tblr-bg-surface-tertiary: #e1edf9;
         .lg-light {
             background-color: var(--tblr-bg-surface-tertiary);
         }
-        
+
     }
-   
+
 }body {
     --tblr-btn-border-radius: 112px;
 }
@@ -215,6 +215,12 @@ body, .is_admin {
     font-size: 24px;
     margin: 20px 0;
     color: var(--tblr-body-color);
+}
+
+.module {
+    .main-pages-title {
+        margin: unset;
+    }
 }
 
 .module {
@@ -567,7 +573,7 @@ small.text-muted {
 }
 
 .btn {
- 
+
     font-weight: normal;
 }
 
@@ -874,3 +880,51 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+.you-dont-have-any {
+    svg {
+        opacity: .7;
+        width: 350px;
+        height: 350px;
+    }
+}
+
+.js-table-active {
+    background-color: transparent !important;
+}
+
+.js-table-inactive {
+    background-color: transparent !important;
+}
+
+.btn.btn-outline-primary.js-lang-file-position {
+
+    &:active, &:focus {
+        background-color: var(--tblr-primary);
+        color: var(--tblr-white);
+    }
+}
+
+.modules-card {
+    .modules-uninstall-button {
+        visibility: hidden;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+
+    &:hover {
+        .modules-uninstall-button {
+            visibility: visible;
+        }
+    }
+}
+
+.offers-table {
+    td.min-width-100 {
+        min-width: 100px;
+    }
+}
+
+

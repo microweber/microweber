@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ba0661d815851ebe516425094a3a9ab",
+    "content-hash": "eb9c994c122450606f438fa51990a070",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4690,6 +4690,57 @@
                 "source": "https://github.com/KnpLabs/KnpMenu/tree/master"
             },
             "time": "2022-12-23T15:03:38+00:00"
+        },
+        {
+            "name": "laracasts/presenter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/Presenter.git",
+                "reference": "4353fb5a1a3b9b9073db66fd823eaaf04c0c5db0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/Presenter/zipball/4353fb5a1a3b9b9073db66fd823eaaf04c0c5db0",
+                "reference": "4353fb5a1a3b9b9073db66fd823eaaf04c0c5db0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0|~6.0|~7.0|~8.0|^9.0|^10.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "~2.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Presenter": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Simple view presenters",
+            "keywords": [
+                "laravel",
+                "presenter",
+                "view"
+            ],
+            "support": {
+                "issues": "https://github.com/laracasts/Presenter/issues",
+                "source": "https://github.com/laracasts/Presenter/tree/0.2.6"
+            },
+            "time": "2023-02-21T16:06:10+00:00"
         },
         {
             "name": "laravel/cashier",
@@ -15666,16 +15717,16 @@
         },
         {
             "name": "wire-elements/modal",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wire-elements/modal.git",
-                "reference": "8daf2604dcdb75650951937301b2525fb1cf15d2"
+                "reference": "1019f423485afb6df0d1531d978e93d4ad0975fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wire-elements/modal/zipball/8daf2604dcdb75650951937301b2525fb1cf15d2",
-                "reference": "8daf2604dcdb75650951937301b2525fb1cf15d2",
+                "url": "https://api.github.com/repos/wire-elements/modal/zipball/1019f423485afb6df0d1531d978e93d4ad0975fb",
+                "reference": "1019f423485afb6df0d1531d978e93d4ad0975fb",
                 "shasum": ""
             },
             "require": {
@@ -15718,9 +15769,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wire-elements/modal/issues",
-                "source": "https://github.com/wire-elements/modal/tree/1.0.7"
+                "source": "https://github.com/wire-elements/modal/tree/1.0.8"
             },
-            "time": "2022-07-05T12:40:12+00:00"
+            "time": "2023-04-07T12:35:15+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -18850,6 +18901,7 @@
         "graham-campbell/security-core": 20,
         "jenssegers/agent": 20,
         "knplabs/knp-menu": 20,
+        "laracasts/presenter": 20,
         "laravel/cashier": 20,
         "laravel/fortify": 20,
         "league/csv": 20,

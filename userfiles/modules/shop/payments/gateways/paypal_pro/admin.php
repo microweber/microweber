@@ -1,9 +1,17 @@
 <?php must_have_access(); ?>
 
 
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>paypal_pro.svg"  style="width: 50px; margin-top: -70px;"/>
-</div>
+<!--<div class="mb-3 float-right">-->
+<!--    <img src="--><?php //print $config['url_to_module'] ?><!--paypal_pro.svg"  style="width: 50px; margin-top: -70px;"/>-->
+<!--</div>-->
+
+
+<?php if (get_option('payment_gw_shop/payments/gateways/paypal_pro', 'payments')): ?>
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-green me-2"></span>
+        <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+    </div>
+<?php endif; ?>
 
 <div class="form-group">
     <label class="form-label d-block"><?php _e("Test mode"); ?></label>

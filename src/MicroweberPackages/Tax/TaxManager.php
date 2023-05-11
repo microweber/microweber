@@ -49,6 +49,11 @@ class TaxManager
 
     public function save($params = array())
     {
+        $countTaxTypes = TaxType::count();
+        if ($countTaxTypes == 0) {
+            save_option('enable_taxes', 'y', 'shop');
+        }
+
         if (isset($params['rate'])) {
             $params['rate'] = floatval($params['rate']);
         }

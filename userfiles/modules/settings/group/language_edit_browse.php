@@ -35,22 +35,7 @@ if(empty($supportedLanguages)){
 }
 $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGroupedTranslations($filter);
 ?>
-<script>
 
-    <?php
-    if (empty($getTranslations['results'])):
-    ?>
-    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeOut();
-    <?php
-   else:
-    ?>
-    $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').fadeIn();
-    <?php
-    endif;
-    ?>
-
-    $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
-</script>
 
 <script>
 
@@ -71,26 +56,15 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
 
     function searchLangauges<?php echo $namespaceMd5;?>()
     {
-        var searchText = $('.js-search-lang-text').val();
+        var searchText = $('.js-search-lang-text-<?php echo $namespaceMd5;?>').val();
 
-        $('.js-language-edit-browse-module').attr('page', 1);
-        $('.js-language-edit-browse-module').attr('search', searchText);
+        $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', 1);
+        $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('search', searchText);
 
-      //  mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
-
-        mw.tools.loading('.js-language-edit-browse-module',true)
-        mw.reload_module('.js-language-edit-browse-module',function () {
-            mw.tools.loading('.js-language-edit-browse-module',false)
-
+        mw.tools.loading('.js-language-edit-browse-<?php echo $namespaceMd5;?>',true)
+        mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>', function () {
+            mw.tools.loading('.js-language-edit-browse-<?php echo $namespaceMd5;?>',false)
         });
-
-
-        setTimeout(function() {
-            $('.js-lang-edit-form-messages').html('');
-            if ($('.js-language-edit-browse-module:hidden').size() == $('.js-language-edit-browse-module').size()) {
-                $('.js-lang-edit-form-messages').html('<div class="alert alert-warning"><?php _e('No results found');?></div>');
-            }
-        }, 2000);
     }
 
     $(document).ready(function () {
@@ -106,8 +80,8 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
             });
         });
 
-        $('.js-search-lang-text').off('input');
-        $('.js-search-lang-text').on('input', function () {
+        $('.js-search-lang-text-<?php echo $namespaceMd5;?>').off('input');
+        $('.js-search-lang-text-<?php echo $namespaceMd5;?>').on('input', function () {
             mw.on.stopWriting(this,function() {
                 searchLangauges<?php echo $namespaceMd5;?>();
             });
@@ -145,6 +119,18 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     }
 </style>
 
+
+
+<div class="js-lang-edit-form-messages"></div>
+
+<div class="input-group">
+        <span class="input-group-text">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+        </span>
+    <input type="text" value="<?php if(isset($filter['search'])) { echo $filter['search']; } ?>" class="form-control js-search-lang-text-<?php echo $namespaceMd5;?>" placeholder="<?php _e('Enter a word or phrase'); ?>"/>
+</div>
+
+
 <?php
 
 
@@ -161,28 +147,21 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 endif;
 ?>
 
-<div class="card bg-azure-lt ">
-    <div class="card-body py-2">
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group mb-0">
-                    <label class="form-label mb-0"><?php _e('Language file'); ?>:
-                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
-                            <?php
-                            if ($namespace == '*') {
-                                echo 'Global';
-                            } else {
-                                echo $namespace;
-                            }
-                            ?>
-                            <i class="mdi mdi-menu-down mdi-rotate-270"></i>
-                        </button>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="collapse" id="language-edit-<?php echo $namespaceMd5;?>">
-        <hr class="thin my-2"/>
+
+    <div class="p-3" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
+        <button type="button" class="btn btn-outline-primary btn-sm js-lang-file-position" type="button" >
+            <?php
+            if ($namespace == '*') {
+                echo 'Global';
+            } else {
+                echo $namespace;
+            }
+            ?>
+            <i class="mdi mdi-menu-down mdi-rotate-270"></i>
+        </button>
+    </div>
+
+        <div class="collapse <?php if(isset($filter['co'])) { echo "collapsed show"; } ?>" id="language-edit-<?php echo $namespaceMd5;?>">
 
         <div class="d-flex justify-content-between align-items-center">
             <div>

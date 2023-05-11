@@ -1,5 +1,5 @@
 
-<div class="text-center">
+<div class="text-center you-dont-have-any">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="350px" height="350px" x="0px" y="0px" viewBox="0 0 1321.8 1095.7" style="enable-background:new 0 0 1321.8 1095.7; opacity: .7;" xml:space="preserve">
                     <style type="text/css">
 

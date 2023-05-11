@@ -35,11 +35,11 @@ $mail_template_type = $params['mail_template_type'];
     }
 </script>
 
-<div class="form-group pt-3 my-3">
+<div class="form-group my-3">
     <label class="form-label"><?php _e("Select email template"); ?></label>
-    <small class="text-muted mb-2"><?php _e("Choose template to send for users"); ?></small>
-        <button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="btn btn-sm btn-link d-block"><?php _e('Add new email template'); ?></button>
-    <small class="text-muted d-block mb-2"><?php _e("If you add few emails for same functionality they will be showing in dropdown box"); ?>.</small>
+    <small class="text-muted"><?php _e("Choose template to send for users"); ?></small>
+        <button onclick="mw_admin_add_mail_template('<?php echo $mail_template_type; ?>')" class="btn btn-sm btn-link d-block my-2"><?php _e('Add new email template'); ?></button>
+    <small class="text-muted d-block"><?php _e("If you add few emails for same functionality they will be showing in dropdown box"); ?>.</small>
 </div>
 
 <div class=" d-flex align-items-center">

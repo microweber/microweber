@@ -6,7 +6,6 @@
 $date_format = get_date_format();
 //$products = offers_get_products();
 
-$all_products = get_products('nolimit=1');
 
 if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     $addNew = false;
@@ -103,92 +102,70 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     <div class="form-group">
         <label class="form-label"><?php _e("Product title | Price"); ?></label>
 
-        <select name="product_id_with_price_id" class="js-product-title  form-select" data-size="5" data-live-search="true" data-width="100%">
-            <?php if ($all_products): ?>
-                <?php foreach ($all_products as $product) {
 
-                    $all_prices = get_product_prices($product['id'], true);
-                    $product_id = $product['id'];
-
-                    if ($all_prices) {
-                        foreach ($all_prices as $a_price) {
-                            if (!isset($a_price['values_plain'])) {
-                                continue;
-                            }
-
-                            $offer_product_price_id = $data['product_id'] . '|' . $data['price_id'];
-                            $option_id = $product_id . '|' . $a_price['id'];
-                            $selected = ($offer_product_price_id == $option_id ? ' selected="selected"' : '');
-                            ?>
-
-                            <option value="<?php print $option_id; ?>"<?php print $selected; ?>><?php print $product['title'] . ' | ' . $a_price['name'] . ' : ' . mw()->shop_manager->currency_symbol() . ' ' . $a_price['values_plain']; ?></option>
-                            <?php
+        <script>
+            $(document).ready(function () {
+                let offerProduct = new mw.autoComplete({
+                    element: "#mw-admin-search-for-products",
+                    placeholder: "Search products",
+                    ajaxConfig: {
+                        method: 'get',
+                        url: mw.settings.api_url + 'offers_search_products?keyword=${val}&product_id=<?php print $data['product_id']; ?>&price_id=<?php print $data['price_id']; ?>',
+                    },
+                    map: {
+                        value: 'id',
+                        title: 'title',
+                        image: 'picture'
+                    },
+                    selected: [
+                        {
+                            id: '<?php print $data['product_id']; ?>|<?php print $data['price_id']; ?>',
+                            title: '<?php print content_title($data['product_id']); ?> | <?php print currency_format(get_product_price($data['product_id'])); ?>',
+                            image: '<?php print get_picture($data['product_id']); ?>'
                         }
-                    }
-                }
-                ?>
-            <?php else: ?>
-                <option value=""><?php _e("No products found"); ?></option>
-            <?php endif; ?>
-        </select>
+                    ]
+                });
+                $(offerProduct).on("change", function (e, val) {
+                    $('#product_id_with_price_id').val(val[0].id);
+                    $('#product_id_with_price_id').trigger('change');
+                })
+            });
+        </script>
+
+        <div id="mw-admin-search-for-products"></div>
+        <input type="hidden" value="<?php print $data['product_id']; ?>|<?php print $data['price_id']; ?>" id="product_id_with_price_id" name="product_id_with_price_id" />
     </div>
 
     <div class="form-group">
         <label class="form-label"><?php _e("Offer price"); ?> </label>
         <div class="d-flex align-items-center">
-            <span class="d-block fs-3 me-2">
-                <?php print mw()->shop_manager->currency_symbol(); ?>
-            </span>
-            <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
 
+            <div class="input-group mb-2">
+                <span class="input-group-text"><?php print mw()->shop_manager->currency_symbol(); ?></span>
+                <input type="text" name="offer_price" class="form-control js-validation js-validation-float-number" value="<?php print number_format(floatval($data['offer_price']), 2); ?>"/>
+            </div>
         </div>
          <div class="js-field-message"></div>
     </div>
 
-    <?php if ($addNew) { ?>
-        <div class="form-group">
+    <div class="d-flex">
+
+        <div class="form-group col-xl-6 pe-xl-2">
             <label class="form-label"><?php _e("Offer start at"); ?></label>
-            <small class="text-muted d-block mb-2"><?php _e("The date when the offer will be created"); ?></small>
+            <small class="text-muted d-block mb-2"><?php _e("Date to start"); ?></small>
             <input type="date" name="created_at" class="form-control" value="<?php print date("Y-m-d H:i:s"); ?>"/>
         </div>
-    <?php } else { ?>
-        <div class="mw-ui-row">
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Offer start at"); ?></label>
-                        <p><?php print date_system_format($data['created_at']); ?></p>
-                    </div>
-                </div>
+
+        <div class="form-group col-xl-6 ps-xl-2">
+            <label class="form-label"><?php _e("Offer expiration date"); ?></label>
+            <small class="text-muted d-block mb-2"><?php _e("Expire date"); ?></small>
+            <div class="js-exp-date-holder">
+                <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
             </div>
-            <div class="mw-ui-col">
-                <div class="mw-ui-col-container">
-                    <div class="form-group">
-                        <label class="form-label"><?php _e("Updated date"); ?></label>
-                        <p><?php print date_system_format($data['updated_at']); ?></p>
-                        <div class="js-field-message"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php } ?>
-
-    <div class="form-group">
-        <label class="form-label"><?php _e("Offer expiry at"); ?></label>
-        <small class="text-muted d-block mb-2"><?php _e("The date when the offer will expire"); ?></small>
-
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="form-check-input" id="expiration-checkbox" <?php echo (!empty($data['expires_at']) && $data['expires_at'] != '0000-00-00 00:00:00') ? 'checked' : '' ?> >
-            <label class="custom-control-label mb-3" for="expiration-checkbox"><?php _e('Has expiration date');?></label>
+            <div class="js-field-message"></div>
         </div>
 
-        <div class="js-exp-date-holder">
-            <input type="date" name="expires_at" class="js-exp-date form-control disabled-js-validation disabled-js-validation-expiry-date" autocomplete="off" value="<?php print ($data['expires_at']); ?>"/>
-        </div>
-
-        <div class="js-field-message"></div>
     </div>
-
 
     <div class="d-flex justify-content-between align-items-center">
         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="editModal.modal.remove()"><?php _e("Cancel"); ?></button>

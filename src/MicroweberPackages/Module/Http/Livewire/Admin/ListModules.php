@@ -12,7 +12,6 @@ class ListModules extends Component
     public $keyword;
     public $type = 'admin';
     public $installed = 1;
-    public $confirmUnistallId = 1;
     public $groupByCategories = false;
 
     public $queryString = [
@@ -21,6 +20,10 @@ class ListModules extends Component
         'type',
         'installed',
         'groupByCategories',
+    ];
+
+    public $listeners = [
+        'refreshModuleList' => '$refresh',
     ];
 
     public function toggleGroupByCategories()
@@ -36,24 +39,6 @@ class ListModules extends Component
     public function filter()
     {
         $this->gotoPage(1);
-    }
-
-    public function confirmUninstall($id)
-    {
-        $this->confirmUnistallId = $id;
-    }
-
-    public function uninstall($id)
-    {
-        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
-
-        if ($findModule) {
-            mw()->module_manager->uninstall([
-                'id' => $findModule->id,
-            ]);
-        }
-
-        $this->reloadModules();
     }
 
     public function install($id)

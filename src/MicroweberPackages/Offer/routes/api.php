@@ -14,6 +14,8 @@
 
         Route::any('offers_get_all', 'OfferApiController@index')->name('offer.get_all');
         Route::any('offers_get_by_product_id', 'OfferApiController@getByProductId');
+
+        Route::get('offers_search_products', 'OfferApiController@searchProducts');
     });
 
 

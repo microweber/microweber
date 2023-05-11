@@ -127,13 +127,16 @@ window.LivewireUIBootstrapModal = () => {
             this.show = show;
 
             if (show) {
-                $(document.body).find('#livewire-ui-modal').modal('show');
+                $(document.body).find('#livewire-ui-modal').modal('show', {
+                    keyboard:false,
+                    focus:false
+                });
             } else {
                 $(document.body).find('#livewire-ui-modal').modal('hide');
 
                 setTimeout(() => {
                     this.activeComponent = false;
-                    this.$wire.resetState(); 
+                    this.$wire.resetState();
                 }, 300);
             }
         },
@@ -141,7 +144,8 @@ window.LivewireUIBootstrapModal = () => {
             this.modalWidth = this.getActiveComponentModalAttribute('maxWidthClass');
 
             Livewire.on('closeModal', (force = false, skipPreviousModals = 0, destroySkipped = false) => {
-                this.closeModal(force, skipPreviousModals, destroySkipped);
+              //  this.closeModal(force, skipPreviousModals, destroySkipped);
+                this.closeModal(true); 
             });
 
             Livewire.on('activeModalComponentChanged', (id) => {

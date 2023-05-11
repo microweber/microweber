@@ -1,10 +1,18 @@
 <?php must_have_access(); ?>
 
-<div class="mb-3 float-right">
-    <img src="<?php print $config['url_to_module'] ?>omnipay_przelewy24.svg" style="width: 40px; margin-top: -70px;"/>
-</div>
+<!--<div class="mb-3 float-right">-->
+<!--    <img src="--><?php //print $config['url_to_module'] ?><!--omnipay_przelewy24.svg" style="width: 40px; margin-top: -70px;"/>-->
+<!--</div>-->
 
 <div class="clearfix"></div>
+
+<?php if (get_option('payment_gw_shop/payments/gateways/omnipay_przelewy24', 'payments')): ?>
+    <div class="d-flex align-items-center mb-3">
+        <span class="badge bg-green me-2"></span>
+        <p class="text-success mb-0"><?php _e("Activated") ?> </p>
+    </div>
+<?php endif; ?>
+
 
 <div class="form-group">
     <label class="form-label">Merchant Id: </label>

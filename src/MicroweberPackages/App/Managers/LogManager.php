@@ -51,7 +51,7 @@ class LogManager
         }
         $table = 'log';
         DB::table($table)->truncate();
-        $cg = guess_cache_group($table);
+        $cg = 'log';
         $this->app->cache_manager->delete($cg);
 
         return array('success' => 'System log is cleaned up.');
