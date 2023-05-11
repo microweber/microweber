@@ -22,6 +22,10 @@ class ListModules extends Component
         'groupByCategories',
     ];
 
+    public $listeners = [
+        'refreshModuleList' => '$refresh',
+    ];
+
     public function toggleGroupByCategories()
     {
         $this->groupByCategories = !$this->groupByCategories;
@@ -35,19 +39,6 @@ class ListModules extends Component
     public function filter()
     {
         $this->gotoPage(1);
-    }
-
-    public function uninstall($id)
-    {
-        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
-
-        if ($findModule) {
-            mw()->module_manager->uninstall([
-                'id' => $findModule->id,
-            ]);
-        }
-
-        $this->reloadModules();
     }
 
     public function install($id)

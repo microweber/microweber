@@ -11,10 +11,7 @@
             </a>
 
             @if($module->installed == 1)
-                <button wire:click="uninstall('{{$module->id}}')" wire:target="uninstall('{{$module->id}}')" wire:loading.attr="disabled" type="button" class="btn btn-sm btn-outline-danger">
-                    <div wire:loading wire:target="uninstall('{{$module->id}}')" class="spinner-border spinner-border-sm" role="status">
-                        <span class="visually-hidden">Uninstalling...</span>
-                    </div>
+                <button wire:click="$emit('openModal', 'admin-ask-for-module-uninstall-modal', {{ json_encode(['moduleId' => $module->id]) }})" type="button" class="btn btn-sm btn-outline-danger">
                     Uninstall
                 </button>
             @endif
