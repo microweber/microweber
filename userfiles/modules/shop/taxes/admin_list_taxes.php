@@ -11,7 +11,7 @@ $defined_taxes = mw()->tax_manager->get();
 <?php if (!empty($defined_taxes)) : ?>
 
 
-    <h6 class="font-weight-bold"><?php _e("Taxes list"); ?></h6>
+    <h3 class="font-weight-bold"><?php _e("Taxes list"); ?></h3>
 
     <div class="table-responsive">
         <table cellspacing="0" cellpadding="0" class="table">
