@@ -48,8 +48,7 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     <?php
     endif;
     ?>
-
-    $('#language-edit-<?php echo $namespaceMd5;?>').collapse('show');
+    
 </script>
 
 <script>
@@ -160,6 +159,7 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 <?php
 endif;
 ?>
+
 
 
 

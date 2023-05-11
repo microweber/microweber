@@ -166,11 +166,42 @@ $lang = mw()->lang_helper->current_lang();
                     ?>
                     <?php if ($getNamespaces): ?>
 
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-home-11" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Global</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-profile-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Modules</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a href="#tabs-activity-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Templates</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
+                                    GROUPS
+                                </div>
+                                <div class="tab-pane" id="tabs-profile-11" role="tabpanel">
+                                    GROUPS
+                                </div>
+                                <div class="tab-pane" id="tabs-activity-11" role="tabpanel">
+                                    GROUPS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card bg-azure-lt ">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="d-flex flex-wrap">
+
+
 
                                         <?php foreach ($getNamespaces as $translation):?>
                                         <module type="settings/group/language_edit_browse"
