@@ -48,7 +48,7 @@ $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGro
     <?php
     endif;
     ?>
-    
+
 </script>
 
 <script>
