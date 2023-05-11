@@ -161,28 +161,23 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 endif;
 ?>
 
-<div class="card bg-azure-lt ">
-    <div class="card-body py-2">
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group mb-0">
-                    <label class="form-label mb-0"><?php _e('Language file'); ?>:
-                        <button type="button" class="btn btn-link js-lang-file-position" type="button" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
-                            <?php
-                            if ($namespace == '*') {
-                                echo 'Global';
-                            } else {
-                                echo $namespace;
-                            }
-                            ?>
-                            <i class="mdi mdi-menu-down mdi-rotate-270"></i>
-                        </button>
-                    </label>
-                </div>
-            </div>
-        </div>
+
+
+    <div class="p-3" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
+        <button type="button" class="btn btn-outline-primary btn-sm js-lang-file-position" type="button" >
+            <?php
+            if ($namespace == '*') {
+                echo 'Global';
+            } else {
+                echo $namespace;
+            }
+            ?>
+            <i class="mdi mdi-menu-down mdi-rotate-270"></i>
+        </button>
+    </div>
+
         <div class="collapse" id="language-edit-<?php echo $namespaceMd5;?>">
-        <hr class="thin my-2"/>
+
 
         <div class="d-flex justify-content-between align-items-center">
             <div>

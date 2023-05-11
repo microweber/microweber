@@ -890,3 +890,11 @@ input[type=number] {
 .js-table-inactive {
     background-color: transparent !important;
 }
+
+.btn.btn-outline-primary.js-lang-file-position {
+
+    &:active, &:focus {
+        background-color: var(--tblr-primary);
+        color: var(--tblr-white);
+    }
+}
