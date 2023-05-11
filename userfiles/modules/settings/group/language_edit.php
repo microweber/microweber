@@ -113,29 +113,6 @@ $lang = mw()->lang_helper->current_lang();
     }
 </style>
 
-<div class="card mb-5">
-    <div  class="card-body">
-        <div class="row">
-            <div class="col-xl-3 mb-xl-0 mb-3">
-                <h5 class="font-weight-bold settings-title-inside"><?php _e("Search"); ?></h5>
-                <small class="text-muted"><?php _e('Search for words or phrases.'); ?></small>
-            </div>
-            <div class="col-xl-9">
-                <div class="row mt-3">
-                    <div class="col">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
-                            </span>
-                            <input type="text" class="form-control js-search-lang-text"
-                                   placeholder="<?php _e('Enter a word or phrase'); ?>"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="card mb-5">
     <div class="card-body">
@@ -160,7 +137,7 @@ $lang = mw()->lang_helper->current_lang();
             </div>
             <div class="col-xl-9">
                 <form id="language-form" class="lang-edit-form">
-                    <div class="js-lang-edit-form-messages"></div>
+
                     <?php
                     $getNamespaces = \MicroweberPackages\Translation\Models\TranslationKey::getNamespaces();
                     $namespaceGroups = [
@@ -200,46 +177,34 @@ $lang = mw()->lang_helper->current_lang();
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-wrap">
-                                                <?php foreach ($namespaceGroups['Global'] as $translation):?>
-                                                    <module type="settings/group/language_edit_browse"
-                                                            class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
-                                                            translation_namespace="<?php echo $translation['translation_namespace']; ?>"
-                                                            translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    <?php foreach ($namespaceGroups['Global'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+                                    
                                 </div>
                                 <div class="tab-pane" id="tabs-profile-11" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-wrap">
-                                                <?php foreach ($namespaceGroups['Modules'] as $translation):?>
-                                                    <module type="settings/group/language_edit_browse"
-                                                            class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
-                                                            translation_namespace="<?php echo $translation['translation_namespace']; ?>"
-                                                            translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    <?php foreach ($namespaceGroups['Modules'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+
                                 </div>
                                 <div class="tab-pane" id="tabs-activity-11" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-wrap">
-                                                <?php foreach ($namespaceGroups['Templates'] as $translation):?>
-                                                    <module type="settings/group/language_edit_browse"
-                                                            class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
-                                                            translation_namespace="<?php echo $translation['translation_namespace']; ?>"
-                                                            translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                    <?php foreach ($namespaceGroups['Templates'] as $translation):?>
+                                        <module type="settings/group/language_edit_browse"
+                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
+                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php endforeach; ?>
+
                                 </div>
                             </div>
                         </div>
