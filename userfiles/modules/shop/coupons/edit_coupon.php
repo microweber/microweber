@@ -122,7 +122,7 @@ if ($params['coupon_id'] !== 'false') {
             <div class="col-lg-6 col-8">
                 <div class="input-group">
                     <span class="input-group-text js-discount-value-label">%</span>
-                    <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>"/>
+                    <input type="text" name="discount_value" class="form-control js-validation js-validation-float-number" value="<?php print $data['discount_value'] ?>" />
                 </div>
             </div>
             <div class="col-lg-6 col-4 d-flex align-items-center justify-content-end px-0">
