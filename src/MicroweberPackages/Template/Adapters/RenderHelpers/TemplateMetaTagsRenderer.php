@@ -35,7 +35,7 @@ class TemplateMetaTagsRenderer
             if (is_home()) {
                 $meta['content_url'] = site_url();
             } else {
-                $meta['content_url'] = $this->app->url_manager->current(1);
+                $meta['content_url'] = app()->url_manager->current(1);
             }
             $meta['og_description'] = $this->websiteOptions['website_description'];
             $meta['og_type'] = 'website';
@@ -60,7 +60,7 @@ class TemplateMetaTagsRenderer
 
 
             if ($meta_category_id > 0) {
-                $meta_category_data = $this->app->category_manager->get_by_id($meta_category_id);
+                $meta_category_data = app()->category_manager->get_by_id($meta_category_id);
 
                 if($meta_category_data) {
                     $meta['title'] = $meta_category_data['title'];
@@ -77,15 +77,15 @@ class TemplateMetaTagsRenderer
                     }
                     $meta['og_description'] = $meta['description'];
 
-                    $content_image = $this->app->media_manager->get_picture($meta_category_id, 'category');
+                    $content_image = app()->media_manager->get_picture($meta_category_id, 'category');
                     if ($content_image) {
                         $meta['content_image'] = $content_image;
                         $meta['og_image'] = $content_image;
                     }
                 }
             } else if ($meta_content_id > 0) {
-                $meta = $this->app->content_manager->get_by_id($meta_content_id);
-                $content_image = $this->app->media_manager->get_picture($meta_content_id);
+                $meta = app()->content_manager->get_by_id($meta_content_id);
+                $content_image = app()->media_manager->get_picture($meta_content_id);
                 if ($content_image) {
                     $meta['content_image'] = $content_image;
                 } else {
@@ -93,18 +93,18 @@ class TemplateMetaTagsRenderer
                     $cont_id = get_content_by_id($meta_content_id);
 
                     if ($cont_id and isset($cont_id['content'])) {
-                        $img = $this->app->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
+                        $img = app()->media_manager->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
                         if ($img != false) {
-                            $surl = $this->app->url_manager->site();
-                            $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
+                            $surl = app()->url_manager->site();
+                            $img = app()->format->replace_once('{SITE_URL}', $surl, $img);
                             $meta['content_image'] = $img;
                         }
                     }
 
 
                 }
-                $meta['content_url'] = $this->app->content_manager->link($meta_content_id);
+                $meta['content_url'] = app()->content_manager->link($meta_content_id);
                 if (isset($meta['content_type'])) {
                     $meta['og_type'] = $meta['content_type'];
                     if ($meta['content_type'] == 'post') {
@@ -115,10 +115,10 @@ class TemplateMetaTagsRenderer
                     }
                     if($meta['content_type']=='product') {
                     	// fetch sku, currency, price for product structured data
-                    	$meta['product_currency'] = $this->app->option_manager->get('currency', 'payments');
-                    	$product_price = $this->app->shop_manager->get_product_price($meta_content_id);
+                    	$meta['product_currency'] = app()->option_manager->get('currency', 'payments');
+                    	$product_price = app()->shop_manager->get_product_price($meta_content_id);
                         $meta['product_price'] = $product_price;
-			            $product_fields = $this->app->fields_manager->get(['rel_type'=>'content', 'rel_id'=>$meta_content_id, 'return_full'=>true]);
+			            $product_fields = app()->fields_manager->get(['rel_type'=>'content', 'rel_id'=>$meta_content_id, 'return_full'=>true]);
 			            $meta['product_sku'] = '';
 			            if (empty(!$product_fields)) {
                             foreach ($product_fields as $k => $field_data) {
@@ -132,14 +132,14 @@ class TemplateMetaTagsRenderer
                     if ($meta['description'] != false and trim($meta['description']) != '') {
                         // $meta['description'] = $meta['description'];
                     } elseif ($meta['content'] != false and trim($meta['content']) != '') {
-                        $meta['description'] = str_replace("\n", ' ', $this->app->format->limit(strip_tags($meta['content']), 500));
+                        $meta['description'] = str_replace("\n", ' ', app()->format->limit(strip_tags($meta['content']), 500));
                     }
 
                     if (isset($meta['description']) and $meta['description'] != '') {
                         $meta['og_description'] = $meta['description'];
                     } else {
                         if($meta['content']){
-                        $meta['og_description'] = trim($this->app->format->limit(strip_tags($meta['content']), 500));
+                        $meta['og_description'] = trim(app()->format->limit(strip_tags($meta['content']), 500));
                         }
                     }
                 }
@@ -183,7 +183,7 @@ class TemplateMetaTagsRenderer
                 } elseif (isset($found_mod) and $found_mod != false) {
                     $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $found_mod));
                 } else {
-                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', $this->app->url_manager->segment(0)));
+                    $meta['content_meta_title'] = ucwords(str_replace('/', ' ', app()->url_manager->segment(0)));
                 }
 
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
