@@ -59,8 +59,7 @@ $(document).ready(function () {
 
 
 <span id="upload_file_info" style="font-size:14px;"></span>
- <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-info">
-	<i class="mw-icon-upload"></i> &nbsp;
-	<span><?php _e("Upload file"); ?></span>
+ <span id="mw_uploader" class="btn btn-primary float-end mt-4">
+	<?php _e("Upload file"); ?>
 </span>
 </div>
