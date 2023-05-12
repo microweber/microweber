@@ -71,21 +71,22 @@ if (is_module('multilanguage')) {
 
         if (action == 'activate') {
             addDefaultLanguageToMultilanguage();
-        }
+        } else {
 
-      /*  <?php if (is_module('multilanguage')): ?>
-        var data = {};
-        data.show_settings_link = "true";
-        openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
-            overlay: true,
-            skin: 'simple',
-            height: 'auto',
-            width: 750,
-            title: 'Edit'
-        });
-        <?php else: ?>
-        mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
-        <?php endif; ?>*/
+            <?php if (is_module('multilanguage')): ?>
+            var data = {};
+            data.show_settings_link = "true";
+            openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
+                overlay: true,
+                skin: 'simple',
+                height: 'auto',
+                width: 750,
+                title: 'Edit'
+            });
+            <?php else: ?>
+            mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
+            <?php endif; ?>
+        }
     }
 </script>
 
@@ -94,12 +95,13 @@ if (is_module('multilanguage')) {
 
 
 <div class="<?php print $config['module_class'] ?>">
+
     <div class="card mb-5">
-        <div  class="card-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
                     <h5 class="font-weight-bold settings-title-inside"><?php _e("Language"); ?></h5>
-                    <small class="text-muted"><?php _e('Set a language for your website and admin panel.'); ?></small>
+                    <small class="text-muted"><?php _e('Set a default language for your website'); ?></small>
                 </div>
                 <div class="col-xl-9">
                     <div class="card bg-azure-lt  mb-1">
@@ -112,40 +114,28 @@ if (is_module('multilanguage')) {
                                                <label class="form-label"><?php _e("Website Language"); ?></label>
                                                <small class="text-muted d-block mb-2"><?php _e("You can set the default language for your website."); ?></small>
                                            </div>
-
-                                            <?php if($isMultilanguageActivated) { ?>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="badge bg-green me-2"></span>
-                                                    <p class="text-success mb-0">Activated</p>
-                                                </div>
-                                            <?php } ?>
                                         </div>
 
                                             <div class="col-md-7 mt-4">
 
-                                            <?php if ($hasMultilanguageModuleActivated): ?>
-                                            <module type="multilanguage" template="admin" show_settings_link="true" />
-                                            <?php else: ?>
                                             <?php
-                                            $langs = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
-
-                                            if ($def_language == false) {
-                                                $def_language = 'en_US';
-                                            }
-                                            ?>
-                                        <?php if ($langs) : ?>
-                                            <?php
-                                            $foundedTranslations = 0;
-                                            $disableSwitchDefaultLanguage = false;
-                                            if (Schema::hasTable('multilanguage_translations')) {
-                                                $foundedTranslations = \Illuminate\Support\Facades\DB::table('multilanguage_translations')->count();
-                                                if ($foundedTranslations > 0) {
-                                                    $disableSwitchDefaultLanguage = true;
+                                                $langs = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                                if ($def_language == false) {
+                                                    $def_language = 'en_US';
                                                 }
-                                            }
+
+                                                if ($langs) {
+                                                $foundedTranslations = 0;
+                                                $disableSwitchDefaultLanguage = false;
+                                                if (Schema::hasTable('multilanguage_translations')) {
+                                                    $foundedTranslations = \Illuminate\Support\Facades\DB::table('multilanguage_translations')->count();
+                                                    if ($foundedTranslations > 0) {
+                                                        $disableSwitchDefaultLanguage = true;
+                                                    }
+                                                }
                                             ?>
 
-                                            <script type="text/javascript">
+                                                  <script type="text/javascript">
                                             function confirmChangeDefaultLanguage(element,event) {
                                                 <?php if ($disableSwitchDefaultLanguage):?>
                                                 event.preventDefault();
@@ -175,17 +165,12 @@ if (is_module('multilanguage')) {
                                                         <?php endforeach; ?>
                                                     </select>
 
-                                                    <?php if ($disableSwitchDefaultLanguage):?>
+                                                    <?php if ($disableSwitchDefaultLanguage) {?>
                                                     <small class="text-muted">
                                                         <?php _e('Warning! The changing default language maybe will break your site.'); ?>
                                                     </small>
-                                                    <?php endif;?>
-                                        <?php endif; ?>
-                                                <?php endif;?>
-
-                                            </div>
-                                            <div class="col-md-5 text-end text-right">
-
+                                                    <?php } ?>
+                                                <?php } ?>
                                             </div>
                                     </div>
                                 </div>
@@ -193,14 +178,16 @@ if (is_module('multilanguage')) {
                         </div>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
 
-
-            <?php if(!$hasMultilanguageModuleActivated and app()->module_manager->exists('multilanguage')   ): ?>
+    <?php if (!$hasMultilanguageModuleActivated) { ?>
+    <div class="card mb-5">
+        <div class="card-body">
             <div class="row pt-3">
                 <div class="col-xl-3 mb-xl-0 mb-3">
-                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Multi-Language"); ?></h5>
+                    <h5 class="font-weight-bold settings-title-inside"><?php _e("Multi-language"); ?></h5>
                     <small class="text-muted"><?php _e('You can activate the Multi-language module to use multiple languages'); ?></small>
                 </div>
                 <div class="col-xl-9">
@@ -209,26 +196,26 @@ if (is_module('multilanguage')) {
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group mb-4">
-                                        <label class="form-label"><?php _e("Multi language mode"); ?></label>
+                                        <label class="form-label"><?php _e("Multi-language mode"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("Activate the multi-language mode to have multiple languages for your content."); ?></small>
-                                            <div class="col-md-12 text-start">
+                                        <div class="col-md-12 text-start">
 
-                                                <?php if ($hasMultilanguageModuleActivated): ?>
-                                                    <a onclick="openMultilangEditModal('manage')" class="btn btn-outline-primary">
-                                                        <i class="mdi mdi-cogs"></i> <?php _e('Manage Multilanguage'); ?>
+                                            <?php if ($hasMultilanguageModuleActivated): ?>
+                                                <a onclick="openMultilangEditModal('manage')" class="btn btn-outline-primary">
+                                                    <i class="mdi mdi-cogs"></i> <?php _e('Manage Multi-language'); ?>
+                                                </a>
+                                            <?php else: ?>
+                                                <?php if (is_module('multilanguage')): ?>
+                                                    <a onclick="openMultilangEditModal('activate')" class="btn btn-outline-primary">
+                                                        <i class="mdi mdi-enable"></i> <?php _e('Activate Multi-language Module'); ?>
                                                     </a>
                                                 <?php else: ?>
-                                                    <?php if (is_module('multilanguage')): ?>
-                                                        <a onclick="openMultilangEditModal('activate')" class="btn btn-outline-primary">
-                                                            <i class="mdi mdi-enable"></i> <?php _e('Activate Multilanguage Module'); ?>
-                                                        </a>
-                                                    <?php else: ?>
-                                                        <a onclick="openMultilangEditModal('install')" class="btn btn-outline-primary">
-                                                            <i class="mdi mdi-download"></i> <?php _e('Install Multilanguage Module'); ?>
-                                                        </a>
-                                                    <?php endif; ?>
-                                                <?php endif;?>
-                                            </div>
+                                                    <a onclick="openMultilangEditModal('install')" class="btn btn-outline-primary">
+                                                        <i class="mdi mdi-download"></i> <?php _e('Install Multi-language Module'); ?>
+                                                    </a>
+                                                <?php endif; ?>
+                                            <?php endif;?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -238,11 +225,9 @@ if (is_module('multilanguage')) {
 
 
             </div>
-
-<?php endif; ?>
-
         </div>
     </div>
+    <?php } ?>
 
     <module type="settings/group/language_edit" id="mw_lang_file_edit"  edit-lang="<?php print $def_language ?>"  />
 </div>
