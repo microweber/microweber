@@ -136,10 +136,10 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 endif;
 ?>
 
-<div class="card shadow-sm mb-4" style="background: #f5f5f5;">
+<div class="card shadow-sm mb-4">
     <div class=" py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
        <div class="card-header pb-0 d-flex justify-content-between">
-           <button type="button" class="border-0 shadow-0 fs-2 js-lang-file-position ms-2 " type="button" >
+           <button type="button" class="border-0 shadow-0 control-label js-lang-file-position ms-2 " type="button" >
                <?php
                if ($namespace == '*') {
                    echo 'Global';
@@ -170,9 +170,9 @@ endif;
 
 
 
-                    <div class="text-center">
-                        <small class="text-muted  d-block"><?php _e('Translate the fields to different languages'); ?></small>
-                    </div>
+                <div class="text-center">
+                    <small class="text-muted  d-block"><?php _e('Translate the fields to different languages'); ?></small>
+                </div>
                 <div class="d-flex justify-content-center align-items-center my-3">
 
                     <div>
@@ -186,86 +186,69 @@ endif;
                     </div>
                 </div>
 
-<!--                    <div class="js-language-pagination---><?php //echo $namespaceMd5;?><!-- text-center mt-5">-->
-<!--                        --><?php
-//                        echo $getTranslations['pagination'];
-//                        ?>
-<!--                    </div>-->
 
-                <table width="100%" class="table js-table-lang">
-                    <thead>
-                    <tr>
-                        <th scope="col" style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;"><?php _e('Key'); ?></th>
-                        <th scope="col"><?php _e('Value'); ?></th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                    <div class="row align-items-center">
 
-                    <?php
-                    foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
-                        $translationKeyMd5 = md5($translationKey . $namespaceMd5);
+                        <?php
+                        foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
+                            $translationKeyMd5 = md5($translationKey . $namespaceMd5);
+                            ?>
+
+
+                                  <div class="col-xl-3">
+                                      <blockquote class="blockquote">
+                                          <?php echo $translationKey;?>
+                                      </blockquote>
+
+                                  </div>
+
+
+                                   <div class="col-xl-8">
+                                       <?php
+                                       foreach ($supportedLanguages as $supportedLanguage):
+                                           ?>
+
+                                           <div class="form-group">
+                                               <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
+
+
+                                               <div class="input-group mb-3">
+
+                                                   <div class="input-group-prepend">
+                                        <span class="input-group-text" >
+                                         <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
+                                        </span>
+                                                   </div>
+                                                   <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                                   <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+
+
+                                                   <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                                   <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
+                                                       if(isset($translationByLocales[$supportedLanguage['locale']])) {
+                                                           echo $translationByLocales[$supportedLanguage['locale']];
+                                                       } else {
+                                                           if (strpos($supportedLanguage['locale'], 'en') !== false) {
+                                                               echo $translationKey;
+                                                           } else {
+                                                               echo '';
+                                                           }
+                                                       }
+                                                       ?></textarea>
+                                               </div>
+                                           </div>
+
+                                       <?php endforeach; ?>
+                                   </div>
+                        <?php endforeach; ?>
+
+                    </div>
+
+                    <div class="js-language-pagination-<?php echo $namespaceMd5;?>">
+                        <?php
+                        echo $getTranslations['pagination'];
                         ?>
-                        <tr style="border-bottom: 1px solid #cfcfcf">
-                            <td style="vertical-align: middle; width: 30%; max-width: 200px; overflow: hidden;">
-                                <div class="lang-key-holder">
-                                    <textarea  readonly disabled="disabled"  class="lang_textarea_key form-control form-control-sm"><?php echo $translationKey;?></textarea>
-
-
-                                </div>
-                            </td>
-                            <td style="vertical-align: middle;">
-                                <?php
-                                foreach ($supportedLanguages as $supportedLanguage):
-                                    ?>
-
-                                    <div class="form-group">
-                                        <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
-
-
-                                        <div class="input-group mb-3">
-
-                                            <div class="input-group-prepend">
-                                    <span class="input-group-text" >
-                                     <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                    </span>
-                                            </div>
-                                            <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
-                                            <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
-
-
-                                            <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                            <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
-                                                if(isset($translationByLocales[$supportedLanguage['locale']])) {
-                                                    echo $translationByLocales[$supportedLanguage['locale']];
-                                                } else {
-                                                    if (strpos($supportedLanguage['locale'], 'en') !== false) {
-                                                        echo $translationKey;
-                                                    } else {
-                                                        echo '';
-                                                    }
-                                                }
-                                                ?></textarea>
-
-
-                                        </div>
-
-                                    </div>
-
-
-
-
-                                <?php endforeach; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-
-                <div class="js-language-pagination-<?php echo $namespaceMd5;?>">
-                    <?php
-                    echo $getTranslations['pagination'];
-                    ?>
-                </div>
+                    </div>
             </div>
 
         </div>
