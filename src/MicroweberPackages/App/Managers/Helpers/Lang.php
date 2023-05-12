@@ -47,6 +47,7 @@ class Lang
         //  mw()->option_manager->clear_memory();
 
         $this->lang = $lang;
+
         return app()->setLocale($lang);
     }
 

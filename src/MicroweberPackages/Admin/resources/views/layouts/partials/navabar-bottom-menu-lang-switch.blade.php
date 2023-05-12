@@ -16,11 +16,11 @@ if ($supportedLanguages !== null) {
         mw.$("#lang_selector").on("change", function () {
             mw.cookie.set("lang", $(this).val());
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: mw.settings.api_url + "set_current_lang",
                 data: {lang:$(this).val()}
-            }).done(function (){
-            //    window.location.reload();
+            }).always(function (){
+                window.location.reload();
             });
         });
     });
