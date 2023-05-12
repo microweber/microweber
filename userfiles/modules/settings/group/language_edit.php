@@ -64,9 +64,6 @@ $lang = mw()->lang_helper->current_lang();
 </script>
 
 <script>
-    $('body').on('click', '.js-lang-file-position', function () {
-        $(this).find('.mdi').toggleClass('mdi-rotate-270');
-    });
 
     $(document).ready(function () {
         $('.lang-edit-form textarea').keypress(function (event) {
@@ -167,13 +164,13 @@ $lang = mw()->lang_helper->current_lang();
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a href="#tabs-home-11" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Global</a>
+                                    <a href="#tabs-home-11" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab"><?php _e("Global"); ?></a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a href="#tabs-profile-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Modules</a>
+                                    <a href="#tabs-profile-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><?php _e("Modules"); ?></a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a href="#tabs-activity-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Templates</a>
+                                    <a href="#tabs-activity-11" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"><?php _e("Templates"); ?></a>
                                 </li>
                             </ul>
                         </div>
@@ -184,8 +181,8 @@ $lang = mw()->lang_helper->current_lang();
                                     <?php
                                     foreach ($namespaceGroups['Global'] as $translation):?>
 
-                                    <div class="card bg-azure-lt mb-4">
-                                        <div class="py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+                                    <div class="card bg-azure-lt mb-4 multilanguage-translations-collapse">
+                                        <div class="d-flex align-items-center py-3  dropdown-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
                                             <div class="card-header pb-0 d-flex justify-content-between">
                                                 <label class="form-label js-lang-file-position mb-0 ">
                                                     <?php
@@ -196,7 +193,6 @@ $lang = mw()->lang_helper->current_lang();
                                                     }
                                                     ?>
                                                 </label>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z"/></svg>
                                             </div>
                                         </div>
                                         <div class="collapse" id="language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
@@ -251,7 +247,7 @@ $lang = mw()->lang_helper->current_lang();
 
 
                                         <div class="card bg-azure-lt mb-4">
-                                            <div class="py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+                                            <div class="py-3 multilanguage-translations-collapse" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
                                                 <div class="card-header pb-0 d-flex justify-content-between">
                                                     <label class="form-label js-lang-file-position mb-0 ">
                                                         <?php

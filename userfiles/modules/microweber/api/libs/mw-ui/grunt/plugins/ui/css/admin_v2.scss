@@ -189,6 +189,47 @@ body, .is_admin {
     color: var(--tblr-primary);
 }
 
+.multilanguage-translations-collapse {
+    .dropdown-toggle {
+        &:not(.collapsed), &:hover {
+            &:after {
+                transition: .4s;
+                rotate: 90deg;
+                background-color: #efefef;
+            }
+
+            font-weight: 600;
+
+            span:after {
+                width: 100%;
+                opacity: 1;
+
+            }
+        }
+
+
+        &:after {
+            border: none;
+            content: url("data:image/svg+xml; utf8,<svg fill='currentColor' xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 96 960 960' width='20'><path d='m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z'/></svg>");
+            transform: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            border-radius: 50%;
+            margin-left: auto;
+
+            width: 30px;
+            height: 30px;
+            padding-top: 5px;
+            position: absolute;
+            top: 14px;
+            right: 14px;
+
+        }
+    }
+}
+
 .hidden {
     display: none;
 }
