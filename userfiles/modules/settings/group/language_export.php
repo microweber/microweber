@@ -39,7 +39,7 @@ if(empty($supportedLanguages)){
 <div class="my-2">
     <label class="form-label"><?php _e('Select the language to export:');?></label>
     <small class="text-muted d-block mb-3"><?php _e('If you want to export a .xlsx translated file you can export it from here.');?></small>
-    <select class="form-control js-export-selected-locale-val">
+    <select class="form-select js-export-selected-locale-val">
         <?php
         foreach ($supportedLanguages as $supportedLanguage):
             ?>
@@ -51,10 +51,10 @@ if(empty($supportedLanguages)){
     <br />
     <label class="form-label"><?php _e('Export File Format:'); ?></label>
     <small class="text-muted d-block mb-3"><?php _e('Select the format file to export.');?></small>
-    <select class="form-control js-export-selected-file-format-val">
+    <select class="form-select js-export-selected-file-format-val">
         <option value="xlsx">.xlsx</option>
         <option value="json">.json</option>
     </select>
     <br />
-    <button type="button" onclick="exportTheSelectedLanguage('<?php echo $params['namespace'];?>');" class="btn btn-success js-export-selected-locale-btn"><i class="mdi mdi-download"></i> <?php _e('Export & Download');?> </button>
+    <button type="button" onclick="exportTheSelectedLanguage('<?php echo $params['namespace'];?>');" class="btn btn-success js-export-selected-locale-btn float-end mt-3"> <?php _e('Export & Download');?> </button>
 </div>

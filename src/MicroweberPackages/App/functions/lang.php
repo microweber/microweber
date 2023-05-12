@@ -1,10 +1,6 @@
 <?php
-
-
-api_expose('set_current_lang');
 function set_current_lang($lang = 'en')
 {
-
     return mw()->lang_helper->set_current_lang($lang);
 }
 

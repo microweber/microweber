@@ -90,7 +90,7 @@ if (is_module('multilanguage')) {
 </script>
 
 
-<h1 class="main-pages-title"><?php _e('Language'); ?></h1>
+<h1 class="main-pages-title mb-3"><?php _e('Language'); ?></h1>
 
 
 <div class="<?php print $config['module_class'] ?>">
@@ -194,9 +194,6 @@ if (is_module('multilanguage')) {
                     </div>
                 </div>
 
-
-
-
             </div>
 
 
@@ -238,8 +235,6 @@ if (is_module('multilanguage')) {
                         </div>
                     </div>
                 </div>
-
-
 
 
             </div>
