@@ -71,12 +71,23 @@ if (is_module('multilanguage')) {
 
         if (action == 'activate') {
             addDefaultLanguageToMultilanguage();
+        } else if (action == 'addLanguage') {
+
+            var data = {};
+            mw.tools.open_module_modal('multilanguage/admin_add_language', data, {
+                overlay: true,
+                skin: 'simple',
+                height: 'auto',
+                width: 800,
+                title: 'Multi-language - Add new language'
+            });
+
         } else {
 
             <?php if (is_module('multilanguage')): ?>
             var data = {};
             data.show_settings_link = "true";
-            openMultilangEditModaleditModal = mw.tools.open_module_modal('multilanguage/admin', data, {
+            mw.tools.open_module_modal('multilanguage/admin', data, {
                 overlay: true,
                 skin: 'simple',
                 height: 'auto',
@@ -251,7 +262,7 @@ if (is_module('multilanguage')) {
                                                 ?>
 
 
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="<?php echo $language['language']; ?>   <?php if (strtolower($defaultLang) == strtolower($language['locale'])): ?>
+                                                <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="tooltip" title="<?php echo $language['language']; ?>   <?php if (strtolower($defaultLang) == strtolower($language['locale'])): ?>
                                                    (<?php _e('Default'); ?>)  <?php endif; ?>">
 
                                                     <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i> &nbsp;
@@ -268,13 +279,13 @@ if (is_module('multilanguage')) {
                                             <?php _e('No languages found.'); ?>
                                         <?php endif; ?>
 
-                                                <button type="button" class="btn btn-outline-primary">
+                                                <button type="button" class="btn btn-primary mt-2" onclick="openMultilangEditModal('addLanguage')">
                                                     <i class="mdi mdi-plus"></i> <?php _e('Add Language'); ?>
                                                 </button>
 
                                             </div>
                                             <div class="col-md-12 mt-3">
-                                                <button type="button" class="btn btn-link" onclick="openMultilangEditModal('manage')" >
+                                                <button type="button" class="btn btn-link" onclick="openMultilangEditModal('manage')">
                                                     <?php _e('Advanced settings'); ?>
                                                 </button>
                                             </div>
