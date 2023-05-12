@@ -136,10 +136,10 @@ if (TranslationText::where('translation_locale', mw()->lang_helper->current_lang
 endif;
 ?>
 
-<div class="card shadow-sm mb-4">
+<div class="card bg-azure-lt mb-4">
     <div class=" py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-<?php echo $namespaceMd5;?>">
        <div class="card-header pb-0 d-flex justify-content-between">
-           <button type="button" class="border-0 shadow-0 control-label js-lang-file-position ms-2 " type="button" >
+           <label class=" form-label js-lang-file-position mb-0 ">
                <?php
                if ($namespace == '*') {
                    echo 'Global';
@@ -147,7 +147,7 @@ endif;
                    echo $namespace;
                }
                ?>
-           </button>
+           </label>
            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z"/></svg>
 
        </div>
@@ -170,85 +170,85 @@ endif;
 
 
 
-                <div class="text-center">
-                    <small class="text-muted  d-block"><?php _e('Translate the fields to different languages'); ?></small>
-                </div>
+
                 <div class="d-flex justify-content-center align-items-center my-3">
 
                     <div>
-                        <a type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" aria-label="Import" data-bs-original-title="Import" height="20" viewBox="0 96 960 960" width="20"><path d="M260 896q-91 0-155.5-63T40 679q0-78 47-139t123-78q25-92 100-149t170-57q117 0 198.5 81.5T760 536q69 8 114.5 59.5T920 716q0 75-52.5 127.5T740 896H520q-33 0-56.5-23.5T440 816V610l-64 62-56-56 160-160 160 160-56 56-64-62v206h220q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480 336q-83 0-141.5 58.5T280 536h-20q-58 0-99 41t-41 99q0 58 41 99t99 41h100v80H260Zm220-280Z"/></svg>
+                        <a type="button" onClick="importTranslation('<?php echo $namespaceMd5;?>')" class="btn btn-sm" data-bs-toggle="tooltip" aria-label="Import" data-bs-original-title="Import">
+                            <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="M260 896q-91 0-155.5-63T40 679q0-78 47-139t123-78q25-92 100-149t170-57q117 0 198.5 81.5T760 536q69 8 114.5 59.5T920 716q0 75-52.5 127.5T740 896H520q-33 0-56.5-23.5T440 816V610l-64 62-56-56 160-160 160 160-56 56-64-62v206h220q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-83-58.5-141.5T480 336q-83 0-141.5 58.5T280 536h-20q-58 0-99 41t-41 99q0 58 41 99t99 41h100v80H260Zm220-280Z"/></svg>
                         </a>
-                        <a type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-sm ">
-                            <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="tooltip" aria-label="Export" data-bs-original-title="Export" height="20" viewBox="0 96 960 960" width="20"><path d="M260 896q-91 0-155.5-63T40 679q0-78 47-139t123-78q17-72 85-137t145-65q33 0 56.5 23.5T520 340v242l64-62 56 56-160 160-160-160 56-56 64 62V340q-76 14-118 73.5T280 536h-20q-58 0-99 41t-41 99q0 58 41 99t99 41h480q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-48-22-89.5T600 376v-93q74 35 117 103.5T760 536q69 8 114.5 59.5T920 716q0 75-52.5 127.5T740 896H260Zm220-358Z"/></svg>
+                        <a type="button" onClick="exportTranslation('<?php echo $namespace;?>')" class="btn btn-sm " data-bs-toggle="tooltip" aria-label="Export" data-bs-original-title="Export">
+                            <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="M260 896q-91 0-155.5-63T40 679q0-78 47-139t123-78q17-72 85-137t145-65q33 0 56.5 23.5T520 340v242l64-62 56 56-160 160-160-160 56-56 64 62V340q-76 14-118 73.5T280 536h-20q-58 0-99 41t-41 99q0 58 41 99t99 41h480q42 0 71-29t29-71q0-42-29-71t-71-29h-60v-80q0-48-22-89.5T600 376v-93q74 35 117 103.5T760 536q69 8 114.5 59.5T920 716q0 75-52.5 127.5T740 896H260Zm220-358Z"/></svg>
                         </a>
 
                     </div>
                 </div>
 
+                <div class="row align-items-center pt-0">
 
-                    <div class="row align-items-center">
+                            <div class="text-center mb-3">
+                                <small class="text-muted  d-block"><?php _e('Translate the fields to different languages'); ?></small>
+                            </div>
 
-                        <?php
-                        foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
-                            $translationKeyMd5 = md5($translationKey . $namespaceMd5);
-                            ?>
+                            <?php
+                            foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
+                                $translationKeyMd5 = md5($translationKey . $namespaceMd5);
+                                ?>
 
+                                <div class="card mb-4 col-xxl-8 col-xl-10 col-12 mx-auto">
+                                    <div class="card-body">
+                                        <small class="d-block mb-1 text-primary"><?php _e("Translation key") ?></small>
+                                        <input type="text" class="form-control" name="example-disabled-input" placeholder="<?php echo $translationKey;?>" value="<?php echo $translationKey;?>" disabled="">
 
-                                  <div class="col-xl-3">
-                                      <blockquote class="blockquote">
-                                          <?php echo $translationKey;?>
-                                      </blockquote>
-
-                                  </div>
-
-
-                                   <div class="col-xl-8">
-                                       <?php
-                                       foreach ($supportedLanguages as $supportedLanguage):
-                                           ?>
-
-                                           <div class="form-group">
-                                               <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
+                                   <?php
+                                   foreach ($supportedLanguages as $supportedLanguage):
+                                       ?>
 
 
-                                               <div class="input-group mb-3">
+                                          <div class="d-flex align-items-center">
 
-                                                   <div class="input-group-prepend">
-                                        <span class="input-group-text" >
-                                         <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-                                        </span>
-                                                   </div>
-                                                   <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
-                                                   <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
+                                            <div class="py-3">
+                                                <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
+
+                                                <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
+                                            </div>
+                                          </div>
+
+                                           <div class="input-group">
+
+                                               <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_group]" value="*">
+                                               <input type="hidden" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_namespace]" value="<?php echo $namespace;?>">
 
 
-                                                   <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
-                                                   <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control form-control-sm" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
-                                                       if(isset($translationByLocales[$supportedLanguage['locale']])) {
-                                                           echo $translationByLocales[$supportedLanguage['locale']];
+                                               <textarea name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_key]" style="display:none;"><?php echo $translationKey;?></textarea>
+                                               <textarea oninput="$(this).parent().addClass('js-translate-changed-fields');" name="translations[<?php echo $translationKeyMd5; ?>][<?php echo $supportedLanguage['locale'];?>][translation_text]" class="mw_lang_item_textarea_edit form-control" aria-label="" aria-describedby="basic-addon1" wrap="soft" rows="2"><?php
+                                                   if(isset($translationByLocales[$supportedLanguage['locale']])) {
+                                                       echo $translationByLocales[$supportedLanguage['locale']];
+                                                   } else {
+                                                       if (strpos($supportedLanguage['locale'], 'en') !== false) {
+                                                           echo $translationKey;
                                                        } else {
-                                                           if (strpos($supportedLanguage['locale'], 'en') !== false) {
-                                                               echo $translationKey;
-                                                           } else {
-                                                               echo '';
-                                                           }
+                                                           echo '';
                                                        }
-                                                       ?></textarea>
-                                               </div>
-                                           </div>
+                                                   }
+                                                   ?></textarea>
+                                             </div>
 
-                                       <?php endforeach; ?>
-                                   </div>
-                        <?php endforeach; ?>
+                                   <?php endforeach; ?>
 
-                    </div>
+                                </div>
+                            </div>
 
-                    <div class="js-language-pagination-<?php echo $namespaceMd5;?>">
-                        <?php
-                        echo $getTranslations['pagination'];
-                        ?>
-                    </div>
+                            <?php endforeach; ?>
+
+                        </div>
+
+
+                <div class="js-language-pagination-<?php echo $namespaceMd5;?>">
+                    <?php
+                    echo $getTranslations['pagination'];
+                    ?>
+                </div>
             </div>
 
         </div>
