@@ -54,14 +54,13 @@ class ModuleServiceProvider extends ServiceProvider
 
         View::addNamespace('module', __DIR__.'/resources/views');
 
-        $this->app->register(\MicroweberPackages\Module\FilamentPluginServiceProvider::class);
 
         $this->app->singleton('module_manager', function ($app) {
             return new ModuleManager();
         });
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Module::class, function () {
+            $repositoryManager->extend(\MicroweberPackages\Module\Models\Module::class, function () {
                 return new \MicroweberPackages\Module\Repositories\ModuleRepository();
             });
         });
@@ -71,7 +70,7 @@ class ModuleServiceProvider extends ServiceProvider
          * @property ModuleRepository $module_repository
          */
         $this->app->bind('module_repository', function () {
-            return $this->app->repository_manager->driver(Module::class);;
+            return $this->app->repository_manager->driver(\MicroweberPackages\Module\Models\Module::class);;
         });
     }
 

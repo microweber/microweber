@@ -43,7 +43,7 @@ class ListModules extends Component
 
     public function install($id)
     {
-        $findModule = \MicroweberPackages\Module\Module::where('id', $id)->first();
+        $findModule = \MicroweberPackages\Module\Models\Module::where('id', $id)->first();
 
         if ($findModule) {
             mw()->module_manager->set_installed([
@@ -56,7 +56,7 @@ class ListModules extends Component
 
     public function render()
     {
-        $modules = \MicroweberPackages\Module\Module::query();
+        $modules = \MicroweberPackages\Module\Models\Module::query();
 
         if ($this->keyword) {
             $modules->where('name', 'like', '%' . $this->keyword . '%');

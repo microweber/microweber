@@ -22,7 +22,7 @@ class DeleteOldBackupModule extends Migration
         }
 
         if (Schema::hasTable('modules')) {
-            $findModule = \MicroweberPackages\Module\Module::where('module', 'admin/backup_v2')->first();
+            $findModule = \MicroweberPackages\Module\Models\Module::where('module', 'admin/backup_v2')->first();
             if ($findModule != null) {
                 $findModule->delete();
             }

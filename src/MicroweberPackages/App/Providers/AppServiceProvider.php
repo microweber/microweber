@@ -35,6 +35,7 @@ use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
+use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Country\CountryServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
@@ -217,7 +218,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-       // $this->app->register(CoreServiceProvider::class);
+        $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
         $this->registerUtils();
@@ -349,7 +350,10 @@ class AppServiceProvider extends ServiceProvider
         if (is_cli()) {
             $this->app->register(DuskServiceProvider::class);
         }
-        load_all_service_providers_for_modules($this->app);
+        $is_installed = mw_is_installed();
+        if ($is_installed) {
+            load_all_service_providers_for_modules();
+        }
         $this->app->register(FilamentServiceProvider::class);
 
     }
@@ -580,7 +584,7 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            load_all_functions_files_for_modules($this->app);
+            load_all_functions_files_for_modules();
 
             $this->setupAppLocale();
 

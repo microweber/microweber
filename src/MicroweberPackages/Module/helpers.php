@@ -1,16 +1,10 @@
 <?php
 
-function load_all_service_providers_for_modules($app = null)
+function load_all_service_providers_for_modules()
 {
 
 
-    $is_installed = mw_is_installed();
-    if (!$is_installed) {
-
-        return;
-    }
     $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
-    $files = array();
 
     if (!empty($modules)) {
 
@@ -27,16 +21,26 @@ function load_all_service_providers_for_modules($app = null)
             }
 
 
-        $module = app()->template->get_config();
 
-        if ($module and isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-
-            app()->module_manager->boot_module($module);
-        }
     }
 }
+function load_service_providers_for_template()
+{
 
-function load_all_functions_files_for_modules($app = null)
+   return  app()->template->boot();
+}
+function load_functions_files_for_template()
+{
+    $template = app()->template->get_config();
+
+
+    $load_template_functions = template_dir() . 'functions.php';
+
+    if (is_file($load_template_functions)) {
+        include_once $load_template_functions;
+    }
+}
+function load_all_functions_files_for_modules()
 {
 
 

@@ -11,7 +11,7 @@ class AskForModuleUninstallModal extends ModalComponent
 
     public function confirm()
     {
-        $findModule = \MicroweberPackages\Module\Module::where('id', $this->moduleId)->first();
+        $findModule = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first();
         if ($findModule) {
             mw()->module_manager->uninstall([
                 'id' => $findModule->id,
@@ -26,7 +26,7 @@ class AskForModuleUninstallModal extends ModalComponent
     public function mount($moduleId)
     {
         $this->moduleId = $moduleId;
-        $this->moduleData = \MicroweberPackages\Module\Module::where('id', $this->moduleId)->first()->toArray();
+        $this->moduleData = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first()->toArray();
     }
 
     public function render()

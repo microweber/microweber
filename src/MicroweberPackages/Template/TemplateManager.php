@@ -29,12 +29,14 @@ class TemplateManager
             return;
         }
         $this->isBooted = true;
+        load_service_providers_for_template();
 
-        $load_template_functions = TEMPLATE_DIR . 'functions.php';
-
-        if (is_file($load_template_functions)) {
-            include_once $load_template_functions;
-        }
+        load_functions_files_for_template();
+//        $load_template_functions = TEMPLATE_DIR . 'functions.php';
+//
+//        if (is_file($load_template_functions)) {
+//            include_once $load_template_functions;
+//        }
 
 // //moved to load_all_service_providers_for_modules function
 //        $module = app()->template->get_config();
