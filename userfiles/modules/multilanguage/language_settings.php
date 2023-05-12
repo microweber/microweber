@@ -151,6 +151,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
             $.post(mw.settings.api_url + "multilanguage/delete_language", {id: language_id}).done(function (data) {
                 mw.reload_module_everywhere('multilanguage/language_settings');
+                mw.reload_module_everywhere('settings/group/language_multilanguage');
             });
         });
     }

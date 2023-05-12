@@ -29,6 +29,8 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                     mw.notification.success('Language added...',10000);
                 }
 
+                mw.trigger('mw.multilanguage.admin.language_added');
+
                 mw.reload_module_everywhere('multilanguage');
                 mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
