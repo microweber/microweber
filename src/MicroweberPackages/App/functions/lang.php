@@ -4,6 +4,9 @@
 api_expose('set_current_lang');
 function set_current_lang($lang = 'en')
 {
+    if (isset($lang['lang'])) {
+        $lang = $lang['lang'];
+    }
 
     return mw()->lang_helper->set_current_lang($lang);
 }
