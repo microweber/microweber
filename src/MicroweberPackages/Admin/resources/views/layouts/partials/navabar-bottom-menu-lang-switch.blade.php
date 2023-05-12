@@ -1,45 +1,90 @@
 <div class="dropdown-divider"></div>
-
 <?php
-$selectedLang = $currentLang = current_lang();
+
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+
+$selectedLang = current_lang();
 if (isset($_COOKIE['lang'])) {
     $selectedLang = $_COOKIE['lang'];
 }
-$supportedLanguages = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations('json');
+
+$currentLang = current_lang();
+if (MultilanguageHelpers::multilanguageIsEnabled()) {
+    $supportedLanguages = get_supported_languages(true);
+} else {
+    $supportedLanguages = array();
+    $supportedLanguagesFiles = \MicroweberPackages\Translation\TranslationPackageInstallHelper::getAvailableTranslations('json');
 
 
-if ($supportedLanguages !== null) {
-?>
+    //$getTranslationLocalesImported =  app()->translation_key_repostory->getImportedLocales();
+    if($supportedLanguagesFiles){
+        foreach ($supportedLanguagesFiles as $langKey => $langName) {
+            $item = [];
+            $item['locale'] = $langKey;
+            $item['display_name'] = $langName;
+            $supportedLanguages[] = $item;
+        }
+    }
+}
 
+
+if(empty($supportedLanguages)){
+    $item = [];
+    $item['locale'] = 'en_US';
+    $item['display_name'] = 'English';
+    $supportedLanguages[] = $item;
+}
+
+
+if ($supportedLanguages) {
+    ?>
+
+<div class="form-group text-center">
+    <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
+        <select class="form-select tomselect"
+                name="lang"
+                id="lang_selector_admin_footer"
+                data-width="100%"
+
+                data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
+                <?php foreach ($supportedLanguages as $language): ?>
+
+                <?php
+                $languageLocale = $language['locale'];
+                $languageId = explode("_", $languageLocale);
+                $languageId = $languageId[1] or $languageId[0];
+                $languageId = strtolower($languageId);
+
+                if (!isset($language['language'])) {
+                    continue;
+                }
+
+                $languageDisplayName = $language['language'];
+                ?>
+            <option
+            value="<?php print $languageLocale; ?>"
+            data-custom-properties="<?php print '%3Cspan%20class%3D%22me-1 flag%20flag-country-'.$languageId.'%22%3E%3C%2Fspan%3E' . $languageDisplayName; ?>"
+                    <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
+
+            </option>
+            <?php endforeach; ?>
+
+            <option value="edit_languages_redirect">Edit languages</option>
+        </select>
+    </div>
+</div>
 <script>
-    $(document).ready(function () {
-        mw.$("#lang_selector").on("change", function () {
-            mw.cookie.set("lang", $(this).val());
-            $.ajax({
-                type: "GET",
-                url: mw.settings.api_url + "set_admin_lang",
-                data: {lang:$(this).val()}
-            }).always(function (){
-                window.location.reload();
-            });
-        });
+    document.querySelector("#lang_selector_admin_footer").addEventListener("change", function () {
+
+        if(this.value == 'edit_languages_redirect'){
+
+            window.location.href = '<?php print admin_url('settings?group=language'); ?>';
+
+        } else {
+            mw.admin.language(this.value);
+
+        }
     });
 </script>
+<?php } ?>
 
-<div class="form-group">
-    <label class="text-muted"><?php _e("Language"); ?></label>
-
-    <select class="form-select d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector" data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
-
-        <?php foreach ($supportedLanguages as $languageLocale=>$languageDisplayName): ?>
-        <option value="<?php print $languageLocale; ?>"
-                <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
-            <?php echo $languageDisplayName; ?>
-
-        </option>
-        <?php endforeach; ?>
-    </select>
-</div>
-<?php
-}
-?>
