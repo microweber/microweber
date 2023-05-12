@@ -47,7 +47,7 @@ if (isset($_GET['group']) and $_GET['group']) {
     <?php return; ?>
 <?php endif ?>
 
-<h1 class="main-pages-title"><?php _e('Website Settings'); ?></h1>
+<h1 class="main-pages-title mb-3"><?php _e('Website Settings'); ?></h1>
 
 
 <div class="card mb-4">

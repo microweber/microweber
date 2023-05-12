@@ -61,7 +61,7 @@ class TaxManager
         $rules = [];
         $rules['name'] = 'required|max:500';
         $rules['type'] = 'required|max:500';
-        $rules['rate'] = 'required|max:500';
+        $rules['rate'] = 'required|max:500|gt:0';
 
         $validator = Validator::make($params, $rules);
 

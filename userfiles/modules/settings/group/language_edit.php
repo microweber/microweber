@@ -125,7 +125,7 @@ $lang = mw()->lang_helper->current_lang();
                 <?php if (mw()->ui->enable_service_links and mw()->ui->disable_powered_by_link == false): ?>
 
                 <small class="text-muted"><?php _e('Help us improve'); ?></small>
-                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm"><?php _e('Help with translation'); ?></a>
+                <a href="https://microweber.org/go/translation_help"  target="_blank" class="btn btn-outline-primary btn-sm  mt-xxl-0 mt-2"><?php _e('Help with translation'); ?></a>
                 <?php endif; ?>
 
 
@@ -175,7 +175,7 @@ $lang = mw()->lang_helper->current_lang();
                             </ul>
                         </div>
                         <div class="card-body">
-                            <div class="tab-content">
+                            <div class="tab-content mt-3">
                                 <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
 
                                     <?php foreach ($namespaceGroups['Global'] as $translation):?>
