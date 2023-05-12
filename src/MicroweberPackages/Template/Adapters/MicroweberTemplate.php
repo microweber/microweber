@@ -186,7 +186,7 @@ class MicroweberTemplate
 
         if (isset($params['meta_tags']) and $params['meta_tags']) {
             $params['layout'] = $l;
-            $meta_tags_render = new TemplateMetaTagsRenderer($this->app);
+            $meta_tags_render = new TemplateMetaTagsRenderer();
             $l = $meta_tags_render->render($params);
         }
 
