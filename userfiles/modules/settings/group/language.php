@@ -194,9 +194,6 @@ if (is_module('multilanguage')) {
                     </div>
                 </div>
 
-
-
-
             </div>
 
 
@@ -238,8 +235,6 @@ if (is_module('multilanguage')) {
                         </div>
                     </div>
                 </div>
-
-
 
 
             </div>
