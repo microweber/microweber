@@ -191,7 +191,6 @@ endif;
 
                                     <div class="py-3">
                                         <span class="flag-icon flag-icon-<?php echo $supportedLanguage['icon']; ?> m-r-10"></span>
-
                                         <small  class="form-text text-muted"><?php echo $supportedLanguage['language'];?></small>
                                     </div>
                                   </div>
