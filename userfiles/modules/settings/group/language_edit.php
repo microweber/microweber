@@ -148,12 +148,15 @@ $lang = mw()->lang_helper->current_lang();
                     if (!empty($getNamespaces)) {
                         foreach ($getNamespaces as $namespace=>$namespaceData) {
                             if ($namespace == 'global') {
+                                $namespaceData['translation_namespace_md5'] = md5($namespaceData['translation_namespace']);
                                 $namespaceGroups['Global'][] = $namespaceData;
                             }
                             if (strpos($namespace, 'modules-') !== false) {
+                                $namespaceData['translation_namespace_md5'] = md5($namespaceData['translation_namespace']);
                                 $namespaceGroups['Modules'][] = $namespaceData;
                             }
                             if (strpos($namespace, 'templates-') !== false) {
+                                $namespaceData['translation_namespace_md5'] = md5($namespaceData['translation_namespace']);
                                 $namespaceGroups['Templates'][] = $namespaceData;
                             }
                         }
@@ -178,31 +181,100 @@ $lang = mw()->lang_helper->current_lang();
                             <div class="tab-content mt-3">
                                 <div class="tab-pane active show" id="tabs-home-11" role="tabpanel">
 
-                                    <?php foreach ($namespaceGroups['Global'] as $translation):?>
-                                        <module type="settings/group/language_edit_browse"
-                                                class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
-                                                translation_namespace="<?php echo $translation['translation_namespace']; ?>"
-                                                translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    <?php
+                                    foreach ($namespaceGroups['Global'] as $translation):?>
+
+                                    <div class="card bg-azure-lt mb-4">
+                                        <div class="py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+                                            <div class="card-header pb-0 d-flex justify-content-between">
+                                                <label class="form-label js-lang-file-position mb-0 ">
+                                                    <?php
+                                                    if ($translation['translation_namespace'] == '*') {
+                                                        echo 'Global';
+                                                    } else {
+                                                        echo $translation['translation_namespace'];
+                                                    }
+                                                    ?>
+                                                </label>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z"/></svg>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+
+                                            <module type="settings/group/language_edit_browse"
+                                                    class="js-language-edit-browse-module js-language-edit-browse-<?php echo $translation['translation_namespace_md5'];?>"
+                                                    translation_namespace="<?php echo $translation['translation_namespace']; ?>"
+                                                    translation_namespace_md5="<?php echo $translation['translation_namespace_md5'];?>" search="" page="1" />
+
+                                        </div>
+                                    </div>
+
+
                                     <?php endforeach; ?>
 
                                 </div>
                                 <div class="tab-pane" id="tabs-profile-11" role="tabpanel">
 
                                     <?php foreach ($namespaceGroups['Modules'] as $translation):?>
-                                        <module type="settings/group/language_edit_browse"
+
+
+                                        <div class="card bg-azure-lt mb-4">
+                                            <div class="py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+                                                <div class="card-header pb-0 d-flex justify-content-between">
+                                                    <label class="form-label js-lang-file-position mb-0 ">
+                                                        <?php
+                                                        if ($translation['translation_namespace'] == '*') {
+                                                            echo 'Global';
+                                                        } else {
+                                                            echo $translation['translation_namespace'];
+                                                        }
+                                                        ?>
+                                                    </label>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z"/></svg>
+                                                </div>
+                                            </div>
+                                            <div class="collapse" id="language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+
+                                            <module type="settings/group/language_edit_browse"
                                                 class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
                                                 translation_namespace="<?php echo $translation['translation_namespace']; ?>"
                                                 translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+                                    </div>
+                                    </div>
+
                                     <?php endforeach; ?>
 
                                 </div>
                                 <div class="tab-pane" id="tabs-activity-11" role="tabpanel">
 
                                     <?php foreach ($namespaceGroups['Templates'] as $translation):?>
-                                        <module type="settings/group/language_edit_browse"
+
+
+                                        <div class="card bg-azure-lt mb-4">
+                                            <div class="py-3" data-bs-toggle="collapse" data-bs-target="#language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+                                                <div class="card-header pb-0 d-flex justify-content-between">
+                                                    <label class="form-label js-lang-file-position mb-0 ">
+                                                        <?php
+                                                        if ($translation['translation_namespace'] == '*') {
+                                                            echo 'Global';
+                                                        } else {
+                                                            echo $translation['translation_namespace'];
+                                                        }
+                                                        ?>
+                                                    </label>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 96 960 960" width="20"><path d="m376 816-56-56 184-184-184-184 56-56 240 240-240 240Z"/></svg>
+                                                </div>
+                                            </div>
+                                            <div class="collapse" id="language-edit-collapse-<?php echo $translation['translation_namespace_md5'];?>">
+
+                                            <module type="settings/group/language_edit_browse"
                                                 class="js-language-edit-browse-module js-language-edit-browse-<?php echo md5($translation['translation_namespace']);?>"
                                                 translation_namespace="<?php echo $translation['translation_namespace']; ?>"
                                                 translation_namespace_md5="<?php echo md5($translation['translation_namespace']);?>" search="" page="1" />
+
+                                    </div>
+                                    </div>
+
                                     <?php endforeach; ?>
 
                                 </div>
