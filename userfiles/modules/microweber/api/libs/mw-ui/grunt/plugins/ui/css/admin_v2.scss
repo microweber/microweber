@@ -213,15 +213,10 @@ body, .is_admin {
 .main-pages-title {
     font-weight: bold;
     font-size: 24px;
-    margin: 20px 0;
+    margin: 0 0 20px 0;
     color: var(--tblr-body-color);
 }
 
-.module {
-    .main-pages-title {
-        margin: unset;
-    }
-}
 
 .module {
     margin-top: 0 !important;
