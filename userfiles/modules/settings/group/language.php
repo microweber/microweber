@@ -80,8 +80,8 @@ if (is_module('multilanguage')) {
                 overlay: true,
                 skin: 'simple',
                 height: 'auto',
-                width: 750,
-                title: 'Edit'
+                width: 800,
+                title: 'Multi-language Settings'
             });
             <?php else: ?>
             mw.admin.admin_package_manager.install_composer_package_by_package_name('microweber-modules/multilanguage', $(this).attr('vkey'), this);
@@ -238,7 +238,7 @@ if (is_module('multilanguage')) {
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group mb-4">
-                                            <label class="form-label"><?php _e("Enabled languages"); ?></label>
+                                            <label class="form-label"><?php _e("Activated languages"); ?></label>
                                             <small class="text-muted d-block mb-2"><?php _e("You can manage multiple languages for your website content."); ?></small>
                                             <div class="col-md-12 text-start">
 
@@ -274,9 +274,9 @@ if (is_module('multilanguage')) {
 
                                             </div>
                                             <div class="col-md-12 mt-3">
-                                                <a href="<?php echo module_admin_url('multilanguage');?>">
+                                                <button type="button" class="btn btn-link" onclick="openMultilangEditModal('manage')" >
                                                     <?php _e('Advanced settings'); ?>
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
