@@ -220,8 +220,7 @@
     & > li > .mw-tree-item-content-root {
         .mw-tree-toggler{
             margin-inline: -25px -23px;
-            margin-block: 2px 0;
-            margin-top: 7px;
+ 
 
         }
     }
@@ -625,12 +624,5 @@ html[dir="rtl"]{
         }
     }
 }
-
-#admin-main-tree {
-
-    &::-webkit-scrollbar-track {
-        background: #f1f5f9;
-    }
-
-}
+ 
 
