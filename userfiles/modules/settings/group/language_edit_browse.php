@@ -177,7 +177,10 @@ endif;
                         <div class="card mb-4 col-xxl-8 col-xl-10 col-12 mx-auto">
                             <div class="card-body">
                                 <small class="d-block mb-1 text-primary"><?php _e("Translation key") ?></small>
-                                <input type="text" class="form-control" name="example-disabled-input" placeholder="<?php echo $translationKey;?>" value="<?php echo $translationKey;?>" disabled="">
+
+                                <p>
+                                    <b><?php echo $translationKey;?></b>
+                                </p>
 
                            <?php
                            foreach ($supportedLanguages as $supportedLanguage):
