@@ -6,6 +6,7 @@ namespace MicroweberPackages\Template\tests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\User\Models\User;
 
 /**
@@ -21,6 +22,11 @@ class TemplateServiceProviderBootTest extends TestCase
      */
     public function testTemplateServiceProviderIsLoaded()
     {
+        $is_dir = templates_dir() . $this->template_name;
+        if(!$is_dir){
+            $this->markTestSkipped('Template not found: ' . $this->template_name);
+        }
+
         $this->setPreserveGlobalState(false);
         $templateName = $this->template_name;
         save_option('current_template', $this->template_name, 'template');
@@ -52,11 +58,15 @@ class TemplateServiceProviderBootTest extends TestCase
         }
         $this->assertTrue($found);
 
+        $installer = new DbInstaller();
+         $installer->createSchema();
+
+
         // check for migration in db table
         $file = '2021_08_24_132521_update_new_world_template_edit_field_names';
         $check = DB::table('migrations')->where('migration', $file)->first();
-
-    }
+        $this->assertNotEmpty($check);
+     }
 
 
 }
