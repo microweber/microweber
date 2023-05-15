@@ -11,7 +11,7 @@
         <x-slot name="form">
 
             <!-- Profile Photo -->
-            <div class="mb-3" x-data="{photoName: null, photoPreview: null}">
+            <div class="form-label mb-3 text-center" x-data="{photoName: null, photoPreview: null}">
                 <!-- Profile Photo File Input -->
                 <input type="file" hidden
                        wire:model="photo"
@@ -25,11 +25,11 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-microweber-ui::label for="photo" value="{{ _e('Profile image') }}" />
+                <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
-                <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->photo }}" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
+                <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" x-show="! photoPreview" style="width: 60px; height: 60px;">
+                    <img src="{{ $this->photo }}" height="40px" width="40px" >
                 </div>
 
                 <!-- New Profile Photo Preview -->
