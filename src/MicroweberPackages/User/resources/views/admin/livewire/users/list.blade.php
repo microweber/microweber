@@ -101,7 +101,12 @@
                                 <tr id="mw-admin-user-{{$user->id}}">
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
-                                            <span class="avatar me-2" style="background-image: url({{$user->avatar}})"></span>
+
+                                            <span class="avatar me-2 border-0 rounded-circle bg-light">
+                                                <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
+                                            </span>
+
+
                                             <div class="flex-fill">
                                                 <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}</div>
                                                 <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
