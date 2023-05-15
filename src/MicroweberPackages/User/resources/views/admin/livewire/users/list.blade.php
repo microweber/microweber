@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="row rounded" x-show="showFilters">
+                <div x-show="showFilters">
                     <div class="col mb-3">
                         <label class="d-block mb-2"><?php _e('Sort By');?></label>
                         <div class="d-flex align-items-center">
