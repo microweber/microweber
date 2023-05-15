@@ -17,7 +17,7 @@ if ($supportedLanguages !== null) {
             mw.cookie.set("lang", $(this).val());
             $.ajax({
                 type: "GET",
-                url: mw.settings.api_url + "set_admin_lang",
+                url: mw.settings.api_url + "set_app_lang",
                 data: {lang:$(this).val()}
             }).always(function (){
                 window.location.reload();

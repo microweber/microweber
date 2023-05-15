@@ -1,7 +1,14 @@
-<div class="dropdown-divider"></div>
 <?php
-
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+
+if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+    ?>
+
+    @include('admin::layouts.partials.navabar-bottom-menu-lang-switch-native')
+
+<?php
+    return;
+}
 
 $selectedLang = current_lang();
 if (isset($_COOKIE['lang'])) {
@@ -38,7 +45,7 @@ if(empty($supportedLanguages)){
 
 if ($supportedLanguages) {
     ?>
-
+<div class="dropdown-divider"></div>
 <div class="form-group text-center">
     <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
         <select class="form-select tomselect"
