@@ -58,25 +58,6 @@ $namespaceMd5 = md5($namespace);
             });
         });
 
-        $('.mw_lang_item_textarea_edit').on('input', function () {
-            mw.on.stopWriting(this,function(){
-
-               var  saveTranslations = JSON.stringify($('.js-translate-changed-fields').find('input,textarea,select').serializeObject());
-               saveTranslations = btoa(encodeURIComponent(saveTranslations).replace(/%([0-9A-F]{2})/g,
-                function toSolidBytes(match, p1) {
-                    return String.fromCharCode('0x' + p1);
-                }));
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo route('admin.language.save'); ?>",
-                    data: {translations:saveTranslations}
-                }).done(function (resp) {
-                    mw.notification.success('<?php _e('Settings are saved'); ?>');
-                });
-            });
-        });
-
     });
 
 

@@ -6,7 +6,7 @@ if (isset($params['namespace'])) {
     $filter['translation_namespace'] = $params['namespace'];
 }
 if (isset($params['search'])) {
-    $filter['search'] = $params['search'];
+    $filter['search'] = trim($params['search']);
 }
 if (isset($params['page'])) {
     $filter['page'] = $params['page'];
@@ -96,6 +96,28 @@ foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
 
 
 <script>
+    $(document).ready(function () {
+
+        $('.mw_lang_item_textarea_edit').on('input', function () {
+            mw.on.stopWriting(this,function(){
+
+                var  saveTranslations = JSON.stringify($('.js-translate-changed-fields').find('input,textarea,select').serializeObject());
+                saveTranslations = btoa(encodeURIComponent(saveTranslations).replace(/%([0-9A-F]{2})/g,
+                    function toSolidBytes(match, p1) {
+                        return String.fromCharCode('0x' + p1);
+                    }));
+
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo route('admin.language.save'); ?>",
+                    data: {translations:saveTranslations}
+                }).done(function (resp) {
+                    mw.notification.success('<?php _e('Settings are saved'); ?>');
+                });
+            });
+        });
+    });
+
     // Laravel Pagination
     $(document).on('click', '.js-language-pagination-<?php echo $namespaceMd5;?> .pagination a', function(event){
         event.preventDefault();
