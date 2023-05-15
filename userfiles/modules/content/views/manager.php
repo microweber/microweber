@@ -11,7 +11,7 @@ $params_module = $params;
 
 <script type="text/javascript">
     publish_selected_posts = function () {
-        mw.tools.confirm('<?php _e('Are you sure you want to publish this content?'); ?>', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to publish this content?'); ?>', function () {
             var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
@@ -26,7 +26,7 @@ $params_module = $params;
     }
 
     unpublish_selected_posts = function () {
-        mw.tools.confirm('<?php _e('Are you sure you want to unpublish this content?'); ?>', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to unpublish this content?'); ?>', function () {
             var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
@@ -142,7 +142,7 @@ $params_module = $params;
                         mw.reload_module_parent('posts');
                         mw.reload_module_parent('content');
                         mw.reload_module_parent('shop/products');
-                        mw.notification.success('<?php _e("All changes are saved"); ?>.');
+                        mw.notification.success('<?php _ejs("All changes are saved"); ?>.');
                     });
                 },
                 start: function (a, ui) {

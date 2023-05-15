@@ -9,9 +9,9 @@ only_admin_access();
 
             $.post("<?php print site_url('api/multilanguage/supported_locale/set_active'); ?>", {is_active: is_checked, id: supported_language_id}, function (msg) {
                 if (is_checked === true) {
-                    mw.notification.success('<?php _e('Language is enabled!'); ?>');
+                    mw.notification.success('<?php _ejs('Language is enabled!'); ?>');
                 } else {
-                    mw.notification.error('<?php _e('Language is disabled!'); ?>');
+                    mw.notification.error('<?php _ejs('Language is disabled!'); ?>');
                 }
                 mw.reload_module_everywhere('multilanguage');
             });

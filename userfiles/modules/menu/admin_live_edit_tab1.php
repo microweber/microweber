@@ -90,7 +90,7 @@ if (!isset($rand)) {
     mw.menu_delete = function ($id) {
         var data = {};
         data.id = $id
-        if (confirm('<?php _e('Are you sure you want to delete this menu?'); ?>') === true) {
+        if (confirm('<?php _ejs('Are you sure you want to delete this menu?'); ?>') === true) {
             $.post("<?php echo route('api.menu.delete'); ?>", data, function (resp) {
                 window.location.href = window.location.href;
             });

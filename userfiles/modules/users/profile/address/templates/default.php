@@ -155,7 +155,7 @@
 
             $.post("<?php echo route('api.user.profile.update'); ?>", userProfileData)
             .done(function( data ) {
-                mw.notification.success('<?php _e('Profile udpated.');?>');
+                mw.notification.success('<?php _ejs('Profile udpated.');?>');
             });
 
         });

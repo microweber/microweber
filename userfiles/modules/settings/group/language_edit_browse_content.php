@@ -112,7 +112,7 @@ foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
                     url: "<?php echo route('admin.language.save'); ?>",
                     data: {translations:saveTranslations}
                 }).done(function (resp) {
-                    mw.notification.success('<?php _e('Settings are saved'); ?>');
+                    mw.notification.success('<?php _ejs('Settings are saved'); ?>');
                 });
             });
         });

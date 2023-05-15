@@ -13,10 +13,10 @@
             var $holder = $('.stats-view-holder');
             if ($holder.hasClass('hidden')) {
                 $holder.slideDown().removeClass('hidden');
-                $('.show-more-stats').text('<?php _e('show less'); ?>');
+                $('.show-more-stats').text('<?php _ejs('show less'); ?>');
             } else {
                 $holder.slideUp().addClass('hidden');
-                $('.show-more-stats').text('<?php _e('show more'); ?>');
+                $('.show-more-stats').text('<?php _ejs('show more'); ?>');
             }
         });
     });

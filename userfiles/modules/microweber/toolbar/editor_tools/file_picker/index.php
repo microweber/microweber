@@ -84,7 +84,7 @@ if (array_key_exists('types', $_GET)) {
 
             $(frame).bind("FilesAdded", function (frame, files_array, runtime) {
                 if (runtime == 'html4') {
-                    ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name + '" ...');
+                    ProgressInfo.html('<?php _ejs("Uploading"); ?> - "' + files_array[0].name + '" ...');
                 }
             });
 

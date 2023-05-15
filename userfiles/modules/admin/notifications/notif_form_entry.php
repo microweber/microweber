@@ -149,8 +149,8 @@ if (isset($item['created_by'])) {
                     <script type="text/javascript">
                         function deleteFormEntry(e, entryId) {
                             e.stopPropagation();
-                            mw.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
-                                mw.notification.msg('<?php _e('Deleting...'); ?>');
+                            mw.confirm('<?php _ejs('Are you sure you want to delete?'); ?>', function () {
+                                mw.notification.msg('<?php _ejs('Deleting...'); ?>');
                                 $.post(mw.settings.api_url+'delete_form_entry', {id: entryId}, function(msg) {
                                     $('.js-form-entry-' + entryId).fadeOut();
                                     mw.reload_module('#admin-dashboard-contact-form');

@@ -46,7 +46,7 @@ $namespaceMd5 = md5($namespace);
                 type: "POST",
                 url: "<?php echo route('admin.language.import_missing_translations'); ?>",
             }).done(function (resp) {
-                mw.notification.success('<?php _e('Translations are imported'); ?>');
+                mw.notification.success('<?php _ejs('Translations are imported'); ?>');
                 location.reload();
             });
         });

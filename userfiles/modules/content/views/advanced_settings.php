@@ -134,11 +134,11 @@ if (isset($data['created_by']) and $data['created_by']) {
 
                 el.on('show.bs.collapse', function (){
                     mw.storage.set(key, true);
-                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Hide'); ?>');
+                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _ejs('Hide'); ?>');
                 })
                 el.on('hide.bs.collapse', function (){
                     mw.storage.set(key, false);
-                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _e('Show'); ?>');
+                    $('[data-bs-target="#'+this.id+'"] .collapse-action-label').html('<?php _ejs('Show'); ?>');
                 })
 
                 if( isStored ) {

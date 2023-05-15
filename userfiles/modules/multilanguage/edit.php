@@ -54,7 +54,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
                 data: $(this).serialize(),
                 success: function (data) {
                     if (data.success) {
-                        mw.notification.success('<?php _e('Supported locale is saved!');?>');
+                        mw.notification.success('<?php _ejs('Supported locale is saved!');?>');
                         $('.js-admin-supported-locale-edit-messages').html('<div class="alert alert-success"><?php _e('Supported locale is saved!'); ?></div>');
                     } else if (data.message) {
                         mw.notification.error(data.message);

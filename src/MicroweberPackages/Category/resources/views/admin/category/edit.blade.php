@@ -162,7 +162,7 @@
                         if (data.type === 'category') {
                             mw.content.deleteCategory(data.id, function () {
                                 $(element).fadeOut();
-                                mw.notification.success('<?php _e("Category deleted"); ?>');
+                                mw.notification.success('<?php _ejs("Category deleted"); ?>');
                             });
                         }
 

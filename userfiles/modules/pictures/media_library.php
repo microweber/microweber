@@ -120,7 +120,7 @@ must_have_access();
                     mw.url.windowHashParam('select-file', encodeURIComponent(imageUrl));
                     $(imageElement).parent().find('.image-item-thumbnail').css('opacity', ' 0.6');
                     $(imageElement).parent().find('.image-item-thumbnail').before('<span class="mw-icon-checkmark-circled image-item-is-downloaded"></span>');
-                    mw.top().notification.success('<?php _e('Image selected'); ?>', 3000);
+                    mw.top().notification.success('<?php _ejs('Image selected'); ?>', 3000);
                     mw.spinner(({element: imageElement.parent(), size: 30})).remove();
 
                 });
@@ -163,7 +163,7 @@ must_have_access();
                 searchMediaLibraryXHR = $.getJSON(mw.settings.api_url + "media_library/search?keyword=" + search + "&page=" + page, function (data) {
 
                     if (page == 1) {
-                        root.html('<?php _e('Searching'); ?>...');
+                        root.html('<?php _ejs('Searching'); ?>...');
                     }
 
                     if (data.success) {
@@ -189,7 +189,7 @@ must_have_access();
                                 li.append(download);
                                 li.append(author);
 
-                                download.append('<?php _e('Download');  ?>');
+                                download.append('<?php _ejs('Download');  ?>');
                                 likes.append('<span class="mw-icon-heart"></span>' + val.likes);
 
                                 root.append(li);

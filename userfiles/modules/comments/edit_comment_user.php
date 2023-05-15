@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function () {
     // mw.Editor({ element: '#mw-comment-edit-textarea' });
-    mw.dialog.get('#mw-comment-edit-textarea').title('<?php _e('Edit comment') ?>')
+    mw.dialog.get('#mw-comment-edit-textarea').title('<?php _ejs('Edit comment') ?>')
 	$('#<?php print $id; ?>').on("click", function() {
  		$.ajax({
  			  type: "POST",
@@ -19,7 +19,7 @@ $(document).ready(function () {
  			  success: function() {
  				mw.reload_module('comments');
  				mw.notification.success('Comment saved!');
-                  mw.dialog.get('#mw-comment-edit-textarea').title('<?php _e('Edit comment') ?>')
+                  mw.dialog.get('#mw-comment-edit-textarea').title('<?php _ejs('Edit comment') ?>')
  			  }
  		});
 	});

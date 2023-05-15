@@ -133,7 +133,7 @@ $rand = 'pic-sorter-' . uniqid();
             if(val !== 'file') {
                 mw._postsImageUploader.displayControllerByType(val)
             }
-            slct.displayValue('<?php _e("Add media from"); ?>')
+            slct.displayValue('<?php _ejs("Add media from"); ?>')
         });
         slct.on('optionsReady', function (options) {
             var file = options.find(function (itm){

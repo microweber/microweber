@@ -8,7 +8,7 @@ if (!isset($params['project_name'])) {
 
 <script>
     function delete_testimonial(id) {
-        var are_you_sure = confirm('<?php _e('Are you sure?'); ?>');
+        var are_you_sure = confirm('<?php _ejs('Are you sure?'); ?>');
         if (are_you_sure == true) {
             var data = {}
             data.id = id;

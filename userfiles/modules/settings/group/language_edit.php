@@ -53,7 +53,7 @@ $lang = mw()->lang_helper->current_lang();
                 type: "POST",
                 url: "<?php echo route('admin.language.send_to_us'); ?>",
                 success: function (data) {
-                    mw.notification.msg('<?php _e('Thank you for your sharing.'); ?>', 1000, false);
+                    mw.notification.msg('<?php _ejs('Thank you for your sharing.'); ?>', 1000, false);
                     mw.tools.enable(document.querySelector(".send-your-lang a"));
                 }
             });

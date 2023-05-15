@@ -63,7 +63,7 @@ if (isset($params['offer_id']) && $params['offer_id'] !== 'false') {
     });
 
     function deleteOffer(offer_id) {
-        var confirmUser = confirm('<?php _e('Are you sure you want to delete this offer?'); ?>');
+        var confirmUser = confirm('<?php _ejs('Are you sure you want to delete this offer?'); ?>');
         if (confirmUser == true) {
             $.ajax({
                 url: '<?php print route('api.offer.delete');?>',
