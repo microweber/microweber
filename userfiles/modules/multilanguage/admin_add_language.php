@@ -10,7 +10,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $('.js-add-language').on('click', function () {
 
-            $('.js-add-language').html('<?php _e('Importing the language..'); ?>');
+            $('.js-add-language').html('<?php _ejs('Importing the language..'); ?>');
 
             if (typeof(mw.notification) != 'undefined') {
                 mw.notification.success('Adding language...',10000);
@@ -23,7 +23,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
             $.post(mw.settings.api_url + "multilanguage/add_language", {locale: add_language_key, language: add_language_value}).done(function (data) {
 
-                $('.js-add-language').html('<?php _e('Add'); ?>');
+                $('.js-add-language').html('<?php _ejs('Add'); ?>');
 
                 if (typeof(mw.notification) != 'undefined') {
                     mw.notification.success('Language added...',10000);
