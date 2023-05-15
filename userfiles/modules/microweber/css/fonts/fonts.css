@@ -4,6 +4,6 @@
 
 @font-face {
     font-family: 'Inter';
-    src: url('./inter/inter.woff') format("woff"), url('./inter/inter.ttf') format("truetype");
+    src: url('./inter/inter.woff2') format("woff2"), url('./inter/inter.woff') format("woff"), url('./inter/inter.ttf') format("truetype");
     font-display: swap;
 }
