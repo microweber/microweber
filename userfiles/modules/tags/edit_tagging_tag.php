@@ -66,7 +66,7 @@ if ($tag) {
                         mw.notification.error(data.message);
                         $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger">' + data.message + '</div>');
                     } else {
-                        mw.notification.error('<?php _e('Please, fill all fields.'); ?>');
+                        mw.notification.error('<?php _ejs('Please, fill all fields.'); ?>');
                         $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger"><?php _e('Please, fill all fields.'); ?></div>');
                     }
                 }
