@@ -137,13 +137,12 @@ Route::group([
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
 
-    \Route::get('/api/set_current_lang', function () {
+    \Route::get('/api/set_admin_lang', function () {
 
         $requestLang = request()->get('lang');
-        mw()->lang_helper->set_current_lang($requestLang);
-        \Cookie::queue('lang', $requestLang, 86400 * 30);
+        \Cookie::queue('admin_lang', $requestLang, 86400 * 30);
 
-    })->name('set_current_lang');
+    })->name('set_admin_lang');
 
     Route::any('/favicon.ico', function () {
         return;

@@ -313,9 +313,9 @@ $allOffers = app()->offer_repository->getAll();
                                </g>
                            </g>
                        </g>
-</svg>
-                 <h1 style="font-weight: 600;" class="text-center">
-                       You don't have any offers.
+                    </svg>
+                    <h1 style="font-weight: 600;" class="text-center">
+                        <?php _e('No offers yet'); ?>
                    </h1>
                    <a href="javascript:;" class="btn btn-primary js-add-new-offer"><?php _e('Add new offer'); ?></a>
 
