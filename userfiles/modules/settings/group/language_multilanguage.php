@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="col-md-12 mt-3">
                                         <button type="button" class="btn btn-link" onclick="openMultilangEditModal('manage')">
-                                            <?php _e('Advanced settings'); ?>
+                                            <?php _e('Language settings'); ?>
                                         </button>
                                     </div>
                                 </div>

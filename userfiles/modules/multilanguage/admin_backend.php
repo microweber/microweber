@@ -20,17 +20,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
-        <h5>
-            <?php if (isset($module_info['icon'])):?>
-            <img src="<?php echo $module_info['icon']; ?>" class="module-icon-svg-fill"/>
-            <strong><?php echo _e($module_info['name']); ?></strong>
-            <?php endif; ?>
-        </h5>
+
     </div>
 
-    <div class=" ">
+    <div class=" row">
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e('Languages'); ?></a>
+            <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list">  <?php print _e('Languages'); ?></a>
             <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#settings">  <?php print _e('Settings'); ?></a>
         </nav>
 
