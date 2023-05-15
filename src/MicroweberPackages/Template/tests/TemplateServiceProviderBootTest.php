@@ -52,7 +52,7 @@ class TemplateServiceProviderBootTest extends TestCase
         }
         $this->assertTrue($found);
 
-        // check form migration in db table
+        // check for migration in db table
         $file = '2021_08_24_132521_update_new_world_template_edit_field_names';
         $check = DB::table('migrations')->where('migration', $file)->first();
 

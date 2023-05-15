@@ -34,11 +34,19 @@ function load_functions_files_for_template()
     $template = app()->template->get_config();
 
 
-    $load_template_functions = template_dir() . 'functions.php';
-
-    if (is_file($load_template_functions)) {
-        include_once $load_template_functions;
+ //   $load_template_functions = template_dir() . 'functions.php';
+    if(defined('TEMPLATE_DIR')) {
+        $load_template_functions = TEMPLATE_DIR . 'functions.php';
+        if (is_file($load_template_functions)) {
+            include_once $load_template_functions;
+        }
     }
+
+
+
+//    if (is_file($load_template_functions)) {
+//        include_once $load_template_functions;
+//    }
 }
 function load_all_functions_files_for_modules()
 {
