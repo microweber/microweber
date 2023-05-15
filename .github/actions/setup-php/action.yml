@@ -7,7 +7,7 @@ inputs:
     default: bash
   php_version:
     description: 'PHP version'
-    default: '8.1'
+    default: '8.2'
     required: true
 runs:
   using: "composite"
@@ -23,6 +23,7 @@ runs:
         php-version: ${{ inputs.php_version }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, bcmath, intl, sodium
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
+        tools: phpunit
 #    - name: zstd act workaround
 #      run: sudo apt install zstd
 #      shell: bash
