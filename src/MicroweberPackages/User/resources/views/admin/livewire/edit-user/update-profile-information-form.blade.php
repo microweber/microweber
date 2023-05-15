@@ -1,11 +1,11 @@
 <div>
     <x-microweber-ui::form-section submit="updateProfileInformation">
         <x-slot name="title">
-            Profile Information
+            {{ _e('Profile Information') }}
         </x-slot>
 
         <x-slot name="description">
-            Update your account's profile information and email address.
+            {{ _e('Update your account profile information and email address') }}.
         </x-slot>
 
         <x-slot name="form">
@@ -25,30 +25,30 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-microweber-ui::label for="photo" value="{{ __('Photo') }}" />
+                <x-microweber-ui::label for="photo" value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->photo }}" class="rounded-circle" height="80px" width="80px">
+                    <img src="{{ $this->photo }}" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview">
-                    <img x-bind:src="photoPreview" class="rounded-circle" width="80px" height="80px">
+                    <img x-bind:src="photoPreview" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
                 </div>
 
-                <x-microweber-ui::secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Select A New Photo') }}
-                </x-microweber-ui::secondary-button>
+                <x-microweber-ui::link-button class=" mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                    {{ _e('Select photo') }}
+                </x-microweber-ui::link-button>
 
                 @if ($this->photo)
-                    <x-microweber-ui::secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                    <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">{{ _e('Loading') }}...</span>
                         </div>
 
-                        {{ __('Remove Photo') }}
-                    </x-microweber-ui::secondary-button>
+                        {{ _e('Remove photo') }}
+                    </x-microweber-ui::link-button>
                 @endif
 
                 <x-microweber-ui::input-error for="photo" class="mt-2" />
@@ -107,11 +107,11 @@
 
         <x-slot name="actions">
             <x-microweber-ui::action-message class="mr-3" on="saved">
-                Saved.
+                {{ _e('Saved') }}.
             </x-microweber-ui::action-message>
 
             <x-microweber-ui::button>
-                Save
+                {{ _e('Save') }}
             </x-microweber-ui::button>
         </x-slot>
     </x-microweber-ui::form-section>
