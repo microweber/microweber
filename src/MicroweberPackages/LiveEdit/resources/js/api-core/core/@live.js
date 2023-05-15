@@ -166,8 +166,10 @@ export class LiveEdit {
 
         moduleHandle.on('targetChange', function (node){
 
+            console.log(99, node)
 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
+                console.log(settings)
 
                 moduleHandleContent.menu.root.remove();
                 
@@ -187,6 +189,7 @@ export class LiveEdit {
                 moduleHandleContent.menu.show();
 
                 moduleHandleContent.root.append(moduleHandleContent.menu.root);
+                console.log(moduleHandleContent.menu)
 
 
             });
@@ -271,20 +274,28 @@ export class LiveEdit {
             if(this.handles.targetIsOrInsideHandle(e)) {
                 return
             }
-            const elements = this.observe.fromEvent(e);
+             // const elements = this.observe.fromEvent(e);
+            const elements = [DomService.firstBlockLevel(e.target)];
             let first = elements[0];
-
+            const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout']);
+           
             if(first.nodeName !== 'IMG') {
                 first = DomService.firstBlockLevel(elements[0]);
             }
+
+            first = target;
+ 
             
               
             this.handles.get('element').set(null)
             this.handles.hide();
+
+            
          
            
             if(first) {
                const type = this.elementAnalyzer.getType(first);
+ 
                if(type && type !== 'edit') {
                    this.handles.set(type, first)
                    if(type === 'element') {
@@ -292,7 +303,7 @@ export class LiveEdit {
                    } else if(type === 'module') {
                     this.handles.hide('element');
                     }  else if(type === 'layout') {
-                        this.handles.set('layout', layout);
+                        this.handles.set('layout', first);
                     } else {
                         this.handles.hide();
                    }
@@ -309,7 +320,7 @@ export class LiveEdit {
 
  
 
-        let events;
+            let events, _hovered = [];
   
             events = 'mousedown touchstart';
             ElementManager(this.root).on('mousemove', (e) => {
@@ -326,6 +337,21 @@ export class LiveEdit {
                 const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
+                
+                if(target && _hovered.indexOf(target) === -1) {
+                    _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
+                    _hovered = [];
+
+ 
+
+                    if(!this.handles.targetIsSelected(target, this.interactionHandle)) {
+                        target.dataset.mwLiveEdithover = true;
+                        _hovered.push(target)
+                    }
+
+                     
+                    
+                }
 
                 
 

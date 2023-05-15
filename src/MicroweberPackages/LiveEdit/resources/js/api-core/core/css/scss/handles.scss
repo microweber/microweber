@@ -295,3 +295,14 @@ $handleHeight: 42;
         top: 0;
     }
 }
+
+
+[data-mw-live-edithover="true"] > * {
+    pointer-events: none;
+    .module,.element,.cloneable, .edit{
+        pointer-events: all;
+    }
+    &.module,&.element,&.cloneable, &.edit{
+        pointer-events: all;
+    }
+}

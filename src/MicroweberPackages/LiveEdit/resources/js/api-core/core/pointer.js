@@ -98,6 +98,9 @@ export const GetPointerTargets = function(options)  {
         }
 
  
+        if(isNaN(x) || isNaN(y)) {
+            return res;
+        }
         var el = scope.document.elementFromPoint(x, y);
 
         if (!el ) return [];

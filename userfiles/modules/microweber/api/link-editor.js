@@ -118,13 +118,13 @@ mw.lib.require('xss');
 
                 if(dropdown.length) {
                     const dropdownEl = mw.element(`
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">${mw.lang('More')}</a>
+                        <li class="nav-item dropdown">
+                             
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">${mw.lang('More')}</a>
                                 <div class="dropdown-menu">
                         
                                 </div>
-                            </div>
+                            
                         </li>
                     
                     `);
