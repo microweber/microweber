@@ -1,16 +1,16 @@
 <x-microweber-ui::action-section>
     <x-slot name="title">
-        Browser Sessions
+        <?php _e('Browser Sessions');?>
     </x-slot>
 
     <x-slot name="description">
-        Manage and logout your active sessions on other browsers and devices.
+        <?php _e('Manage and logout your active sessions on other browsers and devices');?>.
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
-            If necessary, you may logout of all of your other browser sessions across all of your devices. If you feel your account has been compromised, you should also update your password.
-        </div>
+        <small class="text-muted">
+            <?php _e('If necessary, you may logout of all of your other browser sessions across all of your devices. If you feel your account has been compromised, you should also update your password');?>.
+        </small>
 
         @if (count($this->sessions) > 0)
             <div class="mt-2 space-y-6">
@@ -39,9 +39,9 @@
                                     {{ $session->ip_address }},
 
                                     @if ($session->is_current_device)
-                                        <span class="text-green-500 font-semibold">This device</span>
+                                        <span class="text-green-500 font-semibold"><?php _e('This device');?></span>
                                     @else
-                                        Last active {{ $session->last_active }}
+                                        <?php _e('Last active');?> {{ $session->last_active }}
                                     @endif
                                 </div>
                             </div>
@@ -53,22 +53,22 @@
 
         <div class="flex items-center mt-2">
             <x-microweber-ui::button wire:click="confirmLogout" wire:loading.attr="disabled">
-                Logout Other Browser Sessions
+                <?php _e('Logout Other Browser Sessions');?>
             </x-microweber-ui::button>
 
             <x-microweber-ui::action-message class="ml-3" on="loggedOut">
-                Done.
+                <?php _e('Done');?>.
             </x-microweber-ui::action-message>
         </div>
 
         <!-- Logout Other Devices Confirmation Modal -->
         <x-microweber-ui::dialog-modal wire:model="confirmingLogout">
             <x-slot name="title">
-                Logout Other Browser Sessions
+                <?php _e('Logout Other Browser Sessions');?>
             </x-slot>
 
             <x-slot name="content">
-                Please enter your password to confirm you would like to logout of your other browser sessions across all of your devices.
+                <?php _e('Please enter your password to confirm you would like to logout of your other browser sessions across all of your devices');?>.
 
                 <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
                     <x-microweber-ui::input type="password" class="mt-1 block w-3/4" placeholder="Password"
@@ -82,11 +82,11 @@
 
             <x-slot name="footer">
                 <x-microweber-ui::secondary-button wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled">
-                    Nevermind
+                    <?php _e('Nevermind');?>
                 </x-microweber-ui::secondary-button>
 
                 <x-microweber-ui::button class="ml-2" wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled">
-                    Logout Other Browser Sessions
+                    <?php _e('Logout Other Browser Sessions');?>
                 </x-microweber-ui::button>
             </x-slot>
         </x-microweber-ui::dialog-modal>
