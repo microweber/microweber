@@ -49,7 +49,7 @@ class TemplateServiceProviderBootTest extends TestCase
         ]);
 
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
-        app()->template->boot();
+        app()->template_manager->boot_template();
         $this->assertEquals($templateName, app()->template->folder_name());
         $expected = 'MicroweberPackages\Template\NewWorld\TemplateServiceProvider';
         $this->assertNotEmpty(app()->getProviders($expected));
