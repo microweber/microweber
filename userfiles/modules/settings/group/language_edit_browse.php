@@ -147,16 +147,3 @@ endif;
     </div>
 </div>
 
-<script>
-    // Laravel Pagination
-    $(document).on('click', '.js-language-pagination-<?php echo $namespaceMd5;?> .pagination a', function(event){
-        event.preventDefault();
-
-        var page = $(this).attr('href').split('page=')[1];
-
-        $('.js-language-edit-browse-<?php echo $namespaceMd5;?>').attr('page', page);
-        mw.reload_module('.js-language-edit-browse-<?php echo $namespaceMd5;?>');
-
-    });
-</script>
-

@@ -88,7 +88,7 @@ class TranslationKey extends Model
             return $filter['page'];
         });
 
-        $getTranslationsKeys = $queryModel->paginate(100);
+        $getTranslationsKeys = $queryModel->paginate(1);
         $pagination = $getTranslationsKeys->links("pagination::bootstrap-4-flex");
 
         $group = [];

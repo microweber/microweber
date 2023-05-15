@@ -8,6 +8,9 @@ if (isset($params['namespace'])) {
 if (isset($params['search'])) {
     $filter['search'] = $params['search'];
 }
+if (isset($params['page'])) {
+    $filter['page'] = $params['page'];
+}
 
 $getTranslations = \MicroweberPackages\Translation\Models\TranslationKey::getGroupedTranslations($filter);
 
@@ -89,3 +92,18 @@ foreach ($getTranslations['results'] as $translationKey=>$translationByLocales):
     echo $getTranslations['pagination'];
     ?>
 </div>
+
+
+
+<script>
+    // Laravel Pagination
+    $(document).on('click', '.js-language-pagination-<?php echo $namespaceMd5;?> .pagination a', function(event){
+        event.preventDefault();
+
+        var page = $(this).attr('href').split('page=')[1];
+
+        $('#js-language-edit-browse-content-<?php echo $namespaceMd5;?>').attr('page', page);
+        mw.reload_module('#js-language-edit-browse-content-<?php echo $namespaceMd5;?>');
+
+    });
+</script>
