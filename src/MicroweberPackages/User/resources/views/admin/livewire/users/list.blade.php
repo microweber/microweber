@@ -1,4 +1,4 @@
-<div>
+<div class="col-xxl-10 col-md-11 col-12 px-md-0 px-2 mx-auto">
 
 
     <style>
@@ -18,61 +18,58 @@
             border-radius: 50px;
         }
     </style>
-    <div class="card bg-azure-lt mb-3" x-data="{showFilters: false}">
-        <div class="card-header">
-            <h5 class="card-title"><i class="mdi mdi-account-multiple text-primary mr-3"></i> <strong><?php _e("Manage Users"); ?></strong>
-            </h5>
-        </div>
+    <h1 class="main-pages-title"> <?php _e("Manage Users"); ?></h1>
+
+    <div class="card mb-3" x-data="{showFilters: false}">
 
         <div class="card-body">
-            <div id="users-manage-body">
+            <div class="row" id="users-manage-body">
                 <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
-                    <div class="form-inline">
-                        <div class="form-group">
-                            <div class="input-group mb-0 prepend-transparent">
-                                <div class="input-group-prepend  ">
-                                    <span class="input-group-text"><i class="mdi mdi-magnify mdi-20px"></i></span>
-                                </div>
-                                <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
 
-                            </div>
-                        </div>
+                    <div class="input-icon mb-3">
+                        <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
+
+                        <span class="input-icon-addon">
+                          <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                        </span>
                     </div>
+
                     <div>
-                        <button type="button" class="btn btn-outline-default" @click="showFilters = ! showFilters">
-                            <i class="mdi mdi-filter mr-2"></i> Show Filters
+                        <button type="button" class="btn btn-outline-primary mx-1 btn-sm" @click="showFilters = ! showFilters">
+                            <?php _e("Show Filters"); ?>
                         </button>
                         <a href="{{route('admin.users.create')}}"
-                           class="btn btn-primary" id="add-new-user-btn">
-                            <i class="mdi mdi-account-plus mr-2"></i> <?php _e("Add user"); ?>
+                           class="btn btn-primary mx-1 btn-sm" id="add-new-user-btn">
+                            <?php _e("Add user"); ?>
                         </a>
                     </div>
                 </div>
                 <div class="row rounded" x-show="showFilters">
                     <div class="col mb-3">
-                        <label class="d-block mb-2">Sort By</label>
-                        <div class="d-flex">
-                            <select wire:model="orderBy" class="form-select">
-                                <option value="id">Id</option>
-                                <option value="username">Username</option>
-                                <option value="email">Email</option>
-                                <option value="is_active">Is active</option>
-                                <option value="last_login">Last login</option>
-                                <option value="created_at">Created at</option>
-                                <option value="updated_at">Updated at</option>
+                        <label class="d-block mb-2"><?php _e('Sort By');?></label>
+                        <div class="d-flex align-items-center">
+                            <select wire:model="orderBy" class="form-select me-md-2">
+                                <option value="id"><?php _e('Id');?></option>
+                                <option value="username"><?php _e('Username');?></option>
+                                <option value="email"><?php _e('Email');?></option>
+                                <option value="is_active"><?php _e('Is active');?></option>
+                                <option value="last_login"><?php _e('Last login');?></option>
+                                <option value="created_at"><?php _e('Created at');?></option>
+                                <option value="updated_at"><?php _e('Updated at');?></option>
                             </select>
-                            <select wire:model="orderDirection" class="form-select">
-                                <option value="asc">Ascending</option>
-                                <option value="desc">Descending</option>
+                            <select wire:model="orderDirection" class="form-select ms-md-2">
+                                <option value="asc"><?php _e('Ascending');?></option>
+                                <option value="desc"><?php _e('Descending');?></option>
                             </select>
                         </div>
                     </div>
                     <div class="col mb-3">
-                        <label class="d-block mb-2">Role</label>
+                        <label class="d-block mb-2"><?php _e('Role');?></label>
                         <select wire:model="role" class="form-select">
-                            <option value="">All</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
+                            <option value=""><?php _e('All');?></option>
+                            <option value="admin"><?php _e('Admin');?></option>
+                            <option value="user"><?php _e('User');?></option>
                         </select>
                     </div>
                 </div>
@@ -84,61 +81,54 @@
                     }
                 </style>
 
-                <div class="table-responsive  mw-admin-users-manage-table">
-                    <table class="table table-hover m-0" cellspacing="0" cellpadding="0">
-                        <tbody>
-
-                        @foreach($users as $user)
-
-                            <tr id="mw-admin-user-{{$user->id}}">
-                                <td>
-                                    <div class="img-circle-holder img-absolute w-60">
-                                        <img src="{{$user->avatar}}">
-                                    </div>
-                                </td>
-
-                                <td>
-                                    {{$user->id}}
-                                </td>
-
-                                <td>
-                                    <div class="settings-info-holder-title">
-                                        {{$user->first_name}} {{$user->last_name}}
-                                        @if($user->is_admin)
-                                            <br><small class=" "><?php _e('Admin');?></small>
-                                        @else
-                                            <br><small class=" "><?php _e('User');?></small>
-                                        @endif
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <small class="text-muted d-block"><?php _e('Username');?></small>
-                                    {{$user->username}}
-                                </td>
-
-                                <td>
-                                    <small class="text-muted d-block"><?php _e('Phone');?></small>
-                                    {{$user->phone}}
-                                </td>
-
-                                <td>
-                                    <small class="text-muted d-block"><?php _e('Email');?></small>
-                                    {{$user->email}}
-                                </td>
-
-                                <td>
-
-                                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.users.edit', $user->id)}}"><?php _e('Edit');?></a>
-                                </td>
+                <div class="card my-4">
+                    <div class="table-responsive">
+                        <table class="table table-vcenter card-table mw-admin-users-manage-table">
+                            <thead>
+                            <tr>
+                                <th><?php _e('Name');?> </th>
+                                <th><?php _e('Username');?> </th>
+                                <th><?php _e('Phone');?> </th>
+                                <th><?php _e('Role');?> </th>
+                                <th class="w-1"></th>
                             </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $user)
 
+                                <tr id="mw-admin-user-{{$user->id}}">
+                                    <td>
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2" style="background-image: url({{$user->avatar}})"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}</div>
+                                                <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{$user->username}}
+                                    </td>
+                                    <td>
+                                        {{$user->phone}}
+                                    </td>
+                                    <td class="text-muted">
+                                        @if($user->is_admin)
+                                            <small class=" "><?php _e('Admin');?></small>
+                                        @else
+                                            <small class=" "><?php _e('User');?></small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{route('admin.users.edit', $user->id)}}"><?php _e('Edit');?></a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
 
                 <div class="d-flex">
                     <div class="mx-auto">
@@ -146,10 +136,9 @@
                     </div>
                 </div>
 
-                <div class="text-right mt-3">
+                <div class="text-right my-3">
                     @if ($users->count() > 0)
-                        <a href="{{$exportUrl}}" class="btn btn-outline-success btn-sm">
-                            <i class="mdi mdi-download"></i>
+                        <a href="{{$exportUrl}}" class="btn btn-outline-success">
                             @if(isset($_GET['showFilter']))
                                 <?php _e("Export"); ?> {{$users->count()}} @if($users->count()==1) <?php _e("user"); ?> @else <?php _e("users"); ?> @endif
                             @else
