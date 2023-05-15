@@ -24,18 +24,20 @@
 
         <div class="card-body">
             <div class="row" id="users-manage-body">
-                <div class="align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
+                <div class="flex-wrap align-items-center justify-content-between mt-2" id="mw-admin-manage-users-header">
 
-                    <div class="input-icon mb-3">
-                        <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
+                   <div class="col-lg-4 col-12">
+                       <div class="input-icon mb-3">
+                           <input type="search" wire:model.debounce.500ms="keyword" class="form-control" aria-label="Search" placeholder="{{ _e("Search for users") }}">
 
-                        <span class="input-icon-addon">
+                           <span class="input-icon-addon">
                           <!-- Download SVG icon from http://tabler-icons.io/i/search -->
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                         </span>
-                    </div>
+                       </div>
+                   </div>
 
-                    <div>
+                    <div class="col-lg-8 col-12 text-lg-end">
                         <button type="button" class="btn btn-outline-primary mx-1 btn-sm" @click="showFilters = ! showFilters">
                             <?php _e("Show Filters"); ?>
                         </button>
@@ -49,7 +51,7 @@
                     <div class="col mb-3">
                         <label class="d-block mb-2"><?php _e('Sort By');?></label>
                         <div class="d-flex align-items-center">
-                            <select wire:model="orderBy" class="form-select me-md-2">
+                            <select wire:model="orderBy" class="form-select me-2">
                                 <option value="id"><?php _e('Id');?></option>
                                 <option value="username"><?php _e('Username');?></option>
                                 <option value="email"><?php _e('Email');?></option>
@@ -58,7 +60,7 @@
                                 <option value="created_at"><?php _e('Created at');?></option>
                                 <option value="updated_at"><?php _e('Updated at');?></option>
                             </select>
-                            <select wire:model="orderDirection" class="form-select ms-md-2">
+                            <select wire:model="orderDirection" class="form-select ms-2">
                                 <option value="asc"><?php _e('Ascending');?></option>
                                 <option value="desc"><?php _e('Descending');?></option>
                             </select>
