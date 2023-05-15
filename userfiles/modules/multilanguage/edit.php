@@ -60,7 +60,7 @@ $displayIcon = $getSupportedLocale['display_icon'];
                         mw.notification.error(data.message);
                         $('.js-admin-supported-locale-edit-messages').html('<div class="alert alert-danger">' + data.message + '</div>');
                     } else {
-                        mw.notification.error('<?php _e('Please, fill all fields.'); ?>');
+                        mw.notification.error('<?php _ejs('Please, fill all fields.'); ?>');
                         $('.js-admin-supported-locale-edit-messages').html('<div class="alert alert-danger"><?php _e('Please, fill all fields.'); ?></div>');
                     }
                     mw.reload_module_everywhere('multilanguage/list');
