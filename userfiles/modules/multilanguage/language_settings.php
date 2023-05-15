@@ -168,14 +168,14 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
             });
         });
     </script>
-    <div class="row d-flex justify-content-between">
+    <div class="row d-flex justify-content-between px-0">
 
 
-        <div class="col-7">
+        <div class="col-12 d-flex align-items-center">
             <module type="multilanguage/admin_add_language" />
         </div>
 
-        <div class="col-5 text-right">
+        <div class="col-6 text-end">
             <div class="form-group module-switch-active-form">
                 <label class="form-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="form-check form-switch pl-0 ms-auto">

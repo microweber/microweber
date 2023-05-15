@@ -74,7 +74,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 ?>
 
                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
-                    <a class="btn btn-outline-primary justify-content-center  <?php if ($showTab =='list'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php _e("Your form lists"); ?></a>
+                    <a class="btn btn-outline-primary justify-content-center  <?php if ($showTab =='list'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#list">  <?php _e("Your form lists"); ?></a>
                     <a class="btn btn-outline-primary justify-content-center  <?php if ($showTab =='settings'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#settings">  <?php _e('Global settings'); ?></a>
                     <a class="btn btn-outline-primary justify-content-center  <?php if ($showTab =='integrations'):?> active <?php endif; ?>" data-bs-toggle="tab" href="#integrations">   <?php _e("E-mail Integrations"); ?></a>
                 </nav>
