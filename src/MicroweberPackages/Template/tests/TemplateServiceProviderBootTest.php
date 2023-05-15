@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;
 
 /**
@@ -28,6 +29,9 @@ class TemplateServiceProviderBootTest extends TestCase
         }
 
         $this->setPreserveGlobalState(false);
+
+        app()->template->setTemplateAdapter(new MicroweberTemplate());
+
         $templateName = $this->template_name;
         save_option('current_template', $this->template_name, 'template');
         $current_template = app()->option_manager->get('current_template', 'template');
