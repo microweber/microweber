@@ -6,7 +6,7 @@ if (isset($params['namespace'])) {
     $filter['translation_namespace'] = $params['namespace'];
 }
 if (isset($params['search'])) {
-    $filter['search'] = $params['search'];
+    $filter['search'] = trim($params['search']);
 }
 if (isset($params['page'])) {
     $filter['page'] = $params['page'];
