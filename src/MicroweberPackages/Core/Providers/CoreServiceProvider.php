@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Core;
+namespace MicroweberPackages\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPacakges\Core\Console\Commands\ServeTestCommand;
 
 
 class CoreServiceProvider extends ServiceProvider

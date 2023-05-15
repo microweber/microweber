@@ -6,7 +6,6 @@ namespace MicroweberPackages\Template\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
-use PHPUnit\Framework\TestResult;
 
 /**
  * @runTestsInSeparateProcesses

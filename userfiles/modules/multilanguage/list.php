@@ -79,8 +79,8 @@ only_admin_access();
                         <td style="vertical-align: middle;">
                             <div class="show-on-hover d-flex justify-content-center">
                                 <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" data-initial-value="<?php echo $isl; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
-                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number text-muted mx-1"></span></a>
-                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="mw-icon-arrow-down-a js-update-order-number text-muted"></span></a>
+                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="js-update-order-number text-muted mx-1"> <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M444 864V426L243 627l-51-51 288-288 288 288-51 51-201-201v438h-72Z"/></svg></span></a>
+                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="js-update-order-number text-muted"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20"><path d="M480 864 192 576l51-51 201 201V288h72v438l201-201 51 51-288 288Z"/></svg></span></a>
                             </div>
                         </td>
 

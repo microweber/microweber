@@ -776,7 +776,10 @@ class Template
 
         return $to_return;
     }
-
+    public function boot()
+    {
+        return $this->adapter_current->boot();
+    }
     public function defineConstants($content = false)
     {
         return $this->adapter_current->defineConstants($content);

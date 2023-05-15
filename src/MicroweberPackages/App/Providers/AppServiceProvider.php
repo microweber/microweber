@@ -35,6 +35,7 @@ use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
+use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Country\CountryServiceProvider;
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
@@ -217,7 +218,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         }
 
-       // $this->app->register(CoreServiceProvider::class);
+        $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
         $this->registerUtils();
@@ -349,7 +350,10 @@ class AppServiceProvider extends ServiceProvider
         if (is_cli()) {
             $this->app->register(DuskServiceProvider::class);
         }
-        load_all_service_providers_for_modules($this->app);
+        $is_installed = mw_is_installed();
+        if ($is_installed) {
+            load_all_service_providers_for_modules();
+        }
         $this->app->register(FilamentServiceProvider::class);
 
     }
@@ -580,7 +584,7 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-            load_all_functions_files_for_modules($this->app);
+            load_all_functions_files_for_modules();
 
             $this->setupAppLocale();
 
@@ -698,58 +702,58 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-    /**
-     * @deprecated
-     */
-    public function loadPackagesComposerJson()
-    {
-        $dir = dirname(dirname(__DIR__));
-
-        $cached = base_path('bootstrap/cache/microweber_packages.json');
-        if (is_file($cached) and (time() - filemtime($cached) >= 15 * 60)) { // 30 minutes ago
-            $cache_content = json_decode(file_get_contents($cached), TRUE);
-            if (is_array($cache_content) && !empty($cache_content)) {
-                foreach ($cache_content as $file) {
-                    $file_path_inlude = $dir . $file;
-                    if (is_file($file_path_inlude)) {
-                        require_once($file_path_inlude);
-                    }
-                }
-                return;
-            }
-        }
-
-        $files_map = [];
-        $packages = glob("$dir/*/composer.json");
-
-        //find a php file in each folder and get its realpath
-        foreach ($packages as $filename) {
-
-            $phpfile = realpath($filename);
-            $cont = @json_decode(@file_get_contents($phpfile), 1);
-
-            if (isset($cont['autoload'])) {
-                if (isset($cont['autoload']['files']) and is_array($cont['autoload']['files']) and !empty($cont['autoload']['files'])) {
-                    foreach ($cont['autoload']['files'] as $file) {
-                        $package_dir = dirname($phpfile) . DS;
-                        $file_path = $package_dir . $file;
-                        if (is_file($file_path)) {
-                            $file_path_save = $file_path;
-                            $file_path_save = str_replace($dir, '', $file_path_save);
-                            $files_map[] = $file_path_save;
-
-                            require_once($file_path);
-                        }
-                    }
-                }
-            }
-
-        }
-
-        if (!empty($files_map)) {
-            file_put_contents($cached, json_encode($files_map));
-        }
-    }
+//    /**
+//     * @deprecated
+//     */
+//    public function loadPackagesComposerJson()
+//    {
+//        $dir = dirname(dirname(__DIR__));
+//
+//        $cached = base_path('bootstrap/cache/microweber_packages.json');
+//        if (is_file($cached) and (time() - filemtime($cached) >= 15 * 60)) { // 30 minutes ago
+//            $cache_content = json_decode(file_get_contents($cached), TRUE);
+//            if (is_array($cache_content) && !empty($cache_content)) {
+//                foreach ($cache_content as $file) {
+//                    $file_path_inlude = $dir . $file;
+//                    if (is_file($file_path_inlude)) {
+//                        require_once($file_path_inlude);
+//                    }
+//                }
+//                return;
+//            }
+//        }
+//
+//        $files_map = [];
+//        $packages = glob("$dir/*/composer.json");
+//
+//        //find a php file in each folder and get its realpath
+//        foreach ($packages as $filename) {
+//
+//            $phpfile = realpath($filename);
+//            $cont = @json_decode(@file_get_contents($phpfile), 1);
+//
+//            if (isset($cont['autoload'])) {
+//                if (isset($cont['autoload']['files']) and is_array($cont['autoload']['files']) and !empty($cont['autoload']['files'])) {
+//                    foreach ($cont['autoload']['files'] as $file) {
+//                        $package_dir = dirname($phpfile) . DS;
+//                        $file_path = $package_dir . $file;
+//                        if (is_file($file_path)) {
+//                            $file_path_save = $file_path;
+//                            $file_path_save = str_replace($dir, '', $file_path_save);
+//                            $files_map[] = $file_path_save;
+//
+//                            require_once($file_path);
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//        if (!empty($files_map)) {
+//            file_put_contents($cached, json_encode($files_map));
+//        }
+//    }
 
     private function setupAppLocale()
     {

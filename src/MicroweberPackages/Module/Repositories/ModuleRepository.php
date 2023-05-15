@@ -5,7 +5,6 @@ namespace MicroweberPackages\Module\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Module\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
@@ -16,7 +15,7 @@ class ModuleRepository extends AbstractRepository
      *
      * @return string
      */
-    public $model = Module::class;
+    public $model = \MicroweberPackages\Module\Models\Module::class;
 
     public static $_getAllModules = [];
 

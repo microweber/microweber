@@ -53,6 +53,11 @@ class LaravelApplication extends Application
         return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.' . self::VERSION . '_' . self::APP_VERSION . '.php');
     }
 
+    public function getCachedMicroweberServiceProvidersPath()
+    {
+
+        return $this->normalizeCachePath('APP_MW_SERVICE_PROVIDERS_CACHE', 'cache/mw_loaded_providers.' . self::VERSION . '_' . self::APP_VERSION . '.php');
+    }
 
     /**
      * Register all of the base service providers.

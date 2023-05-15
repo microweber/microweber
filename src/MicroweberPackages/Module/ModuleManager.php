@@ -1571,14 +1571,12 @@ class ModuleManager
     }
 
 
-    public function boot_module($module)
+    public function boot_module($config)
     {
-        if (!mw_is_installed()) {
-            return;
-        }
 
-        if (isset($module['settings']) and $module['settings'] and isset($module['settings']['autoload_namespace']) and is_array($module['settings']['autoload_namespace']) and !empty($module['settings']['autoload_namespace'])) {
-            foreach ($module['settings']['autoload_namespace'] as $namespace_item) {
+
+        if (isset($config['settings']) and $config['settings'] and isset($config['settings']['autoload_namespace']) and is_array($config['settings']['autoload_namespace']) and !empty($config['settings']['autoload_namespace'])) {
+            foreach ($config['settings']['autoload_namespace'] as $namespace_item) {
                 if (isset($namespace_item['path']) and isset($namespace_item['namespace'])) {
                     $path = normalize_path($namespace_item['path'], 1);
                     $namespace = $namespace_item['namespace'];
@@ -1591,12 +1589,12 @@ class ModuleManager
 
 
         $loadProviders = [];
-        if (is_array($module['settings']['service_provider'])) {
-            foreach ($module['settings']['service_provider'] as $serviceProvider) {
+        if (is_array($config['settings']['service_provider'])) {
+            foreach ($config['settings']['service_provider'] as $serviceProvider) {
                 $loadProviders[] = $serviceProvider;
             }
         } else {
-            $loadProviders[] = $module['settings']['service_provider'];
+            $loadProviders[] = $config['settings']['service_provider'];
         }
 
         foreach ($loadProviders as $loadProvider) {

@@ -7,7 +7,7 @@
  */
 
 
-Route::get('/mw-core', function () {
-    echo 'It works!';
-});
+//Route::get('/mw-core', function () {
+//    echo 'It works!';
+//});
 

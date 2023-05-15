@@ -433,7 +433,7 @@ class UserManager
             return $name['thumbnail'];
         }
 
-        return modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-user.png';
+        return modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-user.svg';
     }
 
     /**
