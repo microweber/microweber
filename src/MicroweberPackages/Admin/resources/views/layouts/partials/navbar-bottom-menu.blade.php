@@ -14,7 +14,7 @@ if (isset($_COOKIE['admin_theme_dark'])) {
         </a>
     </li>
 
-    <li class="py-1">
+    <li class="py-1"> 
         <a href="javascript:mw_admin_toggle_dark_theme()"
            class="dropdown-item navbar-change-theme-icon navbar-change-theme-icon-light">
             <span id="navbar-change-theme-icon-light" <?php if ($bodyTheme == 'dark'): ?> style="display: none;" <?php endif; ?>>
