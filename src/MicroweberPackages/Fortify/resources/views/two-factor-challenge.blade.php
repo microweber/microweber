@@ -49,7 +49,7 @@
                                     ">
                     {{ __('Use an authentication code') }}
                 </x-microweber-ui::button>
-                
+
                 <x-microweber-ui::button class="ml-4">
                     {{ __('Log in') }}
                 </x-microweber-ui::button>
