@@ -94,7 +94,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_name',
         'thumbnail',
         'parent_id',
-
         'user_information',
         'subscr_id',
         'role',
@@ -104,7 +103,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_url',
         'website_url',
         'phone',
-
     );
 
     protected $rules = [
