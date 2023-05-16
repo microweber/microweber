@@ -166,14 +166,14 @@ export class LiveEdit {
 
         moduleHandle.on('targetChange', function (node){
 
-            console.log(99, node)
+   
 
             scope.getModuleQuickSettings(node.dataset.type).then(function (settings) {
-                console.log(settings)
+
+                
+          
 
                 moduleHandleContent.menu.root.remove();
-                
-
                 
 
                 moduleHandleContent.menu = new HandleMenu({
@@ -184,12 +184,13 @@ export class LiveEdit {
                     data: {target: node}
                 });
                 moduleHandleContent.menu.setTarget(node);
+                moduleHandleContent.staticMenu.setTarget(node);
 
 
                 moduleHandleContent.menu.show();
 
                 moduleHandleContent.root.append(moduleHandleContent.menu.root);
-                console.log(moduleHandleContent.menu)
+                 
 
 
             });

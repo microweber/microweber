@@ -1,5 +1,6 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
+import {DomService} from '../classes/dom.js';
 
 export const ModuleHandleContent = function (rootScope) {
     var scope = this;
@@ -9,6 +10,7 @@ export const ModuleHandleContent = function (rootScope) {
             contentEditable: false,
         }
     });
+    this.tools = DomService;
 
 
  
@@ -36,6 +38,30 @@ export const ModuleHandleContent = function (rootScope) {
                         selfNode.style.display = '';
                     }
                 },
+            },
+            {
+                "title": "Delete",
+                "icon": '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"></path></svg>',
+                action: () => {
+                    const target = mw.app.get('liveEdit').handles.get('module').getTarget();
+                    
+                    var type = target.dataset.type || target.getAttribute('type');
+                    type = type.trim();
+                    target.remove()
+                    mw.app.editor.dispatch('moduleRemoved', target);
+                    mw.app.editor.dispatch('modulet@'+type+'Removed', target);
+
+                     
+                },
+                onTarget: (target, selfNode) => {
+                    
+                     
+                    if(this.tools.parentsOrCurrentOrderMatchOrOnlyFirst(target.parentNode, ['edit', 'module'])) {
+                        selfNode.style.display = '';
+                    } else {
+                        selfNode.style.display = 'none';
+                    }
+                },
             }
         ],
     })
@@ -54,5 +80,6 @@ export const ModuleHandleContent = function (rootScope) {
     this.root.append(this.menu.root);
     this.root.append(staticMenu.root);
 
+    this.staticMenu = staticMenu;
 };
 
