@@ -13,10 +13,10 @@
             var $holder = $('.stats-view-holder');
             if ($holder.hasClass('hidden')) {
                 $holder.slideDown().removeClass('hidden');
-                $('.show-more-stats').text('<?php _e('show less'); ?>');
+                $('.show-more-stats').text('<?php _ejs('show less'); ?>');
             } else {
                 $holder.slideUp().addClass('hidden');
-                $('.show-more-stats').text('<?php _e('show more'); ?>');
+                $('.show-more-stats').text('<?php _ejs('show more'); ?>');
             }
         });
     });
@@ -25,7 +25,7 @@
 
 <div class="stats-view-holder hidden">
     <div class="stats-view row">
-        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
+        <div class="col-lg-6 col-12 mb-3">
             <script>
                 $(document).ready(function () {
                     mw.tabs({
@@ -35,8 +35,12 @@
                 });
             </script>
 
-            <div class="card  h-100" id="demotabsnav">
-                <div class="card-header"><?php _e("Referrers"); ?></div>
+            <div class="card dashboard-statistics-card-wrappers " id="demotabsnav">
+                <div class="card-header">
+                    <label for="" class="form-label mt-3">
+                        <?php _e("Referrers"); ?>
+                    </label>
+                </div>
 
                 <div class="card-body overflow-auto sources has-tabs">
                     <div class="" style="">
@@ -52,36 +56,54 @@
             </div>
         </div>
 
-        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
-            <div class="card  h-100">
-                <div class="card-header"><?php _e('Content'); ?></div>
+        <div class="col-lg-6 col-12 mb-3">
+            <div class="card dashboard-statistics-card-wrappers">
+                <div class="card-header">
+                    <label for="" class="form-label mt-3">
+                        <?php _e('Content'); ?>
+                    </label>
+                </div>
                 <div class="card-body overflow-auto contents">
                     <module type="site_stats/admin" view="content_list" period="<?php print $period; ?>"/>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-4 col-lg-6 col-md-6.stats-view .sources, .stats-view .contents, .stats-view .locations, .stats-view .visitors { mb-3">
-            <div class="card  h-100">
-                <div class="card-header"><?php _e('Visitors'); ?></div>
+        <div class="col-lg-6 col-12 mb-3">
+            <div class="card dashboard-statistics-card-wrappers">
+                <div class="card-header">
+                    <label for="" class="form-label mt-3">
+                        <?php _e('Visitors'); ?>
+                    </label>
+ 
+                </div>
                 <div class="card-body overflow-auto visitors">
                     <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
                 </div>
             </div>
         </div>
+<!---->
+<!--        <div class="col-12 mb-3">-->
+<!--            <div class="card dashboard-statistics-card-wrappers">-->
+<!--                <div class="card-header">-->
+<!--                    <label for="" class="form-label mt-3">-->
+<!--                        --><?php //_e('Locations'); ?>
+<!--                    </label>-->
+<!--                </div>-->
+<!--                <div class="card-body overflow-auto locations">-->
+<!--                    <module type="site_stats/admin" view="locations_list" period="--><?php //print $period; ?><!--"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="col-lg-6 mb-3">
-            <div class="card  h-100">
-                <div class="card-header"><?php _e('Locations'); ?></div>
-                <div class="card-body overflow-auto locations">
-                    <module type="site_stats/admin" view="locations_list" period="<?php print $period; ?>"/>
+        <div class="col-lg-6 col-12 mb-3">
+            <div class="card dashboard-statistics-card-wrappers">
+                <div class="card-header">
+                    <label for="" class="form-label mt-3">
+                        <?php _e('Browser language'); ?>
+                    </label>
+
                 </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6 mb-3">
-            <div class="card  h-100">
-                <div class="card-header"><?php _e('Browser language'); ?></div>
                 <div class="card-body overflow-auto locations">
                     <module type="site_stats/admin" view="languages_list" period="<?php print $period; ?>"/>
                 </div>

@@ -120,7 +120,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_delete_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/delete_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -130,7 +130,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_read_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/read_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -148,7 +148,7 @@ if (isset($notif_params['quick'])) {
     mw.notif_reset_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php print api_link('notifications_manager/reset_selected'); ?>?ids=" + selectedNotificationIds, function () {
                 mw.reload_module('admin/notifications');
             });
@@ -167,7 +167,7 @@ if (isset($notif_params['quick'])) {
             $(this).prop('checked', true);
         });
         $('.notif-select-all').attr('href', 'javascript:mw.notif_unselect_all();');
-        $('.notif-select-all').html('<?php _e("Unselect all"); ?>');
+        $('.notif-select-all').html('<?php _ejs("Unselect all"); ?>');
     }
 
     mw.notif_unselect_all = function () {
@@ -175,7 +175,7 @@ if (isset($notif_params['quick'])) {
             $(this).prop('checked', false);
         });
         $('.notif-select-all').attr('href', 'javascript:mw.notif_select_all();');
-        $('.notif-select-all').html('<?php _e("Select all"); ?>');
+        $('.notif-select-all').html('<?php _ejs("Select all"); ?>');
     }
 
     function load_module_modal(module_name, notification_id) {

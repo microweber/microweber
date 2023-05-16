@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9c994c122450606f438fa51990a070",
+    "content-hash": "41eba4c8ad0464100c5361c4e93054d8",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3962,22 +3962,22 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.5",
+            "version": "7.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82"
+                "reference": "733dd89533dd371a0987172727df15f500dab0ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
-                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/733dd89533dd371a0987172727df15f500dab0ef",
+                "reference": "733dd89533dd371a0987172727df15f500dab0ef",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.5",
-                "guzzlehttp/psr7": "^1.9 || ^2.4",
+                "guzzlehttp/psr7": "^1.9.1 || ^2.4.5",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
                 "symfony/deprecation-contracts": "^2.2 || ^3.0"
@@ -3986,10 +3986,10 @@
                 "psr/http-client-implementation": "1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4.1",
+                "bamarni/composer-bin-plugin": "^1.8.1",
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "^3.0",
-                "phpunit/phpunit": "^8.5.5 || ^9.3.5",
+                "phpunit/phpunit": "^8.5.29 || ^9.5.23",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
@@ -3999,8 +3999,9 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "7.4-dev"
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
                 }
             },
             "autoload": {
@@ -4066,7 +4067,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.5"
+                "source": "https://github.com/guzzle/guzzle/tree/7.6.0"
             },
             "funding": [
                 {
@@ -4082,7 +4083,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-20T22:16:13+00:00"
+            "time": "2023-05-14T11:23:39+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -7319,23 +7320,23 @@
         },
         {
             "name": "microweber-modules/standalone-updater",
-            "version": "5.3.2",
+            "version": "5.3.4",
             "target-dir": "standalone-updater",
             "source": {
                 "type": "git",
                 "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "1a75af1dee87d585a7b4bf4ade6ec9e44f940cb2"
+                "reference": "1a87b3c8237a7cc1e6d6ed0982541a29395e2dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.2-6e0de9.zip",
-                "reference": "1a75af1dee87d585a7b4bf4ade6ec9e44f940cb2",
-                "shasum": "41feab576eac32d26ccb676c5bab66bdebf26293"
+                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.4-06df30.zip",
+                "reference": "1a87b3c8237a7cc1e6d6ed0982541a29395e2dfb",
+                "shasum": "82f5413b8d7ba9868d8b2e4c495497f7123aae9d"
             },
             "type": "microweber-module",
             "extra": {
                 "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/532/README.md"
+                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/534/README.md"
                 },
                 "whmcs": {
                     "whmcs_url": "https://members.microweber.com"
@@ -7356,7 +7357,7 @@
             "keywords": [
                 "standalone-updater"
             ],
-            "time": "2023-05-03T13:45:26+00:00"
+            "time": "2023-05-15T13:55:09+00:00"
         },
         {
             "name": "microweber-packages/composer-client",

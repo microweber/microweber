@@ -216,8 +216,11 @@
         } else {
             delete settings.skin;
             delete settings.template;
+            if(!settings.height){
             settings.height = 'auto';
             settings.autoHeight = true;
+            }
+
             settings.encapsulate = false;
             var modal = mw.dialog(settings);
             xhr = mw.load_module(module_type, '#' + id_content, function(){

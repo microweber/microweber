@@ -1,54 +1,51 @@
 <div>
     <x-microweber-ui::form-section submit="updateProfileInformation">
         <x-slot name="title">
-            Profile Information
+            {{ _e('Profile Information') }}
         </x-slot>
 
         <x-slot name="description">
-            Update your account's profile information and email address.
+            {{ _e('Update your account profile information and email address') }}.
         </x-slot>
 
         <x-slot name="form">
 
             <!-- Profile Photo -->
-            <div class="mb-3" x-data="{photoName: null, photoPreview: null}">
+            <div class="form-label mb-3 text-center" x-data="{}">
                 <!-- Profile Photo File Input -->
                 <input type="file" hidden
                        wire:model="photo"
                        x-ref="photo"
-                       x-on:change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                            " />
+                />
 
-                <x-microweber-ui::label for="photo" value="{{ __('Photo') }}" />
+                <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
-                <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->photo }}" class="rounded-circle" height="80px" width="80px">
+                <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
+                    @if($photo && method_exists($photo, 'temporaryUrl'))
+                    <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
+                    @elseif($photoUrl)
+                        <img src="{{$photoUrl}}" height="40px" width="40px" >
+                    @endif
                 </div>
 
-                <!-- New Profile Photo Preview -->
-                <div class="mt-2" x-show="photoPreview">
-                    <img x-bind:src="photoPreview" class="rounded-circle" width="80px" height="80px">
-                </div>
-
-                <x-microweber-ui::secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Select A New Photo') }}
-                </x-microweber-ui::secondary-button>
+                <x-microweber-ui::link-button class=" mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                    <div wire:loading="photo">
+                        {{ _e('Uploading...') }}
+                    </div>
+                    <div wire:loading.remove wire:target="photo">
+                        {{ _e('Select photo') }}
+                    </div>
+                </x-microweber-ui::link-button>
 
                 @if ($this->photo)
-                    <x-microweber-ui::secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
+                    <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">{{ _e('Loading') }}...</span>
                         </div>
 
-                        {{ __('Remove Photo') }}
-                    </x-microweber-ui::secondary-button>
+                        {{ _e('Remove photo') }}
+                    </x-microweber-ui::link-button>
                 @endif
 
                 <x-microweber-ui::input-error for="photo" class="mt-2" />
@@ -89,6 +86,7 @@
                 <x-microweber-ui::input-error for="phone" class="mt-2" />
             </div>
 
+            @if($userId)
             <div class="form-group mt-4 mb-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="form-check-input" id="send_new_user_email" checked="">
@@ -98,20 +96,20 @@
                     <a href="<?php echo admin_url();?>settings?group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
                 </div>
             </div>
-
             <div class="col-span-6 sm:col-span-4 mt-2">
                 <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
             </div>
+            @endif
 
         </x-slot>
 
         <x-slot name="actions">
             <x-microweber-ui::action-message class="mr-3" on="saved">
-                Saved.
+                {{ _e('Saved') }}.
             </x-microweber-ui::action-message>
 
             <x-microweber-ui::button>
-                Save
+                {{ _e('Save') }}
             </x-microweber-ui::button>
         </x-slot>
     </x-microweber-ui::form-section>

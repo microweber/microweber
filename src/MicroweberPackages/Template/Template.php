@@ -17,7 +17,7 @@ use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
  * @category Template
  * @desc    These functions will allow to wo work with microweber template files.
  *
- * @property \MicroweberPackages\Template\Adapters\MicroweberTemplate $adapter_current
+ * @property \MicroweberPackages\Template\Adapters\MicroweberTemplate $templateAdapter
  */
 class Template
 {
@@ -35,7 +35,11 @@ class Template
     public $meta_tags = array();
     public $html_opening_tag = array();
 
-    public $adapter_current = null;
+    /**
+     *
+     * @var  $templateAdapter MicroweberTemplate
+     */
+    public $templateAdapter = null;
     public $adapter_default = null;
     public $admin = null;
     public $stylesheet_adapter = null;
@@ -56,10 +60,15 @@ class Template
         $this->stylesheet_adapter = new TemplateCssParser($app);
         $this->js_adapter = new JsCompileController($app);
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
-        $this->adapter_current = new MicroweberTemplate($app);
-        $this->admin = new AdminTemplateStyle($app);
-    }
 
+        $this->admin = new AdminTemplateStyle($app);
+
+        $this->setTemplateAdapter(new MicroweberTemplate());
+    }
+    public function setTemplateAdapter($adapter)
+    {
+        $this->templateAdapter = $adapter;
+    }
 
     public function compile_css($params)
     {
@@ -151,20 +160,20 @@ class Template
 
     public function folder_name()
     {
-        return $this->adapter_current->getTemplateFolderName();
+        return $this->templateAdapter->getTemplateFolderName();
 
     }
 
     public function name()
     {
-        return $this->adapter_current->getTemplateFolderName();
+        return $this->templateAdapter->getTemplateFolderName();
     }
 
 
     public function dir($add = false)
     {
-        if ($this->adapter_current->getActiveTemplateDir()) {
-            $val =$this->adapter_current->getActiveTemplateDir();
+        if ($this->templateAdapter->getActiveTemplateDir()) {
+            $val =$this->templateAdapter->getActiveTemplateDir();
             if ($add != false) {
                 $val = $val . $add;
             }
@@ -176,7 +185,7 @@ class Template
 
     public function get_config($template = false)
     {
-         return $this->adapter_current->getConfig($template);
+         return $this->templateAdapter->getConfig($template);
     }
 
     public function get_data_field_title($field, $type = 'general')
@@ -236,7 +245,7 @@ class Template
 
     public function url($add = false)
     {
-        $val = $this->adapter_current->getActiveTemplateUrl();
+        $val = $this->templateAdapter->getActiveTemplateUrl();
 
         if ($add != false) {
             $val = $val . $add;
@@ -602,7 +611,7 @@ class Template
      */
     public function get_layout($params = array())
     {
-        return $this->adapter_current->getLayout($params);
+        return $this->templateAdapter->getLayout($params);
 
     }
 
@@ -639,7 +648,7 @@ class Template
      */
     public function render($params = array())
     {
-        $layout = $this->adapter_current->render($params);
+        $layout = $this->templateAdapter->render($params);
 
         $layout = $this->process_meta($layout);
         $layout = $this->process_stacks($layout);
@@ -778,36 +787,36 @@ class Template
     }
     public function boot()
     {
-        return $this->adapter_current->boot();
+        return $this->templateAdapter->boot();
     }
     public function defineConstants($content = false)
     {
-        return $this->adapter_current->defineConstants($content);
+        return $this->templateAdapter->defineConstants($content);
     }
     public function getContentId()
     {
-        return $this->adapter_current->getContentId();
+        return $this->templateAdapter->getContentId();
     }
     public function getProductId()
     {
-        return $this->adapter_current->getProductId();
+        return $this->templateAdapter->getProductId();
     }
     public function getPageId()
     {
-        return $this->adapter_current->getPageId();
+        return $this->templateAdapter->getPageId();
     }
    public function getPostId()
     {
-        return $this->adapter_current->getPostId();
+        return $this->templateAdapter->getPostId();
     }
     public function getCategoryId()
     {
-        return $this->adapter_current->getCategoryId();
+        return $this->templateAdapter->getCategoryId();
     }
 
     public function getMainPageId()
     {
-        return $this->adapter_current->getMainPageId();
+        return $this->templateAdapter->getMainPageId();
     }
 
 }

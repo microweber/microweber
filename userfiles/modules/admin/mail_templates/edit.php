@@ -60,7 +60,7 @@ if (!empty($template_id)) {
         this.render = function () {
             var dropdown = new MWEditor.core.dropdown({
                 data: <?php echo json_encode(get_mail_template_fields($template['type'])); ?>,
-                placeholder: rootScope.lang('<?php _e("E-mail Values"); ?>')
+                placeholder: rootScope.lang('<?php _ejs("E-mail Values"); ?>')
             });
             dropdown.select.on('change', function (e, val) {
                 if(val) {

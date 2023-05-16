@@ -1,24 +1,24 @@
 <x-microweber-ui::action-section>
     <x-slot name="title">
-        Two Factor Authentication
+        <?php _e('Two Factor Authentication');?>
     </x-slot>
 
     <x-slot name="description">
-        Add additional security to your account using two factor authentication.
+        <?php _e('Add additional security to your account using two factor authentication');?>.
     </x-slot>
 
     <x-slot name="content">
-        <h3 class="text-lg font-medium text-gray-900">
+        <h3 class="form-label">
             @if ($this->enabled)
-                You have enabled two factor authentication.
+                <?php _e('You have enabled two factor authentication');?>.
             @else
-                You have not enabled two factor authentication.
+                <?php _e('You have not enabled two factor authentication');?>.
             @endif
         </h3>
 
         <div class="mt-3 max-w-xl text-sm text-gray-600">
             <p>
-                When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
+                <?php _e('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phones Google Authenticator application');?>.
             </p>
         </div>
 
@@ -26,7 +26,7 @@
             @if ($showingQrCode)
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
-                        Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
+                        <?php _e('Two factor authentication is now enabled. Scan the following QR code using your phones authenticator application');?>.
                     </p>
                 </div>
 
@@ -38,7 +38,7 @@
             @if ($showingRecoveryCodes)
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
-                        Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
+                        <?php _e('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost');?>.
                     </p>
                 </div>
 
@@ -53,21 +53,21 @@
         <div class="mt-2">
             @if (! $this->enabled)
                 <x-microweber-ui::button type="button" wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled">
-                    Enable
+                    <?php _e('Enable');?>
                 </x-microweber-ui::button>
             @else
                 @if ($showingRecoveryCodes)
                     <x-microweber-ui::secondary-button class="mr-3" wire:click="regenerateRecoveryCodes">
-                        Regenerate Recovery Codes
+                        <?php _e('Regenerate Recovery Codes');?>
                     </x-microweber-ui::secondary-button>
                 @else
                     <x-microweber-ui::secondary-button class="mr-3" wire:click="$toggle('showingRecoveryCodes')">
-                        Show Recovery Codes
+                        <?php _e('Show Recovery Codes');?>
                     </x-microweber-ui::secondary-button>
                 @endif
 
                 <x-microweber-ui::danger-button wire:click="disableTwoFactorAuthentication" wire:loading.attr="disabled">
-                    Disable
+                    <?php _e('Disable');?>
                 </x-microweber-ui::danger-button>
             @endif
         </div>

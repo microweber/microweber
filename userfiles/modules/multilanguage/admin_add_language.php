@@ -10,7 +10,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $('.js-add-language').on('click', function () {
 
-            $('.js-add-language').html('<?php _e('Importing the language..'); ?>');
+            $('.js-add-language').html('<?php _ejs('Importing the language..'); ?>');
 
             if (typeof(mw.notification) != 'undefined') {
                 mw.notification.success('Adding language...',10000);
@@ -23,7 +23,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
             $.post(mw.settings.api_url + "multilanguage/add_language", {locale: add_language_key, language: add_language_value}).done(function (data) {
 
-                $('.js-add-language').html('<?php _e('Add'); ?>');
+                $('.js-add-language').html('<?php _ejs('Add'); ?>');
 
                 if (typeof(mw.notification) != 'undefined') {
                     mw.notification.success('Language added...',10000);
@@ -49,32 +49,65 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
 </script>
 
-<div>
+<div id="add-language-wrapper">
     <div class="form-group">
         <label class="form-label d-block"><?php _e('Add new language'); ?></label>
 
         <div class="d-flex align-items-center">
+
+
+
             <?php if ($languages) : ?>
+
+                <script>
+                    $(document).ready(function() {
+
+
+
+                         new TomSelect('#add_language_ul',{
+                          //    dropdownParent: 'body',
+                           //  dropdownParent: '#add-language-wrapper',
+                             controlInput: '<input>',
+                             copyClassesToDropdown: false,
+                             render:{
+                                 item: function(data,escape) {
+                                     if( data.customProperties ){
+                                         return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                     }
+                                     return '<div>' + escape(data.text) + '</div>';
+                                 },
+                                 option: function(data,escape){
+                                     if( data.customProperties ){
+                                         return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                     }
+                                     return '<div>' + escape(data.text) + '</div>';
+                                 },
+                             },
+
+                         });
+                    });
+                </script>
+
                 <select autocomplete="off" class="js-dropdown-text-language  form-select" id="add_language_ul" data-size="5" data-live-search="true">
                     <option>
                         <?php _e('Select language'); ?>
                     </option>
 
                     <?php foreach ($languages as $languageName => $languageDetails): ?>
-                        <option value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
-                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?> [<?php echo $languageDetails['locale'] ?>]
+                        <option  data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $languageDetails['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
+                            <?php echo $languageName; ?> [<?php echo $languageDetails['locale'] ?>]
                         </option>
 
 
-                        <?php if(isset($languageDetails['locales']) and !empty($languageDetails['locales']) and count($languageDetails['locales']) > 1 ): ?>
+                        <?php if(isset($languageDetails['localesData']) and !empty($languageDetails['localesData']) and count($languageDetails['localesData']) > 1 ): ?>
 
                             <?php
 
-                            if(is_array($languageDetails['locales'])){
-                                foreach ($languageDetails['locales'] as $languageName2 => $locale2){
+                            if(is_array($languageDetails['localesData'])){
+                                foreach ($languageDetails['localesData'] as $languageName2 => $locale2){
                                     ?>
-                                    <option value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
-                                        <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageDetails['text']; ?> <?php echo $locale2; ?>  [<?php echo $languageName2; ?>]
+                                    <option data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $locale2['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $languageName2 ?>"  style="color:#000;">
+                                          <?php echo $locale2['text']; ?>
                                     </option>
                                     <?php
                                 }
@@ -95,4 +128,4 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
            </div>
         </div>
     </div>
-</div
+</div>

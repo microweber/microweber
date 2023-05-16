@@ -99,14 +99,14 @@ if (isset($params['live_edit'])) {
                     $(document.forms['admin_edit_category_form']).submit();
                 } else {
                     if(invalid_form_msg === 1){
-                        mw.alert('<?php _e("Please choose Page or Category"); ?>.');
+                        mw.alert('<?php _ejs("Please choose Page or Category"); ?>.');
                         mw.tools.highlight(document.getElementById("category-dropdown-holder"), "yellow");
                     } else if(invalid_form_msg === 2){
-                        mw.alert('<?php _e("The category must have a name"); ?>.');
+                        mw.alert('<?php _ejs("The category must have a name"); ?>.');
                         mw.tools.highlight(document.getElementById("content-title-field"), "yellow");
 
                     }  else {
-                        mw.alert('<?php _e("Please fill the required fields"); ?>.');
+                        mw.alert('<?php _ejs("Please fill the required fields"); ?>.');
                     }
                 }
             }

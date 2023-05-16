@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
+use Laravel\Fortify\Fortify;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
@@ -94,7 +96,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_name',
         'thumbnail',
         'parent_id',
-
         'user_information',
         'subscr_id',
         'role',
@@ -104,7 +105,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_url',
         'website_url',
         'phone',
-
     );
 
     protected $rules = [
@@ -251,6 +251,20 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return "";
+    }
+
+    /**
+     * Get the two factor authentication QR code URL.
+     *
+     * @return string
+     */
+    public function twoFactorQrCodeUrl()
+    {
+        return app(TwoFactorAuthenticationProvider::class)->qrCodeUrl(
+            site_hostname(),
+            $this->{Fortify::username()},
+            decrypt($this->two_factor_secret)
+        );
     }
 
 }

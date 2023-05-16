@@ -332,7 +332,7 @@ p {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border: none;
 }
-.form-label {
+.form-label, .dropdown-item-indicator {
     color: var(--tblr-body-color);
 }
 
@@ -499,7 +499,8 @@ small.text-muted {
 .form-select, .dropdown-toggle {
 /*    padding: 0.65rem 2.25rem 0.65rem 0.75rem;
     min-height: 45px;
-    color: var(--tblr-body-color);*/
+    */
+    color: var(--tblr-body-color);
 }
 
 .input-group, input, .custom-control, .nav-link, textarea  {
@@ -683,6 +684,10 @@ small.text-muted {
 }
 
 .dashboard-admin-cards {
+    .dashboard-admin-cards-a {
+        text-decoration: none;
+        color: var(--tblr-body-color);
+    }
 
     .dashboard-icons-wrapper {
         display: flex;
@@ -965,4 +970,10 @@ input[type=number] {
 
 .input-icon-addon:last-child {
     right: 10px;
+}
+
+.dashboard-statistics-card-wrappers {
+    .card-body {
+        height: 300px;
+    }
 }

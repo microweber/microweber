@@ -84,7 +84,7 @@ if(self !== top){
  mw.reload_module_everywhere('posts');
  mw.reload_module_everywhere('shop/products');
 }
-                        mw.notification.success('<?php _e('Tag is added!');?>');
+                        mw.notification.success('<?php _ejs('Tag is added!');?>');
                     } else {
                         $('.js-admin-post-tag-messages').html('<div class="mw-ui-box mw-ui-box-content mw-ui-box-important"><i class="fa fa-times"></i> ' + data.message + '</div>');
                         mw.notification.error(data.message);

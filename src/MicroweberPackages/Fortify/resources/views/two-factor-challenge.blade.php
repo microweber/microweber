@@ -1,47 +1,62 @@
 @extends('user::layout')
 
 @section('content')
-    
+
 <div>
 
-    <b>
-        Please confirm access to your account by entering the authentication code provided by your authenticator application.
 
-        {{--  <br />
-         Please confirm access to your account by entering one of your emergency recovery codes.
-          --}}
-        <br />
-        <br />
-    </b>
 
-    <form method="POST" action="{{ route('two-factor.login') }}">
-        @csrf
-
-        <div>
-            <label>Code</label>
-            <input class="form-control" type="text" name="code" autofocus autocomplete="one-time-code" />
+    <div x-data="{ recovery: false }">
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400" x-show="! recovery">
+            {{ __('Please confirm access to your account by entering the authentication code provided by your authenticator application.') }}
         </div>
 
-     {{--   <div class="mb-3">
-            <label value="{{ __('Recovery Code') }}" />
-            <input class="{{ $errors->has('recovery_code') ? 'is-invalid' : '' }}" type="text" name="recovery_code" autocomplete="one-time-code" />
-
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400" x-cloak x-show="recovery">
+            {{ __('Please confirm access to your account by entering one of your emergency recovery codes.') }}
         </div>
---}}
-        <div class="d-flex mt-3">
-          {{--  <button type="button" class="btn btn-outline-secondary">
-                {{ __('Use a recovery code') }}
-            </button>
 
-            <button type="button" class="btn btn-outline-secondary">
-                {{ __('Use an authentication code') }}
-            </button>--}}
+        <x-microweber-ui::validation-errors class="mb-4" />
 
-            <button class="btn btn-outline-primary" type="submit">
-                {{ __('Log in') }}
-            </button>
+        <form method="POST" action="{{ route('two-factor.login') }}">
+            @csrf
 
-        </div>
-    </form>
+            <div class="mt-4" x-show="! recovery">
+                <x-microweber-ui::label for="code" value="{{ __('Code') }}" />
+                <x-microweber-ui::input id="code" type="text" inputmode="numeric" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
+            </div>
+
+            <div class="mt-4" x-cloak x-show="recovery">
+                <x-microweber-ui::label for="recovery_code" value="{{ __('Recovery Code') }}" />
+                <x-microweber-ui::input id="recovery_code" type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
+            </div>
+
+            <div class="flex items-center justify-end mt-4">
+                <x-microweber-ui::button type="button"
+                        x-show="! recovery"
+                        x-on:click="
+                                        recovery = true;
+                                        $nextTick(() => { $refs.recovery_code.focus() })
+                                    ">
+                    {{ __('Use a recovery code') }}
+                </x-microweber-ui::button>
+
+                <x-microweber-ui::button type="button"
+                        x-cloak
+                        x-show="recovery"
+                        x-on:click="
+                                        recovery = false;
+                                        $nextTick(() => { $refs.code.focus() })
+                                    ">
+                    {{ __('Use an authentication code') }}
+                </x-microweber-ui::button>
+
+                <x-microweber-ui::button class="ml-4">
+                    {{ __('Log in') }}
+                </x-microweber-ui::button>
+
+            </div>
+        </form>
+    </div>
+
 </div>
 @endsection

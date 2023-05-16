@@ -74,7 +74,7 @@
     mw.notif_delete_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to delete'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.delete') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {
@@ -93,7 +93,7 @@
     mw.notif_read_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to read'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.read') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {
@@ -113,7 +113,7 @@
     mw.notif_reset_selected = function () {
         var selectedNotificationIds = mw.notif_get_selected();
 
-        mw.tools.confirm('<?php _e('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
+        mw.tools.confirm('<?php _ejs('Are you sure you want to unread'); ?> ' + selectedNotificationIds.length + ' <?php _e('notifications'); ?>?', function () {
             $.post("<?php echo route('admin.notification.reset') ?>", {ids: selectedNotificationIds}, function () {
 
                 $.each(selectedNotificationIds, function (k,notifid) {
@@ -135,7 +135,7 @@
             $(this).prop('checked', true);
         });
         $('.notif-select-all').attr('href', 'javascript:mw.notif_unselect_all();');
-        $('.notif-select-all').html('<?php _e("Unselect all"); ?>');
+        $('.notif-select-all').html('<?php _ejs("Unselect all"); ?>');
     }
 
     mw.notif_unselect_all = function () {
@@ -143,7 +143,7 @@
             $(this).prop('checked', false);
         });
         $('.notif-select-all').attr('href', 'javascript:mw.notif_select_all();');
-        $('.notif-select-all').html('<?php _e("Select all"); ?>');
+        $('.notif-select-all').html('<?php _ejs("Select all"); ?>');
     }
 
     function load_module_modal(module_name, notification_id) {

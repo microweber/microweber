@@ -14,7 +14,7 @@
                 if (data.files[0].download) {
                     window.location = data.files[0].download;
                 } else {
-                    mw.notification.error("<?php _e("Can't export the language pack."); ?>");
+                    mw.notification.error("<?php _ejs("Can't export the language pack."); ?>");
                 }
                 $('.js-export-selected-locale-btn').removeAttr('disabled');
             }

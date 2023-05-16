@@ -60,13 +60,13 @@ if ($tag) {
                         }
 
                         //  mw.reload_module_everywhere('tags');
-                        mw.notification.success('<?php _e('Tag is saved!');?>');
+                        mw.notification.success('<?php _ejs('Tag is saved!');?>');
                         $('.js-admin-tag-edit-messages').html('<div class="alert alert-success"><?php _e('Tag is saved!'); ?></div>');
                     } else if (data.message) {
                         mw.notification.error(data.message);
                         $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger">' + data.message + '</div>');
                     } else {
-                        mw.notification.error('<?php _e('Please, fill all fields.'); ?>');
+                        mw.notification.error('<?php _ejs('Please, fill all fields.'); ?>');
                         $('.js-admin-tag-edit-messages').html('<div class="alert alert-danger"><?php _e('Please, fill all fields.'); ?></div>');
                     }
                 }

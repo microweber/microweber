@@ -19,7 +19,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     }
 
     function deleteCoupon(coupon_id) {
-        var confirmUser = confirm('<?php _e('Are you sure to delete this coupon permanently?'); ?>');
+        var confirmUser = confirm('<?php _ejs('Are you sure to delete this coupon permanently?'); ?>');
         if (confirmUser == true) {
             $.ajax({
                 url: '<?php print api_url('coupon_delete');?>',

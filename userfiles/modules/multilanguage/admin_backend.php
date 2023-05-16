@@ -31,7 +31,9 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="list">
+
                 <module type="multilanguage/language_settings"/>
+
             </div>
 
             <div class="tab-pane fade" id="settings">
