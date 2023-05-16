@@ -5,6 +5,7 @@
         });
     });
 </script>
+
 <div class="module-settings-group-multilanguage">
 
     <?php
@@ -24,26 +25,6 @@
                     <label class="custom-control-label" for="is_active"><?php _e('Yes'); ?></label>
                 </div>
             </div>
-
-            <?php if ($langs): ?>
-            <!--    <div class="form-group">
-                    <label class="form-label d-block"><?php /*_e("Default website language"); */?></label>
-                    <small class="text-muted d-block mb-2"><?php /*_e("You can set the default language for your website."); */?></small>
-                    <?php
-/*                    $def_language = get_option('language', 'website');
-
-                    if ($def_language == false) {
-                        $def_language = 'en';
-                    }
-                    */?>
-                    <select id="user_lang" name="language" class="mw_option_field form-select" data-width="100%" data-size="5" data-live-search="true" option-group="website">
-                        <option disabled="disabled"><?php /*_e('Select Language'); */?></option>
-                        <?php /*foreach ($langs as $key => $lang): */?>
-                            <option <?php /*if ($def_language == $key): */?> selected="" <?php /*endif; */?> value="<?php /*print $key */?>"><?php /*print $lang */?></option>
-                        <?php /*endforeach; */?>
-                    </select>
-                </div>-->
-            <?php endif; ?>
 
             <?php if ($langs): ?>
                 <div class="form-group">

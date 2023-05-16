@@ -127,7 +127,13 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{route('admin.users.edit', $user->id)}}"><?php _e('Edit');?></a>
+                                        @php
+                                            $editUserLink = route('admin.users.edit', $user->id);
+                                            if (user_id() == $user->id) {
+                                                $editUserLink = admin_url('user/profile');
+                                            }
+                                        @endphp
+                                        <a href="{{$editUserLink}}"><?php _e('Edit');?></a>
                                     </td>
                                 </tr>
                             @endforeach

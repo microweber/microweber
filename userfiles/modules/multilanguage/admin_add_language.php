@@ -95,4 +95,4 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
            </div>
         </div>
     </div>
-</div
+</div>
