@@ -1250,7 +1250,11 @@ class MicroweberTemplate
         }
 
         if (!defined('THIS_TEMPLATE_DIR')) {
-            define('THIS_TEMPLATE_DIR', $this->getActiveTemplateDir());
+            $active_dir = $this->getActiveTemplateDir();
+            if(!is_dir($active_dir)){
+                $active_dir = $this->getFallbackTemplateDir();
+            }
+            define('THIS_TEMPLATE_DIR', $active_dir);
         }
         if (!defined('TEMPLATE_URL')) {
             define('TEMPLATE_URL', $this->getActiveTemplateUrl());
