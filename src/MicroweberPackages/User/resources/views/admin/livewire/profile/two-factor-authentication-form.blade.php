@@ -42,12 +42,33 @@
                     </p>
                 </div>
                 <div>
-<textarea class="form-control">
+<textarea rows="9" class="form-control" id="recovery_codes">
 @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
 {{ $code }}
 @endforeach
 </textarea>
                 </div>
+
+
+                    <div wire:ignore>
+                        <script type="text/javascript">
+
+                            window.copy_recovery_codes = function (){
+                                var recovery_codes =  $('#recovery_codes').val();
+                                mw.tools.copy(recovery_codes);
+                            }
+                        </script>
+
+                        <a href="javascript:;" onclick="window.copy_recovery_codes()" class="btn btn-outline btn-sm btn-primary mt-2">
+                            Copy
+                        </a>
+
+                    </div>
+
+
+
+
+
             @endif
         @endif
 
@@ -74,9 +95,3 @@
         </div>
     </x-slot>
 </x-microweber-ui::action-section>
-<script>
-    import BubbleNav from "../../../../../../LiveEdit/resources/js/ui/components/LeftSidebar/BubbleNav";
-    export default {
-        components: {BubbleNav}
-    }
-</script>

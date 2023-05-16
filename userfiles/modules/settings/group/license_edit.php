@@ -66,8 +66,11 @@ if (!isset($params['prefix'])) {
                         mw.notification.success(result.success,5000);
 
                         if(typeof(mw.dialog) !== "undefined") {
-                            mw.dialog.get('[parent-module="settings/group/license_edit"]').remove()
-                        }
+                            var inModal = mw.dialog.get('[parent-module="settings/group/license_edit"]');
+                            if (inModal) {
+                                inModal.remove();
+                            }
+                         }
 
                     } else{
                         mw.notification.error(result.warning,5000);
