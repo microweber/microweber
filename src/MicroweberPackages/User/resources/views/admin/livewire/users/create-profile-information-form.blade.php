@@ -12,28 +12,28 @@
         <!-- Username -->
         <div class="col-span-6 sm:col-span-4">
             <x-microweber-ui::label for="username" value="Username" />
-            <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" autocomplete="username" />
+            <x-microweber-ui::input id="username" type="text" class="mt-1 block w-full" wire:model.defer="state.username" />
             <x-microweber-ui::input-error for="username" class="mt-2" />
         </div>
 
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
             <x-microweber-ui::label for="first_name" value="First Name" />
-            <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" autocomplete="first_name" />
+            <x-microweber-ui::input id="first_name" type="text" class="mt-1 block w-full" wire:model.defer="state.first_name" />
             <x-microweber-ui::input-error for="first_name" class="mt-2" />
         </div>
 
         <!-- Last Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
             <x-microweber-ui::label for="last_name" value="Last Name" />
-            <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" autocomplete="last_name" />
+            <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" />
             <x-microweber-ui::input-error for="last_name" class="mt-2" />
         </div>
 
         <!-- Phone -->
         <div class="col-span-6 sm:col-span-4 mt-2">
             <x-microweber-ui::label for="phone" value="Phone" />
-            <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" autocomplete="phone" />
+            <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" />
             <x-microweber-ui::input-error for="phone" class="mt-2" />
         </div>
 
