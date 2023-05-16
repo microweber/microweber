@@ -35,6 +35,10 @@ class Template
     public $meta_tags = array();
     public $html_opening_tag = array();
 
+    /**
+     *
+     * @var  $templateAdapter MicroweberTemplate
+     */
     public $templateAdapter = null;
     public $adapter_default = null;
     public $admin = null;
