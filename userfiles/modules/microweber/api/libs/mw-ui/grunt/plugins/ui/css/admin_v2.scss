@@ -684,6 +684,10 @@ small.text-muted {
 }
 
 .dashboard-admin-cards {
+    .dashboard-admin-cards-a {
+        text-decoration: none;
+        color: var(--tblr-body-color);
+    }
 
     .dashboard-icons-wrapper {
         display: flex;
