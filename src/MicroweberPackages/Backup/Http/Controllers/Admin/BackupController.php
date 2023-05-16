@@ -22,17 +22,17 @@ class BackupController
         $files = preg_grep('~\.(sql|zip|json|xml|xlsx|csv|xls)$~', scandir($backupLocation));
         if ($files) {
             foreach ($files as $file) {
-                $backupFiles[] = normalize_path($backupLocation. $file,false);
+                $backupFiles[] = normalize_path($backupLocation . $file, false);
             }
         }
 
-        if (! empty($backupFiles)) {
+        if (!empty($backupFiles)) {
             usort($backupFiles, function ($a, $b) {
                 return filemtime($a) < filemtime($b);
             });
         }
         $backups = array();
-        if (! empty($backupFiles)) {
+        if (!empty($backupFiles)) {
             foreach ($backupFiles as $file) {
 
                 if (is_file($file)) {
@@ -55,7 +55,7 @@ class BackupController
     public function restore(Request $request)
     {
         $fileId = $request->get('id', false);
-        $step = (int) $request->get('step', false);
+        $step = (int)$request->get('step', false);
 
         $restore = new Restore();
         $restore->setSessionId($request->get('session_id'));
@@ -89,7 +89,7 @@ class BackupController
         $fileId = sanitize_path($fileId);
 
         // Check if the file has needed args
-        if (! $fileId) {
+        if (!$fileId) {
             return array(
                 'error' => 'You have not provided filename to download.'
             );
@@ -101,16 +101,16 @@ class BackupController
         $filename = $backupLocation . $fileId;
         $filename = sanitize_path($filename);
 
-        $allowedExt = ['json','zip','xlsx','csv','xml'];
+        $allowedExt = ['json', 'zip', 'xlsx', 'csv', 'xml'];
         $fileExt = get_file_extension($filename);
 
-        if (!in_array($fileExt,$allowedExt)) {
+        if (!in_array($fileExt, $allowedExt)) {
             return array(
                 'error' => 'Invalid file'
             );
         }
 
-        if (! is_file($filename)) {
+        if (!is_file($filename)) {
             return array(
                 'error' => 'You have not provided a existing filename to download.'
             );
@@ -144,7 +144,7 @@ class BackupController
             );
         }
 
-        $src = str_replace('..','',$src);
+        $src = str_replace('..', '', $src);
 
         $checkFile = url2dir(trim($src));
         $checkFile = normalize_path($checkFile, false);
@@ -182,8 +182,8 @@ class BackupController
     {
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
-
-        if ($request->get('type') == 'custom') {
+        $backup_by_type = $request->get('type');
+        if ($backup_by_type == 'custom') {
 
             $includeMedia = false;
             if ($request->get('include_media', false) == 1) {
@@ -195,6 +195,15 @@ class BackupController
             $backup->setExportMedia($includeMedia);
             $backup->setExportModules($request->get('include_modules', []));
             $backup->setExportTemplates($request->get('include_templates', []));
+        } else if ($backup_by_type == 'full') {
+
+            $includeMedia = true;
+
+            $backup->setAllowSkipTables(false); // skip sensitive tables
+            $backup->setExportAllData(true);
+            $backup->setExportMedia($includeMedia);
+            $backup->setExportWithZip(true);
+
         } else {
             $backup->setType('json');
             $backup->setAllowSkipTables(true); // skip sensitive tables
@@ -211,7 +220,7 @@ class BackupController
         rmdir_recursive(backup_cache_location());
         clearcache();
 
-        return ['session_id'=>SessionStepper::generateSessionId(20)];
+        return ['session_id' => SessionStepper::generateSessionId(20)];
     }
 
     public function delete(Request $request)
@@ -219,7 +228,7 @@ class BackupController
         $fileId = $request->get('id');
 
         // Check if the file has needed args
-        if (! $fileId) {
+        if (!$fileId) {
             return array(
                 'error' => 'You have not provided filename to be deleted.'
             );
@@ -260,7 +269,7 @@ class BackupController
             return false;
         }
 
-        while (! feof($handle)) {
+        while (!feof($handle)) {
             $buffer = fread($handle, $chunkSize);
             echo $buffer;
             if (ob_get_level() > 0) {
@@ -282,10 +291,11 @@ class BackupController
 }
 
 
+class BackupV2Logger
+{
 
-class BackupV2Logger {
-
-    public function log($log) {
+    public function log($log)
+    {
         echo $log . '<br />';
     }
 
