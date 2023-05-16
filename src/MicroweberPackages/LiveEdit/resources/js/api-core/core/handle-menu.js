@@ -69,8 +69,11 @@ export const HandleMenu = function(options) {
     };
 
     this.setTarget = function (target) {
+         
         _target = target;
         var i = 0;
+       
+ 
         for ( ; i < this.buttons.length; i++) {
             if(this.buttons[i].config.onTarget) {
                 this.buttons[i].config.onTarget(target, this.buttons[i].button.get(0), scope.options.rootScope);

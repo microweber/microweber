@@ -307,6 +307,6 @@ export const Handle = function (options) {
     this.resizable()
 
     this.settings.document.addEventListener('orientationChange', e => this.position(this.getTarget()))
-    this.settings.document.addEventListener('resize', e => this.position(this.getTarget()))
+    this.settings.document.defaultView.addEventListener('resize', e => this.position(this.getTarget()))
     this.settings.document.addEventListener('scroll', e => this.position(this.getTarget()))
 };

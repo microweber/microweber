@@ -644,6 +644,11 @@ $.fn.serializeAssoc = function() {
 
       });
 
+      $( document ).on('ModuleReload', function(){
+
+ 
+        _customDropdowns();
+    })
 
 
 

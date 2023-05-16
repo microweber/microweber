@@ -41,11 +41,12 @@
                         <?php _e('Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost');?>.
                     </p>
                 </div>
-
-                <div class="grid gap-1 max-w-xl mt-4 px-4 py-4 font-mono text-sm bg-gray-100 rounded-lg">
+                <div>
+                    <textarea class="form-control">
                     @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
-                        <div>{{ $code }}</div>
+                        {{ $code }}
                     @endforeach
+                    </textarea>
                 </div>
             @endif
         @endif
@@ -73,3 +74,9 @@
         </div>
     </x-slot>
 </x-microweber-ui::action-section>
+<script>
+    import BubbleNav from "../../../../../../LiveEdit/resources/js/ui/components/LeftSidebar/BubbleNav";
+    export default {
+        components: {BubbleNav}
+    }
+</script>
