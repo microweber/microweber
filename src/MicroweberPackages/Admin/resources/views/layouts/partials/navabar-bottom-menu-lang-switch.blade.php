@@ -46,7 +46,7 @@ if(empty($supportedLanguages)){
 if ($supportedLanguages) {
     ?>
 <div class="dropdown-divider"></div>
-<div class="form-group text-center">
+<div class="form-group text-center mt-2">
     <div class="plain-language-selector tip" data-tip="<?php _e('Admin language') ?>">
         <select class="form-select tomselect"
                 name="lang"

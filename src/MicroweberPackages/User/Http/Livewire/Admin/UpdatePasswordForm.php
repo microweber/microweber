@@ -5,8 +5,6 @@ namespace MicroweberPackages\User\Http\Livewire\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Contracts\UpdatesUserPasswords;
-use Laravel\Fortify\Rules\Password;
 use Livewire\Component;
 
 class UpdatePasswordForm extends Component
@@ -39,7 +37,7 @@ class UpdatePasswordForm extends Component
             'password' => $this->passwordRules(),
         ])->after(function ($validator) use ($user, $input) {
             if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
-                $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
+                $validator->errors()->add('current_password', _e('The provided password does not match your current password.', true));
             }
         })->validateWithBag('updatePassword');
 
@@ -63,7 +61,7 @@ class UpdatePasswordForm extends Component
      */
     protected function passwordRules()
     {
-        return ['required', 'string', new Password(), 'confirmed'];
+        return ['required', 'string', 'confirmed'];
     }
 
     /**
