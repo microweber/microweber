@@ -12,14 +12,14 @@ if ($supportedLanguages !== null) {
 ?>
 
 <script>
-    $(document).ready(function () {
-        mw.$("#lang_selector").on("change", function () {
+    $(document).ready(function () { 
+        $("#lang_selector").on("change", function () {
             mw.cookie.set("lang", $(this).val());
             $.ajax({
                 type: "GET",
                 url: mw.settings.api_url + "set_app_lang",
                 data: {lang:$(this).val()}
-            }).always(function (){
+            }).done(function (){
                 window.location.reload();
             });
         });
