@@ -42,11 +42,11 @@
                     </p>
                 </div>
                 <div>
-                    <textarea class="form-control">
-                    @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
-                        {{ $code }}
-                    @endforeach
-                    </textarea>
+<textarea class="form-control">
+@foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
+{{ $code }}
+@endforeach
+</textarea>
                 </div>
             @endif
         @endif
