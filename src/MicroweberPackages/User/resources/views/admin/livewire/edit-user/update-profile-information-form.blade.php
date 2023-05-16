@@ -11,34 +11,31 @@
         <x-slot name="form">
 
             <!-- Profile Photo -->
-            <div class="form-label mb-3 text-center" x-data="{photoName: null, photoPreview: null}">
+            <div class="form-label mb-3 text-center" x-data="{}">
                 <!-- Profile Photo File Input -->
                 <input type="file" hidden
                        wire:model="photo"
                        x-ref="photo"
-                       x-on:change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                            " />
+                />
 
                 <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
-                <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" x-show="! photoPreview" style="width: 60px; height: 60px;">
-                    <img src="{{ $this->photo }}" height="40px" width="40px" >
-                </div>
-
-                <!-- New Profile Photo Preview -->
-                <div class="mt-2" x-show="photoPreview">
-                    <img x-bind:src="photoPreview" class="rounded-circle bg-light" height="40px" width="40px" style="width: 60px; height: 60px;">
+                <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
+                    @if($photo && method_exists($photo, 'temporaryUrl'))
+                    <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
+                    @elseif($photoUrl)
+                        <img src="{{$photoUrl}}" height="40px" width="40px" >
+                    @endif
                 </div>
 
                 <x-microweber-ui::link-button class=" mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ _e('Select photo') }}
+                    <div wire:loading="photo">
+                        {{ _e('Uploading...') }}
+                    </div>
+                    <div wire:loading.remove wire:target="photo">
+                        {{ _e('Select photo') }}
+                    </div>
                 </x-microweber-ui::link-button>
 
                 @if ($this->photo)
