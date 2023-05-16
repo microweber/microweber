@@ -94,7 +94,7 @@
             return Math.floor(Math.sqrt(a * a + b * b));
         },
         copy: function (value) {
-            var tempInput = document.createElement("input");
+            var tempInput = document.createElement("textarea");
             tempInput.style = "position: absolute; left: -1000px; top: -1000px";
             tempInput.value = value;
             document.body.appendChild(tempInput);
