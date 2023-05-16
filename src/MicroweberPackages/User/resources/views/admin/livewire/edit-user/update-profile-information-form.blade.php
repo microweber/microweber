@@ -89,6 +89,7 @@
                 <x-microweber-ui::input-error for="phone" class="mt-2" />
             </div>
 
+            @if($userId)
             <div class="form-group mt-4 mb-4">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="form-check-input" id="send_new_user_email" checked="">
@@ -98,10 +99,10 @@
                     <a href="<?php echo admin_url();?>settings?group=users" target="_blank"><?php _e("Edit e-mail template"); ?>.</a>
                 </div>
             </div>
-
             <div class="col-span-6 sm:col-span-4 mt-2">
                 <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
             </div>
+            @endif
 
         </x-slot>
 

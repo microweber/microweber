@@ -116,6 +116,8 @@ class UpdateProfileInformationForm extends Component
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
+                'username' => $input['username'],
+                'phone' => $input['phone'],
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name'],
                 'email' => $input['email'],
