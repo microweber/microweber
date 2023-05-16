@@ -23,11 +23,18 @@
             <x-microweber-ui::input-error for="first_name" class="mt-2" />
         </div>
 
-        <!-- Name -->
+        <!-- Last Name -->
         <div class="col-span-6 sm:col-span-4 mt-2">
             <x-microweber-ui::label for="last_name" value="Last Name" />
             <x-microweber-ui::input id="last_name" type="text" class="mt-1 block w-full" wire:model.defer="state.last_name" autocomplete="last_name" />
             <x-microweber-ui::input-error for="last_name" class="mt-2" />
+        </div>
+
+        <!-- Phone -->
+        <div class="col-span-6 sm:col-span-4 mt-2">
+            <x-microweber-ui::label for="phone" value="Phone" />
+            <x-microweber-ui::input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" autocomplete="phone" />
+            <x-microweber-ui::input-error for="phone" class="mt-2" />
         </div>
 
         <!-- Email -->
