@@ -55,6 +55,14 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         <div class="d-flex align-items-center">
             <?php if ($languages) : ?>
+
+                <script>
+                    $(document).ready(function() {
+                        var settings = {};
+                        new TomSelect('.js-dropdown-text-language',settings);
+                    });
+                </script>
+
                 <select autocomplete="off" class="js-dropdown-text-language  form-select" id="add_language_ul" data-size="5" data-live-search="true">
                     <option>
                         <?php _e('Select language'); ?>

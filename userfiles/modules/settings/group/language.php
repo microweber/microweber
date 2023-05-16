@@ -77,10 +77,12 @@ if (is_module('multilanguage')) {
             var multilanguageAddLanguageModal = mw.tools.open_module_modal('multilanguage/admin_add_language', data, {
                 overlay: true,
                 skin: 'simple',
-                height: 'auto',
-                width: 800,
+                width: '800px',
+                height: '400px',
                 title: 'Multi-language - Add new language'
             });
+
+            alert(2);
 
             mw.on('mw.multilanguage.admin.language_added', function() {
                 multilanguageAddLanguageModal.modal.remove();
