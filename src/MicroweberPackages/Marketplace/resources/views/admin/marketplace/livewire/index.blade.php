@@ -1,16 +1,11 @@
 <div>
     <script>mw.require('admin_package_manager.js');</script>
 
+    <div class="px-5 col-xxl-10">
 
-
-
-
-    <div class="card px-5 col-xxl-10 mx-auto">
-
-
-        <div class="card-body mb-3">
+        <div class="mb-3">
            <div class="row">
-               <div class="card-header d-flex align-items-center justify-content-between px-2 flex-wrap mb-4">
+               <div class="d-flex align-items-center justify-content-between px-2 flex-wrap mb-4">
                    <div class="col-xl-4 col-md-8 col-12 px-1">
                        <h1><?php _e("Marketplace"); ?></h1>
                        <small class="text-muted"><?php _e("Welcome to the marketplace Here you will find new modules, templates and updates"); ?></small>
@@ -18,7 +13,6 @@
 
 
                    <div class="col-xl-4 col-md-4 col-12 my-2 my-md-0 flex-grow-1  flex-md-grow-0 px-1 my-xl-0 my-3">
-
 
                        <div class="input-icon">
                           <span class="input-icon-addon">
@@ -38,34 +32,7 @@
                        </button>
                        <button type="button" class="btn btn-outline-success" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></button>
                    </div>
-
                </div>
-
-
-
-
-{{--               <div class="d-flex">--}}
-{{--                   <ul class="nav nav-tabs card-header-tabs nav-fill" role="tablist">--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('all')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('all')" class="nav-link  @if($category == 'all') active @endif " role="tabs">--}}
-{{--                               <?php _e("All"); ?>--}}
-{{--                           </a>--}}
-{{--                       </li>--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('microweber-template')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('microweber-template')" class="nav-link @if($category == 'microweber-template') active @endif" role="tabs">--}}
-{{--                               <?php _e("Templates"); ?>--}}
-{{--                           </a>--}}
-
-{{--                       </li>--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('microweber-module')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('microweber-module')" class=" nav-link @if($category == 'microweber-module') active @endif" role="tabs">--}}
-{{--                               <?php _e("Modules"); ?>--}}
-{{--                           </a>--}}
-
-{{--                       </li>--}}
-{{--                   </ul>--}}
-{{--               </div>--}}
-
 
                <div class="col-12">
                    <div class="btn-group d-flex">
@@ -90,12 +57,14 @@
                </div>
 
                <div class="col-12">
-                   <div class="row row-cards px-0">
+                   <div class="row row-cards px-0 mt-4">
 
                        @if(!empty($marketplacePagination))
                            @foreach($marketplacePagination as $marketItem)
                                <div class="col-sm-6 col-lg-4">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
+
+                                       <div class="ribbon bg-green">NEW</div>
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
                                            <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
