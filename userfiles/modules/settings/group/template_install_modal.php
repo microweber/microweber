@@ -40,44 +40,44 @@
 
     <div class="mw-backup-restore-options mt-4">
 
-        <h2 style="font-weight: bold">How to apply this template?</h2>
+        <h2 style="font-weight: bold"><?php _e("How to apply this template?") ?></h2>
         <br/>
 
-        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-default">
+        <label class="mw-ui-check mw-backup-restore-option bg-light" id="js-template-import-type-default">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="default" checked="checked" />
                 <span></span>
             </div>
-            <h3>Use template with current content</h3>
-            <p>Change only website template without any content changes</p>
+            <h3><?php _e("Use template with current content") ?></h3>
+            <p><?php _e("Change only website template without any content changes") ?></p>
         </label>
 
-        <label class="mw-ui-check mw-backup-restore-option active" id="js-template-import-type-full">
+        <label class="mw-ui-check mw-backup-restore-option bg-light active" id="js-template-import-type-full">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="full" />
                 <span></span>
             </div>
-            <h3>Import default content, media and css files</h3>
-            <p>Import the default content, media and css files from template</p>
+            <h3><?php _e("Import default content, media and css files") ?></h3>
+            <p><?php _e("Import the default content, media and css files from template") ?></p>
         </label>
 
 
-        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-only-media">
+        <label class="mw-ui-check mw-backup-restore-option bg-light" id="js-template-import-type-only-media">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="only_media" />
                 <span></span>
             </div>
-            <h3>Import only media and css</h3>
-            <p>This option will import only the media and css files</p>
+            <h3><?php _e("Import only media and css") ?></h3>
+            <p><?php _e("This option will import only the media and css files") ?></p>
         </label>
 
-        <label class="mw-ui-check mw-backup-restore-option" id="js-template-import-type-delete">
+        <label class="mw-ui-check mw-backup-restore-option bg-light" id="js-template-import-type-delete">
             <div class="option-radio">
                 <input type="radio" name="import_type" value="delete" />
                 <span></span>
             </div>
-            <h3>Delete all website data & import fresh content</h3>
-            <p>This option will delete all website data and will import fresh content.</p>
+            <h3><?php _e("Delete all website data & import fresh content") ?></h3>
+            <p><?php _e("This option will delete all website data and will import fresh content") ?>.</p>
         </label>
 
     </div>
@@ -87,9 +87,9 @@
 
     <div class="mw-backup-restore-buttons">
         <button class="btn btn-primary btn-rounded button-start js-button-change-template" onclick="mw_change_template()" type="submit">
-            Change Template
+            <?php _e("Change Template") ?>
         </button>
-        <a class="btn btn-link button-cancel" style="font-weight: normal;">Close</a>
+        <a class="btn btn-link button-cancel" style="font-weight: normal;"><?php _e("") ?></a>
     </div>
 
 </div>
