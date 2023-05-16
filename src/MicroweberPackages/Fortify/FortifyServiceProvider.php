@@ -108,7 +108,10 @@ use MergesConfig;
             return Limit::perMinute(60)->by($email.$request->ip());
         });
 
+
         RateLimiter::for('two-factor', function (Request $request) {
+
+
             return Limit::perMinute(60)->by($request->session()->get('login.id'));
         });
     }

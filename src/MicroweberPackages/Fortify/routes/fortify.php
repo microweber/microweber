@@ -47,7 +47,8 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
         Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])
             ->middleware(array_filter([
                 'guest:'.config('fortify.guard'),
-                $twoFactorLimiter ? 'throttle:'.$twoFactorLimiter : null,
+                'throttle:30,2',
+                //$twoFactorLimiter ? 'throttle:'.$twoFactorLimiter : null,
             ]));
 
         $twoFactorMiddleware = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword')
