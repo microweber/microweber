@@ -67,6 +67,14 @@ class IntlLocale
             }
         }
 
+
+        $locale_explode = explode('_', $locale);
+        if (isset($locale_explode[1])) {
+            $flagLocale = strtolower($locale_explode[1]);
+            return $flagLocale;
+        }
+
+
         return false;
     }
 }

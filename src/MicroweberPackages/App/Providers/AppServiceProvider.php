@@ -644,7 +644,7 @@ class AppServiceProvider extends ServiceProvider
         $router->aliasMiddleware('verified', \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class);
         $router->aliasMiddleware('xss', \MicroweberPackages\App\Http\Middleware\XSS::class);
         $router->aliasMiddleware('remove_html', \MicroweberPackages\App\Http\Middleware\RemoveHtml::class);
-        $router->aliasMiddleware('admin', \MicroweberPackages\App\Http\Middleware\Admin::class);
+        $router->aliasMiddleware('admin', \MicroweberPackages\Admin\Http\Middleware\Admin::class);
         $router->aliasMiddleware('api_auth', \MicroweberPackages\App\Http\Middleware\ApiAuth::class);
         $router->aliasMiddleware('allowed_ips', \MicroweberPackages\App\Http\Middleware\AllowedIps::class);
 
