@@ -9,12 +9,12 @@ if (isset($_COOKIE['admin_theme_dark'])) {
 <ul class="navbar-nav-padding nav-item-profile-wrapper" style="margin-bottom: 0;">
     <?php event_trigger('mw.admin.sidebar.li.last'); ?>
     <li class="mt-3">
-        <a href="">
+
             @include('admin::layouts.partials.navabar-bottom-menu-lang-switch')
-        </a>
+
     </li>
 
-    <li class="py-1"> 
+    <li class="py-1">
         <a href="javascript:mw_admin_toggle_dark_theme()"
            class="dropdown-item navbar-change-theme-icon navbar-change-theme-icon-light">
             <span id="navbar-change-theme-icon-light" <?php if ($bodyTheme == 'dark'): ?> style="display: none;" <?php endif; ?>>

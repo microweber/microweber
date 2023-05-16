@@ -30,8 +30,7 @@ if ($supportedLanguages !== null) {
     <select class="form-select d-block" data-style="btn-sm" data-size="5" data-live-search="true" name="lang" id="lang_selector" data-width="100%" data-title="<?php if ($currentLang != 'en_US' and $currentLang != 'undefined'): ?><?php print \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($currentLang); ?><?php else: ?>English<?php endif; ?>">
 
         <?php foreach ($supportedLanguages as $languageLocale=>$languageDisplayName): ?>
-        <option value="<?php print $languageLocale; ?>"
-                <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
+        <option value="<?php print $languageLocale; ?>"  <?php if ($selectedLang == $languageLocale) { ?> selected="selected" <?php } ?>>
             <?php echo $languageDisplayName; ?>
 
         </option>
