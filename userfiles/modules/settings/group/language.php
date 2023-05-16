@@ -82,8 +82,6 @@ if (is_module('multilanguage')) {
                 title: 'Multi-language - Add new language'
             });
 
-            alert(2);
-
             mw.on('mw.multilanguage.admin.language_added', function() {
                 multilanguageAddLanguageModal.modal.remove();
                 mw.reload_module_everywhere('settings/group/language_multilanguage');
