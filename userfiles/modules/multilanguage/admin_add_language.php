@@ -95,19 +95,19 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
                     <?php foreach ($languages as $languageName => $languageDetails): ?>
                         <option  data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $languageDetails['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
-                            <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?> [<?php echo $languageDetails['locale'] ?>]
+                            <?php echo $languageName; ?> [<?php echo $languageDetails['locale'] ?>]
                         </option>
 
 
-                        <?php if(isset($languageDetails['locales']) and !empty($languageDetails['locales']) and count($languageDetails['locales']) > 1 ): ?>
+                        <?php if(isset($languageDetails['localesData']) and !empty($languageDetails['localesData']) and count($languageDetails['localesData']) > 1 ): ?>
 
                             <?php
 
-                            if(is_array($languageDetails['locales'])){
-                                foreach ($languageDetails['locales'] as $languageName2 => $locale2){
+                            if(is_array($languageDetails['localesData'])){
+                                foreach ($languageDetails['localesData'] as $languageName2 => $locale2){
                                     ?>
-                                    <option data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $languageDetails['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
-                                        <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageDetails['text']; ?> <?php echo $locale2; ?>  [<?php echo $languageName2; ?>]
+                                    <option data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $locale2['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $languageName2 ?>"  style="color:#000;">
+                                          <?php echo $locale2['text']; ?>
                                     </option>
                                     <?php
                                 }

@@ -41,9 +41,12 @@
                                             <?php _e('No languages found.'); ?>
                                         <?php endif; ?>
 
-                                        <button type="button" class="btn btn-primary mt-2" onclick="openMultilangEditModal('addLanguage')">
+                                    <?php
+                                    /*    <button type="button" class="btn btn-primary mt-2" onclick="openMultilangEditModal('addLanguage')">
                                             <i class="mdi mdi-plus"></i> <?php _e('Add Language'); ?>
-                                        </button>
+                                        </button>*/
+
+                                    ?>
 
                                     </div>
                                     <div class="col-md-12 mt-3">

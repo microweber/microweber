@@ -55,6 +55,7 @@ class LanguageHelper
             return $flag;
         }
         $langData = self::getLangData($locale_name);
+
         if ($langData and isset($langData['flag'])) {
             return $langData['flag'];
         }
@@ -139,6 +140,22 @@ class LanguageHelper
                         $flag = 'us';
                     }
                 }
+                $localesData = [];
+                if(isset($lang['locales']) and !empty($lang['locales'])){
+                    foreach ($lang['locales'] as $localeName => $localeCountry) {
+                        $flagLocale = false;
+                        $flagLocale = IntlLocale::getDisplayFlag($localeName);
+
+
+                        $localesData[$localeName] = [
+                            'flag' => $flagLocale,
+                            'locale' => $localeName,
+                            'country' => $localeCountry,
+                            'text' => $localeCountry . ' (' . $localeName . ')'
+
+                        ];
+                    }
+                 }
 
 
                 $name = ucfirst($lang['name']);
@@ -147,6 +164,7 @@ class LanguageHelper
                     'language' => $lang['iso-639-1'],
                     'locale' => $lang['locale'],
                     'locales' => $lang['locales'],
+                    'localesData' => $localesData,
                     'rtl' => $lang['rtl'],
                     'flag' => $flag,
                     'text' => $name . ' (' . $lang['native'] . ')'
