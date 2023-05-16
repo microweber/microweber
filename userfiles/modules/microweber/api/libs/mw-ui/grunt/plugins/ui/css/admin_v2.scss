@@ -971,3 +971,9 @@ input[type=number] {
 .input-icon-addon:last-child {
     right: 10px;
 }
+
+.dashboard-statistics-card-wrappers {
+    .card-body {
+        height: 300px;
+    }
+}
