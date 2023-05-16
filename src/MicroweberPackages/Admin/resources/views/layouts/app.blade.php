@@ -24,6 +24,8 @@ if(isset($_GET['iframe']) and $_GET['iframe']){
        <div class="page-body  @if(isset($options['iframe'])) page-body-iframe @endif"  >
            @yield('content')
        </div>
+
+            @include('admin::layouts.partials.copyright')
     </main>
 @endif
 
