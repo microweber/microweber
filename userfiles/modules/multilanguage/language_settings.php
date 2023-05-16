@@ -170,7 +170,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
     </script>
     <div class="row d-flex justify-content-between px-0">
 
-        <div class="col-12 d-flex align-items-center">
+        <div class="col-6 d-flex align-items-center">
             <module type="multilanguage/admin_add_language" />
         </div>
 

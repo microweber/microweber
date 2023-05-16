@@ -49,17 +49,42 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
 </script>
 
-<div>
+<div id="add-language-wrapper">
     <div class="form-group">
         <label class="form-label d-block"><?php _e('Add new language'); ?></label>
 
         <div class="d-flex align-items-center">
+
+
+
             <?php if ($languages) : ?>
 
                 <script>
                     $(document).ready(function() {
-                        var settings = {};
-                        new TomSelect('.js-dropdown-text-language',settings);
+
+
+
+                         new TomSelect('#add_language_ul',{
+                          //    dropdownParent: 'body',
+                           //  dropdownParent: '#add-language-wrapper',
+                             controlInput: '<input>',
+                             copyClassesToDropdown: false,
+                             render:{
+                                 item: function(data,escape) {
+                                     if( data.customProperties ){
+                                         return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                     }
+                                     return '<div>' + escape(data.text) + '</div>';
+                                 },
+                                 option: function(data,escape){
+                                     if( data.customProperties ){
+                                         return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                                     }
+                                     return '<div>' + escape(data.text) + '</div>';
+                                 },
+                             },
+
+                         });
                     });
                 </script>
 
@@ -69,7 +94,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                     </option>
 
                     <?php foreach ($languages as $languageName => $languageDetails): ?>
-                        <option value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
+                        <option  data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $languageDetails['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageDetails['locale'] ?>" data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
                             <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?> [<?php echo $languageDetails['locale'] ?>]
                         </option>
 
@@ -81,7 +106,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                             if(is_array($languageDetails['locales'])){
                                 foreach ($languageDetails['locales'] as $languageName2 => $locale2){
                                     ?>
-                                    <option value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
+                                    <option data-custom-properties="&lt;span class=&quot;flag flag-xs flag-country-<?php print $languageDetails['flag'];  ?>&quot;&gt;&lt;/span&gt;" value="<?php echo $languageName2 ?>" data-key="<?php echo $languageName2 ?>" data-value="<?php echo $locale2 ?>"  style="color:#000;">
                                         <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageDetails['text']; ?> <?php echo $locale2; ?>  [<?php echo $languageName2; ?>]
                                     </option>
                                     <?php
