@@ -102,9 +102,13 @@
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
 
+                                            @if (!empty($user->thumbnail))
                                             <span class="avatar me-2 border-0 rounded-circle bg-light">
                                                 <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
                                             </span>
+                                            @else
+                                                nema avatar
+                                            @endif
 
 
                                             <div class="flex-fill">
