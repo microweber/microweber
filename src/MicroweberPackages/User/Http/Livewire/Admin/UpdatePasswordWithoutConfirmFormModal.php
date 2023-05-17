@@ -22,6 +22,7 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
     public $userId;
 
     public function mount($userId = false) {
+
         if ($userId) {
             $this->userId = $userId;
         }
