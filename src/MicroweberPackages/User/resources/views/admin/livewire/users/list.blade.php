@@ -101,14 +101,24 @@
                                 <tr id="mw-admin-user-{{$user->id}}">
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
+                                            {{--   Ako nqma avatar --}}
+                                                <span class="avatar me-2 border-0 rounded-circle bg-light">
+                                                    <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
+                                                </span>
 
-                                            <span class="avatar me-2 border-0 rounded-circle bg-light">
-                                                <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
+                                            {{--   Ako ima--}}
+                                            <span class="avatar me-2 shadow-none">
+                                                <img class="rounded-circle" src="{{$user->avatar}}" alt="">
                                             </span>
 
 
                                             <div class="flex-fill">
-                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}</div>
+                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}
+
+                                                    @if($user->id == user_id())
+                                                        <span class="badge badge-outline text-azure">{{_e('You')}}</span>
+                                                    @endif
+                                                </div>
                                                 <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
                                             </div>
                                         </div>

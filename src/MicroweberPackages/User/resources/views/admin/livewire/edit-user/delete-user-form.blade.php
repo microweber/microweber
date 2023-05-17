@@ -41,17 +41,20 @@
         </div>
     </x-slot>
 
-    <x-slot name="footer">
-      <div class="d-flex align-items-center justify-content-between">
-          <x-microweber-ui::secondary-button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
-              <?php _e('Cancel');?>
-          </x-microweber-ui::secondary-button>
+        <x-slot name="footer" class="d-flex align-items-center justify-content-between">
+            <div>
+                <x-microweber-ui::secondary-button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
+                    <?php _e('Cancel');?>
+                </x-microweber-ui::secondary-button>
+            </div>
 
-          <x-microweber-ui::danger-button class="ml-2" wire:click="deleteUser" wire:loading.attr="disabled">
-              <?php _e('Delete Account');?>
-          </x-microweber-ui::danger-button>
-      </div>
-    </x-slot>
+             <div>
+                 <x-microweber-ui::danger-button class="ml-2" wire:click="deleteUser" wire:loading.attr="disabled">
+                     <?php _e('Delete Account');?>
+                 </x-microweber-ui::danger-button>
+             </div>
+        </x-slot>
+
 </x-microweber-ui::dialog-modal>
 </x-slot>
 </x-microweber-ui::action-section>

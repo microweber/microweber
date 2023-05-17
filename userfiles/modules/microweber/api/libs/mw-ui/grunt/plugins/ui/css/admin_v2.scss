@@ -1005,3 +1005,14 @@ input[type=number] {
     margin-top: 2px;
 }
 
+.hover-bg-light {
+   &:hover {
+           --tblr-bg-opacity: 1;
+           background-color: rgba(var(--tblr-light-rgb),var(--tblr-bg-opacity))!important;
+
+   }
+}
+
+.modal-header, .modal-body, .modal-footer {
+    color: var(--tblr-body-color);
+}
