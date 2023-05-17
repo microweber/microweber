@@ -77,7 +77,7 @@
                     </label>
 
                 </div>
-                <div class="card-body pe-0 overflow-y-scroll overflow-x-hidden visitors">
+                <div class="card-body pe-1 overflow-y-scroll overflow-x-hidden visitors">
                     <module type="site_stats/admin" view="visitors_list" period="<?php print $period; ?>"/>
                 </div>
             </div>
