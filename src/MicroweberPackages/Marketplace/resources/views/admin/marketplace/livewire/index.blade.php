@@ -64,6 +64,7 @@
                                <div class="col-sm-6 col-lg-4">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
+                                       @dump($marketItem)
                                        <div class="ribbon bg-green">NEW</div>
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
