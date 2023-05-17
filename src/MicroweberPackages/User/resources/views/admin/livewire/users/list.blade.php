@@ -102,8 +102,8 @@
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
 
-                                            <span class="avatar me-2 border-0 rounded-circle bg-light">
-                                                <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
+                                            <span class="avatar me-2 shadow-none">
+                                                <img class="rounded-circle" src="{{$user->avatar}}" alt="">
                                             </span>
 
 
