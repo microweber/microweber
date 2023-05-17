@@ -61,8 +61,6 @@ ForceType 'text/css; charset=UTF-8'
     RewriteCond %{REQUEST_URI} !^/\.well-known
     RewriteRule "(^|/)\." - [F]
 
-    RewriteRule ^.*\.(gif|jpe?g|png|svg|bmp|webp|ico)$ - [L]
-
     RewriteRule ^app/(.*)?$ / [F,L]
     RewriteRule ^vendor/(.*)?$ / [F,L]
     RewriteRule ^src/(.*)?$ / [F,L]
