@@ -102,20 +102,16 @@
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
 
-                                            @if (!empty($user->thumbnail))
                                             <span class="avatar me-2 border-0 rounded-circle bg-light">
                                                 <img width="24px" height="24px" src="{{$user->avatar}}" alt="">
                                             </span>
-                                            @else
-                                                nema avatar
-                                            @endif
 
 
                                             <div class="flex-fill">
                                                 <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}
 
                                                     @if($user->id == user_id())
-                                                        <span class="badge badge-outline text-azure">{{_e('You')}}</span>
+                                                        <span>(You)</span>
                                                     @endif
 
                                                 </div>
