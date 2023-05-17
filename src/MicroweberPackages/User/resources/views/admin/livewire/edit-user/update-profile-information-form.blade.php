@@ -21,9 +21,7 @@
                 <x-microweber-ui::label for="photo"  value="{{ _e('Profile image') }}" />
 
                 <!-- Current Profile Photo -->
-
-                {{--   Ako nqma avatar --}}
-
+                
                 <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
                     @if($photo && method_exists($photo, 'temporaryUrl'))
                          <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
@@ -31,8 +29,6 @@
                         <img src="{{$photoUrl}}" height="40px" width="40px" >
                     @endif
                 </div>
-
-                {{--   Ako ima--}}
 
                 <div class="mt-2">
                     @if($photo && method_exists($photo, 'temporaryUrl'))
