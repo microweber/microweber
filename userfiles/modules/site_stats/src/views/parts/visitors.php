@@ -56,19 +56,18 @@ if (!$data) {
     }
     ?>
 
-    <div class="item visitor more-info-show py-2" data-id="more-<?php print $item['id']; ?>">
+    <div class="card hover-bg-light item visitor more-info-show shadow-sm p-3 my-4" data-id="more-<?php print $item['id']; ?>">
         <div class="d-flex align-items-center justify-content-between my-3">
-          <div>
 
-                  <span
-                        <?php
-                        if (strtolower($item['country_code']) == "unknown") {
-                            print "class='mdi mdi-earth tip'";
-                        }  else {
-                        ?> class='flag-icon flag-icon-<?php print strtolower($item['country_code'] . " " . "tip");
-                      } ?>'>
+              <span
+                    <?php
+                    if (strtolower($item['country_code']) == "unknown") {
+                        print "class='mdi mdi-earth tip'";
+                    }  else {
+                    ?> class='flag-icon flag-icon-<?php print strtolower($item['country_code'] . " " . "tip");
+                  } ?>'>
 
-                  </span>
+              </span>
 
               <div class="visitor-name text-start text-left">
 
@@ -76,7 +75,7 @@ if (!$data) {
                   <a rel="noreferrer noopener" href="https://extreme-ip-lookup.com/<?php print $item['user_ip']; ?>" class="text-muted btn btn-link btn-rounded btn-icon btn-sm"  target="_blank"><i class="mdi  mdi-open-in-new"></i></a>
 
               </div>
-          </div>
+
             <div class="timestamp tip" data-tip="<?php print $item['updated_at']; ?>"><?php print mw()->format->ago($item['updated_at']); ?></div>
         </div>
         <div class="clearfix"></div>
@@ -107,7 +106,7 @@ if (!$data) {
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-6 col-12 mb-2">
+            <div class="col-lg-9 col-md-6 col-12">
                 <ul class="page-dots my-0">
                     <?php foreach ($item['views_data'] as $view): ?>
                         <li class="page-circle" style="background-color:rgba(0,0,0,0.3)"><a href="<?php print $view['url'] ?>" class="visitor-url" title="<?php print $view['url'] ?>" rel="noreferrer noopener"></a></li>
