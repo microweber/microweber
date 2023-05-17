@@ -4,6 +4,7 @@ namespace MicroweberPackages\Package;
 
 use Composer\Semver\Comparator;
 use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Utils\Zip\Unzip;
 
@@ -292,6 +293,11 @@ class MicroweberComposerClient extends Client
 
             mw()->cache_manager->delete('templates');
             mw()->cache_manager->delete('modules');
+
+            Cache::forget('livewire-marketplace');
+            mw()->cache_manager->delete('livewire-marketplace');
+
+
         }
 
         return $response;

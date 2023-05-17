@@ -14,21 +14,9 @@ mw.admin.admin_package_manager.set_loading = function (is_loading) {
 
 mw.admin.admin_package_manager.reload_packages_list = function () {
     mw.admin.admin_package_manager.set_loading(true)
-    setTimeout(function () {
-        mw.notification.success('Reloading packages', 15000);
-    }, 1000);
+    mw.notification.success('Reloading packages', 15000);
     mw.clear_cache();
-    mw.admin.admin_package_manager.set_loading(true)
-
-    setTimeout(function () {
-        mw.reload_module('admin/developer_tools/package_manager/browse_packages', function () {
-            mw.admin.admin_package_manager.set_loading(false)
-            mw.notification.success('Packages are reloaded');
-        })
-
-    }, 1000);
-
-
+    window.location.reload();
 }
 
 mw.admin.admin_package_manager.show_licenses_modal = function () {

@@ -22,32 +22,26 @@
 
                 <!-- Current Profile Photo -->
 
-                {{--   Ako nqma avatar --}}
-
-                <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
-                    @if($photo && method_exists($photo, 'temporaryUrl'))
-                         <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
-                    @elseif($photoUrl)
-                        <img src="{{$photoUrl}}" height="40px" width="40px" >
-                    @endif
-                </div>
-
-                {{--   Ako ima--}}
-
+                @if($photo && method_exists($photo, 'temporaryUrl'))
                 <div class="mt-2">
-                    @if($photo && method_exists($photo, 'temporaryUrl'))
-                        <img src="{{$photo->temporaryUrl()}}" height="60px" width="60px" >
-                    @elseif($photoUrl)
-                        <img class="rounded-circle" src="{{$photoUrl}}" height="60px" width="60px" >
-                    @endif
+                     <img src="{{$photo->temporaryUrl()}}" class="rounded-circle" height="60px" width="60px" >
                 </div>
+                @elseif($photoUrl)
+                <div class="mt-2">
+                    <img src="{{$photoUrl}}?time={{time()}}" class="rounded-circle"  height="60px" width="60px">
+                </div>
+                @else
+                    <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width:60px;height:60px">
+                        <img src="{{modules_url()}}microweber/api/libs/mw-ui/assets/img/no-user.svg">
+                    </div>
+                @endif
 
                 <x-microweber-ui::link-button class=" mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     <div wire:loading="photo">
                         {{ _e('Uploading...') }}
                     </div>
                     <div wire:loading.remove wire:target="photo">
-                        {{ _e('Select photo') }}
+                        {{ _e('Upload photo') }}
                     </div>
                 </x-microweber-ui::link-button>
 

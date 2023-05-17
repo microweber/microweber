@@ -36,11 +36,6 @@
 
                <div class="col-12">
                    <div class="btn-group d-flex">
-                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
-                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
-                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
-                           </div> <?php _e("All"); ?>
-                       </button>
                        <button type="button" class="btn @if($category == 'microweber-template') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-template')">
                            <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
@@ -53,6 +48,11 @@
                            </div>
                            <?php _e("Modules"); ?>
                        </button>
+                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
+                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
+                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
+                           </div> <?php _e("All"); ?>
+                       </button>
                    </div>
                </div>
 
@@ -63,8 +63,6 @@
                            @foreach($marketplacePagination as $marketItem)
                                <div class="col-sm-6 col-lg-4">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
-
-                                       <div class="ribbon bg-green">NEW</div>
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
                                            <button type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
@@ -86,12 +84,24 @@
                                        @endif
 
                                        <div class="card-body">
-                                           <div class="d-flex align-items-center">
+                                           <div class="d-flex justify-content-between align-items-center">
                                                <div>
                                                    <b>
                                                        {{$marketItem['description']}}
                                                    </b>
                                                </div>
+                                           </div>
+                                           <div class="mt-2">
+                                               @if($marketItem['current_install'])
+                                                   <span class="badge bg-lime-lt">
+                                                       {{_e('Installed')}}
+                                                   </span>
+                                               @endif
+                                                   @if($marketItem['has_update'])
+                                                       <a href="#" class="badge bg-yellow-lt" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                                           {{_e('Update Available')}}
+                                                       </a>
+                                                   @endif
                                            </div>
                                        </div>
                                    </div>

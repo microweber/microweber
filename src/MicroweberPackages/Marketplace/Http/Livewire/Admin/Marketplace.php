@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\Package\MicroweberComposerPackage;
 
 class Marketplace extends Component
 {
@@ -99,6 +100,8 @@ class Marketplace extends Component
                 }
             }
 
+            $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
+
             $latestVersions[$packageName] = $latestVersionPackage;
         }
 
@@ -112,7 +115,7 @@ class Marketplace extends Component
      *
      * @var array
      */
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    public function paginate($items, $perPage = 35, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);

@@ -10,7 +10,6 @@ class MicroweberComposerPackage
     public static $allPackages = [];
     public static $localPackages = [];
 
-
     public static function loadLocalData()
     {
         self::$allPackages = [];
@@ -43,11 +42,15 @@ class MicroweberComposerPackage
             $version['buy_link'] = $version['extra']['whmcs']['buy_link'];
         }
 
+        $version['is_symlink'] = false;
+        $version['has_update'] = false;
         $version['demo_link'] = false;
         $version['screenshot_link'] = false;
+
         if (isset($version['extra']['preview_url'])) {
             $version['demo_link'] = $version['extra']['preview_url'];
         }
+
         if (isset($version['extra']['_meta']['screenshot'])) {
             $version['screenshot_link'] = $version['extra']['_meta']['screenshot'];
         }
@@ -67,8 +70,6 @@ class MicroweberComposerPackage
                 $currentInstall['module'] = $module['name'];
                 $currentInstall['module_details'] = $module;
 
-                $version['has_update'] = false;
-
                 $v1 = trim($version['latest_version']['version']);
                 $v2 = trim($module['version']);
 
@@ -78,7 +79,6 @@ class MicroweberComposerPackage
                     }
                 }
 
-                $version['is_symlink'] = false;
                 if (isset($module['is_symlink']) && $module['is_symlink']) {
                     $version['has_update'] = false;
                     $version['is_symlink'] = true;
