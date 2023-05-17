@@ -58,7 +58,6 @@ if (!$data) {
 
     <div class="card hover-bg-light item visitor more-info-show shadow-sm p-3 my-4" data-id="more-<?php print $item['id']; ?>">
         <div class="d-flex align-items-center justify-content-between my-3">
-
               <span
                     <?php
                     if (strtolower($item['country_code']) == "unknown") {
@@ -66,20 +65,16 @@ if (!$data) {
                     }  else {
                     ?> class='flag-icon flag-icon-<?php print strtolower($item['country_code'] . " " . "tip");
                   } ?>'>
-
               </span>
 
               <div class="visitor-name text-start text-left">
-
                   <?php print $item['user_ip']; ?>
                   <a rel="noreferrer noopener" href="https://extreme-ip-lookup.com/<?php print $item['user_ip']; ?>" class="text-muted btn btn-link btn-rounded btn-icon btn-sm"  target="_blank"><i class="mdi  mdi-open-in-new"></i></a>
-
               </div>
 
             <div class="timestamp tip" data-tip="<?php print $item['updated_at']; ?>"><?php print mw()->format->ago($item['updated_at']); ?></div>
         </div>
         <div class="clearfix"></div>
-
 
         <div class="py-1">
             <div class="current-page">
