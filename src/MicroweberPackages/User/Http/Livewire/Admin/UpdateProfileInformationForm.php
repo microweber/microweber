@@ -67,6 +67,7 @@ class UpdateProfileInformationForm extends Component
         $user->save();
 
         $this->photo = null;
+        $this->photoUrl = user_picture($user->id);
     }
 
     /**
@@ -102,7 +103,13 @@ class UpdateProfileInformationForm extends Component
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-
+            'phone' => ['nullable', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'email' => [
                 'required',
                 'string',
