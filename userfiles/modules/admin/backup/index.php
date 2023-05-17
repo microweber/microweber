@@ -40,6 +40,6 @@ include_once 'backup_modal.php';
     <?php endif; ?>
 </div>
 
-<div class="mw_edit_page_right">
+<div class="row mw_edit_page_right">
     <module type="admin/backup/manage"/>
 </div>
