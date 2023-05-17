@@ -14,8 +14,8 @@ namespace MicroweberPackages\Menu\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use MicroweberPackages\Menu\Listeners\AddMenuPageListener;
 use MicroweberPackages\Menu\Listeners\EditMenuPageListener;
-use MicroweberPackages\Page\Events\MenuWasCreated;
-use MicroweberPackages\Page\Events\MenuWasUpdated;
+use MicroweberPackages\Menu\Events\MenuWasCreated;
+use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 class MenuEventServiceProvider extends EventServiceProvider
 {
