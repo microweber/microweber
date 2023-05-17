@@ -5,6 +5,7 @@ namespace MicroweberPackages\User\Http\Livewire\Admin;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\User\Models\User;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Validator;
 
 class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
 {
@@ -25,6 +26,8 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
         }
     }
 
+    public $saved = false;
+
     /**
      * Update the user's password.
      *
@@ -34,9 +37,14 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
     {
         $this->resetErrorBag();
 
-        $user = User::where('id', $this->userId)->first();
-
         $input = $this->state;
+
+        Validator::make($input, [
+            'password' => 'required|min:4|required_with:password_confirm|same:password_confirm',
+            'password_confirm' => 'min:4',
+        ])->validateWithBag('updateUserPassword');
+
+        $user = User::where('id', $this->userId)->first();
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
@@ -46,7 +54,7 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
             'password' => '',
         ];
 
-        $this->emit('saved');
+        $this->saved = true;
     }
 
     /**

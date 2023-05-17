@@ -108,8 +108,15 @@
 
 
                                             <div class="flex-fill">
-                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}</div>
+                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}
+
+                                                    @if($user->id == user_id())
+                                                        <span class="badge badge-outline text-azure">{{_e('You')}}</span>
+                                                    @endif
+
+                                                </div>
                                                 <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
+
                                             </div>
                                         </div>
                                     </td>
