@@ -13,6 +13,7 @@
                     {{_e('Ensure your account is using a long, random password to stay secure.')}}
                 </div>
 
+                @if(!$saved)
                 <div class="col-span-6 sm:col-span-4 mt-4">
 
                     <x-microweber-ui::label for="password" value="Password" />
@@ -52,6 +53,8 @@
                     </div>
                     <x-microweber-ui::input-error for="password_confirm" class="mt-2" />
                 </div>
+                @endif
+
                 <div class="mt-4">
 
                     @if($saved)
@@ -60,11 +63,18 @@
                                 {{_e('Password is changed.')}}
                             </div>
                         </div>
-                    @endif
+
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+                            {{_e('Ok! Close')}}
+                        </button>
+                    @else
 
                     <x-microweber-ui::button>
                         {{_('Change')}}
                     </x-microweber-ui::button>
+
+                    @endif
+
                 </div>
             </form>
         </div>

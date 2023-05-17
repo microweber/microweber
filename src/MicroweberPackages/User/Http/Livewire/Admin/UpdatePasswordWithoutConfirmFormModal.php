@@ -16,6 +16,7 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
      */
     public $state = [
         'password' => '',
+        'password_confirm' => '',
     ];
 
     public $userId;
@@ -40,8 +41,8 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
         $input = $this->state;
 
         Validator::make($input, [
-            'password' => 'required|min:4|required_with:password_confirm|same:password_confirm',
-            'password_confirm' => 'min:4',
+            'password' => 'required|min:1|required_with:password_confirm|same:password_confirm',
+            'password_confirm' => 'min:1',
         ])->validateWithBag('updateUserPassword');
 
         $user = User::where('id', $this->userId)->first();
@@ -49,10 +50,6 @@ class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
-
-        $this->state = [
-            'password' => '',
-        ];
 
         $this->saved = true;
     }
