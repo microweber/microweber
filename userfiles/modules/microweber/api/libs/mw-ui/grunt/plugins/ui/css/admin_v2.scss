@@ -1012,3 +1012,7 @@ input[type=number] {
 
    }
 }
+
+.modal-header, .modal-body, .modal-footer {
+    color: var(--tblr-body-color);
+}
