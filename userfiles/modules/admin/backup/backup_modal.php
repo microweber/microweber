@@ -3,62 +3,66 @@
     <div class="mw-backup" id="mw-backup-type">
 
         <div class="mw-backup-options">
+
+            <h2 style="font-weight: bold"><?php _e("Want do you want to backup") ?>?</h2>
             <br/>
-            <h2 style="font-weight: bold">Want do you want to backup?</h2>
-            <br/>
 
-            <label class="mw-ui-check mw-backup-option">
-                <div class="option-radio">
-                    <input type="radio" name="backup_by_type" checked="checked" value="content" />
-                    <span></span>
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <label class="form-check py-2">
+                        <input class="form-check-input mt-3 me-3" type="radio" name="backup_by_type" checked="checked" value="content" />
+
+                        <label class="form-label"><?php _e("Content backup") ?></label>
+                        <span class="fs-5"><?php _e("Create backup of your sites without sensitive information") ?>
+                            <br/>
+                            <small class="text-muted">
+                                <?php _e("This will create a zip with live-edit css, media, post categories & pages") ?>.
+                            </small>
+                        </span>
+                    </label>
                 </div>
-                <h3>Content backup</h3>
-                <p>Create backup of your sites without <b>sensitive</b> information
-                    <br/>
-                    <small class="text-muted">
-                        This will create a zip with live-edit css, media, post categories & pages.
-                    </small>
-                </p>
-            </label>
+            </div>
 
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <label class="form-check py-2">
+                        <input class="form-check-input mt-3 me-3" type="radio" name="backup_by_type" value="custom" />
 
-            <label class="mw-ui-check mw-backup-option">
-                <div class="option-radio">
-                    <input type="radio" name="backup_by_type" value="custom" />
-                    <span></span>
+                        <label class="form-label"><?php _e("Custom backup") ?></label>
+                        <span class="fs-5"><?php _e("Create backup with custom selected tables, users, api_keys, media, modules, templates") ?>...
+                            <br/>
+                            <small class="text-muted">
+                                <?php _e("You can select one by one sensitive information included in zip") ?>.
+                            </small>
+                        </span>
+                    </label>
                 </div>
-                <h3>Custom backup</h3>
-                <p>Create backup with custom selected tables, users, api_keys, media, modules, templates...
-                    <br/>
-                    <small class="text-muted">
-                        You can select one by one sensitive information included in zip.
-                    </small>
-                </p>
-            </label>
+            </div>
 
+            <div class="card bg-light mb-4">
+                <div class="card-body">
+                    <label class="form-check py-2 active">
 
-            <label class="mw-ui-check mw-backup-option active">
-                <div class="option-radio">
-                    <input type="radio" name="backup_by_type" value="full"/>
-                    <span></span>
+                        <input class="form-check-input mt-3 me-3" type="radio" name="backup_by_type" value="full"/>
+
+                        <label class="form-label"><?php _e("Full backup") ?></label>
+                        <span class="fs-5">
+                            <?php _e("Create full backup of all database tables, system settings and options") ?>
+                            <br/>
+                            <small class="text-muted">
+                                <?php _e("Include sensitive information like users, passwords, api keys, settings") ?>.
+                            </small>
+                        </span>
+                    </label>
                 </div>
-                <h3>Full backup</h3>
-                <p>
-                    Create full backup of all database tables, system settings and options
-                    <br/>
-                    <small class="text-muted">
-                        Include <b>sensitive</b> information like users, <b>passwords</b>, <b>api keys</b>, settings.
-                    </small>
-                </p>
-
-            </label>
+            </div>
 
 
         </div>
 
         <div class="mw-backup-buttons">
-            <a class="btn btn-link button-cancel" onClick="mw.backup.close_modal();">Close</a>
-            <button class="btn btn-primary btn-rounded button-start" onclick="mw.backup.next()" type="button">Next
+            <a class="btn btn-link me-2" onClick="mw.backup.close_modal();"><?php _e("Close") ?></a>
+            <button class="btn btn-primary" onclick="mw.backup.next()" type="button"><?php _e("Next") ?>
             </button>
         </div>
 
@@ -78,9 +82,9 @@
                         <div style="width:100%;  ">
                             <ul class="mw-ui-inline-list">
                                 <li style="width: 100%;">
-                                    <label class="mw-ui-check">
+                                    <label class="form-check py-2">
                                         <input type="checkbox" checked="checked" class="js-backup-tables-select-all">
-                                        <span></span><span>Select all</span>
+                                        <span></span><span><?php _e("Select all"); ?></span>
                                     </label>
                                 </li>
                                 <?php
@@ -90,7 +94,7 @@
                                     $tableNameWithoutPrefix = str_replace_first($tablePrefix, '', $tableName);
                                     ?>
                                     <li style="width: 100%;">
-                                        <label class="mw-ui-check">
+                                        <label class="form-check py-2">
                                             <input type="checkbox" class="js-include-tables" checked="checked" name="include_tables[]" value="<?php echo $tableNameWithoutPrefix; ?>">
                                             <span></span><span><?php echo $tableName; ?></span>
                                         </label>
@@ -117,7 +121,7 @@
                                 foreach ($modules as $module):
                                     ?>
                                     <li style="width: 100%;">
-                                        <label class="mw-ui-check">
+                                        <label class="form-check py-2">
                                             <input type="checkbox" class="js-include-modules" name="include_modules[]" value="<?php echo $module['module']; ?>">
                                             <span></span><span><?php _e($module['name']); ?></span>
                                         </label>
@@ -143,7 +147,7 @@
                                 foreach ($templates as $template):
                                     ?>
                                     <li style="width: 100%;">
-                                        <label class="mw-ui-check">
+                                        <label class="form-check py-2">
                                             <input type="checkbox" class="js-include-templates" name="include_templates[]" value="<?php echo $template['dir_name']; ?>">
                                             <span></span><span><?php echo $template['name']; ?></span>
                                         </label>
@@ -156,18 +160,18 @@
             </div>
             <?php endif; ?>
 
-            <label class="mw-ui-check">
+            <label class="form-check py-2">
                 <input type="checkbox" class="js-include-media" name="include_media" value="1">
-                <span></span><span>Include media files</span>
+                <span></span><span><?php _e("Include media files") ?></span>
             </label>
 
         </div>
 
         <div class="mw-backup-buttons">
-            <a class="btn btn-link button-cancel" onClick="mw.backup.choice_tab();">Back</a>
-            <button class="btn btn-primary btn-rounded button-start" onclick="mw.backup.start()" type="button">
-                Start backup process
+            <button class="btn btn-primary" onclick="mw.backup.start()" type="button">
+                <?php _e("Start backup process") ?>
             </button>
+            <a class="btn btn-link" onClick="mw.backup.choice_tab();"><?php _e("Cancel") ?></a>
         </div>
 
     </div>
