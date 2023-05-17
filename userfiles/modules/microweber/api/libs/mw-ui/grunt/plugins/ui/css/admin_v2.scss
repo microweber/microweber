@@ -501,6 +501,13 @@ small.text-muted {
     min-height: 45px;
     */
     color: var(--tblr-body-color);
+    font-size: 1rem;
+}
+
+.form-select-lg {
+    padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+    min-height: 45px;
+    border-radius: 4px;
 }
 
 .input-group, input, .custom-control, .nav-link, textarea  {
@@ -997,3 +1004,4 @@ input[type=number] {
     padding: 1px;
     margin-top: 2px;
 }
+

@@ -23,7 +23,7 @@
                 <!-- Current Profile Photo -->
                 <div class="mt-2 rounded-circle bg-light d-flex align-items-center justify-content-center mx-auto" style="width: 60px; height: 60px;">
                     @if($photo && method_exists($photo, 'temporaryUrl'))
-                    <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
+                         <img src="{{$photo->temporaryUrl()}}" height="40px" width="40px" >
                     @elseif($photoUrl)
                         <img src="{{$photoUrl}}" height="40px" width="40px" >
                     @endif
@@ -38,7 +38,7 @@
                     </div>
                 </x-microweber-ui::link-button>
 
-                @if ($this->photo)
+                @if ($this->photo || $photoUrl)
                     <x-microweber-ui::link-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">{{ _e('Loading') }}...</span>

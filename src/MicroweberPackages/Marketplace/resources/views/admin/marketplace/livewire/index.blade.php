@@ -1,7 +1,7 @@
 <div>
     <script>mw.require('admin_package_manager.js');</script>
 
-    <div class="px-5 col-xxl-10">
+    <div class="px-5 col-xxl-10 mx-auto">
 
         <div class="mb-3">
            <div class="row">
@@ -12,7 +12,7 @@
                    </div>
 
 
-                   <div class="col-xl-4 col-md-4 col-12 my-2 my-md-0 flex-grow-1  flex-md-grow-0 px-1 my-xl-0 my-3">
+                   <div class="col-xl-3 col-md-4 col-12 my-2 my-md-0 flex-grow-1  flex-md-grow-0 px-1 my-xl-0 my-3">
 
                        <div class="input-icon">
                           <span class="input-icon-addon">
@@ -23,7 +23,7 @@
                            </div>
                        </div>
                    </div>
-                   <div class="col-xl-3 col-12 px-1 text-xl-end">
+                   <div class="col-xl-4 col-12 px-1 text-xl-end mt-xl-0 mt-2">
                        <button type="button" class="btn btn-outline-primary" wire:click="reloadPackages">
                            <div wire:loading wire:target="reloadPackages" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
