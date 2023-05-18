@@ -56,6 +56,7 @@ class ShopServiceProvider extends ServiceProvider
                     'admin.product.index',
                     'admin.product.create',
                     'admin.product.edit',
+                    'admin.product.show',
                 ]);
 
             if (user_can_view_module(['module' => 'order.index'])) {
@@ -63,17 +64,47 @@ class ShopServiceProvider extends ServiceProvider
                     ->addChild('Orders', [
                         'attributes' => ['route' => 'admin.order.index']
                     ]);
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->menuItems
+                    ->getChild('Shop')
+                    ->getChild('Orders')
+                    ->setExtra('routes', [
+                        'admin.order.index',
+                        'admin.order.create',
+                        'admin.order.edit',
+                        'admin.order.show',
+                    ]);
             }
             if (user_can_view_module(['module' => 'shop.category'])) {
                 AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
                     ->addChild('Categories', [
                         'attributes' => ['route' => 'admin.shop.category.index']
                     ]);
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->menuItems
+                    ->getChild('Shop')
+                    ->getChild('Categories')
+                    ->setExtra('routes', [
+                        'admin.shop.category.index',
+                        'admin.shop.category.create',
+                        'admin.shop.category.edit',
+                        'admin.shop.category.show',
+                    ]);
             }
             if (user_can_view_module(['module' => 'shop.customers'])) {
                 AdminManager::getMenuInstance('left_menu_top')->getChild('Shop')
                     ->addChild('Customers', [
                         'attributes' => ['route' => 'admin.customers.index']
+                    ]);
+                AdminManager::getMenuInstance('left_menu_top')
+                    ->menuItems
+                    ->getChild('Shop')
+                    ->getChild('Customers')
+                    ->setExtra('routes', [
+                        'admin.customers.index',
+                        'admin.customers.create',
+                        'admin.customers.edit',
+                        'admin.customers.show',
                     ]);
             }
         }
