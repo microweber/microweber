@@ -37,11 +37,32 @@
                        </select>
                    </div>
                     <div class="mt-2">
-                        <a vkey="{{$installVersion}}" href="javascript:;"
-                           id="js-install-package-action"
-                           onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
-                           class="btn btn-outline-success js-package-install-btn"> Install
-                        </a>
+
+                        @if($package['has_update'] && $installVersion == $package['version'])
+                            <a vkey="{{$installVersion}}" href="javascript:;"
+                               id="js-install-package-action"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
+                               class="btn btn-outline-warning js-package-install-btn">
+                                <i class="mdi mdi-rocket"></i> {{_e('Update to')}} {{$installVersion}}
+                            </a>
+                        @elseif($installVersion < $package['version'])
+                            <a vkey="{{$installVersion}}" href="javascript:;"
+                               id="js-install-package-action"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
+                               class="btn btn-outline-danger js-package-install-btn">
+                                <i class="mdi mdi-arrow-down"></i> {{_e('Downgrade to')}} {{$installVersion}}
+                            </a>
+                        @else
+                            <a vkey="{{$installVersion}}" href="javascript:;"
+                               id="js-install-package-action"
+                               onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
+                               class="btn btn-outline-success js-package-install-btn">
+                                <i class="mdi mdi-download"></i>
+                                {{_('Install')}}
+                            </a>
+                        @endif
+
+
                     </div>
                 </div>
 
