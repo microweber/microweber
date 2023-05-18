@@ -54,15 +54,41 @@ class AdminManager
             ->addChild('Pages', [
                 'attributes' => ['route'=>'admin.page.index'],
             ]);
+
+        $this->menus['left_menu_top']->getChild('Website')
+           ->getChild('Pages')
+           ->setExtra('routes', [
+               'admin.page.index',
+               'admin.page.create',
+               'admin.page.edit',
+               'admin.page.show',
+           ]);
+
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Categories', [
                 'attributes' => ['route'=>'admin.category.index'],
             ]);
         $this->menus['left_menu_top']->getChild('Website')
+            ->getChild('Categories')
+            ->setExtra('routes', [
+                'admin.category.index',
+                'admin.category.create',
+                'admin.category.edit',
+                'admin.category.show',
+            ]);
+
+        $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Posts', [
                 'attributes' => ['route'=>'admin.post.index'],
             ]);
-
+        $this->menus['left_menu_top']->getChild('Website')
+            ->getChild('Posts')
+            ->setExtra('routes', [
+                'admin.post.index',
+                'admin.post.create',
+                'admin.post.edit',
+                'admin.post.show',
+            ]);
 
 //        $this->menus['left_menu_bottom']->addChild('Get Help', [
 //            'uri' => admin_url('GetHelp'),
