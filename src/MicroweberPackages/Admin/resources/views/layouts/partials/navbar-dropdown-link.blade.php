@@ -1,6 +1,13 @@
 @php
 $dropdownActive = false;
 foreach($item->getChildren() as $subItem) {
+
+    if (!empty($subItem->getExtra('routes'))) {
+        if (in_array(Route::currentRouteName(), $subItem->getExtra('routes'))) {
+            $dropdownActive = true;
+        }
+    }
+
     if ($subItem->getAttribute('route') == Route::currentRouteName()) {
         $dropdownActive = true;
     }
@@ -23,7 +30,20 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItem->getAttribute('route') == Route::currentRouteName()) active @endif">
+
+                    @php
+                    $subItemIsActive = false;
+                    if ($subItem->getAttribute('route') == Route::currentRouteName()) {
+                        $subItemIsActive = true;
+                    }
+                    if (!empty($subItem->getExtra('routes'))) {
+                        if (in_array(Route::currentRouteName(), $subItem->getExtra('routes'))) {
+                            $subItemIsActive = true;
+                        }
+                    }
+                    @endphp
+
+                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItemIsActive) active @endif">
                        <span>
                             {{_e($subItem->getName())}}
                        </span>

@@ -18,12 +18,12 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <div class="card">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
-            <div class="card-header">
+            <div class="card-header px-0">
                 <module type="admin/modules/info_module_title" for-module="<?php print $params['module'] ?>"/>
             </div>
 
 
-            <div id="mw_index_contact_form">
+            <div class="px-0" id="mw_index_contact_form">
 
                 <?php
                 $mw_notif = (url_param('mw_notif'));
@@ -82,7 +82,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                 <div class="tab-content py-3">
                     <div class="tab-pane fade <?php if ($showTab =='list'):?> show active <?php endif; ?>" id="list">
 
-                        <div class=" mb-3">
+                        <div class=" my-3">
                             <div class="form-group">
                                 <label class="form-label d-block mb-2"><?php _e('Your form lists'); ?></label>
                                 <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-select" data-width="100%">

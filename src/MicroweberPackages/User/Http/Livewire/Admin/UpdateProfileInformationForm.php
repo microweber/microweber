@@ -29,6 +29,11 @@ class UpdateProfileInformationForm extends Component
      */
     public $photo;
 
+    /**
+     * @var string
+     */
+    public $photoUrl;
+
 
     public $userId = false;
 
@@ -46,7 +51,9 @@ class UpdateProfileInformationForm extends Component
             $this->state = Auth::user()->withoutRelations()->toArray();
         }
 
-        $this->photoUrl = user_picture($this->state['id']);
+        if (!empty($this->state['thumbnail'])) {
+            $this->photoUrl = user_picture($this->state['id']);
+        }
     }
 
 
@@ -67,6 +74,7 @@ class UpdateProfileInformationForm extends Component
         $user->save();
 
         $this->photo = null;
+        $this->photoUrl = null;
     }
 
     /**
@@ -102,7 +110,13 @@ class UpdateProfileInformationForm extends Component
         Validator::make($input, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-
+            'phone' => ['nullable', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'email' => [
                 'required',
                 'string',

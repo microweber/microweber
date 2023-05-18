@@ -1,6 +1,6 @@
 <?php must_have_access(); ?>
 
-<div class="row">
+<div class="row px-0">
     <div class="col-12 mb-2">
 
         <script>
@@ -30,12 +30,12 @@
             });
         </script>
 
-        <div class="alert alert-dismissible alert-primary">
+        <div class="alert alert-dismissible alert-primary d-flex justify-content-between align-items-center">
              <i class="mdi mdi-information"></i> <?php _e("We recommend to manually map fields of your contact forms, in order to get full integration with mail providers."); ?>
-            <button type="button" class="btn btn-primary js-map-contact-form-fields"><i class="mdi mdi-sitemap"></i> <?php _e("Map Fields"); ?></button>
+            <button type="button" class="btn btn-primary js-map-contact-form-fields"><?php _e("Map Fields"); ?></button>
         </div>
 
-        <button type="button" class="btn btn-primary mail-provider-sync pull-right"><i class="mdi mdi-cloud-sync"></i> <?php _e("Sync Subscribers"); ?></button>
+        <button type="button" class="btn btn-link mail-provider-sync text-end mt-3"> <?php _e("Sync Subscribers"); ?></button>
 
     </div>
 </div>
@@ -46,9 +46,9 @@ $mail_providers = get_modules('type=mail_provider');
 
 <?php if (!empty($mail_providers)): ?>
     <?php foreach ($mail_providers as $key => $provider): ?>
-        <div class="card-body mb-3 card-collapse">
-            <div class="card-header no-border" data-bs-toggle="collapse" data-bs-target="#mail_provider-<?php echo $key; ?>">
-                <h6 class="font-weight-bold"><?php print $provider['name'] ?></h6>
+        <div class="card p-3 shadow-sm hover-bg-light mb-4 card-collapse">
+            <div class="card-header p-1 no-border" data-bs-toggle="collapse" data-bs-target="#mail_provider-<?php echo $key; ?>">
+                <label class="form-label mb-0"><?php print $provider['name'] ?></label>
             </div>
             <div class="card-body collapse" id="mail_provider-<?php echo $key; ?>">
                 <module type="<?php print $provider['module'] ?>" view="admin"/>

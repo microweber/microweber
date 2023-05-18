@@ -46,7 +46,7 @@
         <div class="card bg-light mb-4">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-default">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="default" checked="checked" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="default" checked="checked" />
 
                     <label class="form-label"><?php _e("Use template with current content") ?></label>
                     <span class="fs-5"><?php _e("Change only website template without any content changes") ?></span>
@@ -57,7 +57,7 @@
         <div class="card bg-light mb-4">
            <div class="card-body">
                <label class="form-check py-2 active" id="js-template-import-type-full">
-                   <input class="form-check-input mt-3" type="radio" name="import_type" value="full" />
+                   <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="full" />
 
                    <label class="form-label"><?php _e("Import default content, media and css files") ?></label>
                    <span class="fs-5"><?php _e("Import the default content, media and css files from template") ?></span>
@@ -69,7 +69,7 @@
         <div class="card bg-light mb-4">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-only-media">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="only_media" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="only_media" />
 
                     <label class="form-label"><?php _e("Import only media and css") ?></label>
                     <span class="fs-5"><?php _e("This option will import only the media and css files") ?></span>
@@ -80,7 +80,7 @@
         <div class="card bg-light mb-4">
             <div class="card-body">
                 <label class="form-check py-2" id="js-template-import-type-delete">
-                    <input class="form-check-input mt-3" type="radio" name="import_type" value="delete" />
+                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="delete" />
 
                     <label class="form-label"><?php _e("Delete all website data") ?></label>
                     <span class="fs-5"><?php _e("This option will delete all website data and will import fresh content") ?>.</span>
@@ -94,10 +94,10 @@
     <div class="backup-restore-modal-log-progress"></div>
 
     <div class="mw-backup-restore-buttons">
-        <button class="btn btn-primary btn-rounded button-start js-button-change-template" onclick="mw_change_template()" type="submit">
+        <button class="btn btn-primary js-button-change-template me-2" onclick="mw_change_template()" type="submit">
             <?php _e("Change Template") ?>
         </button>
-        <a class="btn btn-link button-cancel" style="font-weight: normal;"><?php _e("Cancel") ?></a>
+        <a class="btn btn-link" style="font-weight: normal;"><?php _e("Cancel") ?></a>
     </div>
 
 </div>

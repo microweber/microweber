@@ -1,24 +1,18 @@
 <div>
     <script>mw.require('admin_package_manager.js');</script>
 
+    <div class="px-5 col-xxl-10 mx-auto">
 
-
-
-
-    <div class="card px-5 col-xxl-10 mx-auto">
-
-
-        <div class="card-body mb-3">
+        <div class="mb-3">
            <div class="row">
-               <div class="card-header d-flex align-items-center justify-content-between px-2 flex-wrap mb-4">
+               <div class="d-flex align-items-center justify-content-between px-2 flex-wrap mb-4">
                    <div class="col-xl-4 col-md-8 col-12 px-1">
                        <h1><?php _e("Marketplace"); ?></h1>
                        <small class="text-muted"><?php _e("Welcome to the marketplace Here you will find new modules, templates and updates"); ?></small>
                    </div>
 
 
-                   <div class="col-xl-4 col-md-4 col-12 my-2 my-md-0 flex-grow-1  flex-md-grow-0 px-1 my-xl-0 my-3">
-
+                   <div class="col-xl-3 col-md-4 col-12 my-2 my-md-0 flex-grow-1  flex-md-grow-0 px-1 my-xl-0 my-3">
 
                        <div class="input-icon">
                           <span class="input-icon-addon">
@@ -29,7 +23,7 @@
                            </div>
                        </div>
                    </div>
-                   <div class="col-xl-3 col-12 px-1 text-xl-end">
+                   <div class="col-xl-4 col-12 px-1 text-xl-end mt-xl-0 mt-2">
                        <button type="button" class="btn btn-outline-primary" wire:click="reloadPackages">
                            <div wire:loading wire:target="reloadPackages" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
@@ -38,42 +32,10 @@
                        </button>
                        <button type="button" class="btn btn-outline-success" onclick="mw.admin.admin_package_manager.show_licenses_modal();"><?php _e("Licenses"); ?></button>
                    </div>
-
                </div>
-
-
-
-
-{{--               <div class="d-flex">--}}
-{{--                   <ul class="nav nav-tabs card-header-tabs nav-fill" role="tablist">--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('all')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('all')" class="nav-link  @if($category == 'all') active @endif " role="tabs">--}}
-{{--                               <?php _e("All"); ?>--}}
-{{--                           </a>--}}
-{{--                       </li>--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('microweber-template')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('microweber-template')" class="nav-link @if($category == 'microweber-template') active @endif" role="tabs">--}}
-{{--                               <?php _e("Templates"); ?>--}}
-{{--                           </a>--}}
-
-{{--                       </li>--}}
-{{--                       <li class="nav-link" wire:click="filterCategory('microweber-module')" role="presentation">--}}
-{{--                           <a wire:target="filterCategory('microweber-module')" class=" nav-link @if($category == 'microweber-module') active @endif" role="tabs">--}}
-{{--                               <?php _e("Modules"); ?>--}}
-{{--                           </a>--}}
-
-{{--                       </li>--}}
-{{--                   </ul>--}}
-{{--               </div>--}}
-
 
                <div class="col-12">
                    <div class="btn-group d-flex">
-                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
-                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
-                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
-                           </div> <?php _e("All"); ?>
-                       </button>
                        <button type="button" class="btn @if($category == 'microweber-template') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-template')">
                            <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
@@ -86,11 +48,16 @@
                            </div>
                            <?php _e("Modules"); ?>
                        </button>
+                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
+                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
+                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
+                           </div> <?php _e("All"); ?>
+                       </button>
                    </div>
                </div>
 
                <div class="col-12">
-                   <div class="row row-cards px-0">
+                   <div class="row row-cards px-0 mt-4">
 
                        @if(!empty($marketplacePagination))
                            @foreach($marketplacePagination as $marketItem)
@@ -117,12 +84,33 @@
                                        @endif
 
                                        <div class="card-body">
-                                           <div class="d-flex align-items-center">
+                                           <div class="d-flex justify-content-start align-items-center">
                                                <div>
                                                    <b>
                                                        {{$marketItem['description']}}
                                                    </b>
                                                </div>
+                                           </div>
+                                           <div class="mt-2">
+                                               @if($marketItem['is_paid'])
+                                                   <span class="badge bg-orange-lt">
+                                                       {{_e('Premium')}}
+                                                   </span>
+                                               @else
+                                                   <span class="badge bg-lime-lt">
+                                                       {{_e('Free')}}
+                                                   </span>
+                                               @endif
+                                               @if($marketItem['current_install'])
+                                                   <span class="badge bg-lime-lt">
+                                                       {{_e('Installed')}}
+                                                   </span>
+                                               @endif
+                                                   @if($marketItem['has_update'])
+                                                       <a href="#" class="badge bg-yellow-lt" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                                           {{_e('Update Available')}}
+                                                       </a>
+                                                   @endif
                                            </div>
                                        </div>
                                    </div>

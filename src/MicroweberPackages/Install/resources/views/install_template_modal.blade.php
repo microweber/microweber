@@ -39,8 +39,11 @@
                             if (data.validated) {
 
                                 $('.validate-license-message').html('<span class="text-success">License is valid!</span>');
+                                var inModal = mw.dialog.get();
+                                if (inModal) {
+                                    inModal.remove();
+                                }
 
-                                mw.dialog.get().remove();
                                 installTemplate('{{$template['name']}}');
 
                             } else {

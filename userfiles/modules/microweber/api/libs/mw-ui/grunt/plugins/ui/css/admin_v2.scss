@@ -501,6 +501,13 @@ small.text-muted {
     min-height: 45px;
     */
     color: var(--tblr-body-color);
+    font-size: 1rem;
+}
+
+.form-select-lg {
+    padding: 0.65rem 2.25rem 0.65rem 0.75rem;
+    min-height: 45px;
+    border-radius: 4px;
 }
 
 .input-group, input, .custom-control, .nav-link, textarea  {
@@ -976,4 +983,41 @@ input[type=number] {
     .card-body {
         height: 300px;
     }
+}
+
+.stats-view .visitors .visitor .page-dots .page-circle {
+    float: left;
+    display: block;
+    margin: 0 1px 0 0;
+    width: 5px;
+    height: 10px;
+    background: #ccc;
+    -webkit-box-shadow: inset 0 -1px 2px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+    box-shadow: inset 0 -1px 2px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.25);
+
+}
+
+.stats-view .visitors .visitor .page-dots {
+    border: 1px solid #e5e5e5;
+    clear: both;
+    height: 14px;
+    padding: 1px;
+    margin-top: 2px;
+}
+
+.hover-bg-light {
+   &:hover {
+           --tblr-bg-opacity: 1;
+           background-color: rgba(var(--tblr-light-rgb),var(--tblr-bg-opacity))!important;
+
+   }
+}
+
+.modal-header, .modal-body, .modal-footer {
+    color: var(--tblr-body-color);
+    border: none;
+}
+
+.font-weight-bold {
+    font-weight: 600;
 }

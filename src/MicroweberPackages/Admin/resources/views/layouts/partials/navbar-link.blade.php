@@ -3,8 +3,9 @@ $isCurrent = false;
 if (request()->getUri() == $item->getUri()) {
     $isCurrent = true;
 }
+
 if ($item->getAttribute('route') == Route::currentRouteName()) {
-    $dropdownActive = true;
+    $isCurrent = true;
 }
 @endphp
 

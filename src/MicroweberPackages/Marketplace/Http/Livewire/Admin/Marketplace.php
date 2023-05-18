@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\Package\MicroweberComposerPackage;
 
 class Marketplace extends Component
 {
@@ -21,19 +22,21 @@ class Marketplace extends Component
 
     public $queryString = [
         'keyword',
-        'category'
+        'category',
+        'page',
     ];
 
     public function updatedKeyword($keyword)
     {
         $this->filter();
+        $this->resetPage();
     }
 
     public function filterCategory($category)
     {
         $this->category = $category;
-        $this->gotoPage(1);
         $this->filter();
+        $this->resetPage();
     }
 
     public function mount()
@@ -84,13 +87,18 @@ class Marketplace extends Component
                 $searchKeywords = array_merge($searchKeywords, $latestVersionPackage['extra']['categories']);
             }
 
+            array_walk($searchKeywords, function(&$value) {
+                $value = mb_strtolower($value);
+            });
+
             if (!empty($this->keyword)) {
                 $founded = false;
-                if (in_array($this->keyword, $searchKeywords)) {
+                if (in_array(mb_strtolower(trim($this->keyword)), $searchKeywords)) {
                     $founded = true;
                 }
+
                 if (isset($latestVersionPackage['description'])) {
-                    if (mb_strpos($latestVersionPackage['description'], $this->keyword) !== false) {
+                    if (mb_strpos(mb_strtolower($latestVersionPackage['description']), mb_strtolower(trim($this->keyword))) !== false) {
                         $founded = true;
                     }
                 }
@@ -98,6 +106,8 @@ class Marketplace extends Component
                     continue;
                 }
             }
+
+            $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
 
             $latestVersions[$packageName] = $latestVersionPackage;
         }
@@ -112,7 +122,7 @@ class Marketplace extends Component
      *
      * @var array
      */
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    public function paginate($items, $perPage = 25, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
