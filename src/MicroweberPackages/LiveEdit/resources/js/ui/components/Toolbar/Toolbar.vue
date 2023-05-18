@@ -16,7 +16,7 @@ export default {
 
     <div id="toolbar">
         <div class="toolbar-nav toolbar-nav-hover">
-            <a href="" class="mw-le-btn mw-le-btn-icon mw-le-btn-primary2">
+            <a href="./" class="mw-le-btn mw-le-btn-icon mw-le-btn-primary2">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 32px;">
                     <path d="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z"/>
                 </svg>

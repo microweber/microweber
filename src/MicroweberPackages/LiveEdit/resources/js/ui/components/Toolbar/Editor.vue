@@ -15,6 +15,8 @@ export default {
                  
                 element.contentEditable = true;
                 mw.app.richTextEditor.smallEditorInteract(element)
+ 
+                 
             
                 mw.app.get('liveEdit').handles.hide();
                 mw.app.get('liveEdit').pause();
