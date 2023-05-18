@@ -84,6 +84,7 @@
                 </style>
 
                 <div class="card my-4">
+                    @if($users->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-vcenter card-table mw-admin-users-manage-table">
                             <thead>
@@ -153,6 +154,9 @@
                             </tbody>
                         </table>
                     </div>
+                    @else
+                        {{_e('No such user in the records')}}
+                    @endif
                 </div>
 
                 <div class="d-flex">
