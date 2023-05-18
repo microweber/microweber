@@ -84,7 +84,7 @@
                                        @endif
 
                                        <div class="card-body">
-                                           <div class="d-flex justify-content-between align-items-center">
+                                           <div class="d-flex justify-content-start align-items-center">
                                                <div>
                                                    <b>
                                                        {{$marketItem['description']}}
@@ -92,6 +92,15 @@
                                                </div>
                                            </div>
                                            <div class="mt-2">
+                                               @if($marketItem['is_paid'])
+                                                   <span class="badge bg-orange-lt">
+                                                       {{_e('Premium')}}
+                                                   </span>
+                                               @else
+                                                   <span class="badge bg-lime-lt">
+                                                       {{_e('Free')}}
+                                                   </span>
+                                               @endif
                                                @if($marketItem['current_install'])
                                                    <span class="badge bg-lime-lt">
                                                        {{_e('Installed')}}
