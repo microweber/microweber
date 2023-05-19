@@ -11,14 +11,12 @@
     <div class="card-body">
 
         <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-primary mb-3">
-                <i class="mdi mdi-cogs"></i> Settings
+            <button type="button" onclick="Livewire.emit('openModal', 'contact-form.settings-modal')" class="btn btn-outline-primary mb-3">
+                <i class="mdi mdi-cogs"></i> {{_e('Settings')}}
             </button>
-            &nbsp;
-            &nbsp;
-
-            <button type="button" class="btn btn-outline-primary mb-3">
-                <i class="mdi mdi-envelope"></i> Integrations
+            &nbsp; &nbsp;
+            <button  type="button" onclick="Livewire.emit('openModal', 'contact-form.settings-modal')" class="btn btn-outline-primary mb-3">
+                <i class="mdi mdi-envelope"></i> {{_e('Integrations')}}
             </button>
         </div>
 
@@ -39,7 +37,7 @@
                         </div>
                         <div class="col-6 col-sm">5 days ago</div>
                         <div class="col-2 text-end">
-                            <a href="#" class="btn btn-link">
+                            <a href="#" class="btn btn-link" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>1]) }})">
                                 View
                             </a>
                         </div>

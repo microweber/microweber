@@ -45,12 +45,12 @@ if (isset($params['for_module_id'])) {
         <div class="form-group mb-4">
             <?php  $emailCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_sender', $mod_id); ?>
             <div class="form-check form-switch pl-0">
-                <input type="checkbox" onchange="toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field form-check-input" name="email_custom_sender" option-group="<?php print $mod_id ?>" id="email_custom_sender" value="y" <?php if ($emailCustomSender): ?>checked<?php endif; ?>>
+                <input type="checkbox" onchange="window.toggleCustomSender(event)" data-value-checked="y" data-value-unchecked="n"   class="mw_option_field form-check-input" name="email_custom_sender" option-group="<?php print $mod_id ?>" id="email_custom_sender" value="y" <?php if ($emailCustomSender): ?>checked<?php endif; ?>>
             </div>
         </div>
 
         <script type="text/javascript">
-            toggleCustomSender = function (e) {
+            window.toggleCustomSender = function (e) {
                 var el = e.target;
                 if ($(el).is(":checked")) {
                     $('.js-custom-sender').fadeIn();
