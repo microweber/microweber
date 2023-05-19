@@ -50,7 +50,7 @@
         </svg>
 
     </button>
-<div class="card p-3 h-100" id="pages-tree-container" >
+<div class="card m-3 p-3 h-100" id="pages-tree-container" >
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
