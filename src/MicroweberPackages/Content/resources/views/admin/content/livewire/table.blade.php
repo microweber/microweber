@@ -136,8 +136,8 @@
             <div class="row py-3">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1 px-2 mx-1">
                     <div class="col-md-5 col-12 d-flex justify-content-start align-items-center px-0 ">
-                        @include('content::admin.content.livewire.components.sort')
-                        @include('content::admin.content.livewire.components.limit')
+
+
                     </div>
 
                     <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile pe-1">
@@ -161,6 +161,17 @@
                                    </div>
                                 @endforeach
                             </div>
+                        </div>
+
+                        <div class="ms-2" x-data="{ openSortDropdown: false }">
+                            <span @click="openSortDropdown =! openSortDropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M480.037 904.131q-20.994 0-35.831-14.915-14.836-14.914-14.836-35.857 0-20.72 14.896-35.724 14.897-15.005 35.816-15.005 21.114 0 35.831 15.117 14.717 15.116 14.717 35.913 0 20.797-14.799 35.634-14.8 14.837-35.794 14.837Zm0-277.501q-20.994 0-35.831-14.896-14.836-14.897-14.836-35.816 0-21.114 14.896-35.831 14.897-14.717 35.816-14.717 21.114 0 35.831 14.799 14.717 14.8 14.717 35.794 0 20.994-14.799 35.831-14.8 14.836-35.794 14.836Zm0-277.26q-20.994 0-35.831-14.988-14.836-14.987-14.836-36.032 0-21.046 14.896-35.883 14.897-14.837 35.816-14.837 21.114 0 35.831 14.979 14.717 14.978 14.717 36.024t-14.799 35.891q-14.8 14.846-35.794 14.846Z"/></svg>
+                            </span>
+
+                            <span class="table-blade-sortable-elements bg-light shadow-sm align-items-center justify-content-center p-3" style=" display: none;" x-show="openSortDropdown">
+                                @include('content::admin.content.livewire.components.sort')
+                                @include('content::admin.content.livewire.components.limit')
+                            </span>
                         </div>
                     </div>
 

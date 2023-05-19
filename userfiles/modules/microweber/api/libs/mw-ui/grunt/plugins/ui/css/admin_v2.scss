@@ -1102,3 +1102,13 @@ input[type=number] {
     margin: 0px 12px;
     font-size: 12px;
 }
+
+.table-blade-sortable-elements {
+    position: absolute;
+    z-index: 1;
+    right: 20px;
+    top: 45px;
+    cursor: pointer;
+    display: flex;
+
+}
