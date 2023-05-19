@@ -135,16 +135,18 @@
         @if($contents->total() > 0)
             <div class="row py-3">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1 px-2 mx-1">
-
-                    @include('content::admin.content.livewire.components.display-as')
-
-                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center px-0 mw-filters-sorts-mobile pe-1">
-
+                    <div class="col-md-5 col-12 d-flex justify-content-start align-items-center px-0 ">
                         @include('content::admin.content.livewire.components.sort')
                         @include('content::admin.content.livewire.components.limit')
+                    </div>
+
+                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile pe-1">
+                        <div>
+                            @include('content::admin.content.livewire.components.display-as')
+                        </div>
 
                         <div class="">
-                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" style="padding: 10px;" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ _e('Columns') }}
                             </button>
                             <div class="dropdown-menu p-3">
