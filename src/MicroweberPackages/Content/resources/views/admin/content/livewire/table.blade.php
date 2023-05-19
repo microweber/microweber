@@ -12,23 +12,33 @@
 
             @include('content::admin.content.livewire.components.keyword')
 
-            <div class=" mb-3 mb-md-0 ">
-                @include('content::admin.content.livewire.components.button-filter')
-                <div class="dropdown-menu p-1">
-
-                    @if(!empty($dropdownFilters))
-                        @foreach($dropdownFilters as $dropdownFilterGroup)
-                            <div>
-                                 <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
-                                @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
-                                    <label class="dropdown-item"><input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}</label>
+            <div class="ms-4 input-icon col-xl-3 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
+                <div class="input-group input-group-flat ">
+                    <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
+                    <span class="input-group-text">
+                        @include('content::admin.content.livewire.components.button-filter')
+                        <div class="dropdown-menu p-1">
+                            @if(!empty($dropdownFilters))
+                                @foreach($dropdownFilters as $dropdownFilterGroup)
+                                    <div>
+                                         <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
+                                        @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
+                                            <label class="dropdown-item">
+                                                <input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}
+                                            </label>
+                                        @endforeach
+                                    </div>
                                 @endforeach
-                            </div>
-                        @endforeach
-                    @endif
+                            @endif
+                        </div>
 
+
+                   </span>
                 </div>
             </div>
+
+
+
 
             @if(!empty($appliedFiltersFriendlyNames))
                 @include('content::admin.content.livewire.components.button-clear-filters')
