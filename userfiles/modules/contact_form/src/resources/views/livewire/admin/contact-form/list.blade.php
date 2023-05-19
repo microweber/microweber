@@ -99,11 +99,10 @@
             <div class="form-group">
                 <form method="get">
                     <small>Show items per page</small>
-                    <select class="form-select" data-size="5" data-width="100px" data-style="btn-sm"
-                            onchange="this.form.submit()">
+                    <select class="form-select" wire:model="itemsPerPage">
                         <option value="">Select</option>
                         <option value="10">10</option>
-                        <option value="30" selected="">30</option>
+                        <option value="30">30</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                         <option value="200">200</option>

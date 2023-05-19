@@ -25,11 +25,13 @@ class ListComponent extends Component
 
     public $queryString = [
         'filter',
+        'itemsPerPage',
         'page'
     ];
 
-    public $loadingMessage;
+    public $itemsPerPage = 10;
 
+    public $loadingMessage;
     public $confirmingDeleteId = false;
 
 
@@ -39,6 +41,11 @@ class ListComponent extends Component
     }
 
     public function updatedFilter()
+    {
+        $this->gotoPage(1);
+    }
+
+    public function updatedItemsPerPage()
     {
         $this->gotoPage(1);
     }
@@ -69,7 +76,7 @@ class ListComponent extends Component
         }
 
         // Paginating;
-        $formsData = $getFormDataQuery->paginate(10);
+        $formsData = $getFormDataQuery->paginate($this->itemsPerPage);
 
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
