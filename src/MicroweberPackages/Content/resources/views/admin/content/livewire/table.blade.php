@@ -47,7 +47,7 @@
         </div>
         @endif
 
-        <div class="d-flex flex-wrap mt-3">
+        <div class="d-flex flex-wrap px-4 mt-3">
 
             @php
             if(!empty($dropdownFilters)) {

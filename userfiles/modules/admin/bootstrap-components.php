@@ -2553,23 +2553,23 @@
                     <div class="bd-example py-3">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-2" type="checkbox" value="" aria-label="...">
                                 First checkbox
                             </li>
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-2" type="checkbox" value="" aria-label="...">
                                 Second checkbox
                             </li>
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-2" type="checkbox" value="" aria-label="...">
                                 Third checkbox
                             </li>
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-2" type="checkbox" value="" aria-label="...">
                                 Fourth checkbox
                             </li>
                             <li class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                                <input class="form-check-input me-2" type="checkbox" value="" aria-label="...">
                                 Fifth checkbox
                             </li>
                         </ul>
@@ -2577,23 +2577,23 @@
                     <div class="bd-example py-3">
                         <div class="list-group">
                             <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
+                                <input class="form-check-input me-2" type="checkbox" value="">
                                 First checkbox
                             </label>
                             <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
+                                <input class="form-check-input me-2" type="checkbox" value="">
                                 Second checkbox
                             </label>
                             <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
+                                <input class="form-check-input me-2" type="checkbox" value="">
                                 Third checkbox
                             </label>
                             <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
+                                <input class="form-check-input me-2" type="checkbox" value="">
                                 Fourth checkbox
                             </label>
                             <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
+                                <input class="form-check-input me-2" type="checkbox" value="">
                                 Fifth checkbox
                             </label>
                         </div>

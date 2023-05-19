@@ -1,18 +1,17 @@
 
 @if(isset($content['is_shop']) && $content['is_shop'] == 1)
 <div class="img-circle-holder border-radius-0 border-0">
-    <i class="mdi mdi-shopping mdi-48px text-muted text-opacity-5"></i>
+    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M240 976q-33 0-56.5-23.5T160 896V416q0-33 23.5-56.5T240 336h80q0-66 47-113t113-47q66 0 113 47t47 113h80q33 0 56.5 23.5T800 416v480q0 33-23.5 56.5T720 976H240Zm0-80h480V416h-80v80q0 17-11.5 28.5T600 536q-17 0-28.5-11.5T560 496v-80H400v80q0 17-11.5 28.5T360 536q-17 0-28.5-11.5T320 496v-80h-80v480Zm160-560h160q0-33-23.5-56.5T480 256q-33 0-56.5 23.5T400 336ZM240 896V416v480Z"></path></svg>
 </div>
 @elseif (isset($content['content_type']) && $content['content_type'] == 'post')
-    <div class="img-circle-holder border-radius-0 border-0">
-        <i class="mdi mdi-file-document mdi-48px text-muted text-opacity-5"></i>
-    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M319.333 809.333h321.334v-66.666H319.333v66.666Zm0-166.667h321.334V576H319.333v66.666ZM226.666 976q-27 0-46.833-19.833T160 909.334V242.666q0-27 19.833-46.833T226.666 176H574l226 226v507.334q0 27-19.833 46.833T733.334 976H226.666Zm314.001-542.667V242.666H226.666v666.668h506.668V433.333H540.667ZM226.666 242.666v190.667-190.667 666.668-666.668Z"/></svg>
 @elseif (isset($content['subtype']) && $content['subtype'] == 'dynamic')
+
     <div class="img-circle-holder border-radius-0 border-0">
-        <i class="mdi mdi-post-outline mdi-48px text-muted text-opacity-5"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M288.514 766.41h257.69v-50.255h-257.69v50.255Zm0-165.283h382.972v-50.254H288.514v50.254Zm0-165.282h382.972V385.59H288.514v50.255Zm-85.949 480.154q-25.788 0-44.176-18.388t-18.388-44.176v-554.87q0-25.788 18.388-44.176t44.176-18.388h554.87q25.788 0 44.176 18.388t18.388 44.176v554.87q0 25.788-18.388 44.176t-44.176 18.388h-554.87Zm0-50.255h554.87q4.616 0 8.462-3.847 3.847-3.846 3.847-8.462v-554.87q0-4.616-3.847-8.462-3.846-3.847-8.462-3.847h-554.87q-4.616 0-8.462 3.847-3.847 3.846-3.847 8.462v554.87q0 4.616 3.847 8.462 3.846 3.847 8.462 3.847Zm-12.309-579.488V865.744 286.256Z"/></svg>
     </div>
 @else
     <div class="img-circle-holder border-radius-0 border-0">
-        <i class="mdi mdi-file-document mdi-48px text-muted text-opacity-5"></i>
+        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M329.59 801.127h300.82v-50.254H329.59v50.254Zm0-164.871h300.82v-50.255H329.59v50.255Zm-87.025 319.743q-25.788 0-44.176-18.388t-18.388-44.176v-634.87q0-25.788 18.388-44.176t44.176-18.388h337.59l199.844 199.844v497.59q0 25.788-18.388 44.176t-44.176 18.388h-474.87Zm312.462-536.513v-173.23H242.565q-4.616 0-8.462 3.847-3.847 3.846-3.847 8.462v634.87q0 4.616 3.847 8.462 3.846 3.847 8.462 3.847h474.87q4.616 0 8.462-3.847 3.847-3.846 3.847-8.462V419.486H555.027Zm-324.771-173.23v173.23-173.23V905.744 246.256Z"/></svg>
     </div>
 @endif
