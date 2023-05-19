@@ -44,16 +44,13 @@
 
 
 <div id="pages-tree-wrapper"  >
-<button type="button" class="btn mw-admin-toggle-tree-navigation">
-     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-left-expand" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-    <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-    <path d="M9 4v16"></path>
-    <path d="M14 10l2 2l-2 2"></path>
-    </svg>
+    <button type="button" class="btn mw-admin-toggle-tree-navigation ms-5 mb-3 border-0">
+        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+            <path d="M600 936V816H440V416h-80v120H80V216h280v120h240V216h280v320H600V416h-80v320h80V616h280v320H600ZM160 296v160-160Zm520 400v160-160Zm0-400v160-160Zm0 160h120V296H680v160Zm0 400h120V696H680v160ZM160 456h120V296H160v160Z"/>
+        </svg>
 
-</button>
-<div id="pages-tree-container" >
+    </button>
+<div class="card m-3 p-3 h-100" id="pages-tree-container" >
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
