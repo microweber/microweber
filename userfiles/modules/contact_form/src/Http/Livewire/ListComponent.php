@@ -37,6 +37,11 @@ class ListComponent extends Component
         $this->loadingMessage = "Loading forms data...";
     }
 
+    public function updatedFilter()
+    {
+        $this->gotoPage(1);
+    }
+
     public function render()
     {
         $formsLists = FormList::all();
@@ -45,8 +50,9 @@ class ListComponent extends Component
         // Search
         if (!empty($this->filter['keyword'])) {
             $keyword = $this->filter['keyword'];
-            $getFormDataQuery->where(function ($query) use ($keyword) {
-                $query->where('id', 'LIKE', $keyword . '%');
+            $keyword = trim($keyword);
+            $getFormDataQuery->whereHas('formDataValues', function ($query) use ($keyword) {
+                $query->where('field_value', 'LIKE', '%'.$keyword . '%');
             });
         }
 
