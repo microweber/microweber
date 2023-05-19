@@ -7,10 +7,9 @@
                 <select class="form-select">
                     <option selected="selected">All lists</option>
                     @foreach($formsLists as $formsList)
-                        <option>{{$formsList->name}} ({{$formsList->formsData->count()}})</option>
+                        <option>{{$formsList->title}} ({{$formsList->formsData->count()}})</option>
                     @endforeach
                 </select>
-                @dump($formsLists)
             </div>
         </div>
         <div class="mt-5">
@@ -28,7 +27,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="mt-4">
         <small>Entries for list: <span>All lists</span></small>
