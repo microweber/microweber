@@ -15,8 +15,8 @@
                 <i class="mdi mdi-cogs"></i> {{_e('Settings')}}
             </button>
             &nbsp; &nbsp;
-            <button  type="button" onclick="Livewire.emit('openModal', 'contact-form.settings-modal')" class="btn btn-outline-primary mb-3">
-                <i class="mdi mdi-envelope"></i> {{_e('Integrations')}}
+            <button  type="button" onclick="Livewire.emit('openModal', 'contact-form.integrations-modal')" class="btn btn-outline-primary mb-3">
+                <i class="mdi mdi-cogs"></i> {{_e('Integrations')}}
             </button>
         </div>
 
