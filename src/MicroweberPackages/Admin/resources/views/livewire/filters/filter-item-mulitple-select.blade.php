@@ -45,7 +45,7 @@
         @else
         <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
             @foreach($data as $item)
-                <li class="list-group-item list-group-item-action cursor-pointer">
+                <li class="list-group-item list-group-item-action cursor-pointer d-flex">
                     <input class="form-check-input me-1" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
                     <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                 </li>

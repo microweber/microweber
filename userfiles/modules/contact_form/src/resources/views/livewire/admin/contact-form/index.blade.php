@@ -18,8 +18,8 @@
                 <i class="mdi mdi-cogs"></i> {{_e('Integrations')}}
             </button>
         </div>
-
     </div>
+
     <div class="card-body">
 
         <div>
