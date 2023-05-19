@@ -81,6 +81,11 @@ class ListComponent extends Component
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
 
+    public function exportDataExcel()
+    {
+        
+    }
+
     public function confirmDelete($id)
     {
         $this->confirmingDeleteId = $id;

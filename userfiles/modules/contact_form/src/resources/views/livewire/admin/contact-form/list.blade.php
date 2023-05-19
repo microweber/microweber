@@ -113,7 +113,7 @@
     </div>
     <div class="row mt-1">
         <div class="col-sm-6">
-            <div class="export-label">
+            <div class="export-label" wire:click="exportDataExcel">
                 <span>Export data</span>
                 <span class="btn btn-outline-primary btn-sm">Excel</span>
             </div>
