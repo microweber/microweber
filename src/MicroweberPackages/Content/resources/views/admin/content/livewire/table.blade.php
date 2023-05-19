@@ -10,12 +10,12 @@
         @if($displayFilters)
         <div class="d-flex align-items-center justify-content-center">
 
-            <div class="ms-4 input-icon col-xl-3 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
+            <div class="ms-4 input-icon col-xl-4 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
                 <div class="input-group input-group-flat ">
                     <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                     <span class="input-group-text">
                         @include('content::admin.content.livewire.components.button-filter')
-                        <div class="dropdown-menu p-1">
+                        <div class="dropdown-menu p-2">
                             @if(!empty($dropdownFilters))
                                 @foreach($dropdownFilters as $dropdownFilterGroup)
                                     <div>
@@ -142,7 +142,7 @@
                             </button>
                             <div class="dropdown-menu p-3">
                                 @foreach($showColumns as $column=>$columnShow)
-                                <label wire:key="show-column-{{ $loop->index }}" class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
+                                <label wire:key="show-column-{{ $loop->index }}"  class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
                                 @endforeach
                             </div>
                         </div>
