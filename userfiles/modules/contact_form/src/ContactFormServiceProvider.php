@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\ContactForm;
 use Livewire\Livewire;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Modules\ContactForm\Http\Livewire\IntegrationsModalComponent;
 use MicroweberPackages\Modules\ContactForm\Http\Livewire\SettingsModalComponent;
 
 class ContactFormServiceProvider extends ServiceProvider
@@ -27,7 +28,9 @@ class ContactFormServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+       Livewire::component('contact-form.integrations-modal', IntegrationsModalComponent::class);
        Livewire::component('contact-form.settings-modal', SettingsModalComponent::class);
+
        // Livewire::component('contact-form.list-component', ListComponent::class);
         View::addNamespace('contact-form', normalize_path((__DIR__) . '/resources/views/livewire'));
 
