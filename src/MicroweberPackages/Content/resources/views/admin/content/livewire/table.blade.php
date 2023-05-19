@@ -8,17 +8,18 @@
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
         @if($displayFilters)
-        <div class="d-flex align-items-center justify-content-center">
+       <div class="row py-3">
+           <div class="d-flex align-items-center justify-content-center">
 
-            <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
-                <div class="input-group input-group-flat ">
-                    <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
-                    <span class="input-group-text">
+               <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
+                   <div class="input-group input-group-flat ">
+                       <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
+                       <span class="input-group-text">
                         @include('content::admin.content.livewire.components.button-filter')
                         <div class="dropdown-menu p-2">
                             @if(!empty($dropdownFilters))
                                 @foreach($dropdownFilters as $dropdownFilterGroup)
-                                     <div class="">
+                                    <div class="">
                                          <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
                                         @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
                                             <div class="dropdown-item">
@@ -27,7 +28,7 @@
                                                      <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
                                                 </label>
                                             </div>
-                                         @endforeach
+                                        @endforeach
                                      </div>
                                 @endforeach
                             @endif
@@ -35,63 +36,66 @@
 
 
                    </span>
-                </div>
-            </div>
+                   </div>
+               </div>
 
 
 
 
-            @if(!empty($appliedFiltersFriendlyNames))
-                @include('content::admin.content.livewire.components.button-clear-filters')
-            @endif
-        </div>
+               @if(!empty($appliedFiltersFriendlyNames))
+                   @include('content::admin.content.livewire.components.button-clear-filters')
+               @endif
+           </div>
+       </div>
         @endif
 
-        <div class="d-flex flex-wrap px-4 mt-3">
+       <div class="row py-3">
+           <div class="d-flex flex-wrap">
 
-            @php
-            if(!empty($dropdownFilters)) {
-                foreach($dropdownFilters as $dropdownFilterGroup) {
-                    foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
-                        $skipDropdownFilter = false;
-                        if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
-                            $skipDropdownFilter = true;
-                        }
-                        if (!$skipDropdownFilter) {
+               @php
+                   if(!empty($dropdownFilters)) {
+                       foreach($dropdownFilters as $dropdownFilterGroup) {
+                           foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
+                               $skipDropdownFilter = false;
+                               if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                                   $skipDropdownFilter = true;
+                               }
+                               if (!$skipDropdownFilter) {
 
-                            if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                                    $dropdownFilterExp = explode('.', $dropdownFilter['key']);
-                                    if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
-                                        @endphp
-                                             @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
-                                                'fieldName'=>$dropdownFilter['name'],
-                                                'fieldKey'=>$dropdownFilterExp[1],
-                                                'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
-                                               ])
-                                        @php
-                                    }
-                                continue;
-                            }
+                                   if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                                           $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                           if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+               @endphp
+               @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                  'fieldName'=>$dropdownFilter['name'],
+                  'fieldKey'=>$dropdownFilterExp[1],
+                  'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                 ])
+               @php
+                   }
+               continue;
+           }
 
 
-                            if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
-                             @endphp
-                                @if (isset($dropdownFilter['viewNamespace']))
-                                    @include($dropdownFilter['viewNamespace'])
-                                @else
-                                    @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
-                                @endif
-                            @php
-                            }
-                        }
-                    }
-                }
-            }
-            @endphp
+               if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                   @endphp
+                   @if (isset($dropdownFilter['viewNamespace']))
+                       @include($dropdownFilter['viewNamespace'])
+                   @else
+                       @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
+                   @endif
+                   @php
+                       }
+                   }
+               }
+       }
+   }
+               @endphp
 
-        </div>
-        <div class="row  mt-3">
+           </div>
+       </div>
             @if(count($checked) > 0)
+        <div class="row  mt-3">
 
                 @if (count($checked) == count($contents->items()))
                     <div class="col-md-10 mb-2">
@@ -125,11 +129,11 @@
                         </ul>
                     </div>
                 </div>
-            @endif
         </div>
+            @endif
 
         @if($contents->total() > 0)
-            <div class="row mt-3">
+            <div class="row py-3">
                 <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1 px-2 mx-1">
 
                     @include('content::admin.content.livewire.components.display-as')
@@ -160,7 +164,7 @@
 
                 </div>
             </div>
-            <div class="row mt-3">
+            <div class="row py-3">
                 <div class="col-md-12">
 
                     @if($displayType == 'card')
@@ -182,14 +186,16 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center">
+            <div class="row py-3">
+                <div class="d-flex justify-content-center">
 
-                <div style="width: 100%">
-                    <span class="text-muted">{{ $contents->total() }} results found</span>
-                </div>
+                    <div style="width: 100%">
+                        <span class="text-muted">{{ $contents->total() }} results found</span>
+                    </div>
 
-                <div>
-                    {{ $contents->links() }}
+                    <div>
+                        {{ $contents->links() }}
+                    </div>
                 </div>
             </div>
 
