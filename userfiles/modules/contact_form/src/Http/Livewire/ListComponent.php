@@ -17,8 +17,7 @@ class ListComponent extends Component
     public $listeners = ["loadList" => '$refresh'];
 
     public $filter = [
-        "search" => "",
-        "status" => "",
+        "keyword" => "",
         "order_field" => "id",
         "order_type" => "desc",
     ];
@@ -44,10 +43,10 @@ class ListComponent extends Component
         $getFormDataQuery = FormData::query();
 
         // Search
-        if (!empty($this->filter["search"])) {
-            $filter = $this->filter;
-            $getFormDataQuery->where(function ($query) use ($filter) {
-                $query->where('title', 'LIKE', $this->filter['search'] . '%');
+        if (!empty($this->filter['keyword'])) {
+            $keyword = $this->filter['keyword'];
+            $getFormDataQuery->where(function ($query) use ($keyword) {
+                $query->where('id', 'LIKE', $keyword . '%');
             });
         }
 
