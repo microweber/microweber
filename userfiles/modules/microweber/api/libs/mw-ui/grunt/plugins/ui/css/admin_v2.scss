@@ -857,14 +857,15 @@ small.text-muted {
 }
 
 
-.shipping-module-draggable-item, .table {
+.shipping-module-draggable-item, .table, .card-product-holder {
     .cursor-move-holder, .mdi-cursor-move {
-        visibility: hidden;
+        opacity: .5;
     }
 
     &:hover {
         .cursor-move-holder, .mdi-cursor-move {
-            visibility: visible;
+            opacity: 1;
+
         }
     }
 
