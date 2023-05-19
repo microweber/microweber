@@ -33,6 +33,7 @@ class ListComponent extends Component
 
     public function render()
     {
+
         $query = [];
 
         if (!empty($this->filter["status"])) {
@@ -58,7 +59,7 @@ class ListComponent extends Component
         // Paginating;
         $todos = $getTodoQuery->paginate();
 
-        return view('todo-module-livewire::admin.todo.list', compact('todos'));
+        return view('contact-form::admin.contact-form.list', compact('todos'));
     }
 
     public function confirmDelete($id)
