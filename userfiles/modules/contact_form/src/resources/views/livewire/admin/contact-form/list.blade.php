@@ -46,13 +46,14 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-end gap-4">
                     <div>
-                        {{$formData->created_at->format('M d, Y')}}
-                        <small class="text-muted mb-2 font-weight-bold d-block">
-                            {{$formData->created_at->format('h:i A')}}
-                        </small>
-                    </div>
-                    <div>
-                        {{$formData->created_at->diffForHumans()}}
+                       <span class="text-muted">
+                            {{$formData->created_at->format('M d, Y')}}
+                          <br />
+                           <small> {{$formData->created_at->format('h:i A')}}</small>
+                       </span>
+                        <div class="text-muted">
+                            {{$formData->created_at->diffForHumans()}}
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -107,3 +108,10 @@
     </div>
 </div>
 </div>
+<script>
+    import SmallStats
+        from "../../../../../../../microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/src/pages/_includes/cards/small-stats.html";
+    export default {
+        components: {SmallStats}
+    }
+</script>
