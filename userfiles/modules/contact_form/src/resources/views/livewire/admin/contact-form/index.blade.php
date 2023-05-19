@@ -24,6 +24,7 @@
             @livewire('contact-form.list')
         </div>
     </div>
+
 </div>
 
 @endsection

@@ -1025,15 +1025,15 @@ input[type=number] {
 
 /* BADGE DROPDOWN FOR FILTERS */
 .badge-dropdown {
-    background: #ffffff;
+    background: var(--tblr-bg-surface);
     padding: 20px;
     position: absolute;
     z-index: 15;
-    box-shadow: 0px 4px 12px #00000054;
+    box-shadow: 0 4px 12px var(--tblr-shadow-color);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
-    border-top:4px solid #6c757d;
+    border-top:4px solid var(--tblr-toast-border-color);
     width:300px;
     margin-top:10px;
     visibility:hidden;
@@ -1050,27 +1050,16 @@ input[type=number] {
 
 .badge-dropdown::after {
     content: ' ';
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     border-style: solid;
     border-width: 0 10px 10px 10px;
-    border-color: transparent transparent #6c757d transparent;
+    border-color: transparent transparent var(--tblr-bg-surface) transparent;
     display: inline-block;
     vertical-align: middle;
     position: absolute;
     top: -13px;
 }
-
-/* .btn-badge-dropdown::after {
-display: inline-block;
-margin-left: 0.255em;
-vertical-align: 0.255em;
-content: "";
-border-top: 0.3em solid;
-border-right: 0.3em solid transparent;
-border-bottom: 0;
-border-left: 0.3em solid transparent;
-}*/
 
 .btn-badge-dropdown .action-dropdown-icon {
     cursor: pointer;
@@ -1081,11 +1070,11 @@ border-left: 0.3em solid transparent;
     font-size:12px;
 }
 .btn-secondary .action-dropdown-icon {
-    color: #ffffff91;
+    color: var(--tblr-bg-surface);
 }
 
 .btn-secondary:hover .action-dropdown-icon {
-    color:#FFFFFF;
+    color: var(--tblr-bg-surface);
 }
 
 .btn-badge-dropdown .action-dropdown-delete {
@@ -1101,12 +1090,12 @@ border-left: 0.3em solid transparent;
 }
 
 .btn-secondary .action-dropdown-delete:hover {
-    color:#FFFFFF;
+    color: var(--tblr-bg-surface);
 }
 
 .badge-filter-item {
-    background: #fff;
-    color: #757575;
+    background: var(--tblr-bg-surface);;
+    color: var(--tblr-body-color);
     border-radius: 15px;
     padding: 5px 6px;
     margin: 0px 12px;
