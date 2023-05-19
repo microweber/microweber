@@ -18,14 +18,17 @@
                         <div class="dropdown-menu p-2">
                             @if(!empty($dropdownFilters))
                                 @foreach($dropdownFilters as $dropdownFilterGroup)
-                                    <div>
+                                     <div class="">
                                          <h6 class="dropdown-header">{{ $dropdownFilterGroup['groupName']  }}</h6>
                                         @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
-                                            <label class="dropdown-item">
-                                                <input type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}"> {{ $dropdownFilter['name'] }}
-                                            </label>
-                                        @endforeach
-                                    </div>
+                                            <div class="dropdown-item">
+                                                 <label class=" form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
+                                                     <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
+                                                </label>
+                                            </div>
+                                         @endforeach
+                                     </div>
                                 @endforeach
                             @endif
                         </div>
@@ -142,7 +145,14 @@
                             </button>
                             <div class="dropdown-menu p-3">
                                 @foreach($showColumns as $column=>$columnShow)
-                                <label wire:key="show-column-{{ $loop->index }}"  class="dropdown-item"><input type="checkbox" wire:model="showColumns.{{$column}}"> {{ _e(ucfirst($column)) }}</label>
+                                   <div class="dropdown-item">
+                                       <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
+                                           <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
+                                           <span class="form-check-label">
+                                                {{ _e(ucfirst($column)) }}
+                                            </span>
+                                       </label>
+                                   </div>
                                 @endforeach
                             </div>
                         </div>
