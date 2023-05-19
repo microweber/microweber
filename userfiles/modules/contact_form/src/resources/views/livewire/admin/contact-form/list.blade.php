@@ -1,4 +1,5 @@
 <div>
+<div>
     <div class="my-3">
         <div class="form-group">
             <label class="form-label d-block mb-2">Your form lists</label>
@@ -23,34 +24,41 @@
             </div>
         </div>
     </div>
-    <div class="card shadow-sm mb-4 bg-silver">
+
         @foreach($formsData as $formData)
+        <div class="card shadow-sm mb-4 bg-silver">
         <div class="card-body">
-            <div class="row align-items-center">
-                <div class="col" style="max-width:55px;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
                     <i class="mdi mdi-email text-primary mdi-24px"></i>
                 </div>
-                <div class="col-10 col-sm item-id">
+                <div>
                     <span class="text-primary">#{{$formData->id}}</span>
                 </div>
-                <div class="col-6 col-sm">
+                <div>
+                    <small>Petko Yovchevski</small> <br />petko@abv.bg
+                </div>
+                <div>
+                    <span class="text-primary">Can i join to your team back?</span>
+                </div>
+                <div>
                     {{$formData->created_at->format('M d, Y')}}
                     <small class="text-muted mb-2 font-weight-bold d-block">
                         {{$formData->created_at->format('h:i A')}}
                     </small>
                 </div>
-                <div class="col-6 col-sm">
+                <div>
                     {{$formData->created_at->diffForHumans()}}
                 </div>
-                <div class="col-2 text-end">
+                <div>
                     <a href="#" class="btn btn-link" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
                         {{_e('View')}}
                     </a>
                 </div>
             </div>
         </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
 
 
 </div>
@@ -92,4 +100,5 @@
             <span>0 messages in this list: </span>
         </div>
     </div>
+</div>
 </div>

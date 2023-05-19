@@ -40,7 +40,6 @@ class ListComponent extends Component
 
     public function render()
     {
-
         $formsLists = FormList::all();
         $getFormDataQuery = FormData::query();
 
@@ -59,7 +58,7 @@ class ListComponent extends Component
         }
 
         // Paginating;
-        $formsData = $getFormDataQuery->paginate(3);
+        $formsData = $getFormDataQuery->paginate(2);
 
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
