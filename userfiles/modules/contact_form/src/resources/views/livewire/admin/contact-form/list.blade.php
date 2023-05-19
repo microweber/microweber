@@ -6,8 +6,11 @@
                 <label class="form-label d-block mb-2">Your form lists</label>
                 <select class="form-select">
                     <option selected="selected">All lists</option>
-                    <option>Default list (0)</option>
+                    @foreach($formsLists as $formsList)
+                        <option>{{$formsList->name}} ({{$formsList->formsData->count()}})</option>
+                    @endforeach
                 </select>
+                @dump($formsLists)
             </div>
         </div>
         <div class="mt-5">
