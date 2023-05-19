@@ -84,18 +84,79 @@
                                 Columns
                             </button>
                             <div class="dropdown-menu p-3">
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.id"> Id</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.image"> Image</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.products"> Products</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.customer"> Customer</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.total_amount"> Total Amount</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.shipping_method"> Shipping Method</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_method"> Payment Method</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.payment_status"> Payment Status</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.status"> Status</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.created_at"> Created At</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.updated_at"> Updated At</label>
-                                <label class="dropdown-item"><input type="checkbox" wire:model="showColumns.actions"> Actions</label>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.id">
+                                        <span class="form-check-label">Id</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.image">
+                                        <span class="form-check-label">Image</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.products">
+                                        <span class="form-check-label">Products</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.customer">
+                                        <span class="form-check-label">Customer</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.total_amount">
+                                        <span class="form-check-label">Total Amount</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.shipping_method">
+                                        <span class="form-check-label">Shipping Method</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.payment_method">
+                                        <span class="form-check-label">Payment Method</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.payment_status">
+                                        <span class="form-check-label">Payment Status</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.status">
+                                        <span class="form-check-label">Status</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.created_at">
+                                        <span class="form-check-label">Created At</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.updated_at">
+                                        <span class="form-check-label">Updated At</span>
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.actions">
+                                        <span class="form-check-label">Actions</span>
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
 
