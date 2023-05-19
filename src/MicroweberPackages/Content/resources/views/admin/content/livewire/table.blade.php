@@ -10,8 +10,6 @@
         @if($displayFilters)
         <div class="d-flex align-items-center justify-content-center">
 
-            @include('content::admin.content.livewire.components.keyword')
-
             <div class="ms-4 input-icon col-xl-3 col-sm-5 col-12  mb-3 mb-md-0 ps-0">
                 <div class="input-group input-group-flat ">
                     <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
