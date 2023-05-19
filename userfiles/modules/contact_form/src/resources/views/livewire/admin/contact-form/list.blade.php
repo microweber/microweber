@@ -28,27 +28,32 @@
         @foreach($formsData as $formData)
         <div class="card shadow-sm mb-4 bg-silver">
         <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <i class="mdi mdi-email text-primary mdi-24px"></i>
+            <div class="d-flex align-items-center justify-content-start gap-5">
+                <div class="d-flex align-items-center gap-1">
+                    <div><i class="mdi mdi-email text-primary mdi-24px"></i></div>
+                    <div><span class="text-primary">#{{$formData->id}}</span></div>
                 </div>
                 <div>
-                    <span class="text-primary">#{{$formData->id}}</span>
+                    <small>
+                        {{$formData->getFullName()}}
+                    </small> <br />
+                    <span class="text-muted">{{$formData->getEmail()}}</span>
                 </div>
-                <div>
-                    <small>Petko Yovchevski</small> <br />petko@abv.bg
+                <div class="col">
+                    <span class="text-muted">
+                         {{$formData->getSubject()}}
+                    </span>
                 </div>
-                <div>
-                    <span class="text-primary">Can i join to your team back?</span>
-                </div>
-                <div>
-                    {{$formData->created_at->format('M d, Y')}}
-                    <small class="text-muted mb-2 font-weight-bold d-block">
-                        {{$formData->created_at->format('h:i A')}}
-                    </small>
-                </div>
-                <div>
-                    {{$formData->created_at->diffForHumans()}}
+                <div class="d-flex align-items-center justify-content-end gap-4">
+                    <div>
+                        {{$formData->created_at->format('M d, Y')}}
+                        <small class="text-muted mb-2 font-weight-bold d-block">
+                            {{$formData->created_at->format('h:i A')}}
+                        </small>
+                    </div>
+                    <div>
+                        {{$formData->created_at->diffForHumans()}}
+                    </div>
                 </div>
                 <div>
                     <a href="#" class="btn btn-link" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">

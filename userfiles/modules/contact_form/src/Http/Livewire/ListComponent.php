@@ -58,7 +58,7 @@ class ListComponent extends Component
         }
 
         // Paginating;
-        $formsData = $getFormDataQuery->paginate(2);
+        $formsData = $getFormDataQuery->paginate(10);
 
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
