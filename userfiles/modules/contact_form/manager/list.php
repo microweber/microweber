@@ -208,7 +208,8 @@ if (trim($load_list) == 'default') {
                 <form method="get">
                     <select name="per_page" class="form-select" data-size="5" data-width="100px" data-style="btn-sm" onchange="this.form.submit()">
                         <option value="">Select</option>
-                        <option value="10" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
+                        <option value="10" <?php if ($limit == 10): ?>  selected  <?php endif; ?>>10</option>
+                        <option value="30" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
                         <option value="50" <?php if ($limit == 50): ?>  selected  <?php endif; ?>>50</option>
                         <option value="100" <?php if ($limit == 100): ?>  selected  <?php endif; ?>>100</option>
                         <option value="200" <?php if ($limit == 200): ?>  selected  <?php endif; ?>>200</option>
