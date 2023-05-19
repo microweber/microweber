@@ -17,8 +17,7 @@ class ListComponent extends Component
     public $listeners = ["loadList" => '$refresh'];
 
     public $filter = [
-        "search" => "",
-        "status" => "",
+        "keyword" => "",
         "order_field" => "id",
         "order_type" => "desc",
     ];
@@ -38,16 +37,22 @@ class ListComponent extends Component
         $this->loadingMessage = "Loading forms data...";
     }
 
+    public function updatedFilter()
+    {
+        $this->gotoPage(1);
+    }
+
     public function render()
     {
         $formsLists = FormList::all();
         $getFormDataQuery = FormData::query();
 
         // Search
-        if (!empty($this->filter["search"])) {
-            $filter = $this->filter;
-            $getFormDataQuery->where(function ($query) use ($filter) {
-                $query->where('title', 'LIKE', $this->filter['search'] . '%');
+        if (!empty($this->filter['keyword'])) {
+            $keyword = $this->filter['keyword'];
+            $keyword = trim($keyword);
+            $getFormDataQuery->whereHas('formDataValues', function ($query) use ($keyword) {
+                $query->where('field_value', 'LIKE', '%'.$keyword . '%');
             });
         }
 
@@ -58,7 +63,7 @@ class ListComponent extends Component
         }
 
         // Paginating;
-        $formsData = $getFormDataQuery->paginate(2);
+        $formsData = $getFormDataQuery->paginate(10);
 
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
