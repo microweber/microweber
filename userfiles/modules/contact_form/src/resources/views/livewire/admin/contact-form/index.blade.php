@@ -22,6 +22,32 @@
             </button>
         </div>
 
+        <div>
+            <div class="card shadow-sm mb-4 bg-silver">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col" style="max-width:55px;">
+                            <i class="mdi mdi-email text-primary mdi-24px"></i>
+                        </div>
+                        <div class="col-10 col-sm item-id">
+                            <span class="text-primary">#0</span>
+                        </div>
+
+                        <div class="col-6 col-sm">
+                            May 14, 2023
+                            <small class="text-muted mb-2 font-weight-bold d-block">07:40h</small>
+                        </div>
+                        <div class="col-6 col-sm">5 days ago</div>
+                        <div class="col-2 text-end">
+                            <a href="#" class="btn btn-link">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 </div>
