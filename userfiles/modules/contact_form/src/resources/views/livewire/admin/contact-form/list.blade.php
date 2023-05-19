@@ -24,27 +24,32 @@
         </div>
     </div>
     <div class="card shadow-sm mb-4 bg-silver">
+        @foreach($formsData as $formData)
         <div class="card-body">
             <div class="row align-items-center">
                 <div class="col" style="max-width:55px;">
                     <i class="mdi mdi-email text-primary mdi-24px"></i>
                 </div>
                 <div class="col-10 col-sm item-id">
-                    <span class="text-primary">#0</span>
+                    <span class="text-primary">#{{$formData->id}}</span>
                 </div>
-
                 <div class="col-6 col-sm">
-                    May 14, 2023
-                    <small class="text-muted mb-2 font-weight-bold d-block">07:40h</small>
+                    {{$formData->created_at->format('M d, Y')}}
+                    <small class="text-muted mb-2 font-weight-bold d-block">
+                        {{$formData->created_at->format('h:i A')}}
+                    </small>
                 </div>
-                <div class="col-6 col-sm">5 days ago</div>
+                <div class="col-6 col-sm">
+                    {{$formData->created_at->diffForHumans()}}
+                </div>
                 <div class="col-2 text-end">
-                    <a href="#" class="btn btn-link" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>1]) }})">
-                        View
+                    <a href="#" class="btn btn-link" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
+                        {{_e('View')}}
                     </a>
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
 
 
@@ -53,7 +58,7 @@
     <div class="col-sm-10 text-center">
         <div class="pagination justify-content-center">
             <div class="pagination-holder">
-                pagination
+                {{$formsData->links()}}
             </div>
         </div>
     </div>
