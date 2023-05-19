@@ -18,8 +18,9 @@ class ListComponent extends Component
 
     public $filter = [
         "keyword" => "",
-        "order_field" => "id",
-        "order_type" => "desc",
+        "orderField" => "id",
+        "orderType" => "desc",
+        "formListId" => "",
     ];
 
     public $queryString = [
@@ -56,10 +57,15 @@ class ListComponent extends Component
             });
         }
 
+        if (!empty($this->filter['formListId'])) {
+            $formListId = (int) $this->filter['formListId'];
+            $getFormDataQuery->where('list_id', $formListId);
+        }
+
         // Ordering
-        if (!empty($this->filter["order_field"])) {
-            $order_type = (!empty($this->filter["order_type"])) ? $this->filter["order_type"] : 'ASC';
-            $getFormDataQuery->orderBy($this->filter["order_field"], $order_type);
+        if (!empty($this->filter["orderField"])) {
+            $order_type = (!empty($this->filter["orderType"])) ? $this->filter["orderType"] : 'ASC';
+            $getFormDataQuery->orderBy($this->filter["orderField"], $order_type);
         }
 
         // Paginating;

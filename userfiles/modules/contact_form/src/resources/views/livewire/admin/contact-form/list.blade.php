@@ -3,11 +3,13 @@
     <div class="d-flex gap-4">
         <div>
             <div class="form-group">
-                <label class="form-label d-block mb-2">Your form lists</label>
-                <select class="form-select">
-                    <option selected="selected">All lists</option>
+                <label class="form-label d-block mb-2">
+                    {{_e('Your form lists')}}
+                </label>
+                <select wire:model="filter.formListId" class="form-select">
+                    <option>{{_e('All lists')}}</option>
                     @foreach($formsLists as $formsList)
-                        <option>{{$formsList->title}} ({{$formsList->formsData->count()}})</option>
+                        <option value="{{$formsList->id}}">{{$formsList->title}} ({{$formsList->formsData->count()}})</option>
                     @endforeach
                 </select>
             </div>
@@ -74,6 +76,14 @@
                 </div>
             </div>
         @endforeach
+
+        @if($formsData->count() == 0)
+            <div class="mt-2">
+                <div class="alert alert-info">
+                    {{_e('No data found')}}
+                </div>
+            </div>
+        @endif
 
     </div>
 
