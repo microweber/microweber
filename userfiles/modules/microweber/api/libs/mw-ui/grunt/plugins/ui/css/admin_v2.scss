@@ -857,14 +857,15 @@ small.text-muted {
 }
 
 
-.shipping-module-draggable-item, .table {
+.shipping-module-draggable-item, .table, .card-product-holder {
     .cursor-move-holder, .mdi-cursor-move {
-        visibility: hidden;
+        opacity: .5;
     }
 
     &:hover {
         .cursor-move-holder, .mdi-cursor-move {
-            visibility: visible;
+            opacity: 1;
+
         }
     }
 
@@ -1020,4 +1021,94 @@ input[type=number] {
 
 .font-weight-bold {
     font-weight: 600;
+}
+
+
+/* BADGE DROPDOWN FOR FILTERS */
+.badge-dropdown {
+    background: var(--tblr-bg-surface);
+    padding: 20px;
+    position: absolute;
+    z-index: 15;
+    box-shadow: 0 4px 12px var(--tblr-shadow-color);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top:4px solid var(--tblr-toast-border-color);
+    width:300px;
+    margin-top:10px;
+    visibility:hidden;
+    opacity:0;
+    transition: 0.3s;
+    transform: scale(0);
+    transform-origin: center top;
+}
+.badge-dropdown.active {
+    visibility:visible;
+    transform: scale(1);
+    opacity:1;
+}
+
+.badge-dropdown::after {
+    content: ' ';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent var(--tblr-bg-surface) transparent;
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    top: -13px;
+}
+
+.btn-badge-dropdown .action-dropdown-icon {
+    cursor: pointer;
+    float: right;
+    width: 16px;
+    padding-top: 0px;
+    margin-left: 5px;
+    font-size:12px;
+}
+.btn-secondary .action-dropdown-icon {
+    color: var(--tblr-bg-surface);
+}
+
+.btn-secondary:hover .action-dropdown-icon {
+    color: var(--tblr-bg-surface);
+}
+
+.btn-badge-dropdown .action-dropdown-delete {
+    cursor: pointer;
+    float:right;
+    width:24px;
+    height:15px;
+    padding-left:8px;
+}
+
+.action-dropdown-delete {
+    color: var(--bs-danger) !important;
+}
+
+.btn-secondary .action-dropdown-delete:hover {
+    color: var(--tblr-bg-surface);
+}
+
+.badge-filter-item {
+    background: var(--tblr-bg-surface);;
+    color: var(--tblr-body-color);
+    border-radius: 15px;
+    padding: 5px 6px;
+    margin: 0px 12px;
+    font-size: 12px;
+}
+
+.table-blade-sortable-elements {
+    position: absolute;
+    z-index: 1;
+    right: 20px;
+    top: 45px;
+    cursor: pointer;
+    display: flex;
+
 }

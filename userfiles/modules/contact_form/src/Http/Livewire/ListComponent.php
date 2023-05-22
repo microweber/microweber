@@ -4,6 +4,8 @@ namespace MicroweberPackages\Modules\ContactForm\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Form\Models\FormData;
+use MicroweberPackages\Form\Models\FormList;
 use MicroweberPackages\Modules\TodoModuleLivewire\Models\Todo;
 
 class ListComponent extends Component
@@ -15,50 +17,73 @@ class ListComponent extends Component
     public $listeners = ["loadList" => '$refresh'];
 
     public $filter = [
-        "search" => "",
-        "status" => "",
-        "order_field" => "",
-        "order_type" => "",
+        "keyword" => "",
+        "orderField" => "id",
+        "orderType" => "desc",
+        "formListId" => "",
     ];
 
-    public $loadingMessage;
+    public $queryString = [
+        'filter',
+        'itemsPerPage',
+        'page'
+    ];
 
+    public $itemsPerPage = 10;
+
+    public $loadingMessage;
     public $confirmingDeleteId = false;
 
 
     public function mount()
     {
-        $this->loadingMessage = "Loading Todos...";
+        $this->loadingMessage = "Loading forms data...";
+    }
+
+    public function updatedFilter()
+    {
+        $this->gotoPage(1);
+    }
+
+    public function updatedItemsPerPage()
+    {
+        $this->gotoPage(1);
     }
 
     public function render()
     {
-        $query = [];
-
-        if (!empty($this->filter["status"])) {
-            $query["status"] = $this->filter["status"];
-        }
-
-        $getTodoQuery = Todo::where($query);
+        $formsLists = FormList::all();
+        $getFormDataQuery = FormData::query();
 
         // Search
-        if (!empty($this->filter["search"])) {
-            $filter = $this->filter;
-            $getTodoQuery = $getTodoQuery->where(function ($query) use ($filter) {
-                $query->where('title', 'LIKE', $this->filter['search'] . '%');
+        if (!empty($this->filter['keyword'])) {
+            $keyword = $this->filter['keyword'];
+            $keyword = trim($keyword);
+            $getFormDataQuery->whereHas('formDataValues', function ($query) use ($keyword) {
+                $query->where('field_value', 'LIKE', '%'.$keyword . '%');
             });
         }
 
+        if (!empty($this->filter['formListId'])) {
+            $formListId = (int) $this->filter['formListId'];
+            $getFormDataQuery->where('list_id', $formListId);
+        }
+
         // Ordering
-        if (!empty($this->filter["order_field"])) {
-            $order_type = (!empty($this->filter["order_type"])) ? $this->filter["order_type"] : 'ASC';
-            $getTodoQuery = $getTodoQuery->orderBy($this->filter["order_field"], $order_type);
+        if (!empty($this->filter["orderField"])) {
+            $order_type = (!empty($this->filter["orderType"])) ? $this->filter["orderType"] : 'ASC';
+            $getFormDataQuery->orderBy($this->filter["orderField"], $order_type);
         }
 
         // Paginating;
-        $todos = $getTodoQuery->paginate();
+        $formsData = $getFormDataQuery->paginate($this->itemsPerPage);
 
-        return view('todo-module-livewire::admin.todo.list', compact('todos'));
+        return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
+    }
+
+    public function exportDataExcel()
+    {
+        
     }
 
     public function confirmDelete($id)
@@ -68,14 +93,11 @@ class ListComponent extends Component
 
     public function delete($id)
     {
-        $todo = Todo::where('id', $id)->first();
-        if ($todo == null) {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
             return [];
         }
 
-        $todo->delete();
-
-        $this->emitTo('todo-module-livewire.notification-component', 'flashMessage', 'error', 'Task deleted successfully.');
-        $this->emitTo('todo-module-livewire.list-component', 'loadList');
+        $formData->delete();
     }
 }

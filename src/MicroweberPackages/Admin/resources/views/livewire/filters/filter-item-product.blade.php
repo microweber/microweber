@@ -54,7 +54,7 @@
         </ul>
 
         @if($selectedItem || $searchable)
-            <div class="d-flex pt-3" style="border-top: 1px solid #cfcfcf">
+            <div class="d-flex pt-3"   >
                 @if($selectedItem)
                     <div class="col">
                         <span class="cursor-pointer text-muted" wire:click="resetProperties">

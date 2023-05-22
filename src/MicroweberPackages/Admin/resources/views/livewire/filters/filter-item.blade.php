@@ -40,7 +40,7 @@
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
                         <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->id}}">
-                            <input class="form-check-input me-1" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
+                            <input class="form-check-input me-2" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
                             {{ $item['value'] }}
                         </label>
                     </li>
@@ -52,7 +52,7 @@
         </ul>
 
         @if($selectedItem || $searchable)
-            <div class="d-flex pt-3" style="border-top: 1px solid #cfcfcf">
+            <div class="d-flex pt-3"   >
                 @if($selectedItem)
                     <div class="col">
                         <span class="cursor-pointer text-muted" wire:click="resetProperties">

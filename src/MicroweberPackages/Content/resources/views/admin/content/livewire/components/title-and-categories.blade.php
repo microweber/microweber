@@ -1,10 +1,8 @@
 <div class="manage-item-main-top">
 
-    <a target="_self" href="{{route('admin.page.edit', $content->id)}}" class="btn btn-link p-0">
-        <h5 class="  text-break-line-1 mb-0 manage-post-item-title">
-            {{$content->title}}
-        </h5>
-    </a>
+    <label class=" form-label text-break-line-1 manage-post-item-title">
+        {{$content->title}}
+    </label>
 
     @php
         $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
