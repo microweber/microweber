@@ -1,10 +1,9 @@
 <?php
 namespace MicroweberPackages\Modules\Comments;
 
-use Livewire\Livewire;
+use Illuminate\Support\Facades\View;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-
 
 class CommentsServiceProvider extends PackageServiceProvider
 {
@@ -18,6 +17,8 @@ class CommentsServiceProvider extends PackageServiceProvider
     {
         parent::register();
 //      Livewire::component('microweber-module-btn::live-edit', ButtonSettingsComponent::class);
+
+        View::addNamespace('comments', normalize_path((__DIR__) . '/resources/views'));
 
     }
 
