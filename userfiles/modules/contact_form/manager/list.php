@@ -220,7 +220,7 @@ if (trim($load_list) == 'default') {
     <?php endif; ?>
 </div>
 
-<div class="row mt-1">
+<div class="row mt-1 px-0">
     <div class="col-sm-6">
         <div class="export-label d-flex align-items-center">
             <span><?php _e("Export data"); ?></span>
