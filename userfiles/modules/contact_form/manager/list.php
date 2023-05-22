@@ -191,7 +191,7 @@ if (trim($load_list) == 'default') {
 }
 ?>
 
-<div class="row mt-4">
+<div class="row mt-4 px-0">
     <div class="col-sm-4 text-center text-sm-left">
         <?php if (!$hideEditButton): ?>
             <span class="btn btn-outline-danger btn-sm" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete"); ?>&nbsp;<b><?php echo $listData['title']; ?></b>&nbsp;<?php _e("list"); ?></span>
@@ -207,7 +207,7 @@ if (trim($load_list) == 'default') {
             <div class="form-group" style="width:100%;" data-before="<?php _e('Show items per page'); ?>">
                 <form method="get">
                     <select name="per_page" class="form-select" data-size="5" data-width="100px" data-style="btn-sm" onchange="this.form.submit()">
-                        <option value="">Select</option>
+                        <option value=""><?php _e('Select'); ?></option>
                         <option value="10" <?php if ($limit == 10): ?>  selected  <?php endif; ?>>10</option>
                         <option value="30" <?php if ($limit == 30): ?>  selected  <?php endif; ?>>30</option>
                         <option value="50" <?php if ($limit == 50): ?>  selected  <?php endif; ?>>50</option>
@@ -220,11 +220,11 @@ if (trim($load_list) == 'default') {
     <?php endif; ?>
 </div>
 
-<div class="row mt-1">
+<div class="row mt-1 px-0">
     <div class="col-sm-6">
-        <div class="export-label">
+        <div class="export-label d-flex align-items-center">
             <span><?php _e("Export data"); ?></span>
-            <span class="btn btn-outline-primary btn-sm" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><?php _e("Excel"); ?></span>
+            <span class="btn btn-link ms-1" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><?php _e("Excel"); ?></span>
         </div>
     </div>
 

@@ -126,8 +126,12 @@ if ($id != 0) {
             }
         </style>
 
-        <div class="manage-menus">
+        <div class="card p-2 manage-menus">
+
+
             <div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?></div>
+
+
         </div>
 
         <script type="text/javascript">

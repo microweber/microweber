@@ -53,10 +53,6 @@
     }
 
 
-    .js-img-holder:hover img {
-        display: none;
-    }
-
     .js-img-holder:hover .js-add-image {
         display: block;
     }
@@ -132,13 +128,13 @@ if (!isset($data['client_company'])) {
 
 <form id="add-testimonial-form">
     <?php if (($data['id']) == 0): ?>
-        <h6 class="font-weight-bold"><?php _e('Add new testimonial'); ?></h6>
+        <h3 class="font-weight-bold mt-3"><?php _e('Add new testimonial'); ?></h3>
     <?php else: ?>
         <div class="edit-testimonial-top-nav">
             <a href="javascript:;" onclick="list_testimonial()" class="btn-link"><i class="mdi mdi-arrow-left"></i> <?php _e('Back'); ?></a>
             <a href="javascript:;" onclick="add_new_testimonial()" class="btn-link"><?php _e('Create new'); ?></a>
         </div>
-        <h6 class="font-weight-bold"><?php _e('Edit testimonial'); ?></h6>
+        <h3 class="font-weight-bold mt-3"><?php _e('Edit testimonial'); ?></h3>
     <?php endif; ?>
     <br/>
 

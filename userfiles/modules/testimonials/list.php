@@ -162,7 +162,7 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
         <?php
         foreach ($projects as $key => $project): ?>
             <div>
-                <strong class="mb-2 d-block"><?php echo $key; ?></strong>
+                <h3 class="mt-3"><?php echo $key; ?></h3>
                 <?php foreach ($project as $item): ?>
                     <div class="card  testimonial-holder mb-3" data-id="<?php echo $item->id ?>">
                         <div class="card-body mt-3">
@@ -171,15 +171,15 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
                                     <div class="img-circle-holder img-absolute">
                                         <img src="<?php print thumbnail($item->client_picture, 75, 75) ?>"/>
                                     </div>
-                                    <a class="btn btn-outline-primary btn-sm mt-2" href="javascript:;" onclick="edit_testimonial('<?php echo $item->id ?>');"><?php _e("Edit"); ?></a>
+                                    <a class="btn btn-link mt-2" href="javascript:;" onclick="edit_testimonial('<?php echo $item->id ?>');"><?php _e("Edit"); ?></a>
                                 </div>
 
                                 <div class="col">
-                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute" data-bs-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
+                                    <a href="javascript:delete_testimonial('<?php echo $item->id ?>');" class="btn btn-link text-danger btn-sm position-absolute top-0" style="right: 20px;" data-bs-toggle="tooltip" data-title="Delete item"><i class="mdi mdi-close-thick"></i></a>
 
-                                    <h6 class="font-weight-bold"><?php echo $item->name ?> </h6>
+                                    <h3 class="font-weight-bold my-2"><?php echo $item->name ?> </h3>
 
-                                    <p><?php print character_limiter($item->content, 400); ?></p>
+                                    <p class="mb-0"><?php print character_limiter($item->content, 400); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -200,5 +200,5 @@ $data = $testimonialsQuery->orderBy('id','DESC')->get();
         </div>
     </div>
 
-    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded"><?php _e('Create new'); ?></a></div>
+    <div class="text-center"><a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-link"><?php _e('Create new'); ?></a></div>
 <?php endif; ?>

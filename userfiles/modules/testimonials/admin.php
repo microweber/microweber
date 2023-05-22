@@ -141,7 +141,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             <div id="mw-modules-tabs" class="tab-content py-3">
                 <div class="js-list-testimonials tab-pane fade show active" id="list">
                     <div class="js-hide-on-no-data">
-                        <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-primary btn-rounded mb-3"><i class="mdi mdi-plus"></i> &nbsp;<?php _e('New testimonial'); ?></a>
+                        <a href="javascript:;" onclick="add_new_testimonial()" class="btn btn-link mb-3"><?php _e('New testimonial'); ?></a>
                     </div>
 
                     <module type="testimonials/list" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> id="list-testimonials"/>
@@ -156,16 +156,18 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                             <module type="testimonials/project_select" id="project-select-testimonials" <?php if (isset($params['project_name'])):?>project_name="<?php echo $params['project_name'];?>"<?php endif;?> option-group="<?php print $params['id'] ?>"/>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label"><?php _e('Maximum number of testimonials to display'); ?></label>
-                            <small class="text-muted d-block mb-2"<?php _e('Number of the visible testimonials'); ?>> </small>
-                            <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
-                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="form-group col-lg-6 pe-lg-3">
+                                <label class="form-label"><?php _e('Maximum number of testimonials to display'); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e('Number of the visible testimonials'); ?></small>
+                                <input type="text" class="form-control mw_option_field" name="testimonials_limit" value="<?php print $testimonials_limit; ?>"/>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="form-label"><?php _e('Maximum number of characters to display'); ?></label>
-                            <small class="text-muted d-block mb-2"><?php _e('Limit of the testimonial characters'); ?></small>
-                            <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
+                            <div class="form-group col-lg-6">
+                                <label class="form-label"><?php _e('Maximum number of characters to display'); ?></label>
+                                <small class="text-muted d-block mb-2"><?php _e('Limit of the testimonial characters'); ?></small>
+                                <input type="text" class="form-control mw_option_field" name="limit" value="<?php print $limit; ?>"/>
+                            </div>
                         </div>
                     </div>
                     <!-- Settings Content - End -->

@@ -106,35 +106,46 @@ if(isset($params['require_name'])) {
 }
 ?>
 
-<form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <form class="mw-license-key-activate" id="activate-form-<?php print $params['id'] ?>">
 
-    <?php if (isset($lic['status'])): ?>
-        <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php _e(ucwords($lic['status'])) ?></div>
-    <?php endif; ?>
+                <?php if (isset($lic['status'])): ?>
+                    <div class="alert alert-dismissible <?php if ($lic['status'] == 'active'): ?>alert-success<?php else: ?>alert-danger<?php endif; ?>"><?php _e('License Status:'); ?><?php _e(ucwords($lic['status'])) ?></div>
+                <?php endif; ?>
 
-    <div class="form-group">
-        <label class="form-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
-        <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a  class="btn btn-outline-primary btn-sm" target="_blank" href="<?php print $url; ?>"><?php _e('Get license key'); ?></a></small>
-        <input type="hidden" name="rel_type" value="<?php print $params['prefix']; ?>">
-        <input name="activate_on_save" type="hidden" value="1"/>
-        <?php if ($id): ?>
-            <input name="id" type="hidden" value="<?php print $id; ?>"/>
-        <?php endif; ?>
+                <div class="form-group">
+                    <label class="form-label"><?php _e('Enter the License Key'); ?><?php print ' ' . $params['prefix'] ?></label>
+                    <small class="text-muted d-block mb-2"><?php _e('Don\'t have a license key? You can get it from here:'); ?> <a  class="btn btn-link" target="_blank" href="<?php print $url; ?>"><?php _e('Get license key'); ?></a></small>
+                    <input type="hidden" name="rel_type" value="<?php print $params['prefix']; ?>">
+                    <input name="activate_on_save" type="hidden" value="1"/>
+                    <?php if ($id): ?>
+                        <input name="id" type="hidden" value="<?php print $id; ?>"/>
+                    <?php endif; ?>
 
-        <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
-    </div>
+                    <div class="d-flex align-items-center ">
 
-    <div class="row">
-        <div class="col d-flex align-items-center justify-content-between">
-            <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
+                            <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
+
+
+                       <div class="ms-md-3">
+                           <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
+                       </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+                <small><?php _e('Have a problem with your White Label license key?'); ?> <a href="javascript:;" onmousedown="mw.contactForm();"><?php _e('Contact us.'); ?></a></small>
+
+
+            </form>
+
         </div>
     </div>
-
-    <hr class="thin"/>
-
-    <div class="row">
-        <div class="col-12">
-            <small><?php _e('Have a problem with your White Label license key?'); ?> <a href="javascript:;" onmousedown="mw.contactForm();"><?php _e('Contact us.'); ?></a></small>
-        </div>
-    </div>
-</form>
+</div>

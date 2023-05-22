@@ -4,7 +4,7 @@
 
 <div class="clearfix"></div>
 
-<h5 class="font-weight-bold mb-3 mt-2"><?php _e('Available backups'); ?></h5>
+<h3 class="font-weight-bold mb-3 mt-2"><?php _e('Available backups'); ?></h3>
 
 <div id="backups_list">
     <?php
@@ -52,7 +52,7 @@
     <?php else: ?>
 
         <div class="icon-title d-flex">
-            <i class="mdi mdi-harddisk"></i> <h5><?php _e('You don\'t have any backups'); ?></h5>
+            <h5><?php _e('You don\'t have any backups'); ?></h5>
         </div>
     <?php endif; ?>
 </div>

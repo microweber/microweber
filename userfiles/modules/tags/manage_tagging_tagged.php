@@ -110,7 +110,7 @@
     }
     function getTaggingTagButtonHtml(id, name, slug, posts_count =0) {
 
-        var html = '<div class="btn-group tag mb-3 mr-3 btn-tag-id-' + id + '" role="group">' +
+        var html = '<div class="btn-group  tag mb-3 me-3 btn-tag-id-' + id + '" role="group">' +
             '    <button type="button" class="btn btn-outline-secondary btn-sm icon-left" data-slug="' + slug + '" onClick="showPostsWithTags(this)"><strong>' + name + '</strong> <small class="ml-1 text-muted">(' + posts_count + ')</small></button>' +
             '    <button type="button" class="btn btn-outline-secondary btn-sm btn-icon" onClick="editTaggingTag(' + id + ')"><i class="mdi mdi-pencil text-primary"></i></button>' +
             '    <button type="button" class="btn btn-outline-secondary btn-sm btn-icon" onClick="deleteTaggingTag(' + id + ')"><i class="mdi mdi-close text-danger"></i></button>' +
@@ -265,70 +265,82 @@
     }
 </script>
 
-<div class="row">
+<div class="card">
+   <div class="card-body">
+       <div class="row">
+           <div class="col-md-6">
+               <div class="form-group mb-3">
+                   <label class="form-label mb-0"><?php _e('Search'); ?> <span class="js-filter-by-text"><?php _e('posts'); ?></span></label>
+                   <small class="d-block text-muted mb-2"><?php _e('You can search posts by title & tags.'); ?></small>
 
-    <div class="col-md-6">
-        <div class="form-group">
-            <label class="form-label mb-0"><?php _e('Search'); ?> <span class="js-filter-by-text"><?php _e('posts'); ?></span></label>
-            <small class="d-block text-muted mb-2"><?php _e('You can search posts by title & tags.'); ?></small>
-            <div class="input-group">
-                <input type="text" class="form-control js-search-posts-keyword" placeholder="<?php _e('Keyword...'); ?>">
-                <div class="input-group-append">
-                    <button class="btn btn-success js-search-posts-submit" type="button"><?php _e('Search'); ?></button>
-                </div>
-            </div>
-        </div>
-    </div>
+                   <div class="row p-0 mb-3">
+                       <div class="col">
+                           <input type="text" class="form-control js-search-posts-keyword" placeholder="<?php _e('Keyword...'); ?>">
 
-    <div class="col-md-6">
-        <!-- tags search -->
-    </div>
+                       </div>
+                       <div class="col-auto">
+                           <a href="javascript:;" class="btn btn-icon js-search-posts-submit" aria-label="Button">
+                               <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                           </a>
+                       </div>
+                   </div>
+               </div>
+           </div>
 
-    <div class="col-md-6">
-        <div class="card  bg-azure-lt">
-            <div class="card-header">
-                <h6 class="font-weight-bold"><span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('list'); ?></h6>
-            </div>
+           <div class="col-md-6">
+               <!-- tags search -->
+           </div>
 
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6><?php _e('List of all'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></h6>
-                    <button class="btn btn-success btn-sm js-add-tags-to-posts" disabled="disabled"><?php _e('Add tags to'); ?>&nbsp;<span class="js-filter-by-text"><?php _e('Posts'); ?></span></button>
-                </div>
+           <div class="col-md-6">
+               <div class="card  bg-azure-lt">
+                   <div class="card-header mt-4">
+                       <label class="form-label"><span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('list'); ?></label>
+                   </div>
 
-                <small class="text-muted d-block mb-3"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('Actions'); ?></small>
+                   <div class="card-body">
+                       <div class="row py-2">
+                           <div class="d-flex justify-content-between align-items-center mb-3">
+                               <p><?php _e('List of all'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></p>
+                               <button class="btn btn-success btn-sm js-add-tags-to-posts" disabled="disabled"><?php _e('Add tags to'); ?>&nbsp;<span class="js-filter-by-text"><?php _e('Posts'); ?></span></button>
+                           </div>
 
-                <div class="form-group">
-                    <label class="form-label d-block"><?php _e('Filter:'); ?></label>
-                    <select class="js-posts-filter-by form-control" data-width="100%">
-                        <option value="posts"><?php _e('Posts'); ?></option>
-                        <option value="products"><?php _e('Products'); ?></option>
-                    </select>
-                </div>
+                           <small class="text-muted d-block mb-3"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span> <?php _e('Actions'); ?></small>
 
-                <div class="form-group">
-                    <label class="form-label d-block"><span class="js-filter-by-text"><?php _e('Post'); ?></span> <?php _e('lists'); ?></label>
-                    <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+                           <div class="form-group">
+                               <label class="form-label d-block"><?php _e('Filter:'); ?></label>
+                               <select class="js-posts-filter-by form-select" data-width="100%">
+                                   <option value="posts"><?php _e('Posts'); ?></option>
+                                   <option value="products"><?php _e('Products'); ?></option>
+                               </select>
+                           </div>
 
-    <div class="col-md-6">
-        <div class="card  bg-azure-lt">
-            <div class="card-header">
-                <h6 class="font-weight-bold"><?php _e('Tags for'); ?> <span class="js-filter-by-text"><?php _e('Post'); ?></span></h6>
-            </div>
-            <div class="card-body" style="height: 525px;overflow-y: scroll;">
-                <h6 class="font-weigh-bold"><?php _e('List of all tags for selected'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></h6>
+                           <div class="form-group">
+                               <label class="form-label d-block"><span class="js-filter-by-text"><?php _e('Post'); ?></span> <?php _e('lists'); ?></label>
+                               <div class="js-select-posts" style="width:100%;max-height: 350px;overflow-y: scroll;"></div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
 
-                <small class="d-block text-muted mb-2"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('tags'); ?></span> <?php _e('you want to add or edit for posts.'); ?></small>
-                <hr class="thin"/>
+           <div class="col-md-6">
+               <div class="card  bg-azure-lt">
+                   <div class="card-header mt-4">
+                       <label class="form-label"><?php _e('Tags for'); ?> <span class="js-filter-by-text"><?php _e('Post'); ?></span></label>
+                   </div>
+                   <div class="card-body" style="height: 525px;overflow-y: scroll;">
+                       <p class="font-weigh-bold"><?php _e('List of all tags for selected'); ?> <span class="js-filter-by-text"><?php _e('Posts'); ?></span></p>
 
-                <div class="js-posts-tags">
-                    <h6 class="font-weight-bold"><?php _e('Select posts to see tags.'); ?></h6>
-                </div>
-            </div>
-        </div>
-    </div>
+                       <small class="d-block text-muted mb-2"><?php _e('Select the'); ?> <span class="js-filter-by-text"><?php _e('tags'); ?></span> <?php _e('you want to add or edit for posts.'); ?></small>
+                       <hr class="thin"/>
+
+                       <div class="js-posts-tags">
+                           <p class="font-weight-bold"><?php _e('Select posts to see tags.'); ?></p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
 </div>
