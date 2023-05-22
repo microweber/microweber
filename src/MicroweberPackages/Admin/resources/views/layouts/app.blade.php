@@ -16,7 +16,7 @@ if(isset($_GET['iframe']) and $_GET['iframe']){
 @include('admin::layouts.partials.header',$options)
 
 @hasSection('content')
-    <main class="module-main-holder page-wrapper overflow-hidden">
+    <main class="module-main-holder page-wrapper">
 
         @if(!isset($options['disableTopBar']))
           @include('admin::layouts.partials.topbar2')
