@@ -115,14 +115,14 @@
                                             </span>
                                             @endif
 
-                                            <div class="flex-fill">
-                                                <div class="font-weight-medium">{{$user->first_name}} {{$user->last_name}}
+                                            <div class="flex-fill d-flex">
+                                                <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
+                                                <div class="font-weight-medium ms-2">{{$user->first_name}} {{$user->last_name}}
 
                                                     @if($user->id == user_id())
-                                                        <span class="badge badge-outline text-azure">{{_e('You')}}</span>
+                                                        <span class="badge badge-outline text-primary fs-6">{{_e('you')}}</span>
                                                     @endif
                                                 </div>
-                                                <div class="text-muted"><a href="{{route('admin.users.edit', $user->id)}}" class="text-reset">{{$user->email}}</a></div>
                                             </div>
                                         </div>
                                     </td>

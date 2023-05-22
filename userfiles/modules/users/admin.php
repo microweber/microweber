@@ -207,7 +207,7 @@ if (isset($params['edit-user'])) {
                                 </a>
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
 
