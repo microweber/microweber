@@ -466,7 +466,7 @@ MWEditor.controllers = {
 
             var dropdown = new MWEditor.core.dropdown({
                 customValue: true,
-                customValueColor: scope.settings.scopeColor,
+              
                 data: [
                     { label: '8', value: 8 },
                     { label: '10', value: 10 },
