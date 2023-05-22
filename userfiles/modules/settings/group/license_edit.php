@@ -124,14 +124,20 @@ if(isset($params['require_name'])) {
                         <input name="id" type="hidden" value="<?php print $id; ?>"/>
                     <?php endif; ?>
 
-                    <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
+                    <div class="d-flex align-items-center ">
+
+                            <input type="text" autofocus name="local_key" class="form-control my-3" value="<?php print $local_key; ?>" placeholder="<?php _e('License key'); ?>">
+
+
+                       <div class="ms-md-3">
+                           <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
+                       </div>
+                    </div>
+
                 </div>
 
-                <div class="row p-0 mb-3">
-                    <div class="col d-flex align-items-center justify-content-between">
-                        <button type="submit" value="Activate" class="btn btn-success"><?php _e('Save key'); ?></button>
-                    </div>
-                </div>
+
+
 
 
 
