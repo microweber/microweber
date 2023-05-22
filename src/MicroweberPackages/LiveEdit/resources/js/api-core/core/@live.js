@@ -277,7 +277,14 @@ export class LiveEdit {
                 return
             }
              // const elements = this.observe.fromEvent(e);
-            const elements = [DomService.firstBlockLevel(e.target)];
+             const elements = [];
+             const directTargets = ['IMG']
+             if(directTargets.indexOf(e.target.nodeName) !== -1) {
+                elements.push(e.target);
+             } else {
+                elements.push(DomService.firstBlockLevel(e.target));
+             }
+             
             let first = elements[0];
             const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout']);
            
@@ -293,7 +300,9 @@ export class LiveEdit {
             this.handles.get('element').set(null)
             this.handles.hide();
 
-            
+            console.log(first)
+            console.log(elements[0])
+            console.log(e.target)
          
            
             if(first) {

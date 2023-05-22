@@ -320,7 +320,7 @@
             );
 
             var options = {
-                sortable: false,
+                sortable: true,
                 selectable: false,
                 singleSelect: false,
                 selectableNodes: 'singleSelect',
