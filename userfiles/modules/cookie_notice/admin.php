@@ -106,7 +106,7 @@ code:			'123456'
            $settings = $json;
            ?>
 
-           <div class="module-live-edit-settings">
+           <div class="module-live-edit-settings ps-0">
                <input type="hidden" class="mw_option_field" name="settings" id="settingsfield" option-group="<?php print $mod_id; ?>"/>
 
                <div class="setting-item" id="setting-item">
