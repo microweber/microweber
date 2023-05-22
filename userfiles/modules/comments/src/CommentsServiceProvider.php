@@ -16,7 +16,6 @@ class CommentsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-//      Livewire::component('microweber-module-btn::live-edit', ButtonSettingsComponent::class);
 
         View::addNamespace('comments', normalize_path((__DIR__) . '/resources/views'));
 
