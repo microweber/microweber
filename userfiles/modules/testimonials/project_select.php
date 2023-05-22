@@ -35,7 +35,7 @@ if (!empty($testimonials_data)) {
     });
 </script>
 <?php if (!empty($data)): ?>
-    <select class="form-control mw_option_field" name="show_testimonials_per_project" option-group="<?php print $params['option-group'] ?>">
+    <select class="form-select mw_option_field" name="show_testimonials_per_project" option-group="<?php print $params['option-group'] ?>">
         <?php foreach ($data as $item): ?>
             <?php if ($item['project_name'] != ''): ?>
                 <option <?php if ($item['project_name'] == $selected): ?> selected="selected" <?php endif; ?> value="<?php print $item['project_key'] ?>"><?php print mw()->format->titlelize($item['project_name']) ?></option>
