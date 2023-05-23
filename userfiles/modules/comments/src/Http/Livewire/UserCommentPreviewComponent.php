@@ -9,6 +9,7 @@ class UserCommentPreviewComponent extends Component {
 
     public $commentId;
     public $state = [];
+    public $showReplies = false;
 
     protected $listeners = [
         'commentAdded' => 'refreshIfReplyIsToMe',
@@ -23,6 +24,7 @@ class UserCommentPreviewComponent extends Component {
 
     public function refreshIfReplyIsToMe($id) {
         if ($id == $this->commentId) {
+            $this->showReplies = true;
             $this->emit('$refresh');
         }
     }
