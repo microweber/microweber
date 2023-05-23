@@ -117,7 +117,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-primary justify-content-center  active" data-bs-toggle="tab" href="#list">  <?php _e("Tagged content"); ?></a>
-            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#global-tags"><i class="mdi mdi-tag mr-1"></i> <?php _e('Global Tags'); ?></a>
+            <a class="btn btn-outline-primary justify-content-center " data-bs-toggle="tab" href="#global-tags"> <?php _e('Global Tags'); ?></a>
         </nav>
 
         <div class="tab-content py-3">
@@ -127,33 +127,46 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
             <div class="tab-pane fade" id="global-tags">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label mb-0"><?php _e("Search tags");?></label>
-                            <small class="d-block text-muted mb-2"><?php _e("You can search multiple tags separated by coma");?>.</small>
+                <div class="card">
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label class="form-label mb-0"><?php _e("Search tags");?></label>
+                                  <small class="d-block text-muted mb-2"><?php _e("You can search multiple tags separated by coma");?>.</small>
 
-                            <div class="input-group">
-                                <input type="text" class="form-control js-search-tags-keyword" placeholder="<?php _e("Keyword");?>...">
-                                <div class="input-group-append">
-                                    <button class="btn btn-success js-search-posts-submit" type="button"><?php _e("Search");?></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                  <div class="row p-0 mb-4">
+                                      <div class="col">
+                                          <input type="text" class="form-control js-search-tags-keyword" placeholder="<?php _e("Keyword");?>...">
 
-                    <div class="col-md-6 text-end text-right">
-                        <button class="btn btn-success btn-sm" onclick="editTaggingTag(false);"><?php _e("Create new global tag");?></button>
-                    </div>
+                                      </div>
+                                      <div class="col-auto">
+                                          <a href="#" class="btn btn-icon js-search-posts-submit" aria-label="Button">
+                                              <!-- Download SVG icon from http://tabler-icons.io/i/search -->
+                                              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                                          </a>
+                                      </div>
+                                  </div>
 
-                    <div class="col-md-12">
-                        <div class="card  bg-azure-lt">
-                            <div class="card-header"><h6 class="font-weight-bold"><?php _e("Global tags");?></h6></div>
-                            <div class="card-body">
-                                <div class="js-all-tags"></div>
-                            </div>
-                        </div>
-                    </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6 text-end text-right">
+                              <button class="btn btn-link " onclick="editTaggingTag(false);"><?php _e("Create new global tag");?></button>
+                          </div>
+
+                          <div class="col-md-12">
+                              <div class="card  bg-azure-lt">
+                                  <div class="card-header mt-4">
+                                      <label class="form-label"><?php _e("Global tags");?></label>
+                                  </div>
+                                  <div class="card-body">
+                                      <div class="js-all-tags"></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>

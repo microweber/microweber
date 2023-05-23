@@ -4,7 +4,7 @@ import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 
 
-
+import {DomService} from '../../../core/classes/dom.js';
 import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
@@ -43,5 +43,66 @@ export const liveEditComponent = () => {
     mw.app.register('moduleSettings', ModuleSettings);
 
     mw.app.register('templateSettings', TemplateSettings);// don't remove this
+
+
+
+    const handleUndoRedo = ( data) => {
+        if(data.active) {
+            var target = data.active.target;
+            if(typeof target === 'string'){
+                target = doc.querySelector(data.active.target);
+            }
+
+            if(!data.active || (!target && !data.active.action)) {
+
+                return;
+            }
+            
+            if(data.active.action) {
+                data.active.action();
+            } else if(doc.body.contains(target)) {
+                mw.element(target).html(data.active.value);
+            } else{
+                if(target.id) {
+                    mw.element(doc.getElementById(target.id)).html(data.active.value);
+                }
+            }
+            if(data.active.prev) {
+                mw.$(data.active.prev).html(data.active.prevValue);
+            }
+        }
+    }
+
+
+    mw.app.state.on('change',  (data) => {
+    
+        handleUndoRedo(data)
+    });
+
+ 
+
+
+
+    let _inputTimeout = null;
+    const _inputUnavailable = ['INPUT', 'SELECT', 'TEXTAREA'];
+    let _edit = null; 
+
+    mw.app.canvas.getDocument().body.addEventListener('input', e => {
+        if(_inputUnavailable.indexOf(e.target.nodeName) === -1 && e.target.isContentEditable) {
+            _edit = DomService.firstParentOrCurrentWithClass(e.target, 'edit');
+             
+            clearTimeout(_inputTimeout);
+            _inputTimeout = setTimeout(() => {
+                if(_edit) {
+                    mw.app.state.record({ 
+                        target: _edit,
+                        value: _edit.innerHTML
+                    })
+                }
+                
+            }, 200)
+        }
+    })
+
 
 }

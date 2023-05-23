@@ -675,7 +675,7 @@ mw.lib.require('rangy');
                 var img = '<img id="'+id+'" alt="'+url+'" src="' + url + '" />';
                 scope.api.insertHTML(img);
                 setTimeout(function (){
-                    img = document.querySelector('#' + id);
+                    img = scope.actionWindow.document.querySelector('#' + id);
                     img.removeAttribute("_moz_dirty");
                     img.classList.add( 'element');
                 }, 78)

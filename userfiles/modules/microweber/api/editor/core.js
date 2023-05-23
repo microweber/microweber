@@ -10,7 +10,7 @@
                 height: '35px',
                 placeholder: '',
                 background: 'transparent',
-                color: '#333',
+                color: 'inherit',
                 css: ''
             };
 
@@ -50,6 +50,13 @@
             this.field.style.border = this.settings.border || 'none';
             this.field.style.background = this.settings.background;
             this.field.style.color = this.settings.color;
+
+            if(this.settings.color === 'inherit') {
+                setTimeout(() => {
+                    this.field.style.color = getComputedStyle(this.frame.parentNode).color;
+ 
+                }, 78)
+            }
 
             scope.frame.tabIndex = -1;
             scope.frame.frameborder = 0;
@@ -138,7 +145,7 @@
             var cf = new MWEditor.core.capsulatedField({
                 placeholder: '#efecec',
                 width: '100%',
-                color: 'white',
+                
                 css: 'text-align: center;'
             });
 
@@ -254,7 +261,7 @@
                         className: (options.icon ? 'mdi-' + options.icon + ' ' : '') + 'mw-editor-select-display-value',
                         innerHTML: options.placeholder || ''
                     },
-                    color: options.customValueColor
+                     
                 });
 
 

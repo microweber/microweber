@@ -92,7 +92,7 @@ if (!is_array($data) or empty($data)) {
                 <?php endif; ?>
             </div>
         </div>
-    
+
 
 <?php endforeach; ?>
 

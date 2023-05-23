@@ -1,6 +1,6 @@
 <?php
 
-exit('This file file is deprecated, do not use it. userfiles/modules/microweber/toolbar/editor_tools/module_settings/index.php');
+//exit('This file file is deprecated, do not use it. userfiles/modules/microweber/toolbar/editor_tools/module_settings/index.php');
 ?>
 
 

@@ -7,7 +7,7 @@
         <?php endforeach; ?>
     <?php else: ?>
         <div class="icon-title d-flex">
-            <i class="mdi mdi-email-check me-2"></i> <h5><?php _e('You don\'t have any messages yet.'); ?></h5>
+            <h5><?php _e('You don\'t have any messages yet.'); ?></h5>
         </div>
     <?php endif; ?>
 </div>

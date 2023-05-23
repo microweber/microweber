@@ -2,7 +2,7 @@
     <div class="card modules-card" style="min-height:170px">
         <div class="card-body text-center d-flex align-items-center justify-content-center flex-column position-relative">
             <a href="{{module_admin_url($module->module)}}">
-                <div class="mx-auto mb-2" style="width: 40px;height: 40px">
+                <div class="mx-auto mb-2" style="width: 40px; height: 40px">
                     {!! $module->getIconInline() !!}
                 </div>
                 <h3 class="card-title pt-2 mb-0 text-muted">

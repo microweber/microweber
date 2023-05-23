@@ -93,7 +93,7 @@ export class Dialog {
 
     }
     open() {
-        if(this.settings.position.nodeName && this.settings.position.ownerDocument === this.settings.document) {
+        if(this.settings.position && this.settings.position.nodeName && this.settings.position.ownerDocument === this.settings.document) {
             var el = this.settings.position;
             var doc = el.ownerDocument;
             var win = el.ownerDocument.defaultView;

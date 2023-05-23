@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\MicroweberComposerClient;
+use MicroweberPackages\Package\MicroweberComposerPackage;
 
 class MarketplaceItemModal extends ModalComponent
 {
@@ -45,6 +46,7 @@ class MarketplaceItemModal extends ModalComponent
         });
 
         $foundedPackage['versions'] = $foundedPackageVersions;
+        $foundedPackage = MicroweberComposerPackage::format($foundedPackage);
 
         $this->package = $foundedPackage;
     }

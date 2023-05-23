@@ -15,27 +15,50 @@
     }
     #pages-tree-wrapper{
         max-width: 0;
-        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);;
+        transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);
+        position: sticky;
+        top: 0;
+        max-height: calc(100vh - 100px);
+        z-index: 1;
     }
     #pages-tree-wrapper.active{
         max-width: 600px;
+       
     }
     #pages-tree-container .ui-resizable{
         max-width: 100%
     }
     #pages-tree-container{
-        max-width: 0;
-        overflow:hidden;
+        max-width: 600px;
+        border-top-right-radius:0px;
         transition: .4s cubic-bezier(0.0, 0.0, 0.2, 1);;
-        opacity: .5;
-        visibility: hidden;
+        transform: translateX(calc(-100% - 25px));
 
     }
     #pages-tree-wrapper.active #pages-tree-container{
-        max-width: 600px;
-        opacity: 1;
-        visibility: visible;
+        
+        transform: translateX(0)
     }
+
+    .mw-admin-toggle-tree-navigation{
+        position:absolute;
+        left: 100%;
+        margin-left: 45px;
+        top:0;
+        
+        transition: margin-left .4s;
+        background-color: var(--tblr-btn-active-bg);
+    }
+
+    #pages-tree-wrapper.active .mw-admin-toggle-tree-navigation {
+        margin-left:0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    #pages-tree-wrapper:not(.active) .mw-admin-toggle-tree-navigation ~ *{
+        visibility: hidden;
+    } 
+ 
 
 </style>
 
@@ -44,16 +67,14 @@
 
 
 <div id="pages-tree-wrapper"  >
-<button type="button" class="btn mw-admin-toggle-tree-navigation">
-     <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-left-expand" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-    <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-    <path d="M9 4v16"></path>
-    <path d="M14 10l2 2l-2 2"></path>
-    </svg>
 
-</button>
-<div id="pages-tree-container" >
+<div class="card m-3 p-3 h-100" id="pages-tree-container" >
+
+    <button type="button" class="btn mw-admin-toggle-tree-navigation  border-0">
+        <svg   fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
+            <path d="M600 936V816H440V416h-80v120H80V216h280v120h240V216h280v320H600V416h-80v320h80V616h280v320H600ZM160 296v160-160Zm520 400v160-160Zm0-400v160-160Zm0 160h120V296H680v160Zm0 400h120V696H680v160ZM160 456h120V296H160v160Z"/>
+        </svg>
+    </button>
 
         <div class="js-page-tree-skeleton">
             <div class="d-flex">
@@ -299,7 +320,7 @@
             );
 
             var options = {
-                sortable: false,
+                sortable: true,
                 selectable: false,
                 singleSelect: false,
                 selectableNodes: 'singleSelect',
@@ -338,7 +359,7 @@
                     var treeHolder = mw.element('#admin-main-tree');
                     if(treeHolder) {
                         treeHolder.css({
-                            'height': 'calc(100vh - 355px)',
+                            'height': 'calc(100vh - 220px)',
                             'overflow': 'auto',
                             'minHeight': '200px',
                         });

@@ -43,28 +43,18 @@
     <?php endforeach; ?>
 
     <div class="mw-ui-field-holder">
-        <label class="mw-ui-label"><?php _e("Enabled"); ?></label>
-        <?php $is_active = get_option('active', 'mailerlite_provider'); ?>
-
-
-        <ul class="mw-ui-inline-list">
-            <li>
-                <label class="mw-ui-check">
-                    <input class="mw_option_field" type="radio" name="active" <?php if ($is_active == 'y'): ?> checked <?php endif; ?> value="y" option-group="mailerlite_provider">
-                    <span></span><span><?php _e("Yes"); ?></span>
-                </label>
-            </li>
-            <li>
-                <label class="mw-ui-check">
-                    <input class="mw_option_field" type="radio" name="active" <?php if (!$is_active or $is_active != 'y'): ?> checked <?php endif; ?> value="n" option-group="mailerlite_provider">
-                    <span></span><span><?php _e("No"); ?></span>
-                </label>
-            </li>
-        </ul>
+        <div class="mw-ui-field-holder">
+            <label class="form-label"><?php _e("Is enabled"); ?>?</label>
+            <?php $is_active = get_option('active', 'mailerlite_provider'); ?>
+            
+            <label class="form-check form-check-single form-switch ps-0">
+                <input class="form-check-input mw_option_field" type="checkbox" name="active" data-value-checked="y" data-value-unchecked="n" <?php if ($is_active == 'y'): ?> checked <?php endif; ?> value="y" value="n" option-group="mailerlite_provider">
+            </label>
+        </div>
     </div>
 
-    <div class="form-group">
-        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><i class="mdi mdi-flask"></i> <?php _e("Test Api"); ?></button>
+    <div class="form-group mt-3">
+        <button type="button" class="btn btn-primary mail-provider-test-api-mailerlite"><?php _e("Test Api"); ?></button>
        <!-- <button type="button" class="btn btn-primary mail-provider-logs-api-mailerlite"><i class="mdi mdi-note-text"></i> Logs</button>-->
     </div>
 </div>

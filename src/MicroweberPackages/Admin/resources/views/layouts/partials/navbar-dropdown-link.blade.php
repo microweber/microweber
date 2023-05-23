@@ -1,6 +1,13 @@
 @php
 $dropdownActive = false;
 foreach($item->getChildren() as $subItem) {
+
+    if (!empty($subItem->getExtra('routes'))) {
+        if (in_array(Route::currentRouteName(), $subItem->getExtra('routes'))) {
+            $dropdownActive = true;
+        }
+    }
+
     if ($subItem->getAttribute('route') == Route::currentRouteName()) {
         $dropdownActive = true;
     }
@@ -23,12 +30,25 @@ foreach($item->getChildren() as $subItem) {
         <div class="dropdown-menu-columns">
             <div class="dropdown-menu-column">
                 @foreach($item->getChildren() as $subItem)
-                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItem->getAttribute('route') == Route::currentRouteName()) active @endif">
+
+                    @php
+                    $subItemIsActive = false;
+                    if ($subItem->getAttribute('route') == Route::currentRouteName()) {
+                        $subItemIsActive = true;
+                    }
+                    if (!empty($subItem->getExtra('routes'))) {
+                        if (in_array(Route::currentRouteName(), $subItem->getExtra('routes'))) {
+                            $subItemIsActive = true;
+                        }
+                    }
+                    @endphp
+
+                    <a href="@if (!empty($subItem->getAttribute('route'))) {{route($subItem->getAttribute('route'))}} @else {{ $subItem->getUri() }} @endif" class="dropdown-item justify-content-between @if($subItemIsActive) active @endif">
                        <span>
                             {{_e($subItem->getName())}}
                        </span>
                         <span data-href="" class="add-new" data-bs-toggle="tooltip" title="">
-                         <svg fill="currentColor"xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
+                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="M240 656q-33 0-56.5-23.5T160 576q0-33 23.5-56.5T240 496q33 0 56.5 23.5T320 576q0 33-23.5 56.5T240 656Zm240 0q-33 0-56.5-23.5T400 576q0-33 23.5-56.5T480 496q33 0 56.5 23.5T560 576q0 33-23.5 56.5T480 656Zm240 0q-33 0-56.5-23.5T640 576q0-33 23.5-56.5T720 496q33 0 56.5 23.5T800 576q0 33-23.5 56.5T720 656Z"/></svg>
                         </span>
                     </a>
                 @endforeach

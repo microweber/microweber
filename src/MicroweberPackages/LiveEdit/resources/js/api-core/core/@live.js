@@ -75,6 +75,7 @@ export class LiveEdit {
         }
 
         this.root = this.settings.root;
+    
 
         this.elementAnalyzer = new DroppableElementAnalyzerService(this.settings);
 
@@ -276,7 +277,14 @@ export class LiveEdit {
                 return
             }
              // const elements = this.observe.fromEvent(e);
-            const elements = [DomService.firstBlockLevel(e.target)];
+             const elements = [];
+             const directTargets = ['IMG']
+             if(directTargets.indexOf(e.target.nodeName) !== -1) {
+                elements.push(e.target);
+             } else {
+                elements.push(DomService.firstBlockLevel(e.target));
+             }
+             
             let first = elements[0];
             const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable', 'layout']);
            
@@ -286,12 +294,15 @@ export class LiveEdit {
 
             first = target;
  
-            
+
+            this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
               
             this.handles.get('element').set(null)
             this.handles.hide();
 
-            
+            console.log(first)
+            console.log(elements[0])
+            console.log(e.target)
          
            
             if(first) {
@@ -406,7 +417,19 @@ export class LiveEdit {
                 }
                  
             })
+            let _dblclicktarget
+ 
+            ElementManager(this.root).on('dblclick', (e) => {
+                 
+                const selected = mw.app.liveEdit.elementHandle.getTarget();
+                if(selected && selected.contains(_dblclicktarget)) {
+                    mw.app.editor.dispatch('editNodeRequest', selected);
+                }
+
+                
+            })
             ElementManager(this.root).on(events, (e) => {
+                _dblclicktarget = e.target;
                 if ( !this.paused  ) {
                     _eventsHandle(e)
                 } else {

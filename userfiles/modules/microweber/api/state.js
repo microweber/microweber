@@ -164,10 +164,11 @@
             if(action){
 
                 mw.$(this).trigger(action, [this.eventData()]);
+                this.dispatch(action, this.eventData());
             }
             if(action !== false){
                 mw.$(this).trigger('change', [this.eventData()]);
-                this.dispatch('change');
+                this.dispatch('change', this.eventData());
             }
             return this;
         };
@@ -251,34 +252,7 @@
         }
 
 
-        mw.$liveEditState.on('stateUndo stateRedo', function(e, data){
-
-            if(data.active) {
-                var target = data.active.target;
-                if(typeof target === 'string'){
-                    target = document.querySelector(data.active.target);
-                }
-
-                if(!data.active || (!target && !data.active.action)) {
-
-                    return;
-                }
-                if(data.active.action) {
-                    data.active.action();
-                } else if(document.body.contains(target)) {
-                    mw.$(target).html(data.active.value);
-                } else{
-                    if(target.id) {
-                        mw.$(document.getElementById(target.id)).html(data.active.value);
-                    }
-                }
-                if(data.active.prev) {
-                    mw.$(data.active.prev).html(data.active.prevValue);
-                }
-            }
-            mw.drag.load_new_modules();
-
-        });
+ 
 
         mw.$('#history_panel_toggle,#history_dd,.mw_editor_undo,.mw_editor_redo').remove();
 
