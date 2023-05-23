@@ -7,7 +7,11 @@ use Livewire\Component;
 class UserCommentReplyComponent extends Component
 {
 
-    public $state = [];
+    public $state = [
+        'comment_name' => 'aaaa',
+        'comment_email' => 'aaaa@abv.bg',
+        'comment_body' => 'aaaaaaaa',
+    ];
 
     public function mount($relId = null, $replyToCommentId = null)
     {
@@ -44,8 +48,9 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-       // $this->state = [];
+        $this->state = [];
         $this->emit('commentAdded', $comment->id);
 
     }
 }
+

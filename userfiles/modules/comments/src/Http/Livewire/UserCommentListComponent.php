@@ -35,7 +35,7 @@ class UserCommentListComponent extends Component {
     {
         $getComment = Comment::where('id', $commentId)->first();
         if ($getComment) {
-            $getComment->delete();
+            $getComment->deleteWithReplies();
             $this->emit('commentDeleted', $commentId);
             $this->emit('$refresh');
         }
@@ -50,7 +50,7 @@ class UserCommentListComponent extends Component {
             ->where('rel_id', $this->relId)
             ->where('rel_type', 'content')
             ->orderBy('created_at', 'desc')
-            ->paginate(30, ['*'], 'commentsPage');
+            ->paginate(3, ['*'], 'commentsPage');
 
         return view('comments::livewire.user-comment-list-component', [
             'comments' => $getComments,

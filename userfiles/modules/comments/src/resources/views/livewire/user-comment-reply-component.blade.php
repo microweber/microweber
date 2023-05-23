@@ -15,11 +15,11 @@
             <textarea class="form-control" wire:model.lazy="state.comment_body"></textarea>
         </div>
         <div class="mt-2">
-            <button wire:click="save" type="button" class="btn btn-outline-primary">
-                <div wire:loading="save">
+            <button wire:loading.attr="disabled" wire:click="save" type="button" class="btn btn-outline-primary">
+                <div wire:loading wire:target="save">
                     <i class="fa fa-spinner fa-spin"></i> {{_e('Posting comment...')}}
                 </div>
-                <div wire:loading.remove="save">
+                <div wire:loading.remove wire:target="save">
                     {{_e('Post comment')}}
                 </div>
             </button>

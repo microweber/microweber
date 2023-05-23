@@ -10,9 +10,21 @@ class UserCommentPreviewComponent extends Component {
     public $commentId;
     public $state = [];
 
+    protected $listeners = [
+        'commentAdded' => 'refreshIfReplyIsToMe',
+        'commentDeleted' => 'refreshIfReplyIsToMe',
+        'commentUpdated' => 'refreshIfReplyIsToMe',
+    ];
+
     public function mount($commentId = false)
     {
         $this->commentId = $commentId;
+    }
+
+    public function refreshIfReplyIsToMe($id) {
+        if ($id == $this->commentId) {
+            $this->emit('$refresh');
+        }
     }
 
     public function delete()
