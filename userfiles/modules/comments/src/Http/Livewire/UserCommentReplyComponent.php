@@ -8,9 +8,9 @@ class UserCommentReplyComponent extends Component
 {
 
     public $state = [
-        'comment_name' => 'aaaa',
-        'comment_email' => 'aaaa@abv.bg',
-        'comment_body' => 'aaaaaaaa',
+        'comment_name' => '',
+        'comment_email' => '',
+        'comment_body' => '',
     ];
 
     public function mount($relId = null, $replyToCommentId = null)
