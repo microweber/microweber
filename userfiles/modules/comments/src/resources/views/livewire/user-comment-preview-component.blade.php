@@ -24,16 +24,12 @@
                 <div class="mb-4">
                     <b> <i class="fa fa-reply me-1"></i> Reply to {{$comment->comment_name}} </b>
                 </div>
-                @include('comments::comment_reply', [
-                    'reply_to_comment_id' => $comment->id,
-                ])
+                reply form
             </div>
 
             <div>
                 @foreach($comment->replies as $reply)
-                    @include('comments::comment_preview', [
-                        'comment' => $reply,
-                    ])
+                    replies
                 @endforeach
             </div>
 

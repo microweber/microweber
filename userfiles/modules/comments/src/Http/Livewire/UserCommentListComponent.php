@@ -3,27 +3,42 @@
 namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use MicroweberPackages\Modules\Comments\Models\Comment;
 
 class UserCommentListComponent extends Component {
 
-        public $relId;
-        public $state = [];
+    use WithPagination;
 
-        public function mount($relId = false)
-        {
-            $this->relId = $relId;
-        }
+    public $relId;
+    public $state = [];
 
-        public function render()
-        {
-            $getComments = Comment::where('reply_to_comment_id', null)
-                ->orderBy('created_at', 'desc')
-                ->get();
+    protected $listeners = [
+        'commentAdded' => '$refresh',
+        'commentDeleted' => '$refresh',
+        'commentUpdated' => '$refresh',
+    ];
 
-            return view('comments::livewire.user-comment-list-component', [
-                'comments' => $getComments,
-            ]);
-        }
+    public $commentsPage = 0;
+
+    public $queryString = [
+        'commentsPage'
+    ];
+
+    public function mount($relId = false)
+    {
+        $this->relId = $relId;
+    }
+
+    public function render()
+    {
+        $getComments = Comment::where('reply_to_comment_id', null)
+            ->orderBy('created_at', 'desc')
+            ->paginate(3, ['*'], 'commentsPage');
+
+        return view('comments::livewire.user-comment-list-component', [
+            'comments' => $getComments,
+        ]);
+    }
 
 }

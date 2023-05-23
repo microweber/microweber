@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Comments;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentListComponent;
+use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentPreviewComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentReplyComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -28,6 +29,7 @@ class CommentsServiceProvider extends PackageServiceProvider
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
+        Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
 
         View::addNamespace('comments', normalize_path((__DIR__) . '/resources/views'));
 
