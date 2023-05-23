@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Livewire\Auth\Access;
 
 
-trait AuthorizesAdminRequests
+trait AuthorizesRequests
 {
     /**
      * Authorize a given action for the current user.

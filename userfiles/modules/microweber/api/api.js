@@ -24,15 +24,7 @@ if (typeof Object.assign !== 'function') {
 }
 
 
-if (!window.Alpine) {
-    // load alpine
-    <?php
-    $alpine = file_get_contents(mw_includes_path() . '/api/libs/alpine/alpine.min.js');
 
-    print $alpine;
-
-   ?>
-}
 
 if (!window.jQuery) {
 
