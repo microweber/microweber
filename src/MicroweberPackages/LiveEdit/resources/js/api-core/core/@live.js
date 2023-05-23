@@ -300,9 +300,7 @@ export class LiveEdit {
             this.handles.get('element').set(null)
             this.handles.hide();
 
-            console.log(first)
-            console.log(elements[0])
-            console.log(e.target)
+ 
          
            
             if(first) {
