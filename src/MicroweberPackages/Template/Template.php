@@ -112,10 +112,15 @@ class Template
 
     public function append_livewire_to_layout($layout)
     {
+        $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
+
+        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
+
         $scripts = \Livewire\Livewire::scripts();
         $styles = \Livewire\Livewire::styles();
         $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
+        $layout = str_ireplace('<head>', '<head>' . $alpineScript, $layout, $rep);
         $layout = str_ireplace('</head>', $styles . '</head>', $layout, $rep);
         $layout = str_ireplace('</head>', $scripts . '</head>', $layout, $rep);
         $layout = str_ireplace('</head>', $modal . '</head>', $layout, $rep);
