@@ -17,11 +17,7 @@ class UserCommentPreviewComponent extends Component {
 
     public function delete()
     {
-        $getComment = Comment::where('id', $this->commentId)->first();
-        if ($getComment) {
-            $getComment->delete();
-            $this->emit('commentDeleted');
-        }
+       $this->emit('deleteComment', $this->commentId);
     }
 
     public function render()
@@ -31,6 +27,7 @@ class UserCommentPreviewComponent extends Component {
         return view('comments::livewire.user-comment-preview-component', [
             'comment' => $getComment,
         ]);
+
     }
 
 }

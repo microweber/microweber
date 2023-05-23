@@ -7,6 +7,7 @@ class Comment extends Model
 {
     public $fillable = [
         'rel_id',
+        'rel_type',
         'reply_to_comment_id',
         'comment_name',
         'comment_body',

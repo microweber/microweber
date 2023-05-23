@@ -9,7 +9,7 @@ class UserCommentReplyComponent extends Component
 
     public $state = [];
 
-    public function mount($relId = false, $replyToCommentId = false)
+    public function mount($relId = null, $replyToCommentId = null)
     {
         $this->state['rel_id'] = $relId;
         $this->state['reply_to_comment_id'] = $replyToCommentId;
@@ -29,8 +29,11 @@ class UserCommentReplyComponent extends Component
         ]);
 
         $comment = new \MicroweberPackages\Comment\Models\Comment();
-        $comment->rel_id = $this->state['rel_id'];
-        $comment->rel_type = 'content';
+
+        if (isset($this->state['rel_id'])) {
+            $comment->rel_id = $this->state['rel_id'];
+            $comment->rel_type = 'content';
+        }
 
         if (isset($this->state['reply_to_comment_id'])) {
             $comment->reply_to_comment_id = $this->state['reply_to_comment_id'];
@@ -41,7 +44,7 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-        $this->state = [];
+       // $this->state = [];
         $this->emit('commentAdded', $comment->id);
 
     }

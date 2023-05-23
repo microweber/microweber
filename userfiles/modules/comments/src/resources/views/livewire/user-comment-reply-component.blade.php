@@ -12,11 +12,16 @@
         </div>
         <div class="mt-2">
             <label>Comment:</label>
-            <textarea class="form-control" wire:model.lazy="state.comment_body" ></textarea>
+            <textarea class="form-control" wire:model.lazy="state.comment_body"></textarea>
         </div>
         <div class="mt-2">
             <button wire:click="save" type="button" class="btn btn-outline-primary">
-                Post comment
+                <div wire:loading="save">
+                    <i class="fa fa-spinner fa-spin"></i> {{_e('Posting comment...')}}
+                </div>
+                <div wire:loading.remove="save">
+                    {{_e('Post comment')}}
+                </div>
             </button>
         </div>
     </form>
