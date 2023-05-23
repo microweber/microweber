@@ -12,11 +12,11 @@
                 {{$comment->comment_body}}
 
                 <div class="d-flex justify-content-end align-items-center mt-4">
-                    <span class="link-muted"><i class="fa fa-reply me-1"></i> Reply</span>
+                    <span style="cursor:pointer" class="link-muted"><i class="fa fa-reply me-1"></i> Reply to {{$comment->comment_name}}</span>
                 </div>
             </div>
 
-            <div style="background:#fff;" class="mt-2 mb-4 p-4 d-none-">
+            <div style="background:#fff;" class="mt-2 mb-4 p-4 d-none">
                 @include('comments::comment_reply', [
                     'reply_to_comment_id' => $comment->id,
                 ])

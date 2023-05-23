@@ -58,12 +58,9 @@
             <div class="col-md-11 col-lg-9 col-xl-7">
 
                 @foreach($comments as $comment)
-
                     @include('comments::comment_preview', [
                                'comment' => $comment,
                            ])
-
-
                 @endforeach
 
             </div>
