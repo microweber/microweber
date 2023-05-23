@@ -8,9 +8,17 @@
     <div class="d-flex flex-start mb-4" x-data="{
         showReplyForm: false
     }">
+
+        @if($comment->created_by > 0)
+            <img class="rounded-circle shadow-1-strong me-3"
+                 src="{{user_avatar($comment->created_by)}}" alt="avatar" width="65"
+                 height="65" />
+        @else
         <div class="shadow-1-strong me-3">
             <i class="fa fa-user-circle-o" style="font-size:42px"></i>
         </div>
+        @endif
+
         <div class="card w-100">
             <div class="card-body">
                 <h5>{{$comment->comment_name}}</h5>
