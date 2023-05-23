@@ -14,20 +14,8 @@ class CommentsController extends ModuleFrontController {
     public function index(Request $request)
     {
         $moduleId = $request->get('id');
-        $getComments = Comment::where('reply_to_comment_id', null)
-            ->orderBy('created_at', 'desc')
-            ->get();
 
-        return $this->view('comments::index', [
-            'comments' => $getComments,
-        ]);
+        return $this->view('comments::index');
     }
 
-    public function postComment(Request $request) {
-
-        $newComment = new Comment();
-        $newComment->fill($request->all());
-        $newComment->save();
-
-    }
 }

@@ -405,9 +405,7 @@ class Format
             $url_short = $url_full;
         }
 
-        // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
-
-        return "<a href=\"$url_full\">$url_short</a>";
+        return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
     }
 
     public function human_filesize($bytes, $dec = 2)
