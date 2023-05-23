@@ -6,7 +6,6 @@ namespace MicroweberPackages\Template;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
-use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHelper;
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
@@ -65,6 +64,7 @@ class Template
 
         $this->setTemplateAdapter(new MicroweberTemplate());
     }
+
     public function setTemplateAdapter($adapter)
     {
         $this->templateAdapter = $adapter;
@@ -110,6 +110,18 @@ class Template
         return $this->js_adapter->get_apijs_combined_url();
     }
 
+    public function append_livewire_to_layout($layout)
+    {
+        $scripts = \Livewire\Livewire::scripts();
+        $styles = \Livewire\Livewire::styles();
+        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
+
+        $layout = str_ireplace('</head>', $styles . '</head>', $layout, $rep);
+        $layout = str_ireplace('</head>', $scripts . '</head>', $layout, $rep);
+        $layout = str_ireplace('</head>', $modal . '</head>', $layout, $rep);
+        return $layout;
+    }
+
     public function append_api_js_to_layout($layout)
     {
         $apijs_combined_loaded = $this->get_apijs_combined_url();
@@ -143,6 +155,7 @@ class Template
             }
         }
     }
+
     /**
      * @deprecated
      */
@@ -150,6 +163,7 @@ class Template
     {
         $this->meta_tags[$name] = $value;
     }
+
     /**
      * @deprecated
      */
@@ -173,7 +187,7 @@ class Template
     public function dir($add = false)
     {
         if ($this->templateAdapter->getActiveTemplateDir()) {
-            $val =$this->templateAdapter->getActiveTemplateDir();
+            $val = $this->templateAdapter->getActiveTemplateDir();
             if ($add != false) {
                 $val = $val . $add;
             }
@@ -185,7 +199,7 @@ class Template
 
     public function get_config($template = false)
     {
-         return $this->templateAdapter->getConfig($template);
+        return $this->templateAdapter->getConfig($template);
     }
 
     public function get_data_field_title($field, $type = 'general')
@@ -393,7 +407,6 @@ class Template
 
         return $layout;
     }
-
 
 
     public function get_default_system_ui_css_url()
@@ -674,6 +687,7 @@ class Template
     {
         return $this->stack_compiler_adapter->add($src, $group);
     }
+
     /**
      * @deprecated
      */
@@ -785,30 +799,37 @@ class Template
 
         return $to_return;
     }
+
     public function boot()
     {
         return $this->templateAdapter->boot();
     }
+
     public function defineConstants($content = false)
     {
         return $this->templateAdapter->defineConstants($content);
     }
+
     public function getContentId()
     {
         return $this->templateAdapter->getContentId();
     }
+
     public function getProductId()
     {
         return $this->templateAdapter->getProductId();
     }
+
     public function getPageId()
     {
         return $this->templateAdapter->getPageId();
     }
-   public function getPostId()
+
+    public function getPostId()
     {
         return $this->templateAdapter->getPostId();
     }
+
     public function getCategoryId()
     {
         return $this->templateAdapter->getCategoryId();

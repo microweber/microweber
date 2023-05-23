@@ -1151,6 +1151,7 @@ class FrontendController extends Controller
             }
 
 
+            $l = $this->app->template->append_livewire_to_layout($l);
             $l = $this->app->template->append_api_js_to_layout($l);
 
 
