@@ -26,11 +26,15 @@ class UserCommentReplyComponent extends Component
 
     public function save()
     {
-        $this->validate([
-            'state.comment_name' => 'required|min:3',
-            'state.comment_email' => 'required|email',
+        $validate = [
             'state.comment_body' => 'required|min:3',
-        ]);
+        ];
+        if (!user_id()) {
+            $validate['state.comment_name'] = 'required|min:3';
+            $validate['state.comment_email'] = 'required|email';
+        }
+
+        $this->validate($validate);
 
         $comment = new \MicroweberPackages\Comment\Models\Comment();
 
@@ -43,12 +47,23 @@ class UserCommentReplyComponent extends Component
             $comment->reply_to_comment_id = $this->state['reply_to_comment_id'];
         }
 
-        $comment->comment_name = $this->state['comment_name'];
-        $comment->comment_email = $this->state['comment_email'];
+        $comment->user_ip = user_ip();
+        $comment->session_id = session_id();
+
+        if (user_id()) {
+            $comment->created_by = user_id();
+        } else {
+            $comment->comment_name = $this->state['comment_name'];
+            $comment->comment_email = $this->state['comment_email'];
+        }
+
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-        $this->state = [];
+        $this->state['comment_body'] = '';
+        $this->state['comment_name'] = '';
+        $this->state['comment_email'] = '';
+
         $this->emit('commentAdded', $comment->id);
 
     }

@@ -15,6 +15,17 @@ class Comment extends Model
         'comment_website',
     ];
 
+    public function getCommentNameAttribute()
+    {
+        if ($this->attributes['created_by'] > 0) {
+            return user_name($this->attributes['created_by']);
+        } else if (!empty($this->attributes['comment_name'])) {
+            return $this->attributes['comment_name'];
+        } else {
+            return _e('Anonymous');
+        }
+    }
+
     public function getCommentBodyAttribute()
     {
         return app()->format->autolink($this->attributes['comment_body']);
@@ -37,6 +48,24 @@ class Comment extends Model
             }
         }
         return $level;
+    }
+
+    public function canIDeleteThisComment()
+    {
+        $user = user_id();
+        if (is_admin() == true) {
+         //   return true;
+        }
+
+        if ($user == $this->created_by) {
+            return true;
+        }
+
+        if ($this->user_ip == user_ip()) {
+                return true;
+        }
+
+        return false;
     }
 
     public function deleteWithReplies()

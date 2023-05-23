@@ -1,4 +1,10 @@
 <div>
+
+    @if(!$comment)
+        <div>
+            {{_e('Comment is deleted...')}}
+        </div>
+    @else
     <div class="d-flex flex-start mb-4" x-data="{
         showReplyForm: false
     }">
@@ -15,8 +21,8 @@
 
                     {!! $comment->comment_body !!}
 
+                    @if($comment->canIDeleteThisComment())
                     <div class="d-flex justify-content-end align-items-center mt-4">
-
                         <button wire:click="delete" class="btn btn-danger btn-sm">
                             <div wire:loading wire:target="delete">
                                 <i class="fa fa-spinner fa-spin"></i> {{_e('Deleting comment...')}}
@@ -25,16 +31,21 @@
                                 {{_e('Delete comment')}}
                             </div>
                         </button>
-
                     </div>
+                    @endif
+
                 </div>
 
                 @php
                     $replies = $comment->replies;
                     $level = $comment->getLevel();
+                    $showRepliesAlpine = 'false';
+                    if ($showReplies) {
+                        $showRepliesAlpine = 'true';
+                    }
                 @endphp
 
-                <div x-data="{showReplies: @if($replies->count() > 0) false @else true @endif  }">
+                <div x-data="{showReplies: {{$showRepliesAlpine}} }">
                         @if($replies->count() > 0)
                             <div style="background:#e8e8e8;border-radius:2px;" class="mb-4 p-2">
                                 <span @click="showReplies = ! showReplies" style="cursor:pointer" class="link-muted">
@@ -76,4 +87,5 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
