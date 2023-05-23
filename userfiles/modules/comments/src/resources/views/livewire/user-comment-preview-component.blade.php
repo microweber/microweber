@@ -11,25 +11,31 @@
                 {{$comment->created_at->diffForHumans()}}
             </p>
             <div class="mt-3 mb-3">
+
                 {{$comment->comment_body}}
 
-                <div class="d-flex justify-content-end align-items-center mt-4">
+                <div class="d-flex justify-content-between align-items-center mt-4">
+
+                    <button wire:click="delete" class="btn btn-danger btn-sm">
+                        {{_e('Delete')}}
+                    </button>
+
                     <span @click="showReplyForm = ! showReplyForm" style="cursor:pointer" class="link-muted">
-                        <i class="fa fa-reply me-1"></i> Reply to {{$comment->comment_name}}
+                        <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}}
                     </span>
                 </div>
             </div>
 
             <div x-show="showReplyForm" style="display:none; background:#fff;" class="mt-2 mb-4 p-4">
                 <div class="mb-4">
-                    <b> <i class="fa fa-reply me-1"></i> Reply to {{$comment->comment_name}} </b>
+                    <b> <i class="fa fa-reply me-1"></i> {{_e('Reply to')}} {{$comment->comment_name}} </b>
                 </div>
-                reply form
+                <livewire:comments::user-comment-reply wire:key="comment-reply-id-{{$comment->id}}" rel_id="{{$comment->rel_id}}" reply_to_comment_id="{{$comment->id}}" />
             </div>
 
             <div>
                 @foreach($comment->replies as $reply)
-                    replies
+                    <livewire:comments::user-comment-preview wire:key="comment-preview-reply-id-{{$reply->id}}" comment_id="{{$reply->id}}" />
                 @endforeach
             </div>
 

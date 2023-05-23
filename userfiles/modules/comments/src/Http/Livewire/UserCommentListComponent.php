@@ -34,7 +34,7 @@ class UserCommentListComponent extends Component {
     {
         $getComments = Comment::where('reply_to_comment_id', null)
             ->orderBy('created_at', 'desc')
-            ->paginate(3, ['*'], 'commentsPage');
+            ->paginate(30, ['*'], 'commentsPage');
 
         return view('comments::livewire.user-comment-list-component', [
             'comments' => $getComments,

@@ -15,6 +15,15 @@ class UserCommentPreviewComponent extends Component {
         $this->commentId = $commentId;
     }
 
+    public function delete()
+    {
+        $getComment = Comment::where('id', $this->commentId)->first();
+        if ($getComment) {
+            $getComment->delete();
+            $this->emit('commentDeleted');
+        }
+    }
+
     public function render()
     {
         $getComment = Comment::where('id', $this->commentId)->first();
