@@ -1,12 +1,8 @@
 <?php
-
-namespace MicroweberPackages\Comment\Http\Middleware;
+namespace MicroweberPackages\Modules\Comments\Http\Middleware;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Helper\HTMLClean;
-
-use Closure;
-use GrahamCampbell\SecurityCore\Security;
 
 class PostCommentMiddleware
 {
@@ -23,6 +19,7 @@ class PostCommentMiddleware
         });
 
         $request->merge($input);
+
         return $next($request);
     }
 }

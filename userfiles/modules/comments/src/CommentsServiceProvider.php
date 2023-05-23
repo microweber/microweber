@@ -17,6 +17,8 @@ class CommentsServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+
         View::addNamespace('comments', normalize_path((__DIR__) . '/resources/views'));
 
     }
