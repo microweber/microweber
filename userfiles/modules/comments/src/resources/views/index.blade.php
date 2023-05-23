@@ -1,3 +1,48 @@
+<script>
+    function CommentForm() {
+        return {
+            commentFormData: {
+                comment_name: "",
+                comment_email: "",
+                comment_body: "",
+                rel_id: "",
+                reply_to_comment_id: "",
+            },
+
+            formMessage: "",
+            formLoading: false,
+            buttonText: "Submit",
+
+            submitCommentsForm() {
+                this.formMessage = "";
+                this.formLoading = false;
+                this.buttonText = "Submitting...";
+                fetch(route('api.comment.post_comment'), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify(this.commentFormData),
+                })
+                    .then(() => {
+                        this.formData.comment_name = "";
+                        this.formData.comment_email = "";
+                        this.formData.comment_body = "";
+                        this.formMessage = "Comment successfully submitted.";
+                    })
+                    .catch(() => {
+                        this.formMessage = "Something went wrong.";
+                    })
+                    .finally(() => {
+                        this.formLoading = false;
+                        this.buttonText = "Submit";
+                    });
+            },
+        };
+    }
+</script>
+
 <section style="background-color: #eee;">
 
     <div class="container my-5 py-5 text-dark">
@@ -13,35 +58,12 @@
             <div class="col-md-11 col-lg-9 col-xl-7">
 
                 @foreach($comments as $comment)
-                <div class="d-flex flex-start mb-4">
-                    <div class="shadow-1-strong me-3">
-                        <i class="fa fa-user-circle-o" style="font-size:42px"></i>
-                    </div>
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <div>
-                                <h5>{{$comment->comment_name}}</h5>
-                                <p class="text-small">
-                                    {{$comment->created_at->diffForHumans()}}
-                                </p>
-                                <p class="mt-3 mb-3">
-                                    {{$comment->comment_body}}
-                                </p>
 
-                                <div class="d-flex justify-content-end align-items-center mt-4">
-                                    <button type="button" class="btn btn-outline-primary"><i class="fa fa-reply me-1"></i> Reply</button>
-                                </div>
-                            </div>
+                    @include('comments::comment_preview', [
+                               'comment' => $comment,
+                           ])
 
-                            <div style="background:#fff;border-radius:3px;" class="mt-2 p-4">
-                                @include('comments::comment_reply', [
-                                    'parent_id' => $comment->id,
-                                ])
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
                 @endforeach
 
             </div>
