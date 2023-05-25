@@ -38,7 +38,7 @@
 
     .preview_frame_container iframe {
         width: 400%;
-        transform: scale(.25); 
+        transform: scale(.25);
         top: 0;
         position: absolute;
         left: 0;
