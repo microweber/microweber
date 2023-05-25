@@ -34,6 +34,12 @@ class PostController extends AdminController
         $request_data = $request->all();
 
         $data = [];
+
+        $data['post_design'] = false;
+        if (isset($request_data['post_design'])) {
+            $data['post_design'] = $request_data['post_design'];
+        }
+
         $data['content_id'] = 0;
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
@@ -43,8 +49,6 @@ class PostController extends AdminController
         if (isset($request_data['recommended_content_id'])) {
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
-
-
 
         return view('post::admin.posts.create',$data);
     }

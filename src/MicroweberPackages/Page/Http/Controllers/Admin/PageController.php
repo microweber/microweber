@@ -26,11 +26,17 @@ class PageController extends AdminController
     public function index(Request $request) {
         return view('page::admin.page.index');
     }
+
     public function create(Request $request)
     {
         $request_data = $request->all();
 
         $data = [];
+        $data['page_design'] = false;
+        if (isset($request_data['page_design'])) {
+            $data['page_design'] = $request_data['page_design'];
+        }
+
         $data['content_id'] = 0;
         $data['recommended_category_id'] = 0;
         $data['recommended_content_id'] = 0;
