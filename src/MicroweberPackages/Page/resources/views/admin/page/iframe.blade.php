@@ -2,21 +2,29 @@
     $rand = md5($url);
 @endphp
 
-<div class="preview_frame_wrapper preview_frame_wrapper_{{$rand}} loading left">
 
-        <div class="card placeholder-glow mw-add-post-placeholder-loading">
-            <div class="ratio ratio-21x9 card-img-top placeholder"></div>
-            <div class="card-body">
-                <div class="placeholder col-9 mb-3"></div>
-                <div class="placeholder placeholder-xs col-10"></div>
-                <div class="placeholder placeholder-xs col-11"></div>
-                <div class="mt-3">
-                    <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-4" aria-hidden="true"></a>
-                </div>
+<div class="preview_frame_wrapper preview_frame_wrapper_{{$rand}} loading left">
+    <div class="preview_frame_container preview_frame_container_{{$rand}}"></div>
+
+    <div class="card placeholder-glow mw-add-post-placeholder-loading">
+        <div class="ratio ratio-21x9 card-img-top placeholder"></div>
+        <div class="card-body">
+            <div class="placeholder col-9 mb-3"></div>
+            <div class="placeholder placeholder-xs col-10"></div>
+            <div class="placeholder placeholder-xs col-11"></div>
+            <div class="mt-3">
+                <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-4" aria-hidden="true"></a>
             </div>
         </div>
+    </div>
 
 </div>
+
+<style>
+    .preview_frame_container_{{$rand}} {
+        display:none;
+    }
+</style>
 
 <style>
     .preview_frame_container{
@@ -92,12 +100,10 @@
                 mw.templatePreview<?php print $rand; ?>.set();
                 this.contentWindow.document.documentElement.className = 'mw-template-document-preview';
 
-                alert(1)
                 mw.$('.preview_frame_wrapper_{{$rand}} .mw-add-post-placeholder-loading').remove();
-
+                mw.$('.preview_frame_container_{{$rand}}').show();
             };
             holder.empty();
-
             holder.append(frame);
         },
         zoom: function (a) {
