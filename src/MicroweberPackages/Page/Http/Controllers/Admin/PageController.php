@@ -40,7 +40,21 @@ class PageController extends AdminController
         if (isset($request_data['recommended_content_id'])) {
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
-        return view('page::admin.page.edit', $data);
+
+        if (!defined('ACTIVE_SITE_TEMPLATE')) {
+            app()->content_manager->define_constants($data);
+        }
+
+        $layout_options = array();
+        $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
+        $layout_options['no_cache'] = true;
+        $layout_options['no_folder_sort'] = true;
+
+        $layouts = mw()->layouts_manager->get_all($layout_options);
+
+        $data['layouts'] = $layouts;
+
+        return view('page::admin.page.create', $data);
     }
 
     public function edit(Request $request, $id) {
