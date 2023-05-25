@@ -17,7 +17,7 @@
 
         <div class="row row-cards">
 
-            <div class="col-md-4">
+            <div class="col-md-4 pe-5 pb-3">
                 <h3>Title with Text</h3>
                 <a href="{{route('admin.post.create')}}?post_design=title_with_text" class="card card-link card-link-pop">
                     <div class="card-body">
@@ -29,7 +29,7 @@
                 </a>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 pe-5 pb-3">
                 <h3>Image Body and Text</h3>
                 <a href="{{route('admin.post.create')}}?post_design=image_body_and_text" class="card card-link card-link-pop">
                     <div class="card-body">
@@ -44,7 +44,7 @@
                 </a>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 pe-5 pb-3">
                 <h3>Video with Text</h3>
                 <a href="{{route('admin.post.create')}}?post_design=video_with_text" class="card card-link card-link-pop">
                     <div class="card-body">
