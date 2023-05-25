@@ -12,7 +12,7 @@
         overflow: hidden;
     }
     .preview_frame_container.preview-in-self {
-        height: calc(80vh - 80px);
+        height: calc(50vh - 80px);
 
     }
     .preview_frame_container.preview-in-self iframe {
@@ -108,9 +108,8 @@
                 mw.$('.preview_frame_wrapper_{{$rand}}').addClass('zoom');
             }
             mw.$('.preview_frame_wrapper_{{$rand}} iframe')[0].contentWindow.scrollTo(0, 0);
-        },
-        _once: false
+        }
     }
     mw.templatePreview{{$rand}}.rend('{!! $url !!}');
-    mw.templatePreview{{$rand}}.zoom();
+   // mw.templatePreview{{$rand}}.zoom();
 </script>
