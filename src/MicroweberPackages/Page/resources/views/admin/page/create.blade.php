@@ -43,7 +43,7 @@
                         @include('page::admin.page.iframe', [
                          'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
                     )])
-                    <div class="p-2 text-center position-absolute top-2">
+                    <div class="p-2 text-center">
                         <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-outline-primary">
                             Create
                         </a>
