@@ -2,6 +2,9 @@
 
 @section('content')
 
+    @if($parent)
+        @include('category::admin.category.edit', ['parent' => $parent])
+    @else
     <div class="row px-5">
 
         <h3 class="main-pages-title">{{ _e("Create Category") }}</h3>
@@ -48,5 +51,6 @@
         </div>
 
     </div>
+    @endif
 
 @endsection

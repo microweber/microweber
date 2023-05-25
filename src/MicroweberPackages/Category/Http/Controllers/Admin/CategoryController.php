@@ -35,7 +35,8 @@ class CategoryController extends AdminController
         }
 
         return view('category::admin.category.create', [
-            'id'=>0
+            'id'=>0,
+            'parent'=>$parent
         ]);
     }
 
