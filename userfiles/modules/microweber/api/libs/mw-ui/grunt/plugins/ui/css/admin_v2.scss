@@ -524,6 +524,7 @@ small.text-muted {
 .btn.btn-link {
     padding: 0;
     border: none;
+    background-color: transparent;
 
     &:hover, &:active {
         background-color: transparent;
@@ -1093,6 +1094,7 @@ input[type=number] {
 .btn-secondary .action-dropdown-delete:hover {
     color: var(--tblr-bg-surface);
 }
+
 
 .badge-filter-item {
     background: var(--tblr-bg-surface);;
