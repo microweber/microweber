@@ -543,7 +543,16 @@ if (isset($params['live_edit'])) {
                                         document.querySelector('.btn-save').disabled = false;
                                         mw.askusertostay = true;
                                     });
-                                    $.get("<?php print api_url('content/get_admin_js_tree_json'); ?>", function (data) {
+                                    $.get("<?php
+
+                                        $apiJsTree = api_url('content/get_admin_js_tree_json');
+                                        if (isset($params['is_shop']) && $params['is_shop'] == 1) {
+                                            $apiJsTree .= '?is_shop=1';
+                                        } else {
+                                            $apiJsTree .= '?is_blog=1';
+                                        }
+                                        echo $apiJsTree;
+                                        ?>", function (data) {
                                         var categoryParentSelector = new mw.tree({
                                             id: 'category-parent-selector',
                                             element: '.category-parent-selector',
