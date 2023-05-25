@@ -209,10 +209,12 @@ if ($menu_data) {
 <div id="quick_new_menu_holder">
     <div id="create-menu-holder" style="display: none;">
         <div class="form-inline">
-            <div class="form-group mb-3">
+            <div class="form-group  mb-3">
                 <label class="form-label d-block w-100 mb-1"><?php _e('Create new menu'); ?></label>
-                <input name="new_menu_name" class="form-control" id="new_menu_name" placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"/>
-                <button type="button" class="btn btn-success" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
+               <div class="d-flex align-items-center gap-2">
+                   <input name="new_menu_name" class="form-control" id="new_menu_name" placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"/>
+                   <button type="button" class="btn btn-success" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
+               </div>
             </div>
         </div>
     </div>
