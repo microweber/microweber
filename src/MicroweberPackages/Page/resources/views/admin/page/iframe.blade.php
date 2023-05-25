@@ -2,7 +2,7 @@
     $rand = md5($url);
 @endphp
 
-<div class="preview_frame_wrapper preview_frame_wrapper_{{$rand}} loading left">
+<div class="add-post-iframe preview_frame_wrapper preview_frame_wrapper_{{$rand}}">
 
         <div class="card placeholder-glow">
             <div class="ratio ratio-21x9 card-img-top placeholder"></div>
@@ -38,29 +38,12 @@
     .preview_frame_container.preview-in-iframe iframe {
         height: 1600px !important;
     }
-    .preview_frame_wrapper{
-        position: relative;
-    }
-    .preview_frame_wrapper .mw-spinner{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+
+    .add-post-iframe .mw-spinner {
+        display: none;
     }
 
-    .preview_frame_container iframe {
-        width: 400%;
-        transform: scale(.25);
-        top: 0;
-        position: absolute;
-        left: 0;
-        transform-origin: 0 0;
-        border: 1px solid silver;
-        transition: .3s;
-    }
-    .preview_frame_wrapper.has-mw-spinner iframe{
-        opacity: 0;
-    }
+
 
 
 </style>
