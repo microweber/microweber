@@ -13,7 +13,7 @@
             <div class="col-md-4 pe-4">
                 <h3 class="mb-3 font-weight-bold">{{_e("Clean Page")}} </h3>
 
-                <div class="card h-100">
+                <div class="card">
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
                         <div class="create-page-clean d-flex justify-content-center align-items-center h-100">
