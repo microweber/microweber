@@ -29,7 +29,9 @@ class CategoryController extends AdminController
 
     public function create() {
 
-        return view('category::admin.category.edit', [
+        $request = request();
+
+        return view('category::admin.category.create', [
             'id'=>0
         ]);
     }
