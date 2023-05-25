@@ -55,8 +55,8 @@ if (!$past_page) {
                         $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
                     endif;
                     ?>
-                    <a href="<?php print admin_url('view:dashboard'); ?>">
-                        <img alt="" src="<?php print $logo; ?>">
+                    <a href="<?php print admin_url(); ?>">
+                         <img alt="" src="<?php print $logo; ?>">
                     </a>
                 </li>
 

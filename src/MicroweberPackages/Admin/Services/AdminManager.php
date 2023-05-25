@@ -37,8 +37,8 @@ class AdminManager
 //            ]
 //        ]);
 
-        $this->menus['left_menu_top']->getChild('Dashboard')
-            ->setExtra('orderNumber', 1);
+//        $this->menus['left_menu_top']->getChild('Dashboard')
+//            ->setExtra('orderNumber', 1);
 
         $this->menus['left_menu_top']->addChild('Website', [
             'uri' => admin_url(),

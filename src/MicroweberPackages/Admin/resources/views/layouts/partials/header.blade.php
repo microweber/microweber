@@ -118,9 +118,6 @@
     <?php event_trigger('mw.admin.header');; ?>
 
 
-
-
-
     <?php if (config('app.debug') and is_logged()) { ?>
 
     <script type="text/javascript">
