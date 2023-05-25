@@ -24,19 +24,19 @@
                 </div>
             </div>
         @foreach($layouts as $layout)
-            <div class="col-md-4 pe-3">
-                <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>
+{{--            <div class="col-md-4 pe-3">--}}
+{{--                <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>--}}
 
-                <div class="card">
-                        @php
-                            $iframe_start = site_url('new-content-preview-'. uniqid());
-                        @endphp
-                        @include('page::admin.page.iframe', [
-                         'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
-                    )])
+{{--                <div class="card">--}}
+{{--                        @php--}}
+{{--                            $iframe_start = site_url('new-content-preview-'. uniqid());--}}
+{{--                        @endphp--}}
+{{--                        @include('page::admin.page.iframe', [--}}
+{{--                         'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']--}}
+{{--                    )])--}}
 
-                </div>
-            </div>
+{{--                </div>--}}
+{{--            </div>--}}
 
         @endforeach
 
