@@ -187,7 +187,7 @@ if ($id == 0) {
                       </div>*/
                     ?>
 
-                    <div class="row" id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
+                    <div class="row mt-3" id="menu-selector-<?php print $data['id'] ?>adv" style="display: none">
                         <div class="col-sm-6">
                             <?php
                             if (!isset($data['url_target'])) {
