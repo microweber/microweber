@@ -10,13 +10,13 @@
 
         <div class="row row-cards">
 
-            <div class="col-md-4 pe-5 pb-5">
+            <div class="col-md-4 pe-5 pb-3">
                 <h3 class="mb-3 font-weight-bold">{{_e("Clean Page")}} </h3>
 
                 <div class="card">
 
                     <div class="card-body" style="padding: 13px; height: calc(50vh - 80px);">
-                        <div class="create-page-clean d-flex justify-content-center align-items-center h-100 bg-azure-lt">
+                        <div class="create-page-clean d-flex justify-content-center align-items-center h-100">
                             <h4 class="font-weight-bold mb-0">{{_e("Empty Page")}}</h4>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
         @foreach($layouts as $layout)
-            <div class="col-md-4 pe-5 pb-5">
+            <div class="col-md-4 pe-5 pb-3">
                 <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>
 
                 <div class="card">
