@@ -3,7 +3,7 @@
 @section('content')
 
     @if($post_design)
-    <module type="content/edit" content_id="{{$content_id}}" content_type="page"
+    <module type="content/edit" content_id="{{$content_id}}" content_type="post"
             parent="{{$recommended_content_id}}" id="main-content-edit-admin"
             category="{{$recommended_category_id}}"   />
     @else
