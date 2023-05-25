@@ -5,18 +5,19 @@
     <div class="mx-5">
         <div class="row row-cards">
         @foreach($layouts as $layout)
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <b>
                     {{$layout['name']}}
                 </b>
                 <br />
                 <div class="card">
-                    <div class="card-body">
-                        <iframe style="width:100%;height:300px"
-                                src="{{site_url('download?no_editmode=true&preview_layout=' . $layout['layout_file'])}}">
+                        @php
+                            $iframe_start = site_url('new-content-preview-'. uniqid());
+                        @endphp
+                        @include('page::admin.page.iframe', [
+                         'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
+                    )])
 
-                        </iframe>
-                    </div>
                 </div>
             </div>
 

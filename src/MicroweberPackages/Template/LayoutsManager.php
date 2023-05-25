@@ -359,7 +359,9 @@ class LayoutsManager
                             }
 
                             $layout_file = str_replace(DS, '/', $layout_file);
+                            $layout_file_preview = str_replace('/', '__', $layout_file);
                             $to_return_temp['layout_file'] = $layout_file;
+                            $to_return_temp['layout_file_preview'] = $layout_file_preview;
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
                             $screen_jpg = str_ireplace('.php', '.jpg', $filename);
