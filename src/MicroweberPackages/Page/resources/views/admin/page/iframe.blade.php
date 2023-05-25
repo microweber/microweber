@@ -2,9 +2,9 @@
     $rand = md5($url);
 @endphp
 
-<div class="add-post-iframe preview_frame_wrapper preview_frame_wrapper_{{$rand}}">
+<div class="preview_frame_wrapper preview_frame_wrapper_{{$rand}} loading left">
 
-        <div class="card placeholder-glow">
+        <div class="card placeholder-glow mw-add-post-placeholder-loading">
             <div class="ratio ratio-21x9 card-img-top placeholder"></div>
             <div class="card-body">
                 <div class="placeholder col-9 mb-3"></div>
@@ -38,12 +38,29 @@
     .preview_frame_container.preview-in-iframe iframe {
         height: 1600px !important;
     }
-
-    .add-post-iframe .mw-spinner {
-        display: none;
+    .preview_frame_wrapper{
+        position: relative;
+    }
+    .preview_frame_wrapper .mw-spinner{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-
+    .preview_frame_container iframe {
+        width: 400%;
+        transform: scale(.25);
+        top: 0;
+        position: absolute;
+        left: 0;
+        transform-origin: 0 0;
+        border: 1px solid silver;
+        transition: .3s;
+    }
+    .preview_frame_wrapper.has-mw-spinner iframe{
+        opacity: 0;
+    }
 
 
 </style>
@@ -74,15 +91,13 @@
             frame.onload = function (ev) {
                 mw.templatePreview<?php print $rand; ?>.set();
                 this.contentWindow.document.documentElement.className = 'mw-template-document-preview';
-                mw.spinner({
-                    element: '.preview_frame_wrapper_{{$rand}}',
-                }).hide()
+
+                alert(1)
+                mw.$('.preview_frame_wrapper_{{$rand}} .mw-add-post-placeholder-loading').remove();
+
             };
             holder.empty();
-            mw.spinner({
-                element: '.preview_frame_wrapper_{{$rand}}',
-                size: 40
-            }).show()
+
             holder.append(frame);
         },
         zoom: function (a) {
