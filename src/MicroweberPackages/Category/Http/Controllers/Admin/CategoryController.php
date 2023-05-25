@@ -29,7 +29,10 @@ class CategoryController extends AdminController
 
     public function create() {
 
-        $request = request();
+        $parent = request()->get('parent', false);
+        if ($parent == 'shop') {
+            return redirect(route('admin.shop.category.create', ['parent' => 'shop']));
+        }
 
         return view('category::admin.category.create', [
             'id'=>0
