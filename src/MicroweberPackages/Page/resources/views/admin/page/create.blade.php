@@ -2,14 +2,15 @@
 
 @section('content')
 
-    <div class="mx-5">
+    <div class="row px-5">
+        
+        <h3 class="main-pages-title">{{ _e("Choose Page Type") }}</h3>
+
         <div class="row row-cards">
         @foreach($layouts as $layout)
-            <div class="col-md-4">
-                <b>
-                    {{$layout['name']}}
-                </b>
-                <br />
+            <div class="col-md-4 pe-3">
+                <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>
+
                 <div class="card">
                         @php
                             $iframe_start = site_url('new-content-preview-'. uniqid());
