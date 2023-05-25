@@ -32,9 +32,9 @@ class PageController extends AdminController
         $request_data = $request->all();
 
         $data = [];
-        $data['page_design'] = false;
-        if (isset($request_data['page_design'])) {
-            $data['page_design'] = $request_data['page_design'];
+        $data['layout'] = false;
+        if (isset($request_data['layout'])) {
+            $data['layout'] = $request_data['layout'];
         }
 
         $data['content_id'] = 0;
@@ -58,7 +58,7 @@ class PageController extends AdminController
 
         $layouts = mw()->layouts_manager->get_all($layout_options);
 
-        $data['layouts'] = $layouts;
+        $data['allLayouts'] = $layouts;
 
         return view('page::admin.page.create', $data);
     }
