@@ -3,10 +3,25 @@
 @section('content')
 
     <div class="row px-5">
-        
+
         <h3 class="main-pages-title">{{ _e("Choose Page Type") }}</h3>
 
+
+
         <div class="row row-cards">
+
+            <div class="col-md-4 pe-3">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+                        <div class="create-page-clean">
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         @foreach($layouts as $layout)
             <div class="col-md-4 pe-3">
                 <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>
