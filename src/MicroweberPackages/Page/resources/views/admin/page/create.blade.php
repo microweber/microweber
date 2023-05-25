@@ -11,12 +11,13 @@
         <div class="row row-cards">
 
             <div class="col-md-4 pe-3">
+                <h3 class="mb-3 font-weight-bold">{{_e("Clean Page")}} </h3>
 
                 <div class="card h-100">
 
                     <div class="card-body">
-                        <div class="create-page-clean">
-                            
+                        <div class="create-page-clean d-flex justify-content-center align-items-center">
+                            <h4 class="font-weight-bold">{{_e("Empty Page")}}</h4>
                         </div>
                     </div>
 
