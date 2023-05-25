@@ -46,7 +46,7 @@ class PostController extends AdminController
 
 
 
-        return view('post::admin.posts.edit',$data);
+        return view('post::admin.posts.create',$data);
     }
 
     public function edit(Request $request, $id) {
