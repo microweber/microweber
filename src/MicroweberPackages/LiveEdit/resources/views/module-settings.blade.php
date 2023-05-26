@@ -87,7 +87,7 @@
 
 
             <div>
-                @if(isset($params['live_edit'])):
+                @if(isset($params['live_edit']))
                 <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}" live_edit="true"/>
                 @else
                 <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}"/>
