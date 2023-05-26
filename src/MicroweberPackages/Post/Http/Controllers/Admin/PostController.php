@@ -51,7 +51,6 @@ class PostController extends AdminController
         }
 
 
-
         if (!defined('ACTIVE_SITE_TEMPLATE')) {
             app()->content_manager->define_constants($data);
         }
@@ -60,11 +59,11 @@ class PostController extends AdminController
         $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
         $layout_options['no_cache'] = true;
         $layout_options['no_folder_sort'] = true;
+        $layout_options['content_type'] = 'post';
 
         $layouts = mw()->layouts_manager->get_all($layout_options);
 
         $data['allLayouts'] = $layouts;
-
 
         return view('post::admin.posts.create',$data);
     }
