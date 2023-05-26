@@ -23,7 +23,7 @@
                          'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
                     )])
                         <div class="p-2 text-center mw-create-page-admin-create-btn">
-                            <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-primary">
+                            <a href="{{route('admin.post.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-primary">
                                 {{ _e("Create") }}
                             </a>
                         </div>
