@@ -8,8 +8,11 @@
             category="{{$recommended_category_id}}"   />
     @else
     <div class="px-5 mx-5">
-        <h3 class="main-pages-title">{{ _e("Choose Post Design") }}</h3>
-        <div class="row row-cards px-3">
+        <h3 class="main-pages-title ms-1">{{ _e("Choose Post Design") }}</h3>
+        <small class="text-muted ms-1">{{ _e("Choose the right design for your article. You can use the predefined suggestions and replace the information with your own content") }}</small>
+
+
+        <div class="row row-cards px-3 pt-4">
 
             @foreach($allLayouts as $layout)
 
