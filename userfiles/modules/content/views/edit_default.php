@@ -300,7 +300,7 @@ if (isset($params['quick_edit'])) {
 
 
         <div class="row">
-            <div class="col-md-7 manage-content-body mx-md-5 mx-2">
+            <div class="col-md-8 manage-content-body mx-5">
 
 
                 <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
@@ -321,7 +321,7 @@ if (isset($params['quick_edit'])) {
                     </div>
                 </div>
 
-                <div class="card mb-4 mt-4">
+                <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">

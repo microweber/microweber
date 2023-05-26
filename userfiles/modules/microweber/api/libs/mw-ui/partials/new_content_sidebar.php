@@ -1,4 +1,4 @@
-<div class="col-md-4 manage-content-sidebar">
+<div class="col-md-3 manage-content-sidebar">
     <div class="card-body mb-3">
         <div class="  pb-0">
             <div class="row">
