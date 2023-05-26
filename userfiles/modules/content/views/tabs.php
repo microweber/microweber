@@ -11,24 +11,6 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
 
 
 <div id="settings-tabs">
-    <div class="card-body mb-3 images">
-        <div class="card-header no-border" id="post-media-card-header">
-            <h6><strong><?php _e('Pictures'); ?></strong></h6>
-            <div class="post-media-type-holder">
-                <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
-
-            </div>
-        </div>
-        <div class=" ">
-            <module
-                id="edit-post-gallery-main"
-                type="pictures/admin"
-                class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
-                for="content"
-                content_type="<?php print trim($data['content_type']) ?>"
-                for-id="<?php print $data['id']; ?>"/>
-        </div>
-    </div>
 
     <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
