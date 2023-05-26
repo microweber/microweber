@@ -8,6 +8,9 @@
 
 
         <?php
+
+
+
         $moduleTypeForComponent = str_replace('/', '-', $moduleType);
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
         $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';

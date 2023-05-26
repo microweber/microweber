@@ -39,6 +39,6 @@ class ModuleSettingsController
 //            $output = view('microweber-live-edit::module_settings_error', ['moduleId' => $id, 'moduleType' => $type, 'error' => $output]);
 //        }
 
-        return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type]);
+        return view('microweber-live-edit::module-settings', ['moduleId' => $id, 'moduleType' => $type, 'params'=>$params]);
     }
 }
