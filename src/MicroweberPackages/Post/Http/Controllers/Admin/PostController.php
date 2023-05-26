@@ -50,6 +50,22 @@ class PostController extends AdminController
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
 
+
+
+        if (!defined('ACTIVE_SITE_TEMPLATE')) {
+            app()->content_manager->define_constants($data);
+        }
+
+        $layout_options = array();
+        $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
+        $layout_options['no_cache'] = true;
+        $layout_options['no_folder_sort'] = true;
+
+        $layouts = mw()->layouts_manager->get_all($layout_options);
+
+        $data['allLayouts'] = $layouts;
+
+
         return view('post::admin.posts.create',$data);
     }
 
