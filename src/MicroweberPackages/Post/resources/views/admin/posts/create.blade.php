@@ -23,6 +23,8 @@
                             $iframe_start = site_url('new-content-preview-'. uniqid());
                         @endphp
                         @include('page::admin.page.iframe', [
+                         'iframeWidth'=>'200%',
+                         'transformScale'=>'0.50',
                          'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
                     )])
                         <div class="p-2 text-center mw-create-page-admin-create-btn">

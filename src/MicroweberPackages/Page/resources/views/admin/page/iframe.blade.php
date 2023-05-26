@@ -57,8 +57,16 @@
     }
 
     .preview_frame_container iframe {
+        @if (isset($iframeWidth))
+        width: {{$iframeWidth}};
+        @else
         width: 400%;
-        transform: scale(.25);
+        @endif
+        @if(isset($transformScale))
+        transform: scale({{$transformScale}});
+        @else
+        transform: scale(0.25);
+        @endif
         top: 0;
         position: absolute;
         left: 0;
