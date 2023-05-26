@@ -58,7 +58,7 @@
 
     .preview_frame_container iframe {
         @if (isset($iframeWidth))
-        width: {{$iframeWidth}} px;
+        width: {{$iframeWidth}};
         @else
         width: 400%;
         @endif
