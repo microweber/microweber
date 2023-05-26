@@ -363,7 +363,7 @@ class LayoutsManager
                                     continue;
                                 }
                             } else {
-                                if ($to_return_temp['content_type'] == 'post') {
+                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] == 'post') {
                                     continue;
                                 }
                             }
