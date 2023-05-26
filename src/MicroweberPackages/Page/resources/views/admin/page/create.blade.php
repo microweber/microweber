@@ -12,7 +12,7 @@
 
         <div class="row row-cards">
 
-        <div class="col-md-4 pe-5 pb-3">
+        <div class="col-xl-4 col-lg-6 col-12 pe-5 pb-3">
             <h3 class="mb-3 font-weight-bold">{{_e("Clean Page")}} </h3>
 
             <a href="{{route('admin.page.create')}}?layout=clean" class="card card-link card-link-pop">
@@ -34,17 +34,18 @@
                 }
             @endphp
 
-            <div class="col-md-4 pe-5 pb-3">
+            <div class="col-xl-4 col-lg-6 col-12 pe-5 pb-3 ">
                 <h3 class="mb-3 font-weight-bold">{{$layout['name']}} </h3>
-                <div class="card">
+                <div class="card mw-create-page-admin-wrapper">
+                    <div id="mw-create-page-card-overlay"></div>
                     @php
                             $iframe_start = site_url('new-content-preview-'. uniqid());
                         @endphp
                         @include('page::admin.page.iframe', [
                          'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
                     )])
-                    <div class="p-2 text-center">
-                        <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-outline-primary">
+                    <div class="p-2 text-center mw-create-page-admin-create-btn">
+                        <a href="{{route('admin.page.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-primary">
                             Create
                         </a>
                     </div>

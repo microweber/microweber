@@ -1118,3 +1118,39 @@ input[type=number] {
 .create-page-clean {
     background: var(--tblr-body-bg);
 }
+
+.mw-create-page-admin-wrapper {
+    position: relative;
+
+    #mw-create-page-card-overlay {
+        position: absolute;
+        display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 2;
+        cursor: pointer;
+    }
+    &:hover {
+        #mw-create-page-card-overlay {
+           display: block;
+        }
+        .mw-create-page-admin-create-btn {
+            visibility: visible;
+        }
+    }
+
+    .mw-create-page-admin-create-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        position: absolute;
+        top: 43%;
+        right: 43%;
+        z-index: 3;
+    }
+}
+
