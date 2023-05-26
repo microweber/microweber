@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div>
+    <div id="settings-container">
 
 
         <?php
@@ -13,7 +13,8 @@
 
         $moduleTypeForComponent = str_replace('/', '-', $moduleType);
         $moduleTypeForLegacyModule = module_name_decode($moduleType);
-        $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
+       // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
+
         $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $hasError = false;
         $output = false;
@@ -56,7 +57,38 @@
 
 
             @if(is_module($moduleTypeForLegacyModule))
+
+
+<script>
+    // saving module settings for legacy modules
+    var settingsAction = function () {
+        var settings_container_mod_el = $('#settings-container');
+        mw.options.form(settings_container_mod_el, function () {
+            if (mw.notification) {
+                mw.notification.success('<?php _ejs('Settings are saved') ?>');
+            }
+             <?php if (isset($params['id'])) : ?>
+
+                if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
+                    mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '<?php print $params['id']  ?>'} || {}))
+                }
+
+            <?php endif; ?>
+
+        });
+
+        createAutoHeight()
+    };
+    $(document).ready(function () {
+        settingsAction();
+    });
+
+</script>
+
+
+            <div>
                 <module type="{{ $moduleTypeForLegacyModule}}" id="{{ $moduleId }}"/>
+            </div>
             @endif
 
 
