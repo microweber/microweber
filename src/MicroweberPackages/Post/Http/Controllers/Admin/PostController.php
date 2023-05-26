@@ -62,6 +62,9 @@ class PostController extends AdminController
         $layout_options['content_type'] = 'post';
 
         $layouts = mw()->layouts_manager->get_all($layout_options);
+        if (empty($layouts)) {
+            return view('post::admin.posts.edit',$data);
+        }
 
         $data['allLayouts'] = $layouts;
 
