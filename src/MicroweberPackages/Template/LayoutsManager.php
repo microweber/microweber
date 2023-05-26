@@ -477,7 +477,7 @@ class LayoutsManager
                     $this->app->cache_manager->save($configs, $function_cache_id, $cache_group);
                 }
 
-                return $configs; 
+                return $configs;
             }
         }
     }

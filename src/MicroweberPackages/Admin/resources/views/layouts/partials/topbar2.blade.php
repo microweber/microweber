@@ -114,10 +114,11 @@
 
                 <?php endforeach; ?>
 
-                <div class="col-12 mt-4 modal-add-new-buttons-p">
-                    <a href=""> Edit current</a>
-
-                </div>
+                    @if(is_live_edit())
+                        <div class="col-12 mt-4 modal-add-new-buttons-p">
+                            <a href=""> Edit current</a>
+                        </div>
+                    @endif
 
                 <?php endif; ?>
             </div>
