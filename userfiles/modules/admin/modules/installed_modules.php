@@ -208,7 +208,7 @@ if(isset($_GET['show_modules_by_categories']) and intval($_GET['show_modules_by_
     $show_by_categories = true;
 }
 ?>
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-header">
         <h5 class="card-title">
             <i class="mdi mdi-view-grid-plus text-primary mr-3"></i> <strong><?php _e("Modules"); ?></strong>

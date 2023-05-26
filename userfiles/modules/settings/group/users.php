@@ -102,7 +102,7 @@ if ($registration_approval_required == false) {
 <h1 class="main-pages-title"><?php _e("Login and register"); ?></h1>
 
 <div class="<?php print $config['module_class'] ?>">
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
@@ -149,7 +149,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -230,7 +230,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -263,7 +263,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -466,7 +466,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-5" id="email-notifications">
+    <div class="card mb-7" id="email-notifications">
         <div class="card-body">
 
 
@@ -559,7 +559,7 @@ if ($registration_approval_required == false) {
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
