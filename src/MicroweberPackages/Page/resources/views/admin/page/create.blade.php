@@ -13,7 +13,7 @@
 
         <div class="row row-cards px-3">
 
-            <div class="col-xxl-4 col-lg-6 col-12 pe-6 ps-0 pt-3 mb-4">
+            <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4">
 
                 <a href="{{route('admin.page.create')}}?layout=clean" class="card card-link card-link-pop mw-create-page-admin-wrapper">
                     <div id="mw-create-page-card-overlay"></div>
@@ -43,7 +43,7 @@
                     }
                 @endphp
 
-                <div class="col-xxl-4 col-lg-6 col-12 pe-6 ps-0 pt-3 mb-4 ">
+                <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4 ">
                     <div class="card mw-create-page-admin-wrapper">
                         <div id="mw-create-page-card-overlay"></div>
                         @php
