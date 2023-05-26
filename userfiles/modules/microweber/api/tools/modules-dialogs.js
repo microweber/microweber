@@ -198,7 +198,8 @@
             var additional_params = {};
             additional_params.type = module_type;
             var params_url = $.extend({}, params, additional_params);
-            var src = mw.settings.site_url + "api/module?" + json2url(params_url);
+
+            var src =  route('live_edit.module_settings') + '?' + json2url(params_url);
 
 
             var settings = {

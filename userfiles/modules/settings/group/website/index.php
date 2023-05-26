@@ -29,7 +29,7 @@
 
 
 <div class="<?php print $config['module_class'] ?> js-anchorific">
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
             <div class="row">
                 <div class="col-xl-3 mb-xl-0 mb-3">
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -332,7 +332,7 @@
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -352,7 +352,7 @@
         </div>
     </div>
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 
@@ -375,7 +375,7 @@
     </div>
 
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
 
 

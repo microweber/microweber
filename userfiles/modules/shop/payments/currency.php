@@ -15,7 +15,7 @@ $curencies = mw()->shop_manager->currency_get();
 <h1 class="main-pages-title"><?php _e('Shop General'); ?></h1>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
 
     <div class="card-body">
         <div class="row">

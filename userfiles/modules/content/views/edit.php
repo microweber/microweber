@@ -15,22 +15,22 @@
   <?php $modules = array(); ?>
   <?php
 
-if (!empty($content_edit_modules) and !empty($data)) {
-    foreach ($content_edit_modules as $k1=>$content_edit_module) {
-		if(isset($content_edit_module['module'])){
-			if(isset($content_edit_module['content_type']) and isset($content_edit_module['subtype'])){
-				if(isset($data['content_type']) and isset($data['subtype'])){
-					if(($data['content_type']) == ($content_edit_module['content_type'])){
-						if(($data['subtype']) == ($content_edit_module['subtype'])){
-							 $modules[] = $content_edit_module['module'];
-						}
-					}
-				}
-			}
-		}
-     }
-	$modules = array_unique($modules);
-}
+//if (!empty($content_edit_modules) and !empty($data)) {
+//    foreach ($content_edit_modules as $k1=>$content_edit_module) {
+//		if(isset($content_edit_module['module'])){
+//			if(isset($content_edit_module['content_type']) and isset($content_edit_module['subtype'])){
+//				if(isset($data['content_type']) and isset($data['subtype'])){
+//					if(($data['content_type']) == ($content_edit_module['content_type'])){
+//						if(($data['subtype']) == ($content_edit_module['subtype'])){
+//							 $modules[] = $content_edit_module['module'];
+//						}
+//					}
+//				}
+//			}
+//		}
+//     }
+//	$modules = array_unique($modules);
+//}
 ?>
   <?php if(!empty($modules)): ?>
   <?php foreach($modules as $module) : ?>

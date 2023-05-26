@@ -1,6 +1,6 @@
 <div class="col-xxl-10 col-md-11 col-12 px-md-0 px-2 mx-auto">
 
-    <div class="card mb-5">
+    <div class="card mb-7">
         <div class="card-body">
             <div {{ $attributes->merge(['class' => 'row']) }}>
 

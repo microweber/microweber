@@ -360,6 +360,21 @@ class LayoutsManager
 
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $layout_file_preview = str_replace('/', '__', $layout_file);
+
+                            $skipLayoutFiles = [
+                               '404.php',
+                               'forgot_password.php',
+                               'login.php',
+                                'register.php',
+                                'reset_password.php',
+                                'layouts/sign-up.php',
+                            ];
+
+                            if (in_array($layout_file, $skipLayoutFiles)) {
+                                continue;
+                            }
+
+
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
                             $to_return_temp['filename'] = $filename;

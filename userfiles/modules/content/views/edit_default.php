@@ -156,12 +156,6 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
         });
 
-
-
-
-
-
-
     });
 </script>
 
@@ -306,17 +300,28 @@ if (isset($params['quick_edit'])) {
 
 
         <div class="row">
-            <div class="col-md-7 manage-content-body mx-md-5 mx-2">
-
+            <div class="col-md-8 manage-content-body mx-5">
 
 
                 <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
                     <?php include (__DIR__.'/content_delete_btns.php')?>
                 <?php endif; ?>
 
+                <div class="col-12 mt-3">
+                    <div class="d-flex space-x-4">
+                        <a href="#" class="btn btn-link">
+                          <i class="mdi <?php echo $typeIcon; ?>" />  <?php echo $type; ?> <?php echo _e('Details'); ?>
+                        </a>
+                        <a href="#" class="btn btn-link">
+                            <i class="mdi mdi-earth" /> <?php echo _e('SEO'); ?>
+                        </a>
+                        <a href="#" class="btn btn-link">
+                            <i class="mdi mdi-cogs" />  <?php echo _e('Advanced'); ?>
+                        </a>
+                    </div>
+                </div>
 
-
-                <div class="card mb-4">
+                <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
@@ -536,6 +541,8 @@ if (isset($params['quick_edit'])) {
                                                     </div>
                                                 <?php endif; ?>
                                             <?php endif; ?>
+
+
                                         </div>
 
                                         <div>
@@ -577,6 +584,30 @@ if (isset($params['quick_edit'])) {
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
+
+
+
+                                        <div class="mb-3 images">
+                                            <div class="no-border" id="post-media-card-header">
+                                                <h6><strong><?php _e('Pictures'); ?></strong></h6>
+                                                <div class="post-media-type-holder">
+                                                    <module id="edit-post-gallery-main-source-selector-holder" type="pictures/admin_upload_pic_source_selector" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <module
+                                                    id="edit-post-gallery-main"
+                                                    type="pictures/admin"
+                                                    class="pictures-admin-content-type-<?php print trim($data['content_type']) ?>"
+                                                    for="content"
+                                                    content_type="<?php print trim($data['content_type']) ?>"
+                                                    for-id="<?php print $data['id']; ?>"/>
+                                            </div>
+                                        </div>
+
+
+
+
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -585,44 +616,38 @@ if (isset($params['quick_edit'])) {
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="admin-manage-content-wrap">
 
-                                <?php if (isset($data['content_type']) and ($data['content_type'] == 'page')): ?>
-                                    <?php if (isset($data['id']) and ($data['id'] == 0)): ?>
-                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>"/>
-                                    <?php else: ?>
-                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" small="true" layout_file"="<?php print $data['layout_file']; ?>"   />
-                                    <?php endif; ?>
+                <?php
+                if (isset($data['content_type']) and ($data['content_type'] == 'page')) {
+                    if (isset($_GET['layout'])) {
+                        $selectedLayout = (string) $_GET['layout'];
 
-                                    <?php
-                                    $data['recommended_parent'] = $recommended_parent;
-                                    $data['active_categories'] = $categories_active_ids;
-                                    ?>
-                                <?php else: ?>
-                                    <div id="mw-admin-edit-content-main-area"></div>
-                                <?php endif; ?>
+                        ?>
+                        <input type="hidden" name="layout_file" value="<?php echo $selectedLayout; ?>" />
+                        <input type="hidden" name="preview_layout_file" value="<?php echo $selectedLayout; ?>" />
+                        <?php
+                    }
+                }
+                ?>
 
-                                <?php if (isset($data['subtype']) and $data['subtype'] == 'dynamic' and (isset($data['content_type']) and $data['content_type'] == 'page')): ?>
-                                    <script>
-                                        mw.$("#quick-add-post-options-item-template-btn").hide();
-                                    </script>
-                                <?php endif; ?>
+                <?php if (isset($data['subtype']) and $data['subtype'] == 'dynamic' and (isset($data['content_type']) and $data['content_type'] == 'page')): ?>
+                    <script>
+                        mw.$("#quick-add-post-options-item-template-btn").hide();
+                    </script>
+                <?php endif; ?>
 
-                                <div class="mw-admin-edit-content-holder">
-                                    <?php include(__DIR__ . '/tabs.php'); ?>
-                                </div>
+                <?php
+                $data['recommended_parent'] = $recommended_parent;
+                $data['active_categories'] = $categories_active_ids;
+                ?>
 
-                                <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 
-                                <?php include(__DIR__ . '/edit_default_scripts.php'); ?>
-                            </div>
+                <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
+                <?php include(__DIR__ . '/edit_default_scripts.php'); ?>
 
-                        </div>
-                    </div>
-                </div>
+
+
+
             </div>
 
             <?php include 'edit_default_sidebar.php'; ?>
