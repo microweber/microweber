@@ -591,11 +591,25 @@ if (isset($params['quick_edit'])) {
                             <div class="admin-manage-content-wrap">
 
                                 <?php if (isset($data['content_type']) and ($data['content_type'] == 'page')): ?>
-                                    <?php if (isset($data['id']) and ($data['id'] == 0)): ?>
-                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>"/>
-                                    <?php else: ?>
-                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="<?php print $data['id']; ?>" edit_page_id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" small="true" layout_file"="<?php print $data['layout_file']; ?>"   />
-                                    <?php endif; ?>
+
+                                    <?php
+                                    if (isset($_GET['layout'])) {
+                                        $selectedLayout = (string) $_GET['layout'];
+
+                                    ?>
+                                    <input type="hidden" name="layout_file" value="<?php echo $selectedLayout; ?>" />
+                                    <input type="hidden" name="preview_layout_file" value="<?php echo $selectedLayout; ?>" />
+                                    <?php
+                                    } else {
+                                    ?>
+                                <?php
+                                    }
+                                ?>
+<!--                                    --><?php //if (isset($data['id']) and ($data['id'] == 0)): ?>
+<!--                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="--><?php //print $data['id']; ?><!--" edit_page_id="--><?php //print $data['id']; ?><!--" inherit_from="--><?php //print $data['parent']; ?><!--"/>-->
+<!--                                    --><?php //else: ?>
+<!--                                        <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="top" live-edit-btn-overlay="true" content-id="--><?php //print $data['id']; ?><!--" edit_page_id="--><?php //print $data['id']; ?><!--" inherit_from="--><?php //print $data['parent']; ?><!--" small="true" layout_file"="--><?php //print $data['layout_file']; ?><!--"   />-->
+<!--                                    --><?php //endif; ?>
 
                                     <?php
                                     $data['recommended_parent'] = $recommended_parent;
