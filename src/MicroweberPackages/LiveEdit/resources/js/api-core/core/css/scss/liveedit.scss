@@ -53,6 +53,11 @@ mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
     outline-offset: 7px;
 }
 
-.FIE_topbar-save-wrapper{
-    display: none;
+.FIE_topbar-save-wrapper, .FIE_topbar-close-button{
+    display: none !important;
+}
+
+#sidebar-menu{
+    overflow: auto;
+    max-height: calc(100vh - 20px);
 }

@@ -49,9 +49,16 @@ body, .is_admin {
     color: var(--tblr-body-color) !important;
 }
 
+.navbar-vertical.navbar-expand-lg.admin-dashboard-left-nav{
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 .admin-dashboard-left-nav {
     background-color: var(--tblr-bg-surface);
     padding: 0 !important;
+
 
     .navbar-nav-padding {
         padding-inline: 40px 20px !important;
@@ -67,7 +74,7 @@ body, .is_admin {
     }
 
     .add-new {
-        //background-color: var(--tblr-primary);
+         
         visibility: hidden;
 
         svg {
@@ -139,7 +146,7 @@ body, .is_admin {
 
     .dropdown-item {
         color: var(--tblr-body-color);
-
+        min-width: none;
         &:hover {
            .add-new{
                visibility: visible;

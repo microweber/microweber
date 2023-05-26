@@ -420,8 +420,15 @@ export class LiveEdit {
             ElementManager(this.root).on('dblclick', (e) => {
                  
                 const selected = mw.app.liveEdit.elementHandle.getTarget();
+                 
                 if(selected && selected.contains(_dblclicktarget)) {
                     mw.app.editor.dispatch('editNodeRequest', selected);
+                }
+
+
+
+                if(!selected && e.target.classList.contains('edit') && e.target.style.backgroundImage) {
+                    mw.app.editor.dispatch('editNodeRequest',  e.target);
                 }
 
                 

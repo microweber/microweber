@@ -3,29 +3,17 @@
 
 <script>
 
+import { func } from "prop-types";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
+import FilerobotImageEditor from 'filerobot-image-editor';
 
-// import FilerobotImageEditor from 'https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js'; // Load library from NPM
-/*or load from CDN as following and use (window.FilerobotImageEditor):
- 
-*/
 const { TABS, TOOLS } = FilerobotImageEditor;
 
-const editImage = (img, target, dialog) => {
+const editImage = (url, target, dialog) => {
     const config = {
-  source: img.src,
-  onSave: (editedImageObject, designState) => {
+  source: url,
  
-    img.src = editedImageObject.imageBase64;
-    if(dialog) {
-        dialog.remove()
-    }
-    
-  },
-  onModify: function(imageFileInfo, b) {
-    console.log(1111, imageFileInfo, b)
-  },
   showCanvasOnly: false,
    
   annotationsCommon: {
@@ -47,19 +35,16 @@ const editImage = (img, target, dialog) => {
         titleKey: 'classicTv',
         descriptionKey: '4:3',
         ratio: 4 / 3,
-        // icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
       },
       {
         titleKey: 'cinemascope',
         descriptionKey: '21:9',
         ratio: 21 / 9,
-        // icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
       },
     ],
     presetsFolders: [
       {
-        titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
-        // icon: Social, // optional, Social is a React Function component. Possible (React Function component, string or HTML Element)
+        titleKey: 'socialMedia',
         groups: [
           {
             titleKey: 'facebook',
@@ -82,12 +67,12 @@ const editImage = (img, target, dialog) => {
       },
     ],
   },
-  tabsIds: [TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/, TABS.FINETUNE, TABS.FILTERS], // or ['Adjust', 'Annotate', 'Watermark']
-  defaultTabId: TABS.ANNOTATE, // or 'Annotate'
+  tabsIds: [TABS.FINETUNE, TABS.FILTERS, TABS.ADJUST, TABS.ANNOTATE, /*TABS.WATERMARK*/], // or ['Adjust', 'Annotate', 'Watermark']
+  defaultTabId: TABS.FINETUNE, // or 'Annotate'
   defaultToolId: TOOLS.TEXT, // or 'Text'
 };
 
-    console.log(TABS)
+   
 
     // Assuming we have a div with id="editor_container"
     const filerobotImageEditor = new FilerobotImageEditor(
@@ -96,10 +81,7 @@ const editImage = (img, target, dialog) => {
     );
 
     filerobotImageEditor.render({
-        onClose: (closingReason) => {
-            console.log('Closing reason', closingReason);
-            filerobotImageEditor.terminate();
-        },
+         
     });
     return filerobotImageEditor;
 }
@@ -113,9 +95,9 @@ export default {
         mw.app.on('ready', () => {
             new EditorComponent();
             liveEditComponent();
-            mw.app.editor.on('editNodeRequest',function(element){
-                if(element.nodeName === 'IMG') {
-                    var editor = document.createElement('div');
+            const editImageDialog = async (url) => {
+                return new Promise(resolve => {
+                  var editor = document.createElement('div');
                     editor.style.height = 'calc(100vh - 300px)';
                     const footer = mw.element(`
                         <div class="d-flex justify-content-between w-100">
@@ -124,22 +106,48 @@ export default {
                         </div>
                     `);
 
-    
- 
+  
                     let imageEditor;
- 
 
                     const dlg = mw.dialog({width: 1000 , title:  mw.lang("Edit image"), content: editor, footer: footer.get(0) });
 
                     footer.find('[data-action="cancel"]').on('click', function(){
-                        dlg.remove()
-                    })
-                    footer.find('[data-action="save"]').on('click', function(){
-                        element.src = imageEditor.getCurrentImgData().imageData.imageBase64;
-                        dlg.remove()
-                    }) 
+                        dlg.remove();
+                        resolve();
+                    });
 
-                    imageEditor = editImage(element, editor, dlg)
+                    footer.find('[data-action="save"]').on('click', function(){
+                        resolve(imageEditor.getCurrentImgData().imageData.imageBase64);
+                        dlg.remove();
+
+                    }) 
+                    $(dlg).on('Remove', resolve)
+
+                    imageEditor = editImage(url, editor, dlg)
+                });
+            }
+
+            mw.app.editor.on('editNodeRequest', async (element) => {
+                if(element.nodeName === 'IMG') {
+                  var src = await editImageDialog(element.src);
+                  if(src) {
+                    element.src = src
+                  }
+                  
+                } else if(element.style.backgroundImage) {
+                  var bg =  element.style.backgroundImage.trim().split('url(')[1];
+                   
+                  if(bg) {
+                    bg = bg.split(')')[0]
+                              .trim()
+                              .split('"')
+                              .join('');
+                              var src = await editImageDialog(bg);
+                    if(src) {
+                      element.style.backgroundImage = `url(${src})`
+                    }     
+                  }
+                              
                 } else {
                     element.contentEditable = true;
                     mw.app.richTextEditor.smallEditorInteract(element)

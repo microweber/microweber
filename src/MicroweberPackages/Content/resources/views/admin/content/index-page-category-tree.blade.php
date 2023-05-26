@@ -68,7 +68,7 @@
 
 <div id="pages-tree-wrapper"  >
 
-<div class="card m-3 p-3 h-100" id="pages-tree-container" >
+<div class="card m-3 p-3" id="pages-tree-container" >
 
     <button type="button" class="btn mw-admin-toggle-tree-navigation  border-0">
         <svg   fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24">
@@ -359,7 +359,7 @@
                     var treeHolder = mw.element('#admin-main-tree');
                     if(treeHolder) {
                         treeHolder.css({
-                            'height': 'calc(100vh - 220px)',
+                            'maxHeight': 'calc(100vh - 220px)',
                             'overflow': 'auto',
                             'minHeight': '200px',
                         });
