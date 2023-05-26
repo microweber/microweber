@@ -362,6 +362,10 @@ class LayoutsManager
                                 if ($to_return_temp['content_type'] !== 'post') {
                                     continue;
                                 }
+                            } else {
+                                if ($to_return_temp['content_type'] == 'post') {
+                                    continue;
+                                }
                             }
 
                             $layout_file = str_replace(DS, '/', $layout_file);
