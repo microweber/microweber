@@ -12,7 +12,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <h1 class="main-pages-title"><?php _e('Other settings'); ?></h1>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
 
@@ -113,7 +113,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </div>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body mb-3">
         <div class="row">
 
@@ -145,7 +145,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </div>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body mb-3">
         <div class="row">
 

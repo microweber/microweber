@@ -1129,7 +1129,7 @@ input[type=number] {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.3);
         z-index: 2;
         cursor: pointer;
     }
@@ -1148,9 +1148,12 @@ input[type=number] {
         align-items: center;
         visibility: hidden;
         position: absolute;
-        top: 43%;
-        right: 43%;
+        top: 44%;
+        right: 41%;
         z-index: 3;
     }
 }
 
+.page-wrapper {
+    overflow-x: hidden;
+}

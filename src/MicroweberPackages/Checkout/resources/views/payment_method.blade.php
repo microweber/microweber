@@ -42,7 +42,7 @@
             <label class="font-weight-bold control-label mb-0 pt-2"><?php _e("Shipping method"); ?></label>
             <small class="text-muted d-block mb-2"> <?php _e("Your choice"); ?></small>
 
-            <div class="card mb-5">
+            <div class="card mb-7">
                 <div class="card-body d-flex p-3">
                     <div class="col-8">
 

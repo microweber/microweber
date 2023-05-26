@@ -11,7 +11,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <h1 class="main-pages-title"><?php _e('Autorespond E-mail settings'); ?></h1>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
             <script type="text/javascript">
@@ -57,7 +57,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </div>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
 
@@ -112,7 +112,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 </div>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
             <div class="col-xl-3 mb-xl-0 mb-3">
@@ -135,7 +135,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 </div>
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
         <div class="row">
 

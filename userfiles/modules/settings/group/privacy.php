@@ -9,7 +9,7 @@
 <h1 class="main-pages-title"><?php _e('Privacy policy'); ?></h1>
 
 
-<div class="card mb-5">
+<div class="card mb-7">
     <div class="card-body">
         <div class="row">
             <div class="col-xl-3 mb-xl-0 mb-3">
