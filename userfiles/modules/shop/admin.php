@@ -5,6 +5,8 @@
 <?php endif; ?>
 
 <?php
+
+
 if (isset($params["live_edit"]) and $params["live_edit"]) {
 
     $controller = \Illuminate\Support\Facades\App::make(\MicroweberPackages\Shop\Http\Controllers\LiveEditAdminController::class);
