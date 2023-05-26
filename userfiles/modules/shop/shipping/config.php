@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Shipping";
 $config['author'] = "Microweber";
-$config['ui_admin'] = false;
+$config['ui_admin'] = true;
 $config['ui'] = false;
 
 
