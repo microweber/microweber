@@ -36,8 +36,8 @@ class PostController extends AdminController
         $data = [];
 
         $data['post_design'] = false;
-        if (isset($request_data['post_design'])) {
-            $data['post_design'] = $request_data['post_design'];
+        if (isset($request_data['layout'])) {
+            $data['post_design'] = $request_data['layout'];
         }
 
         $data['content_id'] = 0;
