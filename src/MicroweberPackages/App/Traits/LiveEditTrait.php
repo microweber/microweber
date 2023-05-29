@@ -1,9 +1,12 @@
 <?php
+
 namespace MicroweberPackages\App\Traits;
 
+use Illuminate\Support\Facades\Vite;
 use MicroweberPackages\View\View;
 
-trait LiveEditTrait {
+trait LiveEditTrait
+{
 
     /**
      * Input the html to append live edit functionality
@@ -16,7 +19,7 @@ trait LiveEditTrait {
         if (is_admin()) {
             if (is_live_edit()) {
                 if (!defined('IN_EDIT')) {
-                    define('IN_EDIT',true);
+                    define('IN_EDIT', true);
                 }
                 $html = $this->liveEditToolbar($html);
             } else {
@@ -27,19 +30,22 @@ trait LiveEditTrait {
         return $html;
     }
 
-    public function liveEditToolbar($html)
+    public function liveEditToolbarIframe($html)
     {
-// @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
-
-        // Vite::image('logo.png');
-        dd('liveEditToolbar');
+        $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
+        if ($viteScript) {
+            $viteScriptSrc = '<script type="module" src="' . $viteScript . '"></script>';
+            $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
+            return $html;
+        }
     }
+
 
     /**
      * @deprecated This method is deprecated and should not be used anymore.
-     * Use the new liveEditToolbar() method instead.
+     *
      */
-    public function liveEditToolbarOld($html)
+    public function liveEditToolbar($html)
     {
         $toolbar = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
 

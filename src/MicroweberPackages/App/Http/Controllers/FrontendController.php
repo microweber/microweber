@@ -2,27 +2,15 @@
 
 namespace MicroweberPackages\App\Http\Controllers;
 
-use Illuminate\Contracts\Http\Kernel as HttpKernel;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Request;
-use MicroweberPackages\App\Http\Middleware\ApiAuth;
-use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
-use MicroweberPackages\App\Managers\Helpers\VerifyCsrfTokenHelper;
-use MicroweberPackages\App\Traits\LiveEditTrait;
-use MicroweberPackages\Helper\HTMLClean;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Option\Models\ModuleOption;
-use MicroweberPackages\Option\Models\Option;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
-use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -98,7 +86,6 @@ class FrontendController extends Controller
     }
 
 
-
     public function frontend($request_params = [])
     {
         if (isset($_GET['debug'])) {
@@ -107,7 +94,7 @@ class FrontendController extends Controller
             }
         }
 
-        if(empty($request_params) and (!empty($_REQUEST))){
+        if (empty($request_params) and (!empty($_REQUEST))) {
             $request_params = $_REQUEST;
         }
 
@@ -154,13 +141,11 @@ class FrontendController extends Controller
         }
 
 
-        $animations = get_option( 'animations-global', 'template');
+        $animations = get_option('animations-global', 'template');
         if ($animations) {
             // adds the animations definitions to the head
             mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
         }
-
-
 
 
         $page = false;
@@ -217,6 +202,7 @@ class FrontendController extends Controller
                     $page_url = app()->url_manager->param_unset('editmode', $page_url);
                     app()->user_manager->session_set('back_to_editmode', true);
                     app()->user_manager->session_set('editmode', false);
+                    app()->user_manager->session_set('editmode_iframe', false);
 
                     return app()->url_manager->redirect(app()->url_manager->site_url($page_url));
                 } else {
@@ -227,6 +213,9 @@ class FrontendController extends Controller
                         if ($editmode_sess == false) {
                             app()->user_manager->session_set('editmode', true);
                             app()->user_manager->session_set('back_to_editmode', false);
+                            if ($is_editmode == 'iframe') {
+                                app()->user_manager->session_set('editmode_iframe', true);
+                            }
                             $is_editmode = false;
                         }
 
@@ -240,6 +229,7 @@ class FrontendController extends Controller
 
             if (mw()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = app()->user_manager->session_get('editmode');
+                $is_editmode_iframe = app()->user_manager->session_get('editmode_iframe');
 
             } else {
                 $is_editmode = false;
@@ -403,15 +393,15 @@ class FrontendController extends Controller
             }
         }
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
-         if($is_preview_template){
-             $the_active_site_template = $is_preview_template;
+        if ($is_preview_template) {
+            $the_active_site_template = $is_preview_template;
 
-             if (!defined('ACTIVE_SITE_TEMPLATE')) {
-                 $content['active_site_template'] = $is_preview_template;
+            if (!defined('ACTIVE_SITE_TEMPLATE')) {
+                $content['active_site_template'] = $is_preview_template;
 
-                 $this->app->content_manager->define_constants($content);
-             }
-         }
+                $this->app->content_manager->define_constants($content);
+            }
+        }
         $date_format = $this->websiteOptions['date_format'];
         if ($date_format == false) {
             $date_format = 'Y-m-d H:i:s';
@@ -773,7 +763,7 @@ class FrontendController extends Controller
 
         }
 
-        if (isset($page['id']) AND $page['id'] != 0) {
+        if (isset($page['id']) and $page['id'] != 0) {
 
             // if(!isset($page['layout_file']) or $page['layout_file'] == false){
             $page = $this->app->content_manager->get_by_id($page['id']);
@@ -1051,7 +1041,6 @@ class FrontendController extends Controller
             }
 
 
-
             $l = $this->app->parser->process($l);
 
 
@@ -1088,7 +1077,6 @@ class FrontendController extends Controller
 
             $default_css_url = $this->app->template->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
-
 
 
             $headers = event_trigger('site_header', TEMPLATE_NAME);
@@ -1168,8 +1156,6 @@ class FrontendController extends Controller
             }
 
 
-
-
             // if ($is_editmode == true) {
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
                 if (!defined('CONTENT_TEMPLATE')) {
@@ -1233,9 +1219,6 @@ class FrontendController extends Controller
             }
 
 
-
-
-
             $template_config = $this->app->template->get_config();
             $enable_default_css = true;
             if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
@@ -1266,11 +1249,15 @@ class FrontendController extends Controller
             }
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($request_params['isolate_content_field'])) {
                 if ($is_admin == true) {
-                    $l = $this->liveEditToolbar($l);
+                    if ($is_editmode_iframe) {
+                        $l = $this->liveEditToolbarIframe($l);
+                    } else {
+                        $l = $this->liveEditToolbar($l);
+                    }
                 }
             } elseif ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
                 if (!isset($request_params['isolate_content_field']) and !isset($request_params['content_id'])) {
-                    if(!isset($_REQUEST['preview_layout'])) {
+                    if (!isset($_REQUEST['preview_layout'])) {
                         if ($back_to_editmode == true) {
                             $l = $this->liveEditToolbarBack($l);
                         }
@@ -1295,14 +1282,12 @@ class FrontendController extends Controller
 //            enable_blade
 
 
-            if(isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true){
-                $l =  app(StringBlade::class)->render($l, ['data' => $page]);
+            if (isset($template_config['settings']) and isset($template_config['settings']['enable_blade']) and $template_config['settings']['enable_blade'] == true) {
+                $l = app(StringBlade::class)->render($l, ['data' => $page]);
             }
 
 
-
-
-           // $l = mw()->template->add_csrf_token_meta_tags($l);
+            // $l = mw()->template->add_csrf_token_meta_tags($l);
 
             $is_embed = app()->url_manager->param('embed');
 
@@ -1366,7 +1351,7 @@ class FrontendController extends Controller
         } else {
             echo 'Error! Page is not found? Please login in the admin and make a page.';
 
-           // $this->app->cache_manager->clear();
+            // $this->app->cache_manager->clear();
 
             return;
         }
@@ -1472,7 +1457,6 @@ class FrontendController extends Controller
             return $response;
         }
     }
-
 
 
     public function robotstxt()
