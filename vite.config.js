@@ -22,7 +22,7 @@ export default defineConfig({
               //  'userfiles/modules/microweber/api/live-edit-app/index.js',
                // 'userfiles/modules/microweber/api/live-edit-app/app.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/live-page-scripts.js',
+                'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
                 'resources/css/microweber-admin-filament.css',
             ],
