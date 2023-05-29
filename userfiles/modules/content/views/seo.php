@@ -22,27 +22,25 @@
 
 
 
-
-
-
     <div class="col-md-12">
         <div class="form-group ">
             <label class="form-label"><?php _e("Meta description"); ?></label>
             <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
 
             <?php
+            $description = '';
+            if (isset($contentModel->description)) {
+                $description = $contentModel->description;
+            }
             echo $formBuilder->textArea('description')
                 ->setModel($contentModel)
-                ->value($data['description'])
+                ->value($description)
                 ->autocomplete(false);
             ?>
         </div>
     </div>
 
-
-
-
-
+    
     <div class="col-md-12">
         <div class="form-group ">
             <label class="form-label"><?php _e("Meta keywords"); ?></label>
@@ -54,7 +52,7 @@
             if (isset($contentModel->content_meta_keywords)) {
                 $keywords = $contentModel->content_meta_keywords;
             }
-            echo $formBuilder->Text('content_meta_keywords')
+            echo $formBuilder->text('content_meta_keywords')
                 ->setModel($contentModel)
                 ->value($keywords)
                 ->autocomplete(false);
