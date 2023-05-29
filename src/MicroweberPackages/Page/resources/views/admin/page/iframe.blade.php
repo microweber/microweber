@@ -36,7 +36,12 @@
 
     }
     .preview_frame_container.preview-in-self iframe {
+        @if(isset($iframeHeight))
+        height: calc(200vh - {{$iframeHeight}}) !important;
+        @else
         height: calc(200vh - 160px) !important;
+        @endif
+
     }
 
     .preview_frame_container.preview-in-iframe {
@@ -67,6 +72,7 @@
         @else
         transform: scale(0.25);
         @endif
+
         top: 0;
         position: absolute;
         left: 0;
