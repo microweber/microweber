@@ -10,17 +10,25 @@
     @livewireScripts
     @livewireStyles
     <?php print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
-    <link rel="stylesheet" href="<?php print site_url() ?>userfiles/modules/microweber/css/ui.css">
 
     <script>
-        mw.lib.require('microweber_ui');
+
 
         mw.lib.require('jqueryui');
     </script>
 
+    <?php
+
+    $bodyDarkClass = '';
+
+    if(isset($_COOKIE['admin_theme_dark'])){
+        $bodyDarkClass = 'theme-dark';
+    }
+    ?>
+
     @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
 </head>
-<body>
+<body class="{{ $bodyDarkClass }}">
 
 <script>
     mw.quickSettings = {}
