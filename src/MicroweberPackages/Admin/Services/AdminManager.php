@@ -52,7 +52,7 @@ class AdminManager
 
         $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Design', [
-                'attributes' => ['route'=>'admin.page.index'],
+                'attributes' => ['route'=>'admin.page.design'],
             ]);
 
         $this->menus['left_menu_top']->getChild('Website')

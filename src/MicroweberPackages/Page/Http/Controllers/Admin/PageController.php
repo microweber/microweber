@@ -68,4 +68,8 @@ class PageController extends AdminController
             'content_id'=>intval($id)
         ]);
     }
+
+    public function design() {
+        return view('page::admin.page.design', []);
+    }
 }
