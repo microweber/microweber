@@ -34,7 +34,7 @@ trait LiveEditTrait
     {
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
         if ($viteScript) {
-            $viteScriptSrc = '<script type="module" src="' . $viteScript . '"></script>';
+            $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
             $html = str_ireplace('</body>', $viteScriptSrc . '</body>', $html, $c);
             return $html;
         }
