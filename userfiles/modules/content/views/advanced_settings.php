@@ -166,37 +166,6 @@ if (isset($data['created_by']) and $data['created_by']) {
     }
     ?>
 
-<?php if ($showSeoSettings): ?>
-
-    <?php
-
-    $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
-    /**
-     * @var \MicroweberPackages\Form\FormElementBuilder $formBuilder
-     */
-    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
-    ?>
-
-
-    <!-- SEO Settings -->
-    <div class="card-body mb-3 card-collapse js-card-search-engine">
-        <div class="card-header no-border">
-            <h6><strong><?php _e('Search engine'); ?></strong></h6>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
-        </div>
-        <div class="card-body py-0">
-            <div class="collapse" id="seo-settings">
-                <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
-
-                <hr class="thin no-padding"/>
-                <?php
-                include "seo.php";
-                ?>
-
-            </div>
-        </div>
-    </div>
-<?php endif;?>
 
     <?php if ($showAdvancedSettings): ?>
     <!-- Advanced Settings -->
