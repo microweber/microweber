@@ -311,6 +311,9 @@ if (isset($params['quick_edit'])) {
                         <a href="#" x-on:click="showEditTab = 'details'"  class="btn btn-link">
                           <i class="mdi <?php echo $typeIcon; ?>" />  <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
+                        <a href="#" x-on:click="showEditTab = 'customFields'"  class="btn btn-link">
+                            <i class="mdi mdi-phone" /> <?php echo _e('Custom Fields'); ?>
+                        </a>
                         <a href="#" x-on:click="showEditTab = 'seo'"  class="btn btn-link">
                             <i class="mdi mdi-earth" /> <?php echo _e('SEO'); ?>
                         </a>
@@ -617,6 +620,14 @@ if (isset($params['quick_edit'])) {
 
                             <?php
                             include_once 'tabs.php';
+                            ?>
+
+                        </div>
+
+                        <div x-show="showEditTab=='customFields'" class="row">
+
+                            <?php
+                            include_once 'custom_fields.php';
                             ?>
 
                         </div>
