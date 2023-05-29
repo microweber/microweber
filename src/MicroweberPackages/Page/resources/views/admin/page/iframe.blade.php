@@ -32,16 +32,14 @@
         overflow: hidden;
     }
     .preview_frame_container.preview-in-self {
+        @if(isset($iframeHeight))
+        height: {{$iframeHeight}};
+        @else
         height: calc(50vh - 80px);
-
+        @endif
     }
     .preview_frame_container.preview-in-self iframe {
-        @if(isset($iframeHeight))
-        height: calc(200vh - {{$iframeHeight}}) !important;
-        @else
         height: calc(200vh - 160px) !important;
-        @endif
-
     }
 
     .preview_frame_container.preview-in-iframe {
