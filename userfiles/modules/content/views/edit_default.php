@@ -316,14 +316,14 @@ if (isset($params['quick_edit'])) {
                         </a>
                         <a href="#" x-on:click="showEditTab = 'advanced'" class="btn btn-link">
                             <i class="mdi mdi-cogs" />  <?php echo _e('Advanced'); ?>
-                        </a> 
+                        </a>
                     </div>
-                    <div x-html="showEditTab"></div>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+
+                        <div x-show="showEditTab=='details'" class="row">
                             <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
                                 <div class="">
                                     <div class="d-flex justify-content-between">
@@ -610,8 +610,28 @@ if (isset($params['quick_edit'])) {
                                     </div>
                                 <?php endif; ?>
                             </div>
+                        </div>
+
+                        <div x-show="showEditTab=='seo'" class="row">
+
+                             <?php
+                             $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
+                             $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+                             include_once 'seo.php';
+                             ?>
 
                         </div>
+
+                        <div x-show="showEditTab=='advanced'" class="row">
+
+                            <?php
+                            include_once 'tabs.php';
+                            ?>
+
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -643,8 +663,6 @@ if (isset($params['quick_edit'])) {
 
                 <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
                 <?php include(__DIR__ . '/edit_default_scripts.php'); ?>
-
-
 
 
             </div>
