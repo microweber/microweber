@@ -614,6 +614,11 @@ if (isset($params['quick_edit'])) {
                                     </div>
                                 <?php endif; ?>
                             </div>
+
+                            <?php
+                            include_once 'tabs.php';
+                            ?>
+
                         </div>
 
                         <div x-show="showEditTab=='seo'" class="row">
@@ -624,7 +629,6 @@ if (isset($params['quick_edit'])) {
 
                         <div x-show="showEditTab=='advanced'" class="row">
                             <?php
-                            dump($params);
                             include_once 'advanced_settings.php';
                             ?>
                         </div>

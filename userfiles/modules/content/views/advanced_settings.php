@@ -294,10 +294,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
                     </div>
-
-
-
-
                 </div>
 
                 <?php endif; ?>
@@ -360,22 +356,11 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <?php endif; ?>
 
 
-
-
-
                     <div class="row  ">
-
-
-
 
                         <div class="col-12">
 
-
                             <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
-
-
-
-
 
                             <div  class="collapse"   id="set-a-specific-publish-date">
                                 <div class="row">
@@ -466,10 +451,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
 
-
-
-
-
             </div>
 
     <?php endif; ?>
@@ -477,12 +458,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
 
-
-
-
 <?php include (__DIR__.'/content_delete_btns.php')?>
-
-
 
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>

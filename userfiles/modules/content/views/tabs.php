@@ -92,6 +92,8 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
                 </div>
             </div>
         </div>
+
+    
     <?php endif; ?>
 
     <?php /*if (trim($data['content_type']) == 'product'):  */?><!--
