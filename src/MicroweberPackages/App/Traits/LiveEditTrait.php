@@ -29,6 +29,18 @@ trait LiveEditTrait {
 
     public function liveEditToolbar($html)
     {
+// @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+
+        // Vite::image('logo.png');
+        dd('liveEditToolbar');
+    }
+
+    /**
+     * @deprecated This method is deprecated and should not be used anymore.
+     * Use the new liveEditToolbar() method instead.
+     */
+    public function liveEditToolbarOld($html)
+    {
         $toolbar = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
 
         $layoutToolbar = new View($toolbar);
