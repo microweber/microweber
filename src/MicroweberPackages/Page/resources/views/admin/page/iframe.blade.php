@@ -32,8 +32,11 @@
         overflow: hidden;
     }
     .preview_frame_container.preview-in-self {
+        @if(isset($iframeHeight))
+        height: {{$iframeHeight}};
+        @else
         height: calc(50vh - 80px);
-
+        @endif
     }
     .preview_frame_container.preview-in-self iframe {
         height: calc(200vh - 160px) !important;
@@ -57,8 +60,17 @@
     }
 
     .preview_frame_container iframe {
+        @if (isset($iframeWidth))
+        width: {{$iframeWidth}};
+        @else
         width: 400%;
-        transform: scale(.25);
+        @endif
+        @if(isset($transformScale))
+        transform: scale({{$transformScale}});
+        @else
+        transform: scale(0.25);
+        @endif
+
         top: 0;
         position: absolute;
         left: 0;

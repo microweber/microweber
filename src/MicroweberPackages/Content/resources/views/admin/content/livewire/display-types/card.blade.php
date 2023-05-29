@@ -20,7 +20,14 @@
 
                     <div class="col manage-post-item-col-2 mx-md-4" style="max-width: 120px; min-width: 120px;">
 
-                        @include('content::admin.content.livewire.components.picture', ['content'=>$content])
+                        @include('page::admin.page.iframe', [
+                            'iframeWidth'=> '600%',
+                            'iframeHeight'=> '100px',
+                            'transformScale'=>'0.16',
+                            'url'=>$content->link() . '?no_editmode=true'
+                         ])
+
+{{--                    @include('content::admin.content.livewire.components.picture', ['content'=>$content])--}}
 
                     </div>
 

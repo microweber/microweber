@@ -358,6 +358,16 @@ class LayoutsManager
                                 }
                             }
 
+                            if (isset($options['content_type']) && $options['content_type'] == 'post') {
+                                if ($to_return_temp['content_type'] !== 'post') {
+                                    continue;
+                                }
+                            } else {
+                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] == 'post') {
+                                    continue;
+                                }
+                            }
+
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $layout_file_preview = str_replace('/', '__', $layout_file);
 
@@ -373,7 +383,6 @@ class LayoutsManager
                             if (in_array($layout_file, $skipLayoutFiles)) {
                                 continue;
                             }
-
 
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
