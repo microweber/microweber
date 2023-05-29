@@ -168,15 +168,13 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
     <?php if ($showAdvancedSettings): ?>
-    <!-- Advanced Settings -->
-    <div class="card-body mb-3 card-collapse">
-        <div class="card-header no-border">
-            <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
-        </div>
 
-        <div class="card-body py-0">
-            <div class="collapse" id="advanced-settings">
+    <!-- Advanced Settings -->
+    <div id="advanced-settings">
+
+                <h6><strong><?php _e('Advanced settings') ?></strong></h6>
+
+
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -473,8 +471,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
             </div>
-        </div>
-    </div>
+
     <?php endif; ?>
 
 
