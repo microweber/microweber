@@ -1,4 +1,5 @@
 <?php
+
 $is_new = template_var('new_page');
 
 
@@ -54,12 +55,15 @@ if (isset($params['content_type'])) {
     if ($params['content_type'] == 'product') {
         //$data['content_type'] = 'post';
 //        $data['subtype'] = 'product';
-    } elseif ($params['subtype'] == 'post') {
+    } elseif (isset($params['subtype']) && $params['subtype'] == 'post') {
     //    $data['content_type'] = 'post';
 //        $data['subtype'] = 'post';
 
-    } elseif ($params['subtype'] == 'static' or $params['subtype'] == 'dynamic') {
-        $title_placeholder = "New page title";
+    } elseif (isset($params['subtype'])) {
+
+        if ($params['subtype'] == 'static' or $params['subtype'] == 'dynamic') {
+            $title_placeholder = "New page title";
+        }
 
     }
 }

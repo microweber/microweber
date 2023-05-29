@@ -1,6 +1,11 @@
 <div class="row">
 
     <div class="col-md-12">
+        <h6><strong><?php _e('Search engine'); ?></strong></h6>
+        <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
+    </div>
+
+    <div class="col-md-12">
         <div class="form-group ">
             <label class="form-label"><?php _e("Meta title"); ?></label>
             <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
@@ -40,7 +45,7 @@
         </div>
     </div>
 
-    
+
     <div class="col-md-12">
         <div class="form-group ">
             <label class="form-label"><?php _e("Meta keywords"); ?></label>
@@ -62,14 +67,6 @@
         <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
 
     </div>
-
-
-
-
-
-
-
-
 
 
     <div class="col-md-12">

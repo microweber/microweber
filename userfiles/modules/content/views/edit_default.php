@@ -320,6 +320,10 @@ if (isset($params['quick_edit'])) {
                     </div>
                 </div>
 
+                <?php
+                $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
+                $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+                ?>
                 <div class="card">
                     <div class="card-body">
 
@@ -613,24 +617,17 @@ if (isset($params['quick_edit'])) {
                         </div>
 
                         <div x-show="showEditTab=='seo'" class="row">
-
                              <?php
-                             $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
-                             $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
-
                              include_once 'seo.php';
                              ?>
-
                         </div>
 
                         <div x-show="showEditTab=='advanced'" class="row">
-
                             <?php
-                            include_once 'tabs.php';
+                            dump($params);
+                            include_once 'advanced_settings.php';
                             ?>
-
                         </div>
-
 
                     </div>
                 </div>
