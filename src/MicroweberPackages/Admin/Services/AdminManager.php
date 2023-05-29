@@ -51,6 +51,11 @@ class AdminManager
             ->setExtra('orderNumber', 2);
 
         $this->menus['left_menu_top']->getChild('Website')
+            ->addChild('Design', [
+                'attributes' => ['route'=>'admin.page.index'],
+            ]);
+
+        $this->menus['left_menu_top']->getChild('Website')
             ->addChild('Pages', [
                 'attributes' => ['route'=>'admin.page.index'],
             ]);
