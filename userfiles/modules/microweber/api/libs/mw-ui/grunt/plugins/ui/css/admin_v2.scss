@@ -55,8 +55,12 @@ body, .is_admin {
     background-color: var(--tblr-bg-surface);
 }
 
-.mdi.text-muted, label {
+.mdi.text-muted, label, .tblr-body-color {
     color: var(--tblr-body-color) !important;
+}
+
+.tblr-body-bg {
+    background-color: var(--tblr-body-bg) !important;
 }
 
 .navbar-vertical.navbar-expand-lg.admin-dashboard-left-nav{
