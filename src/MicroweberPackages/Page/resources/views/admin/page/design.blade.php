@@ -33,6 +33,17 @@
             <p>Change the design of your page</p>
         </div>
 
+        <div class="card mb-4">
+            <div class="card-body">
+                <b>Page</b>
+                <select class="form-control">
+                @foreach($allLayouts as $layout)
+                   <option value="{{$layout['layout_file_preview']}}">{{$layout['name']}}</option>
+                @endforeach
+                </select>
+            </div>
+        </div>
+
         <div>
             <div class="preview_frame_container preview-in-self">
                <iframe clas="preview_frame_small" src="{{site_url()}}"></iframe>
