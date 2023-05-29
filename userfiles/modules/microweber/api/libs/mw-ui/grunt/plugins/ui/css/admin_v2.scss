@@ -32,8 +32,18 @@ body:not(.theme-dark, .is_admin) {
 
 
 
-.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
+.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header, .FIE_root.jUrMob {
     background-color: var(--tblr-bg-surface);
+}
+.gcXnsi.FIE_tab {
+    background-color: var(--tblr-body-bg);
+
+    &:hover, &[aria-selected="true"] {
+        background-color: var(--tblr-bg-surface-tertiary);
+       svg {
+            color: var(--tblr-primary);
+       }
+    }
 }
 
 body, .is_admin {
@@ -74,7 +84,7 @@ body, .is_admin {
     }
 
     .add-new {
-         
+
         visibility: hidden;
 
         svg {

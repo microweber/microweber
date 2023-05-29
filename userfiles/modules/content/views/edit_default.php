@@ -299,9 +299,8 @@ if (isset($params['quick_edit'])) {
         </div>
 
 
-        <div class="row">
+        <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body mx-5">
-
 
                 <?php if(isset($data['is_deleted']) and $data['is_deleted']) :  ?>
                     <?php include (__DIR__.'/content_delete_btns.php')?>
@@ -309,13 +308,13 @@ if (isset($params['quick_edit'])) {
 
                 <div class="col-12 mt-3">
                     <div class="d-flex space-x-4">
-                        <a href="#" class="btn btn-link">
+                        <a href="#" x-on:click="showEditTab = 'details'"  class="btn btn-link">
                           <i class="mdi <?php echo $typeIcon; ?>" />  <?php echo $type; ?> <?php echo _e('Details'); ?>
                         </a>
-                        <a href="#" class="btn btn-link">
+                        <a href="#" x-on:click="showEditTab = 'seo'"  class="btn btn-link">
                             <i class="mdi mdi-earth" /> <?php echo _e('SEO'); ?>
                         </a>
-                        <a href="#" class="btn btn-link">
+                        <a href="#" x-on:click="showEditTab = 'advanced'" class="btn btn-link">
                             <i class="mdi mdi-cogs" />  <?php echo _e('Advanced'); ?>
                         </a>
                     </div>
@@ -323,12 +322,12 @@ if (isset($params['quick_edit'])) {
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
-                                <div class="card-header-fix">
-                                    <div class="card-header justify-content-between">
-                                        <h5 class="card-title"><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
+                        <div x-show="showEditTab=='details'" class="row">
+                            <div class="content-title-field-row card-body mb-3 border-0" id="content-title-field-row">
+                                <div class="">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title"><i class="mdi <?php echo $typeIcon; ?> text-primary mr-3"></i> <strong><?php _e($action_text); ?></strong></h5>
 
                                         <div id="content-title-field-buttons" class="mw-page-component-disabled">
 
@@ -611,8 +610,28 @@ if (isset($params['quick_edit'])) {
                                     </div>
                                 <?php endif; ?>
                             </div>
+                        </div>
+
+                        <div x-show="showEditTab=='seo'" class="row">
+
+                             <?php
+                             $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
+                             $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
+
+                             include_once 'seo.php';
+                             ?>
 
                         </div>
+
+                        <div x-show="showEditTab=='advanced'" class="row">
+
+                            <?php
+                            include_once 'tabs.php';
+                            ?>
+
+                        </div>
+
+
                     </div>
                 </div>
 
@@ -644,8 +663,6 @@ if (isset($params['quick_edit'])) {
 
                 <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
                 <?php include(__DIR__ . '/edit_default_scripts.php'); ?>
-
-
 
 
             </div>
