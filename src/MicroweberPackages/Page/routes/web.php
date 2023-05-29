@@ -12,4 +12,5 @@ Route::name('admin.')
     ->namespace('\MicroweberPackages\Page\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('page', 'PageController', ['except' => ['show']]);
+        Route::get('page/design', 'PageController@design')->name('page.design');
     });
