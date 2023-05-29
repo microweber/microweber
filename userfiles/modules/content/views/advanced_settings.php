@@ -473,3 +473,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
+
+<?php event_trigger('content.views.advanced_settings', $data); ?>
+

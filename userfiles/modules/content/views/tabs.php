@@ -93,7 +93,7 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             </div>
         </div>
 
-    
+
     <?php endif; ?>
 
     <?php /*if (trim($data['content_type']) == 'product'):  */?><!--
@@ -116,14 +116,6 @@ $custom_tabs = mw()->module_manager->ui('content.edit.tabs');
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
-
-    <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>" content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"/>
-    <?php event_trigger('content.views.advanced_settings', $data); ?>
-
-
-    <div class="mt-9">
-        <!--  -->
-    </div>
 
 </div>
 
