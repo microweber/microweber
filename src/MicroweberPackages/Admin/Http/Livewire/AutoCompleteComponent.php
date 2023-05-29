@@ -3,9 +3,11 @@
 namespace MicroweberPackages\Admin\Http\Livewire;
 
 use Livewire\Component;
+use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 
 class AutoCompleteComponent extends DropdownComponent
 {
+    use AuthorizesRequests;
     /**
      * The eloquent laravel model
      * @var
@@ -118,7 +120,7 @@ class AutoCompleteComponent extends DropdownComponent
     public function selectItem(string $item)
     {
         $this->selectedItem = $item;
-        
+
         if (empty($item)) {
             $this->selectedItemText = '';
         }
