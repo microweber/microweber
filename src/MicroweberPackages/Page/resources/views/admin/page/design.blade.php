@@ -33,22 +33,29 @@
             <p>Change the design of your page</p>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4" x-data="{previewUrl: '{{site_url()}}'}">
             <div class="card-body">
-                <b>Page</b>
-                <select class="form-control">
-                @foreach($allLayouts as $layout)
-                   <option value="{{$layout['layout_file_preview']}}">{{$layout['name']}}</option>
-                @endforeach
-                </select>
+             <div>
+                 <b>Page</b>
+                 <select x-model="previewUrl" class="form-control">
+                     @foreach($allLayouts as $layout)
+                         <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                     @endforeach
+                 </select>
+             </div>
+            <div class="mt-3">
+
+                <button type="button" @click="" class="btn btn-primary">Next Layout</button>
+                <button type="button" class="btn btn-primary">Previous Layout</button>
+
+                <div x-html="previewUrl"></div>
+                <div class="preview_frame_container preview-in-self">
+                    <iframe class="preview_frame_small" :src="previewUrl"></iframe>
+                </div>
+            </div>
             </div>
         </div>
 
-        <div>
-            <div class="preview_frame_container preview-in-self">
-               <iframe clas="preview_frame_small" src="{{site_url()}}"></iframe>
-            </div>
-        </div>
 
 
     </div>
