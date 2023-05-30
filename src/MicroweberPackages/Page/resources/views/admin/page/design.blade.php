@@ -74,12 +74,12 @@
                                           @if(isset($layout['pages']) && count($layout['pages']) > 1)
                                           <optgroup label="{{$layout['name']}}">
                                               @foreach($layout['pages'] as $page)
-                                                  <option data-edit-url="{{$page['edit_url']}}" value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
+                                                  <option data-edit-url="{{$page['edit_url']}}" value="{{$page['preview_url']}}">{{$page['name']}}</option>
                                               @endforeach
-                                                  <option data-layout="{{$layout['layout_file_preview']}}" value="{{$layout['layout_file_preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
+                                              <option data-create-url="{{$layout['create_url']}}" value="{{$layout['preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
                                           </optgroup>
                                           @else
-                                              <option data-layout="{{$layout['layout_file_preview']}}" value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                              <option data-create-url="{{$layout['create_url']}}" data-edit-url="{{$layout['edit_url']}}" value="{{$layout['preview_url']}}">{{$layout['name']}}</option>
                                           @endif
                                       @endforeach
                                   </select>

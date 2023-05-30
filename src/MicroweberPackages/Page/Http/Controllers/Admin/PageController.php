@@ -102,6 +102,7 @@ class PageController extends AdminController
 
             $layoutUrl = [];
             $layoutUrl['preview_url'] = $layout['layout_file_preview_url'];
+            $layoutUrl['name'] = $layout['name'];
             $layoutUrl['edit_url'] = false;
             $layoutUrl['create_url'] = route('admin.page.create') . '?layout=' . $layout['layout_file_preview'];
             $layoutUrl['pages'] = [];
@@ -109,6 +110,9 @@ class PageController extends AdminController
             foreach ($getPages as $page) {
 
                 $pageUrl = [];
+                $pageUrl['name'] = $page['title'];
+                $pageUrl['edit_url'] = false;
+                $pageUrl['create_url'] = false;
                 $pageUrl['preview_url'] = $page['url'] . '?no_editmode=true';
 
                 if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {
@@ -120,9 +124,7 @@ class PageController extends AdminController
             $layoutUrls[] = $layoutUrl;
         }
 
-        dd($layoutUrls);
-
-        $data['allLayouts'] = $layouts;
+        $data['allLayouts'] = $layoutUrls;
 
         return view('page::admin.page.design', $data);
     }
