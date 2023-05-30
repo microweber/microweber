@@ -58,8 +58,8 @@
                     </div>
 
                     <div class="col-lg-6 col-12 text-end">
-                        <a href="" class="btn btn-outline-primary btn-sm"><?php _e("Preview") ?></a>
-                        <a href="" class="btn btn-primary btn-sm"><?php _e("Customize") ?></a>
+                        <a href="" target="_new" class="js-layout-preview btn btn-outline-primary btn-sm"><?php _e("Preview") ?></a>
+                        <a href="" class="js-layout-customize btn btn-primary btn-sm"><?php _e("Customize") ?></a>
                     </div>
                 </div>
 
@@ -71,7 +71,15 @@
                               <div class="col-xl-2 col-lg-4 col-md-6 col-12">
                                   <select class="js-select-layout form-select border-0">
                                       @foreach($allLayouts as $layout)
-                                          <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                          @if(isset($layout['pages']) && count($layout['pages']) > 1)
+                                          <optgroup label="{{$layout['name']}}">
+                                              @foreach($layout['pages'] as $page)
+                                                  <option value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
+                                              @endforeach
+                                          </optgroup>
+                                          @else
+                                              <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                          @endif
                                       @endforeach
                                   </select>
                               </div>
@@ -88,6 +96,10 @@
                                     $('.js-select-layout').change(function () {
                                         var layoutUrl = $(this).val();
                                         $('.preview_frame_small').attr('src', layoutUrl);
+
+                                        $('.js-layout-preview').attr('href', layoutUrl);
+                                        $('.js-layout-customize').attr('href', layoutUrl);
+
                                     });
                                    $('.js-previous-layout').click(function () {
                                        var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
