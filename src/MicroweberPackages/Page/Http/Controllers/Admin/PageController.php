@@ -100,8 +100,10 @@ class PageController extends AdminController
         $getLayouts = mw()->layouts_manager->get_all($layout_options);
         foreach ($getLayouts as $layout) {
             $layout['edit_url'] = '';
-            foreach ($getPages as $page) {
+            $layout['pages'] = [];
 
+            foreach ($getPages as $page) {
+                
                 $page['page_preview_url'] = $page['url'] . '?no_editmode=true';
 
                 if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {

@@ -98,7 +98,7 @@
                                         $('.preview_frame_small').attr('src', layoutUrl);
 
                                         $('.js-layout-preview').attr('href', layoutUrl);
-                                        $('.js-layout-customize').attr('href', layoutUrl);
+                                        $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
 
                                     });
                                    $('.js-previous-layout').click(function () {
