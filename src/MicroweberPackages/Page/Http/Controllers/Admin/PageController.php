@@ -123,6 +123,13 @@ class PageController extends AdminController
             if (count($layoutUrl['pages']) == 1) {
                 $layoutUrl['create_url'] = false;
                 $layoutUrl['edit_url'] = $layoutUrl['pages'][0]['edit_url'];
+            } else {
+                $layoutUrl['pages'][] = [
+                  'name' => 'Create new page',
+                   'edit_url' => false,
+                   'create_url' => $layoutUrl['create_url'],
+                     'preview_url' => $layout['layout_file_preview_url']
+                ];
             }
 
             $layoutUrls[] = $layoutUrl;
