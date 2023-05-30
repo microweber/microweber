@@ -94,22 +94,7 @@
                            <script>
                                $(document).ready(function () {
                                     $('.js-select-layout').change(function () {
-
-                                        var livePreviewUrl = $(this).val();
-                                        var createUrl = $(this).find(':selected').data('create-url');
-                                        var editUrl = $(this).find(':selected').data('edit-url');
-
-                                        $('.preview_frame_small').attr('src', livePreviewUrl);
-                                        $('.js-layout-preview').attr('href', livePreviewUrl);
-
-                                        if (editUrl.length > 3) {
-                                            $('.js-layout-customize').html('<?php _e("Customize") ?>');
-                                            $('.js-layout-customize').attr('href', editUrl);
-                                        } else {
-                                            $('.js-layout-customize').attr('href', createUrl);
-                                            $('.js-layout-customize').html('<?php _e("Create") ?>');
-                                        }
-
+                                       selectLayout();
                                     });
                                    $('.js-previous-layout').click(function () {
                                        var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
@@ -129,6 +114,24 @@
                                         var nextLayout = $('.js-select-layout option').eq(nextLayoutIndex).val();
                                         $('.js-select-layout').val(nextLayout).trigger('change');
                                    });
+                                   function selectLayout()
+                                   {
+                                       var livePreviewUrl =  $(this).find(':selected').val();
+                                       var createUrl = $(this).find(':selected').data('create-url');
+                                       var editUrl = $(this).find(':selected').data('edit-url');
+
+                                       $('.preview_frame_small').attr('src', livePreviewUrl);
+                                       $('.js-layout-preview').attr('href', livePreviewUrl);
+
+                                       if (editUrl.length > 3) {
+                                           $('.js-layout-customize').html('<?php _e("Customize") ?>');
+                                           $('.js-layout-customize').attr('href', editUrl);
+                                       } else {
+                                           $('.js-layout-customize').attr('href', createUrl);
+                                           $('.js-layout-customize').html('<?php _e("Create") ?>');
+                                       }
+                                   }
+                                   selectLayout();
                                });
                            </script>
 
