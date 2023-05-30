@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="col-lg-6 col-12 text-end">
-                        <a href="" class="js-layout-preview btn btn-outline-primary btn-sm"><?php _e("Preview") ?></a>
+                        <a href="" target="_new" class="js-layout-preview btn btn-outline-primary btn-sm"><?php _e("Preview") ?></a>
                         <a href="" class="js-layout-customize btn btn-primary btn-sm"><?php _e("Customize") ?></a>
                     </div>
                 </div>

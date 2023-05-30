@@ -19,7 +19,7 @@
                 <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4 ">
                     <div class="card mw-create-page-admin-wrapper">
                         <div id="mw-create-page-card-overlay"></div>
-                      
+
 
 {{--                        200%--}}
 {{--                        0.50--}}
