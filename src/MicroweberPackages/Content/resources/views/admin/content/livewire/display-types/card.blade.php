@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="col item-author manage-post-item-col-4 d-xl-block d-none">
-                        <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>
+{{--                        <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>--}}
                     </div>
 
                 </div>

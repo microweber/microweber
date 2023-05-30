@@ -41,8 +41,8 @@
             @endforeach
              </span>
     @endif
-    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
-       href="{{$content->link()}}">
-        <small class="text-muted">{{$content->link()}}</small>
-    </a>
+{{--    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"--}}
+{{--       href="{{$content->link()}}">--}}
+{{--        <small class="text-muted">{{$content->link()}}</small>--}}
+{{--    </a>--}}
 </div>
