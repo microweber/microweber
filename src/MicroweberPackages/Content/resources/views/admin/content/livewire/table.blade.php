@@ -7,14 +7,14 @@
         @include('content::admin.content.livewire.table-includes.table-tr-reoder-js')
 
         @if($displayFilters)
-       <div class="row py-3">
-           <div class="d-flex align-items-center justify-content-between">
-               @include('content::admin.content.livewire.card-header')
+            <div class="row py-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    @include('content::admin.content.livewire.card-header')
 
-               <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
-                   <div class="input-group input-group-flat ">
-                       <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
-                       <span class="input-group-text">
+                    <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
+                        <div class="input-group input-group-flat ">
+                            <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
+                            <span class="input-group-text">
                         @include('content::admin.content.livewire.components.button-filter')
                         <div class="dropdown-menu p-2">
                             @if(!empty($dropdownFilters))
@@ -36,67 +36,67 @@
 
 
                    </span>
-                   </div>
-               </div>
+                        </div>
+                    </div>
 
 
-               <div class="text-end">
-                   <a href="" class="btn btn-primary"><?php _e("Create new page") ?></a>
-               </div>
+                    <div class="text-end">
+                        <a href="" class="btn btn-primary"><?php _e("Create new page") ?></a>
+                    </div>
 
 
-               @if(!empty($appliedFiltersFriendlyNames))
-                   @include('content::admin.content.livewire.components.button-clear-filters')
-               @endif
-           </div>
-       </div>
+                    @if(!empty($appliedFiltersFriendlyNames))
+                        @include('content::admin.content.livewire.components.button-clear-filters')
+                    @endif
+                </div>
+            </div>
         @endif
 
-       <div class="row py-3">
-           <div class="d-flex flex-wrap">
+        <div class="row py-3">
+            <div class="d-flex flex-wrap">
 
-               @php
-                   if(!empty($dropdownFilters)) {
-                       foreach($dropdownFilters as $dropdownFilterGroup) {
-                           foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
-                               $skipDropdownFilter = false;
-                               if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
-                                   $skipDropdownFilter = true;
-                               }
-                               if (!$skipDropdownFilter) {
+                @php
+                    if(!empty($dropdownFilters)) {
+                        foreach($dropdownFilters as $dropdownFilterGroup) {
+                            foreach($dropdownFilterGroup['filters'] as $dropdownFilter) {
+                                $skipDropdownFilter = false;
+                                if(isset($dropdownFilter['type']) && $dropdownFilter['type'] == 'separator') {
+                                    $skipDropdownFilter = true;
+                                }
+                                if (!$skipDropdownFilter) {
 
-                                   if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
-                                           $dropdownFilterExp = explode('.', $dropdownFilter['key']);
-                                           if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
-               @endphp
-               @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
-                  'fieldName'=>$dropdownFilter['name'],
-                  'fieldKey'=>$dropdownFilterExp[1],
-                  'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
-                 ])
-               @php
-                   }
-               continue;
-           }
+                                    if (isset($dropdownFilter['key']) && strpos($dropdownFilter['key'], '.') !== false) {
+                                            $dropdownFilterExp = explode('.', $dropdownFilter['key']);
+                                            if (isset($showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]])) {
+                @endphp
+                @include('content::admin.content.livewire.table-filters.' . $dropdownFilterExp[0], [
+                   'fieldName'=>$dropdownFilter['name'],
+                   'fieldKey'=>$dropdownFilterExp[1],
+                   'fieldValue'=>$showFilters[$dropdownFilterExp[0]][$dropdownFilterExp[1]],
+                  ])
+                @php
+                    }
+                continue;
+            }
 
 
-               if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
-                   @endphp
-                   @if (isset($dropdownFilter['viewNamespace']))
-                       @include($dropdownFilter['viewNamespace'])
-                   @else
-                       @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
-                   @endif
-                   @php
-                       }
-                   }
-               }
-       }
-   }
-               @endphp
+                if (isset($showFilters[$dropdownFilter['key']]) && $showFilters[$dropdownFilter['key']]) {
+                @endphp
+                @if (isset($dropdownFilter['viewNamespace']))
+                    @include($dropdownFilter['viewNamespace'])
+                @else
+                    @include('content::admin.content.livewire.table-filters.'.$dropdownFilter['key'])
+                @endif
+                @php
+                    }
+                }
+            }
+    }
+}
+                @endphp
 
-           </div>
-       </div>
+            </div>
+        </div>
 
 
         @if($contents->total() > 0)
@@ -113,14 +113,14 @@
                             </button>
                             <div class="dropdown-menu p-3">
                                 @foreach($showColumns as $column=>$columnShow)
-                                   <div class="dropdown-item">
-                                       <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
-                                           <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
-                                           <span class="form-check-label">
+                                    <div class="dropdown-item">
+                                        <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
+                                            <span class="form-check-label">
                                                 {{ _e(ucfirst($column)) }}
                                             </span>
-                                       </label>
-                                   </div>
+                                        </label>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -154,7 +154,6 @@
                                 <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>
                             </div>
                         @endif
-                        @endif
 
                         @if(count($checked) > 0)
                             <div class="pull-left">
@@ -168,12 +167,14 @@
                                         <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">{{ _e('Unpublish') }}</button></li>
                                         <li><button class="dropdown-item" type="button" wire:click="multipleDelete">{{ _e('Move to trash') }}</button></li>
                                         <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">{{ _e('Delete Forever') }}</button></li>
-                                            <?php if($isInTrashed): ?>
+                                        <?php if($isInTrashed): ?>
                                         <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">{{ _e('Restore from trash') }}</button></li>
                                         <?php endif; ?>
                                     </ul>
                                 </div>
                             </div>
+                        @endif
+
                     </div>
                 @endif
             </div>
