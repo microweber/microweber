@@ -1178,3 +1178,14 @@ input[type=number] {
 .page-wrapper {
     overflow-x: hidden;
 }
+
+.mw-content-vision-tabs {
+    border-color: transparent !important;
+    color: var(--tblr-body-color) !important;
+
+    &:active, &:hover, &.active {
+        background-color: transparent !important;
+        color: var(--tblr-body-color) !important;
+        border-color: var(--tblr-body-color) !important;
+    }
+}

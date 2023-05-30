@@ -41,7 +41,7 @@
 
 
                     <div class="text-end">
-                        <a href="" class="btn btn-primary"><?php _e("Create new page") ?></a>
+                        <a href="" class="btn btn-dark"><?php _e("Create New Page") ?></a>
                     </div>
 
 
@@ -106,9 +106,9 @@
                         @include('content::admin.content.livewire.components.display-as')
                     </div>
 
-                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile pe-1">
+                    <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile">
                         <div class="">
-                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ _e('Columns') }}
                             </button>
                             <div class="dropdown-menu p-3">
@@ -158,7 +158,7 @@
                         @if(count($checked) > 0)
                             <div class="pull-left">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         {{ _e('Bulk Actions') }}
                                     </button>
                                     <ul class="dropdown-menu">
