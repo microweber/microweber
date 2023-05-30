@@ -103,7 +103,7 @@ class PageController extends AdminController
             $layout['pages'] = [];
 
             foreach ($getPages as $page) {
-                
+
                 $page['page_preview_url'] = $page['url'] . '?no_editmode=true';
 
                 if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {

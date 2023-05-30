@@ -76,6 +76,7 @@
                                               @foreach($layout['pages'] as $page)
                                                   <option value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
                                               @endforeach
+                                                  <option value="{{$layout['layout_file_preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
                                           </optgroup>
                                           @else
                                               <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
