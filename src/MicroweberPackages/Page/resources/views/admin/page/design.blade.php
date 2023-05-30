@@ -116,9 +116,9 @@
                                    });
                                    function selectLayout()
                                    {
-                                       var livePreviewUrl =  $(this).find(':selected').val();
-                                       var createUrl = $(this).find(':selected').data('create-url');
-                                       var editUrl = $(this).find(':selected').data('edit-url');
+                                       var livePreviewUrl =  $('.js-select-layout').find(':selected').val();
+                                       var createUrl = $('.js-select-layout').find(':selected').data('create-url');
+                                       var editUrl = $('.js-select-layout').find(':selected').data('edit-url');
 
                                        $('.preview_frame_small').attr('src', livePreviewUrl);
                                        $('.js-layout-preview').attr('href', livePreviewUrl);
