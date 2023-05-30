@@ -65,7 +65,7 @@
 
                    <div class="card-body shadow-sm p-0">
                        <div class="row">
-                           <div class="card-header d-flex flex-wrap align-items-center justify-content-between shadow-sm">
+                           <div class="card-header d-flex flex-wrap align-items-center justify-content-between shadow-sm p-3">
                               <div class="col-xl-2 col-lg-4 col-md-6 col-12">
                                   <select x-model="previewUrl" class="form-select border-0">
                                       @foreach($allLayouts as $layout)

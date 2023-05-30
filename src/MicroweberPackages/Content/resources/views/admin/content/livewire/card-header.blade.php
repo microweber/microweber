@@ -1,5 +1,5 @@
-<div class="card-header row">
-    <div class="col d-flex justify-content-center align-items-center">
+<div class="card-header">
+    <div class="col d-flex justify-content-start align-items-center">
         <div class="d-flex align-items-center">
 
             <h1 class="main-pages-title d-md-flex d-none card-title">

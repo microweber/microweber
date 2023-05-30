@@ -1,7 +1,6 @@
 <div class="card-body mb-3">
 
     @include('content::admin.content.livewire.set-tree-active-content')
-    @include('content::admin.content.livewire.card-header')
 
     <div class=" ">
 
@@ -9,7 +8,8 @@
 
         @if($displayFilters)
        <div class="row py-3">
-           <div class="d-flex align-items-center justify-content-center">
+           <div class="d-flex align-items-center justify-content-between">
+               @include('content::admin.content.livewire.card-header')
 
                <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
                    <div class="input-group input-group-flat ">
@@ -40,6 +40,9 @@
                </div>
 
 
+               <div class="text-end">
+                   <a href="" class="btn btn-primary"><?php _e("Create new page") ?></a>
+               </div>
 
 
                @if(!empty($appliedFiltersFriendlyNames))
@@ -94,57 +97,16 @@
 
            </div>
        </div>
-            @if(count($checked) > 0)
-        <div class="row  mt-3">
 
-                @if (count($checked) == count($contents->items()))
-                    <div class="col-md-10 mb-2">
-                        You have selected all {{ count($checked) }} items.
-                        <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
-                    </div>
-                @else
-                    <div>
-                        You have selected {{ count($checked) }} items,
-                        Do you want to Select All {{ count($contents->items()) }}?
-                        <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" wire:click="selectAll">{{ _e('Select All') }}</button>
-                    </div>
-                @endif
-            @endif
-
-            @if(count($checked) > 0)
-                <div class="pull-left">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ _e('Bulk Actions') }}
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">{{ _e('Move To Category') }}</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">{{ _e('Publish') }}</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">{{ _e('Unpublish') }}</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">{{ _e('Move to trash') }}</button></li>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">{{ _e('Delete Forever') }}</button></li>
-                            <?php if($isInTrashed): ?>
-                            <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">{{ _e('Restore from trash') }}</button></li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-        </div>
-            @endif
 
         @if($contents->total() > 0)
             <div class="row py-3">
-                <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1 px-2 mx-1">
+                <div class="d-flex flex-wrap bulk-actions-show-columns mw-js-loading position-relative mb-1">
                     <div class="col-md-5 col-12 d-flex justify-content-start align-items-center px-0 ">
-
-
+                        @include('content::admin.content.livewire.components.display-as')
                     </div>
 
                     <div class="col-md-7 col-12 d-flex justify-content-end align-items-center mw-filters-sorts-mobile pe-1">
-                        <div>
-                            @include('content::admin.content.livewire.components.display-as')
-                        </div>
-
                         <div class="">
                             <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ _e('Columns') }}
@@ -176,6 +138,44 @@
                     </div>
 
                 </div>
+
+                @if(count($checked) > 0)
+                    <div class="row  mt-3">
+
+                        @if (count($checked) == count($contents->items()))
+                            <div class="col-md-10 mb-2">
+                                You have selected all {{ count($checked) }} items.
+                                <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
+                            </div>
+                        @else
+                            <div>
+                                You have selected {{ count($checked) }} items,
+                                Do you want to Select All {{ count($contents->items()) }}?
+                                <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" wire:click="selectAll">{{ _e('Select All') }}</button>
+                            </div>
+                        @endif
+                        @endif
+
+                        @if(count($checked) > 0)
+                            <div class="pull-left">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ _e('Bulk Actions') }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">{{ _e('Move To Category') }}</button></li>
+                                        <li><button class="dropdown-item" type="button" wire:click="multiplePublish">{{ _e('Publish') }}</button></li>
+                                        <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">{{ _e('Unpublish') }}</button></li>
+                                        <li><button class="dropdown-item" type="button" wire:click="multipleDelete">{{ _e('Move to trash') }}</button></li>
+                                        <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">{{ _e('Delete Forever') }}</button></li>
+                                            <?php if($isInTrashed): ?>
+                                        <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">{{ _e('Restore from trash') }}</button></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+                @endif
             </div>
             <div class="row py-3">
                 <div class="col-md-12">
