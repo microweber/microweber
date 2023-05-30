@@ -19,9 +19,7 @@
                 <div class="col-xxl-4 col-lg-6 col-12 pe-lg-6 ps-lg-0 pt-3 mb-4 ">
                     <div class="card mw-create-page-admin-wrapper">
                         <div id="mw-create-page-card-overlay"></div>
-                        @php
-                            $iframe_start = site_url('new-content-preview-'. uniqid());
-                        @endphp
+                      
 
 {{--                        200%--}}
 {{--                        0.50--}}
@@ -32,7 +30,7 @@
                         @include('page::admin.page.iframe', [
                          'iframeWidth'=>'181%',
                          'transformScale'=>'0.553',
-                         'url'=>site_url($iframe_start . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
+                         'url'=>site_url('new-content-preview-'. uniqid() . '?content_id=0&no_editmode=true&preview_layout=' . $layout['layout_file_preview']
                     )])
                         <div class="p-2 text-center mw-create-page-admin-create-btn">
                             <a href="{{route('admin.post.create')}}?layout={{$layout['layout_file_preview']}}" class="btn btn-primary">
