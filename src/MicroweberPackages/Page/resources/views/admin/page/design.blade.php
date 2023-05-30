@@ -74,7 +74,7 @@
                                           @if(isset($layout['pages']) && count($layout['pages']) > 1)
                                           <optgroup label="{{$layout['name']}}">
                                               @foreach($layout['pages'] as $page)
-                                                  <option value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
+                                                  <option data-edit-url="{{$page['edit_url']}}" value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
                                               @endforeach
                                                   <option data-layout="{{$layout['layout_file_preview']}}" value="{{$layout['layout_file_preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
                                           </optgroup>
@@ -97,8 +97,8 @@
                                     $('.js-select-layout').change(function () {
 
                                         var livePreviewUrl = $(this).val();
-                                        var createUrl = $(this).find(':selected').data('create_url');
-                                        var editUrl = $(this).find(':selected').data('edit_url');
+                                        var createUrl = $(this).find(':selected').data('create-url');
+                                        var editUrl = $(this).find(':selected').data('edit-url');
 
                                         $('.preview_frame_small').attr('src', livePreviewUrl);
                                         $('.js-layout-preview').attr('href', livePreviewUrl);
