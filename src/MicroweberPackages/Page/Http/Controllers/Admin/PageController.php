@@ -120,9 +120,13 @@ class PageController extends AdminController
                 }
             }
 
+            if (count($layoutUrl['pages']) == 1) {
+                $layoutUrl['create_url'] = false;
+                $layoutUrl['edit_url'] = $layoutUrl['pages'][0]['edit_url'];
+            }
+
             $layoutUrls[] = $layoutUrl;
         }
-
         $data['allLayouts'] = $layoutUrls;
 
         return view('page::admin.page.design', $data);

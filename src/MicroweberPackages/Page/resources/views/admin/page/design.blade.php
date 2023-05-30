@@ -76,7 +76,6 @@
                                               @foreach($layout['pages'] as $page)
                                                   <option data-edit-url="{{$page['edit_url']}}" value="{{$page['preview_url']}}">{{$page['name']}}</option>
                                               @endforeach
-                                              <option data-create-url="{{$layout['create_url']}}" value="{{$layout['preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
                                           </optgroup>
                                           @else
                                               <option data-create-url="{{$layout['create_url']}}" data-edit-url="{{$layout['edit_url']}}" value="{{$layout['preview_url']}}">{{$layout['name']}}</option>
@@ -103,12 +102,12 @@
                                         $('.preview_frame_small').attr('src', livePreviewUrl);
                                         $('.js-layout-preview').attr('href', livePreviewUrl);
 
-                                        if (createUrl) {
-                                            $('.js-layout-customize').attr('href', createUrl);
-                                            $('.js-layout-customize').html('<?php _e("Create") ?>');
-                                        } else {
+                                        if (editUrl.length > 3) {
                                             $('.js-layout-customize').html('<?php _e("Customize") ?>');
                                             $('.js-layout-customize').attr('href', editUrl);
+                                        } else {
+                                            $('.js-layout-customize').attr('href', createUrl);
+                                            $('.js-layout-customize').html('<?php _e("Create") ?>');
                                         }
 
                                     });
