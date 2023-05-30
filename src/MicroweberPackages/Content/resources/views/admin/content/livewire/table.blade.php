@@ -140,18 +140,18 @@
                 </div>
 
                 @if(count($checked) > 0)
-                    <div class="row  mt-3">
+                    <div class="mt-3">
 
                         @if (count($checked) == count($contents->items()))
                             <div class="col-md-10 mb-2">
                                 You have selected all {{ count($checked) }} items.
-                                <button type="button" class="btn btn-outline-danger btn-sm" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
+                                <button type="button" class="btn btn-link" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
                             </div>
                         @else
                             <div>
                                 You have selected {{ count($checked) }} items,
-                                Do you want to Select All {{ count($contents->items()) }}?
-                                <button type="button" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" wire:click="selectAll">{{ _e('Select All') }}</button>
+                                do you want to select all {{ count($contents->items()) }}?
+                                <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>
                             </div>
                         @endif
                         @endif
@@ -159,7 +159,7 @@
                         @if(count($checked) > 0)
                             <div class="pull-left">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         {{ _e('Bulk Actions') }}
                                     </button>
                                     <ul class="dropdown-menu">
