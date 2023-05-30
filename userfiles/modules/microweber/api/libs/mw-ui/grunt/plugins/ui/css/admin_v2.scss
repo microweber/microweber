@@ -1189,3 +1189,15 @@ input[type=number] {
         border-color: var(--tblr-body-color) !important;
     }
 }
+
+.btn.show {
+    border-color: transparent !important;
+
+}
+
+.no-items-box {
+    background-repeat: no-repeat;
+    height: 450px;
+    width: 450px;
+    margin: 0 auto;
+}
