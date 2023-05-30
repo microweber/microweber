@@ -77,6 +77,18 @@ class PageController extends AdminController
             app()->content_manager->define_constants($data);
         }
 
+        $templateName = '';
+        $templateVersion = '';
+        $templateConfigFile = template_dir() . 'config.php';
+        if (is_file($templateConfigFile)) {
+            include $templateConfigFile;
+            $templateName = $config['name'];
+            $templateVersion = $config['version'];
+        }
+
+        $data['templateName'] = $templateName;
+        $data['templateVersion'] = $templateVersion;
+
         $layout_options = array();
         $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
         $layout_options['no_cache'] = true;
@@ -85,7 +97,6 @@ class PageController extends AdminController
         $layouts = mw()->layouts_manager->get_all($layout_options);
 
         $data['allLayouts'] = $layouts;
-
 
         return view('page::admin.page.design', $data);
     }
