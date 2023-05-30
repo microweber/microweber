@@ -1235,3 +1235,23 @@ input[type=number] {
 svg.text-danger {
     fill: var(--tblr-danger) !important;
 }
+
+.badge.bg-green-lt {
+    svg {
+
+        fill: var(--tblr-success) !important;
+    }
+}
+
+
+.card-product-holder {
+    &:hover {
+        .display-types-content-icons {
+            visibility: visible;
+        }
+    }
+
+    .display-types-content-icons {
+        visibility: hidden;
+    }
+}
