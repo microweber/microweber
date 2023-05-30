@@ -29,7 +29,7 @@
         <svg style="opacity: .6; margin-bottom: 5px;" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M484-247q16 0 27-11t11-27q0-16-11-27t-27-11q-16 0-27 11t-11 27q0 16 11 27t27 11Zm-35-146h59q0-26 6.5-47.5T555-490q31-26 44-51t13-55q0-53-34.5-85T486-713q-49 0-86.5 24.5T345-621l53 20q11-28 33-43.5t52-15.5q34 0 55 18.5t21 47.5q0 22-13 41.5T508-512q-30 26-44.5 51.5T449-393Zm31 313q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg>
     </h3>
 
-    <div class="card" x-data="{previewUrl: '{{$allLayouts[0]['layout_file_preview_url']}}'}">
+    <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="d-flex align-items-center flex-wrap justify-content-between mb-4">
@@ -69,7 +69,7 @@
                        <div class="row">
                            <div class="card-header d-flex flex-wrap align-items-center justify-content-between shadow-sm p-3">
                               <div class="col-xl-2 col-lg-4 col-md-6 col-12">
-                                  <select x-model="previewUrl" class="form-select border-0">
+                                  <select class="js-select-layout form-select border-0">
                                       @foreach($allLayouts as $layout)
                                           <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
                                       @endforeach
@@ -77,13 +77,36 @@
                               </div>
 
                                <div class="col-xl-9 text-end">
-                                   <button type="button" @click="" class="btn btn-link me-2"><?php _e("Next Layout") ?></button>
-                                   <button type="button" class="btn btn-link"><?php _e("Previous Layout") ?></button>
+                                   <button type="button" class="js-previous-layout btn btn-link me-2"><?php _e("Previous Layout") ?></button>
+                                   <button type="button" class="js-next-layout btn btn-link"><?php _e("Next Layout") ?></button>
                                </div>
                            </div>
+
+
+                           <script>
+                               $(document).ready(function () {
+                                    $('.js-select-layout').change(function () {
+                                        var layoutUrl = $(this).val();
+                                        $('.preview_frame_small').attr('src', layoutUrl);
+                                    });
+                                   $('.js-next-layout').click(function () {
+                                        var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
+                                        var nextLayoutIndex = currentLayoutIndex + 1;
+                                        var nextLayout = $('.js-select-layout option').eq(nextLayoutIndex).val();
+                                        $('.js-select-layout').val(nextLayout).trigger('change');
+                                   });
+                                  $('.js-previous-layout').click(function () {
+                                        var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
+                                        var previousLayoutIndex = currentLayoutIndex - 1;
+                                        var previousLayout = $('.js-select-layout option').eq(previousLayoutIndex).val();
+                                        $('.js-select-layout').val(previousLayout).trigger('change');
+                                  });
+                               });
+                           </script>
+
                            <div class="mt-3 tblr-body-bg p-xxl-7 p-xl-4 p-2">
                                <div class="preview_frame_container preview-in-self">
-                                   <iframe class="preview_frame_small" :src="previewUrl"></iframe>
+                                   <iframe class="preview_frame_small"></iframe>
                                </div>
                            </div>
                        </div>
