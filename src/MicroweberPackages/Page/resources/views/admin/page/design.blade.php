@@ -89,18 +89,24 @@
                                         var layoutUrl = $(this).val();
                                         $('.preview_frame_small').attr('src', layoutUrl);
                                     });
+                                   $('.js-previous-layout').click(function () {
+                                       var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
+                                       var previousLayoutIndex = currentLayoutIndex - 1;
+                                       if (previousLayoutIndex < 0) {
+                                           previousLayoutIndex = $('.js-select-layout option').length - 1;
+                                       }
+                                       var previousLayout = $('.js-select-layout option').eq(previousLayoutIndex).val();
+                                       $('.js-select-layout').val(previousLayout).trigger('change');
+                                   });
                                    $('.js-next-layout').click(function () {
                                         var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
                                         var nextLayoutIndex = currentLayoutIndex + 1;
+                                        if (nextLayoutIndex > $('.js-select-layout option').length - 1) {
+                                            nextLayoutIndex = 0;
+                                        }
                                         var nextLayout = $('.js-select-layout option').eq(nextLayoutIndex).val();
                                         $('.js-select-layout').val(nextLayout).trigger('change');
                                    });
-                                  $('.js-previous-layout').click(function () {
-                                        var currentLayoutIndex = $('.js-select-layout').prop('selectedIndex');
-                                        var previousLayoutIndex = currentLayoutIndex - 1;
-                                        var previousLayout = $('.js-select-layout option').eq(previousLayoutIndex).val();
-                                        $('.js-select-layout').val(previousLayout).trigger('change');
-                                  });
                                });
                            </script>
 
