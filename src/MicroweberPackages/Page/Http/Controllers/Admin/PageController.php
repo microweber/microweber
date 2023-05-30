@@ -111,12 +111,11 @@ class PageController extends AdminController
 
                 $pageUrl = [];
                 $pageUrl['name'] = $page['title'];
-                $pageUrl['edit_url'] = false;
+                $pageUrl['edit_url'] = $page['url'] . '?editmode=y';
                 $pageUrl['create_url'] = false;
                 $pageUrl['preview_url'] = $page['url'] . '?no_editmode=true';
 
                 if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {
-                    $layoutUrl['edit_url'] = route('admin.page.edit', $page['id']);
                     $layoutUrl['pages'][] = $pageUrl;
                 }
             }
