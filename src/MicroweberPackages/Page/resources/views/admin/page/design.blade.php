@@ -76,10 +76,10 @@
                                               @foreach($layout['pages'] as $page)
                                                   <option value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
                                               @endforeach
-                                                  <option value="{{$layout['layout_file_preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
+                                                  <option data-layout="{{$layout['layout_file_preview']}}" value="{{$layout['layout_file_preview_url']}}">{{_e('New page with')}} {{$layout['name']}} {{_e('layout')}}</option>
                                           </optgroup>
                                           @else
-                                              <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                              <option data-layout="{{$layout['layout_file_preview']}}" value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
                                           @endif
                                       @endforeach
                                   </select>
@@ -98,8 +98,16 @@
                                         var layoutUrl = $(this).val();
                                         $('.preview_frame_small').attr('src', layoutUrl);
 
-                                        $('.js-layout-preview').attr('href', layoutUrl);
-                                        $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
+                                        var layoutFile = $(this).find(':selected').data('layout');
+                                        if (layoutFile) {
+                                            $('.js-layout-file').attr('href', layoutUrl);
+                                            $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
+                                            $('.js-layout-customize').html('<?php _e("Create") ?>');
+                                        } else {
+                                            $('.js-layout-customize').html('<?php _e("Customize") ?>');
+                                            $('.js-layout-preview').attr('href', layoutUrl);
+                                            $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
+                                        }
 
                                     });
                                    $('.js-previous-layout').click(function () {
