@@ -71,7 +71,15 @@
                               <div class="col-xl-2 col-lg-4 col-md-6 col-12">
                                   <select class="js-select-layout form-select border-0">
                                       @foreach($allLayouts as $layout)
-                                          <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                          @if(isset($layout['pages']) && count($layout['pages']) > 1)
+                                          <optgroup label="{{$layout['name']}}">
+                                              @foreach($layout['pages'] as $page) 
+                                                  <option value="{{$page['page_preview_url']}}">{{$page['title']}}</option>
+                                              @endforeach
+                                          </optgroup>
+                                          @else
+                                              <option value="{{$layout['layout_file_preview_url']}}">{{$layout['name']}}</option>
+                                          @endif
                                       @endforeach
                                   </select>
                               </div>
