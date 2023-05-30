@@ -99,7 +99,9 @@ class PageController extends AdminController
         $getPages = get_pages();
         $getLayouts = mw()->layouts_manager->get_all($layout_options);
         foreach ($getLayouts as $layout) {
-            $layout['edit_url'] = '';
+
+            $layout['edit_url'] = false;
+            $layout['create_url'] = route('admin.page.create') . '?layout=' . $layout['layout_file_preview'];
             $layout['pages'] = [];
 
             foreach ($getPages as $page) {
@@ -111,8 +113,11 @@ class PageController extends AdminController
                     $layout['pages'][] = $page;
                 }
             }
+
             $layouts[] = $layout;
         }
+
+        dd($layouts);
 
         $data['allLayouts'] = $layouts;
 

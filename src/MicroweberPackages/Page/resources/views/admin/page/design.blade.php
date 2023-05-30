@@ -95,18 +95,20 @@
                            <script>
                                $(document).ready(function () {
                                     $('.js-select-layout').change(function () {
-                                        var layoutUrl = $(this).val();
-                                        $('.preview_frame_small').attr('src', layoutUrl);
 
-                                        var layoutFile = $(this).find(':selected').data('layout');
-                                        if (layoutFile) {
-                                            $('.js-layout-file').attr('href', layoutUrl);
-                                            $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
+                                        var livePreviewUrl = $(this).val();
+                                        var createUrl = $(this).find(':selected').data('create_url');
+                                        var editUrl = $(this).find(':selected').data('edit_url');
+
+                                        $('.preview_frame_small').attr('src', livePreviewUrl);
+                                        $('.js-layout-preview').attr('href', livePreviewUrl);
+
+                                        if (createUrl) {
+                                            $('.js-layout-customize').attr('href', createUrl);
                                             $('.js-layout-customize').html('<?php _e("Create") ?>');
                                         } else {
                                             $('.js-layout-customize').html('<?php _e("Customize") ?>');
-                                            $('.js-layout-preview').attr('href', layoutUrl);
-                                            $('.js-layout-customize').attr('href', layoutUrl + "?editmode=y");
+                                            $('.js-layout-customize').attr('href', editUrl);
                                         }
 
                                     });
