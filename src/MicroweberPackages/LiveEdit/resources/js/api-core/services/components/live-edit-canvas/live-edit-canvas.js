@@ -48,7 +48,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             decorate: true
         });
         const frame = document.createElement('iframe');
-        frame.src = `${mw.settings.site_url}?editmode=n`;
+        frame.src = `${mw.settings.site_url}?editmode=iframe`;
+
         frame.frameBorder = 0;
         frame.id="live-editor-frame";
         frame.referrerPolicy = "no-referrer";

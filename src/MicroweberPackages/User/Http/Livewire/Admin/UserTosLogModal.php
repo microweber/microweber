@@ -2,14 +2,14 @@
 
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 
-class UserTosLogModal extends ModalComponent
+class UserTosLogModal extends AdminModalComponent
 {
     public $userId;
     public $terms;
 
-    public function mount($userId)
+    public function mount($userId = 0)
     {
         $this->userId = $userId;
 

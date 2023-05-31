@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Agent;
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class LogoutOtherBrowserSessionsForm extends Component
+class LogoutOtherBrowserSessionsForm extends AdminComponent
 {
     /**
      * Indicates if logout is being confirmed.

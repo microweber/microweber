@@ -1,8 +1,8 @@
 <div class="manage-item-main-top">
 
-    <label class=" form-label text-break-line-1 manage-post-item-title">
+    <a href="{{$content->link()}}?editmode=y" class=" form-label font-weight-bold text-break-line-1 text-decoration-none manage-post-item-title">
         {{$content->title}}
-    </label>
+    </a>
 
     @php
         $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
@@ -41,8 +41,14 @@
             @endforeach
              </span>
     @endif
-    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"
-       href="{{$content->link()}}">
-        <small class="text-muted">{{$content->link()}}</small>
-    </a>
+{{--    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"--}}
+{{--       href="{{$content->link()}}">--}}
+{{--        <small class="text-muted">{{$content->link()}}</small>--}}
+{{--    </a>--}}
+
+    <span>
+        <small class="text-muted" style="font-size: 12px !important;">
+            {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
+        </small>
+    </span>
 </div>

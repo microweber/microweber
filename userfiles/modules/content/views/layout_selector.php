@@ -461,7 +461,7 @@ if (!empty($recomended_layouts)) {
     if (get_option('allow_multiple_templates', 'system') == 'y'){
         $showAllowSelectTemplate = true;
     }
-    if (isset($params['show_allow_multiple_template'])) {
+    if (isset($params['show_allow_multiple_template']) && $params['show_allow_multiple_template'] =='true') {
         $showAllowSelectTemplate = true;
     }
     ?>
@@ -564,7 +564,7 @@ if (!empty($recomended_layouts)) {
                                         ?>
 
                                         <?php
-                                        if(isset($params['show_allow_multiple_template'])):
+                                        if(isset($params['show_allow_multiple_template']) && $params['show_allow_multiple_template'] == 'true'):
                                         ?>
                                         <div class="form-group mb-5">
                                             <div class="custom-control custom-checkbox">

@@ -73,6 +73,11 @@
 
     <div class="mw-site-theme-selector">
         <input id="mw_curr_theme_val" name="current_template" class="mw_option_field mw-ui-field" type="hidden" option-group="template" value="<?php print  $selected_template; ?>" data-id="<?php print  $data['id']; ?>"/>
-        <module type="content/views/layout_selector" show_allow_multiple_template="true" show_save_changes_buttons="true" show_full="true" data-active-site-template="<?php print $selected_template ?>" autoload="1" xxlive_edit_styles_check="1" no-default-name="true"/>
+        <module type="content/views/layout_selector"
+
+                show_allow_multiple_template="<?php if (isset($params['show_allow_multiple_template'])): ?><?php echo $params['show_allow_multiple_template']; else: ?>true<?php endif; ?>"
+                show_save_changes_buttons="<?php if (isset($params['show_save_changes_buttons'])): ?><?php echo $params['show_save_changes_buttons']; else: ?>true<?php endif; ?>"
+
+                show_full="true" data-active-site-template="<?php print $selected_template ?>" autoload="1" xxlive_edit_styles_check="1" no-default-name="true"/>
     </div>
 </div>

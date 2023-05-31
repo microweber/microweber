@@ -3,13 +3,15 @@
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 
-class UserLoginAttemptsModal extends ModalComponent
+class UserLoginAttemptsModal extends AdminModalComponent
+
 {
-    public $userId;
+    public $userId = 0;
     public $loginAttempts;
 
-    public function mount($userId)
+    public function mount($userId = 0)
     {
         $this->userId = $userId;
 

@@ -166,123 +166,15 @@ if (isset($data['created_by']) and $data['created_by']) {
     }
     ?>
 
-<?php if ($showSeoSettings): ?>
-
-    <?php
-
-    $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
-    /**
-     * @var \MicroweberPackages\Form\FormElementBuilder $formBuilder
-     */
-    $formBuilder = App::make(\MicroweberPackages\Form\FormElementBuilder::class);
-    ?>
-
-
-    <!-- SEO Settings -->
-    <div class="card-body mb-3 card-collapse js-card-search-engine">
-        <div class="card-header no-border">
-            <h6><strong><?php _e('Search engine'); ?></strong></h6>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#seo-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp;<?php _e('SEO setttings'); ?></a>
-        </div>
-        <div class="card-body py-0">
-            <div class="collapse" id="seo-settings">
-                <small class="text-muted d-block"><?php _e("Add a title and description to see how this product might appear in a search engine listing"); ?></small>
-
-                <hr class="thin no-padding"/>
-
-                <div class="row">
-
-
-
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                            <label class="form-label"><?php _e("Meta title"); ?></label>
-                            <small data-bs-toggle="tooltip" title="<?php _e("Title to appear on the search engines results page"); ?>"></small>
-                            <small class="text-muted d-block mb-2"><?php _e("Title to appear on the search engines results page"); ?></small>
-
-                            <?php
-                            echo $formBuilder->Text('content_meta_title')
-                                ->setModel($contentModel)
-                                ->value($data['content_meta_title']) ->autocomplete(false) ;
-                            ?>
-                        </div>
-                    </div>
-
-
-
-
-
-
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                        <label class="form-label"><?php _e("Meta description"); ?></label>
-                        <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
-
-                    <?php
-                    echo $formBuilder->textArea('description')
-                        ->setModel($contentModel)
-                        ->value($data['description'])
-                        ->autocomplete(false);
-                    ?>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                        <label class="form-label"><?php _e("Meta keywords"); ?></label>
-                        <small data-bs-toggle="tooltip" title="Short description for yor content."></small>
-                            <small class="text-muted d-block mb-2"><?php _e('Separate keywords with a comma and space') ?></small>
-
-                    <?php
-                    echo $formBuilder->Text('content_meta_keywords')
-                        ->setModel($contentModel)
-                        ->value($data['content_meta_keywords'])
-                        ->autocomplete(false);
-                    ?>
-                        </div>
-
-                        <small class="text-muted"><?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?></small>
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-                    <div class="col-md-12">
-                        <div class="form-group ">
-                            <label><?php _e("OG Images"); ?></label>
-                            <small class="text-muted d-block mb-2">
-                                <?php _e('Those images will be shown as a post image at facebook shares') ?>.<br/>
-                                <?php _e("If you want to attach og images, you must upload them to gallery from 'Add media'"); ?>.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif;?>
 
     <?php if ($showAdvancedSettings): ?>
-    <!-- Advanced Settings -->
-    <div class="card-body mb-3 card-collapse">
-        <div class="card-header no-border">
-            <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
-        </div>
 
-        <div class="card-body py-0">
-            <div class="collapse" id="advanced-settings">
+    <!-- Advanced Settings -->
+    <div id="advanced-settings">
+
+                <h6><strong><?php _e('Advanced settings') ?></strong></h6>
+
+
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -402,10 +294,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
                     </div>
-
-
-
-
                 </div>
 
                 <?php endif; ?>
@@ -468,22 +356,11 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <?php endif; ?>
 
 
-
-
-
                     <div class="row  ">
-
-
-
 
                         <div class="col-12">
 
-
                             <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
-
-
-
-
 
                             <div  class="collapse"   id="set-a-specific-publish-date">
                                 <div class="row">
@@ -574,24 +451,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
 
-
-
-
-
             </div>
-        </div>
-    </div>
+
     <?php endif; ?>
 
 
 
 
-
-
-
 <?php include (__DIR__.'/content_delete_btns.php')?>
-
-
 
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
@@ -606,3 +473,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
+
+<?php event_trigger('content.views.advanced_settings', $data); ?>
+

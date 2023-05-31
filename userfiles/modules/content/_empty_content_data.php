@@ -52,7 +52,7 @@ if (isset($params['subtype'])) {
         $data['content_type'] = 'post';
         $data['subtype'] = 'post';
 
-    } elseif ($params['subtype'] == 'static' or $params['subtype'] == 'dynamic') {
+    } elseif (isset($params['subtype']) && $params['subtype'] == 'static' or $params['subtype'] == 'dynamic') {
         $title_placeholder = "New page title";
 
     }

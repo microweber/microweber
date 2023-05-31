@@ -22,7 +22,7 @@
     "src": "bootstrap.css"
   },
   "resources/css/microweber-admin-filament.css": {
-    "file": "assets/microweber-admin-filament-3bca2f1e.css",
+    "file": "assets/microweber-admin-filament-3ee08d7c.css",
     "isEntry": true,
     "src": "resources/css/microweber-admin-filament.css"
   },
@@ -42,7 +42,7 @@
     "css": [
       "assets/live-edit-app-40b82b1a.css"
     ],
-    "file": "assets/live-edit-app-7091fa26.js",
+    "file": "assets/live-edit-app-2fd37221.js",
     "imports": [
       "_bootstrap-21ee6ebd.js"
     ],

@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class TwoFactorAuthenticationForm extends Component
+class TwoFactorAuthenticationForm extends AdminComponent
 {
     /**
      * Indicates if two factor authentication QR code is being displayed.

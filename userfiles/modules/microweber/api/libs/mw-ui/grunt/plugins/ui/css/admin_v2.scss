@@ -32,8 +32,18 @@ body:not(.theme-dark, .is_admin) {
 
 
 
-.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header {
+.mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header, .FIE_root.jUrMob {
     background-color: var(--tblr-bg-surface);
+}
+.gcXnsi.FIE_tab {
+    background-color: var(--tblr-body-bg);
+
+    &:hover, &[aria-selected="true"] {
+        background-color: var(--tblr-bg-surface-tertiary);
+       svg {
+            color: var(--tblr-primary);
+       }
+    }
 }
 
 body, .is_admin {
@@ -45,11 +55,13 @@ body, .is_admin {
     background-color: var(--tblr-bg-surface);
 }
 
-.mdi.text-muted, label {
+.mdi.text-muted, label, .tblr-body-color {
     color: var(--tblr-body-color) !important;
 }
 
-
+.tblr-body-bg {
+    background-color: var(--tblr-body-bg) !important;
+}
 .navbar-vertical.navbar-expand-lg.admin-dashboard-left-nav{
     overflow: hidden;
     overflow-y: hidden;
@@ -75,7 +87,7 @@ body, .is_admin {
     }
 
     .add-new {
-         
+
         visibility: hidden;
 
         svg {
@@ -1164,4 +1176,81 @@ input[type=number] {
 
 .page-wrapper {
     overflow-x: hidden;
+}
+
+.mw-content-vision-tabs {
+    border-color: transparent !important;
+    color: var(--tblr-body-color) !important;
+
+    &:active, &:hover, &.active {
+        background-color: transparent !important;
+        color: var(--tblr-body-color) !important;
+        border-color: var(--tblr-body-color) !important;
+    }
+}
+
+.btn.show {
+    border-color: transparent !important;
+
+}
+
+.no-items-box {
+    background-repeat: no-repeat;
+    height: 450px;
+    width: 450px;
+    margin: 0 auto;
+}
+
+.content-card-blade-dots-menu-wrapper {
+    &:hover {
+        background-color: unset;
+    }
+
+    .content-card-blade-dots-menu {
+
+        &:after {
+            position: absolute;
+            right: 25px;
+            bottom: 5px;
+            border: none !important;
+            transform: none !important;
+            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 0 24 24' width='24px' fill='%23000000'%3E%3Cpath d='M0 0h24v24H0V0z' fill='none'/%3E%3Cpath d='M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z'/%3E%3C/svg%3E") !important;
+        }
+
+    }
+}
+
+.manage-post-item-links {
+    a {
+        margin: 5px 0;
+        color: var(--tblr-body-color);
+
+        &:hover {
+            background-color: var(--tblr-body-bg);
+        }
+    }
+}
+
+svg.text-danger {
+    fill: var(--tblr-danger) !important;
+}
+
+.badge.bg-green-lt {
+    svg {
+
+        fill: var(--tblr-success) !important;
+    }
+}
+
+
+.card-product-holder {
+    &:hover {
+        .display-types-content-icons {
+            visibility: visible;
+        }
+    }
+
+    .display-types-content-icons {
+        visibility: hidden;
+    }
 }

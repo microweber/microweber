@@ -6,10 +6,10 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\User\Models\User;
 
-class DeleteUserForm extends Component
+class DeleteUserForm extends AdminComponent
 {
     /**
      * Indicates if user deletion is being confirmed.

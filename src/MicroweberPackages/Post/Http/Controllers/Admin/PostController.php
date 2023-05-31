@@ -36,8 +36,8 @@ class PostController extends AdminController
         $data = [];
 
         $data['post_design'] = false;
-        if (isset($request_data['post_design'])) {
-            $data['post_design'] = $request_data['post_design'];
+        if (isset($request_data['layout'])) {
+            $data['post_design'] = $request_data['layout'];
         }
 
         $data['content_id'] = 0;
@@ -49,6 +49,24 @@ class PostController extends AdminController
         if (isset($request_data['recommended_content_id'])) {
             $data['recommended_content_id'] = intval($request_data['recommended_content_id']);
         }
+
+
+        if (!defined('ACTIVE_SITE_TEMPLATE')) {
+            app()->content_manager->define_constants($data);
+        }
+
+        $layout_options = array();
+        $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;
+        $layout_options['no_cache'] = true;
+        $layout_options['no_folder_sort'] = true;
+        $layout_options['content_type'] = 'post';
+
+        $layouts = mw()->layouts_manager->get_all($layout_options);
+        if (empty($layouts)) {
+            return view('post::admin.posts.edit',$data);
+        }
+
+        $data['allLayouts'] = $layouts;
 
         return view('post::admin.posts.create',$data);
     }

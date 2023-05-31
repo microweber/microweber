@@ -1,16 +1,16 @@
 <div>
 
-    <button type="button"  class="btn btn-badge-dropdown js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+    <button type="button"  class="btn btn-badge-dropdown btn-outline-dark js-dropdown-toggle-{{$this->id}} @if(!empty($selectedItem)) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
-        @if($selectedItem) {{$name}}: {{$selectedItem}} @else  {{$name}}  @endif <span class="mt-2">&nbsp;</span>
+        @if($selectedItem) {{$name}}: {{$selectedItem}} @else  {{$name}}  @endif
 
 
         <div class="d-flex actions">
-            <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
+            <div class="action-dropdown-icon"><svg fill="currentColor"  xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"/></svg></div>
          {{--   @if($selectedItem)
-                <div class="action-dropdown-delete" wire:click="resetProperties"><i class="fa fa-times-circle"></i></div>
+                <div class="action-dropdown-delete" wire:click="resetProperties"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg></div>
             @endif--}}
-            <div class="action-dropdown-delete" wire:click.stop="hideFilterItem('{{$this->id}}')"><i class="fa fa-times-circle"></i></div>
+            <div class="action-dropdown-delete" wire:click.stop="hideFilterItem('{{$this->id}}')"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg></div>
         </div>
 
 

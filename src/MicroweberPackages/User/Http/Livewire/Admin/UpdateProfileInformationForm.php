@@ -9,9 +9,10 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\User\Models\User;
 
-class UpdateProfileInformationForm extends Component
+class UpdateProfileInformationForm extends AdminComponent
 {
     use WithFileUploads;
 

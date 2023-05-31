@@ -1,5 +1,5 @@
-<div class="card-header row">
-    <div class="col d-flex justify-content-center align-items-center">
+<div class="card-header">
+    <div class="col d-flex justify-content-start align-items-center">
         <div class="d-flex align-items-center">
 
             <h1 class="main-pages-title d-md-flex d-none card-title">
@@ -22,7 +22,7 @@
 
             @if(isset($currentCategory) and $currentCategory)
                 <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
-                    <i class="fa fa-times-circle"></i>
+                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
                 </a>
             @endif
         </div>

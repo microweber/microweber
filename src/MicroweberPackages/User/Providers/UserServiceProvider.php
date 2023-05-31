@@ -44,6 +44,9 @@ class UserServiceProvider extends AuthServiceProvider
      */
     public function register()
     {
+        $this->app->register(\MicroweberPackages\User\Providers\AuthServiceProvider::class);
+
+
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__. '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__. '/../database/migrations/');

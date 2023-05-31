@@ -358,6 +358,16 @@ class LayoutsManager
                                 }
                             }
 
+                            if (isset($options['content_type']) && $options['content_type'] == 'post') {
+                                if ($to_return_temp['content_type'] !== 'post') {
+                                    continue;
+                                }
+                            } else {
+                                if (isset($to_return_temp['content_type']) && $to_return_temp['content_type'] == 'post') {
+                                    continue;
+                                }
+                            }
+
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $layout_file_preview = str_replace('/', '__', $layout_file);
 
@@ -374,9 +384,10 @@ class LayoutsManager
                                 continue;
                             }
 
-
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
+                            $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-'. uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview;
+
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
                             $screen_jpg = str_ireplace('.php', '.jpg', $filename);
