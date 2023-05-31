@@ -40,9 +40,11 @@
                            <h2 class="mb-2">
                                {{$templateName}}
                            </h2>
-                           <p>
+                           <a href="#"
+                              onclick="Livewire.emit('openModal', 'admin-template-update-modal')"
+                              class="font-weight-bolder">
                                {{$templateVersion}}
-                           </p>
+                           </a>
                        </div>
 
                         <div class="d-flex align-items-center gap-3">

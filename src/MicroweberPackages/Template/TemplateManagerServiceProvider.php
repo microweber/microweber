@@ -13,10 +13,17 @@ namespace MicroweberPackages\Template;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-
+use MicroweberPackages\Admin\Http\Livewire\TagsAutoComplete;
+use MicroweberPackages\Template\Http\Livewire\AdminTemplateUpdateModal;
+use Livewire\Livewire;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {
+
+    public function boot()
+    {
+        Livewire::component('admin-template-update-modal', AdminTemplateUpdateModal::class);
+    }
 
     public function register()
     {
