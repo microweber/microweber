@@ -33,7 +33,7 @@
             </div>
             <div class="col-xl-4">
                 <h1>{{$package['description']}}</h1>
-                <div>
+                <div class="tblr-body-color">
                     {{'Latest Version'}}: {{$package['version']}}
                 </div>
                 <br />
@@ -110,8 +110,7 @@
 
                                 @if(isset($package['authors']) && !empty($package['authors']))
                                     <tr>
-                                        <td><?php _e('Author'); ?></td>
-                                        <td><?php _e('Support'); ?></td>
+                                        <td><?php _e('Author'); ?> <br> <?php _e('Support'); ?></td>
                                         <td>
                                             @foreach($package['authors'] as $author)
                                                 {{$author['name']}}  <a href="mailto:{{$author['email']}}">{{$author['email']}}</a>
@@ -139,9 +138,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-
     </div>
     @endif
 </div>
