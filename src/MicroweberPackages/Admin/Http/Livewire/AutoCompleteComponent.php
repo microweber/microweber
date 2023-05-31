@@ -7,8 +7,7 @@ use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 
 class AutoCompleteComponent extends DropdownComponent
 {
-    use AuthorizesRequests;
-    /**
+     /**
      * The eloquent laravel model
      * @var
      */

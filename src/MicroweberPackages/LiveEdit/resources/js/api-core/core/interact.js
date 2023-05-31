@@ -32,7 +32,7 @@ export const DropIndicator = function (options) {
     };
 
     this.show = function () {
-        console.log(this.visible)
+ 
         if(!this.visible) {
 
             this._indicator.removeClass('mw-drop-indicator-hidden');
