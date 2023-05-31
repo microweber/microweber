@@ -1,12 +1,12 @@
 <div>
 
-    <div class="d-flex justify-content-between gap-4">
-        <div>
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+        <div class="col-md-2 col-12">
             <div class="form-group">
                 <label class="form-label d-block mb-2">
                     {{_e('Your form lists')}}
                 </label>
-                <select wire:model="filter.formListId" class="form-select">
+                <select wire:model="filter.formListId" class="form-select form-control">
                     <option>{{_e('All lists')}}</option>
                     @foreach($formsLists as $formsList)
                         <option value="{{$formsList->id}}">{{$formsList->title}} ({{$formsList->formsData->count()}})</option>
@@ -14,19 +14,30 @@
                 </select>
             </div>
         </div>
-        <div class="mt-5">
+
+        <div class="col-md-4 col-12 ms-lg-auto mt-2">
             <div class="input-icon">
                   <span class="input-icon-addon">
                       <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960"
                            width="24"><path
                               d="M796 935 533 672q-30 26-69.959 40.5T378 727q-108.162 0-183.081-75Q120 577 120 471t75-181q75-75 181.5-75t181 75Q632 365 632 471.15 632 514 618 554q-14 40-42 75l264 262-44 44ZM377 667q81.25 0 138.125-57.5T572 471q0-81-56.875-138.5T377 275q-82.083 0-139.542 57.5Q180 390 180 471t57.458 138.5Q294.917 667 377 667Z"/></svg>
                   </span>
-                <input type="text" class="form-control" placeholder="Search..."
+                <input type="text" class="form-control form-control-sm" placeholder="Search..."
                        wire:model="filter.keyword" />
                 <div wire:loading wire:target="filter.keyword" class="spinner-border spinner-border-sm" role="status">
                     <span class="visually-hidden">{{  _e("Searching")}}...</span>
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-4 col-12 text-xl-end mt-4">
+            <button type="button" onclick="Livewire.emit('openModal', 'contact-form.settings-modal')" class="btn btn-outline-primary mb-3 btn-sm">
+                <i class="mdi mdi-cogs"></i> {{_e('Settings')}}
+            </button>
+            &nbsp; &nbsp;
+            <button  type="button" onclick="Livewire.emit('openModal', 'contact-form.integrations-modal')" class="btn btn-outline-primary mb-3 btn-sm">
+                <i class="mdi mdi-cogs"></i> {{_e('Integrations')}}
+            </button>
         </div>
     </div>
 
@@ -43,17 +54,18 @@
                             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
 
                             <div class="dropdown">
-                                <a href="#" class=" dropdown-toggle badge bg-green-lt form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
-                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none" data-bs-toggle="dropdown">
+
                                 </a>
                                 <div class="dropdown-menu">
                                     <a  href="" class="dropdown-item">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
                                         {{ _e("Mark as Read") }}
                                     </a>
 
                                     <a  href="" class="dropdown-item">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
+                                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
+
                                         {{ _e("Mark as Unread") }}
                                     </a>
 
