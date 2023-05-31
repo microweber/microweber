@@ -1,4 +1,7 @@
 <div>
+    @if (!isset($package['description']))
+<div class="alert alert-danger">Please select a package</div>
+    @else
     <script>mw.require('admin_package_manager.js');</script>
 
     <div class="modal-header">
@@ -131,4 +134,5 @@
     <div class="modal-footer">
 
     </div>
+    @endif
 </div>
