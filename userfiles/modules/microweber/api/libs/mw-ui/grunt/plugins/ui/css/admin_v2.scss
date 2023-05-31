@@ -1305,6 +1305,8 @@ svg.text-danger {
 
 .mw-admin-action-links {
     position: relative;
+    text-decoration: none;
+    color: var(--tblr-body-color);
 
     &:after {
         position: absolute;
@@ -1329,4 +1331,31 @@ svg.text-danger {
 .active>.page-link, .page-link.active {
     background-color: var(--tblr-body-color);
     color: var(--tblr-light);
+}
+.mw-design-page-prev-next-buttons-wrapper {
+    display: flex;
+    justify-content: end;
+
+    .mw-design-page-prev-next-buttons {
+        background-color: var(--tblr-body-bg) !important;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 3px;
+
+        .js-previous-layout {
+            color: var(--tblr-body-color);
+        }
+
+        .js-next-layout {
+            color: var(--tblr-body-color);
+        }
+    }
+}
+
+.preview_frame_container iframe {
+    border: none;
 }
