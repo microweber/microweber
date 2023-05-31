@@ -1254,3 +1254,27 @@ svg.text-danger {
         visibility: hidden;
     }
 }
+
+
+.mw-admin-action-links {
+    position: relative;
+
+    &:after {
+        position: absolute;
+        content: '';
+        bottom: 5px;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background-color: var(--tblr-body-color);
+        opacity: 0;
+        transition: .5s;
+    }
+
+    &:hover {
+        &:after {
+            width: 100%;
+            opacity: 1;
+        }
+    }
+}
