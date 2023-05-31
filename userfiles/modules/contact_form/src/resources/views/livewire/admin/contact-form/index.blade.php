@@ -10,11 +10,10 @@
 
 
     </div>
-    <div class="card pb-4 pt-4">
-
-        <div class="card-body">
-            @livewire('contact-form.list')
-        </div>
+    <div class="card">
+       <div class="card-body">
+           @livewire('contact-form.list')
+       </div>
     </div>
 
 </div>

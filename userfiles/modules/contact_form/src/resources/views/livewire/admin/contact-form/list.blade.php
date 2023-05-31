@@ -44,14 +44,17 @@
 
         </div>
     </div>
+    <div class="mb-2">
+        <span>{{$formsData->count()}} {{_e('items on page. Total')}}: {{$formsData->total()}} </span>
+    </div>
 
-    <div class="mt-4">
+    <div class="mb-2">
         <small>{{_e('Entries for list')}}: <span>{{_e('All lists')}}</span></small>
     </div>
 
     <div>
         @foreach($formsData as $formData)
-            <div class="card shadow-sm mb-4 bg-silver">
+            <div class="card shadow-sm mb-4 bg-silver comments-card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
                         <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$formData->id}}" data-bs-original-title="#{{$formData->id}}">
@@ -61,12 +64,12 @@
                                 <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none content-card-blade-dots-menu dots-menu-2" data-bs-toggle="dropdown"></a>
                                 <div class="dropdown-menu">
                                     <a  href="" class="dropdown-item">
-                                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
+                                        <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
                                         {{ _e("Mark as Read") }}
                                     </a>
 
                                     <a  href="" class="dropdown-item">
-                                        <svg class="me-2" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
+                                        <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
 
                                         {{ _e("Mark as Unread") }}
                                     </a>
@@ -98,9 +101,9 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <a href="#" class="btn btn-link" data-bs-toggle="tooltip" aria-label="{{'View'}}" data-bs-original-title="{{'View'}}"
+                            <a href="#" class="btn btn-link tblr-body-color" data-bs-toggle="tooltip" aria-label="{{'View'}}" data-bs-original-title="{{'View'}}"
                                onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
-                                <svg class="me-3" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path></svg>
+                                <svg class="me-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path></svg>
                             </a>
                         </div>
                     </div>
@@ -118,14 +121,22 @@
 
     </div>
 
-    <div class="row mt-4">
-        <div class="col-sm-10 text-center">
+    <div class="row p-0">
+        <div class="col-sm-3">
+            <div class="export-label" wire:click="exportDataExcel">
+                <span>{{_e('Export data')}}</span>
+                <span class="btn btn-outline-dark btn-sm">{{_e('Excel')}}</span>
+            </div>
+        </div>
+
+        <div class="col-sm-7 text-center">
             <div class="pagination justify-content-center">
                 <div class="pagination-holder">
                     {{$formsData->links()}}
                 </div>
             </div>
         </div>
+
         <div class="col-sm-2 text-center text-sm-right">
             <div class="form-group">
                 <form method="get">
@@ -139,20 +150,6 @@
                         <option value="200">200</option>
                     </select>
                 </form>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-1">
-        <div class="col-sm-6">
-            <div class="export-label" wire:click="exportDataExcel">
-                <span>{{_e('Export data')}}</span>
-                <span class="btn btn-outline-primary btn-sm">{{_e('Excel')}}</span>
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            <div class="text-end text-right">
-                <span>{{$formsData->count()}} {{_e('items on page. Total')}}: {{$formsData->total()}} </span>
             </div>
         </div>
     </div>
