@@ -1,13 +1,14 @@
 <?php
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class ImportWizard extends Component
+class ImportWizard extends AdminComponent
 {
     protected $queryString = ['tab', 'importTo','importFeedId'];
 

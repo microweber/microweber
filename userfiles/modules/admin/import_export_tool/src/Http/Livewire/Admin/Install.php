@@ -1,10 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class Install extends Component
+class Install extends AdminComponent
 {
     public $listeners = [
       'startInstalling'=>'startInstalling'
@@ -30,9 +31,9 @@ class Install extends Component
         // set logger
         $this->logger = new ImportExportToolInstallLogger();
 
-        $moduleMigrationPath = dirname(dirname(__DIR__)) . '/migrations';
-        app()->improt_export_migrator->run($moduleMigrationPath);
-        $logs = app()->improt_export_migrator->getLogs();
+        $moduleMigrationPath = dirname(dirname(dirname(__DIR__))) . '/migrations';
+        app()->import_export_migrator->run($moduleMigrationPath);
+        $logs = app()->import_export_migrator->getLogs();
 
         if (empty($logs)) {
             $this->log = 'Noting to migrate!';
