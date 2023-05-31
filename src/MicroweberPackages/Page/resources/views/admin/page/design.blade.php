@@ -14,6 +14,7 @@
             height: calc(160vh - 160px) !important;
         }
         .preview_frame_container iframe {
+            pointer-events: none;
             width: 200%;
             transform: scale(.5);
             top: 0;
