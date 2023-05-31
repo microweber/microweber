@@ -40,7 +40,26 @@
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
                         <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$formData->id}}" data-bs-original-title="#{{$formData->id}}">
-                                <i class="mdi mdi-email text-primary mdi-24px"></i>
+                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
+
+                            <div class="dropdown">
+                                <a href="#" class=" dropdown-toggle badge bg-green-lt form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
+                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a  href="" class="dropdown-item">
+                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                        {{ _e("Mark as Read") }}
+                                    </a>
+
+                                    <a  href="" class="dropdown-item">
+                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
+                                        {{ _e("Mark as Unread") }}
+                                    </a>
+
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="col-xl-5">
