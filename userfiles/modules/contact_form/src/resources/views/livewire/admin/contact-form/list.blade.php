@@ -39,9 +39,8 @@
             <div class="card shadow-sm mb-4 bg-silver">
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
-                        <div class="col-auto d-flex align-items-center gap-1">
-                            <div><i class="mdi mdi-email text-primary mdi-24px"></i></div>
-                            <div><span class="text-primary">#{{$formData->id}}</span></div>
+                        <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$formData->id}}" data-bs-original-title="#{{$formData->id}}">
+                                <i class="mdi mdi-email text-primary mdi-24px"></i>
                         </div>
 
                         <div class="col-xl-5">
@@ -58,7 +57,7 @@
                         </div>
                         <div class="col-auto d-flex align-items-center justify-content-end gap-4">
                             <div>
-                               <small class="text-muted" data-bs-toggle="tooltip" aria-label="{{$formData->created_at->diffForHumans()}}" data-bs-original-title="{{$formData->created_at->diffForHumans()}}">
+                               <small data-bs-toggle="tooltip" aria-label="{{$formData->created_at->diffForHumans()}}" data-bs-original-title="{{$formData->created_at->diffForHumans()}}">
                                     {{$formData->created_at->format('M d, Y')}}
                                   <br/>
                                    <small> {{$formData->created_at->format('h:i A')}}</small>
