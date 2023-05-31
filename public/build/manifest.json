@@ -30,7 +30,7 @@
     "css": [
       "assets/live-edit-app-40b82b1a.css"
     ],
-    "file": "assets/live-edit-app-2fd37221.js",
+    "file": "assets/live-edit-app-d4a25188.js",
     "imports": [
       "_bootstrap-21ee6ebd.js"
     ],
@@ -38,7 +38,7 @@
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js": {
-    "file": "assets/live-edit-page-scripts-30d2f923.js",
+    "file": "assets/live-edit-page-scripts-6463773c.js",
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js"
   }
