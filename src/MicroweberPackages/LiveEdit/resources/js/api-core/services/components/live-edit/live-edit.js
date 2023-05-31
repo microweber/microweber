@@ -107,6 +107,7 @@ export const liveEditComponent = () => {
             clearTimeout(_inputTimeout);
             _inputTimeout = setTimeout(() => {
                 if(_edit) {
+                    _edit.classList.add('changed');
                     mw.app.state.record({ 
                         target: _edit,
                         value: _edit.innerHTML
