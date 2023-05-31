@@ -27,10 +27,16 @@ class FormData extends Model
     public function getEmail()
     {
         $dataValues = $this->formDataValues()->get();
+
         if (!empty($dataValues)) {
             foreach ($dataValues as $dataValue) {
                 if ($dataValue->field_key == 'email') {
                     return $dataValue->field_value;
+                    break;
+                }
+                if ($dataValue->field_type == 'email') {
+                    return $dataValue->field_value;
+                    break;
                 }
             }
         }
@@ -46,6 +52,9 @@ class FormData extends Model
                 if ($dataValue->field_key == 'subject') {
                     return $dataValue->field_value;
                 }
+                if (strpos($dataValue->field_key, 'subject') !== false) {
+                    return $dataValue->field_value;
+                }
             }
         }
         return _e('No subject', true);
@@ -58,6 +67,11 @@ class FormData extends Model
             foreach ($dataValues as $dataValue) {
                 if ($dataValue->field_key == 'name') {
                     return $dataValue->field_value;
+                    break;
+                }
+                if (strpos($dataValue->field_key, 'name') !== false) {
+                    return $dataValue->field_value;
+                    break;
                 }
             }
         }
