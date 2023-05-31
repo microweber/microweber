@@ -1,6 +1,6 @@
 <div>
 
-    <div class="d-flex gap-4">
+    <div class="d-flex justify-content-between gap-4">
         <div>
             <div class="form-group">
                 <label class="form-label d-block mb-2">
@@ -31,42 +31,41 @@
     </div>
 
     <div class="mt-4">
-        <small>Entries for list: <span>All lists</span></small>
+        <small>{{_e('Entries for list')}}: <span>{{_e('All lists')}}</span></small>
     </div>
 
     <div>
         @foreach($formsData as $formData)
             <div class="card shadow-sm mb-4 bg-silver">
                 <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-start gap-5">
-                        <div class="d-flex align-items-center gap-1">
+                    <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
+                        <div class="col-auto d-flex align-items-center gap-1">
                             <div><i class="mdi mdi-email text-primary mdi-24px"></i></div>
                             <div><span class="text-primary">#{{$formData->id}}</span></div>
                         </div>
-                        <div>
-                            <small>
+
+                        <div class="col-xl-5">
+                            <h4 class="mb-0">
+                                 {{$formData->getSubject()}}
+                            </h4>
+                        </div>
+
+                        <div class="col">
+                            <p class="mb-0">
                                 {{$formData->getFullName()}}
-                            </small> <br/>
+                            </p>
                             <span class="text-muted">{{$formData->getEmail()}}</span>
                         </div>
-                        <div class="col">
-                    <span class="text-muted">
-                         {{$formData->getSubject()}}
-                    </span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-end gap-4">
+                        <div class="col-auto d-flex align-items-center justify-content-end gap-4">
                             <div>
-                       <span class="text-muted">
-                            {{$formData->created_at->format('M d, Y')}}
-                          <br/>
-                           <small> {{$formData->created_at->format('h:i A')}}</small>
-                       </span>
-                                <div class="text-muted">
-                                    {{$formData->created_at->diffForHumans()}}
-                                </div>
+                               <small class="text-muted" data-bs-toggle="tooltip" aria-label="{{$formData->created_at->diffForHumans()}}" data-bs-original-title="{{$formData->created_at->diffForHumans()}}">
+                                    {{$formData->created_at->format('M d, Y')}}
+                                  <br/>
+                                   <small> {{$formData->created_at->format('h:i A')}}</small>
+                               </small>
                             </div>
                         </div>
-                        <div>
+                        <div class="col-auto">
                             <a href="#" class="btn btn-link"
                                onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
                                 {{_e('View')}}
@@ -98,7 +97,7 @@
         <div class="col-sm-2 text-center text-sm-right">
             <div class="form-group">
                 <form method="get">
-                    <small>Show items per page</small>
+                    <small>{{_e('Show items per page')}}</small>
                     <select class="form-select" wire:model="itemsPerPage">
                         <option value="">Select</option>
                         <option value="10">10</option>
@@ -114,14 +113,14 @@
     <div class="row mt-1">
         <div class="col-sm-6">
             <div class="export-label" wire:click="exportDataExcel">
-                <span>Export data</span>
-                <span class="btn btn-outline-primary btn-sm">Excel</span>
+                <span>{{_e('Export data')}}</span>
+                <span class="btn btn-outline-primary btn-sm">{{_e('Excel')}}</span>
             </div>
         </div>
 
         <div class="col-sm-6">
             <div class="text-end text-right">
-                <span>{{$formsData->count()}} items on page. Total: {{$formsData->total()}} </span>
+                <span>{{$formsData->count()}} {{_e('items on page. Total')}}: {{$formsData->total()}} </span>
             </div>
         </div>
     </div>
