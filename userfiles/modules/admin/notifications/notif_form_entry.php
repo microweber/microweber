@@ -1,3 +1,9 @@
+<?php print 'THIS FILE IS DEPRICATED'.__FILE__.' on line: '.__LINE__.'';
+
+return;
+?>
+
+
 <?php
 $entry = false;
 
@@ -78,8 +84,8 @@ if (isset($item['created_by'])) {
                     <h3><?php print $item['custom_fields']['subject']; ?></h3>
                 <?php endif; ?>
 
-                <?php print date('M d, Y', strtotime($item['created_at'])); ?>
-                <small class="text-muted mb-2 font-weight-bold d-block"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
+
+                <small class="text-muted d-block" style="font-size: 12px !important;"><?php print date('M d, Y', strtotime($item['created_at'])); ?> <?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
             </div>
 
 <!--            <div class="col-6 col-sm">--><?php //print mw('format')->ago($item['created_at']); ?><!--</div>-->

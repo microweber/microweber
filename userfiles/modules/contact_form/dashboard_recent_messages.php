@@ -13,7 +13,7 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
 ?>
 
 <div class="card mb-4 dashboard-admin-cards">
-    <a class="dashboard-admin-cards-a" href="<?php print admin_url('module/view?type=contact_form'); ?>">
+    <a class="dashboard-admin-cards-a" href="<?php print admin_url('contact-form'); ?>">
 
         <div class="card-body px-xxl-4 d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
@@ -31,7 +31,7 @@ $last_messages_count = mw()->forms_manager->get_entires('count=true');
             </div>
 
            <div>
-               <a href="<?php print admin_url('module/view?type=contact_form'); ?>" class="btn btn-link  "><?php _e('View'); ?></a>
+               <a href="<?php print admin_url('contact-form'); ?>" class="btn btn-link  "><?php _e('View'); ?></a>
            </div>
         </div>
     </a>
