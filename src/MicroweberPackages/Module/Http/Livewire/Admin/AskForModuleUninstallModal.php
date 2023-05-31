@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\Module\Http\Livewire\Admin;
 
-use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 
-class AskForModuleUninstallModal extends ModalComponent
+class AskForModuleUninstallModal extends AdminModalComponent
 {
     public $moduleId = '';
     public $moduleData = [];
@@ -23,10 +23,12 @@ class AskForModuleUninstallModal extends ModalComponent
         $this->closeModal();
     }
 
-    public function mount($moduleId)
+    public function mount($moduleId = false)
     {
-        $this->moduleId = $moduleId;
-        $this->moduleData = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first()->toArray();
+        if ($moduleId) {
+            $this->moduleId = $moduleId;
+            $this->moduleData = \MicroweberPackages\Module\Models\Module::where('id', $this->moduleId)->first()->toArray();
+        }
     }
 
     public function render()

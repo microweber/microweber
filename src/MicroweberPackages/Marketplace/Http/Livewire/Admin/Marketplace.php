@@ -9,10 +9,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use MicroweberPackages\Package\MicroweberComposerPackage;
 
-class Marketplace extends Component
+class Marketplace extends AdminComponent
 {
     use WithPagination;
 
