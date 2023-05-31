@@ -71,14 +71,18 @@ if (isset($item['created_by'])) {
             <div class="col" style="max-width:55px;">
                 <i class="mdi mdi-email text-primary mdi-24px"></i>
             </div>
-            <div class="col-10 col-sm item-id"><span class="text-primary">#<?php echo $entry_params['id']; ?></span></div>
+            <div class="col item-id"><span class="text-primary">#<?php echo $entry_params['id']; ?></span></div>
 
-            <div class="col-6 col-sm">
+            <div class="col-lg-8">
+                <?php if (isset($item['custom_fields']['subject'])) :?>
+                    <h3><?php print $item['custom_fields']['subject']; ?></h3>
+                <?php endif; ?>
+
                 <?php print date('M d, Y', strtotime($item['created_at'])); ?>
                 <small class="text-muted mb-2 font-weight-bold d-block"><?php print date('h:s', strtotime($item['created_at'])); ?>h</small>
             </div>
 
-            <div class="col-6 col-sm"><?php print mw('format')->ago($item['created_at']); ?></div>
+<!--            <div class="col-6 col-sm">--><?php //print mw('format')->ago($item['created_at']); ?><!--</div>-->
 
             <div class="col-2 text-end">
                 <a href="#" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#notif-entry-item-<?php print $item_id ?>">
