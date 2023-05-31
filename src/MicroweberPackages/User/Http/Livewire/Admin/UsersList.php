@@ -2,12 +2,12 @@
 
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
-use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\User\Models\User;
 
-class UsersList extends Component
+class UsersList extends AdminComponent
 {
     use WithPagination;
 
@@ -31,6 +31,7 @@ class UsersList extends Component
 
     public function render()
     {
+
         $usersQuery = User::filter([
             'orderBy' => $this->orderBy,
             'orderDirection' => $this->orderDirection,

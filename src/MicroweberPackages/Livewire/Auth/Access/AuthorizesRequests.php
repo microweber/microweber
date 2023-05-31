@@ -16,10 +16,8 @@ trait AuthorizesRequests
      */
     public function authorize($ability, $arguments = [])
     {
-        if (is_admin()) {
-            return true;
-        }
-
         return false;
     }
+
+
 }

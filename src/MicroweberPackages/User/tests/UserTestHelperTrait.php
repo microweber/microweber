@@ -9,6 +9,8 @@
 namespace MicroweberPackages\User\tests;
 
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use MicroweberPackages\User\Models\User;
 
 trait UserTestHelperTrait
@@ -18,6 +20,54 @@ trait UserTestHelperTrait
     private static $_password = false;
     private static $_email = false;
 
+
+    public function actingAsAdmin()
+    {
+        $user = User::where('is_admin', '=', '1')->first();
+        if(!$user){
+            $user = $this->_createAdminUser();
+        }
+        Auth::login($user);
+        $this->actingAs($user);
+    }
+
+    public function actingAsUser()
+    {
+        $user = User::where('is_admin', '=', '0')->first();
+        if(!$user){
+            $user = $this->_createUser();
+        }
+        Auth::login($user);
+        $this->actingAs($user);
+    }
+    private function _createAdminUser()
+    {
+        $email = 'admin_' . Str::random(10) . '@example.com';
+        $password = bcrypt('password'); // Change 'password' to a secure default password
+
+        $user = new User();
+        $user->email = $email;
+        $user->password = $password;
+        $user->is_admin = 1; // Set the 'is_admin' flag to 1 for admin user
+
+        $user->save();
+
+        return $user;
+    }
+    private function _createUser()
+    {
+        $email = 'user_' . Str::random(10) . '@example.com';
+        $password = bcrypt('password'); // Change 'password' to a secure default password
+
+        $user = new User();
+        $user->email = $email;
+        $user->password = $password;
+        $user->is_admin = 0;
+
+        $user->save();
+
+        return $user;
+    }
     private function _disableCaptcha()
     {
         $data['option_value'] = 'y';

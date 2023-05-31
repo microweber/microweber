@@ -2,16 +2,11 @@
 
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
-use Livewire\Component;
-use Livewire\WithFileUploads;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\User\Models\User;
 
-class UpdateStatusAndRoleForm extends Component
+class UpdateStatusAndRoleForm extends AdminComponent
 {
 
     /**

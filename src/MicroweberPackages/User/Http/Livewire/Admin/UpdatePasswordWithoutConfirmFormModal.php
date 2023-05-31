@@ -3,11 +3,12 @@
 namespace MicroweberPackages\User\Http\Livewire\Admin;
 
 use Illuminate\Support\Facades\Hash;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\User\Models\User;
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\Validator;
 
-class UpdatePasswordWithoutConfirmFormModal extends ModalComponent
+class UpdatePasswordWithoutConfirmFormModal extends AdminModalComponent
 {
     /**
      * The component's state.

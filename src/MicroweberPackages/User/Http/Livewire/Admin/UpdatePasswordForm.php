@@ -5,9 +5,9 @@ namespace MicroweberPackages\User\Http\Livewire\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Livewire\Component;
+ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class UpdatePasswordForm extends Component
+class UpdatePasswordForm extends AdminComponent
 {
     /**
      * The component's state.
