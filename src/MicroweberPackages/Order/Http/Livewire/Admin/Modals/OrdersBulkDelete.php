@@ -3,9 +3,10 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin\Modals;
 
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Order\Models\Order;
 
-class OrdersBulkDelete extends ModalComponent
+class OrdersBulkDelete extends AdminModalComponent
 {
     public $ids = [];
 

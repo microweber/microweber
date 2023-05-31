@@ -1,4 +1,8 @@
 <div>
+    @if(isset($moduleData['name']))
+
+
+
     <form wire:submit.prevent="confirm">
         <div class="modal-header bg-light border-0">
             <h5 class="modal-title">
@@ -21,4 +25,9 @@
 
         </div>
     </form>
+
+    @else
+        <div class="alert alert-danger">{{_e('Please select a module')}}</div>
+     @endif
+
 </div>

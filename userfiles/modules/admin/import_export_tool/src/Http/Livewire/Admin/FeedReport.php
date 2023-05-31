@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -8,9 +8,10 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class FeedReport extends Component
+class FeedReport extends AdminComponent
 {
     use WithPagination;
 
@@ -19,6 +20,9 @@ class FeedReport extends Component
     public function render()
     {
         $importFeed = ImportFeed::where('id', $this->import_feed_id)->first();
+        if(!$importFeed){
+            return view('import_export_tool::admin.livewire-no-feeds');
+        }
 
         $mappedContent = $this->paginate($importFeed->mapped_content);
 

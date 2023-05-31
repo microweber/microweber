@@ -17,7 +17,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
-use MicroweberPackages\Shop\Http\Livewire\DashboardSalesComponent;
+use MicroweberPackages\Shop\Http\Livewire\Admin\DashboardSalesComponent;
 
 class ShopServiceProvider extends ServiceProvider
 {

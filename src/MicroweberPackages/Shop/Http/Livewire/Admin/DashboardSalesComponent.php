@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Shop\Http\Livewire;
+namespace MicroweberPackages\Shop\Http\Livewire\Admin;
 
 use Illuminate\Support\Carbon;
 use Livewire\Component;

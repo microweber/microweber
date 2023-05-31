@@ -4,8 +4,9 @@ namespace MicroweberPackages\Module\Http\Livewire\Admin;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class ListModules extends Component
+class ListModules extends AdminComponent
 {
     use WithPagination;
 

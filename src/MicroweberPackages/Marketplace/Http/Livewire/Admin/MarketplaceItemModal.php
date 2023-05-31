@@ -5,11 +5,12 @@ namespace MicroweberPackages\Marketplace\Http\Livewire\Admin;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use MicroweberPackages\Package\MicroweberComposerPackage;
 
-class MarketplaceItemModal extends ModalComponent
+class MarketplaceItemModal extends AdminModalComponent
 {
     public $name;
     public $package = [];
