@@ -14,15 +14,4 @@
             Your template is up to date.
         </div>
     </div>
-    <div class="modal-footer">
-        <div class="w-100">
-            <div class="row">
-                <div class="col">
-                    <a href="#" class="btn w-100" data-bs-dismiss="modal">
-                        Close
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
