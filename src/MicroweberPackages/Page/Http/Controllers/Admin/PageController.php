@@ -97,43 +97,55 @@ class PageController extends AdminController
         $layoutUrls = [];
 
         $getPages = get_pages();
-        $getLayouts = mw()->layouts_manager->get_all($layout_options);
-        foreach ($getLayouts as $layout) {
+//        $getLayouts = mw()->layouts_manager->get_all($layout_options);
+//        foreach ($getLayouts as $layout) {
+//
+//            $layoutUrl = [];
+//            $layoutUrl['preview_url'] = $layout['layout_file_preview_url'];
+//            $layoutUrl['name'] = $layout['name'];
+//            $layoutUrl['edit_url'] = false;
+//            $layoutUrl['create_url'] = route('admin.page.create') . '?layout=' . $layout['layout_file_preview'];
+//            $layoutUrl['pages'] = [];
+//
+//            foreach ($getPages as $page) {
+//
+//                $pageUrl = [];
+//                $pageUrl['name'] = $page['title'];
+//                $pageUrl['edit_url'] = $page['url'] . '?editmode=y';
+//                $pageUrl['create_url'] = false;
+//                $pageUrl['preview_url'] = $page['url'] . '?no_editmode=true';
+//
+//                if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {
+//                    $layoutUrl['pages'][] = $pageUrl;
+//                }
+//            }
+//
+//            if (count($layoutUrl['pages']) == 1) {
+//                $layoutUrl['create_url'] = false;
+//                $layoutUrl['edit_url'] = $layoutUrl['pages'][0]['edit_url'];
+//            } else {
+//                $layoutUrl['pages'][] = [
+//                  'name' => 'Create new page',
+//                   'edit_url' => false,
+//                   'create_url' => $layoutUrl['create_url'],
+//                     'preview_url' => $layout['layout_file_preview_url']
+//                ];
+//            }
+//
+//            $layoutUrls[] = $layoutUrl;
+//        }
 
-            $layoutUrl = [];
-            $layoutUrl['preview_url'] = $layout['layout_file_preview_url'];
-            $layoutUrl['name'] = $layout['name'];
-            $layoutUrl['edit_url'] = false;
-            $layoutUrl['create_url'] = route('admin.page.create') . '?layout=' . $layout['layout_file_preview'];
-            $layoutUrl['pages'] = [];
 
-            foreach ($getPages as $page) {
-
-                $pageUrl = [];
-                $pageUrl['name'] = $page['title'];
-                $pageUrl['edit_url'] = $page['url'] . '?editmode=y';
-                $pageUrl['create_url'] = false;
-                $pageUrl['preview_url'] = $page['url'] . '?no_editmode=true';
-
-                if (!empty($page['layout_file']) && $page['layout_file'] == $layout['layout_file_preview']) {
-                    $layoutUrl['pages'][] = $pageUrl;
-                }
-            }
-
-            if (count($layoutUrl['pages']) == 1) {
-                $layoutUrl['create_url'] = false;
-                $layoutUrl['edit_url'] = $layoutUrl['pages'][0]['edit_url'];
-            } else {
-                $layoutUrl['pages'][] = [
-                  'name' => 'Create new page',
-                   'edit_url' => false,
-                   'create_url' => $layoutUrl['create_url'],
-                     'preview_url' => $layout['layout_file_preview_url']
-                ];
-            }
-
-            $layoutUrls[] = $layoutUrl;
+        $layoutUrls = [];
+        foreach ($getPages as $page) {
+            $pageUrl = [];
+            $pageUrl['name'] = $page['title'];
+            $pageUrl['edit_url'] = $page['url'] . '?editmode=y';
+            $pageUrl['create_url'] = false;
+            $pageUrl['preview_url'] = $page['url'] . '?no_editmode=true';
+            $layoutUrls[] = $pageUrl;
         }
+
         $data['allLayouts'] = $layoutUrls;
 
         return view('page::admin.page.design', $data);
