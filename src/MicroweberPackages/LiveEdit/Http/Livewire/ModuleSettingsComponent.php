@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\LiveEdit\Http\Livewire;
 
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-class ModuleSettingsComponent extends Component
+class ModuleSettingsComponent extends AdminComponent
 {
     public string $moduleId = '';
     public string $moduleType = '';
@@ -32,5 +32,9 @@ class ModuleSettingsComponent extends Component
         }
         $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $this->settings]);
 
+    }
+    public function render()
+    {
+return view('microweber-live-edit::module-settings');
     }
 }
