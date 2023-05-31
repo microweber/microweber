@@ -17,7 +17,7 @@ use MicroweberPackages\User\Http\Livewire\Admin\UsersList;
 use MicroweberPackages\User\Http\Livewire\Admin\UserTosLogModal;
 
 
-class UserLivewireComponentsTest extends TestCase
+class UserLivewireComponentsAccessTest extends TestCase
 {
     use UserTestHelperTrait;
 
@@ -35,7 +35,7 @@ class UserLivewireComponentsTest extends TestCase
         CreateProfileInformationForm::class,
     ];
 
-    public function testIfCanViewUserListAsAdmin()
+    public function testIfCanViewComponentAsAdmin()
     {
 
         $this->actingAsAdmin();
@@ -46,7 +46,7 @@ class UserLivewireComponentsTest extends TestCase
 
     }
 
-    public function testIfCannotViewUserListAsUser()
+    public function testIfCannotViewComponentAsUser()
     {
         $this->actingAsUser();
         foreach ($this->componentsList as $component) {
