@@ -36,21 +36,17 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="d-flex align-items-start flex-wrap justify-content-between mb-4">
+                <div class="d-flex align-items-start flex-wrap justify-content-between mb-4 px-0">
                     <div class="col-lg-6 col-12 mb-xl-0 mb-2">
 
-                       <div class="mb-4">
-                           <h2 class="mb-2">
-                               {{$templateName}}
-                           </h2>
-                           <a class="tblr-body-color text-decoration-none" href="#"
-                              onclick="Livewire.emit('openModal', 'admin-template-update-modal')"
-                              class="font-weight-bolder">
-                            {{ 'Version' }} : {{$templateVersion}}
-                           </a>
-                       </div>
-
-
+                       <h2 class="mb-0">
+                           {{$templateName}}
+                       </h2>
+                       <a class="tblr-body-color text-decoration-none mw-admin-action-links btn btn-link" href="#"
+                          onclick="Livewire.emit('openModal', 'admin-template-update-modal')"
+                          class="font-weight-bolder">
+                        {{ 'Version' }} : {{$templateVersion}}
+                       </a>
 
                         <div class="d-flex align-items-center gap-3">
                             <a class="tblr-body-color font-weight-bold text-decoration-none mw-admin-action-links btn btn-link fs-3" href="{{admin_url('settings?group=general')}}">
@@ -81,8 +77,9 @@
 
                    <div class="card-body p-0">
                        <div class="row p-0">
-                           <div class="card-header d-flex flex-wrap align-items-center justify-content-between shadow-sm p-3">
-                              <div class="col-xl-2 col-lg-4 col-md-6 col-12">
+                           <div class="card-header d-flex flex-wrap align-items-center justify-content-between px-0">
+                              <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                                  <label for="" class="form-label">{{ 'Website pages' }}</label>
                                   <select class="js-select-layout form-select">
                                       @foreach($allLayouts as $layout)
                                           @if(isset($layout['pages']) && count($layout['pages']) > 1)
@@ -162,7 +159,7 @@
                                });
                            </script>
 
-                           <div class="mt-3 tblr-body-bg p-xxl-7 p-xl-4 p-2">
+                           <div class="mt-3 px-0">
                                <div class="preview_frame_container preview-in-self">
                                    <iframe class="preview_frame_small"></iframe>
                                </div>
