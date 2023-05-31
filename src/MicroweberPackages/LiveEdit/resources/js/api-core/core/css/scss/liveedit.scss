@@ -48,7 +48,7 @@ mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
 }
 
 
-[contenteditable="true"]{
+body:not(.is_admin) [contenteditable="true"]{
     outline: 1px dotted #ccc;
     outline-offset: 7px;
 }

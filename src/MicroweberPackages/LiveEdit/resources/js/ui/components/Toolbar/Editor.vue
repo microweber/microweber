@@ -121,7 +121,9 @@ export default {
                         dlg.remove();
 
                     }) 
-                    $(dlg).on('Remove', resolve)
+                    $(dlg).on('Remove', () => {
+                      resolve()
+                    })
 
                     imageEditor = editImage(url, editor, dlg)
                 });
@@ -130,6 +132,7 @@ export default {
             mw.app.editor.on('editNodeRequest', async (element) => {
                 if(element.nodeName === 'IMG') {
                   var src = await editImageDialog(element.src);
+                  console.log(src)
                   if(src) {
                     element.src = src
                   }

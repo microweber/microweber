@@ -1,5 +1,6 @@
 
 
+import { init } from 'aos';
 import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 
@@ -84,13 +85,25 @@ export const liveEditComponent = () => {
 
 
     let _inputTimeout = null;
+    const initialState = new Map();
     const _inputUnavailable = ['INPUT', 'SELECT', 'TEXTAREA'];
     let _edit = null; 
 
-    mw.app.canvas.getDocument().body.addEventListener('input', e => {
+    const body = mw.app.canvas.getDocument().body;
+
+
+
+
+    const handleInput = (e, initial) => {
         if(_inputUnavailable.indexOf(e.target.nodeName) === -1 && e.target.isContentEditable) {
             _edit = DomService.firstParentOrCurrentWithClass(e.target, 'edit');
-             
+            if(initial/* && !initialState.get(_edit)*/) {
+                initialState.set(_edit, true);
+                mw.app.state.record({ 
+                    target: _edit,
+                    value: _edit.innerHTML
+                })
+            }
             clearTimeout(_inputTimeout);
             _inputTimeout = setTimeout(() => {
                 if(_edit) {
@@ -102,7 +115,16 @@ export const liveEditComponent = () => {
                 
             }, 200)
         }
-    })
+    }
+
+        body.addEventListener('input', e => {
+            handleInput(e)
+        });
+        body.addEventListener('beforeinput', e => {
+            handleInput(e, true)
+        });
+
+    }
 
 
-}
+

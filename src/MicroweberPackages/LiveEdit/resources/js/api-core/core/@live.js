@@ -296,6 +296,7 @@ export class LiveEdit {
  
 
             this.document.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+            this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
               
             this.handles.get('element').set(null)
             this.handles.hide();
@@ -347,6 +348,8 @@ export class LiveEdit {
                 const target =  DomService.firstParentOrCurrentWithAnyOfClasses(elements[0], ['element', 'module', 'cloneable']);
                 const layout =  DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['module-layouts']);
                 let layoutHasSelectedTarget = false;
+
+              
                 
                 if(target && _hovered.indexOf(target) === -1) {
                     _hovered.forEach(node =>  delete node.dataset.mwLiveEdithover);
