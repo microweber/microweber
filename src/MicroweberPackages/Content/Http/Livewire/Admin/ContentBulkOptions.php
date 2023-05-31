@@ -2,10 +2,10 @@
 
 namespace MicroweberPackages\Content\Http\Livewire\Admin;
 
-use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Content\Models\Content;
 
-class ContentBulkOptions extends Component
+class ContentBulkOptions extends AdminComponent
 {
     protected $listeners = [
         'multipleMoveToCategory' => 'multipleMoveToCategoryShowModal',
