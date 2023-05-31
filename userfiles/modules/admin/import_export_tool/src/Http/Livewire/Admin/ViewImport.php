@@ -1,17 +1,14 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
-use Livewire\Component;
 use Livewire\WithFileUploads;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Import\Formats\CsvReader;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class ViewImport extends Component
+class ViewImport extends AdminComponent
 {
     use WithFileUploads;
 
@@ -89,7 +86,7 @@ class ViewImport extends Component
         ]);
 
         $uploadFilePath = $this->uploadFile->store('import-export-tool');
-        $fullFilePath = storage_path(). '/app/'.$uploadFilePath;
+        $fullFilePath = storage_path() . '/app/' . $uploadFilePath;
         $feed = ImportFeed::where('id', $this->import_feed_id)->first();
 
         $feed->source_type = 'upload_file';
@@ -107,12 +104,18 @@ class ViewImport extends Component
     public function render()
     {
         $this->has_new_changes = $this->arrayDiffRecursive($this->import_feed_original, $this->import_feed);
-
+        if (!$this->import_feed) {
+            return view('import_export_tool::admin.livewire-no-feeds');
+        }
         return view('import_export_tool::admin.livewire-view-import');
     }
 
-    public function mount($importFeedId)
+    public function mount($importFeedId = false)
     {
+        if (!$importFeedId) {
+            return;
+        }
+
         $importFeed = ImportFeed::where('id', $importFeedId)->first();
         if ($importFeed == null) {
             return redirect(route('admin.import-export-tool.index'));

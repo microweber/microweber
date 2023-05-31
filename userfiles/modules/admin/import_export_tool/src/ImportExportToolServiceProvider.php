@@ -16,20 +16,18 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Counter;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMapping;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ExportWizard;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FeedReport;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\FieldMapDropdownItem;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\DropdownMappingPreview;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ImportWizard;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Install;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NewImportModal;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoExportFeeds;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\NoFeeds;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartExportingModal;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\StartImportingModal;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\ViewImport;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\DropdownMapping;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ExportWizard;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\FeedReport;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\DropdownMappingPreview;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ImportWizard;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\Install;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\NewImportModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\NoExportFeeds;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\NoFeeds;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartExportingModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartImportingModal;
+use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ViewImport;
 
 class ImportExportToolServiceProvider extends ServiceProvider
 {
@@ -74,7 +72,7 @@ class ImportExportToolServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton('improt_export_migrator', function ($app) {
+        $this->app->singleton('import_export_migrator', function ($app) {
             $repository = $app['migration.repository'];
             return new ModuleMigrator($repository, $app['db'], $app['files'], $app['events']);
         });

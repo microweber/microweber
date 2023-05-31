@@ -1,11 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
@@ -17,7 +18,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Product\Models\Product;
 
-class StartImportingModal extends ModalComponent
+class StartImportingModal extends AdminModalComponent
 {
     public $error = false;
     public $done = false;
@@ -83,8 +84,11 @@ class StartImportingModal extends ModalComponent
         $this->logDetails = $log;
     }
 
-    public function mount($importFeedId)
+    public function mount($importFeedId = false)
     {
+        if(!$importFeedId){
+            return;
+        }
         $this->import_feed = ImportFeed::where('id', $importFeedId)->first();
         if ($this->import_feed == null) {
             return redirect(route('admin.import-export-tool.index'));

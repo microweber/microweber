@@ -1,12 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class NoExportFeeds extends Component
+class NoExportFeeds extends AdminComponent
 {
     public function render()
     {

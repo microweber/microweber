@@ -50,7 +50,7 @@ class UserLivewireComponentsAccessTest extends TestCase
     {
         $this->actingAsUser();
         foreach ($this->componentsList as $component) {
-            Livewire::test($component)->assertUnauthorized();
+             Livewire::test($component)->assertUnauthorized();
         }
      }
 }
