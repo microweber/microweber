@@ -5,13 +5,16 @@
     <style>
         .preview_frame_container.preview-in-self {
             height: calc(80vh - 80px);
+            pointer-events: none;
         }
         .preview_frame_container {
             position: relative;
             overflow: hidden;
+            pointer-events: none;
         }
         .preview_frame_container.preview-in-self iframe {
             height: calc(160vh - 160px) !important;
+            pointer-events: none;
         }
         .preview_frame_container iframe {
             pointer-events: none;
