@@ -5,18 +5,19 @@ let _hascss;
 export const previewMode = function () {
     document.documentElement.classList.add('preview');
     document.documentElement.style.setProperty('--toolbar-height', '0px');
-    frame.contentWindow.document.documentElement.classList.add('mw-le--page-preview');
-    frame.contentWindow.document.body.classList.remove('mw-live-edit');
-    document.querySelector('#css-editor-template').classList.remove('active');
+    mw.app.canvas.getDocument().documentElement.classList.add('mw-le--page-preview');
+    mw.app.canvas.getDocument().body.classList.remove('mw-live-edit');
+ 
     document.querySelector('#bubble-nav').classList.remove('active');
     document.querySelector('#user-menu-wrapper').classList.remove('active');
+    document.querySelector('#general-theme-settings').classList.remove('active');
 }
 
 export const liveEditMode = function () {
     document.documentElement.classList.remove('preview');
     document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue('--toolbar-static-height'));
-    frame.contentWindow.document.documentElement.classList.remove('mw-le--page-preview');
-    frame.contentWindow.document.body.classList.add('mw-live-edit');
+    mw.app.canvas.getDocument().documentElement.classList.remove('mw-le--page-preview');
+    mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
     document.querySelector('#bubble-nav').classList.add('active');
 }
 export const pagePreviewToggle = function () {
@@ -49,9 +50,10 @@ export const pagePreviewToggle = function () {
                 }
             `
 
-        const node = frame.contentWindow.document.createElement('style');
+        const node = mw.app.canvas.getDocument().createElement('style');
         node.textContent = css;
-        frame.contentWindow.document.body.appendChild(node);
+        mw.app.canvas.getDocument().body.appendChild(node);
+        console.log(node)
     }
 
 }

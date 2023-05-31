@@ -75,18 +75,7 @@ export const GetPointerTargets = function(options)  {
             y = e.touches[0].pageY;
         }  
          if(!scope.tools.hasAnyOfClassesOnNodeOrParent(e.target, this.settings.exceptions)) {
-             if(!scope.document._test){
-                 scope.document._test = document.createElement('div');
-                 scope.document._test.style.position = 'absolute';
-                 scope.document._test.style.left = '10px';
-
-                 scope.document._test.style.background =  'red';
-                 scope.document._test.style.width =  '10px';
-                 scope.document._test.style.height =  '10px';
-                 scope.document.body.appendChild(scope.document._test);
-             }
-             scope.document._test.style.top = e.pageY + 'px';
-             return this.fromPoint(x, y/* + scope.document.defaultView.scrollY*/);
+             return this.fromPoint(x, y);
         }
         return []
     }

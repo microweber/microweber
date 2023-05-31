@@ -44,14 +44,17 @@ const isBlockLevel = function (node) {
 const getElementsLike = (selector, root, scope) => {
     selector = selector || '*';
     var all = root.querySelectorAll(selector), i = 0, final = [];
+    
     for( ; i<all.length; i++){
-        if(!isColumnLIke(all[i]) &&
+ 
+        if( mw.tools.parentsOrCurrentOrderMatchOrOnlyFirst(all[i], ['edit', 'module']) && !isColumnLIke(all[i]) &&
             !isRowLike(all[i]) &&
             !scope.elementAnalyzer.isEdit(all[i]) &&
             isBlockLevel(all[i])){
             final.push(all[i]);
         }
     }
+    
     return final;
 };
 
@@ -86,10 +89,14 @@ export const ModeAuto = (scope) => {
     }
     for ( ; i2 < edits.length; i2++ ) {
         var all = getElementsLike(':not(.' + elementClass + ')', edits[i2], scope), i2a = 0;
+        
 
         var allAllowDrops = edits[i2].querySelectorAll('img,.' + allowDrop), i3a = 0;
         for( ; i3a < allAllowDrops.length; i3a++){
-            allAllowDrops[i3a].classList.add(elementClass);
+            if(scope.elementAnalyzer.isInEdit(allAllowDrops[i3a])){
+                allAllowDrops[i3a].classList.add(elementClass);
+            }
+            
         }
         for( ; i2a<all.length; i2a++) {
             if(!all[i2a].classList.contains(moduleClass)){
