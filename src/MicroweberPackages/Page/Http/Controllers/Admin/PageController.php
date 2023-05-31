@@ -79,25 +79,15 @@ class PageController extends AdminController
 
         $templateName = '';
         $templateVersion = '';
-        $templateComposerName = '';
         $templateConfigFile = template_dir() . 'config.php';
-        $templateComposerFile = template_dir() . 'composer.json';
         if (is_file($templateConfigFile)) {
             include $templateConfigFile;
             $templateName = $config['name'];
             $templateVersion = $config['version'];
         }
-        if (is_file($templateComposerFile)) {
-            $composer = json_decode(file_get_contents($templateComposerFile), true);
-            if (isset($composer['name'])) {
-                $templateComposerName = $composer['name'];
-            }
-        }
-
 
         $data['templateName'] = $templateName;
         $data['templateVersion'] = $templateVersion;
-        $data['templateComposerName'] = $templateComposerName;
 
         $layout_options = array();
         $layout_options['site_template'] = ACTIVE_SITE_TEMPLATE;

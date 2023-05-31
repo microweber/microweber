@@ -41,7 +41,7 @@
                                {{$templateName}}
                            </h2>
                            <a class="tblr-body-color text-decoration-none" href="#"
-                              onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$templateComposerName]) }})"
+                              onclick="Livewire.emit('openModal', 'admin-template-update-modal')"
                               class="font-weight-bolder">
                             {{ 'Version' }} : {{$templateVersion}}
                            </a>
