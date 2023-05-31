@@ -2,11 +2,11 @@
 
 namespace MicroweberPackages\Content\Http\Livewire\Admin;
 
-use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Content\Models\Content;
 
-class ContentList extends Component
+class ContentList extends AdminComponent
 {
     use WithPagination;
 

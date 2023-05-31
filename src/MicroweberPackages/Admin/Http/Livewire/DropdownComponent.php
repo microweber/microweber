@@ -4,7 +4,7 @@ namespace MicroweberPackages\Admin\Http\Livewire;
 
 use Livewire\Component;
 
-class DropdownComponent extends Component
+class DropdownComponent extends AdminComponent
 {
 
     /**
