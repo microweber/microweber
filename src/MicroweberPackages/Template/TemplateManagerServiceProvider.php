@@ -13,9 +13,8 @@ namespace MicroweberPackages\Template;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Admin\Http\Livewire\TagsAutoComplete;
-use MicroweberPackages\Template\Http\Livewire\AdminTemplateUpdateModal;
 use Livewire\Livewire;
+use MicroweberPackages\Template\Http\Livewire\Admin\AdminTemplateUpdateModal;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {

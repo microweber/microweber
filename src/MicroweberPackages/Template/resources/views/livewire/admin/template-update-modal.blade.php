@@ -4,7 +4,7 @@
 
     <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
 
-    @if($package['has_update'] && $installVersion == $package['version'])
+    @if(isset($package['has_update']) && $package['has_update'] && $installVersion == $package['version'])
 
         <div class="modal-status bg-warning"></div>
         <div class="modal-body text-center py-4">

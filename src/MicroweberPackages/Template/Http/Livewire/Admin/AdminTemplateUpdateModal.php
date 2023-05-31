@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Template\Http\Livewire;
+namespace MicroweberPackages\Template\Http\Livewire\Admin;
 
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\MarketplaceItemModal;
 
