@@ -168,15 +168,13 @@ if (isset($data['created_by']) and $data['created_by']) {
 
 
     <?php if ($showAdvancedSettings): ?>
-    <!-- Advanced Settings -->
-    <div class="card-body mb-3 card-collapse">
-        <div class="card-header no-border">
-            <h6><strong><?php _e('Advanced settings') ?></strong></h6>
-            <a href="javascript:;" class="btn btn btn-sm btn-outline-primary btn-link-to-bordered" data-bs-toggle="collapse" data-bs-target="#advanced-settings"><span class="collapse-action-label"><?php _e('Show') ?></span>&nbsp; <?php _e('advanced settings') ?></a>
-        </div>
 
-        <div class="card-body py-0">
-            <div class="collapse" id="advanced-settings">
+    <!-- Advanced Settings -->
+    <div id="advanced-settings">
+
+                <h6><strong><?php _e('Advanced settings') ?></strong></h6>
+
+
                 <p><?php _e('Use the advanced settings to customize your blog post') ?></p>
                 <hr class="thin no-padding"/>
                 <div class="row">
@@ -296,10 +294,6 @@ if (isset($data['created_by']) and $data['created_by']) {
                         <a class="btn btn-outline-primary btn-sm" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a>
 
                     </div>
-
-
-
-
                 </div>
 
                 <?php endif; ?>
@@ -362,22 +356,11 @@ if (isset($data['created_by']) and $data['created_by']) {
                     <?php endif; ?>
 
 
-
-
-
                     <div class="row  ">
-
-
-
 
                         <div class="col-12">
 
-
                             <button type="button" class="btn btn-sm btn-link" data-bs-toggle="collapse" data-bs-target="#set-a-specific-publish-date"><?php _e("Set a specific publish date"); ?></button>
-
-
-
-
 
                             <div  class="collapse"   id="set-a-specific-publish-date">
                                 <div class="row">
@@ -468,24 +451,14 @@ if (isset($data['created_by']) and $data['created_by']) {
                 <?php endif; ?>
 
 
-
-
-
-
             </div>
-        </div>
-    </div>
+
     <?php endif; ?>
 
 
 
 
-
-
-
 <?php include (__DIR__.'/content_delete_btns.php')?>
-
-
 
 
 <?php $custom = mw()->module_manager->ui('mw.admin.content.edit.advanced_settings.end'); ?>
@@ -500,3 +473,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
+
+<?php event_trigger('content.views.advanced_settings', $data); ?>
+

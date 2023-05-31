@@ -1,17 +1,17 @@
-<div class="ms-0 ms-md-2 mb-3 mb-md-0 mt-2">
+<div class="me-0 me-md-2 mb-3 mb-md-0 mt-2">
 
     <input wire:model.stop="filters.category" id="js-filter-category" type="hidden" />
     <input wire:model.stop="filters.page" id="js-filter-page" type="hidden" />
 
-    <button class="btn btn-badge-dropdown btn-secondary  btn-sm icon-left" onclick="categoryFilterSelectTree()">
+    <button class="btn btn-badge-dropdown btn-outline-dark btn-secondary  btn-sm icon-left" onclick="categoryFilterSelectTree()">
         <i class="fa fa-list"></i> Categories
 
         ...
         <span class="badge badge-filter-item mt-1">+2</span>
 
         <div class="d-flex actions">
-            <div class="action-dropdown-icon"><i class="fa fa-chevron-down"></i></div>
-            <div class="action-dropdown-delete"><i class="fa fa-times-circle"></i></div>
+            <div class="action-dropdown-icon"><svg fill="currentColor"  xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"/></svg></div>
+            <div class="action-dropdown-delete"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg></div>
         </div>
 
     </button>
