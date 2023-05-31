@@ -1,11 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class NewImportModal extends ModalComponent
+class NewImportModal extends AdminModalComponent
 {
     public $new_feed_name;
 

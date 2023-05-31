@@ -1,13 +1,14 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ExportFeedFromDatabase;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 
-class StartExportingModal extends ModalComponent
+class StartExportingModal extends AdminModalComponent
 {
     public $error = false;
     public $done = false;
@@ -64,8 +65,12 @@ class StartExportingModal extends ModalComponent
         $this->logDetails = $log;
     }
 
-    public function mount($exportFeedId)
+    public function mount($exportFeedId = false)
     {
+        if(!$exportFeedId){
+            return;
+        }
+
         $this->export_feed = ExportFeed::where('id', $exportFeedId)->first();
         if ($this->export_feed == null) {
             return redirect(route('admin.import-export-tool.index-export'));

@@ -1,17 +1,18 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapCategoryReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
-class DropdownMappingPreview extends Component
+class DropdownMappingPreview extends AdminComponent
 {
     public $data;
     public $import_feed_id = 0;
@@ -29,8 +30,11 @@ class DropdownMappingPreview extends Component
         }
     }
 
-    public function mount($importFeedId)
+    public function mount($importFeedId = false)
     {
+        if(!$importFeedId){
+            return redirect(route('admin.import-export-tool.index'));
+        }
         $importFeed = ImportFeed::where('id', $importFeedId)->first();
         if ($importFeed == null) {
             return redirect(route('admin.import-export-tool.index'));

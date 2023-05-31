@@ -1,14 +1,15 @@
 <?php
 
-namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire;
+namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\HtmlDropdownMappingRecursiveTable;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 
-class DropdownMapping extends Component
+class DropdownMapping extends AdminComponent
 {
     public $importFeedId;
     public $mapKey;
