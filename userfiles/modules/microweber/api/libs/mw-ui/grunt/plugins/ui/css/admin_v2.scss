@@ -1307,6 +1307,7 @@ svg.text-danger {
     position: relative;
     text-decoration: none;
     color: var(--tblr-body-color);
+    font-weight: 500;
 
     &:after {
         position: absolute;
