@@ -1053,7 +1053,7 @@ input[type=number] {
 .hover-bg-light {
    &:hover {
            --tblr-bg-opacity: 1;
-           background-color: rgba(var(--tblr-light-rgb),var(--tblr-bg-opacity))!important;
+           background-color: var(--tblr-body-bg) !important;
 
    }
 }
