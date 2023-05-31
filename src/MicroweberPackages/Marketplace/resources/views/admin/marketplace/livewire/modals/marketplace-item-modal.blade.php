@@ -1,6 +1,6 @@
 <div>
     @if (!isset($package['description']))
-<div class="alert alert-danger">Please select a package</div>
+<div class="alert alert-danger">{{'Please select a package'}}</div>
     @else
     <script>mw.require('admin_package_manager.js');</script>
 
@@ -12,7 +12,15 @@
     </div>
     <div class="modal-body">
         <div class="row row-cols-2">
-            <div style="max-height:400px;overflow:hidden">
+
+            <div class="marketplace-template-img-wrapper col-xl-7 me-3 px-0" style="max-height:400px;overflow:hidden">
+                <div class="marketplace-template-img-wrapper-overlay">
+
+                    <a href="" class="btn btn-dark marketplace-template-img-btn">
+                        {{'Preview'}}
+                    </a>
+                </div>
+
                 @if (isset($package['extra']['_meta']['screenshot_large']))
                     <img src="{{$package['extra']['_meta']['screenshot_large']}}" />
                 @elseif(isset($package['extra']['_meta']['screenshot']))
@@ -23,50 +31,50 @@
                 </div>
                 @endif
             </div>
-            <div>
+            <div class="col-xl-4">
                 <h1>{{$package['description']}}</h1>
-                <div class="text-muted">
-                    Latest Version: {{$package['version']}}
+                <div>
+                    {{'Latest Version'}}: {{$package['version']}}
                 </div>
                 <br />
 
-                <div>
-                   <div>
-                       Install version:
-                       <select wire:model="installVersion" class="form-control">
+                       {{'Install version'}}:
+                <div class="d-flex align-items-center ">
+                   <div class="col-xl-5 me-2">
+                       <select class="form-select form-select-sm" wire:model="installVersion" class="form-control">
                            @foreach($package['versions'] as $version)
                                <option value="{{$version}}">{{$version}}</option>
                            @endforeach
                        </select>
                    </div>
-                    <div class="mt-2">
+                    <div class=" text-end">
 
                         @if($package['has_update'] && $installVersion == $package['version'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
-                               class="btn btn-outline-warning js-package-install-btn">
+                               class="btn btn-outline-warning btn-sm js-package-install-btn">
                                 <i class="mdi mdi-rocket"></i> {{_e('Update to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'] && $installVersion < $package['version'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
-                               class="btn btn-outline-danger js-package-install-btn">
+                               class="btn btn-outline-danger btn-sm js-package-install-btn">
                                 <i class="mdi mdi-arrow-down"></i> {{_e('Downgrade to')}} {{$installVersion}}
                             </a>
                         @elseif($package['current_install'])
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
-                               class="btn btn-outline-danger js-package-install-btn">
-                                <i class="mdi mdi-refresh"></i> {{_e('Reinstall')}}
+                               class="btn btn-outline-danger btn-sm js-package-install-btn">
+                                {{_e('Reinstall')}}
                             </a>
                         @else
                             <a vkey="{{$installVersion}}" href="javascript:;"
                                id="js-install-package-action"
                                onclick="mw.admin.admin_package_manager.install_composer_package_by_package_name('{{$package['name']}}',$(this).attr('vkey'), this)"
-                               class="btn btn-outline-success js-package-install-btn">
+                               class="btn btn-outline-success btn-sm js-package-install-btn">
                                 <i class="mdi mdi-download"></i>
                                 {{_('Install')}}
                             </a>
@@ -78,7 +86,7 @@
 
                 <br />
                 <div>
-                    <table cellspacing="0" cellpadding="0" class="table table-striped   m-0" width="100%">
+                    <table cellspacing="0" cellpadding="0" class="table table-striped fs-5  m-0" width="100%">
                                 <tbody>
 
                                 <tr>
@@ -103,16 +111,17 @@
                                 @if(isset($package['authors']) && !empty($package['authors']))
                                     <tr>
                                         <td><?php _e('Author'); ?></td>
+                                        <td><?php _e('Support'); ?></td>
                                         <td>
                                             @foreach($package['authors'] as $author)
-                                                {{$author['name']}}  {{$author['email']}}
+                                                {{$author['name']}}  <a href="mailto:{{$author['email']}}">{{$author['email']}}</a>
                                             @endforeach
                                         </td>
                                     </tr>
                                 @endif
 
                                 <tr>
-                                    <td><?php _e('Release date'); ?></td>
+                                    <td><?php _e('Released'); ?></td>
                                     <td><?php print date('d M Y', strtotime($package['time'])) ?></td>
                                 </tr>
 

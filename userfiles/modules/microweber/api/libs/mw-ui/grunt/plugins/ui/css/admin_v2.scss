@@ -1359,3 +1359,41 @@ svg.text-danger {
 .preview_frame_container iframe {
     border: none;
 }
+
+.marketplace-template-img-wrapper {
+    position: relative;
+
+    &:hover {
+
+        .marketplace-template-img-wrapper-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 1;
+        }
+    }
+
+    .marketplace-template-img-wrapper-overlay {
+        transition: .5s ease;
+        background-color: transparent;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+
+
+        .marketplace-template-img-btn {
+            opacity: 1;
+            z-index: 1;
+            position: absolute;
+            top: 40%;
+            left: 36%;
+        }
+    }
+
+}
+
+
