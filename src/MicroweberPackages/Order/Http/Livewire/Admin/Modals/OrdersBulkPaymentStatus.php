@@ -3,9 +3,10 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin\Modals;
 
 use LivewireUI\Modal\ModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
 use MicroweberPackages\Order\Models\Order;
 
-class OrdersBulkPaymentStatus extends ModalComponent
+class OrdersBulkPaymentStatus extends AdminModalComponent
 {
     public $paymentStatus;
     public $ids = [];
