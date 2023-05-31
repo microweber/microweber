@@ -102,7 +102,7 @@
                         <div class="col-auto">
                             <a href="#" class="btn btn-link"
                                onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
-                                {{_e('View')}}
+
                             </a>
                         </div>
                     </div>
