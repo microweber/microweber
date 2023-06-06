@@ -45,7 +45,7 @@ abstract class FormControl extends Element
     {
         $this->setAttribute($attribute, $value);
         return $this;
-    } 
+    }
 
     public function required($conditional = true)
     {

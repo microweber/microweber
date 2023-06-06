@@ -4,18 +4,18 @@ namespace MicroweberPackages\Modules\ContactForm\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormList;
-use MicroweberPackages\Modules\TodoModuleLivewire\Models\Todo;
 
-class ListComponent extends Component
+class ListComponent extends AdminComponent
 {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
 
     public $listeners = [
-        "loadListFormData" => '$refresh',
+        "loadListFormData" => 'refresxxxh',
     ];
 
     public $filter = [
@@ -52,6 +52,11 @@ class ListComponent extends Component
         $this->gotoPage(1);
     }
 
+    public function refresxxxh()
+    {
+        dd(222);
+    }
+
     public function render()
     {
         $formsLists = FormList::all();
@@ -81,6 +86,21 @@ class ListComponent extends Component
         $formsData = $getFormDataQuery->paginate($this->itemsPerPage);
 
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
+    }
+
+    public function preview($id)
+    {
+        $getFormData = FormData::where('id', $id)->first();
+        if ($getFormData) {
+            if ($getFormData->is_read != 1) {
+                $getFormData->is_read = 1;
+                $getFormData->save();
+            }
+        }
+
+        $this->emit('openModal', 'contact-form.form-data-preview-modal', [
+            'formDataId' => $id
+        ]);
     }
 
     public function markAsRead($id)

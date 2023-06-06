@@ -7,22 +7,13 @@ use MicroweberPackages\Form\Models\FormData;
 
 class FormDataPreviewModalComponent extends AdminModalComponent
 {
+    public $formDataId;
     public $formData;
     public $confirmingDeleteId;
 
     public function mount($formDataId = null)
     {
-        $getFormData = FormData::where('id', $formDataId)->first();
-        if ($getFormData) {
-
-            if ($getFormData->is_read != 1) {
-                $getFormData->is_read = 1;
-                $getFormData->save();
-                $this->emit('loadListFormData');
-            }
-
-            $this->formData = $getFormData;
-        }
+        $this->formDataId = $formDataId;
     }
 
     public function confirmDelete($id)
@@ -44,6 +35,11 @@ class FormDataPreviewModalComponent extends AdminModalComponent
 
     public function render()
     {
+        $getFormData = FormData::where('id', $this->formDataId)->first();
+        if ($getFormData) {
+            $this->formData = $getFormData;
+        }
+
         return view('contact-form::admin.contact-form.modals.form-data-preview-modal');
     }
 
