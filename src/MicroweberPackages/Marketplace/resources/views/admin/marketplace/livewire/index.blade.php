@@ -1,4 +1,4 @@
-<div>
+<div class="row">
     <script>mw.require('admin_package_manager.js');</script>
 
     <div class="px-5 col-xxl-10 mx-auto">
@@ -55,18 +55,18 @@
                            </div>
                            <?php _e("Modules"); ?>
                        </button>
-                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
-                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
-                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
-                           </div> <?php _e("All"); ?>
-                       </button>
+{{--                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">--}}
+{{--                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">--}}
+{{--                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>--}}
+{{--                           </div> <?php _e("All"); ?>--}}
+{{--                       </button>--}}
                    </div>
                </div>
 
                <div class="col-12">
                    <div class="row row-cards px-0 mt-4">
 
-                       @if(!empty($marketplacePagination))
+                       @if($marketplacePagination->count() > 0)
                            @foreach($marketplacePagination as $marketItem)
                                <div class="col-sm-6 col-lg-4">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
@@ -127,8 +127,11 @@
                                {!! $marketplacePagination->links('livewire-tables::specific.bootstrap-4.pagination') !!}
                            </div>
                        @else
-                           <div class="col-12">
-                                   <?php _e("no items"); ?>
+                           <div class="col-12 text-center mt-7">
+                                  <h2>
+                                          <?php _e("No results found"); ?>
+                                  </h2>
+
                            </div>
                        @endif
 
