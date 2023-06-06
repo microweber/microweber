@@ -286,18 +286,8 @@ if (isset($params['quick_edit'])) {
             $backToLink = route('admin.page.index');
             $typeIcon = 'mdi-file-document';
             $backToTypeText = 'Pages';
-
         }
         ?>
-
-        <div class="position-relative mw-modules-toolbar-back-button-holder-wrapper">
-            <div class="main-toolbar mw-modules-toolbar-back-button-holder">
-                <a href="<?php echo $backToLink; ?>" class="btn btn-link text-silver px-0">
-                    <i class="mdi mdi-chevron-left"></i> <?php _e('Back to'); ?> <?php _e($backToTypeText); ?>
-                </a>
-            </div>
-        </div>
-
 
         <div class="row" x-data="{showEditTab: 'details'}">
             <div class="col-md-8 manage-content-body mx-5">
