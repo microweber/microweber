@@ -8,6 +8,7 @@ use MicroweberPackages\Form\Models\FormData;
 class FormDataPreviewModalComponent extends AdminModalComponent
 {
     public $formData;
+    public $confirmingDeleteId;
 
     public function mount($formDataId = null)
     {
@@ -22,6 +23,23 @@ class FormDataPreviewModalComponent extends AdminModalComponent
 
             $this->formData = $getFormData;
         }
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->confirmingDeleteId = $id;
+    }
+
+    public function delete($id)
+    {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
+            return [];
+        }
+
+        $formData->delete();
+        $this->emit('loadList');
+        $this->closeModal();
     }
 
     public function render()

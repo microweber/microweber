@@ -17,8 +17,19 @@
             <br />
         @endforeach
 
-        <div class="mt-4 text-end">
-            <a class="btn btn-dark me-2" href="" wire:click="$emit('closeModal')" > {{_e('Close')}}</a>
+        <div class="mt-4 d-flex justify-content-between">
+
+            @if($confirmingDeleteId === $formData->id)
+                <button type="button" wire:click="delete({{ $formData->id }})" class="btn btn-outline-danger mt-3">
+                    {{_e('Are you sure you want to delete this email?')}}
+                </button>
+            @else
+                <button type="button" wire:click="confirmDelete({{ $formData->id }})" class="btn btn-outline-danger mt-3">
+                    {{_e('Delete')}}
+                </button>
+            @endif
+
+            <button class="btn btn-dark me-2" wire:click="$emit('closeModal')"> {{_e('Close')}}</button>
         </div>
     </div>
 
