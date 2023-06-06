@@ -127,11 +127,15 @@ class ListComponent extends AdminComponent
     public function exportDataExcel()
     {
         $params = [];
+        $params['id'] = 0;
         if (isset($filter['formListId'])) {
-            $params['list_id'] = $filter['formListId'];
+            $params['id'] = $filter['formListId'];
         }
 
-        return mw()->forms_manager->export_to_excel($params);
+        $data = mw()->forms_manager->export_to_excel($params);
+        if (isset($data['download'])) {
+            return $this->redirect($data['download']);
+        }
     }
 
     public function confirmDelete($id)
