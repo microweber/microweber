@@ -53,9 +53,6 @@
                                         {{ _e("Publish") }}
                                     </button>
                                     <button type="button" class="dropdown-item" wire:click="unpublish({{$content->id}})">
-                                        {{ _e("Unpublish") }}
-                                    </button>
-                                    <button type="button" class="dropdown-item" wire:click="draft({{$content->id}})">
                                         <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
                                         {{ _e("Draft") }}
                                     </button>
