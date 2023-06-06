@@ -76,7 +76,7 @@ class FormData extends Model
                     return $dataValue->field_value;
                 }
                 if (strpos($dataValue->field_key, 'message') !== false) {
-                    return str_limit($dataValue->field_value, 60);
+                    return str_limit($dataValue->field_value, 65);
                 }
             }
         }
