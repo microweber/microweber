@@ -13,7 +13,7 @@ class FormDataPreviewModalComponent extends AdminModalComponent
     {
         $getFormData = FormData::where('id', $formDataId)->first();
         if ($getFormData) {
-            $this->formData = $getFormData->toArray();
+            $this->formData = $getFormData;
         }
     }
 

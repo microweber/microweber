@@ -16,12 +16,28 @@ class FormData extends Model
 
     public function formDataValues()
     {
-        return $this->hasMany(FormDataValue::class);
+        return $this->hasMany(FormDataValue::class)->where('field_value', '!=', '');
     }
 
     public function formList()
     {
         return $this->belongsTo(FormList::class);
+    }
+
+    public function getFormDataValues()
+    {
+        $formDataValues = [];
+        foreach($this->formDataValues()->get() as $formDataValue) {
+            if (strpos(strtolower($formDataValue->field_key), 'captcha') !== false) {
+                continue;
+            }
+            $formDataValues[] = [
+                'field_name' => ucwords($formDataValue->field_name),
+                'field_value' => $formDataValue->field_value,
+            ];
+        }
+
+        return $formDataValues;
     }
 
     public function getEmail()
@@ -55,8 +71,12 @@ class FormData extends Model
                 if (strpos($dataValue->field_key, 'subject') !== false) {
                     return $dataValue->field_value;
                 }
+                if (strpos($dataValue->field_key, 'message') !== false) {
+                    return str_limit($dataValue->field_value, 60);
+                }
             }
         }
+
         return _e('No subject', true);
     }
 
