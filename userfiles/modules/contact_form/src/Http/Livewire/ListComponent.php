@@ -14,7 +14,9 @@ class ListComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $listeners = ["loadList" => '$refresh'];
+    public $listeners = [
+        "loadListFormData" => '$refresh',
+    ];
 
     public $filter = [
         "keyword" => "",

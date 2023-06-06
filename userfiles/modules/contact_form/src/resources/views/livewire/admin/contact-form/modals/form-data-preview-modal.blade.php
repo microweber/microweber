@@ -29,7 +29,7 @@
                 </button>
             @endif
 
-            <button class="btn btn-dark me-2" wire:click="$emit('closeModal')"> {{_e('Close')}}</button>
+            <button class="btn btn-outline-dark mt-3" wire:click="$emit('closeModal')"> {{_e('Close')}}</button>
         </div>
     </div>
 
