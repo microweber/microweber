@@ -24,7 +24,7 @@
                     @endif
 
                     @if($showColumns['title'])
-                    <div class="col">
+                    <div class="col-md col-12 my-md-0 my-3">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
 

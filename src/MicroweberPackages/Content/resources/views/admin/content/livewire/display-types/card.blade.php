@@ -31,7 +31,7 @@
 
                     </div>
 
-                    <div class="col item-title manage-post-item-col-3 manage-post-main">
+                    <div class="col-md col-12 my-md-0 my-3 item-title manage-post-item-col-3 manage-post-main">
 
                         @include('content::admin.content.livewire.components.title-and-categories', ['content'=>$content])
 
