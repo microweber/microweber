@@ -55,7 +55,7 @@
                         @include('content::admin.content.livewire.components.manage-links', ['content'=>$content])
                     </div>
 
-                </div> 
+                </div>
             </div>
         </div>
 
