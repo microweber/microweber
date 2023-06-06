@@ -54,11 +54,20 @@
 
     <div>
         @foreach($formsData as $formData)
-            <div class="card shadow-sm mb-4 @if($formData->is_read==1) bg-silver @else bg-azure-lt @endif comments-card">
+            <div class="card shadow-sm mb-4 bg-silver comments-card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
                         <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$formData->id}}" data-bs-original-title="#{{$formData->id}}">
-                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
+
+                            @if($formData->is_read == 1)
+                                <div>
+                                    <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
+                                </div>
+                            @else
+                                <div>
+                                    <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
+                                </div>
+                            @endif
 
                             <div class="dropdown content-card-blade-dots-menu-wrapper">
                                 <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none content-card-blade-dots-menu dots-menu-2" data-bs-toggle="dropdown"></a>
@@ -77,9 +86,17 @@
                         </div>
 
                         <div class="col-xl-5">
-                            <h4 class="mb-0 cursor-pointer" onclick="Livewire.emit('openModal', 'contact-form.form-data-preview-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
-                                 {{$formData->getSubject()}}
-                            </h4>
+                            <div class="cursor-pointer" onclick="Livewire.emit('openModal', 'contact-form.form-data-preview-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
+                                @if($formData->is_read==1)
+                                    <span class="mb-0 text-muted">
+                                        {{$formData->getSubject()}}
+                                    </span>
+                                @else
+                                <h4 class="mb-0">
+                                    {{$formData->getSubject()}}
+                                </h4>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="col">
