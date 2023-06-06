@@ -1,4 +1,3 @@
-
 <div class="dropdown content-card-blade-dots-menu-wrapper">
     <a href="#" class=" dropdown-toggle content-card-blade-dots-menu" data-bs-toggle="dropdown"></a>
 
