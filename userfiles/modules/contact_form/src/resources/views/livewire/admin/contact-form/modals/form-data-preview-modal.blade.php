@@ -1,6 +1,9 @@
 <div>
 
     <div class="modal-header">
+        <h5 class="modal-title">
+            {{$formData->getSubject()}}
+        </h5>
         <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
     </div>
 
@@ -9,9 +12,8 @@
         @foreach($formData->getFormDataValues() as $formDataValue)
             <b>{{$formDataValue['field_name'] }}:</b><br />
             <div style="word-wrap: break-word">
-                {{$formDataValue['field_value']}}
+                {!! $formDataValue['field_value'] !!}
             </div>
-            <br />
             <br />
         @endforeach
 
