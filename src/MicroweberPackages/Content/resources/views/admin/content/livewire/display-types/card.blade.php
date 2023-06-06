@@ -19,16 +19,7 @@
                     </div>
 
                     <div class="col manage-post-item-col-2 mx-md-4" style="max-width: 80px; min-width: 80px;">
-
-{{--                        @include('page::admin.page.iframe', [--}}
-{{--                            'iframeWidth'=> '600%',--}}
-{{--                            'iframeHeight'=> '100px',--}}
-{{--                            'transformScale'=>'0.16',--}}
-{{--                            'url'=>$content->link() . '?no_editmode=true'--}}
-{{--                         ])--}}
-
                     @include('content::admin.content.livewire.components.picture', ['content'=>$content])
-
                     </div>
 
                     <div class="col-md col-12 my-md-0 my-3 item-title manage-post-item-col-3 manage-post-main">
@@ -57,16 +48,17 @@
 
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a  href="{{$content->editLink()}}" class="dropdown-item">
+                                    <button type="button" class="dropdown-item" wire:click="publish({{$content->id}})">
                                         <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
                                         {{ _e("Publish") }}
-                                    </a>
-
-                                    <a  href="{{$content->editLink()}}" class="dropdown-item">
+                                    </button>
+                                    <button type="button" class="dropdown-item" wire:click="unpublish({{$content->id}})">
+                                        {{ _e("Unpublish") }}
+                                    </button>
+                                    <button type="button" class="dropdown-item" wire:click="draft({{$content->id}})">
                                         <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
                                         {{ _e("Draft") }}
-                                    </a>
-
+                                    </button>
                                 </div>
                             </div>
 

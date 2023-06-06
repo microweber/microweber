@@ -268,6 +268,36 @@ class ContentList extends AdminComponent
         $this->emit('multipleDeleteForever', $this->checked);
     }
 
+    public function draft($id)
+    {
+        $findContent = $this->model::where('id', $id)->first();
+        if ($findContent) {
+            $findContent->is_active = 0;
+            $findContent->published_at = null;
+            $findContent->save();
+        }
+    }
+
+    public function unpublish($id)
+    {
+        $findContent = $this->model::where('id', $id)->first();
+        if ($findContent) {
+            $findContent->is_active = 0;
+            $findContent->published_at = null;
+            $findContent->save();
+        }
+    }
+
+    public function publish($id)
+    {
+        $findContent = $this->model::where('id', $id)->first();
+        if ($findContent) {
+            $findContent->is_active = 1;
+            $findContent->published_at = Carbon::now();
+            $findContent->save();
+        }
+    }
+
     public function setPaginationFirstPage()
     {
         $this->setPage(1);
