@@ -376,7 +376,7 @@ if (isset($params['quick_edit'])) {
                                             <?php
                                             echo $formBuilder->text('title')
                                                 ->setModel($contentModel)
-                                                ->setAttribute('x-model', 'title')
+                                                ->xModel('title')
                                                 ->value($title_for_input)
                                                 ->id('content-title-field')
                                                 ->onkeyup('slugFromTitle();')

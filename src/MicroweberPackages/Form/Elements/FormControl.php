@@ -40,7 +40,7 @@ abstract class FormControl extends Element
     {
         $this->setAttribute('name', $name);
     }
-
+    
     public function required($conditional = true)
     {
         $this->setBooleanAttribute('required', $conditional);

@@ -91,6 +91,13 @@ abstract class Element
         return $this;
     }
 
+    public function xModel($value)
+    {
+        $this->setAttribute('x-model', $value);
+
+        return $this;
+    }
+
     public function id($id)
     {
         $this->setId($id);
