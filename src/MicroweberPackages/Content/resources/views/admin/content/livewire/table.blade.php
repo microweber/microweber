@@ -9,6 +9,7 @@
         @if($displayFilters)
             <div class="row py-3">
                 <div class="d-flex align-items-center justify-content-between">
+
                     @include('content::admin.content.livewire.card-header')
 
                     <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">

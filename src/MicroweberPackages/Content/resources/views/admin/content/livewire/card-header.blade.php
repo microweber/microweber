@@ -5,7 +5,7 @@
             <h1 class="main-pages-title d-md-flex d-none card-title">
 
                 <a class="@if(isset($currentCategory) and $currentCategory) text-decoration-none @else text-decoration-none   ms-1 @endif" onclick="livewire.emit('deselectAllCategories');return false;">
-                    {{_e('Website')}}
+                    {{_e(ucfirst($this->contentType).'s')}}
                 </a>
 
                 @if(isset($currentCategory) and $currentCategory)
