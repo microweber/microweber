@@ -33,7 +33,7 @@ class FormData extends Model
             }
             $formDataValues[] = [
                 'field_name' => ucwords($formDataValue->field_name),
-                'field_value' => $formDataValue->field_value,
+                'field_value' => nl2br($formDataValue->field_value),
             ];
         }
 
