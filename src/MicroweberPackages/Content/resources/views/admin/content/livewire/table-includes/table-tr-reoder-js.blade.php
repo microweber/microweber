@@ -1,8 +1,10 @@
 
 <style>
-
+    #content-results-table tr .mw_admin_posts_sortable_handle {
+        opacity: .3;
+    }
     #content-results-table tr:hover .mw_admin_posts_sortable_handle {
-        visibility: visible;
+        opacity: 1;
     }
 </style>
 

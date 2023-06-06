@@ -45,6 +45,7 @@
                             <label for="js-content-checkbox-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
                     </div>
+
                 </td>
                 @if($showColumns['id'])
                     <td style="vertical-align: middle;">
