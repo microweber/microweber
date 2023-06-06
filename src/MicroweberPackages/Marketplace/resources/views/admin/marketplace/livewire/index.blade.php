@@ -1,4 +1,4 @@
-<div>
+<div class="row">
     <script>mw.require('admin_package_manager.js');</script>
 
     <div class="px-5 col-xxl-10 mx-auto">
@@ -8,7 +8,7 @@
                <div class="d-flex align-items-center justify-content-between px-2 flex-wrap mb-4">
                    <div class="col-xl-4 col-md-8 col-12 px-1">
                        <h1><?php _e("Marketplace"); ?></h1>
-                       <small class="text-muted"><?php _e("Welcome to the marketplace Here you will find new modules, templates and updates"); ?></small>
+                       <small class="text-muted"><?php _e("Find Templates, Modules, Licenses and Updates"); ?></small>
                    </div>
 
 
@@ -42,23 +42,25 @@
                </div>
 
                <div class="col-12">
-                   <div class="btn-group d-flex">
-                       <button type="button" class="btn @if($category == 'microweber-template') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-template')">
+                   <div class="d-flex justify-content-center gap-2">
+                       <button type="button" class="btn @if($category == 'microweber-template') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-template')">
                            <div wire:loading wire:target="filterCategory('microweber-template')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
                            </div>
+
+                           <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Zm0-60h600v-600H180v600Zm0-600v600-600Zm183 470 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133Z"/></svg>
+
                            <?php _e("Templates"); ?>
                        </button>
-                       <button type="button" class="btn @if($category == 'microweber-module') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('microweber-module')">
+
+                       <button type="button" class="btn @if($category == 'microweber-module') btn-dark @else btn-outline-dark @endif" wire:click="filterCategory('microweber-module')">
                            <div wire:loading wire:target="filterCategory('microweber-module')" class="spinner-border spinner-border-sm" role="status">
                                <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
                            </div>
+
+                           <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24"><path d="m390 976-68-120H190l-90-160 68-120-68-120 90-160h132l68-120h180l68 120h132l90 160-68 120 68 120-90 160H638l-68 120H390Zm248-440h86l44-80-44-80h-86l-45 80 45 80ZM438 656h84l45-80-45-80h-84l-45 80 45 80Zm0-240h84l46-81-45-79h-86l-45 79 46 81ZM237 536h85l45-80-45-80h-85l-45 80 45 80Zm0 240h85l45-80-45-80h-86l-44 80 45 80Zm200 120h86l45-79-46-81h-84l-46 81 45 79Zm201-120h85l45-80-45-80h-85l-45 80 45 80Z"></path></svg>
+
                            <?php _e("Modules"); ?>
-                       </button>
-                       <button type="button" class="btn @if($category == 'all') btn-primary @else btn-outline-primary @endif" wire:click="filterCategory('all')">
-                           <div wire:loading wire:target="filterCategory('all')" class="spinner-border spinner-border-sm" role="status">
-                               <span class="visually-hidden"><?php _e("Loading"); ?>...</span>
-                           </div> <?php _e("All"); ?>
                        </button>
                    </div>
                </div>
@@ -66,7 +68,7 @@
                <div class="col-12">
                    <div class="row row-cards px-0 mt-4">
 
-                       @if(!empty($marketplacePagination))
+                       @if($marketplacePagination->count() > 0)
                            @foreach($marketplacePagination as $marketItem)
                                <div class="col-sm-6 col-lg-4">
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
@@ -127,8 +129,11 @@
                                {!! $marketplacePagination->links('livewire-tables::specific.bootstrap-4.pagination') !!}
                            </div>
                        @else
-                           <div class="col-12">
-                                   <?php _e("no items"); ?>
+                           <div class="col-12 text-center mt-7">
+                                  <h2>
+                                          <?php _e("No results found"); ?>
+                                  </h2>
+
                            </div>
                        @endif
 

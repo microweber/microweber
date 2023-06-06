@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <div class="d-flex">
-        <livewire:admin-marketplace />
-    </div>
+
+    <livewire:admin-marketplace />
+
 
     @include('content::admin.content.index-scripts')
 

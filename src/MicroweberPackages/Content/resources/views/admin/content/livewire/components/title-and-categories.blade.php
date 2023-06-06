@@ -1,12 +1,12 @@
 <div class="manage-item-main-top">
 
-    <a href="{{$content->link()}}?editmode=y" class=" form-label font-weight-bold text-break-line-1 text-decoration-none manage-post-item-title">
+    <a href="{{$content->link()}}?editmode=y" class=" form-label font-weight-bold text-break-line-1 text-decoration-none manage-post-item-title mb-0">
         {{$content->title}}
     </a>
 
     @php
         $getParentsAsLinks = app()->content_manager->get_parents_as_links($content->id, [
-            'class'=>'btn btn-link p-0 text-muted mw-products-breadcrumb',
+            'class'=>'my-1 d-block text-muted mw-products-breadcrumb',
             'implode_symbol'=>' / ',
         ])
     @endphp
@@ -46,9 +46,9 @@
 {{--        <small class="text-muted">{{$content->link()}}</small>--}}
 {{--    </a>--}}
 
-    <span>
-        <small class="text-muted" style="font-size: 12px !important;">
-            {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
-        </small>
-    </span>
+
+    <small class="text-muted" style="font-size: 12px !important;">
+        {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
+    </small>
+
 </div>
