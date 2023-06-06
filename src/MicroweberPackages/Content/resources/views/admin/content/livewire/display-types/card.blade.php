@@ -39,27 +39,26 @@
                     </div>
 
                     <div class="col-auto ms-3">
-                        @if ($content->is_active)
-                            <div class="dropdown">
-                                <a href="#" class=" dropdown-toggle badge bg-green-lt form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
-                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
-
-                                    {{ _e("Published") }}
-
-                                </a>
-                                <div class="dropdown-menu">
-                                    <button type="button" class="dropdown-item" wire:click="publish({{$content->id}})">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
-                                        {{ _e("Publish") }}
-                                    </button>
-                                    <button type="button" class="dropdown-item" wire:click="unpublish({{$content->id}})">
-                                        <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
-                                        {{ _e("Draft") }}
-                                    </button>
-                                </div>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle badge @if($content->is_active == 1) bg-green-lt @else bg-red-lt @endif form-label mb-0 fs-5 text-decoration-none" data-bs-toggle="dropdown">
+                                @if($content->is_active == 1)
+                                <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                     {{ _e("Published") }}
+                                @else
+                                    {{ _e("Unpublish") }}
+                                @endif
+                            </a>
+                            <div class="dropdown-menu">
+                                <button type="button" class="dropdown-item" wire:click="publish({{$content->id}})">
+                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M378-246 154-470l43-43 181 181 384-384 43 43-427 427Z"/></svg>
+                                    {{ _e("Publish") }}
+                                </button>
+                                <button type="button" class="dropdown-item" wire:click="unpublish({{$content->id}})">
+                                    <svg class="mx-1" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554v-186H220v680h520v-494H551ZM220-820v186-186 680-680Z"/></svg>
+                                    {{ _e("Unpublish") }}
+                                </button>
                             </div>
-
-                        @endif
+                        </div>
                     </div>
 
 
