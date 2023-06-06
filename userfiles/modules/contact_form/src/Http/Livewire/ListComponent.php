@@ -81,9 +81,30 @@ class ListComponent extends Component
         return view('contact-form::admin.contact-form.list', compact('formsData','formsLists'));
     }
 
+    public function markAsRead($id)
+    {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
+            return [];
+        }
+
+        $formData->is_read = 1;
+        $formData->save();
+    }
+
+    public function markAsUnread($id)
+    {
+        $formData = FormData::where('id', $id)->first();
+        if ($formData == null) {
+            return [];
+        }
+        $formData->is_read = 0;
+        $formData->save();
+    }
+
     public function exportDataExcel()
     {
-        
+
     }
 
     public function confirmDelete($id)
