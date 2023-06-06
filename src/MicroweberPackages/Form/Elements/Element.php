@@ -6,7 +6,7 @@ abstract class Element
 {
     protected $attributes = [];
 
-    protected function setAttribute($attribute, $value = null)
+    public function setAttribute($attribute, $value = null)
     {
         if (is_null($value)) {
             return;

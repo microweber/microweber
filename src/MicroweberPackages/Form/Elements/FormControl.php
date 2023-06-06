@@ -41,12 +41,6 @@ abstract class FormControl extends Element
         $this->setAttribute('name', $name);
     }
 
-    public function setAttribute($attribute, $value = null)
-    {
-        $this->setAttribute($attribute, $value);
-        return $this;
-    }
-
     public function required($conditional = true)
     {
         $this->setBooleanAttribute('required', $conditional);
