@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="col-xl-5">
-                            <h4 class="mb-0">
+                            <h4 class="mb-0 cursor-pointer" onclick="Livewire.emit('openModal', 'contact-form.form-data-preview-modal', {{ json_encode(['formDataId'=>$formData->id]) }})">
                                  {{$formData->getSubject()}}
                             </h4>
                         </div>
