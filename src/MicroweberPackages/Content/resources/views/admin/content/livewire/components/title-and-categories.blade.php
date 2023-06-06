@@ -17,38 +17,37 @@
         </div>
     @endif
 
-    @if($content->categories->count() > 0)
-        <span class="manage-post-item-cats-inline-list">
+    <div class="d-flex align-items-center gap-2">
+        @if($content->categories->count() > 0)
+            <span class="manage-post-item-cats-inline-list">
             @php
                 $iCategory = 0;
             @endphp
-            @foreach($content->categories as $category)
-                @if($category->parent)
+                @foreach($content->categories as $category)
+                    @if($category->parent)
 
-                    <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
-                       class="btn btn-link btn-sm p-0">
+                        <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                           class="btn btn-link btn-sm p-0">
                         {{$category->parent->title}}
                      </a>
 
-                    @php
-                        $iCategory++;
-                        if ($content->categories->count() !== $iCategory) {
-                            echo ", ";
-                        }
-                    @endphp
+                        @php
+                            $iCategory++;
+                            if ($content->categories->count() !== $iCategory) {
+                                echo ", ";
+                            }
+                        @endphp
 
-                @endif
-            @endforeach
-             </span>
-    @endif
-{{--    <a class="manage-post-item-link-small mw-medium d-none d-lg-block" target="_self"--}}
-{{--       href="{{$content->link()}}">--}}
-{{--        <small class="text-muted">{{$content->link()}}</small>--}}
-{{--    </a>--}}
+                    @endif
+                @endforeach
+         </span>
+        @endif
 
-
-    <small class="text-muted" style="font-size: 12px !important;">
-        {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
-    </small>
+        <div>
+            <small class="text-muted" style="font-size: 12px !important;">
+                {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
+            </small>
+        </div>
+    </div>
 
 </div>
