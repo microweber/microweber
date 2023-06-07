@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Comments\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Modules\Comments\Http\Livewire\Admin\AdminCommentsListComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentListComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentPreviewComponent;
 use MicroweberPackages\Modules\Comments\Http\LiveWire\UserCommentReplyComponent;
@@ -24,6 +25,8 @@ class CommentsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
+
+        Livewire::component('comments::admin-comments', AdminCommentsListComponent::class);
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
