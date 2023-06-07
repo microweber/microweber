@@ -69,8 +69,8 @@
 
             <div class="card shadow-sm mb-4 bg-silver comments-card">
                 <div class="card-body">
-                    <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
-                        <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$comment->comment_name}}" data-bs-original-title="#{{$comment->comment_name}}">
+                    <div class="gap-5">
+                        <div class="d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$comment->comment_name}}" data-bs-original-title="#{{$comment->comment_name}}">
 
                             <div>
                                 @if($comment->created_by > 0)
@@ -84,80 +84,84 @@
                                 @endif
                             </div>
 
-                            <div class="dropdown content-card-blade-dots-menu-wrapper">
-                                <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none content-card-blade-dots-menu dots-menu-2" data-bs-toggle="dropdown"></a>
-                                <div class="dropdown-menu">
-                                    @if ($comment->is_moderated == 1)
-                                        <button class="dropdown-item" wire:click="markAsUnmoderated('{{$comment->id}}')">
-                                            {{ _e("Unapprove") }}
-                                        </button>
-                                    @else
-                                        <button class="dropdown-item" wire:click="markAsModerated('{{$comment->id}}')">
-                                            {{ _e("Approve") }}
-                                        </button>
-                                    @endif
-
-                                    @if($comment->is_spam == 1)
-                                        <button class="dropdown-item" wire:click="markAsNotSpam('{{$comment->id}}')">
-                                            {{ _e("Unspam") }}
-                                        </button>
-                                    @else
-                                        <button class="dropdown-item" wire:click="markAsSpam('{{$comment->id}}')">
-                                            {{ _e("Spam") }}
-                                        </button>
-                                    @endif
-
-                                    @if($comment->deleted_at !== null)
-                                        <button class="dropdown-item" wire:click="markAsNotTrash('{{$comment->id}}')">
-                                            {{ _e("Untrash") }}
-                                        </button>
-                                    @else
-                                        <button class="dropdown-item" wire:click="markAsTrash('{{$comment->id}}')">
-                                            {{ _e("Trash") }}
-                                        </button>
-                                    @endif
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-xl-5">
-                            <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
-                                @if($comment->is_read==1)
-                                    <span class="mb-0 text-muted">
-                                      {{$comment->comment_body}}
-                                    </span>
-                                @else
-                                    <h4 class="mb-0">
-                                        {{$comment->comment_body}}
-                                    </h4>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <p class="mb-0">
-                                {{$comment->comment_name}}
-                            </p>
-                            <span class="text-muted">
+                            <div class="">
+                                <p class="mb-0">
+                                    {{$comment->comment_name}}
+                                </p>
+                                <span class="text-muted">
                              {{$comment->comment_email}}
                             </span>
+                            </div>
+
                         </div>
-                        <div class="col-auto d-flex align-items-center justify-content-end gap-4">
+
+                        <div class="mt-3">
+
                             <div>
-                                <small data-bs-toggle="tooltip" aria-label="{{$comment->created_at->diffForHumans()}}" data-bs-original-title="{{$comment->created_at->diffForHumans()}}">
-                                    {{$comment->created_at->format('M d, Y')}}
-                                    <br/>
-                                    <small> {{$comment->created_at->format('h:i A')}}</small>
-                                </small>
+                                <p class="mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 19H3v-2h13v2zm5-10H3v2h18V9zM3 5v2h11V5H3zm14 0v2h4V5h-4zm-6 8v2h10v-2H11zm-8 0v2h5v-2H3z"/></svg>
+
+                                {{$comment->contentTitle()}}
+                                </p>
+                            </div>
+
+                            <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
+                               <span class="mb-0 text-muted">
+                                  {{$comment->comment_body}}
+                                </span>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <button class="btn btn-link tblr-body-color" data-bs-toggle="tooltip" aria-label="{{'View'}}" data-bs-original-title="{{'View'}}"
-                                    wire:click="preview({{$comment->id}})">
-                                <svg class="me-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path></svg>
-                            </button>
+
+                        <div class="border-top pt-3 mt-3">
+                            <div class="d-flex gap-4">
+                                @if ($comment->is_moderated == 1)
+                                    <button class="btn btn-link text-danger" wire:click="markAsUnmoderated('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 40 40"><path fill="currentColor" d="M21.499 19.994L32.755 8.727a1.064 1.064 0 0 0-.001-1.502c-.398-.396-1.099-.398-1.501.002L20 18.494L8.743 7.224c-.4-.395-1.101-.393-1.499.002a1.05 1.05 0 0 0-.309.751c0 .284.11.55.309.747L18.5 19.993L7.245 31.263a1.064 1.064 0 0 0 .003 1.503c.193.191.466.301.748.301h.006c.283-.001.556-.112.745-.305L20 21.495l11.257 11.27c.199.198.465.308.747.308a1.058 1.058 0 0 0 1.061-1.061c0-.283-.11-.55-.31-.747L21.499 19.994z"/></svg>
+                                        {{ _e("Unapprove") }}
+                                    </button>
+                                @else
+                                    <button class="btn btn-link text-success" wire:click="markAsModerated('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><path fill="currentColor" d="m232.49 80.49l-128 128a12 12 0 0 1-17 0l-56-56a12 12 0 1 1 17-17L96 183L215.51 63.51a12 12 0 0 1 17 17Z"/></svg>
+                                        {{ _e("Approve") }}
+                                    </button>
+                                @endif
+
+                                @if($comment->is_spam == 1)
+                                    <button class="btn btn-link text-warning" wire:click="markAsNotSpam('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M17.5 2.5L23 12l-5.5 9.5h-11L1 12l5.5-9.5h11Zm-1.153 2H7.653L3.311 12l4.342 7.5h8.694l4.342-7.5l-4.342-7.5ZM11 15h2v2h-2v-2Zm0-8h2v6h-2V7Z"/></svg>
+                                        &nbsp;{{ _e("Unspam") }}
+                                    </button>
+                                @else
+                                    <button class="btn btn-link text-warning" wire:click="markAsSpam('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M17.5 2.5L23 12l-5.5 9.5h-11L1 12l5.5-9.5h11Zm-1.153 2H7.653L3.311 12l4.342 7.5h8.694l4.342-7.5l-4.342-7.5ZM11 15h2v2h-2v-2Zm0-8h2v6h-2V7Z"/></svg>
+                                       &nbsp;{{ _e("Spam") }}
+                                    </button>
+                                @endif
+
+                                @if($comment->deleted_at !== null)
+                                    <button class="btn btn-link text-danger" wire:click="markAsNotTrash('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
+                                        {{ _e("Untrash") }}
+                                    </button>
+                                @else
+                                    <button class="btn btn-link text-danger" wire:click="markAsTrash('{{$comment->id}}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
+                                        {{ _e("Trash") }}
+                                    </button>
+                                @endif
+
+                                <button class="btn btn-link text-dark" wire:click="edit('{{$comment->id}}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="m2.292 13.36l4.523 4.756L.5 20l1.792-6.64ZM12.705 2.412l4.522 4.755L7.266 17.64l-4.523-4.754l9.962-10.474ZM16.142.348l2.976 3.129c.807.848.086 1.613.086 1.613l-1.521 1.6l-4.524-4.757L14.68.334l.02-.019c.119-.112.776-.668 1.443.033Z"/></svg>
+                                    &nbsp;{{ _e("Edit") }}
+                                </button>
+
+                                <button class="btn btn-link text-dark" wire:click="reply('{{$comment->id}}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16h7.2l-2.6 2.6L15 20l5-5l-5-5l-1.4 1.4l2.6 2.6H9c-2.2 0-4-1.8-4-4s1.8-4 4-4h2V4H9c-3.3 0-6 2.7-6 6s2.7 6 6 6z"/></svg>
+                                    {{ _e("Reply") }}
+                                </button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
