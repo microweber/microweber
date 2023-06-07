@@ -22,14 +22,14 @@ class CommentsServiceProvider extends PackageServiceProvider
 
     public function register(): void
     {
+        View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
+        
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
 
         $this->loadMigrationsFrom(normalize_path(__DIR__) . '/../database/migrations/');
         $this->loadRoutesFrom(normalize_path(__DIR__) . '/../routes/admin.php');
-
-        View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
 
         parent::register();
 
