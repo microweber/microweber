@@ -242,4 +242,114 @@ class CheckoutTest extends TestCase
     }
 
 
+
+
+
+    public function testCheckoutDeletedProduct()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
+
+        $productPrice = rand(1, 9999);
+        $title = 'test testCheckoutDeletedProduct prod ' . $productPrice;
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+
+            ),
+            'data_fields_qty' => 10,
+            'is_deleted' => 1,
+            'is_active' => 1,);
+
+
+        $saved_id = save_content($params);
+        $get = get_content_by_id($saved_id);
+
+
+        $add_to_cart = array(
+            'content_id' => $saved_id,
+            'price' => $productPrice,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'client@microweber.com';
+        $checkoutDetails['is_paid'] = 1;
+        $checkoutDetails['order_completed'] = 1;
+
+
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $content_data_after_order = content_data($saved_id);
+        $this->assertEquals(10, $content_data_after_order['qty']);
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery = $productQuery->whereHas('orders');
+        $products = $productQuery->get();
+        $this->assertTrue($products->isEmpty());
+
+        $order = get_order_by_id($checkoutStatus);
+        $this->assertNotNull($order);
+        $this->assertNull($order['amount']);
+
+    }
+
+
+
+
+    public function testCheckoutUnpublishedProduct()
+    {
+        mw()->database_manager->extended_save_set_permission(true);
+
+        $productPrice = rand(1, 9999);
+        $title = 'test testCheckoutUnpublishedProduct prod ' . $productPrice;
+        $params = array(
+            'title' => $title,
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'custom_fields_advanced' => array(
+                array('type' => 'dropdown', 'name' => 'Color', 'value' => array('Purple', 'Blue')),
+                array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
+
+            ),
+            'data_fields_qty' => 11,
+            'is_deleted' => 0,
+            'is_active' => 0
+        );
+
+
+        $saved_id = save_content($params);
+        $get = get_content_by_id($saved_id);
+
+
+        $add_to_cart = array(
+            'content_id' => $saved_id,
+            'price' => $productPrice,
+        );
+        $cart_add = update_cart($add_to_cart);
+
+
+        $checkoutDetails = array();
+        $checkoutDetails['email'] = 'client@microweber.com';
+        $checkoutDetails['is_paid'] = 1;
+        $checkoutDetails['order_completed'] = 1;
+
+
+        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $content_data_after_order = content_data($saved_id);
+        $this->assertEquals(11, $content_data_after_order['qty']);
+
+        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery = $productQuery->whereHas('orders');
+        $products = $productQuery->get();
+        $this->assertTrue($products->isEmpty());
+
+        $order = get_order_by_id($checkoutStatus);
+        $this->assertNotNull($order);
+        $this->assertNull($order['amount']);
+
+    }
 }
