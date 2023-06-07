@@ -61,11 +61,11 @@
                             <div class="cursor-pointer" wire:click="preview({{$comment->id}})">
                                 @if($comment->is_read==1)
                                     <span class="mb-0 text-muted">
-                                        11111
+                                      {{$comment->comment_body}}
                                     </span>
                                 @else
                                     <h4 class="mb-0">
-                                        22
+                                        {{$comment->comment_body}}
                                     </h4>
                                 @endif
                             </div>
@@ -73,10 +73,10 @@
 
                         <div class="col">
                             <p class="mb-0">
-                                222
+                                {{$comment->comment_name}}
                             </p>
                             <span class="text-muted">
-                            ddd
+                             {{$comment->comment_email}}
                             </span>
                         </div>
                         <div class="col-auto d-flex align-items-center justify-content-end gap-4">
