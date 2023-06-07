@@ -478,6 +478,12 @@ html[dir="rtl"]{
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    .form-check{
+        cursor: pointer;
+        input{
+            pointer-events: none;
+        }
+    }
     .mw-tree-item-content{
         display: flex;
         align-items: center;
