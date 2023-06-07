@@ -68,14 +68,35 @@
                             <div class="dropdown content-card-blade-dots-menu-wrapper">
                                 <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none content-card-blade-dots-menu dots-menu-2" data-bs-toggle="dropdown"></a>
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item" wire:click="markAsRead('{{$comment->id}}')">
-                                        <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
-                                        {{ _e("Mark as Read") }}
-                                    </button>
-                                    <button class="dropdown-item" wire:click="markAsUnread('{{$comment->id}}')">
-                                        <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
-                                        {{ _e("Mark as Unread") }}
-                                    </button>
+                                    @if ($comment->is_moderated == 1)
+                                        <button class="dropdown-item" wire:click="markAsUnmoderated('{{$comment->id}}')">
+                                            {{ _e("Unapprove") }}
+                                        </button>
+                                    @else
+                                        <button class="dropdown-item" wire:click="markAsModerated('{{$comment->id}}')">
+                                            {{ _e("Approve") }}
+                                        </button>
+                                    @endif
+
+                                    @if($comment->is_spam == 1)
+                                        <button class="dropdown-item" wire:click="markAsNotSpam('{{$comment->id}}')">
+                                            {{ _e("Unspam") }}
+                                        </button>
+                                    @else
+                                        <button class="dropdown-item" wire:click="markAsSpam('{{$comment->id}}')">
+                                            {{ _e("Spam") }}
+                                        </button>
+                                    @endif
+
+                                    @if($comment->deleted_at !== null)
+                                        <button class="dropdown-item" wire:click="markAsNotTrash('{{$comment->id}}')">
+                                            {{ _e("Untrash") }}
+                                        </button>
+                                    @else
+                                        <button class="dropdown-item" wire:click="markAsTrash('{{$comment->id}}')">
+                                            {{ _e("Trash") }}
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
 

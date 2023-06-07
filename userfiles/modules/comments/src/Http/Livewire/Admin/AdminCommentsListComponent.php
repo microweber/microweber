@@ -29,6 +29,40 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     }
 
+    public function markAsModerated($id)
+    {
+        $comment = Comment::find($id);
+        $comment->is_new = 0;
+        $comment->is_moderated = 1;
+        $comment->save();
+    }
+
+    public function markAsSpam($id)
+    {
+        $comment = Comment::find($id);
+        $comment->is_spam = 1;
+        $comment->save();
+    }
+
+    public function markAsNotSpam($id)
+    {
+        $comment = Comment::find($id);
+        $comment->is_spam = 0;
+        $comment->save();
+    }
+
+    public function markAsTrash($id)
+    {
+        $comment = Comment::find($id);
+        $comment->delete();
+    }
+
+    public function markAsNotTrash($id)
+    {
+        $comment = Comment::withTrashed()->find($id);
+        $comment->restore();
+    }
+
     public function render()
     {
 
