@@ -37,7 +37,7 @@ class UserCommentReplyComponent extends Component
 
         $this->validate($validate);
 
-        $countContent = Content::where('id', $this->state['rel_id'])->whereActive()->count();
+        $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
         if ($countContent == 0) {
             $this->addError('state.rel_id', 'Content not found');
             return;
