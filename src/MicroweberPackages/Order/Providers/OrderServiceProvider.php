@@ -45,7 +45,7 @@ class OrderServiceProvider extends ServiceProvider
         Livewire::component('admin-orders-shipping-state-autocomplete', OrdersShippingStateAutoComplete::class);
         Livewire::component('admin-orders-shipping-city-autocomplete', OrdersShippingCityAutoComplete::class);
         Livewire::component('admin-orders-shipping-address-autocomplete', FilterItemOrdersShippingAddress::class);
-        Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
+       // Livewire::component('admin-orders-customers-autocomplete', OrdersCustomersAutoComplete::class);
         Livewire::component('admin-orders-bulk-delete', OrdersBulkDelete::class);
         Livewire::component('admin-orders-bulk-order-status', OrdersBulkOrderStatus::class);
         Livewire::component('admin-orders-bulk-payment-status', OrdersBulkPaymentStatus::class);
