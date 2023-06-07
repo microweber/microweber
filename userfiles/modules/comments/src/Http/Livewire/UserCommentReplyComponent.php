@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Comments\Http\LiveWire;
 
 use Livewire\Component;
+use MicroweberPackages\Content\Models\Content;
 
 class UserCommentReplyComponent extends Component
 {
@@ -26,6 +27,7 @@ class UserCommentReplyComponent extends Component
     public function save()
     {
         $validate = [
+            'state.rel_id' => 'required|min:1',
             'state.comment_body' => 'required|min:3',
         ];
         if (!user_id()) {
@@ -35,12 +37,15 @@ class UserCommentReplyComponent extends Component
 
         $this->validate($validate);
 
-        $comment = new \MicroweberPackages\Comment\Models\Comment();
-
-        if (isset($this->state['rel_id'])) {
-            $comment->rel_id = $this->state['rel_id'];
-            $comment->rel_type = 'content';
+        $countContent = Content::where('id', $this->state['rel_id'])->whereActive()->count();
+        if ($countContent == 0) {
+            $this->addError('state.rel_id', 'Content not found');
+            return;
         }
+
+        $comment = new \MicroweberPackages\Comment\Models\Comment();
+        $comment->rel_id = $this->state['rel_id'];
+        $comment->rel_type = 'content';
 
         if (isset($this->state['reply_to_comment_id'])) {
             $comment->reply_to_comment_id = $this->state['reply_to_comment_id'];
