@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Modules\Comments;
+namespace MicroweberPackages\Modules\Comments\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
@@ -15,23 +15,27 @@ class CommentsServiceProvider extends PackageServiceProvider
     {
         $package->name('microweber-module-comments');
         $package->hasViews('microweber-module-comments');
+        $package->hasRoute('api');
+         $package->runsMigrations(true);
     }
 
     public function register(): void
     {
-        parent::register();
 
-        $this->loadMigrationsFrom([
-            __DIR__ . '/database/migrations',
-        ]);
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+      $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+
+
+    //    $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
 
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
 
-        View::addNamespace('comments', normalize_path((__DIR__) . '/resources/views'));
+        View::addNamespace('comments', normalize_path((__DIR__) . '/../resources/views'));
+
+        parent::register();
+
 
     }
 

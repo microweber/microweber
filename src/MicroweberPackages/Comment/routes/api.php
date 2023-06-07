@@ -5,7 +5,7 @@
 Route::name('api.comment.')
     ->prefix(mw_admin_prefix_url())
     ->middleware([
-        \PostCommentMiddleware::class,
+        \MicroweberPackages\Modules\Comments\Http\Middleware\PostCommentMiddleware::class,
         \Illuminate\Routing\Middleware\ThrottleRequests::class
     ])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers')
@@ -16,7 +16,7 @@ Route::name('api.comment.')
 
 Route::name('api.comment.admin.')
     ->prefix(mw_admin_prefix_url())
-    ->middleware([\PostCommentMiddleware::class,'admin'])
+    ->middleware([\MicroweberPackages\Modules\Comments\Http\Middleware\PostCommentMiddleware::class,'admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {
         Route::post('edit', 'AdminCommentController@saveCommentEdit')->name('edit');
@@ -25,8 +25,16 @@ Route::name('api.comment.admin.')
 
 Route::name('admin.comment.')
     ->prefix(mw_admin_prefix_url())
-    ->middleware([\PostCommentMiddleware::class,'admin'])
+    ->middleware([\MicroweberPackages\Modules\Comments\Http\Middleware\PostCommentMiddleware::class,'admin'])
     ->namespace('\MicroweberPackages\Comment\Http\Controllers\Admin')
     ->group(function () {
         Route::resource('comment', 'AdminCommentController',['only' => ['index']]);
+    });
+
+Route::name('api.comment.')
+    ->prefix('api/comment')
+    ->middleware([\MicroweberPackages\Modules\Comments\Http\Middleware\PostCommentMiddleware::class])
+    ->namespace('\MicroweberPackages\Modules\Comments\Http\Controllers')
+    ->group(function () {
+        Route::post('post_comment', 'CommentsController@postComment')->name('post_comment');
     });

@@ -36,7 +36,7 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'reply_to_comment_id');
     }
 
-    public function getLeveL()
+    public function getLevel()
     {
         $level = 0;
         $parent = $this->reply_to_comment_id;
@@ -53,18 +53,16 @@ class Comment extends Model
     public function canIDeleteThisComment()
     {
         $user = user_id();
-        if (is_admin() == true) {
-         //   return true;
-        }
 
-        if ($user == $this->created_by) {
+
+        if ($user and $user == $this->created_by) {
             return true;
         }
 
-        if ($this->user_ip == user_ip()) {
-                return true;
-        }
 
+        if (is_admin() == true) {
+             return true;
+        }
         return false;
     }
 

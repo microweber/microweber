@@ -23,6 +23,9 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
     public function register()
     {
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+
+
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Media::class, function () {
                 return new MediaRepository();
