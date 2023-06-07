@@ -1,4 +1,4 @@
-<aside class="navbar navbar-vertical navbar-expand-lg admin-dashboard-left-nav p-3">
+<aside class="navbar navbar-vertical navbar-expand-xl admin-dashboard-left-nav p-3">
 
     <div class="container-fluid" id="sidebar-menu">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
