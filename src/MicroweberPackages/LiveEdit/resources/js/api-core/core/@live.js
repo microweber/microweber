@@ -153,7 +153,7 @@ export class LiveEdit {
             handle: moduleHandleContent.menu.title,
             document: this.settings.document,
             stateManager: this.settings.stateManager,
-            resizable: true
+            resizable: false
         });
         var moduleHandle = this.moduleHandle;
 

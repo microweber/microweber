@@ -361,7 +361,7 @@
                         treeHolder.css({
                             'maxHeight': 'calc(100vh - 220px)',
                             'overflow': 'auto',
-                            'minHeight': '200px',
+                            'minHeight': '300px',
                         });
                     }
                 }

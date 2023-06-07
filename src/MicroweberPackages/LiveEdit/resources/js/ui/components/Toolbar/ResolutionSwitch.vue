@@ -43,7 +43,7 @@ export default {
         <nav id="preview-nav" class="toolbar-nav toolbar-nav-hover">
 
             <span v-on:click="setPreviewMode('desktop')" data-preview="desktop"
-                  :class="[previewMode=='desktop' ? 'active': '']">
+                  :class="btn [previewMode=='desktop' ? 'active': '']">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      viewBox="0 0 48 36.17" style="enable-background:new 0 0 48 36.17;" xml:space="preserve">
 
@@ -59,7 +59,7 @@ export default {
             </span>
 
             <span v-on:click="setPreviewMode('tablet')" data-preview="tablet"
-                  :class="[previewMode=='tablet' ? 'active': '']">
+                  :class="btn [previewMode=='tablet' ? 'active': '']">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
 
@@ -72,7 +72,7 @@ export default {
             </span>
 
             <span v-on:click="setPreviewMode('phone')" data-preview="phone"
-                  :class="[previewMode=='phone' ? 'active': '']">
+                  :class="btn [previewMode=='phone' ? 'active': '']">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
 
