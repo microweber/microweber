@@ -461,6 +461,58 @@ HTML;
 
     }
 
+    public function testSaveContentOnPageLiveEditSaveWithXssInRefferer()
+    {
+        $this->cleanupAndPrepare();
+
+      $unique = uniqid('testSaveContentOnPageLiveEditSaceWithXssInRefferer');
+
+        $pageLink = site_url().'ref-'.$unique.'<script>alert(1)</script>';
+        $expected = site_url().'ref-'.strtolower($unique);
+
+        $_SERVER['PHP_SELF'] = '/index.php';
+        $_SERVER['REQUEST_URI'] = $pageLink;
+        $_SERVER['REDIRECT_URL'] = $pageLink;
+        $_SERVER['HTTP_REFERER'] =$pageLink ;
+
+        // Save on default lang
+
+
+        $contentFieldHtml = <<<HTML
+text $unique
+HTML;
+
+        $fieldsData = [
+            'field_data_0' => [
+                'attributes' => [
+                    'class' => 'container edit',
+                    'rel' => 'content',
+                    'field' => 'content',
+                ],
+                'html' => $contentFieldHtml
+            ]
+        ];
+        $encoded = base64_encode(json_encode($fieldsData));
+
+        $response = $this->call(
+            'POST',
+            route('api.content.save_edit'),
+            [
+                'data_base64' => $encoded,
+            ],
+            [],//params
+            $_COOKIE,//cookie
+            [],//files
+            $_SERVER //server
+        );
+
+        $fieldSaved = $response->decodeResponseJson();
+        $this->assertEquals($fieldSaved['new_page_url'], $expected);
+        $this->assertEquals($fieldSaved[0]['content'],  $contentFieldHtml);
+     }
+
+
+
 
     public function testSaveContentXssSpaceInUrlAttribute()
     {

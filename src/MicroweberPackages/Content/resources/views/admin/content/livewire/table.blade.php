@@ -8,11 +8,11 @@
 
         @if($displayFilters)
             <div class="row py-3">
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
 
                     @include('content::admin.content.livewire.card-header')
 
-                    <div class="ms-4 input-icon col-xl-5 col-sm-5 col-12  ">
+                    <div class="ms-4 input-icon col-xl-5 col-sm-5 col-8  ">
                         <div class="input-group input-group-flat ">
                             <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                             <span class="input-group-text">
@@ -41,7 +41,7 @@
                     </div>
 
 
-                    <div class="text-end">
+                    <div class="col-sm-3 col-12 mt-sm-0 mt-2 text-sm-end text-center d-flex justify-content-sm-end justify-content-center">
                         @if($this->contentType == 'page')
                         <a href="{{route('admin.page.create')}}" class="btn btn-dark">
                             {{_e("Create New Page")}}

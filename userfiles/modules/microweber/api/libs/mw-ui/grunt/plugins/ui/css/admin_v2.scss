@@ -63,15 +63,39 @@ body.theme-dark {
         }
     }
 
-    .btn-outline-dark {
+    .btn-outline-dark, .btn-dark {
         color: var(--tblr-body-color) !important;
         border-color: var(--tblr-body-color) !important;
+
+        &:hover, &:active, &.active, &:focus {
+            background-color: var(--tblr-body-color);
+            color: black !important;
+
+        }
     }
 
     .admin-dashboard-left-nav {
         .dropdown-toggle {
             &:after {
                 filter: invert(1);
+            }
+        }
+    }
+
+
+    .content-card-blade-dots-menu-wrapper {
+
+
+        .content-card-blade-dots-menu {
+            &:after {
+                filter: invert(1);
+            }
+
+            &.dots-menu-2 {
+                &:after {
+                    filter: invert(1);
+
+                }
             }
         }
     }
