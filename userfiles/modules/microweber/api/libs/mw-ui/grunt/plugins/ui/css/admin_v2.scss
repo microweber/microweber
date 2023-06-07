@@ -63,9 +63,15 @@ body.theme-dark {
         }
     }
 
-    .btn-outline-dark {
+    .btn-outline-dark, .btn-dark {
         color: var(--tblr-body-color) !important;
         border-color: var(--tblr-body-color) !important;
+
+        &:hover, &:active, &.active, &:focus {
+            background-color: var(--tblr-body-color);
+            color: black !important;
+
+        }
     }
 
     .admin-dashboard-left-nav {
