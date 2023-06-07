@@ -101,11 +101,12 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function render()
     {
 
-        $countAll = Comment::where('is_spam', 0)->orWhereNull('is_spam')->count();
-        $countPending = Comment::where('is_new', 1)->count();
-        $countApproved = Comment::where('is_moderated', 1)->count();
-        $countSpam = Comment::where('is_spam', 1)->count();
+        $countAll = Comment::published()->count();
+        $countPending = Comment::pending()->count();
+        $countApproved = Comment::approved()->count();
+        $countSpam = Comment::spam()->count();
         $countTrashed = Comment::onlyTrashed()->count();
+
 
         $getCommentsQuery = Comment::query();
 
@@ -117,20 +118,20 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         }
         if (isset($this->filter['status'])) {
             if ($this->filter['status'] == 'pending') {
-                $getCommentsQuery->where('is_new', 1);
+                $getCommentsQuery->pending();
             }
             elseif ($this->filter['status'] == 'approved') {
-                $getCommentsQuery->where('is_moderated', 1);
+                $getCommentsQuery->approved();
             }
             elseif ($this->filter['status'] == 'spam') {
-                $getCommentsQuery->where('is_spam', 1);
+                $getCommentsQuery->spam();
             }
             elseif ($this->filter['status'] == 'trash') {
                 $getCommentsQuery->onlyTrashed();
             }
             else {
                 $getCommentsQuery->where(function ($query) {
-                    $query->where('is_spam', 0)->orWhereNull('is_spam');
+                    $query->published();
                 });
             }
         }

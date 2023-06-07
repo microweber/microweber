@@ -21,6 +21,26 @@ class Comment extends Model
         'comment_website',
     ];
 
+    public function scopePending($query)
+    {
+        return $query->where('is_new', 1)->where('is_moderated', 0);
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('is_moderated', 1);
+    }
+
+    public function scopeSpam($query)
+    {
+        return $query->where('is_spam', 1);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('is_spam', 0)->orWhereNull('is_spam');
+    }
+
     public function content()
     {
         return $this->hasOne(Content::class,'id','rel_id');
