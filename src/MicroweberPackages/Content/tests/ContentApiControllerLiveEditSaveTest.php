@@ -2,9 +2,7 @@
 
 namespace MicroweberPackages\Content\tests;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -64,12 +62,9 @@ Call to action
 HTML;
 
 
-
-
         $pq = \phpQuery::newDocument($contentFieldHtml);
 
         $contentFieldHtml = $pq->htmlOuter();
-
 
 
         $fieldsData = [
@@ -130,7 +125,6 @@ HTML;
         ]);
 
 
-
         $findPage = Page::whereId($newCleanMlPage)->first();
 
         $pageId = $findPage->id;
@@ -172,12 +166,12 @@ HTML;
 
 
             //remove empty tags
-           $html =  preg_replace('/<[^\/>]*>([\s]?)*<\/[^>]*>/', '', $html);
+            $html = preg_replace('/<[^\/>]*>([\s]?)*<\/[^>]*>/', '', $html);
 
             // remove script tags
             $html = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $html);
 
-             // remove code tags
+            // remove code tags
             $html = preg_replace('/<code\b[^>]*>(.*?)<\/code>/is', "", $html);
 
 
@@ -201,8 +195,6 @@ HTML;
             ];
 
 
-
-
             $encoded = base64_encode(json_encode($fieldsData));
 
             $response = $this->call(
@@ -223,7 +215,6 @@ HTML;
             $this->assertEquals(trim($fieldSaved[0]['content']), trim($contentFieldHtml));
             $this->assertEquals($fieldSaved[0]['rel_type'], 'content');
             $this->assertEquals($fieldSaved[0]['field'], 'content');
-
 
 
             $pq2 = \phpQuery::newDocument($contentFieldHtml);
@@ -273,7 +264,6 @@ HTML;
         $_SERVER['HTTP_REFERER'] = content_link($pageId);
 
 
-
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . '/../../Helper/tests/misc/xss-test-files.zip');
         $xssList = $zip->getFromName('xss-payload-list.txt');
@@ -289,12 +279,11 @@ HTML;
         foreach ($xssListChunks as $stringChunk) {
 
             $string = implode(PHP_EOL, $stringChunk);
-             if (empty(trim($string))) {
+            if (empty(trim($string))) {
                 continue;
             }
 
             $contentFieldHtml = $string;
-
 
 
             $fieldsData = [
@@ -333,7 +322,7 @@ HTML;
             $contentFieldHtml1 = trim($contentFieldHtml);
             $contentFieldHtml2 = trim($findPage->content);
 
-           $this->assertNotEquals($contentFieldHtml1, $contentFieldHtml2);
+            $this->assertNotEquals($contentFieldHtml1, $contentFieldHtml2);
 
 
             foreach ($stringChunk as $stringItem) {
@@ -344,10 +333,8 @@ HTML;
             }
 
 
-
         }
     }
-
 
 
     public function testSaveContentOnPageLiveEditFromOtherExamples()
@@ -390,7 +377,7 @@ HTML;
                 $ext = get_file_extension($fn);
                 if ($ext == 'html') {
                     $string = $zip->getFromName($fn);
-                    if(trim($string) == ''){
+                    if (trim($string) == '') {
                         continue;
                     }
                     $htmls[$fn] = $string;
@@ -421,14 +408,13 @@ HTML;
         $htmlsChunks = array_chunk($htmls, 100);
 
 
+        foreach ($htmlsChunks as $k => $htmlChunk) {
 
-      foreach ($htmlsChunks as $k => $htmlChunk) {
-
-          $html = implode('--------chunk-------', $htmlChunk);
-         $contentFieldHtml = $html;
+            $html = implode('--------chunk-------', $htmlChunk);
+            $contentFieldHtml = $html;
 
 
-           // $contentFieldHtml = str_replace('{SITE_URL}', site_url(), $contentFieldHtml);
+            // $contentFieldHtml = str_replace('{SITE_URL}', site_url(), $contentFieldHtml);
             $fieldsData = [
                 'field_data_0' => [
                     'attributes' => [
@@ -462,7 +448,6 @@ HTML;
             $fieldSaved = $response->decodeResponseJson();
 
 
-
             $findPage = Page::whereId($fieldSaved[0]['id'])->first();
             $contentFieldHtml1 = trim($contentFieldHtml);
             $contentFieldHtml2 = trim($findPage->content);
@@ -471,13 +456,37 @@ HTML;
             $this->assertEquals($contentFieldHtml, $findPage->content);
 
 
-       }
+        }
 
 
     }
 
 
-    private function cleanupAndPrepare(){
+    public function testSaveContentXssSpaceInUrlAttribute()
+    {
+
+        $this->cleanupAndPrepare();
+        $unique = uniqid('testSaveContentXssInUrlAttribute');
+        $newCleanPage = save_content([
+            'subtype' => 'static',
+            'content_type' => 'page',
+            'layout_file' => 'clean.php',
+            'title' => 'testSaveContentXssInUrlAttribute-save' . $unique,
+            'preview_layout_file' => 'clean.php',
+            'url' => 'url with space ' . $unique . '  <script>alert(1)</script>',
+            'is_active' => 1,
+        ]);
+
+        $findPage = Page::whereId($newCleanPage)->first();
+
+        $this->assertEquals($findPage->url, 'url-with-space-' . strtolower($unique));
+
+    }
+
+
+
+    private function cleanupAndPrepare()
+    {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         \Config::set('microweber.disable_model_cache', 1);
@@ -489,18 +498,17 @@ HTML;
 
     public static function fixLinksPrecentAttributes($text)
     {
-        $text = str_ireplace('{SITE_URL}','___mw-site-url-temp-replace-on-clean___', $text);
+        $text = str_ireplace('{SITE_URL}', '___mw-site-url-temp-replace-on-clean___', $text);
         $pq = \phpQuery::newDocument($text);
 
-        foreach($pq->find('a') as $stuffs)
-        {
+        foreach ($pq->find('a') as $stuffs) {
             $href = pq($stuffs)->attr('href');
-            if($href){
-            pq($stuffs)->attr('href', str_replace(' ', '%20', $href));
+            if ($href) {
+                pq($stuffs)->attr('href', str_replace(' ', '%20', $href));
             }
         }
         $text = $pq->htmlOuter();
-        $text = str_ireplace('___mw-site-url-temp-replace-on-clean___','{SITE_URL}',     $text);
+        $text = str_ireplace('___mw-site-url-temp-replace-on-clean___', '{SITE_URL}', $text);
         return $text;
 
     }
