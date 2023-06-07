@@ -6,6 +6,6 @@ Route::name('admin.comments.')
     ->namespace('MicroweberPackages\Modules\Comments\Http\Controllers\Admin')
     ->group(function () {
 
-        Route::get('/', 'AdminCommentsController@index')->name('index');
+     //   Route::get('/', 'AdminCommentsController@index')->name('index');
 
     });

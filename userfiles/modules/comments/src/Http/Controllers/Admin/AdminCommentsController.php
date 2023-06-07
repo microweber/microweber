@@ -9,6 +9,6 @@ class AdminCommentsController extends AdminController
 {
     public function index(Request $request)
     {
-        return $this->view('comments::admin.index');
+       // return view('comments::admin.index');
     }
 }

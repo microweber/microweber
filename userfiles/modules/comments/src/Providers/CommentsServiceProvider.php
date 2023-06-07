@@ -29,7 +29,7 @@ class CommentsServiceProvider extends PackageServiceProvider
         $this->loadMigrationsFrom(normalize_path(__DIR__) . '/../database/migrations/');
         $this->loadRoutesFrom(normalize_path(__DIR__) . '/../routes/admin.php');
 
-        View::addNamespace('comments', normalize_path((__DIR__) . '/../resources/views'));
+        View::addNamespace('comments', normalize_path(__DIR__) . '/../resources/views');
 
         parent::register();
 
