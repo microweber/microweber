@@ -28,15 +28,49 @@
         <div class=" ">
 
             <?php if(!isset($params['show_add_post_to_category_button'])): ?>
-                <div class="js-hide-when-no-items-selected mb-3" style="display:none;">
-                    <button type="button" class="btn btn-outline-danger js-delete-selected-categories">
-                      <i class="fa fa-trash"></i>
-                        <?php _e('Delete '); ?>&nbsp;<span class="js-count-selected-categories"></span>
-                    </button>
-               <!--     <button type="button" class="btn btn-outline-info"><?php /*_e('Publish'); */?></button>
-                    <button type="button" class="btn btn-outline-primary"><?php /*_e('Unpublish'); */?></button>-->
+<!--                <div class="js-hide-when-no-items-selected mb-3" style="display:none;">-->
+<!--                    <button type="button" class="btn btn-outline-danger js-delete-selected-categories">-->
+<!--                      <i class="fa fa-trash"></i>-->
+<!--                        --><?php //_e('Delete '); ?><!--&nbsp;<span class="js-count-selected-categories"></span>-->
+<!--                    </button>-->
+<!--                  <button type="button" class="btn btn-outline-info">--><?php ///*_e('Publish'); */?><!--</button>-->
+<!--                    <button type="button" class="btn btn-outline-primary">--><?php ///*_e('Unpublish'); */?><!--</button>-->
+<!--                </div>-->
+
+
+
+                <div class="col-md-10 mb-2">
+                    You have selected all {{ count($checked) }} items.
+                    <button type="button" class="btn btn-link" wire:click="deselectAll">{{ _e('Deselect All') }}</button>
+                </div>
+
+                <div>
+                    You have selected {{ count($checked) }} items,
+                    do you want to select all {{ count($contents->items()) }}?
+                    <button type="button" class="btn btn-link" wire:click="selectAll">{{ _e('Select All') }}</button>
+                </div>
+
+
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php _e('Bulk Actions') ?>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" type="button" wire:click="multipleMoveToCategory">Move To Category</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multiplePublish">Publish</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleUnpublish">Unpublish</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDelete">Move to trash</button></li>
+                            <li><button class="dropdown-item" type="button" wire:click="multipleDeleteForever">Delete Forever</button></li>
+
+                                <li><button class="dropdown-item" type="button" wire:click="multipleUndelete">Restore from trash</button></li>
+
+                        </ul>
+                    </div>
                 </div>
             <?php endif; ?>
+
+
 
 
    <!--        <button type="button" class="btn btn-outline-primary js-show-checkboxes-on-tree">
