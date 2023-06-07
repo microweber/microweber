@@ -75,6 +75,24 @@ body.theme-dark {
             }
         }
     }
+
+
+    .content-card-blade-dots-menu-wrapper {
+
+
+        .content-card-blade-dots-menu {
+            &:after {
+                filter: invert(1);
+            }
+
+            &.dots-menu-2 {
+                &:after {
+                    filter: invert(1);
+
+                }
+            }
+        }
+    }
 }
 
 .mw-dialog-skin-default.active .mw-dialog-holder, .mw-dialog-skin-default.active .mw-dialog-header, .FIE_root.jUrMob {

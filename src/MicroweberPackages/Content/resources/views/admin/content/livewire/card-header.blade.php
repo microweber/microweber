@@ -18,13 +18,13 @@
                     <i class="mdi mdi-trash-can"></i> {{ _e('Trash') }}
                 @endif
 
+                @if(isset($currentCategory) and $currentCategory)
+                    <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
+                    </a>
+                @endif
             </h1>
 
-            @if(isset($currentCategory) and $currentCategory)
-                <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">
-                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
-                </a>
-            @endif
         </div>
         <div>
 
