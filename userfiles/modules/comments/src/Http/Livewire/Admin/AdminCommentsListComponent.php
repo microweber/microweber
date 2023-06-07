@@ -14,6 +14,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         "keyword" => "",
         "orderField" => "id",
         "orderType" => "desc",
+        "status"=>'all'
     ];
 
     public $queryString = [
@@ -40,6 +41,14 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         $comment = Comment::find($id);
         $comment->is_new = 0;
         $comment->is_moderated = 1;
+        $comment->save();
+    }
+
+    public function markAsUnmoderated($id)
+    {
+        $comment = Comment::find($id);
+        $comment->is_new = 1;
+        $comment->is_moderated = 0;
         $comment->save();
     }
 
@@ -95,6 +104,8 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
                 $getCommentsQuery->where('is_spam', 1);
             } elseif ($this->filter['status'] == 'trash') {
                 $getCommentsQuery->onlyTrashed();
+            } else {
+                $getCommentsQuery->where('is_spam', 0);
             }
         }
 
