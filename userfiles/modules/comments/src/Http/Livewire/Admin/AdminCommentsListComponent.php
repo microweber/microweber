@@ -18,10 +18,13 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
         "status"=>'all'
     ];
 
+    public $orderBy = 'newest';
+
     public $queryString = [
         'filter',
         'itemsPerPage',
-        'page'
+        'page',
+        'orderBy'
     ];
 
     public $itemsPerPage = 10;
@@ -85,7 +88,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     {
 
         $countAll = Comment::where('is_spam', 0)->orWhereNull('is_spam')->count();
-        $countMine = Comment::where('created_by', user_id())->count();
         $countPending = Comment::where('is_new', 1)->count();
         $countApproved = Comment::where('is_moderated', 1)->count();
         $countSpam = Comment::where('is_spam', 1)->count();
@@ -112,9 +114,6 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             elseif ($this->filter['status'] == 'trash') {
                 $getCommentsQuery->onlyTrashed();
             }
-            elseif ($this->filter['status'] == 'mine') {
-                $getCommentsQuery->where('created_by', user_id());
-            }
             else {
                 $getCommentsQuery->where(function ($query) {
                     $query->where('is_spam', 0)->orWhereNull('is_spam');
@@ -122,12 +121,17 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             }
         }
 
+        if ($this->orderBy == 'oldest') {
+            $getCommentsQuery->orderBy('created_at', 'asc');
+        } else {
+            $getCommentsQuery->orderBy('created_at', 'desc');
+        }
+
         $getComments = $getCommentsQuery->paginate($this->itemsPerPage);
 
         return view('comments::admin.livewire.comments-list', [
             'comments' => $getComments,
             'countAll' => $countAll,
-            'countMine' => $countMine,
             'countPending' => $countPending,
             'countApproved' => $countApproved,
             'countSpam' => $countSpam,
