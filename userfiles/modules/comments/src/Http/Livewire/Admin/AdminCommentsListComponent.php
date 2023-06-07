@@ -36,9 +36,9 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public function delete($id)
     {
-        $comment = Comment::find($id);
+        $comment = Comment::withTrashed()->where('id',$id)->first();
         if ($comment) {
-            $comment->delete();
+            $comment->forceDelete();
         }
     }
 
