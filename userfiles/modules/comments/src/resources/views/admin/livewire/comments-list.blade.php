@@ -1,5 +1,12 @@
 <div>
 
+    <div>
+        <h2>{{_e('Comments')}}</h2>
+        <p>
+            {{_e('View, reply to, and manage all the comments across your site.')}}
+        </p>
+    </div>
+
     <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div class="col-md-4 col-12 mt-2">
             <div class="input-icon">
@@ -27,27 +34,28 @@
     <div class="mb-3 mt-4">
         <div class="btn-group w-100" role="group">
             <input type="radio" wire:model="filter.status" value="all" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-1" autocomplete="off">
-            <label for="btn-radio-basic-1" type="button" class="btn">{{_e('All')}} ({{$countAll}})</label>
+            <label for="btn-radio-basic-1" type="button" class="btn">{{_e('All')}} <span class="badge badge-primary mx-2">{{$countAll}}</span></label>
 
             <input type="radio" wire:model="filter.status" value="mine" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-2" autocomplete="off">
-            <label for="btn-radio-basic-2" type="button" class="btn">{{_e('Mine')}} ({{$countMine}})</label>
+            <label for="btn-radio-basic-2" type="button" class="btn">{{_e('Mine')}} <span class="badge badge-primary mx-2">{{$countMine}}</span></label>
 
             <input type="radio" wire:model="filter.status" value="pending" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-3" autocomplete="off">
-            <label for="btn-radio-basic-3" type="button" class="btn">{{_e('Pending')}} ({{$countPending}})</label>
+            <label for="btn-radio-basic-3" type="button" class="btn">{{_e('Pending')}} <span class="badge badge-primary mx-2">{{$countPending}}</span></label>
 
             <input type="radio" wire:model="filter.status" value="approved" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-4" autocomplete="off">
-            <label for="btn-radio-basic-4" type="button" class="btn">{{_e('Approved')}} ({{$countApproved}})</label>
+            <label for="btn-radio-basic-4" type="button" class="btn">{{_e('Approved')}} <span class="badge badge-primary mx-2">{{$countApproved}}</span></label>
 
             <input type="radio" wire:model="filter.status" value="spam" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-5" autocomplete="off">
-            <label for="btn-radio-basic-5" type="button" class="btn">{{_e('Spam')}} ({{$countSpam}})</label>
+            <label for="btn-radio-basic-5" type="button" class="btn">{{_e('Spam')}} <span class="badge badge-primary mx-2">{{$countSpam}}</span></label>
 
             <input type="radio" wire:model="filter.status" value="trash" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-6" autocomplete="off">
-            <label for="btn-radio-basic-6" type="button" class="btn">{{_e('Trash')}} ({{$countTrashed}})</label>
+            <label for="btn-radio-basic-6" type="button" class="btn">{{_e('Trash')}} <span class="badge badge-primary mx-2">{{$countTrashed}}</span></label>
         </div>
     </div>
 
     <div>
         @foreach($comments as $comment)
+
             <div class="card shadow-sm mb-4 bg-silver comments-card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">

@@ -3,6 +3,7 @@ namespace MicroweberPackages\Modules\Comments\Http\Livewire\Admin;
 
 use Livewire\WithPagination;
 use MicroweberPackages\Modules\Comments\Models\Comment;
+use function Clue\StreamFilter\fun;
 
 class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire\AdminComponent
 {
@@ -83,29 +84,41 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
     public function render()
     {
 
-        $countAll = Comment::count();
+        $countAll = Comment::where('is_spam', 0)->orWhereNull('is_spam')->count();
         $countMine = Comment::where('created_by', user_id())->count();
         $countPending = Comment::where('is_new', 1)->count();
-        $countApproved = Comment::where('is_new', 0)->where('is_spam', 0)->count();
+        $countApproved = Comment::where('is_moderated', 1)->count();
         $countSpam = Comment::where('is_spam', 1)->count();
         $countTrashed = Comment::onlyTrashed()->count();
 
         $getCommentsQuery = Comment::query();
+
         if (isset($this->filter['keyword'])) {
             $keyword = trim($this->filter['keyword']);
-            $getCommentsQuery->where('comment_body', 'like', '%' . $keyword . '%');
+            if (!empty($keyword)) {
+                $getCommentsQuery->where('comment_body', 'like', '%' . $keyword . '%');
+            }
         }
         if (isset($this->filter['status'])) {
             if ($this->filter['status'] == 'pending') {
                 $getCommentsQuery->where('is_new', 1);
-            } elseif ($this->filter['status'] == 'approved') {
-                $getCommentsQuery->where('is_new', 0)->where('is_spam', 0);
-            } elseif ($this->filter['status'] == 'spam') {
+            }
+            elseif ($this->filter['status'] == 'approved') {
+                $getCommentsQuery->where('is_moderated', 1);
+            }
+            elseif ($this->filter['status'] == 'spam') {
                 $getCommentsQuery->where('is_spam', 1);
-            } elseif ($this->filter['status'] == 'trash') {
+            }
+            elseif ($this->filter['status'] == 'trash') {
                 $getCommentsQuery->onlyTrashed();
-            } else {
-                $getCommentsQuery->where('is_spam', 0);
+            }
+            elseif ($this->filter['status'] == 'mine') {
+                $getCommentsQuery->where('created_by', user_id());
+            }
+            else {
+                $getCommentsQuery->where(function ($query) {
+                    $query->where('is_spam', 0)->orWhereNull('is_spam');
+                });
             }
         }
 
