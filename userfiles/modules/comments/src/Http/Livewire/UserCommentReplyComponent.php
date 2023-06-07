@@ -6,7 +6,6 @@ use Livewire\Component;
 
 class UserCommentReplyComponent extends Component
 {
-
     public $state = [
         'comment_name' => '',
         'comment_email' => '',
