@@ -26,6 +26,17 @@ class Comment extends Model
         }
     }
 
+    public function getCommentEmailAttribute()
+    {
+        if ($this->attributes['created_by'] > 0) {
+            return user_email($this->attributes['created_by']);
+        } else if (!empty($this->attributes['comment_email'])) {
+            return $this->attributes['comment_email'];
+        } else {
+            return _e('Anonymous');
+        }
+    }
+
     public function getCommentBodyAttribute()
     {
         return app()->format->autolink($this->attributes['comment_body']);
