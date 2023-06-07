@@ -24,12 +24,31 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
 
     public $itemsPerPage = 10;
 
+    public function preview()
+    {
+
+    }
+
     public function render()
     {
+
+        $countAll = Comment::count();
+        $countMine = Comment::where('created_by', user_id())->count();
+        $countPending = Comment::where('is_new', 1)->count();
+        $countApproved = Comment::where('is_new', 0)->where('is_spam', 0)->count();
+        $countSpam = Comment::where('is_spam', 1)->count();
+        $countTrashed = Comment::onlyTrashed()->count();
+
         $getComments = Comment::paginate($this->itemsPerPage);
 
         return view('comments::admin.livewire.comments-list', [
-            'comments' => $getComments
+            'comments' => $getComments,
+            'countAll' => $countAll,
+            'countMine' => $countMine,
+            'countPending' => $countPending,
+            'countApproved' => $countApproved,
+            'countSpam' => $countSpam,
+            'countTrashed' => $countTrashed,
         ]);
     }
 }

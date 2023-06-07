@@ -1,7 +1,7 @@
 <div>
 
     <div class="d-flex flex-wrap justify-content-between align-items-center">
-        <div class="col-md-4 col-12 ms-lg-auto mt-2">
+        <div class="col-md-4 col-12 mt-2">
             <div class="input-icon">
                   <span class="input-icon-addon">
                       <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960"
@@ -24,22 +24,46 @@
         </div>
     </div>
 
+    <div class="mb-3 mt-4">
+        <div class="btn-group w-100" role="group">
+            <input type="radio" wire:model="filter.status" value="all" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-1" autocomplete="off">
+            <label for="btn-radio-basic-1" type="button" class="btn">{{_e('All')}} ({{$countAll}})</label>
+
+            <input type="radio" wire:model="filter.status" value="mine" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-2" autocomplete="off">
+            <label for="btn-radio-basic-2" type="button" class="btn">{{_e('Mine')}} ({{$countMine}})</label>
+
+            <input type="radio" wire:model="filter.status" value="pending" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-3" autocomplete="off">
+            <label for="btn-radio-basic-3" type="button" class="btn">{{_e('Pending')}} ({{$countPending}})</label>
+
+            <input type="radio" wire:model="filter.status" value="approved" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-4" autocomplete="off">
+            <label for="btn-radio-basic-4" type="button" class="btn">{{_e('Approved')}} ({{$countApproved}})</label>
+
+            <input type="radio" wire:model="filter.status" value="spam" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-5" autocomplete="off">
+            <label for="btn-radio-basic-5" type="button" class="btn">{{_e('Spam')}} ({{$countSpam}})</label>
+
+            <input type="radio" wire:model="filter.status" value="trash" class="btn-check" name="btn-radio-basic" id="btn-radio-basic-6" autocomplete="off">
+            <label for="btn-radio-basic-6" type="button" class="btn">{{_e('Trash')}} ({{$countTrashed}})</label>
+        </div>
+    </div>
+
     <div>
         @foreach($comments as $comment)
             <div class="card shadow-sm mb-4 bg-silver comments-card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap align-items-center justify-content-start gap-5">
-                        <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$comment->id}}" data-bs-original-title="#{{$comment->id}}">
+                        <div class="col-auto d-flex align-items-center gap-1" data-bs-toggle="tooltip" aria-label="#{{$comment->comment_name}}" data-bs-original-title="#{{$comment->comment_name}}">
 
-                            @if($comment->is_read == 1)
-                                <div>
-                                    <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m480-920 371 222q17 9 23 24.5t6 30.5v463q0 24-18 42t-42 18H140q-24 0-42-18t-18-42v-463q0-15 6.5-30.5T109-698l371-222Zm0 466 336-197-336-202-336 202 336 197Zm0 67L140-587v407h680v-407L480-387Zm0 207h340-680 340Z"/></svg>
-                                </div>
-                            @else
-                                <div>
-                                    <svg class="me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M140-160q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm340-302L140-685v465h680v-465L480-462Zm0-60 336-218H145l335 218ZM140-685v-55 520-465Z"/></svg>
-                                </div>
-                            @endif
+                            <div>
+                                @if($comment->created_by > 0)
+                                    <img class="rounded-circle shadow-1-strong me-3"
+                                         src="{{user_picture($comment->created_by)}}" alt="avatar" width="65"
+                                         height="65" />
+                                @else
+                                    <div class="shadow-1-strong me-3">
+                                        <i class="fa fa-user-circle-o" style="font-size:42px"></i>
+                                    </div>
+                                @endif
+                            </div>
 
                             <div class="dropdown content-card-blade-dots-menu-wrapper">
                                 <a href="#" class=" dropdown-toggle form-label mb-0 text-decoration-none content-card-blade-dots-menu dots-menu-2" data-bs-toggle="dropdown"></a>
