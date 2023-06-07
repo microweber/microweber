@@ -64,7 +64,7 @@
                     </div>
 
 
-                    <div class="col-1 text-end item-author manage-post-item-col-4">
+                    <div class="col-1 text-end item-author ms-auto">
 {{--                        <span class="text-muted" title="{{$content->authorName()}}">{{$content->authorName()}}</span>--}}
 
                         <div class="dropdown content-card-blade-dots-menu-wrapper">
