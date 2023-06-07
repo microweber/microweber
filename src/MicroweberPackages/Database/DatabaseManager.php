@@ -668,16 +668,32 @@ class DatabaseManager extends DbUtils
                     $criteria['id'] = $next_id;
                 }
             }
-            $id_to_return = $this->table($table_assoc_name)->insert($criteria);
+
+            if(method_exists($this->table($table),'create')){
+                $id_to_return = $this->table($table)->create($criteria);
+            } else {
+                $id_to_return = $this->table($table)->insert($criteria);
+            }
+             //$id_to_return = $this->table($table_assoc_name)->insert($criteria);
+         //   $id_to_return = $this->table($table_assoc_name)->create($criteria);
             $id_to_return = $this->last_id($table);
 
         } else {
+
             $insert_or_update = $highestId = $this->table($table)->where('id', $criteria['id'])->count();
             if ($insert_or_update != 0) {
                 $insert_or_update = 'update';
             } else {
-                $insert_or_update = 'insert';
+              $insert_or_update = 'insert';
+              if(method_exists($this->table($table),'create')){
+                    $insert_or_update = 'create';
+              }
+          //  $insert_or_update = 'create';
             }
+
+
+
+
             $id_to_return = $this->table($table_assoc_name)->where('id', $criteria['id'])->$insert_or_update($criteria);
             $id_to_return = $criteria['id'];
         }
@@ -965,8 +981,8 @@ class DatabaseManager extends DbUtils
             $this->use_model_cache[$table]= true;
 
             if ($table == 'content') {
-              //  $model = new Content($params);
-                 $model = app()->make(Content::class);
+                 $model = new Content($params);
+              //   $model = app()->make(Content::class);
 
                 //    $model::boot();
             } else if ($table == 'categories') {
