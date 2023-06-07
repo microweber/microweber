@@ -1,14 +1,16 @@
 <div class="mw-module-category-manager admin-side-content">
     <div class="card-body mb-3">
-        <div class="card-header">
-            <h5 class="card-title"><i class="mdi mdi-folder text-primary mr-3"></i> <strong><?php _e("Categories"); ?></strong></h5>
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h1 class="main-pages-title"><?php _e("Categories"); ?></h1>
+
+
             <div class="js-hide-when-no-items">
-                <div class="d-flex">
+                <div class="d-flex align-items-center">
                     <?php if (user_can_access('module.categories.edit')): ?>
                         <?php if (isset($params['is_shop']) && $params['is_shop'] == 1): ?>
-                            <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                            <a href="<?php echo route('admin.shop.category.create'); ?>" class="btn btn-dark"><?php _e("New category"); ?></a>
                         <?php else: ?>
-                            <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-primary btn-sm mr-2"><i class="mdi mdi-plus"></i> <?php _e("New category"); ?></a>
+                            <a href="<?php echo route('admin.category.create'); ?>" class="btn btn-dark"> <?php _e("New category"); ?></a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
